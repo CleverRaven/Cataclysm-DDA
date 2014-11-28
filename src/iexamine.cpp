@@ -829,12 +829,12 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
 
 void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 {
-    string furn_name = m->tername(examx, examy).c_str();
+    std::string furn_name = m->tername(examx, examy).c_str();
     if (!p->has_amount("crude_picklock", 1) || !p->has_amount("hairpin", 1) || 
        !p->has_amount("picklocks", 1) || !p->has_bionic("bio_lockpick")) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
-    } else (!query_yn(_("Pick the gun safe?")) {
+    } else if (!query_yn(_("Pick the gun safe?")) {
         return;
     }
     
@@ -864,7 +864,7 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 
 void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
 {
-	strin furn_name = m->tername(examx, examy).c_str();
+	std::string furn_name = m->tername(examx, examy).c_str();
     bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
                      (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
     if (!can_hack) {
