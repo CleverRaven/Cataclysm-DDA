@@ -977,6 +977,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "chaps_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pants_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
