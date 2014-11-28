@@ -1198,6 +1198,21 @@
         "post_terrain" : "f_chair"
     },{
         "type" : "construction",
+        "description" : "Build Bench",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 20,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 10 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bench"
+    },{
+        "type" : "construction",
         "description" : "Build Makeshift Bed",
         "category" : "FURN",
         "difficulty" : 2,

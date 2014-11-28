@@ -219,6 +219,9 @@ class game
         bool cancel_activity_query(const char *message, ...);
         bool cancel_activity_or_ignore_query(const char *reason, ...);
         void moving_vehicle_dismount(int tox, int toy);
+        
+        vehicle *remoteveh(); // Get remotely controlled vehicle
+        void setremoteveh(vehicle *veh); // Set remotely controlled vehicle
 
         int assign_mission_id(); // Just returns the next available one
         void give_mission(mission_id type); // Create the mission and assign it
@@ -259,6 +262,7 @@ class game
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
         int &scent(int x, int y);
+        float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();
         void reset_light_level();
@@ -747,6 +751,7 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
         void activity_on_finish_start_fire();
+        void activity_on_finish_hotwire();
         void longsalvage(); // Salvage everything activity
         void move_save_to_graveyard();
         bool save_player_data();

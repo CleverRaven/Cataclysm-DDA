@@ -134,7 +134,7 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
-                                        gerund.c_str(), cut->type->nname(1).c_str());
+                                        gerund.c_str(), cut->type_name().c_str());
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
                                  (hasnote ? cut->item_vars["item_note"] : message),
                                  messageprefix, "inscribe_item", 128);
@@ -2862,7 +2862,7 @@ int iuse::sew(player *p, item *it, bool, point)
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton") || fix->made_of("wool")) {
+    if (fix->made_of("cotton")) {
         repair_items.push_back("rag");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
@@ -2878,8 +2878,12 @@ int iuse::sew(player *p, item *it, bool, point)
         repair_items.push_back("nomex");
         plurals.push_back(rm_prefix(_("<plural>nomex")));
     }
+    if (fix->made_of("wool")) {
+        repair_items.push_back("wool");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
+    }
     if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather or fur."),
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
                              fix->tname().c_str());
         return 0;
     }
@@ -6739,6 +6743,7 @@ bool static try_to_cut_up(player *p, item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -6794,6 +6799,7 @@ bool iuse::valid_to_cut_up(item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         return false;
@@ -6966,7 +6972,7 @@ int iuse::knife(player *p, item *it, bool t, point)
 
     uimenu kmenu;
     kmenu.text = _("Using cutting instrument:");
-    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
+    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex/wool"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
@@ -7862,7 +7868,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
+    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
@@ -7952,7 +7958,7 @@ int iuse::quiver(player *p, item *it, bool, point)
             int arrowsRemoved = arrows.charges;
             p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
                                           arrowsRemoved),
-                                 arrows.type->nname(arrowsRemoved).c_str(), it->tname().c_str());
+                                 arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
             p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
             it->contents.erase(it->contents.begin());
@@ -7969,7 +7975,7 @@ int iuse::quiver(player *p, item *it, bool, point)
             return 0;
         }
 
-        if (!(put->type->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
+        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
             p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
@@ -8013,7 +8019,7 @@ int iuse::quiver(player *p, item *it, bool, point)
         arrowsStored = it->contents[0].charges - arrowsStored;
         p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
                                       arrowsStored),
-                             arrowsStored, it->contents[0].type->nname(arrowsStored).c_str(), it->tname().c_str());
+                             arrowsStored, it->contents[0].type_name( arrowsStored ).c_str(), it->tname().c_str());
         p->moves -= 10 * arrowsStored;
     } else {
         p->add_msg_if_player(_("Never mind."));
@@ -8034,7 +8040,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if (put->type->is_gun()) {
+        if (put->is_gun()) {
             it_gun *gun = dynamic_cast<it_gun *>(put->type);
             if (!(gun->skill_used == Skill::skill("pistol"))) {
                 p->add_msg_if_player(m_info, _("The %s isn't a pistol!"), put->tname().c_str());
@@ -8357,7 +8363,7 @@ int iuse::boots(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("That isn't a knife!"));
             return 0;
         }
-        if (put->type->volume > 5) {
+        if (put->volume() > 5) {
             p->add_msg_if_player(m_info, _("That item does not fit in your boot!"));
             return 0;
         }
@@ -8990,17 +8996,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.type->nname(1).c_str());
+                                     dummy.type_name().c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.type->nname(1).c_str());
+                                         dummy.type_name().c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.type->nname(1).c_str());
+                                         dummy.type_name().c_str());
                 }
             }
         }
@@ -9258,8 +9264,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
                 auto recipe = find_recipe( s );
                 if( recipe ) {
-                    const item dummy( recipe->result, 0 );
-                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                    rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
                 }
             }
 
@@ -9274,10 +9279,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
                 auto recipe = find_recipe( it->item_vars["RECIPE"] );
                 if( recipe ) {
-                    const item dummy( recipe->result, 0 );
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         dummy.type->nname(1).c_str());
+                                         item::nname( recipe->result ).c_str());
                 }
             }
 
@@ -9966,6 +9970,112 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
     return it->type->charges_to_use();
 }
 
+static bool hackveh(player *p, item *it, vehicle *veh)
+{
+    if( veh->security == 0 ) {
+        return true;
+    } else if( veh->security < 0 ) {
+        p->add_msg_if_player(m_bad, _("This vehicle's security system has locked you out!"));
+        return false;
+    }
+    
+    if( !query_yn( _("Try to hack this car's security system?") ) ) {
+        return false;
+    }
+    
+    int effort = 0;
+    int roll = dice( p->skillLevel( "computer" ) + 2, p->int_cur ) - veh->security * 10;
+    p->practice( "computer", veh->security );
+    if( roll < -20 ) {
+        p->add_msg_if_player( m_bad, _("You trigger the security system which locks you out!") );
+        veh->security = -veh->security;
+    } else if( roll < -10 ) {
+        effort = rng( 4, 8 );
+        p->add_msg_if_player( m_bad, _("You waste some time, but fail to affect the security system.") );
+    } else if( roll < 0 ) {
+        effort = 1;
+        p->add_msg_if_player( m_bad, _("You fail to affect the security system.") );
+    } else if( roll < 20 ) {
+        effort = rng( 2, 8 );
+        p->add_msg_if_player( m_mixed, _("You take some time, but manage to break the security system!") );
+        veh->security = 0;
+    } else {
+        effort = 1;
+        p->add_msg_if_player( m_good, _("You quickly bypass the security system!") );
+        veh->security = 0;
+    }
+    
+    p->moves -= effort;
+    it->charges -= effort;
+    return veh->security == 0;
+}
+
+int iuse::remoteveh(player *p, item *it, bool t, point)
+{
+    if (t) {
+        if (it->charges == 0) {
+            it->active = false;
+            p->remove_value( "remote_controlling_vehicle" );
+        } else if( g->remoteveh() == nullptr ) {
+            p->add_msg_if_player( _("You stop remotely controlling the vehicle.") );
+            it->active = false;
+        }
+
+        return it->type->charges_to_use();
+    }
+    
+    bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
+    int choice = menu(true, _("What do with remote vehicle control:"), _("Nothing"), 
+                      controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
+                      _("Execute one vehicle action"), NULL);
+
+   if (choice < 2 || choice > 3 ) {
+        return 0;
+    }
+    
+    if( choice == 2 && controlling ) {
+        it->active = false;
+        p->remove_value( "remote_controlling_vehicle" );
+        p->add_msg_if_player(m_good, _("You stop remotely controlling the vehicle."));
+        return 0;
+    }
+
+    int px = g->u.view_offset_x;
+    int py = g->u.view_offset_y;
+    
+    point target = g->look_around();
+    vehicle* veh = g->m.veh_at( target.x, target.y );
+    
+    if( veh == nullptr ) {
+        popup(_("No vehicles here!"));
+        return 0;
+    } 
+    
+    if( !hackveh( p, it, veh ) ) {
+        return 0;
+    }
+    
+    if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
+        popup(_("This vehicle has no working controls!"));
+        return 0;
+    } else if( choice == 2 ) {
+        std::stringstream car_location_string;
+        // Copypaste from RC car.
+        car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
+        p->add_msg_if_player(m_good, _("You take control of the vehicle."));
+        p->set_value( "remote_controlling_vehicle", car_location_string.str() );
+        it->active = true;
+    } else if( choice == 3 ) {
+        veh->use_controls();
+    } else {
+        return 0;
+    }
+
+    g->u.view_offset_x = px;
+    g->u.view_offset_y = py;
+    return it->type->charges_to_use();
+}
+
 bool multicooker_hallu(player *p)
 {
     p->moves -= 200;
@@ -10261,17 +10371,12 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             const inventory &cinv = g->u.crafting_inventory();
 
             if (!cinv.has_amount("soldering_iron", 1)) {
-                item tmp("soldering_iron", 0);
-
-                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "soldering_iron" ).c_str());
                 has_tools = false;
             }
 
             if (!cinv.has_tools("screwdriver", 1)) {
-
-                item tmp("screwdriver", 0);
-
-                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "screwdriver" ).c_str());
                 has_tools = false;
             }
 
@@ -10378,6 +10483,14 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             point source_local = g->m.getlocal(source_global);
             auto source_veh = g->m.veh_at(source_local.x, source_local.y);
 
+            if(source_veh == target_veh) {
+                if (p != nullptr && p->has_item(it)) {
+                    p->add_msg_if_player(m_warning, _("The %s already has access to its own electric system!"),
+                                        source_veh->name.c_str());
+                }
+                return 0;
+            }
+
             point target_global = g->m.getabs(posx, posy);
             point target_local(posx, posy);
 
@@ -10400,6 +10513,11 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
+
+            if( p != nullptr && p->has_item(it) ) {
+                p->add_msg_if_player(m_good, _("You link up the electric systems of the %s and the %s."),
+                                     source_veh->name.c_str(), target_veh->name.c_str());
+            }
 
             return 1; // Let the cable be destroyed.
         }
