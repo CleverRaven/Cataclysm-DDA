@@ -959,8 +959,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     // Overlap the player info window.
     int top    = -1 + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
     int left   = getbegx(w_messages);
-    WINDOW *w_target = newwin(height, width, top, left);
-    WINDOW_PTR w_targetptr( w_target );
+
+    // Keeping the target menu window around between invocations,
+    // it only gets reset if we actually exit the menu.
+    static WINDOW *w_target = nullptr;
+    if( w_target == nullptr ) {
+        w_target = newwin(height, width, top, left);
+    }
 
     draw_targeting_window( w_target, relevant, u, mode );
 
@@ -1196,6 +1201,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
+                werase( w_target );
+                wrefresh( w_target );
+                delwin( w_target );
+                w_target = nullptr;
                 return ret;
             } else {
                 // We've run out of moves, set the activity to aim so we'll
@@ -1231,6 +1240,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
     } while (true);
 
+    werase( w_target );
+    wrefresh( w_target );
+    delwin( w_target );
+    w_target = nullptr;
     return ret;
 }
 
