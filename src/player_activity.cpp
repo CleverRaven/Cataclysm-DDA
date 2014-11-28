@@ -7,6 +7,17 @@ player_activity::player_activity(activity_type t, int turns, int Index, int pos,
     position(pos), name(name_in), ignore_trivial(false), values(), str_values(),
     placement(-1, -1), warned_of_proximity(false), auto_resume(false)
 {
+    //define a new activity type for moves < 200,only ACT_RELOAD now
+    switch(t)
+    {
+    case ACT_RELOAD:
+        short_activity = true;
+        moves_display = turns;
+        break;
+    default:
+        short_activity = false;
+        break;
+    }
 }
 
 const std::string &player_activity::get_stop_phrase() const

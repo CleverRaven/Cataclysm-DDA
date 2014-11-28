@@ -12887,10 +12887,14 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
         }
         activity = player_activity(type, moves, index, pos, name);
     }
-    if (this->moves <= activity.moves_left) {
-        activity.moves_left -= this->moves;
+
+    //only ACT_RELOAD is true
+    if (activity.short_activity == false) {
+        if (this->moves <= activity.moves_left) {
+            activity.moves_left -= this->moves;
+        }
+        this->moves = 0;
     }
-    this->moves = 0;
     activity.warned_of_proximity = false;
 }
 

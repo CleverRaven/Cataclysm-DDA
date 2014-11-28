@@ -1424,6 +1424,12 @@ bool game::do_turn()
                     ++moves_since_last_save;
                     u.action_taken();
                 }
+				
+                //only ACT_RELOAD is true
+                if (u.activity.short_activity)
+                {
+                    process_activity();
+                }
 
                 if (is_game_over()) {
                     return cleanup_at_end();
@@ -1671,6 +1677,16 @@ void game::activity_on_turn()
         break;
     case ACT_FILL_LIQUID:
         activity_on_turn_fill_liquid();
+        break;
+    case ACT_RELOAD:
+        // Based on speed, not time
+        if (u.moves > u.activity.moves_left) {
+            u.moves -= u.activity.moves_left;
+            u.activity.moves_left = 0;
+            }else {
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+        }
         break;
     default:
         // Based on speed, not time
@@ -2026,6 +2042,7 @@ void game::activity_on_finish_reload()
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
     }
+    u.movecounter = u.activity.moves_display;
     u.activity.type = ACT_NULL;
 }
 
