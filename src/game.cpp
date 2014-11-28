@@ -11229,8 +11229,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if (u.has_effect("relax_gas")) {
         if (one_in(5)) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
-        }
-        else {
+        } else {
             u.moves -= rng(2, 5) * 10;
             add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
             return;
@@ -11241,7 +11240,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-
             if ((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
                 (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
