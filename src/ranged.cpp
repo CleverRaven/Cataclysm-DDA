@@ -912,12 +912,12 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
-        for (int i = 0; i < (int)t.size(); i++) {
-            if (t[i]->xpos() == x && t[i]->ypos() == y) {
+        for( int i = 0; i < (int)t.size(); i++ ) {
+            if( t[i]->xpos() == x && t[i]->ypos() == y ) {
                 target = i;
                 // TODO: find radial offset between targets and
                 // spend move points swinging the gun around.
-                p->recoil = std::min(MIN_RECOIL, p->recoil);
+                p->recoil = std::max(MIN_RECOIL, p->recoil);
                 break;
             }
         }
@@ -1166,19 +1166,19 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 y = hiy;
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
-            target--;
-            if (target == -1) {
-                target = t.size() - 1;
+            int newtarget = target - 1;
+            if( newtarget == -1 ) {
+                newtarget = t.size() - 1;
             }
-            x = t[target]->xpos();
-            y = t[target]->ypos();
+            x = t[newtarget]->xpos();
+            y = t[newtarget]->ypos();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
-            target++;
-            if (target == (int)t.size()) {
-                target = 0;
+            int newtarget = target + 1;
+            if( newtarget == (int)t.size() ) {
+                newtarget = 0;
             }
-            x = t[target]->xpos();
-            y = t[target]->ypos();
+            x = t[newtarget]->xpos();
+            y = t[newtarget]->ypos();
         } else if ((action == "AIM") && target != -1) {
             do_aim( &u, t, target, relevant, x, y );
             if(u.moves <= 0) {
