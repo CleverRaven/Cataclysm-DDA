@@ -3122,8 +3122,8 @@ input_context game::get_player_input(std::string &action)
             if(uquit == QUIT_WATCH) {
                 // Display "press X to continue" text at top of main window
                 std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
-                mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
-                // Since I reverted handle_mouseview(), breaking is easier for this
+                mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
+                           _("Press %s to accept your fate..."), ctxt.get_desc("QUIT").c_str() );
                 wrefresh(w_terrain);
                 break;
             }
