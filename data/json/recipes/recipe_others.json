@@ -1567,7 +1567,8 @@
     [
       [ "thread", 50 ],
       [ "sinew", 50 ],
-      [ "plant_fibre", 50 ]
+      [ "plant_fibre", 50 ],
+      [ "yarn", 25 ]
     ]
   ]
 },{
@@ -1622,6 +1623,7 @@
     [
       ["rag", 30],
       ["leather", 30],
+      ["felt_patch", 30],
       [ "tanned_hide", 5 ]
     ]
   ]  

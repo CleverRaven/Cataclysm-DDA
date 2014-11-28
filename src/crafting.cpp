@@ -1930,6 +1930,20 @@ void player::disassemble(int dis_pos)
     add_msg(m_info, _("This item cannot be disassembled!"));
 }
 
+// Find out which of the alternative components had been used to craft the item.
+item_comp find_component( const std::vector<item_comp> &altercomps, const item &dis_item )
+{
+    for( auto & comp : altercomps ) {
+        for( auto & elem : dis_item.components ) {
+            if( elem.typeId() == comp.type ) {
+                return comp;
+            }
+        }
+    }
+    // Default is the one listed first in json.
+    return altercomps.front();
+}
+
 void player::complete_disassemble()
 {
     // which recipe was it?
@@ -2008,20 +2022,7 @@ void player::complete_disassemble()
     }
 
     for (const auto &altercomps : dis->requirements.components) {
-        // If there are several (alternative) components, search the
-        // one that was used.
-        // Don't check the first in altercomps, it's the default anyway.
-        auto it = altercomps.begin();
-        for(++it; it != altercomps.end(); ++it) {
-            for( auto &elem : dis_item.components ) {
-                if( elem.type->id == it->type ) {
-                    break;
-                }
-            }
-        }
-        // If not found, use the first one.
-        const item_comp &comp = (it == altercomps.end()) ? altercomps.front() : *it;
-
+        const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
         if( newit.has_flag( "UNRECOVERABLE" ) ) {

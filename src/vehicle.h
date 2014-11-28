@@ -311,6 +311,8 @@ public:
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
+// check if player controls this vehicle remotely
+    bool remote_controlled (player *p);
 
 // init parts state for randomly generated vehicle
     void init_state(int veh_init_fuel, int veh_init_status);
@@ -481,7 +483,7 @@ public:
 
     void consume_fuel( double load );
 
-    void power_parts ();
+    void power_parts (tripoint sm_loc);
 
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -506,7 +508,7 @@ public:
     int total_power (bool fueled = true);
 
 // Get combined epower of solar panels
-    int solar_epower ();
+    int solar_epower (tripoint sm_loc);
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -549,7 +551,8 @@ public:
 
 // idle fuel consumption
     void idle (bool on_map = true);
-    void alarm (bool on_map);
+// continuous processing for running vehicle alarms
+    void alarm ();
 // leak from broken tanks
     void slow_leak ();
 
@@ -675,6 +678,8 @@ public:
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p,bool on);
+    //remotely open/close doors
+    void control_doors();
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -770,6 +775,7 @@ public:
     int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
+    int security;           // security level for hacking/breaking in
 };
 
 #endif

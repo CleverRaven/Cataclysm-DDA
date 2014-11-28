@@ -1061,7 +1061,7 @@
     "hp":10,
     "death_function":"NORMAL",
     "description":"A pulsating sausage of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
-    "flags":["SMELLS", "POISON", "LARVA"]
+    "flags":["SMELLS", "LARVA"]
     },{
         "type" : "MONSTER",
         "id" : "mon_ant",

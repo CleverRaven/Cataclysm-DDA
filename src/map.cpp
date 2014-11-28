@@ -411,8 +411,15 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
     }
 
+    // Need old coords to check for remote control
+    bool remote = veh->remote_controlled( &g->u );
+
     x += dx;
     y += dy;
+
+    if( remote ) {
+        g->setremoteveh( veh );
+    }
 
     update_vehicle_cache(veh);
 
@@ -1525,7 +1532,7 @@ bool map::flammable_items_at(const int x, const int y)
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
             return true;
         }
-        if (i.made_of("cotton") && (vol <= 5 || i.burnt < 1)) {
+        if ((i.made_of("cotton") || i.made_of("wool")) && (vol <= 5 || i.burnt < 1)) {
             return true;
         }
         if (i.is_ammo() && i.ammo_type() != "battery" &&
