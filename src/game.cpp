@@ -3021,7 +3021,7 @@ input_context game::get_player_input(std::string &action)
 
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-        while( handle_mouseview(ctxt, action) || (uquit == QUIT_WATCH) ) {
+        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3119,7 +3119,7 @@ input_context game::get_player_input(std::string &action)
             }
             draw_weather(wPrint);
             draw_sct();
-            if(uquit == QUIT_WATCH) {
+            if( uquit == QUIT_WATCH ) {
                 // Display "press X to continue" text at top of main window
                 std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
                 mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
@@ -3184,7 +3184,7 @@ vehicle *game::remoteveh()
     if( remote_veh_string.str() == "" ) {
         return nullptr;
     }
-    
+
     int vx, vy;
     remote_veh_string >> vx >> vy;
     return m.veh_at( vx, vy );
@@ -3227,7 +3227,8 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    int mouse_action_x = -1, mouse_action_y = -1;
+    int mouse_action_x = -1;
+    int mouse_action_y = -1;
 
     // do not allow mouse actions while dead
     if(!u.is_dead_state()) {
@@ -3321,18 +3322,18 @@ bool game::handle_action()
         }
     }
 
-    if (act == ACTION_NULL) {
+    if( act == ACTION_NULL ) {
         // No auto-move action, no mouse clicks.
         u.clear_destination();
         destination_preview.clear();
 
         act = look_up_action(action);
-        if (act == ACTION_NULL) {
+        if( act == ACTION_NULL ) {
             add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
         }
     }
 
-    if (act == ACTION_ACTIONMENU) {
+    if( act == ACTION_ACTIONMENU ) {
         act = handle_action_menu();
         if (act == ACTION_NULL) {
             return false;
@@ -3362,7 +3363,7 @@ bool game::handle_action()
     // alive, so no worries there. KA101 suggested (quite aptly)
     // that the user should be able to look around, so this
     // allows that. -Davek
-    if(uquit == QUIT_WATCH || !u.is_dead_state()) {
+    if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch(act) {
         case ACTION_CENTER:
             u.view_offset_x = driving_view_offset.x;
