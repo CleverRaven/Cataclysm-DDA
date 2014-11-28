@@ -832,9 +832,9 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
     
     if (!p->has_amount("crude_picklock", 1) || !p->has_amount("hairpin", 1) || 
        !p->has_amount("picklocks", 1) || !p->has_bionic("bio_lockpick")) {
-        add_msg(m_info, _(("You need a lockpick to open this %s."), m->tername(examx, examy).c_str()));
+        add_msg(m_info, (("You need a lockpick to open this %s."), m->tername(examx, examy).c_str()));
         return;
-    } else (!query_yn(_(("Pick the %s?"), m->tername(examx, examy).c_str()))) {
+    } else (!query_yn((("Pick the %s?"), m->tername(examx, examy).c_str()))) {
         return;
     }
     
@@ -867,12 +867,12 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
     bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
                      (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
     if (!can_hack) {
-        add_msg(_(("You can't hack this %s without an electrohack.",  m->tername(examx, examy).c_str())));
+        add_msg((("You can't hack this %s without an electrohack.",  m->tername(examx, examy).c_str())));
         return;
     }
     
     bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_(("Use electrohack on the %s?",  m->tername(examx, examy).c_str()))));
+                                  query_yn((("Use electrohack on the %s?",  m->tername(examx, examy).c_str()))));
     bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
                                  p->power_level > 0 &&
                                  query_yn(_("Use fingerhack on the gun safe?")));
