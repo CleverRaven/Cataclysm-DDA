@@ -3121,9 +3121,10 @@ input_context game::get_player_input(std::string &action)
             draw_sct();
             if( uquit == QUIT_WATCH ) {
                 // Display "press X to continue" text at top of main window
-                std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
+                std::string message = string_format( _("Press %s to accept your fate..."),
+                        ctxt.get_desc("QUIT").c_str() );
                 mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
-                           _("Press %s to accept your fate..."), ctxt.get_desc("QUIT").c_str() );
+                           message.c_str() );
                 wrefresh(w_terrain);
                 break;
             }
@@ -5701,8 +5702,10 @@ void game::draw_ter(int posx, int posy)
     if(uquit == QUIT_WATCH) {
         // This should remove the flickering the bar recieves
         input_context ctxt("DEFAULTMODE");
-        std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
-        mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
+        std::string message = string_format( _("Press %s to accept your fate..."),
+                ctxt.get_desc("QUIT").c_str() );
+        mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
+                   message.c_str() );
     }
     wrefresh(w_terrain);
 
