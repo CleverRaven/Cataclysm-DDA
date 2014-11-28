@@ -1521,8 +1521,7 @@ bool map::flammable_items_at(const int x, const int y)
               i.type->id == "whiskey" || i.type->id == "vodka" ||
               i.type->id == "rum" || i.type->id == "tequila" ||
               i.type->id == "single_malt_whiskey" || i.type->id == "gin" ||
-              i.type->id == "triple_sec" || i.type->id == "moonshine" ||
-              i.type->id == "brandy") {
+              i.type->id == "moonshine" || i.type->id == "brandy") {
             return true;
         }
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
