@@ -359,7 +359,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             if( !(a || b) ) { continue; }
             const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() && 
+            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() &&
                  (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ||
                 (!tmpfld && (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ) {
                 spread.push_back( point( x + a, y + b ) );
@@ -1329,7 +1329,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                      i_at(x, y).begin();
                                  it != i_at(x, y).end(); ++it) {
                                     if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
-                                    it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
+                                    it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline") ||
+                                    it->type->id == "diesel") {
                                         add_field(x, y, fd_fire, 1);
                                     }
                             }
