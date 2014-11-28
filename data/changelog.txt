@@ -1,3 +1,57 @@
+0.C
+
+Unsorted (up to commit 32fd9a483):
+
+- Overhaul of diseases:
+	- configurable from JSON
+	- now applied as relatively generic status effects
+- Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well
+as an all-inclusive weather station. Now we can finally talk about the
+weather, as we've always wanted.
+- An abandoned farmhouse may spawn in the forest from time to time, with a sad
+story behind it.
+- You can warm yourself up from a nearby fire.
+- Change car batteries without any tools, truck batteries with just a wrench,
+or install swappable storage battery cases and add/remove storage batteries to
+your heart's content. Electric cars come with cases for their storage
+batteries by default now.
+- Many vehicle parts are now foldable, enabling you to have a more complete
+folding bicycle (or wheelchair).
+- Butchering can now be used to cut up items, too. Also, you can now salvage
+_all_ the things (in a tile) in one keypress.
+- Tanning with trees! Blackjack oaks now spawn, and can provide tanbark.
+- Gun mods aren't just a free-for-all when reaching marksmanship level 1
+anymore -- instead, they each have different skill requirements to install.
+- Doors and windows no longer hold up the roof! Hopefully preventing collapses
+from zombies breaking into your shop.
+- Electric chainsaws and jackhammers now exist in the world.
+- Destructible bridges! They can be smashed, they have sidewalks, and are a
+source of rebar.
+- Straw! Get it from the hay in farm barns and make yourself a nice straw hat.
+- Aiming! You can now spend time when aiming a ranged weapon to improve your
+accuracy with it.
+- Item descriptions now tell you what you know you can craft with them. No
+more wondering what those stupid copper tubes are good for.
+- Canes, cudgels, and umbrellas now work as improvised fencing weapons.
+- Battery mods (extended battery, rechargeable battery, etc.) can now be
+removed by applying a screwdriver.
+- You can now choose to ensure that items you pick up never get wielded,
+keeping your hands free -- useful when you want to be using a martial arts
+style that's primarily unarmed.
+- The patented DeathCam™! You can now watch what happens after your epic
+death: is anything left of you after that massive fire burns itself out?
+- Foraging just... happens. Without prompting you (Y/N?) every (Y/N?) time.
+- Rifle straps! Mount one on your gun and just wear it when you're not using
+it.
+- You can now choose to re-roll a random scenario along with your other random
+character generation things.
+- Some cars have alarms now, and you can try to bypass the alarm and unlock
+the controls.
+- Wool and felt are now usable materials.
+- Solar panels now _just work_ (as long as they're above-ground and it's
+sunny). You don't need to be near them anymore.
+
+
 0.B
 
 Features:
