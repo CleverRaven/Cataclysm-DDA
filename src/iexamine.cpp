@@ -845,7 +845,7 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
     p->practice("mechanics", 1);
     p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
     int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2,
-                     p->dex_cur) - it->damage / 2) * pick_quality;
+                     p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
         p->practice("mechanics", 1);
@@ -908,15 +908,14 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             } else {
                 add_msg(_("You successfully hack the gun safe."));
                 g->m.ter_set(examx, examy, "f_safe_o");
-                } else {
-                    add_msg(_("Nothing happens."));
                 }
-            }
+
         } else {
             return;
         }
-    
 }
+    
+
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
 {
