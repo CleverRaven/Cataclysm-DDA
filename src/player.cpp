@@ -3687,8 +3687,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else                        morale_str = "D8";
     mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
 
- vehicle *veh = g->m.veh_at (posx, posy);
- if (in_vehicle && veh) {
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && in_vehicle ) {
+        veh = g->m.veh_at (posx, posy);
+    }
+    if( veh ) {
   veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 

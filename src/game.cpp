@@ -1428,7 +1428,7 @@ bool game::do_turn()
                 if (is_game_over()) {
                     return cleanup_at_end();
                 }
-                
+
                 if (uquit == QUIT_WATCH) {
                     break;
                 }
@@ -1436,9 +1436,9 @@ bool game::do_turn()
         } else {
             handle_key_blocking_activity();
         }
-    } 
+    }
 
-    if ((driving_view_offset.x != 0 || driving_view_offset.y != 0)) {
+    if( driving_view_offset.x != 0 || driving_view_offset.y != 0 ) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
         // might also happen when someone dives from a moving car.
@@ -3178,6 +3178,30 @@ void game::rcdrive(int dx, int dy)
     }
 }
 
+vehicle *game::remoteveh()
+{
+    std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
+    if( remote_veh_string.str() == "" ) {
+        return nullptr;
+    }
+    
+    int vx, vy;
+    remote_veh_string >> vx >> vy;
+    return m.veh_at( vx, vy );
+}
+
+void game::setremoteveh(vehicle *veh)
+{
+    if( veh == nullptr ) {
+        u.remove_value( "remote_controlling_vehicle" );
+        return;
+    }
+
+    std::stringstream remote_veh_string;
+    remote_veh_string << veh->global_x() << ' ' << veh->global_y();
+    u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -3197,8 +3221,9 @@ bool game::handle_action()
     }
 
     int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    bool veh_ctrl = veh && (veh->player_in_control(&u) && !u.is_dead_state());
+    vehicle *veh = m.veh_at( u.posx, u.posy, veh_part );
+    bool veh_ctrl = ( veh && veh->player_in_control(&u) && !u.is_dead_state() ) ||
+        remoteveh() != nullptr;
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
@@ -8446,10 +8471,13 @@ void game::moving_vehicle_dismount(int tox, int toy)
 
 void game::control_vehicle()
 {
-    int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    int veh_part = -1;
+    vehicle *veh = remoteveh();
+    if( veh == nullptr ) {
+        veh = m.veh_at(u.posx, u.posy, veh_part);
+    }
 
-    if (veh && veh->player_in_control(&u)) {
+    if( veh != nullptr && veh->player_in_control( &u ) ) {
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
@@ -12440,18 +12468,30 @@ void game::pldrive(int x, int y)
     if( !check_save_mode_allowed() ) {
         return;
     }
+    vehicle *veh = remoteveh();
+    bool remote = true;
     int part = -1;
-    vehicle *veh = m.veh_at(u.posx, u.posy, part);
+    if( !veh ) {
+        veh = m.veh_at(u.posx, u.posy, part);
+        remote = false;
+    }
     if (!veh) {
         dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
         debugmsg("game::pldrive error: can't find vehicle! Drive mode is now off.");
         u.in_vehicle = false;
         return;
     }
-    int pctr = veh->part_with_feature(part, "CONTROLS");
-    if (pctr < 0) {
-        add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
-        return;
+    if( !remote ) {
+        int pctr = veh->part_with_feature(part, "CONTROLS");
+        if (pctr < 0) {
+            add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
+            return;
+        }
+    } else {
+        if ( veh->all_parts_with_feature("CONTROLS", true).size() == 0 ) {
+            add_msg(m_info, _("Can't drive this vehicle remotely. It has no working controls."));
+            return;
+        }
     }
 
     int thr_amount = 10 * 100;

@@ -51,7 +51,8 @@ enum vehicle_controls {
  toggle_recharger,
  cont_engines,
  try_disarm_alarm,
- trigger_alarm
+ trigger_alarm,
+ toggle_doors
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -73,6 +74,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     tracking_epower = 0;
     alarm_epower = 0;
     cruise_velocity = 0;
+    security = 0;
     music_id = "";
     skidding = false;
     cruise_on = true;
@@ -111,9 +113,36 @@ bool vehicle::player_in_control (player *p)
 {
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
-    if (veh == NULL || veh != this)
+
+    if( veh != nullptr && veh == this &&
+        part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle ) {
+        return true;
+    }
+
+    return remote_controlled( p );
+}
+
+bool vehicle::remote_controlled (player *p)
+{
+    std::stringstream remote_veh_string( g->u.get_value( "remote_controlling_vehicle" ) );
+    if( remote_veh_string.str() == "" ) {
         return false;
-    return part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle;
+    }
+
+    int vx, vy;
+    remote_veh_string >> vx >> vy;
+    vehicle *veh = g->m.veh_at( vx, vy );
+    if( veh == NULL || veh != this ) {
+        return false;
+    }
+
+    if( rl_dist( p->posx, p->posy, global_x(), global_y() ) > 40 ) {
+        add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
+        p->remove_value( "remote_controlling_vehicle" );
+        return false;
+    }
+
+    return true;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -388,6 +417,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             is_locked = true;
         }
     }
+
+    security = 0;
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
@@ -427,6 +458,31 @@ void vehicle::smash() {
             parts[part_index].amount = 0;
         }
     }
+}
+
+void vehicle::control_doors() {
+        bool toggled = false;
+        int px = g->u.view_offset_x;
+        int py = g->u.view_offset_y;
+        point toggle_target;
+        toggle_target = g->look_around();
+        int dx = toggle_target.x - global_x();
+        int dy = toggle_target.y - global_y();
+        for (size_t i = 0; i < parts.size(); i++) {
+            if (parts[i].precalc_dx[0] == dx && parts[i].precalc_dy[0] == dy &&
+                part_flag( i, "OPENABLE" ) && parts[i].hp > 0) {
+                open_or_close( i, !(parts[i].open) );
+                toggled = true;
+                break;
+            }
+        }
+
+        if( !toggled ) {
+            popup(_("No doors here!"));
+        }
+
+        g->u.view_offset_x = px;
+        g->u.view_offset_y = py;
 }
 
 void vehicle::control_engines() {
@@ -627,7 +683,9 @@ void vehicle::use_controls()
     bool has_fridge = false;
     bool has_recharger = false;
     bool can_trigger_alarm = false;
-    for (size_t p = 0; p < parts.size(); p++) {
+    bool has_doors = false;
+
+    for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
         }
@@ -664,6 +722,9 @@ void vehicle::use_controls()
             has_recharger = true;
         } else if (part_flag(p, "SECURITY") && !is_alarm_on && parts[p].hp > 0) {
             can_trigger_alarm = true;
+        }
+        else if (part_flag(p, "OPENABLE")) {
+            has_doors = true;
         }
     }
 
@@ -755,6 +816,11 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
     }
+    // Toggle doors remotely
+    if (has_doors) {
+        options_choice.push_back(toggle_doors);
+        options_message.push_back(uimenu_entry(_("Toggle door"), 'k'));
+    }
     // control an engine
     if (has_mult_engine) {
         options_choice.push_back(cont_engines);
@@ -820,7 +886,8 @@ void vehicle::use_controls()
                 g->u.i_add(cd);
             } else {
                 for( auto &cd : cd_inv ) {
-                    if( std::find( music_types.begin(), music_types.end(), cd->typeId() ) == music_types.end() ) {
+                    if( std::find( music_types.begin(), music_types.end(), cd->typeId() ) ==
+                        music_types.end() ) {
                         music_types.push_back( cd->typeId() );
                         music_names.push_back( cd->tname() );
                     }
@@ -1015,6 +1082,9 @@ void vehicle::use_controls()
         } else {
             add_msg(_("tracking device won't turn on"));
         }
+        break;
+    case toggle_doors:
+        control_doors();
         break;
     case control_cancel:
         break;
@@ -1308,7 +1378,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             return false;
         }
     }
-    
+
     // Security system must be installed on controls
     if(vehicle_part_types[id].has_flag("ON_CONTROLS")) {
         bool anchor_found = false;
@@ -1364,7 +1434,6 @@ bool vehicle::can_unmount (int p)
     if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
         return false;
     }
-    
 
     //Can't remove controls if there's something attached
     if(part_flag(p, "CONTROLS") && part_with_feature(p, "ON_CONTROLS") >= 0) {
@@ -1429,9 +1498,7 @@ bool vehicle::can_unmount (int p)
             }
 
         }
-
     }
-
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1505,12 +1572,9 @@ bool vehicle::is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &e
                 }
             }
         }
-
         //Now that that's done, we've finished exploring here
         searched.push_back(current_part);
-
     }
-
     //If we completely exhaust the discovered list, there's no path
     return false;
 }
@@ -2187,10 +2251,9 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     int yofs = 0;
-    
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
-    
+
     for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
         if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
@@ -2478,7 +2541,7 @@ int vehicle::total_power (bool fueled)
     int cnt = 0;
     int part_under_player;
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
-    bool player_controlling = player_in_control(&(g->u));
+    bool player_controlling = !remote_controlled( &g->u ) && player_in_control( &g->u );
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
         if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
@@ -2904,8 +2967,8 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if(is_engine_type_on(e, fuel_type_gasoline) || 
-                is_engine_type_on(e, fuel_type_diesel)) {
+            if(is_engine_type_on(e, fuel_type_gasoline) ||
+               is_engine_type_on(e, fuel_type_diesel)) {
                 gas_epower += part_info(engines[e]).epower;
             }
         }
@@ -3350,9 +3413,9 @@ void vehicle::thrust (int thd) {
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
-        if (total_power () < 1) {
-            if (pl_ctrl) {
-                if (total_power (false) < 1) {
+        if (total_power() < 1) {
+            if( pl_ctrl ) {
+                if( total_power(false) < 1 ) {
                     add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
                 } else if( has_pedals ) {
                     add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
@@ -3370,8 +3433,8 @@ void vehicle::thrust (int thd) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if (has_pedals || has_hand_rims || has_paddles) {
-            if (g->u.has_bionic("bio_torsionratchet")
+        } else if( has_pedals || has_hand_rims || has_paddles ) {
+            if( g->u.has_bionic( "bio_torsionratchet" ) 
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
             }
@@ -3383,7 +3446,7 @@ void vehicle::thrust (int thd) {
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
-            if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
+            if( is_engine_on(e) && fuel_left(part_info(p).fuel_type) &&
                 rng (1, 100) < strn ) {
                 int dmg = rng (strn * 2, strn * 4);
                 damage_direct (p, dmg, 0);
@@ -3439,17 +3502,17 @@ void vehicle::cruise_thrust (int amount)
     int safe_vel = safe_velocity();
     int max_vel = max_velocity();
     int max_rev_vel = -max_vel / 4;
-    
+
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
-    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
-        (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
+    if( (cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) ||
+        (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount)) ){
         cruise_velocity = safe_vel;
     } else {
         //if coming down from safe_velocity or max_velocity
         //then take one, so cruise_velocity scales down a multiple of amount
         if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
             cruise_velocity += -1;
-        } 
+        }
         //if not going up from max reverse velocity, increase by amount
         else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
             cruise_velocity += amount;
@@ -3464,9 +3527,8 @@ void vehicle::cruise_thrust (int amount)
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
     } else if (cruise_velocity < max_rev_vel) {
-            cruise_velocity = max_rev_vel;
+        cruise_velocity = max_rev_vel;
     }
-    
 }
 
 void vehicle::turn (int deg)
