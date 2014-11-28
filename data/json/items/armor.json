@@ -3475,6 +3475,9 @@
             },
             { "id" : "houston",
               "text" : "A rollerball jersey made of thick material imprinted with the logo of the Houston Energy Corporation."
+            },
+            { "id" : "monroeville",
+              "text" : "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
             }
         ],
         "//" : "Genuine team merch, and priced like it!",
