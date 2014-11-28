@@ -2862,7 +2862,7 @@ int iuse::sew(player *p, item *it, bool, point)
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton") || fix->made_of("wool")) {
+    if (fix->made_of("cotton")) {
         repair_items.push_back("rag");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
@@ -2878,8 +2878,12 @@ int iuse::sew(player *p, item *it, bool, point)
         repair_items.push_back("nomex");
         plurals.push_back(rm_prefix(_("<plural>nomex")));
     }
+    if (fix->made_of("wool")) {
+        repair_items.push_back("wool");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
+    }
     if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather or fur."),
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
                              fix->tname().c_str());
         return 0;
     }
@@ -6739,6 +6743,7 @@ bool static try_to_cut_up(player *p, item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -6794,6 +6799,7 @@ bool iuse::valid_to_cut_up(item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         return false;
@@ -6966,7 +6972,7 @@ int iuse::knife(player *p, item *it, bool t, point)
 
     uimenu kmenu;
     kmenu.text = _("Using cutting instrument:");
-    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
+    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex/wool"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
@@ -9961,6 +9967,112 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         p->moves -= 150;
     }
 
+    return it->type->charges_to_use();
+}
+
+static bool hackveh(player *p, item *it, vehicle *veh)
+{
+    if( veh->security == 0 ) {
+        return true;
+    } else if( veh->security < 0 ) {
+        p->add_msg_if_player(m_bad, _("This vehicle's security system has locked you out!"));
+        return false;
+    }
+    
+    if( !query_yn( _("Try to hack this car's security system?") ) ) {
+        return false;
+    }
+    
+    int effort = 0;
+    int roll = dice( p->skillLevel( "computer" ) + 2, p->int_cur ) - veh->security * 10;
+    p->practice( "computer", veh->security );
+    if( roll < -20 ) {
+        p->add_msg_if_player( m_bad, _("You trigger the security system which locks you out!") );
+        veh->security = -veh->security;
+    } else if( roll < -10 ) {
+        effort = rng( 4, 8 );
+        p->add_msg_if_player( m_bad, _("You waste some time, but fail to affect the security system.") );
+    } else if( roll < 0 ) {
+        effort = 1;
+        p->add_msg_if_player( m_bad, _("You fail to affect the security system.") );
+    } else if( roll < 20 ) {
+        effort = rng( 2, 8 );
+        p->add_msg_if_player( m_mixed, _("You take some time, but manage to break the security system!") );
+        veh->security = 0;
+    } else {
+        effort = 1;
+        p->add_msg_if_player( m_good, _("You quickly bypass the security system!") );
+        veh->security = 0;
+    }
+    
+    p->moves -= effort;
+    it->charges -= effort;
+    return veh->security == 0;
+}
+
+int iuse::remoteveh(player *p, item *it, bool t, point)
+{
+    if (t) {
+        if (it->charges == 0) {
+            it->active = false;
+            p->remove_value( "remote_controlling_vehicle" );
+        } else if( g->remoteveh() == nullptr ) {
+            p->add_msg_if_player( _("You stop remotely controlling the vehicle.") );
+            it->active = false;
+        }
+
+        return it->type->charges_to_use();
+    }
+    
+    bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
+    int choice = menu(true, _("What do with remote vehicle control:"), _("Nothing"), 
+                      controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
+                      _("Execute one vehicle action"), NULL);
+
+   if (choice < 2 || choice > 3 ) {
+        return 0;
+    }
+    
+    if( choice == 2 && controlling ) {
+        it->active = false;
+        p->remove_value( "remote_controlling_vehicle" );
+        p->add_msg_if_player(m_good, _("You stop remotely controlling the vehicle."));
+        return 0;
+    }
+
+    int px = g->u.view_offset_x;
+    int py = g->u.view_offset_y;
+    
+    point target = g->look_around();
+    vehicle* veh = g->m.veh_at( target.x, target.y );
+    
+    if( veh == nullptr ) {
+        popup(_("No vehicles here!"));
+        return 0;
+    } 
+    
+    if( !hackveh( p, it, veh ) ) {
+        return 0;
+    }
+    
+    if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
+        popup(_("This vehicle has no working controls!"));
+        return 0;
+    } else if( choice == 2 ) {
+        std::stringstream car_location_string;
+        // Copypaste from RC car.
+        car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
+        p->add_msg_if_player(m_good, _("You take control of the vehicle."));
+        p->set_value( "remote_controlling_vehicle", car_location_string.str() );
+        it->active = true;
+    } else if( choice == 3 ) {
+        veh->use_controls();
+    } else {
+        return 0;
+    }
+
+    g->u.view_offset_x = px;
+    g->u.view_offset_y = py;
     return it->type->charges_to_use();
 }
 
