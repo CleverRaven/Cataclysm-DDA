@@ -569,7 +569,7 @@ void initOptions()
     optionNames["es_ES"] = "Español (España)";
     optionNames["ja"] = "日本語";
     optionNames["ko"] = "한국어";
-    optionNames["pl"] = "polski";
+    optionNames["pl"] = "Polski";
     optionNames["pt_BR"] = "Português (Brasil)";
     optionNames["pt_PT"] = "Português (Portugal)";
     optionNames["ru"] = "Русский";
