@@ -835,9 +835,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode)
+// Draws the static portions of the targeting menu,
+// returns the number of lines used to draw instructions.
+static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode)
 {
     draw_border(w_target);
+    // Draw the "title" of the window.
     mvwprintz(w_target, 0, 2, c_white, "< ");
     if (!relevant) { // currently targetting vehicle to refill with fuel
         wprintz(w_target, c_red, _("Select a vehicle"));
@@ -859,6 +862,10 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
         }
     }
     wprintz(w_target, c_white, " >");
+
+    // Draw the help contents at the bottom of the window, leaving room for monster description
+    // and aiming status to be drawn dynamically.
+    // The - 2 accounts for the window border.
     int text_y = getmaxy(w_target) - 2;
     if (is_mouse_enabled()) {
         // Reserve a line for mouse instructions.
@@ -872,6 +879,8 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
             text_y -= 2;
         }
     }
+    // The -1 is the -2 from above, but adjustted since this is a total, not an index.
+    int lines_used = getmaxy(w_target) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white,
               _("Move cursor to target with directional keys"));
     if( relevant ) {
@@ -895,8 +904,7 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
     }
-
-    wrefresh( w_target );
+    return lines_used;
 }
 
 static void do_aim( player *p, std::vector <Creature *> &t, int &target,
