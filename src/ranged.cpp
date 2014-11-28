@@ -954,7 +954,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
 
     bool sideStyle = use_narrow_sidebar();
-    int height = 17;
+    int height = 25;
     int width  = getmaxx(w_messages);
     // Overlap the player info window.
     int top    = -1 + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
