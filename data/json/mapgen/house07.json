@@ -69,7 +69,7 @@
                 "~": "t_fence_h"
             },
             "furniture": {
-                "5": "f_gun_safe_ml",
+                "5": "f_gunsafe_ml",
                 "6": "f_table",
                 "7": "f_bookcase",
                 "8": "f_bathtub",
