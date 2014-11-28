@@ -483,6 +483,8 @@ bool player::scored_crit(int target_dodge)
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
+ if (rng(0, 99) < chance)
+   num_crits++;
 
 // Dexterity to-hit roll
 // ... except sometimes we don't use dexterity!
@@ -526,6 +528,8 @@ bool player::scored_crit(int target_dodge)
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
+ if (rng(0, 99) < chance)
+  num_crits++;
 
  if (num_crits == 3)
   return true;
