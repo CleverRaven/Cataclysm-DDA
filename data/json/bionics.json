@@ -14,14 +14,14 @@
         "id": "bio_batteries",
         "name": "Battery System",
         "power_source": true,
-        "time": 100,
+        "toggled": true,
         "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will."
     },{
         "type": "bionic",
         "id": "bio_metabolics",
         "name": "Metabolic Interchange",
         "power_source": true,
-        "time": 100,
+        "toggled": true,
         "description": "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger.  Can be toggled on and off at will."
     },{
         "type": "bionic",
@@ -40,7 +40,7 @@
         "id": "bio_furnace",
         "name": "Internal Furnace",
         "power_source": true,
-        "time": 100,
+        "toggled": true,
         "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
     },{
         "type": "bionic",
