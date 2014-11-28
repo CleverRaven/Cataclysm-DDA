@@ -2890,8 +2890,8 @@ int item::sight_dispersion( int aim_threshold ) const
         if( elem.is_gunmod() ) {
             it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-                (mod->sight_dispersion < aim_threshold || aim_threshold == -1) &&
-                mod->aim_speed < best_aim_speed ) {
+                ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+                  ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
                 best_aim_speed = mod->aim_speed;
                 best_dispersion = mod->sight_dispersion;
             }
