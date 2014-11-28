@@ -2422,7 +2422,7 @@
   "components": [
     [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
     [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-    [ [ "gasoline", 400 ], [ "sugar", 8 ] ],
+    [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "sugar", 8 ] ],
     [ [ "string_6", 1 ], [ "rag", 1] ]
   ]
 },{

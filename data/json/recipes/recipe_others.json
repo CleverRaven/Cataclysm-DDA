@@ -2479,6 +2479,7 @@
       [ "shot_00", 15 ],
       [ "shot_slug", 12 ],
       [ "gasoline", 600 ],
+      [ "diesel", 600 ],
       [ "grenade", 1 ]
     ]
   ]

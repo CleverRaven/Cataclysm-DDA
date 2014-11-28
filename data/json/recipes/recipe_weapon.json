@@ -660,7 +660,8 @@
       [ "moonshine", 14 ],
       [ "brandy", 14 ],
       [ "lamp_oil", 400 ],
-      [ "gasoline", 600 ]
+      [ "gasoline", 600 ],
+      [ "diesel", 600 ]
     ]
   ]
 },{
@@ -681,6 +682,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "gunpowder", 72 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
@@ -1497,6 +1499,7 @@
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "shot_bird", 6 ]
     ]
   ]
@@ -1778,6 +1781,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
@@ -1811,6 +1815,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
