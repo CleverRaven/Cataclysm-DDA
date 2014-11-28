@@ -3222,8 +3222,8 @@ bool game::handle_action()
 
     int veh_part;
     vehicle *veh = m.veh_at( u.posx, u.posy, veh_part );
-    bool veh_ctrl = ( veh && veh->player_in_control(&u) && !u.is_dead_state() ) ||
-        remoteveh() != nullptr;
+    bool veh_ctrl = !u.is_dead_state() &&
+        ( ( veh && veh->player_in_control(&u) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
