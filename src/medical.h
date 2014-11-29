@@ -1,7 +1,6 @@
 #ifndef  MEDICAL_H
 #define  MEDICAL_H
 
-#include "game.h"
 #include "creature.h"
 #include "player.h"
 #include "npc.h"

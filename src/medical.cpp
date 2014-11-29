@@ -1,7 +1,6 @@
 #include "medical.h"
 #include "debug.h"
 
-#include "game.h"
 #include "creature.h"
 #include "player.h"
 #include "npc.h"

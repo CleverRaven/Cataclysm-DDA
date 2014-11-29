@@ -4,7 +4,6 @@
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
-#include "medical.h"
 #include <vector>
 
 class map;

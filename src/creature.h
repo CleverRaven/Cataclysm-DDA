@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
-#include "medical.h"
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>

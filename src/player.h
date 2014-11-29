@@ -15,7 +15,6 @@
 #include "messages.h"
 #include "clzones.h"
 #include "artifact.h"
-#include "medical.h"
 
 #include <unordered_set>
 #include <bitset>

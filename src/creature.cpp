@@ -74,14 +74,11 @@ Creature::Creature()
 
     fake = false;
 
-    // Create new medical structure for creature...
     med = new Medical(this);
 }
 
 Creature::~Creature()
 {
-    // ...and free it when we are done.
-    delete med; 
 }
 
 void Creature::normalize()

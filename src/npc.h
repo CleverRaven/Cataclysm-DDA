@@ -5,7 +5,6 @@
 #include "player.h"
 #include "monster.h"
 #include "faction.h"
-#include "medical.h"
 #include "json.h"
 
 #include <vector>
