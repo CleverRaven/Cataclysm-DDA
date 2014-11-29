@@ -523,6 +523,7 @@ void set_ter_ids() {
     t_door_metal_c=terfind("t_door_metal_c");
     t_door_metal_o=terfind("t_door_metal_o");
     t_door_metal_locked=terfind("t_door_metal_locked");
+    t_door_metal_pickable=terfind("t_door_metal_pickable");
     t_door_bar_c=terfind("t_door_bar_c");
     t_door_bar_o=terfind("t_door_bar_o");
     t_door_bar_locked=terfind("t_door_bar_locked");
