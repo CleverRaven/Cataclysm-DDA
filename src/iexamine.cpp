@@ -830,25 +830,24 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
 void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 {
     std::string furn_name = m->tername(examx, examy).c_str();
-    if (!p->has_amount("crude_picklock", 1) || !p->has_amount("hairpin", 1) || 
-       !p->has_amount("picklocks", 1) || !p->has_bionic("bio_lockpick")) {
+    if (!p->has_amount("crude_picklock", 1) || !p->has_amount("hairpin", 1) ||
+        !p->has_amount("picklocks", 1) || !p->has_bionic("bio_lockpick")) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
     } else if (!query_yn(_("Pick the gun safe?"))) {
         return;
     }
-    
+
     int pick_quality = 1;
     if (p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick")) {
         pick_quality = 5;
     } else {
         pick_quality = 3;
     }
-    
+
     p->practice("mechanics", 1);
     p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
-    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2,
-                     p->dex_cur)) * pick_quality;
+    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
         p->practice("mechanics", 1);
@@ -864,62 +863,57 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 
 void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
 {
-	std::string furn_name = m->tername(examx, examy).c_str();
-    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
-                     (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
+    std::string furn_name = m->tername(examx, examy).c_str();
+    bool can_hack = ( !p->has_trait("ILLITERATE") &&
+                      ( (p->has_amount("electrohack", 1)) ||
+                        (p->has_bionic("bio_fingerhack") && p->power_level > 0) ) );
     if (!can_hack) {
         add_msg(_("You can't hack this gun safe without an electrohack."));
         return;
     }
-    
+
     bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the gun safe?")));
+                              query_yn(_("Use electrohack on the gun safe?")));
     bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                                 p->power_level > 0 &&
-                                 query_yn(_("Use fingerhack on the gun safe?")));
-        if (using_electrohack || using_fingerhack) {
-            p->moves -= 500;
-            p->practice("computer", 20);
-            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
-            success += rng(-3, 3);
-            if (using_fingerhack) {
-                success++;
-            }
-            if (p->int_cur < 8) {
-                success -= rng(0, int((8 - p->int_cur) / 2));
-            } else if (p->int_cur > 8) {
-                success += rng(0, int((p->int_cur - 8) / 2));
-            }
-            if (success < 0) {
-                add_msg(_("You cause a short circuit!"));
-                if (success <= -5) {
-                    if (using_electrohack) {
-                        add_msg(m_bad, _("Your electrohack is ruined!"));
-                        p->use_amount("electrohack", 1);
-                    } else {
-                        add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(0 - rng(0, p->power_level));
-                    }
-                }
-                p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                      pgettext("memorial_female", "Set off an alarm."));
-                g->sound(p->posx, p->posy, 60, _("An alarm sounds!"));
-                if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
-                }
-            } else if (success < 6) {
-                add_msg(_("Nothing happens."));
-            } else {
-                add_msg(_("You successfully hack the gun safe."));
-                g->m.ter_set(examx, examy, "f_safe_o");
-                }
-
-        } else {
-            return;
+                             p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
+    if (using_electrohack || using_fingerhack) {
+        p->moves -= 500;
+        p->practice("computer", 20);
+        int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+        success += rng(-3, 3);
+        if (using_fingerhack) {
+            success++;
         }
+        if (p->int_cur < 8) {
+            success -= rng(0, int((8 - p->int_cur) / 2));
+        } else if (p->int_cur > 8) {
+            success += rng(0, int((p->int_cur - 8) / 2));
+        }
+        if (success < 0) {
+            add_msg(_("You cause a short circuit!"));
+            if (success <= -5) {
+                if (using_electrohack) {
+                    add_msg(m_bad, _("Your electrohack is ruined!"));
+                    p->use_amount("electrohack", 1);
+                } else {
+                    add_msg(m_bad, _("Your power is drained!"));
+                    p->charge_power(0 - rng(0, p->power_level));
+                }
+            }
+            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                                pgettext("memorial_female", "Set off an alarm."));
+            g->sound(p->posx, p->posy, 60, _("An alarm sounds!"));
+            if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            }
+        } else if (success < 6) {
+            add_msg(_("Nothing happens."));
+        } else {
+            add_msg(_("You successfully hack the gun safe."));
+            g->m.ter_set(examx, examy, "f_safe_o");
+        }
+    }
 }
-    
-
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
 {
@@ -2799,8 +2793,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int,
-        int)
+void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int, int)
 {
     if ("none" == function_name) {
         return &iexamine::none;
