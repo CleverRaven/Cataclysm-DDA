@@ -1379,6 +1379,25 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_metal_pickable",
+        "name": "closed metal door",
+        "comment": "Actually pickable, but locked",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 80, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_mdoor_frame",
+            "items": [
+                { "item": "scrap", "amount": 24, "minamount": 12 },
+                { "item": "steel_plate", "amount": 1, "chance": 75 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_bar_c",
         "name": "closed bar door",
         "comment": "Unlocked, only created at map gen",
@@ -1848,6 +1867,26 @@
             "items": [
                 { "item": "spike", "amount": 2, "minamount": 0 },
                 { "item": "sheet_metal", "amount": 3, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_bars_alarm",
+        "name": "window with metal bars",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED"],
+        "bash": {
+            "str_min": 60, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "steel_lump", "amount": 1, "chance": 25 },
+                { "item": "steel_chunk", "amount": 4, "minamount": 1 },
+                { "item": "scrap", "amount": 5, "minamount": 1 },
+                { "item": "glass_shard", "amount": 3 }
             ]
         }
     },{

@@ -13242,7 +13242,7 @@ bool game::plmove(int dx, int dy)
                         }
                         items.push_back(tmpitem);
                     }
-                    if (names.size() > 6) {
+                    if (names.size() > 10) {
                         break;
                     }
                 }
@@ -13253,37 +13253,44 @@ bool game::plmove(int dx, int dy)
                         names[i] = items[i].tname(counts[i]);
                     }
                 }
+                int and_the_rest = 0;
                 for (size_t i = 0; i < names.size(); ++i) {
                     std::string fmt;
                     //~ number of items: "<number> <item>"
                     fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
                     names[i] = string_format(fmt, counts[i], names[i].c_str());
+                    // Skip the first two.
+                    if( i > 1 ) {
+                        and_the_rest += counts[i];
+                    }
                 }
-                if (names.size() == 1) {
+                if( names.size() == 1 ) {
                     add_msg(_("You see here %s."), names[0].c_str());
-                } else if (names.size() == 2) {
+                } else if( names.size() == 2 ) {
                     add_msg(_("You see here %s and %s."),
                             names[0].c_str(), names[1].c_str());
-                } else if (names.size() == 3) {
+                } else if( names.size() == 3 ) {
                     add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
                             names[1].c_str(), names[2].c_str());
-                } else if (m.i_at(x, y).size() < 7) {
-                    add_msg(ngettext("There is %d item here.", "There are %d items here.", m.i_at(x, y).size()),
-                            m.i_at(x, y).size());
+                } else if( and_the_rest < 7 ) {
+                    add_msg(ngettext("You see here %s, %s and %d more item.",
+                                     "You see here %s, %s and %d more items.",
+                                     and_the_rest),
+                            names[0].c_str(), names[1].c_str(), and_the_rest);
                 } else {
-                    add_msg(_("There are many items here."));
+                    add_msg(_("You see here %s and many more items."),
+                            names[0].c_str());
                 }
             }
         }
 
-        if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
-            && u.in_vehicle) {
+        if( veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle ) {
             add_msg(_("There are vehicle controls here."));
             add_msg(m_info, _("%s to drive."),
                     press_x(ACTION_CONTROL_VEHICLE).c_str());
         }
 
-    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 250) {
+    } else if( u.has_active_bionic("bio_probability_travel") && u.power_level >= 250 ) {
         //probability travel through walls but not water
         int tunneldist = 0;
         // tile is impassable
