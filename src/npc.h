@@ -5,6 +5,7 @@
 #include "player.h"
 #include "monster.h"
 #include "faction.h"
+#include "medical.h"
 #include "json.h"
 
 #include <vector>
@@ -21,6 +22,7 @@ class item;
 class overmap;
 class player;
 class field_entry;
+class Medical;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 

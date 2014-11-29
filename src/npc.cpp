@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "medical.h"
 #include "json.h"
 #include <algorithm>
 #include <string>

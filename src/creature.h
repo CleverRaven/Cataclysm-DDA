@@ -18,6 +18,7 @@
 class game;
 class JsonObject;
 class JsonOut;
+class Medical;
 
 class Creature
 {
@@ -376,7 +377,7 @@ class Creature
          * or functions for a broader cause (wolves, for instance, treating a wound
          * by licking it; a human treating a wound by applying bandages; etc).
          */
-        medical med;
+        Medical *med;
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

@@ -3,6 +3,7 @@
 #include "output.h"
 #include "game.h"
 #include "messages.h"
+#include "medical.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>
@@ -72,10 +73,15 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
+
+    // Create new medical structure for creature...
+    med = new Medical(this);
 }
 
 Creature::~Creature()
 {
+    // ...and free it when we are done.
+    delete med; 
 }
 
 void Creature::normalize()

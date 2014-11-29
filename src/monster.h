@@ -4,11 +4,13 @@
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
+#include "medical.h"
 #include <vector>
 
 class map;
 class game;
 class item;
+class Medical;
 
 enum monster_attitude {
     MATT_NULL = 0,

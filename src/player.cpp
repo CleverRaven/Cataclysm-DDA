@@ -25,6 +25,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "medical.h"
 
 //Used for e^(x) functions
 #include <stdio.h>

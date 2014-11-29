@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "clzones.h"
 #include "artifact.h"
+#include "medical.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -25,6 +26,7 @@ class game;
 struct trap;
 class mission;
 class profession;
+class Medical;
 nc_color encumb_color(int level);
 
 // length of turns to show player's posthumous contributions

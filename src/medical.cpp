@@ -1,6 +1,7 @@
 #include "medical.h"
 #include "debug.h"
 
+#include "game.h"
 #include "creature.h"
 #include "player.h"
 #include "npc.h"
@@ -13,11 +14,25 @@
 #include <vector>
 #include <map>
 
-void medical::init(player *p)
+
+Medical::Medical(Creature *c)
+{
+    init(c);
+}
+
+Medical::~Medical()
 {
 }
 
-void medical::show_interface()
+void Medical::init(Creature *c)
 {
+    us = c;
+}
+
+void Medical::show_interface()
+{
+    if(!us->is_player()) {
+        return;
+    }
 }
 
