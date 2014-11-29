@@ -4112,6 +4112,6 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 200,
-        "effects" : ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"]
+        "effects" : ["FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES"]
     }
 ]
