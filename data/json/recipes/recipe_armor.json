@@ -1328,7 +1328,7 @@
   ],
   "components": [
     [
-      [ "rag", 11 ]
+      [ "rag", 18 ]
     ]
   ]
 },{
@@ -1352,7 +1352,7 @@
   ],
   "components": [
     [
-      [ "rag", 9 ]
+      [ "rag", 16 ]
     ]
   ]
 },{
@@ -1440,8 +1440,8 @@
   ],
   "components": [
     [
-      [ "fur", 11 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 30 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
@@ -1466,8 +1466,8 @@
   ],
   "components": [
     [
-      [ "fur", 9 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 28 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
