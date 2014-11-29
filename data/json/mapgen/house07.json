@@ -30,7 +30,7 @@
                 ".288   +              |.",
                 ".288   +              |.",
                 ".|    A|--+--|    @@  |.",
-                ".|99   |9   9|   :@@: |.",
+                ".|99   |5   9|   :@@: |.",
                 ".-----------------22---.",
                 "........................"
             ],
@@ -41,6 +41,7 @@
                 "3": "t_door_locked",
                 "|": "t_wall_v",
                 " ": "t_floor",
+                "5": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
                 "8": "t_floor",
@@ -68,6 +69,7 @@
                 "~": "t_fence_h"
             },
             "furniture": {
+                "5": "f_gunsafe_ml",
                 "6": "f_table",
                 "7": "f_bookcase",
                 "8": "f_bathtub",
@@ -108,8 +110,7 @@
                 { "item": "bedroom", "chance": 60,  "x": [ 15,21 ], "y": [ 7,21 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 20,20 ], "y": [ 21,21 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 17,17 ], "y": [ 21,21 ] },
-                { "item": "allguns", "chance": 30,  "x": [ 8,8 ], "y": [ 21,21 ] },
-                { "item": "dresser", "chance": 70,  "x": [ 8,8 ], "y": [ 21,21 ] },
+                { "item": "allguns", "chance": 80,  "x": [ 8,8 ], "y": [ 21,21 ] },
                 { "item": "dresser", "chance": 50,  "x": [ 12,12 ], "y": [ 21,21 ] },
                 { "item": "dresser", "chance": 50,  "x": [ 13,13 ], "y": [ 17,17 ] },
                 { "item": "softdrugs", "chance": 70, "x": [ 2,3 ], "y": [ 21,21 ] },

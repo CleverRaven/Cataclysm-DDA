@@ -372,13 +372,13 @@ ter_id t_null,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
-    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
+    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass, t_window_bars_alarm,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -523,6 +523,7 @@ void set_ter_ids() {
     t_door_metal_c=terfind("t_door_metal_c");
     t_door_metal_o=terfind("t_door_metal_o");
     t_door_metal_locked=terfind("t_door_metal_locked");
+    t_door_metal_pickable=terfind("t_door_metal_pickable");
     t_door_bar_c=terfind("t_door_bar_c");
     t_door_bar_o=terfind("t_door_bar_o");
     t_door_bar_locked=terfind("t_door_bar_locked");
@@ -546,6 +547,7 @@ void set_ter_ids() {
     t_window_reinforced_noglass=terfind("t_window_reinforced_noglass");
     t_window_enhanced=terfind("t_window_enhanced");
     t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
+    t_window_bars_alarm=terfind("t_window_bars_alarm");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
