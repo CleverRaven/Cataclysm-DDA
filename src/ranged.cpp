@@ -907,20 +907,26 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     return lines_used;
 }
 
+static int find_target( std::vector <Creature *> &t, int x, int y ) {
+    int target = -1;
+    for( int i = 0; i < (int)t.size(); i++ ) {
+        if( t[i]->xpos() == x && t[i]->ypos() == y ) {
+            target = i;
+            break;
+        }
+    }
+    return target;
+}
+
 static void do_aim( player *p, std::vector <Creature *> &t, int &target,
                     item *relevant, const int x, const int y )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
-        for( int i = 0; i < (int)t.size(); i++ ) {
-            if( t[i]->xpos() == x && t[i]->ypos() == y ) {
-                target = i;
-                // TODO: find radial offset between targets and
-                // spend move points swinging the gun around.
-                p->recoil = std::max(MIN_RECOIL, p->recoil);
-                break;
-            }
-        }
+        target = find_target( t, x, y );
+        // TODO: find radial offset between targets and
+        // spend move points swinging the gun around.
+        p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
     const int aim_amount = p->aim_per_time( relevant );
     if( aim_amount > 0 ) {
@@ -1166,14 +1172,14 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 y = hiy;
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
-            int newtarget = target - 1;
+            int newtarget = find_target( t, x, y ) - 1;
             if( newtarget == -1 ) {
                 newtarget = t.size() - 1;
             }
             x = t[newtarget]->xpos();
             y = t[newtarget]->ypos();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
-            int newtarget = target + 1;
+            int newtarget = find_target( t, x, y ) + 1;
             if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
@@ -1221,11 +1227,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 return ret;
             }
         } else if (action == "FIRE") {
-            for (size_t i = 0; i < t.size(); i++) {
-                if (t[i]->xpos() == x && t[i]->ypos() == y) {
-                    target = i;
-                }
-            }
+            target = find_target( t, x, y );
             if (u.posx == x && u.posy == y) {
                 ret.clear();
             }
