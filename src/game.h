@@ -444,6 +444,7 @@ class game
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);
+        void check_vehicleparts();
         void load_vehicle(JsonObject &jo);
         void reset_vehicleparts();
         void reset_vehicles();

@@ -169,6 +169,18 @@ void game::load_vehiclepart(JsonObject &jo)
     vehicle_part_types[next_part.id] = next_part;
 }
 
+void game::check_vehicleparts()
+{
+    for( auto &part : vehicle_part_int_types ) {
+        for( auto &component : part.breaks_into ) {
+            if( !item::type_is_defined( component.item_id ) ) {
+                debugmsg( "Vehicle part %s breaks into non-existent part %s.",
+                          part.id.c_str(), component.item_id.c_str() );
+            }
+        }
+    }
+}
+
 void game::reset_vehicleparts()
 {
     vehicle_part_types.clear();
