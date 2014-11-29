@@ -6314,6 +6314,7 @@
       ["helmet_motor", 40],
       ["touring_suit", 15],
       ["holster", 8],
+      ["sholster", 4],
       ["bootstrap", 3],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -6397,6 +6398,7 @@
       ["charcoal", 5],
       ["sheath", 3],
       ["holster", 3],
+      ["sholster", 2],
       ["toolbox", 1],
       ["survnote", 5]
     ]
@@ -7203,6 +7205,7 @@
       ["helmet_liner", 10],
       ["backpack", 38],
       ["holster", 15],
+      ["sholster", 10],
       ["bootstrap", 3],
       ["gobag", 1],
       ["mess_kit", 9],
