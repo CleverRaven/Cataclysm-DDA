@@ -835,9 +835,21 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode)
+template<typename C>
+static char front_or( C container, char default_char  ) {
+    if( container.empty() ) {
+        return default_char;
+    }
+    return container.front();
+}
+
+// Draws the static portions of the targeting menu,
+// returns the number of lines used to draw instructions.
+static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
+                                  input_context &ctxt )
 {
     draw_border(w_target);
+    // Draw the "title" of the window.
     mvwprintz(w_target, 0, 2, c_white, "< ");
     if (!relevant) { // currently targetting vehicle to refill with fuel
         wprintz(w_target, c_red, _("Select a vehicle"));
@@ -859,6 +871,10 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
         }
     }
     wprintz(w_target, c_white, " >");
+
+    // Draw the help contents at the bottom of the window, leaving room for monster description
+    // and aiming status to be drawn dynamically.
+    // The - 2 accounts for the window border.
     int text_y = getmaxy(w_target) - 2;
     if (is_mouse_enabled()) {
         // Reserve a line for mouse instructions.
@@ -872,22 +888,26 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
             text_y -= 2;
         }
     }
-    mvwprintz(w_target, text_y++, 1, c_white,
-              _("Move cursor to target with directional keys"));
+    // The -1 is the -2 from above, but adjustted since this is a total, not an index.
+    int lines_used = getmaxy(w_target) - 1 - text_y;
+    mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if( relevant ) {
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'<' '>' Cycle targets; 'f' or Enter to fire"));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'0' target self; '*' toggle snap-to-target"));
+        mvwprintz( w_target, text_y++, 1, c_white, _("%c %c Cycle targets; %c to fire."),
+                   front_or( ctxt.keys_bound_to("PREV_TARGET"), ' ' ),
+                   front_or( ctxt.keys_bound_to("NEXT_TARGET"), ' ' ),
+                   front_or( ctxt.keys_bound_to("FIRE"), ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
+                   front_or( ctxt.keys_bound_to("CENTER"), ' ' ),
+                   front_or( ctxt.keys_bound_to("TOGGLE_SNAP_TO_TARGET"), ' ' ) );
         if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'.' to steady your aim."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'a' to aim and fire."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'c' to take careful aim and fire."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'p' to take precise aim and fire."));
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim."),
+                       front_or( ctxt.keys_bound_to("AIM"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to aim and fire."),
+                       front_or( ctxt.keys_bound_to("AIMED_SHOT"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take careful aim and fire."),
+                       front_or( ctxt.keys_bound_to("CAREFUL_SHOT"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take precise aim and fire."),
+                       front_or( ctxt.keys_bound_to("PRECISE_SHOT"), ' ' ) );
         }
     }
 
@@ -895,8 +915,18 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
     }
+    return lines_used;
+}
 
-    wrefresh( w_target );
+static int find_target( std::vector <Creature *> &t, int x, int y ) {
+    int target = -1;
+    for( int i = 0; i < (int)t.size(); i++ ) {
+        if( t[i]->xpos() == x && t[i]->ypos() == y ) {
+            target = i;
+            break;
+        }
+    }
+    return target;
 }
 
 static void do_aim( player *p, std::vector <Creature *> &t, int &target,
@@ -904,15 +934,10 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
-        for (int i = 0; i < (int)t.size(); i++) {
-            if (t[i]->xpos() == x && t[i]->ypos() == y) {
-                target = i;
-                // TODO: find radial offset between targets and
-                // spend move points swinging the gun around.
-                p->recoil = std::min(MIN_RECOIL, p->recoil);
-                break;
-            }
-        }
+        target = find_target( t, x, y );
+        // TODO: find radial offset between targets and
+        // spend move points swinging the gun around.
+        p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
     const int aim_amount = p->aim_per_time( relevant );
     if( aim_amount > 0 ) {
@@ -946,15 +971,41 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
 
     bool sideStyle = use_narrow_sidebar();
-    int height = 17;
+    int height = 25;
     int width  = getmaxx(w_messages);
     // Overlap the player info window.
     int top    = -1 + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
     int left   = getbegx(w_messages);
-    WINDOW *w_target = newwin(height, width, top, left);
-    WINDOW_PTR w_targetptr( w_target );
 
-    draw_targeting_window( w_target, relevant, u, mode );
+    // Keeping the target menu window around between invocations,
+    // it only gets reset if we actually exit the menu.
+    static WINDOW *w_target = nullptr;
+    if( w_target == nullptr ) {
+        w_target = newwin(height, width, top, left);
+    }
+
+    input_context ctxt("TARGET");
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be writen on window border.
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_directions();
+    ctxt.register_action("COORDINATE");
+    ctxt.register_action("SELECT");
+    ctxt.register_action("FIRE");
+    ctxt.register_action("NEXT_TARGET");
+    ctxt.register_action("PREV_TARGET");
+    if( mode == TARGET_MODE_FIRE ) {
+        ctxt.register_action("AIM");
+        ctxt.register_action("AIMED_SHOT");
+        ctxt.register_action("CAREFUL_SHOT");
+        ctxt.register_action("PRECISE_SHOT");
+    }
+    ctxt.register_action("CENTER");
+    ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+
+    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt );
 
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
@@ -998,8 +1049,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
         }
         // Clear the target window.
-        for (int i = 1; i < getmaxy(w_target) - 6; i++) {
-            for (int j = 1; j < getmaxx(w_target) - 2; j++) {
+        for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {
+            // Clear width excluding borders.
+            for (int j = 1; j <= getmaxx(w_target) - 2; j++) {
                 mvwputch(w_target, i, j, c_white, ' ');
             }
         }
@@ -1059,7 +1111,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
             const Creature *critter = critter_at( x, y );
             if( critter != nullptr && u.sees( critter ) ) {
-                line_number = critter->print_info( w_target, line_number, 5, 1);
+                // The 4 is 2 for the border and 2 for aim bars.
+                int available_lines = height - num_instruction_lines - line_number - 4;
+                line_number = critter->print_info( w_target, line_number, available_lines, 1);
             } else {
                 mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
             }
@@ -1074,27 +1128,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         wrefresh(w_target);
         wrefresh(w_terrain);
         refresh();
-
-        input_context ctxt("TARGET");
-        // "ANY_INPUT" should be added before any real help strings
-        // Or strings will be writen on window border.
-        ctxt.register_action("ANY_INPUT");
-        ctxt.register_directions();
-        ctxt.register_action("COORDINATE");
-        ctxt.register_action("SELECT");
-        ctxt.register_action("FIRE");
-        ctxt.register_action("NEXT_TARGET");
-        ctxt.register_action("PREV_TARGET");
-        if( mode == TARGET_MODE_FIRE ) {
-            ctxt.register_action("AIM");
-            ctxt.register_action("AIMED_SHOT");
-            ctxt.register_action("CAREFUL_SHOT");
-            ctxt.register_action("PRECISE_SHOT");
-        }
-        ctxt.register_action("CENTER");
-        ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
-        ctxt.register_action("HELP_KEYBINDINGS");
-        ctxt.register_action("QUIT");
 
         std::string action;
         if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
@@ -1150,19 +1183,19 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 y = hiy;
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
-            target--;
-            if (target == -1) {
-                target = t.size() - 1;
+            int newtarget = find_target( t, x, y ) - 1;
+            if( newtarget == -1 ) {
+                newtarget = t.size() - 1;
             }
-            x = t[target]->xpos();
-            y = t[target]->ypos();
+            x = t[newtarget]->xpos();
+            y = t[newtarget]->ypos();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
-            target++;
-            if (target == (int)t.size()) {
-                target = 0;
+            int newtarget = find_target( t, x, y ) + 1;
+            if( newtarget == (int)t.size() ) {
+                newtarget = 0;
             }
-            x = t[target]->xpos();
-            y = t[target]->ypos();
+            x = t[newtarget]->xpos();
+            y = t[newtarget]->ypos();
         } else if ((action == "AIM") && target != -1) {
             do_aim( &u, t, target, relevant, x, y );
             if(u.moves <= 0) {
@@ -1188,6 +1221,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
+                werase( w_target );
+                wrefresh( w_target );
+                delwin( w_target );
+                w_target = nullptr;
                 return ret;
             } else {
                 // We've run out of moves, set the activity to aim so we'll
@@ -1201,11 +1238,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 return ret;
             }
         } else if (action == "FIRE") {
-            for (size_t i = 0; i < t.size(); i++) {
-                if (t[i]->xpos() == x && t[i]->ypos() == y) {
-                    target = i;
-                }
-            }
+            target = find_target( t, x, y );
             if (u.posx == x && u.posy == y) {
                 ret.clear();
             }
@@ -1223,6 +1256,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
     } while (true);
 
+    werase( w_target );
+    wrefresh( w_target );
+    delwin( w_target );
+    w_target = nullptr;
     return ret;
 }
 
