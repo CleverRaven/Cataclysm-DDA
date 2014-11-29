@@ -830,8 +830,8 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
 void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 {
     std::string furn_name = m->tername(examx, examy).c_str();
-    if (!p->has_amount("crude_picklock", 1) || !p->has_amount("hairpin", 1) ||
-        !p->has_amount("picklocks", 1) || !p->has_bionic("bio_lockpick")) {
+    if( !( p->has_amount("crude_picklock", 1) || p->has_amount("hairpin", 1) ||
+           p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick") ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
     } else if (!query_yn(_("Pick the gun safe?"))) {
@@ -852,10 +852,10 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
     if (pick_roll >= door_roll) {
         p->practice("mechanics", 1);
         add_msg(_("You successfully unlock the gun safe."));
-        g->m.ter_set(examx, examy, "f_safe_o");
+        g->m.furn_set(examx, examy, "f_safe_o");
     } else if (door_roll > (3 * pick_roll)) {
         add_msg(_("Your clumsy attempt jams the lock!"));
-        g->m.ter_set(examx, examy, "f_gunsafe_mj");
+        g->m.furn_set(examx, examy, "f_gunsafe_mj");
     } else {
         add_msg(_("The gun safe stumps your efforts to pick it."));
     }
@@ -910,7 +910,7 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             add_msg(_("Nothing happens."));
         } else {
             add_msg(_("You successfully hack the gun safe."));
-            g->m.ter_set(examx, examy, "f_safe_o");
+            g->m.furn_set(examx, examy, "f_safe_o");
         }
     }
 }
@@ -2960,6 +2960,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("pay_gas" == function_name) {
         return &iexamine::pay_gas;
+    }
+    if ("gunsafe_ml" == function_name) {
+        return &iexamine::gunsafe_ml;
+    }
+    if ("gunsafe_el" == function_name) {
+        return &iexamine::gunsafe_el;
     }
 
     //No match found
