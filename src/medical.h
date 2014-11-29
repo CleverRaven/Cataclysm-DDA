@@ -1,15 +1,11 @@
 #ifndef  MEDICAL_H
 #define  MEDICAL_H
 
-#include "creature.h"
-#include "player.h"
-#include "npc.h"
-#include "monster.h"
-
 #include <string>
 #include <vector>
 #include <map>
 
+class Creature;
 
 /*
  * =====================================================================================
@@ -22,16 +18,18 @@
 class Medical
 {
     public:
+        Medical();
         /* Must be given the Creature's class pointer */
         Medical(Creature *c);
         ~Medical();
+
+    protected:
+        void medical_init(Creature *c);
 
         /* show interface for the player */
         void show_interface();
 
     private:
-        void init(Creature *c);
-
         /* The polymorphic Creature class to interface with player, npc, and monster classes.
          * 
          */

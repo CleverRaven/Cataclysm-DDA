@@ -14,16 +14,15 @@
 #include <map>
 
 
-Medical::Medical(Creature *c)
+Medical::Medical()
 {
-    init(c);
 }
 
 Medical::~Medical()
 {
 }
 
-void Medical::init(Creature *c)
+void Medical::medical_init(Creature *c)
 {
     us = c;
 }

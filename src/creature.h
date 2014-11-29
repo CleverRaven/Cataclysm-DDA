@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "medical.h"
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
@@ -17,9 +18,9 @@
 class game;
 class JsonObject;
 class JsonOut;
-class Medical;
+//class Medical;
 
-class Creature
+class Creature : public Medical
 {
     public:
         virtual ~Creature();
@@ -370,13 +371,6 @@ class Creature
         virtual nc_color basic_symbol_color() const;
         virtual const std::string &symbol() const;
         virtual bool is_symbol_highlighted() const;
-
-        /* Creature's medical options available to them. This will contain functions
-         * either specific to the creature (e.g. humans being able to use first-aid),
-         * or functions for a broader cause (wolves, for instance, treating a wound
-         * by licking it; a human treating a wound by applying bandages; etc).
-         */
-        Medical *med;
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

@@ -73,12 +73,7 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
-
-    med = new Medical(this);
-}
-
-Creature::~Creature()
-{
+    medical_init(this);
 }
 
 void Creature::normalize()
