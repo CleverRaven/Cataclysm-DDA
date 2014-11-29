@@ -3513,8 +3513,8 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
                 }
             }
         }
-        m->ter_set(rng(11, 14), 6, t_door_c);
-        m->ter_set(rng(5, 14), 14, t_door_c);
+        m->ter_set(rng(11, 14), 6, t_door_metal_pickable);
+        m->ter_set(rng(5, 14), 14, t_door_metal_pickable);
         m->place_items("pistols", 70, 12,  9, 13, 11, false, 0);
         m->place_items("shotguns", 60, 16,  9, 16, 11, false, 0);
         m->place_items("rifles", 80, 20,  7, 20, 12, false, 0);
