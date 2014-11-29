@@ -835,9 +835,18 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
+template<typename C>
+static char front_or( C container, char default_char  ) {
+    if( container.empty() ) {
+        return default_char;
+    }
+    return container.front();
+}
+
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode)
+static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
+                                  input_context &ctxt )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -881,22 +890,24 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     }
     // The -1 is the -2 from above, but adjustted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
-    mvwprintz(w_target, text_y++, 1, c_white,
-              _("Move cursor to target with directional keys"));
+    mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if( relevant ) {
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'<' '>' Cycle targets; 'f' or Enter to fire"));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'0' target self; '*' toggle snap-to-target"));
+        mvwprintz( w_target, text_y++, 1, c_white, _("%c %c Cycle targets; %c to fire."),
+                   front_or( ctxt.keys_bound_to("PREV_TARGET"), ' ' ),
+                   front_or( ctxt.keys_bound_to("NEXT_TARGET"), ' ' ),
+                   front_or( ctxt.keys_bound_to("FIRE"), ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
+                   front_or( ctxt.keys_bound_to("CENTER"), ' ' ),
+                   front_or( ctxt.keys_bound_to("TOGGLE_SNAP_TO_TARGET"), ' ' ) );
         if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'.' to steady your aim."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'a' to aim and fire."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'c' to take careful aim and fire."));
-            mvwprintz(w_target, text_y++, 1, c_white,
-                      _("'p' to take precise aim and fire."));
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim."),
+                       front_or( ctxt.keys_bound_to("AIM"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to aim and fire."),
+                       front_or( ctxt.keys_bound_to("AIMED_SHOT"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take careful aim and fire."),
+                       front_or( ctxt.keys_bound_to("CAREFUL_SHOT"), ' ' ) );
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take precise aim and fire."),
+                       front_or( ctxt.keys_bound_to("PRECISE_SHOT"), ' ' ) );
         }
     }
 
@@ -973,7 +984,28 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         w_target = newwin(height, width, top, left);
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode );
+    input_context ctxt("TARGET");
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be writen on window border.
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_directions();
+    ctxt.register_action("COORDINATE");
+    ctxt.register_action("SELECT");
+    ctxt.register_action("FIRE");
+    ctxt.register_action("NEXT_TARGET");
+    ctxt.register_action("PREV_TARGET");
+    if( mode == TARGET_MODE_FIRE ) {
+        ctxt.register_action("AIM");
+        ctxt.register_action("AIMED_SHOT");
+        ctxt.register_action("CAREFUL_SHOT");
+        ctxt.register_action("PRECISE_SHOT");
+    }
+    ctxt.register_action("CENTER");
+    ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+
+    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt );
 
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
@@ -1096,27 +1128,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         wrefresh(w_target);
         wrefresh(w_terrain);
         refresh();
-
-        input_context ctxt("TARGET");
-        // "ANY_INPUT" should be added before any real help strings
-        // Or strings will be writen on window border.
-        ctxt.register_action("ANY_INPUT");
-        ctxt.register_directions();
-        ctxt.register_action("COORDINATE");
-        ctxt.register_action("SELECT");
-        ctxt.register_action("FIRE");
-        ctxt.register_action("NEXT_TARGET");
-        ctxt.register_action("PREV_TARGET");
-        if( mode == TARGET_MODE_FIRE ) {
-            ctxt.register_action("AIM");
-            ctxt.register_action("AIMED_SHOT");
-            ctxt.register_action("CAREFUL_SHOT");
-            ctxt.register_action("PRECISE_SHOT");
-        }
-        ctxt.register_action("CENTER");
-        ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
-        ctxt.register_action("HELP_KEYBINDINGS");
-        ctxt.register_action("QUIT");
 
         std::string action;
         if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
