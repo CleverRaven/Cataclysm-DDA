@@ -7090,7 +7090,7 @@ int iuse::oxytorch(player *p, item *it, bool, point)
             g->sound(dirx, diry, 10, _("hissssssssss!"));
             g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked ) {
+               ter == t_door_bar_locked || ter == t_door_metal_pickable) {
             p->moves -= 1500;
             g->m.ter_set(dirx, diry, t_mdoor_frame);
             g->sound(dirx, diry, 10, _("hissssssssss!"));
