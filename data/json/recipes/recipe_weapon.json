@@ -836,7 +836,7 @@
       [ "large_repairkit", 30 ]
     ]
   ],
-  "components": [
+  "components":
     [
       [ [ "pipe", 1] ],
       [ [ "spring", 1] ],
@@ -1237,6 +1237,9 @@
     ],
     [
       [ "scrap", 1 ]
+    ],
+    [
+      [ "lens", 2 ]
     ]
   ]
 },{
