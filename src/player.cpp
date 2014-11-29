@@ -2973,7 +2973,7 @@ detecting traps and other things of interest."));
                     line = 0;
                     curtab++;
                 } else if (action == "MEDICAL") {
-                    med.show_interface();
+                    show_medical_iface();
                 } else if (action == "QUIT") {
                     done = true;
                 }

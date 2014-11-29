@@ -20,18 +20,24 @@ class Creature;
 class Medical
 {
     public:
+        virtual bool is_player() const
+        {
+            return false;
+        }
+        virtual bool is_npc () const
+        {
+            return false;
+        }
+        virtual bool is_monster() const
+        {
+            return false;
+        }
 
     protected:
-        void medical_init(Creature *c);
-
         /* show interface for the player */
-        void show_interface();
+        void show_medical_iface();
 
     private:
-        /* The polymorphic Creature class to interface with player, npc, and monster classes.
-         * 
-         */
-        Creature *us;
 };
 
 #endif   /* ----- #ifndef MEDICAL_H  ----- */

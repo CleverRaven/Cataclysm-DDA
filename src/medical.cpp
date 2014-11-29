@@ -8,20 +8,16 @@
 
 #include "item.h"
 #include "messages.h"
+#include "bodypart.h"
 
 #include <string>
 #include <vector>
 #include <map>
 
 
-void Medical::medical_init(Creature *c)
+void Medical::show_medical_iface()
 {
-    us = c;
-}
-
-void Medical::show_interface()
-{
-    if(!us->is_player()) {
+    if(!is_player()) {
         return;
     }
 }
