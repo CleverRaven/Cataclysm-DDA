@@ -862,15 +862,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             // player usually interacts with items in the inventory the most (?)
             std::list<item> result = inv.remove_items_with( filter );
-            for( auto it = worn.begin(); it != worn.end(); ) {
-                if( filter( *it ) ) {
-                    result.push_back( std::move( *it ) );
-                    it = worn.erase( it );
+            for( auto &article : worn ) {
+                if( filter( article ) ) {
+                    result.push_back( article );
                 } else {
-                    result.splice( result.begin(), it->remove_items_with( filter ) );
-                    ++it;
+                    result.splice( result.begin(), article.remove_items_with( filter ) );
                 }
             }
+            worn.erase( std::remove_if( worn.begin(), worn.end(), filter ), worn.end() );
             if( !weapon.is_null() ) {
                 if( filter( weapon ) ) {
                     result.push_back( remove_weapon() );
