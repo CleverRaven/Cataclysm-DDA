@@ -6959,7 +6959,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "shoulder_holster",
+        "id" : "sholster",
         "name" : "shoulder holster",
         "weight" : 220,
         "volume" : 3,

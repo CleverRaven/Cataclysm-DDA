@@ -6010,7 +6010,8 @@
       ["grapnel", 3],
       ["glasses_bal", 30],
       ["sheath", 10],
-      ["holster", 15]
+      ["holster", 15],
+      ["sholster", 10]
     ]
   },{
     "type" : "item_group",
