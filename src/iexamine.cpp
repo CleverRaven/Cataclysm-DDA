@@ -834,12 +834,12 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
            p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick") ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
-    } else if (!query_yn(_("Pick the gun safe?"))) {
+    } else if( !query_yn(_("Pick the gun safe?")) ) {
         return;
     }
 
     int pick_quality = 1;
-    if (p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick")) {
+    if( p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick") ) {
         pick_quality = 5;
     } else {
         pick_quality = 3;
