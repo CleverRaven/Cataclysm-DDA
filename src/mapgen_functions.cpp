@@ -3489,11 +3489,11 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
                            (j == 16 && (i == 5 || i == 8 || i == 11 || i == 14 || i == 17))) {
                     m->set(i, j, t_floor, f_counter);
                 } else if ((j == 6 && ((i > 4 && i < 8) || (i > 15 && i < 19)))) {
-                    m->ter_set(i, j, t_window);
+                    m->ter_set(i, j, t_window_bars_alarm);
                 } else if ((j == 14 && i > 3 && i < 15)) {
-                    m->ter_set(i, j, t_wall_glass_h);
+                    m->ter_set(i, j, t_window_bars_alarm);
                 } else if (j == 16 && i == SEEX * 2 - 4) {
-                    m->ter_set(i, j, t_door_c);
+                    m->ter_set(i, j, t_door_metal_pickable);
                 } else if (((j == 6 || j == SEEY * 2 - 1) && i > 1 && i < SEEX * 2 - 2) ||
                            ((j == 16 || j == 14) && i > 2 && i < SEEX * 2 - 3)) {
                     m->ter_set(i, j, t_wall_h);
@@ -3960,7 +3960,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3984,7 +3984,7 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
     m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
