@@ -14,14 +14,6 @@
 #include <map>
 
 
-Medical::Medical()
-{
-}
-
-Medical::~Medical()
-{
-}
-
 void Medical::medical_init(Creature *c)
 {
     us = c;

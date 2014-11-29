@@ -1,6 +1,8 @@
 #ifndef  MEDICAL_H
 #define  MEDICAL_H
 
+#include "bodypart.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -18,10 +20,6 @@ class Creature;
 class Medical
 {
     public:
-        Medical();
-        /* Must be given the Creature's class pointer */
-        Medical(Creature *c);
-        ~Medical();
 
     protected:
         void medical_init(Creature *c);
