@@ -53,7 +53,8 @@
   ],
   "components": [
     [
-      [ "salt_water", 8 ]
+      [ "salt_water", 8 ],
+      [ "saline", 40 ]
     ]
   ]
 },{
@@ -2701,6 +2702,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
@@ -2732,6 +2734,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
@@ -2764,6 +2767,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
@@ -5958,6 +5962,7 @@
     ],
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ]
     ]
   ]
@@ -5992,6 +5997,7 @@
     ],
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ]
     ]
   ]
@@ -6027,6 +6033,7 @@
     ],
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ]
     ]
   ]
@@ -6062,6 +6069,7 @@
     ],
     [
       [ "salt_water", 1 ],
+      [ "saline", 5 ],
       [ "salt", 1 ]
     ]
   ]
@@ -7580,7 +7588,7 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 5 ], [ "soysauce", 1 ]
+      [ "salt", 1 ], [ "salt_water", 1 ], [ "saline", 5], [ "seasoning_salt", 5 ], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -7609,7 +7617,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -7654,7 +7663,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -7691,7 +7701,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -7729,7 +7740,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "jar_glass", 1 ]
