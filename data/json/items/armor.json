@@ -6946,7 +6946,7 @@
         "storage" : 0,
         "material" : ["leather", "null"],
         "covers" : ["LEGS"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
         "coverage" : 5,
         "environmental_protection" : 0,
         "cutting" : 0,
@@ -6971,7 +6971,7 @@
         "storage" : 0,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
         "coverage" : 5,
         "environmental_protection" : 0,
         "cutting" : 0,
@@ -7004,7 +7004,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
         "use_action" : "HOLSTER_ANKLE"
     },
     {
