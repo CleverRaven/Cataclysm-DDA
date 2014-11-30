@@ -803,11 +803,15 @@
     ]
   ],
   "components": [
-    [
-      [ "pipe", 1 ],
-      [ "spring", 1 ],
-      [ "steel_chunk", 2 ]
-    ]
+      [
+        [ "pipe", 1 ]
+      ],
+      [
+        [ "spring", 1 ]
+      ],
+      [
+        [ "steel_chunk", 2 ]
+      ]
   ]
 },{
         "type" : "recipe",
@@ -838,9 +842,15 @@
   ],
   "components":
     [
-      [ "pipe", 1 ],
-      [ "spring", 1 ],
-      [ "steel_chunk", 2 ]
+      [
+        [ "pipe", 1]
+      ],
+      [
+        [ "spring", 1]
+      ],
+      [
+        [ "steel_chunk", 2]
+      ]
     ]
 },{
           "type" : "recipe",
