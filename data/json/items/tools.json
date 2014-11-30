@@ -7281,6 +7281,33 @@
     "use_action": "KNIFE",
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
+  
+  {
+    "id": "diamond_kukri",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "cyan",
+    "name": "kukri",
+    "description": "A kukri with a synthetic diamond edge. Extremely durable and sharper than any steel blade, this is a fearsome weapon.",
+    "price": 16000,
+    "material": ["steel", "plastic"],
+    "techniques": "WBLOCK_1",
+    "weight": 450,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 28,
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+  },
 
   {
     "comment": "Highest non-powertool butchering quality. It's made for skinning and butchering game, which is what you're generally doing.",
