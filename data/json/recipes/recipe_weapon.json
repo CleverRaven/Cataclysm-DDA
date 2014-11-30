@@ -804,9 +804,9 @@
   ],
   "components": [
     [
-      [ "pipe", 1],
-      [ "spring", 1],
-      [ "steel_chunk", 2]
+      [ [ "pipe", 1] ],
+      [ [ "spring", 1] ],
+      [ [ "steel_chunk", 2] ]
     ]
   ]
 },{
@@ -836,13 +836,12 @@
       [ "large_repairkit", 30 ]
     ]
   ],
-  "components": [
+  "components":
     [
-      [ "pipe", 1],
-      [ "spring", 1],
-      [ "steel_chunk", 5]
+      [ [ "pipe", 1] ],
+      [ [ "spring", 1] ],
+      [ [ "steel_chunk", 2] ]
     ]
-  ]
 },{
           "type" : "recipe",
   "result": "l_car_223",
@@ -1066,7 +1065,6 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
   "difficulty": 1,
   "time": 12000,
   "reversible": true,
@@ -5222,6 +5220,44 @@
     ],
     [
       [ "duct_tape", 100 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "m2browning_sawn",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 6 ],
+      [ "welder", 30 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ]
+    ],
+    [
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "m2browning", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
     ]
   ]
 }
