@@ -281,7 +281,7 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 600,
+      "reload" : 400,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
   {
