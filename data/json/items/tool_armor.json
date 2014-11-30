@@ -112,7 +112,7 @@
         "encumbrance" : 1,
         "bashing" : -3,
         "coverage" : 50,
-        "flags" : ["VARSIZE"],
+        "flags" : ["FANCY", "VARSIZE"],
         "material_thickness" : 1
     },
     {
@@ -1147,7 +1147,7 @@
         "revert_to": "folding_poncho",
         "use_action": "PACK_ITEM",
         "covers" : ["TORSO", "ARMS"],
-        "flags" : ["WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE"],
+        "flags" : ["WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER"],
         "storage" : 0,
         "warmth" : 0,
         "environmental_protection" : 1,
@@ -1206,7 +1206,7 @@
         "revert_to": "emer_blanket",
         "use_action": "PACK_ITEM",
         "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "OUTER"],
         "storage" : 0,
         "warmth" : 50,
         "environmental_protection" : 1,
@@ -1300,7 +1300,6 @@
         "coverage" : 0,
         "material_thickness" : 0
     },
-
   {
     "id": "towel",
     "type": "TOOL_ARMOR",
@@ -1360,5 +1359,39 @@
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
-  }
+  },
+    {
+        "type" : "TOOL_ARMOR",
+        "id" : "straw_fedora",
+        "name" : "straw fedora",
+        "weight" : 300,
+        "color" : "light_gray",
+        "covers" : ["HEAD"],
+        "to_hit" : 0,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
+        "use_action": {
+            "type": "consume_drug",
+            "activation_message": "You tip your fedora."
+        },
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
+        "price" : 5000,
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "environmental_protection" : 3,
+        "encumbrance" : 1,
+        "bashing" : -4,
+        "coverage" : 50,
+        "flags" : ["FANCY", "VARSIZE", "SUN_GLASSES"],
+        "material_thickness" : 2
+    }
 ]

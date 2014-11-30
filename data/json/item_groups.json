@@ -315,7 +315,8 @@
       ["survnote", 1],
       ["radio_car_box", 2],
       ["radiocontrol", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -874,6 +875,7 @@
       ["talking_doll", 65],
       ["marble", 65],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
       ["diving_watch", 5],
@@ -1147,7 +1149,10 @@
       ["linuxtshirt", 10],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["fedora", 10],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",
@@ -1871,7 +1876,8 @@
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
-      ["tool_belt", 30]
+      ["tool_belt", 30],
+      ["pitchfork", 2]
     ]
   },{
     "type" : "item_group",
@@ -2180,7 +2186,9 @@
       ["survnote", 1],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["straw_basket", 1],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -2467,6 +2475,7 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["striped_shirt", 1],
       ["striped_pants", 1],
       ["razor_blade", 10],
@@ -3113,7 +3122,10 @@
       ["kilt", 5],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
-      ["ear_spool",30]
+      ["ear_spool", 30],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
       
     ]
   },{
@@ -4834,7 +4846,11 @@
       ["linuxtshirt", 15],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["straw_basket", 2],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",
@@ -5367,7 +5383,8 @@
       ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 60],
+      ["withered", 40],
+      ["straw_pile", 20],
       ["survnote", 1]
     ]
   },{
@@ -5534,6 +5551,7 @@
       ["talking_doll", 5],
       ["marble", 5],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["lsd", 1],
@@ -5992,7 +6010,8 @@
       ["grapnel", 3],
       ["glasses_bal", 30],
       ["sheath", 10],
-      ["holster", 15]
+      ["holster", 15],
+      ["sholster", 10]
     ]
   },{
     "type" : "item_group",
@@ -6296,6 +6315,7 @@
       ["helmet_motor", 40],
       ["touring_suit", 15],
       ["holster", 8],
+      ["sholster", 4],
       ["bootstrap", 3],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -6379,6 +6399,7 @@
       ["charcoal", 5],
       ["sheath", 3],
       ["holster", 3],
+      ["sholster", 2],
       ["toolbox", 1],
       ["survnote", 5]
     ]
@@ -7185,6 +7206,7 @@
       ["helmet_liner", 10],
       ["backpack", 38],
       ["holster", 15],
+      ["sholster", 10],
       ["bootstrap", 3],
       ["gobag", 1],
       ["mess_kit", 9],
@@ -7932,7 +7954,8 @@
       ["v_table", 0],
       ["survnote", 5],
       ["raw_leather", 0],
-      ["raw_fur", 0]
+      ["raw_fur", 0],
+      ["straw_pile", 0]
     ]
   },{
     "type" : "item_group",
@@ -8420,6 +8443,7 @@
       ["jar_3l_glass", 1],
       ["wrapper", 3],
       ["withered", 5],
+      ["straw_pile", 5],
       ["string_6", 1],
       ["cig_butt", 4],
       ["string_36", 1],
@@ -8661,7 +8685,10 @@
       ["pistol_flintlock", 4],
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
-      ["boxing_gloves", 12]
+      ["boxing_gloves", 12],
+      ["straw_doll", 1],
+      ["pitchfork", 1],
+      ["straw_sandals", 1]
     ]
   },{
 "type"  : "item_group",
@@ -8716,7 +8743,8 @@
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40],
-      ["material_quicklime", 30]
+      ["material_quicklime", 30],
+      ["pitchfork", 40]
     ]
   },{
 "type" : "item_group",

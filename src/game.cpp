@@ -1428,7 +1428,7 @@ bool game::do_turn()
                 if (is_game_over()) {
                     return cleanup_at_end();
                 }
-                
+
                 if (uquit == QUIT_WATCH) {
                     break;
                 }
@@ -1436,9 +1436,9 @@ bool game::do_turn()
         } else {
             handle_key_blocking_activity();
         }
-    } 
+    }
 
-    if ((driving_view_offset.x != 0 || driving_view_offset.y != 0)) {
+    if( driving_view_offset.x != 0 || driving_view_offset.y != 0 ) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
         // might also happen when someone dives from a moving car.
@@ -1465,10 +1465,9 @@ bool game::do_turn()
         for( auto &_i : sm->vehicles ) {
             auto veh = _i;
 
-            veh->power_parts();
+            veh->power_parts(sm_loc);
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
-                veh->alarm(m.inbounds(in_reality.x, in_reality.y));
             }
         }
     }
@@ -2868,8 +2867,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
     }
 
     // Mouse movement or un-handled key
-    return (!u.is_dead_state());
-    //return true;
+    return true;
 }
 
 // Hides the mouse hover box and redraws what was under it
@@ -3023,8 +3021,7 @@ input_context game::get_player_input(std::string &action)
 
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-        bool show_once = u.is_dead_state();
-        while( handle_mouseview(ctxt, action) || show_once ) {
+        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3122,11 +3119,14 @@ input_context game::get_player_input(std::string &action)
             }
             draw_weather(wPrint);
             draw_sct();
-            if(uquit == QUIT_WATCH) {
-                // display "press X to continue" text at top
-                input_context ctxt("DEFAULTMODE");
-                std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
-                mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
+            if( uquit == QUIT_WATCH ) {
+                // Display "press X to continue" text at top of main window
+                std::string message = string_format( _("Press %s to accept your fate..."),
+                        ctxt.get_desc("QUIT").c_str() );
+                mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
+                           message.c_str() );
+                wrefresh(w_terrain);
+                break;
             }
             wrefresh(w_terrain);
         }
@@ -3179,6 +3179,30 @@ void game::rcdrive(int dx, int dy)
     }
 }
 
+vehicle *game::remoteveh()
+{
+    std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
+    if( remote_veh_string.str() == "" ) {
+        return nullptr;
+    }
+
+    int vx, vy;
+    remote_veh_string >> vx >> vy;
+    return m.veh_at( vx, vy );
+}
+
+void game::setremoteveh(vehicle *veh)
+{
+    if( veh == nullptr ) {
+        u.remove_value( "remote_controlling_vehicle" );
+        return;
+    }
+
+    std::stringstream remote_veh_string;
+    remote_veh_string << veh->global_x() << ' ' << veh->global_y();
+    u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -3198,12 +3222,14 @@ bool game::handle_action()
     }
 
     int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    bool veh_ctrl = veh && (veh->player_in_control(&u) && !u.is_dead_state());
+    vehicle *veh = m.veh_at( u.posx, u.posy, veh_part );
+    bool veh_ctrl = !u.is_dead_state() &&
+        ( ( veh && veh->player_in_control(&u) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    int mouse_action_x = -1, mouse_action_y = -1;
+    int mouse_action_x = -1;
+    int mouse_action_y = -1;
 
     // do not allow mouse actions while dead
     if(!u.is_dead_state()) {
@@ -3297,18 +3323,18 @@ bool game::handle_action()
         }
     }
 
-    if (act == ACTION_NULL) {
+    if( act == ACTION_NULL ) {
         // No auto-move action, no mouse clicks.
         u.clear_destination();
         destination_preview.clear();
 
         act = look_up_action(action);
-        if (act == ACTION_NULL) {
+        if( act == ACTION_NULL ) {
             add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
         }
     }
 
-    if (act == ACTION_ACTIONMENU) {
+    if( act == ACTION_ACTIONMENU ) {
         act = handle_action_menu();
         if (act == ACTION_NULL) {
             return false;
@@ -3338,7 +3364,7 @@ bool game::handle_action()
     // alive, so no worries there. KA101 suggested (quite aptly)
     // that the user should be able to look around, so this
     // allows that. -Davek
-    if(uquit == QUIT_WATCH || !u.is_dead_state()) {
+    if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch(act) {
         case ACTION_CENTER:
             u.view_offset_x = driving_view_offset.x;
@@ -4688,7 +4714,7 @@ void game::debug()
                       _("Unlock all recipes"),     // 13
                       _("Check NPC"),              // 14
                       _("Spawn Artifact"),         // 15
-                      _("Spawn Clarivoyance Artifact"), //16
+                      _("Spawn Clairvoyance Artifact"), //16
                       _("Map editor"), // 17
                       _("Change weather"),         // 18
                       _("Remove all monsters"),    // 19
@@ -5673,6 +5699,14 @@ void game::draw_ter(int posx, int posy)
     if (u.controlling_vehicle) {
         draw_veh_dir_indicator();
     }
+    if(uquit == QUIT_WATCH) {
+        // This should remove the flickering the bar recieves
+        input_context ctxt("DEFAULTMODE");
+        std::string message = string_format( _("Press %s to accept your fate..."),
+                ctxt.get_desc("QUIT").c_str() );
+        mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
+                   message.c_str() );
+    }
     wrefresh(w_terrain);
 
     if (u.has_effect("visuals") || (u.get_effect_int("hot", bp_head) > 1)) {
@@ -6000,6 +6034,14 @@ void game::hallucinate(const int x, const int y)
         }
     }
     wrefresh(w_terrain);
+}
+
+float game::ground_natural_light_level() const
+{
+    float ret = (float)calendar::turn.sunlight();
+    ret += weather_data[weather].light_modifier;
+
+    return std::max(0.0f, ret);
 }
 
 float game::natural_light_level() const
@@ -8433,10 +8475,13 @@ void game::moving_vehicle_dismount(int tox, int toy)
 
 void game::control_vehicle()
 {
-    int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    int veh_part = -1;
+    vehicle *veh = remoteveh();
+    if( veh == nullptr ) {
+        veh = m.veh_at(u.posx, u.posy, veh_part);
+    }
 
-    if (veh && veh->player_in_control(&u)) {
+    if( veh != nullptr && veh->player_in_control( &u ) ) {
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
@@ -11184,8 +11229,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if (u.has_effect("relax_gas")) {
         if (one_in(5)) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
-        }
-        else {
+        } else {
             u.moves -= rng(2, 5) * 10;
             add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
             return;
@@ -11196,7 +11240,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-
             if ((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
                 (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
@@ -12427,18 +12470,30 @@ void game::pldrive(int x, int y)
     if( !check_save_mode_allowed() ) {
         return;
     }
+    vehicle *veh = remoteveh();
+    bool remote = true;
     int part = -1;
-    vehicle *veh = m.veh_at(u.posx, u.posy, part);
+    if( !veh ) {
+        veh = m.veh_at(u.posx, u.posy, part);
+        remote = false;
+    }
     if (!veh) {
         dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
         debugmsg("game::pldrive error: can't find vehicle! Drive mode is now off.");
         u.in_vehicle = false;
         return;
     }
-    int pctr = veh->part_with_feature(part, "CONTROLS");
-    if (pctr < 0) {
-        add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
-        return;
+    if( !remote ) {
+        int pctr = veh->part_with_feature(part, "CONTROLS");
+        if (pctr < 0) {
+            add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
+            return;
+        }
+    } else {
+        if ( veh->all_parts_with_feature("CONTROLS", true).size() == 0 ) {
+            add_msg(m_info, _("Can't drive this vehicle remotely. It has no working controls."));
+            return;
+        }
     }
 
     int thr_amount = 10 * 100;
@@ -13185,7 +13240,7 @@ bool game::plmove(int dx, int dy)
                         }
                         items.push_back(tmpitem);
                     }
-                    if (names.size() > 6) {
+                    if (names.size() > 10) {
                         break;
                     }
                 }
@@ -13196,37 +13251,44 @@ bool game::plmove(int dx, int dy)
                         names[i] = items[i].tname(counts[i]);
                     }
                 }
+                int and_the_rest = 0;
                 for (size_t i = 0; i < names.size(); ++i) {
                     std::string fmt;
                     //~ number of items: "<number> <item>"
                     fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
                     names[i] = string_format(fmt, counts[i], names[i].c_str());
+                    // Skip the first two.
+                    if( i > 1 ) {
+                        and_the_rest += counts[i];
+                    }
                 }
-                if (names.size() == 1) {
+                if( names.size() == 1 ) {
                     add_msg(_("You see here %s."), names[0].c_str());
-                } else if (names.size() == 2) {
+                } else if( names.size() == 2 ) {
                     add_msg(_("You see here %s and %s."),
                             names[0].c_str(), names[1].c_str());
-                } else if (names.size() == 3) {
+                } else if( names.size() == 3 ) {
                     add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
                             names[1].c_str(), names[2].c_str());
-                } else if (m.i_at(x, y).size() < 7) {
-                    add_msg(ngettext("There is %d item here.", "There are %d items here.", m.i_at(x, y).size()),
-                            m.i_at(x, y).size());
+                } else if( and_the_rest < 7 ) {
+                    add_msg(ngettext("You see here %s, %s and %d more item.",
+                                     "You see here %s, %s and %d more items.",
+                                     and_the_rest),
+                            names[0].c_str(), names[1].c_str(), and_the_rest);
                 } else {
-                    add_msg(_("There are many items here."));
+                    add_msg(_("You see here %s and many more items."),
+                            names[0].c_str());
                 }
             }
         }
 
-        if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
-            && u.in_vehicle) {
+        if( veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle ) {
             add_msg(_("There are vehicle controls here."));
             add_msg(m_info, _("%s to drive."),
                     press_x(ACTION_CONTROL_VEHICLE).c_str());
         }
 
-    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 250) {
+    } else if( u.has_active_bionic("bio_probability_travel") && u.power_level >= 250 ) {
         //probability travel through walls but not water
         int tunneldist = 0;
         // tile is impassable

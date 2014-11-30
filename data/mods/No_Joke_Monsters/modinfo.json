@@ -1,0 +1,18 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Joke_Monsters",
+    "name": "No Joke Monsters",
+    "author": "Rivet",
+    "description": "Removes joke monsters from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+	"mon_zombie_dancer",
+	"mon_zombie_jackson",
+	"mon_shia"
+    ]
+}
+]

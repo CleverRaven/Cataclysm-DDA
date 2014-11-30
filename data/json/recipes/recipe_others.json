@@ -1567,7 +1567,8 @@
     [
       [ "thread", 50 ],
       [ "sinew", 50 ],
-      [ "plant_fibre", 50 ]
+      [ "plant_fibre", 50 ],
+      [ "yarn", 25 ]
     ]
   ]
 },{
@@ -1622,6 +1623,7 @@
     [
       ["rag", 30],
       ["leather", 30],
+      ["felt_patch", 30],
       [ "tanned_hide", 5 ]
     ]
   ]  
@@ -4647,10 +4649,10 @@
       [ "ammonia", 1 ]
      ],
      [
-      [ "salt", 2 ], [ "salt_water", 2 ]
+      [ "salt", 2 ], [ "salt_water", 2 ], [ "saline", 10 ]
      ],
      [
-      [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ]
+      [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10]
      ],
      [
       [ "material_quicklime", 2 ], [ "meal_bone", 2 ]
@@ -5608,6 +5610,7 @@
   "components": [
     [
       [ "salt_water", 2 ],
+      [ "saline", 10 ],
       [ "salt", 1 ]
     ],
     [
@@ -5672,6 +5675,7 @@
     ],
     [
       [ "salt_water", 2 ],
+      [ "saline", 10 ],
       [ "salt", 1 ]
     ],
     [
@@ -5699,6 +5703,7 @@
   "components": [
     [
       [ "salt_water", 2 ],
+      [ "saline", 10 ],
       [ "salt", 1 ]
     ],
     [
@@ -5744,6 +5749,7 @@
     ],
     [
       [ "salt_water", 2 ],
+      [ "saline", 10 ],
       [ "salt", 1 ]
     ],
     [

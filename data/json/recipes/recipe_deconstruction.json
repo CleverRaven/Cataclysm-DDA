@@ -1568,6 +1568,24 @@
   ]
 },{
         "type" : "recipe",
+  "result": "felt_patch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "yarn", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mre_beef_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -2108,5 +2126,61 @@
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "paper", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_basket",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "straw_pile", 4 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_doll",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "straw_pile", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_sandals",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "straw_pile", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_hat",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "straw_pile", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_fedora",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [ [ [ "straw_pile", 5 ] ] ]
 }
 ]

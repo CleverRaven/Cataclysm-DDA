@@ -827,6 +827,94 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
     }
 }
 
+void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
+{
+    std::string furn_name = m->tername(examx, examy).c_str();
+    if( !( p->has_amount("crude_picklock", 1) || p->has_amount("hairpin", 1) ||
+           p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick") ) ) {
+        add_msg(m_info, _("You need a lockpick to open this gun safe."));
+        return;
+    } else if( !query_yn(_("Pick the gun safe?")) ) {
+        return;
+    }
+
+    int pick_quality = 1;
+    if( p->has_amount("picklocks", 1) || p->has_bionic("bio_lockpick") ) {
+        pick_quality = 5;
+    } else {
+        pick_quality = 3;
+    }
+
+    p->practice("mechanics", 1);
+    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur)) * pick_quality;
+    int door_roll = dice(4, 30);
+    if (pick_roll >= door_roll) {
+        p->practice("mechanics", 1);
+        add_msg(_("You successfully unlock the gun safe."));
+        g->m.furn_set(examx, examy, "f_safe_o");
+    } else if (door_roll > (3 * pick_roll)) {
+        add_msg(_("Your clumsy attempt jams the lock!"));
+        g->m.furn_set(examx, examy, "f_gunsafe_mj");
+    } else {
+        add_msg(_("The gun safe stumps your efforts to pick it."));
+    }
+}
+
+void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
+{
+    std::string furn_name = m->tername(examx, examy).c_str();
+    bool can_hack = ( !p->has_trait("ILLITERATE") &&
+                      ( (p->has_amount("electrohack", 1)) ||
+                        (p->has_bionic("bio_fingerhack") && p->power_level > 0) ) );
+    if (!can_hack) {
+        add_msg(_("You can't hack this gun safe without an electrohack."));
+        return;
+    }
+
+    bool using_electrohack = (p->has_amount("electrohack", 1) &&
+                              query_yn(_("Use electrohack on the gun safe?")));
+    bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
+                             p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
+    if (using_electrohack || using_fingerhack) {
+        p->moves -= 500;
+        p->practice("computer", 20);
+        int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+        success += rng(-3, 3);
+        if (using_fingerhack) {
+            success++;
+        }
+        if (p->int_cur < 8) {
+            success -= rng(0, int((8 - p->int_cur) / 2));
+        } else if (p->int_cur > 8) {
+            success += rng(0, int((p->int_cur - 8) / 2));
+        }
+        if (success < 0) {
+            add_msg(_("You cause a short circuit!"));
+            if (success <= -5) {
+                if (using_electrohack) {
+                    add_msg(m_bad, _("Your electrohack is ruined!"));
+                    p->use_amount("electrohack", 1);
+                } else {
+                    add_msg(m_bad, _("Your power is drained!"));
+                    p->charge_power(0 - rng(0, p->power_level));
+                }
+            }
+            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                                pgettext("memorial_female", "Set off an alarm."));
+            g->sound(p->posx, p->posy, 60, _("An alarm sounds!"));
+            if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            }
+        } else if (success < 6) {
+            add_msg(_("Nothing happens."));
+        } else {
+            add_msg(_("You successfully hack the gun safe."));
+            g->m.furn_set(examx, examy, "f_safe_o");
+        }
+    }
+}
+
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
 {
     (void)p;
@@ -904,7 +992,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
         return;
     }
 
-    // Peek through the peephole, or open the door. 
+    // Peek through the peephole, or open the door.
     int choice = menu( true, _("Do what with the door?"),
                        _("Peek through peephole."), _("Open door."),
                        _("Cancel"), NULL );
@@ -1307,6 +1395,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
+            }
+
+            if ((seedType == "seed_wheat") || (seedType == "seed_barley") ||
+                (seedType == "seed_hops")) {
+                m->spawn_item(examx, examy, "straw_pile");
+            } else if (seedType != "seed_sugar_beet") {
+                m->spawn_item(examx, examy, "withered");
             }
             p->moves -= 500;
         }
@@ -1743,7 +1838,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
         return;
     }
-    
+
     bool seeds = false;
     if (m->has_flag("SHRUB", examx, examy)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
         seeds = true;
@@ -2247,6 +2342,10 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             if( new_distance >= distance ) {
                 continue;
             }
+            if( p.x == -999 ) {
+                // Return a potentially empty tank, but only if we don't find a closer full one.
+                p = point(i, j);
+            }
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
                     long count = dynamic_cast<it_ammo *>(k.type)->count;
@@ -2694,8 +2793,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int,
-        int)
+void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int, int)
 {
     if ("none" == function_name) {
         return &iexamine::none;
@@ -2862,6 +2960,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("pay_gas" == function_name) {
         return &iexamine::pay_gas;
+    }
+    if ("gunsafe_ml" == function_name) {
+        return &iexamine::gunsafe_ml;
+    }
+    if ("gunsafe_el" == function_name) {
+        return &iexamine::gunsafe_el;
     }
 
     //No match found
