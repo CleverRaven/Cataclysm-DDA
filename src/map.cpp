@@ -2319,7 +2319,7 @@ void map::shoot(const int x, const int y, int &dam,
     }
 
     if (ammo_effects.count("STREAM_BIG") && !one_in(4)) {
-        add_field(x, y, fd_fire, rng(2, 3));
+        add_field(x, y, fd_fire, 2);
     }
 
     if (ammo_effects.count("LIGHTNING")) {
