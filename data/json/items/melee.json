@@ -2998,6 +2998,7 @@
     {
         "type":"GENERIC",
         "id" : "PR24-retracted",
+        "category" : "weapons",
         "name" : "PR-24 baton (retracted)",
         "name_plural" : "PR-24 batons (retracted)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
@@ -3021,6 +3022,7 @@
     {
         "type":"GENERIC",
         "id" : "PR24-extended",
+        "category" : "weapons",
         "name" : "PR-24 baton (extended)",
         "name_plural" : "PR-24 batons (extended)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",

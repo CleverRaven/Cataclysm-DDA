@@ -11690,6 +11690,9 @@ void player::try_to_sleep()
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
     bool plantsleep = false;
+    bool websleep = false;
+    bool webforce = false;
+    bool websleeping = false;
     bool in_shell = false;
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
@@ -11706,6 +11709,37 @@ void player::try_to_sleep()
             add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
         }
     }
+    if (has_trait("WEB_WALKER")) {
+        websleep = true;
+    }
+    // Not sure how one would get Arachnid w/o web-making, but Just In Case
+    if (has_trait("THRESH_SPIDER") && (has_trait("WEB_SPINNER") || (has_trait("WEB_WEAVER"))) ) {
+        webforce = true;
+    }
+    if (websleep || webforce) {
+        int web = g->m.get_field_strength( point(posx, posy), fd_web );
+            if (!webforce) {
+            // At this point, it's kinda weird, but surprisingly comfy...
+            if (web >= 3) {
+                add_msg(m_good, _("These thick webs support your weight, and are strangely comfortable..."));
+                websleeping = true;
+            }
+            else if (web > 0) {
+                add_msg(m_info, _("You try to sleep, but the webs get in the way.  You brush them aside."));
+                g->m.remove_field( posx, posy, fd_web );
+            }
+        } else {
+            // Here, you're just not comfortable outside a nice thick web.
+            if (web >= 3) {
+                add_msg(m_good, _("You relax into your web."));
+                websleeping = true;
+            }
+            else {
+                add_msg(m_bad, _("You try to sleep, but you feel exposed and your spinnerets keep twitching."));
+                add_msg(m_info, _("Maybe a nice thick web would help you sleep."));
+            }
+        }
+    }
     if (has_active_mutation("SHELL2")) {
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
@@ -11714,7 +11748,7 @@ void player::try_to_sleep()
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
-         ter_at_pos == t_improvised_shelter || (in_shell) ||
+         ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
         add_msg(m_good, _("This is a comfortable place to sleep."));
@@ -11731,6 +11765,8 @@ bool player::can_sleep()
 {
     int sleepy = 0;
     bool plantsleep = false;
+    bool websleep = false;
+    bool webforce = false;
     bool in_shell = false;
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 3;
@@ -11744,6 +11780,13 @@ bool player::can_sleep()
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
     }
+    if (has_trait("WEB_WALKER")) {
+        websleep = true;
+    }
+    // Not sure how one would get Arachnid w/o web-making, but Just In Case
+    if (has_trait("THRESH_SPIDER") && (has_trait("WEB_SPINNER") || (has_trait("WEB_WEAVER"))) ) {
+        webforce = true;
+    }
     if (has_active_mutation("SHELL2")) {
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
@@ -11753,8 +11796,10 @@ bool player::can_sleep()
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    int web = g->m.get_field_strength( point(posx, posy), fd_web );
     // Plant sleepers use a different method to determine how comfortable something is
-    if (!plantsleep) {
+    // Web-spinning Arachnids do too
+    if (!plantsleep && !webforce) {
         // Shells are comfortable and get used anywhere
         if (in_shell) {
             sleepy += 4;
@@ -11774,6 +11819,8 @@ bool player::can_sleep()
         } else if (furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
                     furn_at_pos == f_sofa) {
             sleepy += 4;
+        } else if (websleep && web >= 3) {
+            sleepy += 4;
         } else if (trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
               furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) {
             sleepy += 3;
@@ -11788,7 +11835,7 @@ bool player::can_sleep()
             sleepy -= g->m.move_cost(posx, posy);
         }
     // Has plantsleep
-    } else {
+    } else if (plantsleep) {
         if (veh || furn_at_pos != f_null) {
             // Sleep ain't happening in a vehicle or on furniture
             sleepy -= 999;
@@ -11804,6 +11851,15 @@ bool player::can_sleep()
             } else {
                 sleepy -= 999;
             }
+        }
+    // Has webforce
+    } else {
+        if (web >= 3) {
+            // Thick Web and you're good to go
+            sleepy += 10;
+        }
+        else {
+            sleepy -= 999;
         }
     }
     if (fatigue < 192) {

@@ -495,6 +495,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```FLAME``` Very small explosion that lights fires.
 - ```STREAM``` Leaves a trail of fire fields.
+- ```STREAM_BIG``` Leaves a trail of intense fire fields.
 - ```BEANBAG``` Stuns the target.
 - ```LARGE_BEANBAG``` Heavily stuns the target.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
