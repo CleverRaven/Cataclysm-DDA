@@ -2377,14 +2377,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             for (int x = x1 + 1; x <= x2 - 1; x++) {
                 for (int y = y1 + 1; y <= y2 - 1; y++) {
                     m->ter_set(x, y, t_linoleum_white);
-                    }
                 }
             }
         } else if (one_in(4)) {
             for (int x = x1 + 1; x <= x2 - 1; x++) {
                 for (int y = y1 + 1; y <= y2 - 1; y++) {
                     m->ter_set(x, y, t_linoleum_gray);
-                    }
                 }
             }
         }
