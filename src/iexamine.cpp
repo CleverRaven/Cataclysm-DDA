@@ -2174,25 +2174,6 @@ long count_charges_in_list(const itype *type, const std::vector<item> &items)
     return (i == static_cast<size_t>(-1)) ? 0 : items[i].charges;
 }
 
-long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity)
-{
-    const size_t i = find_in_list(type, items);
-    if (i != static_cast<size_t>(-1)) {
-        if (items[i].charges > quantity) {
-            items[i].charges -= quantity;
-            return quantity;
-        } else {
-            const long charges = items[i].charges;
-            items[i].charges = 0;
-            if (items[i].destroyed_at_zero_charges()) {
-                items.erase(items.begin() + i);
-            }
-            return charges;
-        }
-    }
-    return 0;
-}
-
 void iexamine::reload_furniture(player *p, map *m, const int examx, const int examy)
 {
     const furn_t &f = m->furn_at(examx, examy);

@@ -3201,12 +3201,27 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
     }
 }
 
-std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
+std::list<item> use_amount_vehicle( std::vector<item> &vec, const itype_id type, int &quantity,
+                                    const bool use_container )
 {
     std::list<item> ret;
     for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
         if (a->use_amount(type, quantity, use_container, ret)) {
             a = vec.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    return ret;
+}
+
+std::list<item> use_amount_map( map *m, int x, int y, const itype_id type, int &quantity,
+                                const bool use_container )
+{
+    std::list<item> ret;
+    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
+        if( m->get_item(x, y, a)->use_amount(type, quantity, use_container, ret) ) {
+            a = m->i_rem( x, y, a );
         } else {
             ++a;
         }
@@ -3224,12 +3239,12 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type,
-                                                      quantity, use_container);
+      std::list<item> tmp = use_amount_vehicle( veh->parts[cargo].items, type,
+                                                quantity, use_container );
       ret.splice(ret.end(), tmp);
     }
   }
-  std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+  std::list<item> tmp = use_amount_map( this, x, y, type, quantity, use_container);
   ret.splice(ret.end(), tmp);
   return ret;
 }
@@ -3253,12 +3268,11 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-                                                long &quantity)
+std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id type, long &quantity)
 {
     std::list<item> ret;
     for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if (a->use_charges(type, quantity, ret)) {
+        if( a->use_charges(type, quantity, ret)) {
             a = vec.erase(a);
         } else {
             ++a;
@@ -3267,8 +3281,48 @@ std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const it
     return ret;
 }
 
-extern long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity);
-void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity, std::vector<item> &items, std::list<item> &ret)
+std::list<item> use_charges_from_map( map *m, int x, int y, const itype_id type, long &quantity)
+{
+    std::list<item> ret;
+    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
+        if( m->get_item(x, y, a)->use_charges(type, quantity, ret) ) {
+            a = m->i_rem( x, y, a );
+        } else {
+            ++a;
+        }
+    }
+    return ret;
+}
+
+long remove_charges_in_list(const itype *type, map *m, int x, int y, long quantity)
+{
+    size_t i = 0;
+    auto &items = m->i_at(x, y);
+    for( ; i < items.size(); i++) {
+        if( m->i_at(x, y)[i].type == type) {
+            break;
+        }
+    }
+
+    if( i < items.size() ) {
+        item *target = m->get_item( x, y, i );
+        if( target->charges > quantity) {
+            target->charges -= quantity;
+            return quantity;
+        } else {
+            const long charges = target->charges;
+            target->charges = 0;
+            if( target->destroyed_at_zero_charges() ) {
+                m->i_rem( x, y, i );
+            }
+            return charges;
+        }
+    }
+    return 0;
+}
+
+void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
+                            map *m, int x, int y, std::list<item> &ret )
 {
     itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
@@ -3277,7 +3331,7 @@ void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity
     const itype *ammo = f.crafting_ammo_item_type();
     if (ammo != NULL) {
         item furn_item(itt->id, 0);
-        furn_item.charges = remove_charges_in_list(ammo, items, quantity);
+        furn_item.charges = remove_charges_in_list(ammo, m, x, y, quantity);
         if (furn_item.charges > 0) {
             ret.push_back(furn_item);
             quantity -= furn_item.charges;
@@ -3294,7 +3348,7 @@ std::list<item> map::use_charges(const point origin, const int range,
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
                 if (has_furn(x, y) && accessable_furniture(origin.x, origin.y, x, y, range)) {
-                    use_charges_from_furn(furn_at(x, y), type, quantity, i_at(x, y), ret);
+                    use_charges_from_furn(furn_at(x, y), type, quantity, this, x, y, ret);
                     if (quantity <= 0) {
                         return ret;
                     }
@@ -3411,7 +3465,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 
                         if (cargo >= 0) {
                             std::list<item> tmp =
-                                use_charges_from_map_or_vehicle(veh->parts[cargo].items, type, quantity);
+                                use_charges_from_vehicle(veh->parts[cargo].items, type, quantity);
                             ret.splice(ret.end(), tmp);
                             if (quantity <= 0) {
                                 return ret;
@@ -3419,7 +3473,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         }
                     }
 
-                    std::list<item> tmp = use_charges_from_map_or_vehicle(i_at(x,y), type, quantity);
+                    std::list<item> tmp = use_charges_from_map( this, x, y, type, quantity);
                     ret.splice(ret.end(), tmp);
                     if (quantity <= 0) {
                         return ret;
@@ -3445,7 +3499,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
             if( y != -1 && y != pos.y ) {
                 continue;
             }
-            std::vector<item> &item_stack = i_at( pos.x, pos.y );
+            auto &item_stack = i_at_mutable( pos.x, pos.y );
             for( auto &elem : item_stack ) {
                 if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &( elem ) ) );
