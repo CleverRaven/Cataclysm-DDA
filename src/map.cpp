@@ -2632,21 +2632,17 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-std::vector<item> &map::i_at(const int x, const int y)
+const std::vector<item> &map::i_at( const int x, const int y ) const
 {
- if (!INBOUNDS(x, y)) {
-  nulitems.clear();
-  return nulitems;
- }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+    if( !INBOUNDS(x, y) ) {
+        nulitems.clear();
+        return nulitems;
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
 
- return current_submap->itm[lx][ly];
+    return current_submap->itm[lx][ly];
 }
 
 std::vector<item> &map::i_at_mutable( const int x, const int y )
@@ -2671,7 +2667,7 @@ item *map::get_item( const int x, const int y, const int i )
     return nullptr;
 }
 
-item *map::get_item( const int x, const int y, std::vector<item>::iterator i )
+item *map::get_item( const int x, const int y, std::vector<item>::const_iterator i )
 {
     int offset = std::distance( i_at(x, y).begin(), i );
     return get_item( x, y, offset );
@@ -2765,8 +2761,8 @@ item map::acid_from(const int x, const int y)
     return ret;
 }
 
-std::vector<item>::iterator map::i_rem( const int x, const int y,
-                                              std::vector<item>::iterator it )
+std::vector<item>::const_iterator map::i_rem( const int x, const int y,
+                                              std::vector<item>::const_iterator it )
 {
     int offset = std::distance( i_at(x, y).begin(), it );
     return i_at_mutable(x, y).begin() + i_rem( x, y, offset );
