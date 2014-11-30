@@ -424,7 +424,8 @@ ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
-    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp;
+    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+    t_linoleum_white, t_linoleum_gray;
 
 void set_ter_ids() {
     t_null=terfind("t_null");
@@ -675,6 +676,8 @@ void set_ter_ids() {
     t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
+    t_linoleum_white = terfind("t_linoleum_white");
+    t_linoleum_gray = terfind("t_linoleum_gray");
 };
 
 furn_id furnfind(const std::string & id) {
