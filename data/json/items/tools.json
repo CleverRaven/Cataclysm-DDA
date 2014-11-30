@@ -7290,7 +7290,7 @@
     "name": "diamond kukri",
     "description": "A kukri with a synthetic diamond edge. Extremely durable and sharper than any steel blade, this is a fearsome weapon.",
     "price": 16000,
-    "material": ["steel", "plastic"],
+    "material": ["steel", "diamond", "plastic"],
     "techniques": "WBLOCK_1",
     "weight": 450,
     "volume": 3,
