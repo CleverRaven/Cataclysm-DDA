@@ -1540,7 +1540,8 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         }
         add_msg(_("Set %s in the vat."), brew.tname().c_str());
         m->i_clear(examx, examy);
-        m->i_at(examx, examy).push_back(brew); //This is needed to bypass NOITEM
+        //This is needed to bypass NOITEM
+        m->add_item( examx, examy, brew );
         p->moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
@@ -1602,7 +1603,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy)
                 booze.bday = brew_i.bday;
 
                 m->i_clear(examx, examy);
-                m->i_at(examx, examy).push_back(booze);
+                m->add_item( examx, examy, booze );
                 p->moves -= 500;
 
                 //low xp: you also get xp from crafting the brew
@@ -1691,7 +1692,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
                          drink.tname().c_str());
         p->moves -= 250;
         m->i_clear(examx, examy);
-        m->i_at(examx, examy).push_back(drink);
+        m->add_item( examx, examy, drink );
         return;
     } else {
         item *drink = m->get_item( examx, examy, 0 );
@@ -2234,7 +2235,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (amount != 0) {
         item it(ammo->id, 0);
         it.charges = amount;
-        items.push_back(it);
+        m->add_item( examx, examy, it );
     }
     add_msg(_("You reload the %s."), m->furnname(examx, examy).c_str());
     p->moves -= 100;

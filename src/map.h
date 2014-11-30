@@ -501,6 +501,7 @@ void add_corpse(int x, int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
+ void add_item(const int x, const int y, item new_item, int maxitems = 64);
  void process_active_items();
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
@@ -800,7 +801,6 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
- void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>
