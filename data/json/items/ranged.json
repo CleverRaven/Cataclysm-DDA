@@ -272,8 +272,8 @@
       "bashing" : 9,
       "cutting" : 0,
       "to_hit" : 0,
-      "ranged_damage" : 6,
-      "range" : 6,
+      "ranged_damage" : 10,
+      "range" : 10,
       "dispersion" : 120,
       "sight_dispersion": 60,
       "aim_speed" : 6,
@@ -281,7 +281,7 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 600,
+      "reload" : 400,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
   {
