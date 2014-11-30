@@ -6790,7 +6790,7 @@ bool static try_to_cut_up(player *p, item *it)
 }
 
 // This is new silent valid_to_cut_up
-bool iuse::valid_to_cut_up(item *it)
+bool iuse::valid_to_cut_up(const item *it)
 {
     // If a material is made of different items than what is in this set, we
     // do not cut it up.
@@ -6981,7 +6981,7 @@ int iuse::knife(player *p, item *it, bool t, point)
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
         kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
     }
-    
+
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;

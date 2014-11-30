@@ -1795,8 +1795,8 @@ const recipe *get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             const inventory &crafting_inv, bool print_msg)
+bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
+                              const inventory &crafting_inv, bool print_msg ) const
 {
     if (dis_item->count_by_charges()) {
         // Create a new item to get the default charges
