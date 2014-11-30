@@ -664,7 +664,8 @@ bool player::activate_bionic(int b, bool eff_only)
                     }
                     if( water.charges != avail ) {
                         extracted = true;
-                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                        g->m.get_item(posx, posy, it)->item_vars["remaining_water"] =
+                            string_format("%d", water.charges);
                     }
                     break;
                 }

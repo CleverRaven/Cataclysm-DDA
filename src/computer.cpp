@@ -317,22 +317,28 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for( auto &elem : g->m.i_at( x1, y1 ) ) {
-                                    if( elem.is_container() ) {
+                                auto &candidates = g->m.i_at( x1, y1 );
+                                for( auto candidate = candidates.begin();
+                                     candidate !=candidates.end(); ++candidate ) {
+                                    if( candidate->is_container() ) {
+                                        item *candidate_container = g->m.get_item( x1, y1, candidate );
                                         item sewage = item("sewage", calendar::turn);
                                         it_container *container =
-                                            dynamic_cast<it_container *>( elem.type );
-                                        it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
+                                            dynamic_cast<it_container *>( candidate_container->type );
+                                        it_comest *comest = dynamic_cast<it_comest *>(sewage.type);
                                         long maxCharges = container->contains * comest->charges;
 
-                                        if( elem.contents.empty() ) {
-                                            elem.put_in( sewage );
+                                        if( candidate_container->contents.empty() ) {
+                                            candidate_container->put_in( sewage );
                                             found_item = true;
                                             break;
                                         } else {
-                                            if( elem.contents[0].type->id == sewage.type->id ) {
-                                                if( elem.contents[0].charges < maxCharges ) {
-                                                    elem.contents[0].charges += comest->charges;
+                                            if( candidate_container->contents[0].type->id ==
+                                                sewage.type->id ) {
+                                                if( candidate_container->contents[0].charges <
+                                                    maxCharges ) {
+                                                    candidate_container->contents[0].charges +=
+                                                        comest->charges;
                                                     found_item = true;
                                                     break;
                                                 }
@@ -750,7 +756,7 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
+                        item *blood = &g->m.get_item(x, y, 0)->contents[0];
                         if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( blood->corpse->in_species( "ZOMBIE" ) ) {

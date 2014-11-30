@@ -868,9 +868,10 @@ bool map::vehproceed()
             veh->handle_trap( wheel_x, wheel_y, w );
             auto &item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                it->damage += rng( 0, 3 );
-                if( it->damage > 4 ) {
-                    it = item_vec.erase(it);
+                item *smashed_item = get_item( x, y, it );
+                smashed_item->damage += rng( 0, 3 );
+                if( smashed_item->damage > 4 ) {
+                    it = i_rem( x, y, it );
                 } else {
                     ++it;
                 }
@@ -1626,11 +1627,11 @@ bool map::has_nearby_fire(int x, int y, int radius)
 }
 
 void map::mop_spills(const int x, const int y) {
-    for (size_t i = 0; i < i_at(x, y).size(); i++) {
-        item *it = &(i_at(x, y)[i]);
-        if (it->made_of(LIQUID)) {
-            i_rem(x, y, i);
-            i--;
+    for( auto it = i_at(x, y).begin(); it != i_at(x, y).end(); ) {
+        if( it->made_of(LIQUID) ) {
+            it = i_rem( x, y, it );
+        } else {
+            it++;
         }
     }
     remove_field( x, y, fd_blood );
@@ -1777,7 +1778,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             for( auto bashed_content : bashed_item->contents ) {
                 smashed_contents.push_back( bashed_content );
             }
-            bashed_item = bashed_items.erase( bashed_item );
+            bashed_item = i_rem( x, y, bashed_item );
         } else {
             ++bashed_item;
         }
@@ -2359,24 +2360,23 @@ void map::shoot(const int x, const int y, int &dam,
         return; // Items on floor-type spaces won't be shot up.
     }
 
-    for (size_t i = 0; i < i_at(x, y).size(); i++) {
+    for( auto target_item = i_at(x, y).begin(); target_item != i_at(x, y).end(); ) {
         bool destroyed = false;
-        int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);
+        int chance = ( target_item->volume() > 0 ? target_item->volume() : 1);
         // volume dependent chance
 
-        if (dam > i_at(x, y)[i].bash_resist() && one_in(chance)) {
-            i_at(x, y)[i].damage++;
+        if( dam > target_item->bash_resist() && one_in(chance) ) {
+            get_item(x, y, target_item)->damage++;
         }
-        if (i_at(x, y)[i].damage >= 5) {
+        if( target_item->damage >= 5 ) {
             destroyed = true;
         }
 
         if (destroyed) {
-            for (auto &j : i_at(x, y)[i].contents) {
-                i_at(x, y).push_back(j);
-            }
-            i_rem(x, y, i);
-            i--;
+            spawn_items( x, y, target_item->contents );
+            target_item = i_rem( x, y, target_item );
+        } else {
+            ++target_item;
         }
     }
 }
@@ -2662,6 +2662,21 @@ std::vector<item> &map::i_at_mutable( const int x, const int y )
     return current_submap->itm[lx][ly];
 }
 
+item *map::get_item( const int x, const int y, const int i )
+{
+    auto &item_stack = i_at_mutable( x, y );
+    if( item_stack.size() > (unsigned int)i ) {
+        return &item_stack[i];
+    }
+    return nullptr;
+}
+
+item *map::get_item( const int x, const int y, std::vector<item>::iterator i )
+{
+    int offset = std::distance( i_at(x, y).begin(), i );
+    return get_item( x, y, offset );
+}
+
 itemslice map::i_stacked(std::vector<item>& items)
 {
     //create a new container for our stacked items
@@ -2748,6 +2763,13 @@ item map::acid_from(const int x, const int y)
     (void)x; (void)y; //all acid is acid, i guess?
     item ret("water_acid", 0);
     return ret;
+}
+
+std::vector<item>::iterator map::i_rem( const int x, const int y,
+                                              std::vector<item>::iterator it )
+{
+    int offset = std::distance( i_at(x, y).begin(), it );
+    return i_at_mutable(x, y).begin() + i_rem( x, y, offset );
 }
 
 int map::i_rem(const int x, const int y, const int index)
@@ -4661,15 +4683,17 @@ void map::fill_funnels( const point pnt )
     if( has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) ) {
         return;
     }
-    item *biggest_container = nullptr;
+    auto &items = i_at( pnt.x, pnt.y );
+    size_t biggest_container_index = items.size();
     int maxvolume = 0;
-    for( auto &it : i_at( pnt.x, pnt.y ) ) {
-        if( it.is_funnel_container( maxvolume ) ) {
-            biggest_container = &it;
+    for( size_t i = 0; i < items.size(); ++i ) {
+        if( items[i].is_funnel_container( maxvolume ) ) {
+            biggest_container_index = i;
         }
     }
-    if( biggest_container != nullptr ) {
-        retroactively_fill_from_funnel( biggest_container, t, calendar::turn, pnt );
+    if( biggest_container_index != items.size() ) {
+        retroactively_fill_from_funnel( get_item( pnt.x, pnt.y, biggest_container_index),
+                                        t, calendar::turn, pnt );
     }
 }
 
@@ -4689,11 +4713,11 @@ void map::grow_plant( const point pnt )
     // plantEpoch is half a season; 3 epochs pass from plant to harvest
     const int plantEpoch = DAYS( calendar::season_length() ) / 2;
     // Erase fertilizer tokens, but keep the seed item
-    items.resize( 1 );
-    auto &seed = items.front();
+    i_rem( pnt.x, pnt.y, 1 );
+    auto *seed = get_item( pnt.x, pnt.y, 0 );
     // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed.bday += plantEpoch;
+    while( calendar::turn > seed->bday + plantEpoch && furn.loadid < f_plant_harvest ) {
+        seed->bday += plantEpoch;
         furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
     }
 }

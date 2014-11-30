@@ -1777,7 +1777,7 @@ void game::activity_on_turn_refill_vehicle()
                      it != m.i_at(u.posx + i, u.posy + j).end(); ) {
                     if( it->type->id == "gasoline" || it->type->id == "diesel" ) {
                         fuel_pumped = true;
-                        item *gas = &*it;
+                        item *gas = m.get_item( u.posx + i, u.posy + j, it );
                         int lack = std::min( veh->fuel_capacity(it->type->id) -
                                              veh->fuel_left(it->type->id),  200 );
                         if (gas->charges > lack) {
@@ -1788,7 +1788,7 @@ void game::activity_on_turn_refill_vehicle()
                         } else {
                             add_msg(m_bad, _("With a clang and a shudder, the pump goes silent."));
                             veh->refill (it->type->id, gas->charges);
-                            it = m.i_at(u.posx + i, u.posy + j).erase(it);
+                            it = m.i_rem( u.posx + i, u.posy + j, it );
                             u.activity.moves_left = 0;
                         }
                         i = 2;
@@ -1938,9 +1938,9 @@ void game::activity_on_finish_make_zlave()
     std::string corpse_name = u.activity.str_values[0];
     item *body = NULL;
 
-    for( auto &item : items ) {
-        if( item.display_name() == corpse_name ) {
-            body = &( item );
+    for( auto it = items.begin(); it != items.end(); ++it ) {
+        if( it->display_name() == corpse_name ) {
+            body = m.get_item( u.posx, u.posy, it );
         }
     }
 
@@ -7502,9 +7502,9 @@ void game::emp_blast(int x, int y)
         }
     }
     // Drain any items of their battery charge
-    for( auto &elem : m.i_at( x, y ) ) {
-        if( elem.is_tool() && ( dynamic_cast<it_tool *>( elem.type ) )->ammo == "battery" ) {
-            elem.charges = 0;
+    for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
+        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo == "battery" ) {
+            m.get_item( x, y, it )->charges = 0;
         }
     }
     // TODO: Drain NPC energy reserves
@@ -7673,7 +7673,7 @@ bool game::revive_corpse(int x, int y, int n)
                  y).size());
         return false;
     }
-    if (!revive_corpse(x, y, &m.i_at(x, y)[n])) {
+    if( !revive_corpse( x, y, m.get_item(x, y, n) ) ) {
         return false;
     }
     m.i_rem(x, y, n);
@@ -7966,6 +7966,7 @@ void game::activity_on_turn_pulp()
         if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
+        auto target_corpse = m.get_item( smashx, smashy, it );
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
         field_id type_blood = it->corpse->bloodType();
@@ -7973,8 +7974,8 @@ void game::activity_on_turn_pulp()
             moves += move_cost;
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
-            if (x_in_y(pulp_power, it->volume())) {
-                it->damage++;
+            if( x_in_y(pulp_power, target_corpse->volume()) ) {
+                target_corpse->damage++;
                 u.handle_melee_wear();
             }
             // Splatter some blood around
@@ -7987,9 +7988,9 @@ void game::activity_on_turn_pulp()
                     }
                 }
             }
-            if (it->damage >= full_pulp_threshold) {
-                it->damage = full_pulp_threshold;
-                it->active = false;
+            if( target_corpse->damage >= full_pulp_threshold ) {
+                target_corpse->damage = full_pulp_threshold;
+                target_corpse->active = false;
                 num_corpses++;
             }
             if (moves >= u.moves) {
@@ -7997,7 +7998,7 @@ void game::activity_on_turn_pulp()
                 u.moves -= moves;
                 return;
             }
-        } while (it->damage < full_pulp_threshold);
+        } while( target_corpse->damage < full_pulp_threshold );
     }
     // If we reach this, all corpses have been pulped, finish the activity
     u.activity.moves_left = 0;
@@ -8316,7 +8317,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         auto &items = m.i_at(x, y);
         while (!items.empty()) {
             if (items[0].made_of(LIQUID)) {
-                items.erase(items.begin());
+                m.i_rem( x, y, 0 );
                 continue;
             }
             if (items[0].made_of("glass") && one_in(2)) {
@@ -8325,11 +8326,11 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
                 } else {
                     add_msg(m_warning, _("Something shatters!"));
                 }
-                items.erase(items.begin());
+                m.i_rem( x, y, 0 );
                 continue;
             }
             m.add_item_or_charges(kbx, kby, items[0]);
-            items.erase(items.begin());
+            m.i_rem( x, y, 0 );
         }
     }
     return true;
@@ -11580,7 +11581,7 @@ void game::butcher()
         u.assign_activity( ACT_LONGSALVAGE, 0 );
         return;
     }
-    item &dis_item = items[corpses[butcher_corpse_index]];
+    const item &dis_item = items[corpses[butcher_corpse_index]];
     if( dis_item.corpse == NULL && butcher_corpse_index < (int)salvage_index) {
         const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
@@ -11593,7 +11594,8 @@ void game::butcher()
         return;
     } else if( dis_item.corpse == NULL ) {
         item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
-        iuse::cut_up( &u, &salvage_tool, &dis_item, false );
+        iuse::cut_up( &u, &salvage_tool,
+                      m.get_item( u.posx, u.posy, corpses[butcher_corpse_index] ), false );
         return;
     }
     mtype *corpse = dis_item.corpse;
@@ -11948,9 +11950,9 @@ void game::longsalvage()
 
     auto &items = m.i_at(u.posx, u.posy);
     item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
-    for( auto &item : items ) {
-        if( iuse::valid_to_cut_up( &item ) ) {
-            iuse::cut_up( &u, &salvage_tool, &item, false );
+    for( auto it = items.begin(); it != items.end(); ++it ) {
+        if( iuse::valid_to_cut_up( &*it ) ) {
+            iuse::cut_up( &u, &salvage_tool, m.get_item(u.posx, u.posy, it), false );
             u.assign_activity( ACT_LONGSALVAGE, 0 );
             return;
         }
