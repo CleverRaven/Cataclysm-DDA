@@ -1255,9 +1255,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
-                        for( auto &elem : g->m.i_at( x, y ) ) {
-                            elem.contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }
@@ -1280,9 +1278,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Memory bank is empty."));
                     } else {
                         print_error(_("ERROR: Data bank destroyed."));
-                        for( auto &elem : g->m.i_at( x, y ) ) {
-                            elem.contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }

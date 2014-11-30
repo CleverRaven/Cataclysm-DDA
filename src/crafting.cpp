@@ -437,7 +437,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for (item &i : g->m.i_at(posx, posy)) {
+    for( auto &i : g->m.i_at(posx, posy) ) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -1956,7 +1956,7 @@ void player::complete_disassemble()
         return;
     }
     item *org_item;
-    std::vector<item> &items_on_ground = g->m.i_at(posx, posy);
+    auto &items_on_ground = g->m.i_at(posx, posy);
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
@@ -1993,7 +1993,7 @@ void player::complete_disassemble()
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
-            items_on_ground.erase(items_on_ground.begin() + item_pos);
+            g->m.i_rem( posx, posy, item_pos );
         } else {
             i_rem(item_pos);
         }

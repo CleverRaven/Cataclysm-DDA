@@ -1934,7 +1934,7 @@ void game::activity_on_finish_make_zlave()
 {
     static const int full_pulp_threshold = 4;
 
-    std::vector<item> &items = m.i_at(u.posx, u.posy);
+    auto &items = m.i_at(u.posx, u.posy);
     std::string corpse_name = u.activity.str_values[0];
     item *body = NULL;
 
@@ -7785,7 +7785,7 @@ void game::close(int closex, int closey)
     bool didit = false;
     const bool inside = !m.is_outside(u.posx, u.posy);
 
-    std::vector<item> &items_in_way = m.i_at(closex, closey);
+    auto &items_in_way = m.i_at(closex, closey);
     int vpart;
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
@@ -7869,7 +7869,7 @@ void game::close(int closex, int closey)
             for( auto &elem : items_in_way ) {
                 m.add_item_or_charges( closex, closey, elem );
             }
-            items_in_way.erase(items_in_way.begin(), items_in_way.end());
+            m.i_clear(closex, closey);
         }
     }
 
@@ -7962,8 +7962,7 @@ void game::activity_on_turn_pulp()
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
-    for( std::vector<item>::iterator it = m.i_at(smashx, smashy).begin();
-         it != m.i_at(smashx, smashy).end(); ++it ) {
+    for( auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it ) {
         if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
@@ -8314,7 +8313,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
 
     m.ter_set(x, y, door_type);
     if (m.has_flag("NOITEM", x, y)) {
-        std::vector<item> &items = m.i_at(x, y);
+        auto &items = m.i_at(x, y);
         while (!items.empty()) {
             if (items[0].made_of(LIQUID)) {
                 items.erase(items.begin());
@@ -8997,7 +8996,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
             // items are displayed from the live view, don't do this here
             return;
         }
-        std::vector<item> &items = m.i_at(lx, ly);
+        auto &items = m.i_at(lx, ly);
         mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
@@ -11479,7 +11478,7 @@ void game::butcher()
     bool has_item = false;
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
-    std::vector<item> &items = m.i_at(u.posx, u.posy);
+    auto &items = m.i_at(u.posx, u.posy);
     const inventory &crafting_inv = u.crafting_inventory();
     bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
@@ -11546,8 +11545,8 @@ void game::butcher()
         }
         kmenu.selected = 0;
         for (size_t i = 0; i < corpses.size(); i++) {
-            item &it = items[corpses[i]];
-            mtype *corpse = it.corpse;
+            const item &it = items[corpses[i]];
+            const mtype *corpse = it.corpse;
             int hotkey = -1;
             // First entry gets a hotkey matching the butcher command.
             if (i == 0) {
@@ -11946,8 +11945,8 @@ void game::longsalvage()
     if( !has_salvage_tool ) {
         add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
     }
-    
-    std::vector<item> &items = m.i_at(u.posx, u.posy);
+
+    auto &items = m.i_at(u.posx, u.posy);
     item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
     for( auto &item : items ) {
         if( iuse::valid_to_cut_up( &item ) ) {
@@ -11956,7 +11955,7 @@ void game::longsalvage()
             return;
         }
     }
-    
+
     add_msg(_("You finish salvaging."));
     u.activity.type = ACT_NULL;
 }

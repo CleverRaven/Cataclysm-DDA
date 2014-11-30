@@ -551,7 +551,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
-                        std::vector<item> &items_here = i_at(x, y);
+                        auto &items_here = i_at(x, y);
                         // explosions will destroy items on this square, iterating
                         // backwards makes sure that every item is visited.
                         for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
@@ -564,8 +564,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                             if( items_here[i].type->explode_in_fire() ) {
                                 // make a copy and let the copy explode
-                                item tmp( items_here[i] );
-                                items_here.erase( items_here.begin() + i );
+                                item tmp = items_here[i];
+                                i_rem( x, y, i );
                                 tmp.detonate(point(x, y));
                             }
                         }
@@ -748,7 +748,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 it++;
                             }
                         }
-                        items_here.insert( items_here.end(), new_content.begin(), new_content.end() );
+                        spawn_items( x, y, new_content );
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {
@@ -1322,21 +1322,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         { //Needed for variable scope
                             int offset_x = x + rng(-1,1);
                             int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                            if (has_flag("FLAMMABLE", offset_x, offset_y) ||
-                                  has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
-                                  has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                            if( has_flag("FLAMMABLE", offset_x, offset_y) ||
+                                has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
+                                has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
                                 add_field(offset_x, offset_y , fd_fire, 1);
                             }
 
                             //check piles for flammable items and set those on fire
-                            for (std::vector<item>::iterator it =
-                                     i_at(x, y).begin();
-                                 it != i_at(x, y).end(); ++it) {
-                                    if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
-                                        it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline" ||
-                                        it->type->id == "diesel" || it->type->id == "lamp_oil") {
-                                        add_field(x, y, fd_fire, 1);
-                                    }
+                            for( auto &target_item : i_at(x, y) ) {
+                                if( target_item.made_of("paper") || target_item.made_of("wood") ||
+                                    target_item.made_of("veggy") || target_item.made_of("cotton") ||
+                                    target_item.made_of("wool") || target_item.type->id == "gasoline" ||
+                                    target_item.type->id == "diesel" ||
+                                    target_item.type->id == "lamp_oil" ) {
+                                    add_field(x, y, fd_fire, 1);
+                                }
                             }
 
                             spread_gas( cur, x, y, curtype, 66, 40 );

@@ -645,12 +645,12 @@ bool player::activate_bionic(int b, bool eff_only)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
-             it != g->m.i_at(posx, posy).end(); ++it) {
+        for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
             if (it->type->id == "corpse" ) {
                 int avail = 0;
-                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
-                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
+                auto remaining_water = it->item_vars.find("remaining_water");
+                if( remaining_water != it->item_vars.end() ) {
+                    avail = atoi ( remaining_water->second.c_str() );
                 } else {
                     avail = it->volume() / 2;
                 }

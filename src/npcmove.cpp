@@ -1326,7 +1326,7 @@ void npc::find_item()
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
     int linet;
-    item *wanted = NULL;
+    const item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
     }
@@ -1343,7 +1343,7 @@ void npc::find_item()
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
-                std::vector<item> &i = g->m.i_at(x, y);
+                auto &i = g->m.i_at(x, y);
                 for( auto &elem : i ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.

@@ -633,8 +633,8 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
         for (int x = _posx - 3; x <= _posx + 3; x++) {
             for (int y = _posy - 3; y <= _posy + 3; y++) {
                 if (check_meat) {
-                    std::vector<item> *items = &(g->m.i_at(x, y));
-                    for( auto &item : *items ) {
+                    auto &items = g->m.i_at(x, y);
+                    for( auto &item : items ) {
                         if( item.type->id == "corpse" || item.type->id == "meat" ||
                             item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
                             ret += 3;

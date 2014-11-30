@@ -1647,7 +1647,8 @@ void map::mop_spills(const int x, const int y) {
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount_dx,
+                                                              veh->parts[vpart].mount_dy );
         for( auto &elem : parts_here ) {
             veh->parts[elem].blood = 0;
         }
@@ -1766,7 +1767,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 
     // Destroy glass items, spilling their contents.
     std::vector<item> smashed_contents;
-    std::vector<item> &bashed_items = i_at(x, y);
+    auto &bashed_items = i_at(x, y);
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
@@ -1782,7 +1783,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
         }
     }
     // Now plunk in the contents of the smashed items.
-    bashed_items.insert( bashed_items.end(), smashed_contents.begin(), smashed_contents.end() );
+    spawn_items( x, y, smashed_contents );
 
     // Smash vehicle if present
     int vpart;
@@ -2855,10 +2856,9 @@ int map::stored_volume(const int x, const int y) {
     if(!INBOUNDS(x, y)) {
         return 0;
     }
-    int cur_volume=0;
-    for (auto &n : i_at(x, y)) {
-        item* curit = &n;
-        cur_volume += curit->volume();
+    int cur_volume = 0;
+    for( auto &n : i_at(x, y) ) {
+        cur_volume += n.volume();
     }
     return cur_volume;
 }
@@ -2917,10 +2917,9 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
     bool tryaddcharges = (new_item.charges  != -1 && new_item.count_by_charges());
     std::vector<point> ps = closest_points_first(overflow_radius, x, y);
-    for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
-    {
-        if (!INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
-                has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
+    for( std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++ ) {
+        if( !INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+            has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y) ) {
             continue;
         }
 
@@ -2932,9 +2931,8 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
                 }
             }
         }
-        if (i_at(p_it->x, p_it->y).size() < MAX_ITEM_IN_SQUARE)
-        {
-            add_item(p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE);
+        if( i_at( p_it->x, p_it->y ).size() < MAX_ITEM_IN_SQUARE ) {
+            add_item( p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE );
             return true;
         }
     }

@@ -6610,11 +6610,10 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
     item blood("blood", calendar::turn);
     bool drew_blood = false;
-    for (size_t i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
-        item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
-        if (map_it->corpse != NULL && map_it->type->id == "corpse" &&
-            query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
-            blood.corpse = map_it->corpse;
+    for( auto &map_it : g->m.i_at(p->posx, p->posy) ) {
+        if( map_it.corpse != NULL && map_it.type->id == "corpse" &&
+            query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
+            blood.corpse = map_it.corpse;
             drew_blood = true;
         }
     }
@@ -6633,17 +6632,15 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
 void make_zlave(player *p)
 {
-    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
-    std::vector<item *> corpses;
+    auto &items = g->m.i_at(p->posx, p->posy);
+    std::vector<const item *> corpses;
 
     const int cancel = 0;
 
-    for (auto &i : items) {
-        item &it = i;
-
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
-            corpses.push_back(&it);
+    for( auto &it : items ) {
+        if( it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
+            it.corpse->sym == "Z" && it.active && it.item_vars.find("zlave") == it.item_vars.end() ) {
+            corpses.push_back( &it );
         }
     }
 
@@ -6710,8 +6707,8 @@ void make_zlave(player *p)
 
     const int selected_corpse = amenu.ret - 1;
 
-    item *body = corpses[selected_corpse];
-    mtype *mt = body->corpse;
+    const item *body = corpses[selected_corpse];
+    const mtype *mt = body->corpse;
 
     // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
