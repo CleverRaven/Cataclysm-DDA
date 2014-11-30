@@ -219,21 +219,20 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
     return bFoundSomething;
 }
 
-void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, vehicle *veh,
+void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
                           bool &offered_swap, std::map<std::string, int> &mapPickup,
                           std::map<std::string, item> &item_info, bool autopickup )
 {
     int moves_taken = 100;
     bool picked_up = false;
-    item &newit = here[ index ];
     item leftovers = newit;
 
-    if( here[index].invlet != '\0' &&
-        g->u.invlet_to_position( here[index].invlet ) != INT_MIN ) {
+    if( newit.invlet != '\0' &&
+        g->u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
-        here[index].invlet = '\0';
+        newit.invlet = '\0';
     }
 
     if( quantity != 0 ) {
@@ -241,7 +240,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
         int leftover_charges = newit.charges - quantity;
         if (leftover_charges > 0) {
             leftovers.charges = leftover_charges;
-            here[index].charges = quantity;
+            newit.charges = quantity;
         }
     }
 
@@ -357,7 +356,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     }
 
     std::vector<item> &here = from_vehicle ? veh->parts[cargo_part].items :
-        g->m.i_at( pickup_target.x, pickup_target.y );
+        g->m.i_at_mutable( pickup_target.x, pickup_target.y );
 
     // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
     here.reserve( here.size() + 1 );
@@ -372,7 +371,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        pick_one_up( pickup_target , here, veh, cargo_part, index, quantity,
+        pick_one_up( pickup_target, here[index], veh, cargo_part, index, quantity,
                      got_water, offered_swap, mapPickup, item_info, autopickup );
     }
 

@@ -2649,6 +2649,19 @@ std::vector<item> &map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
+std::vector<item> &map::i_at_mutable( const int x, const int y )
+{
+    if( !INBOUNDS(x, y) ) {
+        nulitems.clear();
+        return nulitems;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return current_submap->itm[lx][ly];
+}
+
 itemslice map::i_stacked(std::vector<item>& items)
 {
     //create a new container for our stacked items
@@ -2737,17 +2750,18 @@ item map::acid_from(const int x, const int y)
     return ret;
 }
 
-void map::i_rem(const int x, const int y, const int index)
+int map::i_rem(const int x, const int y, const int index)
 {
     if (index > (int)i_at(x, y).size() - 1) {
-        return;
+        return index;
     }
-    i_at(x, y).erase(i_at(x, y).begin() + index);
+    return std::distance( i_at_mutable(x, y).begin(),
+                          i_at_mutable(x, y).erase(i_at_mutable(x, y).begin() + index ) );
 }
 
 void map::i_rem(const int x, const int y, item* it)
 {
-    std::vector<item>& map_items = i_at(x, y);
+    std::vector<item>& map_items = i_at_mutable(x, y);
 
     for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
@@ -2760,7 +2774,7 @@ void map::i_rem(const int x, const int y, item* it)
 
 void map::i_clear(const int x, const int y)
 {
-    i_at(x, y).clear();
+    i_at_mutable(x, y).clear();
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
@@ -2923,9 +2937,8 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
             continue;
         }
 
-        if (tryaddcharges) {
-            for (auto &i : i_at(p_it->x,p_it->y))
-            {
+        if( tryaddcharges ) {
+            for( auto &i : i_at_mutable( p_it->x, p_it->y ) ) {
                 if( i.merge_charges( new_item ) ) {
                     return true;
                 }

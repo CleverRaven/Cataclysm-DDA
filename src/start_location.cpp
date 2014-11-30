@@ -167,12 +167,12 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
         }
     }
     while( ( !furnitures1.empty() || !furnitures2.empty() ) && !boardables.empty() ) {
-        const point fp = furnitures1.empty() ? get_random_from_vec( furnitures2 ) : get_random_from_vec(
-                             furnitures1 );
+        const point fp = furnitures1.empty() ?
+            get_random_from_vec( furnitures2 ) : get_random_from_vec( furnitures1 );
         const point bp = get_random_from_vec( boardables );
         m.furn_set( bp.x, bp.y, m.furn( fp.x, fp.y ) );
         m.furn_set( fp.x, fp.y, f_null );
-        m.i_at( bp.x, bp.y ).swap( m.i_at( fp.x, fp.y ) );
+        m.i_at_mutable( bp.x, bp.y ).swap( m.i_at_mutable( fp.x, fp.y ) );
     }
 }
 

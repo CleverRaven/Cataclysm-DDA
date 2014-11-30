@@ -13031,7 +13031,7 @@ bool game::plmove(int dx, int dy)
                     if ( src_items > 0 ) {  // and the stuff inside.
                         if ( dst_item_ok && src_item_ok ) {
                             // Assume contents of both cells are legal, so we can just swap contents.
-                            m.i_at( fpos.x, fpos.y).swap( m.i_at(fdest.x, fdest.y) );
+                            m.i_at_mutable( fpos.x, fpos.y).swap( m.i_at_mutable(fdest.x, fdest.y) );
                         } else {
                             add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
                         }

@@ -474,12 +474,17 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
+ // Non-const item accessor for rare cases where items need to be modified en masse.
+ // Do not insert or remove items using this, it can break assumptions about caching.
+ std::vector<item>& i_at_mutable(int x, int y);
  itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- void i_rem(const int x, const int y, const int index);
+ // Both i_rem() methods act like conatiner::erase(),
+ // returning an iterator to the next item after removal.
+ int i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
