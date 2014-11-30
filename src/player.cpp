@@ -12048,6 +12048,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         if( worn[i].covers(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
                 level = UNDERWEAR;
+            } else if ( worn[i].has_flag( "WAIST" ) ) {
+                level = WAIST_LAYER;
             } else if ( worn[i].has_flag( "OUTER" ) ) {
                 level = OUTER_LAYER;
             } else if ( worn[i].has_flag( "BELTED") ) {
