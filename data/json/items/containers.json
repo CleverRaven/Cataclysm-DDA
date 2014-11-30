@@ -161,7 +161,10 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 6,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "2lcanteen",
@@ -179,7 +182,10 @@
         "to_hit": -1,
         "material": "plastic",
         "contains": 10,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "jerrycan",
@@ -251,7 +257,10 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 6,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "waterskin2",
@@ -269,7 +278,10 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 12,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "waterskin3",
@@ -287,6 +299,9 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 20,
+        "covers" : ["TORSO"],
+        "coverage" : 15,
+        "material_thickness" : 2,
         "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
     },
     {
