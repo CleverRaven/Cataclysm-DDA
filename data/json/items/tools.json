@@ -8677,7 +8677,7 @@
     "name": "diamond broadsword",
     "description": "This broadsword's edge has been coated with razor-sharp diamond, making you the deadliest knight in the kingdom. Your blademaster would be proud.",
     "price": 18500,
-    "material": ["steel", "diamond"]
+    "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": "WBLOCK_1",
     "weight": 1100,
