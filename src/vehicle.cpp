@@ -765,10 +765,11 @@ void vehicle::use_controls()
 
     // Toggle engine on/off, stop driving if we are driving.
     if (has_engine) {
-        options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
+            options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
         } else if (has_engine_type_not(fuel_type_muscle, true)){
+            options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry((engine_on) ? 
                         _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
