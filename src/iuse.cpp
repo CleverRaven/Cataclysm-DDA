@@ -2879,7 +2879,7 @@ int iuse::sew(player *p, item *it, bool, point)
         plurals.push_back(rm_prefix(_("<plural>nomex")));
     }
     if (fix->made_of("wool")) {
-        repair_items.push_back("wool");
+        repair_items.push_back("felt_patch");
         plurals.push_back(rm_prefix(_("<plural>wool")));
     }
     if (repair_items.empty()) {
