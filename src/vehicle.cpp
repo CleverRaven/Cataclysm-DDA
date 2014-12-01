@@ -92,9 +92,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     insides_dirty = true;
     reactor_on = false;
     engine_on = false;
-    has_pedals = false;
-    has_paddles = false;
-    has_hand_rims = false;
     is_locked = false;
     is_alarm_on = false;
 
@@ -1351,11 +1348,10 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            it != parts_in_square.end(); ++it ) {
             if( part_info( elem ).has_flag( VPFLAG_ENGINE ) &&
                 ( part_info( elem ).fuel_type == fuel_type_gasoline ||
                   part_info( elem ).fuel_type == fuel_type_diesel ||
-                part_info(*it).fuel_type == fuel_type_muscle)) {
+                  part_info( elem ).fuel_type == fuel_type_muscle)) {
                 anchor_found = true;
             }
         }
