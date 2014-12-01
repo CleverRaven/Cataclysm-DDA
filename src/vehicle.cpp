@@ -515,6 +515,11 @@ void vehicle::control_engines() {
     if( velocity > safe_vel ) {
         cruise_velocity = safe_vel;
     }
+    
+    //if an engine isn't running, and player is in control, need to start engine.
+    if (g->u.controlling_vehicle && !engine_on) {
+        start_engine();
+    }
 }
 
 int vehicle::select_engine() {
@@ -2487,7 +2492,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
         int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if (part_info(p).fuel_type == fuel_type_muscle && player_controlling) {
-            fl += INT_MAX;
+            fl += 10;
         }
     }
 
@@ -2571,9 +2576,6 @@ int vehicle::total_power (bool fueled)
 {
     int pwr = 0;
     int cnt = 0;
-    int part_under_player;
-    g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
-    bool player_controlling = !remote_controlled( &g->u ) && player_in_control( &g->u );
     
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
@@ -3348,7 +3350,7 @@ void vehicle::idle(bool on_map) {
             noise_and_smoke( idle_rate, 6.0 );
         }
     } else {
-        if (g->u_see(global_x(), global_y()) && engine_on && 
+        if (engine_on && g->u_see(global_x(), global_y()) &&  
             has_engine_type_not(fuel_type_muscle, true)) {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
