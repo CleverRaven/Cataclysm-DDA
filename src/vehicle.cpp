@@ -492,7 +492,7 @@ void vehicle::control_engines() {
     //count active engines
     int active_count = 0;
     for (size_t e = 0; e < engines.size(); ++e){
-        if (is_part_on(engines[e_toggle])){
+        if (is_part_on(engines[e])){
             active_count++;
         }
     }
