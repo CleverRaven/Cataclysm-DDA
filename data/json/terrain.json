@@ -4632,7 +4632,7 @@
         }
     },{
         "type" : "terrain",
-        "id" : "claymound",
+        "id" : "t_claymound",
         "name": "mound of clay",
         "symbol": "#",
         "color": "brown",
@@ -4642,7 +4642,7 @@
             "str_min": 2, "str_max": 4, "num_tests": 2,
             "sound": "splosh!",
             "sound_fail": "splosh!",
-            "ter_set": "t_water_sh",
+            "ter_set": "t_water_dp",
             "items": [
                 { "item": "clay_lump", "amount": 10, "minamount": 5 }
             ]
