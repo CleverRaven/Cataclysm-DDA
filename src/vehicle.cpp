@@ -492,7 +492,7 @@ void vehicle::control_engines() {
     //count active engines
     int active_count = 0;
     for (size_t e = 0; e < engines.size(); ++e){
-        if (is_engine_on(e)){
+        if (is_part_on(engines[e_toggle])){
             active_count++;
         }
     }
@@ -501,12 +501,12 @@ void vehicle::control_engines() {
     while( e_toggle >= 0 && e_toggle < (int)engines.size() ) {
         e_toggle = select_engine();
         if( e_toggle >= 0 && e_toggle < (int)engines.size() &&
-            (active_count > 1 || !is_engine_on(e_toggle)) ){
-            active_count += (!is_engine_on(e_toggle)) ? 1 : -1;
-            toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
+            (active_count > 1 || !is_part_on(engines[e_toggle]))) {
+            active_count += (!is_part_on(engines[e_toggle])) ? 1 : -1;
+            toggle_specific_engine(e_toggle, !is_part_on(engines[e_toggle]));
 
             add_msg(_("Switched %s %s"),part_info(engines[e_toggle]).name.c_str(),
-                    (is_engine_on(e_toggle)?_("on"):_("off")));
+                    (is_part_on(engines[e_toggle])?_("on"):_("off")));
         }
     }
     // if current velocity greater than new configuration safe speed
