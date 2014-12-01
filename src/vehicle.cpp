@@ -2569,7 +2569,6 @@ int vehicle::basic_consumption (const ammotype & ftype)
 
 int vehicle::total_power (bool fueled)
 {
-    static const std::string ftype_str_muscle(fuel_type_muscle);
     int pwr = 0;
     int cnt = 0;
     int part_under_player;
