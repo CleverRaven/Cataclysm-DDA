@@ -2577,9 +2577,7 @@ int vehicle::total_power (bool fueled)
     
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
-        if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
-              (is_engine_type(e, fuel_type_muscle) && player_controlling &&
-              part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p))) {
+        if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled)) {
             pwr += part_power(p);
             cnt++;
         }
