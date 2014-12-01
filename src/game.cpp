@@ -4197,8 +4197,18 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if(u.is_dead_state()) {
-        uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
-        return false;
+        if(OPTIONS["DEATHCAM"] == "always") {
+            uquit = QUIT_WATCH;
+        } else if(OPTIONS["DEATHCAM"] == "ask") {
+            uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
+        } else if(OPTIONS["DEATHCAM"] == "never") {
+            uquit = QUIT_DIED;
+        } else {
+            // Something funky happened here, just die.
+            dbg(D_ERROR) << "no deathcam option given to OPTIONS[], defaulting to QUIT_DIED";
+            uquit = QUIT_DIED;
+        }
+        return is_game_over();
     }
     return false;
 }

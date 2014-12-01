@@ -579,7 +579,8 @@ extern ter_id t_null,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
-    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp;
+    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+    t_linoleum_white, t_linoleum_gray;
 
 
 /*
