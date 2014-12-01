@@ -2574,6 +2574,7 @@ int vehicle::total_power (bool fueled)
     int part_under_player;
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = !remote_controlled( &g->u ) && player_in_control( &g->u );
+    
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
         if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
@@ -2583,6 +2584,7 @@ int vehicle::total_power (bool fueled)
             cnt++;
         }
     }
+    
     for (size_t a = 0; a < alternators.size();a++){
         int p = alternators[a];
         if (is_alternator_on(a)) {
