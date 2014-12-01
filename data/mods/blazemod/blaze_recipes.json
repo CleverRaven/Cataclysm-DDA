@@ -37,7 +37,7 @@
   ],
   "components": [
     [
-      [ "shards", 20 ]
+      [ "shards", 10 ]
     ]
   ]
 },{
@@ -73,7 +73,8 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
-  ], "tools" : [
+	],
+  "tools" : [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
@@ -86,7 +87,8 @@
       [ "mop", 5 ],
       [ "2x4", 5 ],
       [ "log", 1 ]
-    ],      [
+    ],
+	  [
         [ "scrap", 10 ],
         [ "rebar", 2 ]
       ]
@@ -162,7 +164,8 @@
         ["shotgun_primer", 1]
     ]
   ]
-},{
+},
+{
         "type" : "recipe",
   "result": "canbomb",
   "category": "CC_AMMO",
@@ -186,20 +189,22 @@
       [ "can_food", 1 ],
       [ "can_drink", 1 ],
       [ "canister_empty", 1 ]
-    ], [
+    ],
+	[
         [ "gunpowder", 216 ],
 		[ "gasoline", 600 ],
 		[ "diesel", 600 ]
 	],
-	  [
+	[
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ]
-  ]
-},{
+				]
+},
+{
         "type" : "recipe",
   "result": "canbombgas",
   "category": "CC_AMMO",
@@ -224,7 +229,8 @@
       [ "can_food", 1 ],
       [ "can_drink", 1 ],
       [ "canister_empty", 1 ]
-    ],[
+    ],
+	[
 	  [ "bleach", 2 ],
       [ "oxy_powder", 200 ]
     ],
@@ -232,7 +238,7 @@
       [ "ammonia", 2 ],
       [ "lye_powder", 200 ]
     ]
-  ]
+				]
 },{
         "type" : "recipe",
   "result": "canbombfire",
@@ -274,15 +280,16 @@
 	  [ "diesel", 200],
 	  [ "napalm", 100]
     ],
-	  [
+	[
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
-    ]
-  ]
-},{
+	]
+				]
+	},
+{
         "type" : "recipe",
   "result": "canbombfire2",
   "category": "CC_AMMO",
@@ -337,7 +344,8 @@
         ["shotgun_primer", 1]
     ]
   ]
-},{
+},
+{
         "type" : "recipe",
   "result": "turretframe",
   "category": "CC_OTHER",
@@ -371,18 +379,19 @@
       [ "xlframe", 1 ]
     ],
 	[
-      [ "chain", 2 ],
+	  [ "chain", 2 ],
 	  [ "bearing", 200]
     ],
 	[
-      [ "scrap", 6 ],
+	  [ "scrap", 6 ],
 	  [ "steel_chunk", 2]
     ],
 	[
       ["spring", 2]
     ]
   ]
-},{
+},
+{
         "type" : "recipe",
   "result": "controlframe",
   "category": "CC_OTHER",
@@ -464,8 +473,12 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 5]
-    ]
+	  [ "oxy_torch", 5]
+    ],
+	[
+	  [ "small_repairkit", 100 ],
+	  [ "large_repairkit", 25 ]
+	]
   ],
   "components": [
     [
@@ -486,12 +499,10 @@
 	  ["makeshift_funnel", 2]
     ],
 	[
-      ["scrap", 6],
+      [ "scrap", 6],
 	  [ "steel_chunk", 2]
     ],
 	[
-	["smg_9mm", 1],
-	["smg_45", 1],
 	["american_180", 1],
 	["uzi", 1],
 	["tec9", 1],
@@ -507,8 +518,6 @@
 	["needlegun", 1]
     ],
 	[
-	["smg_9mm", 1],
-	["smg_45", 1],
 	["american_180", 1],
 	["uzi", 1],
 	["tec9", 1],
@@ -547,7 +556,11 @@
       [ "welder_crude", 125 ],
       [ "toolset", 125 ],
 	  ["oxy_torch", 10]
-    ]
+    ],
+	[
+	  [ "small_repairkit", 200 ],
+	  [ "large_repairkit", 50 ]
+	]
   ],
   "components": [
     [
@@ -573,8 +586,6 @@
 	  [ "steel_lump", 1]
     ],
 	[
-	["smg_9mm", 1],
-	["smg_45", 1],
 	["american_180", 1],
 	["uzi", 1],
 	["tec9", 1],
@@ -590,8 +601,6 @@
 	["needlegun", 1]
     ],
 	[
-	["smg_9mm", 1],
-	["smg_45", 1],
 	["american_180", 1],
 	["uzi", 1],
 	["tec9", 1],
@@ -605,9 +614,23 @@
 	["ppsh", 1],
 	["rm2000_smg", 1],
 	["needlegun", 1]
-    ],	[
-	["smg_9mm", 1],
-	["smg_45", 1],
+    ],
+	[
+	["american_180", 1],
+	["uzi", 1],
+	["tec9", 1],
+	["calico", 1],
+	["hk_mp5", 1],
+	["mac_10", 1],
+	["hk_ump45", 1],
+	["TDI", 1],
+	["fn_p90", 1],
+	["hk_mp7", 1],
+	["ppsh", 1],
+	["rm2000_smg", 1],
+	["needlegun", 1]
+    ],
+	[
 	["american_180", 1],
 	["uzi", 1],
 	["tec9", 1],
