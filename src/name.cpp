@@ -22,25 +22,25 @@ void NameGenerator::load_name(JsonObject &jo)
 {
     std::string name = jo.get_string("name");
     std::string usage = jo.get_string("usage");
-    uint32_t flags = 0;
+    uint32_t type = 0;
 
     if (usage == "given") {
-        flags |= nameIsGivenName;
+        type |= nameIsGivenName;
         name = pgettext("Given Name", name.c_str());
     } else if (usage == "family") {
-        flags |= nameIsFamilyName;
+        type |= nameIsFamilyName;
         name = pgettext("Family Name", name.c_str());
     } else if (usage == "universal") {
-        flags |= nameIsGivenName | nameIsFamilyName;
+        type |= nameIsGivenName | nameIsFamilyName;
         name = pgettext("Either Name", name.c_str());
     } else if (usage == "backer") {
-        flags |= nameIsFullName;
+        type |= nameIsFullName;
         name = pgettext("Full Name", name.c_str());
     } else if (usage == "city") {
-        flags |= nameIsTownName;
+        type |= nameIsTownName;
         name = pgettext("City Name", name.c_str());
     } else if (usage == "world") {
-        flags |= nameIsWorldName;
+        type |= nameIsWorldName;
         name = pgettext("World Name", name.c_str());
     }
 
@@ -49,39 +49,62 @@ void NameGenerator::load_name(JsonObject &jo)
         std::string gender = jo.get_string("gender");
 
         if (gender == "male") {
-            flags |= nameIsMaleName;
+            type |= nameIsMaleName;
         } else if (gender == "female") {
-            flags |= nameIsFemaleName;
+            type |= nameIsFemaleName;
         } else if (gender == "unisex") {
-            flags |= nameIsUnisexName;
+            type |= nameIsUnisexName;
         }
     }
 
-    Name aName(name, flags);
+    Name aName(name, type);
 
-    names.push_back(aName);
+    // Add the name to the appropriate bucket
+    names[type].push_back(aName);
 }
 
-std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags)
+// Find all name types satisfying the search flags.
+// There can be more than one, i.e. if searchFlags == nameIsUnisexName
+// this function will return [ nameIsMaleName, nameIsFemaleName ]
+std::vector<uint32_t> NameGenerator::uint32_tsFromFlags(uint32_t searchFlags) const
 {
+    std::vector<uint32_t> types;
 
-    std::vector<std::string> retval;
-
-    for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
-        if ((aName->flags() & searchFlags) == searchFlags) {
-            retval.push_back(aName->value());
+    for( std::map< uint32_t, std::vector<Name> >::const_iterator it = names.begin();
+         it != names.end(); ++it ) {
+        const uint32_t type = it->first;
+        if (searchFlags & type) {
+            types.push_back(type);
         }
     }
-    return retval;
+
+    return types;
 }
 
+// Get a random name with the specified flag
 std::string NameGenerator::getName(uint32_t searchFlags)
 {
-    std::vector<std::string> theseNames = filteredNames(searchFlags);
-    if( theseNames.empty() ) {
+    const std::vector<uint32_t> types = uint32_tsFromFlags(searchFlags);
+    uint32_t type;
+    int nTypes = types.size();
+
+    if (nTypes == 0) {
+        // BUG, no matching name type found.
+        return std::string( _("Tom") );
+    } else if (nTypes == 1) {
+        type = types[0];
+    } else {
+        type = types[ rng(0, types.size()-1) ];
+    }
+
+    // Choose a random name of this type
+    std::vector<Name> theseNames = names[type];
+    if (theseNames.empty()) {
+        // BUG, no matching name found.
         return std::string( _("Tom") );
     }
-    return theseNames[ rng( 0, theseNames.size() - 1 ) ];
+
+    return theseNames[ rng(0, theseNames.size()-1) ].value();
 }
 
 std::string NameGenerator::generateName(bool male)
@@ -117,13 +140,13 @@ std::string Name::get(uint32_t searchFlags)
 Name::Name()
 {
     _value = _("Tom");
-    _flags = 15;
+    _type = 15;
 }
 
-Name::Name(std::string name, uint32_t flags)
+Name::Name(std::string name, uint32_t type)
 {
     _value = name;
-    _flags = flags;
+    _type = type;
 }
 
 void load_names_from_file(const std::string &filename)

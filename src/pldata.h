@@ -20,6 +20,7 @@ typedef std::string efftype_id;
 enum character_type {
     PLTYPE_CUSTOM,
     PLTYPE_RANDOM,
+    PLTYPE_RANDOM_WITH_SCENARIO,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
     PLTYPE_MAX

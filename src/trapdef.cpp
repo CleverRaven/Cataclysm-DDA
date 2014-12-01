@@ -74,7 +74,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...
-           (p.has_disease("lack_sleep") ? rng(1, 5) : 0) -
+           (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
            rl_dist(p.posx, p.posy, x, y) +
            // Police are trained to notice Something Wrong.
@@ -188,10 +188,9 @@ void set_trap_ids()
     tr_glass_pit = trapfind("tr_glass_pit");
 
     // Set ter_t.trap using ter_t.trap_id_str.
-    for( std::vector<ter_t>::iterator terrain = terlist.begin();
-         terrain != terlist.end(); ++terrain ) {
-        if( terrain->trap_id_str.length() != 0 ) {
-            terrain->trap = trapfind( terrain->trap_id_str );
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.length() != 0 ) {
+            elem.trap = trapfind( elem.trap_id_str );
         }
     }
 }

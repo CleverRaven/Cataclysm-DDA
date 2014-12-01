@@ -6,7 +6,6 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
-#include "item_factory.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -155,7 +154,7 @@ void npc::move()
         add_msg( m_debug, "address_player %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-                || mission == NPC_MISSION_GUARD || has_disease("infection")) {
+                || mission == NPC_MISSION_GUARD || has_effect("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -248,7 +247,7 @@ void npc::execute_action(npc_action action, int target)
         /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
          * we get some sleep, how long watch shifts should be, etc.
          */
-        //add_disease("lying_down", 300);
+        //add_effect("lying_down", 300);
         if (is_friend() && g->u_see(posx, posy)) {
             say(_("I'm going to sleep."));
         }
@@ -705,7 +704,7 @@ npc_action npc::address_player()
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
         this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
-        if (g->u.has_disease("sleep")) {
+        if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
         }
@@ -743,17 +742,19 @@ npc_action npc::address_player()
     if (attitude == NPCATT_LEAD) {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
             !g->sees_u(posx, posy, linet)) {
-            int intense = disease_intensity("catch_up");
-            if (intense < 10) {
-                say("<keep_up>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else if (intense == 10) {
-                say("<im_leaving_you>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else {
-                return npc_goto_destination;
+            if(has_effect("catch_up")) {
+                int intense = get_effect_int("catch_up");
+                if (intense < 10) {
+                    say("<keep_up>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else if (intense == 10) {
+                    say("<im_leaving_you>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else {
+                    return npc_goto_destination;
+                }
             }
         } else {
             return npc_goto_destination;
@@ -788,10 +789,10 @@ npc_action npc::long_term_goal_action()
 
 bool npc::alt_attack_available()
 {
-    for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
-        if ((!is_following() || combat_rules.use_grenades ||
-             !(item_controller->find_template( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
-            has_amount(ALT_ATTACK_ITEMS[i], 1)) {
+    for( auto &elem : ALT_ATTACK_ITEMS ) {
+        if( ( !is_following() || combat_rules.use_grenades ||
+              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
+            has_amount( elem, 1 ) ) {
             return true;
         }
     }
@@ -1022,10 +1023,14 @@ bool npc::can_move_to(int x, int y) const
 
 void npc::move_to(int x, int y)
 {
-
-    if (has_effect("downed")) {
-        moves -= 100;
+    if (!move_effects()) {
+        mod_moves(-100);
         return;
+    }
+    if (g->m.has_flag("UNSTABLE", x, y)) {
+        add_effect("bouldering", 1, num_bp, true);
+    } else if (has_effect("bouldering")) {
+        remove_effect("bouldering");
     }
     if( sees_dangerous_field( point( x, y ) ) ) {
         // move to a neighbor field instead, if possible.
@@ -1339,19 +1344,19 @@ void npc::find_item()
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
                 std::vector<item> &i = g->m.i_at(x, y);
-                for (std::vector<item>::iterator it = i.begin(); it != i.end(); ++it) {
-                    if ( it->made_of( LIQUID ) ) {
+                for( auto &elem : i ) {
+                    if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
                         continue;
                     }
-                    int itval = value(*it);
-                    int wgt = it->weight(), vol = it->volume();
+                    int itval = value( elem );
+                    int wgt = elem.weight(), vol = elem.volume();
                     if (itval > best_value &&
                         //(itval > worst_item_value ||
                         (can_pickWeight(wgt) && can_pickVolume(vol))) {
                         itx = x;
                         ity = y;
-                        wanted = &(*it);
+                        wanted = &( elem );
                         best_value = itval;
                         fetching_item = true;
                     }
@@ -1503,9 +1508,9 @@ void npc::drop_items(int weight, int volume)
             index = rWgt[0].index;
             rWgt.erase(rWgt.begin());
             // Fix the rest of those indices.
-            for (size_t i = 0; i < rWgt.size(); i++) {
-                if (rWgt[i].index > index) {
-                    rWgt[i].index--;
+            for( auto &elem : rWgt ) {
+                if( elem.index > index ) {
+                    elem.index--;
                 }
             }
         } else {
@@ -1631,11 +1636,11 @@ void npc::alt_attack(int target)
      * items, from least to most important.
      * See npc.h for definition of ALT_ATTACK_ITEMS
      */
-    for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
-        if ((!is_following() || combat_rules.use_grenades ||
-             !(item_controller->find_template( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
-            has_amount(ALT_ATTACK_ITEMS[i], 1)) {
-            which = ALT_ATTACK_ITEMS[i];
+    for( auto &elem : ALT_ATTACK_ITEMS ) {
+        if( ( !is_following() || combat_rules.use_grenades ||
+              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
+            has_amount( elem, 1 ) ) {
+            which = elem;
         }
     }
 

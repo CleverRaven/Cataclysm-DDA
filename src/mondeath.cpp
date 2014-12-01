@@ -85,7 +85,7 @@ void mdeath::boomer(monster *z)
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1) {
-        g->u.add_env_effect("boomered", bp_eyes, 2, 24, 1, false);
+        g->u.add_env_effect("boomered", bp_eyes, 2, 24);
     }
 }
 
@@ -197,22 +197,22 @@ void mdeath::fungus(monster *z)
                         return;
                     }
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
                     if (hit && (g->u.has_trait("TAIL_CATTLE") &&
@@ -320,10 +320,9 @@ void mdeath::guilt(monster *z)
         msgtype = m_neutral;
     } else {
         msgtype = m_bad;
-        for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
-             it != guilt_tresholds.end(); it++) {
-            if (kill_count >= it->first) {
-                msg = it->second;
+        for( auto &guilt_treshold : guilt_tresholds ) {
+            if( kill_count >= guilt_treshold.first ) {
+                msg = guilt_treshold.second;
                 break;
             }
         }
@@ -426,7 +425,7 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    if (!g->u.has_disease("amigara")) {
+    if (!g->u.has_effect("amigara")) {
         return;
     }
     int count = 0;
@@ -436,9 +435,9 @@ void mdeath::amigara(monster *z)
         }
     }
     if (count <= 1) { // We're the last!
-        g->u.rem_disease("amigara");
+        g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        g->m.add_item_or_charges( z->posx(), z->posy(), item( new_artifact(), calendar::turn ) );
+        g->m.spawn_artifact( z->posx(), z->posy() );
     }
 }
 
@@ -493,11 +492,11 @@ void mdeath::focused_beam(monster *z)
         int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
 
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
-        for (auto it = traj.begin(); it != traj.end(); ++it) {
-            if( !g->m.trans( it->x, it->y ) ) {
+        for( auto &elem : traj ) {
+            if( !g->m.trans( elem.x, elem.y ) ) {
                 break;
             }
-            g->m.add_field(it->x, it->y, fd_dazzling, 2);
+            g->m.add_field( elem.x, elem.y, fd_dazzling, 2 );
         }
     }
 
@@ -522,7 +521,7 @@ void mdeath::broken(monster *z) {
 
 void mdeath::ratking(monster *z)
 {
-    g->u.rem_disease("rat");
+    g->u.remove_effect("rat");
     if (g->u_see(z)) {
         add_msg(m_warning, _("Rats suddenly swarm into view."));
     }
@@ -550,9 +549,9 @@ void mdeath::ratking(monster *z)
 
 void mdeath::darkman(monster *z)
 {
-    g->u.rem_disease("darkness");
+    g->u.remove_effect("darkness");
     if (g->u_see(z)) {
-        add_msg(m_good, _("The %s melts away. And the world returns to normality."), z->name().c_str());
+        add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -616,19 +615,19 @@ void make_gibs(monster *z, int amount)
 
     for (int i = 0; i < amount; i++) {
         // leave gibs, if there are any
-        const int gibX = zposx + rng(0, 6) - 3;
-        const int gibY = zposy + rng(0, 6) - 3;
+        const int gibX = rng(zposx - 1, zposx + 1);
+        const int gibY = rng(zposy - 1, zposy + 1);
         const int gibDensity = rng(1, i + 1);
         int junk;
         if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
+            if(  g->m.clear_path( zposx, zposy, gibX, gibY, 2, 1, 100, junk ) ) {
                 // Only place gib if there's a clear path for it to get there.
                 g->m.add_field( gibX, gibY, z->gibType(), gibDensity );
             }
         }
         if( type_blood != fd_null ) {
-            const int bloodX = zposx + (rng(0, 2) - 1);
-            const int bloodY = zposy + (rng(0, 2) - 1);
+            const int bloodX = rng(zposx - 1, zposx + 1);
+            const int bloodY = rng(zposy - 1, zposy + 1);
             if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
                 // Only place blood if there's a clear path for it to get there.
                 g->m.add_field(bloodX, bloodY, type_blood, 1);

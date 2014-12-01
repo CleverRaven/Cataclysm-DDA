@@ -113,10 +113,9 @@ void Creature_tracker::remove(const int idx)
     _old_monsters_list.erase(_old_monsters_list.begin() + idx);
 
     // Fix indices in _old_monsters_by_location for any zombies that were just moved down 1 place.
-    for( auto iter = _old_monsters_by_location.begin();
-         iter != _old_monsters_by_location.end(); ++iter ) {
-        if (iter->second > idx) {
-            --iter->second;
+    for( auto &elem : _old_monsters_by_location ) {
+        if( elem.second > idx ) {
+            --elem.second;
         }
     }
 }

@@ -27,25 +27,6 @@ bool itype::can_use( std::string iuse_name ) const
                       *func ) != use_methods.cend();
 }
 
-bool itype::is_covering(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
-    }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->covers.test(bp);
-}
-
-
-bool itype::is_sided(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
-    }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->sided.test(bp);
-}
-
 int itype::invoke( player *p, item *it, bool active, point pos )
 {
     int charges_to_use = 0;
@@ -143,9 +124,4 @@ std::string ammo_name(std::string t)
 itype_id default_ammo(std::string t)
 {
     return ammunition_type::find_ammunition_type(t)->default_ammotype();
-}
-
-std::string item_name(const itype_id &type)
-{
-    return item_controller->find_template(type)->nname(1);
 }

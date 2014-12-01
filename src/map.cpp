@@ -40,8 +40,8 @@ map::map(int mapsize)
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
-    for (size_t n = 0; n < sizeof(grid) / sizeof(grid[0]); n++) {
-        grid[n] = NULL;
+    for( auto &elem : grid ) {
+        elem = NULL;
     }
 }
 
@@ -68,9 +68,9 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
        continue; // out of grid
    }
 
-   for( size_t i = 0; i < current_submap->vehicles.size(); ++i ) {
+   for( auto &elem : current_submap->vehicles ) {
     wrapped_vehicle w;
-    w.v = current_submap->vehicles[i];
+    w.v = elem;
     w.x = w.v->posx + cx * SEEX;
     w.y = w.v->posy + cy * SEEY;
     w.i = cx;
@@ -127,9 +127,8 @@ void map::reset_vehicle_cache()
  clear_vehicle_cache();
  // Cache all vehicles
  veh_in_active_range = false;
- for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
-   it_end = vehicle_list.end(); veh != it_end; ++veh ) {
-  update_vehicle_cache(*veh, true);
+ for( const auto &elem : vehicle_list ) {
+     update_vehicle_cache( elem, true );
  }
 }
 
@@ -196,9 +195,8 @@ void map::clear_vehicle_cache()
 
 void map::update_vehicle_list(submap *const to) {
  // Update vehicle data
- for( std::vector<vehicle*>::iterator it = to->vehicles.begin(),
-      end = to->vehicles.end(); it != end; ++it ) {
-   vehicle_list.insert(*it);
+    for( auto &elem : to->vehicles ) {
+        vehicle_list.insert( elem );
  }
 }
 
@@ -413,8 +411,15 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
     }
 
+    // Need old coords to check for remote control
+    bool remote = veh->remote_controlled( &g->u );
+
     x += dx;
     y += dy;
+
+    if( remote ) {
+        g->setremoteveh( veh );
+    }
 
     update_vehicle_cache(veh);
 
@@ -451,8 +456,8 @@ void map::vehmove()
     // give vehicles movement points
     {
         VehicleList vehs = get_vehicles();
-        for( size_t v = 0; v < vehs.size(); ++v ) {
-            vehicle* veh = vehs[v].v;
+        for( auto &vehs_v : vehs ) {
+            vehicle *veh = vehs_v.v;
             veh->gain_moves();
             veh->slow_leak();
         }
@@ -467,8 +472,8 @@ void map::vehmove()
         }
     }
     // Process item removal on the vehicles that were modified this turn.
-    for (std::set<vehicle*>::iterator it = dirty_vehicle_list.begin(); it != dirty_vehicle_list.end(); ++it) {
-        (*it)->part_removal_cleanup();
+    for( const auto &elem : dirty_vehicle_list ) {
+        ( elem )->part_removal_cleanup();
     }
     dirty_vehicle_list.clear();
 }
@@ -479,11 +484,11 @@ bool map::vehproceed()
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
-    for( size_t v = 0; v < vehs.size(); ++v ) {
-        if( vehs[v].v->of_turn > max_of_turn ) {
-            veh = vehs[v].v;
-            x = vehs[v].x;
-            y = vehs[v].y;
+    for( auto &vehs_v : vehs ) {
+        if( vehs_v.v->of_turn > max_of_turn ) {
+            veh = vehs_v.v;
+            x = vehs_v.x;
+            y = vehs_v.y;
             max_of_turn = veh->of_turn;
         }
     }
@@ -706,8 +711,8 @@ bool map::vehproceed()
         float dmg_veh2 = dmg * 0.5;
 
         int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
-            veh_collision tmp_c = veh_veh_colls[i];
+        for( auto &veh_veh_coll : veh_veh_colls ) {
+            veh_collision tmp_c = veh_veh_coll;
             if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
         }
 
@@ -715,8 +720,8 @@ bool map::vehproceed()
         float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
         //damage colliding parts (only veh1 and veh2 parts)
-        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
-            veh_collision tmp_c = veh_veh_colls[i];
+        for( auto &veh_veh_coll : veh_veh_colls ) {
+            veh_collision tmp_c = veh_veh_coll;
 
             if(veh2 == (vehicle*) tmp_c.target) {
                 int parm1 = veh->part_with_feature (tmp_c.part, VPFLAG_ARMOR);
@@ -768,12 +773,11 @@ bool map::vehproceed()
         veh2->of_turn = avg_of_turn * 1.1;
     }
 
-    for(std::vector<veh_collision>::iterator next_collision = veh_misc_colls.begin();
-            next_collision != veh_misc_colls.end(); next_collision++) {
+    for( auto &veh_misc_coll : veh_misc_colls ) {
 
-        point collision_point(veh->parts[next_collision->part].mount_dx,
-                                    veh->parts[next_collision->part].mount_dy);
-        int coll_dmg = next_collision->imp;
+        point collision_point( veh->parts[veh_misc_coll.part].mount_dx,
+                               veh->parts[veh_misc_coll.part].mount_dy );
+        int coll_dmg = veh_misc_coll.imp;
         //Shock damage
         veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
     }
@@ -1528,7 +1532,7 @@ bool map::flammable_items_at(const int x, const int y)
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
             return true;
         }
-        if (i.made_of("cotton") && (vol <= 5 || i.burnt < 1)) {
+        if ((i.made_of("cotton") || i.made_of("wool")) && (vol <= 5 || i.burnt < 1)) {
             return true;
         }
         if (i.is_ammo() && i.ammo_type() != "battery" &&
@@ -1552,6 +1556,8 @@ bool map::moppable_items_at(const int x, const int y)
     const field &fld = field_at(x, y);
     if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
           fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+          || fld.findField(fd_gibs_flesh) != 0 || fld.findField(fd_gibs_veggy) != 0 ||
+          fld.findField(fd_gibs_insect) != 0 || fld.findField(fd_gibs_invertebrate) != 0
           || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
           fld.findField(fd_sludge) != 0) {
         return true;
@@ -1629,6 +1635,10 @@ void map::mop_spills(const int x, const int y) {
     remove_field( x, y, fd_blood_veggy );
     remove_field( x, y, fd_blood_insect );
     remove_field( x, y, fd_blood_invertebrate );
+    remove_field( x, y, fd_gibs_flesh );
+    remove_field( x, y, fd_gibs_veggy );
+    remove_field( x, y, fd_gibs_insect );
+    remove_field( x, y, fd_gibs_invertebrate );
     remove_field( x, y, fd_bile );
     remove_field( x, y, fd_slime );
     remove_field( x, y, fd_sludge );
@@ -1636,8 +1646,8 @@ void map::mop_spills(const int x, const int y) {
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
         std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
-        for(size_t i = 0; i < parts_here.size(); i++) {
-            veh->parts[parts_here[i]].blood = 0;
+        for( auto &elem : parts_here ) {
+            veh->parts[elem].blood = 0;
         }
     }
 }
@@ -1664,22 +1674,22 @@ void map::create_spores(const int x, const int y, Creature* source)
                 } else if (g->u.posx == i && g->u.posy == j) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
                     if (hit) {
@@ -1999,8 +2009,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 }
 
 void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y) {
-    for (size_t i = 0; i < items.size(); i++) {
-        const map_bash_item_drop &drop = items[i];
+    for( auto &items_i : items ) {
+        const map_bash_item_drop &drop = items_i;
         int chance = drop.chance;
         if ( chance == -1 || rng(0, 100) >= chance ) {
             int numitems = drop.amount;
@@ -2072,7 +2082,7 @@ void map::crush(const int x, const int y)
             //This is the roof coming down on top of us, no chance to dodge
             crushed_player->add_msg_player_or_npc( m_bad, _("You are crushed by the falling debris!"),
                                                    _("<npcname> is crushed by the falling debris!") );
-            int dam = rng(0, 60);
+            int dam = rng(0, 40);
             // Torso and head take the brunt of the blow
             body_part hit = bp_head;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
@@ -2089,7 +2099,8 @@ void map::crush(const int x, const int y)
             hit = bp_arm_r;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
 
-            // Add crushed pinning effect once effect processing is updated
+            // Pin whoever got hit
+            crushed_player->add_effect("crushed", 1, num_bp, true);
         }
     }
 
@@ -2100,7 +2111,8 @@ void map::crush(const int x, const int y)
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
-        // Add crushed pinning effect once effect processing is updated
+        // Pin whoever got hit
+        monhit->add_effect("crushed", 1, num_bp, true);
     }
 
     vehicle *veh = veh_at(x, y, veh_part);
@@ -2304,6 +2316,10 @@ void map::shoot(const int x, const int y, int &dam,
 
     if (ammo_effects.count("STREAM") && !one_in(3)) {
         add_field(x, y, fd_fire, rng(1, 2));
+    }
+
+    if (ammo_effects.count("STREAM_BIG") && !one_in(4)) {
+        add_field(x, y, fd_fire, 2);
     }
 
     if (ammo_effects.count("LIGHTNING")) {
@@ -2636,24 +2652,24 @@ itemslice map::i_stacked(std::vector<item>& items)
     itemslice islice;
 
     //iterate through all items in the vector
-    for (auto it = items.begin(); it != items.end(); it++) {
-        if( it->count_by_charges() ) {
+    for( auto &items_it : items ) {
+        if( items_it.count_by_charges() ) {
             // Those exists as a single item all the item anyway
-            islice.push_back( std::make_pair( &*it, 1 ) );
+            islice.push_back( std::make_pair( &items_it, 1 ) );
             continue;
         }
         bool list_exists = false;
 
         //iterate through stacked item lists
-        for(auto curr = islice.begin(); curr != islice.end(); curr++) {
+        for( auto &elem : islice ) {
             //check if the ID exists
-            item *first_item = curr->first;
-            if (first_item->type->id == it->type->id) {
+            item *first_item = elem.first;
+            if( first_item->type->id == items_it.type->id ) {
                 //we've found the list of items with the same type ID
 
-                if( first_item->stacks_with( *it ) ) {
+                if( first_item->stacks_with( items_it ) ) {
                     //add it to the existing list
-                    curr->second++;
+                    elem.second++;
                     list_exists = true;
                     break;
                 }
@@ -2662,7 +2678,7 @@ itemslice map::i_stacked(std::vector<item>& items)
 
         if(!list_exists) {
             //insert the list into islice
-            islice.push_back( std::make_pair( &*it, 1 ) );
+            islice.push_back( std::make_pair( &items_it, 1 ) );
         }
 
     } //end items loop
@@ -2773,42 +2789,15 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
         return;
     }
     const bool swimmable = has_flag("SWIMMABLE", x, y);
-    for (std::vector<item>::const_iterator a = new_items.begin(); a != new_items.end(); ++a) {
-        item new_item = *a;
+    for( auto new_item : new_items ) {
+
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
         if (new_item.is_armor() && new_item.has_flag("PAIRED") && x_in_y(4, 5)) {
-            //Clear old side info
-            it_armor* armor = dynamic_cast<it_armor*>(new_item.type);
-            new_item.covers = armor->covers;
-            if (new_item.has_flag("RIGHT")) {
-                new_item.item_tags.erase("RIGHT");
-            }
-            if (new_item.has_flag("LEFT")) {
-                new_item.item_tags.erase("LEFT");
-            }
-            //Clone unsided item
             item new_item2 = new_item;
-            //Add new sides to both items
-            new_item.item_tags.insert("LEFT");
-            new_item2.item_tags.insert("RIGHT");
-            if (new_item.type->is_sided(bp_arm_l)) {
-                new_item.covers.set(bp_arm_l);
-                new_item2.covers.set(bp_arm_r);
-            }
-            if (new_item.type->is_sided(bp_hand_l)) {
-                new_item.covers.set(bp_hand_l);
-                new_item2.covers.set(bp_hand_r);
-            }
-            if (new_item.type->is_sided(bp_leg_l)) {
-                new_item.covers.set(bp_leg_l);
-                new_item2.covers.set(bp_leg_r);
-            }
-            if (new_item.type->is_sided(bp_foot_l)) {
-                new_item.covers.set(bp_foot_l);
-                new_item2.covers.set(bp_foot_r);
-            }
+            new_item.make_handed( LEFT );
+            new_item2.make_handed( RIGHT );
             add_item_or_charges(x, y, new_item2);
         }
         add_item_or_charges(x, y, new_item);
@@ -2996,8 +2985,8 @@ static void apply_in_fridge(item &it)
         }
     }
     if (it.is_container()) {
-        for (size_t a = 0; a < it.contents.size(); a++) {
-            apply_in_fridge(it.contents[a]);
+        for( auto &elem : it.contents ) {
+            apply_in_fridge( elem );
         }
     }
 }
@@ -3107,8 +3096,8 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor )
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
     std::vector<vehicle*> vehicles = veh_in_nonant;
-    for (size_t v = 0; v < vehicles.size(); v++) {
-        vehicle *cur_veh = vehicles[v];
+    for( auto &vehicles_v : vehicles ) {
+        vehicle *cur_veh = vehicles_v;
         if (std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
             // vehicle not in the vehicle list of the nonant, has been
             // destroyed (or moved to another nonant?)
@@ -3422,9 +3411,9 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
                 continue;
             }
             std::vector<item> &item_stack = i_at( pos.x, pos.y );
-            for( auto item_ref = item_stack.begin(); item_ref != item_stack.end(); ++item_ref ) {
-                if( item_ref->has_flag("RADIO_ACTIVATION") || item_ref->has_flag("RADIO_CONTAINER") ) {
-                    rc_pairs.push_back( std::make_pair( pos, &(*item_ref) ) );
+            for( auto &elem : item_stack ) {
+                if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
+                    rc_pairs.push_back( std::make_pair( pos, &( elem ) ) );
                 }
             }
         }
@@ -4040,7 +4029,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         tercol = (bright_light) ? c_white : c_ltgreen;
     } else if (low_light) {
         tercol = c_dkgray;
-    } else if (u.has_disease("darkness")) {
+    } else if (u.has_effect("darkness")) {
         tercol = c_dkgray;
     }
 
@@ -4321,9 +4310,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
 
         std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
 
-        for (unsigned int i = 0; i < vDirCircle.size(); ++i) {
-            const int x = vDirCircle[i].x;
-            const int y = vDirCircle[i].y;
+        for( auto &elem : vDirCircle ) {
+            const int x = elem.x;
+            const int y = elem.y;
 
             if (x == Tx && y == Ty) {
                 done = true;
@@ -5391,14 +5380,14 @@ void map::add_corpse(int x, int y) {
     }
 
     add_item_or_charges(x, y, body);
-    put_items_from("shoes",  1, x, y, 0, 0, 0);
-    put_items_from("pants",  1, x, y, 0, 0, 0);
-    put_items_from("shirts", 1, x, y, 0, 0, 0);
+    put_items_from_loc( "shoes",  x, y, 0);
+    put_items_from_loc( "pants",  x, y, 0);
+    put_items_from_loc( "shirts", x, y, 0);
     if (one_in(6)) {
-        put_items_from("jackets", 1, x, y, 0, 0, 0);
+        put_items_from_loc("jackets", x, y, 0);
     }
     if (one_in(15)) {
-        put_items_from("bags", 1, x, y, 0, 0, 0);
+        put_items_from_loc("bags", x, y, 0);
     }
 }
 

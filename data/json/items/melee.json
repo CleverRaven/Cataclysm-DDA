@@ -68,6 +68,24 @@
     },
     {
         "type":"GENERIC",
+        "id": "felt_patch",
+        "symbol": ",",
+        "color": "white",
+        "name": "felt patch",
+        "name_plural": "felt patches",
+        "description": "A smallish patch of felt, could be disassembled for wool fiber.",
+        "price": 2000,
+        "material": ["wool"],
+        "flags": ["NO_SALVAGE"],
+        "weight": 100,
+        "volume": 1,
+        "bashing": -2,
+        "cutting": 0,
+        "category" : "spare_parts",
+        "to_hit": -1
+    },
+    {
+        "type":"GENERIC",
         "id": "superglue",
         "symbol": ",",
         "color": "white",
@@ -662,7 +680,7 @@
         "flags" : ["DURABLE_MELEE"],
         "weight": 1400,
         "volume": 12,
-        "bashing": 23,
+        "bashing": 19,
         "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
@@ -680,7 +698,7 @@
         "flags" : ["DURABLE_MELEE"],
         "weight": 2200,
         "volume": 12,
-        "bashing": 30,
+        "bashing": 25,
         "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
@@ -880,9 +898,9 @@
         "material": "gold",
         "weight": 9650,
         "volume": 2,
-        "bashing": 0,
+        "bashing": 10,
         "cutting": 0,
-        "to_hit": -8
+        "to_hit": -2
     },
     {
         "type":"GENERIC",
@@ -898,7 +916,7 @@
         "volume": 2,
         "bashing": 10,
         "cutting": 0,
-        "to_hit": -1
+        "to_hit": -2
     },
     {
         "type":"GENERIC",
@@ -954,13 +972,13 @@
         "color": "dark_gray",
         "name": "pair of binoculars",
         "name_plural": "pairs of binoculars",
-        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight",
+        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
         "flags": [ "LENS" ],
         "weight": 708,
         "volume": 2,
-        "bashing": 6,
+        "bashing": 4,
         "cutting": 0,
         "to_hit": -1,
         "use_action": "FIRESTARTER"
@@ -978,7 +996,7 @@
         "volume": 0,
         "bashing": 0,
         "cutting": 0,
-        "to_hit": 0
+        "to_hit": -3
     },
     {
         "type":"GENERIC",
@@ -1021,9 +1039,9 @@
         "material": "gold",
         "weight": 1514,
         "volume": 1,
-        "bashing": 6,
+        "bashing": 9,
         "cutting": 0,
-        "to_hit": 1
+        "to_hit": 0
     },
     {
         "type":"GENERIC",
@@ -1807,7 +1825,7 @@
         "volume": 3,
         "bashing": 4,
         "cutting": 0,
-        "to_hit": 5
+        "to_hit": -1
     },
     {
         "type":"GENERIC",
@@ -1822,7 +1840,7 @@
         "volume": 4,
         "bashing": 6,
         "cutting": 0,
-        "to_hit": 4
+        "to_hit": -1
     },
     {
         "type":"GENERIC",
@@ -2127,8 +2145,8 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
-        "bashing" : 21,
-        "cutting" : 4,
+        "bashing" : 20,
+        "cutting" : 6,
         "price" : 20000
     },
     {
@@ -2178,7 +2196,7 @@
         "material" : ["wood", "steel"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
-        "bashing" : 22,
+        "bashing" : 28,
         "cutting" : 2,
         "flags" : ["STAB"],
         "price" : 8000
@@ -2228,7 +2246,7 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
-        "bashing" : 20,
+        "bashing" : 19,
         "cutting" : 0,
         "price" : 16000
     },
@@ -2444,7 +2462,7 @@
         "techniques" : ["SWEEP"],
         "flags" : ["DURABLE_MELEE"],
         "volume" : 5,
-        "bashing" : 26,
+        "bashing" : 28,
         "cutting" : 0,
         "price" : 100000,
                 "qualities": [["HAMMER", 1]]
@@ -2461,7 +2479,7 @@
         "material" : ["iron", "wood"],
         "techniques" : ["SWEEP"],
         "volume" : 6,
-        "bashing" : 22,
+        "bashing" : 30,
         "cutting" : 4,
         "flags" : ["DURABLE_MELEE", "SPEAR"],
         "price" : 120000,
@@ -2980,6 +2998,7 @@
     {
         "type":"GENERIC",
         "id" : "PR24-retracted",
+        "category" : "weapons",
         "name" : "PR-24 baton (retracted)",
         "name_plural" : "PR-24 batons (retracted)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
@@ -3003,6 +3022,7 @@
     {
         "type":"GENERIC",
         "id" : "PR24-extended",
+        "category" : "weapons",
         "name" : "PR-24 baton (extended)",
         "name_plural" : "PR-24 batons (extended)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
@@ -3026,6 +3046,7 @@
     {
         "type":"GENERIC",
         "id": "atomic_light",
+        "category" : "tools",
         "symbol": ",",
         "color": "light_green",
         "name": "atomic nightlight",
@@ -3043,6 +3064,7 @@
     {
         "type":"GENERIC",
         "id": "atomic_coffeepot",
+        "category" : "tools",
         "symbol": ",",
         "color": "light_green",
         "name": "atomic coffee maker",
@@ -4276,11 +4298,42 @@
         "category": "spare_parts",
         "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
         "price": 0,
-        "material": ["veggy"],
+        "material": ["paper"],
         "weight": 20,
         "volume": 1,
         "bashing": 0,
         "cutting": 0,
         "to_hit": -2
+    },{
+        "type":"GENERIC",
+        "id": "straw_doll",
+        "symbol": "o",
+        "color": "light_gray",
+        "name": "straw doll",
+        "name_plural": "straw dolls",
+        "description": "Old straw doll. Represents a woman in a dress. ",
+        "price": 100,
+        "material": ["paper", "null"],
+        "weight": 80,
+        "volume": 2,
+        "bashing": -3,
+        "cutting": 0,
+        "to_hit": 0
+    },{
+        "type":"GENERIC",
+        "id" : "pitchfork",
+        "name" : "pitchfork",
+        "description" : "An agricultural tool with long wooden shaft and four spikes. Is used to lift hay.",
+        "weight" : 1000,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["steel", "wood"],
+        "techniques" : ["WBLOCK_1", "RAPID", "IMPALE"],
+        "volume" : 7,
+        "bashing" : 5,
+        "cutting" : 15,
+        "flags" : ["SPEAR"],
+        "price" : 2000
     }
 ]

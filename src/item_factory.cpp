@@ -74,15 +74,15 @@ void Item_factory::finialize_item_blacklist()
         if (!item_is_blacklisted(itm)) {
             continue;
         }
-        for (GroupMap::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
-            b->second->remove_item(itm);
+        for( auto &elem : m_template_groups ) {
+            elem.second->remove_item( itm );
         }
-        for (recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
-            for (size_t c = 0; c < b->second.size(); c++) {
-                recipe *r = b->second[c];
+        for( auto &recipes_b : recipes ) {
+            for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
+                recipe *r = recipes_b.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
-                    b->second.erase(b->second.begin() + c);
+                    recipes_b.second.erase( recipes_b.second.begin() + c );
                     c--;
                     continue;
                 }
@@ -96,11 +96,11 @@ void Item_factory::finialize_item_blacklist()
                 i--;
             }
         }
-        for (size_t i = 0; i < terlist.size(); i++) {
-            remove_item(itm, terlist[i].bash.items);
+        for( auto &elem : terlist ) {
+            remove_item( itm, elem.bash.items );
         }
-        for (size_t i = 0; i < furnlist.size(); i++) {
-            remove_item(itm, furnlist[i].bash.items);
+        for( auto &elem : furnlist ) {
+            remove_item( itm, elem.bash.items );
         }
     }
 }
@@ -330,6 +330,7 @@ void Item_factory::init()
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
     iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
+    iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -345,6 +346,8 @@ void Item_factory::init()
     iuse_function_list["RADIOCONTROL"] = &iuse::radiocontrol;
 
     iuse_function_list["MULTICOOKER"] = &iuse::multicooker;
+
+    iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
 
@@ -410,9 +413,8 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
     if (ammo == "UPS") {
         return;
     }
-    for (std::map<Item_tag, itype *>::const_iterator it = m_templates.begin(); it != m_templates.end();
-         ++it) {
-        const it_ammo *ammot = dynamic_cast<const it_ammo *>(it->second);
+    for( const auto &elem : m_templates ) {
+        const it_ammo *ammot = dynamic_cast<const it_ammo *>( elem.second );
         if (ammot == 0) {
             continue;
         }
@@ -426,19 +428,17 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
 void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
-    for( std::map<Item_tag, itype *>::const_iterator it = m_templates.begin();
-         it != m_templates.end(); ++it ) {
+    for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = it->second;
+        const itype *type = elem.second;
         for( auto mat_id : type->materials ) {
             if( mat_id != "null" && !material_type::has_material(mat_id) ) {
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
-        for (std::set<std::string>::const_iterator a = type->techniques.begin();
-             a != type->techniques.end(); ++a) {
-            if (ma_techniques.count(*a) == 0) {
-                msg << string_format("unknown technique %s", a->c_str()) << "\n";
+        for( const auto &_a : type->techniques ) {
+            if( ma_techniques.count( _a ) == 0 ) {
+                msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
             }
         }
         if( !type->snippet_category.empty() ) {
@@ -511,8 +511,8 @@ void Item_factory::check_definitions() const
         getch();
         werase(stdscr);
     }
-    for (GroupMap::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
-        a->second->check_consistency();
+    for( const auto &elem : m_template_groups ) {
+        elem.second->check_consistency();
     }
 }
 
@@ -553,48 +553,6 @@ void Item_factory::add_item_type(itype *new_type)
     entry = new_type;
 }
 
-
-Item_list Item_factory::create_from_group(Group_tag group, int created_at)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        return group_iter->second->create(created_at);
-    } else {
-        return Item_list();
-    }
-}
-
-//Returns a random template name from the list of all templates.
-const Item_tag Item_factory::id_from(const Group_tag group_tag)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        item it = group_iter->second->create_single(calendar::turn);
-        return it.type->id;
-    } else {
-        return EMPTY_GROUP_ITEM_ID;
-    }
-}
-
-//Returns a random item from the list of all templates
-const item Item_factory::item_from(const Group_tag group_tag)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        return group_iter->second->create_single(calendar::turn);
-    } else {
-        return item();
-    }
-}
-
-bool Item_factory::has_group(const Item_tag &group_tag) const
-{
-    return m_template_groups.count(group_tag) > 0;
-}
-
 Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
@@ -602,16 +560,6 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
         return group_iter->second;
     }
     return NULL;
-}
-
-bool Item_factory::group_contains_item(Group_tag group_tag, Item_tag item)
-{
-    Item_spawn_data *current_group = m_template_groups.find(group_tag)->second;
-    if (current_group) {
-        return current_group->has_item(item);
-    } else {
-        return 0;
-    }
 }
 
 ///////////////////////
@@ -1043,11 +991,11 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
     }
 }
 
-std::bitset<13> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
+std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
         std::string flag_type)
 {
     //If none is found, just use the standard none action
-    std::bitset<13> flag = 0;
+    std::bitset<num_bp> flag = 0;
     //Otherwise, grab the right label to look for
     if (jo.has_array(member)) {
         JsonArray jarr = jo.get_array(member);
@@ -1112,8 +1060,8 @@ void Item_factory::reset()
 void Item_factory::clear()
 {
     // clear groups
-    for (GroupMap::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig) {
-        delete ig->second;
+    for( auto &elem : m_template_groups ) {
+        delete elem.second;
     }
     m_template_groups.clear();
 
@@ -1122,9 +1070,8 @@ void Item_factory::clear()
     // Also clear functions refering to lua
     iuse_function_list.clear();
 
-    for (std::map<Item_tag, itype *>::iterator it = m_templates.begin(); it != m_templates.end();
-         ++it) {
-        delete it->second;
+    for( auto &elem : m_templates ) {
+        delete elem.second;
     }
     m_templates.clear();
     item_blacklist.clear();
@@ -1402,11 +1349,19 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return use_function(actor.release());
     } else if (type == "consume_drug") {
         std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
-        // Are these optional? The need to be.
         obj.read("activation_message", actor->activation_message);
         obj.read("charges_needed", actor->charges_needed);
         obj.read("tools_needed", actor->tools_needed);
-        obj.read("diseases", actor->diseases);
+        
+        if (obj.has_array("effects")) {
+            JsonArray jsarr = obj.get_array("effects");
+            while (jsarr.has_more()) {
+                JsonObject e = jsarr.next_object();
+                effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
+                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false));
+                actor->effects.push_back(new_eff);
+            }
+        }
         obj.read("stat_adjustments", actor->stat_adjustments);
         obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());
@@ -1418,6 +1373,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read( "difficulty", actor->difficulty );
         obj.read( "moves", actor->moves );
         obj.read( "place_randomly", actor->place_randomly );
+        obj.read( "skill1", actor->skill1 );
+        obj.read( "skill2", actor->skill2 );
         return use_function( actor.release() );
     } else if( type == "ups_based_armor" ) {
         std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
@@ -1445,7 +1402,7 @@ use_function Item_factory::use_from_string(std::string function_name)
     }
 }
 
-void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
+void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                       const std::string &flag_type)
 {
     if (flag_type == "bodyparts") {
@@ -1467,8 +1424,9 @@ void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::str
                 parts.push_back("FOOT_L");
                 parts.push_back("FOOT_R");
             }
-            for (auto it = parts.begin(); it != parts.end(); ++it) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+            for( auto &part : parts ) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter =
+                    body_parts.find( part );
                 if (found_flag_iter != body_parts.end()) {
                     cur_flags.set(found_flag_iter->second);
                 } else {
@@ -1500,8 +1458,9 @@ void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::str
                 parts.push_back("FOOT_L");
                 parts.push_back("FOOT_R");
             }
-            for (auto it = parts.begin(); it != parts.end(); ++it) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+            for( auto &part : parts ) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter =
+                    body_parts.find( part );
                 if (found_flag_iter != body_parts.end()) {
                     cur_flags.set(found_flag_iter->second);
                 } else {
@@ -1536,29 +1495,6 @@ void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int m
             var = candidate;
         }
     }
-}
-
-bool item_category::operator<(const item_category &rhs) const
-{
-    if (sort_rank != rhs.sort_rank) {
-        return sort_rank < rhs.sort_rank;
-    }
-    if (name != rhs.name) {
-        return name < rhs.name;
-    }
-    return id < rhs.id;
-}
-
-bool item_category::operator==(const item_category &rhs) const
-{
-    return sort_rank == rhs.sort_rank &&
-           name == rhs.name &&
-           id == rhs.id;
-}
-
-bool item_category::operator!=(const item_category &rhs) const
-{
-    return !(*this == rhs);
 }
 
 const item_category *Item_factory::get_category(const std::string &id)
@@ -1643,9 +1579,9 @@ bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag it
     return true;
 }
 
-void Item_factory::debug_spawn()
+void item_group::debug_spawn()
 {
-    std::vector<std::string> groups = get_all_group_names();
+    std::vector<std::string> groups = item_controller->get_all_group_names();
     uimenu menu;
     menu.text = _("Test which group?");
     for (size_t i = 0; i < groups.size(); i++) {
@@ -1662,10 +1598,9 @@ void Item_factory::debug_spawn()
         // Spawn items from the group 100 times
         std::map<std::string, int> itemnames;
         for (size_t a = 0; a < 100; a++) {
-            Item_spawn_data *isd = m_template_groups[groups[index]];
-            Item_spawn_data::ItemList items = isd->create(calendar::turn);
-            for (Item_spawn_data::ItemList::iterator a = items.begin(); a != items.end(); ++a) {
-                itemnames[a->display_name()]++;
+            const auto items = items_from( groups[index], calendar::turn );
+            for( auto &it : items ) {
+                itemnames[it.display_name()]++;
             }
         }
         // Invert the map to get sorting!
@@ -1709,19 +1644,3 @@ Item_tag Item_factory::create_artifact_id() const
     } while( has_template( id ) );
     return id;
 }
-
-std::string Item_factory::nname( const Item_tag &id, unsigned int quantity ) const
-{
-    auto it = m_templates.find( id );
-    if( it != m_templates.end() ) {
-        return it->second->nname( quantity );
-    }
-    return string_format( _( "unknown item %s" ), id.c_str() );
-}
-
-bool Item_factory::count_by_charges( const Item_tag &id )
-{
-    return find_template( id )->count_by_charges();
-}
-
-const Item_tag Item_factory::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

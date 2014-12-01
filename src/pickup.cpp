@@ -157,7 +157,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             return -2;
         }
 
-        if(menu_items[choice] == _("Control vehicle")) {
+        if(menu_items[choice] == _("Control vehicle") && veh->interact_vehicle_locked()) {
             veh->use_controls();
             return -2;
         }
@@ -221,7 +221,8 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
 
 void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
-                          bool &offered_swap, std::map<std::string, int> &mapPickup, bool autopickup )
+                          bool &offered_swap, std::map<std::string, int> &mapPickup,
+                          std::map<std::string, item> &item_info, bool autopickup )
 {
     int moves_taken = 100;
     bool picked_up = false;
@@ -264,55 +265,56 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
                                              newit.charges), newit.tname(newit.charges).c_str());
                 }
             }
-        } else if( g->u.is_armed() && !autopickup ) {
-            if (!g->u.weapon.has_flag("NO_UNWIELD")) {
-                // Armor can be instantly worn
-                if (newit.is_armor() &&
-                    query_yn(_("Put on the %s?"),
-                             newit.display_name().c_str())) {
-                    if (g->u.wear_item(&newit)) {
-                        picked_up = true;
-                    }
-                } else if( !offered_swap ) {
-                    offered_swap = true;
-                    if ( g->u.weapon.type->id != newit.type->id &&
-                         query_yn(_("No space for %s; wield instead? (drops %s)"),
-                                  newit.display_name().c_str(),
-                                  g->u.weapon.display_name().c_str()) ) {
-                        picked_up = true;
-                        g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
-                                                  g->u.remove_weapon(), 1 );
-                        g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
-                        g->u.wield( &( g->u.i_add(newit) ) );
-                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                                newit.display_name().c_str());
-                    }
+        } else if( !autopickup ) {
+            // Armor can be instantly worn
+            if (newit.is_armor() &&
+                query_yn(_("Put on the %s?"),
+                         newit.display_name().c_str())) {
+                if (g->u.wear_item(&newit)) {
+                    picked_up = true;
                 }
-            } else {
-                add_msg(m_info, _("There's no room in your inventory for the %s, "
-                                  "and you can't unwield your %s."),
-                        newit.display_name().c_str(),
-                        g->u.weapon.display_name().c_str());
-            }
-        } else if( !g->u.is_armed() ) {
-            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-            g->u.wield(&(g->u.i_add(newit)));
-            picked_up = true;
-            add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
-        }
+            } else if (g->u.is_armed()) {
+                if (!g->u.weapon.has_flag("NO_UNWIELD")) {
+                     if( !offered_swap ) {
+                        offered_swap = true;
+                        if ( g->u.weapon.type->id != newit.type->id &&
+                             query_yn(_("No space for %s; wield instead? (drops %s)"),
+                                      newit.display_name().c_str(),
+                                      g->u.weapon.display_name().c_str()) ) {
+                            picked_up = true;
+                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
+                                                      g->u.remove_weapon(), 1 );
+                            g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
+                            g->u.wield( &( g->u.i_add(newit) ) );
+                            add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                                    newit.display_name().c_str());
+                        }
+                    }
+                } else {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you can't unwield your %s."),
+                            newit.display_name().c_str(),
+                            g->u.weapon.display_name().c_str());
+                }
+            } else if( !g->u.is_armed()  ) {
+                if (g->u.keep_hands_free) {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you have decided to keep your hands free."),
+                            newit.display_name().c_str());
+                } else {
+                    g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+                    g->u.wield(&(g->u.i_add(newit)));
+                    picked_up = true;
+                    add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+                }
+            } // end of if unarmed
+        } // end of if !autopickup
     } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         //add ammo to quiver
         handle_quiver_insertion(newit, true, moves_taken, picked_up);
-    } else if (!g->u.is_armed() &&
-               (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
-                g->u.is_suitable_weapon(newit))) {
-        g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-        g->u.weapon = newit;
-        picked_up = true;
-        add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
     } else {
-        mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
-        newit = g->u.i_add(newit);
+        mapPickup[newit.tname()] += (newit.count_by_charges()) ? newit.charges : 1;
+        item_info[newit.tname()] = g->u.i_add(newit);
         picked_up = true;
     }
 
@@ -346,6 +348,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     std::map<std::string, int> mapPickup;
+    std::map<std::string, item> item_info;
 
     if( from_vehicle ) {
         int veh_root_part = -1;
@@ -370,11 +373,11 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         quantities.pop_back();
 
         pick_one_up( pickup_target , here, veh, cargo_part, index, quantity,
-                     got_water, offered_swap, mapPickup, autopickup );
+                     got_water, offered_swap, mapPickup, item_info, autopickup );
     }
 
     if( !mapPickup.empty() ) {
-        show_pickup_message(mapPickup);
+        show_pickup_message(mapPickup, item_info);
     }
 
     if (got_water) {
@@ -447,9 +450,9 @@ void Pickup::pick_up(int posx, int posy, int min)
         if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx == posx && g->u.posy == posy ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
-            for (int i = 0; i < 8; i++) {
+            for( auto &elem : adjacentDir ) {
 
-                point apos = direction_XY(adjacentDir[i]);
+                point apos = direction_XY( elem );
                 apos.x += posx;
                 apos.y += posy;
 
@@ -797,14 +800,16 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
         return quivered;
     } else if (inv_on_fail) {
         //add to inventory instead
-        g->u.i_add(here);
+        item& it = g->u.i_add(here);
         picked_up = true;
 
         //display output message
         std::map<std::string, int> map_pickup;
+        std::map<std::string, item> item_info;
         int charges = (here.count_by_charges()) ? here.charges : 1;
         map_pickup.insert(std::pair<std::string, int>(here.tname(), charges));
-        show_pickup_message(map_pickup);
+        item_info.insert(std::pair<std::string, item>(here.tname(), it));
+        show_pickup_message(map_pickup, item_info);
     }
     return 0;
 }
@@ -822,13 +827,24 @@ void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int ca
 }
 
 //helper function for Pickup::pick_up
-void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup)
+void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
+                                 std::map<std::string, item> &item_info)
 {
-    for (std::map<std::string, int>::iterator iter = mapPickup.begin();
-         iter != mapPickup.end(); ++iter) {
-        // FIXME: i18n
-        add_msg(ngettext("You pick up: %d %s", "You pick up: %d %ss", iter->second),
-                iter->second, iter->first.c_str());
+    // iterator _should_ be the same, as std::map is ordered...
+    std::map<std::string, int>::iterator mp_iter = mapPickup.begin();
+    std::map<std::string, item>::iterator ii_iter = item_info.begin();
+    while(mp_iter != mapPickup.end() && ii_iter != item_info.end()) {
+        // name seems to be a fitting test
+        if(mp_iter->first == ii_iter->first) {
+            add_msg(_("You pick up: %d %s [%c]"),
+                    mp_iter->second, ii_iter->second.display_name(mp_iter->second).c_str(), ii_iter->second.invlet);
+        } else {
+            // ... and if it for some reason isn't, catch it in debug logs.
+            debugmsg("show_pickup_message: mp_iter->first [%s] != ii_iter->first [%s]",
+                    mp_iter->first.c_str(), ii_iter->first.c_str());
+        }
+        ++mp_iter;
+        ++ii_iter;
     }
 }
 

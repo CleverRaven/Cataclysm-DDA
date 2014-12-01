@@ -152,7 +152,7 @@
         "color": "green",
         "name": "plastic canteen",
         "category": "other",
-        "description": "A large military-style water canteen, with a 1.5 liter capacity and strap.",
+        "description": "A large military-style water canteen, with a 1.5 liter capacity and carrying strap.",
         "price": 800,
         "weight": 155,
         "volume": 6,
@@ -161,7 +161,10 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 6,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "2lcanteen",
@@ -170,7 +173,7 @@
         "color": "dark_gray",
         "name": "2.5L canteen",
         "category": "other",
-        "description": "A large plastic water canteen, with a 2.5 liter capacity and strap.",
+        "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
         "price": 1000,
         "weight": 155,
         "volume": 10,
@@ -179,7 +182,10 @@
         "to_hit": -1,
         "material": "plastic",
         "contains": 10,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "jerrycan",
@@ -242,7 +248,7 @@
         "color": "brown",
         "name": "small waterskin",
         "category": "other",
-        "description": "A small watertight leather bag, can hold 1.5 liters of water.",
+        "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
         "price": 2000,
         "weight": 453,
         "volume": 1,
@@ -251,7 +257,10 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 6,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "waterskin2",
@@ -260,7 +269,7 @@
         "color": "brown",
         "name": "waterskin",
         "category": "other",
-        "description": "A watertight leather bag, can hold 3 liters of water.",
+        "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
         "price": 4000,
         "weight": 783,
         "volume": 2,
@@ -269,7 +278,10 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 12,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
     },
     {
         "id": "waterskin3",
@@ -278,7 +290,7 @@
         "color": "brown",
         "name": "large waterskin",
         "category": "other",
-        "description": "A large watertight leather bag, can hold 5 liters of water.",
+        "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
         "price": 6000,
         "weight": 990,
         "volume": 3,
@@ -287,7 +299,10 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 20,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "covers" : ["TORSO"],
+        "coverage" : 15,
+        "material_thickness" : 2,
+        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
     },
     {
         "id": "jerrycan_big",

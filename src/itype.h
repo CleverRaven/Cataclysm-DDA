@@ -17,21 +17,9 @@
 #include <set>
 #include <bitset>
 
-// for use in category specific inventory lists
-enum item_cat {
-    IC_NULL = 0,
-    IC_COMESTIBLE,
-    IC_AMMO,
-    IC_ARMOR,
-    IC_GUN,
-    IC_BOOK,
-    IC_TOOL,
-    IC_CONTAINER
-};
-
 typedef std::string itype_id;
 
-// see item_factory.h
+// see item.h
 class item_category;
 
 struct itype;
@@ -61,9 +49,6 @@ enum bigness_property_aspect {
 std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
-
-// Returns the name of the given item type
-std::string item_name(const itype_id &type);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
@@ -216,21 +201,7 @@ public:
 
     bool has_use() const;
     bool can_use( std::string iuse_name ) const;
-    /** Returns true if is_armor() and covers bp */
-    bool is_covering(body_part bp) const;
-    /** Returns true if is_armor() and is sided on bp */
-    bool is_sided(body_part bp) const;
     int invoke( player *p, item *it, bool active, point pos );
-
-    std::string dmg_adj(int dam)
-    {
-        std::string primary_mat_id = "null";
-        if (materials.size() > 0) {
-            primary_mat_id = materials[0];
-        }
-
-        return material_type::find_material(primary_mat_id)->dmg_adj(dam);
-    }
 
     std::vector<use_function> use_methods;// Special effects of use
 
@@ -446,8 +417,8 @@ struct it_gunmod : public virtual itype {
 };
 
 struct it_armor : public virtual itype {
-    std::bitset<13> covers; // Bitfield of enum body_part
-    std::bitset<13> sided;  // Bitfield of enum body_part
+    std::bitset<num_bp> covers; // Bitfield of enum body_part
+    std::bitset<num_bp> sided;  // Bitfield of enum body_part
     signed char encumber;
     unsigned char coverage;
     unsigned char thickness;
@@ -477,23 +448,6 @@ struct it_armor : public virtual itype {
     virtual std::string get_item_type_string() const
     {
         return "ARMOR";
-    }
-
-    std::string bash_dmg_verb()
-    {
-        std::string chosen_mat_id = "null";
-        if (materials.size()) {
-            chosen_mat_id = materials[rng(0, materials.size() - 1)];
-        }
-        return material_type::find_material(chosen_mat_id)->bash_dmg_verb();
-    }
-    std::string cut_dmg_verb()
-    {
-        std::string chosen_mat_id = "null";
-        if (materials.size()) {
-            chosen_mat_id = materials[rng(0, materials.size() - 1)];
-        }
-        return material_type::find_material(chosen_mat_id)->cut_dmg_verb();
     }
 };
 

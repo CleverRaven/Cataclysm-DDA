@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "mapdata.h"
-#include "mapitems.h"
 #include "overmap.h"
 #include "item.h"
 #include "json.h"
@@ -41,6 +40,7 @@ struct wrapped_vehicle{
 
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
+typedef std::string items_location;
 
 /**
  * Manage and cache data about a part of the map.
@@ -607,12 +607,27 @@ void add_corpse(int x, int y);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
  int place_npc(int x, int y, std::string type);
+ /**
+  * Place items from item group in the rectangle (x1,y1) - (x2,y2). Several items may be spawned
+  * on different places. Several items may spawn at once (at one place) when the item group says
+  * so (uses @ref item_group::items_from which may return several items at once).
+  * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
+  * it's the chance that more items will be created (place items until the random roll with that
+  * chance fails). The chance is used for the first item as well, so it may not spawn an item at
+  * all. Values <= 0 or > 100 are invalid.
+  * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
+  * @param turn The birthday that the created items shall have.
+  * @return The number of placed items.
+  */
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+ /**
+  * Place items from an item group at (x,y). Places as much items as the item group says.
+  * (Most item groups are distributions and will only create one item.)
+  * @param turn The birthday that the created items shall have.
+  * @return The number of placed items.
+  */
  int put_items_from_loc(items_location loc, const int x, const int y, const int turn = 0);
-// put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
-                    const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
  void spawn_an_item(const int x, const int y, item new_item,
                     const long charges, const int damlevel);
  // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.

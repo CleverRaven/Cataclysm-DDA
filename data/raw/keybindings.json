@@ -884,6 +884,10 @@
         "bindings":[
             {
                 "input_method":"keyboard",
+                "key":"BACKTAB"
+            },
+            {
+                "input_method":"keyboard",
                 "key":"PPAGE"
             },
             {
@@ -982,6 +986,18 @@
             {
                 "input_method":"keyboard",
                 "key":"%"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id" : "REROLL_CHARACTER_WITH_SCENARIO",
+        "category" : "NEW_CHAR_DESCRIPTION",
+        "name" : "Reroll Random Character With Scenario",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : "^"
             }
         ]
     },

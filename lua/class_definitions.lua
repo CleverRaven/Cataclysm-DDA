@@ -729,8 +729,8 @@ classes = {
 
 global_functions = {
     add_msg = {
-        cpp_name = "add_msg",
-        args     = { "cstring" },
+        cpp_name = "add_msg_wrapper",
+        args     = { "string" },
         argnames = { "message" },
         rval = nil,
         desc = "Write a message to the game's standard message window."
@@ -743,8 +743,8 @@ global_functions = {
         desc = "Revive the corpse at the specified location. The index parameter specifies the index within the item stack that the corpse is located at."
     },
     popup = {
-        cpp_name = "popup",
-        args = { "cstring" },
+        cpp_name = "popup_wrapper",
+        args = { "string" },
         rval = nil
     },
     string_input_popup = {

@@ -1,7 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
 #include "itype.h"
-#include "item_factory.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
@@ -168,24 +167,23 @@ void defense_game::game_over()
 
 void defense_game::init_itypes()
 {
-    item_controller->find_template( "2x4" )->volume = 0;
-    item_controller->find_template( "2x4" )->weight = 0;
-    item_controller->find_template( "landmine" )->price = 300;
-    item_controller->find_template( "bot_turret" )->price = 6000;
+    item::find_type( "2x4" )->volume = 0;
+    item::find_type( "2x4" )->weight = 0;
+    item::find_type( "landmine" )->price = 300;
+    item::find_type( "bot_turret" )->price = 6000;
 }
 
 void defense_game::init_mtypes()
 {
     std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
 
-    for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
-         ++it) {
-        it->second->difficulty *= 1.5;
-        it->second->difficulty += int(it->second->difficulty / 5);
-        it->second->flags.insert( MF_BASHES );
-        it->second->flags.insert( MF_SMELLS );
-        it->second->flags.insert( MF_HEARS );
-        it->second->flags.insert( MF_SEES );
+    for( auto &montemplate : montemplates ) {
+        montemplate.second->difficulty *= 1.5;
+        montemplate.second->difficulty += int( montemplate.second->difficulty / 5 );
+        montemplate.second->flags.insert( MF_BASHES );
+        montemplate.second->flags.insert( MF_SMELLS );
+        montemplate.second->flags.insert( MF_HEARS );
+        montemplate.second->flags.insert( MF_SEES );
     }
 }
 
@@ -198,10 +196,9 @@ void defense_game::init_constructions()
 
 void defense_game::init_recipes()
 {
-    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-        for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
-            (*list_iter)->time /= 10; // Things take turns, not minutes
+    for( auto &recipe : recipes ) {
+        for( auto &elem : recipe.second ) {
+            ( elem )->time /= 10; // Things take turns, not minutes
         }
     }
 }
@@ -1294,7 +1291,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // Finally, print the item list on the right
     for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < (int)items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  item_controller->nname( (*items)[i], (*counts)[i] ).c_str());
+                  item::nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
             unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);

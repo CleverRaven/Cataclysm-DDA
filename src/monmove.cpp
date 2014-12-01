@@ -160,8 +160,8 @@ void monster::plan(const std::vector<int> &friendlies)
     if (!fleeing) {
         fleeing = attitude() == MATT_FLEE;
         if (can_see()) {
-            for (int f = 0, numf = friendlies.size(); f < numf; f++) {
-                const int i = friendlies[f];
+            for( auto &friendlie : friendlies ) {
+                const int i = friendlie;
                 monster *mon = &(g->zombie(i));
                 int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
                 if (mondist < dist &&
@@ -227,8 +227,8 @@ void monster::move()
         if(!g->m.i_at(posx(), posy()).empty()) {
             add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
-            for( size_t i = 0; i < items_absorbed.size(); ++i ) {
-                hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
+            for( auto &elem : items_absorbed ) {
+                hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear(posx(), posy());
         }
@@ -251,16 +251,16 @@ void monster::move()
     if (moves < 0) {
         return;
     }
+    if (!move_effects()) {
+        moves = 0;
+        return;
+    }
     if (has_flag(MF_IMMOBILE)) {
         moves = 0;
         return;
     }
     if (has_effect("stunned")) {
         stumble(false);
-        moves = 0;
-        return;
-    }
-    if (has_effect("downed")) {
         moves = 0;
         return;
     }
@@ -759,11 +759,6 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect("beartrap") || has_effect("tied")) {
-        moves = 0;
-        return 0;
-    }
-
     if (!plans.empty()) {
         plans.erase(plans.begin());
     }
@@ -800,7 +795,7 @@ int monster::move_to(int x, int y, bool force)
         apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
     }
     if (g->m.has_flag("UNSTABLE", x, y)) {
-        add_effect("bouldering", 1, 1, true);
+        add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
         remove_effect("bouldering");
     }

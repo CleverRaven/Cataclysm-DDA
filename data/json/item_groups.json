@@ -169,6 +169,7 @@
       ["seed_weed", 5],
       ["rolling_paper", 5],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["hockey_stick", 10],
       ["news_regional", 4],
       ["many_years_old_newspaper", 2],
@@ -314,7 +315,8 @@
       ["survnote", 1],
       ["radio_car_box", 2],
       ["radiocontrol", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -873,6 +875,7 @@
       ["talking_doll", 65],
       ["marble", 65],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
       ["diving_watch", 5],
@@ -927,6 +930,7 @@
       ["mouthpiece", 1],
       ["leathersandals", 25],
       ["survnote", 2],
+      ["mask_guy_fawkes", 5],
       ["magnifying_glass", 2]
     ]
   },{
@@ -1099,8 +1103,10 @@
       ["jacket_leather", 30],
       ["poncho", 15],
       ["folding_poncho", 5],
-      ["trenchcoat", 25],
-      ["sleeveless_trenchcoat", 5],
+      ["trenchcoat", 12],
+      ["sleeveless_trenchcoat", 2],
+      ["duster", 12],
+      ["sleeveless_duster", 2],
       ["peacoat", 30],
       ["vest", 15],
       ["mag_porn", 20],
@@ -1143,7 +1149,10 @@
       ["linuxtshirt", 10],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["fedora", 10],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",
@@ -1867,7 +1876,8 @@
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
-      ["tool_belt", 30]
+      ["tool_belt", 30],
+      ["pitchfork", 2]
     ]
   },{
     "type" : "item_group",
@@ -2176,7 +2186,9 @@
       ["survnote", 1],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["straw_basket", 1],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -2324,7 +2336,8 @@
       ["folding_bicycle", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
-      ["sleeveless_trenchcoat", 3],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_duster", 2],
       ["blowgun", 5],
       ["dart", 5],
       ["elbow_pads", 40],
@@ -2462,6 +2475,7 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["striped_shirt", 1],
       ["striped_pants", 1],
       ["razor_blade", 10],
@@ -2826,7 +2840,8 @@
       ["small_repairkit", 15],
       ["large_repairkit", 1],
       ["improve_sights", 20],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["shoulder_strap", 24]
     ]
   },{
     "type" : "item_group",
@@ -2908,7 +2923,8 @@
       ["blazer", 35],
       ["jacket_leather", 30],
       ["coat_rain", 50],
-      ["trenchcoat", 25],
+      ["trenchcoat", 12],
+      ["duster", 12],
       ["skinny_tie", 5],
       ["tieclip", 2],
       ["collarpin", 2],
@@ -3057,10 +3073,14 @@
       ["union_suit", 20],
       ["arm_warmers", 20],
       ["leg_warmers", 20],
-      ["trenchcoat_leather", 25],
-      ["sleeveless_trenchcoat", 5],
-      ["sleeveless_trenchcoat_leather", 5],
+      ["trenchcoat_leather", 12],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_trenchcoat_leather", 2],
       ["sleeveless_trenchcoat_fur", 1],
+      ["duster_leather", 12],
+      ["sleeveless_duster", 2],
+      ["sleeveless_duster_leather", 2],
+      ["sleeveless_duster_fur", 1],
       ["cloak", 5],
       ["house_coat", 25],
       ["flotation_vest", 1],
@@ -3102,7 +3122,10 @@
       ["kilt", 5],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
-      ["ear_spool",30]
+      ["ear_spool", 30],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
       
     ]
   },{
@@ -4243,6 +4266,7 @@
       ["manual_computers", 20],
       ["mag_tailor", 10],
       ["cookbook", 35],
+      ["mask_guy_fawkes", 5],
       ["cookbook_italian", 25],
       ["manual_electronics", 20],
       ["decoy_elfa", 5],
@@ -4543,9 +4567,12 @@
       ["cane", 10],
       ["suit", 60],
       ["waistcoat", 30],
-      ["sleeveless_trenchcoat", 10],
-      ["sleeveless_trenchcoat_leather", 10],
-      ["sleeveless_trenchcoat_fur", 10],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 5],
+      ["sleeveless_duster", 5],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 5],
       ["gold_watch", 20],
       ["sf_watch", 10],
       ["tieclip", 3],
@@ -4569,6 +4596,7 @@
       ["jacket_chef", 5],
       ["pda", 15],
       ["eink_tablet_pc", 12],
+      ["mask_guy_fawkes", 5],
       ["camera", 10],
       ["camera_pro", 5],
       ["ruger_redhawk", 3],
@@ -4818,7 +4846,11 @@
       ["linuxtshirt", 15],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["straw_basket", 2],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",
@@ -5351,7 +5383,8 @@
       ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 60],
+      ["withered", 40],
+      ["straw_pile", 20],
       ["survnote", 1]
     ]
   },{
@@ -5424,6 +5457,7 @@
       ["heroin", 1],
       ["sneakers", 40],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["scarf_long", 15],
       ["jersey", 20],
       ["coat_lab", 40],
@@ -5517,6 +5551,7 @@
       ["talking_doll", 5],
       ["marble", 5],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["lsd", 1],
@@ -5657,6 +5692,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_common",
+    "subtype": "distribution",
     "items":[
       ["bio_power_storage", 10],
       ["bio_tools", 10],
@@ -5676,6 +5712,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_sci",
+    "subtype": "distribution",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
@@ -5973,7 +6010,8 @@
       ["grapnel", 3],
       ["glasses_bal", 30],
       ["sheath", 10],
-      ["holster", 15]
+      ["holster", 15],
+      ["sholster", 10]
     ]
   },{
     "type" : "item_group",
@@ -6129,6 +6167,7 @@
   },{
       "type" : "item_group",
     "id" : "bionics_op",
+    "subtype": "distribution",
     "note" : "What the commandos get.",
     "items":[
       ["bio_power_storage_mkII", 10],
@@ -6243,8 +6282,10 @@
       ["winter_gloves_army", 10],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
-      ["sleeveless_trenchcoat", 5],
-      ["sleeveless_trenchcoat_leather", 10],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_duster", 2],
+      ["sleeveless_duster_leather", 5],
       ["kevlar", 30],
       ["modularvest", 12],
       ["modularvestkevlar", 10],
@@ -6274,6 +6315,7 @@
       ["helmet_motor", 40],
       ["touring_suit", 15],
       ["holster", 8],
+      ["sholster", 4],
       ["bootstrap", 3],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -6357,6 +6399,7 @@
       ["charcoal", 5],
       ["sheath", 3],
       ["holster", 3],
+      ["sholster", 2],
       ["toolbox", 1],
       ["survnote", 5]
     ]
@@ -7163,6 +7206,7 @@
       ["helmet_liner", 10],
       ["backpack", 38],
       ["holster", 15],
+      ["sholster", 10],
       ["bootstrap", 3],
       ["gobag", 1],
       ["mess_kit", 9],
@@ -7303,7 +7347,8 @@
       ["toolbox", 1],
       ["knife_rm42", 4],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["shoulder_strap", 16]
     ]
   },{
     "type" : "item_group",
@@ -7630,7 +7675,8 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["hoodie", 65],
-      ["sleeveless_trenchcoat", 10],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_duster", 5],
       ["gloves_fingerless", 20],
       ["backpack", 38],
       ["backpack_leather", 28],
@@ -7765,6 +7811,7 @@
       ["textbook_computer", 8],
       ["textbook_anarch", 4],
       ["computer_science", 7],
+      ["mask_guy_fawkes", 5],
       ["solar_cell", 5],
       ["SICP", 3],
       ["recipe_serum", 2],
@@ -7907,7 +7954,8 @@
       ["v_table", 0],
       ["survnote", 5],
       ["raw_leather", 0],
-      ["raw_fur", 0]
+      ["raw_fur", 0],
+      ["straw_pile", 0]
     ]
   },{
     "type" : "item_group",
@@ -8137,17 +8185,25 @@
     "type" : "item_group",
     "id" : "survivorzed_tops",
     "items":[
-      ["trenchcoat_survivor", 10],
-      ["sleeveless_trenchcoat_survivor", 5],
+      ["trenchcoat_survivor", 5],
+      ["sleeveless_trenchcoat_survivor", 2],
+      ["duster_survivor", 5],
+      ["sleeveless_duster_survivor", 2],
       ["vest", 40],
       ["kevlar", 16],
       ["jacket_army", 28],
-      ["trenchcoat", 24],
-      ["trenchcoat_leather", 20],
-      ["trenchcoat_fur", 10],
-      ["sleeveless_trenchcoat", 15],
-      ["sleeveless_trenchcoat_leather", 10],
-      ["sleeveless_trenchcoat_fur", 5],
+      ["trenchcoat", 12],
+      ["trenchcoat_leather", 10],
+      ["trenchcoat_fur", 5],
+      ["sleeveless_trenchcoat", 7],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 2],
+      ["duster", 12],
+      ["duster_leather", 10],
+      ["duster_fur", 5],
+      ["sleeveless_duster", 7],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 2],
       ["peacoat", 14],
       ["vest_leather", 22],
       ["bunker_coat", 6],
@@ -8323,6 +8379,7 @@
       ["flamethrower_simple", 2],
       ["toolbox", 1],
       ["survivor_belt", 2],
+      ["survivor_machete", 2],
       ["survnote", 30]
     ]
   },{
@@ -8386,6 +8443,7 @@
       ["jar_3l_glass", 1],
       ["wrapper", 3],
       ["withered", 5],
+      ["straw_pile", 5],
       ["string_6", 1],
       ["cig_butt", 4],
       ["string_36", 1],
@@ -8627,7 +8685,10 @@
       ["pistol_flintlock", 4],
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
-      ["boxing_gloves", 12]
+      ["boxing_gloves", 12],
+      ["straw_doll", 1],
+      ["pitchfork", 1],
+      ["straw_sandals", 1]
     ]
   },{
 "type"  : "item_group",
@@ -8682,7 +8743,8 @@
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40],
-      ["material_quicklime", 30]
+      ["material_quicklime", 30],
+      ["pitchfork", 40]
     ]
   },{
 "type" : "item_group",
@@ -8850,6 +8912,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_tech",
+    "subtype": "distribution",
     "note" : "Bionics used by technicians.",
     "items":[
       ["bio_torsionratchet", 20],
@@ -8862,6 +8925,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_subs",
+    "subtype": "distribution",
     "note" : "Bionics dropped by substation mini-boss.",
     "items":[
       ["bio_power_storage", 20],

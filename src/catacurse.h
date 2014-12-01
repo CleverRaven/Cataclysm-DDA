@@ -115,6 +115,7 @@ typedef struct {
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
 #define    KEY_ENTER      0x157    /* enter */
+#define    KEY_BTAB       0x161    /* back-tab = shift + tab */
 #define    KEY_END        0x168    /* End */
 
 #define ERR (-1) // Error return.

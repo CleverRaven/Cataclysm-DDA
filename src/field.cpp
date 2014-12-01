@@ -23,27 +23,27 @@ void game::init_fields()
         {
             "fd_blood",
             {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
-            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
+            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
             "fd_bile",
             {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
-            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 2500,
+            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 14400,
             {0,0,0}
         },
 
         {
             "fd_gibs_flesh",
             {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
-            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 2500,
+            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
 
         {
             "fd_gibs_veggy",
             {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
-            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 2500,
+            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
 
@@ -57,7 +57,7 @@ void game::init_fields()
         {
             "fd_slime",
             {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 2500,
+            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 14400,
             {0,0,0}
         },
 
@@ -78,7 +78,7 @@ void game::init_fields()
         {
             "fd_sludge",
             {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 900,
+            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 3600,
             {0,0,0}
         },
 
@@ -207,31 +207,31 @@ void game::init_fields()
         {
             "fd_blood_veggy",
             {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 2500,
+            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
             "fd_blood_insect",
             {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 2500,
+            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
             "fd_blood_invertebrate",
             {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
+            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
             "fd_gibs_insect",
             {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
+            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
             "fd_gibs_invertebrate",
             {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
+            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 28800,
             {0,0,0}
         },
         {
@@ -665,7 +665,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                                 smoke++;
 
-                            } else if ((it->made_of("cotton") || it->made_of("wool"))) {
+                            } else if ((it->made_of("cotton") || it->made_of("wool")) && !it->made_of("nomex")) {
                                 //Cotton and wool burn slowly but don't feed the fire much.
                                 if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
                                     time_added = 1;
@@ -709,7 +709,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 destroyed = true;
                                 smoke += 2;
 
-                            } else if (it->made_of("plastic")) {
+                            } else if (it->made_of("plastic") && !it->made_of("nomex")) {
                                 //Smokey material, doesn't fuel well.
                                 smoke += 3;
                                 if (it->burnt <= cur->getFieldDensity() * 2 ||
@@ -1294,16 +1294,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 std::vector<point> candidate_positions =
                                     squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
-                                for( auto new_position = candidate_positions.begin();
-                                     new_position != candidate_positions.end(); ++new_position ) {
-                                    field &target_field = get_field( new_position->x,
-                                                                    new_position->y );
+                                for( auto &candidate_position : candidate_positions ) {
+                                    field &target_field =
+                                        get_field( candidate_position.x, candidate_position.y );
                                     // Only shift if there are no bees already there.
                                     // TODO: Figure out a way to merge bee fields without allowing
                                     // Them to effectively move several times in a turn depending
                                     // on iteration direction.
                                     if( !target_field.findField( fd_bees ) ) {
-                                        add_field( *new_position, fd_bees,
+                                        add_field( candidate_position, fd_bees,
                                                    cur->getFieldDensity(), cur->getFieldAge() );
                                         cur->setFieldDensity( 0 );
                                         break;
@@ -1426,8 +1425,7 @@ void map::player_in_field( player &u )
             //Moving through multiple webs stacks the effect.
             if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                int web = cur->getFieldDensity() * 5;
-                if (web > 0) { u.add_disease("webbed", web); }
+                u.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
@@ -1468,9 +1466,11 @@ void map::player_in_field( player &u )
 
         case fd_sap:
             //Sap causes the player to get sap disease, slowing them down.
-            if( u.in_vehicle ) break; //sap does nothing to cars.
+            if ( u.in_vehicle ) {
+                break; //sap does nothing to cars.
+            }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
-            u.add_disease("sap", cur->getFieldDensity() * 2);
+            u.add_effect("sap", cur->getFieldDensity() * 2);
             if (cur->getFieldDensity() == 1) {
                 field_list_it = curfield.removeField( fd_sap );
                 continue;
@@ -1600,8 +1600,8 @@ void map::player_in_field( player &u )
 
         case fd_fungal_haze:
             if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
-                u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
-                u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
+                u.add_env_effect("fungus", bp_mouth, 4, 100, num_bp, true);
+                u.add_env_effect("fungus", bp_eyes, 4, 100, num_bp, true);
             }
             break;
 
@@ -1622,7 +1622,7 @@ void map::player_in_field( player &u )
                     (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 3 && !inside ) {
-                    inhaled = u.infect("badpoison", bp_mouth, 5, 30);
+                    inhaled = u.add_env_effect("badpoison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 1 && (!inside) ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 2, 20);
                 }
@@ -1703,21 +1703,21 @@ void map::player_in_field( player &u )
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 switch( times_stung ) {
                 case 0:
                     // Woo, unscathed!
@@ -1799,7 +1799,7 @@ void map::monster_in_field( monster &z )
 
         case fd_web:
             if (!z.has_flag(MF_WEBWALK)) {
-                z.moves *= .8;
+                z.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
                 field_list_it = curfield.removeField( fd_web );
                 continue;
             }

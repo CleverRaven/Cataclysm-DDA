@@ -15,8 +15,8 @@ bool tutorial_game::init()
     // TODO: clean up old tutorial
 
  calendar::turn = HOURS(12); // Start at noon
- for (int i = 0; i < NUM_LESSONS; i++)
-  tutorials_seen[i] = false;
+ for( auto &elem : tutorials_seen )
+     elem = false;
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)
@@ -189,12 +189,11 @@ void tutorial_game::post_action(action_id act)
  case ACTION_WEAR: {
   item it( g->u.last_item, 0 );
   if (it.is_armor()) {
-   it_armor *armor = dynamic_cast<it_armor*>(it.type);
-   if (armor->coverage >= 2 || armor->thickness >= 2)
+   if (it.get_coverage() >= 2 || it.get_thickness() >= 2)
     add_message(LESSON_WORE_ARMOR);
-   if (armor->storage >= 20)
+   if (it.get_storage() >= 20)
     add_message(LESSON_WORE_STORAGE);
-   if (armor->env_resist >= 2)
+   if (it.get_env_resist() >= 2)
     add_message(LESSON_WORE_MASK);
   }
  } break;
@@ -219,7 +218,7 @@ void tutorial_game::post_action(action_id act)
    add_message(LESSON_GOT_TOOL);
   else if (it.is_food())
    add_message(LESSON_GOT_FOOD);
-  else if (it.type->melee_dam > 7 || it.type->melee_cut > 5)
+  else if (it.is_weap())
    add_message(LESSON_GOT_WEAPON);
 
   if (g->u.volume_carried() > g->u.volume_capacity() - 2)

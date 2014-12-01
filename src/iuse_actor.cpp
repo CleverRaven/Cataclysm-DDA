@@ -144,8 +144,8 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
         std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
-        for(size_t i = 0; i < gas_sources.size(); i++) {
-            const point &p = gas_sources[i];
+        for( auto &gas_source : gas_sources ) {
+            const point &p = gas_source;
             const int dens = rng(fields_min_density, fields_max_density);
             g->m.add_field(p.x, p.y, fields_type, dens);
         }
@@ -189,7 +189,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         // Amount == -1 means need one, but don't consume it.
         if (!p->has_amount(tool->first, 1)) {
             p->add_msg_if_player(_("You need %s to do it!"),
-                                 item(tool->first, 0).type->nname(1).c_str());
+                                 item::nname( tool->first ).c_str());
             return 0;
         }
     }
@@ -216,8 +216,8 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     veh_data.str(data);
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            veh_data >> veh->parts[p].hp;
+        for( auto &elem : veh->parts ) {
+            veh_data >> elem.hp;
         }
     } else {
         try {
@@ -259,8 +259,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(tool->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( tool->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -270,20 +270,24 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(consumable->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( consumable->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
     // Apply the various effects.
-    for( auto disease = diseases.cbegin(); disease != diseases.cend(); ++disease ) {
-        int duration = disease->second;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would cause negative duration.
-        } else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
+    for( auto eff : effects ) {
+        if (eff.id == "null") {
+            continue;
         }
-        p->add_disease( disease->first, duration );
+
+        int dur = eff.duration;
+        if (p->has_trait("TOLERANCE")) {
+            dur *= .8;
+        } else if (p->has_trait("LIGHTWEIGHT")) {
+            dur *= 1.2;
+        }
+        p->add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
     for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
         p->mod_stat( stat->first, stat->second );
@@ -351,7 +355,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
             amdef.second = 0;
             p->add_msg_if_player( m_info,
                                   _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type->nname( 2 ).c_str(), newmon.name().c_str() );
+                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
             continue;
         }
         // Don't load more than the default from the the monster definition.
@@ -360,14 +364,14 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         //~ First %s is the ammo item (with plural form and count included), second is the monster name
         p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
                                         "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type->nname( ammo_item.charges ).c_str(),
+                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
                               newmon.name().c_str() );
         amdef.second = ammo_item.charges;
     }
     const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
     // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
     newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
         rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -405,7 +409,7 @@ bool has_power_armor_interface(const player &p)
 }
 
 bool has_powersource(const item &i, const player &p) {
-    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -426,7 +430,7 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
     }
     if( !it->active && !has_powersource( *it, *p ) ) {
         p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
-        if( it->type->is_power_armor() ) {
+        if( it->is_power_armor() ) {
             p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
         }
         return 0;

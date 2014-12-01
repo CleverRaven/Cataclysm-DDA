@@ -9,7 +9,6 @@
 #include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
-#include "mapitems.h"
 #include "crafting.h"
 #include "npc.h"
 #include "faction.h"
@@ -57,11 +56,12 @@ enum input_ret {
 };
 
 enum quit_status {
-    QUIT_NO = 0,  // Still playing
-    QUIT_MENU,    // Quit at the menu
-    QUIT_SUICIDE, // Quit with 'Q'
-    QUIT_SAVED,   // Saved and quit
-    QUIT_DIED,     // Actual death
+    QUIT_NO = 0,    // Still playing
+    QUIT_MENU,      // Quit at the menu
+    QUIT_SUICIDE,   // Quit with 'Q'
+    QUIT_SAVED,     // Saved and quit
+    QUIT_DIED,      // Actual death
+    QUIT_WATCH,     // Died, and watching aftermath
     QUIT_ERROR
 };
 
@@ -132,7 +132,7 @@ class game
         void delete_world(std::string worldname, bool delete_folder);
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
-        void cleanup_at_end();
+        bool cleanup_at_end();
         void start_calendar();
         bool do_turn();
         void draw();
@@ -219,6 +219,9 @@ class game
         bool cancel_activity_query(const char *message, ...);
         bool cancel_activity_or_ignore_query(const char *reason, ...);
         void moving_vehicle_dismount(int tox, int toy);
+        
+        vehicle *remoteveh(); // Get remotely controlled vehicle
+        void setremoteveh(vehicle *veh); // Set remotely controlled vehicle
 
         int assign_mission_id(); // Just returns the next available one
         void give_mission(mission_id type); // Create the mission and assign it
@@ -259,6 +262,7 @@ class game
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
         int &scent(int x, int y);
+        float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();
         void reset_light_level();
@@ -440,6 +444,7 @@ class game
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);
+        void check_vehicleparts();
         void load_vehicle(JsonObject &jo);
         void reset_vehicleparts();
         void reset_vehicles();
@@ -601,7 +606,6 @@ class game
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
-
         input_context get_player_input(std::string &action);
         // Target is an interactive function which allows the player to choose a nearby
         // square.  It display information on any monster/NPC on that square, and also
@@ -717,7 +721,6 @@ class game
         unsigned char latest_lightlevel;
         calendar latest_lightlevel_turn;
 
-
         special_game *gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
@@ -749,6 +752,7 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
         void activity_on_finish_start_fire();
+        void activity_on_finish_hotwire();
         void longsalvage(); // Salvage everything activity
         void move_save_to_graveyard();
         bool save_player_data();

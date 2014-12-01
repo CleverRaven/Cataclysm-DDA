@@ -308,7 +308,7 @@ bool WinCreate()
         dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
         // Ignored for now, rendering could still work
     }
-    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
+    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
     if( display_buffer == nullptr ) {
         dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
         return false;
@@ -908,9 +908,9 @@ int HandleDPad()
  * -1 when a ALT+number sequence has been started,
  * or somthing that a call to ncurses getch would return.
  */
-long sdl_keycode_to_curses(SDL_Keycode keycode)
+long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
-    switch (keycode) {
+    switch (keysym.sym) {
         // This is special: allow entering a unicode character with ALT+number
         case SDLK_RALT:
         case SDLK_LALT:
@@ -929,6 +929,9 @@ long sdl_keycode_to_curses(SDL_Keycode keycode)
         case SDLK_ESCAPE:
             return KEY_ESCAPE;
         case SDLK_TAB:
+            if (keysym.mod & KMOD_SHIFT) {
+                return KEY_BTAB;
+            }
             return '\t';
         case SDLK_LEFT:
             return KEY_LEFT;
@@ -1004,7 +1007,7 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                const long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
+                const long lc = sdl_keysym_to_curses(ev.key.keysym);
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;

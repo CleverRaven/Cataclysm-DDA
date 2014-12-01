@@ -36,8 +36,8 @@ std::vector<Skill *> Skill::skills;
 
 void Skill::reset()
 {
-    for(std::vector<Skill *>::iterator a = skills.begin(); a != skills.end(); ++a) {
-        delete *a;
+    for( auto &skill : skills ) {
+        delete skill;
     }
     skills.clear();
 }
@@ -68,10 +68,9 @@ void Skill::load_skill(JsonObject &jsobj)
 
 Skill *Skill::skill(std::string ident)
 {
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        if ((*aSkill)->_ident == ident) {
-            return *aSkill;
+    for( auto &skill : Skill::skills ) {
+        if( ( skill )->_ident == ident ) {
+            return skill;
         }
     }
     if(ident != "none") {
@@ -88,10 +87,9 @@ Skill *Skill::skill(size_t id)
 Skill *Skill::random_skill_with_tag(std::string tag)
 {
     std::list<Skill *> valid;
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        if ((*aSkill)->_tags.find(tag) != (*aSkill)->_tags.end()) {
-            valid.push_back(*aSkill);
+    for( auto &skill : Skill::skills ) {
+        if( ( skill )->_tags.find( tag ) != ( skill )->_tags.end() ) {
+            valid.push_back( skill );
         }
     }
     if (valid.empty()) {

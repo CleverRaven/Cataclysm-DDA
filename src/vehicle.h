@@ -261,7 +261,8 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
-
+    //damages vehicle controls and security system
+    void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false );
 
@@ -279,6 +280,8 @@ private:
 
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
+
+    int total_folded_volume() const;
 
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -309,6 +312,8 @@ public:
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
+// check if player controls this vehicle remotely
+    bool remote_controlled (player *p);
 
 // init parts state for randomly generated vehicle
     void init_state(int veh_init_fuel, int veh_init_status);
@@ -336,7 +341,7 @@ public:
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
-
+    
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
@@ -479,7 +484,7 @@ public:
 
     void consume_fuel( double load );
 
-    void power_parts ();
+    void power_parts (tripoint sm_loc);
 
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -493,7 +498,7 @@ public:
      */
     int discharge_battery (int amount, bool recurse = true);
 
-// get the total mass of vehicle, including cargo and passengers
+    // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
@@ -504,7 +509,7 @@ public:
     int total_power (bool fueled = true);
 
 // Get combined epower of solar panels
-    int solar_epower ();
+    int solar_epower (tripoint sm_loc);
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -547,7 +552,8 @@ public:
 
 // idle fuel consumption
     void idle (bool on_map = true);
-
+// continuous processing for running vehicle alarms
+    void alarm ();
 // leak from broken tanks
     void slow_leak ();
 
@@ -642,7 +648,10 @@ public:
     bool is_foldable() const;
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
-
+    //handles locked vehicles interaction
+    bool interact_vehicle_locked(); 
+    //true if an alarm part is installed on the vehicle
+    bool has_security_working();
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
@@ -680,6 +689,8 @@ public:
     void msg_start_engine_fail();
     //if necessary, damage this engine
     void do_engine_damage(size_t p, int strain);
+    //remotely open/close doors
+    void control_doors();
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -703,6 +714,7 @@ public:
     std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
+    std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
@@ -751,6 +763,8 @@ public:
     bool lights_on;     // lights on/off
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
+    bool is_locked; //vehicle has no key
+    bool is_alarm_on;  //vehicle has alarm on
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
     bool fridge_on;     //fridge on/off
@@ -766,8 +780,10 @@ public:
     int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
+    int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
+    int security;           // security level for hacking/breaking in
 };
 
 #endif

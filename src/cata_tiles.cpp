@@ -5,7 +5,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
+#include "item.h"
 #include "veh_type.h"
 #include <fstream>
 
@@ -697,9 +697,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            const itype *i = item_controller->find_template(id);
-            sym = i->sym;
-            col = i->color;
+            const auto tmp = item( id, 0 );
+            sym = tmp.symbol();
+            col = tmp.color();
         }
         // Special cases for walls
         switch(sym) {

@@ -1362,6 +1362,65 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_gunsafe_ml",
+        "name": "gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "gunsafe_ml",
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_gunsafe_mj",
+        "name": "jammed gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_gun_safe_el",
+        "name": "electronic gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "gunsafe_el",
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_safe_o",
         "name": "open safe",
         "symbol": "O",

@@ -147,6 +147,7 @@
   "result": "antenna",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
   "difficulty": 0,
   "time": 3000,
   "reversible": false,

@@ -9,6 +9,7 @@
 #include "skill.h"
 #include "rng.h"
 #include "json.h"
+#include "bodypart.h"
 #include "requirements.h"
 
 #define MAX_DISPLAYED_RECIPES 18
@@ -83,8 +84,8 @@ struct recipe {
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(int handed = NONE) const;
-    std::vector<item> create_results(int batch = 1, int handed = NONE) const;
+    item create_result(handedness handed = NONE) const;
+    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
 
     // Create byproduct instances as if the recipe was just finished
     std::vector<item> create_byproducts(int batch = 1) const;

@@ -135,13 +135,20 @@ def extract_martial_art(item):
 def extract_effect_type(item):
     outfile = get_outfile("effects")
     # writestr will not write string if it is None.
-    for f in [ "name", "desc", "apply_message"]:
-        found = item.get(f, None)
+    for f in ["name", "desc", "reduced_desc"]:
+        for i in item.get(f, ()):
+            writestr(outfile, i)
+    for f in ["apply_message", "remove_message"]:
+        found = item.get(f, ())
         writestr(outfile, found)
+    for f in ["miss_messages", "decay_messages"]:
+        for i in item.get(f, ()):
+            writestr(outfile, i[0])
     for m in [ "remove_memorial_log", "apply_memorial_log"]:
-        found = item.get(m, None)
+        found = item.get(m, ())
         writestr(outfile, found, context="memorial_male")
         writestr(outfile, found, context="memorial_female")
+
 
 def extract_professions(item):
     outfile = get_outfile("professions")
@@ -378,7 +385,8 @@ def extract_all_from_dir(json_dir):
 def extract_all_from_file(json_file):
     print("Loading %s" % json_file)
     "Extract translatable strings from every object in the specified file."
-    jsondata = json.loads(open(json_file).read())
+    with open(json_file) as fp:
+        jsondata = json.load(fp)
     # it's either an array of objects, or a single object
     if hasattr(jsondata, "keys"):
         extract(jsondata, json_file)
