@@ -4146,7 +4146,7 @@
         "name" : "Dianetics",
         "name_plural" : "copies of Dianetics",
         "max_level" : 0,
-        "description" : "The book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musing on psychology called Dianetics.",
+        "description" : "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
         "weight" : 486,
         "to_hit" : 0,
         "color" : "dark_gray",
