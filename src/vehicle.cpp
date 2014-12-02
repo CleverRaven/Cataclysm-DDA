@@ -2978,7 +2978,7 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    float st = strain() * 10;
+    float st = strain();
     for( int ft = 0; ft < num_fuel_types; ft++ ) {
         // if no engines use this fuel, skip
         int amnt_fuel_use = basic_consumption(fuel_types[ft]);
@@ -2987,7 +2987,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / fuel_coeff[ft];
         
-        amnt_precise *= load * (1.0 + st * st);
+        amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
         // consumption remainder results in chance at additional fuel consumption
         if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
@@ -3015,7 +3015,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         //cost fatigue and hunger
         if (one_in(10)) {
             //cost proportional to strain
-            int mod = 1 + 4 * (st/10);
+            int mod = 1 + 4 * st;
             g->u.fatigue += mod;
             g->u.hunger += mod;
             g->u.thirst += mod;
