@@ -5863,6 +5863,18 @@
     ],
     [
       [ "clay_lump", 6 ]
+    ],
+    [
+      [ "leather", 3 ],
+      [ "fur", 3 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ],
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "wax", 1 ],
+      [ "lamp_oil", 400 ]
     ]
   ]
 },
@@ -5950,6 +5962,18 @@
     ],
     [
       [ "clay_lump", 20 ]
+    ],
+    [
+      [ "leather", 3 ],
+      [ "fur", 3 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ],
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "wax", 1 ],
+      [ "lamp_oil", 400 ]
     ]
   ]
 },
@@ -5979,6 +6003,18 @@
     ],
     [
       [ "clay_lump", 2 ]
+    ],
+    [
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "wax", 1 ],
+      [ "lamp_oil", 200 ]
     ]
   ]
 },
