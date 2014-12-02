@@ -8458,7 +8458,7 @@
         "price" : 120,
         "material" : "wheat",
         "tool" : "null",
-        "volume" : 6,
+        "volume" : 3,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
