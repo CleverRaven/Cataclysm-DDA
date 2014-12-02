@@ -3333,7 +3333,6 @@ void vehicle::idle(bool on_map) {
     float idle_rate;
 
     if (engine_on && total_power() > 0) {
-        
         int strn = (int)(strain() * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
