@@ -2000,7 +2000,6 @@ void npc::pick_and_eat()
     }
 
     if (index == -1) {
-        debugmsg("NPC tried to eat food, but couldn't find any!");
         move_pause();
         return;
     }
