@@ -35,9 +35,6 @@ void mapbuffer::reset()
 
 bool mapbuffer::add_submap(const tripoint &p, submap *sm)
 {
-    dbg(D_INFO) << "mapbuffer::add_submap( x[" <<
-                p.x << "], y[" << p.y << "], z[" << p.z << "], submap[" << sm << "])";
-
     if (submaps.count(p) != 0) {
         return false;
     }
@@ -90,8 +87,6 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
         }
         return NULL;
     }
-
-    dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
 
     return submaps[p];
 }

@@ -4452,7 +4452,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : 5,
-        "flags" : ["BELTED", "VARSIZE"],
+        "flags" : ["WAIST", "VARSIZE"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -5975,7 +5975,7 @@
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 5,
-        "flags" : ["FANCY"],
+        "flags" : ["FANCY", "WAIST"],
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
@@ -6881,7 +6881,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
-        "flags" : ["BELTED", "VARSIZE"],
+        "flags" : ["WAIST", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6906,7 +6906,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
-        "flags" : ["BELTED", "VARSIZE"],
+        "flags" : ["WAIST", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6930,6 +6930,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
+        "flags" : ["WAIST"],
         "phase" : "solid"
     },
     {
@@ -6946,7 +6947,7 @@
         "storage" : 0,
         "material" : ["leather", "null"],
         "covers" : ["LEGS"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
         "coverage" : 5,
         "environmental_protection" : 0,
         "cutting" : 0,
@@ -7021,7 +7022,7 @@
         "price" : 3500,
         "material" : ["leather", "null"],
         "covers" : ["LEGS"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
         "volume" : 2,
         "cutting" : 0,
         "bashing" : -1,
@@ -7105,7 +7106,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 1,
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
         "use_action": "SHEATH_SWORD"
     },
     {
@@ -7130,7 +7131,7 @@
         "encumbrance" : 1,
         "bashing" : 1,
         "coverage" : 15,
-        "flags" : ["BELTED", "OVERSIZE"],
+        "flags" : ["WAIST", "OVERSIZE"],
         "material_thickness" : 1
     },
     {
@@ -7155,7 +7156,7 @@
         "encumbrance" : 0,
         "bashing" : 1,
         "coverage" : 15,
-        "flags" : ["BELTED", "OVERSIZE"],
+        "flags" : ["WAIST", "OVERSIZE"],
         "material_thickness" : 1
     },
     {

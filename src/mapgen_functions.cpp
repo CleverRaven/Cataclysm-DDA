@@ -2367,8 +2367,24 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         placed = "softdrugs";
         chance = 72;
         m->furn_set(x2 - 1, y2 - 2, f_bathtub);
-        if (!((m->ter(x2 - 3, y2 - 2) == t_wall_v) || (m->ter(x2 - 3, y2 - 2) == t_wall_h))) {
-            m->furn_set(x2 - 3, y2 - 2, f_sink);
+        if (one_in(3) && !((m->ter(x2 - 1, y2 - 3) == t_wall_h) || (m->ter(x2 - 1, y2 - 3) == t_wall_v))) {
+            m->furn_set(x2 - 1, y2 - 3, f_bathtub);
+        }
+        if (!((m->furn(x1 + 1, y2 - 2) == f_toilet) || (m->furn(x1 + 1, y2 - 2) == f_bathtub))) {
+            m->furn_set(x1 + 1, y2 - 2, f_sink);
+        }
+        if (one_in(4)) {
+            for (int x = x1 + 1; x <= x2 - 1; x++) {
+                for (int y = y1 + 1; y <= y2 - 1; y++) {
+                    m->ter_set(x, y, t_linoleum_white);
+                }
+            }
+        } else if (one_in(4)) {
+            for (int x = x1 + 1; x <= x2 - 1; x++) {
+                for (int y = y1 + 1; y <= y2 - 1; y++) {
+                    m->ter_set(x, y, t_linoleum_gray);
+                }
+            }
         }
         break;
     default:

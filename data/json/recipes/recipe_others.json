@@ -1930,6 +1930,32 @@
   ]
 },{
         "type" : "recipe",
+  "result": "foldframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 90 ],
+      [ "toolset", 90 ],
+      [ "oxy_torch", 6]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "wheel_wheelchair",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1947,6 +1973,7 @@
     ],
     [
       [ "welder", 40 ],
+      [ "oxy_torch", 4],
       [ "welder_crude", 60 ],
       [ "toolset", 60 ]
     ]
@@ -1977,6 +2004,7 @@
     ],
     [
       [ "welder", 20 ],
+      [ "oxy_torch", 2],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ]
     ]
