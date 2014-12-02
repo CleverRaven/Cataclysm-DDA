@@ -1270,6 +1270,7 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_title();
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
