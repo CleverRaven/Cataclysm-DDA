@@ -1973,6 +1973,7 @@
     ],
     [
       [ "welder", 40 ],
+      [ "oxy_torch", 4],
       [ "welder_crude", 60 ],
       [ "toolset", 60 ]
     ]
@@ -2003,6 +2004,7 @@
     ],
     [
       [ "welder", 20 ],
+      [ "oxy_torch", 2],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ]
     ]
