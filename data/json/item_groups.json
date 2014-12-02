@@ -63,6 +63,8 @@
       { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
       { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
       { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
+      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
       ["it_battery_mount", 90],
       ["it_battery_mount", 50],
       ["it_battery_mount", 40],
