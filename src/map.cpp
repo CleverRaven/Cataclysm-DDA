@@ -4663,7 +4663,8 @@ void map::fill_funnels( const point pnt )
 void map::grow_plant( const point pnt )
 {
     const auto &furn = furn_at( pnt.x, pnt.y );
-    if( !furn.has_flag( "PLANT" ) ) {
+    //moving to chance based system, so only check growth once daily
+    if( !furn.has_flag( "PLANT" ) || calendar::hour != 12 || calendar::minute != 0) { 
         return;
     }
     auto &items = i_at( pnt.x, pnt.y );
@@ -4674,15 +4675,38 @@ void map::grow_plant( const point pnt )
         return;
     }
     // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    //const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    
     // Erase fertilizer tokens, but keep the seed item
     items.resize( 1 );
     auto &seed = items.front();
-    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed.bday += plantEpoch;
-        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
-    }
+    
+    //91 days for an approximate real life season
+    const int plantEpochMin = DAYS(seed::growmin / 91 * calendar::season_length() / 3); 
+    const int plantEpochMax = DAYS(seed::growmax / 91 * calendar::season_length() / 3);
+    const int seedBDay = DAYS(seed.bday / 14400); //number of turns in a day
+    int growChance = calendar::day - plantEpochMin - seedBDay;
+    std::string furn_name = furn.id;
+    
+    //TODO: Convert the seed bday to days, check that bday + EpochMin > current day
+    //TODO: Check case statements, specifically for strings
+    //TODO: Compare furn.name to string
+    if (growChance > 0 && (rand() % plantEpochMax) < growChance) {
+		switch (furn_name) {
+			case "f_plant_seed":
+				furn_set(pnt.x, pnt.y, f_plant_seedling);
+				seed.bday = calendar::turn;
+				break;
+			case "f_plant_seedling":
+				furn_set(pnt.x, pnt.y, f_plant_mature);
+				seed.bday = calendar::turn;
+				break;
+			case "f_plant_mature":
+				furn_set(pnt.x, pnt.y, f_plant_harvest);
+				seed.bday = calendar::turn;
+				break;
+		}
+	}
 }
 
 void map::restock_fruits( const point pnt, int time_since_last_actualize )

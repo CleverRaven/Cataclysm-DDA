@@ -242,7 +242,10 @@ struct it_comest : public virtual itype {
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
     std::string comesttype; //FOOD, DRINK, MED
-
+	unsigned int mingrow;
+	unsigned int maxgrow;
+	
+	
     signed int fun;    // How fun its use is
 
     itype_id container; // The container it comes in
@@ -269,7 +272,7 @@ struct it_comest : public virtual itype {
     add_type add; // Effects of addiction
 
     it_comest(): itype(), quench(0), nutr(0), charges(0), rand_charges(), stim(0), healthy(0),
-        brewtime(0), comesttype(), fun(0), container(), tool()
+        brewtime(0), comesttype(), fun(0), container(), tool(), mingrow(0), maxgrow(0)
     {
     }
 };
