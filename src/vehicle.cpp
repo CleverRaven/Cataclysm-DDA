@@ -4775,8 +4775,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     // Assume vehicle turrets are defending the player.
     tmp.attitude = NPCATT_DEFEND;
     tmp.weapon = item(gun.id, 0);
-    it_ammo curam = ammo;
-    tmp.weapon.curammo = &curam;
+    tmp.weapon.curammo = &ammo;
     tmp.weapon.charges = charges;
 
     const bool u_see = g->u_see(x, y);
