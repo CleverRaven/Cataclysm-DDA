@@ -1674,8 +1674,13 @@ void game::activity_on_turn()
         break;
     default:
         // Based on speed, not time
-        u.activity.moves_left -= u.moves;
-        u.moves = 0;
+        if( u.moves <= u.activity.moves_left ) {
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+        } else {
+            u.moves -= u.activity.moves_left;
+            u.activity.moves_left = 0;
+        }
     }
 }
 
