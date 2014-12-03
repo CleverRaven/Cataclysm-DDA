@@ -2011,7 +2011,7 @@ void mattack::smg(monster *z, int index)
         if (within_visual_range(z, 24) < 0) {
             return;
         }
-              
+        
         // Target not human, presumably some weird animal, not worth the ammo
         // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
         // and if so, have it shoot whatever attacked it most recently
@@ -2024,18 +2024,6 @@ void mattack::smg(monster *z, int index)
         }
 
         if (!z->has_effect("targeted")) {
-            // Issue a warning provided that you're not within 2/3 max range (that close is a threat).
-            // IMO turrets shouldn't loudly announce their presence as that invites sniping 'em, but
-            // I suppose it can be justified as attracting zeds to the gun is theoretically a good idea.
-            // If only it'd shoot 'em.  :-P
-            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 18) {
-                g->sound(z->posx(), z->posy(), 28, _("THIS AREA IS RESTRICTED.  LEAVE NOW."));
-                g->sound(z->posx(), z->posy(), 28, _("USE OF LETHAL FORCE IS AUTHORIZED."));
-                g->sound(z->posx(), z->posy(), 28, _("YOU HAVE 12 SECONDS TO COMPLY."));
-                z->add_effect("targeted", 8);
-                z->moves -= 250; // 12 seconds = two turns
-                return;
-            }
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2185,18 +2173,6 @@ void mattack::rifle_tur(monster *z, int index)
         }
 
         if (!z->has_effect("targeted")) {
-            // Issue a warning provided that you're not within 2/3 max range (that close is a threat).
-            // IMO turrets shouldn't loudly announce their presence as that invites sniping 'em, but
-            // I suppose it can be justified as attracting zeds to the gun is theoretically a good idea.
-            // If only it'd shoot 'em.  :-P
-            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 24) {
-                g->sound(z->posx(), z->posy(), 34, _("THIS AREA IS RESTRICTED.  LEAVE NOW."));
-                g->sound(z->posx(), z->posy(), 34, _("USE OF LETHAL FORCE IS AUTHORIZED."));
-                g->sound(z->posx(), z->posy(), 34, _("YOU HAVE 12 SECONDS TO COMPLY."));
-                z->add_effect("targeted", 8);
-                z->moves -= 250; // 12 seconds = two turns
-                return;
-            }
             g->sound(z->posx(), z->posy(), 8, _("beep-beep."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2358,25 +2334,6 @@ void mattack::bmg_tur(monster *z, int index)
         }
 
         if (!z->has_effect("targeted")) {
-            // Issue a warning provided that you're not within 3/4 max range (that close is a threat).
-            // IMO turrets shouldn't loudly announce their presence as that invites sniping 'em, but
-            // I suppose it can be justified as attracting zeds to the gun is theoretically a good idea.
-            // If only it'd shoot 'em.  :-P
-            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 30) {
-                g->sound(z->posx(), z->posy(), 40, _("THIS AREA IS RESTRICTED.  LEAVE NOW."));
-                g->sound(z->posx(), z->posy(), 40, _("USE OF LETHAL FORCE IS AUTHORIZED."));
-                g->sound(z->posx(), z->posy(), 40, _("YOU HAVE 12 SECONDS TO COMPLY."));
-                z->add_effect("targeted", 8);
-                if (!(g->u.is_deaf())) {
-                    // ~Heard the warning
-                    add_msg(m_warning, _("That explains the laser dot on your torso!"));
-                } else {
-                    // ~Didn't hear the warning, because deaf; string duplicated to ensure .50BMG laser-locks
-                    add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
-                }
-                z->moves -= 250; // 12 seconds = two turns
-                return;
-            }
             //~There will be a .50BMG shell sent at high speed to your location next turn.
             add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
