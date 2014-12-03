@@ -1644,10 +1644,6 @@ void game::activity_on_turn()
         u.rooted();
         u.pause();
         break;
-    case ACT_MAKE_ZLAVE:
-        u.activity.moves_left -= u.moves;
-        u.moves = 0;
-        break;
     case ACT_DROP:
         activity_on_turn_drop();
         break;
