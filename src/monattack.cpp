@@ -2013,13 +2013,14 @@ void mattack::smg(monster *z, int index)
         }
         
         // Target not human, presumably some weird animal, not worth the ammo
-        // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
-        // and if so, have it shoot whatever attacked it most recently
-        if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
-                z->moves -= 100;
-                return;
+        // unless the turret's damaged, at which point, shoot to kill
+        if (z->hp == z->type->hp) {
+            if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
+                if (g->u_see(z->posx(), z->posy())) {
+                    add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
+                    z->moves -= 100;
+                    return;
+                }
             }
         }
 
@@ -2085,13 +2086,14 @@ void mattack::laser(monster *z, int index)
         if (within_visual_range(z, 24) < 0) return;
         
         // Target not human, presumably some weird animal, not worth the ammo
-        // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
-        // and if so, have it shoot whatever attacked it most recently
-        if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
-                z->moves -= 100;
-                return;
+        // unless the turret's damaged, at which point, shoot to kill
+        if (z->hp == z->type->hp) {
+            if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
+                if (g->u_see(z->posx(), z->posy())) {
+                    add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
+                    z->moves -= 100;
+                    return;
+                }
             }
         }
 
@@ -2162,13 +2164,14 @@ void mattack::rifle_tur(monster *z, int index)
         if (within_visual_range(z, 36) < 0) return;
         
         // Target not human, presumably some weird animal, not worth the ammo
-        // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
-        // and if so, have it shoot whatever attacked it most recently
-        if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
-                z->moves -= 100;
-                return;
+        // unless the turret's damaged, at which point, shoot to kill
+        if (z->hp == z->type->hp) {
+            if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
+                if (g->u_see(z->posx(), z->posy())) {
+                    add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
+                    z->moves -= 100;
+                    return;
+                }
             }
         }
 
@@ -2240,13 +2243,14 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         if (within_visual_range(z, 38) < 0) return;
         
         // Target not human, presumably some weird animal, not worth the ammo
-        // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
-        // and if so, have it shoot whatever attacked it most recently
-        if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
-                z->moves -= 100;
-                return;
+        // unless the turret's damaged, at which point, shoot to kill
+        if (z->hp == z->type->hp) {
+            if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA")) {
+                if (g->u_see(z->posx(), z->posy())) {
+                    add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
+                    z->moves -= 100;
+                    return;
+                }
             }
         }
 
@@ -2322,14 +2326,15 @@ void mattack::bmg_tur(monster *z, int index)
         if (within_visual_range(z, 40) < 0) return;
         
         // Target not human or vehicle, presumably some weird animal, not worth the ammo
-        // TODO: Once NPCs can be targeted, add a check for whether the turret's damaged
-        // and if so, have it shoot whatever attacked it most recently
-        if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") && !(g->u.has_trait("HUGE") ||
-          g->u.has_trait("HUGE_OK")) ) {
-            if (g->u_see(z->posx(), z->posy())) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
-                z->moves -= 100;
-                return;
+        // but if you abuse that, you are gonna die.
+        if (z->hp == z->type->hp) {
+            if (g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") && !(g->u.has_trait("HUGE") ||
+              g->u.has_trait("HUGE_OK")) ) {
+                if (g->u_see(z->posx(), z->posy())) {
+                    add_msg(m_info, _("The %s doesn't seem to consider you a target."), z->name().c_str());
+                    z->moves -= 100;
+                    return;
+                }
             }
         }
 
