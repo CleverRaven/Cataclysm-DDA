@@ -92,19 +92,23 @@ std::string NameGenerator::getName(uint32_t searchFlags)
         return std::string( _("Tom") );
     }
 
-    // Get matching names
-    std::vector<Name> theseNames;
+    // Get number of matching names
+    int nNames = 0;
     for (uint32_t type : types) {
-        theseNames.insert(theseNames.end(), names[type].cbegin(), names[type].cend());
+        nNames += names[type].size();
     }
 
     // Choose a random name
-    if (theseNames.empty()) {
-        // BUG, no matching name found.
-        return std::string( _("Tom") );
+    int choice = rng(0, nNames-1);
+    for (int i = 0; i < nTypes; i++) {
+        if (choice < int(names[types[i]].size())) {
+            return names[types[i]][choice].value();
+        }
+        choice -= names[types[i]].size();
     }
 
-    return theseNames[ rng(0, theseNames.size()-1) ].value();
+    // BUG, no matching name found.
+    return std::string( _("Tom") );
 }
 
 std::string NameGenerator::generateName(bool male)
