@@ -456,6 +456,7 @@ class game
                             bool bite = true, bool infect = true);
 
         bool opening_screen();// Warn about screen size, then present the main menu
+        void mmenu_refresh_title();
         void mmenu_refresh_motd();
         void mmenu_refresh_credits();
 

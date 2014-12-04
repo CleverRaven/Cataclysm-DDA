@@ -555,6 +555,14 @@ void initOptions()
                                  false
                                 );
 
+    optionNames["ask"]      = _("Ask");
+    optionNames["always"]   = _("Always");
+    optionNames["never"]    = _("Never");
+    OPTIONS["DEATHCAM"]     = cOpt("general", _("DeathCam"),
+                                _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
+                                "always,ask,never", "ask"
+                                );
+
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
@@ -1262,6 +1270,7 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_title();
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }

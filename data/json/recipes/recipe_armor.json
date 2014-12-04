@@ -3193,7 +3193,7 @@
     [
       [ "tallow", 1 ],
       [ "cooking_oil", 1 ],
-      [ "lamp_oil", 1 ]
+      [ "lamp_oil", 200 ]
     ]
   ]
 },{
@@ -3548,7 +3548,7 @@
       [ "rag", 10 ]
     ],
     [
-      [ "scrap", 2]
+      [ "plastic_chunk", 2]
     ]
   ]
 },{

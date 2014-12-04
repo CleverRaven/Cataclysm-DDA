@@ -327,7 +327,7 @@
         "durability" : 50,
         "folded_volume": 10,
         "difficulty" : 3,
-        "item" : "pipe", "comment": "TODO: better item!",
+        "item" : "foldframe",
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE"],
         "breaks_into" : [

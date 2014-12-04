@@ -66,10 +66,12 @@ void PATH_INFO::update_datadir()
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
@@ -115,10 +117,12 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");

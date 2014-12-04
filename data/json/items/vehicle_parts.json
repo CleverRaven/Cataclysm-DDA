@@ -4,6 +4,22 @@
         "id" : "veh_parts",
         "name" : "vehicle parts",
         "sort_rank" : 10
+    },{
+        "type":"GENERIC",
+        "id" : "foldframe",
+        "name" : "foldable-light frame",
+        "description" : "A small foldable lightweight frame made from pipework.",
+        "weight" : 5048,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : "]",
+        "material" : ["steel", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 40,
+        "bashing" : 15,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 4000
     },
     {
         "type":"GENERIC",
