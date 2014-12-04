@@ -242,15 +242,16 @@ struct it_comest : public virtual itype {
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
     std::string comesttype; //FOOD, DRINK, MED
-	unsigned int mingrow;
-	unsigned int maxgrow;
 	
 	
     signed int fun;    // How fun its use is
 
     itype_id container; // The container it comes in
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
-
+	
+	unsigned int mingrow; //miinimum time it takes for a seed to grow
+	unsigned int maxgrow; //maximum time it takes for a seed to grow
+	
     virtual bool is_food() const
     {
         return true;

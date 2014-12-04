@@ -4682,8 +4682,8 @@ void map::grow_plant( const point pnt )
     auto &seed = items.front();
     
     //91 days for an approximate real life season
-    const int plantEpochMin = DAYS(seed::growmin / 91 * calendar::season_length() / 3); 
-    const int plantEpochMax = DAYS(seed::growmax / 91 * calendar::season_length() / 3);
+    const int plantEpochMin = DAYS(seed.growmin / 91 * calendar::season_length() / 3); 
+    const int plantEpochMax = DAYS(seed.growmax / 91 * calendar::season_length() / 3);
     const int seedBDay = DAYS(seed.bday / 14400); //number of turns in a day
     int growChance = calendar::day - plantEpochMin - seedBDay;
     std::string furn_name = furn.id;
@@ -4692,19 +4692,15 @@ void map::grow_plant( const point pnt )
     //TODO: Check case statements, specifically for strings
     //TODO: Compare furn.name to string
     if (growChance > 0 && (rand() % plantEpochMax) < growChance) {
-		switch (furn_name) {
-			case "f_plant_seed":
-				furn_set(pnt.x, pnt.y, f_plant_seedling);
+		if (furn_name == "f_plant_seed") {
+				furn_set(pnt.x, pnt.y, "f_plant_seedling");
 				seed.bday = calendar::turn;
-				break;
-			case "f_plant_seedling":
-				furn_set(pnt.x, pnt.y, f_plant_mature);
+		} else if (furn_name == "f_plant_seedling") {
+				furn_set(pnt.x, pnt.y, "f_plant_mature");
 				seed.bday = calendar::turn;
-				break;
-			case "f_plant_mature":
-				furn_set(pnt.x, pnt.y, f_plant_harvest);
+		} else if (furn_name == "f_plant_mature") {
+				furn_set(pnt.x, pnt.y, "f_plant_harvest");
 				seed.bday = calendar::turn;
-				break;
 		}
 	}
 }
