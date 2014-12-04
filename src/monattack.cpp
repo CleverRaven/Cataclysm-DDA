@@ -1982,7 +1982,7 @@ static bool ignore_mutants( monster *z )
     // unless the turret's damaged, at which point, shoot to kill
     if( z->hp == z->type->hp ) {
         if( g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") ) {
-            if( g->u_see(z->posx(), z->posy()) ) {
+            if( g->u_see(z->posx(), z->posy()) && one_in(10) ) {
                 add_msg(m_info, _("The %s doesn't seem to consider you a target at the moment."),
                         z->name().c_str());
             }
