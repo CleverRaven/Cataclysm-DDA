@@ -691,11 +691,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if (it->made_of(LIQUID)) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if (it->type->id == "tequila" || it->type->id == "whiskey" ||
-                                    it->type->id == "vodka" || it->type->id == "rum" ||
-                                    it->type->id == "gasoline" || it->type->id == "diesel") {
+                                if (it->type->id == "gasoline" || it->type->id == "diesel") {
                                     time_added = 300;
                                     smoke += 6;
+                                } else if (it->type->id == "tequila" || it->type->id == "whiskey" ||
+                                           it->type->id == "vodka" || it->type->id == "rum" ||
+                                           it->type->id == "single_malt_whiskey" || it->type->id == "gin" ||
+                                           it->type->id == "moonshine" || it->type->id == "brandy") {
+                                    time_added = 250;
+                                    smoke += 5;
                                 } else if (it->type->id == "lamp_oil") {
                                     time_added = 300;
                                     smoke += 3;
@@ -1333,8 +1337,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                      i_at(x, y).begin();
                                  it != i_at(x, y).end(); ++it) {
                                     if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
-                                        it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline" ||
-                                        it->type->id == "diesel" || it->type->id == "lamp_oil") {
+                                        it->made_of("cotton") || it->made_of("wool") || it->made_of("flesh") ||
+                                        it->made_of("hflesh") || it->made_of("iflesh") ||
+                                        it->type->id == "gasoline" || it->type->id == "diesel" ||
+                                        it->type->id == "lamp_oil" || it->type->id == "tequila" ||
+                                        it->type->id == "whiskey" || it->type->id == "vodka" ||
+                                        it->type->id == "rum" || it->type->id == "single_malt_whiskey" ||
+                                        it->type->id == "gin" || it->type->id == "moonshine" ||
+                                        it->type->id == "brandy") {
                                         add_field(x, y, fd_fire, 1);
                                     }
                             }
