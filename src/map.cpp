@@ -4662,9 +4662,10 @@ void map::fill_funnels( const point pnt )
 
 void map::grow_plant( const point pnt )
 {
+	calendar newcal = calendar::sync();
     const auto &furn = furn_at( pnt.x, pnt.y );
     //moving to chance based system, so only check growth once daily
-    if( !furn.has_flag( "PLANT" ) || calendar::hour != 12 || calendar::minute != 0) { 
+    if( !furn.has_flag( "PLANT" ) || newcal.hour != 12 || newcal.minute != 0) { 
         return;
     }
     auto &items = i_at( pnt.x, pnt.y );
@@ -4679,13 +4680,13 @@ void map::grow_plant( const point pnt )
     
     // Erase fertilizer tokens, but keep the seed item
     items.resize( 1 );
-    auto &seed = items.front();
-    
+    it_comest &seed = items.front();
+	
     //91 days for an approximate real life season
     const int plantEpochMin = DAYS(seed.growmin / 91 * calendar::season_length() / 3); 
     const int plantEpochMax = DAYS(seed.growmax / 91 * calendar::season_length() / 3);
     const int seedBDay = DAYS(seed.bday / 14400); //number of turns in a day
-    int growChance = calendar::day - plantEpochMin - seedBDay;
+    int growChance = newcal.day - plantEpochMin - seedBDay;
     std::string furn_name = furn.id;
     
     //TODO: Convert the seed bday to days, check that bday + EpochMin > current day
