@@ -21,7 +21,8 @@
       [ "shot_slug", 5 ]
     ],
     [
-      [ "gasoline", 200 ]
+      [ "gasoline", 200 ],
+      [ "diesel", 200 ]
     ]
   ]
 },{
@@ -445,17 +446,17 @@
       [ "rag", 1 ]
     ],
     [
-      [ "whiskey", 5 ],
-      [ "single_malt_whiskey", 5 ],
-      [ "vodka", 5 ],
-      [ "rum", 5 ],
-      [ "tequila", 5 ],
-      [ "gin", 5 ],
-      [ "moonshine", 5 ],
-      [ "brandy", 5 ],
-      [ "triple_sec", 5 ],
+      [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "lamp_oil", 100 ],
-      [ "gasoline", 200 ]
+      [ "gasoline", 200 ],
+      [ "diesel", 200 ]
     ]
   ]
 },{
@@ -3856,7 +3857,7 @@
   "book_learn": [["textbook_gaswarfare" , 8 ], ["textbook_anarch" , 7 ], ["recipe_labchem", 6 ]],
   "tools": [ [ ["chemistry_set", 25]  ] ],
   "components": [
-    [ [ "gasoline", 125 ] ],
+    [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
     [ [ "bleach", 2 ] ],
     [ [ "oxy_powder", 15 ] ],
