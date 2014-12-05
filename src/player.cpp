@@ -11991,6 +11991,91 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
+
+        // Next, apply reductions from bionics and traits.
+        if (has_bionic("bio_carbon")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 2;
+                break;
+            case DT_CUT:
+                it->amount -= 4;
+                break;
+            case DT_STAB:
+                it->amount -= 3.2;
+                break;
+            }
+        }
+        if (bp == bp_head && has_bionic("bio_armor_head")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        }
+        if (has_trait("THICKSKIN")) {
+            if (it->type == DT_CUT)
+                it->amount -= 1;
+        }
+        if (has_trait("THINSKIN")) {
+            if (it->type == DT_CUT)
+                it->amount += 1;
+        }
+        if (it->amount < 0) it->amount = 0;
     }
 }
 
