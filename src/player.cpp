@@ -1306,7 +1306,7 @@ void player::update_bodytemp()
             int cold_int = get_effect_int("cold", (body_part)i);
             int hot_int = get_effect_int("hot", (body_part)i);
             int intensity_mult = hot_int - cold_int;
-            
+
             switch (i) {
             case bp_head:
             case bp_torso:
@@ -1364,7 +1364,7 @@ void player::update_bodytemp()
                                warmth((body_part)i) * 0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
             int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
-            
+
             int intense = get_effect_int("frostbite", (body_part)i);
 
             // This has been broken down into 8 zones
@@ -4927,7 +4927,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
                 }
             }
         }
-        
+
         if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             add_msg_if_player(m_bad, _("You're poisoned!"));
             add_effect("poison", 30);
@@ -5791,7 +5791,7 @@ void player::process_effects() {
     if (!(in_sleep_state()) && has_effect("alarm_clock")) {
         remove_effect("alarm_clock");
     }
-    
+
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -5800,10 +5800,10 @@ void player::process_effects() {
             double mod = 1;
             body_part bp = it.get_bp();
             int val = 0;
-            
+
             // Still hardcoded stuff, do this first since some modify their other traits
             hardcoded_effects(it);
-            
+
             // Handle miss messages
             auto msgs = it.get_miss_msgs();
             if (!msgs.empty()) {
@@ -5811,7 +5811,7 @@ void player::process_effects() {
                     add_miss_reason(_(i.first.c_str()), i.second);
                 }
             }
-            
+
             // Handle health mod
             val = it.get_mod("H_MOD", reduced);
             if (val != 0) {
@@ -5821,7 +5821,7 @@ void player::process_effects() {
                                 it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
                 }
             }
-            
+
             // Handle health
             val = it.get_mod("HEALTH", reduced);
             if (val != 0) {
@@ -5831,7 +5831,7 @@ void player::process_effects() {
                                 it.get_max_val("HEALTH", reduced), it.get_min_val("HEALTH", reduced)));
                 }
             }
-            
+
             // Handle stim
             val = it.get_mod("STIM", reduced);
             if (val != 0) {
@@ -5841,7 +5841,7 @@ void player::process_effects() {
                                                 it.get_min_val("STIM", reduced));
                 }
             }
-            
+
             // Handle hunger
             val = it.get_mod("HUNGER", reduced);
             if (val != 0) {
@@ -5851,7 +5851,7 @@ void player::process_effects() {
                                                 it.get_min_val("HUNGER", reduced));
                 }
             }
-            
+
             // Handle thirst
             val = it.get_mod("THIRST", reduced);
             if (val != 0) {
@@ -5861,7 +5861,7 @@ void player::process_effects() {
                                                 it.get_min_val("THIRST", reduced));
                 }
             }
-            
+
             // Handle fatigue
             val = it.get_mod("FATIGUE", reduced);
             if (val != 0) {
@@ -5871,7 +5871,7 @@ void player::process_effects() {
                                                 it.get_min_val("FATIGUE", reduced));
                 }
             }
-            
+
             // Handle Radiation
             val = it.get_mod("RAD", reduced);
             if (val != 0) {
@@ -5884,14 +5884,14 @@ void player::process_effects() {
                     }
                 }
             }
-            
+
             // Handle stat changes
             mod_str_bonus(it.get_mod("STR", reduced));
             mod_dex_bonus(it.get_mod("DEX", reduced));
             mod_per_bonus(it.get_mod("PER", reduced));
             mod_int_bonus(it.get_mod("INT", reduced));
             mod_speed_bonus(it.get_mod("SPEED", reduced));
-            
+
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
             if (val != 0) {
@@ -5968,13 +5968,13 @@ void player::process_effects() {
                     pkill += bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0);
                 }
             }
-            
+
             // Handle coughing
             mod = 1;
             if (it.activated(calendar::turn, "COUGH", reduced, mod)) {
                 cough(it.get_harmful_cough());
             }
-            
+
             // Handle vomiting
             mod = vomit_mod();
             if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
@@ -6939,7 +6939,7 @@ void player::hardcoded_effects(effect &it)
                 recovered = true;
             }
         }
-        if (!recovered) {        
+        if (!recovered) {
             // Move up to infection
             if (dur > 3600) {
                 add_effect("infected", 1, bp, true);
@@ -12439,6 +12439,91 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
+
+        // Next, apply reductions from bionics and traits.
+        if (has_bionic("bio_carbon")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 2;
+                break;
+            case DT_CUT:
+                it->amount -= 4;
+                break;
+            case DT_STAB:
+                it->amount -= 3.2;
+                break;
+            }
+        }
+        if (bp == bp_head && has_bionic("bio_armor_head")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+            switch (it->type) {
+            case DT_BASH:
+                it->amount -= 3;
+                break;
+            case DT_CUT:
+                it->amount -= 3;
+                break;
+            case DT_STAB:
+                it->amount -= 2.4;
+                break;
+            }
+        }
+        if (has_trait("THICKSKIN")) {
+            if (it->type == DT_CUT)
+                it->amount -= 1;
+        }
+        if (has_trait("THINSKIN")) {
+            if (it->type == DT_CUT)
+                it->amount += 1;
+        }
+        if (it->amount < 0) it->amount = 0;
     }
 }
 
