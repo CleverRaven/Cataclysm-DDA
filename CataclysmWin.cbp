@@ -34,7 +34,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release -SDL">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option output="cataclysm-tiles" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -42,22 +42,17 @@
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
-					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
+					<Add directory="windepend" />
+					<Add directory="windepend/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add library="libSDL.dll" />
-					<Add library="SDL_ttf" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend/SDL-1.2.15/lib" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
-					<Add directory="WinDepend/libiconv/lib" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86" />
+					<Add library="windepend\SDL2.lib" />
+					<Add library="windepend\SDL2_image.lib" />
+					<Add library="windepend\SDL2_ttf.lib" />
+					<Add library="windepend\SDL2main.lib" />
+					<Add directory="windepend" />
 				</Linker>
 			</Target>
 			<Target title="Release -SDL -Localized">
@@ -403,8 +398,8 @@
 		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
-    <Unit filename="src/scenario.cpp" />
-    <Unit filename="src/scenario.h" />
+		<Unit filename="src/scenario.cpp" />
+		<Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
