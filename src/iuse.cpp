@@ -8759,22 +8759,21 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
             monster &candidate = g->zombie( i );
             if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
                 rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
-                pick_robot.entries.push_back( uimenu_entry( i, true, -1,
-                                                            candidate.name().c_str() ) );
+                pick_robot.addentry( i, true, -1, candidate.name() );
             }
         }
         if( pick_robot.entries.empty() ) {
             p->add_msg_if_player( m_info, _("No enemy robots in range.") );
-                return it->type->charges_to_use();
-            }
-            pick_robot.entries.push_back(uimenu_entry(-1, true, -1, _("Cancel")));
-
-            pick_robot.query();
-            if (pick_robot.ret == -1) {
-                p->add_msg_if_player(m_info, _("Never mind"));
-                return it->type->charges_to_use();
-            }
-            monster *z = &(g->zombie(pick_robot.ret));
+            return it->type->charges_to_use();
+        }
+        pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+        pick_robot.query();
+        const size_t mondex = pick_robot.ret;
+        if( mondex >= g->num_zombies() ) {
+            p->add_msg_if_player(m_info, _("Never mind"));
+            return it->type->charges_to_use();
+        }
+            monster *z = &(g->zombie(mondex));
             p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel("computer") * 10;
             float success = p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
