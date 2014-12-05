@@ -223,7 +223,7 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if (has_flag(MF_ABSORBS)) {
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) ) {
         if(!g->m.i_at(posx(), posy()).empty()) {
             add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
@@ -679,7 +679,7 @@ int monster::group_bash_skill( point target )
                 break;
             }
             monster &helpermon = g->zombie( mondex );
-            if( !helpermon.has_flag(MF_GROUP_BASH) ) {
+            if( !helpermon.has_flag(MF_GROUP_BASH) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
             }
@@ -920,6 +920,10 @@ void monster::knock_back_from(int x, int y)
 {
  if (x == posx() && y == posy())
   return; // No effect
+    if( is_hallucination() ) {
+        die( nullptr );
+        return;
+    }
  point to(posx(), posy());
  if (x < posx())
   to.x++;
@@ -934,6 +938,11 @@ void monster::knock_back_from(int x, int y)
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
+    if( mondex != -1 && g->zombie( mondex ).is_hallucination() ) {
+        // hallucinations should not affect real monsters. If they interfer, just remove them.
+        g->zombie( mondex ).die( this );
+        mondex = -1;
+    }
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   apply_damage( z, bp_torso, z->type->size );
