@@ -1836,10 +1836,7 @@ bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
             // If crafting recipe required a welder,
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
-                have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
-                                  crafting_inv.has_tools("survivor_belt", 1) ||
-                                  crafting_inv.has_tools("toolbox", 1) ||
-                                  crafting_inv.has_tools("toolset", 1));
+                have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
             }
 
             if( have_this_tool ) {
@@ -1851,7 +1848,7 @@ bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
             if (print_msg) {
                 int req = it[0].count;
                 if (it[0].type == "welder") {
-                    add_msg(m_info, _("You need a hacksaw to disassemble this."));
+                    add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SAW_M_FINE" ).c_str() );
                 } else {
                     if (req <= 0) {
                         add_msg(m_info, _("You need a %s to disassemble this."),

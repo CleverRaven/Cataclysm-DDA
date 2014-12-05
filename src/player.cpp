@@ -10918,8 +10918,7 @@ hint_rating player::rate_action_disassemble(item *it) {
 
                             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
                             if (type == "welder") {
-                                if (crafting_inv.has_amount("hacksaw", 1) ||
-                                    crafting_inv.has_amount("toolset", 1)) {
+                                if( crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
                                     have_tool = true;
                                 } else {
                                     have_tool = false;
