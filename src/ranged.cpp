@@ -1431,6 +1431,13 @@ int player::skill_dispersion( item *weapon, bool random ) const
 // utility functions for projectile_attack
 double player::get_weapon_dispersion(item *weapon, bool random) const
 {
+    if( weapon->is_gun() && weapon->mode == "MODE_AUX" ) {
+        const auto gunmod = weapon->active_gunmod();
+        if( gunmod != nullptr ) {
+            return get_weapon_dispersion( gunmod, random );
+        }
+    }
+
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( weapon, random );
 
@@ -1440,7 +1447,9 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r)) );
     dispersion += rand_or_max( random, 60 * encumb(bp_eyes) );
 
-    dispersion += rand_or_max( random, weapon->curammo->dispersion);
+    if( weapon->curammo != nullptr ) {
+        dispersion += rand_or_max( random, weapon->curammo->dispersion);
+    }
 
     dispersion += rand_or_max( random, weapon->dispersion() );
     if( random ) {
