@@ -1779,12 +1779,16 @@ void complete_vehicle ()
         } else {
             dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
-        tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
-        tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
-        tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
+        if (has_goggles) {
+            // Need welding goggles to use any of these tools,
+            // without the goggles one _must_ use the duct tape
+            tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
+            tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
+            tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
+            tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
+        }
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
         g->u.consume_tools(tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
