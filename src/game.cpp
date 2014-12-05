@@ -11567,7 +11567,7 @@ void game::butcher()
             }
         }
         if( multisalvage ) {
-            kmenu.addentry(corpses.size(), true, 'q', _("Cut up all you can"));
+            kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
         }
         kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
         kmenu.query();
