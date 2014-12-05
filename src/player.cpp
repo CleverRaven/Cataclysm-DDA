@@ -4444,6 +4444,9 @@ bool player::has_nv()
     return nv;
 }
 
+// I want to add so that an E-ink can be used to track a
+// vehicle. I know what I want is here somewhere, but I don't 
+// know exactly where.
 bool player::has_pda()
 {
     static bool pda = false;
@@ -4451,7 +4454,7 @@ bool player::has_pda()
       pda_cached = true;
       pda = has_amount("pda", 1);
     }
-
+ 
     return pda;
 }
 
