@@ -12376,16 +12376,28 @@ void game::unload(item &it)
             weapon->charges += newam.charges; // Put it back in
         }
     } else if (newam.charges > 0) {
-        if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-            u.can_pickVolume(newam.volume())) {
-            u.i_add(newam);
+        add_msg( _( "You unload your %s." ), weapon->tname().c_str() );
+        if( !u.can_pickVolume( newam.volume() ) ) {
+            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                    newam.tname().c_str() );
+            m.add_item_or_charges( u.posx, u.posy, newam );
+        } else if( !u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
+                    newam.tname().c_str() );
+            m.add_item_or_charges( u.posx, u.posy, newam );
         } else {
-            m.add_item_or_charges(u.posx, u.posy, newam, 1);
+            auto &ni = u.i_add(newam);
+            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
         }
     }
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
         weapon->curammo = NULL;
+        // Tools need to be turned off, especially when thy consume charges only every few turns,
+        // otherwise they stay active until they would consume the next charge.
+        if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {
+            weapon->type->invoke( &u, weapon, false, u.pos() );
+        }
     }
 }
 
