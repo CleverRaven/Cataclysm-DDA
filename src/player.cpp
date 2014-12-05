@@ -10723,7 +10723,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             if (to_wear->covers(i) && encumb(i) >= 4)
             {
                 add_msg(m_warning,
-                    !(i == bp_eyes) ?
+                    i == bp_eyes ?
                     _("Your %s are very encumbered! %s"):_("Your %s is very encumbered! %s"),
                     body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
             }
