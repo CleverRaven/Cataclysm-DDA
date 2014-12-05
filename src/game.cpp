@@ -11481,7 +11481,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
     const inventory &crafting_inv = u.crafting_inventory();
-    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
     if( factor > INT_MIN ) {
@@ -11567,7 +11567,7 @@ void game::butcher()
             }
         }
         if( multisalvage ) {
-            kmenu.addentry(corpses.size(), true, 'q', _("Cut up all you can"));
+            kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
         }
         kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
         kmenu.query();
@@ -11942,7 +11942,7 @@ void game::complete_butcher(int index)
 
 void game::longsalvage()
 {
-    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
     if( !has_salvage_tool ) {
         add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
     }
