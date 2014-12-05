@@ -100,11 +100,11 @@ std::string NameGenerator::getName(uint32_t searchFlags)
 
     // Choose a random name
     int choice = rng(0, nNames-1);
-    for (int i = 0; i < nTypes; i++) {
-        if (choice < int(names[types[i]].size())) {
-            return names[types[i]][choice].value();
+    for (uint32_t type : types) {
+        if (choice < int(names[type].size())) {
+            return names[type][choice].value();
         }
-        choice -= names[types[i]].size();
+        choice -= names[type].size();
     }
 
     // BUG, no matching name found.
