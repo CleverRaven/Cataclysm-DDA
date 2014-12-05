@@ -21,6 +21,7 @@ class item;
 class overmap;
 class player;
 class field_entry;
+class Medical;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 

@@ -3,6 +3,7 @@
 #include "output.h"
 #include "game.h"
 #include "messages.h"
+#include "medical.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>

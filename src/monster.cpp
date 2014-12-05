@@ -7,6 +7,7 @@
 #include "item.h"
 #include "translations.h"
 #include "overmapbuffer.h"
+#include "medical.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>

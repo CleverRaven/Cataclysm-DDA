@@ -2061,5 +2061,17 @@
                 "key":"C"
             }
         ]
+    },
+    {
+        "type": "keybinding",
+        "id": "MEDICAL"
+        "category": "PLAYER_INFO",
+        "name": "Medical Aid"
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "m"
+            }
+        ]
     }
 ]

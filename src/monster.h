@@ -9,6 +9,7 @@
 class map;
 class game;
 class item;
+class Medical;
 
 enum monster_attitude {
     MATT_NULL = 0,

@@ -25,6 +25,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "medical.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -2545,6 +2546,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_action("NEXT_TAB", _("Cycle to next category"));
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM", _("Toggle skill training"));
+    ctxt.register_action("MEDICAL");
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
@@ -2970,6 +2972,8 @@ detecting traps and other things of interest."));
                     wrefresh(w_stats);
                     line = 0;
                     curtab++;
+                } else if (action == "MEDICAL") {
+                    show_medical_iface();
                 } else if (action == "QUIT") {
                     done = true;
                 }
@@ -13807,3 +13811,4 @@ bool player::has_item_with_flag( std::string flag ) const
         return it.has_flag( flag );
     } );
 }
+

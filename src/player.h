@@ -25,6 +25,7 @@ class game;
 struct trap;
 class mission;
 class profession;
+class Medical;
 nc_color encumb_color(int level);
 
 struct special_attack {

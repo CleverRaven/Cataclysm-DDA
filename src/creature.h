@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "medical.h"
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
@@ -17,8 +18,9 @@
 class game;
 class JsonObject;
 class JsonOut;
+//class Medical;
 
-class Creature
+class Creature : public Medical
 {
     public:
         virtual ~Creature();
