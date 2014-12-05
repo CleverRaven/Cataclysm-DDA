@@ -4453,6 +4453,8 @@ bool player::has_pda()
     if ( !pda_cached ) {
       pda_cached = true;
       pda = has_amount("pda", 1);
+      pda = has_amount("eink_tablet_pc", 1);
+
     }
  
     return pda;
