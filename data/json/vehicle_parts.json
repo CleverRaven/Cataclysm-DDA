@@ -2587,7 +2587,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2608,7 +2608,7 @@
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2780,6 +2780,25 @@
         "size" : 1000,
         "fuel_type" : "battery",
         "item" : "small_storage_battery",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "medium_storage_battery",
+        "name" : "medium storage battery",
+        "symbol" : "O",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "battery",
+        "item" : "medium_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE"],

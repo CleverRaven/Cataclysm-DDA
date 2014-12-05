@@ -5417,8 +5417,10 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
                     add_vehicle("policecar", vx, vy, facing, -1, 1);
-                } else if (car_type <= 40) {
+                } else if (car_type <= 39) {
                     add_vehicle("ambulance", vx, vy, facing, -1, 1);
+                } else if (car_type <= 40) {
+                    add_vehicle("bicycle_electric", vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
                     add_vehicle("beetle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 48) {
