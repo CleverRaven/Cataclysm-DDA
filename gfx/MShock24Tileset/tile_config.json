@@ -8219,18 +8219,6 @@
           "rotates": false
         },
         {
-          "id": "smg_45",
-          "fg": 1329,
-          "bg": 504,
-          "rotates": false
-        },
-        {
-          "id": "smg_9mm",
-          "fg": 1330,
-          "bg": 504,
-          "rotates": false
-        },
-        {
           "id": "smokebomb",
           "fg": 2205,
           "bg": 504,
