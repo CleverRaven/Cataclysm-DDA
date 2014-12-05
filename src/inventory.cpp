@@ -1119,6 +1119,10 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet(item &it, bool force)
 {
+    if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
+        return;
+    }
+    
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     if (cur_inv.size() < inv_chars.size()) {
