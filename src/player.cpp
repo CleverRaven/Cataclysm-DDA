@@ -969,7 +969,8 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && sees(posx + j, posy + k)) {
+                int t;
+                if( heat_intensity > 0 && g->m.sees( posx, posy, posx + j, posy + k, -1, t ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
