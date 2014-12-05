@@ -457,28 +457,40 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict(int msg_width, int engines){
-    bool install_pedals = sel_vpart_info->has_flag("PEDALS");
-    bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
-    bool install_paddles = sel_vpart_info->has_flag("PADDLES");
+bool veh_interact::is_drive_conflict(int msg_width){
+    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
+    bool has_muscle_engine = veh->has_engine_type("muscle", false);
+    bool can_install = !(has_muscle_engine && install_muscle_engine);
     
-    bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
-    bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
-    bool can_install = (engines == 0)|| (has_muscle_engine && install_muscle_engine) ||
-                                        (!has_muscle_engine && !install_muscle_engine);
     if (!can_install) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
-                       _("That install would conflict with the existing drive system."));
+                       _("Only one muscle powered engine can be installed."));
         wrefresh (w_msg);
     }
     return !can_install;
 }
 
-bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
-    itype_id itm = sel_vpart_info->item;
-    bool drive_conflict = is_drive_conflict(msg_width, engines);
+bool veh_interact::can_install_part(int msg_width){
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
+    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
+    //count current engines, muscle engines don't require higher skill
+    int engines = 0;
+    int dif_eng = 0;
+    if (is_engine && !install_muscle_engine) {
+        for (size_t p = 0; p < veh->parts.size(); p++) {
+            if (veh->part_flag (p, "ENGINE") && 
+                veh->part_info(p).fuel_type != "muscle") 
+            {
+                engines++;
+                dif_eng = dif_eng / 2 + 12;
+            }
+        }
+    }
+    
+    itype_id itm = sel_vpart_info->item;
+    bool drive_conflict = is_drive_conflict(msg_width);
+    
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
@@ -568,21 +580,12 @@ void veh_interact::do_install()
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
+    
     int pos = 0;
-    int engines = 0;
-    //count current engines
-    int dif_eng = 0;
-    for (size_t p = 0; p < veh->parts.size(); p++) {
-        if (veh->part_flag (p, "ENGINE")) {
-            engines++;
-            dif_eng = dif_eng / 2 + 12;
-        }
-    }
     while (true) {
         sel_vpart_info = &(can_mount[pos]);
         display_list (pos, can_mount);
-
-        bool can_install = can_install_part(msg_width, engines, dif_eng);
+        bool can_install = can_install_part(msg_width);
         
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){

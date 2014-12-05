@@ -1526,7 +1526,9 @@ bool map::flammable_items_at(const int x, const int y)
         int vol = i.volume();
         if (i.made_of("paper") || i.made_of("powder") ||
               i.type->id == "whiskey" || i.type->id == "vodka" ||
-              i.type->id == "rum" || i.type->id == "tequila") {
+              i.type->id == "rum" || i.type->id == "tequila" ||
+              i.type->id == "single_malt_whiskey" || i.type->id == "gin" ||
+              i.type->id == "moonshine" || i.type->id == "brandy") {
             return true;
         }
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
@@ -5415,8 +5417,10 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
                     add_vehicle("policecar", vx, vy, facing, -1, 1);
-                } else if (car_type <= 40) {
+                } else if (car_type <= 39) {
                     add_vehicle("ambulance", vx, vy, facing, -1, 1);
+                } else if (car_type <= 40) {
+                    add_vehicle("bicycle_electric", vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
                     add_vehicle("beetle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 48) {

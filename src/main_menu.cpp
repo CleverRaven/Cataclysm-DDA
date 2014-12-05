@@ -27,6 +27,7 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
+static std::vector<std::string> mmenu_title;
 static std::vector<std::string> mmenu_motd;
 static std::vector<std::string> mmenu_credits;
 
@@ -49,50 +50,29 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
                  _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
     int iLine = 0;
-    const int iOffsetX1 = 3 + (window_width - FULL_SCREEN_WIDTH) / 2;
-    const int iOffsetX2 = 4 + (window_width - FULL_SCREEN_WIDTH) / 2;
-    const int iOffsetX3 = 18 + (window_width - FULL_SCREEN_WIDTH) / 2;
+    const int iOffsetX = (window_width - FULL_SCREEN_WIDTH) / 2;
 
     const nc_color cColor1 = c_ltcyan;
     const nc_color cColor2 = c_ltblue;
     const nc_color cColor3 = c_ltblue;
 
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "_________            __                   .__                            ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+    if (mmenu_title.size() > 1) {
+        for (size_t i = 0; i < mmenu_title.size(); ++i) {
+            if (i == 6) {
+                if (!bShowDDA) {
+                    break;
+                }
+                if (FULL_SCREEN_HEIGHT > 24) {
+                    ++iLine;
+                }
+            }
+            mvwprintz(w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, mmenu_title[i].c_str());
+        }
+    } else {
+        center_print(w_open, iLine++, cColor1, mmenu_title[0].c_str());
+    }
 
     if (bShowDDA) {
-        if (FULL_SCREEN_HEIGHT > 24) {
-            ++iLine;
-        }
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "________                   .__      ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
-
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
         iLine++;
         center_print(w_open, iLine++, cColor3, _("Version: %s"), getVersionString());
     }
@@ -165,6 +145,11 @@ std::vector<std::string> load_file( const std::string &path, const std::string &
     return result;
 }
 
+void game::mmenu_refresh_title()
+{
+    mmenu_title = load_file(PATH_INFO::find_translated_file( "titledir", ".title", "title" ), _( "Cataclysm: Dark Days Ahead" ) );
+}
+
 void game::mmenu_refresh_motd()
 {
     mmenu_motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
@@ -224,6 +209,7 @@ bool game::opening_screen()
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<D>elete World"));
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<R>eset World"));
 
+    mmenu_refresh_title();
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;

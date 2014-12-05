@@ -1823,8 +1823,10 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             veh_type = "bicycle";
         } else if (rc <= 75) {
             veh_type = "rara_x"; //The Solar Car Toyota RaRa X
-        } else if (rc <= 80) {
+        } else if (rc <= 77) {
             veh_type = "unicycle";
+        } else if (rc <= 82) {
+            veh_type = "bicycle_electric";
         } else if (rc <= 90) {
             veh_type = "motorcycle";
         } else {
