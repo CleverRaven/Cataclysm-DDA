@@ -67,6 +67,9 @@ void Item_factory::init_old()
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
                   '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
     itypes["toolset"]->item_tags.insert( "PSEUDO" );
+    itypes["toolset"]->qualities[ "WRENCH" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M_FINE" ] = 1;
     // For smoking drugs
     add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",

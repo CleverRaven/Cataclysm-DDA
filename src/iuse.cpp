@@ -10383,8 +10383,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                 has_tools = false;
             }
 
-            if (!cinv.has_tools("screwdriver", 1)) {
-                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "screwdriver" ).c_str());
+            if( !cinv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
                 has_tools = false;
             }
 
