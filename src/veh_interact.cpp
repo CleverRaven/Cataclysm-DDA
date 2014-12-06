@@ -775,7 +775,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
     werase (w_msg);
     if (veh->can_unmount(veh_part_index)) {
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
-        bool wheel_needs_jack = is_wheel && veh->part_info(veh_part_index).wheel_width >= 4;
+        bool wheel_needs_jack = is_wheel && !veh->part_flag(veh_part_index, "NO_JACK");
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         
