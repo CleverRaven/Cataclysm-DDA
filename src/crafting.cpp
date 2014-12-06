@@ -1060,9 +1060,7 @@ const inventory& player::crafting_inventory()
 {
     if (cached_moves == moves
             && cached_turn == calendar::turn.get_turn()
-            && cached_position == pos()
-            && !g->m.veh_at(posx, posy)) {
-            // TODO: Optimize by using flags? This does access a cache most of the time...
+            && cached_position == pos()) {
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map(pos(), PICKUP_RANGE, false);
