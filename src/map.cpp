@@ -868,10 +868,10 @@ bool map::vehproceed()
             veh->handle_trap( wheel_x, wheel_y, w );
             auto &item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                item *smashed_item = get_item( x, y, it );
+                item *smashed_item = get_item( wheel_x, wheel_y, it );
                 smashed_item->damage += rng( 0, 3 );
                 if( smashed_item->damage > 4 ) {
-                    it = i_rem( x, y, it );
+                    it = i_rem( wheel_x, wheel_y, it );
                 } else {
                     ++it;
                 }

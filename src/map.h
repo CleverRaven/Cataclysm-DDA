@@ -486,7 +486,7 @@ void add_corpse(int x, int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- // Both i_rem() methods act like conatiner::erase(),
+ // Both i_rem() methods that return values act like conatiner::erase(),
  // returning an iterator to the next item after removal.
  std::vector<item>::const_iterator i_rem( const int x, const int y,
                                           std::vector<item>::const_iterator it );
