@@ -1083,7 +1083,7 @@
         "type": "profession",
         "ident": "lumberjack",
         "name": "Lumberjack",
-        "description": "You're a lumberjack, and you're okay.  You felled trees before before the world ended, but suspect the undead aren't nearly as tough.",
+        "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, but suspect the undead aren't nearly as tough.",
         "points": 0,
         "items": {
             "both": [
