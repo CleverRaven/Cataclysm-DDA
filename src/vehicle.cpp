@@ -855,7 +855,7 @@ void vehicle::use_controls()
     // Toggle doors remotely
     if (has_doors) {
         options_choice.push_back(toggle_doors);
-        options_message.push_back(uimenu_entry(_("Toggle door"), 'k'));
+        options_message.push_back(uimenu_entry(_("Toggle door"), 'd'));
     }
     // control an engine
     if (has_mult_engine) {
@@ -865,7 +865,7 @@ void vehicle::use_controls()
     // start alarm
     if (can_trigger_alarm) {
         options_choice.push_back(trigger_alarm);
-        options_message.push_back(uimenu_entry(_("Trigger alarm")));
+        options_message.push_back(uimenu_entry(_("Trigger alarm", 'p')));
     }
 
     options_choice.push_back(control_cancel);
