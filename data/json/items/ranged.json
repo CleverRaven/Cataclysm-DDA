@@ -1059,7 +1059,7 @@
     "color": "light_gray",
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
-    "description": "The companion sidearm for the L523 modular system, this beast of an autorevolver has ups and downs.  Unfortunately, it only chambers five rounds.  Fortunately, they're the same as those used in the L523: .223. (Or in military hands, 5.56.)",
+    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result. It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.",
     "price": 267000, "//" : "Current milspec, so Expensive.",
     "material": ["steel", "aluminum"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
