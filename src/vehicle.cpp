@@ -2488,12 +2488,15 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
         bool player_controlling = player_in_control(&(g->u));
-        int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+        
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle && player_controlling) {
-            fl += 10;
+        if (veh == this && player_controlling && part_under_player >= 0) {
+            int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+            if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle) {
+                fl += 10;
+            }
         }
     }
 
