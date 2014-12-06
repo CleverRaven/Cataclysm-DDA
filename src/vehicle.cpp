@@ -2492,7 +2492,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
         bool player_controlling = player_in_control(&(g->u));
         
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if (veh == this && player_controlling) {
+        if (veh == this && player_controlling && part_under_player >= 0) {
             int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
             if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle) {
                 fl += 10;
