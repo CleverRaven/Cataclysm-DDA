@@ -307,23 +307,15 @@ void veh_interact::cache_tool_availability()
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
-    has_wrench = crafting_inv.has_tools("wrench", 1) ||
-                 crafting_inv.has_tools("toolset", 1) ||
-                 crafting_inv.has_tools("survivor_belt", 1) ||
-                 g->u.is_wearing("survivor_belt") ||
-                 crafting_inv.has_tools("toolbox", 1);
-    has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
-                  crafting_inv.has_tools("survivor_belt", 1) ||
-                  g->u.is_wearing("survivor_belt") ||
-                  crafting_inv.has_tools("toolbox", 1) ||
+    has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
+    has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   (crafting_inv.has_tools("oxy_torch", 1) &&
                    crafting_inv.has_charges("oxy_torch", OXY_CUTTING) &&
                   (crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"))) ||
-                  crafting_inv.has_tools("toolset", 1);
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on")));
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
                  (crafting_inv.has_tools("oxy_torch", 1) &&
@@ -1782,22 +1774,21 @@ void complete_vehicle ()
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
-            tools.push_back(tool_comp("wrench", -1));
-            tools.push_back(tool_comp("survivor_belt", -1));
-            tools.push_back(tool_comp("toolbox", -1));
-            g->u.consume_tools(tools);
-            tools.clear();
             dd = 0;
             veh->insides_dirty = true;
         } else {
             dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
-        tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
-        tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
-        tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
+        if (has_goggles) {
+            // Need welding goggles to use any of these tools,
+            // without the goggles one _must_ use the duct tape
+            tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
+            tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
+            tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
+            tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
+        }
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
         g->u.consume_tools(tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
@@ -1813,12 +1804,11 @@ void complete_vehicle ()
     case 'o':
         // Only parts that use charges
         if (!is_wrenchable && !is_hand_remove){
-            tools.push_back(tool_comp("hacksaw", -1));
-            tools.push_back(tool_comp("toolbox", -1));
-            tools.push_back(tool_comp("survivor_belt", -1));
-            tools.push_back(tool_comp("circsaw_off", 20));
-            tools.push_back(tool_comp("oxy_torch", 10));
-            g->u.consume_tools(tools);
+            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
+                tools.push_back(tool_comp("circsaw_off", 20));
+                tools.push_back(tool_comp("oxy_torch", 10));
+                g->u.consume_tools(tools);
+            }
         }
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->parts[vehicle_part].items ) {

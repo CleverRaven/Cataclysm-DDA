@@ -969,7 +969,8 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && sees(posx + j, posy + k)) {
+                int t;
+                if( heat_intensity > 0 && g->m.sees( posx, posy, posx + j, posy + k, -1, t ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
@@ -10722,7 +10723,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             if (to_wear->covers(i) && encumb(i) >= 4)
             {
                 add_msg(m_warning,
-                    !(i == bp_eyes) ?
+                    i == bp_eyes ?
                     _("Your %s are very encumbered! %s"):_("Your %s is very encumbered! %s"),
                     body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -10917,8 +10918,7 @@ hint_rating player::rate_action_disassemble(item *it) {
 
                             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
                             if (type == "welder") {
-                                if (crafting_inv.has_amount("hacksaw", 1) ||
-                                    crafting_inv.has_amount("toolset", 1)) {
+                                if( crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
                                     have_tool = true;
                                 } else {
                                     have_tool = false;
@@ -13805,5 +13805,16 @@ bool player::has_item_with_flag( std::string flag ) const
 {
     return has_item_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
+    } );
+}
+
+bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
+{
+    return has_item_with( [&quality_id, level, &amount]( const item &it ) {
+        if( it.has_quality( quality_id, level ) ) {
+            // Each suitable item decreases the require count until it reaches 0, where the requirement is fulfilled.
+            amount--;
+        }
+        return amount <= 0;
     } );
 }

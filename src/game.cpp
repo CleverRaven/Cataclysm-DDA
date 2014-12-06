@@ -11481,7 +11481,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
     const inventory &crafting_inv = u.crafting_inventory();
-    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
     if( factor > INT_MIN ) {
@@ -11567,7 +11567,7 @@ void game::butcher()
             }
         }
         if( multisalvage ) {
-            kmenu.addentry(corpses.size(), true, 'q', _("Cut up all you can"));
+            kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
         }
         kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
         kmenu.query();
@@ -11942,7 +11942,7 @@ void game::complete_butcher(int index)
 
 void game::longsalvage()
 {
-    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
     if( !has_salvage_tool ) {
         add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
     }
@@ -12376,16 +12376,28 @@ void game::unload(item &it)
             weapon->charges += newam.charges; // Put it back in
         }
     } else if (newam.charges > 0) {
-        if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-            u.can_pickVolume(newam.volume())) {
-            u.i_add(newam);
+        add_msg( _( "You unload your %s." ), weapon->tname().c_str() );
+        if( !u.can_pickVolume( newam.volume() ) ) {
+            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                    newam.tname().c_str() );
+            m.add_item_or_charges( u.posx, u.posy, newam );
+        } else if( !u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
+                    newam.tname().c_str() );
+            m.add_item_or_charges( u.posx, u.posy, newam );
         } else {
-            m.add_item_or_charges(u.posx, u.posy, newam, 1);
+            auto &ni = u.i_add(newam);
+            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
         }
     }
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
         weapon->curammo = NULL;
+        // Tools need to be turned off, especially when thy consume charges only every few turns,
+        // otherwise they stay active until they would consume the next charge.
+        if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {
+            weapon->type->invoke( &u, weapon, false, u.pos() );
+        }
     }
 }
 

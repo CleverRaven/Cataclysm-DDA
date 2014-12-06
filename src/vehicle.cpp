@@ -618,19 +618,19 @@ bool vehicle::has_security_working(){
 bool vehicle::interact_vehicle_locked()
 {
     if (is_locked){
-        inventory crafting_inv = (g->u).crafting_inventory();
+        const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if (crafting_inv.has_tools("screwdriver", 1)){
+        if( !crafting_inv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
 
-                int mechanics_skill = (g->u).skillLevel("mechanics");
+                int mechanics_skill = g->u.skillLevel("mechanics");
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
-                (&g->u)->assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
-                (&g->u)->activity.values.push_back(global_x());//[0]
-                (&g->u)->activity.values.push_back(global_y());//[1]
-                (&g->u)->activity.values.push_back((g->u).skillLevel("mechanics"));//[2]
+                g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
+                g->u.activity.values.push_back(global_x());//[0]
+                g->u.activity.values.push_back(global_y());//[1]
+                g->u.activity.values.push_back(g->u.skillLevel("mechanics"));//[2]
             } else {
                 if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
                     is_alarm_on = true;
@@ -2488,12 +2488,15 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
         bool player_controlling = player_in_control(&(g->u));
-        int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+        
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle && player_controlling) {
-            fl += 10;
+        if (veh == this && player_controlling && part_under_player >= 0) {
+            int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+            if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle) {
+                fl += 10;
+            }
         }
     }
 

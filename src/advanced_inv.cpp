@@ -1119,6 +1119,11 @@ void advanced_inventory::display()
             if( !query_charges( destarea, *sitem, action == "MOVE_SINGLE_ITEM", amount_to_move ) ) {
                 continue;
             }
+            // This makes sure that all item references in the advanced_inventory_pane::items vector
+            // are recalculated, even when they might not have change, but they could (e.g. items
+            // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
+            // but are potentially at a different place).
+            recalc = true;
             assert( amount_to_move > 0 );
             if( destarea == AIM_CONTAINER ) {
                 if ( !move_content( *sitem->it, *squares[destarea].get_container() ) ) {
@@ -1177,7 +1182,6 @@ void advanced_inventory::display()
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
-            recalc = true;
         } else if( action == "MOVE_ALL_ITEMS" ) {
             if( move_all_items() ) {
                 exit = true;
