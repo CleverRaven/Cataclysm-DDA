@@ -12288,7 +12288,7 @@ int player::get_armor_cut_base(body_part bp) const
     }
     if (bp == bp_head && has_bionic("bio_armor_head")) {
         ret += 3;
-    } else if ((bp == bp_arm_l || bp == bp_leg_r) && has_bionic("bio_armor_arms")) {
+    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
         ret += 3;
     } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
         ret += 3;
