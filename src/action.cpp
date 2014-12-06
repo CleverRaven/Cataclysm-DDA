@@ -270,6 +270,8 @@ std::string action_ident(action_id act)
         return "toggle_fullscreen";
     case ACTION_ACTIONMENU:
         return "action_menu";
+    case ACTION_ITEMACTION:
+        return "item_action_menu";
     case ACTION_NULL:
         return "null";
     default:
@@ -684,6 +686,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_MUTATIONS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
+            REGISTER_ACTION(ACTION_ITEMACTION);
 #ifdef TILES
             if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
@@ -739,6 +742,81 @@ action_id handle_action_menu()
 
 #undef REGISTER_ACTION
 #undef REGISTER_CATEGORY
+}
+
+void use_item_menu(player &p)
+{
+    const std::initializer_list< std::string > init_list = { "KNIFE", "SEW", "PICKLOCK", "HAMMER", "SOLDER_WELD", "CROWBAR", "MAKEMOUND", "PICKAXE", "HACKSAW", "BOLTCUTTERS", "VITAMINS" };
+    std::vector< std::string > all_uses( init_list );
+    // std::unordered_set< std::string > uses( init_list );
+    // Item index (in inventory), item pointer
+    std::unordered_map< std::string, std::pair<int, item*> > candidates;
+    inventory inv = p.inv;
+    inv += p.weapon;
+    inv += p.worn;
+    auto stacks = p.inv.slice_filter_by_activation( p );
+
+    // Goes through all items and all uses - probably too slow for crafting_inventory
+    for( size_t x = 0; x < stacks.size(); ++x ) {
+        item &i = stacks[x].first->front();
+        for( auto use : all_uses ) {
+            it_tool *tool = dynamic_cast<it_tool*>(i.type);
+            // Can't just test for charges_per_use > charges, because charges can be -1
+            if( !i.type->can_use( use )  || 
+                (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i.charges) ) {
+                continue;
+            }
+
+            // Add to usable items only if it needs less charges per use
+            auto found = candidates.find( use );
+            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
+            if( found == candidates.end() ) {
+                candidates[use] = std::make_pair( stacks[x].second, &i );
+            } else {
+                it_tool *other = dynamic_cast<it_tool*>(found->second.second->type);
+                if ( would_use_charges < other->charges_per_use ) {
+                    candidates[use] = std::make_pair( stacks[x].second, &i );
+                }
+            }
+        }
+    }
+
+    uimenu kmenu;
+    kmenu.text = _("Choose item action to execute.");
+    kmenu.selected = 0;
+
+    int num = 0;
+    for( auto use : all_uses ) {
+        auto iter = candidates.find( use );
+        if( iter != candidates.end() ) {
+            item *i = iter->second.second;
+            it_tool *tool = dynamic_cast<it_tool*>(i->type);
+            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
+            std::stringstream ss;
+            ss << use << " [" << i->type_name( 1 );
+            if( would_use_charges > 0 ) {
+                ss << " (" << would_use_charges << ")";
+            }
+            ss << "]";
+
+            kmenu.addentry( num, true, (char)num + 48, ss.str() );
+        }
+
+        num++;
+    }
+
+    kmenu.addentry( all_uses.size(), true, 'q', _("Cancel"));
+    kmenu.query();
+
+    if( kmenu.ret < 0 || (size_t)kmenu.ret >= all_uses.size() ) {
+        return;
+    }
+
+    auto iter = candidates.find( all_uses[kmenu.ret] );
+    if( iter == candidates.end() ) {
+        debugmsg( "game::use_item_menu listed an item with invalid index" );
+    }
+    p.use( iter->second.first );
 }
 
 bool choose_direction(const std::string &message, int &x, int &y)

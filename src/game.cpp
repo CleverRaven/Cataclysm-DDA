@@ -2975,6 +2975,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("action_menu");
+    ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
     ctxt.register_action("MOUSE_MOVE");
@@ -3207,6 +3208,7 @@ void game::setremoteveh(vehicle *veh)
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
+void use_item_menu(player &p);
 bool game::handle_action()
 {
     std::string action;
@@ -4019,9 +4021,12 @@ bool game::handle_action()
             break;
 
         case ACTION_ZOOM_OUT:
-            zoom_out();
+            zoom_out(); 
             break;
 
+        case ACTION_ITEMACTION:
+            use_item_menu( u );
+            break;
         default:
             break;
         }
