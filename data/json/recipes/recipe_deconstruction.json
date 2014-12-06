@@ -1425,48 +1425,6 @@
     ]
   ]
   },{
-    "type" : "recipe",
-    "result": "smg_9mm",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 5 ],
-    "difficulty": 5,
-    "time": 18000,
-    "reversible": true,
-    "autolearn": false,
-    "qualities":[
-      {"id":"SAW_M_FINE","level":1,"amount":1},
-      {"id":"SCREW_FINE","level":1,"amount":1},
-      {"id":"HAMMER_FINE","level":1,"amount":1}
-    ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 4 ] ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "smg_45",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 5 ],
-    "difficulty": 5,
-    "time": 20000,
-    "reversible": true,
-    "autolearn": false,
-    "qualities":[
-      {"id":"SAW_M_FINE","level":1,"amount":1},
-      {"id":"SCREW_FINE","level":1,"amount":1},
-      {"id":"HAMMER_FINE","level":1,"amount":1}
-    ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 4 ] ]
-    ]
-  },{
   "type" : "recipe",
   "result": "power_armor_helmet_basic",
   "category": "CC_NONCRAFT",

@@ -657,11 +657,11 @@
       [ "rum", 14 ],
       [ "tequila", 14 ],
       [ "gin", 14 ],
-      [ "triple_sec", 14 ],
       [ "moonshine", 14 ],
       [ "brandy", 14 ],
       [ "lamp_oil", 400 ],
-      [ "gasoline", 600 ]
+      [ "gasoline", 600 ],
+      [ "diesel", 600 ]
     ]
   ]
 },{
@@ -682,6 +682,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "gunpowder", 72 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
@@ -1506,6 +1507,7 @@
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "shot_bird", 6 ]
     ]
   ]
@@ -1787,6 +1789,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
@@ -1794,7 +1797,6 @@
       [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
-      [ "triple_sec", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
       [ "tallow", 2 ]
@@ -1821,6 +1823,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "diesel", 200 ],
       [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
@@ -1829,8 +1832,7 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "triple_sec", 7 ]
+      [ "brandy", 7 ]
     ],
     [
       [ "rag", 1 ]

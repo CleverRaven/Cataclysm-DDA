@@ -1976,6 +1976,23 @@ void mattack::tazer(monster *z, int index)
     g->u.moves -= shock * 20;
 }
 
+static bool ignore_mutants( monster *z )
+{
+    // Target not human, presumably some weird animal, not worth the ammo
+    // unless the turret's damaged, at which point, shoot to kill
+    if( z->hp == z->type->hp ) {
+        if( g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") ) {
+            if( g->u_see(z->posx(), z->posy()) && one_in(10) ) {
+                add_msg(m_info, _("The %s doesn't seem to consider you a target at the moment."),
+                        z->name().c_str());
+            }
+            z->moves -= 100;
+            return true;
+        }
+    }
+    return false;
+}
+
 void mattack::smg(monster *z, int index)
 {
     const std::string ammo_type("9mm");
@@ -2008,7 +2025,12 @@ void mattack::smg(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (within_visual_range(z, 24) < 0) return;
+        if (within_visual_range(z, 24) < 0) {
+            return;
+        }
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
@@ -2069,7 +2091,13 @@ void mattack::laser(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (within_visual_range(z, 24) < 0) return;
+        if (within_visual_range(z, 24) < 0) {
+            return;
+        }
+
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
@@ -2135,7 +2163,13 @@ void mattack::rifle_tur(monster *z, int index)
     } else {
         // Not friendly; hence, firing at the player
         // (This is a bit generous: 5.56 has 38 range.)
-        if (within_visual_range(z, 36) < 0) return;
+        if (within_visual_range(z, 36) < 0) {
+            return;
+        }
+
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 8, _("beep-beep."));
@@ -2202,7 +2236,13 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.  40mm frag has range 40.)
-        if (within_visual_range(z, 38) < 0) return;
+        if (within_visual_range(z, 38) < 0) {
+            return;
+        }
+
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             //~Potential grenading detected.
@@ -2273,7 +2313,13 @@ void mattack::bmg_tur(monster *z, int index)
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.  50BMG has range 90.)
-        if (within_visual_range(z, 40) < 0) return;
+        if (within_visual_range(z, 40) < 0) {
+            return;
+        }
+
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             //~There will be a .50BMG shell sent at high speed to your location next turn.
@@ -2348,6 +2394,10 @@ void mattack::tank_tur(monster *z, int index)
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.)
         if (within_visual_range(z, 48) < 0) return;
+
+        if( ignore_mutants(z) ) {
+            return;
+        }
 
         if (!z->has_effect("targeted")) {
             //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.

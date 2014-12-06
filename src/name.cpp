@@ -73,7 +73,7 @@ std::vector<uint32_t> NameGenerator::uint32_tsFromFlags(uint32_t searchFlags) co
     for( std::map< uint32_t, std::vector<Name> >::const_iterator it = names.begin();
          it != names.end(); ++it ) {
         const uint32_t type = it->first;
-        if (searchFlags & type) {
+        if ((searchFlags & type) == searchFlags) {
             types.push_back(type);
         }
     }
