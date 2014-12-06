@@ -237,16 +237,16 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
         item *c = NULL;
         int maxcontains = 0;
         point loc = *i;
-        std::vector<item> &items = g->m.i_at(loc.x, loc.y);
+        auto &items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for( auto &items_j : items ) {
-                item *it = &( items_j );
-                if ( it->is_funnel_container( maxcontains ) ) {
-                    c = it;
+            for( auto candidate_container = items.begin(); candidate_container != items.end();
+                 ++candidate_container ) {
+                if ( candidate_container->is_funnel_container( maxcontains ) ) {
+                    c = g->m.get_item( loc.x, loc.y, candidate_container );
                 }
             }
 

@@ -829,7 +829,7 @@ int game::inv_for_salvage(const std::string title)
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string title)
 {
-    std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
+    auto &here = m.i_at(g->u.posx, g->u.posy);
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
@@ -838,19 +838,19 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
     LIQUID_FILL_ERROR error;
 
     std::set<std::string> dups;
-    for( auto &elem : here ) {
-        if( elem.get_remaining_capacity_for_liquid( liquid, error ) > 0 ) {
-            if( dups.count( elem.tname() ) == 0 ) {
-                grounditems.push_back( std::list<item>( 1, elem ) );
+    for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
+        if( candidate->get_remaining_capacity_for_liquid( liquid, error ) > 0 ) {
+            if( dups.count( candidate->tname() ) == 0 ) {
+                grounditems.push_back( std::list<item>( 1, *candidate ) );
 
                 if( grounditems.size() <= 10 ) {
                     grounditems.back().front().invlet = '0' + grounditems.size() - 1;
                 } else {
                     grounditems.back().front().invlet = ' ';
                 }
-                dups.insert( elem.tname() );
+                dups.insert( candidate->tname() );
 
-                ground_containers.push_back( &elem );
+                ground_containers.push_back( m.get_item( g->u.posx, g->u.posy, candidate ) );
             }
         }
     }
@@ -994,7 +994,7 @@ void game::compare(int iCompareX, int iCompareY)
         return;
     }
 
-    std::vector <item> &here = m.i_at(examx, examy);
+    auto &here = m.i_at(examx, examy);
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;

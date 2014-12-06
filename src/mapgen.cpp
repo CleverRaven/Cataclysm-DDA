@@ -11590,7 +11590,7 @@ void map::rotate(int turns)
         for (int j = 0; j < SEEY * 2; j++) {
             ter_set(i, j, rotated[i][j]);
             furn_set(i, j, furnrot[i][j]);
-            i_at(i, j) = itrot [i][j];
+            spawn_items(i, j, itrot [i][j]);
             add_trap(i, j, traprot[i][j]);
             set_signage(i, j, signage_rot[i][j]);
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
@@ -12115,7 +12115,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 m->ter_set(i, j, rotated[x2 - (i - x1)][j]);
-                m->i_at(i, j) = itrot[x2 - (i - x1)][j];
+                m->spawn_items(i, j, itrot[x2 - (i - x1)][j]);
             }
         }
     }

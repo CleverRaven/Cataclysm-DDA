@@ -23,10 +23,10 @@ class Pickup
         Pickup() {}
 
         // Pickup helper functions
-        static void pick_one_up( const point &pickup_target, std::vector<item> &here,
+        static void pick_one_up( const point &pickup_target, item &newit,
                                  vehicle *veh, int cargo_part, int index, int quantity,
                                  bool &got_water, bool &offered_swap,
-                                 std::map<std::string, int> &mapPickup, 
+                                 std::map<std::string, int> &mapPickup,
                                  std::map<std::string, item> &item_info, bool autopickup );
 
         static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );

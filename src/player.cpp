@@ -837,7 +837,7 @@ void player::update_bodytemp()
     int floor_mut_warmth = 0;
     if( in_sleep_state() ) {
         // Search the floor for items
-        std::vector<item> &floor_item = g->m.i_at(posx, posy);
+        auto &floor_item = g->m.i_at(posx, posy);
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
@@ -11888,7 +11888,7 @@ void player::wake_up()
 
 std::string player::is_snuggling()
 {
-    std::vector<item> *items_to_snuggle = &g->m.i_at( posx, posy );
+    auto *items_to_snuggle = &g->m.i_at( posx, posy );
     if( in_vehicle ) {
         int vpart;
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
@@ -11901,7 +11901,7 @@ std::string player::is_snuggling()
             }
         }
     }
-    std::vector<item>& floor_item = *items_to_snuggle;
+    auto &floor_item = *items_to_snuggle;
     const item* floor_armor = NULL;
     int ticker = 0;
 
