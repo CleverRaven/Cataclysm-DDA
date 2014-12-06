@@ -1845,15 +1845,6 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Remove Dirt Mound", 
-        "category" : "OTHER",
-        "difficulty" : 0,
-        "time" : 8,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_dirtmound",
-        "post_terrain" : "t_dirt"
-    },{
-        "type" : "construction",
         "description" : "Extract Clay Mound",
         "category" : "OTHER",
         "difficulty" : 0,
