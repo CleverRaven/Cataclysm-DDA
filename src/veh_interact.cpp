@@ -1702,6 +1702,7 @@ void complete_vehicle ()
     std::map<point, vehicle *> foundv;
     vehicle *fillv = NULL;
     
+    bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
@@ -1803,7 +1804,7 @@ void complete_vehicle ()
         break;
     case 'o':
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove){
+        if (!is_wrenchable && !is_hand_remove && !is_wheel){
             if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
