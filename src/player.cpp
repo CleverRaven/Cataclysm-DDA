@@ -214,6 +214,7 @@ player::player() : Character(), name("")
  }
  nv_cached = false;
  pda_cached = false;
+ eink_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -458,6 +459,7 @@ void player::reset_stats()
     }
     nv_cached = false;
     pda_cached = false;
+    eink_cached = false;
 
     recalc_sight_limits();
     recalc_speed_bonus();
@@ -528,6 +530,7 @@ void player::action_taken()
 {
     nv_cached = false;
     pda_cached = false;
+    eink_cached = false;
 }
 
 void player::update_morale()
@@ -4454,6 +4457,17 @@ bool player::has_pda()
     }
 
     return pda;
+}
+
+bool player::has_eink()
+{
+    static bool eink = false;
+    if ( !eink_cached ) {
+      eink_cached = true;
+      eink = has_amount("eink_tablet_pc", 1);
+    }
+
+    return eink;
 }
 
 void player::pause()
