@@ -8,6 +8,7 @@
 #include "options.h"
 #include "messages.h"
 #include "inventory.h"
+#include "item_factory.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -28,7 +29,11 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
 
 item_action_map map_actions_to_items( player &p )
 {
-    // Item index (in inventory) and pointers not to look them up every time
+    std::unordered_set< item_action_id > unmapped_actions;
+    for( auto &p : item_actions ) { // Get ids of wanted actions
+        unmapped_actions.insert( p.first );
+    }
+
     item_action_map candidates;
     inventory inv = p.inv;
     inv += p.weapon;
@@ -36,27 +41,45 @@ item_action_map map_actions_to_items( player &p )
     std::vector< item* > items;
     p.inv.dump( items );
 
-    // Goes through all items and all uses - probably too slow for crafting_inventory
+    std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
-        for( auto ia : item_actions ) {
-            auto use = ia.second;
-            it_tool *tool = dynamic_cast<it_tool*>(i->type);
-            // Can't just test for charges_per_use > charges, because charges can be -1
-            if( !i->type->can_use( use.id )  || 
-                (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges) ) {
-                continue;
+        if( i->type->use_methods.empty() ) {
+            continue;
+        }
+
+        for( const use_function &uf : i->type->use_methods ) {
+            to_remove.clear();
+            for( const item_action_id &use : unmapped_actions ) {
+                it_tool *tool = dynamic_cast<it_tool*>(i->type);
+                // Can't just test for charges_per_use > charges, because charges can be -1
+                if( !i->type->can_use( use ) ||
+                    (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges) ) {
+                    continue;
+                }
+
+                // Add to usable items only if it needs less charges per use
+                auto found = candidates.find( use );
+                int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
+                bool better = false;
+                if( found == candidates.end() ) {
+                    better = true;
+                } else {
+                    it_tool *other = dynamic_cast<it_tool*>(found->second->type);
+                    if ( other != nullptr && would_use_charges < other->charges_per_use ) {
+                        better = true;
+                    }
+                }
+                
+                if( better ) {
+                    candidates[use] = i;
+                    if( would_use_charges == 0 ) {
+                        to_remove.insert( use );
+                    }
+                }
             }
 
-            // Add to usable items only if it needs less charges per use
-            auto found = candidates.find( use.id );
-            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
-            if( found == candidates.end() ) {
-                candidates[use.id] = i;
-            } else {
-                it_tool *other = dynamic_cast<it_tool*>(found->second->type);
-                if ( other != nullptr && would_use_charges < other->charges_per_use ) {
-                    candidates[use.id] = i;
-                }
+            for( const item_action_id &r : to_remove ) {
+                unmapped_actions.erase( r );
             }
         }
     }
@@ -67,14 +90,17 @@ item_action_map map_actions_to_items( player &p )
 void game::item_action_menu()
 {
     item_action_map iactions = map_actions_to_items( u );
+    if( iactions.empty() ) {
+        popup( _("You don't have any items with registered uses") );
+    }
+
     int height = FULL_SCREEN_HEIGHT;
     int width = FULL_SCREEN_WIDTH;
     int begin_y = (TERMY > height) ? (TERMY - height) / 2 : 0;
     int begin_x = (TERMX > width) ? (TERMX - width) / 2 : 0;
     WINDOW *w_item_actions = newwin(height, width, begin_y, begin_x);
-
-    size_t selection = 0;
     int invpos = INT_MIN;
+    size_t selection = 0;
     item *selected_item = nullptr;
     input_context ctxt("ITEM_ACTIONS");
     ctxt.register_action("UP");
@@ -85,7 +111,7 @@ void game::item_action_menu()
     for( auto id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
     }
-    
+
     while (true) {
         werase(w_item_actions);
 
@@ -128,7 +154,7 @@ void game::item_action_menu()
             int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
             char bind = key_bound_to( ctxt, p.first );
             std::stringstream ss;
-            ss << bind << ' ' << item_actions[p.first].name << " [" << p.second->type_name( 1 );
+            ss << bind << ' ' << _( item_actions[p.first].name.c_str() ) << " [" << p.second->type_name( 1 );
             if( would_use_charges > 0 ) {
                 ss << " (" << would_use_charges << '/' << p.second->charges << ')';
             }
@@ -161,7 +187,8 @@ void game::item_action_menu()
                 invpos = u.inv.position_by_item( ac->second );
                 break;
             }
-            
+            // Don't write a message if unknown command was sent
+            // Only when an inexistent tool was selected
             auto itemless_action = item_actions.find( action );
             if( itemless_action != item_actions.end() ) {
                 popup( _("You do not have an item that can perform this action.") );
