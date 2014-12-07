@@ -7359,6 +7359,7 @@
         "phase": "solid",
         "charges" : 4,
         "stack_size" : 100,
+        "grow" : 91,
         "flags": ["SEED"]
     },
     {
@@ -7467,6 +7468,7 @@
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
+        "grow" : 91,
         "flags": ["SEED"]
     },
     {
@@ -7517,8 +7519,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : 110,
-        "maxgrow" : 130,
+        "grow" : 120,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7658,8 +7659,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "mingrow" : 119, "//" : "TODO: Better numbers",
-        "maxgrow" : 120,
+        "grow" : 120,
         "stack_size" : 8,
         "flags": ["SEED"]
     },
@@ -7710,8 +7710,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "mingrow" : 69, "//" : "TODO: Better numbers",
-        "maxgrow" : 70,
+        "grow" : 70,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7762,8 +7761,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : 90,
-        "maxgrow" : 95,
+        "grow" : 90,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7814,8 +7812,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : 80,
-        "maxgrow" : 90,
+        "grow" : 85,
         "stack_size" : 100,
         "flags": ["SEED"]
     },
@@ -7867,8 +7864,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : "55",
-        "maxgrow" : "80",
+        "grow" : "65",
         "stack_size" : 100,
         "flags": ["SEED"]
     },
@@ -7891,8 +7887,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "CHARGES" : 8,
-        "mingrow" : 130,
-        "maxgrow" : 160,
+        "grow" : 130,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -8064,8 +8059,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : 50,
-        "maxgrow" : 80,
+        "grow" : 65,
         "stack_size" : 100,
         "flags": ["SEED"]
     },
@@ -8117,8 +8111,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "mingrow" : 50,
-        "maxgrow" : 80,
+        "grow" : 65,
         "stack_size" : 100,
         "flags": ["SEED"]
     },
@@ -8170,8 +8163,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "mingrow" : 60,
-        "maxgrow" : 100,
+        "grow" : 80,
         "charges" : 4,
         "stack_size" : 100,
         "flags": ["SEED"]
@@ -12946,7 +12938,8 @@
         "charges" : 1,
         "stack_size" : 100,
         "bashing" : 0,
-        "fun" : 1
+        "fun" : 1,
+        "grow" : 91
     },
     {
         "type" : "COMESTIBLE",
@@ -14769,6 +14762,7 @@
         "recoil" : 0,
         "count" : 1,
         "stack_size" : 8,
+        "grow" : 91,
         "flags": ["SEED"]
     },
     {

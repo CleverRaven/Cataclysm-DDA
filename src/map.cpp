@@ -4662,10 +4662,9 @@ void map::fill_funnels( const point pnt )
 
 void map::grow_plant( const point pnt )
 {
-	calendar newcal = calendar::sync();
     const auto &furn = furn_at( pnt.x, pnt.y );
     //moving to chance based system, so only check growth once daily
-    if( !furn.has_flag( "PLANT" ) || newcal.hour != 12 || newcal.minute != 0) { 
+    if( !furn.has_flag( "PLANT" )) { 
         return;
     }
     auto &items = i_at( pnt.x, pnt.y );
@@ -4675,33 +4674,27 @@ void map::grow_plant( const point pnt )
         furn_set( pnt.x, pnt.y, f_null );
         return;
     }
-    // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    //const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+
     
     // Erase fertilizer tokens, but keep the seed item
     items.resize( 1 );
     it_comest &seed = items.front();
 	
-    //91 days for an approximate real life season
-    const int plantEpochMin = DAYS(seed.growmin / 91 * calendar::season_length() / 3); 
-    const int plantEpochMax = DAYS(seed.growmax / 91 * calendar::season_length() / 3);
-    const int seedBDay = DAYS(seed.bday / 14400); //number of turns in a day
-    int growChance = newcal.day - plantEpochMin - seedBDay;
-    std::string furn_name = furn.id;
+    std::string furn_id = furn.id;
     
-    //TODO: Convert the seed bday to days, check that bday + EpochMin > current day
-    //TODO: Check case statements, specifically for strings
-    //TODO: Compare furn.name to string
-    if (growChance > 0 && (rand() % plantEpochMax) < growChance) {
-		if (furn_name == "f_plant_seed") {
+    // plantEpoch is half a season; 3 epochs pass from plant to harvest
+    const int plantEpoch = DAYS(seed.grow / 91 * calendar::season_length() / 3); 
+    
+    while( calendar::turn > seed->bday + plantEpoch && furn_id != "f_plant_harvest" ) {
+		if (furn_id == "f_plant_seed") {
 				furn_set(pnt.x, pnt.y, "f_plant_seedling");
-				seed.bday = calendar::turn;
-		} else if (furn_name == "f_plant_seedling") {
+				seed->bday += plantEpoch;
+		} else if (furn_id == "f_plant_seedling") {
 				furn_set(pnt.x, pnt.y, "f_plant_mature");
-				seed.bday = calendar::turn;
-		} else if (furn_name == "f_plant_mature") {
+				seed->bday += plantEpoch;
+		} else if (furn_id == "f_plant_mature") {
 				furn_set(pnt.x, pnt.y, "f_plant_harvest");
-				seed.bday = calendar::turn;
+				seed->bday += plantEpoch;
 		}
 	}
 }
