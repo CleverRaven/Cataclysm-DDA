@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "quiver",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -25,7 +25,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestsuper",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -44,7 +44,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularveststeel",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -63,7 +63,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestceramic",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -82,7 +82,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestkevlar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -101,7 +101,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvesthard",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -120,7 +120,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -136,7 +136,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -168,7 +168,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -310,7 +310,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mocassins",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -333,7 +333,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -356,7 +356,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -385,7 +385,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -409,7 +409,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -439,7 +439,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -468,7 +468,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_western",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -495,7 +495,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -523,7 +523,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -545,7 +545,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boxer_shorts",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -568,7 +568,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts_cargo",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -591,7 +591,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jeans",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -614,7 +614,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_undertop",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -636,7 +636,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_underpants",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -659,7 +659,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bra",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -684,7 +684,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "undershirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -706,7 +706,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "panties",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -729,7 +729,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "briefs",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -752,7 +752,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "union_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -838,7 +838,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "arm_warmers",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -929,7 +929,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_cargo",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -953,7 +953,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -976,7 +976,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chaps_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -999,7 +999,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1026,7 +1026,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1048,7 +1048,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tank_top",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1070,7 +1070,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tshirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1092,7 +1092,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "longshirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1114,7 +1114,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1136,7 +1136,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1159,7 +1159,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1182,7 +1182,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hoodie",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1204,7 +1204,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1226,7 +1226,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1250,7 +1250,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1272,7 +1272,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1288,7 +1288,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1310,7 +1310,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1356,7 +1356,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat",
   "id_suffix": "from_trenchcoat",
   "byproducts": { "id" : "rag", "amount" : 2 },
@@ -1377,7 +1377,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coat_rain",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1399,7 +1399,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_rain",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -1421,7 +1421,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1471,7 +1471,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
   "id_suffix": "from_trenchcoat_fur",
   "byproducts": { "id" : "fur", "amount" : 2 },
@@ -1492,7 +1492,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1542,7 +1542,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
   "id_suffix": "from_trenchcoat_leather",
   "byproducts": { "id" : "leather", "amount" : 4 },
@@ -1563,7 +1563,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1588,7 +1588,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jacket_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1612,7 +1612,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "vest_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1655,7 +1655,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts_denim",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1704,7 +1704,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_liner",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1727,7 +1727,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_light",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1749,7 +1749,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -1772,7 +1772,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_hood",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -1795,7 +1795,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_gloves",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1818,7 +1818,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -1841,7 +1841,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "entry_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -1889,7 +1889,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1931,7 +1931,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fingerless_mod",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1959,7 +1959,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1982,7 +1982,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2006,7 +2006,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armguard_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -2025,7 +2025,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armguard_metal",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -2048,7 +2048,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "legguard_metal",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -2071,7 +2071,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2090,7 +2090,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2123,7 +2123,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2151,7 +2151,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2173,7 +2173,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "balclava",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2196,7 +2196,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "knit_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2218,7 +2218,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_knit_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2240,7 +2240,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2313,7 +2313,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_filter",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2343,7 +2343,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "glasses_safety",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2366,7 +2366,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_gas",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2470,7 +2470,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2510,7 +2510,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_survivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2550,7 +2550,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2599,7 +2599,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_wsurvivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2648,7 +2648,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2691,7 +2691,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_fsurvivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2734,7 +2734,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2779,7 +2779,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_h20survivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2824,7 +2824,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2855,7 +2855,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_ir",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2889,7 +2889,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rebreather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3016,7 +3016,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rebreather_filter",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -3054,7 +3054,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3077,7 +3077,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_cotton",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3099,7 +3099,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_boonie",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3121,7 +3121,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_noise_cancelling",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3197,7 +3197,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sundress",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3220,7 +3220,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3239,7 +3239,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3258,7 +3258,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3278,7 +3278,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3310,7 +3310,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3339,7 +3339,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_farmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3365,7 +3365,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_blarmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3404,7 +3404,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_plarmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3432,7 +3432,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "backpack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3454,7 +3454,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "backpack_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3480,7 +3480,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chestrig",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3518,7 +3518,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "legrig",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3552,7 +3552,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duffelbag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3578,7 +3578,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3600,7 +3600,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "down_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3625,7 +3625,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3653,7 +3653,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "house_coat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3675,7 +3675,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3697,7 +3697,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3722,7 +3722,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3745,7 +3745,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeping_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3768,7 +3768,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3797,7 +3797,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ragpouch",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3826,7 +3826,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_pouch",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3897,7 +3897,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_scrapsuit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3910,7 +3910,7 @@
   "components": [ [ ["string_36", 2], ["string_6", 12] ],
     [ ["scrap", 15] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bookplate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3974,7 +3974,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_wraps",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -3989,7 +3989,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "apron_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -4012,7 +4012,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -4120,7 +4120,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
   "id_suffix": "from_trenchcoat_survivor",
   "byproducts": { "id" : "rag", "amount" : 4 },
@@ -4141,7 +4141,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -4191,7 +4191,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_belt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -4246,7 +4246,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_vest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4294,7 +4294,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_runner_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4344,7 +4344,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4394,7 +4394,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_rucksack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4445,7 +4445,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_duffel_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4494,7 +4494,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4548,7 +4548,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4606,7 +4606,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4669,7 +4669,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4731,7 +4731,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4791,7 +4791,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "h20survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4846,7 +4846,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "xlsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4907,7 +4907,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -4952,7 +4952,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -4997,7 +4997,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5045,7 +5045,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5096,7 +5096,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5137,7 +5137,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5182,7 +5182,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5244,7 +5244,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5306,7 +5306,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5351,7 +5351,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5392,7 +5392,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5432,7 +5432,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5480,7 +5480,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5529,7 +5529,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5580,7 +5580,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5629,7 +5629,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5674,7 +5674,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5715,7 +5715,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5759,7 +5759,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5804,7 +5804,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5855,7 +5855,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5900,7 +5900,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5945,7 +5945,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5990,7 +5990,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "aep_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6025,7 +6025,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "anbc_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6060,7 +6060,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_welding",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6088,7 +6088,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_swim",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6112,7 +6112,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "swim_fins",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6151,7 +6151,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_cat_ears",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6181,7 +6181,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_cat_ears",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6211,7 +6211,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_cat_tail",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6250,7 +6250,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_cat_tail",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6289,7 +6289,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_collar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6322,7 +6322,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_collar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6373,7 +6373,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leathersandals",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6395,7 +6395,7 @@
     ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bastsandals",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6415,7 +6415,7 @@
     ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "clogs",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6450,7 +6450,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "miner_hat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6474,7 +6474,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6512,7 +6512,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6551,7 +6551,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_gloves",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -6590,7 +6590,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_mask",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6773,7 +6773,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6815,7 +6815,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_lightplate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6858,7 +6858,7 @@
     ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -6901,7 +6901,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6945,7 +6945,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6986,7 +6986,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_barbute",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -7027,7 +7027,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_samurai",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -7108,7 +7108,7 @@
   "autolearn": true,
   "components": [ [ [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sweater",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7129,7 +7129,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "socks_wool",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7150,7 +7150,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_wool",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7173,7 +7173,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_knit",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7194,7 +7194,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "beret_wool",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7217,7 +7217,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "scarf",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7238,7 +7238,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mittens",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7259,7 +7259,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_hunting",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7282,7 +7282,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "scarf_long",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7303,7 +7303,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "poncho",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7326,7 +7326,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "peacoat",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7349,7 +7349,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blazer",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7372,7 +7372,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_winter",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",
@@ -7409,7 +7409,7 @@
     [ [ "bag_plastic", 8 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duster",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -7455,7 +7455,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_duster",
   "id_suffix": "from_duster",
   "byproducts": { "id" : "rag", "amount" : 2 },
@@ -7476,7 +7476,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duster_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -7526,7 +7526,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_duster_fur",
   "id_suffix": "from_duster_fur",
   "byproducts": { "id" : "fur", "amount" : 2 },
@@ -7547,7 +7547,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duster_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -7597,7 +7597,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_duster_leather",
   "id_suffix": "from_duster_leather",
   "byproducts": { "id" : "leather", "amount" : 4 },
@@ -7618,7 +7618,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duster_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -7726,7 +7726,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_duster_survivor",
   "id_suffix": "from_duster_survivor",
   "byproducts": { "id" : "rag", "amount" : 4 },
