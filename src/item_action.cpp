@@ -47,40 +47,37 @@ item_action_map map_actions_to_items( player &p )
             continue;
         }
 
-        for( const use_function &uf : i->type->use_methods ) {
-            to_remove.clear();
-            for( const item_action_id &use : unmapped_actions ) {
-                it_tool *tool = dynamic_cast<it_tool*>(i->type);
-                // Can't just test for charges_per_use > charges, because charges can be -1
-                if( !i->type->can_use( use ) ||
-                    (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges) ) {
-                    continue;
-                }
+        for( const item_action_id &use : unmapped_actions ) {
+            it_tool *tool = dynamic_cast<it_tool*>(i->type);
+            // Can't just test for charges_per_use > charges, because charges can be -1
+            if( !i->type->can_use( use ) ||
+                (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges) ) {
+                continue;
+            }
 
-                // Add to usable items only if it needs less charges per use
-                auto found = candidates.find( use );
-                int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
-                bool better = false;
-                if( found == candidates.end() ) {
+            // Add to usable items only if it needs less charges per use
+            auto found = candidates.find( use );
+            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
+            bool better = false;
+            if( found == candidates.end() ) {
+                better = true;
+            } else {
+                it_tool *other = dynamic_cast<it_tool*>(found->second->type);
+                if ( other != nullptr && would_use_charges < other->charges_per_use ) {
                     better = true;
-                } else {
-                    it_tool *other = dynamic_cast<it_tool*>(found->second->type);
-                    if ( other != nullptr && would_use_charges < other->charges_per_use ) {
-                        better = true;
-                    }
-                }
-                
-                if( better ) {
-                    candidates[use] = i;
-                    if( would_use_charges == 0 ) {
-                        to_remove.insert( use );
-                    }
                 }
             }
+            
+            if( better ) {
+                candidates[use] = i;
+                if( would_use_charges == 0 ) {
+                    to_remove.insert( use );
+                }
+            }
+        }
 
-            for( const item_action_id &r : to_remove ) {
-                unmapped_actions.erase( r );
-            }
+        for( const item_action_id &r : to_remove ) {
+            unmapped_actions.erase( r );
         }
     }
 
