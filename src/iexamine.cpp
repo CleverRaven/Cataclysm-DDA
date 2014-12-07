@@ -26,26 +26,26 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
         return;
     }
 
-    for (size_t i = 0; i < m->i_at(examx, examy).size(); i++) {
-        if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
-            item *liq = m->get_item( examx, examy, i );
-
-            if (one_in(10 + p->dex_cur)) {
-                add_msg(m_bad, _("You accidentally spill the %s."), liq->type_name(1).c_str());
-                item spill(liq->type->id, calendar::turn);
-                spill.charges = rng(dynamic_cast<it_ammo *>(liq->type)->count,
-                                    dynamic_cast<it_ammo *>(liq->type)->count * (float)(8 / p->dex_cur));
-                m->add_item_or_charges(p->posx, p->posy, spill, 1);
-                liq->charges -= spill.charges;
-                if (liq->charges < 1) {
-                    m->i_rem( examx, examy, i );
+    auto items = m->i_at( examx, examy );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of(LIQUID) ) {
+            if( one_in(10 + p->dex_cur) ) {
+                add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
+                item spill( item_it->type->id, calendar::turn );
+                spill.charges = rng( dynamic_cast<it_ammo *>(item_it->type)->count,
+                                     dynamic_cast<it_ammo *>(item_it->type)->count *
+                                     (float)(8 / p->dex_cur) );
+                m->add_item_or_charges( p->posx, p->posy, spill, 1 );
+                item_it->charges -= spill.charges;
+                if( item_it->charges < 1 ) {
+                    items.erase( item_it );
                 }
             } else {
                 p->moves -= 300;
-                if (g->handle_liquid(*liq, true, false)) {
+                if( g->handle_liquid( *item_it, true, false ) ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            liq->type_name(1).c_str());
-                    m->i_rem( examx, examy, i );
+                            item_it->type_name(1).c_str());
+                    items.erase( item_it );
                 }
             }
             return;
@@ -278,7 +278,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
 
 void iexamine::vending(player *p, map *m, int examx, int examy)
 {
-    auto &vend_items = m->i_at(examx, examy);
+    auto vend_items = m->i_at(examx, examy);
     int num_items = vend_items.size();
 
     if (num_items == 0) {
@@ -307,8 +307,6 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
         return;
     }
 
-    int cur_pos = 0;
-
     const int iContentHeight = FULL_SCREEN_HEIGHT - 4;
     const int iHalf = iContentHeight / 2;
     const bool odd = iContentHeight % 2;
@@ -328,6 +326,9 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
+
+    int cur_pos = 0;
+    auto cur_item = vend_items.begin();
     while(true) {
         werase(w);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -370,31 +371,38 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
 
         // Item info
         werase(w_item_info);
-        fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, vend_items[cur_pos].info(true));
+        fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintw(w_item_info, 0, 2, "< %s >", vend_items[cur_pos].display_name().c_str() );
+        mvwprintw(w_item_info, 0, 2, "< %s >", cur_item->display_name().c_str() );
         wrefresh(w_item_info);
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos++;
             if (cur_pos >= num_items) {
                 cur_pos = 0;
+                cur_item = vend_items.begin();
+            } else {
+                cur_item++;
             }
         } else if (action == "UP") {
             cur_pos--;
             if (cur_pos < 0) {
                 cur_pos = num_items - 1;
+                cur_item = vend_items.end();
             }
+            cur_item--;
         } else if (action == "CONFIRM") {
-            if (vend_items[cur_pos].price() > card->charges) {
+            if( cur_item->price() > card->charges ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
-            card->charges -= vend_items[cur_pos].price();
-            p->i_add_or_drop( *m->get_item( examx, examy, cur_pos ) );
-            m->i_rem(examx, examy, cur_pos);
+            card->charges -= cur_item->price();
+            p->i_add_or_drop( *cur_item );
+            cur_item = vend_items.erase( cur_item );
             if (cur_pos == (int)vend_items.size()) {
+                cur_item = vend_items.end();
+                cur_item--;
                 cur_pos--;
             }
             used_machine = true;
@@ -416,19 +424,17 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
 
 void iexamine::toilet(player *p, map *m, int examx, int examy)
 {
-    auto &items = m->i_at(examx, examy);
-    int waterIndex = -1;
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].typeId() == "water") {
-            waterIndex = i;
+    auto items = m->i_at(examx, examy);
+    auto water = items.begin();
+    for( ; water != items.end(); ++water ) {
+        if( water->typeId() == "water") {
             break;
         }
     }
 
-    if (waterIndex < 0) {
+    if( water == items.end() ) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        item *water = m->get_item( examx, examy, waterIndex );
         int initial_charges = water->charges;
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);
@@ -448,7 +454,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy)
         }
 
         if( drained || water->charges <= 0 ) {
-            m->i_rem( examx, examy, waterIndex );
+            items.erase( water );
         }
     }
 }
@@ -1496,11 +1502,12 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             if (!world->world_options.empty()) {
                 fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
             }
-            item *seed = m->get_item( examx, examy, 0 );
-            if( seed->bday > fertilizerEpoch ) {
-                seed->bday -= fertilizerEpoch;
+
+            item &seed = m->i_at( examx, examy ).front();
+            if( seed.bday > fertilizerEpoch ) {
+                seed.bday -= fertilizerEpoch;
             } else {
-                seed->bday = 0;
+                seed.bday = 0;
             }
             m->spawn_item( examx, examy, "fertilizer", 1, 1, (int)calendar::turn );
         }
@@ -1514,15 +1521,16 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
     bool vat_full = false;
     bool brew_present = false;
     int charges_on_ground = 0;
-    for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
-        if (!(m->i_at(examx, examy)[i].has_flag("BREW")) || brew_present) {
-            //This isn't a brew or there was already another kind of brew inside, so this has to be moved.
-            m->add_item_or_charges( examx, examy, *m->get_item( examx, examy, i ) );
-            //Add_item_or_charges will add items to a space near the vat, because it's flagged as NOITEM.
-            m->i_rem( examx, examy, i );
-            //Now that a copy of the item was spawned in a nearby square, the original is deleted.
-            i--;
+    auto items = m->i_at(examx, examy);
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( !item_it->has_flag("BREW") || brew_present ) {
+            // This isn't a brew or there was already another kind of brew inside,
+            // so this has to be moved.
+            items.push_back( *item_it );
+            // This will add items to a space near the vat, because it's flagged as NOITEM.
+            item_it = items.erase( item_it );
         } else {
+            item_it++;
             brew_present = true;
         }
     }
@@ -1561,7 +1569,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         to_deposit = true;
         brew_type = b_types[b_index];
     } else {
-        item brew = m->i_at(examx, examy)[0];
+        item &brew = m->i_at(examx, examy).front();
         brew_type = brew.typeId();
         charges_on_ground = brew.charges;
         if (p->charges_of(brew_type) > 0)
@@ -1588,7 +1596,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         p->moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        m->get_item( examx, examy, 0)->bday = calendar::turn;
+        m->i_at( examx, examy).front().bday = calendar::turn;
         m->furn_set(examx, examy, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -1655,11 +1663,11 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy)
             }
         }
     } else { //Booze is done, so bottle it!
-        item *booze = m->get_item( examx, examy, 0 );
-        if (g->handle_liquid(*booze, true, false)) {
-            m->i_rem( examx, examy, 0 );
+        item &booze = m->i_at(examx, examy).front();
+        if( g->handle_liquid( booze, true, false) ) {
             m->furn_set(examx, examy, f_fvat_empty);
-            add_msg(_("You squeeze the last drops of %s from the vat."), booze->tname().c_str());
+            add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
+            m->i_clear( examx, examy );
         }
     }
 }
@@ -1736,16 +1744,19 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
                 keg_full = true;
             }
         }
-        if (keg_full) add_msg(_("You completely fill the %s with %s."),
-                                  m->name(examx, examy).c_str(), drink.tname().c_str());
-        else add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
-                         drink.tname().c_str());
+        if( keg_full ) {
+            add_msg(_("You completely fill the %s with %s."),
+                    m->name(examx, examy).c_str(), drink.tname().c_str());
+        } else {
+            add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+                    drink.tname().c_str());
+        }
         p->moves -= 250;
         m->i_clear(examx, examy);
         m->add_item( examx, examy, drink );
         return;
     } else {
-        item *drink = m->get_item( examx, examy, 0 );
+        auto drink = m->i_at(examx, examy).begin();
         std::vector<std::string> menu_items;
         std::vector<uimenu_entry> options_message;
         menu_items.push_back(_("Fill a container with %drink"));
@@ -1777,24 +1788,24 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
         }
 
         if(menu_items[choice] == _("Fill a container with %drink")) {
-            if (g->handle_liquid(*drink, true, false)) {
-                m->i_rem( examx, examy, 0 );
+            if( g->handle_liquid(*drink, true, false) ) {
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
                         m->name(examx, examy).c_str());
+                m->i_clear( examx, examy );
             }
             return;
         }
 
         if(menu_items[choice] == _("Have a drink")) {
-            if (!p->eat(drink, dynamic_cast<it_comest *>(drink->type))) {
+            if( !p->eat( &*drink, dynamic_cast<it_comest *>(drink->type) ) ) {
                 return; // They didn't actually drink
             }
 
             drink->charges--;
             if (drink->charges == 0) {
-                m->i_rem( examx, examy, 0 );
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
                         m->name(examx, examy).c_str());
+                m->i_clear( examx, examy );
             }
             p->moves -= 250;
             return;
@@ -1961,16 +1972,14 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
     return;
 }
 
-int sum_up_item_weight_by_material( const std::vector<item> &items, int x, int y,
-                                    const std::string &material, bool remove_items )
+int sum_up_item_weight_by_material( item_stack &stack, const std::string &material, bool remove_items )
 {
     int sum_weight = 0;
-    for (int i = items.size() - 1; i >= 0; i--) {
-        const item &it = items[i];
-        if (it.made_of(material) && it.weight() > 0) {
-            sum_weight += it.weight();
-            if (remove_items) {
-                g->m.i_rem( x, y, i );
+    for( auto item_it = stack.begin(); item_it != stack.end(); ++item_it ) {
+        if( item_it->made_of(material) && item_it->weight() > 0) {
+            sum_weight += item_it->weight();
+            if( remove_items ) {
+                stack.erase( item_it );
             }
         }
     }
@@ -1991,12 +2000,12 @@ void add_recyle_menu_entry(uimenu &menu, int w, char hk, const std::string &type
 
 void iexamine::recycler(player *p, map *m, int examx, int examy)
 {
-    auto &items_on_map = m->i_at(examx, examy);
+    auto items_on_map = m->i_at(examx, examy);
 
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material(items_on_map, examx, examy, "steel", false);
+    int steel_weight = sum_up_item_weight_by_material( items_on_map, "steel", false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2032,7 +2041,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
 
     // Sum up again, this time remove the items,
     // ignore result, should be the same as before.
-    sum_up_item_weight_by_material(items_on_map, examx, examy, "steel", true);
+    sum_up_item_weight_by_material( items_on_map, "steel", true );
 
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
@@ -2208,20 +2217,14 @@ itype *furn_t::crafting_ammo_item_type() const
     return NULL;
 }
 
-size_t find_in_list(const itype *type, const std::vector<item> &items)
+static long count_charges_in_list(const itype *type, const item_stack &items)
 {
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type == type) {
-            return i;
+    for( const auto &candidate : items ) {
+        if( candidate.type == type ) {
+            return candidate.charges;
         }
     }
-    return static_cast<size_t>(-1);
-}
-
-long count_charges_in_list(const itype *type, const std::vector<item> &items)
-{
-    const size_t i = find_in_list(type, items);
-    return (i == static_cast<size_t>(-1)) ? 0 : items[i].charges;
+    return 0;
 }
 
 void iexamine::reload_furniture(player *p, map *m, const int examx, const int examy)
@@ -2255,10 +2258,10 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         return;
     }
     p->reduce_charges(pos, amount);
-    auto &items = m->i_at(examx, examy);
+    auto items = m->i_at(examx, examy);
     for( auto an_item = items.begin(); an_item != items.end(); ++an_item ) {
         if( an_item->type == ammo ) {
-            m->get_item( examx, examy, an_item )->charges += amount;
+            an_item->charges = amount;
             amount = 0;
             break;
         }
@@ -2501,18 +2504,18 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
         return false;
     }
 
-    for (size_t i = 0; i < m->i_at(src.x, src.y).size(); i++) {
-        if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
-            item *liq = m->get_item( src.x, src.y, i );
-            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+    auto items = m->i_at( src.x, src.y );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of(LIQUID)) {
+            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
 
-            if (liq->charges < count * units) {
+            if( item_it->charges < count * units ) {
                 return false;
             }
 
-            liq->charges -= count * units;
+            item_it->charges -= count * units;
 
-            item liq_d(liq->type->id, calendar::turn);
+            item liq_d(item_it->type->id, calendar::turn);
             liq_d.charges = count * units;
 
             ter_t backup_pump = m->ter_at(dst.x, dst.y);
@@ -2520,8 +2523,8 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
             m->add_item_or_charges(dst.x, dst.y, liq_d);
             m->ter_set(dst.x, dst.y, backup_pump.id);
 
-            if (liq->charges < 1) {
-                m->i_rem( src.x, src.y, i );
+            if( item_it->charges < 1 ) {
+                items.erase( item_it );
             }
 
             return true;
@@ -2540,14 +2543,14 @@ static long fromPumpFuel(map *m, point dst, point src)
         return -1;
     }
 
-    for (size_t i = 0; i < m->i_at(src.x, src.y).size(); i++) {
-        if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
-            item *liq = m->get_item( src.x, src.y, i );
-            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+    auto items = m->i_at( src.x, src.y );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of(LIQUID)) {
+            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
 
             // how much do we have in the pump?
-            item liq_d(liq->type->id, calendar::turn);
-            liq_d.charges = liq->charges;
+            item liq_d(item_it->type->id, calendar::turn);
+            liq_d.charges = item_it->charges;
 
             // add the charges to the destination
             ter_t backup_tank = m->ter_at(dst.x, dst.y);
@@ -2556,8 +2559,8 @@ static long fromPumpFuel(map *m, point dst, point src)
             m->ter_set(dst.x, dst.y, backup_tank.id);
 
             // remove the liquid from the pump
-            long amount = liq->charges;
-            m->i_rem( src.x, src.y, i );
+            long amount = item_it->charges;
+            items.erase( item_it );
             return amount / count;
         }
     }

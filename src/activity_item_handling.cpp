@@ -312,9 +312,6 @@ static void move_items( point source, point destination,
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
-    std::vector<item> &here = (cargo_part >= 0) ?
-        veh->parts[cargo_part].items : g->m.i_at_mutable( source.x, source.y );
-
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn;
     while( g->u.moves > 0 && !indices.empty() ) {
@@ -323,35 +320,40 @@ static void move_items( point source, point destination,
         indices.pop_back();
         quantities.pop_back();
 
-        item &temp_item = here[index];
-        item leftovers = temp_item.clone();
+        item *temp_item = NULL;
+        if( cargo_part >= 0 ) {
+            temp_item = &veh->parts[cargo_part].items[index];
+        } else {
+            temp_item = &g->m.i_at( source.x, source.y )[index];
+        }
+        item leftovers = temp_item->clone();
 
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
-            int leftover_charges = temp_item.charges - quantity;
+            int leftover_charges = temp_item->charges - quantity;
             if (leftover_charges > 0) {
                 leftovers.charges = leftover_charges;
-                here[index].charges = quantity;
+                temp_item->charges = quantity;
             }
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) ) {
+        if( !temp_item->made_of(LIQUID) ) {
             // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume(temp_item.volume()) && g->u.is_armed() ) {
+            if( !g->u.can_pickVolume(temp_item->volume()) && g->u.is_armed() ) {
                 g->u.moves -= 20; // Pretend to be unwielding our gun.
             }
 
             // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight(temp_item.weight(), true) ) {
-                int overweight = temp_item.weight() - (g->u.weight_capacity() - g->u.weight_carried());
+            if( !g->u.can_pickWeight(temp_item->weight(), true) ) {
+                int overweight = temp_item->weight() - (g->u.weight_capacity() - g->u.weight_carried());
 
                 // ...like one move cost per 100 grams over your leftover carry capacity.
                 g->u.moves -= int(overweight / 100);
             }
 
             // Drop it first since we're going to delete the original.
-            dropped_items.push_back( temp_item );
+            dropped_items.push_back( *temp_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
 
             // Remove from map.

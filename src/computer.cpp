@@ -318,7 +318,7 @@ void computer::activate_function(computer_action action)
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
                                 item sewage( "sewage", calendar::turn );
-                                auto &candidates = g->m.i_at( x1, y1 );
+                                auto candidates = g->m.i_at( x1, y1 );
                                 for( auto candidate = candidates.begin();
                                      candidate !=candidates.end(); ++candidate ) {
                                     LIQUID_FILL_ERROR lferr;
@@ -746,11 +746,11 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        item *blood = &g->m.get_item(x, y, 0)->contents[0];
-                        if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
+                        const item &blood = g->m.i_at(x, y).front().contents[0];
+                        if (blood.corpse == NULL || blood.corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
-                            if( blood->corpse->sym == "Z" ) {
+                        } else if( blood.corpse->in_species( "ZOMBIE" ) ) {
+                            if( blood.corpse->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
                                 print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));

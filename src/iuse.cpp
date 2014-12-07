@@ -6423,7 +6423,7 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
 void make_zlave(player *p)
 {
-    auto &items = g->m.i_at(p->posx, p->posy);
+    auto items = g->m.i_at(p->posx, p->posy);
     std::vector<const item *> corpses;
 
     const int cancel = 0;

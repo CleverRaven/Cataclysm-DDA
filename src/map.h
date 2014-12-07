@@ -498,22 +498,16 @@ void add_corpse(int x, int y);
  void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
 
 // Items
- // Const item accessor for examining items on the map without modifying them.
- const std::vector<item>& i_at(int x, int y) const;
- // Non-const item accessor for rare cases where items need to be modified en masse.
- // Do not insert or remove items using this, it can break assumptions about caching.
- std::vector<item>& i_at_mutable(int x, int y);
- // Accessors to retrieve a mutable reference to an item.
- item *get_item( int x, int y, int i );
- item *get_item( const int x, const int y, std::vector<item>::const_iterator i );
+ // Accessor that returns a wrapped reference to an item stack for safe modification.
+ item_stack i_at(int x, int y);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- // Both i_rem() methods that return values act like conatiner::erase(),
+ void i_grow(const int x, const int y);
+ // i_rem() methods that return values act like conatiner::erase(),
  // returning an iterator to the next item after removal.
- std::vector<item>::const_iterator i_rem( const int x, const int y,
-                                          std::vector<item>::const_iterator it );
+ std::vector<item>::iterator i_rem( const point location, std::vector<item>::iterator it );
  int i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
  void spawn_artifact( const int x, const int y );
@@ -841,7 +835,8 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
- void add_light_from_items( const int x, const int y, const std::vector<item> &items );
+ void add_light_from_items( const int x, const int y, std::vector<item>::iterator begin,
+                            std::vector<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);

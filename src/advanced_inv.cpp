@@ -762,7 +762,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
         map &m = g->m;
         const itemslice &stacks = square.veh != nullptr ?
                                   i_stacked( square.veh->parts[square.vstor].items ) :
-                                  i_stacked( m.i_at_mutable( square.x, square.y ) );
+                                  i_stacked( m.i_at( square.x, square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
@@ -989,9 +989,6 @@ bool advanced_inventory::move_all_items()
             }
         }
     } else {
-        const std::vector<item> &source_items = sarea.veh == nullptr ?
-                                                g->m.i_at( sarea.x, sarea.y ) :
-                                                sarea.veh->parts[sarea.vstor].items;
         if( dpane.area == AIM_INVENTORY ) {
             g->u.assign_activity( ACT_PICKUP, 0 );
             g->u.activity.values.push_back( sarea.veh != nullptr );
@@ -1003,8 +1000,20 @@ bool advanced_inventory::move_all_items()
         }
         g->u.activity.placement = point( sarea.x - g->u.xpos(), sarea.y - g->u.ypos() );
 
-        for( size_t index = 0; index < source_items.size(); index++ ) {
-            if( spane.is_filtered( source_items[index].tname() ) ) {
+        std::vector<item>::iterator begin;
+        std::vector<item>::iterator end;
+        if( sarea.veh == nullptr ) {
+            begin = g->m.i_at( sarea.x, sarea.y ).begin();
+            end = g->m.i_at( sarea.x, sarea.y ).end();
+        } else {
+            begin = sarea.veh->parts[sarea.vstor].items.begin();
+            end = sarea.veh->parts[sarea.vstor].items.end();
+        }
+
+        int index = -1;
+        for( auto item_it = begin; item_it != end; ++item_it ) {
+            index++;
+            if( spane.is_filtered( item_it->tname() ) ) {
                 continue;
             }
             g->u.activity.values.push_back( index );
@@ -1704,7 +1713,7 @@ item* advanced_inv_area::get_container()
             map &m = g->m;
             const itemslice &stacks = veh != nullptr ?
                                       i_stacked( veh->parts[vstor].items ) :
-                                      i_stacked( m.i_at_mutable( x, y ) );
+                                      i_stacked( m.i_at( x, y ) );
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {

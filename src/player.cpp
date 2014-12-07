@@ -837,7 +837,7 @@ void player::update_bodytemp()
     int floor_mut_warmth = 0;
     if( in_sleep_state() ) {
         // Search the floor for items
-        auto &floor_item = g->m.i_at(posx, posy);
+        auto floor_item = g->m.i_at(posx, posy);
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
@@ -11847,7 +11847,9 @@ void player::wake_up()
 
 std::string player::is_snuggling()
 {
-    auto *items_to_snuggle = &g->m.i_at( posx, posy );
+    std::vector<item>::iterator begin = g->m.i_at( posx, posy ).begin();
+    std::vector<item>::iterator end = g->m.i_at( posx, posy ).end();
+
     if( in_vehicle ) {
         int vpart;
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
@@ -11855,27 +11857,27 @@ std::string player::is_snuggling()
             int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
             if( cargo >= 0 ) {
                 if( !veh->parts[cargo].items.empty() ) {
-                    items_to_snuggle = &veh->parts[cargo].items;
+                    begin = veh->parts[cargo].items.begin();
+                    end = veh->parts[cargo].items.end();
                 }
             }
         }
     }
-    auto &floor_item = *items_to_snuggle;
     const item* floor_armor = NULL;
     int ticker = 0;
 
     // If there are no items on the floor, return nothing
-    if ( floor_item.empty() ) {
+    if( begin == end ) {
         return "nothing";
     }
 
-    for( auto &elem : floor_item ) {
-        if( !elem.is_armor() ) {
+    for( auto candidate = begin; candidate != end; ++candidate ) {
+        if( !candidate->is_armor() ) {
             continue;
-        } else if( elem.volume() > 1 &&
-                   ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
-                     elem.covers( bp_leg_r ) ) ) {
-            floor_armor = &elem;
+        } else if( candidate->volume() > 1 &&
+                   ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
+                     candidate->covers( bp_leg_r ) ) ) {
+            floor_armor = &*candidate;
             ticker++;
         }
     }

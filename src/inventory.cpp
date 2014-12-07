@@ -479,7 +479,16 @@ void inventory::restack(player *p)
     }
 }
 
-extern long count_charges_in_list(const itype *type, const std::vector<item> &items);
+static long count_charges_in_list(const itype *type, const item_stack &items)
+{
+    for( const auto &candidate : items ) {
+        if( candidate.type == type ) {
+            return candidate.charges;
+        }
+    }
+    return 0;
+}
+
 void inventory::form_from_map(point origin, int range, bool assign_invlet)
 {
     items.clear();
@@ -535,26 +544,27 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             // crafting
             if (furnlist[g->m.furn(x, y)].examine == &iexamine::toilet) {
                 // get water charges at location
-                std::vector<item> toiletitems = g->m.i_at(x, y);
-                int waterindex = -1;
-                for (size_t i = 0; i < toiletitems.size(); ++i) {
-                    if (toiletitems[i].typeId() == "water") {
-                        waterindex = i;
+                auto toilet = g->m.i_at(x, y);
+                auto water = toilet.end();
+                for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
+                    if( candidate->typeId() == "water" ) {
+                        water = candidate;
                         break;
                     }
                 }
-                if (waterindex >= 0 && toiletitems[waterindex].charges > 0) {
-                    add_item(toiletitems[waterindex]);
+                if( water != toilet.end() && water->charges > 0) {
+                    add_item( *water );
                 }
             }
 
             // keg-kludge
             if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
-                std::vector<item> liq_contained = g->m.i_at(x, y);
-                for (auto &i : liq_contained)
-                    if (i.made_of(LIQUID)) {
+                auto liq_contained = g->m.i_at(x, y);
+                for( auto &i : liq_contained ) {
+                    if( i.made_of(LIQUID) ) {
                         add_item(i);
                     }
+                }
             }
 
             int vpart = -1;

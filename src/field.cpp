@@ -505,12 +505,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
-                        auto &items = i_at(x, y);
-                        for( auto candidate = items.begin(); candidate != items.end(); ) {
-                            item *melting = get_item( x, y, candidate );
-
+                        auto items = i_at(x, y);
+                        for( auto melting = items.begin(); melting != items.end(); ) {
                             // see DEVELOPER_FAQ.txt for how acid resistance is calculated
-
                             int chance = melting->acid_resist();
                             if (chance == 0) {
                                 melting->damage++;
@@ -524,9 +521,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 cur->setFieldAge(cur->getFieldAge() + melting->volume());
                                 contents.insert( contents.begin(),
                                                  melting->contents.begin(), melting->contents.end() );
-                                candidate = i_rem( x, y, candidate );
+                                melting = items.erase( melting );
                             } else {
-                                candidate++;
+                                melting++;
                             }
                         }
                         for( auto &c : contents ) {
@@ -551,7 +548,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
-                        auto &items_here = i_at(x, y);
+                        auto items_here = i_at(x, y);
                         // explosions will destroy items on this square, iterating
                         // backwards makes sure that every item is visited.
                         for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
@@ -576,9 +573,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int vol = 0, smoke = 0, consumed = 0;
                         // The highest # of items this fire can remove in one turn
                         int max_consume = cur->getFieldDensity() * 2;
-                        for( auto it = items_here.begin();
-                             it != items_here.end() && consumed < max_consume; ) {
-                            item *fuel = get_item( x, y, it );
+                        for( auto fuel = items_here.begin();
+                             fuel != items_here.end() && consumed < max_consume; ) {
                             // Stop when we hit the end of the item buffer OR we consumed
                             // more than max_consume items
                             destroyed = false;
@@ -696,16 +692,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( fuel->made_of(LIQUID) ) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if (it->type->id == "gasoline" || it->type->id == "diesel") {
+                                if (fuel->type->id == "gasoline" || fuel->type->id == "diesel") {
                                     time_added = 300;
                                     smoke += 6;
-                                } else if (it->type->id == "tequila" || it->type->id == "whiskey" ||
-                                           it->type->id == "vodka" || it->type->id == "rum" ||
-                                           it->type->id == "single_malt_whiskey" || it->type->id == "gin" ||
-                                           it->type->id == "moonshine" || it->type->id == "brandy") {
+                                } else if (fuel->type->id == "tequila" || fuel->type->id == "whiskey" ||
+                                           fuel->type->id == "vodka" || fuel->type->id == "rum" ||
+                                           fuel->type->id == "single_malt_whiskey" || fuel->type->id == "gin" ||
+                                           fuel->type->id == "moonshine" || fuel->type->id == "brandy") {
                                     time_added = 250;
                                     smoke += 5;
-                                } else if (it->type->id == "lamp_oil") {
+                                } else if( fuel->type->id == "lamp_oil" ) {
                                     time_added = 300;
                                     smoke += 3;
                                 } else {
@@ -751,9 +747,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 //If we decided the item was destroyed by fire, remove it.
                                 new_content.insert( new_content.end(),
                                                     fuel->contents.begin(), fuel->contents.end() );
-                                it = i_rem( x, y, it );
+                                fuel = items_here.erase( fuel );
                             } else {
-                                ++it;
+                                ++fuel;
                             }
                         }
                         spawn_items( x, y, new_content );
@@ -1160,7 +1156,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_push_items: {
-                        auto &items = i_at(x, y);
+                        auto items = i_at(x, y);
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
                             if( pushee->type->id != "rock" ||
                                 pushee->bday >= int(calendar::turn) - 1 ) {
@@ -1168,7 +1164,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             } else {
                                 item tmp = *pushee;
                                 tmp.bday = int(calendar::turn);
-                                pushee = i_rem( x, y, pushee );
+                                pushee = items.erase( pushee );
                                 std::vector<point> valid;
                                 for (int xx = x - 1; xx <= x + 1; xx++) {
                                     for (int yy = y - 1; yy <= y + 1; yy++) {

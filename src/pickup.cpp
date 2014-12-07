@@ -24,7 +24,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
 
-    std::vector<item> here_ground = g->m.i_at(posx, posy);
+    auto here_ground = g->m.i_at(posx, posy);
     if( veh ) {
         k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
         wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
@@ -355,11 +355,12 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
-    std::vector<item> &here = from_vehicle ? veh->parts[cargo_part].items :
-        g->m.i_at_mutable( pickup_target.x, pickup_target.y );
-
     // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
-    here.reserve( here.size() + 1 );
+    if( from_vehicle ) {
+        veh->parts[cargo_part].items.reserve( veh->parts[cargo_part].items.size() + 1 );
+    } else {
+        g->m.i_grow( pickup_target.x, pickup_target.y );
+    }
 
     while( g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
@@ -371,7 +372,14 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        pick_one_up( pickup_target, here[index], veh, cargo_part, index, quantity,
+        item *target = NULL;
+        if( from_vehicle ) {
+            target = &veh->parts[cargo_part].items[index];
+        } else {
+            target = &g->m.i_at( pickup_target.x, pickup_target.y )[index];
+        }
+
+        pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
                      got_water, offered_swap, mapPickup, item_info, autopickup );
     }
 
@@ -424,9 +432,10 @@ void Pickup::pick_up(int posx, int posy, int min)
         // but water.
         if ((!isEmpty) && g->m.furn(posx, posy) == f_toilet) {
             isEmpty = true;
-            for (size_t i = 0; isEmpty && i < g->m.i_at(posx, posy).size(); i++) {
-                if (g->m.i_at(posx, posy)[i].typeId() != "water") {
+            for( auto maybe_water : g->m.i_at(posx, posy) ) {
+                if( maybe_water.typeId() != "water") {
                     isEmpty = false;
+                    break;
                 }
             }
         }
@@ -437,8 +446,14 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // which items are we grabbing?
-    std::vector<item> here = (from_vehicle) ?
-        veh->parts[cargo_part].items : g->m.i_at(posx, posy);
+    std::vector<item> here;
+    if( from_vehicle ) {
+        here = veh->parts[cargo_part].items;
+    } else {
+        auto mapitems = g->m.i_at(posx, posy);
+        here.resize( mapitems.size() );
+        std::copy( mapitems.begin(), mapitems.end(), here.begin() );
+    }
 
     if (min == -1) {
         if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {

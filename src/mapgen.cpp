@@ -11458,12 +11458,14 @@ void map::rotate(int turns)
             int new_lx, new_ly;
             const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
             std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
-            std::swap( itrot[old_x][old_y], new_sm->itm[new_lx][new_ly] );
             std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
             std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
             std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
             std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
             std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
+            auto items = i_at(new_x, new_y);
+            std::copy( items.begin(), items.end(), itrot[old_x][old_y].begin() );
+            i_clear(new_x, new_y);
         }
     }
 
@@ -12103,7 +12105,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 rotated[i][j] = m->ter(i, j);
-                itrot[i][j] = m->i_at(i, j);
+                auto items = m->i_at( i, j );
+                std::copy( items.begin(), items.end(), itrot[i][j].begin() );
             }
         }
         for (int i = x1; i <= x2; i++) {
