@@ -682,6 +682,47 @@ bool advanced_inventory_pane::is_filtered( const std::string &name ) const
     return !filter.empty() && !cached_lcmatch( name, filter, filtercache );
 }
 
+template <typename Container>
+static itemslice i_stacked(Container items)
+{
+    //create a new container for our stacked items
+    itemslice islice;
+
+    //iterate through all items in the vector
+    for( auto &items_it : items ) {
+        if( items_it.count_by_charges() ) {
+            // Those exists as a single item all the item anyway
+            islice.push_back( std::make_pair( &items_it, 1 ) );
+            continue;
+        }
+        bool list_exists = false;
+
+        //iterate through stacked item lists
+        for( auto &elem : islice ) {
+            //check if the ID exists
+            item *first_item = elem.first;
+            if( first_item->type->id == items_it.type->id ) {
+                //we've found the list of items with the same type ID
+
+                if( first_item->stacks_with( items_it ) ) {
+                    //add it to the existing list
+                    elem.second++;
+                    list_exists = true;
+                    break;
+                }
+            }
+        }
+
+        if(!list_exists) {
+            //insert the list into islice
+            islice.push_back( std::make_pair( &items_it, 1 ) );
+        }
+
+    } //end items loop
+
+    return islice;
+}
+
 void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
 {
     assert( square.id != AIM_ALL );
@@ -720,8 +761,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
     } else {
         map &m = g->m;
         const itemslice &stacks = square.veh != nullptr ?
-                                  m.i_stacked( square.veh->parts[square.vstor].items ) :
-                                  m.i_stacked( m.i_at_mutable( square.x, square.y ) );
+                                  i_stacked( square.veh->parts[square.vstor].items ) :
+                                  i_stacked( m.i_at_mutable( square.x, square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
@@ -1662,8 +1703,8 @@ item* advanced_inv_area::get_container()
         } else {
             map &m = g->m;
             const itemslice &stacks = veh != nullptr ?
-                                      m.i_stacked( veh->parts[vstor].items ) :
-                                      m.i_stacked( m.i_at_mutable( x, y ) );
+                                      i_stacked( veh->parts[vstor].items ) :
+                                      i_stacked( m.i_at_mutable( x, y ) );
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {

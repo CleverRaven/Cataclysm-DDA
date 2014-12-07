@@ -506,7 +506,6 @@ void add_corpse(int x, int y);
  // Accessors to retrieve a mutable reference to an item.
  item *get_item( int x, int y, int i );
  item *get_item( const int x, const int y, std::vector<item>::const_iterator i );
- itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
