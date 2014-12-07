@@ -620,6 +620,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                      dispersion() + ammo_dispersion, true, "", true, true, false));
         }
 
+        dump->push_back(iteminfo("GUN", _("Sight dispersion: "), "",
+                                 sight_dispersion(-1), true, "", false, true));
+
+        dump->push_back(iteminfo("GUN", space + _("Aim speed: "), "",
+                                 aim_speed(-1), true, "", true, true));
+
         //recoil of gun
         dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", false, true));
         if (has_ammo) {
@@ -686,6 +692,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
                                      mod->mod_dispersion, true,
                                      ((mod->mod_dispersion > 0) ? "+" : "")));
+        }
+        if (mod->sight_dispersion != 0) {
+            dump->push_back(iteminfo("GUNMOD", _("Sight dispersion: "), "",
+                                     mod->sight_dispersion, true, ""));
+        }
+        if (mod->aim_speed != 0) {
+            dump->push_back(iteminfo("GUNMOD", _("Aim speed: "), "",
+                                     mod->mod_dispersion, true, ""));
         }
         if (mod->damage != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
