@@ -268,7 +268,8 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
             if (elem.first == dep) continue;
             dep->charges += elem.first->charges;
             elem.first->charges = 0;
-            p->moves -= 100;
+            // Assuming a bulk interface for cards. Don't want to get people killed doing this.
+            p->moves -= 10;
         }
     } else {
         return;
