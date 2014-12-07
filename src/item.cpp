@@ -2916,16 +2916,20 @@ int item::aim_speed( int aim_threshold ) const
         return 0;
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
+    int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
-    if( gun->sight_dispersion <= aim_threshold ) {
+    if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
         best_aim_speed = gun->aim_speed;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
             it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-                mod->sight_dispersion <= aim_threshold && mod->aim_speed < best_aim_speed ) {
-                best_aim_speed = mod->aim_speed;
+		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+		 (mod->sight_dispersion <= aim_threshold &&
+		  mod->aim_speed < best_aim_speed)) ) {
+	        best_aim_speed = mod->aim_speed;
+		best_dispersion = mod->sight_dispersion;
             }
         }
     }
