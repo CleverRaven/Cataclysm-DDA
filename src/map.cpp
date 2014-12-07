@@ -4749,7 +4749,8 @@ void map::fill_funnels( const point pnt )
 void map::grow_plant( const point pnt )
 {
     const auto &furn = furn_at( pnt.x, pnt.y );
-    if( !furn.has_flag( "PLANT" ) ) {
+    //moving to chance based system, so only check growth once daily
+    if( !furn.has_flag( "PLANT" )) { 
         return;
     }
     auto &items = i_at( pnt.x, pnt.y );
@@ -4759,29 +4760,29 @@ void map::grow_plant( const point pnt )
         furn_set( pnt.x, pnt.y, f_null );
         return;
     }
-    // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
-    // Erase fertilizer tokens, but keep the seed item
-    i_rem( pnt.x, pnt.y, 1 );
-    auto *seed = get_item( pnt.x, pnt.y, 0 );
-    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed->bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed->bday += plantEpoch;
-        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
-    }
-}
 
-void map::restock_fruits( const point pnt, int time_since_last_actualize )
-{
-    const auto &ter = ter_at( pnt.x, pnt.y );
-    //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
-        return;
-    }
-    if( ter.harvest_season != calendar::turn.get_season() ||
-        time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
-        ter_set( pnt.x, pnt.y, ter.transforms_into );
-    }
+    
+    // Erase fertilizer tokens, but keep the seed item
+    items.resize( 1 );
+    it_comest &seed = items.front();
+	
+    std::string furn_id = furn.id;
+    
+    // plantEpoch is half a season; 3 epochs pass from plant to harvest
+    const int plantEpoch = DAYS(seed.grow / 91 * calendar::season_length() / 3); 
+    
+    while( calendar::turn > seed->bday + plantEpoch && furn_id != "f_plant_harvest" ) {
+		if (furn_id == "f_plant_seed") {
+				furn_set(pnt.x, pnt.y, "f_plant_seedling");
+				seed->bday += plantEpoch;
+		} else if (furn_id == "f_plant_seedling") {
+				furn_set(pnt.x, pnt.y, "f_plant_mature");
+				seed->bday += plantEpoch;
+		} else if (furn_id == "f_plant_mature") {
+				furn_set(pnt.x, pnt.y, "f_plant_harvest");
+				seed->bday += plantEpoch;
+		}
+	}
 }
 
 void map::actualize( const int gridx, const int gridy )
