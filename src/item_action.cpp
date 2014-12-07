@@ -15,10 +15,15 @@
 
 std::unordered_map< item_action_id, item_action > item_actions;
 
-int key_bound_to( const input_context &ctxt, const item_action_id &act )
+int clamp(int value, int low, int high)
+{
+    return (value < low) ? low : ( (value > high) ? high : value );
+}
+
+char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
-    return keys.empty() ? INT_MIN : keys[0];
+    return keys.empty() ? ' ' : keys[0];
 }
 
 item_action_map map_actions_to_items( player &p )
@@ -61,9 +66,12 @@ item_action_map map_actions_to_items( player &p )
 
 void game::item_action_menu()
 {
-    WINDOW *w_item_actions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    item_action_map iactions = map_actions_to_items( u );
+    int height = FULL_SCREEN_HEIGHT;
+    int width = FULL_SCREEN_WIDTH;
+    int begin_y = (TERMY > height) ? (TERMY - height) / 2 : 0;
+    int begin_x = (TERMX > width) ? (TERMX - width) / 2 : 0;
+    WINDOW *w_item_actions = newwin(height, width, begin_y, begin_x);
 
     size_t selection = 0;
     int invpos = INT_MIN;
@@ -77,32 +85,48 @@ void game::item_action_menu()
     for( auto id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
     }
-    item_action_map iactions = map_actions_to_items( u );
+    
     while (true) {
         werase(w_item_actions);
 
-        for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-            mvwputch(w_item_actions, 2, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+        for (int i = 1; i < width - 1; i++) {
+            mvwputch(w_item_actions, 1, i, BORDER_COLOR, LINE_OXOX);
+            mvwputch(w_item_actions, height - 1, i, BORDER_COLOR, LINE_OXOX);
 
-            if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
+            if (i > 1 && i < height - 1) {
                 mvwputch(w_item_actions, i, 0, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_item_actions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
+                mvwputch(w_item_actions, i, width - 1, BORDER_COLOR, LINE_XOXO);
             }
         }
 
-        mvwputch(w_item_actions, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-        mvwputch(w_item_actions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
+        mvwputch(w_item_actions, 1, 0, BORDER_COLOR, LINE_OXXO); // |^
+        mvwputch(w_item_actions, 1, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-        mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
-        mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
+        mvwputch(w_item_actions, height - 1, 0, BORDER_COLOR, LINE_XXOO); // |
+        mvwputch(w_item_actions, height - 1, width - 1, BORDER_COLOR, LINE_XOOX); // _|
+        
+        mvwprintz(w_item_actions, 0, 1, c_white, "%s", _("Select an action to perform") );
 
-        size_t i = 0;
+        size_t line = 0;
+        const size_t lineoffset = clamp( (int)selection - height / 2, 0, (int)iactions.size() - 2 - height / 2 );
         for( auto p : iactions ) {
+            line++;
+            if( lineoffset >= line ) {
+                continue;
+            }
+            nc_color col = c_white;
+            if( selection == line - 1 ) {
+                col = hilite( col );
+                selected_item = p.second;
+            }
+            
+            if( 2 + line - lineoffset >= (size_t)height ) {
+                break;
+            }
+            
             it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
             int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
-            int ibind = key_bound_to( ctxt, p.first );
-            char bind = ibind == INT_MIN ? ' ' : (char)ibind;
+            char bind = key_bound_to( ctxt, p.first );
             std::stringstream ss;
             ss << bind << ' ' << item_actions[p.first].name << " [" << p.second->type_name( 1 );
             if( would_use_charges > 0 ) {
@@ -110,13 +134,7 @@ void game::item_action_menu()
             }
             ss << "]";
 
-            nc_color col = c_white;
-            if( selection == i ) {
-                col = hilite( col );
-                selected_item = p.second;
-            }
-            mvwprintz(w_item_actions, 3 + i, 1, col, "%s", ss.str().c_str());
-            i++;
+            mvwprintz(w_item_actions, 1 + line - lineoffset, 1, col, "%s", ss.str().c_str());
         }
 
         wrefresh(w_item_actions);
@@ -142,6 +160,11 @@ void game::item_action_menu()
             if( ac != iactions.end() ) {
                 invpos = u.inv.position_by_item( ac->second );
                 break;
+            }
+            
+            auto itemless_action = item_actions.find( action );
+            if( itemless_action != item_actions.end() ) {
+                popup( _("You do not have an item that can perform this action.") );
             }
         }
     }
