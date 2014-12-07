@@ -60,12 +60,12 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
     (void)examx; //unused
     (void)examy; //unused
     int choice = -1;
-    const int purchase_cash_card = 0;
-    const int deposit_money = 1;
-    const int withdraw_money = 2;
-    const int transfer_money = 3;
-    const int transfer_all_money = 4;
-    const int cancel = 5;
+    const int purchase_cash_card = 1;
+    const int deposit_money = 2;
+    const int withdraw_money = 3;
+    const int transfer_money = 4;
+    const int transfer_all_money = 5;
+    const int cancel = 0;
     long amount = 0;
     long max = 0;
     std::string popupmsg;
@@ -112,8 +112,6 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                         _("One of your cash cards must be charged before you can move money!") );
     }
     
-    
-
     amenu.addentry( cancel, true, 'q', _("Cancel") );
     amenu.query();
     choice = amenu.ret;
@@ -254,7 +252,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
             p->moves -= 100;
         }
     } else if (choice == transfer_all_money) {
-        pos = g->inv(_("Insert card for deposit."));
+        pos = g->inv(_("Insert card for bulk deposit."));
         dep = &(p->i_at(pos));
         if (dep->is_null()) {
             popup(_("You do not have that item!"));
