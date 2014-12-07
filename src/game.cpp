@@ -6885,8 +6885,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         if( sx !=x || sy != y ) {
             traj.insert( traj.begin(), point(x, y) );
         }
-        dam = rng(20, 60);
         for (size_t j = 0; j < traj.size(); j++) {
+            dam = rng(power / 2, power * 2);
             draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`', ts);
             tx = traj[j].x;
             ty = traj[j].y;
