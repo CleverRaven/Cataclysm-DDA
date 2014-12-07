@@ -2745,6 +2745,10 @@ std::vector<item>::iterator map::i_rem( const point location, std::vector<item>:
     int lx, ly;
     submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
 
+    if( it->needs_processing() ) {
+        current_submap->active_item_count--;
+    }
+
     return current_submap->itm[lx][ly].erase( it );
 }
 
@@ -2783,6 +2787,7 @@ void map::i_clear(const int x, const int y)
     int lx, ly;
     submap *const current_submap = get_submap_at( x, y, lx, ly );
 
+    current_submap->active_item_count = 0;
     current_submap->itm[lx][ly].clear();
 }
 
