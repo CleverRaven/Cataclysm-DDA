@@ -15,6 +15,12 @@
 
 std::unordered_map< item_action_id, item_action > item_actions;
 
+int key_bound_to( const input_context &ctxt, const item_action_id &act )
+{
+    auto keys = ctxt.keys_bound_to( act );
+    return keys.empty() ? INT_MIN : keys[0];
+}
+
 item_action_map map_actions_to_items( player &p )
 {
     // Item index (in inventory) and pointers not to look them up every time
@@ -68,6 +74,9 @@ void game::item_action_menu()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    for( auto id : item_actions ) {
+        ctxt.register_action( id.first, id.second.name );
+    }
     item_action_map iactions = map_actions_to_items( u );
     while (true) {
         werase(w_item_actions);
@@ -78,7 +87,6 @@ void game::item_action_menu()
 
             if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
                 mvwputch(w_item_actions, i, 0, BORDER_COLOR, LINE_XOXO);
-                //mvwputch(w_item_actions, i, 30, BORDER_COLOR, LINE_XOXO);
                 mvwputch(w_item_actions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
             }
         }
@@ -89,17 +97,16 @@ void game::item_action_menu()
         mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
         mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 
-        //mvwputch(w_item_actions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-        //mvwputch(w_item_actions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
-
         size_t i = 0;
         for( auto p : iactions ) {
             it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
             int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
+            int ibind = key_bound_to( ctxt, p.first );
+            char bind = ibind == INT_MIN ? ' ' : (char)ibind;
             std::stringstream ss;
-            ss << item_actions[p.first].name << " [" << p.second->type_name( 1 );
+            ss << bind << ' ' << item_actions[p.first].name << " [" << p.second->type_name( 1 );
             if( would_use_charges > 0 ) {
-                ss << " (" << would_use_charges << "/" << p.second->charges << ")";
+                ss << " (" << would_use_charges << '/' << p.second->charges << ')';
             }
             ss << "]";
 
@@ -130,6 +137,12 @@ void game::item_action_menu()
             break;
         } else if( action == "QUIT" ) {
             break;
+        } else {
+            auto ac = iactions.find( action );
+            if( ac != iactions.end() ) {
+                invpos = u.inv.position_by_item( ac->second );
+                break;
+            }
         }
     }
 
