@@ -15,7 +15,6 @@ class item_action
     public:
         std::string name;
         std::string id;
-        int keybind;
         static void load_item_action(JsonObject &jo);
 };
 

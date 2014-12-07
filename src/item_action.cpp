@@ -166,6 +166,5 @@ void item_action::load_item_action(JsonObject &jo)
         ia.name = ia.id;
     }
 
-    ia.keybind = inp_mngr.get_keycode( jo.get_string( "keybind", "" ) );
     item_actions[ia.id] = ia;
 }

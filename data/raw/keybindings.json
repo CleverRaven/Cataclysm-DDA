@@ -2062,5 +2062,17 @@
                 "key":"C"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SEW",
+        "category": "ITEM_ACTIONS",
+        "name": "Sew",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
     }
 ]
