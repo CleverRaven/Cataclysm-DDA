@@ -1385,7 +1385,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "REDUCE_SCENT"],
+        "flags": ["NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE"],
         "bash": {
             "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
