@@ -42,6 +42,31 @@ typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 
+// A wrapper class to bundle up the references needed for a caller to safely manipulate
+// items at a particular map x/y location.
+// Note this does not expose the container itself,
+// which means you cannot call e.g. vector::erase() directly.
+class item_stack {
+private:
+    std::vector<item> *mystack;
+    point location;
+    class map *mymap;
+public:
+    item_stack() = default;
+    item_stack( std::vector<item> *newstack, point newloc, class map *newmap ) :
+        mystack(newstack), location(newloc), mymap(newmap) {};
+    size_t size() const;
+    bool empty() const;
+    std::vector<item>::iterator erase( std::vector<item>::iterator it );
+    void push_back( const item &newitem );
+    std::vector<item>::iterator begin();
+    std::vector<item>::iterator end();
+    std::vector<item>::const_iterator begin() const;
+    std::vector<item>::const_iterator end() const;
+    item &front();
+    item &operator[]( size_t index );
+};
+
 /**
  * Manage and cache data about a part of the map.
  *

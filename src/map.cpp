@@ -31,6 +31,59 @@ enum astar_list {
  ASL_CLOSED
 };
 
+// Item stack methods.
+size_t item_stack::size() const
+{
+    return mystack->size();
+}
+
+bool item_stack::empty() const
+{
+    return mystack->empty();
+}
+
+std::vector<item>::iterator item_stack::erase( std::vector<item>::iterator it )
+{
+    return mymap->i_rem(location, it);
+}
+
+void item_stack::push_back( const item &newitem )
+{
+    mymap->add_item_or_charges(location.x, location.y, newitem);
+}
+
+std::vector<item>::iterator item_stack::begin()
+{
+    return mystack->begin();
+}
+
+std::vector<item>::iterator item_stack::end()
+{
+    return mystack->end();
+}
+
+std::vector<item>::const_iterator item_stack::begin() const
+{
+    return mystack->cbegin();
+}
+
+std::vector<item>::const_iterator item_stack::end() const
+{
+    return mystack->cend();
+}
+
+item &item_stack::front()
+{
+    return mystack->front();
+}
+
+item &item_stack::operator[]( size_t index )
+{
+    return (*mystack)[index];
+}
+
+// Map class methods.
+
 map::map(int mapsize)
 {
     nulter = t_null;
