@@ -1,5 +1,5 @@
 [
-	{
+    {
         "type" : "vehicle_part",
         "id" : "laser_gunp",
         "name" : "Mounted Pulse Turret",
@@ -28,7 +28,7 @@
             {"item": "chain", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "teslagun",
         "name" : "Mounted Tesla Turret",
@@ -58,7 +58,7 @@
             {"item": "burnt_out_bionic", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "laser_guns",
         "name" : "Mounted Energy Turret",
@@ -100,8 +100,8 @@
         "epower" : 25,
         "fuel_type" : "nail",
         "item" : "2xnailer",
-		"size" : 5,
-		"difficulty" : 5,
+        "size" : 5,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -118,7 +118,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "4xnailer",
         "name" : "Quad Nail Turret",
@@ -132,8 +132,8 @@
         "epower" : 25,
         "fuel_type" : "nail",
         "item" : "4xnailer",
-		"size" : 10,
-		"difficulty" : 5,
+        "size" : 10,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -150,7 +150,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "2x9mm",
         "name" : "Mounted 9mm Dual Turret",
@@ -164,8 +164,8 @@
         "epower" : 25,
         "fuel_type" : "9mm",
         "item" : "2xSMG",
-		"size" : 4,
-		"difficulty" : 4,
+        "size" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -181,7 +181,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "4x9mm",
         "name" : "Mounted 9mm Quad Cannon",
@@ -195,8 +195,8 @@
         "epower" : 25,
         "fuel_type" : "9mm",
         "item" : "4xSMG",
-		"size" : 8,
-		"difficulty" : 4,
+        "size" : 8,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -212,7 +212,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "2x45",
         "name" : "Mounted .45 Dual Turret",
@@ -226,8 +226,8 @@
         "epower" : 25,
         "fuel_type" : "45",
         "item" : "2xSMG",
-		"size" : 4,
-		"difficulty" : 4,
+        "size" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -243,7 +243,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "4x45",
         "name" : "Mounted .45 Quad Cannon",
@@ -257,8 +257,8 @@
         "epower" : 25,
         "fuel_type" : "45",
         "item" : "4xSMG",
-		"size" : 8,
-		"difficulty" : 4,
+        "size" : 8,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -274,7 +274,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "2x22",
         "name" : "Mounted .22 Dual Turret",
@@ -288,8 +288,8 @@
         "epower" : 25,
         "fuel_type" : "22",
         "item" : "2xSMG",
-		"size" : 5,
-		"difficulty" : 4,
+        "size" : 5,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -305,7 +305,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "4x22",
         "name" : "Mounted .22 Quad Cannon",
@@ -319,8 +319,8 @@
         "epower" : 25,
         "fuel_type" : "22",
         "item" : "4xSMG",
-		"size" : 10,
-		"difficulty" : 4,
+        "size" : 10,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -336,7 +336,7 @@
             {"item": "metal_tank_small", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "scorpion",
         "name" : "Mounted Scorpion",
@@ -349,8 +349,8 @@
         "folded_volume": 20,
         "fuel_type" : "hbolt",
         "item" : "scorpion",
-		"size" : 1,
-		"difficulty" : 2,
+        "size" : 1,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE"],
         "breaks_into" : [
@@ -364,7 +364,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "slauncher",
         "name" : "Mounted Spear Launcher",
@@ -378,8 +378,8 @@
         "epower" : 25,
         "fuel_type" : "fishspear",
         "item" : "slauncher",
-		"size" : 0,
-		"difficulty" : 2,
+        "size" : 0,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO"],
         "breaks_into" : [
@@ -392,7 +392,7 @@
             {"item": "rope_6", "min": 0, "max": 3}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "cangun",
         "name" : "Slingshot Cannon",
@@ -405,8 +405,8 @@
         "folded_volume": 32,
         "fuel_type" : "mininuke_mod",
         "item" : "cangun",
-		"size" : 1,
-		"difficulty" : 2,
+        "size" : 1,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE"],
         "breaks_into" : [
@@ -420,7 +420,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "tiharturret",
         "name" : "Mounted Avalanche Turret",
@@ -433,8 +433,8 @@
         "folded_volume": 16,
         "fuel_type" : "pebble",
         "item" : "tiharturret",
-		"size": 50,
-		"difficulty" : 3,
+        "size": 50,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE"],
         "breaks_into" : [
@@ -451,7 +451,7 @@
             {"item": "tihar", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "40mmturret",
         "name" : "Mounted Grenade Launcher",
@@ -464,8 +464,8 @@
         "folded_volume": 6,
         "fuel_type" : "40mm",
         "item" : "40mmturret",
-		"size" : 2,
-		"difficulty" : 2,
+        "size" : 2,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO"],
         "breaks_into" : [
@@ -476,7 +476,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "HMG",
         "name" : "Mounted MG",
@@ -489,8 +489,8 @@
         "folded_volume": 10,
         "fuel_type" : "223",
         "item" : "HMG",
-		"size" : 1,
-		"difficulty" : 2,
+        "size" : 1,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO"],
         "breaks_into" : [
@@ -501,7 +501,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "AUTOHMG",
         "name" : "Mounted MG Turret",
@@ -515,8 +515,8 @@
         "epower" : 25,
         "fuel_type" : "223",
         "item" : "AUTOHMG",
-		"size" : 15,
-		"difficulty" : 3,
+        "size" : 15,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -531,7 +531,7 @@
             {"item": "chain", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rslauncher",
         "name" : "Mounted Rotary Speargun",
@@ -545,8 +545,8 @@
         "epower" : 25,
         "fuel_type" : "fishspear",
         "item" : "rslauncher",
-		"size" : 5,
-		"difficulty" : 4,
+        "size" : 5,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -562,7 +562,7 @@
             {"item": "metal_tank", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "bolter",
         "name" : "Mounted Storm Bolter",
@@ -576,8 +576,8 @@
         "epower" : 25,
         "fuel_type" : "bolt",
         "item" : "bolter",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -592,7 +592,7 @@
             {"item": "chain", "min": 0, "max": 1},
             {"item": "helsing", "min": 0, "max": 1}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "lasgun",
         "name" : "Mounted Laser Cannon",
@@ -606,7 +606,7 @@
         "epower" : 200,
         "fuel_type" : "battery",
         "item" : "lasgun",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "SOLAR_PANEL", "FOLDABLE", "BATTERY_MOUNT"],
         "breaks_into" : [
@@ -620,7 +620,7 @@
             {"item": "solar_cell", "min": 4, "max": 18},
             {"item": "chain", "min": 0, "max": 2}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "lasguns",
         "name" : "Mounted Laser",
@@ -634,7 +634,7 @@
         "epower" : 200,
         "fuel_type" : "battery",
         "item" : "lasguns",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "SOLAR_PANEL", "FOLDABLE", "BATTERY_MOUNT"],
         "breaks_into" : [
@@ -648,7 +648,7 @@
             {"item": "solar_cell", "min": 4, "max": 18},
             {"item": "chain", "min": 0, "max": 2}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "lasgunp",
         "name" : "Mounted Pulse Laser",
@@ -662,7 +662,7 @@
         "epower" : 200,
         "fuel_type" : "battery",
         "item" : "lasgunp",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "SOLAR_PANEL", "FOLDABLE", "BATTERY_MOUNT"],
         "breaks_into" : [
@@ -677,7 +677,7 @@
             {"item": "chain", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "lasgunx",
         "name" : "Mounted Turbolaser Cannon",
@@ -691,7 +691,7 @@
         "epower" : 200,
         "fuel_type" : "battery",
         "item" : "lasgunx",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "SOLAR_PANEL", "FOLDABLE", "BATTERY_MOUNT"],
         "breaks_into" : [
@@ -706,7 +706,7 @@
             {"item": "chain", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "wiring",
         "name" : "wiring",
@@ -716,14 +716,14 @@
         "broken_color" : "white",
         "durability" : 10,
         "item" : "wire",
-		"difficulty" : 1,
+        "difficulty" : 1,
         "location" : "structure",
         "flags" : ["FOLDABLE", "AISLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "wire", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "gattler",
         "name" : "Gatling Cannon",
@@ -736,8 +736,8 @@
         "folded_volume": 25,
         "fuel_type" : "ammo_flintlock",
         "item" : "gattler",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "SOLAR_PANEL"],
         "breaks_into" : [
@@ -753,7 +753,7 @@
             {"item": "metal_tank", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "shardgun",
         "name" : "Mounted Splintergun",
@@ -766,8 +766,8 @@
         "folded_volume": 20,
         "fuel_type" : "BB",
         "item" : "shardgun",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE"],
         "breaks_into" : [
@@ -783,7 +783,7 @@
             {"item": "coilgun", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "water_tank_small",
         "name" : "water tank (small)",
@@ -804,7 +804,7 @@
             {"item": "scrap", "min": 1, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "water_tank_little",
         "name" : "water tank (little)",
@@ -824,7 +824,7 @@
             {"item": "scrap", "min": 1, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower1",
         "name" : "Mounted Flamethrower",
@@ -855,7 +855,7 @@
             {"item": "flamethrower_simple", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower2",
         "name" : "Mounted Flamecaster",
@@ -886,7 +886,7 @@
             {"item": "flamethrower", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower3",
         "name" : "Mounted Dragon Turret",
@@ -917,7 +917,7 @@
             {"item": "rm451_flamethrower", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "cargo_space_external",
         "name" : "cargo space",
@@ -933,7 +933,7 @@
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_military_horizontal",
         "name" : "military composite ram",
@@ -953,7 +953,7 @@
             {"item": "ceramic_armor", "min": 0, "max": 4}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_steel",
         "name" : "steel ram",
@@ -972,7 +972,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_wood",
         "name" : "wooden ram",
@@ -989,7 +989,7 @@
             {"item": "splinter", "min": 7, "max": 9}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_hardsteel",
         "name" : "heavy steel ram",
@@ -1008,7 +1008,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_alloy",
         "name" : "superalloy ram",
@@ -1027,7 +1027,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "basketsm_external",
         "name" : "wire bike basket",
@@ -1043,7 +1043,7 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "basketlg_external",
         "name" : "shopping cart basket",
@@ -1059,7 +1059,7 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_spiked",
         "name" : "spiked ram",
@@ -1080,7 +1080,7 @@
             {"item": "spike", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_body",
         "name" : "body ram",
@@ -1097,7 +1097,7 @@
             {"item": "meat_tainted", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ripper",
         "name" : "Mounted Ripper",
@@ -1110,13 +1110,13 @@
         "fuel_type" : "ripdisk",
         "power" : -50,
         "item" : "ripper",
-		"size" : 12,
-		"difficulty" : 5,
+        "size" : 12,
+        "difficulty" : 5,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "TURRET", "CARGO"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "tearer",
         "name" : "Mounted Shredder",
@@ -1129,13 +1129,13 @@
         "fuel_type" : "ripdisk",
         "power" : -50,
         "item" : "ripper",
-		"size" : 36,
-		"difficulty" : 5,
+        "size" : 36,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["UNMOUNT_ON_DAMAGE","TURRET", "CARGO"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rebar_plate",
         "name" : "rebar reinforcement",
@@ -1153,7 +1153,7 @@
             {"item": "scrap", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "spring_plate",
         "name" : "shock absorber",
@@ -1172,6 +1172,3 @@
         ]
     }
 ]
-]
-
-

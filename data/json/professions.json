@@ -967,7 +967,7 @@
                 "panties"
             ]
         },
-		"skills": [
+        "skills": [
             {
                 "level": 3,
                 "name": "gun"
@@ -2803,7 +2803,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "paperboy",
         "name": {
@@ -2837,13 +2837,13 @@
                 "gloves_wool",
                 "knit_scarf",
                 "mbag",
-				"ref_lighter",
-				"pockknife",
+                "ref_lighter",
+                "pockknife",
                 "newest_newspaper",
-				"newest_newspaper",
-				"newest_newspaper",
-				"newest_newspaper",
-				"newest_newspaper",
+                "newest_newspaper",
+                "newest_newspaper",
+                "newest_newspaper",
+                "newest_newspaper",
                 "folding_bicycle"
             ],
             "male": [
