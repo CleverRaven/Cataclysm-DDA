@@ -1,0 +1,58 @@
+[
+    {
+        "type" : "item_action",
+        "id" : "SEW",
+        "name" : "Sew",
+        "keybind" : "s"
+    },{
+        "type" : "item_action",
+        "id" : "KNIFE",
+        "name" : "Use as knife",
+        "keybind" : "c"
+    },{
+        "type" : "item_action",
+        "id" : "PICKLOCK",
+        "name" : "Pick a lock",
+        "keybind" : "p"
+    },{
+        "type" : "item_action",
+        "id" : "HAMMER",
+        "name" : "Pull out nails",
+        "keybind" : "n"
+    },{
+        "type" : "item_action",
+        "id" : "SOLDER_WELD",
+        "name" : "Reinforce metal/plastic/kevlar",
+        "keybind" : "r"
+    },{
+        "type" : "item_action",
+        "id" : "CROWBAR",
+        "name" : "Pry crate, window or door",
+        "keybind" : "p"
+    },{
+        "type" : "item_action",
+        "id" : "MAKEMOUND",
+        "name" : "Upturn earth",
+        "keybind" : "h"
+    },{
+        "type" : "item_action",
+        "id" : "PICKAXE",
+        "name" : "Dig through rock",
+        "keybind" : "d"
+    },{
+        "type" : "item_action",
+        "id" : "HACKSAW",
+        "name" : "Cut metal",
+        "keybind" : "a"
+    },{
+        "type" : "item_action",
+        "id" : "BOLTCUTTERS",
+        "name" : "Cut bolts or wires",
+        "keybind" : "b"
+    },{
+        "type" : "item_action",
+        "id" : "VITAMINS",
+        "name" : "Take vitamins",
+        "keybind" : "v"
+    }
+]

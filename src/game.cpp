@@ -4025,7 +4025,7 @@ bool game::handle_action()
             break;
 
         case ACTION_ITEMACTION:
-            use_item_menu( u );
+            item_action_menu();
             break;
         default:
             break;

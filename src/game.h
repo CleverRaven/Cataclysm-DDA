@@ -24,6 +24,7 @@
 #include "creature_tracker.h"
 #include "game_constants.h"
 #include "weather_gen.h"
+#include "item_action.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -652,6 +653,8 @@ class game
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+
+        void item_action_menu(); // Displays item action menu
 
 
         void rcdrive(int dx, int dy); //driving radio car
