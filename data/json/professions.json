@@ -2803,6 +2803,58 @@
             ]
         }
     },
+	{
+        "type": "profession",
+        "ident": "paperboy",
+        "name": {
+            "male": "Paperboy",
+            "female": "Papergirl"
+        },
+        "description": "You were delivering the morning paper along your usual route when the Cataclysm struck. The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 3,
+                "name": "driving"
+            },
+            {
+                "level": 3,
+                "name": "throw"
+            },
+            {
+                "level": 1,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "hat_newsboy",
+                "sweatshirt",
+                "pants",
+                "peacoat",
+                "socks",
+                "boots_winter",
+                "gloves_wool",
+                "knit_scarf",
+                "mbag",
+				"ref_lighter",
+				"pockknife",
+                "newest_newspaper",
+				"newest_newspaper",
+				"newest_newspaper",
+				"newest_newspaper",
+				"newest_newspaper",
+                "folding_bicycle"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
     {
         "type": "profession",
         "ident": "rollerderby",

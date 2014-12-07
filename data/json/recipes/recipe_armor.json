@@ -4275,6 +4275,10 @@
       [ "tanned_hide", 1 ]
      ],
      [
+      [ "holster", 1 ],
+      [ "sholster", 1 ]
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
