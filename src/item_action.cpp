@@ -24,7 +24,7 @@ int clamp(int value, int low, int high)
 char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
-    return keys.empty() ? ' ' : keys[0];
+    return keys.empty() ? '\0' : keys[0];
 }
 
 class actmenu_cb : public uimenu_callback {
@@ -40,16 +40,11 @@ class actmenu_cb : public uimenu_callback {
         }
         ~actmenu_cb() { }
         
-        bool key(int ch, int /*num*/, uimenu * menu) {
+        bool key(int ch, int /*num*/, uimenu * /*menu*/) {
             input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );
             const std::string action = ctxt.input_to_action( wrap );
             if( action == "HELP_KEYBINDINGS" ) {
                 ctxt.display_help();
-                return true;
-            }
-            auto ac = iam->find( action );
-            if( ac != iam->end() ) {
-                menu->ret = std::distance( iam->begin(), ac );
                 return true;
             }
             // Don't write a message if unknown command was sent
@@ -64,7 +59,7 @@ class actmenu_cb : public uimenu_callback {
 
 item_action_map map_actions_to_items( player &p )
 {
-    std::unordered_set< item_action_id > unmapped_actions;
+    std::set< item_action_id > unmapped_actions;
     for( auto &p : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( p.first );
     }
@@ -147,7 +142,16 @@ void game::item_action_menu()
         kmenu.addentry( num, true, bind, ss.str() );
         num++;
     }
-    
+
+    std::set< item_action_id > itemless;
+    for( auto &p : item_actions ) {
+        if( iactions.find( p.first ) == iactions.end() ) {
+            char bind = key_bound_to( ctxt, p.first );
+            kmenu.addentry( num, false, bind, _( item_actions[p.first].name.c_str() ) );
+            num++;
+        }
+    }
+
     kmenu.query();
     if( kmenu.ret < 0 || kmenu.ret >= (int)iactions.size() ) {
         return;
