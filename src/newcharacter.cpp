@@ -1193,6 +1193,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             }
         }
         buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        if( prof_traits.empty() ) {
+            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         for( const auto &t : sorted_profs[cur_id]->traits() ) {
             buffer << traits[ t ].name << "\n";
         }
