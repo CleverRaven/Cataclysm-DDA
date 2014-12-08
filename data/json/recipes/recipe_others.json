@@ -37,7 +37,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "down_pillow",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -62,7 +62,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pillow",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -115,7 +115,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meal_chitin_piece",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -127,7 +127,7 @@
   "tools": [ [ ["rock_quern", -1] ] ],
   "components": [ [ ["chitin_piece", 1] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reinforced_glass_sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -153,7 +153,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chainsaw_off",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -269,7 +269,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wearable_light",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -296,7 +296,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "oil_lamp",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -326,7 +326,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reinforced_glass_pane",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -360,7 +360,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "headlight_reinforced",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -394,7 +394,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -427,7 +427,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reinforced_solar_panel_v2",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -500,7 +500,7 @@
         ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "towel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -522,7 +522,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "primitive_hammer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -549,7 +549,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "needle_bone",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -567,7 +567,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "needle_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -586,7 +586,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "primitive_knife",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -615,7 +615,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "digging_stick",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -634,7 +634,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rock_pot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -658,7 +658,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "primitive_shovel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -687,7 +687,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "primitive_axe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -717,7 +717,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fire_drill",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -742,7 +742,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fire_drill_large",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -830,7 +830,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "waterskin",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -862,7 +862,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "waterskin2",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -894,7 +894,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "waterskin3",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -926,7 +926,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "makeshift_funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -946,7 +946,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shelter_kit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -980,7 +980,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shelter_kit",
   "id_suffix": "repair",
   "category": "CC_OTHER",
@@ -1018,7 +1018,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_rollmat",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -1045,7 +1045,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "snare_trigger",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -1066,7 +1066,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "light_snare_kit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -1086,7 +1086,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "heavy_snare_kit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -1106,7 +1106,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "water_faucet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1131,7 +1131,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "kitchen_unit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1177,7 +1177,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cargo_rack",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1237,7 +1237,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1262,7 +1262,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "muffler",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1294,7 +1294,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "seat",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1335,7 +1335,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cotton_ball",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1351,7 +1351,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cotton_ball",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1371,7 +1371,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thread",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1392,7 +1392,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rag",
   "id_suffix": "knitting",
   "category": "CC_OTHER",
@@ -1415,7 +1415,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rag",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1441,7 +1441,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1462,7 +1462,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "vehicle_controls",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1500,7 +1500,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "folding_bicycle",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -1555,7 +1555,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "string_6",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1572,7 +1572,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "string_36",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1589,7 +1589,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rope_6",
   "id_suffix": "from_string",
   "category": "CC_OTHER",
@@ -1606,7 +1606,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rope_6",
   "id_suffix": "from_cloth",
   "category": "CC_OTHER",
@@ -1628,7 +1628,7 @@
     ]
   ]  
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rope_30",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1645,7 +1645,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wire",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1680,7 +1680,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wire_barbed",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1703,7 +1703,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "candle",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -1735,7 +1735,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spike",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1752,7 +1752,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blade",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1769,7 +1769,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "screwdriver",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -1790,7 +1790,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "duct_tape",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1828,7 +1828,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "steel_lump",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1861,7 +1861,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "2x4",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1877,7 +1877,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "basket",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1903,7 +1903,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "xlframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1929,7 +1929,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "foldframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1955,7 +1955,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wheel_wheelchair",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -1986,7 +1986,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hand_rims",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2015,7 +2015,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "frame",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2046,7 +2046,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hdframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2077,7 +2077,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "frame_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2097,7 +2097,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "frame_wood_light",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2116,7 +2116,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wheel_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2137,7 +2137,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wheel_wood_b",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2187,7 +2187,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wood_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2205,7 +2205,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "steel_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2234,7 +2234,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spiked_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2269,7 +2269,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hard_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2299,7 +2299,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "crude_picklock",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -2316,7 +2316,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tripwire",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2335,7 +2335,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "board_trap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2355,7 +2355,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "beartrap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2378,7 +2378,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "crossbow_trap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2403,7 +2403,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shotgun_trap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2427,7 +2427,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blade_trap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2453,7 +2453,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boobytrap",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2475,7 +2475,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "landmine",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2514,7 +2514,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brazier",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -2531,7 +2531,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "metal_tank",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2559,7 +2559,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "metal_tank_small",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2624,7 +2624,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "metal_tank_little",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2653,7 +2653,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bandages",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -2687,7 +2687,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "arm_splint",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -2717,7 +2717,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leg_splint",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -2747,7 +2747,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bot_manhack",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -2786,7 +2786,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_bundle_10",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2804,7 +2804,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "steel_chunk",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2836,7 +2836,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "1st_aid",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -2864,7 +2864,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jug_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2886,7 +2886,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jerrycan",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2910,7 +2910,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jerrycan_big",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2934,7 +2934,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flask_hip",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2972,7 +2972,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bowl_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2994,7 +2994,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mold_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3016,7 +3016,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bottle_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3041,7 +3041,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bottle_plastic_small",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3066,7 +3066,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chemistry_set",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3103,7 +3103,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "misc_repairkit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3130,7 +3130,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "small_repairkit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3170,7 +3170,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rock_quern",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3185,7 +3185,7 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6], [ "ceramic_shard", 6 ] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "welder_crude",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3202,7 +3202,7 @@
     [ ["scrap", 2] ],
     [ ["cable", 8] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "still",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3220,7 +3220,7 @@
     [ ["hose", 2] ],
     [ ["metal_tank_small", 1] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "forge",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3258,7 +3258,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "anvil",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3284,7 +3284,7 @@
      [[ "steel_lump", 40 ]]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "crucible",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3312,7 +3312,7 @@
     ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tongs",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3343,7 +3343,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chisel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3379,7 +3379,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "swage",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3417,7 +3417,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hammer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3460,7 +3460,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nail",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3485,7 +3485,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3510,7 +3510,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "teapot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3536,7 +3536,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blade",
   "id_suffix": "from steel",
   "category": "CC_OTHER",
@@ -3573,7 +3573,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wrench",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3610,7 +3610,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jack",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3652,7 +3652,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hacksaw",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3693,7 +3693,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boltcutters",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3735,7 +3735,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shovel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3777,7 +3777,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "e_tool",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3818,7 +3818,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hoe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3860,7 +3860,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ax",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3902,7 +3902,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "saw",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3944,7 +3944,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hammer_sledge",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3985,7 +3985,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chain",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -4024,7 +4024,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "canister_empty",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4060,7 +4060,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jackhammer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4175,7 +4175,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "crackpipe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4198,7 +4198,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "quikclot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -4230,7 +4230,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bfipowder",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -4267,7 +4267,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "char_forge",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4309,7 +4309,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "char_smoker",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4347,7 +4347,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "char_kiln",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4406,7 +4406,7 @@
     [[ "char_kiln", 1 ]]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "char_purifier",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4517,7 +4517,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wooden_barrel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4551,7 +4551,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "55gal_drum",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4587,7 +4587,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "30gal_drum",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -5005,7 +5005,7 @@
     ]
   },
     {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wearable_rx12",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -5213,7 +5213,7 @@
        [ "bismuth", 70 ], [ "tin", 70 ], [ "gold_small", 70 ] ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pilot_light",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5233,7 +5233,7 @@
      [ [ "cable", 2 ] ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "paper",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5274,7 +5274,7 @@
     [ [ "misc_repairkit", 1 ] ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "vacutainer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -5520,7 +5520,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -5545,7 +5545,7 @@
     ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jug_plastic",
   "id_suffix": "plastic-mod",
   "category": "CC_OTHER",
@@ -5571,7 +5571,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -5622,7 +5622,7 @@
     ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cured_hide",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5646,7 +5646,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cured_hide",
   "id_suffix": "scraped",
   "category": "CC_OTHER",
@@ -5665,7 +5665,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tanning_hide",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5715,7 +5715,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cured_pelt",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5739,7 +5739,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tanning_pelt",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5789,7 +5789,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tanning_hide",
   "id_suffix": "modern",
   "category": "CC_OTHER",
@@ -5830,7 +5830,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tanning_pelt",
   "id_suffix": "modern",
   "category": "CC_OTHER",
@@ -5871,7 +5871,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lobotomizer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -5912,7 +5912,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chipper",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -5938,7 +5938,7 @@
    ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "paint_brush",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
