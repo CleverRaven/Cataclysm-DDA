@@ -30,10 +30,10 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
 class actmenu_cb : public uimenu_callback {
     private:
         input_context ctxt;
-        const item_action_map *iam;
     public:
-        actmenu_cb( item_action_map *am ) : ctxt("ITEM_ACTIONS"), iam( am ) {
+        actmenu_cb( ) : ctxt("ITEM_ACTIONS") {
             ctxt.register_action("HELP_KEYBINDINGS");
+            ctxt.register_action("QUIT");
             for( auto id : item_actions ) {
                 ctxt.register_action( id.first, id.second.name );
             }
@@ -124,7 +124,7 @@ void game::item_action_menu()
     uimenu kmenu;
     kmenu.text = _( "Execute which action?" );
     input_context ctxt("ITEM_ACTIONS");
-    actmenu_cb callback( &iactions );
+    actmenu_cb callback;
     kmenu.callback = &callback;
     int num = 0;
     for( auto &p : iactions ) {
@@ -151,6 +151,8 @@ void game::item_action_menu()
             num++;
         }
     }
+    
+    kmenu.addentry( num, true, key_bound_to( ctxt, "QUIT" ), _("Cancel") );
 
     kmenu.query();
     if( kmenu.ret < 0 || kmenu.ret >= (int)iactions.size() ) {
