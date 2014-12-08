@@ -29,7 +29,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 35 ] ],
-      [ [ "down_feather", 8 ] ]
+      [ [ "down_feather", 160 ] ]
     ]
   },{
     "type" : "recipe",
@@ -44,7 +44,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "down_feather", 2 ] ]
+      [ [ "down_feather", 40 ] ]
     ]
   },{
     "type" : "recipe",
