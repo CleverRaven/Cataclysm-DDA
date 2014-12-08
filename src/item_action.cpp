@@ -27,6 +27,41 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
     return keys.empty() ? ' ' : keys[0];
 }
 
+class actmenu_cb : public uimenu_callback {
+    private:
+        input_context ctxt;
+        const item_action_map *iam;
+    public:
+        actmenu_cb( item_action_map *am ) : ctxt("ITEM_ACTIONS"), iam( am ) {
+            ctxt.register_action("HELP_KEYBINDINGS");
+            for( auto id : item_actions ) {
+                ctxt.register_action( id.first, id.second.name );
+            }
+        }
+        ~actmenu_cb() { }
+        
+        bool key(int ch, int /*num*/, uimenu * menu) {
+            input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );
+            const std::string action = ctxt.input_to_action( wrap );
+            if( action == "HELP_KEYBINDINGS" ) {
+                ctxt.display_help();
+                return true;
+            }
+            auto ac = iam->find( action );
+            if( ac != iam->end() ) {
+                menu->ret = std::distance( iam->begin(), ac );
+                return true;
+            }
+            // Don't write a message if unknown command was sent
+            // Only when an inexistent tool was selected
+            auto itemless_action = item_actions.find( action );
+            if( itemless_action != item_actions.end() ) {
+                popup( _("You do not have an item that can perform this action.") );
+            }
+            return false;
+        }
+};
+
 item_action_map map_actions_to_items( player &p )
 {
     std::unordered_set< item_action_id > unmapped_actions;
@@ -91,111 +126,38 @@ void game::item_action_menu()
         popup( _("You don't have any items with registered uses") );
     }
 
-    int height = FULL_SCREEN_HEIGHT;
-    int width = FULL_SCREEN_WIDTH;
-    int begin_y = (TERMY > height) ? (TERMY - height) / 2 : 0;
-    int begin_x = (TERMX > width) ? (TERMX - width) / 2 : 0;
-    WINDOW *w_item_actions = newwin(height, width, begin_y, begin_x);
-    int invpos = INT_MIN;
-    size_t selection = 0;
-    item *selected_item = nullptr;
+    uimenu kmenu;
+    kmenu.text = _( "Execute which action?" );
     input_context ctxt("ITEM_ACTIONS");
-    ctxt.register_action("UP");
-    ctxt.register_action("DOWN");
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    for( auto id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name );
-    }
-
-    while (true) {
-        werase(w_item_actions);
-
-        for (int i = 1; i < width - 1; i++) {
-            mvwputch(w_item_actions, 1, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_item_actions, height - 1, i, BORDER_COLOR, LINE_OXOX);
-
-            if (i > 1 && i < height - 1) {
-                mvwputch(w_item_actions, i, 0, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_item_actions, i, width - 1, BORDER_COLOR, LINE_XOXO);
-            }
-        }
-
-        mvwputch(w_item_actions, 1, 0, BORDER_COLOR, LINE_OXXO); // |^
-        mvwputch(w_item_actions, 1, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-        mvwputch(w_item_actions, height - 1, 0, BORDER_COLOR, LINE_XXOO); // |
-        mvwputch(w_item_actions, height - 1, width - 1, BORDER_COLOR, LINE_XOOX); // _|
+    actmenu_cb callback( &iactions );
+    kmenu.callback = &callback;
+    int num = 0;
+    for( auto &p : iactions ) {
+        it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
+        int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
         
-        mvwprintz(w_item_actions, 0, 1, c_white, "%s", _("Select an action to perform") );
-
-        size_t line = 0;
-        const size_t lineoffset = clamp( (int)selection - height / 2, 0, (int)iactions.size() - 2 - height / 2 );
-        for( auto p : iactions ) {
-            line++;
-            if( lineoffset >= line ) {
-                continue;
-            }
-            nc_color col = c_white;
-            if( selection == line - 1 ) {
-                col = hilite( col );
-                selected_item = p.second;
-            }
-            
-            if( 2 + line - lineoffset >= (size_t)height ) {
-                break;
-            }
-            
-            it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
-            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
-            char bind = key_bound_to( ctxt, p.first );
-            std::stringstream ss;
-            ss << bind << ' ' << _( item_actions[p.first].name.c_str() ) << " [" << p.second->type_name( 1 );
-            if( would_use_charges > 0 ) {
-                ss << " (" << would_use_charges << '/' << p.second->charges << ')';
-            }
-            ss << "]";
-
-            mvwprintz(w_item_actions, 1 + line - lineoffset, 1, col, "%s", ss.str().c_str());
+        std::stringstream ss;
+        ss << _( item_actions[p.first].name.c_str() ) << " [" << p.second->type_name( 1 );
+        if( would_use_charges > 0 ) {
+            ss << " (" << would_use_charges << '/' << p.second->charges << ')';
         }
-
-        wrefresh(w_item_actions);
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN") {
-            selection++;
-            if( selection >= iactions.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = iactions.size() - 1;
-            } else {
-                selection--;
-            }
-        } else if( action == "CONFIRM" ) {
-            invpos = u.inv.position_by_item( selected_item );
-            break;
-        } else if( action == "QUIT" ) {
-            break;
-        } else {
-            auto ac = iactions.find( action );
-            if( ac != iactions.end() ) {
-                invpos = u.inv.position_by_item( ac->second );
-                break;
-            }
-            // Don't write a message if unknown command was sent
-            // Only when an inexistent tool was selected
-            auto itemless_action = item_actions.find( action );
-            if( itemless_action != item_actions.end() ) {
-                popup( _("You do not have an item that can perform this action.") );
-            }
-        }
+        ss << "]";
+        
+        char bind = key_bound_to( ctxt, p.first );
+        kmenu.addentry( num, true, bind, ss.str() );
+        num++;
     }
-
-    werase(w_item_actions);
-    delwin(w_item_actions);
-    refresh_all();
+    
+    kmenu.query();
+    if( kmenu.ret < 0 || kmenu.ret >= (int)iactions.size() ) {
+        return;
+    }
+    
+    auto iter = iactions.begin();
+    for( int i = 0; i < kmenu.ret; i++) {
+        iter++;
+    }
+    int invpos = u.inv.position_by_item( iter->second );
     if( invpos != INT_MIN ) {
         u.use( invpos );
     }
