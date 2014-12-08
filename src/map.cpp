@@ -4764,7 +4764,8 @@ void map::grow_plant( const point pnt )
     
     // Erase fertilizer tokens, but keep the seed item
     items.resize( 1 );
-    it_comest &seed = items.front();
+    item &seed_item = items.front();
+	it_comest* seed = dynamic_cast<it_comest *>(seed_item.type);
 	
     std::string furn_id = furn.id;
     
