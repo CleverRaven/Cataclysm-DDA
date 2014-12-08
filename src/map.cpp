@@ -4772,16 +4772,16 @@ void map::grow_plant( const point pnt )
     // plantEpoch is half a season; 3 epochs pass from plant to harvest
     const int plantEpoch = DAYS(seed.grow / 91 * calendar::season_length() / 3); 
     
-    while( calendar::turn > seed->bday + plantEpoch && furn_id != "f_plant_harvest" ) {
+    while( calendar::turn > seed_item->bday + plantEpoch && furn_id != "f_plant_harvest" ) {
 		if (furn_id == "f_plant_seed") {
 				furn_set(pnt.x, pnt.y, "f_plant_seedling");
-				seed->bday += plantEpoch;
+				seed_item->bday += plantEpoch;
 		} else if (furn_id == "f_plant_seedling") {
 				furn_set(pnt.x, pnt.y, "f_plant_mature");
-				seed->bday += plantEpoch;
+				seed_item->bday += plantEpoch;
 		} else if (furn_id == "f_plant_mature") {
 				furn_set(pnt.x, pnt.y, "f_plant_harvest");
-				seed->bday += plantEpoch;
+				seed_item->bday += plantEpoch;
 		}
 	}
 }
