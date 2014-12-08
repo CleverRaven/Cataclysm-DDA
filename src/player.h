@@ -962,8 +962,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Check for free container space for the whole liquid item
         bool has_container_for(const item &liquid);
-        bool has_item_with_flag( std::string flag )
-        const; // Has a weapon, inventory item or worn item with flag
+        // Has a weapon, inventory item or worn item with flag
+        bool has_item_with_flag( std::string flag ) const;
+        // Has amount (or more) items with at least the required quality level.
+        bool has_items_with_quality( const std::string &quality_id, int level, int amount ) const;
         bool has_item(int position);
         /**
          * Check whether a specific item is in the players possession.
@@ -1015,8 +1017,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             const inventory &crafting_inv, bool print_msg);
+        bool can_disassemble( const item *dis_item, const recipe *cur_recipe,
+                              const inventory &crafting_inv, bool print_msg ) const;
         void disassemble(int pos = INT_MAX);
         void complete_disassemble();
 

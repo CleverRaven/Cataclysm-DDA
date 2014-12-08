@@ -60,6 +60,26 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "bicycle_electric",
+        "name" : "Electric Bicycle",
+        "blueprint" : "o#o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_bicycle"},
+            {"x": 0, "y": 0, "part": "foot_pedals"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "basketsm"},
+            {"x": -1, "y": 0, "part": "medium_storage_battery"},
+            {"x": -1, "y": 0, "part": "engine_electric_small"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "motorcycle_chassis",
         "name" : "Motorcycle Chassis",
         "blueprint" : "o#>",

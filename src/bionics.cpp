@@ -645,12 +645,12 @@ bool player::activate_bionic(int b, bool eff_only)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
-             it != g->m.i_at(posx, posy).end(); ++it) {
+        for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
             if (it->type->id == "corpse" ) {
                 int avail = 0;
-                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
-                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
+                auto remaining_water = it->item_vars.find("remaining_water");
+                if( remaining_water != it->item_vars.end() ) {
+                    avail = atoi ( remaining_water->second.c_str() );
                 } else {
                     avail = it->volume() / 2;
                 }
@@ -664,7 +664,8 @@ bool player::activate_bionic(int b, bool eff_only)
                     }
                     if( water.charges != avail ) {
                         extracted = true;
-                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                        g->m.get_item(posx, posy, it)->item_vars["remaining_water"] =
+                            string_format("%d", water.charges);
                     }
                     break;
                 }
@@ -991,7 +992,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("You don't have this bionic installed."));
         return false;
     }
-    if (!(inv.has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
+    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }

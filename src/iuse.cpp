@@ -6610,11 +6610,10 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
     item blood("blood", calendar::turn);
     bool drew_blood = false;
-    for (size_t i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
-        item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
-        if (map_it->corpse != NULL && map_it->type->id == "corpse" &&
-            query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
-            blood.corpse = map_it->corpse;
+    for( auto &map_it : g->m.i_at(p->posx, p->posy) ) {
+        if( map_it.corpse != NULL && map_it.type->id == "corpse" &&
+            query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
+            blood.corpse = map_it.corpse;
             drew_blood = true;
         }
     }
@@ -6633,17 +6632,15 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
 void make_zlave(player *p)
 {
-    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
-    std::vector<item *> corpses;
+    auto &items = g->m.i_at(p->posx, p->posy);
+    std::vector<const item *> corpses;
 
     const int cancel = 0;
 
-    for (auto &i : items) {
-        item &it = i;
-
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
-            corpses.push_back(&it);
+    for( auto &it : items ) {
+        if( it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
+            it.corpse->sym == "Z" && it.active && it.item_vars.find("zlave") == it.item_vars.end() ) {
+            corpses.push_back( &it );
         }
     }
 
@@ -6710,8 +6707,8 @@ void make_zlave(player *p)
 
     const int selected_corpse = amenu.ret - 1;
 
-    item *body = corpses[selected_corpse];
-    mtype *mt = body->corpse;
+    const item *body = corpses[selected_corpse];
+    const mtype *mt = body->corpse;
 
     // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
@@ -6790,7 +6787,7 @@ bool static try_to_cut_up(player *p, item *it)
 }
 
 // This is new silent valid_to_cut_up
-bool iuse::valid_to_cut_up(item *it)
+bool iuse::valid_to_cut_up(const item *it)
 {
     // If a material is made of different items than what is in this set, we
     // do not cut it up.
@@ -6981,7 +6978,7 @@ int iuse::knife(player *p, item *it, bool t, point)
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
         kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
     }
-    
+
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -8759,22 +8756,21 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
             monster &candidate = g->zombie( i );
             if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
                 rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
-                pick_robot.entries.push_back( uimenu_entry( i, true, -1,
-                                                            candidate.name().c_str() ) );
+                pick_robot.addentry( i, true, -1, candidate.name() );
             }
         }
         if( pick_robot.entries.empty() ) {
             p->add_msg_if_player( m_info, _("No enemy robots in range.") );
-                return it->type->charges_to_use();
-            }
-            pick_robot.entries.push_back(uimenu_entry(-1, true, -1, _("Cancel")));
-
-            pick_robot.query();
-            if (pick_robot.ret == -1) {
-                p->add_msg_if_player(m_info, _("Never mind"));
-                return it->type->charges_to_use();
-            }
-            monster *z = &(g->zombie(pick_robot.ret));
+            return it->type->charges_to_use();
+        }
+        pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+        pick_robot.query();
+        const size_t mondex = pick_robot.ret;
+        if( mondex >= g->num_zombies() ) {
+            p->add_msg_if_player(m_info, _("Never mind"));
+            return it->type->charges_to_use();
+        }
+            monster *z = &(g->zombie(mondex));
             p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel("computer") * 10;
             float success = p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
@@ -10383,8 +10379,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                 has_tools = false;
             }
 
-            if (!cinv.has_tools("screwdriver", 1)) {
-                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "screwdriver" ).c_str());
+            if( !cinv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
                 has_tools = false;
             }
 

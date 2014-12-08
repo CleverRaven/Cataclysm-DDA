@@ -22756,20 +22756,6 @@
          "rotates" : false, 
          "multitile" : false
       },
-      { 
-         "id" : "smg_9mm", 
-         "fg" : 1384, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "smg_45", 
-         "fg" : 1384, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
 	  { 
          "id" : "needlegun", 
          "fg" : 1384, 

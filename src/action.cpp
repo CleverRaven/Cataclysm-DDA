@@ -407,7 +407,7 @@ bool can_butcher_at(int x, int y)
 {
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
-    std::vector<item> &items = g->m.i_at(x, y);
+    auto &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {

@@ -117,7 +117,7 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
     return true;
 }
 
-void live_view::print_items(std::vector<item> &items, int &line) const
+void live_view::print_items(const std::vector<item> &items, int &line) const
 {
     std::map<std::string, int> item_names;
     for( auto &item : items ) {

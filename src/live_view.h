@@ -26,7 +26,7 @@ class live_view
         int inuse;
         int last_height;
 
-        void print_items(std::vector<item> &items, int &line) const;
+        void print_items( const std::vector<item> &items, int &line ) const;
 };
 
 #endif
