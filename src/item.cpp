@@ -3801,7 +3801,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
 {
     // First, check contents
     bool used_item_contents = false;
-    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, use_container, used)) {
             a = contents.erase(a);
             used_item_contents = true;
@@ -3884,7 +3884,7 @@ long item::charges_of(const itype_id &it) const
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
-    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_charges(it, quantity, used)) {
             a = contents.erase(a);
         } else {
@@ -3892,7 +3892,8 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
         }
     }
     // Now check the item itself
-    if (!((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) || quantity <= 0 || !contents.empty()) {
+    if( !((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) ||
+        quantity <= 0 || !contents.empty() ) {
         return false;
     }
     if (charges <= quantity) {
