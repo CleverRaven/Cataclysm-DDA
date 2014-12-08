@@ -7791,5 +7791,49 @@
   "autolearn": false,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
   "components": [ [ [ "straw_pile", 7 ] ] ]
+},{
+        "type" : "recipe",
+  "result": "patchwork_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "long_patchwork_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 9 ],
+      [ "needle_wood", 9 ],
+      [ "sewing_kit", 9 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 12 ]
+    ]
+  ]
 }
 ]
