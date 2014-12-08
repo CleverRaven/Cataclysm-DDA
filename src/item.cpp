@@ -813,9 +813,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 				temp1 << _("Close to skin. ");
 		} else if (has_flag("BELTED")) {
 			temp1 << _("Strapped. ");
-		} else if (has_flag("OUTER") {
+		} else if (has_flag("OUTER")) {
 			temp1 << _("Outer. ");
-		} else if (has_flag("WAIST") {
+		} else if (has_flag("WAIST")) {
 			temp1 << _("Waist. ");
 		} else {
 			temp1 << _("Normal. ");
