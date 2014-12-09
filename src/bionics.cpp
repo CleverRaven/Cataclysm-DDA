@@ -308,13 +308,12 @@ void player::power_bionics()
                         deactivate_bionic(b);
                     } else {
                         // this will clear the bionics menu for targeting purposes
-                        wBioptr.reset();
-                        w_titleptr.reset();
-                        w_descriptionptr.reset();
                         g->draw();
                         redraw = !activate_bionic(b);
                     }
                     if (redraw) {
+                        // To update message on the sidebar
+                        g->refresh_all();
                         continue;
                     } else {
                         // Action done, leave screen
