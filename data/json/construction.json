@@ -1861,5 +1861,23 @@
         ],
         "pre_terrain" : "t_water_sh",
         "post_terrain" : "t_dock"
+    },{
+        "type" : "construction",
+        "description" : "Cut Down Grass", 
+        "category" : "OTHER",
+        "difficulty" : -1,
+        "time" : 6,
+        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Extract Clay Mound",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 30,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "claymound"
     }
 ]
