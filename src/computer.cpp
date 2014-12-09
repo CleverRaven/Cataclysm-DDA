@@ -317,37 +317,27 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
+                                item sewage( "sewage", calendar::turn );
                                 auto &candidates = g->m.i_at( x1, y1 );
                                 for( auto candidate = candidates.begin();
                                      candidate !=candidates.end(); ++candidate ) {
-                                    if( candidate->is_container() ) {
-                                        item *candidate_container = g->m.get_item( x1, y1, candidate );
-                                        item sewage = item("sewage", calendar::turn);
-                                        it_container *container =
-                                            dynamic_cast<it_container *>( candidate_container->type );
-                                        it_comest *comest = dynamic_cast<it_comest *>(sewage.type);
-                                        long maxCharges = container->contains * comest->charges;
-
-                                        if( candidate_container->contents.empty() ) {
-                                            candidate_container->put_in( sewage );
-                                            found_item = true;
-                                            break;
-                                        } else {
-                                            if( candidate_container->contents[0].type->id ==
-                                                sewage.type->id ) {
-                                                if( candidate_container->contents[0].charges <
-                                                    maxCharges ) {
-                                                    candidate_container->contents[0].charges +=
-                                                        comest->charges;
-                                                    found_item = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
+                                    LIQUID_FILL_ERROR lferr;
+                                    long capa = candidate->get_remaining_capacity_for_liquid( sewage, lferr );
+                                    if( capa <= 0 ) {
+                                        continue;
                                     }
+                                    item &elem = *g->m.get_item( x1, y1, candidate );
+                                    capa = std::min( sewage.charges, capa );
+                                    if( elem.contents.empty() ) {
+                                        elem.put_in( sewage );
+                                        elem.contents[0].charges = capa;
+                                    } else {
+                                        elem.contents[0].charges += capa;
+                                    }
+                                    found_item = true;
+                                    break;
                                 }
                                 if (!found_item) {
-                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
