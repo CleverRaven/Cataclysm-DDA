@@ -1904,6 +1904,36 @@
   ]
 },{
   "type" : "recipe",
+  "result": "folding_basket",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
+    ]
+  ],
+  "components": [
+    [
+      [ "wire", 6 ],
+	  [ "basket", 1]
+    ]
+	[
+    [ "scrap", 8]
+	]
+  ]
+},{
+  "type" : "recipe",
   "result": "xlframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",

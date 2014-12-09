@@ -71,6 +71,22 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
+    },{
+        "type":"GENERIC",
+        "id" : "folding_basket",
+        "name" : "folding wire basket",
+        "description" : "A large wire basket from a shopping cart, modified to be foldable.",
+        "weight" : 4500,
+        "to_hit" : -5,
+        "color" : "cyan",
+        "symbol" : "]",
+        "material" : ["steel", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 60,
+        "bashing" : 20,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 5500
     },
     {
         "type":"GENERIC",
