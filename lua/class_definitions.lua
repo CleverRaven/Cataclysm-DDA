@@ -559,7 +559,7 @@ classes = {
                 type = "int",
                 writable = true
             },
-            container = {
+            default_container = {
                 type = "string",
                 writable = true
             },

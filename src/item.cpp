@@ -255,9 +255,9 @@ item item::in_its_container()
         ret.invlet = invlet;
         return ret;
     }
-    if (is_food() && (dynamic_cast<it_comest*>(type))->container != "null") {
+    if (is_food() && (dynamic_cast<it_comest*>(type))->default_container != "null") {
         it_comest *food = dynamic_cast<it_comest*>(type);
-        item ret(food->container, bday);
+        item ret(food->default_container, bday);
 
         if (made_of(LIQUID)) {
             it_container* container = dynamic_cast<it_container*>(ret.type);
@@ -266,9 +266,9 @@ item item::in_its_container()
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
-    } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->container != "null") {
+    } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->default_container != "null") {
         it_ammo *ammo = dynamic_cast<it_ammo*>(type);
-        item ret(ammo->container, bday);
+        item ret(ammo->default_container, bday);
 
         if (made_of(LIQUID)) {
             it_container* container = dynamic_cast<it_container*>(ret.type);

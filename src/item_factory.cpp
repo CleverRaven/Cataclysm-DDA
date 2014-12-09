@@ -454,10 +454,10 @@ void Item_factory::check_definitions() const
         }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
-            if (comest->container != "null" && !has_template(comest->container)) {
-                msg << string_format("invalid container property %s", comest->container.c_str()) << "\n";
+            if (comest->default_container != "null" && !has_template(comest->default_container)) {
+                msg << string_format("invalid container property %s", comest->default_container.c_str()) << "\n";
             }
-            if (comest->container != "null" && !has_template(comest->tool)) {
+            if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
@@ -466,6 +466,9 @@ void Item_factory::check_definitions() const
             check_ammo_type(msg, ammo->type);
             if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
                 msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+            }
+            if (ammo->default_container != "null" && !has_template(ammo->default_container)) {
+                msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
             }
         }
         const it_gun *gun = dynamic_cast<const it_gun *>(type);
@@ -579,7 +582,7 @@ void Item_factory::load_ammo(JsonObject &jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
-    ammo_template->container = jo.get_string("container", "null");
+    ammo_template->default_container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -728,7 +731,7 @@ void Item_factory::load_comestible(JsonObject &jo)
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
-    comest_template->container = jo.get_string("container", "null");
+    comest_template->default_container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
