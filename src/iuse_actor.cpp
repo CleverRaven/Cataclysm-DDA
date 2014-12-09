@@ -612,27 +612,25 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
         return 0;
     }
 
-    std::string door_name;
     ter_id new_type;
-    std::string open_message = _( "With a satisfying click, the lock on the %s opens." );
+    std::string open_message;
     if( type == t_chaingate_l ) {
-        door_name = rm_prefix( _( "<door_name>gate" ) );
         new_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
     } else if( type == t_door_locked || type == t_door_locked_alarm ||
                type == t_door_locked_interior ) {
-        door_name = rm_prefix( _( "<door_name>door" ) );
         new_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
     } else if( type == t_door_locked_peep ) {
-        door_name = rm_prefix( _( "<door_name>door" ) );
         new_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
     } else if( type == t_door_metal_pickable ) {
-        door_name = rm_prefix( _( "<door_name>door" ) );
         new_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
     } else if( type == t_door_bar_locked ) {
-        door_name = rm_prefix( _( "<door_name>door" ) );
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The %s swings open..." );
+        open_message = _( "The door swings open..." );
     } else if( type == t_door_c ) {
         add_msg( m_info, _( "That door isn't locked." ) );
         return 0;
@@ -647,17 +645,15 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p->practice( "mechanics", 1 );
-        p->add_msg_if_player( m_good, open_message.c_str(), door_name.c_str() );
+        p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirx, diry, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
         it->damage++;
-
-        std::string sStatus = rm_prefix( _( "<door_status>damage" ) );
         if( it->damage >= 5 ) {
-            sStatus = rm_prefix( _( "<door_status>destroy" ) );
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
-        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you %s your tool." ),
-                              sStatus.c_str() );
     } else {
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
