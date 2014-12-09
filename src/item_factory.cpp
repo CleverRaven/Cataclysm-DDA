@@ -569,6 +569,23 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 // DATA FILE READING //
 ///////////////////////
 
+template<typename SlotType>
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
+{
+    slotptr.reset( new SlotType() );
+    load( *slotptr, jo );
+}
+
+template<typename SlotType>
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member )
+{
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    JsonObject slotjo = jo.get_object( member );
+    load_slot( slotptr, slotjo );
+}
+
 void Item_factory::load_ammo(JsonObject &jo)
 {
     it_ammo *ammo_template = new it_ammo();
@@ -773,12 +790,14 @@ void Item_factory::load_comestible(JsonObject &jo)
 
 void Item_factory::load_container(JsonObject &jo)
 {
-    it_container *container_template = new it_container();
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->container, jo );
+    load_basic_info( jo, new_item_template );
+}
 
-    container_template->contains = jo.get_int("contains");
-
-    itype *new_item_template = container_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load( islot_container &slot, JsonObject &jo )
+{
+    slot.contains = jo.get_int( "contains" );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -958,6 +977,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     } else {
         new_item_template->category = get_category(calc_category(new_item_template));
     }
+
+    load_slot_optional( new_item_template->container, jo, "container_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
