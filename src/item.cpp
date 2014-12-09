@@ -1092,7 +1092,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing partially protects you from radiation.")));
-        } else if (is_armor() && type->is_power_armor()) {
+        } else if( is_armor() && is_power_armor() ) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear is a part of power armor.")));
