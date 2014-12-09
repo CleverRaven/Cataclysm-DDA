@@ -249,7 +249,7 @@ int iuse::royal_jelly(player *p, item *it, bool, point)
     }
     if (p->has_effect("poison") || p->has_effect("foodpoison") ||
         p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
-        p->has_effect("tetanus") || p->has_effect("stung")) {
+        p->has_effect("tetanus") || p->has_effect("infected") || p->has_effect("stung")) {
         message = _("You feel much better!");
         p->remove_effect("poison");
         p->remove_effect("stung");
@@ -257,6 +257,7 @@ int iuse::royal_jelly(player *p, item *it, bool, point)
         p->remove_effect("foodpoison");
         p->remove_effect("paralyzepoison");
         p->remove_effect("tetanus");
+        p->remove_effect("infected");
     }
     if (p->has_effect("asthma")) {
         message = _("Your breathing clears up!");
