@@ -4387,6 +4387,7 @@
         "symbol": ",",
         "color": "brown",
         "name": "lump of clay",
+        "name_plural": "lumps of clay",
         "category": "spare_parts",
         "description": "A fresh piece of clay. Useful for some crafting recipes.",
         "price": 531,

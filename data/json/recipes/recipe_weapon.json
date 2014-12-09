@@ -1496,6 +1496,7 @@
     [
       [ "canister_empty", 1 ],
       [ "can_drink", 1 ],
+      [ "clay_canister", 1],
       [ "can_food", 1 ]
     ],
     [
@@ -1582,6 +1583,7 @@
     [
       [ "canister_empty", 1 ],
       [ "can_food", 1 ],
+      [ "clay_canister", 1],
       [ "can_drink", 1 ]
     ],
     [
@@ -1760,6 +1762,7 @@
       [ "scrap", 3 ],
       [ "can_food", 1 ],
       [ "can_drink", 1 ],
+      [ "clay_canister", 1],
       [ "canister_empty", 1 ]
     ],
     [

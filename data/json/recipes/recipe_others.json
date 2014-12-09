@@ -124,7 +124,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["chitin_piece", 1] ] ]
 },{
   "type" : "recipe",
@@ -5996,15 +5996,15 @@
     [
       [ "string_6", 2 ]
     ],
+    [
       [ "tallow", 1 ],
       [ "cooking_oil", 1 ],
       [ "wax", 1 ],
       [ "lamp_oil", 400 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "bowl_clay",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -6029,11 +6029,23 @@
     ],
     [
       [ "clay_lump", 4 ]
+    ],
+    [
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "wax", 1 ],
+      [ "lamp_oil", 200 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "clay_pot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -6060,9 +6072,8 @@
       [ "clay_lump", 5 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "clay_watercont",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -6102,9 +6113,8 @@
       [ "lamp_oil", 400 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "clay_canister",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -6137,6 +6147,7 @@
     [
       [ "string_6", 1 ]
     ],
+    [
       [ "tallow", 1 ],
       [ "cooking_oil", 1 ],
       [ "wax", 1 ],
@@ -6199,9 +6210,8 @@
       [ "clay_lump", 3 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "brick",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",

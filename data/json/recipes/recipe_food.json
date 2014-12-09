@@ -6250,7 +6250,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2] ] ]
 },{
   "type" : "recipe",
@@ -6263,7 +6263,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1] ] ],
+                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["corn", 2] ] ]
 },{
   "type" : "recipe",
@@ -6275,7 +6275,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["bone", 1] ] ]
 },{
   "type" : "recipe",
