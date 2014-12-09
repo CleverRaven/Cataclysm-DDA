@@ -1927,10 +1927,10 @@
     [
       [ "wire", 6 ],
 	  [ "basket", 1]
+    ],
+    [
+      [ "scrap", 8]
     ]
-	[
-    [ "scrap", 8]
-	]
   ]
 },{
   "type" : "recipe",
