@@ -7919,39 +7919,6 @@ int iuse::hotplate(player *p, item *it, bool, point)
     return 0;
 }
 
-int iuse::flask_yeast(player *p, item *it, bool, point)
-{
-    int cult_time = it->brewing_time();
-    if (calendar::turn.get_turn() > (it->bday + cult_time)) {
-        p->add_msg_if_player(_("You open the flask and harvest the culture."));
-        itype_id yeast_id = (it->type->id).substr(6);
-        it->make("flask_glass");
-        it->contents.push_back(item(yeast_id, 0));
-        it->contents[0].charges = 10;
-        return it->type->charges_to_use();
-    } else {
-        p->add_msg_if_player(m_info, _("The yeast isn't done culturing yet."));
-        return 0;
-    }
-}
-
-int iuse::tanning_hide(player *p, item *it, bool, point)
-{
-    if (calendar::turn.get_turn() > (it->bday + 28800)) {
-        p->add_msg_if_player(m_info, _("You carefully unfold the %s and shake it clean."), it->tname().c_str());
-        p->moves -= 150;
-        if (it->type->id == "tanning_hide") {
-        it->make("tanned_hide");
-        } else {
-        it->make("tanned_pelt");
-        }
-        return 0;
-    } else {
-        p->add_msg_if_player(m_info, _("The %s isn't done yet."), it->tname().c_str());
-        return 0;
-    }
-}
-
 int iuse::quiver(player *p, item *it, bool, point)
 {
     int choice = -1;

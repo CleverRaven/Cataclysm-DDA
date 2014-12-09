@@ -571,6 +571,11 @@ The contents of use_action fields can either be a string indicating a built-in f
     "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
     "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
 }
+"use_action" : {
+    "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
+    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
+    "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
+}
 ```
 ###Random descriptions
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:

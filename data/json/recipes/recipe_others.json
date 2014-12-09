@@ -4386,7 +4386,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "kiln_full",
+  "result": "kiln_lit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
@@ -4394,6 +4394,14 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "tools": [
+    [
+      [ "lighter", 1 ],
+      [ "ref_lighter", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
   "components": [
     [
       [ "splinter", 20 ],
