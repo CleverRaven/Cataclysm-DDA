@@ -576,6 +576,7 @@ int iuse::bandage(player *p, item *it, bool, point)
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
+        p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
         return it->type->charges_to_use();
     }
     return 0;
