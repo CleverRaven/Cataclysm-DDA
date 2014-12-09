@@ -11182,6 +11182,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
+        if( inventory_position < -1 ) {
+            // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
+            add_msg( _( "You can not modify your %s while it's worn." ), used->tname().c_str() );
+            return;
+        }
         // Create menu.
         int choice = -1;
 
@@ -12097,11 +12102,6 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
 
     for (size_t i = 0; i < worn.size(); ++i) {
-        if( !worn[i].is_armor() ) {
-            debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
-                     i, worn[i].tname().c_str());
-        }
-
         if( worn[i].covers(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
                 level = UNDERWEAR;
