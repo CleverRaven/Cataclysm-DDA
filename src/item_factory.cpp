@@ -1267,44 +1267,36 @@ void Item_factory::set_use_methods_from_json(JsonObject &jo, std::string member,
     }
 }
 
+template<typename IuseActorType>
+use_function load_actor( JsonObject obj )
+{
+    std::unique_ptr<IuseActorType> actor( new IuseActorType() );
+    actor->load( obj );
+    return use_function( actor.release() );
+}
+
 use_function Item_factory::use_from_object(JsonObject obj)
 {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        std::unique_ptr<iuse_transform> actor(new iuse_transform);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<iuse_transform>( obj );
     } else if (type == "auto_transform") {
-        std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<auto_iuse_transform>( obj );
     } else if (type == "delayed_transform") {
-        std::unique_ptr<delayed_transform_iuse> actor(new delayed_transform_iuse);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {
-        std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<explosion_iuse>( obj );
     } else if (type == "unfold_vehicle") {
-        std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<unfold_vehicle_iuse>( obj );
     } else if (type == "consume_drug") {
-        std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
-        actor->load( obj );
-        return use_function(actor.release());
+        return load_actor<consume_drug_iuse>( obj );
     } else if( type == "place_monster" ) {
-        std::unique_ptr<place_monster_iuse> actor( new place_monster_iuse() );
-        actor->load( obj );
-        return use_function( actor.release() );
+        return load_actor<place_monster_iuse>( obj );
     } else if( type == "ups_based_armor" ) {
-        std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
-        actor->load( obj );
-        return use_function( actor.release() );
+        return load_actor<ups_based_armor_actor>( obj );
     } else {
-        debugmsg("unknown use_action type %s", type.c_str());
-        return use_function();
+        obj.throw_error( "unknown use_action", "type" );
+        return use_function(); // line above throws, but the compiler does not know \-:
     }
 }
 
