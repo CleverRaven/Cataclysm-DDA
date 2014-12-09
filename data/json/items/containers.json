@@ -161,10 +161,16 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 6,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "WAIST"]
     },
     {
         "id": "2lcanteen",
@@ -182,10 +188,16 @@
         "to_hit": -1,
         "material": "plastic",
         "contains": 10,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "flags": ["RIGID", "SEALS", "WATERTIGHT", "WAIST"]
     },
     {
         "id": "jerrycan",
@@ -257,10 +269,16 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 6,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "flags": ["SEALS", "WATERTIGHT", "WAIST"]
     },
     {
         "id": "waterskin2",
@@ -278,10 +296,16 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 12,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "flags": ["SEALS", "WATERTIGHT", "WAIST"]
     },
     {
         "id": "waterskin3",
@@ -299,10 +323,16 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 20,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "flags": ["SEALS", "WATERTIGHT", "BELTED"]
     },
     {
         "id": "jerrycan_big",
