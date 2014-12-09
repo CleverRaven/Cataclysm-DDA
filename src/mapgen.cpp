@@ -4298,6 +4298,7 @@ ff.......|....|WWWWWWWW|\n\
                         place_items("bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0);
                     }
                     place_items("bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items("mil_books", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
                     break;
                 case 2: // Armory
                     line_furn(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
