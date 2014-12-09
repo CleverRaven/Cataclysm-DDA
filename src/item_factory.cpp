@@ -1272,133 +1272,35 @@ use_function Item_factory::use_from_object(JsonObject obj)
     const std::string type = obj.get_string("type");
     if (type == "transform") {
         std::unique_ptr<iuse_transform> actor(new iuse_transform);
-        // Mandatory:
-        actor->target_id = obj.get_string("target");
-        // Optional (default is good enough):
-        obj.read("msg", actor->msg_transform);
-        actor->msg_transform = _(actor->msg_transform.c_str());
-        obj.read("target_charges", actor->target_charges);
-        obj.read("container", actor->container_id);
-        obj.read("active", actor->active);
-        obj.read("need_fire", actor->need_fire);
-        obj.read("need_fire_msg", actor->need_fire_msg);
-        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
-        obj.read("need_charges", actor->need_charges);
-        obj.read("need_charges_msg", actor->need_charges_msg);
-        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
-        obj.read("moves", actor->moves);
-        // from hereon memory is handled by the use_function class
+        actor->load( obj );
         return use_function(actor.release());
     } else if (type == "auto_transform") {
         std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
-        // Mandatory:
-        actor->target_id = obj.get_string("target");
-        // Optional (default is good enough):
-        obj.read("msg", actor->msg_transform);
-        actor->msg_transform = _(actor->msg_transform.c_str());
-        obj.read("target_charges", actor->target_charges);
-        obj.read("container", actor->container_id);
-        obj.read("active", actor->active);
-        obj.read("need_fire", actor->need_fire);
-        obj.read("need_fire_msg", actor->need_fire_msg);
-        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
-        obj.read("need_charges", actor->need_charges);
-        obj.read("need_charges_msg", actor->need_charges_msg);
-        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
-        obj.read("when_underwater", actor->when_underwater);
-        obj.read("non_interactive_msg", actor->non_interactive_msg);
-        if (!actor->non_interactive_msg.empty()) {
-            actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
-        }
-        obj.read("moves", actor->moves);
-        // from hereon memory is handled by the use_function class
+        actor->load( obj );
         return use_function(actor.release());
     } else if (type == "delayed_transform") {
         std::unique_ptr<delayed_transform_iuse> actor(new delayed_transform_iuse);
-        // Mandatory:
-        actor->target_id = obj.get_string("target");
-        actor->not_ready_msg = _(obj.get_string("not_ready_msg").c_str());
-        actor->transform_age = obj.get_int("transform_age");
-        // Optional (default is good enough):
-        obj.read("msg", actor->msg_transform);
-        actor->msg_transform = _(actor->msg_transform.c_str());
-        obj.read("target_charges", actor->target_charges);
-        obj.read("container", actor->container_id);
-        obj.read("active", actor->active);
-        obj.read("need_fire", actor->need_fire);
-        obj.read("need_fire_msg", actor->need_fire_msg);
-        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
-        obj.read("need_charges", actor->need_charges);
-        obj.read("need_charges_msg", actor->need_charges_msg);
-        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
-        obj.read("moves", actor->moves);
+        actor->load( obj );
         return use_function(actor.release());
     } else if (type == "explosion") {
         std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
-        obj.read("explosion_power", actor->explosion_power);
-        obj.read("explosion_shrapnel", actor->explosion_shrapnel);
-        obj.read("explosion_fire", actor->explosion_fire);
-        obj.read("explosion_blast", actor->explosion_blast);
-        obj.read("draw_explosion_radius", actor->draw_explosion_radius);
-        if (obj.has_member("draw_explosion_color")) {
-            actor->draw_explosion_color = color_from_string(obj.get_string("draw_explosion_color"));
-        }
-        obj.read("do_flashbang", actor->do_flashbang);
-        obj.read("flashbang_player_immune", actor->flashbang_player_immune);
-        obj.read("fields_radius", actor->fields_radius);
-        if( obj.has_member( "fields_type" ) || actor->fields_radius > 0 ) {
-            actor->fields_type = field_from_ident( obj.get_string( "fields_type" ) );
-        }
-        obj.read("fields_min_density", actor->fields_min_density);
-        obj.read("fields_max_density", actor->fields_max_density);
-        obj.read("emp_blast_radius", actor->emp_blast_radius);
-        obj.read("scrambler_blast_radius", actor->scrambler_blast_radius);
-        obj.read("sound_volume", actor->sound_volume);
-        obj.read("sound_msg", actor->sound_msg);
-        obj.read("no_deactivate_msg", actor->no_deactivate_msg);
+        actor->load( obj );
         return use_function(actor.release());
     } else if (type == "unfold_vehicle") {
         std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
-        obj.read("vehicle_name", actor->vehicle_name);
-        obj.read("unfold_msg", actor->unfold_msg);
-        actor->unfold_msg = _(actor->unfold_msg.c_str());
-        obj.read("moves", actor->moves);
-        obj.read("tools_needed", actor->tools_needed);
+        actor->load( obj );
         return use_function(actor.release());
     } else if (type == "consume_drug") {
         std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
-        obj.read("activation_message", actor->activation_message);
-        obj.read("charges_needed", actor->charges_needed);
-        obj.read("tools_needed", actor->tools_needed);
-        
-        if (obj.has_array("effects")) {
-            JsonArray jsarr = obj.get_array("effects");
-            while (jsarr.has_more()) {
-                JsonObject e = jsarr.next_object();
-                effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
-                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false));
-                actor->effects.push_back(new_eff);
-            }
-        }
-        obj.read("stat_adjustments", actor->stat_adjustments);
-        obj.read("fields_produced", actor->fields_produced);
+        actor->load( obj );
         return use_function(actor.release());
     } else if( type == "place_monster" ) {
         std::unique_ptr<place_monster_iuse> actor( new place_monster_iuse() );
-        actor->mtype_id = obj.get_string( "monster_id" );
-        obj.read( "friendly_msg", actor->friendly_msg );
-        obj.read( "hostile_msg", actor->hostile_msg );
-        obj.read( "difficulty", actor->difficulty );
-        obj.read( "moves", actor->moves );
-        obj.read( "place_randomly", actor->place_randomly );
-        obj.read( "skill1", actor->skill1 );
-        obj.read( "skill2", actor->skill2 );
+        actor->load( obj );
         return use_function( actor.release() );
     } else if( type == "ups_based_armor" ) {
         std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
-        obj.read( "activate_msg", actor->activate_msg );
-        obj.read( "deactive_msg", actor->deactive_msg );
-        obj.read( "out_of_power_msg", actor->out_of_power_msg );
+        actor->load( obj );
         return use_function( actor.release() );
     } else {
         debugmsg("unknown use_action type %s", type.c_str());

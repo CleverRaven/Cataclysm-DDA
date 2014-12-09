@@ -6,6 +6,8 @@
 #include "field.h"
 #include "bodypart.h"
 
+class JsonObject;
+
 /**
  * Transform an item into a specific type.
  * Optionally activate it.
@@ -54,6 +56,7 @@ class iuse_transform : public iuse_actor
         {
         }
         virtual ~iuse_transform();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -85,6 +88,7 @@ class auto_iuse_transform : public iuse_transform
         {
         }
         virtual ~auto_iuse_transform();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -146,6 +150,7 @@ class explosion_iuse : public iuse_actor
         {
         }
         virtual ~explosion_iuse();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -169,6 +174,7 @@ class unfold_vehicle_iuse : public iuse_actor
         {
         }
         virtual ~unfold_vehicle_iuse();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -206,6 +212,7 @@ class consume_drug_iuse : public iuse_actor
 
         consume_drug_iuse() : iuse_actor() { }
         virtual ~consume_drug_iuse();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -232,6 +239,7 @@ class delayed_transform_iuse : public iuse_transform
 
         delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
         virtual ~delayed_transform_iuse();
+        virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, point ) const;
         virtual iuse_actor *clone() const;
 };
@@ -261,6 +269,7 @@ class place_monster_iuse : public iuse_actor
 
         place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
         virtual ~place_monster_iuse();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
@@ -282,6 +291,7 @@ class ups_based_armor_actor : public iuse_actor
 
         ups_based_armor_actor() : iuse_actor() { }
         virtual ~ups_based_armor_actor();
+        virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };

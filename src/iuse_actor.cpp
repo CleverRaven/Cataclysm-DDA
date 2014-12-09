@@ -14,6 +14,25 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
+void iuse_transform::load( JsonObject &obj )
+{
+    // Mandatory:
+    target_id = obj.get_string( "target" );
+    // Optional (default is good enough):
+    obj.read( "msg", msg_transform );
+    msg_transform = _( msg_transform.c_str() );
+    obj.read( "target_charges", target_charges );
+    obj.read( "container", container_id );
+    obj.read( "active", active );
+    obj.read( "need_fire", need_fire );
+    obj.read( "need_fire_msg", need_fire_msg );
+    need_fire_msg = _( need_fire_msg.c_str() );
+    obj.read( "need_charges", need_charges );
+    obj.read( "need_charges_msg", need_charges_msg );
+    need_charges_msg = _( need_charges_msg.c_str() );
+    obj.read( "moves", moves );
+}
+
 long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
     if( t ) {
@@ -79,6 +98,16 @@ iuse_actor *auto_iuse_transform::clone() const
     return new auto_iuse_transform(*this);
 }
 
+void auto_iuse_transform::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "when_underwater", when_underwater );
+    obj.read( "non_interactive_msg", non_interactive_msg );
+    if( !non_interactive_msg.empty() ) {
+        non_interactive_msg = _( non_interactive_msg.c_str() );
+    }
+}
+
 long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
@@ -115,6 +144,31 @@ iuse_actor *explosion_iuse::clone() const
 
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
+
+void explosion_iuse::load( JsonObject &obj )
+{
+    obj.read( "explosion_power", explosion_power );
+    obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_fire", explosion_fire );
+    obj.read( "explosion_blast", explosion_blast );
+    obj.read( "draw_explosion_radius", draw_explosion_radius );
+    if( obj.has_member( "draw_explosion_color" ) ) {
+        draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
+    }
+    obj.read( "do_flashbang", do_flashbang );
+    obj.read( "flashbang_player_immune", flashbang_player_immune );
+    obj.read( "fields_radius", fields_radius );
+    if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
+        fields_type = field_from_ident( obj.get_string( "fields_type" ) );
+    }
+    obj.read( "fields_min_density", fields_min_density );
+    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "emp_blast_radius", emp_blast_radius );
+    obj.read( "scrambler_blast_radius", scrambler_blast_radius );
+    obj.read( "sound_volume", sound_volume );
+    obj.read( "sound_msg", sound_msg );
+    obj.read( "no_deactivate_msg", no_deactivate_msg );
+}
 
 long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
@@ -176,6 +230,15 @@ unfold_vehicle_iuse::~unfold_vehicle_iuse()
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
     return new unfold_vehicle_iuse(*this);
+}
+
+void unfold_vehicle_iuse::load( JsonObject &obj )
+{
+    obj.read( "vehicle_name", vehicle_name );
+    obj.read( "unfold_msg", unfold_msg );
+    unfold_msg = _( unfold_msg.c_str() );
+    obj.read( "moves", moves );
+    obj.read( "tools_needed", tools_needed );
 }
 
 long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
@@ -252,6 +315,25 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
+void consume_drug_iuse::load( JsonObject &obj )
+{
+    obj.read( "activation_message", activation_message );
+    obj.read( "charges_needed", charges_needed );
+    obj.read( "tools_needed", tools_needed );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+                                 body_parts[e.get_string( "bp", "NUM_BP" )], e.get_bool( "permanent", false ) );
+            effects.push_back( new_eff );
+        }
+    }
+    obj.read( "stat_adjustments", stat_adjustments );
+    obj.read( "fields_produced", fields_produced );
+}
+
 long consume_drug_iuse::use(player *p, item *it, bool, point) const
 {
     // Check prerequisites first.
@@ -317,6 +399,13 @@ iuse_actor *delayed_transform_iuse::clone() const
     return new delayed_transform_iuse(*this);
 }
 
+void delayed_transform_iuse::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    not_ready_msg = _( obj.get_string( "not_ready_msg" ).c_str() );
+    transform_age = obj.get_int( "transform_age" );
+}
+
 long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
 {
     if( calendar::turn <= it->bday + transform_age ) {
@@ -331,6 +420,18 @@ place_monster_iuse::~place_monster_iuse() {};
 iuse_actor *place_monster_iuse::clone() const
 {
     return new place_monster_iuse(*this);
+}
+
+void place_monster_iuse::load( JsonObject &obj )
+{
+    mtype_id = obj.get_string( "monster_id" );
+    obj.read( "friendly_msg", friendly_msg );
+    obj.read( "hostile_msg", hostile_msg );
+    obj.read( "difficulty", difficulty );
+    obj.read( "moves", moves );
+    obj.read( "place_randomly", place_randomly );
+    obj.read( "skill1", skill1 );
+    obj.read( "skill2", skill2 );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, point ) const
@@ -417,6 +518,13 @@ ups_based_armor_actor::~ups_based_armor_actor() {};
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
+}
+
+void ups_based_armor_actor::load( JsonObject &obj )
+{
+    obj.read( "activate_msg", activate_msg );
+    obj.read( "deactive_msg", deactive_msg );
+    obj.read( "out_of_power_msg", out_of_power_msg );
 }
 
 bool has_power_armor_interface(const player &p)
