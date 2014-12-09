@@ -237,6 +237,9 @@ class delayed_transform_iuse : public iuse_transform
          */
         std::string not_ready_msg;
 
+        /** How much longer (in turns) until the transformation can be done, can be negative. */
+        int time_to_do( const item &it ) const;
+
         delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
         virtual ~delayed_transform_iuse();
         virtual void load( JsonObject &jo );

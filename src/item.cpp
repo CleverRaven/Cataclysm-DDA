@@ -14,6 +14,7 @@
 #include "disease.h"
 #include "artifact.h"
 #include "itype.h"
+#include "iuse_actor.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1196,11 +1197,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             }
         }
 
-        if (typeId() == "flask_yeast") {
-            int cult_time = brewing_time();
-            dump->push_back(iteminfo("DESCRIPTION",
-                string_format(ngettext("It will take %d hour to culture after it's sealed.", "It will take %d hours to culture after it's sealed.", cult_time / 600),
-                              cult_time / 600)));
+        for( auto &u : type->use_methods ) {
+            const auto tt = dynamic_cast<const delayed_transform_iuse*>( u.get_actor_ptr() );
+            if( tt == nullptr ) {
+                continue;
+            }
+            const int time_to_do = tt->time_to_do( *this );
+            if( time_to_do <= 0 ) {
+                dump->push_back( iteminfo( "DESCRIPTION", _( "It's done and can be activated." ) ) );
+            } else {
+                const auto time = calendar( time_to_do ).textify_period();
+                dump->push_back( iteminfo( "DESCRIPTION", string_format( _( "It will be done in %s." ), time.c_str() ) ) );
+            }
         }
 
         if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
@@ -2138,8 +2146,6 @@ int item::get_warmth() const
 int item::brewing_time() const
 {
     float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
-    if (typeId() == "flask_yeast")
-        return 7200 * season_mult;
     unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
     int ret = b_time * season_mult;
     return ret;

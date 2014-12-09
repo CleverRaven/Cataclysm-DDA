@@ -403,9 +403,14 @@ void delayed_transform_iuse::load( JsonObject &obj )
     transform_age = obj.get_int( "transform_age" );
 }
 
+int delayed_transform_iuse::time_to_do( const item &it ) const
+{
+    return it.bday + transform_age - calendar::turn.get_turn();
+}
+
 long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
 {
-    if( calendar::turn <= it->bday + transform_age ) {
+    if( time_to_do( *it ) > 0 ) {
         p->add_msg_if_player( m_info, _( not_ready_msg.c_str() ) );
         return 0;
     }

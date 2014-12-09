@@ -302,6 +302,14 @@ public:
 
     int call(player*,item*,bool,point) const;
 
+    iuse_actor *get_actor_ptr() const
+    {
+        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
+
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
