@@ -620,7 +620,7 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( !crafting_inv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+        if( crafting_inv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
 
