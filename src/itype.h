@@ -72,6 +72,61 @@ struct islot_container {
     }
 };
 
+struct islot_armor {
+    /**
+     * Bitfield of enum body_part
+     * TODO: document me.
+     */
+    std::bitset<num_bp> covers;
+    /**
+     * Bitfield of enum body_part
+     * TODO: document me.
+     */
+    std::bitset<num_bp> sided;
+    /**
+     * How much this item encumbers the player.
+     */
+    signed char encumber;
+    /**
+     * Percentage of the body part area that this item covers.
+     * This determines how likely it is to hit the item instead of the player.
+     */
+    unsigned char coverage;
+    /**
+     * TODO: document me.
+     */
+    unsigned char thickness;
+    /**
+     * Resistance to environmental effects.
+     */
+    unsigned char env_resist;
+    /**
+     * How much warmth this item provides.
+     */
+    signed char warmth;
+    /**
+     * How much storage this items provides when worn.
+     */
+    unsigned char storage;
+    /**
+     * Whether this is a power armor item.
+     */
+    bool power_armor;
+
+    islot_armor()
+    : covers( 0 )
+    , sided( 0 )
+    , encumber( 0 )
+    , coverage( 0 )
+    , thickness( 0 )
+    , env_resist( 0 )
+    , warmth( 0 )
+    , storage( 0 )
+    , power_armor( false )
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -84,6 +139,7 @@ struct itype {
      */
     /*@{*/
     std::unique_ptr<islot_container> container;
+    std::unique_ptr<islot_armor> armor;
     /*@}*/
 
 protected:
@@ -135,6 +191,8 @@ public:
     {
         if( container ) {
             return "CONTAINER";
+        } else if( armor ) {
+            return "ARMOR";
         }
         return "misc";
     }
@@ -163,14 +221,6 @@ public:
         return false;
     }
     virtual bool is_bionic() const
-    {
-        return false;
-    }
-    virtual bool is_armor() const
-    {
-        return false;
-    }
-    virtual bool is_power_armor() const
     {
         return false;
     }
@@ -436,41 +486,6 @@ struct it_gunmod : public virtual itype {
         used_on_crossbow(false), used_on_launcher(false), location() {}
 };
 
-struct it_armor : public virtual itype {
-    std::bitset<num_bp> covers; // Bitfield of enum body_part
-    std::bitset<num_bp> sided;  // Bitfield of enum body_part
-    signed char encumber;
-    unsigned char coverage;
-    unsigned char thickness;
-    unsigned char env_resist; // Resistance to environmental effects
-    signed char warmth;
-    unsigned char storage;
-
-    bool power_armor;
-
-    it_armor() : itype(), covers(0), sided(0), encumber(0), coverage(0), thickness(0), env_resist(0), warmth(0),
-        storage(), power_armor(false)
-    {
-    }
-
-    virtual bool is_armor() const
-    {
-        return true;
-    }
-    virtual bool is_power_armor() const
-    {
-        return power_armor;
-    }
-    virtual bool is_artifact() const
-    {
-        return false;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "ARMOR";
-    }
-};
-
 struct recipe;
 
 struct it_book : public virtual itype {
@@ -530,33 +545,6 @@ struct it_tool : public virtual itype {
     it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
     {
-    }
-};
-
-struct it_tool_armor : public virtual it_tool, public virtual it_armor {
-    virtual bool is_artifact() const
-    {
-        return false;
-    }
-    virtual bool is_armor() const
-    {
-        return true;
-    }
-    virtual bool is_power_armor() const
-    {
-        return it_armor::is_power_armor();
-    }
-    virtual int charges_to_use() const
-    {
-        return it_tool::charges_to_use();
-    }
-    virtual int maximum_charges() const
-    {
-        return it_tool::maximum_charges();
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "ARMOR";
     }
 };
 

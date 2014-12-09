@@ -88,7 +88,7 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         void create_name(const std::string &property_name, const std::string &shape_name);
 };
 
-class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDeserializer
+class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
         std::vector<art_effect_passive> effects_worn;

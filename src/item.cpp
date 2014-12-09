@@ -86,7 +86,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             charges = 0;
         }
     }
-    if( type->is_armor() ) {
+    if( type->armor ) {
         if( handed != NONE ) {
             make_handed( handed );
         } else {
@@ -169,7 +169,7 @@ void item::make( const std::string new_type )
     if( was_armor != is_armor() ) {
         // If changed from armor to non-armor (or reverse), have to recalculate
         // the coverage.
-        const it_armor* armor = dynamic_cast<const it_armor*>( type );
+        const auto armor = find_armor_data();
         if( armor == nullptr ) {
             covered_bodyparts.reset();
         } else {
@@ -179,7 +179,7 @@ void item::make( const std::string new_type )
 }
 
 // If armor is sided , add matching bits to cover bitset
-void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
+void make_sided_if( const islot_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
 {
     if( armor.sided.test( bpl ) ) {
         if( h == RIGHT ) {
@@ -192,7 +192,7 @@ void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedne
 
 void item::make_handed( const handedness handed )
 {
-    const auto armor = dynamic_cast<const it_armor *>( type );
+    const auto armor = find_armor_data();
     if( armor == nullptr ) {
         return;
     }
@@ -2069,7 +2069,7 @@ void item::calc_rot(const point &location)
 
 int item::get_storage() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2079,7 +2079,7 @@ int item::get_storage() const
 
 int item::get_env_resist() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2089,16 +2089,16 @@ int item::get_env_resist() const
 
 bool item::is_power_armor() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return false;
     }
-    return t->is_power_armor();
+    return t->power_armor;
 }
 
 int item::get_encumber() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2108,7 +2108,7 @@ int item::get_encumber() const
 
 int item::get_coverage() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2118,7 +2118,7 @@ int item::get_coverage() const
 
 int item::get_thickness() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2128,7 +2128,7 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2624,9 +2624,27 @@ bool item::is_cutting_weapon() const
     return (type->melee_cut >= 8 && !has_flag("SPEAR"));
 }
 
+const islot_armor *item::find_armor_data() const
+{
+    if( type->armor ) {
+        return type->armor.get();
+    }
+    // Currently the only way to make a non-armor item into armor is to install a gun mod.
+    // The gunmods are stored in the items contents, as are the contents of a container, and the
+    // tools in a tool belt (a container actually), or the ammo in a quiver (container again).
+    if( is_gun() ) {
+        for( auto &mod : contents ) {
+            if( mod.type->armor ) {
+                return mod.type->armor.get();
+            }
+        }
+    }
+    return nullptr;
+}
+
 bool item::is_armor() const
 {
-    return type->is_armor() || has_flag( "IS_ARMOR" );
+    return find_armor_data() != nullptr || has_flag( "IS_ARMOR" );
 }
 
 bool item::is_book() const
