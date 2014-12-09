@@ -20,16 +20,13 @@ void iuse_transform::load( JsonObject &obj )
     target_id = obj.get_string( "target" );
     // Optional (default is good enough):
     obj.read( "msg", msg_transform );
-    msg_transform = _( msg_transform.c_str() );
     obj.read( "target_charges", target_charges );
     obj.read( "container", container_id );
     obj.read( "active", active );
     obj.read( "need_fire", need_fire );
     obj.read( "need_fire_msg", need_fire_msg );
-    need_fire_msg = _( need_fire_msg.c_str() );
     obj.read( "need_charges", need_charges );
     obj.read( "need_charges_msg", need_charges_msg );
-    need_charges_msg = _( need_charges_msg.c_str() );
     obj.read( "moves", moves );
 }
 
@@ -45,19 +42,21 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     }
     if (need_charges > 0 && it->charges < need_charges) {
         if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(m_info, need_charges_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
         if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, need_fire_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     // load this from the original item, not the transformed one.
     const long charges_to_use = it->type->charges_to_use();
-    p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
+    if( !msg_transform.empty() ) {
+        p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
+    }
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
@@ -103,9 +102,6 @@ void auto_iuse_transform::load( JsonObject &obj )
     iuse_transform::load( obj );
     obj.read( "when_underwater", when_underwater );
     obj.read( "non_interactive_msg", non_interactive_msg );
-    if( !non_interactive_msg.empty() ) {
-        non_interactive_msg = _( non_interactive_msg.c_str() );
-    }
 }
 
 long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
@@ -124,7 +120,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(m_info, non_interactive_msg.c_str(), it->tname().c_str());
+        p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
         // Activated by the player, but not allowed to do so
         return 0;
     }
@@ -183,7 +179,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( no_deactivate_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
@@ -236,7 +232,6 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
 {
     obj.read( "vehicle_name", vehicle_name );
     obj.read( "unfold_msg", unfold_msg );
-    unfold_msg = _( unfold_msg.c_str() );
     obj.read( "moves", moves );
     obj.read( "tools_needed", tools_needed );
 }
@@ -267,7 +262,9 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
     veh->tags.insert(std::string("convertible:") + it->type->id);
-    p->add_msg_if_player(unfold_msg.c_str(), it->tname().c_str());
+    if( !unfold_msg.empty() ) {
+        p->add_msg_if_player( _( unfold_msg.c_str() ), it->tname().c_str());
+    }
     p->moves -= moves;
     // Restore HP of parts if we stashed them previously.
     if (it->item_vars.count("folding_bicycle_parts") == 0) {
@@ -402,7 +399,7 @@ iuse_actor *delayed_transform_iuse::clone() const
 void delayed_transform_iuse::load( JsonObject &obj )
 {
     iuse_transform::load( obj );
-    not_ready_msg = _( obj.get_string( "not_ready_msg" ).c_str() );
+    not_ready_msg = obj.get_string( "not_ready_msg" );
     transform_age = obj.get_int( "transform_age" );
 }
 
