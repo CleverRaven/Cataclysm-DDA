@@ -43,17 +43,18 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type_name(1);
-    if (type->is_gun()) {
+    // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
+    if( type->is_gun() ) {
         charges = 0;
-    } else if (type->is_ammo()) {
+    }
+    if( type->is_ammo() ) {
         it_ammo* ammo = dynamic_cast<it_ammo*>(type);
         charges = ammo->count;
-    } else if (type->is_food()) {
+    }
+    if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = true;
-        if (comest->charges == 1 && !made_of(LIQUID)) {
-            charges = -1;
-        } else {
+        if( comest->count_by_charges() ) {
             if (rand && comest->rand_charges.size() > 1) {
                 int charge_roll = rng(1, comest->rand_charges.size() - 1);
                 charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
@@ -61,11 +62,10 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
                 charges = comest->charges;
             }
         }
-    } else if (type->is_tool()) {
+    }
+    if( type->is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
-        if (tool->max_charges == 0) {
-            charges = -1;
-        } else {
+        if( tool->max_charges != 0 ) {
             if (rand && tool->rand_charges.size() > 1) {
                 int charge_roll = rng(1, tool->rand_charges.size() - 1);
                 charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
@@ -76,15 +76,17 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
                 curammo = dynamic_cast<it_ammo*>(find_type(default_ammo(tool->ammo)));
             }
         }
-    } else if (type->is_book()) {
+    }
+    if( type->is_book() ) {
         it_book* book = dynamic_cast<it_book*>(type);
         charges = book->chapters;
-    } else if ((type->is_gunmod() && type->id == "spare_mag") || type->item_tags.count("MODE_AUX")) {
-        charges = 0;
-    } else {
-        charges = -1;
     }
-    if (type->is_armor()) {
+    if( type->is_gunmod() ) {
+        if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
+            charges = 0;
+        }
+    }
+    if( type->is_armor() ) {
         if( handed != NONE ) {
             make_handed( handed );
         } else {
@@ -95,7 +97,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if(type->is_var_veh_part()) {
+    if( type->is_var_veh_part() ) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
         bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
     }
@@ -551,7 +553,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->count, true, "", false, false));
     }
 
-    if (is_gun()) {
+    if( is_gun() ) {
         it_gun* gun = dynamic_cast<it_gun*>(type);
         int ammo_dam = 0;
         int ammo_range = 0;
@@ -680,8 +682,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             temp1 << ".";
             dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
         }
-
-    } else if (is_gunmod()) {
+    }
+    if( is_gunmod() ) {
         it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
         if (mod->dispersion != 0) {
@@ -749,7 +751,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("GUNMOD", temp1.str()));
         dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
-    } else if (is_armor()) {
+    }
+    if( is_armor() ) {
         temp1.str("");
         temp1 << _("Covers: ");
         if (covers(bp_head)) {
@@ -838,7 +841,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                  get_env_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
 
-    } else if (is_book()) {
+    }
+    if( is_book() ) {
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
@@ -904,7 +908,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
         }
 
-    } else if (is_tool()) {
+    }
+    if( is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
