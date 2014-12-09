@@ -13169,7 +13169,7 @@ bool game::plmove(int dx, int dy)
             if (u.worn_with_flag("NOISY_MOVE")){
 	            move_noise += 2;
             }
-            if (u.worn_withflag("QUIET_MOVE")){
+            if (u.worn_with_flag("QUIET_MOVE")){
 	            move_noise -= 2;
             }
             if (u.worn_with_flag("SILENT_MOVE")){
