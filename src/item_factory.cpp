@@ -216,7 +216,6 @@ void Item_factory::init()
     iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
     iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
-    iuse_function_list["PICKLOCK"] = &iuse::picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;
@@ -1288,6 +1287,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return load_actor<explosion_iuse>( obj );
     } else if (type == "unfold_vehicle") {
         return load_actor<unfold_vehicle_iuse>( obj );
+    } else if (type == "picklock") {
+        return load_actor<pick_lock_actor>( obj );
     } else if (type == "consume_drug") {
         return load_actor<consume_drug_iuse>( obj );
     } else if( type == "place_monster" ) {

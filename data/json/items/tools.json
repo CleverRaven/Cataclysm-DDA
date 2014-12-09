@@ -5277,7 +5277,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 5
+    }
   },
 
   {
@@ -5300,7 +5303,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 3
+    }
   },
 
   {
