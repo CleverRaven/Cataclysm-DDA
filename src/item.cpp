@@ -510,27 +510,23 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
 
-    if (is_food()) {
-        it_comest* food = dynamic_cast<it_comest*>(type);
-
+    const item *food_item = nullptr;
+    if( is_food() ) {
+        food_item = this;
+    } else if( is_food_container() ) {
+        food_item = &contents.front();
+    }
+    if( food_item != nullptr ) {
+        const auto food = dynamic_cast<const it_comest*>( food_item->type );
         dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
         dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
-        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
-        if (corpse != NULL && ( debug == true || ( g != NULL &&
+        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
+        if (food_item->corpse != NULL && ( debug == true || ( g != NULL &&
              ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
                g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) ) ) {
-            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->nname()));
+            dump->push_back(iteminfo("FOOD", _("Smells like: ") + food_item->corpse->nname()));
         }
-    } else if (is_food_container()) {
-        // added charge display for debugging
-        it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
-
-        dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
-        dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
-        dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
-        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
-
     }
     const it_ammo* ammo = nullptr;
     if( is_ammo() ) {
