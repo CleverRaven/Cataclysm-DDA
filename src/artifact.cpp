@@ -249,11 +249,22 @@ it_artifact_tool::it_artifact_tool() : it_tool()
     use_methods.push_back( &iuse::artifact );
 };
 
+it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
+{
+    use_methods.push_back( &iuse::artifact );
+    deserialize( jo );
+}
+
 it_artifact_armor::it_artifact_armor() : it_armor()
 {
     id = item_controller->create_artifact_id();
     price = 0;
 };
+
+it_artifact_armor::it_artifact_armor( JsonObject &jo ) : it_armor()
+{
+    deserialize( jo );
+}
 
 void init_artifacts()
 {
