@@ -845,13 +845,13 @@
     "reload": 80,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
-    {
+  {
     "id": "sw629",
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "S&W Model 629",
-    "name_plural": "S&W 629,
+    "name_plural": "S&W 629",
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.",
     "price": 86100,
     "material": ["steel", "plastic"],
