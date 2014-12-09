@@ -684,10 +684,10 @@
     "type" : "item_group",
     "id" : "bed",
     "items":[
-      ["blanket", 60],
-      ["down_blanket", 25],
-      ["pillow", 60],
-      ["down_pillow", 25]
+      ["blanket", 25],
+      ["down_blanket", 13],
+      ["pillow", 30],
+      ["down_pillow", 15]
     ]
   },{
     "type" : "item_group",
