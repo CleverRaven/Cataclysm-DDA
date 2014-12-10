@@ -7878,7 +7878,7 @@
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+    [
       [ "needle_bone", 140 ],
       [ "needle_wood", 140 ],
       [ "sewing_kit", 140 ]
