@@ -2253,5 +2253,17 @@
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "tin_plate",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "tin", 100 ] ] ]
 }
 ]
