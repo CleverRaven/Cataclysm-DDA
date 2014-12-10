@@ -647,7 +647,9 @@ int monster::bash_estimate()
 int monster::bash_skill()
 {
     int ret = type->melee_dice * type->melee_sides;
-    if (has_flag(MF_DESTROYS)) {
+    if (has_flag(MF_BORES)) {
+        ret *= 50; // This is for stuff that goes through sollid rock: minerbots, dark wyrms
+    } else if (has_flag(MF_DESTROYS)) {
         ret *= 2.5;
     }
     return ret;

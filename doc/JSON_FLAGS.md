@@ -189,6 +189,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```DESTROYS``` Bashes down walls and more.
+- ```BORES``` Tunnels through just about anything (about 50x bash multiplier)
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
 - ```BADVENOM``` Attack may **severely** poison the player.
