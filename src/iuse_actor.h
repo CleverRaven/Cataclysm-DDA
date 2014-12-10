@@ -299,4 +299,22 @@ class ups_based_armor_actor : public iuse_actor
         virtual iuse_actor *clone() const;
 };
 
+/**
+ * This implements lock picking.
+ */
+class pick_lock_actor : public iuse_actor
+{
+    public:
+        /**
+         * How good the used tool is at picking a lock.
+         */
+        int pick_quality;
+
+        pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
+        virtual ~pick_lock_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
 #endif

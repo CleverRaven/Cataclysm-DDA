@@ -577,3 +577,97 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
     }
     return 0;
 }
+
+
+pick_lock_actor::~pick_lock_actor() {};
+
+iuse_actor *pick_lock_actor::clone() const
+{
+    return new pick_lock_actor(*this);
+}
+
+void pick_lock_actor::load( JsonObject &obj )
+{
+    pick_quality = obj.get_int( "pick_quality" );
+}
+
+long pick_lock_actor::use( player *p, item *it, bool, point ) const
+{
+    if( p == nullptr || p->is_npc() ) {
+        return 0;
+    }
+    int dirx, diry;
+    if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
+        return 0;
+    }
+    if( dirx == p->posx && diry == p->posy ) {
+        p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        return 0;
+    }
+    const ter_id type = g->m.ter( dirx, diry );
+    const int npcdex = g->npc_at( dirx, diry );
+    if( npcdex != -1 ) {
+        p->add_msg_if_player( m_info,
+                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        return 0;
+    }
+
+    ter_id new_type;
+    std::string open_message;
+    if( type == t_chaingate_l ) {
+        new_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( type == t_door_locked || type == t_door_locked_alarm ||
+               type == t_door_locked_interior ) {
+        new_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_locked_peep ) {
+        new_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_metal_pickable ) {
+        new_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_bar_locked ) {
+        new_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open..." );
+    } else if( type == t_door_c ) {
+        add_msg( m_info, _( "That door isn't locked." ) );
+        return 0;
+    } else {
+        add_msg( m_info, _( "That cannot be picked." ) );
+        return 0;
+    }
+
+    p->practice( "mechanics", 1 );
+    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( "mechanics" ) ) * 5 );
+    int pick_roll = ( dice( 2, p->skillLevel( "mechanics" ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int door_roll = dice( 4, 30 );
+    if( pick_roll >= door_roll ) {
+        p->practice( "mechanics", 1 );
+        p->add_msg_if_player( m_good, "%s", open_message.c_str() );
+        g->m.ter_set( dirx, diry, new_type );
+    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
+        it->damage++;
+        if( it->damage >= 5 ) {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
+        it->damage < 100 ) {
+        g->sound( p->posx, p->posy, 40, _( "An alarm sounds!" ) );
+        if( !g->event_queued( EVENT_WANTED ) ) {
+            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
+        }
+    }
+    // Special handling, normally the item isn't used up, but it is if broken.
+    if( it->damage >= 5 ) {
+        return 1;
+    }
+
+    return it->type->charges_to_use();
+}

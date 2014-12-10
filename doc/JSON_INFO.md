@@ -600,6 +600,10 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
+},
+"use_action": {
+    "type": "picklock", // picking a lock on a door
+    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 }
 ```
 ###Random descriptions

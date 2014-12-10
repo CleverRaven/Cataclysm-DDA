@@ -5277,7 +5277,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 5
+    }
   },
 
   {
@@ -5300,8 +5303,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 3
+    }
   },
+
+    {
+        "id": "pseuso_bio_picklock",
+        "type": "GENERIC",
+        "symbol": ";",
+        "color": "light_gray",
+        "name": "bio lockpick",
+        "description": "this a pseudo item",
+        "price": 0,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "use_action": {
+            "type": "picklock",
+            "pick_quality": 40
+        }
+    },
 
   {
     "id": "safe_box",

@@ -1292,7 +1292,10 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "revert_to": "null",
-        "use_action": "PICKLOCK",
+        "use_action": {
+            "type": "picklock",
+            "pick_quality": 3
+        },
         "storage" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
