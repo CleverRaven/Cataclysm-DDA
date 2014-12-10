@@ -44,17 +44,18 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type_name(1);
-    if (type->is_gun()) {
+    // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
+    if( type->is_gun() ) {
         charges = 0;
-    } else if (type->is_ammo()) {
+    }
+    if( type->is_ammo() ) {
         it_ammo* ammo = dynamic_cast<it_ammo*>(type);
         charges = ammo->count;
-    } else if (type->is_food()) {
+    }
+    if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = true;
-        if (comest->charges == 1 && !made_of(LIQUID)) {
-            charges = -1;
-        } else {
+        if( comest->count_by_charges() ) {
             if (rand && comest->rand_charges.size() > 1) {
                 int charge_roll = rng(1, comest->rand_charges.size() - 1);
                 charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
@@ -62,11 +63,10 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
                 charges = comest->charges;
             }
         }
-    } else if (type->is_tool()) {
+    }
+    if( type->is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
-        if (tool->max_charges == 0) {
-            charges = -1;
-        } else {
+        if( tool->max_charges != 0 ) {
             if (rand && tool->rand_charges.size() > 1) {
                 int charge_roll = rng(1, tool->rand_charges.size() - 1);
                 charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
@@ -77,15 +77,17 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
                 curammo = dynamic_cast<it_ammo*>(find_type(default_ammo(tool->ammo)));
             }
         }
-    } else if (type->is_book()) {
+    }
+    if( type->is_book() ) {
         it_book* book = dynamic_cast<it_book*>(type);
         charges = book->chapters;
-    } else if ((type->is_gunmod() && type->id == "spare_mag") || type->item_tags.count("MODE_AUX")) {
-        charges = 0;
-    } else {
-        charges = -1;
     }
-    if (type->is_armor()) {
+    if( type->is_gunmod() ) {
+        if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
+            charges = 0;
+        }
+    }
+    if( type->armor ) {
         if( handed != NONE ) {
             make_handed( handed );
         } else {
@@ -96,7 +98,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if(type->is_var_veh_part()) {
+    if( type->is_var_veh_part() ) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
         bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
     }
@@ -168,7 +170,7 @@ void item::make( const std::string new_type )
     if( was_armor != is_armor() ) {
         // If changed from armor to non-armor (or reverse), have to recalculate
         // the coverage.
-        const it_armor* armor = dynamic_cast<const it_armor*>( type );
+        const auto armor = find_armor_data();
         if( armor == nullptr ) {
             covered_bodyparts.reset();
         } else {
@@ -178,7 +180,7 @@ void item::make( const std::string new_type )
 }
 
 // If armor is sided , add matching bits to cover bitset
-void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
+void make_sided_if( const islot_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
 {
     if( armor.sided.test( bpl ) ) {
         if( h == RIGHT ) {
@@ -191,7 +193,7 @@ void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedne
 
 void item::make_handed( const handedness handed )
 {
-    const auto armor = dynamic_cast<const it_armor *>( type );
+    const auto armor = find_armor_data();
     if( armor == nullptr ) {
         return;
     }
@@ -256,24 +258,24 @@ item item::in_its_container()
         ret.invlet = invlet;
         return ret;
     }
-    if (is_food() && (dynamic_cast<it_comest*>(type))->container != "null") {
+    if (is_food() && (dynamic_cast<it_comest*>(type))->default_container != "null") {
         it_comest *food = dynamic_cast<it_comest*>(type);
-        item ret(food->container, bday);
+        item ret(food->default_container, bday);
 
         if (made_of(LIQUID)) {
-            it_container* container = dynamic_cast<it_container*>(ret.type);
-            charges = container->contains * food->charges;
+            LIQUID_FILL_ERROR lferr;
+            charges = ret.get_remaining_capacity_for_liquid( *this, lferr );
         }
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
-    } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->container != "null") {
+    } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->default_container != "null") {
         it_ammo *ammo = dynamic_cast<it_ammo*>(type);
-        item ret(ammo->container, bday);
+        item ret(ammo->default_container, bday);
 
         if (made_of(LIQUID)) {
-            it_container* container = dynamic_cast<it_container*>(ret.type);
-            charges = container->contains * ammo->count;
+            LIQUID_FILL_ERROR lferr;
+            charges = ret.get_remaining_capacity_for_liquid( *this, lferr );
         }
         ret.contents.push_back(*this);
         ret.invlet = invlet;
@@ -509,27 +511,23 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
 
-    if (is_food()) {
-        it_comest* food = dynamic_cast<it_comest*>(type);
-
+    const item *food_item = nullptr;
+    if( is_food() ) {
+        food_item = this;
+    } else if( is_food_container() ) {
+        food_item = &contents.front();
+    }
+    if( food_item != nullptr ) {
+        const auto food = dynamic_cast<const it_comest*>( food_item->type );
         dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
         dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
-        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
-        if (corpse != NULL && ( debug == true || ( g != NULL &&
+        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
+        if (food_item->corpse != NULL && ( debug == true || ( g != NULL &&
              ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
                g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) ) ) {
-            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->nname()));
+            dump->push_back(iteminfo("FOOD", _("Smells like: ") + food_item->corpse->nname()));
         }
-    } else if (is_food_container()) {
-        // added charge display for debugging
-        it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
-
-        dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
-        dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
-        dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
-        dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
-
     }
     const it_ammo* ammo = nullptr;
     if( is_ammo() ) {
@@ -552,7 +550,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->count, true, "", false, false));
     }
 
-    if (is_gun()) {
+    if( is_gun() ) {
         it_gun* gun = dynamic_cast<it_gun*>(type);
         int ammo_dam = 0;
         int ammo_range = 0;
@@ -681,8 +679,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             temp1 << ".";
             dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
         }
-
-    } else if (is_gunmod()) {
+    }
+    if( is_gunmod() ) {
         it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
         if (mod->dispersion != 0) {
@@ -750,7 +748,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("GUNMOD", temp1.str()));
         dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
-    } else if (is_armor()) {
+    }
+    if( is_armor() ) {
         temp1.str("");
         temp1 << _("Covers: ");
         if (covers(bp_head)) {
@@ -839,7 +838,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                  get_env_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
 
-    } else if (is_book()) {
+    }
+    if( is_book() ) {
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
@@ -905,7 +905,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
         }
 
-    } else if (is_tool()) {
+    }
+    if( is_container() ) {
+        const auto &c = *type->container;
+        if( c.rigid ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This item is rigid." ) ) );
+        }
+        if( c.seals ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container can be resealed." ) ) );
+        }
+        if( c.watertight ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container is watertight." ) ) );
+        }
+        if( c.preserves ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container preserves its contents from spoiling." ) ) );
+        }
+        dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+    }
+    if( is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
@@ -1093,7 +1110,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing partially protects you from radiation.")));
-        } else if (is_armor() && type->is_power_armor()) {
+        } else if( is_armor() && is_power_armor() ) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear is a part of power armor.")));
@@ -1831,8 +1848,7 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret *= 1000;
     }
 
-    static const std::string RIGID_FLAG("RIGID");
-    if (is_container() && !has_flag(RIGID_FLAG)) {
+    if( type->container && !type->container->rigid ) {
         // non-rigid container add the volume of the content
         int tmpvol = 0;
         for( auto &elem : contents ) {
@@ -2076,7 +2092,7 @@ void item::calc_rot(const point &location)
 
 int item::get_storage() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2086,7 +2102,7 @@ int item::get_storage() const
 
 int item::get_env_resist() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2096,16 +2112,16 @@ int item::get_env_resist() const
 
 bool item::is_power_armor() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return false;
     }
-    return t->is_power_armor();
+    return t->power_armor;
 }
 
 int item::get_encumber() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2115,7 +2131,7 @@ int item::get_encumber() const
 
 int item::get_coverage() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2125,7 +2141,7 @@ int item::get_coverage() const
 
 int item::get_thickness() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2135,7 +2151,7 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    const auto t = dynamic_cast<const it_armor*>( type );
+    const auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
@@ -2629,9 +2645,27 @@ bool item::is_cutting_weapon() const
     return (type->melee_cut >= 8 && !has_flag("SPEAR"));
 }
 
+const islot_armor *item::find_armor_data() const
+{
+    if( type->armor ) {
+        return type->armor.get();
+    }
+    // Currently the only way to make a non-armor item into armor is to install a gun mod.
+    // The gunmods are stored in the items contents, as are the contents of a container, and the
+    // tools in a tool belt (a container actually), or the ammo in a quiver (container again).
+    if( is_gun() ) {
+        for( auto &mod : contents ) {
+            if( mod.type->armor ) {
+                return mod.type->armor.get();
+            }
+        }
+    }
+    return nullptr;
+}
+
 bool item::is_armor() const
 {
-    return type->is_armor() || has_flag( "IS_ARMOR" );
+    return find_armor_data() != nullptr || has_flag( "IS_ARMOR" );
 }
 
 bool item::is_book() const
@@ -2644,15 +2678,12 @@ bool item::is_book() const
 
 bool item::is_container() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_container();
+    return type->container.get() != nullptr;
 }
 
 bool item::is_watertight_container() const
 {
-    return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
+    return type->container && type->container->watertight && type->container->seals;
 }
 
 bool item::is_container_empty() const
@@ -2689,9 +2720,8 @@ bool item::is_funnel_container(int &bigger_than) const
     if ( ! is_watertight_container() ) {
         return false;
     }
-    it_container *ct = dynamic_cast<it_container *>(type);
     // todo; consider linking funnel to item or -making- it an active item
-    if ( ct->contains <= bigger_than ) {
+    if ( type->container->contains <= bigger_than ) {
         return false; // skip contents check, performance
     }
     if (
@@ -2699,7 +2729,7 @@ bool item::is_funnel_container(int &bigger_than) const
         contents[0].typeId() == "water" ||
         contents[0].typeId() == "water_acid" ||
         contents[0].typeId() == "water_acid_weak") {
-        bigger_than = ct->contains;
+        bigger_than = type->container->contains;
         return true;
     }
     return false;
@@ -3664,10 +3694,10 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     }
 
     if (contents.empty()) {
-        if (!has_flag("WATERTIGHT")) { // invalid container types
+        if( !type->container->watertight ) {
             error = L_ERR_NOT_WATERTIGHT;
             return 0;
-        } else if (!has_flag("SEALS")) {
+        } else if( !type->container->seals ) {
             error = L_ERR_NOT_SEALED;
             return 0;
         }
@@ -3678,15 +3708,14 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
         }
     }
 
-    it_container *container = dynamic_cast<it_container *>(type);
-    int total_capacity = container->contains;
+    int total_capacity = type->container->contains;
 
     if (liquid.is_food()) {
         it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-        total_capacity = container->contains * tmp_comest->charges;
+        total_capacity = type->container->contains * tmp_comest->charges;
     } else if (liquid.is_ammo()) {
         it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-        total_capacity = container->contains * tmp_ammo->count;
+        total_capacity = type->container->contains * tmp_ammo->count;
     }
 
     int remaining_capacity = total_capacity;
@@ -3705,15 +3734,14 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
 // Remaining capacity for currently stored liquid in container - do not call for empty container
 int item::get_remaining_capacity() const
 {
-    it_container *container = dynamic_cast<it_container *>(type);
-    int total_capacity = container->contains;
+    int total_capacity = type->container->contains;
 
     if (contents[0].is_food()) {
         it_comest *tmp_comest = dynamic_cast<it_comest *>(contents[0].type);
-        total_capacity = container->contains * tmp_comest->charges;
+        total_capacity = type->container->contains * tmp_comest->charges;
     } else if (contents[0].is_ammo()) {
         it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(contents[0].type);
-        total_capacity = container->contains * tmp_ammo->count;
+        total_capacity = type->container->contains * tmp_ammo->count;
     }
 
     int remaining_capacity = total_capacity;
@@ -4468,7 +4496,7 @@ bool item::process_charger_gun( player *carrier, point pos )
 
 bool item::process( player *carrier, point pos, bool activate )
 {
-    const bool preserves = has_flag( "PRESERVES" );
+    const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( preserves ) {
             // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot

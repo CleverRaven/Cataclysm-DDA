@@ -559,7 +559,7 @@ classes = {
                 type = "int",
                 writable = true
             },
-            container = {
+            default_container = {
                 type = "string",
                 writable = true
             },
@@ -690,40 +690,6 @@ classes = {
         },
         functions = {
         }
-    },
-    it_armor = {
-        parent = "itype",
-        attributes = {
-            encumberance = {
-                type = "int",
-                cpp_name = "encumber",
-                writable = true
-            },
-            coverage = {
-                type = "int",
-                writable = true
-            },
-            material_thickness = {
-                type = "int",
-                cpp_name = "thickness",
-                writable = true
-            },
-            envirnomental_protection = {
-                type = "int",
-                cpp_name = "env_resist",
-                writable = true
-            },
-            warmth = {
-                type = "int",
-                writable = true
-            },
-            storage = {
-                type = "int",
-                writable = true
-            }
-        },
-        functions = {
-        }
     }
 }
 
@@ -816,11 +782,6 @@ global_functions = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
-    },
-    get_armor_type = {
-        cpp_name = "get_armor_type",
-        args = { "string" },
-        rval = "it_armor"
     },
     create_monster = {
         cpp_name = "create_monster",

@@ -452,10 +452,10 @@ void Item_factory::check_definitions() const
         }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
-            if (comest->container != "null" && !has_template(comest->container)) {
-                msg << string_format("invalid container property %s", comest->container.c_str()) << "\n";
+            if (comest->default_container != "null" && !has_template(comest->default_container)) {
+                msg << string_format("invalid container property %s", comest->default_container.c_str()) << "\n";
             }
-            if (comest->container != "null" && !has_template(comest->tool)) {
+            if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
@@ -464,6 +464,9 @@ void Item_factory::check_definitions() const
             check_ammo_type(msg, ammo->type);
             if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
                 msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+            }
+            if (ammo->default_container != "null" && !has_template(ammo->default_container)) {
+                msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
             }
         }
         const it_gun *gun = dynamic_cast<const it_gun *>(type);
@@ -564,6 +567,23 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 // DATA FILE READING //
 ///////////////////////
 
+template<typename SlotType>
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
+{
+    slotptr.reset( new SlotType() );
+    load( *slotptr, jo );
+}
+
+template<typename SlotType>
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member )
+{
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    JsonObject slotjo = jo.get_object( member );
+    load_slot( slotptr, slotjo );
+}
+
 void Item_factory::load_ammo(JsonObject &jo)
 {
     it_ammo *ammo_template = new it_ammo();
@@ -577,7 +597,7 @@ void Item_factory::load_ammo(JsonObject &jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
-    ammo_template->container = jo.get_string("container", "null");
+    ammo_template->default_container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -617,30 +637,30 @@ void Item_factory::load_gun(JsonObject &jo)
 
 void Item_factory::load_armor(JsonObject &jo)
 {
-    it_armor *armor_template = new it_armor();
+    itype* new_item_template = new itype();
+    load_slot( new_item_template->armor, jo );
+    load_basic_info( jo, new_item_template );
+}
 
-    armor_template->encumber = jo.get_int("encumbrance");
-    armor_template->coverage = jo.get_int("coverage");
-    armor_template->thickness = jo.get_int("material_thickness");
+void Item_factory::load( islot_armor &slot, JsonObject &jo )
+{
+    slot.encumber = jo.get_int( "encumbrance" );
+    slot.coverage = jo.get_int( "coverage" );
+    slot.thickness = jo.get_int( "material_thickness" );
     // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
     // only "environmental_protection" and not "enviromental_protection".
-    if (jo.has_member("enviromental_protection")) {
-        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                 "please change the json data for item %d", armor_template->id.c_str());
-        armor_template->env_resist = jo.get_int("enviromental_protection");
+    if( jo.has_member( "enviromental_protection" ) ) {
+        debugmsg( "the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+                  "please change the json data for item %d", jo.get_string( "id", "" ).c_str() );
+        slot.env_resist = jo.get_int( "enviromental_protection" );
     } else {
-        armor_template->env_resist = jo.get_int("environmental_protection");
+        slot.env_resist = jo.get_int( "environmental_protection" );
     }
-    armor_template->warmth = jo.get_int("warmth");
-    armor_template->storage = jo.get_int("storage");
-    armor_template->power_armor = jo.get_bool("power_armor", false);
-    armor_template->covers = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "bodyparts") : 0;
-    armor_template->sided = jo.has_member("covers") ?
-                            flags_from_json(jo, "covers", "sided") : 0;
-
-    itype *new_item_template = armor_template;
-    load_basic_info(jo, new_item_template);
+    slot.warmth = jo.get_int( "warmth" );
+    slot.storage = jo.get_int( "storage" );
+    slot.power_armor = jo.get_bool( "power_armor", false );
+    slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
+    slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
 }
 
 void Item_factory::load_tool(JsonObject &jo)
@@ -670,9 +690,8 @@ void Item_factory::load_tool(JsonObject &jo)
 
 void Item_factory::load_tool_armor(JsonObject &jo)
 {
-    it_tool_armor *tool_armor_template = new it_tool_armor();
+    it_tool *tool_template = new it_tool();
 
-    it_tool *tool_template = tool_armor_template;
     tool_template->ammo = jo.get_string("ammo");
     tool_template->max_charges = jo.get_int("max_charges");
     tool_template->def_charges = jo.get_int("initial_charges");
@@ -680,28 +699,9 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
 
-    it_armor *armor_template = tool_armor_template;
-    armor_template->encumber = jo.get_int("encumbrance");
-    armor_template->coverage = jo.get_int("coverage");
-    armor_template->thickness = jo.get_int("material_thickness");
-    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
-    // only "environmental_protection" and not "enviromental_protection".
-    if (jo.has_member("enviromental_protection")) {
-        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                 "please change the json data for item %d", armor_template->id.c_str());
-        armor_template->env_resist = jo.get_int("enviromental_protection");
-    } else {
-        armor_template->env_resist = jo.get_int("environmental_protection");
-    }
-    armor_template->warmth = jo.get_int("warmth");
-    armor_template->storage = jo.get_int("storage");
-    armor_template->power_armor = jo.get_bool("power_armor", false);
-    armor_template->covers = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "bodyparts") : 0;
-    armor_template->sided = jo.has_member("covers") ?
-                            flags_from_json(jo, "covers", "sided") : 0;
+    load_slot( tool_template->armor , jo );
 
-    load_basic_info(jo, tool_armor_template);
+    load_basic_info(jo, tool_template);
 }
 
 void Item_factory::load_book(JsonObject &jo)
@@ -726,7 +726,7 @@ void Item_factory::load_comestible(JsonObject &jo)
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
-    comest_template->container = jo.get_string("container", "null");
+    comest_template->default_container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
@@ -768,12 +768,18 @@ void Item_factory::load_comestible(JsonObject &jo)
 
 void Item_factory::load_container(JsonObject &jo)
 {
-    it_container *container_template = new it_container();
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->container, jo );
+    load_basic_info( jo, new_item_template );
+}
 
-    container_template->contains = jo.get_int("contains");
-
-    itype *new_item_template = container_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load( islot_container &slot, JsonObject &jo )
+{
+    slot.contains = jo.get_int( "contains" );
+    slot.seals = jo.get_bool( "seals", false );
+    slot.watertight = jo.get_bool( "watertight", false );
+    slot.preserves = jo.get_bool( "preserves", false );
+    slot.rigid = jo.get_bool( "rigid", false );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -925,10 +931,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    Container-only flags:
-    SEALS
-    RIGID
-    WATERTIGHT
     */
     new_item_template->item_tags = jo.get_tags("flags");
     if (!new_item_template->item_tags.empty()) {
@@ -953,6 +955,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     } else {
         new_item_template->category = get_category(calc_category(new_item_template));
     }
+
+    load_slot_optional( new_item_template->container, jo, "container_data" );
+    load_slot_optional( new_item_template->armor, jo, "armor_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1439,7 +1444,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if (it->is_tool()) {
         return category_id_tools;
     }
-    if (it->is_armor()) {
+    if( it->armor ) {
         return category_id_clothing;
     }
     if (it->is_food()) {
