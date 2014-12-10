@@ -65,9 +65,29 @@ struct islot_container {
      * Volume, scaled by the default-stack size of the item that is contained in this container.
      */
     int contains;
+    /**
+     * Can be resealed.
+     */
+    bool seals;
+    /**
+     * Can hold liquids.
+     */
+    bool watertight;
+    /**
+     * Contents do not spoil.
+     */
+    bool preserves;
+    /**
+     * Volume of the item does not include volume of the content.
+     */
+    bool rigid;
 
     islot_container()
     : contains( 0 )
+    , seals( false )
+    , watertight( false )
+    , preserves( false )
+    , rigid( false )
     {
     }
 };

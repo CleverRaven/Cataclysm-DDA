@@ -436,6 +436,10 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "type": "CONTAINER",  // Defines this as a container
 ...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
+"seals": false,       // Can be resealed, this is a required for it to be used for liquids. (optional, default: false)
+"watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
+"rigid": false,       // Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container. (optional, default: false)
+"preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
 ```C++

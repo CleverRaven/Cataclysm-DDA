@@ -778,6 +778,10 @@ void Item_factory::load_container(JsonObject &jo)
 void Item_factory::load( islot_container &slot, JsonObject &jo )
 {
     slot.contains = jo.get_int( "contains" );
+    slot.seals = jo.get_bool( "seals", false );
+    slot.watertight = jo.get_bool( "watertight", false );
+    slot.preserves = jo.get_bool( "preserves", false );
+    slot.rigid = jo.get_bool( "rigid", false );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -929,10 +933,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    Container-only flags:
-    SEALS
-    RIGID
-    WATERTIGHT
     */
     new_item_template->item_tags = jo.get_tags("flags");
     if (!new_item_template->item_tags.empty()) {

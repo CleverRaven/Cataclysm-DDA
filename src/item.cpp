@@ -905,6 +905,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
 
     }
+    if( is_container() ) {
+        const auto &c = *type->container;
+        if( c.rigid ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This item is rigid." ) ) );
+        }
+        if( c.seals ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container can be resealed." ) ) );
+        }
+        if( c.watertight ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container is watertight." ) ) );
+        }
+        if( c.preserves ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container preserves its contents from spoiling." ) ) );
+        }
+        dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+    }
     if( is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
@@ -1824,8 +1840,7 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret *= 1000;
     }
 
-    static const std::string RIGID_FLAG("RIGID");
-    if (is_container() && !has_flag(RIGID_FLAG)) {
+    if( type->container && !type->container->rigid ) {
         // non-rigid container add the volume of the content
         int tmpvol = 0;
         for( auto &elem : contents ) {
@@ -2662,7 +2677,7 @@ bool item::is_container() const
 
 bool item::is_watertight_container() const
 {
-    return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
+    return type->container && type->container->watertight && type->container->seals;
 }
 
 bool item::is_container_empty() const
@@ -3673,10 +3688,10 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     }
 
     if (contents.empty()) {
-        if (!has_flag("WATERTIGHT")) { // invalid container types
+        if( !type->container->watertight ) {
             error = L_ERR_NOT_WATERTIGHT;
             return 0;
-        } else if (!has_flag("SEALS")) {
+        } else if( !type->container->seals ) {
             error = L_ERR_NOT_SEALED;
             return 0;
         }
@@ -4475,7 +4490,7 @@ bool item::process_charger_gun( player *carrier, point pos )
 
 bool item::process( player *carrier, point pos, bool activate )
 {
-    const bool preserves = has_flag( "PRESERVES" );
+    const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( preserves ) {
             // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
