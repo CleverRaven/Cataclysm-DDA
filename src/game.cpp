@@ -13078,11 +13078,11 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                         body_part_name_accusative(bp).c_str(),
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
-            }
-            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                 u.add_effect("tetanus", 1, num_bp, true);
-            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                u.add_effect("tetanus", 1, num_bp, true);
+                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                  u.add_effect("tetanus", 1, num_bp, true);
+                 }
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {
