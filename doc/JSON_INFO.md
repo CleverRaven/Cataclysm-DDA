@@ -314,30 +314,53 @@ The syntax listed here is still valid.
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
-###ARMOR
+###GENERIC ITEMS
 ```C++
-"type" : "ARMOR",     // Defines this as armor
+"type" : "GENERIC",   // Defines this as some generic item
 "id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
-"weight" : 350,       // Weight of armour in grams
+"weight" : 350,       // Weight of the item in grams
 "color" : "blue",     // ASCII character colour
-"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
-"storage" : 0,        // How many volume storage slots it adds
 "symbol" : "[",       // ASCII character used in-game
-"description" : "Socks. Put 'em on your feet.", // Description of armour
+"description" : "Socks. Put 'em on your feet.", // Description of the item
 "price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON", "NULL"],    // Material types.  See materials.json for possible options
+"material" : ["COTTON"],    // Material types, can abe as many as you want.  See materials.json for possible options
 "volume" : 1,         // Volume, measured in 1/4 liters
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
-"warmth" : 10,        // How much warmth clothing provides
 "phase" : "solid",    // What phase it is
-"enviromental_protection" : 0,  // How much environmental protection it affords
-"encumberance" : 0,   // Base encumbrance (unfitted value)
 "bashing" : -5,       // Bashing damage caused by using it as a melee weapon
-"flags" : ["VARSIZE"] // Indicates special effects
+"flags" : ["VARSIZE"] // Indicates special effects, see JSON_FLAGS.md
+```
+###ARMOR
+Armor can be define like this:
+```C++
+"type" : "ARMOR",     // Defines this as armor
+...                   // same entries as above for the generic item.
+                      // additional some armor specific entries:
+"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
+"storage" : 0,        // How many volume storage slots it adds
+"warmth" : 10,        // How much warmth clothing provides
+"environmental_protection" : 0,  // How much environmental protection it affords
+"encumberance" : 0,   // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
+"power_armor" : false, // If this is a power armor item (those are special).
+```
+Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"armor_data" : {      // additionally the same armor data like above
+    "covers" : ["FEET"],
+    "storage" : 0,
+    "warmth" : 10,
+    "environmental_protection" : 0,
+    "encumberance" : 0,
+    "coverage" : 80,
+    "material_thickness" : 1
+    "power_armor" : false
+}
 ```
 ###BOOKS
 ```C++
@@ -410,22 +433,20 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 ```
 ###CONTAINERS
 ```C++
-"id": "keg",          // Unique ID. Must be one continuous word, use underscores if necessary
-"type": "CONTAINER",  // Defines this as a CONTAINER
-"symbol": ")",        // ASCII character used in-game
-"color": "light_cyan", // ASCII character colour
-"name": "aluminum keg", // In-game name displayed
-"description": "A reusable aluminum keg, used for shipping beer.\nIt has a capacity of 50 liters.", // In-game description
-"price": 6000,        // Used when bartering with NPCs
-"weight": 13500,      // Weight, measured in grams
-"volume": 200,        // Volume, measured in 1/4 liters
-"bashing": -4,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
-"to_hit": -4,         // To-hit bonus if using it as a melee weapon
-"material": "steel",  // Material types.  See materials.json for possible options
+"type": "CONTAINER",  // Defines this as a container
+...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
-"flags": ["RIGID", "SEALS", "WATERTIGHT"] // Indicates special effects
 ```
+Alternately, every item can be used as container:
+```C++
+"type": "ARMOR",      // Any type is allowed here
+...                   // same data as for the type
+"container_data" : {  // The container specific data goes here.
+    "contains": 200,
+}
+```
+This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
+It could also be written as a generic item ("tpye": "GENERIC") with "armor_data" and "container_data" entries.
 ###MELEE
 ```C++
 "id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
