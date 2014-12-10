@@ -2239,7 +2239,7 @@
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
-    "time": 500,
+    "time": 1000,
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
@@ -2250,7 +2250,7 @@
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
-    "time": 500,
+    "time": 1000,
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
