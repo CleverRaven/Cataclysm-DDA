@@ -139,7 +139,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_groups": [
-                { "vehicle": "flatbed_truck", "chance": 2,  "x": 5,       "y": 4, "rotation": 90 },
+                { "vehicle": "pickup", "chance": 2,  "x": 5, "y": 4, "rotation": 90 },
                 { "item": "bedroom",          "chance": 50, "x": [15,17], "y": [ 12, 14 ] },
                 { "item": "bed",              "chance": 80, "x": [20,21], "y": 14 },
                 { "item": "shirts",           "chance": 50, "x": 21,      "y": 12 },

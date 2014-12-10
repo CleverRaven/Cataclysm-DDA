@@ -1343,7 +1343,7 @@
                 { "item": "snacks", "chance": 60, "x": [ 3, 3 ], "y": [ 13, 13 ]},
                 { "item": "snacks", "chance": 60, "x": [ 5, 5 ], "y": [ 13, 13 ]},
                 { "vehicle": "car", "x": 17, "y": 16, "rotation": 90, "chance": 90 },
-                { "vehicle": "flatbed_truck", "x": 18, "y": 8, "rotation": 90, "chance": 90 }
+                { "vehicle": "pickup", "x": 18, "y": 8, "rotation": 90, "chance": 90 }
             ],
             "place_specials": [
                 { "type": "toilet", "x": 8, "y": 3 },
