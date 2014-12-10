@@ -3980,7 +3980,7 @@
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 10000,
+  "time": 1000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -4195,29 +4195,14 @@
   "result": "survivor_belt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
-  "skill_used": "tailor",
-  "skills_required" : ["fabrication", 3],
-  "difficulty": 6,
-  "time": 80000,
-  "reversible": false,
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-      [
-      [ "needle_bone", 140 ],
-      [ "needle_wood", 140 ],
-      [ "sewing_kit", 140 ]
-    ]
-  ],
   "components": [
      [
-      [ "leather", 6 ],
-      [ "tanned_hide", 1 ]
-     ],
-     [
-      [ "duct_tape", 100 ]
+      [ "survivor_belt_notools", 1 ]
      ],
      [
       [ "screwdriver", 1]
@@ -4232,17 +4217,7 @@
       [ "hacksaw", 1]
      ],
      [
-      [ "hammer", 1],
-      [ "hatchet", 1 ]
-     ],
-     [
-      [ "sheath", 1]
-     ],
-     [
-      [ "legrig", 1 ],
-      [ "tool_belt", 1 ],
-      [ "dump_pouch", 1 ],
-      [ "leather_pouch", 4 ]
+      [ "hammer", 1]
      ]
   ]
 },{
@@ -6441,7 +6416,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 500,
+  "time": 1000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -7833,6 +7808,158 @@
   "components": [
     [
       [ "rag", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leather_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "tool_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 16000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+	  [ "leather_belt", 1 ]
+    ],
+    [
+      [ "leather_pouch", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "survivor_belt_notools",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 6,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 140 ],
+      [ "needle_wood", 140 ],
+      [ "sewing_kit", 140 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+	  [ "leather_belt", 1 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "sheath", 1]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "dump_pouch", 1 ],
+      [ "leather_pouch", 4 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 9 ]
     ]
   ]
 }
