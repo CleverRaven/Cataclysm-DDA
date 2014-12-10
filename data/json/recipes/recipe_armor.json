@@ -7835,6 +7835,7 @@
       [ "leather", 6 ],
       [ "tanned_hide", 1 ]
     ]
+  ]
 },{
   "type" : "recipe",
   "result": "tool_belt",
