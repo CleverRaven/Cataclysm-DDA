@@ -109,10 +109,11 @@ void event::actualize()
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
              rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
-    if (tries < 10) {
-     wyrm.spawn(monx, mony);
-     g->add_zombie(wyrm);
-    }
+      if (tries < 10) {
+          g->m.ter_set(monx, mony, t_rock_floor);
+          wyrm.spawn(monx, mony);
+          g->add_zombie(wyrm);
+      }
    }
    if (!one_in(25)) // They just keep coming!
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
