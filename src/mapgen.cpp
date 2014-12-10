@@ -2257,7 +2257,7 @@ sss|........|.R.|EEED___\n",
                         add_vehicle ("fire_truck", 6, 13, 0);
                         }
                     else
-                    add_vehicle ("flatbed_truck", 17, 19, 180);
+                    add_vehicle ("pickup", 17, 19, 180);
                 }
             } else if (t_north == "office_tower_b_entrance") {
                 rotate(2);
@@ -2477,7 +2477,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     if (one_in(3)) {
                         add_vehicle ("fire_truck", 6, 13, 0);
                     } else {
-                        add_vehicle ("flatbed_truck", 6, 13, 0);
+                        add_vehicle ("pickup", 6, 13, 0);
                     }
                 }
                 if (x_in_y(1, 3)) {
