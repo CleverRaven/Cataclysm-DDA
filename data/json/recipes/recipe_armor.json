@@ -7856,7 +7856,7 @@
     [
       [ "leather", 6 ],
       [ "tanned_hide", 1 ],
-	  [ "leather_belt", 1 ]
+      [ "leather_belt", 1 ]
     ],
     [
       [ "leather_pouch", 1 ]
@@ -7887,7 +7887,7 @@
      [
       [ "leather", 6 ],
       [ "tanned_hide", 1 ],
-	  [ "leather_belt", 1 ]
+      [ "leather_belt", 1 ]
      ],
      [
       [ "duct_tape", 100 ]
