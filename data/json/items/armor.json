@@ -11049,6 +11049,31 @@
         "bashing" : -5,
         "coverage" : 65,
         "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "survivor_belt_notools",
+        "name" : "survivor belt",
+        "weight" : 1249,
+        "color" : "brown",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 16,
+        "symbol" : "[",
+        "description" : "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a knife.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+        "price" : 15000,
+        "material" : ["leather", "null"],
+        "volume" : 9,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -3,
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
+        "coverage" : 15,
+        "material_thickness" : 2,
+		"use_action": "SHEATH_KNIFE"
     }
 ]
 
