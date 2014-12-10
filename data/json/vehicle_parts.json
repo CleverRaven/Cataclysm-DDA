@@ -3056,7 +3056,7 @@
         "damage_modifier" : 60,
         "durability" : 75,
         "size" : 200,
-        "item" : "basket",
+        "item" : "folding_basket",
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"],
