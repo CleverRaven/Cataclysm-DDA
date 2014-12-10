@@ -5614,7 +5614,7 @@ void map::add_road_vehicles(bool city, int facing)
                         if(car_type <= 70) {
                             next_vehicle = "car";
                         } else if(car_type <= 90) {
-                            next_vehicle = "flatbed_truck";
+                            next_vehicle = "pickup";
                         } else if(car_type <= 95) {
                             next_vehicle = "cube_van";
                         } else {
@@ -5645,7 +5645,7 @@ void map::add_road_vehicles(bool city, int facing)
             } else if (car_type <= 14) {
                 add_vehicle("car_sports", vx, vy, facing, 0, -1);
             } else if (car_type <= 16) {
-                add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
+                add_vehicle("pickup", vx, vy, facing, 0, -1);
             } else if (car_type <= 18) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {
