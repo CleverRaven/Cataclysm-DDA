@@ -1115,7 +1115,7 @@
                 "_________________ss_____"
             ],
             "place_groups": [
-                { "vehicle": "flatbed_truck", "x": 12, "y": 12, "rotation": 180, "chance": 35  },
+                { "vehicle": "pickup", "x": 12, "y": 12, "rotation": 180, "chance": 35  },
                 { "vehicle": "car", "x": 13, "y": 18, "rotation": 0, "chance": 35  },
                 { "vehicle": "car", "x": 23, "y": 11, "rotation": 0, "chance": 35  },
                 { "vehicle": "beetle", "x": 21, "y": 18, "rotation": 0, "chance": 35  },
@@ -2091,7 +2091,7 @@
             ],
             "place_groups": [
                 { "vehicle": "motorcycle", "x": 8, "y": 1, "rotation": 180, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 7, "y": 9, "rotation": 180, "chance": 35  },
+                { "vehicle": "pickup", "x": 7, "y": 9, "rotation": 180, "chance": 35  },
                 { "vehicle": "car", "x": 18, "y": 1, "rotation": 0, "chance": 35  },
                 { "vehicle": "scooter_electric", "x": 16, "y": 8, "rotation": 0, "chance": 35  },
                 { "item": "floor_trash", "chance": 5, "x": [ 0,23 ], "y": [ 0,23 ]},
@@ -3490,7 +3490,7 @@
             "place_groups": [
                 { "vehicle": "hippie_van", "x": 18, "y": 5, "rotation": 0, "chance": 35  },
                 { "vehicle": "car", "x": 17, "y": 13, "rotation": 180, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 19, "y": 19, "rotation": 0, "chance": 35  },
+                { "vehicle": "pickup", "x": 19, "y": 19, "rotation": 0, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.2 }
             ],
             "terrain": {
@@ -5686,7 +5686,7 @@
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 23, "y": 6, "rotation": 0, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 22, "y": 14, "rotation": 180, "chance": 35  },
+                { "vehicle": "pickup", "x": 22, "y": 14, "rotation": 180, "chance": 35  },
                 { "vehicle": "beetle", "x": 22, "y": 20, "rotation": 0, "chance": 35  },
                 { "vehicle": "hippie_van", "x": 23, "y": 0, "rotation": 180, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 12, 23 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -5935,7 +5935,7 @@
             "place_groups": [
                 { "vehicle": "ambulance", "x": 22, "y": 4, "rotation": 180, "chance": 35  },
                 { "vehicle": "car", "x": 5, "y": 3, "rotation": 0, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 5, "y": 19, "rotation": 0, "chance": 35  },
+                { "vehicle": "pickup", "x": 5, "y": 19, "rotation": 0, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 }
             ],
             "terrain": {
@@ -6953,7 +6953,7 @@
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 18, "y": 4, "rotation": 180, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 18, "y": 21, "rotation": 180, "chance": 35  },
+                { "vehicle": "pickup", "x": 18, "y": 21, "rotation": 180, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 }
             ],
             "terrain": {
@@ -7072,7 +7072,7 @@
                 { "vehicle": "hippie_van", "x": 6, "y": 2, "rotation": 0, "chance": 35  },
                 { "vehicle": "car", "x": 5, "y": 9, "rotation": 0, "chance": 35  },
                 { "vehicle": "car", "x": 5, "y": 17, "rotation": 180, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 5, "y": 23, "rotation": 0, "chance": 35  },
+                { "vehicle": "pickup", "x": 5, "y": 23, "rotation": 0, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 }
             ],
             "terrain": {
@@ -8008,7 +8008,7 @@
                 "33333hc33r|##.....ss____"
             ],
             "place_groups": [
-                { "vehicle": "flatbed_truck", "x": 23, "y": 2, "rotation": 0, "chance": 35  },
+                { "vehicle": "pickup", "x": 23, "y": 2, "rotation": 0, "chance": 35  },
                 { "vehicle": "car", "x": 23, "y": 9, "rotation": 0, "chance": 35  },
                 { "vehicle": "motorcycle", "x": 23, "y": 17, "rotation": 0, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 8 ], "y": [ 0, 5 ], "density": 0.2 },
@@ -8525,7 +8525,7 @@
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 2, "y": 23, "rotation": 90, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 9, "y": 23, "rotation": 90, "chance": 35  },
+                { "vehicle": "pickup", "x": 9, "y": 23, "rotation": 90, "chance": 35  },
                 { "vehicle": "motorcycle", "x": 20, "y": 22, "rotation": 90, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 13 ], "y": [ 1, 12 ], "density": 0.2 },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [14, 23 ], "density": 0.4 },
@@ -8913,7 +8913,7 @@
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 7, "y": 23, "rotation": 90, "chance": 35  },
-                { "vehicle": "flatbed_truck", "x": 13, "y": 23, "rotation": 270, "chance": 35  },
+                { "vehicle": "pickup", "x": 13, "y": 23, "rotation": 270, "chance": 35  },
                 { "vehicle": "scooter_electric", "x": 20, "y": 22, "rotation": 90, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 13], "density": 0.15 },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 17, 22 ], "density": 0.5 },
@@ -9175,7 +9175,7 @@
                 "_,______,______,______s#"
             ],
             "place_groups": [
-                { "vehicle": "flatbed_truck", "x": 5, "y": 23, "rotation": 90, "chance": 35  },
+                { "vehicle": "pickup", "x": 5, "y": 23, "rotation": 90, "chance": 35  },
                 { "vehicle": "car", "x": 11, "y": 23, "rotation": 270, "chance": 35  },
                 { "vehicle": "quad_bike", "x": 18, "y": 22, "rotation": 90, "chance": 35  },
                 { "vehicle": "hippie_van", "x": 22, "y": 7, "rotation": 180, "chance": 35  },
@@ -9302,7 +9302,7 @@
                 "###s_________________ss."
             ],
             "place_groups": [
-                { "vehicle": "flatbed_truck", "x": 18, "y": 7, "rotation": 180, "chance": 35  },
+                { "vehicle": "pickup", "x": 18, "y": 7, "rotation": 180, "chance": 35  },
                 { "vehicle": "car", "x": 18, "y": 14, "rotation": 180, "chance": 35  },
                 { "vehicle": "car_mini", "x": 18, "y": 21, "rotation": 180, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 }

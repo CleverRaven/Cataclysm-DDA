@@ -142,30 +142,27 @@ void item::add_rain_to_container(bool acid, int charges)
     if( charges <= 0) {
         return;
     }
-    const char *typeId = acid ? "water_acid" : "water";
-    long max = dynamic_cast<it_container *>(type)->contains;
-    long orig = 0;
-    long added = charges;
+    item ret( acid ? "water_acid" : "water", calendar::turn );
+    LIQUID_FILL_ERROR lferr;
+    const long capa = get_remaining_capacity_for_liquid( ret, lferr );
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        item ret(typeId, 0);
         if (!acid) {
             // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
-        ret.charges = ( charges > max ? max : charges );
+        ret.charges = std::min<long>( charges, capa );
         put_in(ret);
     } else {
         // The container already has a liquid.
         item &liq = contents[0];
-        orig = liq.charges;
-        max -= liq.charges;
-        added = ( charges > max ? max : charges );
-        if (max > 0 ) {
+        long orig = liq.charges;
+        long added = std::min<long>( charges, capa );
+        if (capa > 0 ) {
             liq.charges += added;
         }
 
-        if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
+        if (liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak") {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {

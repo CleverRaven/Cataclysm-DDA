@@ -14,6 +14,22 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
+void iuse_transform::load( JsonObject &obj )
+{
+    // Mandatory:
+    target_id = obj.get_string( "target" );
+    // Optional (default is good enough):
+    obj.read( "msg", msg_transform );
+    obj.read( "target_charges", target_charges );
+    obj.read( "container", container_id );
+    obj.read( "active", active );
+    obj.read( "need_fire", need_fire );
+    obj.read( "need_fire_msg", need_fire_msg );
+    obj.read( "need_charges", need_charges );
+    obj.read( "need_charges_msg", need_charges_msg );
+    obj.read( "moves", moves );
+}
+
 long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
     if( t ) {
@@ -26,19 +42,21 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     }
     if (need_charges > 0 && it->charges < need_charges) {
         if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(m_info, need_charges_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
         if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, need_fire_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     // load this from the original item, not the transformed one.
     const long charges_to_use = it->type->charges_to_use();
-    p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
+    if( !msg_transform.empty() ) {
+        p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
+    }
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
@@ -79,6 +97,13 @@ iuse_actor *auto_iuse_transform::clone() const
     return new auto_iuse_transform(*this);
 }
 
+void auto_iuse_transform::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "when_underwater", when_underwater );
+    obj.read( "non_interactive_msg", non_interactive_msg );
+}
+
 long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
@@ -95,7 +120,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(m_info, non_interactive_msg.c_str(), it->tname().c_str());
+        p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
         // Activated by the player, but not allowed to do so
         return 0;
     }
@@ -116,6 +141,31 @@ iuse_actor *explosion_iuse::clone() const
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
+void explosion_iuse::load( JsonObject &obj )
+{
+    obj.read( "explosion_power", explosion_power );
+    obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_fire", explosion_fire );
+    obj.read( "explosion_blast", explosion_blast );
+    obj.read( "draw_explosion_radius", draw_explosion_radius );
+    if( obj.has_member( "draw_explosion_color" ) ) {
+        draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
+    }
+    obj.read( "do_flashbang", do_flashbang );
+    obj.read( "flashbang_player_immune", flashbang_player_immune );
+    obj.read( "fields_radius", fields_radius );
+    if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
+        fields_type = field_from_ident( obj.get_string( "fields_type" ) );
+    }
+    obj.read( "fields_min_density", fields_min_density );
+    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "emp_blast_radius", emp_blast_radius );
+    obj.read( "scrambler_blast_radius", scrambler_blast_radius );
+    obj.read( "sound_volume", sound_volume );
+    obj.read( "sound_msg", sound_msg );
+    obj.read( "no_deactivate_msg", no_deactivate_msg );
+}
+
 long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
@@ -129,7 +179,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( no_deactivate_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
@@ -178,6 +228,14 @@ iuse_actor *unfold_vehicle_iuse::clone() const
     return new unfold_vehicle_iuse(*this);
 }
 
+void unfold_vehicle_iuse::load( JsonObject &obj )
+{
+    obj.read( "vehicle_name", vehicle_name );
+    obj.read( "unfold_msg", unfold_msg );
+    obj.read( "moves", moves );
+    obj.read( "tools_needed", tools_needed );
+}
+
 long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
 {
     if (p->is_underwater()) {
@@ -204,7 +262,9 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
     veh->tags.insert(std::string("convertible:") + it->type->id);
-    p->add_msg_if_player(unfold_msg.c_str(), it->tname().c_str());
+    if( !unfold_msg.empty() ) {
+        p->add_msg_if_player( _( unfold_msg.c_str() ), it->tname().c_str());
+    }
     p->moves -= moves;
     // Restore HP of parts if we stashed them previously.
     if (it->item_vars.count("folding_bicycle_parts") == 0) {
@@ -250,6 +310,25 @@ consume_drug_iuse::~consume_drug_iuse() {};
 iuse_actor *consume_drug_iuse::clone() const
 {
     return new consume_drug_iuse(*this);
+}
+
+void consume_drug_iuse::load( JsonObject &obj )
+{
+    obj.read( "activation_message", activation_message );
+    obj.read( "charges_needed", charges_needed );
+    obj.read( "tools_needed", tools_needed );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+                                 body_parts[e.get_string( "bp", "NUM_BP" )], e.get_bool( "permanent", false ) );
+            effects.push_back( new_eff );
+        }
+    }
+    obj.read( "stat_adjustments", stat_adjustments );
+    obj.read( "fields_produced", fields_produced );
 }
 
 long consume_drug_iuse::use(player *p, item *it, bool, point) const
@@ -310,11 +389,51 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     return it->type->charges_to_use();
 }
 
+delayed_transform_iuse::~delayed_transform_iuse() {};
+
+iuse_actor *delayed_transform_iuse::clone() const
+{
+    return new delayed_transform_iuse(*this);
+}
+
+void delayed_transform_iuse::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    not_ready_msg = obj.get_string( "not_ready_msg" );
+    transform_age = obj.get_int( "transform_age" );
+}
+
+int delayed_transform_iuse::time_to_do( const item &it ) const
+{
+    return it.bday + transform_age - calendar::turn.get_turn();
+}
+
+long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
+{
+    if( time_to_do( *it ) > 0 ) {
+        p->add_msg_if_player( m_info, _( not_ready_msg.c_str() ) );
+        return 0;
+    }
+    return iuse_transform::use( p, it, t, pos );
+}
+
 place_monster_iuse::~place_monster_iuse() {};
 
 iuse_actor *place_monster_iuse::clone() const
 {
     return new place_monster_iuse(*this);
+}
+
+void place_monster_iuse::load( JsonObject &obj )
+{
+    mtype_id = obj.get_string( "monster_id" );
+    obj.read( "friendly_msg", friendly_msg );
+    obj.read( "hostile_msg", hostile_msg );
+    obj.read( "difficulty", difficulty );
+    obj.read( "moves", moves );
+    obj.read( "place_randomly", place_randomly );
+    obj.read( "skill1", skill1 );
+    obj.read( "skill2", skill2 );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, point ) const
@@ -403,6 +522,13 @@ iuse_actor *ups_based_armor_actor::clone() const
     return new ups_based_armor_actor(*this);
 }
 
+void ups_based_armor_actor::load( JsonObject &obj )
+{
+    obj.read( "activate_msg", activate_msg );
+    obj.read( "deactive_msg", deactive_msg );
+    obj.read( "out_of_power_msg", out_of_power_msg );
+}
+
 bool has_power_armor_interface(const player &p)
 {
     return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
@@ -450,4 +576,98 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
         }
     }
     return 0;
+}
+
+
+pick_lock_actor::~pick_lock_actor() {};
+
+iuse_actor *pick_lock_actor::clone() const
+{
+    return new pick_lock_actor(*this);
+}
+
+void pick_lock_actor::load( JsonObject &obj )
+{
+    pick_quality = obj.get_int( "pick_quality" );
+}
+
+long pick_lock_actor::use( player *p, item *it, bool, point ) const
+{
+    if( p == nullptr || p->is_npc() ) {
+        return 0;
+    }
+    int dirx, diry;
+    if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
+        return 0;
+    }
+    if( dirx == p->posx && diry == p->posy ) {
+        p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        return 0;
+    }
+    const ter_id type = g->m.ter( dirx, diry );
+    const int npcdex = g->npc_at( dirx, diry );
+    if( npcdex != -1 ) {
+        p->add_msg_if_player( m_info,
+                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        return 0;
+    }
+
+    ter_id new_type;
+    std::string open_message;
+    if( type == t_chaingate_l ) {
+        new_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( type == t_door_locked || type == t_door_locked_alarm ||
+               type == t_door_locked_interior ) {
+        new_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_locked_peep ) {
+        new_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_metal_pickable ) {
+        new_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_bar_locked ) {
+        new_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open..." );
+    } else if( type == t_door_c ) {
+        add_msg( m_info, _( "That door isn't locked." ) );
+        return 0;
+    } else {
+        add_msg( m_info, _( "That cannot be picked." ) );
+        return 0;
+    }
+
+    p->practice( "mechanics", 1 );
+    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( "mechanics" ) ) * 5 );
+    int pick_roll = ( dice( 2, p->skillLevel( "mechanics" ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int door_roll = dice( 4, 30 );
+    if( pick_roll >= door_roll ) {
+        p->practice( "mechanics", 1 );
+        p->add_msg_if_player( m_good, "%s", open_message.c_str() );
+        g->m.ter_set( dirx, diry, new_type );
+    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
+        it->damage++;
+        if( it->damage >= 5 ) {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
+        it->damage < 100 ) {
+        g->sound( p->posx, p->posy, 40, _( "An alarm sounds!" ) );
+        if( !g->event_queued( EVENT_WANTED ) ) {
+            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
+        }
+    }
+    // Special handling, normally the item isn't used up, but it is if broken.
+    if( it->damage >= 5 ) {
+        return 1;
+    }
+
+    return it->type->charges_to_use();
 }

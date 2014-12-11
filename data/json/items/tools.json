@@ -5277,7 +5277,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 5
+    }
   },
 
   {
@@ -5300,8 +5303,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 3
+    }
   },
+
+    {
+        "id": "pseuso_bio_picklock",
+        "type": "GENERIC",
+        "symbol": ";",
+        "color": "light_gray",
+        "name": "bio lockpick",
+        "description": "this a pseudo item",
+        "price": 0,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "use_action": {
+            "type": "picklock",
+            "pick_quality": 40
+        }
+    },
 
   {
     "id": "safe_box",
@@ -6203,7 +6228,16 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "FLASK_YEAST"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200, "//": "12 hours",
+        "not_ready_msg": "The yeast isn't done culturing yet.",
+        "msg": "You open the flask and harvest the culture.",
+        "moves": 50,
+        "container": "flask_glass",
+        "target": "yeast",
+        "target_charges": 10
+    }
   },
 
   {
@@ -6978,6 +7012,7 @@
 
   {
     "id": "kiln_full",
+    "comment": "this item is not justed anymore and can be removed, however I don't want to compromise save compatiblity, so it's still here.",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
@@ -7009,7 +7044,7 @@
   },
   {
     "id": "kiln_lit",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "brown",
     "name": "lit charcoal kiln",
@@ -7022,19 +7057,15 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
-    "max_charges": 3600,
-    "initial_charges": 3600,
-    "charges_per_use": 0,
-    "turns_per_charge": 1,
-    "ammo": "NULL",
-    "revert_to": "kiln_done",
     "category" : "tools",
     "use_action": {
-        "type": "auto_transform",
-        "target": "kiln_done",
-        "non_interactive_msg": "It's already burning!.",
-        "msg": "The kiln's embers die out."
-  }
+        "type": "delayed_transform",
+        "transform_age": 3600,
+        "not_ready_msg": "The kiln is still burning.",
+        "msg": "The kilns embers have died out, you can now disassemble it to harvest the charcoal.",
+        "moves": 0,
+        "target": "kiln_done"
+    }
   },
   {
     "id": "kiln_done",
@@ -8589,7 +8620,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning leather hide isn't done yet.",
+        "msg": "You carefully unfold the tanning leather hide and shake it clean.",
+        "moves": 150,
+        "target": "tanned_hide"
+    }
   },
 
   {
@@ -8614,7 +8652,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning fur pelt isn't done yet.",
+        "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
+        "moves": 150,
+        "target": "tanned_pelt"
+    }
   },
 
   {

@@ -4,6 +4,7 @@
 #include "json.h"
 #include "iuse.h"
 #include <string>
+#include <memory>
 #include <vector>
 #include <map>
 #include <bitset>
@@ -20,6 +21,8 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
+struct islot_container;
+struct islot_armor;
 class item_category;
 
 /**
@@ -220,6 +223,23 @@ class Item_factory
         CategoryMap m_categories;
 
         void create_inital_categories();
+
+        /**
+         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
+         * and calls @ref load to do the actual (type specific) loading.
+         */
+        template<typename SlotType>
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        /**
+         * Load item the item slot if present in json.
+         * Checks whether the json object has a member of the given name and if so, loads the item
+         * slot from that object. If the member does not exists, nothing is done.
+         */
+        template<typename SlotType>
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member );
+
+        void load( islot_container &slot, JsonObject &jo );
+        void load( islot_armor &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);

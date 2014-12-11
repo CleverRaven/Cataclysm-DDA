@@ -97,7 +97,6 @@ public:
     int restaurantmap       (player *, item *, bool, point);
     int touristmap          (player *, item *, bool, point);
     int ma_manual           (player *, item *, bool, point);
-    int picklock            (player *, item *, bool, point);
     int crowbar             (player *, item *, bool, point);
     int makemound           (player *, item *, bool, point);
     int dig                 (player *, item *, bool, point);
@@ -185,8 +184,6 @@ public:
     int LAW                 (player *, item *, bool, point);
     int heatpack            (player *, item *, bool, point);
     int hotplate            (player *, item *, bool, point);
-    int flask_yeast         (player *, item *, bool, point);
-    int tanning_hide        (player *, item *, bool, point);
     int quiver              (player *, item *, bool, point);
     int boots               (player *, item *, bool, point);
     int sheath_sword        (player *, item *, bool, point);
@@ -303,6 +300,14 @@ public:
     ~use_function();
 
     int call(player*,item*,bool,point) const;
+
+    iuse_actor *get_actor_ptr() const
+    {
+        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);

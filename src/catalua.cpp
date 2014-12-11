@@ -221,10 +221,6 @@ it_gunmod *get_gunmod_type(std::string name)
 {
     return dynamic_cast<it_gunmod *>(item::find_type(name));
 }
-it_armor *get_armor_type(std::string name)
-{
-    return dynamic_cast<it_armor *>(item::find_type(name));
-}
 
 
 // Manually implemented lua functions

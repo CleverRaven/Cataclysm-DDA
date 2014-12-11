@@ -182,8 +182,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             int maxvolume;
             if ( pane.area == AIM_CONTAINER && squares[pane.area].get_container() != nullptr ) {
-                it_container *container = dynamic_cast<it_container *>(squares[pane.area].get_container()->type);
-                maxvolume = container->contains;
+                maxvolume = squares[pane.area].get_container()->type->container->contains;
             } else {
                 if( squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0 ) {
                     maxvolume = squares[pane.area].veh->max_volume( squares[pane.area].vstor );

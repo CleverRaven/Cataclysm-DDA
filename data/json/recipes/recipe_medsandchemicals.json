@@ -164,6 +164,7 @@
     ],
     [
       [ "cig_butt", 5 ],
+      [ "cigar_butt", 5 ],
       [ "tobacco", 1 ]
     ]
   ]
@@ -2276,7 +2277,8 @@
   "components": [
     [
       [ "rag", 1 ],
-      [ "bag_plastic", 1 ]
+      [ "bag_plastic", 1 ],
+      [ "heatpack_used", 1 ]
     ],
     [
       [ "oxy_powder", 5 ]

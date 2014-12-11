@@ -4694,10 +4694,10 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
     } else if( itm.goes_bad() ) {
         itm.calc_rot( pnt );
         return itm.has_rotten_away();
-    } else if( itm.has_flag( "PRESERVES" ) ) {
+    } else if( itm.type->container && itm.type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
-    } else if( itm.has_flag( "SEALS" ) ) {
+    } else if( itm.type->container && itm.type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
         for( auto &c : itm.contents ) {
             c.calc_rot( pnt );
@@ -5614,7 +5614,7 @@ void map::add_road_vehicles(bool city, int facing)
                         if(car_type <= 70) {
                             next_vehicle = "car";
                         } else if(car_type <= 90) {
-                            next_vehicle = "flatbed_truck";
+                            next_vehicle = "pickup";
                         } else if(car_type <= 95) {
                             next_vehicle = "cube_van";
                         } else {
@@ -5645,7 +5645,7 @@ void map::add_road_vehicles(bool city, int facing)
             } else if (car_type <= 14) {
                 add_vehicle("car_sports", vx, vy, facing, 0, -1);
             } else if (car_type <= 16) {
-                add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
+                add_vehicle("pickup", vx, vy, facing, 0, -1);
             } else if (car_type <= 18) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {
