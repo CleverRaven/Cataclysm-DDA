@@ -4271,5 +4271,43 @@
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "mounted RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "fuel_type" : "8x40mm",
+        "item" : "rm614_lmg",
+        "difficulty" : 8,
+        "size" : 600,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm614_lmg", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "mounted RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "fuel_type" : "8x40mm",
+        "item" : "rm298",
+        "difficulty" : 9,
+        "size" : 1800,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm298", "min": 0, "max": 1}
+        ]
     }
 ]
