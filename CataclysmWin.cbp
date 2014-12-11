@@ -279,6 +279,8 @@
 		<Unit filename="src/inventory_ui.cpp" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/item.h" />
+		<Unit filename="src/item_action.cpp" />
+		<Unit filename="src/item_action.h" />
 		<Unit filename="src/item_factory.cpp" />
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
@@ -403,8 +405,8 @@
 		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
-    <Unit filename="src/scenario.cpp" />
-    <Unit filename="src/scenario.h" />
+	<Unit filename="src/scenario.cpp" />
+	<Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
