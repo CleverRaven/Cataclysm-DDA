@@ -50,8 +50,8 @@
         "epower": -63,
         "folded_volume": 2,
         "flags": [
-            "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"
-            ],
+          "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"
+        ],
         "breaks_into": [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -2862,7 +2862,7 @@
         "item" : "storage_battery",
         "difficulty" : 2,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "FOLDABLE"]
+        "flags" : ["FUEL_TANK"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
