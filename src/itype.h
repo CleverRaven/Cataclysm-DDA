@@ -152,7 +152,7 @@ struct islot_book {
      * Which skill it upgrades, if any. Can be NULL.
      * TODO: this should be a pointer to const
      */
-    Skill *type;
+    Skill *skill;
     /**
      * The skill level the book provides.
      */
@@ -190,7 +190,7 @@ struct islot_book {
     std::vector<use_function> use_methods;
 
     islot_book()
-    : type( nullptr )
+    : skill( nullptr )
     , level( 0 )
     , req( 0 )
     , fun( 0 )

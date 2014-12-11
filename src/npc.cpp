@@ -1606,12 +1606,14 @@ int npc::value(const item &it)
  }
 
  if (it.is_book()) {
-  auto book = it.type->book.get();
-  if (book->intel <= int_cur) {
-   ret += book->fun;
-   if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)
-    ret += book->level * 3;
-  }
+        auto &book = *it.type->book;
+        if( book.intel <= int_cur ) {
+            ret += book.fun;
+            if( book.skill != nullptr && skillLevel( book.skill ) < static_cast<int>( book.level ) &&
+                skillLevel( book.skill ) >= static_cast<int>( book.req ) ) {
+                ret += book.level * 3;
+            }
+        }
  }
 
 // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.

@@ -840,22 +840,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         auto book = type->book.get();
         // Some things about a book you CAN tell by it's cover.
-        if( !book->type ) {
+        if( !book->skill ) {
             dump->push_back(iteminfo("BOOK", _("Just for fun.")));
         }
         if (book->req == 0) {
             dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
         }
         if( g->u.has_identified( type->id ) ) {
-            if( book->type ) {
+            if( book->skill ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
-                                                       book->type->name().c_str()), book->level));
+                                                       book->skill->name().c_str()), book->level));
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
-                                                           book->type->name().c_str()),
+                                                           book->skill->name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
@@ -1422,10 +1422,10 @@ nc_color item::color(player *u) const
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
-            auto tmp = type->book.get();
-            if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-                (u->skillLevel(tmp->type) >= (int)tmp->req) &&
-                (u->skillLevel(tmp->type) < (int)tmp->level)) {
+            auto &tmp = *type->book;
+            if( tmp.skill && tmp.intel <= u->int_cur + u->skillLevel( tmp.skill ) &&
+                ( u->skillLevel( tmp.skill ) >= static_cast<int>( tmp.req ) ) &&
+                ( u->skillLevel( tmp.skill ) < static_cast<int>( tmp.level ) ) ) {
                 ret = c_ltblue;
             } else if( !u->studied_all_recipes( *type ) ) {
                 ret = c_yellow;
@@ -2924,8 +2924,8 @@ std::string item::skill() const
         return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
     } else if ( is_gun() ) {
         return dynamic_cast<it_gun *>(type)->skill_used->ident();
-    } else if ( is_book() ) {
-        return type->book->type->ident();
+    } else if( type->book && type->book->skill != nullptr ) {
+        return type->book->skill->ident();
     }
     return "null";
 }
