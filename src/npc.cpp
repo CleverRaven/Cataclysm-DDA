@@ -1606,7 +1606,7 @@ int npc::value(const item &it)
  }
 
  if (it.is_book()) {
-  it_book* book = dynamic_cast<it_book*>(it.type);
+  auto book = it.type->book.get();
   if (book->intel <= int_cur) {
    ret += book->fun;
    if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)

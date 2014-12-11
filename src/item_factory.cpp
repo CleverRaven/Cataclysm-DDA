@@ -698,21 +698,22 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     load_basic_info(jo, tool_template);
 }
 
-void Item_factory::load_book(JsonObject &jo)
+void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    it_book *book_template = new it_book();
+    slot.level = jo.get_int( "max_level" );
+    slot.req = jo.get_int( "required_level" );
+    slot.fun = jo.get_int( "fun" );
+    slot.intel = jo.get_int( "intelligence" );
+    slot.time = jo.get_int( "time" );
+    slot.type = Skill::skill( jo.get_string( "skill" ) );
+    slot.chapters = jo.get_int( "chapters", -1 );
+}
 
-    book_template->level = jo.get_int("max_level");
-    book_template->req = jo.get_int("required_level");
-    book_template->fun = jo.get_int("fun");
-    book_template->intel = jo.get_int("intelligence");
-    book_template->time = jo.get_int("time");
-    book_template->type = Skill::skill(jo.get_string("skill"));
-
-    book_template->chapters = jo.get_int("chapters", -1);
-
-    itype *new_item_template = book_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load_book( JsonObject &jo )
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->book, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
@@ -952,6 +953,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );
+    load_slot_optional( new_item_template->book, jo, "book_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1449,7 +1451,7 @@ const std::string &Item_factory::calc_category( const itype *it )
         const it_comest *comest = dynamic_cast<const it_comest *>( it );
         return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
     }
-    if (it->is_book()) {
+    if( it->book ) {
         return category_id_books;
     }
     if (it->is_gunmod()) {

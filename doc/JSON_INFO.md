@@ -363,26 +363,32 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 }
 ```
 ###BOOKS
+Books can be define like this:
 ```C++
 "type" : "BOOK",      // Defines this as a BOOK
-"id" : "textbook_computers", // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "Computer Science 301", // In-game name displayed
+...                   // same entries as above for the generic item.
+                      // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
-"description" : "A college textbook on computer science.", // In-game description
-"weight" : 1587,      // Weight, measured in grams
-"to_hit" : 1,         // To-hit bonus if using it as a melee weapon
-"color" : "blue",     // ASCII character colour (see below)
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"symbol" : "?",       // ASCII character used in-game (should always be a question mark for books)
-"material" : ["paper", "null"], // Material types.  See materials.json for possible options
-"volume" : 7,         // Volume, measured in 1/4 liters
-"bashing" : 5,        // Bashing damage caused by using it as a melee weapon
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "time" : 35,          // Time (in minutes) a single read session takes
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
-"price" : 500,        // Used when bartering with NPCs
+"chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
+```
+Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"book_data" : {       // additionally the same book data like above
+    "max_level" : 5,
+    "intelligence" : 11,
+    "time" : 35,
+    "fun" : -2,
+    "skill" : "computer",
+    "chapters" : 4,
+    "required_level" : 2
+}
 ```
 
 ####Color key

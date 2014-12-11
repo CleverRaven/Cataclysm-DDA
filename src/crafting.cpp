@@ -262,12 +262,13 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                it_book *book_def = dynamic_cast<it_book *>( item::find_type( book_id ) );
-                if (book_def == NULL) {
+                itype *t = item::find_type( book_id );
+                if( !t->book ) {
+                    // TODO: we could make up a book slot?
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                book_def->recipes[r] = skill_level;
+                t->book->recipes[r] = skill_level;
             }
             r->booksets.clear();
         }
