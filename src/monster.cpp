@@ -975,7 +975,7 @@ bool monster::move_effects()
     if (has_effect("heavysnare")) {
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
-                remove_effect("lightsnare");
+                remove_effect("heavysnare");
                 g->m.spawn_item(xpos(), ypos(), "rope_6");
                 g->m.spawn_item(xpos(), ypos(), "snare_trigger");
                 if (u_see_me) {
@@ -988,7 +988,7 @@ bool monster::move_effects()
     if (has_effect("beartrap")) {
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
-                remove_effect("lightsnare");
+                remove_effect("beartrap");
                 g->m.spawn_item(xpos(), ypos(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
