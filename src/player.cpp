@@ -11479,7 +11479,9 @@ void player::do_read( item *book )
 
     if( reading->fun != 0 ) {
         int fun_bonus = 0;
-        if( book->charges == 0 ) {
+        const int chapters = book->get_chapters();
+        const int remain = book->get_remaining_chapters( *this );
+        if( chapters > 0 && remain == 0 ) {
             //Book is out of chapters -> re-reading old book, less fun
             add_msg(_("The %s isn't as much fun now that you've finished it."), book->tname().c_str());
             if( one_in(6) ) { //Don't nag incessantly, just once in a while
@@ -11500,9 +11502,7 @@ void player::do_read( item *book )
         }
     }
 
-    if( book->charges > 0 ) {
-        book->charges--;
-    }
+    book->mark_chapter_as_read( *this );
 
     bool no_recipes = true;
     if( !reading->recipes.empty() ) {

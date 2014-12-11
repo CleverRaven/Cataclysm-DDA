@@ -78,9 +78,6 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if( type->book ) {
-        charges = type->book->chapters;
-    }
     if( type->is_gunmod() ) {
         if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
             charges = 0;
@@ -874,6 +871,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                                           "This book takes <num> minutes to read.",
                                                           book->time),
                                      book->time, true, "", true, true));
+            if( book->chapters > 0 ) {
+                const int unread = get_remaining_chapters( g->u );
+                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapters.",
+                                                                 "This book has <num> unread chapter.",
+                                                                 unread ),
+                                           unread ) );
+            }
 
             if (!(book->recipes.empty())) {
                 std::string recipes = "";
@@ -1658,6 +1662,8 @@ std::string item::display_name(unsigned int quantity) const
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
     } else if( already_used_by_player( g->u ) ) {
         return string_format( _( "%s (used)" ), tname( quantity ).c_str() );
+    } else if( is_book() && get_chapters() > 0 ) {
+        return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
     } else {
@@ -2754,6 +2760,31 @@ bool item::is_artifact() const
         return false;
 
     return type->is_artifact();
+}
+
+int item::get_chapters() const
+{
+    if( !type->book ) {
+        return 0;
+    }
+    return type->book->chapters;
+}
+
+int item::get_remaining_chapters( const player &u ) const
+{
+    const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    const auto iter = item_vars.find( var );
+    if( iter == item_vars.end() ) {
+        return get_chapters();
+    }
+    return atoi( iter->second.c_str() );
+}
+
+void item::mark_chapter_as_read( const player &u )
+{
+    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+    const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    item_vars[var] = string_format( "%d", remain );
 }
 
 const material_type &item::get_random_material() const
