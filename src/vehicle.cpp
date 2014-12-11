@@ -79,7 +79,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     tracking_epower = 0;
     alarm_epower = 0;
     cruise_velocity = 0;
-    security = 0;
     music_id = "";
     skidding = false;
     cruise_on = true;
@@ -424,8 +423,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             is_locked = true;
         }
     }
-
-    security = 0;
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
