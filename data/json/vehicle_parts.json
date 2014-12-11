@@ -3866,7 +3866,7 @@
         "epower" : 1492,
         "item" : "alternator_car",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR"]
+        "flags" : ["ALTERNATOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
             {"item": "steel_chunk", "min": 3, "max": 6},
