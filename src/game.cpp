@@ -4906,6 +4906,7 @@ void game::debug()
         u.add_martialart("style_scorpion");
         u.add_martialart("style_lizard");
         u.add_martialart("style_toad");
+        u.add_martialart("style_boxing");
         u.add_martialart("style_eskrima");
         u.add_martialart("style_fencing");
         u.add_martialart("style_biojutsu");
