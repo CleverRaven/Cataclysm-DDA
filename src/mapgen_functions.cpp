@@ -2283,6 +2283,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         if (one_in(2)) { //dining table in the kitchen
             square_furn(m, f_table, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1, int((x1 + x2) / 2),
                         int((y1 + y2) / 2) );
+            m->place_items("dining", 20, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1,
+                           int((x1 + x2) / 2), int((y1 + y2) / 2), false, 0);
         }
         if (one_in(2)) {
             for (int i = 0; i <= 2; i++) {
