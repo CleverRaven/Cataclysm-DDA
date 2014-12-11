@@ -188,8 +188,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
-- ```DESTROYS``` Bashes down walls and more.
-- ```BORES``` Tunnels through just about anything (about 50x bash multiplier)
+- ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
+- ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
 - ```BADVENOM``` Attack may **severely** poison the player.

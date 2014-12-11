@@ -96,8 +96,8 @@ void event::actualize()
   case EVENT_SPAWN_WYRMS: {
    if (g->levz >= 0)
     return;
-   g->u.add_memorial_log(pgettext("memorial_male", "Awoke a group of dark wyrms!"),
-                         pgettext("memorial_female", "Awoke a group of dark wyrms!"));
+   g->u.add_memorial_log(pgettext("memorial_male", "Drew the attention of more dark wyrms!"),
+                         pgettext("memorial_female", "Drew the attention of more dark wyrms!"));
    monster wyrm(GetMType("mon_dark_wyrm"));
    int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
@@ -114,6 +114,12 @@ void event::actualize()
           wyrm.spawn(monx, mony);
           g->add_zombie(wyrm);
       }
+   }
+   // You could drop the flag, you know.
+   if (g->u.has_amount("petrified_eye", 1)) {
+      add_msg(_("The eye you're carrying lets out a tortured scream!"));
+      g->sound(g->u.posx, g->u.posy, 60, _(""));
+      g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
    }
    if (!one_in(25)) // They just keep coming!
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
