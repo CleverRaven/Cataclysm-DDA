@@ -463,28 +463,69 @@ void vehicle::smash() {
 }
 
 void vehicle::control_doors() {
-        bool toggled = false;
         int px = g->u.view_offset_x;
         int py = g->u.view_offset_y;
         point toggle_target;
         toggle_target = g->look_around();
         int dx = toggle_target.x - global_x();
         int dy = toggle_target.y - global_y();
+        int door = -1;
         for (size_t i = 0; i < parts.size(); i++) {
             if (parts[i].precalc_dx[0] == dx && parts[i].precalc_dy[0] == dy &&
                 part_flag( i, "OPENABLE" ) && parts[i].hp > 0) {
-                open_or_close( i, !(parts[i].open) );
-                toggled = true;
+                door = i;
                 break;
             }
         }
 
-        if( !toggled ) {
-            popup(_("No doors here!"));
-        }
-
         g->u.view_offset_x = px;
         g->u.view_offset_y = py;
+        if( door == -1 ) {
+            popup( _("No unbroken doors here!") );
+            return;
+        }
+        bool has_motor = part_with_feature( door, "DOOR_MOTOR" ) != -1;
+        if( has_motor ) {
+            open_or_close( door, !(parts[door].open) );
+            return;
+        } else if( !part_info( door ).has_flag( "MULTISQUARE" ) ) {
+            popup( _("No door motor here!") );
+            return;
+        }
+        // If door is multisquare, traverse neighbors like in open_or_close
+        std::unordered_set< int > checked;
+        std::queue< int > to_check;
+        to_check.push( door );
+        while( !to_check.empty() ) {
+            int cur = to_check.front();
+            to_check.pop();
+            has_motor = part_with_feature( door, "DOOR_MOTOR" ) != -1;
+            if( has_motor ) {
+                break;
+            }
+            bool opening = parts[cur].open;
+            for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
+                if( parts[next_index].removed ) {
+                    continue;
+                }
+                // All neighbors of same type that weren't checked yet
+                int xdiff = parts[next_index].mount_dx - parts[cur].mount_dx;
+                int ydiff = parts[next_index].mount_dy - parts[cur].mount_dy;
+                if( ( xdiff * xdiff + ydiff * ydiff == 1 ) && // (x^2 + y^2) == 1
+                    ( part_info( next_index ).id == part_info( cur ).id ) &&
+                    ( parts[next_index].open == opening ) && 
+                    ( checked.find( next_index ) == checked.end() ) ) {
+                        to_check.push( next_index );
+                        checked.insert( next_index );
+                }
+            }
+        }
+
+        if( has_motor ) {
+        open_or_close( door, !(parts[door].open) );
+        } else {
+            popup( _("No door motor here!") );
+        }
 }
 
 void vehicle::control_engines() {
@@ -718,7 +759,7 @@ void vehicle::use_controls()
     bool has_fridge = false;
     bool has_recharger = false;
     bool can_trigger_alarm = false;
-    bool has_doors = false;
+    bool has_door_motor = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -758,8 +799,8 @@ void vehicle::use_controls()
         } else if (part_flag(p, "SECURITY") && !is_alarm_on && parts[p].hp > 0) {
             can_trigger_alarm = true;
         }
-        else if (part_flag(p, "OPENABLE")) {
-            has_doors = true;
+        else if (part_flag(p, "DOOR_MOTOR")) {
+            has_door_motor = true;
         }
     }
 
@@ -853,7 +894,7 @@ void vehicle::use_controls()
                                                _("Turn on reactor"), 'k'));
     }
     // Toggle doors remotely
-    if (has_doors) {
+    if (has_door_motor) {
         options_choice.push_back(toggle_doors);
         options_message.push_back(uimenu_entry(_("Toggle door"), 'd'));
     }
@@ -1424,6 +1465,19 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "BATTERY_MOUNT" ) ) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
+
+    //Door motors need OPENABLE
+    if( vehicle_part_types[id].has_flag( "DOOR_MOTOR" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "OPENABLE" ) ) {
                 anchor_found = true;
             }
         }

@@ -4271,5 +4271,22 @@
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
         ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "door_motor",
+        "name" : "door motor",
+        "symbol" : "*",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 50,
+        "item" : "motor_small",
+        "difficulty" : 3,
+        "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
     }
 ]
