@@ -618,6 +618,8 @@
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -635,6 +637,8 @@
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -653,6 +657,8 @@
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -671,6 +677,8 @@
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -688,6 +696,8 @@
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 },
@@ -706,6 +716,8 @@
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 },
@@ -1470,6 +1482,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -1488,6 +1502,8 @@
             "str_min": 4, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 }
@@ -1553,6 +1569,8 @@
             "str_min": 3, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 5 }
@@ -1572,6 +1590,8 @@
             "str_min": 6, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 5 }
@@ -1604,6 +1624,8 @@
             "str_min": 3, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 3 },
@@ -1627,6 +1649,8 @@
             "str_min": 6, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 3 },
@@ -1648,6 +1672,8 @@
             "str_min": 3, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 3 },
@@ -1681,6 +1707,8 @@
             "str_min": 3, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 3 },
@@ -1704,6 +1732,8 @@
             "str_min": 3, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame"
         }
     },{
@@ -1720,6 +1750,8 @@
             "str_min": 6, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "glass_shard", "amount": 5 }
@@ -1757,6 +1789,8 @@
             "str_min": 1, "str_max": 1,
             "sound": "glass crunching!",
             "sound_fail": "whack!",
+            "sound_vol": 12,
+            "sound_fail_vol": 8,
             "ter_set": "t_window_empty",
             "items": [
                 { "item": "glass_shard", "amount": 1 }
@@ -1777,6 +1811,8 @@
             "str_min": 3, "str_max": 30,
             "sound": "crash!",
             "sound_fail": "wham!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_frame",
             "items": [
                 { "item": "splinter", "amount": 2, "minamount": 0 },
@@ -1795,6 +1831,8 @@
             "str_min": 3, "str_max": 30,
             "sound": "crash!",
             "sound_fail": "wham!",
+            "sound_vol": 14,
+            "sound_fail_vol": 10,
             "ter_set": "t_window_empty",
             "items": [
                 { "item": "splinter", "amount": 2, "minamount": 0 }
@@ -3527,6 +3565,8 @@
             "str_min": 2, "str_max": 80,
             "sound": "ker-rash!",
             "sound_fail": "plunk.",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "amount": 10, "minamount": 5 },
