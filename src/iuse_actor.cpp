@@ -2,6 +2,7 @@
 #include "item.h"
 #include "game.h"
 #include "monster.h"
+#include "overmapbuffer.h"
 #include <sstream>
 #include <algorithm>
 
@@ -670,4 +671,50 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     }
 
     return it->type->charges_to_use();
+}
+
+
+reveal_map_actor::~reveal_map_actor() {};
+
+iuse_actor *reveal_map_actor::clone() const
+{
+    return new reveal_map_actor(*this);
+}
+
+void reveal_map_actor::load( JsonObject &obj )
+{
+    radius = obj.get_int( "radius" );
+    message = obj.get_string( "message" );
+    JsonArray jarr = obj.get_array( "terrain" );
+    while( jarr.has_more() ) {
+        omt_types.push_back( jarr.next_string() );
+    }
+}
+
+void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
+{
+    const auto places = overmap_buffer.find_all( g->om_global_location(), target, radius, false );
+    for( auto & place : places ) {
+        overmap_buffer.reveal( place, reveal_distance, g->levz );
+    }
+}
+
+long reveal_map_actor::use( player *p, item *it, bool, point ) const
+{
+    if( it->already_used_by_player( *p ) ) {
+        p->add_msg_if_player( _( "There isn't anything new on the %s." ), it->tname().c_str() );
+        return 0;
+    } else if( g->levz < 0 ) {
+        p->add_msg_if_player( _( "You should read your %s when you get to the surface." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    for( auto & omt : omt_types ) {
+        reveal_targets( omt, 0 );
+    }
+    if( !message.empty() ) {
+        p->add_msg_if_player( m_good, "%s", _( message.c_str() ) );
+    }
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
