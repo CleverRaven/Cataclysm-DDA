@@ -387,6 +387,7 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
     "fun" : -2,
     "skill" : "computer",
     "chapters" : 4,
+    "use_action" : "MA_MANUAL", // The book_data can have use functions (see USE ACTIONS) that are triggered when the books has been read. These functions are not triggered by simply activating the item (like tools would).
     "required_level" : 2
 }
 ```

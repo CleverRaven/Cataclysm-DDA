@@ -707,6 +707,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     slot.time = jo.get_int( "time" );
     slot.type = Skill::skill( jo.get_string( "skill" ) );
     slot.chapters = jo.get_int( "chapters", -1 );
+    set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
 
 void Item_factory::load_book( JsonObject &jo )

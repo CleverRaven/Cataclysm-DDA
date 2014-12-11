@@ -184,6 +184,10 @@ struct islot_book {
      * to learn the recipe.
      */
     std::map<const recipe *, int> recipes;
+    /**
+     * Special effects that can happen after the item has been read. May be empty.
+     */
+    std::vector<use_function> use_methods;
 
     islot_book()
     : type( nullptr )
@@ -194,6 +198,7 @@ struct islot_book {
     , time( 0 )
     , chapters( 0 )
     , recipes()
+    , use_methods()
     {
     }
 };

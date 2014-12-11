@@ -11629,8 +11629,8 @@ void player::do_read( item *book )
         add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
     }
 
-    if( book->type->has_use() ) {
-        book->type->invoke( this, book, false, pos() );
+    for( auto &m : reading->use_methods ) {
+        m.call( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
