@@ -9621,20 +9621,51 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     }
                 }
 
-                lx += dx;
-                ly += dy;
+                point pos = u.pos();
+                int range = u.sight_range(g->light_level());
 
-                //Keep cursor inside DAYLIGHT_LEVEL
-                if (lx < 0) {
-                    lx = 0;
-                } else if (lx > DAYLIGHT_LEVEL * 2) {
-                    lx = DAYLIGHT_LEVEL * 2;
-                }
+                // Distance to new coordinates
+                int dist_t = rl_dist(pos.x, pos.y, lx + dx, ly + dy);
 
-                if (ly < 0) {
-                    ly = 0;
-                } else if (ly > DAYLIGHT_LEVEL * 2) {
-                    ly = DAYLIGHT_LEVEL * 2;
+                // Stay within sight range
+                if (dist_t <= range) {
+                    // New coordinates within sight, update coordinates
+                    lx += dx;
+                    ly += dy;
+                } else {
+                    // New coordinates out of sight
+
+                    // Distance to previous coordinates
+                    int dist_f = rl_dist(pos.x, pos.y, lx, ly);
+
+                    if (dist_f <= range) {
+                        // Previous coordinates within sight, update coordinates
+                        lx += dx;
+                        ly += dy;
+
+                        // Find first coordinate on the line from new coordinates to
+                        // old coordinates within sight
+                        while (dist_t > range) {
+                            if (dx != 0) {
+                                lx -= sgn(dx);
+                            }
+                            if (dy != 0) {
+                                ly -= sgn(dy);
+                            }
+                            dist_t = rl_dist(pos.x, pos.y, lx, ly);
+                        }
+                    } else {
+                        // Previous coordinates out of sight,
+                        // project coordinates to player position on the edge of sight
+                        double f = double(range)/dist_f;
+                        int tdx = lx - pos.x;
+                        int tdy = ly - pos.y;
+                        tdx = std::round(f*tdx);
+                        tdy = std::round(f*tdy);
+                        lx = pos.x + tdx;
+                        ly = pos.y + tdy;
+                    }
+
                 }
 
                 draw_ter(lx, ly);
