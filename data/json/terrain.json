@@ -9,6 +9,42 @@
         "trap": "tr_ledge",
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
+    		"type" : "terrain",
+		"id" : "s_conc_wall",
+		"name": "simple concrete wall",
+		"symbol": "#",
+		"color": "ltgray",
+		"move_cost": 0,
+		"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+		"bash": {
+			"str_min": 90, "str_max": 350,
+			"sound": "crash!",
+			"sound_fail": "whump!",
+			"ter_set": "t_pit_shallow",
+			"items": [
+				{ "item": "rock", "amount": 22, "minamount": 10 }
+			]
+		}
+    },{
+		"type" : "terrain",
+		"id" : "str_conc_wall",
+		"name": "strong concrete wall",
+		"symbol": "#",
+		"color": "ltgray",
+		"move_cost": 0,
+		"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+		"bash": {
+			"str_min": 120, "str_max": 460,
+			"sound": "scrrrash!",
+			"sound_fail": "whump!",
+			"ter_set": "t_pit",
+			"items": [
+				{ "item": "rock", "amount": 22, "minamount": 10 },
+				{ "item": "scrap", "amount": 12, "minamount": 4 },
+				{ "item": "rebar", "amount": 4, "minamount": 0 }
+			]
+		}
+    },{
         "type" : "terrain",
         "id" : "t_dirt",
         "name": "dirt",
@@ -508,6 +544,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
             "items": [
+                { "item": "rebar", "amount": 6, "minamount": 0 },
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
                 { "item": "splinter", "amount": 5, "minamount": 1 }
@@ -527,6 +564,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
             "items": [
+                { "item": "rebar", "amount": 6, "minamount": 0 },
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
                 { "item": "splinter", "amount": 5, "minamount": 1 }
