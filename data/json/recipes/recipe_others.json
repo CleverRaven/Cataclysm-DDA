@@ -1926,7 +1926,7 @@
   "components": [
     [
       [ "wire", 6 ],
-	  [ "basket", 1]
+      [ "basket", 1]
     ],
     [
       [ "scrap", 8]
@@ -4416,7 +4416,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "kiln_lit",
+  "result": "kiln_full",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
@@ -4424,14 +4424,6 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "lighter", 1 ],
-      [ "ref_lighter", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
-  ],
   "components": [
     [
       [ "splinter", 20 ],

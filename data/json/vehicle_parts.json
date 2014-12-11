@@ -2783,7 +2783,7 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-		"folded_volume" : 2,
+        "folded_volume" : 2,
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
@@ -2803,7 +2803,7 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-		"folded_volume" : 4,
+        "folded_volume" : 4,
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
@@ -2862,8 +2862,7 @@
         "item" : "storage_battery",
         "difficulty" : 2,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "FOLDABLE"],
-		"folded_volume" : 8,
+        "flags" : ["FUEL_TANK", "FOLDABLE"]
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -3784,7 +3783,7 @@
         "item" : "battery_motorbike",
         "difficulty" : 2,
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-		"folded_volume" : 3,
+        "folded_volume" : 3,
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3805,7 +3804,7 @@
         "item" : "battery_car",
         "difficulty" : 2,
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-		"folded_volume" : 4,
+        "folded_volume" : 4,
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 9},
             {"item": "steel_chunk", "min": 6, "max": 9},
@@ -3825,8 +3824,7 @@
         "fuel_type" : "battery",
         "item" : "battery_truck",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK", "TOOL_WRENCH", "FOLDABLE"],
-		"folded_volume" : 6,
+        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 12},
             {"item": "steel_chunk", "min": 8, "max": 12},
@@ -3848,7 +3846,7 @@
         "item" : "alternator_motorbike",
         "difficulty" : 3,
         "flags" : ["ALTERNATOR", "FOLDABLE"],
-		"folded_volume" : 5,
+        "folded_volume" : 5,
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 5},
             {"item": "steel_chunk", "min": 2, "max": 5},
@@ -3868,8 +3866,7 @@
         "epower" : 1492,
         "item" : "alternator_car",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR", "FOLDABLE"],
-		"folded_volume" : 6,
+        "flags" : ["ALTERNATOR"]
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
             {"item": "steel_chunk", "min": 3, "max": 6},
@@ -3889,8 +3886,7 @@
         "epower" : 2238,
         "item" : "alternator_truck",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR", "FOLDABLE"],
-		"folded_volume" : 7,
+        "flags" : ["ALTERNATOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -4030,7 +4026,7 @@
         "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["CIRCLE_LIGHT", "FOLDABLE"],
-		"folded_volume": 8,
+        "folded_volume": 8,
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -4051,7 +4047,7 @@
         "difficulty" : 3,
         "location" : "on_cargo",
         "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE"],
-		"folded_volume" : 8,
+        "folded_volume" : 8,
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2},
