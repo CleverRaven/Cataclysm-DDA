@@ -11258,7 +11258,6 @@ void player::remove_gunmod(item *weapon, unsigned id)
 
 hint_rating player::rate_action_read(item *it)
 {
- //note: there's a cryptic note about macguffins in player::read(). Do we have to account for those?
  if (!it->is_book()) {
   return HINT_CANT;
  }
@@ -11304,16 +11303,6 @@ void player::read(int inventory_position)
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
-        return;
-    }
-
-// Some macguffins can be read, but they aren't treated like books.
-    it_macguffin* mac = NULL;
-    if (it->is_macguffin()) {
-        mac = dynamic_cast<it_macguffin*>(it->type);
-    }
-    if (mac != NULL) {
-        mac->invoke(this, it, false, pos());
         return;
     }
 

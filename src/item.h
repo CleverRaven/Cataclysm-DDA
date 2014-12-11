@@ -461,7 +461,6 @@ public:
 
  bool is_tool() const;
  bool is_software() const;
- bool is_macguffin() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
 

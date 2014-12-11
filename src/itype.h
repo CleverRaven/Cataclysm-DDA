@@ -311,10 +311,6 @@ public:
     {
         return false;
     }
-    virtual bool is_macguffin() const
-    {
-        return false;
-    }
     virtual bool is_artifact() const
     {
         return false;
@@ -611,26 +607,6 @@ struct it_bionic : public virtual itype {
     virtual std::string get_item_type_string() const
     {
         return "BIONIC";
-    }
-};
-
-struct it_macguffin : public virtual itype {
-    bool readable; // If true, activated with 'R'
-
-    virtual bool is_macguffin() const
-    {
-        return true;
-    }
-    it_macguffin(std::string pid, unsigned int pprice, std::string pname,
-                 std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
-                 std::vector<std::string> pmaterial, unsigned int pvolume,
-                 unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
-                 bool preadable, int (iuse::*puse)(player *, item *, bool, point))
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
-                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
-    {
-        readable = preadable;
-        use_methods.push_back( puse );
     }
 };
 

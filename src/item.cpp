@@ -2748,14 +2748,6 @@ bool item::is_software() const
     return type->is_software();
 }
 
-bool item::is_macguffin() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_macguffin();
-}
-
 bool item::is_artifact() const
 {
     if( is_null() )

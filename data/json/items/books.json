@@ -22,6 +22,31 @@
         "chapters": 4
     },
     {
+        "type" : "GENERIC",
+        "id" : "note",
+        "name" : "note",
+        "description" : "A hand-written paper note.",
+        "weight" : 0,
+        "to_hit" : 0,
+        "color" : "white",
+        "symbol" : "?",
+        "material" : ["paper"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 0,
+        "book_data" : {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 1,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MCG_NOTE"
+        }
+    },
+    {
         "type" : "BOOK",
         "id" : "photo_album",
         "name" : "photo album",
