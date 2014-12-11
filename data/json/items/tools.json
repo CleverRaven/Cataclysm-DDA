@@ -1207,7 +1207,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "ROADMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "shelter", "hospital", "school", "police", "sub_station", "bank"],
+      "message": "You add roads and points of interest to your map."
+    }
   },
 
   {
@@ -1231,7 +1236,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SURVIVORMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas"],
+      "message": "You add roads and possible supply points to your map."
+    }
   },
 
   {
@@ -1255,7 +1265,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "MILITARYMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police"],
+      "message": "You add roads and facilities to your map."
+    }
   },
 
   {
@@ -1279,7 +1294,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "RESTAURANTMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "s_restaurant_coffee", "s_restaurant", "bar", "s_pizza_parlor", "s_restaurant_fast"],
+      "message": "You add roads and restaurants to your map."
+    }
   },
 
   {
@@ -1303,7 +1323,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TOURISTMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore"],
+      "message": "You add roads and tourist attractions to your map."
+    }
   },
 
   {

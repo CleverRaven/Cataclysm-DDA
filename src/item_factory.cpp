@@ -210,11 +210,6 @@ void Item_factory::init()
     iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
-    iuse_function_list["ROADMAP"] = &iuse::roadmap;
-    iuse_function_list["SURVIVORMAP"] = &iuse::survivormap;
-    iuse_function_list["MILITARYMAP"] = &iuse::militarymap;
-    iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
-    iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
@@ -1300,6 +1295,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return load_actor<place_monster_iuse>( obj );
     } else if( type == "ups_based_armor" ) {
         return load_actor<ups_based_armor_actor>( obj );
+    } else if( type == "reveal_map" ) {
+        return load_actor<reveal_map_actor>( obj );
     } else {
         obj.throw_error( "unknown use_action", "type" );
         return use_function(); // line above throws, but the compiler does not know \-:
