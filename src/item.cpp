@@ -1424,8 +1424,8 @@ nc_color item::color(player *u) const
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
             if( tmp.skill && tmp.intel <= u->int_cur + u->skillLevel( tmp.skill ) &&
-                ( u->skillLevel( tmp.skill ) >= static_cast<int>( tmp.req ) ) &&
-                ( u->skillLevel( tmp.skill ) < static_cast<int>( tmp.level ) ) ) {
+                ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
+                ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
                 ret = c_ltblue;
             } else if( !u->studied_all_recipes( *type ) ) {
                 ret = c_yellow;

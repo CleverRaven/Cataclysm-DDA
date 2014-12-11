@@ -156,24 +156,24 @@ struct islot_book {
     /**
      * The skill level the book provides.
      */
-    unsigned char level;
+    int level;
     /**
      * The skill level required to understand it.
      */
-    unsigned char req;
+    int req;
     /**
      * How fun reading this is, can be negative.
      */
-    signed char fun;
+    int fun;
     /**
      * Intelligence required to read it.
      */
-    unsigned char intel;
+    int intel;
     /**
      * How long, in 10-turns (aka minutes), it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
-    unsigned int time;
+    int time;
     /**
      * Fun books have chapters; after all are read, the book is less fun.
      */

@@ -714,7 +714,7 @@ int player::calc_focus_equilibrium()
         if( book.is_book() ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
-            if( skillLevel( bt.skill ) < static_cast<int>( bt.level ) ) {
+            if( skillLevel( bt.skill ) < bt.level ) {
                 focus_gain_rate -= 50;
             }
         } else {
@@ -11356,7 +11356,7 @@ void player::read(int inventory_position)
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return;
-    } else if( skillLevel( skill ) < static_cast<int>( tmp->req ) ) {
+    } else if( skillLevel( skill ) < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill->name().c_str());
         if (tmp->recipes.empty()) {
@@ -11364,14 +11364,14 @@ void player::read(int inventory_position)
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
-    } else if (skillLevel(skill) >= (int)tmp->level && !can_study_recipe(*it->type) &&
+    } else if (skillLevel(skill) >= tmp->level && !can_study_recipe(*it->type) &&
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill->name().c_str())) {
         return;
-    } else if( !continuous && ( skillLevel(skill) < (int)tmp->level || can_study_recipe(*it->type) ) &&
-                         !query_yn( skillLevel(skill) < (int)tmp->level ?
+    } else if( !continuous && ( skillLevel(skill) < tmp->level || can_study_recipe(*it->type) ) &&
+                         !query_yn( skillLevel(skill) < tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
                          skill->name().c_str()) ) {
@@ -11515,7 +11515,7 @@ void player::do_read( item *book )
 
         // for books that the player cannot yet read due to skill level or have no skill component,
         // but contain lower level recipes, break out once recipe has been studied
-        if( skill == nullptr || (skillLevel(skill) < (int)reading->req) ) {
+        if( skill == nullptr || (skillLevel(skill) < reading->req) ) {
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
@@ -11525,7 +11525,7 @@ void player::do_read( item *book )
         }
     }
 
-    if( skill != nullptr && skillLevel(skill) < (int)reading->level ) {
+    if( skill != nullptr && skillLevel(skill) < reading->level ) {
         int originalSkillLevel = skillLevel( skill );
         int min_ex = reading->time / 10 + int_cur / 4;
         int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
@@ -11573,7 +11573,7 @@ void player::do_read( item *book )
             }
         }
 
-        int new_skill_level = (int)skillLevel(skill);
+        int new_skill_level = skillLevel(skill);
         if (new_skill_level > originalSkillLevel) {
             add_msg(m_good, _("You increase %s to level %d."),
                     skill->name().c_str(),
@@ -11587,7 +11587,7 @@ void player::do_read( item *book )
             }
         }
 
-        if( skillLevel(skill) == (int)reading->level ) {
+        if( skillLevel(skill) == reading->level ) {
             if( no_recipes ) {
                 add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
             } else {
