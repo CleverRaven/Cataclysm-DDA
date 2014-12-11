@@ -2584,5 +2584,101 @@
     [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
     [ [ "duct_tape", 300 ] ]
   ]
-}
+},{
+    "type" : "recipe",
+    "result": "remotevehcontrol",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 2 ],
+    "difficulty": 7,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [[ "recipe_lab_elec", 5 ] , [ "textbook_robots", 5 ]],
+    "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 14 ]
+    ]
+  ],
+
+     "components": [
+      [
+        [ "e_scrap", 5 ]
+      ],
+      [
+        ["amplifier", 1 ]
+      ],
+      [
+        [ "receiver", 1 ]
+      ],
+      [
+        [ "antenna", 1 ]
+      ],
+      [
+        ["processor", 1 ]
+      ],
+      [
+        ["RAM", 1 ]
+      ],
+      [
+        ["small_lcd_screen", 1 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "drive_by_wire_controls",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 8,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ ["textbook_mechanics", 8], [ "textbook_robots", 7 ] ],
+    "qualities":[
+        {"id":"HAMMER","level":2,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1},
+        {"id":"WRENCH","level":1,"amount":1},
+        {"id":"SCREW","level":1,"amount":1}
+    ], 
+    "tools": [
+        [
+          [ "goggles_welding", -1 ]
+        ],
+        [
+          [ "welder", 50 ],
+          [ "welder_crude", 75 ],
+          [ "toolset", 75 ]
+        ],
+        [
+            [ "soldering_iron", 30 ],
+            [ "toolset", 30 ]
+        ]
+    ],
+     "components": [
+      [
+        [ "vehicle_controls", 1 ]
+      ],
+      [
+        [ "motor_small", 3 ]
+      ],
+      [
+        [ "receiver", 3 ]
+      ],
+      [
+        [ "processor", 3 ]
+      ],
+      [
+        [ "RAM", 3 ]
+      ],
+      [
+        [ "circuit", 3 ]
+      ]
+    ]
+  }
 ]

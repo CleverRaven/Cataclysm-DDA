@@ -138,13 +138,18 @@ bool vehicle::remote_controlled (player *p)
         return false;
     }
 
-    if( rl_dist( p->posx, p->posy, global_x(), global_y() ) > 40 ) {
-        add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
-        p->remove_value( "remote_controlling_vehicle" );
-        return false;
+    auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
+    for( int part : remote ) {
+        if( rl_dist( p->posx, p->posy, 
+                    global_x() + parts[part].precalc_dx[0], 
+                    global_y() + parts[part].precalc_dy[0] ) <= 40 ) {
+            return true;
+        }
     }
-
-    return true;
+    
+    add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
+    p->remove_value( "remote_controlling_vehicle" );
+    return false;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -476,6 +481,11 @@ class partpicker_cb : public uimenu_callback {
         }
         ~partpicker_cb() { }
 
+    void select( int /*num*/, uimenu */*menu*/ ) {
+        g->u.view_offset_x = 0;
+        g->u.view_offset_y = 0;
+    }
+    
     void refresh( uimenu *menu ) {
         if( last == menu->selected ) {
             return;
@@ -827,7 +837,7 @@ void vehicle::use_controls()
         }
     }
 
-    if (is_alarm_on && velocity == 0){
+    if( is_alarm_on && velocity == 0 && !remote_controlled( &g->u ) ) {
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
     }
