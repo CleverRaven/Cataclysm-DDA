@@ -462,70 +462,81 @@ void vehicle::smash() {
     }
 }
 
+// Callback for uimenu that will center on selected part without having to
+// get into vehicle interact menu (useful if we want to see the rotated vehicle)
+// Used for remote door opening, but could be reusable for any individual part selection
+// where position matters, such as manual turret aiming
+class partpicker_cb : public uimenu_callback {
+    private:
+        const std::vector< point > &points;
+        int last; // to suppress redrawing
+    public:
+        partpicker_cb( std::vector< point > &pts ) : points( pts ) { 
+            last = INT_MIN;
+        }
+        ~partpicker_cb() { }
+
+    void refresh( uimenu *menu ) {
+        if( last == menu->selected ) {
+            return;
+        }
+        if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
+            last = menu->selected;
+            g->u.view_offset_x = 0;
+            g->u.view_offset_y = 0;
+            g->draw_ter();
+            menu->redraw( false ); // show() won't redraw borders
+            menu->show();
+            return;
+        }
+
+        last = menu->selected;
+        const point &center = points[menu->selected];
+        g->u.view_offset_x = center.x - g->u.posx;
+        g->u.view_offset_y = center.y - g->u.posy;
+        g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
+        menu->redraw( false );
+        menu->show();
+    }
+};
+
 void vehicle::control_doors() {
-        int px = g->u.view_offset_x;
-        int py = g->u.view_offset_y;
-        point toggle_target;
-        toggle_target = g->look_around();
-        int dx = toggle_target.x - global_x();
-        int dy = toggle_target.y - global_y();
-        int door = -1;
-        for (size_t i = 0; i < parts.size(); i++) {
-            if (parts[i].precalc_dx[0] == dx && parts[i].precalc_dy[0] == dy &&
-                part_flag( i, "OPENABLE" ) && parts[i].hp > 0) {
-                door = i;
-                break;
-            }
-        }
+    std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
+    std::vector< int > doors_with_motors; // Indices of doors
+    std::vector< point > locations; // Locations used to display the doors
+    doors_with_motors.reserve( door_motors.size() );
+    locations.reserve( door_motors.size() );
+    if( door_motors.empty() ) {
+        debugmsg( "vehicle::control_doors called but no door motors found" );
+        return;
+    }
 
-        g->u.view_offset_x = px;
-        g->u.view_offset_y = py;
+    uimenu pmenu;
+    pmenu.title = _("Select door to toggle");
+    for( int p : door_motors ) {
+        int door = part_with_feature( p, "OPENABLE" );
         if( door == -1 ) {
-            popup( _("No unbroken doors here!") );
-            return;
-        }
-        bool has_motor = part_with_feature( door, "DOOR_MOTOR" ) != -1;
-        if( has_motor ) {
-            open_or_close( door, !(parts[door].open) );
-            return;
-        } else if( !part_info( door ).has_flag( "MULTISQUARE" ) ) {
-            popup( _("No door motor here!") );
-            return;
-        }
-        // If door is multisquare, traverse neighbors like in open_or_close
-        std::unordered_set< int > checked;
-        std::queue< int > to_check;
-        to_check.push( door );
-        while( !to_check.empty() ) {
-            int cur = to_check.front();
-            to_check.pop();
-            has_motor = part_with_feature( door, "DOOR_MOTOR" ) != -1;
-            if( has_motor ) {
-                break;
-            }
-            bool opening = parts[cur].open;
-            for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
-                if( parts[next_index].removed ) {
-                    continue;
-                }
-                // All neighbors of same type that weren't checked yet
-                int xdiff = parts[next_index].mount_dx - parts[cur].mount_dx;
-                int ydiff = parts[next_index].mount_dy - parts[cur].mount_dy;
-                if( ( xdiff * xdiff + ydiff * ydiff == 1 ) && // (x^2 + y^2) == 1
-                    ( part_info( next_index ).id == part_info( cur ).id ) &&
-                    ( parts[next_index].open == opening ) && 
-                    ( checked.find( next_index ) == checked.end() ) ) {
-                        to_check.push( next_index );
-                        checked.insert( next_index );
-                }
-            }
+            continue;
         }
 
-        if( has_motor ) {
-        open_or_close( door, !(parts[door].open) );
-        } else {
-            popup( _("No door motor here!") );
-        }
+        int val = doors_with_motors.size();
+        doors_with_motors.push_back( door );
+        locations.push_back( point( parts[p].precalc_dx[0] + global_x(), 
+                                    parts[p].precalc_dy[0] + global_y() ) );
+        const char *actname = parts[door].open ? _("Close") : _("Open");
+        pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
+    }
+
+    pmenu.addentry( -1, true, 'q', _("Cancel") );
+    partpicker_cb callback( locations );
+    pmenu.callback = &callback;
+    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+    pmenu.query();
+    
+    if( pmenu.ret >= 0 && pmenu.ret < (int)doors_with_motors.size() ) {
+        int part = doors_with_motors[pmenu.ret];
+        open_or_close( part, !(parts[part].open) );
+    }
 }
 
 void vehicle::control_engines() {
