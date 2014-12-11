@@ -2017,6 +2017,8 @@
             "str_min": 1, "str_max": 6,
             "sound": "rrrrip!",
             "sound_fail": "slap!",
+            "sound_vol": 8,
+            "sound_fail_vol": 4,
             "ter_set": "t_dirt"
         }
     },{
