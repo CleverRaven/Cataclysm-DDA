@@ -2288,7 +2288,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             for (int i = 0; i <= 2; i++) {
                 pos_x1 = rng(x1 + 2, x2 - 2);
                 pos_y1 = rng(y1 + 1, y2 - 1);
-                if (m->ter(pos_x1, pos_y1) == t_floor) {
+                if (m->ter(pos_x1, pos_y1) == t_floor && !(m->furn(pos_x1, pos_y1) == f_cupboard ||
+                    m->furn(pos_x1, pos_y1) == f_oven || m->furn(pos_x1, pos_y1) == f_sink ||
+                    m->furn(pos_x1, pos_y1) == f_fridge)) {
                     m->furn_set(pos_x1, pos_y1, f_chair);
                 }
             }
