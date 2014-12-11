@@ -6555,7 +6555,7 @@
     "price": 1000,
     "material": "plastic",
     "weight": 2,
-    "volume": 6,
+    "volume": 10,
     "to_hit": 1,
     "cutting": 0,
     "bashing": 3,
