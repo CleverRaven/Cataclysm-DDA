@@ -1140,7 +1140,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM", "OPENCLOSE_INSIDE"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1162,7 +1162,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
