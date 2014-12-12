@@ -696,11 +696,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( fuel->made_of(LIQUID) ) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if( fuel->type->id == "tequila" || fuel->type->id == "whiskey" ||
-                                    fuel->type->id == "vodka" || fuel->type->id == "rum" ||
-                                    fuel->type->id == "gasoline" || fuel->type->id == "diesel" ) {
+                                if (it->type->id == "gasoline" || it->type->id == "diesel") {
                                     time_added = 300;
                                     smoke += 6;
+                                } else if (it->type->id == "tequila" || it->type->id == "whiskey" ||
+                                           it->type->id == "vodka" || it->type->id == "rum" ||
+                                           it->type->id == "single_malt_whiskey" || it->type->id == "gin" ||
+                                           it->type->id == "moonshine" || it->type->id == "brandy") {
+                                    time_added = 250;
+                                    smoke += 5;
                                 } else if (it->type->id == "lamp_oil") {
                                     time_added = 300;
                                     smoke += 3;
@@ -1336,9 +1340,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             for( auto &target_item : i_at(x, y) ) {
                                 if( target_item.made_of("paper") || target_item.made_of("wood") ||
                                     target_item.made_of("veggy") || target_item.made_of("cotton") ||
-                                    target_item.made_of("wool") || target_item.type->id == "gasoline" ||
-                                    target_item.type->id == "diesel" ||
-                                    target_item.type->id == "lamp_oil" ) {
+                                    target_item.made_of("wool") || target_item.made_of("flesh") ||
+                                    target_item.made_of("hflesh") || target_item.made_of("iflesh") ||
+                                    target_item.type->id == "gasoline" || target_item.type->id == "diesel" ||
+                                    target_item.type->id == "lamp_oil" || target_item.type->id == "tequila" ||
+                                    target_item.type->id == "whiskey" || target_item.type->id == "vodka" ||
+                                    target_item.type->id == "rum" || target_item.type->id == "single_malt_whiskey" ||
+                                    target_item.type->id == "gin" || target_item.type->id == "moonshine" ||
+                                    target_item.type->id == "brandy" ) {
                                     add_field(x, y, fd_fire, 1);
                                 }
                             }

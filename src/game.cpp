@@ -4906,6 +4906,7 @@ void game::debug()
         u.add_martialart("style_scorpion");
         u.add_martialart("style_lizard");
         u.add_martialart("style_toad");
+        u.add_martialart("style_boxing");
         u.add_martialart("style_eskrima");
         u.add_martialart("style_fencing");
         u.add_martialart("style_biojutsu");
@@ -9620,20 +9621,51 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     }
                 }
 
-                lx += dx;
-                ly += dy;
+                point pos = u.pos();
+                int range = u.sight_range(g->light_level());
 
-                //Keep cursor inside DAYLIGHT_LEVEL
-                if (lx < 0) {
-                    lx = 0;
-                } else if (lx > DAYLIGHT_LEVEL * 2) {
-                    lx = DAYLIGHT_LEVEL * 2;
-                }
+                // Distance to new coordinates
+                int dist_t = rl_dist(pos.x, pos.y, lx + dx, ly + dy);
 
-                if (ly < 0) {
-                    ly = 0;
-                } else if (ly > DAYLIGHT_LEVEL * 2) {
-                    ly = DAYLIGHT_LEVEL * 2;
+                // Stay within sight range
+                if (dist_t <= range) {
+                    // New coordinates within sight, update coordinates
+                    lx += dx;
+                    ly += dy;
+                } else {
+                    // New coordinates out of sight
+
+                    // Distance to previous coordinates
+                    int dist_f = rl_dist(pos.x, pos.y, lx, ly);
+
+                    if (dist_f <= range) {
+                        // Previous coordinates within sight, update coordinates
+                        lx += dx;
+                        ly += dy;
+
+                        // Find first coordinate on the line from new coordinates to
+                        // old coordinates within sight
+                        while (dist_t > range) {
+                            if (dx != 0) {
+                                lx -= sgn(dx);
+                            }
+                            if (dy != 0) {
+                                ly -= sgn(dy);
+                            }
+                            dist_t = rl_dist(pos.x, pos.y, lx, ly);
+                        }
+                    } else {
+                        // Previous coordinates out of sight,
+                        // project coordinates to player position on the edge of sight
+                        double f = double(range)/dist_f;
+                        int tdx = lx - pos.x;
+                        int tdy = ly - pos.y;
+                        tdx = std::round(f*tdx);
+                        tdy = std::round(f*tdy);
+                        lx = pos.x + tdx;
+                        ly = pos.y + tdy;
+                    }
+
                 }
 
                 draw_ter(lx, ly);
@@ -10811,80 +10843,21 @@ int game::move_liquid(item &liquid)
             } else {
                 return 0;
             }
-        } else if (!cont->is_container()) {
-            add_msg(m_info, _("That %s won't hold %s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return -1;
         } else {
-            if (!cont->contents.empty()) {
-                if (cont->contents[0].type->id != liquid.type->id) {
-                    add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-                    return -1;
-                }
+            item tmp_liquid = liquid;
+            std::string err;
+            if( !cont->fill_with( tmp_liquid, err ) ) {
+                add_msg( m_info, "%s", err.c_str() );
+                return -1;
             }
-            it_container *container = dynamic_cast<it_container *>(cont->type);
-            long holding_container_charges;
-
-            if (liquid.type->is_food()) {
-                it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-                holding_container_charges = container->contains * tmp_comest->charges;
-            } else if (liquid.type->is_ammo()) {
-                it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-                holding_container_charges = container->contains * tmp_ammo->count;
+            u.inv.unsort();
+            if( tmp_liquid.charges == 0 ) {
+                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(), cont->type_name().c_str());
             } else {
-                holding_container_charges = container->contains;
+                add_msg(_("You fill your %s with some of the %s."), cont->type_name().c_str(), liquid.tname().c_str());
+                add_msg(_("There's some left over!"));
             }
-            if (!cont->contents.empty()) {
-
-                // case 1: container is completely full
-                if (cont->contents[0].charges == holding_container_charges) {
-                    add_msg(m_info, _("Your %s can't hold any more %s."), cont->tname().c_str(),
-                            liquid.tname().c_str());
-                    return -1;
-                } else {
-                    add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                            cont->tname().c_str());
-                    cont->contents[0].charges += liquid.charges;
-                    if (cont->contents[0].charges > holding_container_charges) {
-                        int extra = cont->contents[0].charges - holding_container_charges;
-                        cont->contents[0].charges = holding_container_charges;
-                        add_msg(_("There's some left over!"));
-                        return extra;
-                    } else {
-                        return 0;
-                    }
-                }
-            } else {
-                if (!cont->has_flag("WATERTIGHT")) {
-                    add_msg(m_info, _("That %s isn't water-tight."), cont->tname().c_str());
-                    return -1;
-                } else if (!(cont->has_flag("SEALS"))) {
-                    add_msg(m_info, _("You can't seal that %s!"), cont->tname().c_str());
-                    return -1;
-                }
-                // pouring into a valid empty container
-                long default_charges = 1;
-
-                if (liquid.is_food()) {
-                    it_comest *comest = dynamic_cast<it_comest *>(liquid.type);
-                    default_charges = comest->charges;
-                } else if (liquid.is_ammo()) {
-                    it_ammo *ammo = dynamic_cast<it_ammo *>(liquid.type);
-                    default_charges = ammo->count;
-                }
-                if (liquid.charges > container->contains * default_charges) {
-                    add_msg(_("You fill your %s with some of the %s."), cont->tname().c_str(),
-                            liquid.tname().c_str());
-                    u.inv.unsort();
-                    long extra = liquid.charges - container->contains * default_charges;
-                    liquid.charges = container->contains * default_charges;
-                    cont->put_in(liquid);
-                    return extra;
-                } else {
-                    cont->put_in(liquid);
-                    return 0;
-                }
-            }
+            return tmp_liquid.charges;
         }
         return -1;
     }
@@ -13137,11 +13110,11 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                         body_part_name_accusative(bp).c_str(),
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
-            }
-            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                 u.add_effect("tetanus", 1, num_bp, true);
-            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                u.add_effect("tetanus", 1, num_bp, true);
+                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                  u.add_effect("tetanus", 1, num_bp, true);
+                 }
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {

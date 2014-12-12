@@ -1038,7 +1038,7 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read( "covers", tmp_covers );
-    const auto armor = dynamic_cast<const it_armor *>( type );
+    const auto armor = type->armor.get();
     if( armor != nullptr && tmp_covers.none() ) {
         covered_bodyparts = armor->covers;
         if (armor->sided.any()) {

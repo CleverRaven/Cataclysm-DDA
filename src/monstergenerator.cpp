@@ -268,6 +268,7 @@ void MonsterGenerator::init_flags()
     flag_map["BASHES"] = MF_BASHES;
     flag_map["GROUP_BASH"] = MF_GROUP_BASH;
     flag_map["DESTROYS"] = MF_DESTROYS;
+    flag_map["BORES"] = MF_BORES;
     flag_map["POISON"] = MF_POISON;
     flag_map["VENOM"] = MF_VENOM;
     flag_map["BADVENOM"] = MF_BADVENOM;

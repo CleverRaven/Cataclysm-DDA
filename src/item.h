@@ -17,6 +17,7 @@ class game;
 class player;
 class npc;
 struct itype;
+struct islot_armor;
 class material_type;
 class item_category;
 
@@ -607,6 +608,11 @@ public:
          * or similar.
          */
         bool is_power_armor() const;
+        /**
+         * If this is an armor item, return its armor data. You should probably not use this function,
+         * use the various functions above (like @ref get_storage) to access armor data directly.
+         */
+        const islot_armor *find_armor_data() const;
         /*@}*/
 
         /**

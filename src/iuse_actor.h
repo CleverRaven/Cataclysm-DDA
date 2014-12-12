@@ -299,4 +299,52 @@ class ups_based_armor_actor : public iuse_actor
         virtual iuse_actor *clone() const;
 };
 
+/**
+ * This implements lock picking.
+ */
+class pick_lock_actor : public iuse_actor
+{
+    public:
+        /**
+         * How good the used tool is at picking a lock.
+         */
+        int pick_quality;
+
+        pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
+        virtual ~pick_lock_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Reveals specific things on the overmap.
+ */
+class reveal_map_actor : public iuse_actor
+{
+    public:
+        /**
+         * The radius of the overmap area that gets revealed.
+         * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
+         * the character are revealed.
+         */
+        int radius;
+        /**
+         * Overmap terrain types that get revealed.
+         */
+        std::vector<std::string> omt_types;
+        /**
+         * The message displayed after revealing.
+         */
+        std::string message;
+
+        void reveal_targets( const std::string &target, int reveal_distance ) const;
+
+        reveal_map_actor() : iuse_actor(), radius( 0 ) { }
+        virtual ~reveal_map_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
 #endif

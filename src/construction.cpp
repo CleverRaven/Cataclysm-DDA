@@ -649,6 +649,8 @@ void construct::done_vehicle(point p)
         veh->install_part (0, 0, "xlframe_vertical_2");
     } else if (g->u.lastconsumed == "frame_wood_light") {
         veh->install_part (0, 0, "frame_wood_light_vertical_2");
+    } else if (g->u.lastconsumed == "foldframe") {
+        veh->install_part (0, 0, "folding_frame");
     } else {
         veh->install_part (0, 0, "frame_vertical_2");
     }

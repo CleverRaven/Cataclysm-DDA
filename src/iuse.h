@@ -91,13 +91,7 @@ public:
     int horn_bicycle        (player *, item *, bool, point);
     int noise_emitter_off   (player *, item *, bool, point);
     int noise_emitter_on    (player *, item *, bool, point);
-    int roadmap             (player *, item *, bool, point);
-    int survivormap         (player *, item *, bool, point);
-    int militarymap         (player *, item *, bool, point);
-    int restaurantmap       (player *, item *, bool, point);
-    int touristmap          (player *, item *, bool, point);
     int ma_manual           (player *, item *, bool, point);
-    int picklock            (player *, item *, bool, point);
     int crowbar             (player *, item *, bool, point);
     int makemound           (player *, item *, bool, point);
     int dig                 (player *, item *, bool, point);

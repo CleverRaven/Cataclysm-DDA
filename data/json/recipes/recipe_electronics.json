@@ -2585,6 +2585,89 @@
     [ [ "duct_tape", 300 ] ]
   ]
 },{
+  "type" : "recipe",
+  "result": "elec_jackhammer",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": true,
+  "decop_learn": 5,
+  "autolearn": false,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_carpentry", 6] , ["advanced_electronics", 5] , ["textbook_electronics", 5]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 150],
+      [ "oxy_torch", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "rebar", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "elec_chainsaw_off",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [["textbook_mechanics", 4] , ["textbook_carpentry", 4] , ["advanced_electronics", 3] , ["textbook_electronics", 3]],
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 150],
+      ["oxy_torch", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "chain", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
+}
+},{
     "type" : "recipe",
     "result": "remotevehcontrol",
     "category": "CC_ELECTRONIC",
