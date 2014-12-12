@@ -478,7 +478,7 @@ class partpicker_cb : public uimenu_callback {
         }
         ~partpicker_cb() { }
 
-    void select( int /*num*/, uimenu */*menu*/ ) {
+    void select( int /*num*/, uimenu * /*menu*/ ) {
         g->u.view_offset_x = 0;
         g->u.view_offset_y = 0;
     }

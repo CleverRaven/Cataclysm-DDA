@@ -10010,7 +10010,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
     }
 
     bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
-    int choice = menu(true, _("What do with remote vehicle control:"), _("Nothing"), 
+    int choice = menu(true, _("What to do with remote vehicle control:"), _("Nothing"), 
                       controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
                       _("Execute one vehicle action"), NULL);
 
