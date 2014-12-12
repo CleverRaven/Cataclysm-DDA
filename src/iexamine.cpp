@@ -1004,7 +1004,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
       }
    }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
-    g->sound(examx, examy, 80, _(""));
+    g->sound(examx, examy, 80, (""));
     m->ter_set(examx, examy, t_rock_floor);
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
