@@ -1266,6 +1266,7 @@ int iuse::meth(player *p, item *it, bool, point)
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
         p->add_msg_if_player(m_good, _("The world seems to sharpen."));
+        p->fatigue -= 375;
         if (p->has_trait("TOLERANCE")) {
             duration *= 1.2;
         } else {
@@ -1277,6 +1278,7 @@ int iuse::meth(player *p, item *it, bool, point)
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
+        p->fatigue -= 300;
     }
     if (!p->has_effect("meth")) {
         duration += 600;
