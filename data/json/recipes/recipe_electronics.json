@@ -2666,7 +2666,6 @@
       [ "scrap", 3 ]
     ]
   ]
-}
 },{
     "type" : "recipe",
     "result": "remotevehcontrol",

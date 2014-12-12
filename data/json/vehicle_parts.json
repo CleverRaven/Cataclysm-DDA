@@ -4294,7 +4294,8 @@
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
         ]
-    },{
+    },
+    {
         "type" : "vehicle_part",
         "id" : "mounted_rm614",
         "name" : "mounted RM614 LMG",
@@ -4313,7 +4314,8 @@
         "breaks_into" : [
             {"item": "rm614_lmg", "min": 0, "max": 1}
         ]
-    },{
+    },
+    {
         "type" : "vehicle_part",
         "id" : "mounted_rm298",
         "name" : "mounted RM298 HMG",
@@ -4349,7 +4351,8 @@
         "breaks_into" : [
             {"item": "scrap", "min": 4, "max": 6}
         ]
-    },{
+    },
+    {
         "type" : "vehicle_part",
         "id" : "drive_by_wire_controls",
         "name" : "drive by wire controls",
