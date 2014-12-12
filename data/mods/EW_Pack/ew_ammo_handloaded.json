@@ -19,8 +19,8 @@
         "damage" : 38,
         "pierce" : 7,
         "range" : 38,
-        "dispersion" : 6,
-        "recoil" : 37,
+        "dispersion" : 90,
+        "recoil" : 555,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -44,8 +44,8 @@
         "damage" : 36,
         "pierce" : 5,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -69,8 +69,8 @@
         "damage" : 31,
         "pierce" : 12,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     }
