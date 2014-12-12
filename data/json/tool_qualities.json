@@ -4,6 +4,14 @@
         "id" : "CUT",
         "name" : "cutting"
     },{
+    	"type" : "tool_quality",
+		"id" : "SMOOTH",
+		"name" : "smoothing"
+	},{
+		"type" : "tool_quality",
+		"id" : "WELD",
+		"name" : "welding"
+	},{
         "type" : "tool_quality",
         "id" : "HAMMER",
         "name" : "hammering"
