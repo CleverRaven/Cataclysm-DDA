@@ -175,8 +175,7 @@
             "destroy_only": true,
             "ter_set": "t_dirt",
             "items": [
-                { "item": "rock", "amount": 10, "minamount": 2 },
-                { "item": "rebar", "amount": 4, "minamount": 0 }
+                { "item": "rock", "amount": 10, "minamount": 2 }
             ]
         }
     },{
@@ -4659,7 +4658,11 @@
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
             "sound_fail": "whump!",
-            "ter_set": "t_water_dp"
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "rock", "amount": 20, "minamount": 4 },
+                { "item": "rebar", "amount": 20, "minamount": 10 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4673,7 +4676,11 @@
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
             "sound_fail": "whump!",
-            "ter_set": "t_water_dp"
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "rock", "amount": 20, "minamount": 4 },
+                { "item": "rebar", "amount": 20, "minamount": 10 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4687,7 +4694,11 @@
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
             "sound_fail": "whump!",
-            "ter_set": "t_water_dp"
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "rock", "amount": 20, "minamount": 4 },
+                { "item": "rebar", "amount": 20, "minamount": 10 }
+            ]
         }
     },{
         "type" : "terrain",
