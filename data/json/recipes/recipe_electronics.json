@@ -2619,7 +2619,8 @@
       [ "cable", 12 ]
     ],
     [
-      [ "rebar", 2 ]
+      [ "rebar", 2 ],
+      [ "steel_chunk", 4 ]
     ],
     [
       [ "scrap", 3 ]
