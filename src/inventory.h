@@ -163,6 +163,20 @@ class inventory
         std::set<char> allocated_invlets() const;
 
         template<typename T>
+        indexed_invslice slice_filter_by( T filter )
+        {
+            int i = 0;
+            indexed_invslice stacks;
+            for( auto &elem : items ) {
+                if( filter( elem.front() ) ) {
+                    stacks.push_back( std::make_pair( &elem, i ) );
+                }
+                ++i;
+            }
+            return stacks;
+        }
+
+        template<typename T>
         static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
         {
             if( filter( it ) ) {

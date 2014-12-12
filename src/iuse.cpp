@@ -2852,7 +2852,17 @@ int iuse::sew(player *p, item *it, bool, point)
         return 0;
     }
     int thread_used = 1;
-    int pos = g->inv(_("Repair what?"));
+
+    indexed_invslice reduced_inv = g->u.inv.slice_filter_by( []( const item & it ) {
+        return it.made_of( "cotton" ) ||
+               it.made_of( "leather" ) ||
+               it.made_of( "fur" ) ||
+               it.made_of( "nomex" ) ||
+               it.made_of( "felt_patch" );
+    } );
+    g->u.inv.restack( &g->u );
+    g->u.inv.sort();
+    int pos = g->display_slice( reduced_inv, _("Repair what?") );
     item *fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
