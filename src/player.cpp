@@ -9319,64 +9319,28 @@ int player::drink_from_hands(item& water) {
 
 bool player::consume(int target_position)
 {
-    item *to_eat = NULL;
-    it_comest *comest = NULL;
-    int which = -3; // Helps us know how to delete the item which got eaten
-
-    if(target_position == INT_MIN) {
+    auto &target = i_at( target_position );
+    if( target.is_null() ) {
         add_msg_if_player( m_info, _("You do not have that item."));
         return false;
-    } if (is_underwater()) {
+    }
+    if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
-    } else if( target_position < -1 ) {
-        add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
-        return false;
-    } else if (target_position == -1) {
-        // Consume your current weapon
-        if (weapon.is_food_container(this)) {
-            to_eat = &weapon.contents[0];
-            which = -2;
-            if (weapon.contents[0].is_food()) {
-                comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
-            }
-        } else if (weapon.is_food(this)) {
-            to_eat = &weapon;
-            which = -1;
-            comest = dynamic_cast<it_comest*>(weapon.type);
-        } else {
-            add_msg_if_player(m_info, _("You can't eat your %s."), weapon.tname().c_str());
-            if(is_npc()) {
-                debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname().c_str());
-            }
-            return false;
-        }
+    }
+    item *to_eat = nullptr;
+    if( target.is_food_container( this ) ) {
+        to_eat = &target.contents[0];
+    } else if( target.is_food( this ) ) {
+        to_eat = &target;
     } else {
-        // Consume item from inventory
-        item& it = inv.find_item(target_position);
-        if (it.is_food_container(this)) {
-            to_eat = &(it.contents[0]);
-            which = 1;
-            if (it.contents[0].is_food()) {
-                comest = dynamic_cast<it_comest*>(it.contents[0].type);
-            }
-        } else if (it.is_food(this)) {
-            to_eat = &it;
-            which = 0;
-            comest = dynamic_cast<it_comest*>(it.type);
-        } else {
-            add_msg_if_player(m_info, _("You can't eat your %s."), it.tname().c_str());
-            if(is_npc()) {
-                debugmsg("%s tried to eat a %s", name.c_str(), it.tname().c_str());
-            }
-            return false;
+        add_msg_if_player(m_info, _("You can't eat your %s."), target.tname().c_str());
+        if(is_npc()) {
+            debugmsg("%s tried to eat a %s", name.c_str(), target.tname().c_str());
         }
-    }
-
-    if(to_eat == NULL) {
-        debugmsg("Consumed item is lost!");
         return false;
     }
+    it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
 
     int amount_used = 1;
     bool was_consumed = false;
@@ -9457,38 +9421,33 @@ bool player::consume(int target_position)
     // Actions after consume
     to_eat->charges -= amount_used;
     if (to_eat->charges <= 0) {
-        if (which == -1) {
-            weapon = ret_null;
-        } else if (which == -2) {
-            weapon.contents.erase(weapon.contents.begin());
+        const bool was_in_container = &target != to_eat;
+        i_rem( to_eat );
+        if( was_in_container && target_position == -1 ) {
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
-        } else if (which == 0) {
-            inv.remove_item(target_position);
-        } else if (which >= 0) {
-            item& it = inv.find_item(target_position);
-            it.contents.erase(it.contents.begin());
-            const bool do_restack = inv.const_stack(target_position).size() > 1;
-            if (!is_npc()) {
-                bool drop_it = false;
-                if (OPTIONS["DROP_EMPTY"] == "no") {
-                    drop_it = false;
-                } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
-                    drop_it = !it.is_watertight_container();
-                } else if (OPTIONS["DROP_EMPTY"] == "all") {
-                    drop_it = true;
-                }
-                if (drop_it) {
-                    add_msg(_("You drop the empty %s."), it.tname().c_str());
-                    g->m.add_item_or_charges(posx, posy, inv.remove_item(target_position));
-                } else {
-                    add_msg(m_info, _("%c - an empty %s"), it.invlet, it.tname().c_str());
-                }
+        } else if( was_in_container && target_position < -1 ) {
+            add_msg_if_player(_("You are now wearing an empty %s."), target.tname().c_str());
+        } else if( was_in_container && !is_npc() ) {
+            bool drop_it = false;
+            if (OPTIONS["DROP_EMPTY"] == "no") {
+                drop_it = false;
+            } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
+                drop_it = !target.is_watertight_container();
+            } else if (OPTIONS["DROP_EMPTY"] == "all") {
+                drop_it = true;
             }
-            if (do_restack) {
-                inv.restack(this);
+            if (drop_it) {
+                add_msg(_("You drop the empty %s."), target.tname().c_str());
+                g->m.add_item_or_charges(posx, posy, inv.remove_item(&target));
+            } else {
+                add_msg(m_info, _("%c - an empty %s"), target.invlet, target.tname().c_str());
             }
-            inv.unsort();
         }
+    }
+    if( target_position >= 0 ) {
+        // Always restack and resort the inventory when items in it have been changed.
+        inv.restack( this );
+        inv.unsort();
     }
     return true;
 }
