@@ -3918,7 +3918,7 @@
     "hp":120,
     "death_function":"NORMAL",
     "description":"A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "BASHES", "DESTROYS", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"]
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"]
     },{
     "type" : "MONSTER",
     "id" : "mon_amigara_horror",

@@ -983,7 +983,28 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    add_msg(_("The pedestal sinks into the ground..."));
+    // Send in a few wyrms to start things off.
+    g->u.add_memorial_log(pgettext("memorial_male", "Awoke a group of dark wyrms!"),
+                         pgettext("memorial_female", "Awoke a group of dark wyrms!"));
+   monster wyrm(GetMType("mon_dark_wyrm"));
+   int num_wyrms = rng(1, 4);
+   for (int i = 0; i < num_wyrms; i++) {
+    int tries = 0;
+    int monx = -1, mony = -1;
+    do {
+     monx = rng(0, SEEX * MAPSIZE);
+     mony = rng(0, SEEY * MAPSIZE);
+     tries++;
+    } while (tries < 10 && !g->is_empty(monx, mony) &&
+             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
+      if (tries < 10) {
+          g->m.ter_set(monx, mony, t_rock_floor);
+          wyrm.spawn(monx, mony);
+          g->add_zombie(wyrm);
+      }
+   }
+    add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
+    g->sound(examx, examy, 80, (""));
     m->ter_set(examx, examy, t_rock_floor);
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
