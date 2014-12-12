@@ -727,30 +727,6 @@
         "pre_terrain" : "t_wall_log_broken",
         "post_terrain" : "t_wall_log_chipped"
     },{
-    		"type" : "construction",
-		"description" : "Build Simple Concrete Wall",
-		"category" : "CONSTRUCT",
-		"difficulty" : 4,
-		"time" : 15,
-		"components" : [
-			[ [ "material_cement", 10], [ "material_sand", 10], [ "rock", 8], [ "2x4", 12] ],
-			[ [ "water", 4] ]
-		],
-		"pre_terrain" : "t_pit_shallow",
-		"post_terrain" : "s_conc_wall"
-	},{
-		"type" : "construction",
-		"description" : "Build Strong Concrete Wall",
-		"category" : "CONSTRUCT",
-		"difficulty" : 6,
-		"time" : 30,
-		"components" : [
-			[ [ "material_cement", 10], [ "material_sand", 10], [ "2x4", 12], [ "rock", 8], [ "rebar", 8 ] ],
-			[ [ "water", 4] ]
-		],
-		"pre_terrain" : "t_pit",
-		"post_terrain" : "str_conc_wall"
-    },{
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
         "category" : "CONSTRUCT",
@@ -775,6 +751,84 @@
         "pre_terrain" : "f_sandbag_half",
         "post_terrain" : "f_sandbag_wall"
     },{
+		"type" : "construction",
+		"description" : "Build Simple Concrete Wall", "//": "Step 1: foundation",
+		"category" : "CONSTRUCT",
+		"difficulty" : 4,
+		"time" : 15,
+		"qualities": [ [
+			{ "id": "SMOOTH", "level": 1 }
+		] ],
+		"components" : [
+			[ [ "concrete", 4] ], 
+			[ [ "2x4", 12] ],
+			[ [ "water", 4] ]
+		],
+		"pre_terrain" : "t_pit_shallow",
+		"post_terrain" : "s_conc_wall_2"
+	},{
+		"type" : "construction",
+		"description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
+		"category" : "CONSTRUCT",
+		"difficulty" : 4,
+		"time" : 15,
+		"qualities": [ [
+			{ "id": "SMOOTH", "level": 1 }
+		] ],
+		"components" : [
+			[ [ "concrete", 4] ],
+			[ [ "2x4", 12] ],
+			[ [ "water", 2] ]
+		],
+		"pre_terrain" : "s_conc_wall_2",
+		"post_terrain" : "s_conc_wall"
+	},{
+		"type" : "construction",
+		"description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
+		"category" : "CONSTRUCT",
+		"difficulty" : 6,
+		"time" : 45,
+		"qualities": [ [
+			{ "id": "WELD", "level": 2 }
+		] ],
+		"components" : [
+			[ [ "rebar", 16] ]
+		],
+		"pre_terrain" : "t_pit",
+		"post_terrain" : "reb_cage"
+    },{
+		"type" : "construction",
+		"description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
+		"category" : "CONSTRUCT",
+		"difficulty" : 6,
+		"time" : 40,
+		"qualities": [ [
+			{ "id": "SMOOTH", "level": 2 }
+		] ],
+		"components" : [
+			[ [ "concrete", 6] ],
+			[ [ "2x4", 12] ],
+			[ [ "water", 4 ] ]
+		],
+		"pre_terrain" : "reb_cage",
+		"post_terrain" : "str_conc_wall_2"
+	},{
+		"type" : "construction",
+		"description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
+		"category" : "CONSTRUCT",
+		"difficulty" : 6,
+		"time" : 40,
+		"qualities": [ [
+			{ "id": "SMOOTH", "level": 2 }
+		] ],
+		"components" : [
+			[ [ "concrete", 6] ],
+			[ [ "2x4", 12] ],
+			[ [ "water", 4 ] ]
+		],
+		"pre_terrain" : "str_conc_wall_2",
+		"post_terrain" : "str_conc_wall"
+	},{
         "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
