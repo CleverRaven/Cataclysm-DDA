@@ -22,7 +22,7 @@ typedef std::string itype_id;
 
 // see item.h
 class item_category;
-
+struct recipe;
 struct itype;
 
 typedef std::string ammotype;
@@ -147,6 +147,62 @@ struct islot_armor {
     }
 };
 
+struct islot_book {
+    /**
+     * Which skill it upgrades, if any. Can be NULL.
+     * TODO: this should be a pointer to const
+     */
+    Skill *skill;
+    /**
+     * The skill level the book provides.
+     */
+    int level;
+    /**
+     * The skill level required to understand it.
+     */
+    int req;
+    /**
+     * How fun reading this is, can be negative.
+     */
+    int fun;
+    /**
+     * Intelligence required to read it.
+     */
+    int intel;
+    /**
+     * How long, in 10-turns (aka minutes), it takes to read.
+     * "To read" means getting 1 skill point, not all of them.
+     */
+    int time;
+    /**
+     * Fun books have chapters; after all are read, the book is less fun.
+     */
+    int chapters;
+    /**
+     * What recipes can be learned from this book.
+     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
+     * to learn the recipe.
+     */
+    std::map<const recipe *, int> recipes;
+    /**
+     * Special effects that can happen after the item has been read. May be empty.
+     */
+    std::vector<use_function> use_methods;
+
+    islot_book()
+    : skill( nullptr )
+    , level( 0 )
+    , req( 0 )
+    , fun( 0 )
+    , intel( 0 )
+    , time( 0 )
+    , chapters( 0 )
+    , recipes()
+    , use_methods()
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -160,6 +216,7 @@ struct itype {
     /*@{*/
     std::unique_ptr<islot_container> container;
     std::unique_ptr<islot_armor> armor;
+    std::unique_ptr<islot_book> book;
     /*@}*/
 
 protected:
@@ -213,6 +270,8 @@ public:
             return "CONTAINER";
         } else if( armor ) {
             return "ARMOR";
+        } else if( book ) {
+            return "BOOK";
         }
         return "misc";
     }
@@ -244,19 +303,11 @@ public:
     {
         return false;
     }
-    virtual bool is_book() const
-    {
-        return false;
-    }
     virtual bool is_tool() const
     {
         return false;
     }
     virtual bool is_software() const
-    {
-        return false;
-    }
-    virtual bool is_macguffin() const
     {
         return false;
     }
@@ -506,32 +557,6 @@ struct it_gunmod : public virtual itype {
         used_on_crossbow(false), used_on_launcher(false), location() {}
 };
 
-struct recipe;
-
-struct it_book : public virtual itype {
-    Skill *type;         // Which skill it upgrades
-    unsigned char level; // The value it takes the skill to
-    unsigned char req;   // The skill level required to understand it
-    signed char fun;     // How fun reading this is
-    unsigned char intel; // Intelligence required to read, at all
-    unsigned int time;  // How long, in 10-turns (aka minutes), it takes to read
-    // "To read" means getting 1 skill point, not all of em
-    int chapters; //Fun books have chapters; after all are read, the book is less fun
-    std::map<const recipe *, int> recipes; //what recipes can be learned from this book
-    virtual bool is_book() const
-    {
-        return true;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "BOOK";
-    }
-
-    it_book() : itype(), type(NULL), level(0), req(0), fun(0), intel(0), time(0), chapters(), recipes()
-    {
-    }
-};
-
 struct it_tool : public virtual itype {
     ammotype ammo;
     long max_charges;
@@ -582,26 +607,6 @@ struct it_bionic : public virtual itype {
     virtual std::string get_item_type_string() const
     {
         return "BIONIC";
-    }
-};
-
-struct it_macguffin : public virtual itype {
-    bool readable; // If true, activated with 'R'
-
-    virtual bool is_macguffin() const
-    {
-        return true;
-    }
-    it_macguffin(std::string pid, unsigned int pprice, std::string pname,
-                 std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
-                 std::vector<std::string> pmaterial, unsigned int pvolume,
-                 unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
-                 bool preadable, int (iuse::*puse)(player *, item *, bool, point))
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
-                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
-    {
-        readable = preadable;
-        use_methods.push_back( puse );
     }
 };
 

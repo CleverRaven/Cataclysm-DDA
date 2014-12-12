@@ -23,6 +23,7 @@ class item;
 struct itype;
 struct islot_container;
 struct islot_armor;
+struct islot_book;
 class item_category;
 
 /**
@@ -240,12 +241,13 @@ class Item_factory
 
         void load( islot_container &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
+        void load( islot_book &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member, itype *new_item_template );
+        void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
         use_function use_from_object(JsonObject obj);
         phase_id phase_from_tag(Item_tag name);

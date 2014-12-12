@@ -995,7 +995,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( recipe *rec );
 
-        bool studied_all_recipes(it_book *book);
+        bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
         bool crafting_allowed(); // is morale high enough to craft?
@@ -1260,8 +1260,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_enough_charges(const item &it, bool show_msg) const;
 
-        bool can_study_recipe(it_book *book);
-        bool try_study_recipe(it_book *book);
+        bool can_study_recipe(const itype &book);
+        bool try_study_recipe(const itype &book);
 
         std::vector<point> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course

@@ -103,11 +103,6 @@ A piece of mathematical software."));
     SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
 Medical data on zombie blood."));
 
-    std::vector<std::string> paper_material = { "paper" };
-    add_item_type( new it_macguffin( "note", 0, "note", "notes",
-                                     _("A hand-written paper note."), '?', c_white,
-                                     paper_material, 3, 0, 0, 0, 0, true, &iuse::mcg_note ) );
-
     itype *m_missing_item = new itype();
     // intentionally left untranslated
     // because using _() at global scope is problematic,

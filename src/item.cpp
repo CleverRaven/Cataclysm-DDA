@@ -78,10 +78,6 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if( type->is_book() ) {
-        it_book* book = dynamic_cast<it_book*>(type);
-        charges = book->chapters;
-    }
     if( type->is_gunmod() ) {
         if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
             charges = 0;
@@ -842,24 +838,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( is_book() ) {
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
-        it_book* book = dynamic_cast<it_book*>(type);
+        auto book = type->book.get();
         // Some things about a book you CAN tell by it's cover.
-        if( !book->type ) {
+        if( !book->skill ) {
             dump->push_back(iteminfo("BOOK", _("Just for fun.")));
         }
         if (book->req == 0) {
             dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
         }
         if( g->u.has_identified( type->id ) ) {
-            if( book->type ) {
+            if( book->skill ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
-                                                       book->type->name().c_str()), book->level));
+                                                       book->skill->name().c_str()), book->level));
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
-                                                           book->type->name().c_str()),
+                                                           book->skill->name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
@@ -875,6 +871,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                                           "This book takes <num> minutes to read.",
                                                           book->time),
                                      book->time, true, "", true, true));
+            if( book->chapters > 0 ) {
+                const int unread = get_remaining_chapters( g->u );
+                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapters.",
+                                                                 "This book has <num> unread chapter.",
+                                                                 unread ),
+                                           unread ) );
+            }
 
             if (!(book->recipes.empty())) {
                 std::string recipes = "";
@@ -1419,12 +1422,12 @@ nc_color item::color(player *u) const
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
-            it_book* tmp = dynamic_cast<it_book*>(type);
-            if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-                (u->skillLevel(tmp->type) >= (int)tmp->req) &&
-                (u->skillLevel(tmp->type) < (int)tmp->level)) {
+            auto &tmp = *type->book;
+            if( tmp.skill && tmp.intel <= u->int_cur + u->skillLevel( tmp.skill ) &&
+                ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
+                ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
                 ret = c_ltblue;
-            } else if (!u->studied_all_recipes(tmp)) {
+            } else if( !u->studied_all_recipes( *type ) ) {
                 ret = c_yellow;
             }
         } else {
@@ -1659,6 +1662,8 @@ std::string item::display_name(unsigned int quantity) const
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
     } else if( already_used_by_player( g->u ) ) {
         return string_format( _( "%s (used)" ), tname( quantity ).c_str() );
+    } else if( is_book() && get_chapters() > 0 ) {
+        return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
     } else {
@@ -2671,10 +2676,7 @@ bool item::is_armor() const
 
 bool item::is_book() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_book();
+    return type->book.get() != nullptr;
 }
 
 bool item::is_container() const
@@ -2752,20 +2754,37 @@ bool item::is_software() const
     return type->is_software();
 }
 
-bool item::is_macguffin() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_macguffin();
-}
-
 bool item::is_artifact() const
 {
     if( is_null() )
         return false;
 
     return type->is_artifact();
+}
+
+int item::get_chapters() const
+{
+    if( !type->book ) {
+        return 0;
+    }
+    return type->book->chapters;
+}
+
+int item::get_remaining_chapters( const player &u ) const
+{
+    const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    const auto iter = item_vars.find( var );
+    if( iter == item_vars.end() ) {
+        return get_chapters();
+    }
+    return atoi( iter->second.c_str() );
+}
+
+void item::mark_chapter_as_read( const player &u )
+{
+    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+    const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    item_vars[var] = string_format( "%d", remain );
 }
 
 const material_type &item::get_random_material() const
@@ -2905,8 +2924,8 @@ std::string item::skill() const
         return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
     } else if ( is_gun() ) {
         return dynamic_cast<it_gun *>(type)->skill_used->ident();
-    } else if ( is_book() ) {
-        return dynamic_cast<it_book *>(type)->type->ident();
+    } else if( type->book && type->book->skill != nullptr ) {
+        return type->book->skill->ident();
     }
     return "null";
 }

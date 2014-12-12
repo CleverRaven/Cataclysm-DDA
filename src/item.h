@@ -461,7 +461,6 @@ public:
 
  bool is_tool() const;
  bool is_software() const;
- bool is_macguffin() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
@@ -613,6 +612,29 @@ public:
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */
         const islot_armor *find_armor_data() const;
+        /*@}*/
+
+        /**
+         * Book specific functions, apply to items that are books.
+         */
+        /*@{*/
+        /**
+         * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
+         * has no chapters at all.
+         * Each reading will "consume" a chapter, if the book has no unread chapters, it's less fun.
+         */
+        int get_chapters() const;
+        /**
+         * Get the number of unread chapters. If the item is no book or has no chapters, it returns 0.
+         * This is a per-character setting, different characters may have different number of
+         * unread chapters.
+         */
+        int get_remaining_chapters( const player &u ) const;
+        /**
+         * Mark one chapter of the book as read by the given player. May do nothing if the book has
+         * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
+         */
+        void mark_chapter_as_read( const player &u );
         /*@}*/
 
         /**

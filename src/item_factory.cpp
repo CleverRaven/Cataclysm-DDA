@@ -698,21 +698,23 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     load_basic_info(jo, tool_template);
 }
 
-void Item_factory::load_book(JsonObject &jo)
+void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    it_book *book_template = new it_book();
+    slot.level = jo.get_int( "max_level" );
+    slot.req = jo.get_int( "required_level" );
+    slot.fun = jo.get_int( "fun" );
+    slot.intel = jo.get_int( "intelligence" );
+    slot.time = jo.get_int( "time" );
+    slot.skill = Skill::skill( jo.get_string( "skill" ) );
+    slot.chapters = jo.get_int( "chapters", -1 );
+    set_use_methods_from_json( jo, "use_action", slot.use_methods );
+}
 
-    book_template->level = jo.get_int("max_level");
-    book_template->req = jo.get_int("required_level");
-    book_template->fun = jo.get_int("fun");
-    book_template->intel = jo.get_int("intelligence");
-    book_template->time = jo.get_int("time");
-    book_template->type = Skill::skill(jo.get_string("skill"));
-
-    book_template->chapters = jo.get_int("chapters", -1);
-
-    itype *new_item_template = book_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load_book( JsonObject &jo )
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->book, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
@@ -940,9 +942,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    if (jo.has_member("use_action")) {
-        set_use_methods_from_json(jo, "use_action", new_item_template);
-    }
+    set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
     if (jo.has_member("category")) {
         new_item_template->category = get_category(jo.get_string("category"));
@@ -952,6 +952,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );
+    load_slot_optional( new_item_template->book, jo, "book_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1235,34 +1236,35 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json(JsonObject &jo, std::string member,
-        itype *new_item_template)
+void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+        std::vector<use_function> &use_methods )
 {
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()) {
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    if( jo.has_array( member ) ) {
+        JsonArray jarr = jo.get_array( member );
+        while( jarr.has_more() ) {
             use_function new_function;
-            if (jarr.test_string()) {
-                new_function = use_from_string(jarr.next_string());
-            } else if (jarr.test_object()) {
-                new_function = use_from_object(jarr.next_object());
+            if( jarr.test_string() ) {
+                new_function = use_from_string( jarr.next_string() );
+            } else if( jarr.test_object() ) {
+                new_function = use_from_object( jarr.next_object() );
             } else {
-                debugmsg("use_action array element for item %s is neither string nor object.",
-                         new_item_template->id.c_str());
+                jarr.throw_error( "array element is neither string nor object." );
             }
-            new_item_template->use_methods.push_back(new_function);
+            use_methods.push_back( new_function );
         }
     } else {
         use_function new_function;
-        if (jo.has_string("use_action")) {
-            new_function = use_from_string(jo.get_string("use_action"));
-        } else if (jo.has_object("use_action")) {
-            new_function = use_from_object(jo.get_object("use_action"));
+        if( jo.has_string( member ) ) {
+            new_function = use_from_string( jo.get_string( member ) );
+        } else if( jo.has_object( member ) ) {
+            new_function = use_from_object( jo.get_object( member ) );
         } else {
-            debugmsg("use_action member for item %s is neither string nor object.",
-                     new_item_template->id.c_str());
+            jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        new_item_template->use_methods.push_back(new_function);
+        use_methods.push_back( new_function );
     }
 }
 
@@ -1449,7 +1451,7 @@ const std::string &Item_factory::calc_category( const itype *it )
         const it_comest *comest = dynamic_cast<const it_comest *>( it );
         return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
     }
-    if (it->is_book()) {
+    if( it->book ) {
         return category_id_books;
     }
     if (it->is_gunmod()) {
