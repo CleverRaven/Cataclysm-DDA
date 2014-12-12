@@ -929,6 +929,72 @@
     "qualities": [["BOIL", 1]]
   },
   {
+	"type":"TOOL",
+	"id": "con_mix",
+	"symbol": "$",
+	"color": "dark_gray",
+	"name": "concrete mixer",
+	"description": "A concrete mixer. Due to advances in technology, it's size decreased, in order to be portable, but it's still heavy, and needs batteries in order to run. It also got a heater built in.",
+	"price": 50000,
+	"material": "steel",
+	"weight": 9071,
+	"volume": 20,
+	"bashing": 15,
+	"cutting": 0,
+	"to_hit": -6,
+	"max_charges": 500,
+	"initial_charges": 100,
+	"charges_per_use": 20,
+	"turns_per_charge": 0,
+	"ammo": "battery",
+	"revert_to": "null",
+	"use_action": "HOTPLATE"
+  },
+  {
+	"id": "metal_smoother",
+	"type": "TOOL",
+	"symbol": ",",
+	"color": "light_gray",
+	"name": "metallic smoother",
+	"description": "This metallic tool is most often used to smooth concrete, or mortar, in construction projects",
+	"price": 1000,
+	"material": "iron",
+	"weight": 362,
+	"volume": 2,
+	"bashing": 4,
+	"cutting": 0,
+	"to_hit": 0,
+	"max_charges": 0,
+	"initial_charges": 0,
+	"charges_per_use": 0,
+	"turns_per_charge": 0,
+	"ammo": "NULL",
+	"revert_to": "null",
+	"qualities": [["SMOOTH", 2]]
+  },
+  {
+	"id": "wood_smoother",
+	"type": "TOOL",
+	"symbol": "/",
+	"color": "brown",
+	"name": "wooden smoother",
+	"description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects. Even if it won't work very well in it's task, you could also use it to bash some heads in.",
+	"price": 2000,
+	"material": "wood",
+	"weight": 2000,
+	"volume": 14,
+	"bashing": 12,
+	"cutting": 0,
+	"to_hit": -3,
+	"max_charges": 0,
+	"initial_charges": 0,
+	"charges_per_use": 0,
+	"turns_per_charge": 0,
+	"ammo": "NULL",
+	"revert_to": "null",
+	"qualities": [["SMOOTH", 1]]
+  },
+  {
     "id": "soldering_iron",
     "type": "TOOL",
     "symbol": ",",
@@ -3786,7 +3852,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": "SOLDER_WELD",
+    "qualities": [["WELD", 2]]
   },
 
   {
@@ -6494,7 +6561,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": "SOLDER_WELD",
+    "qualities": [["WELD", 1]]
   },
 
   {
