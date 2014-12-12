@@ -17,6 +17,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef bool (*item_filter)( const item & );
 
 class inventory
 {
