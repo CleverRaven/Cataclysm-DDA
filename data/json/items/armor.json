@@ -7742,7 +7742,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a powered-on unified power supply, or UPS, to use it.",
+        "description" : "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it. Activate to toggle visibility.",
         "price" : 5500000,
         "material" : ["plastic", "null"],
         "volume" : 14,
