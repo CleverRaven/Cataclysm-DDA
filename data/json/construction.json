@@ -727,6 +727,30 @@
         "pre_terrain" : "t_wall_log_broken",
         "post_terrain" : "t_wall_log_chipped"
     },{
+    		"type" : "construction",
+		"description" : "Build Simple Concrete Wall",
+		"category" : "CONSTRUCT",
+		"difficulty" : 4,
+		"time" : 15,
+		"components" : [
+			[ [ "material_cement", 10], [ "material_sand", 10], [ "rock", 8], [ "2x4", 12] ],
+			[ [ "water", 4] ]
+		],
+		"pre_terrain" : "t_pit_shallow",
+		"post_terrain" : "s_conc_wall"
+	},{
+		"type" : "construction",
+		"description" : "Build Strong Concrete Wall",
+		"category" : "CONSTRUCT",
+		"difficulty" : 6,
+		"time" : 30,
+		"components" : [
+			[ [ "material_cement", 10], [ "material_sand", 10], [ "2x4", 12], [ "rock", 8], [ "rebar", 8 ] ],
+			[ [ "water", 4] ]
+		],
+		"pre_terrain" : "t_pit",
+		"post_terrain" : "str_conc_wall"
+    },{
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
         "category" : "CONSTRUCT",
