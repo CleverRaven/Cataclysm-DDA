@@ -8346,7 +8346,7 @@
 },
 {
    "type" : "recipe",
-   "result": "sandwich_cheese,
+   "result": "sandwich_cheese",
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
