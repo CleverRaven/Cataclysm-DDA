@@ -601,14 +601,14 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    slot.dmg_bonus = jo.get_int( "ranged_damage" );
-    slot.range = jo.get_int( "range" );
+    slot.dmg_bonus = jo.get_int( "ranged_damage", 0 );
+    slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
     slot.sight_dispersion = jo.get_int("sight_dispersion");
     slot.aim_speed = jo.get_int("aim_speed");
     slot.recoil = jo.get_int( "recoil" );
     slot.durability = jo.get_int( "durability" );
-    slot.burst = jo.get_int( "burst" );
+    slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size" );
     slot.reload_time = jo.get_int( "reload" );
     slot.pierce = jo.get_int( "pierce", 0 );
