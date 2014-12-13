@@ -17845,7 +17845,7 @@
         "nutrition" : 17,
         "description" : "Flour is a commodity these days and to deal with that, most survivors resort to mix it with leftovers of other ingredients and bake it all into bread. It's filling, and that's what matters.",
         "price" : 4000,
-        "material" : ["junk", "wheat"]
+        "material" : ["junk", "wheat"],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
