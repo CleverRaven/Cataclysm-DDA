@@ -313,6 +313,10 @@ classes = {
                 type = "int",
                 writable = true
             },
+            hp = {
+                type = "int",
+                writable = true
+            },
             melee_skill = {
                 type = "int",
                 writable = true
