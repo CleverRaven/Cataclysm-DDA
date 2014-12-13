@@ -6,11 +6,11 @@
 #include "item.h"
 #include "line.h"
 #include "veh_type.h"
+#include "item_stack.h"
 #include <vector>
 #include <map>
 #include <string>
 #include <iosfwd>
-
 
 class map;
 class player;
@@ -65,6 +65,33 @@ struct vehicle_prototype
     std::string id, name;
     std::vector<std::pair<point, std::string> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
+};
+
+class vehicle_stack : public item_stack {
+private:
+    std::vector<item> *mystack;
+    point location;
+    class vehicle *myorigin;
+    int part_num;
+public:
+vehicle_stack( std::vector<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+    mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
+    size_t size() const;
+    bool empty() const;
+    // This guy is defined twice so it has the appropriate overrides for the different container types.
+    std::vector<item>::iterator erase( std::vector<item>::iterator it );
+    std::list<item>::iterator erase( std::list<item>::iterator it );
+    void push_back( const item &newitem );
+    std::vector<item>::iterator begin();
+    std::vector<item>::iterator end();
+    std::vector<item>::const_iterator begin() const;
+    std::vector<item>::const_iterator end() const;
+    std::vector<item>::reverse_iterator rbegin();
+    std::vector<item>::reverse_iterator rend();
+    std::vector<item>::const_reverse_iterator rbegin() const;
+    std::vector<item>::const_reverse_iterator rend() const;
+    item &front();
+    item &operator[]( size_t index );
 };
 
 /**
@@ -342,7 +369,7 @@ public:
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
-    
+
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
@@ -596,6 +623,9 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
     void remove_item (int part, item *it);
+    std::vector<item>::iterator remove_item (int part, std::vector<item>::iterator it);
+
+    vehicle_stack get_items( int part );
 
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();

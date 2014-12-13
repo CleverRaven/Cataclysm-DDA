@@ -32,7 +32,7 @@ static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
 const ammotype fuel_types[num_fuel_types] = {
-	fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, 
+	fuel_type_gasoline, fuel_type_diesel, fuel_type_battery,
     fuel_type_plutonium, fuel_type_plasma, fuel_type_water,
     fuel_type_muscle };
 const nc_color fuel_colors[num_fuel_types] = {
@@ -61,6 +61,83 @@ enum vehicle_controls {
  toggle_doors,
  cont_turrets
 };
+
+// Map stack methods.
+size_t vehicle_stack::size() const
+{
+    return mystack->size();
+}
+
+bool vehicle_stack::empty() const
+{
+    return mystack->empty();
+}
+
+std::vector<item>::iterator vehicle_stack::erase( std::vector<item>::iterator it )
+{
+    return myorigin->remove_item(part_num, it);
+}
+
+// Should never be called.
+std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
+{
+    return it;
+}
+
+void vehicle_stack::push_back( const item &newitem )
+{
+    myorigin->add_item(part_num, newitem);
+}
+
+std::vector<item>::iterator vehicle_stack::begin()
+{
+    return mystack->begin();
+}
+
+std::vector<item>::iterator vehicle_stack::end()
+{
+    return mystack->end();
+}
+
+std::vector<item>::const_iterator vehicle_stack::begin() const
+{
+    return mystack->cbegin();
+}
+
+std::vector<item>::const_iterator vehicle_stack::end() const
+{
+    return mystack->cend();
+}
+
+std::vector<item>::reverse_iterator vehicle_stack::rbegin()
+{
+    return mystack->rbegin();
+}
+
+std::vector<item>::reverse_iterator vehicle_stack::rend()
+{
+    return mystack->rend();
+}
+
+std::vector<item>::const_reverse_iterator vehicle_stack::rbegin() const
+{
+    return mystack->crbegin();
+}
+
+std::vector<item>::const_reverse_iterator vehicle_stack::rend() const
+{
+    return mystack->crend();
+}
+
+item &vehicle_stack::front()
+{
+    return mystack->front();
+}
+
+item &vehicle_stack::operator[]( size_t index )
+{
+    return (*mystack)[index];
+}
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
@@ -4229,8 +4306,9 @@ bool vehicle::add_item (int part, item itm)
 
 void vehicle::remove_item (int part, int itemdex)
 {
-    if (itemdex < 0 || itemdex >= (int)parts[part].items.size())
+    if( itemdex < 0 || itemdex >= (int)parts[part].items.size() ) {
         return;
+    }
     parts[part].items.erase (parts[part].items.begin() + itemdex);
 }
 
@@ -4238,14 +4316,28 @@ void vehicle::remove_item (int part, item *it)
 {
     std::vector<item>& veh_items = parts[part].items;
 
-    for(auto iter = veh_items.begin(); iter < veh_items.end(); iter++)
-    {
+    for( auto iter = veh_items.begin(); iter < veh_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
-        if(it == &*iter) {
+        if( it == &*iter ) {
             veh_items.erase(iter);
             break;
         }
     }
+}
+
+std::vector<item>::iterator vehicle::remove_item( int part, std::vector<item>::iterator it )
+{
+    std::vector<item>& veh_items = parts[part].items;
+
+    return veh_items.erase(it);
+}
+
+vehicle_stack vehicle::get_items( int part )
+{
+    return vehicle_stack( &parts[part].items,
+                          point( global_x() + parts[part].precalc_dx[0],
+                                 global_x() + parts[part].precalc_dx[0] ),
+                          this, part );
 }
 
 void vehicle::place_spawn_items()
