@@ -20,6 +20,8 @@
 #include "vehicle.h"
 #include "lightmap.h"
 #include "coordinates.h"
+#include "item_stack.h"
+
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -42,27 +44,28 @@ typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 
-// A wrapper class to bundle up the references needed for a caller to safely manipulate
-// items at a particular map x/y location.
-// Note this does not expose the container itself,
-// which means you cannot call e.g. vector::erase() directly.
-class item_stack {
+class map_stack : public item_stack {
 private:
     std::vector<item> *mystack;
     point location;
-    class map *mymap;
+    map *myorigin;
 public:
-    item_stack() = default;
-    item_stack( std::vector<item> *newstack, point newloc, class map *newmap ) :
-        mystack(newstack), location(newloc), mymap(newmap) {};
+    map_stack( std::vector<item> *newstack, point newloc, map *neworigin ) :
+    mystack(newstack), location(newloc), myorigin(neworigin) {};
     size_t size() const;
     bool empty() const;
+    // This guy is defined twice so it has the appropriate overrides for the different container types.
     std::vector<item>::iterator erase( std::vector<item>::iterator it );
+    std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
     std::vector<item>::iterator begin();
     std::vector<item>::iterator end();
     std::vector<item>::const_iterator begin() const;
     std::vector<item>::const_iterator end() const;
+    std::vector<item>::reverse_iterator rbegin();
+    std::vector<item>::reverse_iterator rend();
+    std::vector<item>::const_reverse_iterator rbegin() const;
+    std::vector<item>::const_reverse_iterator rend() const;
     item &front();
     item &operator[]( size_t index );
 };
@@ -499,7 +502,7 @@ void add_corpse(int x, int y);
 
 // Items
  // Accessor that returns a wrapped reference to an item stack for safe modification.
- item_stack i_at(int x, int y);
+ map_stack i_at(int x, int y);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);

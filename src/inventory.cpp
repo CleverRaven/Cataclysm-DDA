@@ -479,7 +479,7 @@ void inventory::restack(player *p)
     }
 }
 
-static long count_charges_in_list(const itype *type, const item_stack &items)
+static long count_charges_in_list(const itype *type, const map_stack &items)
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {

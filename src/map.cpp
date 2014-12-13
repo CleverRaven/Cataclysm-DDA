@@ -31,53 +31,79 @@ enum astar_list {
  ASL_CLOSED
 };
 
-// Item stack methods.
-size_t item_stack::size() const
+// Map stack methods.
+size_t map_stack::size() const
 {
     return mystack->size();
 }
 
-bool item_stack::empty() const
+bool map_stack::empty() const
 {
     return mystack->empty();
 }
 
-std::vector<item>::iterator item_stack::erase( std::vector<item>::iterator it )
+std::vector<item>::iterator map_stack::erase( std::vector<item>::iterator it )
 {
-    return mymap->i_rem(location, it);
+    return myorigin->i_rem(location, it);
 }
 
-void item_stack::push_back( const item &newitem )
+// Should never be called.
+std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {
-    mymap->add_item_or_charges(location.x, location.y, newitem);
+    return it;
 }
 
-std::vector<item>::iterator item_stack::begin()
+void map_stack::push_back( const item &newitem )
+{
+    myorigin->add_item_or_charges(location.x, location.y, newitem);
+}
+
+std::vector<item>::iterator map_stack::begin()
 {
     return mystack->begin();
 }
 
-std::vector<item>::iterator item_stack::end()
+std::vector<item>::iterator map_stack::end()
 {
     return mystack->end();
 }
 
-std::vector<item>::const_iterator item_stack::begin() const
+std::vector<item>::const_iterator map_stack::begin() const
 {
     return mystack->cbegin();
 }
 
-std::vector<item>::const_iterator item_stack::end() const
+std::vector<item>::const_iterator map_stack::end() const
 {
     return mystack->cend();
 }
 
-item &item_stack::front()
+std::vector<item>::reverse_iterator map_stack::rbegin()
+{
+    return mystack->rbegin();
+}
+
+std::vector<item>::reverse_iterator map_stack::rend()
+{
+    return mystack->rend();
+}
+
+std::vector<item>::const_reverse_iterator map_stack::rbegin() const
+{
+    return mystack->crbegin();
+}
+
+std::vector<item>::const_reverse_iterator map_stack::rend() const
+{
+    return mystack->crend();
+}
+
+item &map_stack::front()
 {
     return mystack->front();
 }
 
-item &item_stack::operator[]( size_t index )
+item &map_stack::operator[]( size_t index )
 {
     return (*mystack)[index];
 }
@@ -2680,17 +2706,17 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-item_stack map::i_at( const int x, const int y )
+map_stack map::i_at( const int x, const int y )
 {
     if( !INBOUNDS(x, y) ) {
         nulitems.clear();
-        return item_stack{ &nulitems, point(x, y), this };
+        return map_stack{ &nulitems, point(x, y), this };
     }
 
     int lx, ly;
     submap *const current_submap = get_submap_at( x, y, lx, ly );
 
-    return item_stack{ &current_submap->itm[lx][ly], point(x, y), this };
+    return map_stack{ &current_submap->itm[lx][ly], point(x, y), this };
 }
 
 bool map::sees_some_items(int x, int y, const player &u)
@@ -3214,7 +3240,7 @@ std::list<item> use_amount_vehicle( std::vector<item> &vec, const itype_id type,
     return ret;
 }
 
-std::list<item> use_amount_map( item_stack stack, const itype_id type, int &quantity,
+std::list<item> use_amount_map( map_stack stack, const itype_id type, int &quantity,
                                 const bool use_container )
 {
     std::list<item> ret;
@@ -3280,7 +3306,7 @@ std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id 
     return ret;
 }
 
-std::list<item> use_charges_from_map( item_stack stack, const itype_id type, long &quantity)
+std::list<item> use_charges_from_map( map_stack stack, const itype_id type, long &quantity)
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -3293,7 +3319,7 @@ std::list<item> use_charges_from_map( item_stack stack, const itype_id type, lon
     return ret;
 }
 
-long remove_charges_in_list(const itype *type, item_stack stack, long quantity)
+long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 {
     auto target = stack.begin();
     for( ; target != stack.end(); ++target ) {

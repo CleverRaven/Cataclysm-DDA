@@ -1972,7 +1972,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
     return;
 }
 
-int sum_up_item_weight_by_material( item_stack &stack, const std::string &material, bool remove_items )
+int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
 {
     int sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ++item_it ) {
@@ -2217,7 +2217,7 @@ itype *furn_t::crafting_ammo_item_type() const
     return NULL;
 }
 
-static long count_charges_in_list(const itype *type, const item_stack &items)
+static long count_charges_in_list(const itype *type, const map_stack &items)
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {

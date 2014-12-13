@@ -25,7 +25,7 @@ class live_view
         int inuse;
         int last_height;
 
-        void print_items( const item_stack &items, int &line ) const;
+        void print_items( const map_stack &items, int &line ) const;
 };
 
 #endif
