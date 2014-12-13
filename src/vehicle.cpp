@@ -534,7 +534,7 @@ void vehicle::control_doors() {
         pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
     }
 
-    pmenu.addentry( -1, true, 'q', _("Cancel") );
+    pmenu.addentry( doors_with_motors.size(), true, 'q', _("Cancel") );
     partpicker_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
