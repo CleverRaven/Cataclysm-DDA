@@ -4185,6 +4185,9 @@ bool game::is_game_over()
     if (uquit == QUIT_WATCH) {
         // deny player movement and dodging
         u.moves = 0;
+        // prevent pain from updating
+        u.pain = 0;
+        // prevent dodging
         u.dodges_left = 0;
         return false;
     }
