@@ -765,7 +765,7 @@
 			[ [ "water", 4] ]
 		],
 		"pre_terrain" : "t_pit_shallow",
-		"post_terrain" : "s_conc_wall_2"
+		"post_terrain" : "t_sconc_wall_halfway"
 	},{
 		"type" : "construction",
 		"description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
@@ -780,8 +780,8 @@
 			[ [ "2x4", 12] ],
 			[ [ "water", 2] ]
 		],
-		"pre_terrain" : "s_conc_wall_2",
-		"post_terrain" : "s_conc_wall"
+		"pre_terrain" : "t_sconc_wall_halfway",
+		"post_terrain" : "t_sconc_wall"
 	},{
 		"type" : "construction",
 		"description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
@@ -795,7 +795,7 @@
 			[ [ "rebar", 16] ]
 		],
 		"pre_terrain" : "t_pit",
-		"post_terrain" : "reb_cage"
+		"post_terrain" : "t_reb_cage"
     },{
 		"type" : "construction",
 		"description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
@@ -810,8 +810,8 @@
 			[ [ "2x4", 12] ],
 			[ [ "water", 4 ] ]
 		],
-		"pre_terrain" : "reb_cage",
-		"post_terrain" : "str_conc_wall_2"
+		"pre_terrain" : "t_reb_cage",
+		"post_terrain" : "t_strconc_wall_halfway"
 	},{
 		"type" : "construction",
 		"description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
@@ -826,8 +826,8 @@
 			[ [ "2x4", 12] ],
 			[ [ "water", 4 ] ]
 		],
-		"pre_terrain" : "str_conc_wall_2",
-		"post_terrain" : "str_conc_wall"
+		"pre_terrain" : "t_strconc_wall_halfway",
+		"post_terrain" : "t_strconc_wall"
 	},{
         "type" : "construction",
         "description" : "Build Palisade Wall",
