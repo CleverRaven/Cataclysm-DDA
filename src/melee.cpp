@@ -880,7 +880,7 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
     // The cost of the weapon getting stuck, in units of move points.
     const int weapon_speed = attack_speed(*this);
     int stuck_cost = weapon_speed;
-    int attack_skill = stabbing ? get_skill_level("stabbing") : get_skill_level("cutting");
+    int attack_skill = stabbing ? (get_skill_level("stabbing")*2) : get_skill_level("cutting");
 
     if (has_active_bionic("bio_cqb")) {
         attack_skill = 5;
