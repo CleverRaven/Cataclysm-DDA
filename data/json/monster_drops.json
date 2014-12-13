@@ -14,6 +14,16 @@
         ]
     },
     {
+	"type" : "item_group",
+	"subtype": "collection",
+	"id": "powered_heavy_armor_drops",
+	"entries":
+	[
+		{"item": "power_armor_heavy", "prob": 100},
+		{"item": "power_armor_helmet_heavy", "prob": 100}
+	]
+	},
+    {
         "type" : "item_group",
         "subtype": "distribution",
         "comment": "items that an average zombie carries around and drops on death",
