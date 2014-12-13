@@ -1950,7 +1950,7 @@ bool item::has_flag(const std::string &f) const
     // gun flags
     if (is_gun()) {
         if (mode == "MODE_AUX") {
-            item const* gunmod = inspect_active_gunmod();
+            item const* gunmod = active_gunmod();
             if( gunmod != NULL )
                 ret = gunmod->has_flag(f);
             if (ret) return ret;
@@ -2870,7 +2870,7 @@ item* item::active_gunmod()
     return NULL;
 }
 
-item const* item::inspect_active_gunmod() const
+item const* item::active_gunmod() const
 {
     if( mode == "MODE_AUX" ) {
         for( auto &elem : contents ) {
@@ -3034,7 +3034,7 @@ int item::gun_damage( bool with_ammo ) const
         return 0;
     }
     if( mode == "MODE_AUX" ) {
-        const item *gunmod = inspect_active_gunmod();
+        const item *gunmod = active_gunmod();
         if( gunmod != NULL && gunmod->curammo != NULL ) {
             return gunmod->curammo->damage;
         } else {
@@ -3064,7 +3064,7 @@ int item::gun_pierce( bool with_ammo ) const
         return 0;
     }
     if( mode == "MODE_AUX" ) {
-        const item *gunmod = inspect_active_gunmod();
+        const item *gunmod = active_gunmod();
         if( gunmod != NULL && gunmod->curammo != NULL ) {
             return gunmod->curammo->pierce;
         } else {
@@ -3086,7 +3086,7 @@ int item::noise() const
     }
     int ret = 0;
     if( mode == "MODE_AUX" ) {
-        item const* gunmod = inspect_active_gunmod();
+        item const* gunmod = active_gunmod();
         if( gunmod && gunmod->curammo ) {
             ret = gunmod->curammo->damage;
         }
@@ -3137,7 +3137,7 @@ int item::recoil( bool with_ammo ) const
     }
     // Just use the raw ammo recoil for now.
     if( mode == "MODE_AUX" ) {
-        const item *gunmod = inspect_active_gunmod();
+        const item *gunmod = active_gunmod();
         if( gunmod && gunmod->curammo ) {
             return gunmod->curammo->recoil;
         } else {
@@ -3166,7 +3166,7 @@ int item::range( player *p ) const
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
     if( mode == "MODE_AUX" ) {
-        const item *gunmod = inspect_active_gunmod();
+        const item *gunmod = active_gunmod();
         int mod_range = 0;
         if( gunmod ) {
             mod_range += dynamic_cast<it_gunmod *>( gunmod->type )->range;
