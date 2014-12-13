@@ -3062,62 +3062,60 @@ input_context game::get_player_input(std::string &action)
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if(uquit != QUIT_WATCH) {
-                if (OPTIONS["ANIMATION_SCT"]) {
+            if (uquit != QUIT_WATCH && OPTIONS["ANIMATION_SCT"]) {
 #ifdef TILES
-                    if (!use_tiles) {
+                if (!use_tiles) {
 #endif
-                        for( auto &elem : SCT.vSCT ) {
-                            //Erase previous text from w_terrain
-                            if( elem.getStep() > 0 ) {
-                                for( size_t i = 0; i < elem.getText().length(); ++i ) {
-                                    if( u_see( elem.getPosX() + i, elem.getPosY() ) ) {
-                                        m.drawsq( w_terrain, u, elem.getPosX() + i, elem.getPosY(),
-                                                  false, true, u.posx + u.view_offset_x,
-                                                  u.posy + u.view_offset_y );
+                    for( auto &elem : SCT.vSCT ) {
+                        //Erase previous text from w_terrain
+                        if( elem.getStep() > 0 ) {
+                            for( size_t i = 0; i < elem.getText().length(); ++i ) {
+                                if( u_see( elem.getPosX() + i, elem.getPosY() ) ) {
+                                    m.drawsq( w_terrain, u, elem.getPosX() + i, elem.getPosY(),
+                                              false, true, u.posx + u.view_offset_x,
+                                              u.posy + u.view_offset_y );
+                                } else {
+                                    const int iDY =
+                                        POSY + ( elem.getPosY() - ( u.posy + u.view_offset_y ) );
+                                    const int iDX =
+                                        POSX + ( elem.getPosX() - ( u.posx + u.view_offset_x ) );
+
+                                    if (u.has_effect("boomered")) {
+                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
+
                                     } else {
-                                        const int iDY =
-                                            POSY + ( elem.getPosY() - ( u.posy + u.view_offset_y ) );
-                                        const int iDX =
-                                            POSX + ( elem.getPosX() - ( u.posx + u.view_offset_x ) );
-
-                                        if (u.has_effect("boomered")) {
-                                            mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
-
-                                        } else {
-                                            mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
-                                        }
+                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
                                     }
                                 }
                             }
                         }
-#ifdef TILES
                     }
+#ifdef TILES
+                }
 #endif
 
-                    SCT.advanceAllSteps();
+                SCT.advanceAllSteps();
 
-                    //Check for creatures on all drawing positions and offset if necessary
-                    for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
-                        const direction oCurDir = iter->getDirecton();
+                //Check for creatures on all drawing positions and offset if necessary
+                for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+                    const direction oCurDir = iter->getDirecton();
 
-                        for (int i = 0; i < (int)iter->getText().length(); ++i) {
-                            const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
+                    for (int i = 0; i < (int)iter->getText().length(); ++i) {
+                        const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
 
-                            if (dex != -1 && u_see(&zombie(dex))) {
-                                i = -1;
+                        if (dex != -1 && u_see(&zombie(dex))) {
+                            i = -1;
 
-                                int iPos = iter->getStep() + iter->getStepOffset();
-                                for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
-                                    if (iter2->getDirecton() == oCurDir &&
-                                        iter2->getStep() + iter2->getStepOffset() <= iPos) {
-                                        if (iter2->getType() == "hp") {
-                                            iter2->advanceStepOffset();
-                                        }
-
+                            int iPos = iter->getStep() + iter->getStepOffset();
+                            for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
+                                if (iter2->getDirecton() == oCurDir &&
+                                    iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                                    if (iter2->getType() == "hp") {
                                         iter2->advanceStepOffset();
-                                        iPos = iter2->getStep() + iter2->getStepOffset();
                                     }
+
+                                    iter2->advanceStepOffset();
+                                    iPos = iter2->getStep() + iter2->getStepOffset();
                                 }
                             }
                         }
