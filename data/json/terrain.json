@@ -10,7 +10,7 @@
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
     		"type" : "terrain",
-		"id" : "s_conc_wall",
+		"id" : "t_sconc_wall",
 		"name": "simple concrete wall",
 		"symbol": "#",
 		"color": "ltgray",
@@ -27,7 +27,7 @@
 		}
     },{
     		"type" : "terrain",
-		"id" : "s_conc_wall_2",
+		"id" : "t_sconc_wall_halfway",
 		"name": "half-built simple concrete wall",
 		"symbol": "*",
 		"color": "ltgray",
@@ -44,7 +44,7 @@
 		}
     },{
 		"type" : "terrain",
-		"id" : "str_conc_wall",
+		"id" : "t_strconc_wall",
 		"name": "reinforced concrete wall",
 		"symbol": "#",
 		"color": "ltgray",
@@ -63,7 +63,7 @@
 		}
     },{
     		"type" : "terrain",
-		"id" : "str_conc_wall_2",
+		"id" : "t_strconc_wall_halfway",
 		"name": "half-built reinforced concrete wall",
 		"symbol": "*",
 		"color": "ltgray",
@@ -82,7 +82,7 @@
 		}
     },{
 		"type" : "terrain",
-		"id" : "reb_cage",
+		"id" : "t_reb_cage",
 		"name": "rebar cage",
 		"symbol": "#",
 		"color": "dkgray",
