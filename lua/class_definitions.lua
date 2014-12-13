@@ -580,55 +580,6 @@ classes = {
         functions = {
         }
     },
-    it_gun = {
-        parent = "itype",
-        attributes = {
-            ammo = {
-                type = "string",
-                writable = true
-            },
-            ranged_damage = {
-                type = "int",
-                cpp_name = "dmg_bonus",
-                writable = true
-            },
-            pierce = {
-                type = "int",
-                writable = true
-            },
-            range = {
-                type = "int",
-                writable = true
-            },
-            dispersion = {
-                type = "int",
-                writable = true
-            },
-            recoil = {
-                type = "int",
-                writable = true
-            },
-            durability = {
-                type = "int",
-                writable = true
-            },
-            burst = {
-                type = "int",
-                writable = true
-            },
-            clip = {
-                type = "int",
-                writable = true
-            },
-            reload = {
-                type = "int",
-                cpp_name = "reload_time",
-                writable = true
-            }
-        },
-        functions = {
-        }
-    },
     it_gunmod = {
         parent = "itype",
         attributes = {
@@ -771,11 +722,6 @@ global_functions = {
         cpp_name = "get_comestible_type",
         args = { "string" },
         rval = "it_comest"
-    },
-    get_gun_type = {
-        cpp_name = "get_gun_type",
-        args = { "string" },
-        rval = "it_gun"
     },
     get_gunmod_type = {
         cpp_name = "get_gunmod_type",

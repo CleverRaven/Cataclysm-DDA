@@ -464,10 +464,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
             }
         }
-        const it_gun *gun = dynamic_cast<const it_gun *>(type);
-        if (gun != 0) {
-            check_ammo_type(msg, gun->ammo);
-            if (gun->skill_used == 0) {
+        if( type->gun ) {
+            check_ammo_type( msg, type->gun->ammo );
+            if( type->gun->skill_used == nullptr ) {
                 msg << string_format("uses no skill") << "\n";
             }
         }
@@ -598,36 +597,39 @@ void Item_factory::load_ammo(JsonObject &jo)
     load_basic_info(jo, new_item_template);
 }
 
-void Item_factory::load_gun(JsonObject &jo)
+void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    it_gun *gun_template = new it_gun();
-    gun_template->ammo = jo.get_string("ammo");
-    gun_template->skill_used = Skill::skill(jo.get_string("skill"));
-    gun_template->dmg_bonus = jo.get_int("ranged_damage");
-    gun_template->range = jo.get_int("range");
-    gun_template->dispersion = jo.get_int("dispersion");
-    gun_template->sight_dispersion = jo.get_int("sight_dispersion");
-    gun_template->aim_speed = jo.get_int("aim_speed");
-    gun_template->recoil = jo.get_int("recoil");
-    gun_template->durability = jo.get_int("durability");
-    gun_template->burst = jo.get_int("burst");
-    gun_template->clip = jo.get_int("clip_size");
-    gun_template->reload_time = jo.get_int("reload");
-    gun_template->pierce = jo.get_int("pierce", 0);
-    gun_template->ammo_effects = jo.get_tags("ammo_effects");
-    gun_template->ups_charges = jo.get_int( "ups_charges", 0 );
+    slot.ammo = jo.get_string( "ammo" );
+    slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
+    slot.dmg_bonus = jo.get_int( "ranged_damage" );
+    slot.range = jo.get_int( "range" );
+    slot.dispersion = jo.get_int( "dispersion" );
+    slot.sight_dispersion = jo.get_int("sight_dispersion");
+    slot.aim_speed = jo.get_int("aim_speed");
+    slot.recoil = jo.get_int( "recoil" );
+    slot.durability = jo.get_int( "durability" );
+    slot.burst = jo.get_int( "burst" );
+    slot.clip = jo.get_int( "clip_size" );
+    slot.reload_time = jo.get_int( "reload" );
+    slot.pierce = jo.get_int( "pierce", 0 );
+    slot.ammo_effects = jo.get_tags( "ammo_effects" );
+    slot.ups_charges = jo.get_int( "ups_charges", 0 );
 
-    if (jo.has_array("valid_mod_locations")) {
-        JsonArray jarr = jo.get_array("valid_mod_locations");
-        while (jarr.has_more()) {
+    if( jo.has_array( "valid_mod_locations" ) ) {
+        JsonArray jarr = jo.get_array( "valid_mod_locations" );
+        while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0),
-                    curr.get_int(1)));
+            slot.valid_mod_locations.insert( std::pair<std::string, int>( curr.get_string( 0 ),
+                                             curr.get_int( 1 ) ) );
         }
     }
+}
 
-    itype *new_item_template = gun_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load_gun(JsonObject &jo)
+{
+    itype* new_item_template = new itype();
+    load_slot( new_item_template->gun, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_armor(JsonObject &jo)
@@ -958,6 +960,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );
     load_slot_optional( new_item_template->book, jo, "book_data" );
+    load_slot_optional( new_item_template->gun, jo, "gun_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1458,7 +1461,7 @@ const use_function *Item_factory::get_iuse(const std::string &id)
 
 const std::string &Item_factory::calc_category( const itype *it )
 {
-    if (it->is_gun()) {
+    if( it->gun ) {
         return category_id_guns;
     }
     if (it->is_ammo()) {

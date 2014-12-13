@@ -800,8 +800,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
-  it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
-  tmp = default_ammo(gun->ammo);
+  tmp = default_ammo(me->weapon.type->gun->ammo);
   if (tmp == "" || tmp == "UPS"){
     add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
   }else {
@@ -991,10 +990,9 @@ void npc::starting_weapon(npc_class type)
 
     if (weapon.is_gun())
     {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        const std::string tmp = default_ammo( gun->ammo );
+        const std::string tmp = default_ammo( weapon.type->gun->ammo );
         if( tmp != "" ) {
-            weapon.charges = gun->clip;
+            weapon.charges = weapon.type->gun->clip;
             weapon.curammo = dynamic_cast<it_ammo*>( item::find_type( tmp ) );
         }
     }
@@ -1416,8 +1414,7 @@ void npc::decide_needs()
     for( auto &elem : needrank )
         elem = 20;
     if (weapon.is_gun()) {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();
+        needrank[need_ammo] = 5 * has_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
@@ -1593,10 +1590,8 @@ int npc::value(const item &it)
 
  if (it.is_ammo()) {
   it_ammo* ammo = dynamic_cast<it_ammo*>(it.type);
-  it_gun* gun;
   if (weapon.is_gun()) {
-   gun = dynamic_cast<it_gun*>(weapon.type);
-   if (ammo->type == gun->ammo)
+   if (ammo->type == weapon.type->gun->ammo)
     ret += 14;
   }
   if (has_gun_for_ammo(ammo->type)) {

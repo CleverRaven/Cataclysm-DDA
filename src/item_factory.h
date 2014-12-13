@@ -24,6 +24,7 @@ struct itype;
 struct islot_container;
 struct islot_armor;
 struct islot_book;
+struct islot_gun;
 class item_category;
 
 /**
@@ -242,6 +243,7 @@ class Item_factory
         void load( islot_container &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
+        void load( islot_gun &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);

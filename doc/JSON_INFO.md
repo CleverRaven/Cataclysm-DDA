@@ -475,23 +475,13 @@ It could also be written as a generic item ("tpye": "GENERIC") with "armor_data"
 "to_hit": 1           // To-hit bonus if using it as a melee weapon
 ```
 ###GUN
+Guns can be define like this:
 ```C++
-"id": "nailgun",      // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "GUN",        // Defines this as a GUN
-"symbol": "(",        // ASCII character used in-game
-"color": "light_blue", // ASCII character colour
-"name": "nail gun",   // In-game name displayed
-"description": "A tool used to drive nails into wood or other material. It could also be used as a ad-hoc weapon, or to practice your handgun skill up to level 1.", // In-game description
-"price": 100,         // Used when bartering with NPCs
-"material": "iron",   // Material types.  See materials.json for possible options
-"flags": "MODE_BURST", // Indicates special effects
+...                   // same entries as above for the generic item.
+                      // additional some gun specific entries:
 "skill": "pistol",    // Skill used for firing
 "ammo": "nail",       // Ammo type accepted for reloading
-"weight": 2404,       // Weight, measured in grams
-"volume": 4,          // Volume, measured in 1/4 liters
-"bashing": 12,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
-"to_hit": 1,          // To-hit bonus if using it as a melee weapon
 "ranged_damage": 0,   // Ranged damage when fired
 "range": 0,           // Range when fired
 "dispersion": 32,     // Inaccuracy of gun, measured in quarter-degrees
@@ -506,6 +496,16 @@ It could also be written as a generic item ("tpye": "GENERIC") with "armor_data"
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
 "ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+```
+Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"gun_data" : {       // additionally the same gun data like above
+    "skill": ...,
+    "recoil": ...,
+    ...
+}
 ```
 ###TOOLS
 ```C++

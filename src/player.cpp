@@ -10807,7 +10807,7 @@ hint_rating player::rate_action_reload(item *it) {
             bool alternate_magazine = false;
             for (auto &i : it->contents) {
                 if ((i.is_gunmod() && (i.typeId() == "spare_mag" &&
-                      i.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
+                      i.charges < it->type->gun->clip)) ||
                       (i.has_flag("MODE_AUX") && i.charges < i.clip_size())) {
                     alternate_magazine = true;
                 }
@@ -11040,7 +11040,7 @@ can install this mod."), mod->req_skill);
             add_msg(m_info, _("That %s is not a weapon."), gun->tname().c_str());
             return;
         }
-        it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
+        islot_gun* guntype = gun->type->gun.get();
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
             add_msg(m_info, _("That %s cannot be attached to a handgun."),
                        used->tname().c_str());
@@ -11103,7 +11103,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                        gun->tname().c_str());
             return;
         }
-        if (guntype->id == "hand_crossbow" && !mod->used_on_pistol) {
+        if (gun->typeId() == "hand_crossbow" && !mod->used_on_pistol) {
           add_msg(m_info, _("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
           used->tname().c_str());
           return;

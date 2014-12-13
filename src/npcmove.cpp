@@ -283,7 +283,7 @@ void npc::execute_action(npc_action action, int target)
         for (size_t i = 0; i < slice.size(); i++) {
             item &it = slice[i]->front();
             bool am = (it.is_gun() &&
-                       has_ammo( (dynamic_cast<it_gun *>(it.type))->ammo ).size() > 0);
+                       has_ammo( it.type->gun->ammo ).size() > 0);
             if (it.is_gun() && (!ammo_found || am)) {
                 index = i;
                 ammo_found = (ammo_found || am);
@@ -588,7 +588,6 @@ npc_action npc::method_of_attack(int target, int danger)
             return npc_alt_attack;
         }
         if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
-            it_gun *gun = dynamic_cast<it_gun *>(weapon.type);
             if (dist > confident_range()) {
                 if (can_reload() && (enough_time_to_reload(target, weapon) || in_vehicle)) {
                     return npc_reload;
@@ -616,8 +615,8 @@ npc_action npc::method_of_attack(int target, int danger)
             } else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
                        g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
                 return npc_melee; // If out of range, move closer to the target
-            } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
-                       gun->burst > 1 &&
+            } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
+                       weapon.type->gun->burst > 1 &&
                        ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) ||
                         emergency(danger * 2))) {
                 return npc_shoot_burst;
@@ -960,8 +959,7 @@ bool npc::can_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    it_gun *gun = dynamic_cast<it_gun *> (weapon.type);
-    return (weapon.charges < gun->clip && has_ammo(gun->ammo).size() > 0);
+    return (weapon.charges < weapon.type->gun->clip && has_ammo(weapon.ammo_type()).size() > 0);
 }
 
 bool npc::need_to_reload()
@@ -969,9 +967,7 @@ bool npc::need_to_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    it_gun *gun = dynamic_cast<it_gun *> (weapon.type);
-
-    return (weapon.charges < gun->clip * .1);
+    return (weapon.charges < weapon.type->gun->clip * .1);
 }
 
 bool npc::enough_time_to_reload(int target, item &gun)

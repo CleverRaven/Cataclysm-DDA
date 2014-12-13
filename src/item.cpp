@@ -45,7 +45,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type_name(1);
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
-    if( type->is_gun() ) {
+    if( type->gun ) {
         charges = 0;
     }
     if( type->is_ammo() ) {
@@ -546,7 +546,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     }
 
     if( is_gun() ) {
-        it_gun* gun = dynamic_cast<it_gun*>(type);
+        islot_gun* gun = type->gun.get();
         int ammo_dam = 0;
         int ammo_range = 0;
         int ammo_recoil = 0;
@@ -1357,7 +1357,7 @@ int item::get_free_mod_locations(const std::string &location) const
     if(!is_gun()) {
         return 0;
     }
-    const it_gun *gt = dynamic_cast<const it_gun*>(type);
+    const islot_gun* gt = type->gun.get();
     std::map<std::string, int>::const_iterator loc =
         gt->valid_mod_locations.find(location);
     if(loc == gt->valid_mod_locations.end()) {
@@ -1763,7 +1763,7 @@ int item::weight() const
 
     if (count_by_charges()) {
         ret *= charges;
-    } else if (type->is_gun() && charges >= 1) {
+    } else if (type->gun && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
         if( ammo_type() == "plutonium" ) {
@@ -2270,7 +2270,7 @@ int item::weapon_value(player *p) const
     int my_value = 0;
     if (is_gun()) {
         int gun_value = 14;
-        it_gun* gun = dynamic_cast<it_gun*>(type);
+        const islot_gun* gun = type->gun.get();
         gun_value += gun->dmg_bonus;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
@@ -2514,10 +2514,7 @@ bool item::is_var_veh_part() const
 
 bool item::is_gun() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_gun();
+    return type->gun.get() != nullptr;
 }
 
 bool item::is_silent() const
@@ -2526,7 +2523,7 @@ bool item::is_silent() const
   return false;
 
  // So far only gun code uses this check
- return type->is_gun() && (
+ return type->gun && (
    noise() < 5 ||              // almost silent
    curammo->type == "bolt" || // crossbows
    curammo->type == "arrow" ||// bows
@@ -2830,7 +2827,7 @@ int item::reload_time(player &u) const
     int ret = 0;
 
     if (is_gun()) {
-        it_gun* reloading = dynamic_cast<it_gun*>(type);
+        const auto reloading = type->gun.get();
         ret = reloading->reload_time;
         if (charges == 0) {
             int spare_mag = has_gunmod("spare_mag");
@@ -2923,7 +2920,7 @@ std::string item::skill() const
     if( is_gunmod() ) {
         return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
     } else if ( is_gun() ) {
-        return dynamic_cast<it_gun *>(type)->skill_used->ident();
+        return type->gun->skill_used->ident();
     } else if( type->book && type->book->skill != nullptr ) {
         return type->book->skill->ident();
     }
@@ -2937,8 +2934,7 @@ int item::clip_size() const
     if (!is_gun())
         return 0;
 
-    it_gun* gun = dynamic_cast<it_gun*>(type);
-    int ret = gun->clip;
+    int ret = type->gun->clip;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
             int bonus = ( ret * ( dynamic_cast<it_gunmod *>( elem.type ) )->clip ) / 100;
@@ -2956,8 +2952,7 @@ int item::dispersion() const
     if( !is_gun() ) {
         return 0;
     }
-    it_gun *gun = dynamic_cast<it_gun *>( type );
-    int dispersion_sum = gun->dispersion;
+    int dispersion_sum = type->gun->dispersion;
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
             dispersion_sum += ( dynamic_cast<it_gunmod *>( elem.type ) )->dispersion;
@@ -2978,7 +2973,7 @@ int item::sight_dispersion( int aim_threshold ) const
     if (!is_gun()) {
         return 0;
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
+    const auto gun = type->gun.get();
     int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
     if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
@@ -3004,7 +2999,7 @@ int item::aim_speed( int aim_threshold ) const
     if (!is_gun()) {
         return 0;
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
+    const auto gun = type->gun.get();
     int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
     if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
@@ -3041,7 +3036,7 @@ int item::gun_damage( bool with_ammo ) const
             return 0;
         }
     }
-    it_gun *gun = dynamic_cast<it_gun *>( type );
+    const auto gun = type->gun.get();
     int ret = gun->dmg_bonus;
     if( with_ammo && curammo != NULL ) {
         ret += curammo->damage;
@@ -3071,8 +3066,7 @@ int item::gun_pierce( bool with_ammo ) const
             return 0;
         }
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
-    int ret = gun->pierce;
+    int ret = type->gun->pierce;
     if( with_ammo && curammo != NULL ) {
         ret += curammo->pierce;
     }
@@ -3117,8 +3111,7 @@ int item::burst_size() const
     if( mode == "MODE_AUX" ) {
         return 1;
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
-    int ret = gun->burst;
+    int ret = type->gun->burst;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->burst;
@@ -3144,8 +3137,7 @@ int item::recoil( bool with_ammo ) const
             return 0;
         }
     }
-    it_gun *gun = dynamic_cast<it_gun *>( type );
-    int ret = gun->recoil;
+    int ret = type->gun->recoil;
     if( with_ammo && curammo ) {
         ret += curammo->recoil;
     }
@@ -3178,13 +3170,13 @@ int item::range( player *p ) const
     }
     // Ammoless weapons use weapon's range only
     if( has_flag( "NO_AMMO" ) && !curammo ) {
-        return dynamic_cast<it_gun *>( type )->range;
+        return type->gun->range;
     }
 
-    int ret = ( curammo ? dynamic_cast<it_gun *>( type )->range + curammo->range : 0 );
+    int ret = (curammo ? type->gun->range + curammo->range : 0);
 
     if( has_flag( "CHARGE" ) ) {
-        ret = dynamic_cast<it_gun *>( type )->range + 5 + charges * 5;
+        ret = type->gun->range + 5 + charges * 5;
     }
 
     if( has_flag( "STR8_DRAW" ) && p ) {
@@ -3219,8 +3211,7 @@ int item::range( player *p ) const
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
-        it_gun* gun = dynamic_cast<it_gun*>(type);
-        ammotype ret = gun->ammo;
+        ammotype ret = type->gun->ammo;
         for( auto &elem : contents ) {
             if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
                 it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
@@ -3289,7 +3280,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         return INT_MIN;
     }
 
-    if (!type->is_gun() && !type->is_tool()) {
+    if( !is_gun() && !is_tool() ) {
         debugmsg("RELOADING NON-GUN NON-TOOL");
         return INT_MIN;
     }
@@ -3297,19 +3288,18 @@ int item::pick_reload_ammo(player &u, bool interactive)
 
     std::vector<item *> am; // List of valid ammo
 
-    if (type->is_gun()) {
+    if( is_gun() ) {
         if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
             // Special return to use magazine for reloading.
             return INT_MIN + 1;
         }
-        it_gun *tmp = dynamic_cast<it_gun *>(type);
 
         // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
         // If the gun is partially loaded make sure the ammo matches.
         // If the gun is empty, either the spare mag is empty too and anything goes,
         // or the spare mag is loaded and we're doing a tactical reload.
         if (charges < clip_size() ||
-            (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < type->gun->clip)) {
             std::vector<item *> tmpammo = u.has_ammo(ammo_type());
             if (charges > 0) {
                 // partially loaded, accept only ammo of the exact same type
@@ -3476,7 +3466,7 @@ bool item::reload(player &u, int pos)
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
+                   contents[spare_mag].charges != type->gun->clip &&
                    (charges <= 0 || curammo->id == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
@@ -3500,7 +3490,7 @@ bool item::reload(player &u, int pos)
         if (reload_target->is_gun() || reload_target->is_gunmod()) {
             if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
                 // Use gun numbers instead of the mod if it's a spare magazine
-                max_load = (dynamic_cast<it_gun*>(type))->clip;
+                max_load = type->gun->clip;
                 single_load = has_flag("RELOAD_ONE");
             } else {
                 single_load = reload_target->has_flag("RELOAD_ONE");
@@ -3692,9 +3682,8 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
             ammo = tool->ammo;
             max = tool->max_charges;
         } else {
-            it_gun *gun = dynamic_cast<it_gun *>(type);
-            ammo = gun->ammo;
-            max = gun->clip;
+            ammo = type->gun->ammo;
+            max = type->gun->clip;
         }
 
         ammotype liquid_type = liquid.ammo_type();

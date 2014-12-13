@@ -4785,9 +4785,9 @@ void vehicle::control_turrets() {
         // Regen menu entries
         for( int i = 0; i < (int)turrets.size(); i++ ) {
             int p = turrets[i];
-            it_gun *g = dynamic_cast<it_gun*>( item::find_type( part_info( p ).item ) );
-            bool charge = item::find_type( part_info( p ).item )->item_tags.count( "CHARGE" ) > 0;
-            bool burst = g->burst > 1;
+            const auto gun = item::find_type( part_info( p ).item );
+            bool charge = gun->item_tags.count( "CHARGE" ) > 0;
+            bool burst = gun->gun->burst > 1;
             char sym;
             if( parts[p].mode <= 0 ) {
                 sym = ' ';
@@ -4815,7 +4815,7 @@ void vehicle::control_turrets() {
 
         selected = pmenu.ret;
         int turret_index = turrets[selected];
-        it_gun *gun = dynamic_cast<it_gun*>( item::find_type( part_info( turret_index ).item ) );
+        const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
         if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
             debugmsg( "vehicle::toggle_turrets tried to pick a non-turret part" );
             return;
@@ -4846,8 +4846,8 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
 {
     if (!part_flag (p, "TURRET"))
         return false;
-    it_gun *gun = dynamic_cast<it_gun*>( item::find_type( part_info( p ).item ) );
-    if (!gun) {
+    const auto gun = item::find_type( part_info( p ).item );
+    if( !gun->gun ) {
         return false;
     }
 
@@ -4856,10 +4856,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     }
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
-    if( gun->ups_charges > 0 && gun->ups_charges < power ) {
+    if( gun->gun->ups_charges > 0 && gun->gun->ups_charges < power ) {
         return false;
     }
-    long charges = std::min( gun->burst, parts[p].mode );
+    long charges = std::min( gun->gun->burst, parts[p].mode );
     std::string whoosh = "";
     if( charges <= 0 ) {
         charges = 1;
@@ -4931,7 +4931,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     return true;
 }
 
-bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long &charges, const std::string &extra_sound)
+bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -4941,7 +4941,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long &cha
     npc tmp;
     tmp.set_fake( true );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel(gun.skill_used).level(8);
+    tmp.skillLevel(gun.gun->skill_used).level(8);
     tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.posx = x;

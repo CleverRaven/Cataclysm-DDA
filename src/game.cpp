@@ -10731,9 +10731,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             ammo = tool->ammo;
             max = tool->max_charges;
         } else {
-            it_gun *gun = dynamic_cast<it_gun *>(cont->type);
-            ammo = gun->ammo;
-            max = gun->clip;
+            ammo = cont->type->gun->ammo;
+            max = cont->type->gun->clip;
         }
 
         ammotype liquid_type = liquid.ammo_type();
@@ -10817,9 +10816,8 @@ int game::move_liquid(item &liquid)
                 ammo = tool->ammo;
                 max = tool->max_charges;
             } else {
-                it_gun *gun = dynamic_cast<it_gun *>(cont->type);
-                ammo = gun->ammo;
-                max = gun->clip;
+                ammo = cont->type->gun->ammo;
+                max = cont->type->gun->clip;
             }
 
             ammotype liquid_type = liquid.ammo_type();
@@ -11410,7 +11408,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
         return;
     }
-    const it_gun *gun = dynamic_cast<const it_gun*>( u.weapon.type );
+    const auto gun = u.weapon.type->gun.get();
     if( gun != nullptr && gun->ups_charges > 0 ) {
         const int ups_drain = gun->ups_charges;
         const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
@@ -12121,7 +12119,7 @@ void game::reload(int pos)
                 contents = *cont;
                 if ((contents.is_gunmod() &&
                      (contents.typeId() == "spare_mag" &&
-                      contents.charges < (dynamic_cast<it_gun *>(it->type))->clip)) ||
+                      contents.charges < it->type->gun->clip)) ||
                     (contents.has_flag("MODE_AUX") &&
                      contents.charges < contents.clip_size())) {
                     magazine_isfull = false;

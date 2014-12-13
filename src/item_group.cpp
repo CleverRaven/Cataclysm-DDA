@@ -181,7 +181,7 @@ void Item_modifier::modify(item &new_item) const
         new_item.damage = dm;
     }
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
-    const auto g = dynamic_cast<const it_gun *>( new_item.type );
+    const auto g = new_item.type->gun.get();
     it_tool *t = dynamic_cast<it_tool *>(new_item.type);
    
     if(ch != -1) {
@@ -341,9 +341,9 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
         }
     }
     if (with_ammo && !result.empty()) {
-        it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
-        if (maybe_gun != NULL) {
-            const std::string ammoid = default_ammo( maybe_gun->ammo );
+        const auto t = result.front().type;
+        if( t->gun ) {
+            const std::string ammoid = default_ammo( t->gun->ammo );
             if ( !ammoid.empty() ) {
                 item ammo( ammoid, birthday );
                 // TODO: change the spawn lists to contain proper references to containers
