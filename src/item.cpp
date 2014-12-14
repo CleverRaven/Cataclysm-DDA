@@ -3261,17 +3261,6 @@ bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
     return false;
 }
 
-void remove_non_matching_types(std::vector<item*> &vec, const std::string &type)
-{
-    for (std::vector<item*>::iterator it = vec.begin(); it != vec.end(); ) {
-        if ((*it)->is_of_type_or_contains_it(type)) {
-            ++it;
-        } else {
-            it = vec.erase(it);
-        }
-    }
-}
-
 int item::pick_reload_ammo(player &u, bool interactive)
 {
     if( is_null() ) {
@@ -3285,6 +3274,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
     int has_spare_mag = has_gunmod ("spare_mag");
 
     std::vector<item *> am; // List of valid ammo
+    std::vector<item *> tmpammo;
 
     if( is_gun() ) {
         if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
@@ -3298,10 +3288,11 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // or the spare mag is loaded and we're doing a tactical reload.
         if (charges < clip_size() ||
             (has_spare_mag != -1 && contents[has_spare_mag].charges < type->gun->clip)) {
-            std::vector<item *> tmpammo = u.has_ammo(ammo_type());
             if (charges > 0 && has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
-                remove_non_matching_types(tmpammo, get_curammo_id() );
+                tmpammo = u.has_exact_ammo( ammo_type(), get_curammo_id() );
+            } else {
+                tmpammo = u.has_ammo( ammo_type() );
             }
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
@@ -3318,10 +3309,11 @@ int item::pick_reload_ammo(player &u, bool interactive)
                 // already fully loaded
                 continue;
             }
-            std::vector<item *> tmpammo = u.has_ammo(mod->newtype);
             if (cont.charges > 0 && cont.has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
-                remove_non_matching_types(tmpammo, cont.get_curammo_id() );
+                tmpammo = u.has_exact_ammo( mod->newtype, cont.get_curammo_id() );
+            } else {
+                tmpammo = u.has_ammo( mod->newtype );
             }
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }

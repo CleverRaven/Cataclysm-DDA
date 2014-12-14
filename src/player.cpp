@@ -12959,6 +12959,19 @@ std::vector<item*> player::has_ammo(ammotype at)
     return result;
 }
 
+std::vector<item *> player::has_exact_ammo( const ammotype &at, const itype_id &id )
+{
+    auto result = has_ammo( at );
+    for( auto it = result.begin(); it != result.end(); ) {
+        if( ( *it )->is_of_type_or_contains_it( id ) ) {
+            ++it;
+        } else {
+            it = result.erase( it );
+        }
+    }
+    return result;
+}
+
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
