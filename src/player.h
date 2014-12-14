@@ -1123,6 +1123,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         inventory inv;
         itype_id last_item;
         std::vector<item> worn;
+        std::map<char, itype_id> assigned_invlet;
+
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;

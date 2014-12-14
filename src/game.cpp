@@ -11052,6 +11052,7 @@ void game::reassign_item( int pos )
                  change_to.tname().c_str() );
     }
     change_from.invlet = newch;
+    u.assigned_invlet[newch] = change_from.typeId();
     add_msg( m_info, "%c - %s", newch == 0 ? ' ' : newch, change_from.tname().c_str() );
 }
 
