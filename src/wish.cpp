@@ -475,6 +475,7 @@ void game::wishitem( player *p, int x, int y)
                 for (int i = 0; i < amount; i++) {
                     p->i_add(granted);
                 }
+                p->invalidate_crafting_inventory();
             } else if ( x >= 0 && y >= 0 ) {
                 m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';
