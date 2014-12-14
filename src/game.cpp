@@ -11042,7 +11042,7 @@ void game::reassign_item( int pos )
     if( newch == ' ' ) {
         newch = 0;
     }
-    if( newch == KEY_ESCAPE || change_from.invlet == newch ) {
+    if( newch == KEY_ESCAPE ) {
         add_msg( m_neutral, _( "Never mind." ) );
         return;
     }
@@ -11050,6 +11050,17 @@ void game::reassign_item( int pos )
         add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
         return;
     }
+    if( change_from.invlet == newch ) {
+        // toggle assignment status
+        auto iter = u.assigned_invlet.find(newch);
+        if( iter == u.assigned_invlet.end() ) {
+            u.assigned_invlet[newch] = change_from.typeId();
+        } else {
+            u.assigned_invlet.erase(iter);
+        }
+        return;
+    }
+
     const int oldpos = newch == 0 ? INT_MIN : u.invlet_to_position( newch );
     if( oldpos != INT_MIN ) {
         item &change_to = u.i_at( oldpos );
@@ -11058,6 +11069,7 @@ void game::reassign_item( int pos )
                  change_to.tname().c_str() );
     }
     change_from.invlet = newch;
+    u.assigned_invlet[newch] = change_from.typeId();
     add_msg( m_info, "%c - %s", newch == 0 ? ' ' : newch, change_from.tname().c_str() );
 }
 

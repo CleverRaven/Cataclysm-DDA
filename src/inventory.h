@@ -239,6 +239,7 @@ class inventory
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
         void update_cache_with_item(item &newit);
+        char find_usable_cached_invlet(const std::string &item_type);
 
         // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
         // we back those functions with a single internal function templated on the type of Locator.
@@ -247,7 +248,6 @@ class inventory
 
         invstack items;
         bool sorted;
-        char get_invlet_for_item( std::string item_type );
 };
 
 #endif

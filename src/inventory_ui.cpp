@@ -318,6 +318,9 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         }
         nc_color name_color = it.color_in_inventory();
         nc_color invlet_color = c_white;
+        if (g->u.assigned_invlet.count(it.invlet)) {
+            invlet_color = c_yellow;
+        }
         if (a + current_page_offset == selected) {
             name_color = selected_line_color;
             invlet_color = selected_line_color;

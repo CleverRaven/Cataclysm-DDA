@@ -8533,7 +8533,17 @@ item& player::i_add(item it)
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv.unsort();
 
-    auto &item_in_inv = inv.add_item( it );
+    // if there's a desired invlet for this item type, try to use it
+    bool keep_invlet = false;
+    const std::set<char> cur_inv = allocated_invlets();
+    for (auto iter : assigned_invlet) {
+        if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
+            it.invlet = iter.first;
+            keep_invlet = true;
+            break;
+        }
+    }
+    auto &item_in_inv = inv.add_item(it, keep_invlet);
     item_in_inv.on_pickup( *this );
     return item_in_inv;
 }

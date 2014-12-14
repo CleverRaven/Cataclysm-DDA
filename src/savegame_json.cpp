@@ -381,15 +381,25 @@ void player::serialize(JsonOut &json) const
 
     json.member( "player_stats", get_stats() );
 
-        json.member("invcache");
-        inv.json_save_invcache(json);
+    json.member("assigned_invlet");
+    json.start_array();
+    for (auto iter : assigned_invlet) {
+        json.start_array();
+        json.write(iter.first);
+        json.write(iter.second);
+        json.end_array();
+    }
+    json.end_array();
 
-        //FIXME: seperate function, better still another file
-        /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
-                  ptmpvect.push_back(pv(memorial_log[i]));
-              }
-              json.member("memorial",ptmpvect);
-        */
+    json.member("invcache");
+    inv.json_save_invcache(json);
+
+    //FIXME: seperate function, better still another file
+    /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
+              ptmpvect.push_back(pv(memorial_log[i]));
+          }
+          json.member("memorial",ptmpvect);
+    */
 
     json.end_object();
 }
@@ -502,6 +512,12 @@ void player::deserialize(JsonIn &jsin)
 
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
+
+    parray = data.get_array("assigned_invlet");
+    while (parray.has_more()) {
+        JsonArray pair = parray.next_array();
+        assigned_invlet[(char)pair.get_int(0)] = pair.get_string(1);
+    }
 
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
