@@ -813,6 +813,8 @@ public:
     bool camera_on;
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
+    bool dome_lights_on; // dome lights (rear view mirror lights) on
+    bool aisle_lights_on; // aisle lights on
     bool fridge_on;     //fridge on/off
     bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
@@ -827,6 +829,8 @@ public:
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
     int alarm_epower;
+    int dome_lights_epower;
+    int aisle_lights_epower;
     int recharger_epower; // total power consumed by rechargers
     int camera_epower; // power consumed by camera system
     bool check_environmental_effects; // True if it has bloody or smoking parts
