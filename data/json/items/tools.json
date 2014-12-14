@@ -8470,7 +8470,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "OXYTORCH"
+    "use_action": "OXYTORCH",
+    "qualities": [["WELD", 2]]
   },
   {
     "id": "fertilizer_bomb",
