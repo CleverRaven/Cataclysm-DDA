@@ -8244,5 +8244,439 @@
       [ "royal_jelly", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "wastebread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "meal_bone", 3 ]
+    ],
+    [
+      [ "meal_chitin_piece", 1 ],
+      [ "cornmeal", 1 ],
+      [ "oatmeal", 1 ],
+      [ "powder_eggs", 1 ],
+      [ "milk_powder", 2 ],
+      [ "protein_powder", 1 ],
+      [ "wild_herbs", 20 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_sauce",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_SNACK",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "mayonnaise", 1 ],
+      [ "ketchup", 1 ],
+      [ "sauce_pesto", 1 ],
+      [ "sauce_red", 1 ],
+      [ "mustard", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1 ],
+      [ "honey_glassed", 1 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_jam",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "jam_fruit", 1 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_cheese",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_SNACK",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": true,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "sandwich_cheese_grilled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sandwich_cheese", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tea_bark",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 6 ],
+  "difficulty": 5,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 5] , ["atomic_survival", 4] , ["survival_book", 3]],
+  "qualities" : [
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "coffeemaker", 8],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "tanbark", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "milk_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "tea", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "milk_coffee",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "coffee_syrup", 1 ],
+      [ "coffee", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_beeknees",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 3500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gin", 1 ]
+    ],
+    [
+      [ "honeycomb", 1],
+      [ "honey_bottled", 1]
+    ],
+    [
+      [ "lemonade", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_wsour",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "lemonade", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_kalimotxo",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bum_wine", 6 ],
+      [ "wine_cabernet", 2 ],
+      [ "wine_noir", 2 ]
+    ],
+    [
+      [ "cola", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_hobo",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "oj", 1 ],
+      [ "lemonade", 1 ],
+      [ "apple_cider", 1 ],
+      [ "cranberry_juice", 1 ],
+      [ "juice", 1 ]
+    ],
+    [
+      [ "beer", 1 ],
+      [ "hb_beer", 1 ],
+      [ "european_pilsner", 1 ],
+      [ "pale_ale", 1 ],
+      [ "india_pale_ale", 1 ],
+      [ "stout", 1 ],
+      [ "belgian_ale", 1 ],
+      [ "imperial_stout", 1 ],
+      [ "rootbeer", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ],
+      [ "vodka", 1 ],
+      [ "rum", 1 ],
+      [ "tequila", 1 ],
+      [ "gin", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "honey_gold",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 4 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "honey_ant", 1 ]
+    ],
+    [
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 4 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_sewerbrew",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 5,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ], "tools": [
+    [ 
+     ["fire", -1]
+    ] 
+  ],
+  "components": [
+    [
+      [ "sewage", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ],
+      [ "vodka", 1 ],
+      [ "rum", 1 ],
+      [ "tequila", 1 ],
+      [ "gin", 1 ],
+      [ "triple_sec", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "pelmeni",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 12 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 12 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
 }
 ]
