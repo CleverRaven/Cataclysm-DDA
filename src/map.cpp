@@ -1819,6 +1819,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
         if ( bash != NULL && (!bash->destroy_only || destroy)) {
             int smin = bash->str_min;
             int smax = bash->str_max;
+            int sound_vol = bash->sound_vol;
+            int sound_fail_vol = bash->sound_fail_vol;
             if (destroy) {
                 success = true;
             } else {
@@ -1858,7 +1860,11 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 if (destroy) {
                     sound_volume = smax;
                 } else {
-                    sound_volume = std::min(int(smin * 1.5), smax);
+                    if (sound_vol == -1) {
+                        sound_volume = std::min(int(smin * 1.5), smax);
+                    } else {
+                        sound_volume = sound_vol;
+                    }
                 }
                 sound = _(bash->sound.c_str());
                 // Set this now in case the ter_set below changes this
@@ -1902,7 +1908,11 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 }
                 smashed_something = true;
             } else {
-                sound_volume = 12;
+                if (sound_fail_vol == -1) {
+                    sound_volume = 12;
+                } else {
+                    sound_volume = sound_fail_vol;
+                }
                 sound = _(bash->sound_fail.c_str());
                 smashed_something = true;
             }

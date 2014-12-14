@@ -384,6 +384,8 @@
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "items": [
                 { "item": "cu_pipe", "amount": 3, "minamount": 0 },
                 { "item": "ceramic_shard", "amount": 6, "minamount": 2},
@@ -998,6 +1000,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_vending_o",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3}
@@ -1967,6 +1971,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_displaycase_b",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
