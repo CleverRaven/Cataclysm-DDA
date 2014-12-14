@@ -6271,5 +6271,34 @@
       [ "pebble", 20 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "survivor_mess_kit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "pot", 1 ],
+      [ "clay_pot", 1 ],
+      [ "rock_pot", 1 ]
+    ],
+    [
+      [ "oil_lamp", 1 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ]
+  ]
 }
 ]
