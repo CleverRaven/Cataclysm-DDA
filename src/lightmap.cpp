@@ -221,6 +221,7 @@ void map::generate_lightmap()
                 }
             }
         }
+        // why reinvent the [lightmap] wheel
         if(v->dome_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_DOME_LIGHT);
             for( auto &light_indice : light_indices ) {
@@ -232,7 +233,7 @@ void map::generate_lightmap()
             }
         }
         if(v->aisle_lights_on) {
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_DOME_LIGHT);
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_AISLE_LIGHT);
             for( auto &light_indice : light_indices ) {
                 int px = vv.x + v->parts[light_indice].precalc_dx[0];
                 int py = vv.y + v->parts[light_indice].precalc_dy[0];
