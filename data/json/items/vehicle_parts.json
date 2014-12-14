@@ -647,6 +647,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "sheet_metal_lit",
+        "name" : "wired sheet metal",
+        "description" : "Sheet metal that has had light housing wired into it.",
+        "weight" : 1200,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : "]",
+        "material" : ["steel", "plastic", "null"],
+        "volume" : 5,
+        "bashing" : 5,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 7500
+    },
+    {
+        "type":"GENERIC",
         "id" : "wood_plate",
         "name" : "wooden armor kit",
         "description" : "A bundle of two by fours prepared to be used as vehicle armor.",

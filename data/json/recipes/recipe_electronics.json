@@ -311,23 +311,23 @@
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
   "tools": [
     [
-      [ "soldering iron", 5 ],
+      [ "soldering_iron", 5 ],
       [ "toolset", 5 ]
-    ],
+    ]
   ],
   "components": [
     [
       [ "sheet_metal", 1 ]
     ],
     [
-      [ "lightstrip_inactive", 2 ],
-      [ "flashlight", 2 ]
+      [ "lightstrip_inactive", 1 ],
+      [ "flashlight", 1 ]
     ],
     [
-      [ "cable", 20 ]
+      [ "cable", 10 ]
     ],
     [
-      [ "plastic_chunk", 4 ]
+      [ "plastic_chunk", 2 ]
     ]
   ]
 },{
