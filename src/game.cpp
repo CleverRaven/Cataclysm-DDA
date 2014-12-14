@@ -3061,7 +3061,8 @@ input_context game::get_player_input(std::string &action)
                     }
                 }
             }
-            if (OPTIONS["ANIMATION_SCT"]) {
+            // don't bother calculating SCT if we won't show it
+            if (uquit != QUIT_WATCH && OPTIONS["ANIMATION_SCT"]) {
 #ifdef TILES
                 if (!use_tiles) {
 #endif
@@ -3122,7 +3123,9 @@ input_context game::get_player_input(std::string &action)
                 }
             }
             draw_weather(wPrint);
-            draw_sct();
+            if(uquit != QUIT_WATCH) {
+                draw_sct();
+            }
             if( uquit == QUIT_WATCH ) {
                 // Display "press X to continue" text at top of main window
                 std::string message = string_format( _("Press %s to accept your fate..."),
@@ -4180,6 +4183,9 @@ bool game::is_game_over()
     if (uquit == QUIT_WATCH) {
         // deny player movement and dodging
         u.moves = 0;
+        // prevent pain from updating
+        u.pain = 0;
+        // prevent dodging
         u.dodges_left = 0;
         return false;
     }
