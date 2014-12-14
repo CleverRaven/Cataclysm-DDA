@@ -201,7 +201,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     return missed_by;
 }
 
-bool player::handle_gun_damage( const itype &firingt, std::set<std::string> *curammo_effects )
+bool player::handle_gun_damage( const itype &firingt, const std::set<std::string> &curammo_effects )
 {
     const islot_gun *firing = firingt.gun.get();
     // Here we check if we're underwater and whether we should misfire.
@@ -235,7 +235,7 @@ bool player::handle_gun_damage( const itype &firingt, std::set<std::string> *cur
             // Here we check for a chance for the weapon to suffer a misfire due to
             // using OEM bullets. Note that these misfires cause no damage to the weapon and
             // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-        } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {
+        } else if (!curammo_effects.count("NEVER_MISFIRES") && one_in(1728)) {
             add_msg_player_or_npc(_("Your %s misfires with a dry click!"),
                                   _("<npcname>'s %s misfires with a dry click!"),
                                   weapon.tname().c_str());
@@ -244,7 +244,7 @@ bool player::handle_gun_damage( const itype &firingt, std::set<std::string> *cur
             // using player-made 'RECYCLED' bullets. Note that not all forms of
             // player-made ammunition have this effect the misfire may cause damage, but never
             // enough to push the weapon beyond 'shattered'.
-        } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
+        } else if (curammo_effects.count("RECYCLED") && one_in(256)) {
             add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                                   _("<npcname>'s %s misfires with a muffled click!"),
                                   weapon.tname().c_str());
@@ -323,12 +323,12 @@ void player::fire_gun(int tarx, int tary, bool burst)
     proj.ammo = curammo;
     proj.speed = 1000;
 
-    std::set<std::string> *curammo_effects = &curammo->ammo_effects;
+    const auto &curammo_effects = curammo->ammo_effects;
     if( gunmod == NULL ) {
-        std::set<std::string> &gun_effects = used_weapon->type->gun->ammo_effects;
+        const auto &gun_effects = used_weapon->type->gun->ammo_effects;
         proj.proj_effects.insert(gun_effects.begin(), gun_effects.end());
     }
-    proj.proj_effects.insert(curammo_effects->begin(), curammo_effects->end());
+    proj.proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
 
     proj.wide = (curammo->phase == LIQUID ||
                  proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
