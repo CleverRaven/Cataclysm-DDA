@@ -1757,6 +1757,46 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "lit_aisle_horizontal",
+        "name" : "aisle with lights",
+        "symbol" : "=",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 400,
+        "item" : "sheet_metal_lit",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6},
+            {"item": "cable", "min": 6, "max": 10},
+            {"item": "plastic_chunk", "min": 1, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "lit_aisle_vertical",
+        "name" : "aisle with lights",
+        "symbol" : "H",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 400,
+        "item" : "sheet_metal_lit",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6},
+            {"item": "cable", "min": 6, "max": 10},
+            {"item": "plastic_chunk", "min": 1, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "aisle_horizontal",
         "name" : "aisle",
         "symbol" : "=",
@@ -3093,11 +3133,12 @@
         "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 3,
-        "flags" : ["CONTROLS", "FOLDABLE"],
+        "flags" : ["CONTROLS", "FOLDABLE", "DOME_LIGHT"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "cable", "min": 0, "max": 4}
         ]
     },{
         "type" : "vehicle_part",
