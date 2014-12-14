@@ -929,7 +929,7 @@
     "qualities": [["BOIL", 1]]
   },
   {
-	"type":"TOOL",
+    "type":"TOOL",
 	"id": "con_mix",
 	"symbol": "$",
 	"color": "dark_gray",
