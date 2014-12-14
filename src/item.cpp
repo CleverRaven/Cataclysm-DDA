@@ -79,7 +79,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
         }
     }
     if( type->gunmod ) {
-        if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
+        if( type->id == "spare_mag" || is_auxiliary_gunmod() ) {
             charges = 0;
         }
     }
@@ -1958,7 +1958,7 @@ bool item::has_flag(const std::string &f) const
         } else {
             for( auto &elem : contents ) {
                 // Don't report flags from active gunmods for the gun.
-                if( elem.has_flag( f ) && !elem.has_flag( "MODE_AUX" ) ) {
+                if( elem.has_flag( f ) && !elem.is_auxiliary_gunmod() ) {
                     ret = true;
                     return ret;
                 }
@@ -2095,6 +2095,12 @@ void item::calc_rot(const point &location)
             active = false;
         }
     }
+}
+
+bool item::is_auxiliary_gunmod() const
+{
+    // TODO: switch to: is_gun && is_gunmod
+    return type->gunmod && has_flag( "MODE_AUX" );
 }
 
 int item::get_storage() const
@@ -2886,7 +2892,7 @@ void item::next_mode()
         // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
         for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.has_flag( "MODE_AUX" ) ) {
+            if( elem.is_auxiliary_gunmod() ) {
                 mode = "MODE_AUX";
                 elem.mode = "MODE_AUX";
                 return;
@@ -2903,7 +2909,7 @@ void item::next_mode()
             }
         }
         for( i++; i < contents.size(); i++ ) {
-            if( contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") ) {
+            if( contents[i].is_auxiliary_gunmod() ) {
                 contents[i].mode = "MODE_AUX";
                 break;
             }
@@ -2928,14 +2934,15 @@ std::string item::skill() const
 
 int item::clip_size() const
 {
-    if(is_gunmod() && has_flag("MODE_AUX"))
+    if( is_auxiliary_gunmod() ) {
         return type->gunmod->clip;
+    }
     if (!is_gun())
         return 0;
 
     int ret = type->gun->clip;
     for( auto &elem : contents ) {
-        if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
+        if( elem.is_gunmod() && !elem.is_auxiliary_gunmod() ) {
             int bonus = ( ret * elem.type->gunmod->clip ) / 100;
             ret = int(ret + bonus);
         }
@@ -3212,7 +3219,7 @@ ammotype item::ammo_type() const
     if (is_gun()) {
         ammotype ret = type->gun->ammo;
         for( auto &elem : contents ) {
-            if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
+            if( elem.is_gunmod() && !elem.is_auxiliary_gunmod() ) {
                 const auto mod = elem.type->gunmod.get();
                 if (mod->newtype != "NULL")
                     ret = mod->newtype;
@@ -3300,11 +3307,11 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
         // for each attachment, find its associated ammo & append it to the ammo vector
         for( auto &cont : contents ) {
-            const auto mod = cont.type->gunmod.get();
-            if (mod == NULL || !cont.has_flag("MODE_AUX")) {
+            if( !cont.is_auxiliary_gunmod() ) {
                 // not a gunmod, or has no separate firing mode and can not be load
                 continue;
             }
+            const auto mod = cont.type->gunmod.get();
             if (cont.charges >= mod->clip) {
                 // already fully loaded
                 continue;
@@ -3461,8 +3468,8 @@ bool item::reload(player &u, int pos)
             // Finally consider other gunmods
         } else {
             for (size_t i = 0; i < contents.size(); i++) {
-                if (&contents[i] != gunmod && (int)i != spare_mag && contents[i].is_gunmod() &&
-                    contents[i].has_flag("MODE_AUX") &&
+                if (&contents[i] != gunmod && (int)i != spare_mag &&
+                    contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
                     (contents[i].charges <= contents[i].type->gunmod->clip ||
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {

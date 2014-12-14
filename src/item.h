@@ -667,6 +667,17 @@ public:
         /*@}*/
 
         /**
+         * Gun and gun mod functions.
+         */
+        /*@{*/
+        /**
+         * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
+         * Example: underslug shotgun.
+         */
+        bool is_auxiliary_gunmod() const;
+        /*@}*/
+
+        /**
          * Recursively check the contents of this item and remove those items
          * that match the filter. Note that this function does *not* match
          * the filter against *this* item, only against the contents.

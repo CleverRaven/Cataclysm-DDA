@@ -3477,7 +3477,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();
         for( auto &mod : weapon.contents ) {
-            if (mod.is_gunmod() && mod.has_flag("MODE_AUX")) {
+            if( mod.is_auxiliary_gunmod() ) {
                 attachment << " (" << mod.charges << ")";
             }
         }
@@ -10808,7 +10808,7 @@ hint_rating player::rate_action_reload(item *it) {
             for (auto &i : it->contents) {
                 if ((i.is_gunmod() && (i.typeId() == "spare_mag" &&
                       i.charges < it->type->gun->clip)) ||
-                      (i.has_flag("MODE_AUX") && i.charges < i.clip_size())) {
+                      (i.is_auxiliary_gunmod() && i.charges < i.clip_size())) {
                     alternate_magazine = true;
                 }
             }
@@ -12994,7 +12994,7 @@ std::string player::weapname(bool charges)
                 dump << "+" << weapon.contents[spare_mag].charges;
             }
             for (auto &i : weapon.contents) {
-                if (i.is_gunmod() && i.has_flag("MODE_AUX")) {
+                if( i.is_auxiliary_gunmod() ) {
                     dump << "+" << i.charges;
                 }
             }
