@@ -327,7 +327,7 @@ void inventory::update_cache_with_item(item &newit)
     preferred_invlets.push_back(newit.invlet);
 }
 
-char inventory::get_invlet_for_item( std::string item_type )
+char inventory::find_usable_cached_invlet(const std::string &item_type)
 {
     char candidate_invlet = 0;
 
@@ -369,7 +369,7 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     // Check how many stacks of this type already are in our inventory.
     if(!keep_invlet && assign_invlet) {
         // Do we have this item in our inventory favourites cache?
-        char temp_invlet = get_invlet_for_item( newit.typeId() );
+        char temp_invlet = find_usable_cached_invlet(newit.typeId());
         if( temp_invlet != 0 ) {
             newit.invlet = temp_invlet;
             reuse_cached_letter = true;
