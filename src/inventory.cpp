@@ -947,7 +947,11 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
                 continue;
             }
             if( elem_stack_iter.has_quality( id, level ) ) {
-                found++;
+                if( elem_stack_iter.count_by_charges() ) {
+                    found += elem_stack_iter.charges;
+                } else {
+                    found++;
+                }
             }
         }
     }
