@@ -9685,7 +9685,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
 
 static bool hackveh(player *p, item *it, vehicle *veh)
 {
-    if( !veh->has_security_working() ) {
+    if( !veh->is_locked || !veh->has_security_working() ) {
         return true;
     }
     bool advanced = veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() > 0;
