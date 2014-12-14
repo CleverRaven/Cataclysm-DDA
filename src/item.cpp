@@ -694,7 +694,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
         if (mod->aim_speed != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Aim speed: "), "",
-                                     mod->mod_dispersion, true, ""));
+                                     mod->aim_speed, true, ""));
         }
         if (mod->damage != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
@@ -2951,7 +2951,7 @@ int item::clip_size() const
 int item::dispersion() const
 {
     if( is_gunmod() ) {
-        return dynamic_cast<it_gunmod*>(type)->dispersion;
+        return dynamic_cast<it_gunmod*>(type)->mod_dispersion;
     }
     if( !is_gun() ) {
         return 0;
