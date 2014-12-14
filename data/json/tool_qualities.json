@@ -5,6 +5,10 @@
         "name" : "cutting"
     },{
     	"type" : "tool_quality",
+	"id" : "GLARE",
+	"name" : "glare protection"
+    },{
+    	"type" : "tool_quality",
 	"id" : "SMOOTH",
 	"name" : "smoothing"
     },{
