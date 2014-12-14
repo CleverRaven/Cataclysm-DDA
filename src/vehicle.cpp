@@ -935,13 +935,13 @@ void vehicle::use_controls()
 
 
     if (has_dome_lights) {
-        options_choice.push_back(toggle_lights);
+        options_choice.push_back(toggle_dome_lights);
         options_message.push_back(uimenu_entry((dome_lights_on) ? _("Turn off dome lights") :
-                                               _("Turn on dome lights"), 'l'));
+                                               _("Turn on dome lights"), 'b'));
     }
 
     if (has_aisle_lights) {
-        options_choice.push_back(toggle_lights);
+        options_choice.push_back(toggle_aisle_lights);
         options_message.push_back(uimenu_entry((aisle_lights_on) ? _("Turn off aisle lights") :
                                                _("Turn on aisle lights"), 'a'));
     }
@@ -1053,14 +1053,6 @@ void vehicle::use_controls()
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
-    case toggle_lights:
-        if(lights_on || fuel_left(fuel_type_battery, true) ) {
-            lights_on = !lights_on;
-            add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
-        } else {
-            add_msg(_("The headlights won't come on!"));
-        }
-        break;
     case toggle_aisle_lights:
         if(aisle_lights_on || fuel_left(fuel_type_battery, true)) {
             aisle_lights_on = !aisle_lights_on;
@@ -1072,9 +1064,17 @@ void vehicle::use_controls()
     case toggle_dome_lights:
         if(dome_lights_on || fuel_left(fuel_type_battery, true)) {
             dome_lights_on = !dome_lights_on;
-            add_msg((aisle_lights_on) ? _("Dome lights turned on") : _("Dome lights turned off"));
+            add_msg((dome_lights_on) ? _("Dome lights turned on") : _("Dome lights turned off"));
         } else {
             add_msg(_("The dome lights won't come on!"));
+        }
+        break;
+    case toggle_lights:
+        if(lights_on || fuel_left(fuel_type_battery, true) ) {
+            lights_on = !lights_on;
+            add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+        } else {
+            add_msg(_("The headlights won't come on!"));
         }
         break;
     case toggle_stereo:
