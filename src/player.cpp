@@ -8535,8 +8535,9 @@ item& player::i_add(item it)
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
+    const std::set<char> cur_inv = allocated_invlets();
     for (auto iter : assigned_invlet) {
-        if (iter.second == item_type_id) {
+        if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             keep_invlet = true;
             break;
