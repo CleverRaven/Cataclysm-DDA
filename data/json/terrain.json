@@ -696,7 +696,6 @@
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "rebar", "amount": 6, "minamount": 0 },
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
                 { "item": "splinter", "amount": 5, "minamount": 1 }
@@ -716,7 +715,6 @@
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "rebar", "amount": 6, "minamount": 0 },
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
                 { "item": "splinter", "amount": 5, "minamount": 1 }
