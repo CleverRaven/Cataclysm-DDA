@@ -39,7 +39,7 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " " << text;
-    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_red, "DEBUG: %s\n  Press spacebar...",
+    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred, "DEBUG: %s\n  Press spacebar...",
                     text.c_str() );
     while( getch() != ' ' ) {
         // wait for spacebar
