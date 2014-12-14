@@ -790,6 +790,8 @@
 	"time" : 45,
 	"qualities": [ [
 		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
 	] ],
 	"components" : [
 		[ [ "rebar", 16] ]
@@ -836,6 +838,8 @@
 	"time" : 30,
 	"qualities": [ [
 		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
 	] ],
 	"components" : [
 		[ [ "rebar", 8] ],
@@ -867,6 +871,8 @@
 	"time" : 40,
 	"qualities": [ [
 		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
 	] ],
 	"components" : [
 		[ [ "rebar", 12] ],
