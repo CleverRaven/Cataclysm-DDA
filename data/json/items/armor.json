@@ -5331,6 +5331,7 @@
         "bashing" : -4,
         "coverage" : 100,
         "flags" : ["SUN_GLASSES"],
+        "qualities" : [["GLARE", 1]],
         "material_thickness" : 2
     },
     {
@@ -5356,6 +5357,7 @@
         "bashing" : -1,
         "coverage" : 100,
         "flags" : ["SUN_GLASSES"],
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 4
     },
     {
@@ -5380,6 +5382,7 @@
         "encumbrance" : 0,
         "bashing" : -4,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES"],
+        "qualities" : [["GLARE", 1]],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -5431,6 +5434,7 @@
         "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES"],
+        "qualities" : [["GLARE", 1]],
         "coverage" : 85,
         "material_thickness" : 1
    },
@@ -5456,6 +5460,7 @@
         "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["FANCY", "WATER_FRIENDLY", "SUN_GLASSES"],
+        "qualities" : [["GLARE", 1]],
         "coverage" : 95,
         "material_thickness" : 1
    },
