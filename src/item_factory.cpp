@@ -784,7 +784,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 {
     slot.damage = jo.get_int( "damage_modifier", 0 );
     slot.loudness = jo.get_int( "loudness_modifier", 0 );
-    slot.newtype = jo.get_string( "ammo_modifier" );
+    slot.newtype = jo.get_string( "ammo_modifier", "NULL" );
     slot.location = jo.get_string( "location" );
     slot.used_on_pistol = is_mod_target( jo, "mod_targets", "pistol" );
     slot.used_on_shotgun = is_mod_target( jo, "mod_targets", "shotgun" );
