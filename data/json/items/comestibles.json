@@ -17752,7 +17752,7 @@
         "weight" : 187,
         "color" : "brown",
         "addiction_type" : "none",
-        "spoils_in" : 35,
+        "spoils_in" : 36,
         "use_action" : "NONE",
         "stim" : 1,
         "container" : "wrapper",
