@@ -1764,6 +1764,8 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 400,
+        "epower" : -25,
+        "bonus" : 50,
         "item" : "sheet_metal_lit",
         "difficulty" : 1,
         "location" : "center",
@@ -1784,6 +1786,8 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 400,
+        "epower" : -25,
+        "bonus" : 50,
         "item" : "sheet_metal_lit",
         "difficulty" : 1,
         "location" : "center",
@@ -4059,7 +4063,7 @@
             {"item": "scrap", "min": 6, "max": 8}
         ]
     },{
-            "type" : "vehicle_part",
+        "type" : "vehicle_part",
         "id" : "floodlight",
         "name" : "floodlight",
         "symbol" : "*",
@@ -4080,7 +4084,7 @@
             {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
-            "type" : "vehicle_part",
+        "type" : "vehicle_part",
         "id" : "recharge_station",
         "name" : "recharging station",
         "symbol" : "#",
