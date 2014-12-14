@@ -201,12 +201,12 @@ void Item_modifier::modify(item &new_item) const
             // In case there is no explicit ammo item defined, use the default ammo
             const auto ammoid = default_ammo( g->ammo );
             if ( !ammoid.empty() ) {
-                new_item.curammo = dynamic_cast<it_ammo*>( item( ammoid, 0 ).type );
+                new_item.set_curammo( ammoid );
                 new_item.charges = ch;
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
-            new_item.curammo = dynamic_cast<it_ammo *>( am.type );
+            new_item.set_curammo( am );
             // Prefer explicit charges of the gun, else take the charges of the ammo item,
             // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
             if( ch > 0 ) {
@@ -216,7 +216,7 @@ void Item_modifier::modify(item &new_item) const
             }
         }
         // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( new_item.curammo == nullptr ) {
+        if( !new_item.has_curammo() ) {
             new_item.charges = 0;
         } else {
             new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );

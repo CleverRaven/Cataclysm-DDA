@@ -11202,8 +11202,8 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item *gunmod = &weapon->contents[id];
     item ammo;
     if (gunmod->charges > 0) {
-        if (gunmod->curammo != NULL) {
-            ammo = item(gunmod->curammo->id, calendar::turn);
+        if( gunmod->has_curammo() ) {
+            ammo = item( gunmod->get_curammo_id(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
@@ -11215,7 +11215,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
         } else {
             i_add_or_drop(ammo);
         }
-        gunmod->curammo = NULL;
+        gunmod->unset_curammo();
         gunmod->charges = 0;
     }
     if (gunmod->mode == "MODE_AUX") {

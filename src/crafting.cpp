@@ -2155,8 +2155,8 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
         return;
     }
-    if( dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL" ) {
-        item ammodrop( dis_item->curammo->id, calendar::turn );
+    if( dis_item->is_gun() && dis_item->has_curammo() && dis_item->ammo_type() != "NULL" ) {
+        item ammodrop( dis_item->get_curammo_id(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
             while( !g->handle_liquid( ammodrop, false, false ) ) {

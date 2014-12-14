@@ -494,10 +494,39 @@ public:
  itype_id typeId() const;
  itype* type;
  mtype*   corpse;
- it_ammo* curammo;
-
  std::vector<item> contents;
 
+        /**
+         * Returns @ref curammo, the ammo that is currently load in this item.
+         * May return a null pointer.
+         */
+        it_ammo* get_curammo() const;
+        /**
+         * Returns the item type id of the currently loaded ammo.
+         * Returns "null" if the item is not loaded.
+         */
+        itype_id get_curammo_id() const;
+        /**
+         * Whether the item is currently loaded (which implies it has some non-null pointer
+         * as @ref curammo).
+         */
+        bool has_curammo() const;
+        /**
+         * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
+         */
+        void unset_curammo();
+        /**
+         * Set the current ammo from an item type id (not an ammo type id!). The type must be an
+         * instance of @ref it_ammo. If the type id is "null", the curammo is unset as by calling
+         * @ref unset_curammo.
+         */
+        void set_curammo( const itype_id &type );
+        /**
+         * Shortcut to set the current ammo to the type of the given item. This is the same as
+         * calling @ref set_curammo with item type id of the ammo item:
+         * \code set_curammo(ammo.typeId()) \endcode
+         */
+        void set_curammo( const item &ammo );
         /**
          * Get a material reference to a random material that this item is made of.
          * This might return the null-material, you may check this with @ref material_type::is_null.
@@ -689,6 +718,7 @@ public:
     private:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
+        it_ammo* curammo;
 public:
  char invlet;             // Inventory letter
  long charges;

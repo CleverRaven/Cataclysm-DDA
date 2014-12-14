@@ -10749,13 +10749,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
+        if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
 
         add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
-        cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
+        cont->set_curammo( liquid );
         if (infinite) {
             cont->charges = max;
         } else {
@@ -10834,14 +10834,14 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
+            if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
                 add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
                 return -1;
             }
 
             add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
                     cont->tname().c_str());
-            cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
+            cont->set_curammo( liquid );
             cont->charges += liquid.charges;
             if (cont->charges > max) {
                 long extra = cont->charges - max;
@@ -11309,7 +11309,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "charge_shot" ) );
+            u.weapon.set_curammo( "charge_shot" );
             u.weapon.active = true;
             return;
         } else {
@@ -11320,7 +11320,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "generic_no_ammo" ) );
+        u.weapon.set_curammo( "generic_no_ammo" );
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
@@ -12346,8 +12346,8 @@ void game::unload(item &it)
 
     item newam;
 
-    if (weapon->curammo != NULL) {
-        newam = item(weapon->curammo->id, calendar::turn);
+    if( weapon->has_curammo() ) {
+        newam = item( weapon->get_curammo_id(), calendar::turn );
     } else {
         newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
     }
@@ -12391,7 +12391,7 @@ void game::unload(item &it)
     }
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
-        weapon->curammo = NULL;
+        weapon->unset_curammo();
         // Tools need to be turned off, especially when thy consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
         if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {

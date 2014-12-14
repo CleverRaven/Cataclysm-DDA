@@ -302,13 +302,13 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
         curammo = tmpammo;
-        used_weapon->curammo = tmpammo;
+        used_weapon->set_curammo( tmpammo->id );
     } else if (gunmod != NULL) {
         used_weapon = gunmod;
-        curammo = used_weapon->curammo;
+        curammo = used_weapon->get_curammo();
         skill_used = gunmod->type->gunmod->skill_used;
     } else {// Just a normal gun. If we're here, we know curammo is valid.
-        curammo = weapon.curammo;
+        curammo = weapon.get_curammo();
         used_weapon = &weapon;
     }
 
@@ -391,7 +391,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->curammo->dispersion + used_weapon->dispersion();
+    const int weapon_dispersion = used_weapon->get_curammo()->dispersion + used_weapon->dispersion();
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->skill() );
     // High perception allows you to pick out details better, low perception interferes.
@@ -574,7 +574,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 
     if (used_weapon->num_charges() == 0) {
-        used_weapon->curammo = NULL;
+        used_weapon->unset_curammo();
     }
 
     if( train_skill ) {
@@ -854,7 +854,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         if( mode == TARGET_MODE_FIRE ) {
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
                 wprintz(w_target, c_red, _("Shooting %s from %s"),
-                        p.weapon.curammo->nname(1).c_str(), p.weapon.tname().c_str());
+                        p.weapon.get_curammo()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
                 wprintz(w_target, c_red, _("Firing %s"), p.weapon.tname().c_str());
             } else {
@@ -1445,8 +1445,8 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r)) );
     dispersion += rand_or_max( random, 60 * encumb(bp_eyes) );
 
-    if( weapon->curammo != nullptr ) {
-        dispersion += rand_or_max( random, weapon->curammo->dispersion);
+    if( weapon->has_curammo() ) {
+        dispersion += rand_or_max( random, weapon->get_curammo()->dispersion);
     }
 
     dispersion += rand_or_max( random, weapon->dispersion() );

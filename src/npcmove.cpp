@@ -617,7 +617,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
                        weapon.type->gun->burst > 1 &&
-                       ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) ||
+                       ((weapon.has_curammo() && target_HP >= weapon.get_curammo()->damage * 3) ||
                         emergency(danger * 2))) {
                 return npc_shoot_burst;
             } else {
@@ -901,7 +901,7 @@ int npc::confident_range(int position)
 
     // Using 180 for now for extra-confident NPCs.
     int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
-    if (weapon.curammo && ret > weapon.range(this)) {
+    if (weapon.has_curammo() && ret > weapon.range(this)) {
         return weapon.range(this);
     }
     return ret;

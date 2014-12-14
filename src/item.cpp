@@ -74,7 +74,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
                 charges = tool->def_charges;
             }
             if (tool->ammo != "NULL") {
-                curammo = dynamic_cast<it_ammo*>(find_type(default_ammo(tool->ammo)));
+                set_curammo( default_ammo( tool->ammo ) );
             }
         }
     }
@@ -552,8 +552,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         int ammo_recoil = 0;
         int ammo_pierce = 0;
         int ammo_dispersion = 0;
-        bool has_ammo = (curammo != NULL && charges > 0);
+        bool has_ammo = (has_curammo() && charges > 0);
         if (has_ammo) {
+            const auto curammo = get_curammo();
             ammo_dam = curammo->damage;
             ammo_range = curammo->range;
             ammo_recoil = curammo->recoil;
@@ -1701,11 +1702,11 @@ int item::price() const
         ret = ret * charges / static_cast<double>( max_charges() );
     }
     const it_tool* ttype = dynamic_cast<const it_tool*>( type );
-    if( curammo != nullptr && charges > 0 ) {
-        item tmp( curammo->id, 0 );
+    if( has_curammo() && charges > 0 ) {
+        item tmp( get_curammo_id(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
-    } else if( ttype != nullptr && curammo == nullptr ) {
+    } else if( ttype != nullptr && !has_curammo() ) {
         if( charges > 0 && ttype->ammo != "NULL" ) {
             // Tools sometimes don't have a curammo, when they should, e.g. flashlight
             // that has been reloaded, apparently item::reload does not set curammo for tools.
@@ -1763,8 +1764,8 @@ int item::weight() const
 
     if (count_by_charges()) {
         ret *= charges;
-    } else if (type->gun && charges >= 1) {
-        ret += curammo->weight * charges;
+    } else if (type->gun && charges >= 1 && has_curammo() ) {
+        ret += get_curammo()->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
         if( ammo_type() == "plutonium" ) {
             ret += find_type(default_ammo(this->ammo_type()))->weight * charges / 500;
@@ -1774,8 +1775,8 @@ int item::weight() const
     }
     for( auto &elem : contents ) {
         ret += elem.weight();
-        if( elem.is_gunmod() && elem.charges >= 1 ) {
-            ret += elem.curammo->weight * elem.charges;
+        if( elem.is_gunmod() && elem.charges >= 1 && elem.has_curammo() ) {
+            ret += elem.get_curammo()->weight * elem.charges;
         }
     }
 
@@ -2522,6 +2523,7 @@ bool item::is_silent() const
  if ( is_null() )
   return false;
 
+    const auto curammo = get_curammo();
  // So far only gun code uses this check
  return type->gun && (
    noise() < 5 ||              // almost silent
@@ -3020,23 +3022,23 @@ int item::aim_speed( int aim_threshold ) const
 int item::gun_damage( bool with_ammo ) const
 {
     if( is_gunmod() && mode == "MODE_AUX" ) {
-        return curammo->damage;
+        return has_curammo() ? get_curammo()->damage : 0;
     }
     if( !is_gun() ) {
         return 0;
     }
     if( mode == "MODE_AUX" ) {
         const item *gunmod = active_gunmod();
-        if( gunmod != NULL && gunmod->curammo != NULL ) {
-            return gunmod->curammo->damage;
+        if( gunmod != NULL && gunmod->has_curammo() ) {
+            return gunmod->get_curammo()->damage;
         } else {
             return 0;
         }
     }
     const auto gun = type->gun.get();
     int ret = gun->dmg_bonus;
-    if( with_ammo && curammo != NULL ) {
-        ret += curammo->damage;
+    if( with_ammo && has_curammo() ) {
+        ret += get_curammo()->damage;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3050,22 +3052,22 @@ int item::gun_damage( bool with_ammo ) const
 int item::gun_pierce( bool with_ammo ) const
 {
     if( is_gunmod() && mode == "MODE_AUX" ) {
-        return curammo->pierce;
+        return has_curammo() ? get_curammo()->pierce : 0;
     }
     if( !is_gun() ) {
         return 0;
     }
     if( mode == "MODE_AUX" ) {
         const item *gunmod = active_gunmod();
-        if( gunmod != NULL && gunmod->curammo != NULL ) {
-            return gunmod->curammo->pierce;
+        if( gunmod != NULL && gunmod->has_curammo() ) {
+            return gunmod->get_curammo()->pierce;
         } else {
             return 0;
         }
     }
     int ret = type->gun->pierce;
-    if( with_ammo && curammo != NULL ) {
-        ret += curammo->pierce;
+    if( with_ammo && has_curammo() ) {
+        ret += get_curammo()->pierce;
     }
     return ret;
 }
@@ -3078,11 +3080,11 @@ int item::noise() const
     int ret = 0;
     if( mode == "MODE_AUX" ) {
         item const* gunmod = active_gunmod();
-        if( gunmod && gunmod->curammo ) {
-            ret = gunmod->curammo->damage;
+        if( gunmod && gunmod->has_curammo() ) {
+            ret = gunmod->get_curammo()->damage;
         }
-    } else if (curammo) {
-        ret = curammo->damage;
+    } else if( has_curammo() ) {
+        ret = get_curammo()->damage;
     }
     ret *= .8;
     if (ret >= 5) {
@@ -3128,15 +3130,15 @@ int item::recoil( bool with_ammo ) const
     // Just use the raw ammo recoil for now.
     if( mode == "MODE_AUX" ) {
         const item *gunmod = active_gunmod();
-        if( gunmod && gunmod->curammo ) {
-            return gunmod->curammo->recoil;
+        if( gunmod && gunmod->has_curammo() ) {
+            return gunmod->get_curammo()->recoil;
         } else {
             return 0;
         }
     }
     int ret = type->gun->recoil;
-    if( with_ammo && curammo ) {
-        ret += curammo->recoil;
+    if( with_ammo && has_curammo() ) {
+        ret += get_curammo()->recoil;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3159,18 +3161,18 @@ int item::range( player *p ) const
         int mod_range = 0;
         if( gunmod ) {
             mod_range += gunmod->type->gunmod->range;
-            if( gunmod->curammo ) {
-                mod_range += gunmod->curammo->range;
+            if( gunmod->has_curammo() ) {
+                mod_range += gunmod->get_curammo()->range;
             }
         }
         return mod_range;
     }
     // Ammoless weapons use weapon's range only
-    if( has_flag( "NO_AMMO" ) && !curammo ) {
+    if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
         return type->gun->range;
     }
 
-    int ret = (curammo ? type->gun->range + curammo->range : 0);
+    int ret = (has_curammo() ? type->gun->range + get_curammo()->range : 0);
 
     if( has_flag( "CHARGE" ) ) {
         ret = type->gun->range + 5 + charges * 5;
@@ -3297,9 +3299,9 @@ int item::pick_reload_ammo(player &u, bool interactive)
         if (charges < clip_size() ||
             (has_spare_mag != -1 && contents[has_spare_mag].charges < type->gun->clip)) {
             std::vector<item *> tmpammo = u.has_ammo(ammo_type());
-            if (charges > 0) {
+            if (charges > 0 && has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
-                remove_non_matching_types(tmpammo, curammo->id);
+                remove_non_matching_types(tmpammo, get_curammo_id() );
             }
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
@@ -3317,9 +3319,9 @@ int item::pick_reload_ammo(player &u, bool interactive)
                 continue;
             }
             std::vector<item *> tmpammo = u.has_ammo(mod->newtype);
-            if (cont.charges > 0) {
+            if (cont.charges > 0 && cont.has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
-                remove_non_matching_types(tmpammo, cont.curammo->id);
+                remove_non_matching_types(tmpammo, cont.get_curammo_id() );
             }
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
@@ -3441,9 +3443,9 @@ bool item::reload(player &u, int pos)
         if (charges <= 0 && spare_mag != -1 &&
             contents[spare_mag].charges > 0) {
             charges = contents[spare_mag].charges;
-            curammo = contents[spare_mag].curammo;
+            set_curammo( contents[spare_mag].get_curammo_id() );
             contents[spare_mag].charges = 0;
-            contents[spare_mag].curammo = NULL;
+            contents[spare_mag].unset_curammo();
             return true;
         }
 
@@ -3451,18 +3453,18 @@ bool item::reload(player &u, int pos)
         // Prefer the active gunmod if there is one
         item* gunmod = active_gunmod();
         if (gunmod && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
-            (gunmod->charges <= 0 || gunmod->curammo->id == ammo_to_use->typeId())) {
+            (gunmod->charges <= 0 || gunmod->get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = gunmod;
             // Then prefer the gun itself
         } else if (charges < clip_size() &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   (charges <= 0 || curammo->id == ammo_to_use->typeId())) {
+                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = this;
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
                    contents[spare_mag].charges != type->gun->clip &&
-                   (charges <= 0 || curammo->id == ammo_to_use->typeId())) {
+                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
         } else {
@@ -3471,7 +3473,7 @@ bool item::reload(player &u, int pos)
                     contents[i].has_flag("MODE_AUX") &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
                     (contents[i].charges <= contents[i].type->gunmod->clip ||
-                     (contents[i].charges <= 0 || contents[i].curammo->id == ammo_to_use->typeId()))) {
+                     (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;
                 }
@@ -3512,7 +3514,7 @@ bool item::reload(player &u, int pos)
     if (pos != INT_MIN) {
         // If the gun is currently loaded with a different type of ammo, reloading fails
         if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
-            reload_target->charges > 0 && reload_target->curammo->id != ammo_to_use->typeId()) {
+            reload_target->charges > 0 && reload_target->get_curammo_id() != ammo_to_use->typeId()) {
             return false;
         }
         if (reload_target->is_gun() || reload_target->is_gunmod()) {
@@ -3521,10 +3523,10 @@ bool item::reload(player &u, int pos)
                          ammo_to_use->tname().c_str());
                 return false;
             }
-            reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
+            reload_target->set_curammo( *ammo_to_use );
         }
-        if (curammo != NULL) {
-            eject_casings( u, reload_target, curammo->casing );
+        if( has_curammo() ) {
+            eject_casings( u, reload_target, get_curammo()->casing );
         }
         if (single_load || max_load == 1) { // Only insert one cartridge!
             reload_target->charges++;
@@ -3693,7 +3695,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
             return 0;
         }
 
-        if (charges > 0 && curammo != NULL && curammo->id != liquid.type->id) {
+        if (charges > 0 && has_curammo() && get_curammo_id() != liquid.type->id) {
             error = L_ERR_NO_MIX;
             return 0;
         }
@@ -4167,6 +4169,58 @@ void item::mark_as_used_by_player(const player &p)
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID() );
+}
+
+it_ammo *item::get_curammo() const
+{
+    return curammo;
+}
+
+itype_id item::get_curammo_id() const
+{
+    if( curammo == nullptr ) {
+        return "null";
+    }
+    return curammo->id;
+}
+
+bool item::has_curammo() const
+{
+    return curammo != nullptr;
+}
+
+void item::unset_curammo()
+{
+    curammo = nullptr;
+}
+
+void item::set_curammo( const itype_id &type )
+{
+    if( type == "null" ) {
+        unset_curammo();
+        return;
+    }
+    const auto at = dynamic_cast<it_ammo *>( item_controller->find_template( type ) );
+    if( at == nullptr ) {
+        debugmsg( "Tried to set non-ammo type %s as curammo of %s", type.c_str(), tname().c_str() );
+        return;
+    }
+    curammo = at;
+}
+
+void item::set_curammo( const item &ammo )
+{
+    if( ammo.is_null() ) {
+        unset_curammo();
+        return;
+    }
+    const auto at = dynamic_cast<it_ammo *>( ammo.type );
+    if( at == nullptr ) {
+        debugmsg( "Tried to set non-ammo type %s as curammo of %s", ammo.type->id.c_str(),
+                  tname().c_str() );
+        return;
+    }
+    curammo = at;
 }
 
 std::string item::components_to_string() const

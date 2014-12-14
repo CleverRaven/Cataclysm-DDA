@@ -2084,7 +2084,7 @@ void mattack::smg(monster *z, int index)
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
     tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2152,7 +2152,7 @@ void mattack::laser(monster *z, int index)
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
     tmp.weapon = item("cerberus_laser", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "laser_capacitor" ) );
+    tmp.weapon.set_curammo( "laser_capacitor" );
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
     if (target == &g->u) {
@@ -2223,7 +2223,7 @@ void mattack::rifle_tur(monster *z, int index)
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
     tmp.weapon = item("m4a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2301,7 +2301,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
     tmp.weapon = item("mgl", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2378,7 +2378,7 @@ void mattack::bmg_tur(monster *z, int index)
         add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
     }
     tmp.weapon = item("m107a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
@@ -2468,7 +2468,7 @@ void mattack::tank_tur(monster *z, int index)
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item("TANK", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun( aim_point.x, aim_point.y, false );

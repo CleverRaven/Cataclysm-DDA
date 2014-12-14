@@ -1944,11 +1944,7 @@ void item::load_legacy(std::stringstream & dump) {
     if (acttmp == 1) {
         active = true;
     }
-    if (ammotmp != "null") {
-        curammo = dynamic_cast<it_ammo*>( item::find_type( ammotmp ) );
-    } else {
-        curammo = NULL;
-    }
+    set_curammo( ammotmp );
 }
 
 ///// vehicle.h
