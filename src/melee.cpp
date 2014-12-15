@@ -1604,7 +1604,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
-
+    
+    int stabbing_skill = get_skill_level("stabbing");
+    
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
