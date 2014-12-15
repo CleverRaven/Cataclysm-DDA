@@ -2336,6 +2336,23 @@
         "flags" : ["SPEAR"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
+    },{
+        "type":"GENERIC",
+        "id" : "spear_survivor",
+        "name" : "survivor's sword-staff",
+        "description" : "A customized and personalized polearm. A study shaft with a slender sword blade attached, good for both slashing and stabbing.",
+        "weight" : 1800,
+        "to_hit" : 2,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["steel", "null"],
+        "techniques" : ["RAPID", "IMPALE", "WIDE"],
+        "volume" : 9,
+        "bashing" : 2,
+        "cutting" : 24,
+        "flags" : ["SPEAR", "NON_STUCK"],
+        "price" : 8000,
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
