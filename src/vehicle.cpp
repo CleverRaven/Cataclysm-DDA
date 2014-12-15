@@ -4501,9 +4501,11 @@ void vehicle::refresh()
             overhead_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_DOME_LIGHT) ) {
+            lights.push_back( p);
             dome_lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_AISLE_LIGHT) ) {
+            lights.push_back( p);
             aisle_lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_TRACK) ) {
