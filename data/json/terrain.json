@@ -4410,13 +4410,29 @@
         "bash": {
             "str_min": 50, "str_max": 400,
             "explosive" : 25,
-            "ter_set": "t_floor",
+            "ter_set": "t_concrete",
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 16, "minamount": 4},
                 { "item": "steel_chunk", "amount": 6, "minamount": 1},
-                { "item": "plut_cell", "amount": 3, "minamount": 0}
+                { "item": "plut_cell", "amount": 3, "minamount": 0},
+                { "item": "lead", "amount": 8, "minamount": 4}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "minireactor", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "RAM", "amount": 8, "minamount": 4 },
+                { "item": "cable", "amount": 16, "minamount": 8 },
+                { "item": "small_lcd_screen", "amount": 4, "minamount": 2 },
+                { "item": "e_scrap", "amount": 24, "minamount": 12 },
+                { "item": "circuit", "amount": 10, "minamount": 6 },
+                { "item": "power_supply", "amount": 8, "minamount": 4 },
+                { "item": "amplifier", "amount": 6, "minamount": 3 },
+                { "item": "plut_cell", "amount": 8, "minamount": 2 },
+                { "item": "scrap", "amount": 16, "minamount": 8 }
             ]
         }
     },{
@@ -4432,6 +4448,20 @@
             "sound": "whack!",
             "sound_fail": "clang!",
             "ter_set": "t_sai_box_damaged"
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "RAM", "amount": 8, "minamount": 4 },
+                { "item": "cable", "amount": 40, "minamount": 16 },
+                { "item": "small_lcd_screen", "amount": 4, "minamount": 2 },
+                { "item": "e_scrap", "amount": 24, "minamount": 12 },
+                { "item": "circuit", "amount": 30, "minamount": 6 },
+                { "item": "power_supply", "amount": 8, "minamount": 4 },
+                { "item": "amplifier", "amount": 6, "minamount": 3 },
+                { "item": "plastic_chunk", "amount": 8, "minamount": 4 },
+                { "item": "scrap", "amount": 16, "minamount": 8 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4453,6 +4483,19 @@
                 { "item": "amplifier", "amount": 4, "minamount": 1, "chance": 50 },
                 { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
             ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "RAM", "amount": 2, "minamount": 1 },
+                { "item": "cable", "amount": 24, "minamount": 4 },
+                { "item": "e_scrap", "amount": 12, "minamount": 4 },
+                { "item": "circuit", "amount": 12, "minamount": 2 },
+                { "item": "power_supply", "amount": 4, "minamount": 1 },
+                { "item": "amplifier", "amount": 3, "minamount": 1 },
+                { "item": "plastic_chunk", "amount": 6, "minamount": 2 },
+                { "item": "scrap", "amount": 12, "minamount": 6 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4471,6 +4514,15 @@
                 { "item": "steel_lump", "amount": 2, "minamount": 0 },
                 { "item": "steel_chunk", "amount": 6, "minamount": 2 },
                 { "item": "scrap", "amount": 18, "minamount": 5 }
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "pipe", "amount": 12, "minamount": 8 },
+                { "item": "steel_lump", "amount": 2, "minamount": 1 },
+                { "item": "steel_chunk", "amount": 6, "minamount": 1 },
+                { "item": "scrap", "amount": 8, "minamount": 4 }
             ]
         }
     },{
@@ -4491,6 +4543,15 @@
                 { "item": "steel_chunk", "amount": 3, "minamount": 1 },
                 { "item": "scrap", "amount": 9, "minamount": 2 }
             ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "pipe", "amount": 6, "minamount": 4 },
+                { "item": "steel_lump", "amount": 2, "minamount": 1 },
+                { "item": "steel_chunk", "amount": 6, "minamount": 1 },
+                { "item": "scrap", "amount": 4, "minamount": 2 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4508,7 +4569,20 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 16, "minamount": 8},
-                { "item": "steel_chunk", "amount": 6, "minamount": 2}
+                { "item": "steel_chunk", "amount": 6, "minamount": 2},
+                { "item": "ceramic_shard", "amount": 4, "minamount": 0}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 24, "minamount": 8 },
+                { "item": "power_supply", "amount": 8, "minamount": 4 },
+                { "item": "amplifier", "amount": 16, "minamount": 8 },
+                { "item": "steel_chunk", "amount": 16, "minamount": 4 },
+                { "item": "scrap", "amount": 24, "minamount": 12 },
+                { "item": "sheet_metal", "amount": 12, "minamount": 6 },
+                { "item": "ceramic_shard", "amount": 6, "minamount": 2}
             ]
         }
     },{
@@ -4527,7 +4601,20 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 12, "minamount": 6},
-                { "item": "steel_chunk", "amount": 3, "minamount": 1}
+                { "item": "steel_chunk", "amount": 3, "minamount": 1},
+                { "item": "ceramic_shard", "amount": 2, "minamount": 0}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 12, "minamount": 4 },
+                { "item": "power_supply", "amount": 6, "minamount": 3 },
+                { "item": "amplifier", "amount": 12, "minamount": 6 },
+                { "item": "steel_chunk", "amount": 12, "minamount": 2 },
+                { "item": "scrap", "amount": 18, "minamount": 8 },
+                { "item": "sheet_metal", "amount": 8, "minamount": 4 },
+                { "item": "ceramic_shard", "amount": 4, "minamount": 1}
             ]
         }
     },{
@@ -4545,7 +4632,23 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 10, "minamount": 5},
-                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+                { "item": "steel_chunk", "amount": 4, "minamount": 2},
+                { "item": "plastic_chunk", "amount": 6, "minamount": 2 }
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "RAM", "amount": 6, "minamount": 2 },
+                { "item": "cable", "amount": 24, "minamount": 4 },
+                { "item": "small_lcd_screen", "amount": 12, "minamount": 6 },
+                { "item": "e_scrap", "amount": 24, "minamount": 16 },
+                { "item": "circuit", "amount": 30, "minamount": 12 },
+                { "item": "power_supply", "amount": 8, "minamount": 6 },
+                { "item": "amplifier", "amount": 8, "minamount": 6 },
+                { "item": "plastic_chunk", "amount": 4, "minamount": 2 },
+                { "item": "scrap", "amount": 16, "minamount": 8 },
+                { "item": "sheet_metal", "amount": 4, "minamount": 2 }
             ]
         }
     },{
@@ -4563,7 +4666,27 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 8, "minamount": 4},
-                { "item": "steel_chunk", "amount": 2, "minamount": 1}
+                { "item": "steel_chunk", "amount": 2, "minamount": 1},
+                { "item": "e_scrap", "amount": 2, "minamount": 0 },
+                { "item": "circuit", "amount": 4, "minamount": 1 },
+                { "item": "power_supply", "amount": 2, "minamount": 0 },
+                { "item": "amplifier", "amount": 1, "minamount": 0 },
+                { "item": "plastic_chunk", "amount": 2, "minamount": 1 }
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "RAM", "amount": 2, "minamount": 1 },
+                { "item": "cable", "amount": 8, "minamount": 2 },
+                { "item": "small_lcd_screen", "amount": 6, "minamount": 2 },
+                { "item": "e_scrap", "amount": 12, "minamount": 6 },
+                { "item": "circuit", "amount": 24, "minamount": 8 },
+                { "item": "power_supply", "amount": 6, "minamount": 2 },
+                { "item": "amplifier", "amount": 4, "minamount": 1 },
+                { "item": "plastic_chunk", "amount": 2, "minamount": 1 },
+                { "item": "scrap", "amount": 8, "minamount": 4 },
+                { "item": "sheet_metal", "amount": 2, "minamount": 1 }
             ]
         }
     },{
@@ -4580,8 +4703,20 @@
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
             "items": [
+                { "item": "cable", "amount": 4, "minamount": 0 },
                 { "item": "scrap", "amount": 12, "minamount": 8},
-                { "item": "steel_chunk", "amount": 4, "minamount": 4}
+                { "item": "steel_chunk", "amount": 4, "minamount": 2},
+                { "item": "ceramic_shard", "amount": 16, "minamount": 8}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 8, "minamount": 4 },
+                { "item": "steel_chunk", "amount": 6, "minamount": 4 },
+                { "item": "scrap", "amount": 16, "minamount": 12 },
+                { "item": "plastic_chunk", "amount": 4, "minamount": 1 },
+                { "item": "ceramic_shard", "amount": 24, "minamount": 12 }
             ]
         }
     },{
@@ -4599,7 +4734,27 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 8, "minamount": 4},
-                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+                { "item": "steel_chunk", "amount": 4, "minamount": 2},
+                { "item": "cable", "amount": 4, "minamount": 1 },
+                { "item": "ceramic_shard", "amount": 2, "minamount": 0},
+                { "item": "lead", "amount": 1, "minamount": 0}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "RAM", "amount": 24, "minamount": 12 },
+                { "item": "cable", "amount": 12, "minamount": 6 },
+                { "item": "small_lcd_screen", "amount": 16, "minamount": 8 },
+                { "item": "e_scrap", "amount": 12, "minamount": 8 },
+                { "item": "circuit", "amount": 18, "minamount": 6 },
+                { "item": "power_supply", "amount": 12, "minamount": 8 },
+                { "item": "amplifier", "amount": 4, "minamount": 2 },
+                { "item": "plastic_chunk", "amount": 8, "minamount": 4 },
+                { "item": "scrap", "amount": 6, "minamount": 2 },
+                { "item": "sheet_metal", "amount": 2, "minamount": 1 },
+                { "item": "lead", "amount": 2, "minamount": 1},
+                { "item": "ceramic_shard", "amount": 6, "minamount": 2}
             ]
         }
     },{
@@ -4617,7 +4772,22 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 12, "minamount": 10},
-                { "item": "steel_chunk", "amount": 6, "minamount": 4}
+                { "item": "steel_chunk", "amount": 6, "minamount": 4},
+                { "item": "lead", "amount": 8, "minamount": 2},
+                { "item": "cable", "amount": 60, "minamount": 20 },
+                { "item": "sheet_metal", "amount": 2, "minamount": 1 },
+                { "item": "ceramic_shard", "amount": 6, "minamount": 2}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 12},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4},
+                { "item": "lead", "amount": 16, "minamount": 4},
+                { "item": "cable", "amount": 120, "minamount": 60 },
+                { "item": "sheet_metal", "amount": 6, "minamount": 2 },
+                { "item": "ceramic_shard", "amount": 12, "minamount": 4}
             ]
         }
     },{
@@ -4635,7 +4805,22 @@
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 12, "minamount": 10},
-                { "item": "steel_chunk", "amount": 6, "minamount": 4}
+                { "item": "steel_chunk", "amount": 6, "minamount": 4},
+                { "item": "lead", "amount": 16, "minamount": 8},
+                { "item": "cable", "amount": 20, "minamount": 1 },
+                { "item": "sheet_metal", "amount": 2, "minamount": 1 },
+                { "item": "ceramic_shard", "amount": 6, "minamount": 2}
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 12},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4},
+                { "item": "lead", "amount": 32, "minamount": 12},
+                { "item": "cable", "amount": 40, "minamount": 20 },
+                { "item": "sheet_metal", "amount": 6, "minamount": 2 },
+                { "item": "ceramic_shard", "amount": 12, "minamount": 4}
             ]
         }
     },{
