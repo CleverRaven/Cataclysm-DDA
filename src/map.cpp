@@ -970,7 +970,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
+ return has_furn(x, y) ? furn_at(x, y).name : ter_at(x, y).name;
 }
 
 bool map::has_furn(const int x, const int y)
@@ -980,7 +980,7 @@ bool map::has_furn(const int x, const int y)
 
 
 std::string map::get_furn(const int x, const int y) const {
-    return furnlist[ furn(x,y) ].id;
+    return furn_at(x, y).id;
 }
 
 furn_t & map::furn_at(const int x, const int y) const
@@ -1036,7 +1036,7 @@ bool map::can_move_furniture( const int x, const int y, player * p ) {
 }
 
 std::string map::furnname(const int x, const int y) {
- return furnlist[furn(x, y)].name;
+ return furn_at(x, y).name;
 }
 /*
  * Get the terrain integer id. This is -not- a number guaranteed to remain
@@ -1064,28 +1064,28 @@ ter_id map::ter(const int x, const int y) const {
  * than ter_id, but only an issue if thousands of comparisons are made.
  */
 std::string map::get_ter(const int x, const int y) const {
-    return terlist[ ter(x,y) ].id;
+    return ter_at(x, y).id;
 }
 
 /*
  * Get the terrain harvestable string (what will get harvested from the terrain)
  */
 std::string map::get_ter_harvestable(const int x, const int y) const {
-    return terlist[ ter(x,y) ].harvestable;
+    return ter_at(x, y).harvestable;
 }
 
 /*
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return (ter_id)termap[ terlist[ ter(x,y) ].transforms_into ].loadid;
+    return (ter_id)termap[ ter_at(x, y).transforms_into ].loadid;
 }
 
 /*
  * Get the harvest season from the terrain
  */
 int map::get_ter_harvest_season(const int x, const int y) const {
-    return terlist[ ter(x,y) ].harvest_season;
+    return ter_at(x, y).harvest_season;
 }
 
 /*
@@ -1127,7 +1127,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
 std::string map::tername(const int x, const int y) const
 {
- return terlist[ter(x, y)].name;
+ return ter_at(x, y).name;
 }
 
 std::string map::features(const int x, const int y)
@@ -1255,12 +1255,12 @@ bool map::can_put_items(const int x, const int y)
 
 bool map::has_flag_ter(const std::string & flag, const int x, const int y) const
 {
- return terlist[ter(x, y)].has_flag(flag);
+ return ter_at(x, y).has_flag(flag);
 }
 
 bool map::has_flag_furn(const std::string & flag, const int x, const int y) const
 {
- return furnlist[furn(x, y)].has_flag(flag);
+ return furn_at(x, y).has_flag(flag);
 }
 
 bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
@@ -1277,7 +1277,7 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
 {
- return terlist[ter(x, y)].has_flag(flag) && furnlist[furn(x, y)].has_flag(flag);
+ return ter_at(x, y).has_flag(flag) && furn_at(x, y).has_flag(flag);
 }
 /////
 bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
@@ -1305,12 +1305,12 @@ bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
 
 bool map::has_flag_ter(const ter_bitflags flag, const int x, const int y) const
 {
- return terlist[ter(x, y)].has_flag(flag);
+ return ter_at(x, y).has_flag(flag);
 }
 
 bool map::has_flag_furn(const ter_bitflags flag, const int x, const int y) const
 {
- return furnlist[furn(x, y)].has_flag(flag);
+ return furn_at(x, y).has_flag(flag);
 }
 
 bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const
@@ -2441,7 +2441,7 @@ bool map::hit_with_fire(const int x, const int y)
 
 bool map::marlossify(const int x, const int y)
 {
-    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))
+    if (one_in(25) && (ter_at(x, y).movecost != 0 && !has_furn(x, y))
             && !ter_at(x, y).has_flag(TFLAG_DEEP_WATER)) {
         ter_set(x, y, t_marloss);
         return true;
@@ -2456,30 +2456,30 @@ bool map::marlossify(const int x, const int y)
 
 bool map::open_door(const int x, const int y, const bool inside, const bool check_only)
 {
- const std::string terid = get_ter(x,y);
- const std::string furnid = furnlist[furn(x,y)].id;
- if ( !termap[terid].open.empty() && termap[ terid ].open != "t_null" ) {
-     if ( termap.find( termap[ terid ].open ) == termap.end() ) {
-         debugmsg("terrain %s.open == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].open.c_str() );
+ const auto &ter = ter_at(x, y);
+ const auto &furn = furn_at(x, y);
+ if ( !ter.open.empty() && ter.open != "t_null" ) {
+     if ( termap.find( ter.open ) == termap.end() ) {
+         debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
      if(!check_only) {
-         ter_set(x, y, termap[ terid ].open );
+         ter_set(x, y, ter.open );
      }
      return true;
- } else if ( !furnmap[furnid].open.empty() && furnmap[ furnid ].open != "t_null" ) {
-     if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() ) {
-         debugmsg("terrain %s.open == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].open.c_str() );
+ } else if ( !furn.open.empty() && furn.open != "t_null" ) {
+     if ( furnmap.find( furn.open ) == furnmap.end() ) {
+         debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
      if(!check_only) {
-         furn_set(x, y, furnmap[ furnid ].open );
+         furn_set(x, y, furn.open );
      }
      return true;
  }
@@ -2523,30 +2523,30 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, int u
 
 bool map::close_door(const int x, const int y, const bool inside, const bool check_only)
 {
- const std::string terid = get_ter(x,y);
- const std::string furnid = furnlist[furn(x,y)].id;
- if ( !termap[terid].close.empty() && termap[ terid ].close != "t_null" ) {
-     if ( termap.find( termap[ terid ].close ) == termap.end() ) {
-         debugmsg("terrain %s.close == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].close.c_str() );
+ const auto &ter = ter_at(x, y);
+ const auto &furn = furn_at(x, y);
+ if ( !ter.close.empty() && ter.close != "t_null" ) {
+     if ( termap.find( ter.close ) == termap.end() ) {
+         debugmsg("terrain %s.close == non existant terrain '%s'\n", ter.id.c_str(), ter.close.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
      if (!check_only) {
-        ter_set(x, y, termap[ terid ].close );
+        ter_set(x, y, ter.close );
      }
      return true;
- } else if ( !furnmap[furnid].close.empty() && furnmap[ furnid ].close != "t_null" ) {
-     if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() ) {
-         debugmsg("terrain %s.close == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].close.c_str() );
+ } else if ( !furn.close.empty() && furn.close != "t_null" ) {
+     if ( furnmap.find( furn.close ) == furnmap.end() ) {
+         debugmsg("terrain %s.close == non existant furniture '%s'\n", furn.id.c_str(), furn.close.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
      if (!check_only) {
-         furn_set(x, y, furnmap[ furnid ].close );
+         furn_set(x, y, furn.close );
      }
      return true;
  }
@@ -3774,9 +3774,7 @@ int map::get_field_strength( const point p, const field_id t ) {
 field_entry * map::get_field( const point p, const field_id t ) {
     if (!INBOUNDS(p.x, p.y))
         return NULL;
-    int lx, ly;
-    submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
-    return current_submap->fld[lx][ly].findField(t);
+    return get_field( p.x, p.y ).findField(t);
 }
 
 bool map::add_field(const point p, const field_id t, int density, const int age)
@@ -5060,10 +5058,10 @@ long map::determine_wall_corner(const int x, const int y, const long orig_sym)
 {
     long sym = orig_sym;
     //LINE_NESW
-    const long above = terlist[ter(x, y-1)].sym;
-    const long below = terlist[ter(x, y+1)].sym;
-    const long left  = terlist[ter(x-1, y)].sym;
-    const long right = terlist[ter(x+1, y)].sym;
+    const long above = ter_at(x, y-1).sym;
+    const long below = ter_at(x, y+1).sym;
+    const long left  = ter_at(x-1, y).sym;
+    const long right = ter_at(x+1, y).sym;
 
     const bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
     const bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
@@ -5178,7 +5176,7 @@ void map::build_transparency_cache()
             // Default to fully transparent.
             transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
-            if( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
+            if( !ter_at(x, y).transparent || !furn_at(x, y).transparent ) {
                 transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
                 continue;
             }
