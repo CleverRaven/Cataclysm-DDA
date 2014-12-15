@@ -266,7 +266,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
     item *gunmod = weapon.active_gunmod();
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
-    Skill *skill_used = NULL;
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
@@ -306,7 +305,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
     } else if (gunmod != NULL) {
         used_weapon = gunmod;
         curammo = used_weapon->get_curammo();
-        skill_used = gunmod->type->gunmod->skill_used;
     } else {// Just a normal gun. If we're here, we know curammo is valid.
         curammo = weapon.get_curammo();
         used_weapon = &weapon;
@@ -317,6 +315,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                  used_weapon->tname().c_str());
         return;
     }
+    Skill *skill_used = Skill::skill( used_weapon->skill() );
 
     projectile proj; // damage will be set later
     proj.aoe_size = 0;
@@ -347,9 +346,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
     if (burst && used_weapon->burst_size() < 2) {
         burst = false; // Can't burst fire a semi-auto
-    }
-    if (skill_used == NULL) {
-        skill_used = firing->gun->skill_used;
     }
 
     // Use different amounts of time depending on the type of gun and our skill
