@@ -1304,6 +1304,19 @@ int iuse::vaccine(player *p, item *it, bool, point)
     p->add_msg_if_player(m_good, _("You feel tough."));
     p->mod_healthy_mod(200);
     p->mod_pain(3);
+    item syringe( "syringe", it->bday );
+    p->i_add( syringe );
+    return it->type->charges_to_use();
+}
+
+int iuse::flu_vaccine(player *p, item *it, bool, point)
+{
+    p->add_msg_if_player(_("You inject the vaccine."));
+    p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
+    p->add_effect("flushot", 1, num_bp, true);
+    p->mod_pain(3);
+    item syringe( "syringe", it->bday );
+    p->i_add( syringe );
     return it->type->charges_to_use();
 }
 

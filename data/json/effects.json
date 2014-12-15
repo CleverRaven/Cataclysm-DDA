@@ -817,6 +817,10 @@
     },
     {
         "type": "effect_type",
+        "id": "flushot"
+    },
+    {
+        "type": "effect_type",
         "id": "evil"
     },
     {
