@@ -2339,8 +2339,8 @@
     },{
         "type":"GENERIC",
         "id" : "spear_survivor",
-        "name" : "survivor's sword-staff",
-        "description" : "A customized and personalized polearm. A study shaft with a slender sword blade attached, good for both slashing and stabbing.",
+        "name" : "survivor's naginata",
+        "description" : "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
         "weight" : 1800,
         "to_hit" : 2,
         "color" : "light_gray",

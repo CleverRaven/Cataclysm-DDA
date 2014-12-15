@@ -5194,9 +5194,6 @@
       ["anvil", -1]
      ],
      [
-      ["swage", -1]
-     ],
-     [
       ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
      ]
     ],
@@ -5231,9 +5228,6 @@
      ],
      [
       ["anvil", -1]
-     ],
-     [
-      ["swage", -1]
      ],
      [
       ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
@@ -5273,9 +5267,6 @@
      ],
      [
       ["anvil", -1]
-     ],
-     [
-      ["swage", -1]
      ],
      [
       ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
