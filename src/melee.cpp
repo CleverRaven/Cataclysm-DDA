@@ -909,10 +909,15 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
         // Slicing weapons assumed to have a very low chance of sticking.
         stuck_cost *= 0.25;
     }
-    else if( weapon.has_flag("STAB") || weapon.has_flag("SPEAR") )
+    else if( weapon.has_flag("STAB"))
     {
         // Stabbing has a moderate change of sticking.
         stuck_cost *= 0.50;
+    }
+    else if( weapon.has_flag("SPEAR"))
+    {
+        // Spears should be a bit easier to manage
+        stuck_cost *= 0.25;
     }
     else if( weapon.has_flag("CHOP") )
     {
@@ -1656,8 +1661,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(),
                                   target.c_str());
         }
-        if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
-            t.mod_moves(-30);
+        if (weapon.has_flag("STAB")) {
+            t.mod_moves(-20); //slightly quicker to pull out a knife
+        }
+        else if (weapon.has_flag("SPEAR")) {
+          d.add_damage(DT_CUT, rng(1,stabbing_skill); //add some extra damage for pulling out a spear
+          t.mod_moves(-30);
         }
     }
     if (cutting_penalty > 0) {
