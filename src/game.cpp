@@ -12237,6 +12237,21 @@ bool add_or_drop_with_msg( player &u, item &it )
 
 void game::unload(item &it)
 {
+    if( it.is_container() && !it.contents.empty() ) {
+        // TODO (or not): containers and guns use item::contents to store different things:
+        // the gunmods / the container contents.
+        // Maybe the gunmods should go into their own member?
+        u.moves -= 40 * it.contents.size();
+        std::vector<item> old_contents = it.contents;
+        it.contents.clear();
+        for( auto &content : old_contents ) {
+            if( !add_or_drop_with_msg( u, content ) ) {
+                it.contents.push_back( content );
+            }
+        }
+        return;
+    }
+
     if( it.is_null() ) {
         add_msg(m_info, _("You're not wielding anything."));
         return;
@@ -12263,8 +12278,7 @@ void game::unload(item &it)
         has_auxflamer = it.has_gunmod("aux_flamer");
         has_rail_xbow = it.has_gunmod("gun_crossbow");
     }
-    if (it.is_container() ||
-        (it.charges == 0 &&
+    if( ( it.charges == 0 &&
          (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
          (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
          (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
