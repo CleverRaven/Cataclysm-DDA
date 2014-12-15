@@ -617,7 +617,7 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = *start_location::find( u.start_location );
     start_loc.setup( cur_om, levx, levy, levz );
-    
+
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
@@ -2107,7 +2107,7 @@ void game::activity_on_finish_hotwire()
         debugmsg("process_activity ACT_HOTWIRE_CAR: vehicle not found");
     }
     u.activity.type = ACT_NULL;
-    
+
 }
 
 void game::activity_on_finish_fish()
@@ -5166,12 +5166,12 @@ void game::debug()
 
 void game::mondebug()
 {
-    int tc = 0;
+    int bresenham_slope = 0;
     for (size_t i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
         critter.debug(u);
         if (critter.has_flag(MF_SEES) &&
-            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
+            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, bresenham_slope)) {
             debugmsg("The %s can see you.", critter.name().c_str());
         } else {
             debugmsg("The %s can't see you...", critter.name().c_str());

@@ -378,14 +378,14 @@ int monster::vision_range(const int x, const int y) const
     return range;
 }
 
-bool monster::sees_player(int & tc, player * p) const {
+bool monster::sees_player(int & bresenham_slope, player * p) const {
     if ( p == NULL ) {
         p = &g->u;
     }
     const int range = vision_range(p->posx, p->posy);
     // * p->visibility() / 100;
     return (
-        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) &&
+        g->m.sees( _posx, _posy, p->posx, p->posy, range, bresenham_slope ) &&
         p->is_invisible() == false
     );
 }
