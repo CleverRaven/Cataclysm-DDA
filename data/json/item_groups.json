@@ -1834,6 +1834,7 @@
       ["screwdriver", 40],
       ["hammer", 35],
       ["wrench", 30],
+      ["con_mix", 10],
       ["g_shovel", 20],
       ["saw", 15],
       ["circsaw_off", 5],
@@ -1864,6 +1865,7 @@
     "items":[
       ["broom", 30],
       ["mop", 30],
+      ["con_mix", 30],
       ["hoe", 30],
       ["shovel", 40],
       ["scythe", 5],
@@ -1895,6 +1897,7 @@
       ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
+      ["concrete", 30],
       ["boots_steel", 50],
       ["boots_combat", 20],
       ["boots_hiking", 10],
