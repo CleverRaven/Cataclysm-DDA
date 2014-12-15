@@ -295,6 +295,127 @@ struct islot_gun {
     }
 };
 
+struct islot_gunmod {
+    // Used by gunmods with a firing mode,
+    // this should be supported by assigning a gun itype to the item as well.
+    /**
+     * TODO: document me
+     */
+    int dispersion;
+    /**
+     * TODO: document me
+     */
+    int mod_dispersion;
+    /**
+     * TODO: document me
+     */
+    int sight_dispersion;
+    /**
+     * TODO: document me
+     */
+    int aim_speed;
+    /**
+     * TODO: document me
+     */
+    int damage;
+    /**
+     * TODO: document me
+     */
+    int loudness;
+    /**
+     * TODO: document me
+     */
+    int clip;
+    /**
+     * TODO: document me
+     */
+    int recoil;
+    /**
+     * TODO: document me
+     */
+    int burst;
+    /**
+     * TODO: document me
+     */
+    int range;
+    /**
+     * TODO: document me
+     */
+    int req_skill;
+    /**
+     * TODO: document me
+     * TODO: this should be a pointer to const Skill.
+     */
+    Skill *skill_used;
+    // Rest of the attributes are properly part of a gunmod.
+    /**
+     * TODO: document me
+     */
+    ammotype newtype;
+    /**
+     * TODO: document me
+     */
+    std::set<std::string> acceptible_ammo_types;
+    /**
+     * TODO: document me
+     */
+    bool used_on_pistol;
+    /**
+     * TODO: document me
+     */
+    bool used_on_shotgun;
+    /**
+     * TODO: document me
+     */
+    bool used_on_smg;
+    /**
+     * TODO: document me
+     */
+    bool used_on_rifle;
+    /**
+     * TODO: document me
+     */
+    bool used_on_bow;
+    /**
+     * TODO: document me
+     */
+    bool used_on_crossbow;
+    /**
+     * TODO: document me
+     */
+    bool used_on_launcher;
+    /**
+     * TODO: document me
+     */
+    std::string location;
+
+    islot_gunmod()
+    : dispersion( 0 )
+    , mod_dispersion( 0 )
+    , sight_dispersion( 0 )
+    , aim_speed( 0 )
+    , damage( 0 )
+    , loudness( 0 )
+    , clip( 0 )
+    , recoil( 0 )
+    , burst( 0 )
+    , range( 0 )
+    , req_skill( 0 )
+    , skill_used( nullptr )
+    , newtype()
+    , acceptible_ammo_types()
+    , used_on_pistol( false )
+    , used_on_shotgun( false )
+    , used_on_smg( false )
+    , used_on_rifle( false )
+    , used_on_bow( false )
+    , used_on_crossbow( false )
+    , used_on_launcher( false )
+    , location()
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -310,6 +431,7 @@ struct itype {
     std::unique_ptr<islot_armor> armor;
     std::unique_ptr<islot_book> book;
     std::unique_ptr<islot_gun> gun;
+    std::unique_ptr<islot_gunmod> gunmod;
     /*@}*/
 
 protected:
@@ -384,10 +506,6 @@ public:
         return false;
     }
     virtual bool is_ammo() const
-    {
-        return false;
-    }
-    virtual bool is_gunmod() const
     {
         return false;
     }
@@ -573,42 +691,6 @@ struct it_ammo : public virtual itype {
     {
         return "AMMO";
     }
-};
-
-struct it_gunmod : public virtual itype {
-    int dispersion;
-    int mod_dispersion;
-    int sight_dispersion;
-    int aim_speed;
-    int damage;
-    int loudness;
-    int clip;
-    int recoil;
-    int burst;
-    int range;
-    int req_skill;
-    Skill *skill_used;
-    // Rest of the attributes are properly part of a gunmod.
-    ammotype newtype;
-    std::set<std::string> acceptible_ammo_types;
-    bool used_on_pistol;
-    bool used_on_shotgun;
-    bool used_on_smg;
-    bool used_on_rifle;
-    bool used_on_bow;
-    bool used_on_crossbow;
-    bool used_on_launcher;
-    std::string location;
-
-    virtual bool is_gunmod() const {
-        return true;
-    }
-
-    it_gunmod() : itype(), dispersion(0), mod_dispersion(0), sight_dispersion(0),
-        aim_speed(0), damage(0), loudness(0), clip(0), recoil(0), burst(0), range(0),
-        req_skill(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
-        used_on_shotgun(false), used_on_smg(false), used_on_rifle(false), used_on_bow(false),
-        used_on_crossbow(false), used_on_launcher(false), location() {}
 };
 
 struct it_tool : public virtual itype {

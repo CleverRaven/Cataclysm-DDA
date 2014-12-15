@@ -306,10 +306,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     } else if (gunmod != NULL) {
         used_weapon = gunmod;
         curammo = used_weapon->curammo;
-        const it_gunmod *mod = dynamic_cast<const it_gunmod *>(gunmod->type);
-        if (mod != NULL) {
-            skill_used = mod->skill_used;
-        }
+        skill_used = gunmod->type->gunmod->skill_used;
     } else {// Just a normal gun. If we're here, we know curammo is valid.
         curammo = weapon.curammo;
         used_weapon = &weapon;
@@ -1333,10 +1330,10 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     std::set<std::string> ammo_effects;
     std::string weapon_id;
     if( weapon->is_gunmod() ) {
-        it_gunmod *mod_type = dynamic_cast<it_gunmod *>(weapon->type);
+        auto mod_type = weapon->type->gunmod.get();
         ammo_used = mod_type->newtype;
         // Leave ammo_effects empty for now.
-        weapon_id = mod_type->id;
+        weapon_id = weapon->typeId();
     } else {
         auto weapontype = weapon->type->gun.get();
         ammo_used = weapontype->ammo;

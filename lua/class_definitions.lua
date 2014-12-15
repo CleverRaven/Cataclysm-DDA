@@ -580,45 +580,6 @@ classes = {
         functions = {
         }
     },
-    it_gunmod = {
-        parent = "itype",
-        attributes = {
-            dispersion = {
-                type = "int",
-                writable = true
-            },
-            damage = {
-                type = "int",
-                writable = true
-            },
-            loudness = {
-                type = "int",
-                writable = true
-            },
-            clip = {
-                type = "int",
-                writable = true
-            },
-            recoil = {
-                type = "int",
-                writable = true
-            },
-            burst = {
-                type = "int",
-                writable = true
-            },
-            newtype = {
-                type = "string",
-                writable = true
-            },
-            location = {
-                type = "string",
-                writable = true
-            }
-        },
-        functions = {
-        }
-    },
     it_tool = {
         parent = "itype",
         attributes = {
@@ -722,11 +683,6 @@ global_functions = {
         cpp_name = "get_comestible_type",
         args = { "string" },
         rval = "it_comest"
-    },
-    get_gunmod_type = {
-        cpp_name = "get_gunmod_type",
-        args = { "string" },
-        rval = "it_gunmod"
     },
     get_tool_type = {
         cpp_name = "get_tool_type",

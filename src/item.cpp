@@ -78,7 +78,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if( type->is_gunmod() ) {
+    if( type->gunmod ) {
         if( type->id == "spare_mag" || type->item_tags.count( "MODE_AUX" ) ) {
             charges = 0;
         }
@@ -658,7 +658,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
                 for( auto &_mn : contents ) {
-                    it_gunmod *mod = dynamic_cast<it_gunmod *>( _mn.type );
+                    const auto mod = _mn.type->gunmod.get();
                     if( mod->location == ( elem ).first ) { // if mod for this location
                         if (first_mods) {
                             temp1 << ": ";
@@ -676,7 +676,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
     if( is_gunmod() ) {
-        it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
+        const auto mod = type->gunmod.get();
 
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
@@ -1267,7 +1267,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (!contents.empty()) {
             if (is_gun()) {//Mods description
                 for( auto &elem : contents ) {
-                    it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
+                    const auto mod = elem.type->gunmod.get();
                     temp1.str("");
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
@@ -1365,7 +1365,7 @@ int item::get_free_mod_locations(const std::string &location) const
     }
     int result = loc->second;
     for( const auto &elem : contents ) {
-        const it_gunmod *mod = dynamic_cast<const it_gunmod *>( elem.type );
+        const auto mod = elem.type->gunmod.get();
         if(mod != NULL && mod->location == location) {
             result--;
         }
@@ -2535,10 +2535,7 @@ bool item::is_silent() const
 
 bool item::is_gunmod() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_gunmod();
+    return type->gunmod.get() != nullptr;
 }
 
 bool item::is_bionic() const
@@ -2918,7 +2915,7 @@ void item::next_mode()
 std::string item::skill() const
 {
     if( is_gunmod() ) {
-        return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
+        return type->gunmod->skill_used->ident();
     } else if ( is_gun() ) {
         return type->gun->skill_used->ident();
     } else if( type->book && type->book->skill != nullptr ) {
@@ -2930,14 +2927,14 @@ std::string item::skill() const
 int item::clip_size() const
 {
     if(is_gunmod() && has_flag("MODE_AUX"))
-        return (dynamic_cast<it_gunmod*>(type))->clip;
+        return type->gunmod->clip;
     if (!is_gun())
         return 0;
 
     int ret = type->gun->clip;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
-            int bonus = ( ret * ( dynamic_cast<it_gunmod *>( elem.type ) )->clip ) / 100;
+            int bonus = ( ret * elem.type->gunmod->clip ) / 100;
             ret = int(ret + bonus);
         }
     }
@@ -2947,7 +2944,7 @@ int item::clip_size() const
 int item::dispersion() const
 {
     if( is_gunmod() ) {
-        return dynamic_cast<it_gunmod *>( type )->mod_dispersion;
+        return type->gunmod->mod_dispersion;
     }
     if( !is_gun() ) {
         return 0;
@@ -2955,7 +2952,7 @@ int item::dispersion() const
     int dispersion_sum = type->gun->dispersion;
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
-            dispersion_sum += ( dynamic_cast<it_gunmod *>( elem.type ) )->dispersion;
+            dispersion_sum += elem.type->gunmod->dispersion;
         }
     }
     dispersion_sum += damage * 60;
@@ -2981,7 +2978,7 @@ int item::sight_dispersion( int aim_threshold ) const
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
-            it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
+            const auto mod = elem.type->gunmod.get();
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
                 ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
                   ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
@@ -3007,7 +3004,7 @@ int item::aim_speed( int aim_threshold ) const
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
-            it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
+            const auto mod = elem.type->gunmod.get();
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
 		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
 		 (mod->sight_dispersion <= aim_threshold &&
@@ -3043,7 +3040,7 @@ int item::gun_damage( bool with_ammo ) const
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
-            ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->damage;
+            ret += elem.type->gunmod->damage;
         }
     }
     ret -= damage * 2;
@@ -3096,7 +3093,7 @@ int item::noise() const
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
-            ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->loudness;
+            ret += elem.type->gunmod->loudness;
         }
     }
     return ret;
@@ -3114,7 +3111,7 @@ int item::burst_size() const
     int ret = type->gun->burst;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
-            ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->burst;
+            ret += elem.type->gunmod->burst;
         }
     }
     if( ret < 0 ) {
@@ -3143,7 +3140,7 @@ int item::recoil( bool with_ammo ) const
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
-            ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->recoil;
+            ret += elem.type->gunmod->recoil;
         }
     }
     ret += damage;
@@ -3161,7 +3158,7 @@ int item::range( player *p ) const
         const item *gunmod = active_gunmod();
         int mod_range = 0;
         if( gunmod ) {
-            mod_range += dynamic_cast<it_gunmod *>( gunmod->type )->range;
+            mod_range += gunmod->type->gunmod->range;
             if( gunmod->curammo ) {
                 mod_range += gunmod->curammo->range;
             }
@@ -3214,7 +3211,7 @@ ammotype item::ammo_type() const
         ammotype ret = type->gun->ammo;
         for( auto &elem : contents ) {
             if( elem.is_gunmod() && !elem.has_flag( "MODE_AUX" ) ) {
-                it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
+                const auto mod = elem.type->gunmod.get();
                 if (mod->newtype != "NULL")
                     ret = mod->newtype;
             }
@@ -3230,8 +3227,7 @@ ammotype item::ammo_type() const
         it_ammo* amm = dynamic_cast<it_ammo*>(type);
         return amm->type;
     } else if (is_gunmod()) {
-        it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
-        return mod->newtype;
+        return type->gunmod->newtype;
     }
     return "NULL";
 }
@@ -3310,9 +3306,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
 
         // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
         // for each attachment, find its associated ammo & append it to the ammo vector
-        for( auto &elem : contents ) {
-            item &cont = elem;
-            const it_gunmod *mod = dynamic_cast<it_gunmod *>(cont.type);
+        for( auto &cont : contents ) {
+            const auto mod = cont.type->gunmod.get();
             if (mod == NULL || !cont.has_flag("MODE_AUX")) {
                 // not a gunmod, or has no separate firing mode and can not be load
                 continue;
@@ -3475,7 +3470,7 @@ bool item::reload(player &u, int pos)
                 if (&contents[i] != gunmod && (int)i != spare_mag && contents[i].is_gunmod() &&
                     contents[i].has_flag("MODE_AUX") &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
+                    (contents[i].charges <= contents[i].type->gunmod->clip ||
                      (contents[i].charges <= 0 || contents[i].curammo->id == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;

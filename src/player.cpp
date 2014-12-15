@@ -11025,7 +11025,7 @@ void player::use(int inventory_position)
         // so restack to sort things out.
         inv.restack();
     } else if (used->is_gunmod()) {
-        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
+        const auto mod = used->type->gunmod.get();
         if (!(skillLevel("gun") >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
@@ -11082,7 +11082,7 @@ can install this mod."), mod->req_skill);
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
         }
-        if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
+        if (used->typeId() == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
             add_msg(m_info, _("You can not use a spare magazine in your %s."),
                        gun->tname().c_str());
             return;
@@ -11093,12 +11093,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                        gun->tname().c_str());
             return;
         }
-        if (mod->id == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
+        if (used->typeId() == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
             add_msg(m_info, _("Your %s is already waterproof."),
                        gun->tname().c_str());
             return;
         }
-        if (mod->id == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
+        if (used->typeId() == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
             add_msg(m_info, _("This %s is eminently reliable. You can't improve upon it this way."),
                        gun->tname().c_str());
             return;
@@ -11108,7 +11108,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
           used->tname().c_str());
           return;
         }
-        if (mod->id == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
+        if (used->typeId() == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
             add_msg(m_info, _("You cannot attach a brass catcher to your %s."),
                        gun->tname().c_str());
             return;
@@ -11118,7 +11118,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                 add_msg(m_info, _("Your %s already has a %s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
-            } else if ((mod->id == "clip" || mod->id == "clip2") &&
+            } else if ((used->typeId() == "clip" || used->typeId() == "clip2") &&
                        (i.type->id == "clip" || i.type->id == "clip2")) {
                 add_msg(m_info, _("Your %s already has an extended magazine."),
                            gun->tname().c_str());

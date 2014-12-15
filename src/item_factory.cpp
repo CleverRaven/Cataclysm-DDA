@@ -470,9 +470,8 @@ void Item_factory::check_definitions() const
                 msg << string_format("uses no skill") << "\n";
             }
         }
-        const it_gunmod *gunmod = dynamic_cast<const it_gunmod *>(type);
-        if (gunmod != 0) {
-            check_ammo_type(msg, gunmod->newtype);
+        if( type->gunmod ) {
+            check_ammo_type( msg, type->gunmod->newtype );
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
@@ -781,34 +780,37 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
     slot.rigid = jo.get_bool( "rigid", false );
 }
 
+void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
+{
+    slot.damage = jo.get_int( "damage_modifier", 0 );
+    slot.loudness = jo.get_int( "loudness_modifier", 0 );
+    slot.newtype = jo.get_string( "ammo_modifier" );
+    slot.location = jo.get_string( "location" );
+    slot.used_on_pistol = is_mod_target( jo, "mod_targets", "pistol" );
+    slot.used_on_shotgun = is_mod_target( jo, "mod_targets", "shotgun" );
+    slot.used_on_smg = is_mod_target( jo, "mod_targets", "smg" );
+    slot.used_on_rifle = is_mod_target( jo, "mod_targets", "rifle" );
+    slot.used_on_bow = is_mod_target( jo, "mod_targets", "bow" );
+    slot.used_on_crossbow = is_mod_target( jo, "mod_targets", "crossbow" );
+    slot.used_on_launcher = is_mod_target( jo, "mod_targets", "launcher" );
+    slot.dispersion = jo.get_int( "dispersion_modifier", 0 );
+    slot.mod_dispersion = jo.get_int( "dispersion", 0 );
+    slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
+    slot.aim_speed = jo.get_int( "aim_speed", -1 );
+    slot.recoil = jo.get_int( "recoil_modifier", 0 );
+    slot.burst = jo.get_int( "burst_modifier", 0 );
+    slot.range = jo.get_int( "range", 0 );
+    slot.clip = jo.get_int( "clip_size_modifier", 0 );
+    slot.acceptible_ammo_types = jo.get_tags( "acceptable_ammo" );
+    slot.skill_used = Skill::skill( jo.get_string( "skill", "gun" ) );
+    slot.req_skill = jo.get_int( "skill_required", 0 );
+}
+
 void Item_factory::load_gunmod(JsonObject &jo)
 {
-    it_gunmod *gunmod_template = new it_gunmod();
-    gunmod_template->damage = jo.get_int("damage_modifier", 0);
-    gunmod_template->loudness = jo.get_int("loudness_modifier", 0);
-    gunmod_template->newtype = jo.get_string("ammo_modifier");
-    gunmod_template->location = jo.get_string("location");
-    gunmod_template->used_on_pistol = is_mod_target(jo, "mod_targets", "pistol");
-    gunmod_template->used_on_shotgun = is_mod_target(jo, "mod_targets", "shotgun");
-    gunmod_template->used_on_smg = is_mod_target(jo, "mod_targets", "smg");
-    gunmod_template->used_on_rifle = is_mod_target(jo, "mod_targets", "rifle");
-    gunmod_template->used_on_bow = is_mod_target(jo, "mod_targets", "bow");
-    gunmod_template->used_on_crossbow = is_mod_target(jo, "mod_targets", "crossbow");
-    gunmod_template->used_on_launcher = is_mod_target(jo, "mod_targets", "launcher");
-    gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
-    gunmod_template->mod_dispersion = jo.get_int("dispersion", 0);
-    gunmod_template->sight_dispersion = jo.get_int("sight_dispersion", -1);
-    gunmod_template->aim_speed = jo.get_int("aim_speed", -1);
-    gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
-    gunmod_template->burst = jo.get_int("burst_modifier", 0);
-    gunmod_template->range = jo.get_int("range", 0);
-    gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
-    gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
-    gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));
-    gunmod_template->req_skill = jo.get_int("skill_required", 0);
-
-    itype *new_item_template = gunmod_template;
-    load_basic_info(jo, new_item_template);
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->gunmod, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_bionic(JsonObject &jo)
@@ -961,6 +963,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->armor, jo, "armor_data" );
     load_slot_optional( new_item_template->book, jo, "book_data" );
     load_slot_optional( new_item_template->gun, jo, "gun_data" );
+    load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1480,7 +1483,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->book ) {
         return category_id_books;
     }
-    if (it->is_gunmod()) {
+    if( it->gunmod ) {
         return category_id_mods;
     }
     if (it->is_bionic()) {
