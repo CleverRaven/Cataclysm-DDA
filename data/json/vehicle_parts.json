@@ -4294,7 +4294,8 @@
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
         ]
-    },{
+    },
+    {
         "type" : "vehicle_part",
         "id" : "mounted_rm614",
         "name" : "mounted RM614 LMG",
@@ -4313,7 +4314,8 @@
         "breaks_into" : [
             {"item": "rm614_lmg", "min": 0, "max": 1}
         ]
-    },{
+    },
+    {
         "type" : "vehicle_part",
         "id" : "mounted_rm298",
         "name" : "mounted RM298 HMG",
@@ -4331,6 +4333,42 @@
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "rm298", "min": 0, "max": 1}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "door_motor",
+        "name" : "door motor",
+        "symbol" : "*",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 50,
+        "item" : "motor_small",
+        "difficulty" : 3,
+        "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "drive_by_wire_controls",
+        "name" : "drive by wire controls",
+        "symbol" : "$",
+        "color" : "light_red",
+        "broken_symbol" : "$",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "item" : "drive_by_wire_controls",
+        "difficulty" : 3,
+        "flags" : ["CONTROLS", "REMOTE_CONTROLS"],
+        "breaks_into" : [
+            {"item": "motor_small", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
         ]
     }
 ]
