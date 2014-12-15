@@ -617,7 +617,7 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = *start_location::find( u.start_location );
     start_loc.setup( cur_om, levx, levy, levz );
-    
+
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
@@ -2107,7 +2107,7 @@ void game::activity_on_finish_hotwire()
         debugmsg("process_activity ACT_HOTWIRE_CAR: vehicle not found");
     }
     u.activity.type = ACT_NULL;
-    
+
 }
 
 void game::activity_on_finish_fish()
@@ -4613,17 +4613,17 @@ void game::write_memorial_file(std::string sLastWords)
 {
 
     //Open the file first
-    DIR *dir = opendir("memorial");
+    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-        mkdir("memorial");
+        mkdir(FILENAMES["memorialdir".c_str()]);
 #else
-        mkdir("memorial", 0777);
+        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
 #endif
-        dir = opendir("memorial");
+        dir = opendir(FILENAMES["memorialdir"].c_str());
         if (!dir) {
             dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make './memorial' directory");
+            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
             return;
         }
     }
