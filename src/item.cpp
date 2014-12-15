@@ -2951,20 +2951,22 @@ int item::clip_size() const
 int item::dispersion() const
 {
     if( is_gunmod() ) {
-        return dynamic_cast<it_gunmod*>(type)->mod_dispersion;
+        return dynamic_cast<it_gunmod *>( type )->mod_dispersion;
     }
     if( !is_gun() ) {
         return 0;
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
+    it_gun *gun = dynamic_cast<it_gun *>( type );
     int dispersion_sum = gun->dispersion;
-    for( auto &elem : contents ) {
+    for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
             dispersion_sum += ( dynamic_cast<it_gunmod *>( elem.type ) )->dispersion;
         }
     }
     dispersion_sum += damage * 60;
-    if (dispersion_sum < 0) dispersion_sum = 0;
+    if( dispersion_sum < 0 ) {
+        dispersion_sum = 0;
+    }
     return dispersion_sum;
 }
 
@@ -3023,15 +3025,15 @@ int item::aim_speed( int aim_threshold ) const
     return best_aim_speed;
 }
 
-int item::gun_damage(bool with_ammo) const
+int item::gun_damage( bool with_ammo ) const
 {
-    if (is_gunmod() && mode == "MODE_AUX") {
+    if( is_gunmod() && mode == "MODE_AUX" ) {
         return curammo->damage;
     }
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
-    if(mode == "MODE_AUX") {
+    if( mode == "MODE_AUX" ) {
         const item *gunmod = inspect_active_gunmod();
         if( gunmod != NULL && gunmod->curammo != NULL ) {
             return gunmod->curammo->damage;
@@ -3039,12 +3041,12 @@ int item::gun_damage(bool with_ammo) const
             return 0;
         }
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
+    it_gun *gun = dynamic_cast<it_gun *>( type );
     int ret = gun->dmg_bonus;
     if( with_ammo && curammo != NULL ) {
         ret += curammo->damage;
     }
-    for( auto &elem : contents ) {
+    for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->damage;
         }
@@ -3053,7 +3055,7 @@ int item::gun_damage(bool with_ammo) const
     return ret;
 }
 
-int item::gun_pierce(bool with_ammo) const
+int item::gun_pierce( bool with_ammo ) const
 {
     if( is_gunmod() && mode == "MODE_AUX" ) {
         return curammo->pierce;
@@ -3128,13 +3130,13 @@ int item::burst_size() const
     return ret;
 }
 
-int item::recoil(bool with_ammo) const
+int item::recoil( bool with_ammo ) const
 {
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
     // Just use the raw ammo recoil for now.
-    if(mode == "MODE_AUX") {
+    if( mode == "MODE_AUX" ) {
         const item *gunmod = inspect_active_gunmod();
         if( gunmod && gunmod->curammo ) {
             return gunmod->curammo->recoil;
@@ -3142,12 +3144,12 @@ int item::recoil(bool with_ammo) const
             return 0;
         }
     }
-    it_gun* gun = dynamic_cast<it_gun*>(type);
+    it_gun *gun = dynamic_cast<it_gun *>( type );
     int ret = gun->recoil;
     if( with_ammo && curammo ) {
         ret += curammo->recoil;
     }
-    for( auto &elem : contents ) {
+    for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->recoil;
         }
@@ -3156,9 +3158,9 @@ int item::recoil(bool with_ammo) const
     return ret;
 }
 
-int item::range(player *p) const
+int item::range( player *p ) const
 {
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
     // Just use the raw ammo range for now.
@@ -3167,46 +3169,52 @@ int item::range(player *p) const
         const item *gunmod = inspect_active_gunmod();
         int mod_range = 0;
         if( gunmod ) {
-            mod_range += dynamic_cast<it_gunmod *>(gunmod->type)->range;
+            mod_range += dynamic_cast<it_gunmod *>( gunmod->type )->range;
             if( gunmod->curammo ) {
                 mod_range += gunmod->curammo->range;
             }
         }
         return mod_range;
     }
-
     // Ammoless weapons use weapon's range only
-    if( has_flag("NO_AMMO") && !curammo ) {
-        return dynamic_cast<it_gun*>(type)->range;
+    if( has_flag( "NO_AMMO" ) && !curammo ) {
+        return dynamic_cast<it_gun *>( type )->range;
     }
 
-    int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
+    int ret = ( curammo ? dynamic_cast<it_gun *>( type )->range + curammo->range : 0 );
 
-    if (has_flag("CHARGE")) {
-        ret = dynamic_cast<it_gun*>(type)->range + 5 + charges * 5;
+    if( has_flag( "CHARGE" ) ) {
+        ret = dynamic_cast<it_gun *>( type )->range + 5 + charges * 5;
     }
 
-    if (has_flag("STR8_DRAW") && p) {
-        if (p->str_cur < 4) { return 0; }
-        if (p->str_cur < 8) {
-            ret -= 2 * (8 - p->str_cur);
+    if( has_flag( "STR8_DRAW" ) && p ) {
+        if( p->str_cur < 4 ) {
+            return 0;
         }
-    } else if (has_flag("STR10_DRAW") && p) {
-        if (p->str_cur < 5) { return 0; }
-        if (p->str_cur < 10) {
-            ret -= 2 * (10 - p->str_cur);
+        if( p->str_cur < 8 ) {
+            ret -= 2 * ( 8 - p->str_cur );
         }
-    } else if (has_flag("STR12_DRAW") && p) {
-        if (p->str_cur < 6) { return 0; }
-        if (p->str_cur < 12) {
-            ret -= 2 * (12 - p->str_cur);
+    } else if( has_flag( "STR10_DRAW" ) && p ) {
+        if( p->str_cur < 5 ) {
+            return 0;
+        }
+        if( p->str_cur < 10 ) {
+            ret -= 2 * ( 10 - p->str_cur );
+        }
+    } else if( has_flag( "STR12_DRAW" ) && p ) {
+        if( p->str_cur < 6 ) {
+            return 0;
+        }
+        if( p->str_cur < 12 ) {
+            ret -= 2 * ( 12 - p->str_cur );
         }
     }
 
-    if(ret < 0) { ret = 0; }
+    if( ret < 0 ) {
+        ret = 0;
+    }
     return ret;
 }
-
 
 ammotype item::ammo_type() const
 {
