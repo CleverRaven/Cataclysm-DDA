@@ -1087,7 +1087,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
-                if (u.weapon.mode == "MODE_BURST") {
+                if (u.weapon.get_gun_mode() == "MODE_BURST") {
                     mode = _("Burst");
                 } else {
                     item *gunmod = u.weapon.active_gunmod();
@@ -1429,7 +1429,7 @@ int player::skill_dispersion( item *weapon, bool random ) const
 // utility functions for projectile_attack
 double player::get_weapon_dispersion(item *weapon, bool random) const
 {
-    if( weapon->is_gun() && weapon->mode == "MODE_AUX" ) {
+    if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
         const auto gunmod = weapon->active_gunmod();
         if( gunmod != nullptr ) {
             return get_weapon_dispersion( gunmod, random );

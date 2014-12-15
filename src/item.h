@@ -135,7 +135,6 @@ public:
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
- void next_mode();
  std::string skill() const;
 
     using JsonSerializer::serialize;
@@ -675,6 +674,27 @@ public:
          * Example: underslug shotgun.
          */
         bool is_auxiliary_gunmod() const;
+        /**
+         * Same as @code get_gun_mode() == "MODE_AUX" @endcode
+         */
+        bool is_in_auxiliary_mode() const;
+        /**
+         * Same as @code set_gun_mode("MODE_AUX") @endcode
+         */
+        void set_auxiliary_mode();
+        /**
+         * Get the gun mode, e.g. BURST, or MODE_AUX, or something else.
+         */
+        std::string get_gun_mode() const;
+        /**
+         * Set the gun mode (see @ref get_gun_mode).
+         */
+        void set_gun_mode( const std::string &mode );
+        /**
+         * If this item is a gun with several firing mods (including auxiliary gunmods), switch
+         * to the next mode. Otherwise, make nothing at all.
+         */
+        void next_mode();
         /*@}*/
 
         /**
@@ -746,7 +766,6 @@ public:
    int note;            // Associated dynamic text snippet.
    int irridation;      // Tracks radiation dosage.
  };
- std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags; // generic item specific flags
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list

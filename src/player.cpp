@@ -3483,7 +3483,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
         }
         wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
     } else {
-        if (weapon.mode == "MODE_BURST") {
+        if (weapon.get_gun_mode() == "MODE_BURST") {
             wprintz(w, c, _("%s (Burst)"), weapname().c_str());
         } else {
             wprintz(w, c, _("%s"), weapname().c_str());
@@ -11218,7 +11218,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
         gunmod->unset_curammo();
         gunmod->charges = 0;
     }
-    if (gunmod->mode == "MODE_AUX") {
+    if( gunmod->is_in_auxiliary_mode() ) {
         weapon->next_mode();
     }
     i_add_or_drop(*gunmod);

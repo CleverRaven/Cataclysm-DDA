@@ -22,6 +22,8 @@
 #include <unordered_set>
 #include <set>
 
+static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+
 light_emission nolight = {0, 0, 0};
 
 // Returns the default item type, used for the null item (default constructed),
@@ -143,7 +145,6 @@ void item::init() {
     burnt = 0;
     covered_bodyparts.reset();
     poison = 0;
-    mode = "NULL";
     item_counter = 0;
     type = nullitem();
     curammo = NULL;
@@ -1950,7 +1951,7 @@ bool item::has_flag(const std::string &f) const
     // first check for flags specific to item type
     // gun flags
     if (is_gun()) {
-        if (mode == "MODE_AUX") {
+        if (is_in_auxiliary_mode()) {
             item const* gunmod = active_gunmod();
             if( gunmod != NULL )
                 ret = gunmod->has_flag(f);
@@ -2254,7 +2255,7 @@ bool item::craft_has_charges()
 long item::num_charges()
 {
     if (is_gun()) {
-        if (mode == "MODE_AUX") {
+        if (is_in_auxiliary_mode()) {
             item* gunmod = active_gunmod();
             if (gunmod != NULL)
                 return gunmod->charges;
@@ -2262,7 +2263,7 @@ long item::num_charges()
             return charges;
         }
     }
-    if( is_gunmod() && mode == "MODE_AUX" ) {
+    if( is_gunmod() && is_in_auxiliary_mode() ) {
         return charges;
     }
     return 0;
@@ -2862,9 +2863,9 @@ int item::reload_time(player &u) const
 
 item* item::active_gunmod()
 {
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.mode == "MODE_AUX" ) {
+            if( elem.is_gunmod() && elem.is_in_auxiliary_mode() ) {
                 return &elem;
             }
         }
@@ -2874,9 +2875,9 @@ item* item::active_gunmod()
 
 item const* item::active_gunmod() const
 {
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.mode == "MODE_AUX" ) {
+            if( elem.is_gunmod() && elem.is_in_auxiliary_mode() ) {
                 return &elem;
             }
         }
@@ -2884,38 +2885,71 @@ item const* item::active_gunmod() const
     return NULL;
 }
 
+bool item::is_in_auxiliary_mode() const
+{
+    return get_gun_mode() == "MODE_AUX";
+}
+
+void item::set_auxiliary_mode()
+{
+    set_gun_mode( "MODE_AUX" );
+}
+
+std::string item::get_gun_mode() const
+{
+    const auto it = item_vars.find( GUN_MODE_VAR_NAME );
+    if( it == item_vars.end() ) {
+        return "NULL";
+    }
+    return it->second;
+}
+
+void item::set_gun_mode( const std::string &mode )
+{
+    // a gun mode only makes sense on things that can fire, all other items are ignored!
+    if( !is_gun() && !is_auxiliary_gunmod() ) {
+        return;
+    }
+    if( mode.empty() || mode == "NULL" ) {
+        item_vars.erase( GUN_MODE_VAR_NAME );
+    } else {
+        item_vars[GUN_MODE_VAR_NAME] = mode;
+    }
+}
+
 void item::next_mode()
 {
+    const auto mode = get_gun_mode();
     if( mode == "NULL" && has_flag("MODE_BURST") ) {
-        mode = "MODE_BURST";
+        set_gun_mode("MODE_BURST");
     } else if( mode == "NULL" || mode == "MODE_BURST" ) {
         // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
         for( auto &elem : contents ) {
             if( elem.is_auxiliary_gunmod() ) {
-                mode = "MODE_AUX";
-                elem.mode = "MODE_AUX";
+                set_auxiliary_mode();
+                elem.set_auxiliary_mode();
                 return;
             }
         }
-        mode = "NULL";
-    } else if( mode == "MODE_AUX") {
+        set_gun_mode( "NULL" );
+    } else if( is_in_auxiliary_mode() ) {
         size_t i = 0;
         // Advance to next aux mode, or if there isn't one, normal mode
         for( ; i < contents.size(); i++ ) {
-            if( contents[i].is_gunmod() && contents[i].mode == "MODE_AUX" ) {
-                contents[i].mode = "NULL";
+            if( contents[i].is_gunmod() && contents[i].is_in_auxiliary_mode() ) {
+                contents[i].set_gun_mode( "NULL" );
                 break;
             }
         }
         for( i++; i < contents.size(); i++ ) {
             if( contents[i].is_auxiliary_gunmod() ) {
-                contents[i].mode = "MODE_AUX";
+                contents[i].set_auxiliary_mode();
                 break;
             }
         }
         if( i == contents.size() ) {
-            mode = "NULL";
+            set_gun_mode( "NULL" );
         }
     }
 }
@@ -3028,13 +3062,13 @@ int item::aim_speed( int aim_threshold ) const
 
 int item::gun_damage( bool with_ammo ) const
 {
-    if( is_gunmod() && mode == "MODE_AUX" ) {
+    if( is_gunmod() && is_in_auxiliary_mode() ) {
         return has_curammo() ? get_curammo()->damage : 0;
     }
     if( !is_gun() ) {
         return 0;
     }
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         const item *gunmod = active_gunmod();
         if( gunmod != NULL && gunmod->has_curammo() ) {
             return gunmod->get_curammo()->damage;
@@ -3058,13 +3092,13 @@ int item::gun_damage( bool with_ammo ) const
 
 int item::gun_pierce( bool with_ammo ) const
 {
-    if( is_gunmod() && mode == "MODE_AUX" ) {
+    if( is_gunmod() && is_in_auxiliary_mode() ) {
         return has_curammo() ? get_curammo()->pierce : 0;
     }
     if( !is_gun() ) {
         return 0;
     }
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         const item *gunmod = active_gunmod();
         if( gunmod != NULL && gunmod->has_curammo() ) {
             return gunmod->get_curammo()->pierce;
@@ -3085,7 +3119,7 @@ int item::noise() const
         return 0;
     }
     int ret = 0;
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         item const* gunmod = active_gunmod();
         if( gunmod && gunmod->has_curammo() ) {
             ret = gunmod->get_curammo()->damage;
@@ -3097,7 +3131,7 @@ int item::noise() const
     if (ret >= 5) {
         ret += 20;
     }
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         return ret;
     }
     for( auto &elem : contents ) {
@@ -3114,7 +3148,7 @@ int item::burst_size() const
         return 0;
     }
     // No burst fire for gunmods right now.
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         return 1;
     }
     int ret = type->gun->burst;
@@ -3135,7 +3169,7 @@ int item::recoil( bool with_ammo ) const
         return 0;
     }
     // Just use the raw ammo recoil for now.
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         const item *gunmod = active_gunmod();
         if( gunmod && gunmod->has_curammo() ) {
             return gunmod->get_curammo()->recoil;
@@ -3163,7 +3197,7 @@ int item::range( player *p ) const
     }
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
-    if( mode == "MODE_AUX" ) {
+    if( is_in_auxiliary_mode() ) {
         const item *gunmod = active_gunmod();
         int mod_range = 0;
         if( gunmod ) {

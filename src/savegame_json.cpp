@@ -986,7 +986,10 @@ void item::deserialize(JsonObject &data)
 
     data.read( "bday", bday );
 
-    data.read( "mode", mode );
+    std::string mode;
+    if( data.read( "mode", mode ) ) {
+        set_gun_mode( mode );
+    }
     data.read( "mission_id", mission_id );
     data.read( "player_id", player_id );
 
@@ -1113,9 +1116,6 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( has_curammo() ) {
         json.member( "curammo", get_curammo_id() );
-    }
-    if ( mode != "NULL" ) {
-        json.member( "mode", mode );
     }
     if ( active == true ) {
         json.member( "active", true );

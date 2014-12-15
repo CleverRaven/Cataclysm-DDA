@@ -11456,7 +11456,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
     draw_ter(); // Recenter our view
 
-    if (u.weapon.mode == "MODE_BURST") {
+    if (u.weapon.get_gun_mode() == "MODE_BURST") {
         burst = true;
     }
 
@@ -12267,7 +12267,7 @@ void game::unload(item &it)
         std::vector<item> new_contents; // In case we put stuff back
         while (!it.contents.empty()) {
             item content = it.contents[0];
-            if (content.is_gunmod() && content.mode == "MODE_AUX") {
+            if (content.is_gunmod() && content.is_in_auxiliary_mode()) {
                 it.next_mode();
             }
             if (content.made_of(LIQUID)) {
