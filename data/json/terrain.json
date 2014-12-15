@@ -4417,7 +4417,7 @@
                 { "item": "scrap", "amount": 16, "minamount": 4},
                 { "item": "steel_chunk", "amount": 6, "minamount": 1},
                 { "item": "plut_cell", "amount": 3, "minamount": 0},
-                { "item": "lead", "amount": 8, "minamount": 4}
+                { "item": "lead", "amount": 18, "minamount": 12}
             ]
         },
         "deconstruct": {
