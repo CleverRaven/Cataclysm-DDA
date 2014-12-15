@@ -2573,9 +2573,13 @@
       [ "water", 1 ]
     ],
     [
-      [ "plant_sac", 2 ],
-      [ "veggy", 4 ]
+      [ "plant_sac", 10 ],
+      [ "veggy", 6 ]
     ]
+    [
+      [ "lye", 5 ],
+    ]
+
   ]
 }
 
