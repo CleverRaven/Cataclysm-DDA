@@ -124,80 +124,82 @@ vehicle* map::veh_at(const int x, const int y)
 
 void map::reset_vehicle_cache()
 {
- clear_vehicle_cache();
- // Cache all vehicles
- veh_in_active_range = false;
- for( const auto &elem : vehicle_list ) {
-     update_vehicle_cache( elem, true );
- }
+    clear_vehicle_cache();
+    // Cache all vehicles
+    veh_in_active_range = false;
+    for( const auto & elem : vehicle_list ) {
+        update_vehicle_cache( elem, true );
+    }
 }
 
-void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
+void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
 {
- veh_in_active_range = true;
- if(!brand_new){
- // Existing must be cleared
-  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it =
-             veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
-  while( it != end ) {
-   if( it->second.first == veh ) {
-    int x = it->first.first;
-    int y = it->first.second;
-    if ((x > 0) && (y > 0) &&
-         x < SEEX*MAPSIZE &&
-         y < SEEY*MAPSIZE){
-     veh_exists_at[x][y] = false;
+    veh_in_active_range = true;
+    if( !brand_new ) {
+        // Existing must be cleared
+        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::iterator it =
+            veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
+        while( it != end ) {
+            if( it->second.first == veh ) {
+                int x = it->first.first;
+                int y = it->first.second;
+                if( ( x > 0 ) && ( y > 0 ) &&
+                    x < SEEX * MAPSIZE &&
+                    y < SEEY * MAPSIZE ) {
+                    veh_exists_at[x][y] = false;
+                }
+                tmp = it;
+                ++it;
+                veh_cached_parts.erase( tmp );
+            } else {
+                ++it;
+            }
+        }
     }
-    tmp = it;
-    ++it;
-    veh_cached_parts.erase( tmp );
-   }else
-    ++it;
-  }
- }
- // Get parts
- std::vector<vehicle_part> & parts = veh->parts;
- const int gx = veh->global_x();
- const int gy = veh->global_y();
- int partid = 0;
- for( std::vector<vehicle_part>::iterator it = parts.begin(),
-   end = parts.end(); it != end; ++it, ++partid ) {
-  if (it->removed) {
-      continue;
-  }
-  const int px = gx + it->precalc_dx[0];
-  const int py = gy + it->precalc_dy[0];
-  veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
-                                        std::make_pair(veh,partid) ));
-  if ((px > 0) && (py > 0) &&
-       px < SEEX*MAPSIZE &&
-       py < SEEY*MAPSIZE){
-   veh_exists_at[px][py] = true;
-  }
- }
+    // Get parts
+    std::vector<vehicle_part> &parts = veh->parts;
+    const int gx = veh->global_x();
+    const int gy = veh->global_y();
+    int partid = 0;
+    for( std::vector<vehicle_part>::iterator it = parts.begin(),
+         end = parts.end(); it != end; ++it, ++partid ) {
+        if( it->removed ) {
+            continue;
+        }
+        const int px = gx + it->precalc_dx[0];
+        const int py = gy + it->precalc_dy[0];
+        veh_cached_parts.insert( std::make_pair( std::make_pair( px, py ),
+                                 std::make_pair( veh, partid ) ) );
+        if( ( px > 0 ) && ( py > 0 ) &&
+            px < SEEX * MAPSIZE &&
+            py < SEEY * MAPSIZE ) {
+            veh_exists_at[px][py] = true;
+        }
+    }
 }
 
 void map::clear_vehicle_cache()
 {
- std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator part;
- while( veh_cached_parts.size() ) {
-  part = veh_cached_parts.begin();
-  int x = part->first.first;
-  int y = part->first.second;
-  if ((x > 0) && (y > 0) &&
-       x < SEEX*MAPSIZE &&
-       y < SEEY*MAPSIZE){
-   veh_exists_at[x][y] = false;
-  }
-  veh_cached_parts.erase(part);
- }
+    std::map< std::pair<int, int>, std::pair<vehicle *, int> >::iterator part;
+    while( veh_cached_parts.size() ) {
+        part = veh_cached_parts.begin();
+        int x = part->first.first;
+        int y = part->first.second;
+        if( ( x > 0 ) && ( y > 0 ) &&
+            x < SEEX * MAPSIZE &&
+            y < SEEY * MAPSIZE ) {
+            veh_exists_at[x][y] = false;
+        }
+        veh_cached_parts.erase( part );
+    }
 }
 
-void map::update_vehicle_list(submap *const to) {
- // Update vehicle data
-    for( auto &elem : to->vehicles ) {
+void map::update_vehicle_list( submap *const to )
+{
+    // Update vehicle data
+    for( auto & elem : to->vehicles ) {
         vehicle_list.insert( elem );
- }
+    }
 }
 
 void map::board_vehicle(int x, int y, player *p)
