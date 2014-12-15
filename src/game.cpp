@@ -12251,68 +12251,54 @@ void game::unload(item &it)
         }
         return;
     }
+    if( it.is_gun() && !it.contents.empty() ) {
+        // TODO: same as above: item::contents is shared with containers
+        // Try unloading the active gunmod first as this is the most likely what the player wants.
+        item *active_gunmod = it.active_gunmod();
+        if( active_gunmod != nullptr && active_gunmod->charges > 0 ) {
+            unload( *active_gunmod );
+            return;
+        }
+        // Try to unload all the other gunmods.
+        for( auto &gunmod : it.contents ) {
+            if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
+                unload( gunmod );
+                return;
+            } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
+                // TODO: ^^ this shall be a flag.
+                unload( gunmod );
+                return;
+            }
+        }
+        // If neither the mods nor the gun itself are loaded, try to remove the mods instead.
+        if( it.charges <= 0 ) {
+            while( !it.contents.empty() ) {
+                u.remove_gunmod( &it, 0 );
+            }
+            return;
+        }
+    }
 
     if( it.is_null() ) {
         add_msg(m_info, _("You're not wielding anything."));
         return;
     }
-    if (!it.is_gun() && it.contents.empty() && (!it.is_tool() || it.ammo_type() == "NULL")) {
+    // At this point, the contents have been handled, and the item itself must be unloaded.
+    if( !it.is_gun() &&
+        !it.is_auxiliary_gunmod() &&
+        !( it.typeId() == "spare_mag" ) &&
+        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
         add_msg(m_info, _("You can't unload a %s!"), it.tname().c_str());
         return;
     }
-    int spare_mag = -1;
-    int has_m203 = -1;
-    int has_40mml = -1;
-    int has_shotgun = -1;
-    int has_shotgun2 = -1;
-    int has_shotgun3 = -1;
-    int has_auxflamer = -1;
-    int has_rail_xbow = -1;
-    if (it.is_gun()) {
-        spare_mag = it.has_gunmod("spare_mag");
-        has_m203 = it.has_gunmod("m203");
-        has_40mml = it.has_gunmod("pipe_launcher40mm");
-        has_shotgun = it.has_gunmod("u_shotgun");
-        has_shotgun2 = it.has_gunmod("masterkey");
-        has_shotgun3 = it.has_gunmod("rm121aux");
-        has_auxflamer = it.has_gunmod("aux_flamer");
-        has_rail_xbow = it.has_gunmod("gun_crossbow");
-    }
-    if( ( it.charges == 0 &&
-         (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
-         (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
-         (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
-         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
-         (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
-         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
-         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) &&
-         (has_rail_xbow == -1 || it.contents[has_rail_xbow].charges <= 0) )) {
-        if (it.contents.empty()) {
-            if (it.is_gun()) {
-                add_msg(m_info, _("Your %s isn't loaded, and is not modified."),
-                        it.tname().c_str());
-            } else {
-                add_msg(m_info, _("Your %s isn't charged."), it.tname().c_str());
-            }
-            return;
+    if( it.charges <= 0 ) {
+        if( it.is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), it.tname().c_str() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), it.tname().c_str() );
         }
-        // Unloading a container!
-        u.moves -= 40 * it.contents.size();
-        std::vector<item> new_contents; // In case we put stuff back
-        while (!it.contents.empty()) {
-            item content = it.contents[0];
-            if (content.is_gunmod() && content.is_in_auxiliary_mode()) {
-                it.next_mode();
-            }
-            if( !add_or_drop_with_msg( u, content ) ) {
-                new_contents.push_back(content);// Put it back in (we canceled)
-            }
-            it.contents.erase(it.contents.begin());
-        }
-        it.contents = new_contents;
         return;
     }
-
     if (it.has_flag("NO_UNLOAD")) {
         if (it.has_flag("RECHARGE")) {
             add_msg(m_info, _("You can't unload a rechargeable %s!"), it.tname().c_str());
@@ -12322,50 +12308,8 @@ void game::unload(item &it)
         return;
     }
 
-    // Unloading a gun or tool!
     u.moves -= int(it.reload_time(u) / 2);
-
-    // Default to unloading the gun, but then try other alternatives.
     item *weapon = &it;
-    if (weapon->is_gun()) { // Gun ammo is combined with existing items
-        // If there's an active gunmod, unload it first.
-        item *active_gunmod = weapon->active_gunmod();
-        if (active_gunmod != NULL && active_gunmod->charges > 0) {
-            weapon = active_gunmod;
-        }
-        // Then try and unload a spare magazine if there is one.
-        else if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0) {
-            weapon = &weapon->contents[spare_mag];
-        }
-        // Then try the grenade launcher
-        else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0) {
-            weapon = &weapon->contents[has_m203];
-        }
-        // Then try the pipe 40mm launcher
-        else if (has_40mml != -1 && weapon->contents[has_40mml].charges > 0) {
-            weapon = &weapon->contents[has_40mml];
-        }
-        // Then try an underslung shotgun
-        else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0) {
-            weapon = &weapon->contents[has_shotgun];
-        }
-        // Then try a masterkey shotgun
-        else if (has_shotgun2 != -1 && weapon->contents[has_shotgun2].charges > 0) {
-            weapon = &weapon->contents[has_shotgun2];
-        }
-        // Then try a Rivtech shotgun
-        else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0) {
-            weapon = &weapon->contents[has_shotgun3];
-        }
-        // Then try an auxiliary flamethrower
-        else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0) {
-            weapon = &weapon->contents[has_auxflamer];
-        }
-        // Then try a rail-mounted crossbow.
-        else if (has_rail_xbow != -1 && weapon->contents[has_rail_xbow].charges > 0) {
-            weapon = &weapon->contents[has_rail_xbow];
-        }
-    }
 
     item newam;
 
