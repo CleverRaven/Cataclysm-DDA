@@ -4519,7 +4519,7 @@
         "deconstruct": {
             "ter_set": "t_concrete",
             "items": [
-                { "item": "pipe", "amount": 12, "minamount": 8 },
+                { "item": "frame", "amount": 8, "minamount": 6 },
                 { "item": "steel_lump", "amount": 2, "minamount": 1 },
                 { "item": "steel_chunk", "amount": 6, "minamount": 1 },
                 { "item": "scrap", "amount": 8, "minamount": 4 }
