@@ -3052,17 +3052,18 @@ static void apply_in_fridge(item &it)
     }
 }
 
-static bool process_item( std::vector<item> &items, size_t n, point location, bool activate )
+template <typename Iterator>
+static bool process_item( item_stack &items, Iterator &n, point location, bool activate )
 {
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
-    item temp_item = items[n];
-    items.erase( items.begin() + n );
+    item temp_item = *n;
+    // Wacky hijinks required to erase with a reverse iterator.
+    ++n;
+    items.erase( n.base() );
     if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again, but make sure
-        // we don't insert far behind the end of the vector
-        n = std::min( items.size(), n );
-        items.insert( items.begin() + n, temp_item );
+        // Not destroyed, must be inserted again.
+        items.push_back( temp_item );
         // Other note: the address of the items vector is
         // not affected by any explosion, but they could reduce
         // the amount of items in it.
@@ -3071,85 +3072,78 @@ static bool process_item( std::vector<item> &items, size_t n, point location, bo
     return true;
 }
 
-void map::process_active_items()
+static bool process_map_items( item_stack &items, std::vector<item>::reverse_iterator &n, point location,
+                               std::string )
 {
-    process_items(
-        true,
-        [] ( std::vector<item> &items, size_t n, point location, vehicle *cur_veh, int part ) {
-            if( cur_veh ) {
-                const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
-                item &it = items[n];
-                if( fridge_here ) {
-                    apply_in_fridge(it);
-                }
-                if( cur_veh->recharger_on && it.has_flag("RECHARGE") &&
-                    cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
-                    int full_charge = dynamic_cast<it_tool*>(it.type)->max_charges;
-                    if (it.has_flag("DOUBLE_AMMO")) {
-                        full_charge = full_charge * 2;
-                    }
-                    if (it.is_tool() && full_charge > it.charges ) {
-                        if (one_in(10)) {
-                            it.charges++;
-                        }
-                    }
-                }
-            }
-            if( !items[n].needs_processing() ) {
-                return false;
-            }
-            return process_item( items, n, location, false );
-        } );
+    if( !n->needs_processing() ) {
+        ++n;
+        return false;
+    }
+    return process_item( items, n, location, false );
 }
 
-template<typename T>
-void map::process_items( bool active, T processor )
+static bool process_vehicle_items( item_stack &items, std::vector<item>::reverse_iterator &n, point location,
+                                   vehicle *cur_veh, int part, std::string signal )
+{
+    const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+    if( fridge_here ) {
+        apply_in_fridge(*n);
+    }
+    if( cur_veh->recharger_on && n->has_flag("RECHARGE") &&
+        cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
+        int full_charge = dynamic_cast<it_tool*>(n->type)->max_charges;
+        if (n->has_flag("DOUBLE_AMMO")) {
+            full_charge = full_charge * 2;
+        }
+        if (n->is_tool() && full_charge > n->charges ) {
+            if (one_in(10)) {
+                n->charges++;
+            }
+        }
+    }
+    return process_map_items( items, n, location, signal );
+}
+
+void map::process_active_items()
+{
+    process_items( true, process_vehicle_items, process_map_items, "" );
+}
+
+template<typename T, typename U>
+void map::process_items( bool active, T veh_processor, U map_processor, std::string signal )
 {
     for( int gx = 0; gx < my_MAPSIZE; gx++ ) {
         for( int gy = 0; gy < my_MAPSIZE; gy++ ) {
             submap *const current_submap = get_submap_at_grid(gx, gy);
             // Vehicles first in case they get blown up and drop active items on the map.
             if( !current_submap->vehicles.empty() ) {
-                process_items_in_vehicles(current_submap, processor);
+                process_items_in_vehicles(current_submap, veh_processor, signal);
             }
             if( !active || current_submap->active_item_count > 0) {
-                process_items_in_submap(current_submap, gx, gy, processor);
+                process_items_in_submap(current_submap, gx, gy, map_processor, signal);
             }
         }
     }
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor )
+void map::process_items_in_submap( submap *const, int gridx, int gridy, T processor,
+                                   std::string signal )
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
             point location( gridx * SEEX + i, gridy * SEEY + j );
-            std::vector<item> &items = current_submap->itm[i][j];
-            //Do a count-down loop, as some items may be removed
-            for (size_t n = 0; n < items.size(); n++) {
-                bool previously_active = items[n].active;
-                if( processor( items, n, location, nullptr, 0 ) ) {
-                    // Item is destroyed, don't reinsert it.
-                    // Note: this might lead to items not being processed:
-                    // vector: 10 glass items, mininuke, mininuke
-                    // the first nuke explodes, destroys some of the glass items
-                    // now the index of the second nuke is not 11, but less, but
-                    // one can not know which it is now.
-                    current_submap->active_item_count -= previously_active;
-                    n--;
-                } else if( previously_active && !items[n].active ) {
-                    current_submap->active_item_count--;
-                } else if( !previously_active && items[n].active ) {
-                    current_submap->active_item_count++;
-                }
+            auto items = i_at( location.x, location.y );
+            for( auto n = items.rbegin(); n != items.rend(); ) {
+                // Processor increments the iterator as needed.
+                processor( items, n, location, signal );
             }
         }
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicles( submap *const current_submap, T processor )
+void map::process_items_in_vehicles( submap *const current_submap, T processor, std::string signal )
 {
     std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
@@ -3164,12 +3158,13 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor )
             // Can't be sure that it still exists, so skip it
             continue;
         }
-        process_items_in_vehicle(cur_veh, current_submap, processor);
+        process_items_in_vehicle( cur_veh, current_submap, processor, signal );
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_submap, T processor)
+void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor,
+                                    std::string signal )
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
@@ -3181,14 +3176,13 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
         const int vp_type = vp.iid;
         const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
                                    cur_veh->global_y() + vp.precalc_dy[0] );
-        std::vector<item> *items_in_part = &vp.items;
-        for( size_t n = 0; n < items_in_part->size(); n++ ) {
-            if( !processor( *items_in_part, n, item_location, cur_veh, part ) ) {
+        auto items = cur_veh->get_items( part );
+        for( auto n = items.rbegin(); n != items.rend(); ) {
+            if( !processor( items, n, item_location, cur_veh, part, signal ) ) {
                 // If the item was NOT destroyed, we can skip the remainder,
                 // which handles fallout from the vehicle being damaged.
                 continue;
             }
-            n--; // to process the correct next item.
             // item does not exist anymore, might have been an exploding bomb,
             // check if the vehicle is still valid (does exist)
             std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
@@ -3209,7 +3203,7 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
                     // Found it, this is the vehicle part we are currently iterating overall
                     // update the item vector (if the part index changed,
                     // the address of the item vector changed, too.
-                    items_in_part = &vp.items;
+                    items = cur_veh->get_items( cargo_parts[part_index] );
                     break;
                 }
             }
@@ -3534,24 +3528,25 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( std::string signal, std::vector<item> &items, int n, point pos )
+static bool trigger_radio_item( item_stack &items, std::vector<item>::reverse_iterator &n, point pos,
+                                std::string signal )
 {
     bool trigger_item = false;
-    if( items[n].has_flag("RADIO_ACTIVATION") && items[n].has_flag(signal) ) {
+    if( n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
         g->sound(pos.x, pos.y, 6, "beep.");
-        if( items[n].has_flag("BOMB") ) {
+        if( n->has_flag("BOMB") ) {
             // Set charges to 0 to ensure it detonates.
-            items[n].charges = 0;
+            n->charges = 0;
         }
         trigger_item = true;
-    } else if( items[n].has_flag("RADIO_CONTAINER") && !items[n].contents.empty() &&
-               items[n].contents[0].has_flag( signal ) ) {
+    } else if( n->has_flag("RADIO_CONTAINER") && !n->contents.empty() &&
+               n->contents[0].has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = items[n].contents[0].type->id;
+        itype_id bomb_type = n->contents[0].type->id;
 
-        items[n].make(bomb_type);
-        items[n].charges = 0;
+        n->make(bomb_type);
+        n->charges = 0;
         trigger_item = true;
     }
     if( trigger_item ) {
@@ -3560,13 +3555,15 @@ static bool trigger_radio_item( std::string signal, std::vector<item> &items, in
     return false;
 }
 
+static bool trigger_radio_item_veh( item_stack &items, std::vector<item>::reverse_iterator &n, point pos,
+                                    vehicle *, int, std::string signal )
+{
+    return trigger_radio_item( items, n, pos, signal );
+}
+
 void map::trigger_rc_items( std::string signal )
 {
-    process_items(
-        false,
-        [&] ( std::vector<item> &items, size_t n, point pos, vehicle *, int ) {
-            return trigger_radio_item( signal, items, n, pos );
-        } );
+    process_items( false, trigger_radio_item_veh, trigger_radio_item, signal );
 }
 
 std::string map::trap_get(const int x, const int y) const {

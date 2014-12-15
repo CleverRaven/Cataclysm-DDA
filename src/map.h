@@ -845,14 +845,16 @@ private:
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
 
  // Iterates over every item on the map, passing each item to the provided function.
+ template<typename T, typename U>
+     void process_items( bool active, T veh_processor, U map_processor, std::string signal );
  template<typename T>
- void process_items( bool active, T processor );
+     void process_items_in_submap( submap *const current_submap, int gridx, int gridy,
+                                   T processor, std::string signal );
  template<typename T>
- void process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor );
+     void process_items_in_vehicles( submap *const current_submap, T processor, std::string signal);
  template<typename T>
- void process_items_in_vehicles( submap *const current_submap, T processor);
- template<typename T>
- void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
+     void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap,
+                                    T processor, std::string signal );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
