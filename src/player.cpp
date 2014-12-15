@@ -10827,39 +10827,26 @@ hint_rating player::rate_action_reload(item *it) {
     return HINT_CANT;
 }
 
-hint_rating player::rate_action_unload( item *it )
+hint_rating player::rate_action_unload( const item &it ) const
 {
-    if( !it->is_gun() && !it->is_container() && ( !it->is_tool() || it->ammo_type() == "NULL" ) ) {
+    if( ( it.is_container() || it.is_gun() ) && !it.contents.empty() ) {
+        return HINT_GOOD;
+    }
+    if( !it.is_gun() &&
+        !it.is_auxiliary_gunmod() &&
+        !( it.typeId() == "spare_mag" ) &&
+        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
         return HINT_CANT;
     }
-    int spare_mag = -1;
-    int has_m203 = -1;
-    int has_40mml = -1;
-    int has_shotgun = -1;
-    int has_shotgun2 = -1;
-    int has_shotgun3 = -1;
-    int has_auxflamer = -1;
-    if( it->is_gun() ) {
-        spare_mag = it->has_gunmod( "spare_mag" );
-        has_m203 = it->has_gunmod( "m203" );
-        has_40mml = it->has_gunmod( "pipe_launcher40mm" );
-        has_shotgun = it->has_gunmod( "u_shotgun" );
-        has_shotgun2 = it->has_gunmod( "masterkey" );
-        has_shotgun3 = it->has_gunmod( "rm121aux" );
-        has_auxflamer = it->has_gunmod( "aux_flamer" );
-    }
-    if( it->is_container() ||
-        ( it->charges == 0 &&
-          ( spare_mag == -1 || it->contents[spare_mag].charges <= 0 ) &&
-          ( has_m203 == -1 || it->contents[has_m203].charges <= 0 ) &&
-          ( has_40mml == -1 || it->contents[has_40mml].charges <= 0 ) &&
-          ( has_shotgun == -1 || it->contents[has_shotgun].charges <= 0 ) &&
-          ( has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0 ) &&
-          ( has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0 ) &&
-          ( has_auxflamer == -1 || it->contents[has_auxflamer].charges <= 0 ) ) ) {
-        if( it->contents.empty() ) {
-            return HINT_IFFY;
+    for( auto &gunmod : it.contents ) {
+        if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
+            return HINT_GOOD;
+        } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
+            return HINT_GOOD;
         }
+    }
+    if( it.charges <= 0 ) {
+        return HINT_CANT;
     }
     return HINT_GOOD;
 }

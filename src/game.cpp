@@ -2678,7 +2678,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         if (length > max_text_length) {
             max_text_length = length;
         }
-        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )));
         length = utf8_width(_("<r>eload"));
         if (length > max_text_length) {
             max_text_length = length;
@@ -12237,6 +12237,7 @@ bool add_or_drop_with_msg( player &u, item &it )
 
 void game::unload(item &it)
 {
+    // NOTE: changes here should also be applied to player::rate_action_unload to make the UI consistent
     if( it.is_container() && !it.contents.empty() ) {
         // TODO (or not): containers and guns use item::contents to store different things:
         // the gunmods / the container contents.
