@@ -2346,11 +2346,11 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],
-        "techniques" : ["RAPID", "IMPALE", "WIDE", "NON_STUCK"],
+        "techniques" : ["RAPID", "IMPALE", "WIDE"],
         "volume" : 9,
         "bashing" : 2,
         "cutting" : 24,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "NON_STUCK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },
