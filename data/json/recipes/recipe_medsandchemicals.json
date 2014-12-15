@@ -2549,5 +2549,36 @@
       [ "inhaler", 100 ]
     ]
   ]
+},
+{
+        "type" : "recipe",
+  "result": "gasoline",
+  "byproducts": ["diesel", "lamp_oil"],
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
+  "tools": [
+    [
+      [ "chemistry_set", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "plant_sac", 10 ],
+      [ "veggy", 6 ]
+    ],
+    [
+      [ "lye_powder", 5 ]
+    ]
+  ]
 }
 ]
