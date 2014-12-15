@@ -6426,8 +6426,8 @@
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
                 { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 23,23 ]},
-                { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 0,0 ]},
-                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 0,0 ]}
+                { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 23,23 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 23,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -9250,8 +9250,8 @@
                 { "item": "fridge", "chance": 70, "x": [ 6,6 ], "y": [ 15,15 ]},
                 { "item": "kitchen", "chance": 80, "x": [ 4,5 ], "y": [ 15,19 ]},
                 { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 3,4 ]},
-                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,11 ]},
-                { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 14,15 ]},
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 3,4 ]},
+                { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 10,11 ]},
                 { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,11 ]}
             ],
             "terrain": {
