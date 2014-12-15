@@ -311,10 +311,13 @@ struct islot_gun : public common_ranged_data {
 struct islot_gunmod : public common_ranged_data {
     // Used by gunmods with a firing mode,
     // this should be supported by assigning a gun itype to the item as well.
+private:
+    friend class Item_factory;
     /**
      * TODO: document me
      */
     int mod_dispersion;
+public:
     /**
      * TODO: document me
      */

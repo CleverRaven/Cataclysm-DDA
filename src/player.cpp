@@ -11026,6 +11026,9 @@ can install this mod."), mod->req_skill);
         } else if (!gun->is_gun()) {
             add_msg(m_info, _("That %s is not a weapon."), gun->tname().c_str());
             return;
+        } else if( gun->is_gunmod() ) {
+            add_msg(m_info, _("That %s is a gunmod, it can not be modded."), gun->tname().c_str());
+            return;
         }
         islot_gun* guntype = gun->type->gun.get();
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {

@@ -812,6 +812,31 @@ void Item_factory::load_gunmod(JsonObject &jo)
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->gunmod, jo );
+    // Temporarily hack: if the mod is an auxiliary gunmode add the proper data of a "real"
+    // gun in the gun slot. This makes the firing code easier.
+    if( new_item_template->item_tags.count( "MODE_AUX" ) ) {
+        new_item_template->gun.reset( new islot_gun() );
+        auto &gun = *new_item_template->gun;
+        auto &mod = *new_item_template->gunmod;
+        // copy the common data first, then swap gun specific things in, clearing the mods data
+        // at the same time (the data must only appear in either the gun slot *or* the mod slot.
+        static_cast<common_ranged_data&>( gun ) = static_cast<common_ranged_data &>( mod );
+        std::swap( gun.ammo, mod.newtype );
+        std::swap( gun.skill_used, mod.skill_used );
+        std::swap( gun.sight_dispersion, mod.sight_dispersion );
+        std::swap( gun.aim_speed, mod.aim_speed );
+        gun.durability = 9; // or whatever
+        std::swap( gun.burst, mod.burst );
+        std::swap( gun.clip, mod.clip );
+        gun.reload_time = 1; // or whatever
+        // gun.ammo_effects = ;
+        // gun.valid_mod_locations stays empty, mods can not be modded further
+        gun.ups_charges = 0; // or whatever
+        // This is not swapped because mod::dispersion is the dispersion added by the mod, but
+        // mod::mod_dispersion is the standalone dispersion.
+        gun.dispersion = mod.mod_dispersion;
+        new_item_template->item_tags.erase( "MODE_AUX" );
+    }
     load_basic_info( jo, new_item_template );
 }
 

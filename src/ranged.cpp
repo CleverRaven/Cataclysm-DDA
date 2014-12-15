@@ -12,7 +12,7 @@
 #include "messages.h"
 
 int time_to_fire(player &p, const itype &firing);
-int recoil_add(player &p);
+int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 
@@ -310,7 +310,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         used_weapon = &weapon;
     }
 
-    if (!used_weapon->is_gun() && !used_weapon->is_gunmod()) {
+    if( !used_weapon->is_gun() ) {
         debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
                  used_weapon->tname().c_str());
         return;
@@ -339,8 +339,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
                   proj.proj_effects.count("RECOVER_25") );
 
     //int x = xpos(), y = ypos();
-    // Have to use the gun, gunmods don't have a type
-    const itype *firing = weapon.type;
     if (has_trait("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
     }
@@ -349,7 +347,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire(*this, *firing);
+    moves -= time_to_fire(*this, *used_weapon->type);
 
     // Decide how many shots to fire
     long num_shots = 1;
@@ -368,10 +366,10 @@ void player::fire_gun(int tarx, int tary, bool burst)
     int ups_drain = 0;
     int adv_ups_drain = 0;
     int bio_power_drain = 0;
-    if( firing->gun->ups_charges > 0 ) {
-        ups_drain = firing->gun->ups_charges;
-        adv_ups_drain = std::min( 1, firing->gun->ups_charges * 3 / 5 );
-        bio_power_drain = std::min( 1, firing->gun->ups_charges / 5 );
+    if( used_weapon->type->gun->ups_charges > 0 ) {
+        ups_drain = used_weapon->type->gun->ups_charges;
+        adv_ups_drain = std::min( 1, ups_drain * 3 / 5 );
+        bio_power_drain = std::min( 1, ups_drain / 5 );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -514,7 +512,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
             charge_power(-1 * bio_power_drain);
         }
 
-        if( !handle_gun_damage( *firing, curammo_effects ) ) {
+        if( !handle_gun_damage( *used_weapon->type, curammo_effects ) ) {
             return;
         }
 
@@ -524,22 +522,24 @@ void player::fire_gun(int tarx, int tary, bool burst)
         //debugmsg("%f",total_dispersion);
         int range = rl_dist(xpos(), ypos(), tarx, tary);
         // penalties for point-blank
-        if (range < int(firing->volume / 3) && firing->gun->ammo != "shot") {
-            total_dispersion *= double(firing->volume / 3) / double(range);
+        // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
+        if (range < int(weapon.type->volume / 3) && curammo->type != "shot") {
+            total_dispersion *= double(weapon.type->volume / 3) / double(range);
         }
 
         // rifle has less range penalty past LONG_RANGE
-        if (firing->gun->skill_used == Skill::skill("rifle") && range > LONG_RANGE) {
+        if (skill_used == Skill::skill("rifle") && range > LONG_RANGE) {
             total_dispersion *= 1 - 0.4 * double(range - LONG_RANGE) / double(range);
         }
 
         if (curshot > 0) {
-            if (recoil_add(*this) % 2 == 1) {
+            // TODO: or should use the recoil of the whole gun, not just the auxiliary gunmod?
+            if (recoil_add(*this, *used_weapon) % 2 == 1) {
                 recoil++;
             }
-            recoil += recoil_add(*this) / 2;
+            recoil += recoil_add(*this, *used_weapon) / 2;
         } else {
-            recoil += recoil_add(*this);
+            recoil += recoil_add(*this, *used_weapon);
         }
 
         int mtarx = tarx;
@@ -1467,13 +1467,11 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     return dispersion;
 }
 
-int recoil_add(player &p)
+int recoil_add(player &p, const item &gun)
 {
-    // Gunmods don't have atype,so use guns.
-    // item::recoil() doesn't suport gunmods, so call it on player gun.
-    int ret = p.weapon.recoil();
+    int ret = gun.recoil();
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
-    ret -= rng(0, p.get_skill_level(p.weapon.type->gun->skill_used) * 7);
+    ret -= rng(0, p.get_skill_level(gun.skill()) * 7);
     if (ret > 0) {
         return ret;
     }

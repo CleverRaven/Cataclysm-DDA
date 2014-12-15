@@ -81,7 +81,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
         }
     }
     if( type->gunmod ) {
-        if( type->id == "spare_mag" || is_auxiliary_gunmod() ) {
+        if( type->id == "spare_mag" ) {
             charges = 0;
         }
     }
@@ -683,11 +683,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));
-        }
-        if (mod->mod_dispersion != 0) {
-            dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
-                                     mod->mod_dispersion, true,
-                                     ((mod->mod_dispersion > 0) ? "+" : "")));
         }
         if (mod->sight_dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Sight dispersion: "), "",
@@ -2104,8 +2099,7 @@ void item::calc_rot(const point &location)
 
 bool item::is_auxiliary_gunmod() const
 {
-    // TODO: switch to: is_gun && is_gunmod
-    return type->gunmod && has_flag( "MODE_AUX" );
+    return type->gunmod && type->gun;
 }
 
 int item::get_storage() const
@@ -2911,7 +2905,7 @@ std::string item::get_gun_mode() const
 void item::set_gun_mode( const std::string &mode )
 {
     // a gun mode only makes sense on things that can fire, all other items are ignored!
-    if( !is_gun() && !is_auxiliary_gunmod() ) {
+    if( !is_gun() ) {
         return;
     }
     if( mode.empty() || mode == "NULL" ) {
@@ -2972,9 +2966,6 @@ std::string item::skill() const
 
 int item::clip_size() const
 {
-    if( is_auxiliary_gunmod() ) {
-        return type->gunmod->clip;
-    }
     if (!is_gun())
         return 0;
 
@@ -2988,11 +2979,8 @@ int item::clip_size() const
     return ret;
 }
 
-int item::dispersion() const
+int item::dispersion( bool with_ammo ) const
 {
-    if( is_gunmod() ) {
-        return type->gunmod->mod_dispersion;
-    }
     if( !is_gun() ) {
         return 0;
     }
@@ -3001,6 +2989,9 @@ int item::dispersion() const
         if( elem.is_gunmod() ) {
             dispersion_sum += elem.type->gunmod->dispersion;
         }
+    }
+    if( with_ammo && has_curammo() ) {
+        dispersion_sum += get_curammo()->dispersion;
     }
     dispersion_sum += damage * 60;
     if( dispersion_sum < 0 ) {
@@ -3066,22 +3057,10 @@ int item::aim_speed( int aim_threshold ) const
 
 int item::gun_damage( bool with_ammo ) const
 {
-    if( is_gunmod() && is_in_auxiliary_mode() ) {
-        return has_curammo() ? get_curammo()->damage : 0;
-    }
     if( !is_gun() ) {
         return 0;
     }
-    if( is_in_auxiliary_mode() ) {
-        const item *gunmod = active_gunmod();
-        if( gunmod != NULL && gunmod->has_curammo() ) {
-            return gunmod->get_curammo()->damage;
-        } else {
-            return 0;
-        }
-    }
-    const auto gun = type->gun.get();
-    int ret = gun->damage;
+    int ret = type->gun->damage;
     if( with_ammo && has_curammo() ) {
         ret += get_curammo()->damage;
     }
@@ -3096,24 +3075,19 @@ int item::gun_damage( bool with_ammo ) const
 
 int item::gun_pierce( bool with_ammo ) const
 {
-    if( is_gunmod() && is_in_auxiliary_mode() ) {
-        return has_curammo() ? get_curammo()->pierce : 0;
-    }
     if( !is_gun() ) {
         return 0;
-    }
-    if( is_in_auxiliary_mode() ) {
-        const item *gunmod = active_gunmod();
-        if( gunmod != NULL && gunmod->has_curammo() ) {
-            return gunmod->get_curammo()->pierce;
-        } else {
-            return 0;
-        }
     }
     int ret = type->gun->pierce;
     if( with_ammo && has_curammo() ) {
         ret += get_curammo()->pierce;
     }
+    for( auto &elem : contents ) {
+        if( elem.is_gunmod() ) {
+            ret += elem.type->gunmod->pierce;
+        }
+    }
+    // TODO: item::damage is not used here, but it is in item::gun_damage?
     return ret;
 }
 
@@ -3171,15 +3145,6 @@ int item::recoil( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
-    }
-    // Just use the raw ammo recoil for now.
-    if( is_in_auxiliary_mode() ) {
-        const item *gunmod = active_gunmod();
-        if( gunmod && gunmod->has_curammo() ) {
-            return gunmod->get_curammo()->recoil;
-        } else {
-            return 0;
-        }
     }
     int ret = type->gun->recoil;
     if( with_ammo && has_curammo() ) {
@@ -3349,16 +3314,16 @@ int item::pick_reload_ammo(player &u, bool interactive)
                 // not a gunmod, or has no separate firing mode and can not be load
                 continue;
             }
-            const auto mod = cont.type->gunmod.get();
+            const auto mod = cont.type->gun.get();
             if (cont.charges >= mod->clip) {
                 // already fully loaded
                 continue;
             }
             if (cont.charges > 0 && cont.has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
-                tmpammo = u.has_exact_ammo( mod->newtype, cont.get_curammo_id() );
+                tmpammo = u.has_exact_ammo( mod->ammo, cont.get_curammo_id() );
             } else {
-                tmpammo = u.has_ammo( mod->newtype );
+                tmpammo = u.has_ammo( mod->ammo );
             }
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
@@ -3509,7 +3474,7 @@ bool item::reload(player &u, int pos)
                 if (&contents[i] != gunmod && (int)i != spare_mag &&
                     contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].type->gunmod->clip ||
+                    (contents[i].charges <= contents[i].type->gun->clip ||
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;

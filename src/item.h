@@ -122,15 +122,11 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- int dispersion() const;
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
- int gun_damage(bool with_ammo = true) const;
- int gun_pierce(bool with_ammo = true) const;
  int noise() const;
  int burst_size() const;
- int recoil(bool with_ammo = true) const;
  int range(player *p = NULL) const;
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
@@ -666,7 +662,9 @@ public:
         /*@}*/
 
         /**
-         * Gun and gun mod functions.
+         * Gun and gun mod functions. Anything stated to apply to guns, applies to auxiliary gunmods
+         * as well (they are some kind of gun). Non-guns are items that are neither gun nor
+         * auxiliary gunmod.
          */
         /*@{*/
         /**
@@ -695,6 +693,22 @@ public:
          * to the next mode. Otherwise, make nothing at all.
          */
         void next_mode();
+        /**
+         * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int recoil( bool with_ammo = true ) const;
+        /**
+         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_damage( bool with_ammo = true ) const;
+        /**
+         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_pierce( bool with_ammo = true ) const;
+        /**
+         * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int dispersion( bool with_ammo = true ) const;
         /*@}*/
 
         /**
