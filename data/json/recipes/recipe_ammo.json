@@ -1292,7 +1292,8 @@
 
     ],
     [
-      [ "cu_pipe", 3]
+      [ "cu_pipe", 3],
+      [ "copper", 400]
     ]
   ]
 },{
@@ -1337,7 +1338,8 @@
 
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 400 ]
     ]
   ]
 },{
@@ -1382,7 +1384,8 @@
 
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 450 ]
     ]
   ]
 },{
@@ -1511,7 +1514,8 @@
 
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 400 ]
     ]
   ]
 },{
@@ -1556,7 +1560,8 @@
 
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 400 ]
     ]
   ]
 },{
@@ -1593,7 +1598,8 @@
     ],
     [
       ["22_casing", 40 ],
-      ["cu_pipe", 2]
+      ["cu_pipe", 1],
+      [ "copper", 80 ]
     ],
     [
       [ "lead", 80 ],
@@ -1639,7 +1645,8 @@
     ],
     [
       [ "22_casing", 40 ],
-      [ "cu_pipe", 4]
+      [ "cu_pipe", 1],
+      [ "copper", 80 ]
     ],
     [
       [ "lead", 80 ],
@@ -1685,7 +1692,8 @@
     ],
     [
       [ "22_casing", 30 ],
-      [ "cu_pipe", 3]
+      [ "cu_pipe", 1],
+      [ "copper", 60 ]
     ],
     [
       [ "incendiary", 60 ]
@@ -1732,7 +1740,8 @@
       [ "solder_wire", 100 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 100 ]
     ]
   ]
 },{
@@ -1777,7 +1786,8 @@
 
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 80 ]
     ]
   ]
 },{
@@ -1825,7 +1835,8 @@
 
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 2 ],
+      [ "copper", 200 ]
     ]
   ]
  },{
@@ -1864,7 +1875,8 @@
       [ "scrap", 3 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 400 ]
     ]
 ]
   },{
@@ -1887,7 +1899,7 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1908,7 +1920,8 @@
       [ "solder_wire", 380 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 380 ]
     ]
   ]
 },{
@@ -1947,7 +1960,8 @@
       [ "incendiary", 40 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -1992,7 +2006,8 @@
 
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 120 ]
     ]
   ]
 },{
@@ -2037,7 +2052,8 @@
 
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 120 ]
     ]
   ]
 },{
@@ -2076,7 +2092,8 @@
       [ "incendiary", 60 ]
     ],
     [
-      [ "cu_pipe", 1 ]
+      [ "cu_pipe", 1 ],
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2310,7 +2327,7 @@
       [ "steel_rail", 2],
       [ "bb", 400 ],
       [ "pipe", 2 ],
-      [ "cu_pipe", 4 ],
+      [ "cu_pipe", 3 ],
       [ "copper", 400 ],
       [ "steel_chunk", 2 ],
       [ "clockworks", 4 ]
@@ -2696,7 +2713,8 @@
       [ "solder_wire", 75 ]
     ],
     [
-      [ "cu_pipe", 5]
+      [ "cu_pipe", 1],
+      [ "copper", 75 ]
     ]
   ]
 },{
@@ -3216,7 +3234,8 @@
         [ "solder_wire", 150 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "cu_pipe", 2 ],
+        [ "copper", 150 ]
       ]
     ]
   },{
@@ -3260,7 +3279,8 @@
         [ "solder_wire", 200 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "cu_pipe", 2 ],
+        [ "copper", 200 ]
       ]
     ]
    },{
@@ -3304,7 +3324,8 @@
         [ "solder_wire", 250 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "cu_pipe", 2 ],
+        [ "copper", 250 ]
       ]
     ]
   },{
@@ -3393,7 +3414,8 @@
         [ "solder_wire", 400 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "cu_pipe", 3 ],
+        [ "copper", 400 ]
       ]
     ]
   },{
@@ -3518,7 +3540,8 @@
         [ "solder_wire", 80 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "cu_pipe", 1 ],
+        [ "copper", 80 ]
       ]
     ]
   },{
@@ -3708,7 +3731,8 @@
         [ "solder_wire", 60 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "cu_pipe", 1 ],
+        [ "copper", 60 ]
       ]
     ]
   },
@@ -3837,7 +3861,8 @@
       [ "solder_wire", 420 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "cu_pipe", 3 ],
+      [ "copper", 420 ]
     ]
   ]
 },
