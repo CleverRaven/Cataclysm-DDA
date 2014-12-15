@@ -596,8 +596,8 @@ void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                           int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
 {
-    int ax = abs(ex - sx) << 1;
-    int ay = abs(ey - sy) << 1;
+    int ax = abs(ex - sx) * 2;
+    int ay = abs(ey - sy) * 2;
     int dx = (sx < ex) ? 1 : -1;
     int dy = (sy < ey) ? 1 : -1;
     int x = sx;
@@ -613,7 +613,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     int td = 0;
     // TODO: [lightmap] Pull out the common code here rather than duplication
     if (ax > ay) {
-        int t = ay - (ax >> 1);
+        int t = ay - (ax / 2);
         do {
             if(t >= 0) {
                 y += dy;
@@ -647,7 +647,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
         } while(!(x == ex && y == ey));
     } else {
-        int t = ax - (ay >> 1);
+        int t = ax - (ay / 2);
         do {
             if(t >= 0) {
                 x += dx;
