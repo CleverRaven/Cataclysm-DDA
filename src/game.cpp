@@ -5164,21 +5164,6 @@ void game::debug()
     refresh_all();
 }
 
-void game::mondebug()
-{
-    int bresenham_slope = 0;
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        critter.debug(u);
-        if (critter.has_flag(MF_SEES) &&
-            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, bresenham_slope)) {
-            debugmsg("The %s can see you.", critter.name().c_str());
-        } else {
-            debugmsg("The %s can't see you...", critter.name().c_str());
-        }
-    }
-}
-
 void game::draw_overmap()
 {
     overmap::draw_overmap();
