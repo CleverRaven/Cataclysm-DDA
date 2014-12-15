@@ -30,6 +30,8 @@ extern worldfactory *world_generator;
 static std::vector<std::string> mmenu_title;
 static std::vector<std::string> mmenu_motd;
 static std::vector<std::string> mmenu_credits;
+static std::vector<std::string> vMenuItems;
+static std::vector<std::vector<std::string>> vMenuHotkeys;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
@@ -77,22 +79,12 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
         center_print(w_open, iLine++, cColor3, _("Version: %s"), getVersionString());
     }
 
-    std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
-    vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
-    vMenuItems.push_back(pgettext("Main Menu", "Lo<a>d"));
-    vMenuItems.push_back(pgettext("Main Menu", "<W>orld"));
-    vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
-    vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
-    vMenuItems.push_back(pgettext("Main Menu", "H<e>lp"));
-    vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
-    vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
-
     int menu_length = 0;
-    for( auto menu_item : vMenuItems ) {
-        // adds width if there are shortcut symbols "<" & ">", and width + 2 otherwise.
-        menu_length += utf8_width(menu_item.c_str()) +
-            (menu_item.find_first_of("<") != std::string::npos ? 0 : 2);
+    for( size_t i = 0; i < vMenuItems.size(); ++i ) {
+        menu_length += utf8_width(vMenuItems[i].c_str(), true) + 2;
+        if (!vMenuHotkeys[i].empty()) {
+            menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
+        }
     }
     // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
     const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
@@ -160,6 +152,25 @@ void game::mmenu_refresh_credits()
     mmenu_credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 }
 
+std::vector<std::string> get_hotkeys(const std::string& s)
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of('<');
+    size_t end = s.find_first_of('>');
+    if (start != std::string::npos && end != std::string::npos) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of('|', start);
+        while (sep < end) {
+            hotkeys.push_back(s.substr(lastsep + 1, sep - lastsep - 1));
+            lastsep = sep;
+            sep = s.find_first_of('|', sep + 1);
+        }
+        hotkeys.push_back(s.substr(lastsep + 1, end - lastsep - 1));
+    }
+    return hotkeys;
+}
+
 bool game::opening_screen()
 {
     // Play title music, whoo!
@@ -194,6 +205,24 @@ bool game::opening_screen()
     int iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
+
+    // fill menu with translated menu items
+    vMenuItems.clear();
+    vMenuItems.push_back(pgettext("Main Menu", "<M|m>OTD"));
+    vMenuItems.push_back(pgettext("Main Menu", "<N|n>ew Game"));
+    vMenuItems.push_back(pgettext("Main Menu", "Lo<a|A>d"));
+    vMenuItems.push_back(pgettext("Main Menu", "<W|w>orld"));
+    vMenuItems.push_back(pgettext("Main Menu", "<S|s>pecial"));
+    vMenuItems.push_back(pgettext("Main Menu", "<O|o>ptions"));
+    vMenuItems.push_back(pgettext("Main Menu", "H<e|E|?>lp"));
+    vMenuItems.push_back(pgettext("Main Menu", "<C|c>redits"));
+    vMenuItems.push_back(pgettext("Main Menu", "<Q|q>uit"));
+
+    // determine hotkeys from (possibly translated) menu item text
+    vMenuHotkeys.clear();
+    for ( auto item : vMenuItems ) {
+        vMenuHotkeys.push_back(get_hotkeys(item));
+    }
 
     std::vector<std::string> vSubItems;
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
@@ -274,40 +303,18 @@ bool game::opening_screen()
             }
 
             std::string action = ctxt.handle_input();
-            const long chInput = ctxt.get_raw_input().get_first_input();
-            if (chInput == 'm' || chInput == 'M') {
-                // MOTD
-                sel1 = 0;
-                action = "CONFIRM";
-            } else if (chInput == 'n' || chInput == 'N') {
-                // New Game
-                sel1 = 1;
-                action = "CONFIRM";
-            } else if (chInput == 'a' || chInput == 'A') {
-                // Load Game
-                sel1 = 2;
-                action = "CONFIRM";
-            } else if (chInput == 'w' || chInput == 'W') {
-                // World
-                sel1 = 3;
-                action = "CONFIRM";
-            } else if (chInput == 's' || chInput == 'S') {
-                // Special Game
-                sel1 = 4;
-                action = "CONFIRM";
-            } else if (chInput == 'o' || chInput == 'O') {
-                // Options
-                sel1 = 5;
-                action = "CONFIRM";
-            } else if (chInput == 'e' || chInput == 'E' || chInput == '?') {
-                // Help
-                sel1 = 6;
-                action = "CONFIRM";
-            } else if (chInput == 'c' || chInput == 'C') {
-                // Credits
-                sel1 = 7;
-                action = "CONFIRM";
-            } else if (action == "QUIT") {
+            std::string sInput = ctxt.get_raw_input().text;
+            // check automatic menu shortcuts
+            for (size_t i = 0; i < vMenuHotkeys.size(); ++i) {
+                for ( auto hotkey : vMenuHotkeys[i] ) {
+                    if (sInput == hotkey) {
+                        sel1 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+            // also check special keys
+            if (action == "QUIT") {
                 // Quit
                 sel1 = 8;
                 action = "CONFIRM";
