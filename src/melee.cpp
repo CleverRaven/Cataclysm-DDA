@@ -1667,7 +1667,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             t.mod_moves(-20); //slightly quicker to pull out a knife
         }
         else if (weapon.has_flag("SPEAR")) {
-          d.add_damage(DT_CUT, rng(1,stabbing_skill); //add some extra damage for pulling out a spear
+          d.add_damage(DT_CUT, rng(1,stabbing_skill)); //add some extra damage for pulling out a spear
           t.mod_moves(-30);
         }
     }
