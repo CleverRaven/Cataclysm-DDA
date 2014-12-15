@@ -225,18 +225,25 @@ bool game::opening_screen()
     }
 
     std::vector<std::string> vSubItems;
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<C|c>ustom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<P|p>reset Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<R|r>andom Character"));
     if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N|n>ow!"));
+    }
+    std::vector<std::vector<std::string>> vNewGameHotkeys;
+    for ( auto item : vSubItems ) {
+        vNewGameHotkeys.push_back(get_hotkeys(item));
     }
 
-
     std::vector<std::string> vWorldSubItems;
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D>elete World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R>eset World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C|c>reate World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D|d>elete World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R|r>eset World"));
+    std::vector<std::vector<std::string>> vWorldHotkeys;
+    for ( auto item : vWorldSubItems ) {
+        vWorldHotkeys.push_back(get_hotkeys(item));
+    }
 
     mmenu_refresh_title();
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
@@ -359,20 +366,16 @@ bool game::opening_screen()
                 refresh();
 
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if (chInput == 'p' || chInput == 'P') {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if (chInput == 'r' || chInput == 'R') {
-                    sel2 = 2;
-                    action = "CONFIRM";
-                } else if (chInput == 'n' || chInput == 'N') {
-                    sel2 = 3;
-                    action = "CONFIRM";
-                } else if (action == "LEFT") {
+                std::string sInput = ctxt.get_raw_input().text;
+                for (size_t i = 0; i < vNewGameHotkeys.size(); ++i) {
+                    for ( auto hotkey : vNewGameHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
+                }
+                if (action == "LEFT") {
                     sel2--;
                     if (sel2 < 0) {
                         sel2 = vSubItems.size() - 1;
@@ -506,17 +509,14 @@ bool game::opening_screen()
                 wrefresh(w_open);
                 refresh();
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if ((chInput == 'd' || chInput == 'D') && (world_subs_to_display > 1)) {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if ((chInput == 'r' || chInput == 'R') && (world_subs_to_display > 1)) {
-                    sel2 = 2;
-                    action = "CONFIRM";
+                std::string sInput = ctxt.get_raw_input().text;
+                for (int i = 0; i < world_subs_to_display; ++i) {
+                    for ( auto hotkey : vWorldHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
                 }
 
                 if (action == "LEFT") {
