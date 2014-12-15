@@ -12215,6 +12215,26 @@ void game::unload(int pos)
     }
 }
 
+bool add_or_drop_with_msg( player &u, item &it )
+{
+    if( it.made_of( LIQUID ) ) {
+        return g->handle_liquid( it, false, false, nullptr );
+    }
+    if( !u.can_pickVolume( it.volume() ) ) {
+        add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                 it.tname().c_str() );
+        g->m.add_item_or_charges( u.posx, u.posy, it );
+    } else if( !u.can_pickWeight( it.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
+        g->m.add_item_or_charges( u.posx, u.posy, it );
+    } else {
+        auto &ni = u.i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
+    }
+    return true;
+}
+
 void game::unload(item &it)
 {
     if( it.is_null() ) {
@@ -12270,19 +12290,8 @@ void game::unload(item &it)
             if (content.is_gunmod() && content.is_in_auxiliary_mode()) {
                 it.next_mode();
             }
-            if (content.made_of(LIQUID)) {
-                if (!handle_liquid(content, false, false, &it)) {
-                    new_contents.push_back(content);// Put it back in (we canceled)
-                }
-            } else {
-                if (u.can_pickVolume(content.volume()) &&
-                    u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
-                    add_msg(_("You put the %s in your inventory."), content.tname().c_str());
-                    u.i_add(content);
-                } else {
-                    add_msg(_("You drop the %s on the ground."), content.tname().c_str());
-                    m.add_item_or_charges(u.posx, u.posy, content, 1);
-                }
+            if( !add_or_drop_with_msg( u, content ) ) {
+                new_contents.push_back(content);// Put it back in (we canceled)
             }
             it.contents.erase(it.contents.begin());
         }
@@ -12370,24 +12379,10 @@ void game::unload(item &it)
         weapon->charges = 0;
     }
 
-    if (newam.made_of(LIQUID)) {
-        if (!handle_liquid(newam, false, false)) {
-            weapon->charges += newam.charges; // Put it back in
-        }
-    } else if (newam.charges > 0) {
+    if( !add_or_drop_with_msg( u, newam ) ) {
+        weapon->charges += newam.charges; // Put it back in
+    } else {
         add_msg( _( "You unload your %s." ), weapon->tname().c_str() );
-        if( !u.can_pickVolume( newam.volume() ) ) {
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                    newam.tname().c_str() );
-            m.add_item_or_charges( u.posx, u.posy, newam );
-        } else if( !u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                    newam.tname().c_str() );
-            m.add_item_or_charges( u.posx, u.posy, newam );
-        } else {
-            auto &ni = u.i_add(newam);
-            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
-        }
     }
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
