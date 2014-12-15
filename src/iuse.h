@@ -48,6 +48,7 @@ public:
     int meth                (player*, item*, bool, point);
     int vitamins            (player*, item*, bool, point);
     int vaccine             (player*, item*, bool, point);
+    int flu_vaccine         (player*, item*, bool, point);
     int poison              (player*, item*, bool, point);
     int fun_hallu           (player*, item*, bool, point);
     int thorazine           (player*, item*, bool, point);

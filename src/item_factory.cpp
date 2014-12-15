@@ -169,6 +169,7 @@ void Item_factory::init()
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
+    iuse_function_list["FLU_VACCINE"] = &iuse::flu_vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["FUN_HALLU"] = &iuse::fun_hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;

@@ -1615,6 +1615,7 @@
       ["antiparasitic", 3],
       ["survnote", 1],
       ["diazepam", 4],
+      ["flu_shot", 5],
       ["syringe", 8]
     ]
   },{
@@ -4011,6 +4012,7 @@
       ["disinfectant", 35],
       ["aspirin", 40],
       ["vaccine_shot", 5],
+      ["flu_shot", 2],
       ["blanket", 50],
       ["down_blanket", 10],
       ["pillow", 50],
@@ -5049,6 +5051,7 @@
       ["lamp_oil", 5],
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
+      ["flu_shot", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
       ["umbrella", 7],
