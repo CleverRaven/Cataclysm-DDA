@@ -13,8 +13,6 @@ class item_stack {
 public:
     virtual size_t size() const = 0;
     virtual bool empty() const = 0;
-    // This guy is defined twice so it has the appropriate overrides for the different container types.
-    virtual std::vector<item>::iterator erase( std::vector<item>::iterator it ) = 0;
     virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
     virtual void push_back( const item &newitem ) = 0;
     virtual item &front() = 0;

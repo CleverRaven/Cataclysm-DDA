@@ -46,26 +46,24 @@ typedef std::string items_location;
 
 class map_stack : public item_stack {
 private:
-    std::vector<item> *mystack;
+    std::list<item> *mystack;
     point location;
     map *myorigin;
 public:
-    map_stack( std::vector<item> *newstack, point newloc, map *neworigin ) :
+    map_stack( std::list<item> *newstack, point newloc, map *neworigin ) :
     mystack(newstack), location(newloc), myorigin(neworigin) {};
     size_t size() const;
     bool empty() const;
-    // This guy is defined twice so it has the appropriate overrides for the different container types.
-    std::vector<item>::iterator erase( std::vector<item>::iterator it );
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
-    std::vector<item>::iterator begin();
-    std::vector<item>::iterator end();
-    std::vector<item>::const_iterator begin() const;
-    std::vector<item>::const_iterator end() const;
-    std::vector<item>::reverse_iterator rbegin();
-    std::vector<item>::reverse_iterator rend();
-    std::vector<item>::const_reverse_iterator rbegin() const;
-    std::vector<item>::const_reverse_iterator rend() const;
+    std::list<item>::iterator begin();
+    std::list<item>::iterator end();
+    std::list<item>::const_iterator begin() const;
+    std::list<item>::const_iterator end() const;
+    std::list<item>::reverse_iterator rbegin();
+    std::list<item>::reverse_iterator rend();
+    std::list<item>::const_reverse_iterator rbegin() const;
+    std::list<item>::const_reverse_iterator rend() const;
     item &front();
     item &operator[]( size_t index );
 };
@@ -507,10 +505,9 @@ void add_corpse(int x, int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- void i_grow(const int x, const int y);
  // i_rem() methods that return values act like conatiner::erase(),
  // returning an iterator to the next item after removal.
- std::vector<item>::iterator i_rem( const point location, std::vector<item>::iterator it );
+ std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
  int i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
  void spawn_artifact( const int x, const int y );
@@ -728,7 +725,8 @@ protected:
          * that have rotten away completely.
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
-        void remove_rotten_items( std::vector<item> &items, const point &pnt ) const;
+        template <typename Container>
+        void remove_rotten_items( Container &items, const point &pnt ) const;
         /**
          * Try to fill funnel based items here.
          * @param pnt The location in this map where to fill funnels.
@@ -763,7 +761,7 @@ protected:
 
  int my_MAPSIZE;
 
- mutable std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
+ mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
  mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
  mutable field nulfield; // Returned when &field_at() is asked for an OOB value
  mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
@@ -838,8 +836,8 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
- void add_light_from_items( const int x, const int y, std::vector<item>::iterator begin,
-                            std::vector<item>::iterator end );
+ void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                            std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);

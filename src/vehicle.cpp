@@ -73,15 +73,9 @@ bool vehicle_stack::empty() const
     return mystack->empty();
 }
 
-std::vector<item>::iterator vehicle_stack::erase( std::vector<item>::iterator it )
-{
-    return myorigin->remove_item(part_num, it);
-}
-
-// Should never be called.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
-    return it;
+    return myorigin->remove_item(part_num, it);
 }
 
 void vehicle_stack::push_back( const item &newitem )
@@ -89,42 +83,42 @@ void vehicle_stack::push_back( const item &newitem )
     myorigin->add_item(part_num, newitem);
 }
 
-std::vector<item>::iterator vehicle_stack::begin()
+std::list<item>::iterator vehicle_stack::begin()
 {
     return mystack->begin();
 }
 
-std::vector<item>::iterator vehicle_stack::end()
+std::list<item>::iterator vehicle_stack::end()
 {
     return mystack->end();
 }
 
-std::vector<item>::const_iterator vehicle_stack::begin() const
+std::list<item>::const_iterator vehicle_stack::begin() const
 {
     return mystack->cbegin();
 }
 
-std::vector<item>::const_iterator vehicle_stack::end() const
+std::list<item>::const_iterator vehicle_stack::end() const
 {
     return mystack->cend();
 }
 
-std::vector<item>::reverse_iterator vehicle_stack::rbegin()
+std::list<item>::reverse_iterator vehicle_stack::rbegin()
 {
     return mystack->rbegin();
 }
 
-std::vector<item>::reverse_iterator vehicle_stack::rend()
+std::list<item>::reverse_iterator vehicle_stack::rend()
 {
     return mystack->rend();
 }
 
-std::vector<item>::const_reverse_iterator vehicle_stack::rbegin() const
+std::list<item>::const_reverse_iterator vehicle_stack::rbegin() const
 {
     return mystack->crbegin();
 }
 
-std::vector<item>::const_reverse_iterator vehicle_stack::rend() const
+std::list<item>::const_reverse_iterator vehicle_stack::rend() const
 {
     return mystack->crend();
 }
@@ -136,7 +130,7 @@ item &vehicle_stack::front()
 
 item &vehicle_stack::operator[]( size_t index )
 {
-    return (*mystack)[index];
+    return *(std::next(mystack->begin(), index));
 }
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -4309,14 +4303,14 @@ void vehicle::remove_item (int part, int itemdex)
     if( itemdex < 0 || itemdex >= (int)parts[part].items.size() ) {
         return;
     }
-    parts[part].items.erase (parts[part].items.begin() + itemdex);
+    parts[part].items.erase( std::next(parts[part].items.begin(), itemdex) );
 }
 
 void vehicle::remove_item (int part, item *it)
 {
-    std::vector<item>& veh_items = parts[part].items;
+    std::list<item>& veh_items = parts[part].items;
 
-    for( auto iter = veh_items.begin(); iter < veh_items.end(); iter++ ) {
+    for( auto iter = veh_items.begin(); iter != veh_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
         if( it == &*iter ) {
             veh_items.erase(iter);
@@ -4325,9 +4319,9 @@ void vehicle::remove_item (int part, item *it)
     }
 }
 
-std::vector<item>::iterator vehicle::remove_item( int part, std::vector<item>::iterator it )
+std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::iterator it )
 {
-    std::vector<item>& veh_items = parts[part].items;
+    std::list<item>& veh_items = parts[part].items;
 
     return veh_items.erase(it);
 }
@@ -5000,12 +4994,12 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( parts[p].items.empty() ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
-        if( !ammo || ammo->type != amt || parts[p].items[0].charges < 1 ) {
+        it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items.front().type);
+        if( !ammo || ammo->type != amt || parts[p].items.front().charges < 1 ) {
             return false;
         }
-        if( charges > parts[p].items[0].charges ) {
-            charges = parts[p].items[0].charges;
+        if( charges > parts[p].items.front().charges ) {
+            charges = parts[p].items.front().charges;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *ammo, charges_left ) ) {
@@ -5015,7 +5009,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             if( charges_consumed >= parts[p].items[0].charges ) {
                 parts[p].items.erase( parts[p].items.begin() );
             } else {
-                parts[p].items[0].charges -= charges_consumed;
+                parts[p].items.front().charges -= charges_consumed;
             }
         }
     }

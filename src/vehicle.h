@@ -69,27 +69,25 @@ struct vehicle_prototype
 
 class vehicle_stack : public item_stack {
 private:
-    std::vector<item> *mystack;
+    std::list<item> *mystack;
     point location;
     class vehicle *myorigin;
     int part_num;
 public:
-vehicle_stack( std::vector<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
     mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
     size_t size() const;
     bool empty() const;
-    // This guy is defined twice so it has the appropriate overrides for the different container types.
-    std::vector<item>::iterator erase( std::vector<item>::iterator it );
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
-    std::vector<item>::iterator begin();
-    std::vector<item>::iterator end();
-    std::vector<item>::const_iterator begin() const;
-    std::vector<item>::const_iterator end() const;
-    std::vector<item>::reverse_iterator rbegin();
-    std::vector<item>::reverse_iterator rend();
-    std::vector<item>::const_reverse_iterator rbegin() const;
-    std::vector<item>::const_reverse_iterator rend() const;
+    std::list<item>::iterator begin();
+    std::list<item>::iterator end();
+    std::list<item>::const_iterator begin() const;
+    std::list<item>::const_iterator end() const;
+    std::list<item>::reverse_iterator rbegin();
+    std::list<item>::reverse_iterator rend();
+    std::list<item>::const_reverse_iterator rbegin() const;
+    std::list<item>::const_reverse_iterator rend() const;
     item &front();
     item &operator[]( size_t index );
 };
@@ -143,7 +141,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
                     // Two coord pairs are stored: actual target point, and target vehicle center.
                     // Both cases use absolute coordinates (relative to world origin)
-    std::vector<item> items;// inventory
+    std::list<item> items;// inventory
 
     bool setid(const std::string str) {
         std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
@@ -623,7 +621,7 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
     void remove_item (int part, item *it);
-    std::vector<item>::iterator remove_item (int part, std::vector<item>::iterator it);
+    std::list<item>::iterator remove_item (int part, std::list<item>::iterator it);
 
     vehicle_stack get_items( int part );
 

@@ -322,7 +322,7 @@ static void move_items( point source, point destination,
 
         item *temp_item = NULL;
         if( cargo_part >= 0 ) {
-            temp_item = &veh->parts[cargo_part].items[index];
+            temp_item = &veh->get_items(cargo_part)[index];
         } else {
             temp_item = &g->m.i_at( source.x, source.y )[index];
         }

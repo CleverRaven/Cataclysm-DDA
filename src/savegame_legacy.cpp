@@ -1143,9 +1143,8 @@ static bool unserialize_legacy(std::ifstream & fin ) {
            } else if (string_identifier == "C") {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
-            int index = sm->itm[itx][ity].size() - 1;
             it_tmp.load_info(databuff);
-            sm->itm[itx][ity][index].put_in(it_tmp);
+            sm->itm[itx][ity].back().put_in(it_tmp);
             if (it_tmp.active)
              sm->active_item_count++;
            } else if (string_identifier == "T") {
@@ -1418,9 +1417,8 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
             } else if (string_identifier == "C") {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
-                int index = sm->itm[itx][ity].size() - 1;
                 it_tmp.load_info(databuff);
-                sm->itm[itx][ity][index].put_in(it_tmp);
+                sm->itm[itx][ity].back().put_in(it_tmp);
                 if (it_tmp.active) {
                     sm->active_item_count++;
                 }
@@ -2020,7 +2018,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
                 getline(stin, databuff);
                 item citm;
                 citm.load_info(databuff);
-                new_part.items[new_part.items.size()-1].put_in (citm);
+                new_part.items.back().put_in (citm);
             }
         }
         parts.push_back (new_part);

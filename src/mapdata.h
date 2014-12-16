@@ -411,7 +411,7 @@ struct submap {
     }
 
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
-    std::vector<item>  itm[SEEX][SEEY];  // Items on each square
+    std::list<item>    itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
 
     // TODO: make trp private once the horrible hack known as editmap is resolved

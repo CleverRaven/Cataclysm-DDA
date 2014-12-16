@@ -42,15 +42,9 @@ bool map_stack::empty() const
     return mystack->empty();
 }
 
-std::vector<item>::iterator map_stack::erase( std::vector<item>::iterator it )
-{
-    return myorigin->i_rem(location, it);
-}
-
-// Should never be called.
 std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {
-    return it;
+    return myorigin->i_rem(location, it);
 }
 
 void map_stack::push_back( const item &newitem )
@@ -58,42 +52,42 @@ void map_stack::push_back( const item &newitem )
     myorigin->add_item_or_charges(location.x, location.y, newitem);
 }
 
-std::vector<item>::iterator map_stack::begin()
+std::list<item>::iterator map_stack::begin()
 {
     return mystack->begin();
 }
 
-std::vector<item>::iterator map_stack::end()
+std::list<item>::iterator map_stack::end()
 {
     return mystack->end();
 }
 
-std::vector<item>::const_iterator map_stack::begin() const
+std::list<item>::const_iterator map_stack::begin() const
 {
     return mystack->cbegin();
 }
 
-std::vector<item>::const_iterator map_stack::end() const
+std::list<item>::const_iterator map_stack::end() const
 {
     return mystack->cend();
 }
 
-std::vector<item>::reverse_iterator map_stack::rbegin()
+std::list<item>::reverse_iterator map_stack::rbegin()
 {
     return mystack->rbegin();
 }
 
-std::vector<item>::reverse_iterator map_stack::rend()
+std::list<item>::reverse_iterator map_stack::rend()
 {
     return mystack->rend();
 }
 
-std::vector<item>::const_reverse_iterator map_stack::rbegin() const
+std::list<item>::const_reverse_iterator map_stack::rbegin() const
 {
     return mystack->crbegin();
 }
 
-std::vector<item>::const_reverse_iterator map_stack::rend() const
+std::list<item>::const_reverse_iterator map_stack::rend() const
 {
     return mystack->crend();
 }
@@ -105,7 +99,7 @@ item &map_stack::front()
 
 item &map_stack::operator[]( size_t index )
 {
-    return (*mystack)[index];
+    return *(std::next(mystack->begin(), index));
 }
 
 // Map class methods.
@@ -2766,7 +2760,7 @@ item map::acid_from(const int x, const int y)
     return ret;
 }
 
-std::vector<item>::iterator map::i_rem( const point location, std::vector<item>::iterator it )
+std::list<item>::iterator map::i_rem( const point location, std::list<item>::iterator it )
 {
     int lx, ly;
     submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
@@ -2786,7 +2780,7 @@ int map::i_rem(const int x, const int y, const int index)
     auto map_items = i_at(x, y);
 
     int i = 0;
-    for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
+    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
         if( i == index) {
             map_items.erase( iter );
             return i;
@@ -2799,7 +2793,7 @@ void map::i_rem(const int x, const int y, item *it)
 {
     auto map_items = i_at(x, y);
 
-    for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
+    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
         if(it == &*iter) {
             map_items.erase(iter);
@@ -2815,14 +2809,6 @@ void map::i_clear(const int x, const int y)
 
     current_submap->active_item_count = 0;
     current_submap->itm[lx][ly].clear();
-}
-
-void map::i_grow(const int x, const int y)
-{
-    int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
-
-    current_submap->itm[lx][ly].reserve(current_submap->itm[lx][ly].size() + 1);
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
@@ -3055,12 +3041,29 @@ static void apply_in_fridge(item &it)
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, point location, bool activate )
 {
+    Iterator begin;
+    Iterator end;
+    if( map_stack *stack = dynamic_cast<map_stack *>(&items) ) {
+        begin = stack->begin();
+        end = stack->end();
+    } else if( vehicle_stack *stack = dynamic_cast<vehicle_stack *>(&items) ) {
+        begin = stack->begin();
+        end = stack->end();
+    }
+    bool iter_found = false;
+    for( auto iter = begin; iter != end; ++iter ) {
+        if( n == iter ) {
+            iter_found = true;
+            break;
+        }
+    }
+    if( !iter_found ) {
+        return true;
+    }
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
     item temp_item = *n;
-    // Wacky hijinks required to erase with a reverse iterator.
-    ++n;
-    items.erase( n.base() );
+    items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
         items.push_back( temp_item );
@@ -3072,17 +3075,16 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     return true;
 }
 
-static bool process_map_items( item_stack &items, std::vector<item>::reverse_iterator &n, point location,
+static bool process_map_items( item_stack &items, std::list<item>::iterator &n, point location,
                                std::string )
 {
     if( !n->needs_processing() ) {
-        ++n;
         return false;
     }
     return process_item( items, n, location, false );
 }
 
-static bool process_vehicle_items( item_stack &items, std::vector<item>::reverse_iterator &n, point location,
+static bool process_vehicle_items( item_stack &items, std::list<item>::iterator &n, point location,
                                    vehicle *cur_veh, int part, std::string signal )
 {
     const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
@@ -3134,7 +3136,11 @@ void map::process_items_in_submap( submap *const, int gridx, int gridy, T proces
         for (int j = 0; j < SEEY; j++) {
             point location( gridx * SEEX + i, gridy * SEEY + j );
             auto items = i_at( location.x, location.y );
-            for( auto n = items.rbegin(); n != items.rend(); ) {
+            std::list<std::list<item>::iterator> active_items;
+            for( auto n = items.begin(); n != items.end(); ++n ) {
+                active_items.push_back( n );
+            }
+            for( auto &n : active_items ) {
                 // Processor increments the iterator as needed.
                 processor( items, n, location, signal );
             }
@@ -3177,7 +3183,11 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
         const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
                                    cur_veh->global_y() + vp.precalc_dy[0] );
         auto items = cur_veh->get_items( part );
-        for( auto n = items.rbegin(); n != items.rend(); ) {
+        std::list<std::list<item>::iterator> active_items;
+        for( auto n = items.begin(); n != items.end(); ++n ) {
+            active_items.push_back( n );
+        }
+        for( auto &n : active_items ) {
             if( !processor( items, n, item_location, cur_veh, part, signal ) ) {
                 // If the item was NOT destroyed, we can skip the remainder,
                 // which handles fallout from the vehicle being damaged.
@@ -3220,11 +3230,11 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
     }
 }
 
-std::list<item> use_amount_vehicle( std::vector<item> &vec, const itype_id type, int &quantity,
+std::list<item> use_amount_vehicle( std::list<item> &vec, const itype_id type, int &quantity,
                                     const bool use_container )
 {
     std::list<item> ret;
-    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+    for (std::list<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
         if (a->use_amount(type, quantity, use_container, ret)) {
             a = vec.erase(a);
         } else {
@@ -3287,10 +3297,10 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id type, long &quantity)
+std::list<item> use_charges_from_vehicle(std::list<item> &vec, const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+    for (std::list<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
         if( a->use_charges(type, quantity, ret)) {
             a = vec.erase(a);
         } else {
@@ -3528,7 +3538,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, std::vector<item>::reverse_iterator &n, point pos,
+static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n, point pos,
                                 std::string signal )
 {
     bool trigger_item = false;
@@ -3555,7 +3565,7 @@ static bool trigger_radio_item( item_stack &items, std::vector<item>::reverse_it
     return false;
 }
 
-static bool trigger_radio_item_veh( item_stack &items, std::vector<item>::reverse_iterator &n, point pos,
+static bool trigger_radio_item_veh( item_stack &items, std::list<item>::iterator &n, point pos,
                                     vehicle *, int, std::string signal )
 {
     return trigger_radio_item( items, n, pos, signal );
@@ -4725,7 +4735,8 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
     }
 }
 
-void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) const
+template <typename Container>
+void map::remove_rotten_items( Container &items, const point &pnt ) const
 {
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, pnt ) ) {

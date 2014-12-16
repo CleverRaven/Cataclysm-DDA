@@ -37,8 +37,7 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
   {
    if( !sm->itm[x][y].empty() )
    {
-    for( std::vector<item>::const_iterator it = sm->itm[x][y].begin(),
-      end = sm->itm[x][y].end(); it != end; ++it )
+    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
     {
      out << "\n\t("<<x<<","<<y<<") ";
      out << *it << ", ";

@@ -11847,8 +11847,8 @@ void player::wake_up()
 
 std::string player::is_snuggling()
 {
-    std::vector<item>::iterator begin = g->m.i_at( posx, posy ).begin();
-    std::vector<item>::iterator end = g->m.i_at( posx, posy ).end();
+    auto begin = g->m.i_at( posx, posy ).begin();
+    auto end = g->m.i_at( posx, posy ).end();
 
     if( in_vehicle ) {
         int vpart;

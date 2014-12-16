@@ -1000,8 +1000,8 @@ bool advanced_inventory::move_all_items()
         }
         g->u.activity.placement = point( sarea.x - g->u.xpos(), sarea.y - g->u.ypos() );
 
-        std::vector<item>::iterator begin;
-        std::vector<item>::iterator end;
+        std::list<item>::iterator begin;
+        std::list<item>::iterator end;
         if( sarea.veh == nullptr ) {
             begin = g->m.i_at( sarea.x, sarea.y ).begin();
             end = g->m.i_at( sarea.x, sarea.y ).end();

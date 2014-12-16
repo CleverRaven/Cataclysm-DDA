@@ -9,8 +9,8 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::add_light_from_items( const int x, const int y, std::vector<item>::iterator begin,
-                                std::vector<item>::iterator end )
+void map::add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                                std::list<item>::iterator end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness

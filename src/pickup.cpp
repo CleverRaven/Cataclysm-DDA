@@ -355,13 +355,6 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
-    // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
-    if( from_vehicle ) {
-        veh->parts[cargo_part].items.reserve( veh->parts[cargo_part].items.size() + 1 );
-    } else {
-        g->m.i_grow( pickup_target.x, pickup_target.y );
-    }
-
     while( g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
@@ -374,7 +367,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
 
         item *target = NULL;
         if( from_vehicle ) {
-            target = &veh->parts[cargo_part].items[index];
+            target = &veh->get_items(cargo_part)[index];
         } else {
             target = &g->m.i_at( pickup_target.x, pickup_target.y )[index];
         }
@@ -448,7 +441,9 @@ void Pickup::pick_up(int posx, int posy, int min)
     // which items are we grabbing?
     std::vector<item> here;
     if( from_vehicle ) {
-        here = veh->parts[cargo_part].items;
+        auto vehitems = veh->get_items(cargo_part);
+        here.resize( vehitems.size() );
+        std::copy( vehitems.begin(), vehitems.end(), here.begin() );
     } else {
         auto mapitems = g->m.i_at(posx, posy);
         here.resize( mapitems.size() );
