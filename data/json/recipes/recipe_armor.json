@@ -8052,7 +8052,7 @@
 },
 {
   "type" : "recipe",
-  "result": "cowl_rag",
+  "result": "keffiyeh",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -8158,7 +8158,7 @@
       [ "chainmail_hood", 1 ]
     ],
 	[
-      [ "chainmail_shirt", 1 ]
+      [ "chainmail_vest", 1 ]
     ],
 	[
       [ "chainmail_arms", 1 ]
