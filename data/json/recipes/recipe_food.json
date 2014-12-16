@@ -8154,8 +8154,6 @@
   "components": [
     [
      [ "meat", 1],
-     [ "dry_meat", 1 ],
-     [ "meat_canned", 1 ],
      [ "human_flesh", 1 ],
      [ "rehydrated_meat", 1 ],
      [ "rehydrated_hflesh", 1 ]
