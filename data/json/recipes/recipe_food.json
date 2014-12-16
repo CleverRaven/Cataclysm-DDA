@@ -7020,7 +7020,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "flour", 2 ]
+      [ "flour", 2 ],
+      [ "cornmeal", 2]
     ],
     [
       [ "salt", 2 ]
@@ -7053,7 +7054,8 @@
       [ "human_flesh", 1 ]
     ],
     [
-      [ "flour", 2 ]
+      [ "flour", 2 ],
+      [ "cornmeal", 2]
     ],
     [
       [ "salt", 2 ]
