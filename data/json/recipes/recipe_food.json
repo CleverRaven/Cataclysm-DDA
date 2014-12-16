@@ -984,7 +984,9 @@
   ],
   "components": [
     [
-      [ "meat", 3 ]
+      [ "meat", 3],
+      [ "rehydrated_meat", 6 ],
+      [ "meat_canned", 6 ]
     ],
     [
       [ "fat", 3 ],
@@ -1612,12 +1614,14 @@
       [ "noodles_fast", 1]
     ],
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2],
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ],
       [ "fish", 1 ],
       [ "dry_fish", 2],
-      [ "rehydrated_fish", 2]
+      [ "rehydrated_fish", 2],
+      [ "fish_canned", 2]
     ],
     [
       [ "cheese", 1 ],
@@ -1811,9 +1815,10 @@
   ],
   "components": [
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "nachos", 3 ]
@@ -1843,9 +1848,10 @@
   ],
   "components": [
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "cheese", 1 ],
@@ -3049,8 +3055,10 @@
       [ "acorns_cooked", 1 ]
     ],
     [
-      [ "meat", 2 ],
-      [ "dry_meat", 2]
+      [ "meat", 2],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ]
   ]
 },{
@@ -3150,10 +3158,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3533,10 +3543,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3660,10 +3672,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3784,10 +3798,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -4924,7 +4940,8 @@
     [
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ]
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -5000,7 +5017,10 @@
       [ "can_tomato", 1 ]
     ],
     [
-      [ "meat", 1]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5078,7 +5098,10 @@
       [ "can_tomato", 1 ]
     ],
     [
-      [ "meat", 1]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "can_beans", 1],
@@ -7017,7 +7040,10 @@
   ],
   "components": [
     [
-      [ "meat", 1 ]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "flour", 2 ],
@@ -7377,7 +7403,10 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ]
   ]
 },{
@@ -8126,7 +8155,9 @@
   ],
   "components": [
     [
-     [ "meat", 1 ],
+     [ "meat", 1],
+     [ "dry_meat", 1 ],
+     [ "meat_canned", 1 ],
      [ "human_flesh", 1 ],
      [ "rehydrated_meat", 1 ],
      [ "rehydrated_hflesh", 1 ]
