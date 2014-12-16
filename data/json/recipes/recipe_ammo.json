@@ -3916,7 +3916,7 @@
 	"components": [
 		[
 			[ "salt_water", 25 ],
-			[ "saline", 25 ],
+			[ "saline", 125 ],
 			[ "water_acid", 25 ],
 			[ "water_acid_weak", 25 ]
 		],
