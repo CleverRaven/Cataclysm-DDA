@@ -86,13 +86,13 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
             menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
         }
     }
-    // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
-    const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
-    const int spacing = free_space / ((int)vMenuItems.size() - 1);
-    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int free_space = std::max(0, window_width - menu_length - iMenuOffsetX);
+    const int spacing = free_space / ((int)vMenuItems.size() + 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() + 1);
     const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
+    const int final_offset = iMenuOffsetX + adj_offset + spacing;
 
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, adj_offset, spacing);
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, final_offset, spacing);
 
     refresh();
     wrefresh(w_open);
@@ -201,7 +201,7 @@ bool game::opening_screen()
     WINDOW *w_open = newwin(total_h, total_w, y0, x0);
     WINDOW_PTR w_openptr( w_open );
 
-    const int iMenuOffsetX = 2;
+    const int iMenuOffsetX = 0;
     int iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
