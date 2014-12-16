@@ -2350,7 +2350,7 @@
         "volume" : 9,
         "bashing" : 2,
         "cutting" : 24,
-        "flags" : ["SPEAR", "NON_STUCK"],
+        "flags" : ["SPEAR"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },
