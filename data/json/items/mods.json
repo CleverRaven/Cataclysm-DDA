@@ -1314,6 +1314,7 @@
         "skill_required": 2,
         "loudness_modifier" : 0
     },
+    {
         "id":"fancy_kit_chrome",
         "type": "GUNMOD",
         "symbol": ":",
