@@ -3963,6 +3963,7 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX    , SEEY - 1, "UPS_off");
                 spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
                 spawn_item(SEEX - 1, SEEY    , "v29");
+                spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
                 spawn_item(SEEX    , SEEY    , "ftk93");
                 spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
                 spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
