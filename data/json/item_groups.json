@@ -4899,7 +4899,7 @@
       ["fancy_kit_chrome", 20],
       ["fancy_kit_silver", 12],
       ["fancy_kit_gold", 8],
-      ["fancy_kit_bling", 4],
+      ["fancy_kit_bling", 4]
     ]
   },{
     "type" : "item_group",
@@ -7582,7 +7582,7 @@
       ["knife_rm42", 2],
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
-      ["fancy_kit_blin", 4]
+      ["fancy_kit_bling", 4]
     ]
   },{
     "type" : "item_group",
@@ -7819,7 +7819,7 @@
       ["fancy_kit_chrome", 30],
       ["fancy_kit_silver", 18],
       ["fancy_kit_gold", 12],
-      ["fancy_kit_bling", 6],
+      ["fancy_kit_bling", 6]
     ]
   },{
     "type" : "item_group",
