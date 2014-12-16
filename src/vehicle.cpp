@@ -1852,6 +1852,25 @@ bool vehicle::remove_part (int p)
         }
     }
 
+    // Update current engine configuration if needed
+    if(part_flag(p, "ENGINE") && engines.size() > 1){
+        bool any_engine_on = false;
+        
+        for(auto &e : engines) {
+            if(e != p && is_part_on(e)) {
+                any_engine_on = true;
+                break;
+            }
+        }
+        
+        if(!any_engine_on) {
+            engine_on = false;
+            for(auto &e : engines) {
+                toggle_specific_part(e, true);
+            }
+        }
+    }
+
     parts[p].removed = true;
     removed_part_count++;
 
