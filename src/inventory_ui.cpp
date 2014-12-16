@@ -399,10 +399,10 @@ void inventory_selector::display() const
     std::string msg_str;
     nc_color msg_color;
     if (inCategoryMode) {
-        msg_str = _("Category selection; Press [TAB] to switch the mode.");
+        msg_str = _("Category selection; [TAB] switches mode, arrows select.");
         msg_color = c_white_red;
     } else {
-        msg_str = _("Item selection; Press [TAB] to switch the mode.");
+        msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
