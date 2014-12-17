@@ -1670,9 +1670,16 @@ struct filter_is_drink {
     }
 };
 
+//probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
+static int get_keg_cap(std::string furn_name) {
+    if("standing tank" == furn_name)    { return 900; } //the furniture was a "standing tank", so can hold 900
+    else                                { return 600; } //default to old default value
+    //add additional cases above
+}
+
 void iexamine::keg(player *p, map *m, int examx, int examy)
 {
-    int keg_cap = 600;
+    int keg_cap = get_keg_cap( m->name(examx, examy) );
     bool liquid_present = false;
     for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
