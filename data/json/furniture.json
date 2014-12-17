@@ -2005,7 +2005,7 @@
         "move_cost_mod" : -1,
         "required_str": -1,
         "crafting_pseudo_item": "standing_tank_w",
-        "flags": ["SEALED", "TRANSPARENT", "CONTAINER"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
                 { "item": "metal_tank", "amount": 1 }
