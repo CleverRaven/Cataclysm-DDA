@@ -1996,5 +1996,31 @@
                 { "item": "splinter", "amount": 4, "minamount": 2 }
             ]
         }
+    },{
+        "type": "furniture",
+        "id": "f_standing_tank_w",
+        "name": "standing tank",
+        "symbol" : "O",
+        "color": "ltred",
+        "move_cost_mod" : -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "standing_tank_w",
+        "flags": ["SEALED", "TRANSPARENT", "CONTAINER"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 1 }
+                { "item": "water_faucet", "amount": 1 }
+            ]   
+        }
+        "examine_action": "reload_furniture",
+        "bash": {
+            "str_min": 5, "str_max": 20,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "metal_tank", "amount": 1 }
+                { "item": "water_faucet", "amount": 1 }
+            ]
+        }
     }
 ]
