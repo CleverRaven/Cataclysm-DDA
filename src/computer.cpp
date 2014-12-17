@@ -1038,6 +1038,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
+        print_line(_("Charges Detonated"));
+        print_line(_("Backup Generator Power Failing"));
+        print_line(_("Evacuate Immediately"));
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
@@ -1057,6 +1060,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
             }
         }
+        options.clear(); // Disable the terminal.
+        activate_failure(COMPFAIL_SHUTDOWN);
         break;
 
     case COMPACT_SRCF_ELEVATOR:
