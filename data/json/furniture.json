@@ -1998,28 +1998,27 @@
         }
     },{
         "type": "furniture",
-        "id": "f_standing_tank_w",
-        "name": "standing water tank",
+        "id": "f_standing_tank",
+        "name": "standing tank",
         "symbol" : "O",
-        "color": "ltred",
+        "color": "ltgray",
         "move_cost_mod" : -1,
         "required_str": -1,
-        "crafting_pseudo_item": "standing_tank_w",
-        "flags": ["BASHABLE", "DECONSTRUCT", "NOITEM", "SEALED", "TRANSPARENT"],
+        "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
                 { "item": "metal_tank", "amount": 1 }
                 { "item": "water_faucet", "amount": 1 }
-            ]   
+            ]
         },
-        "examine_action": "reload_furniture",
+        "examine_action": "keg",
         "bash": {
-            "str_min": 5, "str_max": 20,
-            "sound": "smash!",
-            "sound_fail": "whump.",
+            "str_min": 10, "str_max": 20,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
             "items": [
-                { "item": "metal_tank", "amount": 1 }
-                { "item": "water_faucet", "amount": 1 }
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 }
             ]
         }
     }
