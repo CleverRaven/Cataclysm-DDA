@@ -7796,7 +7796,7 @@ int iuse::quiver(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-int iuse::holster_pistol(player *p, item *it, bool, point)
+int iuse::holster_gun(player *p, item *it, bool, point)
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
@@ -8056,7 +8056,7 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
         choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"),
                       _("Sheathe a knife"), _("Cancel"), NULL);
         if (choice == 1) {
-            holster_pistol(p, it, b, pos);
+            holster_gun(p, it, b, pos);
         } else if (choice == 2) {
             sheath_knife(p, it, b, pos);
         }
@@ -8067,7 +8067,7 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
             if (stored.has_flag("SHEATH_KNIFE")) {
                 sheath_knife(p, it, b, pos);
             } else {
-                holster_pistol(p, it, b, pos);
+                holster_gun(p, it, b, pos);
             }
         }
     }
