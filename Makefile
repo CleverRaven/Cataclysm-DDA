@@ -129,8 +129,8 @@ ifdef CLANG
     OTHERS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 $(CROSS)clang++
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
   else
     CXX = $(CROSS)clang++
     LD  = $(CROSS)clang++
