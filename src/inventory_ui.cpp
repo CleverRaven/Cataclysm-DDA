@@ -923,6 +923,14 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     return display_slice(reduced_inv, title);
 }
 
+int game::inv_for_filter(const std::string title, const item_filter filter )
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
+    return display_slice(reduced_inv, title);
+}
+
 int inventory::num_items_at_position( int position )
 {
     if( position < -1 ) {

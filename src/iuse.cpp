@@ -2867,7 +2867,14 @@ int iuse::sew(player *p, item *it, bool, point)
         return 0;
     }
     int thread_used = 1;
-    int pos = g->inv(_("Repair what?"));
+
+    int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+        return itm.made_of( "cotton" ) ||
+               itm.made_of( "leather" ) ||
+               itm.made_of( "fur" ) ||
+               itm.made_of( "nomex" ) ||
+               itm.made_of( "felt_patch" );
+    } );
     item *fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3015,8 +3022,11 @@ int iuse::sew(player *p, item *it, bool, point)
 
 int iuse::extra_battery(player *p, item *, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3049,8 +3059,11 @@ int iuse::extra_battery(player *p, item *, bool, point)
 
 int iuse::rechargeable_battery(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3087,8 +3100,11 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
 
 int iuse::atomic_battery(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3126,8 +3142,11 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
 }
 int iuse::ups_battery(player *p, item *, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(_("You do not have that item!"));
@@ -3169,7 +3188,11 @@ int iuse::ups_battery(player *p, item *, bool, point)
 
 int iuse::remove_all_mods(player *p, item *, bool, point)
 {
-    int inventory_index = g->inv( _( "Detach battery mods from what?" ) );
+    int inventory_index = g->inv_for_filter( _( "Detach battery mods from what?" ), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") || 
+                                  itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
+    } );
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
@@ -3553,7 +3576,13 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                 return 0;
             }
 
-            int pos = g->inv(_("Repair what?"));
+            int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+                return itm.made_of( "kevlar" ) ||
+                       itm.made_of( "plastic" ) ||
+                       itm.made_of( "iron" ) ||
+                       itm.made_of( "steel" ) ||
+                       itm.made_of( "hardsteel" );
+            } );
             item *fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3711,7 +3740,11 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 
 int iuse::water_purifier(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+    int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
+        return !itm.contents.empty() && 
+               ( itm.contents[0].type->id == "water" ||
+                 itm.contents[0].type->id == "salt_water" );
+    } );
     if (!p->has_item(pos)) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
@@ -6782,14 +6815,16 @@ int iuse::cut_log_into_planks(player *p, item *it)
 
 int iuse::lumber(player *p, item *it, bool, point)
 {
-    int inventory_index = g->inv(_("Cut up what?"));
-    item *cut = &(p->i_at(inventory_index));
+    int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
+        return itm.type->id == "log";
+    } );
+    item *cut = &( p->i_at( pos ) );
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
     if (cut->type->id == "log") {
-        p->i_rem(inventory_index);
+        p->i_rem( it );
         cut_log_into_planks(p, it);
         return it->type->charges_to_use();
     } else {
@@ -7623,8 +7658,10 @@ int iuse::spray_can(player *p, item *it, bool, point)
  */
 static bool heat_item(player *p)
 {
-    int inventory_index = g->inv(_("Heat up what?"));
-    item *heat = &(p->i_at(inventory_index));
+    int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
+        return itm.is_food() && itm.has_flag("EATEN_HOT");
+    } );
+    item *heat = &( p->i_at(inventory_index ) );
     if (heat->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return false;
@@ -7697,8 +7734,10 @@ int iuse::quiver(player *p, item *it, bool, point)
 
     // if quiver is empty or storing more arrows, pull up menu asking what to store
     if (it->contents.empty() || choice == 1) {
-        int inventory_index = g->inv_type(_("Store which arrows?"), IC_AMMO);
-        item *put = &(p->i_at(inventory_index));
+        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
+            return itm.is_ammo() && (itm.ammo_type() == "arrow" || itm.ammo_type() == "bolt");
+        } );
+        item *put = &( p->i_at(inventory_index ) );
         if (put == NULL || put->is_null()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
@@ -8388,8 +8427,11 @@ int iuse::misc_repair(player *p, item *it, bool, point)
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the item to repair."));
-    item *fix = &(p->i_at(inventory_index));
+    int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
+        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("plastic") || 
+                                 itm.made_of("bone") || itm.made_of("chitin") ) ;
+    } );
+    item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
