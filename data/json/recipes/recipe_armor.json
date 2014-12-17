@@ -8082,7 +8082,7 @@
   "components": [
     [
       [ "tshirt", 1 ],
-	  [ "flag_shirt", 1 ],
+      [ "flag_shirt", 1 ],
       [ "linuxtshirt", 1 ],
       [ "tshirt_text", 1 ]
     ]
@@ -8124,7 +8124,7 @@
   "tools": [
     [
       [ "needle_bone", 65 ],
-	  [ "needle_wood", 65 ],
+      [ "needle_wood", 65 ],
       [ "sewing_kit", 65 ]
     ]
   ],
@@ -8135,10 +8135,10 @@
     ],
     [
       [ "glasses_safety", 1 ],
-	  [ "glasses_bal", 1 ]
+      [ "glasses_bal", 1 ]
     ],
     [
-	  [ "leather", 12 ],
+      [ "leather", 12 ],
       [ "tanned_hide", 2 ]
     ]
   ]
@@ -8157,13 +8157,13 @@
     [
       [ "chainmail_hood", 1 ]
     ],
-	[
+    [
       [ "chainmail_vest", 1 ]
     ],
-	[
+    [
       [ "chainmail_arms", 1 ]
     ],
-	[
+    [
       [ "chainmail_legs", 1 ]
     ]
   ]
@@ -8184,7 +8184,7 @@
   "tools": [
     [
       [ "needle_bone", 90 ],
-	  [ "needle_wood", 90 ],
+      [ "needle_wood", 90 ],
       [ "sewing_kit", 90 ]
     ]
   ],
@@ -8194,21 +8194,21 @@
     ],
     [
       [ "vest", 1 ],
-	  [ "chestrig", 1 ]
+      [ "chestrig", 1 ]
     ],
     [
       [ "ragpouch", 1 ],
       [ "leather_pouch", 1 ],
-	  [ "dump_pouch", 1 ],
-	  [ "legrig", 1 ]
+      [ "dump_pouch", 1 ],
+      [ "legrig", 1 ]
     ],
     [
       [ "tool_belt", 1 ],
-	  [ "legrig", 1 ]
+      [ "legrig", 1 ]
     ],
     [
       [ "pants_cargo", 1 ],
-	  [ "pants_army", 1 ]
+      [ "pants_army", 1 ]
     ],
     [
       [ "leather", 24 ],

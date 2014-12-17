@@ -11073,7 +11073,7 @@
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
         "coverage" : 15,
         "material_thickness" : 2,
-		"use_action": "SHEATH_KNIFE"
+        "use_action": "SHEATH_KNIFE"
     },
     {
         "type" : "ARMOR",
@@ -11099,7 +11099,7 @@
         "coverage" : 70,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "socks_bag",
         "name" : "bag socks",
@@ -11217,7 +11217,7 @@
         "coverage" : 85,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "mask_rioter",
         "name" : "rioter mask",
@@ -11264,7 +11264,7 @@
         "coverage" : 65,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "shark_suit",
         "name" : "shark suit",
@@ -11288,7 +11288,7 @@
         "coverage" : 100,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "chainmail_suit",
         "name" : "chainmail armor",
@@ -11312,7 +11312,7 @@
         "coverage" : 95,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "chainmail_hood",
         "name" : "chainmail coif",
@@ -11336,7 +11336,7 @@
         "coverage" : 95,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "chainmail_vest",
         "name" : "chainmail vest",
@@ -11360,7 +11360,7 @@
         "coverage" : 95,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "chainmail_arms",
         "name" : "chainmail arms",
@@ -11384,7 +11384,7 @@
         "coverage" : 95,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "chainmail_legs",
         "name" : "chainmail leggings",
@@ -11456,7 +11456,7 @@
         "coverage" : 95,
         "material_thickness" : 8
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "cowl_wool",
         "name" : "knit cowl",
@@ -11480,7 +11480,7 @@
         "coverage" : 70,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "wool_hoodie",
         "name" : "wool hoodie",
@@ -11504,7 +11504,7 @@
         "coverage" : 95,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "wool_suit",
         "name" : "wool suit",
@@ -11528,7 +11528,7 @@
         "flags" : ["VARSIZE"],
         "material_thickness" : 4
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "motorbike_armor",
         "name" : "motorcycle armor",
@@ -11551,8 +11551,8 @@
         "coverage" : 95,
         "material_thickness" : 4,
         "flags" : ["VARSIZE", "RAINPROOF"]
-	},
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "motorbike_pants",
         "name" : "motorcycle pants",
@@ -11575,8 +11575,8 @@
         "coverage" : 100,
         "material_thickness" : 3,
         "flags" : ["VARSIZE", "RAINPROOF"]
-	},
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "motorbike_boots",
         "name" : "motorcycle boots",
@@ -11599,6 +11599,6 @@
         "coverage" : 100,
         "material_thickness" : 4,
         "flags" : ["VARSIZE", "RAINPROOF"]
-	}
+    }
 ]
 
