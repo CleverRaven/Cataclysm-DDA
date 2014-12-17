@@ -7809,6 +7809,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
 
         // make sure we're holstering a pistol
         if ((put->is_gun())) {
+            // back holser can't hold pistol sized guns
             if (it->type->id == "back_holster" && (put->skill() == "pistol" || put->type->id == "shotgun_sawn")) {
                 p->add_msg_if_player(m_info, _("The %s can't hold pistol sized guns!"), it->tname().c_str());
                 return 0;
@@ -7824,8 +7825,8 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         if (it->type->id == "bootstrap") { // bootstrap can't hold as much as holster
             maxvol = 3;
         }
-        // back holster can hold more, but can't hold pistols
-        if ((it->type->id == "back_holster") && (put->skill() != "pistol")) {
+        // back holster can hold more
+        if ((it->type->id == "back_holster")) {
             maxvol = 15;
         }
 
