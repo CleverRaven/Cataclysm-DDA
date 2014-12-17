@@ -1999,7 +1999,7 @@
     },{
         "type": "furniture",
         "id": "f_standing_tank_w",
-        "name": "standing tank",
+        "name": "standing water tank",
         "symbol" : "O",
         "color": "ltred",
         "move_cost_mod" : -1,
