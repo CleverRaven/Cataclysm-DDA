@@ -1879,5 +1879,22 @@
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_water_sh",
         "post_terrain" : "t_claymound"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Standing Water Tank", "//": "a freestanding tank, intended to hold water",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 10,
+        "qualities": [
+            [ { "id": "WRENCH", "level": 1 } ],
+            [ { "id": "HAMMER", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "metal_tank", 1 ] ],
+            [ [ "water_faucet", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_standing_tank_w"
     }
 ]
