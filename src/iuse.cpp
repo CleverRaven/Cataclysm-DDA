@@ -7808,16 +7808,18 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if (put->is_gun()) {
-            it_gun *gun = dynamic_cast<it_gun *>(put->type);
-            if (!(gun->skill_used == Skill::skill("pistol"))) {
-                p->add_msg_if_player(m_info, _("The %s isn't a pistol!"), put->tname().c_str());
-                return 0;
-            }
-        } else {
+        if (!(put->is_gun())) {
+//            it_gun *gun = dynamic_cast<it_gun *>(put->type);
+//            if (!(gun->skill_used == Skill::skill("pistol") || put->type->id == "shotgun_sawn")) {
+//                p->add_msg_if_player(m_info, _("The %s is not a pistol or sawn-off weapon!"), put->tname().c_str());
+//                return 0;
+//            }
+//        } else {
             p->add_msg_if_player(m_info, _("That isn't a gun!"), put->tname().c_str());
             return 0;
         }
+
+        it_gun *gun = dynamic_cast<it_gun *>(put->type);
 
         int maxvol = 5;
         if (it->type->id == "bootstrap") { // bootstrap can't hold as much as holster
@@ -7831,7 +7833,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
             return 0;
         }
 
-        int lvl = p->skillLevel("pistol");
+        int lvl = p->skillLevel(gun->skill_used);
         std::string message;
         if (lvl < 2) {
             message = _("You clumsily holster your %s.");
@@ -7842,13 +7844,14 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
-        p->store(it, put, "pistol", 14);
+        p->store(it, put, gun->skill_used->ident(), 14);
 
         // else draw the holstered pistol and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             item &gun = it->contents[0];
-            int lvl = p->skillLevel("pistol");
+            it_gun *t_gun = dynamic_cast<it_gun *>(gun.type);
+            int lvl = p->skillLevel(t_gun->skill_used);
             std::string message;
             if (lvl < 2) {
                 message = _("You clumsily draw your %s from the %s.");
@@ -7859,7 +7862,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
-            p->wield_contents(it, true, "pistol", 13);
+            p->wield_contents(it, true, t_gun->skill_used->ident(), 13);
         }
     }
     return it->type->charges_to_use();
