@@ -11276,7 +11276,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             }
 
             if (choice > -1) {
-                u.wield_contents(holsters[choice], true, _("pistol"), 13);
+                u.wield_contents(holsters[choice], true,  holsters[choice]->skill(), 13);
                 u.add_msg_if_player(_("You pull your %s from its %s and ready it to fire."),
                                     u.weapon.tname().c_str(), holsters[choice]->type_name(1).c_str());
                 if (u.weapon.charges <= 0) {
