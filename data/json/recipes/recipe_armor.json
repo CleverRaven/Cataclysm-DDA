@@ -7963,5 +7963,87 @@
       [ "fur", 9 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "thermal_outfit",
+  "id_suffix": "thermal_outfit_from_scratch",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "skills_required" : [ "tailor", 2 ],
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 52 ],
+      [ "needle_wood", 52 ],
+      [ "sewing_kit", 52 ]
+    ],
+    [
+      [ "soldering_iron", 100 ],
+      [ "toolset", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 40 ]
+    ],
+    [
+      [ "element", 18 ]
+    ],
+    [
+      [ "cable", 37 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "thermal_outfit",
+  "id_suffix": "thermal_outfit_from_bits",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "skills_required" : [ "tailor", 2 ],
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thermal_suit", 1 ]
+    ],
+	[
+      [ "thermal_gloves", 1 ]
+    ],
+	[
+      [ "thermal_socks", 1 ]
+    ],
+	[
+      [ "thermal_mask", 1 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ]
+  ]
 }
 ]
