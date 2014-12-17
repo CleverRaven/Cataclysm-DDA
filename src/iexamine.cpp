@@ -1672,7 +1672,7 @@ struct filter_is_drink {
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 static int get_keg_cap(std::string furn_name) {
-    if("standing tank" == furn_name)    { return 900; } //the furniture was a "standing tank", so can hold 900
+    if("standing tank" == furn_name)    { return 1200; } //the furniture was a "standing tank", so can hold 1200
     else                                { return 600; } //default to old default value
     //add additional cases above
 }
