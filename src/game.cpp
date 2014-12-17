@@ -12547,6 +12547,16 @@ void game::pldrive(int x, int y)
 
 bool game::check_save_mode_allowed()
 {
+    if (u.has_effect("laserlocked")) {
+        // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
+        safe_mode = SAFE_MODE_STOP;
+        add_msg( m_warning,
+             _( "You are being laser-targeted--safe mode is on! (%s to turn it off.)" ),
+             press_x( ACTION_TOGGLE_SAFEMODE ).c_str() );
+        // Effect is only here to hook into safemode, so remove it.
+        u.remove_effect("laserlocked");
+        return false;
+    }
     if( safe_mode != SAFE_MODE_STOP ) {
         return true;
     }
