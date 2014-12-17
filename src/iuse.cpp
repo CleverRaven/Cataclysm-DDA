@@ -7826,11 +7826,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             maxvol = 3;
         }
         // back holster can hold more
-<<<<<<< HEAD
         if (it->type->id == "back_holster") {
-=======
-        if ((it->type->id == "back_holster")) {
->>>>>>> 8d0927de38fa578f23d0699f299a0fc5e7a0e42e
             maxvol = 15;
         }
 
