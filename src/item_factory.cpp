@@ -292,7 +292,7 @@ void Item_factory::init()
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
     iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
-    iuse_function_list["HOLSTER_GUN"] = &iuse::holster_pistol;
+    iuse_function_list["HOLSTER_GUN"] = &iuse::holster_gun;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
