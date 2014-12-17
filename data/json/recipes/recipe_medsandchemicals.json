@@ -2031,7 +2031,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
-      [ "bleach", 1 ]
+      [ "bleach", 1 ],
+      [ "soap", 5 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -2157,8 +2158,8 @@
   ],
   "components": [
     [
-      [ "salt_water", 2 ],
-      [ "saline", 10 ]
+      [ "salt_water", 4 ],
+      [ "saline", 20 ]
     ]
   ]
 },{
