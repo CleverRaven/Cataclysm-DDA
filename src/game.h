@@ -24,7 +24,6 @@
 #include "creature_tracker.h"
 #include "game_constants.h"
 #include "weather_gen.h"
-#include "item_action.h"
 #include <vector>
 #include <map>
 #include <queue>

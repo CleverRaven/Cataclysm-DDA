@@ -37,6 +37,7 @@
 #include "game.h"
 #include "faction.h"
 #include "npc.h"
+#include "item_action.h"
 
 #include <string>
 #include <vector>

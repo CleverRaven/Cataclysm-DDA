@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "inventory.h"
 #include "item_factory.h"
+#include "item_action.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
