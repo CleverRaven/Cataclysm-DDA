@@ -18,7 +18,7 @@
     },{
         "type" : "item_action",
         "id" : "SOLDER_WELD",
-        "name" : "Reinforce metal/plastic/kevlar"
+        "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
         "id" : "CROWBAR",
@@ -33,6 +33,10 @@
         "name" : "Dig through rock"
     },{
         "type" : "item_action",
+        "id" : "GEIGER",
+        "name" : "Use geiger counter"
+    },{
+        "type" : "item_action",
         "id" : "HACKSAW",
         "name" : "Cut metal"
     },{
@@ -41,7 +45,35 @@
         "name" : "Cut bolts or wires"
     },{
         "type" : "item_action",
+        "id" : "HOTPLATE",
+        "name" : "Heat up food"
+    },{
+        "type" : "item_action",
+        "id" : "MISC_REPAIR",
+        "name" : "Repair wood/bone/chitin"
+    },,{
+        "type" : "item_action",
+        "id" : "GUN_REPAIR",
+        "name" : "Repair a gun"
+    },,{
+        "type" : "item_action",
+        "id" : "ROBOTCONTROL",
+        "name" : "Hack a robot"
+    },,{
+        "type" : "item_action",
+        "id" : "UNFOLD_GENERIC",
+        "name" : "Unfold folded vehicle"
+    },{
+        "type" : "item_action",
         "id" : "VITAMINS",
         "name" : "Take vitamins"
+    },{
+        "type" : "item_action",
+        "id" : "METH",
+        "name" : "Smoke/snort meth"
+    },{
+        "type" : "item_action",
+        "id" : "ANTICONVULSANT",
+        "name" : "Take anticonvulsant"
     }
 ]
