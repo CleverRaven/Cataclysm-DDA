@@ -30,6 +30,8 @@ extern worldfactory *world_generator;
 static std::vector<std::string> mmenu_title;
 static std::vector<std::string> mmenu_motd;
 static std::vector<std::string> mmenu_credits;
+static std::vector<std::string> vMenuItems;
+static std::vector<std::vector<std::string>> vMenuHotkeys;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
@@ -77,22 +79,12 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
         center_print(w_open, iLine++, cColor3, _("Version: %s"), getVersionString());
     }
 
-    std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
-    vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
-    vMenuItems.push_back(pgettext("Main Menu", "Lo<a>d"));
-    vMenuItems.push_back(pgettext("Main Menu", "<W>orld"));
-    vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
-    vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
-    vMenuItems.push_back(pgettext("Main Menu", "H<e>lp"));
-    vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
-    vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
-
     int menu_length = 0;
-    for( auto menu_item : vMenuItems ) {
-        // adds width if there are shortcut symbols "<" & ">", and width + 2 otherwise.
-        menu_length += utf8_width(menu_item.c_str()) +
-            (menu_item.find_first_of("<") != std::string::npos ? 0 : 2);
+    for( size_t i = 0; i < vMenuItems.size(); ++i ) {
+        menu_length += utf8_width(vMenuItems[i].c_str(), true) + 2;
+        if (!vMenuHotkeys[i].empty()) {
+            menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
+        }
     }
     // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
     const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
@@ -160,6 +152,25 @@ void game::mmenu_refresh_credits()
     mmenu_credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 }
 
+std::vector<std::string> get_hotkeys(const std::string& s)
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of('<');
+    size_t end = s.find_first_of('>');
+    if (start != std::string::npos && end != std::string::npos) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of('|', start);
+        while (sep < end) {
+            hotkeys.push_back(s.substr(lastsep + 1, sep - lastsep - 1));
+            lastsep = sep;
+            sep = s.find_first_of('|', sep + 1);
+        }
+        hotkeys.push_back(s.substr(lastsep + 1, end - lastsep - 1));
+    }
+    return hotkeys;
+}
+
 bool game::opening_screen()
 {
     // Play title music, whoo!
@@ -195,19 +206,44 @@ bool game::opening_screen()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    std::vector<std::string> vSubItems;
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    // fill menu with translated menu items
+    vMenuItems.clear();
+    vMenuItems.push_back(pgettext("Main Menu", "<M|m>OTD"));
+    vMenuItems.push_back(pgettext("Main Menu", "<N|n>ew Game"));
+    vMenuItems.push_back(pgettext("Main Menu", "Lo<a|A>d"));
+    vMenuItems.push_back(pgettext("Main Menu", "<W|w>orld"));
+    vMenuItems.push_back(pgettext("Main Menu", "<S|s>pecial"));
+    vMenuItems.push_back(pgettext("Main Menu", "<O|o>ptions"));
+    vMenuItems.push_back(pgettext("Main Menu", "H<e|E|?>lp"));
+    vMenuItems.push_back(pgettext("Main Menu", "<C|c>redits"));
+    vMenuItems.push_back(pgettext("Main Menu", "<Q|q>uit"));
+
+    // determine hotkeys from (possibly translated) menu item text
+    vMenuHotkeys.clear();
+    for ( auto item : vMenuItems ) {
+        vMenuHotkeys.push_back(get_hotkeys(item));
     }
 
+    std::vector<std::string> vSubItems;
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<C|c>ustom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<P|p>reset Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<R|r>andom Character"));
+    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N|n>ow!"));
+    }
+    std::vector<std::vector<std::string>> vNewGameHotkeys;
+    for ( auto item : vSubItems ) {
+        vNewGameHotkeys.push_back(get_hotkeys(item));
+    }
 
     std::vector<std::string> vWorldSubItems;
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D>elete World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R>eset World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C|c>reate World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D|d>elete World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R|r>eset World"));
+    std::vector<std::vector<std::string>> vWorldHotkeys;
+    for ( auto item : vWorldSubItems ) {
+        vWorldHotkeys.push_back(get_hotkeys(item));
+    }
 
     mmenu_refresh_title();
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
@@ -274,40 +310,18 @@ bool game::opening_screen()
             }
 
             std::string action = ctxt.handle_input();
-            const long chInput = ctxt.get_raw_input().get_first_input();
-            if (chInput == 'm' || chInput == 'M') {
-                // MOTD
-                sel1 = 0;
-                action = "CONFIRM";
-            } else if (chInput == 'n' || chInput == 'N') {
-                // New Game
-                sel1 = 1;
-                action = "CONFIRM";
-            } else if (chInput == 'a' || chInput == 'A') {
-                // Load Game
-                sel1 = 2;
-                action = "CONFIRM";
-            } else if (chInput == 'w' || chInput == 'W') {
-                // World
-                sel1 = 3;
-                action = "CONFIRM";
-            } else if (chInput == 's' || chInput == 'S') {
-                // Special Game
-                sel1 = 4;
-                action = "CONFIRM";
-            } else if (chInput == 'o' || chInput == 'O') {
-                // Options
-                sel1 = 5;
-                action = "CONFIRM";
-            } else if (chInput == 'e' || chInput == 'E' || chInput == '?') {
-                // Help
-                sel1 = 6;
-                action = "CONFIRM";
-            } else if (chInput == 'c' || chInput == 'C') {
-                // Credits
-                sel1 = 7;
-                action = "CONFIRM";
-            } else if (action == "QUIT") {
+            std::string sInput = ctxt.get_raw_input().text;
+            // check automatic menu shortcuts
+            for (size_t i = 0; i < vMenuHotkeys.size(); ++i) {
+                for ( auto hotkey : vMenuHotkeys[i] ) {
+                    if (sInput == hotkey) {
+                        sel1 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+            // also check special keys
+            if (action == "QUIT") {
                 // Quit
                 sel1 = 8;
                 action = "CONFIRM";
@@ -352,20 +366,16 @@ bool game::opening_screen()
                 refresh();
 
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if (chInput == 'p' || chInput == 'P') {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if (chInput == 'r' || chInput == 'R') {
-                    sel2 = 2;
-                    action = "CONFIRM";
-                } else if (chInput == 'n' || chInput == 'N') {
-                    sel2 = 3;
-                    action = "CONFIRM";
-                } else if (action == "LEFT") {
+                std::string sInput = ctxt.get_raw_input().text;
+                for (size_t i = 0; i < vNewGameHotkeys.size(); ++i) {
+                    for ( auto hotkey : vNewGameHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
+                }
+                if (action == "LEFT") {
                     sel2--;
                     if (sel2 < 0) {
                         sel2 = vSubItems.size() - 1;
@@ -499,17 +509,14 @@ bool game::opening_screen()
                 wrefresh(w_open);
                 refresh();
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if ((chInput == 'd' || chInput == 'D') && (world_subs_to_display > 1)) {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if ((chInput == 'r' || chInput == 'R') && (world_subs_to_display > 1)) {
-                    sel2 = 2;
-                    action = "CONFIRM";
+                std::string sInput = ctxt.get_raw_input().text;
+                for (int i = 0; i < world_subs_to_display; ++i) {
+                    for ( auto hotkey : vWorldHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
                 }
 
                 if (action == "LEFT") {
