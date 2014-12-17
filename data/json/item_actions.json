@@ -9,6 +9,10 @@
         "name" : "Use as knife"
     },{
         "type" : "item_action",
+        "id" : "FIRESTARTER",
+        "name" : "Start a fire"
+    },{
+        "type" : "item_action",
         "id" : "PICKLOCK",
         "name" : "Pick a lock"
     },{

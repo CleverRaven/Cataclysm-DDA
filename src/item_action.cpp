@@ -85,7 +85,7 @@ item_action_map map_actions_to_items( player &p )
                 continue;
             }
 
-            // Add to usable items only if it needs less charges per use
+            // Add to usable items if it needs less charges per use or has less charges
             auto found = candidates.find( use );
             int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
             bool better = false;
@@ -93,8 +93,12 @@ item_action_map map_actions_to_items( player &p )
                 better = true;
             } else {
                 it_tool *other = dynamic_cast<it_tool*>(found->second->type);
-                if ( other != nullptr && would_use_charges < other->charges_per_use ) {
-                    better = true;
+                if( other == nullptr || would_use_charges > other->charges_per_use ) {
+                    continue; // Other item consumes less charges
+                }
+
+                if( found->second->charges > i->charges ) {
+                    better = true; // Items with less charges preferred
                 }
             }
             
@@ -164,6 +168,7 @@ void game::item_action_menu()
         iter++;
     }
     int invpos = u.inv.position_by_item( iter->second );
+    draw_ter();
     if( invpos != INT_MIN ) {
         u.use( invpos );
     }
