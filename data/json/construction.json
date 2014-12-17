@@ -1395,6 +1395,23 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_wood_keg"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Standing Tank", "//": "a freestanding metal tank, useful for holding liquids",
+        "category" : "FURN",
+        "difficulty" : 4,
+        "time" : 30,
+        "qualities": [
+            [ { "id": "HAMMER", "level": 1 } ],
+            [ { "id": "WRENCH", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "metal_tank", 4 ] ],
+            [ [ "water_faucet", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_standing_tank"
     },{
         "type" : "construction",
         "description" : "Place Anvil",
@@ -1879,22 +1896,5 @@
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_water_sh",
         "post_terrain" : "t_claymound"
-    },
-    {
-        "type" : "construction",
-        "description" : "Build Standing Tank", "//": "a freestanding metal tank, useful for holding liquids",
-        "category" : "FURN",
-        "difficulty" : 4,
-        "time" : 30,
-        "qualities": [
-            [ { "id": "HAMMER", "level": 1 } ],
-            [ { "id": "WRENCH", "level": 1 } ]
-        ],
-        "components" : [
-            [ [ "metal_tank", 4 ] ],
-            [ [ "water_faucet", 1] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_terrain" : "f_standing_tank"
     }
 ]
