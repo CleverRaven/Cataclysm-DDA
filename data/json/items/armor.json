@@ -11292,7 +11292,7 @@
         "type" : "ARMOR",
         "id" : "chainmail_suit",
         "name" : "chainmail armor",
-        "weight" : 18989,
+        "weight" : 15983,
         "color" : "light_red",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
         "to_hit" : -1,
