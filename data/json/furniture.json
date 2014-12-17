@@ -2011,7 +2011,7 @@
                 { "item": "metal_tank", "amount": 1 }
                 { "item": "water_faucet", "amount": 1 }
             ]   
-        }
+        },
         "examine_action": "reload_furniture",
         "bash": {
             "str_min": 5, "str_max": 20,
