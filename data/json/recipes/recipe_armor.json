@@ -8215,5 +8215,97 @@
       [ "tanned_hide", 4 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "wool_hoodie",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 150000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 100 ],
+        [ "needle_wood", 100 ],
+        [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cowl_wool",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_MOUTH",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wool_suit",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 8,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 200 ],
+        [ "needle_wood", 200 ],
+        [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 42 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mask_ski",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_MOUTH",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 150000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 8 ]
+    ]
+  ]
 }
 ]
