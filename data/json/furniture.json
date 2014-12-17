@@ -2007,7 +2007,7 @@
         "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
-                { "item": "metal_tank", "amount": 1 }
+                { "item": "metal_tank", "amount": 4 }
                 { "item": "water_faucet", "amount": 1 }
             ]
         },
@@ -2017,7 +2017,7 @@
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
-                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "scrap", "amount": 32, "minamount": 8},
                 { "item": "water_faucet", "amount": 1, "minamount": 0 }
             ]
         }
