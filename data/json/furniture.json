@@ -2007,7 +2007,7 @@
         "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
-                { "item": "metal_tank", "amount": 4 }
+                { "item": "metal_tank", "amount": 4 },
                 { "item": "water_faucet", "amount": 1 }
             ]
         },
