@@ -3886,52 +3886,5 @@
     [ [ "oxy_powder", 15 ] ],
     [ [ "lye_powder", 15 ] ]
   ]
-},
-{
-	"type" : "recipe",
-	"result": "plasma",
-	"category": "CC_AMMO",
-	"subcategory": "CSC_AMMO_OTHER",
-	"skill_used": "fabrication",
-	"skills_required": [ "cooking", 4 ],
-	"difficulty": 6,
-	"time": 30000,
-	"reversible": false,
-	"autolearn": false,
-	"book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3] , ["recipe_labchem", 3]],
-	"qualities" : [
-		{"id":"CHEM","level":1,"amount":1}
-	],
-	"tools": [
-		[
-			[ "toolset", 100 ],
-			[ "chemistry_set", 100 ]
-		],
-		[
-			[ "soldering_iron", 5 ],
-			[ "toolset", 5 ],
-			[ "duct_tape", 2 ]
-		]
-	],
-	"components": [
-		[
-			[ "salt_water", 25 ],
-			[ "saline", 25 ],
-			[ "water_acid", 25 ],
-			[ "water_acid_weak", 25 ]
-		],
-		[
-			[ "steel_chunk", 2 ],
-			[ "knife_butter", 2 ],
-			[ "knife_steak", 2 ],
-			[ "bolt_steel", 2 ],
-			[ "scrap", 2 ]
-		],
-		[
-			[ "can_drink", 1 ],
-			[ "can_food", 1 ],
-			[ "canister_empty", 1 ]
-		]
-	]
 }
 ]
