@@ -617,7 +617,7 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = *start_location::find( u.start_location );
     start_loc.setup( cur_om, levx, levy, levz );
-    
+
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
@@ -2107,7 +2107,7 @@ void game::activity_on_finish_hotwire()
         debugmsg("process_activity ACT_HOTWIRE_CAR: vehicle not found");
     }
     u.activity.type = ACT_NULL;
-    
+
 }
 
 void game::activity_on_finish_fish()
@@ -11250,7 +11250,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if ((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
+            if (((worn.type->can_use("HOLSTER_GUN") && worn.type->id != "back_holster") || worn.type->can_use("HOLSTER_ANKLE")) &&
                 (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
             }
