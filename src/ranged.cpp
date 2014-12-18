@@ -267,11 +267,17 @@ void player::fire_gun(int tarx, int tary, bool burst)
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
 
-    if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
-        // Charges maxes out at 8.
-        long charges = weapon.num_charges();
-        it_ammo *tmpammo = dynamic_cast<it_ammo *>( item( "charge_shot", 0 ).type );
+    if( gunmod != nullptr ) {
+        used_weapon = gunmod;
+    } else {
+        used_weapon = &weapon;
+    }
+    if( used_weapon->has_flag( "CHARGE" ) ) {
+        // It's a charger gun, so make up a type
+        used_weapon->set_curammo( "charge_shot" );
+        auto tmpammo = used_weapon->get_curammo();
 
+        long charges = used_weapon->num_charges();
         tmpammo->damage = charges * charges;
         tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
         if (charges <= 4) {
@@ -282,6 +288,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
         tmpammo->recoil = tmpammo->dispersion * .8;
         tmpammo->ammo_effects.clear(); // Reset effects.
+        // Charges maxes out at 8, compare with item::process_charger_gun
         if (charges == 8) {
             tmpammo->ammo_effects.insert("EXPLOSIVE_BIG");
         } else if (charges >= 6) {
@@ -293,23 +300,14 @@ void player::fire_gun(int tarx, int tary, bool burst)
         } else if (charges >= 4) {
             tmpammo->ammo_effects.insert("INCENDIARY");
         }
-
-        if (gunmod != NULL) { // TODO: range calculation in case of active gunmod.
-            used_weapon = gunmod;
-        } else {
-            used_weapon = &weapon;
-        }
-
-        curammo = tmpammo;
-        used_weapon->set_curammo( tmpammo->id );
-    } else if (gunmod != NULL) {
-        used_weapon = gunmod;
-        curammo = used_weapon->get_curammo();
-    } else {// Just a normal gun. If we're here, we know curammo is valid.
-        curammo = weapon.get_curammo();
-        used_weapon = &weapon;
     }
+    curammo = used_weapon->get_curammo();
 
+    if( curammo == nullptr ) {
+        debugmsg( "%s tried to fire an empty gun (%s).", name.c_str(),
+                  used_weapon->tname().c_str() );
+        return;
+    }
     if( !used_weapon->is_gun() ) {
         debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
                  used_weapon->tname().c_str());
