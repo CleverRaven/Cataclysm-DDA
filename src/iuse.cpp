@@ -6824,8 +6824,8 @@ int iuse::lumber(player *p, item *it, bool, point)
         return 0;
     }
     if (cut->type->id == "log") {
-        p->i_rem( it );
-        cut_log_into_planks(p, it);
+        p->i_rem( cut );
+        cut_log_into_planks( p, cut );
         return it->type->charges_to_use();
     } else {
         add_msg(m_info, _("You can't cut that up!"));
