@@ -1406,6 +1406,7 @@
             [ { "id": "HAMMER", "level": 2 } ],
             [ { "id": "SAW_M", "level": 1 } ]
         ],
+        "//" : "Should add a welder & goggles once that's sorted out.",
         "components" : [
             [ [ "metal_tank", 4 ] ],
             [ [ "water_faucet", 1] ]
