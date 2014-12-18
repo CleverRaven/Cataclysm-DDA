@@ -1408,14 +1408,10 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
         itype_id seedType = m->i_at(examx, examy)[0].typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
-            for (size_t k = 0; k < m->i_at(examx, examy).size(); k++) {
-                m->i_rem(examx, examy, k);
-            }
+            m->i_clear(examx, examy);
         } else if (seedType == "marloss_seed") {
             fungus(p, m, examx, examy);
-            for (size_t k = 0; k < m->i_at(examx, examy).size(); k++) {
-                m->i_rem(examx, examy, k);
-            }
+            m->i_clear(examx, examy);
             if (p->has_trait("M_DEPENDENT") && ((p->hunger > 500) || p->thirst > 300 )) {
                 m->ter_set(examx, examy, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
@@ -1975,12 +1971,16 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
 {
     int sum_weight = 0;
-    for( auto item_it = stack.begin(); item_it != stack.end(); ++item_it ) {
+    for( auto item_it = stack.begin(); item_it != stack.end(); ) {
         if( item_it->made_of(material) && item_it->weight() > 0) {
             sum_weight += item_it->weight();
             if( remove_items ) {
-                stack.erase( item_it );
+                item_it = stack.erase( item_it );
+            } else {
+                ++item_it;
             }
+        } else {
+            ++item_it;
         }
     }
     return sum_weight;

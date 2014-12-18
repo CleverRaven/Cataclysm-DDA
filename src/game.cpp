@@ -11568,7 +11568,7 @@ void game::butcher()
         return;
     } else if( dis_item.corpse == NULL ) {
         item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
-        iuse::cut_up( &u, &salvage_tool, &items[butcher_corpse_index], false );
+        iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );
         return;
     }
     mtype *corpse = dis_item.corpse;
@@ -12984,10 +12984,16 @@ bool game::plmove(int dx, int dy)
                             // Assume contents of both cells are legal, so we can just swap contents.
                             std::list<item> temp;
                             std::move( m.i_at(fpos.x, fpos.y).begin(), m.i_at(fpos.x, fpos.y).end(),
-                                       temp.begin() );
-                            std::move(  m.i_at(fpos.x, fpos.y).begin(), m.i_at(fpos.x, fpos.y).end(),
-                                        m.i_at(fpos.x, fpos.y).begin() );
-                            std::move( temp.begin(), temp.end(), m.i_at(fpos.x, fpos.y).begin() );
+                                       std::back_inserter(temp) );
+                            m.i_clear(fpos.x, fpos.y);
+                            for( auto item_iter = m.i_at(fdest.x, fdest.y).begin();
+                                 item_iter != m.i_at(fdest.x, fdest.y).end(); ++item_iter ) {
+                                m.i_at(fpos.x, fpos.y).push_back( *item_iter );
+                            }
+                            m.i_clear(fdest.x, fdest.y);
+                            for( auto item_iter = temp.begin(); item_iter != temp.end(); ++item_iter ) {
+                                m.i_at(fdest.x, fdest.y).push_back( *item_iter );
+                            }
                         } else {
                             add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
                         }

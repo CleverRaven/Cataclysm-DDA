@@ -2780,7 +2780,7 @@ int map::i_rem(const int x, const int y, const int index)
     auto map_items = i_at(x, y);
 
     int i = 0;
-    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
+    for( auto iter = map_items.begin(); iter != map_items.end(); iter++, i++ ) {
         if( i == index) {
             map_items.erase( iter );
             return i;
@@ -2807,7 +2807,11 @@ void map::i_clear(const int x, const int y)
     int lx, ly;
     submap *const current_submap = get_submap_at( x, y, lx, ly );
 
-    current_submap->active_item_count = 0;
+    for( auto &itm : current_submap->itm[lx][ly] ) {
+        if( itm.needs_processing() ) {
+            current_submap->active_item_count--;
+        }
+    }
     current_submap->itm[lx][ly].clear();
 }
 
