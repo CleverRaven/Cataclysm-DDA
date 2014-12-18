@@ -1979,7 +1979,7 @@
         "symbol": "[",
         "color": "light_gray",
         "name": "thermal electric outfit",
-		"name_plural": "thermal electric outfits",
+        "name_plural": "thermal electric outfits",
         "description": "This suit of thin thermal underwear covers you from head to toe and is equipped with internal battery-powered heating elements.  Use it to turn it on.",
         "flags": [ "VARSIZE", "SKINTIGHT" ],
         "price": 30000,
