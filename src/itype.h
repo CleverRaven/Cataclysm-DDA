@@ -203,8 +203,45 @@ struct islot_book {
     }
 };
 
+/**
+ * Common data for ranged things: guns, gunmods and ammo.
+ * The values of the gun itself, its mods and its current ammo (optional) are usually summed
+ * up in the item class and the sum is used.
+ */
+struct common_ranged_data {
+    /**
+     * Armor-pierce bonus from gun.
+     */
+    int pierce;
+    /**
+     * Range bonus from gun.
+     */
+    int range;
+    /**
+     * Damage bonus from gun.
+     */
+    int damage;
+    /**
+     * Dispersion "bonus" from gun.
+     */
+    int dispersion;
+    /**
+     * Recoil "bonus" from gun.
+     */
+    int recoil;
+
+    common_ranged_data()
+    : pierce( 0 )
+    , range( 0 )
+    , damage( 0 )
+    , dispersion( 0 )
+    , recoil( 0 )
+    {
+    }
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
-struct islot_gun {
+struct islot_gun : public common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
@@ -217,22 +254,6 @@ struct islot_gun {
      */
     Skill *skill_used;
     /**
-     * Damage bonus from gun.
-     */
-    int dmg_bonus;
-    /**
-     * Armor-pierce bonus from gun.
-     */
-    int pierce;
-    /**
-     * Range bonus from gun.
-     */
-    int range;
-    /**
-     * Dispersion "bonus" from gun.
-     */
-    int dispersion;
-    /**
      * TODO: document me
      */
     int sight_dispersion;
@@ -240,10 +261,6 @@ struct islot_gun {
      * TODO: document me
      */
     int aim_speed;
-    /**
-     * Recoil "bonus" from gun.
-     */
-    int recoil;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -276,14 +293,10 @@ struct islot_gun {
     int ups_charges;
 
     islot_gun()
-    : skill_used( nullptr )
-    , dmg_bonus( 0 )
-    , pierce( 0 )
-    , range( 0 )
-    , dispersion( 0 )
+    : common_ranged_data()
+    , skill_used( nullptr )
     , sight_dispersion( 0 )
     , aim_speed( 0 )
-    , recoil( 0 )
     , durability( 0 )
     , burst( 0 )
     , clip( 0 )
@@ -295,13 +308,9 @@ struct islot_gun {
     }
 };
 
-struct islot_gunmod {
+struct islot_gunmod : public common_ranged_data {
     // Used by gunmods with a firing mode,
     // this should be supported by assigning a gun itype to the item as well.
-    /**
-     * TODO: document me
-     */
-    int dispersion;
     /**
      * TODO: document me
      */
@@ -317,10 +326,6 @@ struct islot_gunmod {
     /**
      * TODO: document me
      */
-    int damage;
-    /**
-     * TODO: document me
-     */
     int loudness;
     /**
      * TODO: document me
@@ -329,15 +334,7 @@ struct islot_gunmod {
     /**
      * TODO: document me
      */
-    int recoil;
-    /**
-     * TODO: document me
-     */
     int burst;
-    /**
-     * TODO: document me
-     */
-    int range;
     /**
      * TODO: document me
      */
@@ -390,16 +387,13 @@ struct islot_gunmod {
     std::string location;
 
     islot_gunmod()
-    : dispersion( 0 )
+    : common_ranged_data()
     , mod_dispersion( 0 )
     , sight_dispersion( 0 )
     , aim_speed( 0 )
-    , damage( 0 )
     , loudness( 0 )
     , clip( 0 )
-    , recoil( 0 )
     , burst( 0 )
-    , range( 0 )
     , req_skill( 0 )
     , skill_used( nullptr )
     , newtype()
@@ -659,21 +653,16 @@ struct it_var_veh_part: public virtual itype {
 };
 
 
-struct it_ammo : public virtual itype {
+struct it_ammo : public virtual itype, public common_ranged_data {
     ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
     itype_id casing;        // Casing produced by the ammo, if any
-    unsigned int damage;   // Average damage done
-    unsigned int pierce;   // Armor piercing; static reduction in armor
-    unsigned int range;    // Maximum range
-    signed int dispersion; // Dispersion (low is good)
-    unsigned int recoil;   // Recoil; modified by strength
     unsigned int count;    // Default charges
 
     itype_id default_container; // The container it comes in
 
     std::set<std::string> ammo_effects;
 
-    it_ammo(): itype(), type(), casing(), damage(0), pierce(0), range(0), dispersion(0), recoil(0),
+    it_ammo(): itype(), type(), casing(),
         count(0), default_container(), ammo_effects()
     {
     }

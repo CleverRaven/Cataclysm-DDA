@@ -573,7 +573,7 @@ npc_action npc::method_of_attack(int target, int danger)
     }
 
     int dist = rl_dist(posx, posy, tarx, tary);
-    unsigned target_HP;
+    int target_HP;
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
     } else {

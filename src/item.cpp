@@ -701,6 +701,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
                                      ((mod->damage > 0) ? "+" : "")));
         }
+        if (mod->pierce != 0) {
+            dump->push_back(iteminfo("GUNMOD", _("Armor-pierce: "), "", mod->pierce, true,
+                                     ((mod->pierce > 0) ? "+" : "")));
+        }
         if (mod->clip != 0)
             dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%", mod->clip, true,
                                      ((mod->clip > 0) ? "+" : "")));
@@ -2279,7 +2283,7 @@ int item::weapon_value(player *p) const
     if (is_gun()) {
         int gun_value = 14;
         const islot_gun* gun = type->gun.get();
-        gun_value += gun->dmg_bonus;
+        gun_value += gun->damage;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
@@ -3077,7 +3081,7 @@ int item::gun_damage( bool with_ammo ) const
         }
     }
     const auto gun = type->gun.get();
-    int ret = gun->dmg_bonus;
+    int ret = gun->damage;
     if( with_ammo && has_curammo() ) {
         ret += get_curammo()->damage;
     }

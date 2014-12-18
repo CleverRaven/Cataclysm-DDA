@@ -600,7 +600,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    slot.dmg_bonus = jo.get_int( "ranged_damage", 0 );
+    slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
     slot.sight_dispersion = jo.get_int("sight_dispersion");
@@ -786,6 +786,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.loudness = jo.get_int( "loudness_modifier", 0 );
     slot.newtype = jo.get_string( "ammo_modifier", "NULL" );
     slot.location = jo.get_string( "location" );
+    // TODO: implement loading this from json (think of a proper name)
+    // slot.pierce = jo.get_string( "mod_pierce", 0 );
     slot.used_on_pistol = is_mod_target( jo, "mod_targets", "pistol" );
     slot.used_on_shotgun = is_mod_target( jo, "mod_targets", "shotgun" );
     slot.used_on_smg = is_mod_target( jo, "mod_targets", "smg" );
