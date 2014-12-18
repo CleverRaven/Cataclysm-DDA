@@ -4798,7 +4798,7 @@ void vehicle::control_turrets() {
             pmenu.addentry( i, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( p ).name.c_str() );
         }
         
-        pmenu.addentry( turrets.size(), true, 'q', _("Cancel") );
+        pmenu.addentry( turrets.size(), true, 'q', _("Finish") );
         pmenu.w_y = 0; // Move the menu so that we can see our vehicle
         
         pmenu.selected = selected;
