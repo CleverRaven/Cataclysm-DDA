@@ -684,11 +684,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));
         }
-        if (mod->sight_dispersion != 0) {
+        if (mod->sight_dispersion != -1) {
             dump->push_back(iteminfo("GUNMOD", _("Sight dispersion: "), "",
                                      mod->sight_dispersion, true, ""));
         }
-        if (mod->aim_speed != 0) {
+        if (mod->aim_speed != -1) {
             dump->push_back(iteminfo("GUNMOD", _("Aim speed: "), "",
                                      mod->aim_speed, true, ""));
         }

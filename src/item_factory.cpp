@@ -600,6 +600,9 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
+    // TODO: implement loading this from json (think of a proper name)
+    // Or calculate it automatically, see item::noise and ranged.cpp
+    // slot.loudness = jo.get_string( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
@@ -820,14 +823,10 @@ void Item_factory::load_gunmod(JsonObject &jo)
         auto &mod = *new_item_template->gunmod;
         // copy the common data first, then swap gun specific things in, clearing the mods data
         // at the same time (the data must only appear in either the gun slot *or* the mod slot.
-        static_cast<common_ranged_data&>( gun ) = static_cast<common_ranged_data &>( mod );
+        static_cast<common_firing_data&>( gun ) = static_cast<common_firing_data &>( mod );
         std::swap( gun.ammo, mod.newtype );
         std::swap( gun.skill_used, mod.skill_used );
-        std::swap( gun.sight_dispersion, mod.sight_dispersion );
-        std::swap( gun.aim_speed, mod.aim_speed );
         gun.durability = 9; // or whatever
-        std::swap( gun.burst, mod.burst );
-        std::swap( gun.clip, mod.clip );
         gun.reload_time = 1; // or whatever
         // gun.ammo_effects = ;
         // gun.valid_mod_locations stays empty, mods can not be modded further

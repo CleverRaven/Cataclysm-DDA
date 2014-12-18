@@ -240,8 +240,49 @@ struct common_ranged_data {
     }
 };
 
+/**
+ * Common data for things that affect firing: guns and gunmods.
+ * The values of the gun itself and its mods are usually summed up in the item class
+ * and the sum is used.
+ */
+struct common_firing_data : public common_ranged_data {
+    /**
+     * TODO: this needs documentation, who knows what it is?
+     * A value of -1 in gunmods means it's ignored.
+     */
+    int sight_dispersion;
+    /**
+     * TODO: this needs documentation, who knows what it is?
+     * A value of -1 in gunmods means it's ignored.
+     */
+    int aim_speed;
+    /**
+     * Burst size.
+     */
+    int burst;
+    /**
+     * Clip size. Note that on some gunmods it means relative (in percent) of the
+     * guns main magazine.
+     */
+    int clip;
+    /**
+     * TODO: document me
+     */
+    int loudness;
+
+    common_firing_data()
+    : common_ranged_data()
+    , sight_dispersion( 0 )
+    , aim_speed( 0 )
+    , burst( 0 )
+    , clip( 0 )
+    , loudness( 0 )
+    {
+    }
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
-struct islot_gun : public common_ranged_data {
+struct islot_gun : public common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
@@ -254,25 +295,9 @@ struct islot_gun : public common_ranged_data {
      */
     Skill *skill_used;
     /**
-     * TODO: document me
-     */
-    int sight_dispersion;
-    /**
-     * TODO: document me
-     */
-    int aim_speed;
-    /**
      * Gun durability, affects gun being damaged during shooting.
      */
     int durability;
-    /**
-     * Burst size.
-     */
-    int burst;
-    /**
-     * Clip size.
-     */
-    int clip;
     /**
      * Reload time.
      */
@@ -293,13 +318,9 @@ struct islot_gun : public common_ranged_data {
     int ups_charges;
 
     islot_gun()
-    : common_ranged_data()
+    : common_firing_data()
     , skill_used( nullptr )
-    , sight_dispersion( 0 )
-    , aim_speed( 0 )
     , durability( 0 )
-    , burst( 0 )
-    , clip( 0 )
     , reload_time( 0 )
     , ammo_effects()
     , valid_mod_locations()
@@ -308,7 +329,7 @@ struct islot_gun : public common_ranged_data {
     }
 };
 
-struct islot_gunmod : public common_ranged_data {
+struct islot_gunmod : public common_firing_data {
     // Used by gunmods with a firing mode,
     // this should be supported by assigning a gun itype to the item as well.
 private:
@@ -318,26 +339,6 @@ private:
      */
     int mod_dispersion;
 public:
-    /**
-     * TODO: document me
-     */
-    int sight_dispersion;
-    /**
-     * TODO: document me
-     */
-    int aim_speed;
-    /**
-     * TODO: document me
-     */
-    int loudness;
-    /**
-     * TODO: document me
-     */
-    int clip;
-    /**
-     * TODO: document me
-     */
-    int burst;
     /**
      * TODO: document me
      */
@@ -390,13 +391,8 @@ public:
     std::string location;
 
     islot_gunmod()
-    : common_ranged_data()
+    : common_firing_data()
     , mod_dispersion( 0 )
-    , sight_dispersion( 0 )
-    , aim_speed( 0 )
-    , loudness( 0 )
-    , clip( 0 )
-    , burst( 0 )
     , req_skill( 0 )
     , skill_used( nullptr )
     , newtype()
