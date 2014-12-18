@@ -6871,7 +6871,7 @@
         "storage" : 0,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "NO_QUICKDRAW"],
         "coverage" : 6,
         "environmental_protection" : 0,
         "cutting" : 0,

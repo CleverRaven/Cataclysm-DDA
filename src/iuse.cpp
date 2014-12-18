@@ -7811,7 +7811,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         // make sure we're holstering a pistol
         if ((put->is_gun())) {
             // back holser can't hold pistol sized guns
-            if (it->type->id == "back_holster" && (put->skill() == "pistol" || put->type->id == "shotgun_sawn")) {
+            if (put->type->volume > helper::to_int(it->type->properties["holster_size"])) {
                 p->add_msg_if_player(m_info, _("The %s can't hold pistol sized guns!"), it->tname().c_str());
                 return 0;
             }

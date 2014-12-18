@@ -11250,7 +11250,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && worn.type->id != "back_holster") || worn.type->can_use("HOLSTER_ANKLE")) &&
+            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
                 (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
             }
