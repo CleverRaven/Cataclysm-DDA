@@ -8889,6 +8889,28 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE"
+  },
+  
+  {
+	"id": "brick_kiln",
+	"type": "TOOL",
+	"symbol": ";",
+	"color": "dark_gray",
+	"name": "brick kiln",
+	"description": "This is a portable, charcoal fired, brick kiln. You could use it to craft your own bricks, for use in construction projects.",
+	"price": 25000,
+	"material": "steel",
+	"weight": 9600,
+	"volume": 36,
+	"bashing": 13,
+	"cutting": 0,
+	"to_hit": -3,
+	"max_charges": 200,
+	"initial_charges": 0,
+	"charges_per_use": 0,
+	"turns_per_charge": 0,
+	"ammo": "charcoal",
+	"revert_to": "null"
   }
 
 ]
