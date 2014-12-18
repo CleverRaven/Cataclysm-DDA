@@ -9,6 +9,40 @@
         "trap": "tr_ledge",
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
+	"type" : "terrain",
+	"id" : "t_brick_wall_halfway",
+	"name": "half-built brick wall",
+	"symbol": "#",
+	"color": "brown",
+	"move_cost": 5,
+	"flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
+	"bash": {
+		"str_min": 30, "str_max": 100,
+		"sound": "crash!",
+		"sound_fail": "bash!",
+		"ter_set": "t_dirt",
+		"items": [
+			{ "item": "rock", "amount": 10, "minamount": 6 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_brick_wall",
+	"name": "brick wall",
+	"symbol": "#",
+	"color": "brown",
+	"move_cost": 0,
+	"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+	"bash": {
+		"str_min": 60, "str_max": 160,
+		"sound": "crash!",
+		"sound_fail": "bash!",
+		"ter_set": "t_dirt",
+		"items": [
+			{ "item": "rock", "amount": 20, "minamount": 10 }
+		]
+	}
+    },{
     	"type" : "terrain",
 	"id" : "t_sconc_wall",
 	"name": "simple concrete wall",
