@@ -7809,13 +7809,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if ((put->is_gun())) {
-            // back holser can't hold pistol sized guns
-            if (put->type->volume > helper::to_int(it->type->properties["holster_size"])) {
-                p->add_msg_if_player(m_info, _("The %s can't hold pistol sized guns!"), it->tname().c_str());
-                return 0;
-            }
-        } else {
+        if (!put->is_gun()) {
             p->add_msg_if_player(m_info, _("That isn't a gun!"), put->tname().c_str());
             return 0;
         }
@@ -7830,6 +7824,10 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
                                  put->tname().c_str());
             return 0;
+        } else if (put->volume() < (maxvol / 3)) {
+          p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
+                              put->tname().c_str());
+          return 0;
         }
 
         int lvl = p->skillLevel(gun->skill_used);
