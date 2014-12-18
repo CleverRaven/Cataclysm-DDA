@@ -1386,7 +1386,7 @@
     "hp":80,
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
-    "description":"A human body, swaying as it moves, an unstoppable rage is visible beneath its oily black eyes.",
+    "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -5737,7 +5737,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SHOCKSTORM", 15], ["SMASH", 30]],
     "special_when_hit":["ZAPBACK", 75],
-    "description":"A huge beast covered in visible scarring from what you can only guess was 'research'. Being near it, you can hear a slight humming, like that of an electrical transformer.",
+    "description":"A huge beast covered in visible scarring from what you can only guess was 'research'.  Being near it, you can hear a slight humming, like that of an electrical transformer.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "VIS40", "REVIVES"]
     }
 ]
