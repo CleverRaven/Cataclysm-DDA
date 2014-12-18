@@ -10384,7 +10384,7 @@ int game::list_monsters(const int iLastState)
 
     uistate.list_item_mon = 2; // remember we've tabbed here
 
-    const int iWeaponRange = u.weapon.range(&u);
+    const int iWeaponRange = u.weapon.gun_range(&u);
 
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
@@ -11438,7 +11438,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    int range = u.weapon.range(&u);
+    int range = u.weapon.gun_range(&u);
 
     temp_exit_fullscreen();
     m.draw(w_terrain, point(u.posx, u.posy));

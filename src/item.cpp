@@ -601,11 +601,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_range", "",
                                      ammo_range, true, temp1.str(), false, false, false));
             dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"),
-                                     range(NULL), true, "", false, false, false));
+                                     gun_range(NULL), true, "", false, false, false));
         }
 
         dump->push_back(iteminfo("GUN", space + _("Dispersion: "), "",
-                                 dispersion(), true, "", !has_ammo, true));
+                                 gun_dispersion(), true, "", !has_ammo, true));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_range >= 0 ? "+" : "" );
@@ -613,7 +613,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
                                      ammo_dispersion, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
-                                     dispersion() + ammo_dispersion, true, "", true, true, false));
+                                     gun_dispersion() + ammo_dispersion, true, "", true, true, false));
         }
 
         dump->push_back(iteminfo("GUN", _("Sight dispersion: "), "",
@@ -623,7 +623,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                  aim_speed(-1), true, "", true, true));
 
         //recoil of gun
-        dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", false, true));
+        dump->push_back(iteminfo("GUN", _("Recoil: "), "", gun_recoil(false), true, "", false, true));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_recoil >= 0 ? "+" : "" );
@@ -631,7 +631,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_recoil", "",
                                      ammo_recoil, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_recoil", _(" = <num>"),
-                                     recoil(), true, "", false, true, false));
+                                     gun_recoil(), true, "", false, true, false));
         }
 
         dump->push_back(iteminfo("GUN", space + _("Reload time: "),
@@ -2982,7 +2982,7 @@ int item::clip_size() const
     return ret;
 }
 
-int item::dispersion( bool with_ammo ) const
+int item::gun_dispersion( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
@@ -3141,7 +3141,7 @@ int item::burst_size() const
     return ret;
 }
 
-int item::recoil( bool with_ammo ) const
+int item::gun_recoil( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
@@ -3159,7 +3159,7 @@ int item::recoil( bool with_ammo ) const
     return ret;
 }
 
-int item::range( player *p ) const
+int item::gun_range( player *p ) const
 {
     if( !is_gun() ) {
         return 0;

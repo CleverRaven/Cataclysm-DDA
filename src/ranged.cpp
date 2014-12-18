@@ -380,11 +380,11 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
-    int weaponrange = weapon.range();
+    int weaponrange = weapon.gun_range();
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->dispersion + used_weapon->dispersion();
+    const int weapon_dispersion = used_weapon->get_curammo()->dispersion + used_weapon->gun_dispersion();
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->skill() );
     // High perception allows you to pick out details better, low perception interferes.
@@ -1432,7 +1432,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
         dispersion += rand_or_max( random, weapon->get_curammo()->dispersion);
     }
 
-    dispersion += rand_or_max( random, weapon->dispersion() );
+    dispersion += rand_or_max( random, weapon->gun_dispersion() );
     if( random ) {
         int adj_recoil = recoil + driving_recoil;
         dispersion += rng( int(adj_recoil / 4), adj_recoil );
@@ -1456,7 +1456,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
 
 int recoil_add(player &p, const item &gun)
 {
-    int ret = gun.recoil();
+    int ret = gun.gun_recoil();
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
     ret -= rng(0, p.get_skill_level(gun.skill()) * 7);
     if (ret > 0) {

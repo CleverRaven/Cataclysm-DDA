@@ -127,7 +127,7 @@ public:
  int aim_speed( int aim_threshold ) const;
  int noise() const;
  int burst_size() const;
- int range(player *p = NULL) const;
+ int gun_range(player *p = NULL) const;
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
@@ -696,7 +696,7 @@ public:
         /**
          * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
          */
-        int recoil( bool with_ammo = true ) const;
+        int gun_recoil( bool with_ammo = true ) const;
         /**
          * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -708,7 +708,7 @@ public:
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
-        int dispersion( bool with_ammo = true ) const;
+        int gun_dispersion( bool with_ammo = true ) const;
         /*@}*/
 
         /**
