@@ -47,9 +47,6 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "qualities": [
-    {"id":"HAMMER","level":2,"amount":1}
-  ],
   "tools": [
 	[
 	["con_mix", 50]
@@ -6279,33 +6276,76 @@
   ]
 },{
   "type" : "recipe",
+  "result": "crude_brick",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skills_used": "fabrication",
+  "skills_required": [ "carpentry", 2],
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "components":
+	[
+	 [
+	 [ "clay_lump", 1]
+	 ],
+	 [
+	 [ "water", 1]
+	 ]
+	]
+},{
+  "type" : "recipe",
   "result": "brick",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 60000,
+  "skills_used": "fabrication",
+  "skills_required": [ "carpentry", 2],
+  "difficulty": 2,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "water", 2 ],
-      [ "water_clean", 2 ]
-    ],
-    [
-      [ "clay_lump", 12 ]
-    ],
-    [
-      [ "pebble", 20 ]
-    ]
-  ]
+	[
+	["brick_kiln", 20]
+	]
+	],
+  "components":
+	[
+	 [
+	 [ "crude_brick", 1]
+	 ]
+	]
+},{
+  "type" : "recipe",
+  "result": "mortar_build",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "carpentry", 2],
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+	[
+	["con_mix", 50]
+	]
+	],
+  "components":
+	[
+	 [
+	 [ "material_cement", 50]
+	 ],
+	 [
+	 [ "pebble", 20]
+	 ],
+	 [
+	 [ "water", 10]
+	 ],
+	 [
+	 [ "bag_canvas", 1]
+	 ]
+	]
 }
 ]
