@@ -680,6 +680,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( is_gunmod() ) {
         const auto mod = type->gunmod.get();
 
+        if( is_auxiliary_gunmod() ) {
+            dump->push_back( iteminfo( "DESCRIPTION", _( "This mod must be attached to a gun, it can not be fired separately." ) ) );
+        }
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));

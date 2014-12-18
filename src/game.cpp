@@ -11293,6 +11293,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if (!u.weapon.is_gun()) {
         return;
     }
+    if( u.weapon.is_gunmod() ) {
+        add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
+        return;
+    }
     //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
     //should be fine to place this here, plfire(true,*) only once in code
     if (burst && !u.weapon.has_flag("MODE_BURST")) {

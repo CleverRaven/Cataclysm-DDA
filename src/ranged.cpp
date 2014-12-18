@@ -269,6 +269,9 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
     if( gunmod != nullptr ) {
         used_weapon = gunmod;
+    } else if( weapon.is_auxiliary_gunmod() ) {
+        add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), weapon.tname().c_str() );
+        return;
     } else {
         used_weapon = &weapon;
     }
