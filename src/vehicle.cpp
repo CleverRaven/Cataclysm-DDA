@@ -933,7 +933,7 @@ void vehicle::use_controls()
     // cycle individual turret modes
     if( has_mult_turrets ) {
         options_choice.push_back(cont_turrets);
-        options_message.push_back(uimenu_entry(_("Control individual turrets"), 'x'));
+        options_message.push_back(uimenu_entry(_("Configure individual turrets"), 'x'));
     }
 
     options_choice.push_back(control_cancel);
