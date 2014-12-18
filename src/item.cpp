@@ -802,7 +802,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
-        
+
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
@@ -816,9 +816,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 		} else {
 			temp1 << _("Normal. ");
 		}
-		
+
 		dump->push_back(iteminfo("ARMOR", temp1.str()));
-        
+
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {

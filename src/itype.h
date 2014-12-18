@@ -243,6 +243,7 @@ public:
     unsigned int weight; // Weight in grams. Assumes positive weight. No helium, guys!
     bigness_property_aspect bigness_aspect;
     std::map<std::string, int> qualities; //Tool quality indicators
+    std::map<std::string, std::string> properties;
 
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;

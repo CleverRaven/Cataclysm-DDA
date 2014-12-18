@@ -6828,7 +6828,8 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "5"]]
     },
     {
         "type" : "ARMOR",
@@ -6853,7 +6854,8 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "5"]]
     },
         {
         "type" : "ARMOR",
@@ -6864,7 +6866,7 @@
         "price" : 10000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather holster, big enough for a rifle or other large gun. Designed to be strapped to the back  Activate to holster/draw a gun.",
+        "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
@@ -6878,7 +6880,8 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "15"]]
     },
     {
         "type" : "ARMOR",
@@ -6903,7 +6906,8 @@
         "encumbrance" : 0,
         "material_thickness" : 1,
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
-        "use_action" : "HOLSTER_ANKLE"
+        "use_action" : "HOLSTER_ANKLE",
+        "properties" : [["holster_size", "3"]]
     },
     {
         "type" : "ARMOR",

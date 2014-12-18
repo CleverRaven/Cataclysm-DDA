@@ -18,6 +18,7 @@
 #include "json.h"
 #include "messages.h"
 #include "crafting.h"
+#include "helper.h"
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -7820,16 +7821,10 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         }
 
         it_gun *gun = dynamic_cast<it_gun *>(put->type);
-
-        int maxvol = 5;
-        if (it->type->id == "bootstrap") { // bootstrap can't hold as much as holster
-            maxvol = 3;
+        int maxvol = 0;
+        if(it->type->properties["holster_size"] != "0") {
+          maxvol = helper::to_int(it->type->properties["holster_size"]);
         }
-        // back holster can hold more
-        if (it->type->id == "back_holster") {
-            maxvol = 15;
-        }
-
         // only allow guns smaller than a certain size
         if (put->volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),

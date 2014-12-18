@@ -941,6 +941,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
+    if (jo.has_member("properties")) {
+        set_properties_from_json(jo, "properties", new_item_template);
+    }
+
     new_item_template->techniques = jo.get_tags("techniques");
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
@@ -987,6 +991,24 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::set_properties_from_json(JsonObject &jo, std::string member,
+        itype *new_item_template)
+{
+    if (jo.has_array(member)) {
+        JsonArray jarr = jo.get_array(member);
+        while (jarr.has_more()) {
+            JsonArray curr = jarr.next_array();
+            const auto prop = std::pair<std::string, std::string>(curr.get_string(0), curr.get_string(1));
+            if( new_item_template->properties.count( prop.first ) > 0 ) {
+                curr.throw_error( "Duplicated property", 0 );
+            }
+            new_item_template->properties.insert( prop );
+        }
+    } else {
+        jo.throw_error( "Properties list is not an array", member );
     }
 }
 
