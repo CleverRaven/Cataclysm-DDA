@@ -57,7 +57,8 @@ enum vehicle_controls {
  cont_engines,
  try_disarm_alarm,
  trigger_alarm,
- toggle_doors
+ toggle_doors,
+ cont_turrets
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -778,6 +779,7 @@ void vehicle::use_controls()
     bool has_recharger = false;
     bool can_trigger_alarm = false;
     bool has_door_motor = false;
+    bool has_mult_turrets = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -790,6 +792,7 @@ void vehicle::use_controls()
             has_lights = true;
         }
         else if (part_flag(p, "TURRET")) {
+            has_mult_turrets = has_turrets;
             has_turrets = true;
         }
         else if (part_flag(p, "HORN")) {
@@ -925,6 +928,11 @@ void vehicle::use_controls()
     if (can_trigger_alarm) {
         options_choice.push_back(trigger_alarm);
         options_message.push_back(uimenu_entry(_("Trigger alarm"), 'p'));
+    }
+    // cycle individual turret modes
+    if( has_mult_turrets ) {
+        options_choice.push_back(cont_turrets);
+        options_message.push_back(uimenu_entry(_("Control individual turrets"), 'x'));
     }
 
     options_choice.push_back(control_cancel);
@@ -1171,6 +1179,9 @@ void vehicle::use_controls()
         break;
     case toggle_doors:
         control_doors();
+        break;
+    case cont_turrets:
+        control_turrets();
         break;
     case control_cancel:
         break;
@@ -4757,15 +4768,72 @@ void vehicle::leak_fuel (int p)
     parts[p].amount = 0;
 }
 
+void vehicle::control_turrets() {
+    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
+    std::vector< point > locations;
+    
+    uimenu pmenu;
+    pmenu.title = _("Select turret");
+    for( int p : turrets ) {
+        locations.push_back( point( parts[p].precalc_dx[0] + global_x(), 
+                                    parts[p].precalc_dy[0] + global_y() ) );
+    }
+
+    partpicker_cb callback( locations );
+    pmenu.callback = &callback;
+
+    int selected = 0;
+    while( true ) {
+        // Regen menu entries
+        for( int i = 0; i < (int)turrets.size(); i++ ) {
+            int p = turrets[i];
+            const char *actname;
+            if( parts[p].mode == 0 ) {
+                actname = "[ ]";
+            } else if( parts[p].mode == 1 ) {
+                actname = "[x]";
+            } else {
+                actname = "[B]";
+            }
+            pmenu.addentry( i, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( p ).name.c_str() );
+        }
+        
+        pmenu.addentry( turrets.size(), true, 'q', _("Cancel") );
+        pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+        
+        pmenu.selected = selected;
+        pmenu.query();
+        if( pmenu.ret < 0 || pmenu.ret >= (int)turrets.size() ) {
+            return;
+        }
+
+        selected = pmenu.ret;
+        int turret_index = turrets[selected];
+        it_gun *gun = dynamic_cast<it_gun*>( item::find_type( part_info( turret_index ).item ) );
+        if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
+            debugmsg( "vehicle::toggle_turrets tried to pick a non-turret part" );
+            return;
+        }
+
+        int mod = gun->burst > 1 ? 3 : 2;
+        parts[turret_index].mode++;
+        if( parts[turret_index].mode >= mod ) {
+            parts[turret_index].mode = 0;
+        }
+        
+        pmenu.reset();
+    }
+}
+
 void vehicle::cycle_turret_mode()
 {
     if( ++turret_mode > 1 ) {
         turret_mode = 0;
     }
-    add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode") );
+    add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Enabled") );
 }
 
-bool vehicle::fire_turret (int p, bool burst)
+bool vehicle::fire_turret (int p, bool /* burst */ )
 {
     if (!part_flag (p, "TURRET"))
         return false;
@@ -4773,12 +4841,16 @@ bool vehicle::fire_turret (int p, bool burst)
     if (!gun) {
         return false;
     }
+
+    if( parts[p].mode <= 0 ) {
+        return false;
+    }
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
     if( gun->ups_charges > 0 && gun->ups_charges < power ) {
         return false;
     }
-    long charges = burst? gun->burst : 1;
+    long charges = gun->burst;
     std::string whoosh = "";
     if (!charges)
         charges = 1;
@@ -4896,7 +4968,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);
-    tmp.fire_gun(target->xpos(), target->ypos(), true);
+    tmp.fire_gun( target->xpos(), target->ypos(), parts[p].mode > 1 );
     // Return whatever is left.
     refill( fuel_type_battery, ups_ref.charges );
 

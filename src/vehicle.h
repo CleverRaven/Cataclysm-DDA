@@ -111,6 +111,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int amount;         // amount of fuel for tank/charge in battery
         int open;           // door is open
         int direction;      // direction the part is facing
+        int mode;           // turret mode
     };
     std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
                     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -629,6 +630,9 @@ public:
 
     void leak_fuel (int p);
     void shed_loose_parts();
+
+    // Per-turret mode selection
+    void control_turrets();
 
     // Cycle through available turret modes
     void cycle_turret_mode();
