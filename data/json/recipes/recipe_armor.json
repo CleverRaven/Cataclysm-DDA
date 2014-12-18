@@ -7964,7 +7964,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_outfit",
   "id_suffix": "thermal_outfit_from_scratch",
   "category": "CC_ARMOR",
@@ -8002,7 +8002,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_outfit",
   "id_suffix": "thermal_outfit_from_bits",
   "category": "CC_ARMOR",
