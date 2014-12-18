@@ -612,8 +612,8 @@ npc_action npc::method_of_attack(int target, int danger)
                 return npc_pause;//Lost you since you went invisible
             } else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)) {
                 return npc_melee;//Can't see target
-            } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range() &&
-                       g->m.sees( posx, posy, tarx, tary, weapon.gun_range(), junk )) {
+            } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
+                       g->m.sees( posx, posy, tarx, tary, weapon.gun_range( this ), junk )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
                        weapon.type->gun->burst > 1 &&

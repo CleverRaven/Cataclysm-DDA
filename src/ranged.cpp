@@ -380,7 +380,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
-    int weaponrange = weapon.gun_range();
+    const int weaponrange = used_weapon->gun_range( this );
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.

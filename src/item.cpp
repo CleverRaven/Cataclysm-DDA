@@ -601,7 +601,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_range", "",
                                      ammo_range, true, temp1.str(), false, false, false));
             dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"),
-                                     gun_range(NULL), true, "", false, false, false));
+                                     gun_range(nullptr), true, "", false, false, false));
         }
 
         dump->push_back(iteminfo("GUN", space + _("Dispersion: "), "",
@@ -3159,50 +3159,53 @@ int item::gun_recoil( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_range( player *p ) const
+int item::gun_range( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
     }
-    // Just use the raw ammo range for now.
-    // we do NOT want to use the parent gun's range.
-    if( is_in_auxiliary_mode() ) {
-        const item *gunmod = active_gunmod();
-        int mod_range = 0;
-        if( gunmod ) {
-            mod_range += gunmod->type->gunmod->range;
-            if( gunmod->has_curammo() ) {
-                mod_range += gunmod->get_curammo()->range;
-            }
+    int ret = type->gun->range;
+    for( auto & elem : contents ) {
+        if( elem.is_gunmod() ) {
+            ret += elem.type->gunmod->range;
         }
-        return mod_range;
     }
-    // Ammoless weapons use weapon's range only
     if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
-        return type->gun->range;
+        return ret;
     }
-
-    int ret = (has_curammo() ? type->gun->range + get_curammo()->range : 0);
-
-    if( has_flag( "CHARGE" ) ) {
-        ret = type->gun->range + 5 + charges * 5;
+    if( with_ammo && has_flag( "CHARGE" ) ) {
+        ret += 5 + charges * 5;
+    } else if( with_ammo && has_curammo() ) {
+        ret += get_curammo()->range;
     }
+    return std::max( 0, ret );
+}
 
-    if( has_flag( "STR8_DRAW" ) && p ) {
+int item::gun_range( const player *p ) const
+{
+    const item *gunmod = active_gunmod();
+    if( gunmod != nullptr ) {
+        return gunmod->gun_range( p );
+    }
+    int ret = gun_range( true );
+    if( p == nullptr ) {
+        return ret;
+    }
+    if( has_flag( "STR8_DRAW" ) ) {
         if( p->str_cur < 4 ) {
             return 0;
         }
         if( p->str_cur < 8 ) {
             ret -= 2 * ( 8 - p->str_cur );
         }
-    } else if( has_flag( "STR10_DRAW" ) && p ) {
+    } else if( has_flag( "STR10_DRAW" ) ) {
         if( p->str_cur < 5 ) {
             return 0;
         }
         if( p->str_cur < 10 ) {
             ret -= 2 * ( 10 - p->str_cur );
         }
-    } else if( has_flag( "STR12_DRAW" ) && p ) {
+    } else if( has_flag( "STR12_DRAW" ) ) {
         if( p->str_cur < 6 ) {
             return 0;
         }
@@ -3210,11 +3213,7 @@ int item::gun_range( player *p ) const
             ret -= 2 * ( 12 - p->str_cur );
         }
     }
-
-    if( ret < 0 ) {
-        ret = 0;
-    }
-    return ret;
+    return std::max( 0, ret );
 }
 
 ammotype item::ammo_type() const

@@ -127,7 +127,6 @@ public:
  int aim_speed( int aim_threshold ) const;
  int noise() const;
  int burst_size() const;
- int gun_range(player *p = NULL) const;
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
@@ -693,6 +692,19 @@ public:
          * to the next mode. Otherwise, make nothing at all.
          */
         void next_mode();
+        /**
+         * The weapons range in map squares. If the item has an active gunmod, it returns the range
+         * of that gunmod, the guns range is returned only when the item has no active gunmod.
+         * This function applies to guns and auxiliary gunmods. For other items, 0 is returned.
+         * It includes the range given by the ammo.
+         * @param u The player that uses the weapon, their strength might affect this.
+         * It's optional and can be null.
+         */
+        int gun_range( const player *u ) const;
+        /**
+         * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_range( bool with_ammo = true ) const;
         /**
          * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
          */
