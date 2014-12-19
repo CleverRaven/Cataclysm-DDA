@@ -423,7 +423,6 @@ void item::load_info(std::string data)
     }
 }
 
-
 std::string item::info(bool showtext) const
 {
     std::vector<iteminfo> dummy;
@@ -549,7 +548,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     }
 
     if( is_gun() ) {
-        islot_gun* gun = type->gun.get();
+        auto *mod = active_gunmod();
+        if( mod == nullptr ) {
+            mod = this;
+        } else {
+            dump->push_back( iteminfo( "DESCRIPTION", string_format( _( "Stats of the active gunmod (%s) are shown." ),
+                                                                     mod->tname().c_str() ) ) );
+        }
+        islot_gun* gun = mod->type->gun.get();
         int ammo_dam = 0;
         int ammo_range = 0;
         int ammo_recoil = 0;
@@ -564,13 +570,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             ammo_pierce = curammo->pierce;
             ammo_dispersion = curammo->dispersion;
         }
+        const auto skill = Skill::skill( mod->gun_skill() );
 
-        dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
-        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", clip_size()),
-                                 ammo_name(ammo_type()).c_str()), clip_size(), true));
+        dump->push_back(iteminfo("GUN", _("Skill used: "), skill->name()));
+        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
+                                 ammo_name(mod->ammo_type()).c_str()), mod->clip_size(), true));
 
-        //damage of gun
-        dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", false, false));
+        dump->push_back(iteminfo("GUN", _("Damage: "), "", mod->gun_damage( false ), true, "", false, false));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_dam >= 0 ? "+" : "" );
@@ -578,12 +584,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_damage", "",
                                      ammo_dam, true, temp1.str(), false, false, false));
             dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"),
-                                     gun_damage(), true, "", false, false, false));
+                                     mod->gun_damage( true ), true, "", false, false, false));
         }
 
-        //armor-pierce of gun
         dump->push_back(iteminfo("GUN", space + _("Armor-pierce: "), "",
-                                 gun_pierce(false), true, "", !has_ammo, false));
+                                 mod->gun_pierce( false ), true, "", !has_ammo, false));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_pierce >= 0 ? "+" : "" );
@@ -591,11 +596,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_armor_pierce", "",
                                      ammo_pierce, true, temp1.str(), false, false, false));
             dump->push_back(iteminfo("GUN", "sum_of_armor_pierce", _(" = <num>"),
-                                     gun_pierce(), true, "", true, false, false));
+                                     mod->gun_pierce( true ), true, "", true, false, false));
         }
 
-        //range of gun
-        dump->push_back(iteminfo("GUN", _("Range: "), "", gun->range, true, "", false, false));
+        dump->push_back(iteminfo("GUN", _("Range: "), "", mod->gun_range( false ), true, "", false, false));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_range >= 0 ? "+" : "" );
@@ -603,11 +607,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_range", "",
                                      ammo_range, true, temp1.str(), false, false, false));
             dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"),
-                                     gun_range(nullptr), true, "", false, false, false));
+                                     mod->gun_range( true ), true, "", false, false, false));
         }
 
         dump->push_back(iteminfo("GUN", space + _("Dispersion: "), "",
-                                 gun_dispersion(), true, "", !has_ammo, true));
+                                 mod->gun_dispersion( false ), true, "", !has_ammo, true));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_range >= 0 ? "+" : "" );
@@ -615,17 +619,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
                                      ammo_dispersion, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
-                                     gun_dispersion() + ammo_dispersion, true, "", true, true, false));
+                                     mod->gun_dispersion( true ) + ammo_dispersion, true, "", true, true, false));
         }
 
         dump->push_back(iteminfo("GUN", _("Sight dispersion: "), "",
-                                 sight_dispersion(-1), true, "", false, true));
+                                 mod->sight_dispersion(-1), true, "", false, true));
 
         dump->push_back(iteminfo("GUN", space + _("Aim speed: "), "",
-                                 aim_speed(-1), true, "", true, true));
+                                 mod->aim_speed(-1), true, "", true, true));
 
-        //recoil of gun
-        dump->push_back(iteminfo("GUN", _("Recoil: "), "", gun_recoil(false), true, "", false, true));
+        dump->push_back(iteminfo("GUN", _("Recoil: "), "", mod->gun_recoil( false ), true, "", false, true));
         if (has_ammo) {
             temp1.str("");
             temp1 << (ammo_recoil >= 0 ? "+" : "" );
@@ -633,21 +636,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_recoil", "",
                                      ammo_recoil, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_recoil", _(" = <num>"),
-                                     gun_recoil(), true, "", false, true, false));
+                                     mod->gun_recoil( true ), true, "", false, true, false));
         }
 
         dump->push_back(iteminfo("GUN", space + _("Reload time: "),
                                  ((has_flag("RELOAD_ONE")) ? _("<num> per round") : ""),
                                  gun->reload_time, true, "", true, true));
 
-        if (burst_size() == 0) {
-            if (gun->skill_used == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
+        if (mod->burst_size() == 0) {
+            if (skill == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
                 dump->push_back(iteminfo("GUN", _("Revolver.")));
             } else {
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
             }
         } else {
-            dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
+            dump->push_back(iteminfo("GUN", _("Burst size: "), "", mod->burst_size()));
         }
 
         if (!gun->valid_mod_locations.empty()) {
