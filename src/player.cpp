@@ -10209,7 +10209,7 @@ void player::pick_style() // Style selection menu
         kmenu.query();
         const size_t selection = kmenu.ret;
         if ( selection >= 2 && selection - 2 < bio_cqb_styles.size() ) {
-            style_selected = bio_cqb_styles[selection];
+            style_selected = bio_cqb_styles[selection - 2];
         }
         else if ( selection == 1 ) {
             keep_hands_free = !keep_hands_free;
