@@ -56,7 +56,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-        grid[i] = new submap;
+        setsubmap( i, new submap() );
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
@@ -126,12 +126,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
             dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
-            dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
                 saven(x, y, z, i, j);
             } else {
-                delete grid[i + j * my_MAPSIZE];
+                delete get_submap_at_grid( i, j );
             }
         }
     }

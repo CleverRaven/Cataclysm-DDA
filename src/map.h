@@ -775,16 +775,37 @@ private:
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
- submap * getsubmap( const int grididx );
-
- /** Get the submap containing the specified position within the reality bubble. */
- submap *get_submap_at(int x, int y) const;
-
- /** Get the submap containing the specified position within the reality bubble.
-  *  Also writes the position within the submap to offset_x, offset_y
-  */
- submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
- submap *get_submap_at_grid(int gridx, int gridy) const;
+        /**
+         * Get the submap pointer with given index in @ref grid, the index must be valid!
+         */
+        submap *getsubmap( int grididx ) const;
+        /**
+         * Get the submap pointer containing the specified position within the reality bubble.
+         * (x,y) must be a valid coordinate, check with @ref inbounds.
+         */
+        submap *get_submap_at( int x, int y ) const;
+        /**
+         * Get the submap pointer containing the specified position within the reality bubble.
+         * The same as other get_submap_at, (x,y) must be valid (@ref inbounds).
+         * Also writes the position within the submap to offset_x, offset_y
+         */
+        submap *get_submap_at( int x, int y, int& offset_x, int& offset_y ) const;
+        /**
+         * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
+         * be valid: 0 <= x < my_MAPSIZE, same for y.
+         */
+        submap *get_submap_at_grid( int gridx, int gridy ) const;
+        /**
+         * Get the index of a submap pointer in the grid given by grid coordinates. The grid
+         * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
+         */
+        int get_nonant( int gridx, int gridy ) const;
+        /**
+         * Set the submap pointer in @ref grid at the give index. This is the inverse of
+         * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
+         * The given submap pointer must not be null.
+         */
+        void setsubmap( int grididx, submap *smap );
 
     void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 

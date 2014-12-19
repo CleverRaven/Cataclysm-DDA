@@ -1851,12 +1851,8 @@ int editmap::edit_mapgen()
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
 void editmap::cleartmpmap( tinymap & tmpmap ) {
-    for(int x = 0; x < 2; x++) {
-       for(int y = 0; y < 2; y++) {
-          int snonant = x + y * 2;
-          submap *srcsm = tmpmap.getsubmap(snonant);
-          srcsm->vehicles.clear();
-       }
+    for( auto &smap : tmpmap.grid ) {
+        smap->vehicles.clear();
     }
 
     memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));
