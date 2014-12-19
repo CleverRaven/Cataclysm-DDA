@@ -780,7 +780,6 @@ void vehicle::use_controls()
     bool has_recharger = false;
     bool can_trigger_alarm = false;
     bool has_door_motor = false;
-    bool has_mult_turrets = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -793,7 +792,6 @@ void vehicle::use_controls()
             has_lights = true;
         }
         else if (part_flag(p, "TURRET")) {
-            has_mult_turrets = has_turrets;
             has_turrets = true;
         }
         else if (part_flag(p, "HORN")) {
@@ -931,7 +929,7 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(_("Trigger alarm"), 'p'));
     }
     // cycle individual turret modes
-    if( has_mult_turrets ) {
+    if( has_turrets ) {
         options_choice.push_back(cont_turrets);
         options_message.push_back(uimenu_entry(_("Configure individual turrets"), 'x'));
     }
@@ -4319,17 +4317,8 @@ void vehicle::gain_moves()
     }
 
     if( turret_mode ) { // handle turrets
-        bool can_fire = false;
         for( size_t p = 0; p < parts.size(); p++ ) {
-            if( fire_turret (p) ) {
-                can_fire = true;
-            }
-        }
-        if( !can_fire ) {
-            if( player_in_control(&g->u) || g->u_see(global_x(), global_y()) ) {
-                add_msg(m_warning, _("The %s's turrets run out of ammo and switch off."), name.c_str() );
-            }
-           turret_mode = 0;
+            fire_turret( p );
         }
     }
 }
@@ -4886,14 +4875,8 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     auto tags = item::find_type( part_info( p ).item )->item_tags;
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    if( tags.count("FIRE_100") > 0)  {
-        charge_mult = 100;
-    } else if( tags.count("FIRE_50") > 0 ) {
-        charge_mult = 50;
-    } else if( tags.count("FIRE_20") > 0 ) {
-        charge_mult = 20;
-    } else if( amt == fuel_type_plasma ) {
-        charge_mult = 10;
+    if( amt == fuel_type_plasma ) {
+        charge_mult = 10; // 1 unit of hydro adds 10 units to hydro tank
     }
     if (amt == fuel_type_gasoline || amt == fuel_type_plasma || amt == fuel_type_battery)
     {
