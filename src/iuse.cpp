@@ -18,6 +18,7 @@
 #include "json.h"
 #include "messages.h"
 #include "crafting.h"
+#include "helper.h"
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -3190,7 +3191,7 @@ int iuse::remove_all_mods(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _( "Detach battery mods from what?" ), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") || 
+        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
                                   itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -3741,7 +3742,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 int iuse::water_purifier(player *p, item *it, bool, point)
 {
     int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
-        return !itm.contents.empty() && 
+        return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
     } );
@@ -7796,7 +7797,7 @@ int iuse::quiver(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-int iuse::holster_pistol(player *p, item *it, bool, point)
+int iuse::holster_gun(player *p, item *it, bool, point)
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
@@ -7808,30 +7809,28 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if (put->is_gun()) {
-            it_gun *gun = dynamic_cast<it_gun *>(put->type);
-            if (!(gun->skill_used == Skill::skill("pistol"))) {
-                p->add_msg_if_player(m_info, _("The %s isn't a pistol!"), put->tname().c_str());
-                return 0;
-            }
-        } else {
+        if (!put->is_gun()) {
             p->add_msg_if_player(m_info, _("That isn't a gun!"), put->tname().c_str());
             return 0;
         }
 
-        int maxvol = 5;
-        if (it->type->id == "bootstrap") { // bootstrap can't hold as much as holster
-            maxvol = 3;
+        it_gun *gun = dynamic_cast<it_gun *>(put->type);
+        int maxvol = 0;
+        if(it->type->properties["holster_size"] != "0") {
+          maxvol = helper::to_int(it->type->properties["holster_size"]);
         }
-
         // only allow guns smaller than a certain size
         if (put->volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
                                  put->tname().c_str());
             return 0;
+        } else if (put->volume() < (maxvol / 3)) {
+          p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
+                              put->tname().c_str());
+          return 0;
         }
 
-        int lvl = p->skillLevel("pistol");
+        int lvl = p->skillLevel(gun->skill_used);
         std::string message;
         if (lvl < 2) {
             message = _("You clumsily holster your %s.");
@@ -7842,13 +7841,14 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
-        p->store(it, put, "pistol", 14);
+        p->store(it, put, gun->skill_used->ident(), 14);
 
-        // else draw the holstered pistol and have the player wield it
+        // else draw the holstered gun and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             item &gun = it->contents[0];
-            int lvl = p->skillLevel("pistol");
+            it_gun *t_gun = dynamic_cast<it_gun *>(gun.type);
+            int lvl = p->skillLevel(t_gun->skill_used);
             std::string message;
             if (lvl < 2) {
                 message = _("You clumsily draw your %s from the %s.");
@@ -7859,7 +7859,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
-            p->wield_contents(it, true, "pistol", 13);
+            p->wield_contents(it, true, t_gun->skill_used->ident(), 13);
         }
     }
     return it->type->charges_to_use();
@@ -8053,7 +8053,7 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
         choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"),
                       _("Sheathe a knife"), _("Cancel"), NULL);
         if (choice == 1) {
-            holster_pistol(p, it, b, pos);
+            holster_gun(p, it, b, pos);
         } else if (choice == 2) {
             sheath_knife(p, it, b, pos);
         }
@@ -8064,7 +8064,7 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
             if (stored.has_flag("SHEATH_KNIFE")) {
                 sheath_knife(p, it, b, pos);
             } else {
-                holster_pistol(p, it, b, pos);
+                holster_gun(p, it, b, pos);
             }
         }
     }
@@ -8428,7 +8428,7 @@ int iuse::misc_repair(player *p, item *it, bool, point)
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("plastic") || 
+        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("plastic") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -9782,8 +9782,8 @@ static bool hackveh(player *p, item *it, vehicle *veh)
         effort = rng( 2, 8 );
         p->add_msg_if_player( m_mixed, _("You take some time, but manage to bypass the security system!") );
         success = true;
-    } 
-    
+    }
+
     p->moves -= effort * 100;
     it->charges -= effort;
     if( success && advanced ) { // Unlock controls, but only if they're drive-by-wire
@@ -9807,7 +9807,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
     }
 
     bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
-    int choice = menu(true, _("What to do with remote vehicle control:"), _("Nothing"), 
+    int choice = menu(true, _("What to do with remote vehicle control:"), _("Nothing"),
                       controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
                       _("Execute one vehicle action"), NULL);
 
@@ -9824,10 +9824,10 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
 
     int px = g->u.view_offset_x;
     int py = g->u.view_offset_y;
-    
+
     point target = g->look_around();
     vehicle* veh = g->m.veh_at( target.x, target.y );
-    
+
     if( veh == nullptr ) {
         popup( _("No vehicles here!") );
         return 0;
@@ -10323,7 +10323,7 @@ int iuse::weather_tool(player *p, item *it, bool, point)
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
     }
-    if (it->has_flag("THERMOMETER")) {        
+    if (it->has_flag("THERMOMETER")) {
         if (it->type->id == "thermometer") {
             p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
         } else {
@@ -10359,6 +10359,6 @@ int iuse::weather_tool(player *p, item *it, bool, point)
         p->add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         p->add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
-    
+
     return 0;
 }

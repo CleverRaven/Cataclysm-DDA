@@ -2758,7 +2758,7 @@
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 20,
         "material_thickness" : 2,
-        "use_action" : "HOLSTER_PISTOL"
+        "use_action" : "HOLSTER_GUN"
     },
         {
         "type" : "ARMOR",
@@ -6819,7 +6819,7 @@
         "price" : 9000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather strap worn on the hip for holding pistols.  Activate to holster/draw a pistol.",
+        "description" : "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
@@ -6833,7 +6833,8 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_PISTOL"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "5"]]
     },
     {
         "type" : "ARMOR",
@@ -6844,7 +6845,7 @@
         "price" : 9000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather strap worn on the torso for holding pistols.  Activate to holster/draw a pistol.",
+        "description" : "A leather strap worn on the torso for holding pistol sized guns.  Activate to holster/draw a gun.",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
@@ -6858,7 +6859,34 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_PISTOL"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "5"]]
+    },
+        {
+        "type" : "ARMOR",
+        "id" : "back_holster",
+        "name" : "back holster",
+        "weight" : 240,
+        "volume" : 5,
+        "price" : 10000,
+        "symbol" : "[",
+        "color" : "ltgray",
+        "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
+        "to_hit" : -1,
+        "storage" : 0,
+        "material" : ["leather", "null"],
+        "covers" : ["TORSO"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "NO_QUICKDRAW"],
+        "coverage" : 6,
+        "environmental_protection" : 0,
+        "cutting" : 0,
+        "bashing" : -1,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 0,
+        "material_thickness" : 1,
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "15"]]
     },
     {
         "type" : "ARMOR",
@@ -6883,7 +6911,8 @@
         "encumbrance" : 0,
         "material_thickness" : 1,
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
-        "use_action" : "HOLSTER_ANKLE"
+        "use_action" : "HOLSTER_ANKLE",
+        "properties" : [["holster_size", "3"]]
     },
     {
         "type" : "ARMOR",
