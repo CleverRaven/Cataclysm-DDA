@@ -1050,7 +1050,7 @@ bool player::install_bionics(it_bionic *type)
     practice( "electronics", int((100 - chance_of_success) * 1.5) );
     practice( "firstaid", int((100 - chance_of_success) * 1.0) );
     practice( "mechanics", int((100 - chance_of_success) * 0.5) );
-    int success = chance_of_success - rng(1, 100);
+    int success = chance_of_success - rng(0, 99);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
