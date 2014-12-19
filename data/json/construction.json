@@ -1600,7 +1600,7 @@
             [ { "id": "SAW_M", "level": 1 } ],
             [ { "id": "WELD", "level": 2 } ],
             [ { "id": "GLARE", "level": 2} ]
-        ]
+        ],
         "components" : [
             [ [ "metal_tank", 4 ] ],
             [ [ "water_faucet", 1] ]
