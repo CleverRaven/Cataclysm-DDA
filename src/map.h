@@ -728,7 +728,7 @@ protected:
         void player_in_field( player &u );
         void monster_in_field( monster &z );
 
- void copy_grid(const int to, const int from);
+        void copy_grid( point to, point from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,

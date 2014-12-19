@@ -4542,8 +4542,8 @@ void map::shift(const int sx, const int sy)
             if (sy >= 0) {
                 for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
                     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
-                        copy_grid( get_nonant( gridx, gridy ),
-                                   get_nonant( gridx + sx, gridy + sy ) );
+                        copy_grid( point( gridx, gridy ),
+                                   point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
@@ -4552,8 +4552,8 @@ void map::shift(const int sx, const int sy)
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
                     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
-                        copy_grid( get_nonant( gridx, gridy ),
-                                   get_nonant( gridx + sx, gridy + sy ) );
+                        copy_grid( point( gridx, gridy ),
+                                   point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
@@ -4566,8 +4566,8 @@ void map::shift(const int sx, const int sy)
             if (sy >= 0) {
                 for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
                     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
-                        copy_grid( get_nonant( gridx, gridy ),
-                                   get_nonant( gridx + sx, gridy + sy ) );
+                        copy_grid( point( gridx, gridy ),
+                                   point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
@@ -4576,8 +4576,8 @@ void map::shift(const int sx, const int sy)
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
                     if (gridx + sx >= 0 && gridy + sy >= 0) {
-                        copy_grid( get_nonant( gridx, gridy ),
-                                   get_nonant( gridx + sx, gridy + sy ) );
+                        copy_grid( point( gridx, gridy ),
+                                   point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
@@ -4814,20 +4814,20 @@ void map::actualize( const int gridx, const int gridy )
     tmpsub->turn_last_touched = calendar::turn;
 }
 
-void map::copy_grid(const int to, const int from)
+void map::copy_grid( const point to, const point from)
 {
-    const auto smap = getsubmap( from );
-    setsubmap( to, smap );
+    const auto smap = get_submap_at_grid( from.x, from.y );
+    setsubmap( get_nonant( to.x, to.y ), smap );
  for( std::vector<vehicle*>::iterator it = smap->vehicles.begin(),
        end = smap->vehicles.end(); it != end; ++it ) {
-  (*it)->smx = to % my_MAPSIZE;
-  (*it)->smy = to / my_MAPSIZE;
+  (*it)->smx = to.x;
+  (*it)->smy = to.y;
  }
 
-    const int oldx = (from % my_MAPSIZE) * SEEX;
-    const int oldy = (from / my_MAPSIZE) * SEEY;
-    const int newx = (to % my_MAPSIZE) * SEEX;
-    const int newy = (to / my_MAPSIZE) * SEEY;
+    const int oldx = from.x * SEEX;
+    const int oldy = from.y * SEEY;
+    const int newx = to.x * SEEX;
+    const int newy = to.y * SEEY;
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             trap_id t = smap->get_trap(x, y);
