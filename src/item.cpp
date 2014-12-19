@@ -2957,6 +2957,14 @@ void item::next_mode()
     }
 }
 
+std::string item::gun_skill() const
+{
+    if( !is_gun() ) {
+        return "null";
+    }
+    return type->gun->skill_used->ident();
+}
+
 std::string item::skill() const
 {
     if( is_gunmod() ) {

@@ -288,7 +288,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                  used_weapon->tname().c_str());
         return;
     }
-    Skill *skill_used = Skill::skill( used_weapon->skill() );
+    Skill *skill_used = Skill::skill( used_weapon->gun_skill() );
 
     projectile proj; // damage will be set later
     proj.aoe_size = 0;
@@ -358,7 +358,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
     const int weapon_dispersion = used_weapon->get_curammo()->dispersion + used_weapon->gun_dispersion();
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
-        ranged_skill_offset( used_weapon->skill() );
+        ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
@@ -1367,7 +1367,7 @@ static int rand_or_max( bool random, int max )
 
 int player::skill_dispersion( item *weapon, bool random ) const
 {
-    const std::string skill_used = weapon->skill();
+    const std::string skill_used = weapon->gun_skill();
     const int weapon_skill_level = get_skill_level(skill_used);
     int dispersion = 0; // Measured in Minutes of Arc.
     // Up to 0.75 degrees for each skill point < 10.
@@ -1429,7 +1429,7 @@ int recoil_add(player &p, const item &gun)
 {
     int ret = gun.gun_recoil();
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
-    ret -= rng(0, p.get_skill_level(gun.skill()) * 7);
+    ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
     if (ret > 0) {
         return ret;
     }

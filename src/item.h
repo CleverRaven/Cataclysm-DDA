@@ -753,6 +753,12 @@ public:
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_dispersion( bool with_ammo = true ) const;
+        /**
+         * The skill used to operate the gun. Can be "null" if this is not a gun.
+         * Note that this function is not like @ref skill, it returns "null" for any non-gun (books)
+         * for which skill() would return a skill.
+         */
+        std::string gun_skill() const;
         /*@}*/
 
         /**
