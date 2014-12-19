@@ -1121,6 +1121,22 @@
         "to_hit": 2
     },
     {
+	"type":"GENERIC",
+	"id": "concrete",
+	"symbol": "%",
+	"color": "light_gray",
+	"name": "bag of concrete",
+	"name_plural": "bags of concrete",
+	"description": "A bag of concrete, ready to be used in a construction project.",
+	"price": 10000,
+	"material": "stone",
+	"weight": 1000,
+	"volume": 4,
+	"bashing": 4,
+	"cutting": 0,
+	"to_hit": 0
+	},
+    {
         "type":"GENERIC",
         "id": "log",
         "symbol": "/",
@@ -4429,5 +4445,34 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": -2
+    },{
+    	"type": "GENERIC",
+	"id": "crude_brick",
+	"symbol": ",",
+	"color": "red",
+	"name": "unfired clay brick",
+	"category": "spare_parts",
+	"description": "An unfired clay brick. If you'd fire it in a brick kiln, you could use it in a construction project.",
+	"price": 1500,
+	"material": ["stone", "freshclay"],
+	"weight": 1269,
+	"volume": 2,
+	"bashing": 8,
+	"cutting": 0,
+	"to_hit": -2
+    },{
+	"type": "GENERIC",
+	"id": "mortar_build",
+	"symbol": "%",
+	"color": "light_gray",
+	"name": "bag of mortar",
+	"description": "A bag of mortar, ready to be used in building projects. You'd better use it fast; it'll harden soon.",
+	"price": 5000,
+	"material": "stone",
+	"weight": 1000,
+	"volume": 4,
+	"bashing": 4,
+	"cutting": 0,
+	"to_hit": 0
     }
 ]

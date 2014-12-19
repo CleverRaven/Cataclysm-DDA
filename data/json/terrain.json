@@ -9,6 +9,228 @@
         "trap": "tr_ledge",
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
+	"type" : "terrain",
+	"id" : "t_brick_wall_halfway",
+	"name": "half-built brick wall",
+	"symbol": "#",
+	"color": "brown",
+	"move_cost": 5,
+	"flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
+	"bash": {
+		"str_min": 30, "str_max": 100,
+		"sound": "crash!",
+		"sound_fail": "bash!",
+		"ter_set": "t_dirt",
+		"items": [
+			{ "item": "rock", "amount": 10, "minamount": 6 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_brick_wall",
+	"name": "brick wall",
+	"symbol": "#",
+	"color": "brown",
+	"move_cost": 0,
+	"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+	"bash": {
+		"str_min": 60, "str_max": 160,
+		"sound": "crash!",
+		"sound_fail": "bash!",
+		"ter_set": "t_dirt",
+		"items": [
+			{ "item": "rock", "amount": 20, "minamount": 10 }
+		]
+	}
+    },{
+    	"type" : "terrain",
+	"id" : "t_sconc_wall",
+	"name": "simple concrete wall",
+	"symbol": "#",
+	"color": "ltgray",
+	"move_cost": 0,
+	"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+	"bash": {
+		"str_min": 90, "str_max": 350,
+		"sound": "crash!",
+		"sound_fail": "whump!",
+		"ter_set": "t_pit_shallow",
+		"items": [
+			{ "item": "rock", "amount": 22, "minamount": 10 }
+		]
+	}
+    },{
+    	"type" : "terrain",
+	"id" : "t_sconc_wall_halfway",
+	"name": "half-built simple concrete wall",
+	"symbol": "*",
+	"color": "ltgray",
+	"move_cost": 4,
+	"flags": ["NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT"],
+	"bash": {
+		"str_min": 40, "str_max": 350,
+		"sound": "crash!",
+		"sound_fail": "whump!",
+		"ter_set": "t_pit_shallow",
+		"items": [
+			{ "item": "rock", "amount": 11, "minamount": 5 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_strconc_wall",
+	"name": "reinforced concrete wall",
+	"symbol": "#",
+	"color": "ltgray",
+	"move_cost": 0,
+	"flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+	"bash": {
+		"str_min": 120, "str_max": 460,
+		"sound": "scrrrash!",
+		"sound_fail": "whump!",
+		"ter_set": "t_pit",
+		"items": [
+			{ "item": "rock", "amount": 22, "minamount": 10 },
+			{ "item": "scrap", "amount": 12, "minamount": 4 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
+    	"type" : "terrain",
+	"id" : "t_strconc_wall_halfway",
+	"name": "half-built reinforced concrete wall",
+	"symbol": "*",
+	"color": "ltgray",
+	"move_cost": 5,
+	"flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
+	"bash": {
+		"str_min": 60, "str_max": 460,
+		"sound": "scrrrash!",
+		"sound_fail": "whump!",
+		"ter_set": "t_pit",
+		"items": [
+			{ "item": "rock", "amount": 11, "minamount": 5 },
+			{ "item": "scrap", "amount": 12, "minamount": 4 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_reb_cage",
+	"name": "rebar cage",
+	"symbol": "#",
+	"color": "dkgray",
+	"move_cost": 5,
+	"flags": ["TRANSPARENT", "NOITEM"],
+	"bash": {
+		"str_min": 20, "str_max": 100,
+		"sound": "metal screeching!",
+		"sound_fail": "clang!",
+		"ter_set": "t_pit",
+		"items": [
+			{ "item": "scrap", "amount": 12, "minamount": 4 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
+    	"type" : "terrain",
+        "id" : "t_thconc_floor",
+        "name": "concrete floor",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 5 },
+                { "item": "scrap", "amount": 8, "minamount": 5 },
+				{ "item": "rebar", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+	"type" : "terrain",
+	"id" : "t_ov_smreb_cage",
+	"name": "small rebar roof cage",
+	"symbol": ".",
+	"color": "dkgray",
+	"move_cost": 4,
+	"flags": [
+		"TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
+	],
+	"bash": {
+		"sound": "SCRRRASH!!",
+		"ter_set": "t_dirt",
+		"destroy_only": true,
+		"items": [
+			{ "item": "scrap", "amount": 8, "minamount": 5 },
+			{ "item": "rebar", "amount": 2, "minamount": 0 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_strconc_floor",
+	"name": "reinforced concrete floor",
+	"symbol": ".",
+	"color": "cyan",
+	"move_cost": 2,
+	"flags": [
+		"TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+	],
+	"bash": {
+		"sound": "SMASH!!",
+		"ter_set": "t_dirt",
+		"destroy_only": true,
+		"items": [
+			{ "item": "rock", "amount": 22, "minamount": 10 },
+			{ "item": "scrap", "amount": 12, "minamount": 10 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_ov_reb_cage",
+	"name": "rebar roof cage",
+	"symbol": ".",
+	"color": "dkgray",
+	"move_cost": 4,
+	"flags": [
+		"TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
+	],
+	"bash": {
+		"sound": "SCRRRASH!!",
+		"ter_set": "t_dirt",
+		"destroy_only": true,
+		"items": [
+			{ "item": "scrap", "amount": 12, "minamount": 10 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
+	"type" : "terrain",
+	"id" : "t_strconc_floor_halfway",
+	"name": "half-built reinforced concrete floor",
+	"symbol": ".",
+	"color": "cyan",
+	"move_cost": 2,
+	"flags": [
+		"TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+	],
+	"bash": {
+		"sound": "SMASH!!",
+		"ter_set": "t_dirt",
+		"destroy_only": true,
+		"items": [
+			{ "item": "rock", "amount": 11, "minamount": 5 },
+			{ "item": "scrap", "amount": 12, "minamount": 10 },
+			{ "item": "rebar", "amount": 4, "minamount": 0 }
+		]
+	}
+    },{
         "type" : "terrain",
         "id" : "t_dirt",
         "name": "dirt",
