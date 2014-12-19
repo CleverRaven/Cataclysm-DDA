@@ -1468,10 +1468,8 @@ bool game::do_turn()
         for( auto &_i : sm->vehicles ) {
             auto veh = _i;
 
-            veh->power_parts(sm_loc);
-            if (sm_loc.z == levz) {
-                veh->idle(m.inbounds(in_reality.x, in_reality.y));
-            }
+            veh->power_parts( sm_loc );
+            veh->idle( sm_loc.z == levz && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
     m.process_fields();
@@ -8158,12 +8156,13 @@ void game::handbrake()
         veh->skidding = true;
         add_msg(m_warning, _("You lose control of %s."), veh->name.c_str());
         veh->turn(veh->last_turn > 0 ? 60 : -60);
-    } else if (veh->velocity < 0) {
-        veh->stop();
     } else {
-        veh->velocity = veh->velocity / 2 - 10 * 100;
-        if (veh->velocity < 0) {
+        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
+        if( abs( veh->velocity ) < braking_power ) {
             veh->stop();
+        } else {
+            int sgn = veh->velocity > 0 ? 1 : -1;
+            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
         }
     }
     u.moves = 0;

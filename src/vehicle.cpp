@@ -3588,13 +3588,9 @@ void vehicle::thrust (int thd) {
     } else {
         load = (thrusting ? 1.0 : 0.0);
     }
-    
-    if( load < 0.01 ) {
-        return;
-    }
-    
+
     // only consume resources if engine accelerating
-    if (thrusting) {
+    if (load >= 0.01 && thrusting) {
         //abort if engines not operational
         if (total_power () <= 0 || !engine_on) {
             if (pl_ctrl) {
