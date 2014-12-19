@@ -2147,7 +2147,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "NO_JACK"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2168,7 +2168,7 @@
         "item" : "wheel_wheelchair",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "NO_JACK"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2189,7 +2189,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "FOLDABLE", "NO_JACK"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2250,7 +2250,7 @@
         "item" : "wheel_caster",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "NO_JACK"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2269,7 +2269,7 @@
         "item" : "wheel_wood",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "NO_JACK"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15}]
@@ -2287,7 +2287,7 @@
         "item" : "wheel_wood_b",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "NO_JACK"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15},
