@@ -4771,9 +4771,9 @@ void vehicle::control_turrets() {
     partpicker_cb callback( locations );
 
     int selected = 0;
-    bool precise = false;
+
     while( true ) {
-        pmenu.title = precise ? _("Set exact burst/charge size") : _("Cycle turret mode");
+        pmenu.title = _("Cycle turret mode");
         pmenu.callback = &callback;
         // Regen menu entries
         for( int i = 0; i < (int)turrets.size(); i++ ) {
@@ -4795,25 +4795,15 @@ void vehicle::control_turrets() {
             }
             pmenu.addentry( i, true, MENU_AUTOASSIGN, "[%c] %s", sym, part_info( p ).name.c_str() );
         }
-        
-        if( precise ) {
-            pmenu.addentry( turrets.size(), true, 'p', _("Cycle turret mode") );
-        } else {
-            pmenu.addentry( turrets.size(), true, 'p', _("Set exact burst/charge size") );
-        }
-        pmenu.addentry( turrets.size() + 1, true, 'q', _("Finish") );
+
+        pmenu.addentry( turrets.size(), true, 'q', _("Finish") );
         pmenu.w_y = 0; // Move the menu so that we can see our vehicle
         
         pmenu.selected = selected;
         pmenu.fselected = selected;
         pmenu.query();
-        if( pmenu.ret < 0 || pmenu.ret > (int)turrets.size() ) {
+        if( pmenu.ret < 0 || pmenu.ret >= (int)turrets.size() ) {
             return;
-        } else if( pmenu.ret == (int)turrets.size() ) {
-            precise = !precise;
-            selected = 0;
-            pmenu.reset();
-            continue;
         }
 
         selected = pmenu.ret;
@@ -4825,17 +4815,12 @@ void vehicle::control_turrets() {
         }
 
         vehicle_part &tr = parts[turret_index];
-        if( precise ) {
-            tr.mode = 
-                helper::to_int( string_input_popup( _("Limit burst/charge to?") ) );
+        if( tr.mode < 0 || tr.mode > 1 ) {
+            tr.mode = 0;
+        } else if( tr.mode == 0 && gun->burst > 1 ) {
+            tr.mode = 1;
         } else {
-            if( tr.mode < 0 || tr.mode > 1 ) {
-                tr.mode = 0;
-            } else if( tr.mode == 0 && gun->burst > 1 ) {
-                tr.mode = 1;
-            } else {
-                tr.mode = INT_MAX;
-            }
+            tr.mode = INT_MAX;
         }
 
         pmenu.reset();
@@ -4875,9 +4860,6 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     auto tags = item::find_type( part_info( p ).item )->item_tags;
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    if( amt == fuel_type_plasma ) {
-        charge_mult = 10; // 1 unit of hydro adds 10 units to hydro tank
-    }
     if (amt == fuel_type_gasoline || amt == fuel_type_plasma || amt == fuel_type_battery)
     {
         if ( tags.count( "CHARGE" ) > 0 ) {
@@ -4894,6 +4876,9 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
                 whoosh = _("whoosh!");
             }
             charge_mult *= 5 * charges;
+        }
+        if( amt == fuel_type_plasma ) {
+            charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
         int fleft = fuel_left( amt );
         if( fleft < charges * charge_mult ) {
@@ -4993,11 +4978,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long &cha
     tmp.fire_gun( target->xpos(), target->ypos(), parts[p].mode > 1 );
     // Return whatever is left.
     refill( fuel_type_battery, ups_ref.charges );
-    if( tmp.weapon.charges < 0 ) {
-        charges = 0;
-    } else {
-        charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
-    }
+    charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
     
     return true;
 }
