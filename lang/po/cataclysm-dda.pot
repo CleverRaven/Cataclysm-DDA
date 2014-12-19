@@ -79241,16 +79241,6 @@ msgid "%1$s (%2$d)"
 msgstr ""
 
 #: src/newcharacter.cpp
-msgctxt "set_profession_item"
-msgid "None"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgctxt "set_profession_bionic"
-msgid "None"
-msgstr ""
-
-#: src/newcharacter.cpp
 msgid "Profession items:"
 msgstr ""
 
