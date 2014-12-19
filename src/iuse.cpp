@@ -2874,7 +2874,7 @@ int iuse::sew(player *p, item *it, bool, point)
                itm.made_of( "leather" ) ||
                itm.made_of( "fur" ) ||
                itm.made_of( "nomex" ) ||
-               itm.made_of( "felt_patch" );
+               itm.made_of( "wool" );
     } );
     item *fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
