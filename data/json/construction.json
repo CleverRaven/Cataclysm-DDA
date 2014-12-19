@@ -1597,9 +1597,10 @@
         "time" : 30,
         "qualities": [
             [ { "id": "HAMMER", "level": 2 } ],
-            [ { "id": "SAW_M", "level": 1 } ]
-        ],
-        "//" : "Should add a welder & goggles once that's sorted out.",
+            [ { "id": "SAW_M", "level": 1 } ],
+            [ { "id": "WELD", "level": 2 } ],
+            [ { "id": "GLARE", "level": 2} ]
+        ]
         "components" : [
             [ [ "metal_tank", 4 ] ],
             [ [ "water_faucet", 1] ]
