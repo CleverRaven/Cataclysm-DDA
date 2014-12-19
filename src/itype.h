@@ -330,15 +330,6 @@ struct islot_gun : public common_firing_data {
 };
 
 struct islot_gunmod : public common_firing_data {
-    // Used by gunmods with a firing mode,
-    // this should be supported by assigning a gun itype to the item as well.
-private:
-    friend class Item_factory;
-    /**
-     * TODO: document me
-     */
-    int mod_dispersion;
-public:
     /**
      * TODO: document me
      */
@@ -348,7 +339,6 @@ public:
      * TODO: this should be a pointer to const Skill.
      */
     Skill *skill_used;
-    // Rest of the attributes are properly part of a gunmod.
     /**
      * TODO: document me
      */
@@ -392,7 +382,6 @@ public:
 
     islot_gunmod()
     : common_firing_data()
-    , mod_dispersion( 0 )
     , req_skill( 0 )
     , skill_used( nullptr )
     , newtype()

@@ -3096,21 +3096,18 @@ int item::noise() const
     if( !is_gun() ) {
         return 0;
     }
+    item const* gunmod = active_gunmod();
+    if( gunmod != nullptr ) {
+        return gunmod->noise();
+    }
+    // TODO: use islot_gun::loudness here.
     int ret = 0;
-    if( is_in_auxiliary_mode() ) {
-        item const* gunmod = active_gunmod();
-        if( gunmod && gunmod->has_curammo() ) {
-            ret = gunmod->get_curammo()->damage;
-        }
-    } else if( has_curammo() ) {
+    if( has_curammo() ) {
         ret = get_curammo()->damage;
     }
     ret *= .8;
     if (ret >= 5) {
         ret += 20;
-    }
-    if( is_in_auxiliary_mode() ) {
-        return ret;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {

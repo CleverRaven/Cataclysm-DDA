@@ -321,10 +321,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
     proj.speed = 1000;
 
     const auto &curammo_effects = curammo->ammo_effects;
-    if( gunmod == NULL ) {
-        const auto &gun_effects = used_weapon->type->gun->ammo_effects;
-        proj.proj_effects.insert(gun_effects.begin(), gun_effects.end());
-    }
+    const auto &gun_effects = used_weapon->type->gun->ammo_effects;
+    proj.proj_effects.insert(gun_effects.begin(), gun_effects.end());
     proj.proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
 
     proj.wide = (curammo->phase == LIQUID ||
@@ -1318,22 +1316,10 @@ int time_to_fire(player &p, const itype &firingt)
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
     std::string gunsound;
-    // noise() doesn't suport gunmods, but it does return the right value
     int noise = p.weapon.noise();
-    std::string ammo_used;
-    std::set<std::string> ammo_effects;
-    std::string weapon_id;
-    if( weapon->is_gunmod() ) {
-        auto mod_type = weapon->type->gunmod.get();
-        ammo_used = mod_type->newtype;
-        // Leave ammo_effects empty for now.
-        weapon_id = weapon->typeId();
-    } else {
-        auto weapontype = weapon->type->gun.get();
-        ammo_used = weapontype->ammo;
-        ammo_effects = weapontype->ammo_effects;
-        weapon_id = weapon->typeId();
-    }
+    const auto &ammo_used = weapon->type->gun->ammo;
+    const auto &ammo_effects = weapon->type->gun->ammo_effects;
+    const auto &weapon_id = weapon->typeId();
 
     if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
         if (noise < 20) {

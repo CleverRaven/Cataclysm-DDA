@@ -799,7 +799,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.used_on_crossbow = is_mod_target( jo, "mod_targets", "crossbow" );
     slot.used_on_launcher = is_mod_target( jo, "mod_targets", "launcher" );
     slot.dispersion = jo.get_int( "dispersion_modifier", 0 );
-    slot.mod_dispersion = jo.get_int( "dispersion", 0 );
     slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
     slot.aim_speed = jo.get_int( "aim_speed", -1 );
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
@@ -815,27 +814,6 @@ void Item_factory::load_gunmod(JsonObject &jo)
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->gunmod, jo );
-    // Temporarily hack: if the mod is an auxiliary gunmode add the proper data of a "real"
-    // gun in the gun slot. This makes the firing code easier.
-    if( new_item_template->item_tags.count( "MODE_AUX" ) ) {
-        new_item_template->gun.reset( new islot_gun() );
-        auto &gun = *new_item_template->gun;
-        auto &mod = *new_item_template->gunmod;
-        // copy the common data first, then swap gun specific things in, clearing the mods data
-        // at the same time (the data must only appear in either the gun slot *or* the mod slot.
-        static_cast<common_firing_data&>( gun ) = static_cast<common_firing_data &>( mod );
-        std::swap( gun.ammo, mod.newtype );
-        std::swap( gun.skill_used, mod.skill_used );
-        gun.durability = 9; // or whatever
-        gun.reload_time = 1; // or whatever
-        // gun.ammo_effects = ;
-        // gun.valid_mod_locations stays empty, mods can not be modded further
-        gun.ups_charges = 0; // or whatever
-        // This is not swapped because mod::dispersion is the dispersion added by the mod, but
-        // mod::mod_dispersion is the standalone dispersion.
-        gun.dispersion = mod.mod_dispersion;
-        new_item_template->item_tags.erase( "MODE_AUX" );
-    }
     load_basic_info( jo, new_item_template );
 }
 
@@ -1490,7 +1468,7 @@ const use_function *Item_factory::get_iuse(const std::string &id)
 
 const std::string &Item_factory::calc_category( const itype *it )
 {
-    if( it->gun ) {
+    if( it->gun && !it->gunmod ) {
         return category_id_guns;
     }
     if (it->is_ammo()) {
