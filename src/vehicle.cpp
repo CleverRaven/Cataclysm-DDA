@@ -4860,7 +4860,8 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     auto tags = item::find_type( part_info( p ).item )->item_tags;
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    if (amt == fuel_type_gasoline || amt == fuel_type_plasma || amt == fuel_type_battery)
+    int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
+    if( liquid_fuel > 1 )
     {
         if ( tags.count( "CHARGE" ) > 0 ) {
             if (one_in(100)) {
@@ -4880,11 +4881,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( amt == fuel_type_plasma ) {
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
-        int fleft = fuel_left( amt );
-        if( fleft < charges * charge_mult ) {
-            charges = fleft / charge_mult;            
+        if( liquid_fuel < charges * charge_mult ) {
+            charges = liquid_fuel / charge_mult;            
         }
-        if( fleft < 1 || charges < 1 ) {
+        if( liquid_fuel < 1 || charges < 1 ) {
             return false;
         }
         it_ammo *ammo = dynamic_cast<it_ammo*>( item::find_type( amt ) );
