@@ -761,7 +761,8 @@
 	] ],
 	"components" : [
 		[ [ "brick", 15] ],
-		[ [ "mortar_build", 1] ]
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
 	],
 	"pre_terrain" : "t_dirt",
 	"post_terrain" : "t_brick_wall_halfway"
@@ -776,7 +777,8 @@
 	] ],
 	"components" : [
 		[ [ "brick", 15] ],
-		[ [ "mortar_build", 1] ]
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
 	],
 	"pre_terrain" : "t_brick_wall_halfway",
 	"post_terrain" : "t_brick_wall"
