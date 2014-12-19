@@ -363,13 +363,13 @@ void draw_exam_window(WINDOW *win, int border_line, bool examination)
 bool player::activate_bionic(int b, bool eff_only)
 {
     bionic &bio = my_bionics[b];
-    
+
     // Special compatibility code for people who updated saves with their claws out
     if ((weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon") ||
         (weapon.type->id == "bio_blade_weapon" && bio.id == "bio_blade_weapon")) {
         return deactivate_bionic(b);
     }
-    
+
     // eff_only means only do the effect without messing with stats or displaying messages
     if (!eff_only) {
         if (bio.powered) {
@@ -380,7 +380,7 @@ bool player::activate_bionic(int b, bool eff_only)
             add_msg(m_info, _("You don't have the power to activate your %s."), bionics[bio.id]->name.c_str());
             return false;
         }
-        
+
         //We can actually activate now, do activation-y things
         power_level -= bionics[bio.id]->power_activate;
         if (bionics[bio.id]->toggled || bionics[bio.id]->charge_time > 0) {
@@ -743,7 +743,7 @@ bool player::activate_bionic(int b, bool eff_only)
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
         int vehwindspeed = 0;
         if( veh ) {
-            vehwindspeed = abs(veh->velocity / 100); // For mph
+            vehwindspeed = abs(veh->velocity / g->is_sheltered(g->u.posx, g->u.posy) ? 5 : 100); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
@@ -789,14 +789,14 @@ bool player::activate_bionic(int b, bool eff_only)
             weapon.invlet = '#';
         }
     }
-    
+
     return true;
 }
 
 bool player::deactivate_bionic(int b, bool eff_only)
 {
     bionic &bio = my_bionics[b];
-    
+
     // Just do the effect, no stat changing or messages
     if (!eff_only) {
         if (!bio.powered) {
@@ -812,7 +812,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
             add_msg(m_info, _("You don't have the power to deactivate your %s."), bionics[bio.id]->name.c_str());
             return false;
         }
-        
+
         //We can actually deactivate now, do deactivation-y things
         power_level -= bionics[bio.id]->power_deactivate;
         bio.powered = false;
@@ -844,7 +844,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
             weapon = ret_null;
         }
     }
-    
+
     return true;
 }
 
@@ -855,7 +855,7 @@ void player::process_bionic(int b)
         // Only powered bionics should be processed
         return;
     }
-    
+
     if (bio.charge > 0) {
         // Units already with charge just lose charge
         bio.charge--;
@@ -886,7 +886,7 @@ void player::process_bionic(int b)
             }
         }
     }
-    
+
     // Bionic effects on every turn they are active go here.
     if (bio.id == "bio_night") {
         if (calendar::turn % 5) {
@@ -926,7 +926,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_electronics * 4 +
                    s_firstaid    * 3 +
                    s_mechanics   * 1;
-    
+
     // Medical residents have some idea what they're doing
     if (g->u.has_trait("PROF_MED")) {
         pl_skill += 3;
@@ -1132,7 +1132,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
             fail_type = rng(1,3);
         }
     }
-    
+
     if (fail_type == 3 && u->num_bionics() == 0) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
@@ -1217,15 +1217,15 @@ void load_bionic(JsonObject &jsobj)
     std::string name = _(jsobj.get_string("name").c_str());
     std::string description = _(jsobj.get_string("description").c_str());
     int on_cost = jsobj.get_int("act_cost", 0);
-    
+
     bool toggled = jsobj.get_bool("toggled", false);
     // Requires ability to toggle
     int off_cost = jsobj.get_int("deact_cost", 0);
-    
+
     int time = jsobj.get_int("time", 0);
     // Requires a non-zero time
     int react_cost = jsobj.get_int("react_cost", 0);
-    
+
     bool faulty = jsobj.get_bool("faulty", false);
     bool power_source = jsobj.get_bool("power_source", false);
 
