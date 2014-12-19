@@ -11431,7 +11431,10 @@ void map::rotate(int turns)
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    computer tmpcomp;
+    computer tmpcomp[MAPSIZE * MAPSIZE];
+    int active_item_count[MAPSIZE * MAPSIZE];
+    int field_count[MAPSIZE * MAPSIZE];
+    int temperature[MAPSIZE * MAPSIZE];
 
     //Rotate terrain first
     for (int old_x = 0; old_x < SEEX * 2; old_x++) {
@@ -11467,20 +11470,23 @@ void map::rotate(int turns)
     //Next, spawn points
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
-            int gridfrom = sx + sy * my_MAPSIZE;
-            int gridto = gridfrom;;
+            const auto from = get_submap_at_grid( sx, sy );
+            int gridto;
             switch(turns) {
+            case 0:
+                gridto = get_nonant( sx, sy );
+                break;
             case 1:
-                gridto = sx * my_MAPSIZE + 1 - sy;
+                gridto = get_nonant( 1 - sy, sx );
                 break;
             case 2:
-                gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
+                gridto = get_nonant( 1 - sx, 1 - sy );
                 break;
             case 3:
-                gridto = (1 - sx) * my_MAPSIZE + sy;
+                gridto = get_nonant( sy, 1 - sx );
                 break;
             }
-            for (auto &spawn : grid[gridfrom]->spawns) {
+            for (auto &spawn : from->spawns) {
                 spawn_point tmp = spawn;
                 int new_x = tmp.posx;
                 int new_y = tmp.posy;
@@ -11503,36 +11509,12 @@ void map::rotate(int turns)
                 sprot[gridto].push_back(tmp);
             }
             // as vehrot starts out empty, this clears the other vehicles vector
-            vehrot[gridto].swap(grid[gridfrom]->vehicles);
+            vehrot[gridto].swap(from->vehicles);
+            tmpcomp[gridto] = from->comp;
+            active_item_count[gridto] = from->active_item_count;
+            field_count[gridto] = from->field_count;
+            temperature[gridto] = from->temperature;
         }
-    }
-
-    //Then computers
-    switch (turns) {
-    case 1:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
-        grid[1]->comp = tmpcomp;
-        break;
-
-    case 2:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = tmpcomp;
-        tmpcomp = grid[1]->comp;
-        grid[1]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = tmpcomp;
-        break;
-
-    case 3:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[1]->comp;
-        grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = tmpcomp;
-        break;
     }
 
     // change vehicles' directions
@@ -11584,15 +11566,16 @@ void map::rotate(int turns)
             veh->smx = new_x;
             veh->smy = new_y;
         }
+        const auto to = getsubmap( i );
         // move back to the actuall submap object, vehrot is only temporary
-        vehrot[i].swap(grid[i]->vehicles);
+        vehrot[i].swap(to->vehicles);
+        sprot[i].swap(to->spawns);
+        to->comp = tmpcomp[i];
+        to->active_item_count = active_item_count[i];
+        to->field_count = field_count[i];
+        to->temperature = temperature[i];
     }
 
-    // Set the spawn points
-    grid[0]->spawns = sprot[0];
-    grid[1]->spawns = sprot[1];
-    grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
-    grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             int lx, ly;
