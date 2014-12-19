@@ -92,9 +92,8 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
     if(!veh_exists_at[x][y]) {
         return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
     }
-    std::pair<int,int> point(x,y);
-    std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
-    if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end()) {
+    const auto it = veh_cached_parts.find( point( x, y ) );
+    if( it != veh_cached_parts.end() ) {
         part_num = it->second.second;
         return it->second.first;
     }
@@ -137,20 +136,15 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
     veh_in_active_range = true;
     if( !brand_new ) {
         // Existing must be cleared
-        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::iterator it =
-            veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
+        auto it = veh_cached_parts.begin();
+        const auto end = veh_cached_parts.end();
         while( it != end ) {
             if( it->second.first == veh ) {
-                int x = it->first.first;
-                int y = it->first.second;
-                if( ( x > 0 ) && ( y > 0 ) &&
-                    x < SEEX * MAPSIZE &&
-                    y < SEEY * MAPSIZE ) {
-                    veh_exists_at[x][y] = false;
+                const auto &p = it->first;
+                if( inbounds( p.x, p.y ) ) {
+                    veh_exists_at[p.x][p.y] = false;
                 }
-                tmp = it;
-                ++it;
-                veh_cached_parts.erase( tmp );
+                veh_cached_parts.erase( it++ );
             } else {
                 ++it;
             }
@@ -166,29 +160,23 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
         if( it->removed ) {
             continue;
         }
-        const int px = gx + it->precalc_dx[0];
-        const int py = gy + it->precalc_dy[0];
-        veh_cached_parts.insert( std::make_pair( std::make_pair( px, py ),
+        const point p( gx + it->precalc_dx[0],
+                       gy + it->precalc_dy[0] );
+        veh_cached_parts.insert( std::make_pair( p,
                                  std::make_pair( veh, partid ) ) );
-        if( ( px > 0 ) && ( py > 0 ) &&
-            px < SEEX * MAPSIZE &&
-            py < SEEY * MAPSIZE ) {
-            veh_exists_at[px][py] = true;
+        if( inbounds( p.x, p.y ) ) {
+            veh_exists_at[p.x][p.y] = true;
         }
     }
 }
 
 void map::clear_vehicle_cache()
 {
-    std::map< std::pair<int, int>, std::pair<vehicle *, int> >::iterator part;
     while( veh_cached_parts.size() ) {
-        part = veh_cached_parts.begin();
-        int x = part->first.first;
-        int y = part->first.second;
-        if( ( x > 0 ) && ( y > 0 ) &&
-            x < SEEX * MAPSIZE &&
-            y < SEEY * MAPSIZE ) {
-            veh_exists_at[x][y] = false;
+        const auto part = veh_cached_parts.begin();
+        const auto &p = part->first;
+        if( inbounds( p.x, p.y ) ) {
+            veh_exists_at[p.x][p.y] = false;
         }
         veh_cached_parts.erase( part );
     }
@@ -1167,8 +1155,8 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) con
         return 0;
     }
     if (veh_in_active_range && veh_exists_at[x][y]) {
-        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
-        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+        const auto it = veh_cached_parts.find( point( x, y ) );
+        if( it != veh_cached_parts.end() ) {
             const int vpart = it->second.second;
             vehicle *veh = it->second.first;
             if (veh != ignored_vehicle) {  // moving past vehicle cost
@@ -1234,8 +1222,8 @@ bool map::has_flag(const std::string &flag, const int x, const int y) const
     }
     // veh_at const no bueno
     if (veh_in_active_range && veh_exists_at[x][y] && flag_str_REDUCE_SCENT == flag) {
-        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
-        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+        const auto it = veh_cached_parts.find( point( x, y ) );
+        if( it != veh_cached_parts.end() ) {
             const int vpart = it->second.second;
             vehicle *veh = it->second.first;
             if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
@@ -1289,8 +1277,8 @@ bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
     }
     // veh_at const no bueno
     if (veh_in_active_range && veh_exists_at[x][y] && flag == TFLAG_REDUCE_SCENT) {
-        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
-        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+        const auto it = veh_cached_parts.find( point( x, y ) );
+        if( it != veh_cached_parts.end() ) {
             const int vpart = it->second.second;
             vehicle *veh = it->second.first;
             if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
@@ -1349,8 +1337,8 @@ bool map::is_bashable(const int x, const int y)
     }
 
     if (veh_in_active_range && veh_exists_at[x][y]) {
-        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
-        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+        const auto it = veh_cached_parts.find( point( x, y ) );
+        if( it != veh_cached_parts.end() ) {
             const int vpart = it->second.second;
             vehicle *veh = it->second.first;
             if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...

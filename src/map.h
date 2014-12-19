@@ -660,7 +660,7 @@ void add_corpse(int x, int y);
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
 
- std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
+ std::map< point, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
     /** return @ref abs_sub */
