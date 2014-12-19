@@ -10,11 +10,11 @@
         "symbol" : "]",
         "material" : ["steel", "null"],
         "techniques" : ["DEF_DISARM"],
-        "volume" : 60,
+        "volume" : 16,
         "bashing" : 15,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 500000
+        "price" : 22500
     },
     {
         "type":"GENERIC",
@@ -27,7 +27,7 @@
         "symbol" : "]",
         "material" : ["steel", "null"],
         "techniques" : ["DEF_DISARM"],
-        "volume" : 50,
+        "volume" : 12,
         "bashing" : 15,
         "cutting" : 0,
         "category" : "veh_parts",
@@ -47,7 +47,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 1000
+        "price" : 750
     },
     {
         "type":"GENERIC",
@@ -63,6 +63,6 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 15000
+        "price" : 1300
     }
 ]

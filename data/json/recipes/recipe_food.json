@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "water_clean",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -28,7 +28,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "salt",
   "id_suffix": "from_salt_water",
   "category": "CC_FOOD",
@@ -58,7 +58,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meat_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -84,7 +84,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fish_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -110,7 +110,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tallow",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -141,7 +141,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lard",
   "byproducts": { "id" : "cracklins", "charges_mult" : 2 },
   "category": "CC_FOOD",
@@ -169,7 +169,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cooking_oil",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -197,7 +197,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rehydrated_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -217,7 +217,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rehydrated_fish",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -237,7 +237,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rehydrated_hflesh",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -257,7 +257,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rehydrated_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -277,7 +277,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rehydrated_fruit",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -297,7 +297,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mayonnaise",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -334,7 +334,7 @@
 
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meat_smoked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -360,7 +360,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fish_smoked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -386,7 +386,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dry_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -411,7 +411,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dry_fish",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -436,7 +436,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dry_hflesh",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -461,7 +461,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dry_mushroom",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -485,7 +485,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "powder_eggs",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -540,7 +540,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sushi_rice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -581,7 +581,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "onigiri",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -614,7 +614,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sushi_veggyroll",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -658,7 +658,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sushi_fishroll",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -694,7 +694,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sushi_meatroll",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -730,7 +730,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sashimi",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -767,7 +767,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "protein_powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -793,7 +793,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "protein_drink",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -884,7 +884,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dry_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -963,7 +963,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sausage",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -984,7 +984,9 @@
   ],
   "components": [
     [
-      [ "meat", 3 ]
+      [ "meat", 3],
+      [ "rehydrated_meat", 6 ],
+      [ "meat_canned", 6 ]
     ],
     [
       [ "fat", 3 ],
@@ -1001,7 +1003,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bologna",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1033,7 +1035,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hfleshbologna",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1066,7 +1068,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "human_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1092,7 +1094,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "human_smoked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1118,7 +1120,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mannwurst",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1157,7 +1159,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dogfood",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1191,7 +1193,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "catfood",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1223,7 +1225,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "veggy_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1248,7 +1250,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "veggy_wild_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1273,7 +1275,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "morel_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1303,7 +1305,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "morel_fried",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1343,7 +1345,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dahlia_baked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1370,7 +1372,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dandelion_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1401,7 +1403,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dandelion_fried",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1443,7 +1445,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "acorns_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1474,7 +1476,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spaghetti_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -1505,7 +1507,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cooked_burrito",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1528,7 +1530,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cooked_dinner",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1551,7 +1553,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "macaroni_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -1586,7 +1588,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "macaroni_helper",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1612,12 +1614,14 @@
       [ "noodles_fast", 1]
     ],
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2],
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ],
       [ "fish", 1 ],
       [ "dry_fish", 2],
-      [ "rehydrated_fish", 2]
+      [ "rehydrated_fish", 2],
+      [ "fish_canned", 2]
     ],
     [
       [ "cheese", 1 ],
@@ -1629,7 +1633,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hobo_helper",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1670,7 +1674,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "potato_baked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1695,7 +1699,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "chips2",
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_SNACK",
@@ -1727,7 +1731,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachos",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1757,7 +1761,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachosc",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1788,7 +1792,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachosm",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1811,16 +1815,17 @@
   ],
   "components": [
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "nachos", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachosmc",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1843,9 +1848,10 @@
   ],
   "components": [
     [
-      [ "meat", 1 ],
-      [ "dry_meat", 2],
-      [ "rehydrated_meat", 2]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "cheese", 1 ],
@@ -1856,7 +1862,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachoshf",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1889,7 +1895,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "nachoshc",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1925,7 +1931,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "cheese_fries",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1955,7 +1961,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "popcorn",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -1980,7 +1986,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "popcorn2",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -2000,7 +2006,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2032,7 +2038,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "herbal_tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2064,7 +2070,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pine_tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2100,7 +2106,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "dandelion_tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2135,7 +2141,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "kompot",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2238,7 +2244,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blueberries_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -2263,7 +2269,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jam_strawberries",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -2291,7 +2297,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jam_blueberries",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -2319,7 +2325,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coffee",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2352,7 +2358,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "atomic_coffee",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2378,7 +2384,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "milk",
   "id_suffix": "from powder",
   "category": "CC_FOOD",
@@ -2399,7 +2405,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coffee_syrup",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2434,7 +2440,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "oj",
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
@@ -2456,7 +2462,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "apple_cider",
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
@@ -2475,7 +2481,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lemonade",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2537,7 +2543,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "irish_coffee",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2556,7 +2562,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_island",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2586,7 +2592,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "drink_screwdriver",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2604,7 +2610,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "drink_wild_apple",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2622,7 +2628,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "drink_rumcola",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2640,7 +2646,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meat_aspic",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2681,7 +2687,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jerky",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2713,7 +2719,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "salted_fish",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2745,7 +2751,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jerky_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2778,7 +2784,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cracklins",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2804,7 +2810,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pemmican",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -2851,7 +2857,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "V8",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -2876,7 +2882,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "broth",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -2925,7 +2931,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "broth_bone",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -2955,7 +2961,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soup_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3009,7 +3015,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soup_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -3049,12 +3055,14 @@
       [ "acorns_cooked", 1 ]
     ],
     [
-      [ "meat", 2 ],
-      [ "dry_meat", 2]
+      [ "meat", 2],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soup_fish",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -3119,7 +3127,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soup_woods",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -3150,10 +3158,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3173,7 +3183,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soup_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -3217,7 +3227,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "can_chowder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -3257,7 +3267,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brownie_weed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3284,7 +3294,7 @@
     [ [ "weed", 5] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3316,7 +3326,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "beet_syrup",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3347,7 +3357,7 @@
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cornbread",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3376,7 +3386,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hardtack",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3410,7 +3420,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "biscuit",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3443,7 +3453,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "johnnycake",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3474,7 +3484,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "beans_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3503,7 +3513,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_beans",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3533,10 +3543,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3554,7 +3566,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_veggy_beans",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3602,7 +3614,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rice_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3631,7 +3643,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_rice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3660,10 +3672,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3677,7 +3691,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_veggy_rice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3720,7 +3734,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "beansnrice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3752,7 +3766,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_beansnrice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3784,10 +3798,12 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
+      [ "fish_canned", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
@@ -3806,7 +3822,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_veggy_beansnrice",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3857,7 +3873,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "oatmeal_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3886,7 +3902,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "oatmeal_deluxe",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3942,7 +3958,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "buckwheat_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3971,7 +3987,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pine_nuts",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3995,7 +4011,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "granola",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4086,7 +4102,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "scrambled_eggs",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4117,7 +4133,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boiled_egg",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4148,7 +4164,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "deluxe_eggs",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4200,7 +4216,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pancakes",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -4245,7 +4261,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fruit_pancakes",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -4341,7 +4357,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "choc_pancakes",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -4390,7 +4406,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "waffles",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -4539,7 +4555,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "choc_waffles",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -4592,7 +4608,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fruit_leather",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -4672,7 +4688,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cookies",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -4770,7 +4786,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "seasoning_salt",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4898,7 +4914,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pie_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -4924,7 +4940,8 @@
     [
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ]
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -4932,7 +4949,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pie_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -4967,7 +4984,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "curry_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5000,7 +5017,10 @@
       [ "can_tomato", 1 ]
     ],
     [
-      [ "meat", 1]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5008,7 +5028,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "curry_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5046,7 +5066,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chili",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5078,7 +5098,10 @@
       [ "can_tomato", 1 ]
     ],
     [
-      [ "meat", 1]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
       [ "can_beans", 1],
@@ -5090,7 +5113,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "chili_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5134,7 +5157,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pizza_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5203,7 +5226,7 @@
     [ [ "chocolate", 1 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sauce_pesto",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5233,7 +5256,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pizza_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5275,7 +5298,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pizza_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5317,7 +5340,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spaghetti_bolognese",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -5361,7 +5384,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lasagne",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -5405,7 +5428,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "luigilasagne",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -5449,7 +5472,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spaghetti_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -5493,7 +5516,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spaghetti_pesto",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -5536,7 +5559,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "royal_jelly",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5561,7 +5584,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "salt",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -5586,7 +5609,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sugar",
   "id_suffix": "from_sweets",
   "category": "CC_FOOD",
@@ -5674,7 +5697,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sugar",
   "id_suffix": "from_wood",
   "category": "CC_FOOD",
@@ -5709,7 +5732,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sugar",
   "id_suffix": "from_beets",
   "category": "CC_FOOD",
@@ -5743,7 +5766,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_meat_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5776,7 +5799,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_fish_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5809,7 +5832,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_human_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5843,7 +5866,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_veggy_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5877,7 +5900,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_apple_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -5932,7 +5955,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_meat_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5967,7 +5990,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_fish_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6002,7 +6025,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_hflesh_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6038,7 +6061,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_veggy_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -6074,7 +6097,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bag_apple_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -6129,7 +6152,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_kompot",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6214,7 +6237,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fried_spam",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6241,7 +6264,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flour",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -6250,10 +6273,10 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cornmeal",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -6263,10 +6286,10 @@
   "reversible": false,
   "autolearn": true,
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1] ] ],
+                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["corn", 2] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meal_bone",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -6275,10 +6298,10 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["bone", 1] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spaghetti_raw",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -6303,7 +6326,7 @@
     [ ["water", 1], ["water_clean", 1] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lasagne_raw",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -6328,7 +6351,7 @@
     [ ["water", 1], ["water_clean", 1] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "macaroni_raw",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -6353,7 +6376,7 @@
     [ ["water", 1], ["water_clean", 1] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "drink_strawberry_surprise",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6369,7 +6392,7 @@
   "components": [ [ ["strawberries", 2] ],
     [ ["vodka", 4] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "drink_boozeberry",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6385,7 +6408,7 @@
   "components": [ [ ["blueberries", 2] ],
     [ ["vodka", 4] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cola_meth",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6401,7 +6424,7 @@
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brandy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6422,7 +6445,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_whiskey",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6453,7 +6476,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_vodka",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6482,7 +6505,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_rum",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6513,7 +6536,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_moonshine",
   "result_mult" : 15,
   "category": "CC_FOOD",
@@ -6543,7 +6566,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_fruit_wine",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6579,7 +6602,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_fruit_wine",
   "id_suffix": "from_berries",
   "result_mult" : 3,
@@ -6615,7 +6638,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_bum_wine",
   "result_mult" : 15,
   "category": "CC_FOOD",
@@ -6646,7 +6669,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_hb_beer",
   "result_mult" : 15,
   "category": "CC_FOOD",
@@ -6680,7 +6703,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_mead",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6706,7 +6729,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_dandelion_wine",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6736,7 +6759,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_pine_wine",
   "result_mult" : 3,
   "category": "CC_FOOD",
@@ -6765,7 +6788,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brew_vinegar",
   "result_mult" : 7,
   "category": "CC_FOOD",
@@ -6784,7 +6807,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "taint_tornado",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -6802,7 +6825,7 @@
     [ ["whiskey", 2], [ "single_malt_whiskey", 2 ] ],
     [ ["rum", 2] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "cheeseburger",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6845,7 +6868,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "fish_sandwich",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6878,7 +6901,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lutefisk",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6911,7 +6934,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "cheeseburgerhuman",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6955,7 +6978,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "hamburger",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6995,7 +7018,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "taco",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7017,17 +7040,21 @@
   ],
   "components": [
     [
-      [ "meat", 1 ]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ],
     [
-      [ "flour", 2 ]
+      [ "flour", 2 ],
+      [ "cornmeal", 2]
     ],
     [
       [ "salt", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "tiotaco",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7053,14 +7080,15 @@
       [ "human_flesh", 1 ]
     ],
     [
-      [ "flour", 2 ]
+      [ "flour", 2 ],
+      [ "cornmeal", 2]
     ],
     [
       [ "salt", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "hotdogs_cooked",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7099,7 +7127,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "chilidogs",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7136,7 +7164,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "currywurst",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7168,7 +7196,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "chilidogs_human",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7206,7 +7234,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "h_currywurst",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7239,7 +7267,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "corndogs_cooked",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7265,7 +7293,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "bobburger",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7306,7 +7334,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "blt",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7343,7 +7371,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sloppyjoe",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7375,11 +7403,14 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "manwich",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7416,7 +7447,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sandwich_t",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7440,7 +7471,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sandwich_pb",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7462,7 +7493,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sandwich_pbj",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7489,7 +7520,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sandwich_pbh",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7516,7 +7547,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "sandwich_human",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7539,7 +7570,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
    "result": "toasterpastry",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -7592,7 +7623,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_veggy_pickled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7639,7 +7670,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_meat_pickled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7677,7 +7708,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_fish_pickled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7715,7 +7746,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_human_pickled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7754,7 +7785,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fruit_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7802,7 +7833,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jam_fruit",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -7967,7 +7998,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "veggy_salad",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -8021,7 +8052,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "insta_salad",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -8042,7 +8073,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sweet_water",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -8063,7 +8094,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sugar",
   "id_suffix": "from_sweet_water",
   "category": "CC_FOOD",
@@ -8124,7 +8155,7 @@
   ],
   "components": [
     [
-     [ "meat", 1 ],
+     [ "meat", 1],
      [ "human_flesh", 1 ],
      [ "rehydrated_meat", 1 ],
      [ "rehydrated_hflesh", 1 ]
@@ -8183,7 +8214,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jar_tomato_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -8216,7 +8247,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "royal_beef",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -8242,6 +8273,440 @@
     ],
     [
       [ "royal_jelly", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wastebread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "meal_bone", 3 ]
+    ],
+    [
+      [ "meal_chitin_piece", 1 ],
+      [ "cornmeal", 1 ],
+      [ "oatmeal", 1 ],
+      [ "powder_eggs", 1 ],
+      [ "milk_powder", 2 ],
+      [ "protein_powder", 1 ],
+      [ "wild_herbs", 20 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_sauce",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_SNACK",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "mayonnaise", 1 ],
+      [ "ketchup", 1 ],
+      [ "sauce_pesto", 1 ],
+      [ "sauce_red", 1 ],
+      [ "mustard", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1 ],
+      [ "honey_glassed", 1 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_jam",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "jam_fruit", 1 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result": "sandwich_cheese",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_SNACK",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1500,
+   "reversible": true,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "sandwich_cheese_grilled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sandwich_cheese", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tea_bark",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 6 ],
+  "difficulty": 5,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 5] , ["atomic_survival", 4] , ["survival_book", 3]],
+  "qualities" : [
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "coffeemaker", 8],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "tanbark", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "milk_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "tea", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "milk_coffee",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "coffee_syrup", 1 ],
+      [ "coffee", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_beeknees",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 3500,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gin", 1 ]
+    ],
+    [
+      [ "honeycomb", 1],
+      [ "honey_bottled", 1]
+    ],
+    [
+      [ "lemonade", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_wsour",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "lemonade", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_kalimotxo",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bum_wine", 6 ],
+      [ "wine_cabernet", 2 ],
+      [ "wine_noir", 2 ]
+    ],
+    [
+      [ "cola", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_hobo",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "oj", 1 ],
+      [ "lemonade", 1 ],
+      [ "apple_cider", 1 ],
+      [ "cranberry_juice", 1 ],
+      [ "juice", 1 ]
+    ],
+    [
+      [ "beer", 1 ],
+      [ "hb_beer", 1 ],
+      [ "european_pilsner", 1 ],
+      [ "pale_ale", 1 ],
+      [ "india_pale_ale", 1 ],
+      [ "stout", 1 ],
+      [ "belgian_ale", 1 ],
+      [ "imperial_stout", 1 ],
+      [ "rootbeer", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ],
+      [ "vodka", 1 ],
+      [ "rum", 1 ],
+      [ "tequila", 1 ],
+      [ "gin", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "honey_gold",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 4 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "honey_ant", 1 ]
+    ],
+    [
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 4 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "drink_sewerbrew",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 5,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ], "tools": [
+    [ 
+     ["fire", -1]
+    ] 
+  ],
+  "components": [
+    [
+      [ "sewage", 1 ]
+    ],
+    [
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ],
+      [ "vodka", 1 ],
+      [ "rum", 1 ],
+      [ "tequila", 1 ],
+      [ "gin", 1 ],
+      [ "triple_sec", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "pelmeni",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 12 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 12 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 }

@@ -1184,6 +1184,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         std::ostringstream buffer;
+
+        // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
             buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
@@ -1192,10 +1194,19 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
         }
+
+        // Profession traits
+        const auto prof_traits = sorted_profs[cur_id]->traits();
         buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
-        for( const auto &t : sorted_profs[cur_id]->traits() ) {
-            buffer << traits[ t ].name << "\n";
+        if( prof_traits.empty() ) {
+            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
+        } else {
+            for( const auto &t : sorted_profs[cur_id]->traits() ) {
+                buffer << traits[ t ].name << "\n";
+            }
         }
+
+        // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
         buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
@@ -1210,10 +1221,36 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
             }
         }
+
+        // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u->male );
-        buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
-        for( const auto &i : prof_items ) {
-            buffer << item::nname( i.type_id ) << "\n";
+        if( prof_items.empty() ) {
+            buffer << pgettext( "set_profession_item", "None" ) << "\n";
+        } else {
+            buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+            for( const auto &i : prof_items ) {
+                buffer << item::nname( i.type_id ) << "\n";
+            }
+        }
+
+        // Profession bionics, active bionics shown first
+        auto prof_CBMs = sorted_profs[cur_id]->CBMs();
+        std::sort(prof_CBMs.begin(), prof_CBMs.end(),
+            [=](std::string a, std::string b) {return bionics[a]->activated && !bionics[b]->activated;}
+        );
+        buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
+        if( prof_CBMs.empty() ) {
+            buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
+        } else {
+            for( const auto &b : prof_CBMs ) {
+                if (bionics[b]->activated && bionics[b]->toggled) {
+                    buffer << bionics[b]->name << " (" << _("toggled") << ")\n";
+                } else if (bionics[b]->activated) {
+                    buffer << bionics[b]->name << " (" << _("activated") << ")\n";
+                } else {
+                    buffer << bionics[b]->name << "\n";
+                }
+            }
         }
 
         werase( w_items );
@@ -1626,7 +1663,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW_PTR w_skillsptr( w_skills );
     WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
-                    
+
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));

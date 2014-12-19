@@ -751,6 +751,199 @@
         "pre_terrain" : "f_sandbag_half",
         "post_terrain" : "f_sandbag_wall"
     },{
+	"type" : "construction",
+	"description" : "Build Brick Wall", "//": "Step 1: start wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 3,
+	"time" : 60,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "brick", 15] ],
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
+	],
+	"pre_terrain" : "t_dirt",
+	"post_terrain" : "t_brick_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Brick Wall", "//": "Step 2: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 3,
+	"time" : 60,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "brick", 15] ],
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
+	],
+	"pre_terrain" : "t_brick_wall_halfway",
+	"post_terrain" : "t_brick_wall"
+    },{
+	"type" : "construction",
+	"description" : "Build Simple Concrete Wall", "//": "Step 1: foundation",
+	"category" : "CONSTRUCT",
+	"difficulty" : 4,
+	"time" : 15,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ], 
+		[ [ "2x4", 12] ],
+		[ [ "water", 4] ]
+	],
+	"pre_terrain" : "t_pit_shallow",
+	"post_terrain" : "t_sconc_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 4,
+	"time" : 15,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 2] ]
+	],
+	"pre_terrain" : "t_sconc_wall_halfway",
+	"post_terrain" : "t_sconc_wall"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 45,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 16] ]
+	],
+	"pre_terrain" : "t_pit",
+	"post_terrain" : "t_reb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 4 ] ]
+	],
+	"pre_terrain" : "t_reb_cage",
+	"post_terrain" : "t_strconc_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 4 ] ]
+	],
+	"pre_terrain" : "t_strconc_wall_halfway",
+	"post_terrain" : "t_strconc_wall"
+    },{
+    	"type" : "construction",
+	"description" : "Build Concrete Roof", "//": "Step 1: rebar cage & supports",
+	"category" : "CONSTRUCT",
+	"difficulty" : 5,
+	"time" : 30,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 8] ],
+		[ [ "2x4", 12] ],
+		[ [ "pipe", 4] ]
+	],
+	"pre_terrain" : "t_pit_shallow",
+	"post_terrain" : "t_ov_smreb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Concrete Roof", "//": "Step 2: roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 5,
+	"time" : 25,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ],
+		[ [ "water", 4] ]
+	],
+	"pre_terrain" : "t_ov_smreb_cage",
+	"post_terrain" : "t_thconc_floor"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 1: rebar cage & supports",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 12] ],
+		[ [ "2x4", 12] ],
+		[ [ "pipe", 4] ]
+	],
+	"pre_terrain" : "t_pit",
+	"post_terrain" : "t_ov_reb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 2: start roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 35,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "water", 3] ]
+	],
+	"pre_terrain" : "t_ov_reb_cage",
+	"post_terrain" : "t_strconc_floor_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 3: finish roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 35,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "water", 3] ]
+	],
+	"pre_terrain" : "t_strconc_floor_halfway",
+	"post_terrain" : "t_strconc_floor"
+    },{
         "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
@@ -1395,6 +1588,25 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_wood_keg"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Standing Tank", "//": "a freestanding metal tank, useful for holding liquids",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 30,
+        "qualities": [
+            [ { "id": "HAMMER", "level": 2 } ],
+            [ { "id": "SAW_M", "level": 1 } ],
+            [ { "id": "WELD", "level": 2 } ],
+            [ { "id": "GLARE", "level": 2} ]
+        ],
+        "components" : [
+            [ [ "metal_tank", 4 ] ],
+            [ [ "water_faucet", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_standing_tank"
     },{
         "type" : "construction",
         "description" : "Place Anvil",
@@ -1861,5 +2073,23 @@
         ],
         "pre_terrain" : "t_water_sh",
         "post_terrain" : "t_dock"
+    },{
+        "type" : "construction",
+        "description" : "Cut Down Grass", 
+        "category" : "OTHER",
+        "difficulty" : -1,
+        "time" : 6,
+        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Extract Clay Mound",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 30,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_claymound"
     }
 ]

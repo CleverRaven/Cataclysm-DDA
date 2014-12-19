@@ -17,6 +17,7 @@ class game;
 class player;
 class npc;
 struct itype;
+struct islot_armor;
 class material_type;
 class item_category;
 
@@ -119,18 +120,18 @@ public:
  const item_category &get_category() const;
 
  // Firearm specifics
- int reload_time(player &u);
- int clip_size();
+ int reload_time(player &u) const;
+ int clip_size() const;
  int dispersion() const;
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
- int gun_damage(bool with_ammo = true);
- int gun_pierce(bool with_ammo = true);
+ int gun_damage(bool with_ammo = true) const;
+ int gun_pierce(bool with_ammo = true) const;
  int noise() const;
- int burst_size();
- int recoil(bool with_ammo = true);
- int range(player *p = NULL);
+ int burst_size() const;
+ int recoil(bool with_ammo = true) const;
+ int range(player *p = NULL) const;
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
@@ -152,8 +153,8 @@ public:
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
  //std::string info(bool showtext = false); // Formatted for human viewing
- std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump, bool debug = false);
+ std::string info(bool showtext = false) const;
+ std::string info(bool showtext, std::vector<iteminfo> *dump, bool debug = false) const;
  char symbol() const;
  nc_color color() const;
  int price() const;
@@ -192,9 +193,9 @@ public:
 
  int precise_unit_volume() const;
  int volume(bool unit_value=false, bool precise_value=false) const;
- int volume_contained();
- int attack_time();
- int damage_bash();
+ int volume_contained() const;
+ int attack_time() const;
+ int damage_bash() const;
  int damage_cut() const;
 
  /**
@@ -255,7 +256,7 @@ public:
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool has_technique(std::string t);
- int has_gunmod(itype_id type);
+ int has_gunmod(itype_id type) const;
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
  bool goes_bad() const;
@@ -321,7 +322,7 @@ public:
      */
     int fridge;
 
- int brewing_time();
+ int brewing_time() const;
  bool ready_to_revive( point pos ); // used for corpses
  void detonate(point p) const;
  bool can_revive();      // test if item is a corpse and can be revived
@@ -430,7 +431,7 @@ public:
  // mod location, for non-guns it returns always 0
  int get_free_mod_locations(const std::string &location) const;
 
- bool destroyed_at_zero_charges();
+ bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
  bool is_food(player const*u) const;// Some non-food items are food to certain players
@@ -460,7 +461,6 @@ public:
 
  bool is_tool() const;
  bool is_software() const;
- bool is_macguffin() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
@@ -607,6 +607,34 @@ public:
          * or similar.
          */
         bool is_power_armor() const;
+        /**
+         * If this is an armor item, return its armor data. You should probably not use this function,
+         * use the various functions above (like @ref get_storage) to access armor data directly.
+         */
+        const islot_armor *find_armor_data() const;
+        /*@}*/
+
+        /**
+         * Book specific functions, apply to items that are books.
+         */
+        /*@{*/
+        /**
+         * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
+         * has no chapters at all.
+         * Each reading will "consume" a chapter, if the book has no unread chapters, it's less fun.
+         */
+        int get_chapters() const;
+        /**
+         * Get the number of unread chapters. If the item is no book or has no chapters, it returns 0.
+         * This is a per-character setting, different characters may have different number of
+         * unread chapters.
+         */
+        int get_remaining_chapters( const player &u ) const;
+        /**
+         * Mark one chapter of the book as read by the given player. May do nothing if the book has
+         * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
+         */
+        void mark_chapter_as_read( const player &u );
         /*@}*/
 
         /**

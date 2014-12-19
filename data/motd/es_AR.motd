@@ -2,7 +2,7 @@
 # El largo máximo de una línea es de 72 caracteres; la siguiente línea es para usar de referencia
 ########################################################################
 Cambios principales de la v0.B Brin:
-* NPC estáticos con mucho diálogo y misiones.
+* PNJ estáticos con mucho diálogo y misiones.
 * Tres nuevas estructuras MUY grandes.
 * Las mutaciones y biónicas pueden ser desactivadas.
 * Vehiculos completamente destruíbles.

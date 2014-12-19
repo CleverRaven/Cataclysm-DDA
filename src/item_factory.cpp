@@ -169,6 +169,7 @@ void Item_factory::init()
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
+    iuse_function_list["FLU_VACCINE"] = &iuse::flu_vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["FUN_HALLU"] = &iuse::fun_hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
@@ -210,13 +211,7 @@ void Item_factory::init()
     iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
-    iuse_function_list["ROADMAP"] = &iuse::roadmap;
-    iuse_function_list["SURVIVORMAP"] = &iuse::survivormap;
-    iuse_function_list["MILITARYMAP"] = &iuse::militarymap;
-    iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
-    iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
-    iuse_function_list["PICKLOCK"] = &iuse::picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;
@@ -293,13 +288,11 @@ void Item_factory::init()
     iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
-    iuse_function_list["TANNING_HIDE"] = &iuse::tanning_hide;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
     iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
-    iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
+    iuse_function_list["HOLSTER_GUN"] = &iuse::holster_gun;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
@@ -454,10 +447,10 @@ void Item_factory::check_definitions() const
         }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
-            if (comest->container != "null" && !has_template(comest->container)) {
-                msg << string_format("invalid container property %s", comest->container.c_str()) << "\n";
+            if (comest->default_container != "null" && !has_template(comest->default_container)) {
+                msg << string_format("invalid container property %s", comest->default_container.c_str()) << "\n";
             }
-            if (comest->container != "null" && !has_template(comest->tool)) {
+            if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
@@ -466,6 +459,9 @@ void Item_factory::check_definitions() const
             check_ammo_type(msg, ammo->type);
             if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
                 msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+            }
+            if (ammo->default_container != "null" && !has_template(ammo->default_container)) {
+                msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
             }
         }
         const it_gun *gun = dynamic_cast<const it_gun *>(type);
@@ -566,6 +562,23 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 // DATA FILE READING //
 ///////////////////////
 
+template<typename SlotType>
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
+{
+    slotptr.reset( new SlotType() );
+    load( *slotptr, jo );
+}
+
+template<typename SlotType>
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member )
+{
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    JsonObject slotjo = jo.get_object( member );
+    load_slot( slotptr, slotjo );
+}
+
 void Item_factory::load_ammo(JsonObject &jo)
 {
     it_ammo *ammo_template = new it_ammo();
@@ -579,7 +592,7 @@ void Item_factory::load_ammo(JsonObject &jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
-    ammo_template->container = jo.get_string("container", "null");
+    ammo_template->default_container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -619,30 +632,30 @@ void Item_factory::load_gun(JsonObject &jo)
 
 void Item_factory::load_armor(JsonObject &jo)
 {
-    it_armor *armor_template = new it_armor();
+    itype* new_item_template = new itype();
+    load_slot( new_item_template->armor, jo );
+    load_basic_info( jo, new_item_template );
+}
 
-    armor_template->encumber = jo.get_int("encumbrance");
-    armor_template->coverage = jo.get_int("coverage");
-    armor_template->thickness = jo.get_int("material_thickness");
+void Item_factory::load( islot_armor &slot, JsonObject &jo )
+{
+    slot.encumber = jo.get_int( "encumbrance" );
+    slot.coverage = jo.get_int( "coverage" );
+    slot.thickness = jo.get_int( "material_thickness" );
     // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
     // only "environmental_protection" and not "enviromental_protection".
-    if (jo.has_member("enviromental_protection")) {
-        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                 "please change the json data for item %d", armor_template->id.c_str());
-        armor_template->env_resist = jo.get_int("enviromental_protection");
+    if( jo.has_member( "enviromental_protection" ) ) {
+        debugmsg( "the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+                  "please change the json data for item %d", jo.get_string( "id", "" ).c_str() );
+        slot.env_resist = jo.get_int( "enviromental_protection" );
     } else {
-        armor_template->env_resist = jo.get_int("environmental_protection");
+        slot.env_resist = jo.get_int( "environmental_protection" );
     }
-    armor_template->warmth = jo.get_int("warmth");
-    armor_template->storage = jo.get_int("storage");
-    armor_template->power_armor = jo.get_bool("power_armor", false);
-    armor_template->covers = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "bodyparts") : 0;
-    armor_template->sided = jo.has_member("covers") ?
-                            flags_from_json(jo, "covers", "sided") : 0;
-
-    itype *new_item_template = armor_template;
-    load_basic_info(jo, new_item_template);
+    slot.warmth = jo.get_int( "warmth" );
+    slot.storage = jo.get_int( "storage" );
+    slot.power_armor = jo.get_bool( "power_armor", false );
+    slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
+    slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
 }
 
 void Item_factory::load_tool(JsonObject &jo)
@@ -672,9 +685,8 @@ void Item_factory::load_tool(JsonObject &jo)
 
 void Item_factory::load_tool_armor(JsonObject &jo)
 {
-    it_tool_armor *tool_armor_template = new it_tool_armor();
+    it_tool *tool_template = new it_tool();
 
-    it_tool *tool_template = tool_armor_template;
     tool_template->ammo = jo.get_string("ammo");
     tool_template->max_charges = jo.get_int("max_charges");
     tool_template->def_charges = jo.get_int("initial_charges");
@@ -682,45 +694,28 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
 
-    it_armor *armor_template = tool_armor_template;
-    armor_template->encumber = jo.get_int("encumbrance");
-    armor_template->coverage = jo.get_int("coverage");
-    armor_template->thickness = jo.get_int("material_thickness");
-    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
-    // only "environmental_protection" and not "enviromental_protection".
-    if (jo.has_member("enviromental_protection")) {
-        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                 "please change the json data for item %d", armor_template->id.c_str());
-        armor_template->env_resist = jo.get_int("enviromental_protection");
-    } else {
-        armor_template->env_resist = jo.get_int("environmental_protection");
-    }
-    armor_template->warmth = jo.get_int("warmth");
-    armor_template->storage = jo.get_int("storage");
-    armor_template->power_armor = jo.get_bool("power_armor", false);
-    armor_template->covers = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "bodyparts") : 0;
-    armor_template->sided = jo.has_member("covers") ?
-                            flags_from_json(jo, "covers", "sided") : 0;
+    load_slot( tool_template->armor , jo );
 
-    load_basic_info(jo, tool_armor_template);
+    load_basic_info(jo, tool_template);
 }
 
-void Item_factory::load_book(JsonObject &jo)
+void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    it_book *book_template = new it_book();
+    slot.level = jo.get_int( "max_level" );
+    slot.req = jo.get_int( "required_level" );
+    slot.fun = jo.get_int( "fun" );
+    slot.intel = jo.get_int( "intelligence" );
+    slot.time = jo.get_int( "time" );
+    slot.skill = Skill::skill( jo.get_string( "skill" ) );
+    slot.chapters = jo.get_int( "chapters", -1 );
+    set_use_methods_from_json( jo, "use_action", slot.use_methods );
+}
 
-    book_template->level = jo.get_int("max_level");
-    book_template->req = jo.get_int("required_level");
-    book_template->fun = jo.get_int("fun");
-    book_template->intel = jo.get_int("intelligence");
-    book_template->time = jo.get_int("time");
-    book_template->type = Skill::skill(jo.get_string("skill"));
-
-    book_template->chapters = jo.get_int("chapters", -1);
-
-    itype *new_item_template = book_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load_book( JsonObject &jo )
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->book, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
@@ -728,7 +723,7 @@ void Item_factory::load_comestible(JsonObject &jo)
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
-    comest_template->container = jo.get_string("container", "null");
+    comest_template->default_container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
@@ -770,12 +765,18 @@ void Item_factory::load_comestible(JsonObject &jo)
 
 void Item_factory::load_container(JsonObject &jo)
 {
-    it_container *container_template = new it_container();
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->container, jo );
+    load_basic_info( jo, new_item_template );
+}
 
-    container_template->contains = jo.get_int("contains");
-
-    itype *new_item_template = container_template;
-    load_basic_info(jo, new_item_template);
+void Item_factory::load( islot_container &slot, JsonObject &jo )
+{
+    slot.contains = jo.get_int( "contains" );
+    slot.seals = jo.get_bool( "seals", false );
+    slot.watertight = jo.get_bool( "watertight", false );
+    slot.preserves = jo.get_bool( "preserves", false );
+    slot.rigid = jo.get_bool( "rigid", false );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -927,10 +928,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    Container-only flags:
-    SEALS
-    RIGID
-    WATERTIGHT
     */
     new_item_template->item_tags = jo.get_tags("flags");
     if (!new_item_template->item_tags.empty()) {
@@ -944,17 +941,23 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
+    if (jo.has_member("properties")) {
+        set_properties_from_json(jo, "properties", new_item_template);
+    }
+
     new_item_template->techniques = jo.get_tags("techniques");
 
-    if (jo.has_member("use_action")) {
-        set_use_methods_from_json(jo, "use_action", new_item_template);
-    }
+    set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
     if (jo.has_member("category")) {
         new_item_template->category = get_category(jo.get_string("category"));
     } else {
         new_item_template->category = get_category(calc_category(new_item_template));
     }
+
+    load_slot_optional( new_item_template->container, jo, "container_data" );
+    load_slot_optional( new_item_template->armor, jo, "armor_data" );
+    load_slot_optional( new_item_template->book, jo, "book_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -988,6 +991,24 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::set_properties_from_json(JsonObject &jo, std::string member,
+        itype *new_item_template)
+{
+    if (jo.has_array(member)) {
+        JsonArray jarr = jo.get_array(member);
+        while (jarr.has_more()) {
+            JsonArray curr = jarr.next_array();
+            const auto prop = std::pair<std::string, std::string>(curr.get_string(0), curr.get_string(1));
+            if( new_item_template->properties.count( prop.first ) > 0 ) {
+                curr.throw_error( "Duplicated property", 0 );
+            }
+            new_item_template->properties.insert( prop );
+        }
+    } else {
+        jo.throw_error( "Properties list is not an array", member );
     }
 }
 
@@ -1238,153 +1259,72 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json(JsonObject &jo, std::string member,
-        itype *new_item_template)
+void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+        std::vector<use_function> &use_methods )
 {
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()) {
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    if( jo.has_array( member ) ) {
+        JsonArray jarr = jo.get_array( member );
+        while( jarr.has_more() ) {
             use_function new_function;
-            if (jarr.test_string()) {
-                new_function = use_from_string(jarr.next_string());
-            } else if (jarr.test_object()) {
-                new_function = use_from_object(jarr.next_object());
+            if( jarr.test_string() ) {
+                new_function = use_from_string( jarr.next_string() );
+            } else if( jarr.test_object() ) {
+                new_function = use_from_object( jarr.next_object() );
             } else {
-                debugmsg("use_action array element for item %s is neither string nor object.",
-                         new_item_template->id.c_str());
+                jarr.throw_error( "array element is neither string nor object." );
             }
-            new_item_template->use_methods.push_back(new_function);
+            use_methods.push_back( new_function );
         }
     } else {
         use_function new_function;
-        if (jo.has_string("use_action")) {
-            new_function = use_from_string(jo.get_string("use_action"));
-        } else if (jo.has_object("use_action")) {
-            new_function = use_from_object(jo.get_object("use_action"));
+        if( jo.has_string( member ) ) {
+            new_function = use_from_string( jo.get_string( member ) );
+        } else if( jo.has_object( member ) ) {
+            new_function = use_from_object( jo.get_object( member ) );
         } else {
-            debugmsg("use_action member for item %s is neither string nor object.",
-                     new_item_template->id.c_str());
+            jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        new_item_template->use_methods.push_back(new_function);
+        use_methods.push_back( new_function );
     }
+}
+
+template<typename IuseActorType>
+use_function load_actor( JsonObject obj )
+{
+    std::unique_ptr<IuseActorType> actor( new IuseActorType() );
+    actor->load( obj );
+    return use_function( actor.release() );
 }
 
 use_function Item_factory::use_from_object(JsonObject obj)
 {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        std::unique_ptr<iuse_transform> actor(new iuse_transform);
-        // Mandatory:
-        actor->target_id = obj.get_string("target");
-        // Optional (default is good enough):
-        obj.read("msg", actor->msg_transform);
-        actor->msg_transform = _(actor->msg_transform.c_str());
-        obj.read("target_charges", actor->target_charges);
-        obj.read("container", actor->container_id);
-        obj.read("active", actor->active);
-        obj.read("need_fire", actor->need_fire);
-        obj.read("need_fire_msg", actor->need_fire_msg);
-        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
-        obj.read("need_charges", actor->need_charges);
-        obj.read("need_charges_msg", actor->need_charges_msg);
-        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
-        obj.read("moves", actor->moves);
-        // from hereon memory is handled by the use_function class
-        return use_function(actor.release());
+        return load_actor<iuse_transform>( obj );
     } else if (type == "auto_transform") {
-        std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
-        // Mandatory:
-        actor->target_id = obj.get_string("target");
-        // Optional (default is good enough):
-        obj.read("msg", actor->msg_transform);
-        actor->msg_transform = _(actor->msg_transform.c_str());
-        obj.read("target_charges", actor->target_charges);
-        obj.read("container", actor->container_id);
-        obj.read("active", actor->active);
-        obj.read("need_fire", actor->need_fire);
-        obj.read("need_fire_msg", actor->need_fire_msg);
-        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
-        obj.read("need_charges", actor->need_charges);
-        obj.read("need_charges_msg", actor->need_charges_msg);
-        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
-        obj.read("when_underwater", actor->when_underwater);
-        obj.read("non_interactive_msg", actor->non_interactive_msg);
-        if (!actor->non_interactive_msg.empty()) {
-            actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
-        }
-        obj.read("moves", actor->moves);
-        // from hereon memory is handled by the use_function class
-        return use_function(actor.release());
+        return load_actor<auto_iuse_transform>( obj );
+    } else if (type == "delayed_transform") {
+        return load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {
-        std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
-        obj.read("explosion_power", actor->explosion_power);
-        obj.read("explosion_shrapnel", actor->explosion_shrapnel);
-        obj.read("explosion_fire", actor->explosion_fire);
-        obj.read("explosion_blast", actor->explosion_blast);
-        obj.read("draw_explosion_radius", actor->draw_explosion_radius);
-        if (obj.has_member("draw_explosion_color")) {
-            actor->draw_explosion_color = color_from_string(obj.get_string("draw_explosion_color"));
-        }
-        obj.read("do_flashbang", actor->do_flashbang);
-        obj.read("flashbang_player_immune", actor->flashbang_player_immune);
-        obj.read("fields_radius", actor->fields_radius);
-        if( obj.has_member( "fields_type" ) || actor->fields_radius > 0 ) {
-            actor->fields_type = field_from_ident( obj.get_string( "fields_type" ) );
-        }
-        obj.read("fields_min_density", actor->fields_min_density);
-        obj.read("fields_max_density", actor->fields_max_density);
-        obj.read("emp_blast_radius", actor->emp_blast_radius);
-        obj.read("scrambler_blast_radius", actor->scrambler_blast_radius);
-        obj.read("sound_volume", actor->sound_volume);
-        obj.read("sound_msg", actor->sound_msg);
-        obj.read("no_deactivate_msg", actor->no_deactivate_msg);
-        return use_function(actor.release());
+        return load_actor<explosion_iuse>( obj );
     } else if (type == "unfold_vehicle") {
-        std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
-        obj.read("vehicle_name", actor->vehicle_name);
-        obj.read("unfold_msg", actor->unfold_msg);
-        actor->unfold_msg = _(actor->unfold_msg.c_str());
-        obj.read("moves", actor->moves);
-        obj.read("tools_needed", actor->tools_needed);
-        return use_function(actor.release());
+        return load_actor<unfold_vehicle_iuse>( obj );
+    } else if (type == "picklock") {
+        return load_actor<pick_lock_actor>( obj );
     } else if (type == "consume_drug") {
-        std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
-        obj.read("activation_message", actor->activation_message);
-        obj.read("charges_needed", actor->charges_needed);
-        obj.read("tools_needed", actor->tools_needed);
-        
-        if (obj.has_array("effects")) {
-            JsonArray jsarr = obj.get_array("effects");
-            while (jsarr.has_more()) {
-                JsonObject e = jsarr.next_object();
-                effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
-                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false));
-                actor->effects.push_back(new_eff);
-            }
-        }
-        obj.read("stat_adjustments", actor->stat_adjustments);
-        obj.read("fields_produced", actor->fields_produced);
-        return use_function(actor.release());
+        return load_actor<consume_drug_iuse>( obj );
     } else if( type == "place_monster" ) {
-        std::unique_ptr<place_monster_iuse> actor( new place_monster_iuse() );
-        actor->mtype_id = obj.get_string( "monster_id" );
-        obj.read( "friendly_msg", actor->friendly_msg );
-        obj.read( "hostile_msg", actor->hostile_msg );
-        obj.read( "difficulty", actor->difficulty );
-        obj.read( "moves", actor->moves );
-        obj.read( "place_randomly", actor->place_randomly );
-        obj.read( "skill1", actor->skill1 );
-        obj.read( "skill2", actor->skill2 );
-        return use_function( actor.release() );
+        return load_actor<place_monster_iuse>( obj );
     } else if( type == "ups_based_armor" ) {
-        std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
-        obj.read( "activate_msg", actor->activate_msg );
-        obj.read( "deactive_msg", actor->deactive_msg );
-        obj.read( "out_of_power_msg", actor->out_of_power_msg );
-        return use_function( actor.release() );
+        return load_actor<ups_based_armor_actor>( obj );
+    } else if( type == "reveal_map" ) {
+        return load_actor<reveal_map_actor>( obj );
     } else {
-        debugmsg("unknown use_action type %s", type.c_str());
-        return use_function();
+        obj.throw_error( "unknown use_action", "type" );
+        return use_function(); // line above throws, but the compiler does not know \-:
     }
 }
 
@@ -1527,14 +1467,14 @@ const std::string &Item_factory::calc_category( const itype *it )
     if (it->is_tool()) {
         return category_id_tools;
     }
-    if (it->is_armor()) {
+    if( it->armor ) {
         return category_id_clothing;
     }
     if (it->is_food()) {
         const it_comest *comest = dynamic_cast<const it_comest *>( it );
         return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
     }
-    if (it->is_book()) {
+    if( it->book ) {
         return category_id_books;
     }
     if (it->is_gunmod()) {

@@ -868,9 +868,10 @@ bool map::vehproceed()
             veh->handle_trap( wheel_x, wheel_y, w );
             auto &item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                it->damage += rng( 0, 3 );
-                if( it->damage > 4 ) {
-                    it = item_vec.erase(it);
+                item *smashed_item = get_item( wheel_x, wheel_y, it );
+                smashed_item->damage += rng( 0, 3 );
+                if( smashed_item->damage > 4 ) {
+                    it = i_rem( wheel_x, wheel_y, it );
                 } else {
                     ++it;
                 }
@@ -1626,11 +1627,11 @@ bool map::has_nearby_fire(int x, int y, int radius)
 }
 
 void map::mop_spills(const int x, const int y) {
-    for (size_t i = 0; i < i_at(x, y).size(); i++) {
-        item *it = &(i_at(x, y)[i]);
-        if (it->made_of(LIQUID)) {
-            i_rem(x, y, i);
-            i--;
+    for( auto it = i_at(x, y).begin(); it != i_at(x, y).end(); ) {
+        if( it->made_of(LIQUID) ) {
+            it = i_rem( x, y, it );
+        } else {
+            it++;
         }
     }
     remove_field( x, y, fd_blood );
@@ -1647,7 +1648,8 @@ void map::mop_spills(const int x, const int y) {
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount_dx,
+                                                              veh->parts[vpart].mount_dy );
         for( auto &elem : parts_here ) {
             veh->parts[elem].blood = 0;
         }
@@ -1766,7 +1768,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 
     // Destroy glass items, spilling their contents.
     std::vector<item> smashed_contents;
-    std::vector<item> &bashed_items = i_at(x, y);
+    auto &bashed_items = i_at(x, y);
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
@@ -1776,13 +1778,13 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             for( auto bashed_content : bashed_item->contents ) {
                 smashed_contents.push_back( bashed_content );
             }
-            bashed_item = bashed_items.erase( bashed_item );
+            bashed_item = i_rem( x, y, bashed_item );
         } else {
             ++bashed_item;
         }
     }
     // Now plunk in the contents of the smashed items.
-    bashed_items.insert( bashed_items.end(), smashed_contents.begin(), smashed_contents.end() );
+    spawn_items( x, y, smashed_contents );
 
     // Smash vehicle if present
     int vpart;
@@ -1817,6 +1819,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
         if ( bash != NULL && (!bash->destroy_only || destroy)) {
             int smin = bash->str_min;
             int smax = bash->str_max;
+            int sound_vol = bash->sound_vol;
+            int sound_fail_vol = bash->sound_fail_vol;
             if (destroy) {
                 success = true;
             } else {
@@ -1856,7 +1860,11 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 if (destroy) {
                     sound_volume = smax;
                 } else {
-                    sound_volume = std::min(int(smin * 1.5), smax);
+                    if (sound_vol == -1) {
+                        sound_volume = std::min(int(smin * 1.5), smax);
+                    } else {
+                        sound_volume = sound_vol;
+                    }
                 }
                 sound = _(bash->sound.c_str());
                 // Set this now in case the ter_set below changes this
@@ -1900,7 +1908,11 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 }
                 smashed_something = true;
             } else {
-                sound_volume = 12;
+                if (sound_fail_vol == -1) {
+                    sound_volume = 12;
+                } else {
+                    sound_volume = sound_fail_vol;
+                }
                 sound = _(bash->sound_fail.c_str());
                 smashed_something = true;
             }
@@ -2358,24 +2370,23 @@ void map::shoot(const int x, const int y, int &dam,
         return; // Items on floor-type spaces won't be shot up.
     }
 
-    for (size_t i = 0; i < i_at(x, y).size(); i++) {
+    for( auto target_item = i_at(x, y).begin(); target_item != i_at(x, y).end(); ) {
         bool destroyed = false;
-        int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);
+        int chance = ( target_item->volume() > 0 ? target_item->volume() : 1);
         // volume dependent chance
 
-        if (dam > i_at(x, y)[i].bash_resist() && one_in(chance)) {
-            i_at(x, y)[i].damage++;
+        if( dam > target_item->bash_resist() && one_in(chance) ) {
+            get_item(x, y, target_item)->damage++;
         }
-        if (i_at(x, y)[i].damage >= 5) {
+        if( target_item->damage >= 5 ) {
             destroyed = true;
         }
 
         if (destroyed) {
-            for (auto &j : i_at(x, y)[i].contents) {
-                i_at(x, y).push_back(j);
-            }
-            i_rem(x, y, i);
-            i--;
+            spawn_items( x, y, target_item->contents );
+            target_item = i_rem( x, y, target_item );
+        } else {
+            ++target_item;
         }
     }
 }
@@ -2631,21 +2642,45 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-std::vector<item> &map::i_at(const int x, const int y)
+const std::vector<item> &map::i_at( const int x, const int y ) const
 {
- if (!INBOUNDS(x, y)) {
-  nulitems.clear();
-  return nulitems;
- }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+    if( !INBOUNDS(x, y) ) {
+        nulitems.clear();
+        return nulitems;
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
 
- return current_submap->itm[lx][ly];
+    return current_submap->itm[lx][ly];
+}
+
+std::vector<item> &map::i_at_mutable( const int x, const int y )
+{
+    if( !INBOUNDS(x, y) ) {
+        nulitems.clear();
+        return nulitems;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return current_submap->itm[lx][ly];
+}
+
+item *map::get_item( const int x, const int y, const int i )
+{
+    auto &item_stack = i_at_mutable( x, y );
+    if( item_stack.size() > (unsigned int)i ) {
+        return &item_stack[i];
+    }
+    return nullptr;
+}
+
+item *map::get_item( const int x, const int y, std::vector<item>::const_iterator i )
+{
+    int offset = std::distance( i_at(x, y).begin(), i );
+    return get_item( x, y, offset );
 }
 
 itemslice map::i_stacked(std::vector<item>& items)
@@ -2736,17 +2771,25 @@ item map::acid_from(const int x, const int y)
     return ret;
 }
 
-void map::i_rem(const int x, const int y, const int index)
+std::vector<item>::const_iterator map::i_rem( const int x, const int y,
+                                              std::vector<item>::const_iterator it )
+{
+    int offset = std::distance( i_at(x, y).begin(), it );
+    return i_at_mutable(x, y).begin() + i_rem( x, y, offset );
+}
+
+int map::i_rem(const int x, const int y, const int index)
 {
     if (index > (int)i_at(x, y).size() - 1) {
-        return;
+        return index;
     }
-    i_at(x, y).erase(i_at(x, y).begin() + index);
+    return std::distance( i_at_mutable(x, y).begin(),
+                          i_at_mutable(x, y).erase(i_at_mutable(x, y).begin() + index ) );
 }
 
 void map::i_rem(const int x, const int y, item* it)
 {
-    std::vector<item>& map_items = i_at(x, y);
+    std::vector<item>& map_items = i_at_mutable(x, y);
 
     for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
@@ -2759,7 +2802,7 @@ void map::i_rem(const int x, const int y, item* it)
 
 void map::i_clear(const int x, const int y)
 {
-    i_at(x, y).clear();
+    i_at_mutable(x, y).clear();
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
@@ -2855,10 +2898,9 @@ int map::stored_volume(const int x, const int y) {
     if(!INBOUNDS(x, y)) {
         return 0;
     }
-    int cur_volume=0;
-    for (auto &n : i_at(x, y)) {
-        item* curit = &n;
-        cur_volume += curit->volume();
+    int cur_volume = 0;
+    for( auto &n : i_at(x, y) ) {
+        cur_volume += n.volume();
     }
     return cur_volume;
 }
@@ -2917,24 +2959,21 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
     bool tryaddcharges = (new_item.charges  != -1 && new_item.count_by_charges());
     std::vector<point> ps = closest_points_first(overflow_radius, x, y);
-    for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
-    {
-        if (!INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
-                has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
+    for( std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++ ) {
+        if( !INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+            has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y) ) {
             continue;
         }
 
-        if (tryaddcharges) {
-            for (auto &i : i_at(p_it->x,p_it->y))
-            {
+        if( tryaddcharges ) {
+            for( auto &i : i_at_mutable( p_it->x, p_it->y ) ) {
                 if( i.merge_charges( new_item ) ) {
                     return true;
                 }
             }
         }
-        if (i_at(p_it->x, p_it->y).size() < MAX_ITEM_IN_SQUARE)
-        {
-            add_item(p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE);
+        if( i_at( p_it->x, p_it->y ).size() < MAX_ITEM_IN_SQUARE ) {
+            add_item( p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE );
             return true;
         }
     }
@@ -3023,9 +3062,8 @@ void map::process_active_items()
                 if( fridge_here ) {
                     apply_in_fridge(it);
                 }
-                if( it.has_flag("RECHARGE") &&
-                    cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
-                    cur_veh->recharger_on ) {
+                if( cur_veh->recharger_on && it.has_flag("RECHARGE") &&
+                    cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
                     int full_charge = dynamic_cast<it_tool*>(it.type)->max_charges;
                     if (it.has_flag("DOUBLE_AMMO")) {
                         full_charge = full_charge * 2;
@@ -3168,12 +3206,27 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
     }
 }
 
-std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
+std::list<item> use_amount_vehicle( std::vector<item> &vec, const itype_id type, int &quantity,
+                                    const bool use_container )
 {
     std::list<item> ret;
     for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
         if (a->use_amount(type, quantity, use_container, ret)) {
             a = vec.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    return ret;
+}
+
+std::list<item> use_amount_map( map *m, int x, int y, const itype_id type, int &quantity,
+                                const bool use_container )
+{
+    std::list<item> ret;
+    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
+        if( m->get_item(x, y, a)->use_amount(type, quantity, use_container, ret) ) {
+            a = m->i_rem( x, y, a );
         } else {
             ++a;
         }
@@ -3191,12 +3244,12 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type,
-                                                      quantity, use_container);
+      std::list<item> tmp = use_amount_vehicle( veh->parts[cargo].items, type,
+                                                quantity, use_container );
       ret.splice(ret.end(), tmp);
     }
   }
-  std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+  std::list<item> tmp = use_amount_map( this, x, y, type, quantity, use_container);
   ret.splice(ret.end(), tmp);
   return ret;
 }
@@ -3220,12 +3273,11 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-                                                long &quantity)
+std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id type, long &quantity)
 {
     std::list<item> ret;
     for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if (a->use_charges(type, quantity, ret)) {
+        if( a->use_charges(type, quantity, ret)) {
             a = vec.erase(a);
         } else {
             ++a;
@@ -3234,8 +3286,48 @@ std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const it
     return ret;
 }
 
-extern long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity);
-void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity, std::vector<item> &items, std::list<item> &ret)
+std::list<item> use_charges_from_map( map *m, int x, int y, const itype_id type, long &quantity)
+{
+    std::list<item> ret;
+    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
+        if( m->get_item(x, y, a)->use_charges(type, quantity, ret) ) {
+            a = m->i_rem( x, y, a );
+        } else {
+            ++a;
+        }
+    }
+    return ret;
+}
+
+long remove_charges_in_list(const itype *type, map *m, int x, int y, long quantity)
+{
+    size_t i = 0;
+    auto &items = m->i_at(x, y);
+    for( ; i < items.size(); i++) {
+        if( m->i_at(x, y)[i].type == type) {
+            break;
+        }
+    }
+
+    if( i < items.size() ) {
+        item *target = m->get_item( x, y, i );
+        if( target->charges > quantity) {
+            target->charges -= quantity;
+            return quantity;
+        } else {
+            const long charges = target->charges;
+            target->charges = 0;
+            if( target->destroyed_at_zero_charges() ) {
+                m->i_rem( x, y, i );
+            }
+            return charges;
+        }
+    }
+    return 0;
+}
+
+void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
+                            map *m, int x, int y, std::list<item> &ret )
 {
     itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
@@ -3244,7 +3336,7 @@ void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity
     const itype *ammo = f.crafting_ammo_item_type();
     if (ammo != NULL) {
         item furn_item(itt->id, 0);
-        furn_item.charges = remove_charges_in_list(ammo, items, quantity);
+        furn_item.charges = remove_charges_in_list(ammo, m, x, y, quantity);
         if (furn_item.charges > 0) {
             ret.push_back(furn_item);
             quantity -= furn_item.charges;
@@ -3261,7 +3353,7 @@ std::list<item> map::use_charges(const point origin, const int range,
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
                 if (has_furn(x, y) && accessable_furniture(origin.x, origin.y, x, y, range)) {
-                    use_charges_from_furn(furn_at(x, y), type, quantity, i_at(x, y), ret);
+                    use_charges_from_furn(furn_at(x, y), type, quantity, this, x, y, ret);
                     if (quantity <= 0) {
                         return ret;
                     }
@@ -3378,7 +3470,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 
                         if (cargo >= 0) {
                             std::list<item> tmp =
-                                use_charges_from_map_or_vehicle(veh->parts[cargo].items, type, quantity);
+                                use_charges_from_vehicle(veh->parts[cargo].items, type, quantity);
                             ret.splice(ret.end(), tmp);
                             if (quantity <= 0) {
                                 return ret;
@@ -3386,7 +3478,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         }
                     }
 
-                    std::list<item> tmp = use_charges_from_map_or_vehicle(i_at(x,y), type, quantity);
+                    std::list<item> tmp = use_charges_from_map( this, x, y, type, quantity);
                     ret.splice(ret.end(), tmp);
                     if (quantity <= 0) {
                         return ret;
@@ -3412,7 +3504,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
             if( y != -1 && y != pos.y ) {
                 continue;
             }
-            std::vector<item> &item_stack = i_at( pos.x, pos.y );
+            auto &item_stack = i_at_mutable( pos.x, pos.y );
             for( auto &elem : item_stack ) {
                 if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &( elem ) ) );
@@ -4612,10 +4704,10 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
     } else if( itm.goes_bad() ) {
         itm.calc_rot( pnt );
         return itm.has_rotten_away();
-    } else if( itm.has_flag( "PRESERVES" ) ) {
+    } else if( itm.type->container && itm.type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
-    } else if( itm.has_flag( "SEALS" ) ) {
+    } else if( itm.type->container && itm.type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
         for( auto &c : itm.contents ) {
             c.calc_rot( pnt );
@@ -4650,15 +4742,17 @@ void map::fill_funnels( const point pnt )
     if( has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) ) {
         return;
     }
-    item *biggest_container = nullptr;
+    auto &items = i_at( pnt.x, pnt.y );
+    size_t biggest_container_index = items.size();
     int maxvolume = 0;
-    for( auto &it : i_at( pnt.x, pnt.y ) ) {
-        if( it.is_funnel_container( maxvolume ) ) {
-            biggest_container = &it;
+    for( size_t i = 0; i < items.size(); ++i ) {
+        if( items[i].is_funnel_container( maxvolume ) ) {
+            biggest_container_index = i;
         }
     }
-    if( biggest_container != nullptr ) {
-        retroactively_fill_from_funnel( biggest_container, t, calendar::turn, pnt );
+    if( biggest_container_index != items.size() ) {
+        retroactively_fill_from_funnel( get_item( pnt.x, pnt.y, biggest_container_index),
+                                        t, calendar::turn, pnt );
     }
 }
 
@@ -4678,11 +4772,11 @@ void map::grow_plant( const point pnt )
     // plantEpoch is half a season; 3 epochs pass from plant to harvest
     const int plantEpoch = DAYS( calendar::season_length() ) / 2;
     // Erase fertilizer tokens, but keep the seed item
-    items.resize( 1 );
-    auto &seed = items.front();
+    i_rem( pnt.x, pnt.y, 1 );
+    auto *seed = get_item( pnt.x, pnt.y, 0 );
     // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed.bday += plantEpoch;
+    while( calendar::turn > seed->bday + plantEpoch && furn.loadid < f_plant_harvest ) {
+        seed->bday += plantEpoch;
         furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
     }
 }
@@ -5530,7 +5624,7 @@ void map::add_road_vehicles(bool city, int facing)
                         if(car_type <= 70) {
                             next_vehicle = "car";
                         } else if(car_type <= 90) {
-                            next_vehicle = "flatbed_truck";
+                            next_vehicle = "pickup";
                         } else if(car_type <= 95) {
                             next_vehicle = "cube_van";
                         } else {
@@ -5561,7 +5655,7 @@ void map::add_road_vehicles(bool city, int facing)
             } else if (car_type <= 14) {
                 add_vehicle("car_sports", vx, vy, facing, 0, -1);
             } else if (car_type <= 16) {
-                add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
+                add_vehicle("pickup", vx, vy, facing, 0, -1);
             } else if (car_type <= 18) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {

@@ -142,30 +142,27 @@ void item::add_rain_to_container(bool acid, int charges)
     if( charges <= 0) {
         return;
     }
-    const char *typeId = acid ? "water_acid" : "water";
-    long max = dynamic_cast<it_container *>(type)->contains;
-    long orig = 0;
-    long added = charges;
+    item ret( acid ? "water_acid" : "water", calendar::turn );
+    LIQUID_FILL_ERROR lferr;
+    const long capa = get_remaining_capacity_for_liquid( ret, lferr );
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        item ret(typeId, 0);
         if (!acid) {
             // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
-        ret.charges = ( charges > max ? max : charges );
+        ret.charges = std::min<long>( charges, capa );
         put_in(ret);
     } else {
         // The container already has a liquid.
         item &liq = contents[0];
-        orig = liq.charges;
-        max -= liq.charges;
-        added = ( charges > max ? max : charges );
-        if (max > 0 ) {
+        long orig = liq.charges;
+        long added = std::min<long>( charges, capa );
+        if (capa > 0 ) {
             liq.charges += added;
         }
 
-        if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
+        if (liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak") {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -237,16 +234,16 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
         item *c = NULL;
         int maxcontains = 0;
         point loc = *i;
-        std::vector<item> &items = g->m.i_at(loc.x, loc.y);
+        auto &items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for( auto &items_j : items ) {
-                item *it = &( items_j );
-                if ( it->is_funnel_container( maxcontains ) ) {
-                    c = it;
+            for( auto candidate_container = items.begin(); candidate_container != items.end();
+                 ++candidate_container ) {
+                if ( candidate_container->is_funnel_container( maxcontains ) ) {
+                    c = g->m.get_item( loc.x, loc.y, candidate_container );
                 }
             }
 

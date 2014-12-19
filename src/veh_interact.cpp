@@ -1991,4 +1991,5 @@ void complete_vehicle ()
         g->u.siphon( veh, "water" );
         break;
     }
+    g->u.invalidate_crafting_inventory();
 }

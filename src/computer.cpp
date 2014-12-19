@@ -317,31 +317,27 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for( auto &elem : g->m.i_at( x1, y1 ) ) {
-                                    if( elem.is_container() ) {
-                                        item sewage = item("sewage", calendar::turn);
-                                        it_container *container =
-                                            dynamic_cast<it_container *>( elem.type );
-                                        it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
-                                        long maxCharges = container->contains * comest->charges;
-
-                                        if( elem.contents.empty() ) {
-                                            elem.put_in( sewage );
-                                            found_item = true;
-                                            break;
-                                        } else {
-                                            if( elem.contents[0].type->id == sewage.type->id ) {
-                                                if( elem.contents[0].charges < maxCharges ) {
-                                                    elem.contents[0].charges += comest->charges;
-                                                    found_item = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
+                                item sewage( "sewage", calendar::turn );
+                                auto &candidates = g->m.i_at( x1, y1 );
+                                for( auto candidate = candidates.begin();
+                                     candidate !=candidates.end(); ++candidate ) {
+                                    LIQUID_FILL_ERROR lferr;
+                                    long capa = candidate->get_remaining_capacity_for_liquid( sewage, lferr );
+                                    if( capa <= 0 ) {
+                                        continue;
                                     }
+                                    item &elem = *g->m.get_item( x1, y1, candidate );
+                                    capa = std::min( sewage.charges, capa );
+                                    if( elem.contents.empty() ) {
+                                        elem.put_in( sewage );
+                                        elem.contents[0].charges = capa;
+                                    } else {
+                                        elem.contents[0].charges += capa;
+                                    }
+                                    found_item = true;
+                                    break;
                                 }
                                 if (!found_item) {
-                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -750,7 +746,7 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
+                        item *blood = &g->m.get_item(x, y, 0)->contents[0];
                         if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
@@ -1042,6 +1038,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
+        print_line(_("Charges Detonated"));
+        print_line(_("Backup Generator Power Failing"));
+        print_line(_("Evacuate Immediately"));
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
@@ -1061,6 +1060,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
             }
         }
+        options.clear(); // Disable the terminal.
+        activate_failure(COMPFAIL_SHUTDOWN);
         break;
 
     case COMPACT_SRCF_ELEVATOR:
@@ -1255,9 +1256,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
-                        for( auto &elem : g->m.i_at( x, y ) ) {
-                            elem.contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }
@@ -1280,9 +1279,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Memory bank is empty."));
                     } else {
                         print_error(_("ERROR: Data bank destroyed."));
-                        for( auto &elem : g->m.i_at( x, y ) ) {
-                            elem.contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }

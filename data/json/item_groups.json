@@ -232,6 +232,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -247,6 +248,7 @@
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
+      ["hat_newsboy", 20],
       ["helmet_bike", 35],
       ["helmet_motor", 40],
       ["touring_suit", 15],
@@ -683,10 +685,10 @@
     "type" : "item_group",
     "id" : "bed",
     "items":[
-      ["blanket", 60],
-      ["down_blanket", 25],
-      ["pillow", 60],
-      ["down_pillow", 25]
+      ["blanket", 25],
+      ["down_blanket", 13],
+      ["pillow", 30],
+      ["down_pillow", 15]
     ]
   },{
     "type" : "item_group",
@@ -804,6 +806,7 @@
       ["glasses_bifocal", 90],
       ["towel", 40],
       ["hat_ball", 30],
+      ["hat_newsboy", 20],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["purse", 40],
@@ -1059,6 +1062,7 @@
       ["holster", 10],
       ["sig_p230", 5],
       ["walther_ppk", 5],
+      ["needlepistol", 1],
       ["survnote", 1]
     ]
   },{
@@ -1612,6 +1616,7 @@
       ["antiparasitic", 3],
       ["survnote", 1],
       ["diazepam", 4],
+      ["flu_shot", 5],
       ["syringe", 8]
     ]
   },{
@@ -1762,6 +1767,12 @@
     "items":[
       ["jumper_cable", 10],
       ["jumper_cable_heavy", 2],
+      ["concrete", 20],
+      ["metal_smoother", 10],
+      ["brick_kiln", 5],
+      ["brick", 20],
+      ["con_mix", 5],
+      ["rebar", 20],
       ["superglue", 30],
       ["chain", 20],
       ["rope_6", 4],
@@ -1827,6 +1838,8 @@
       ["screwdriver", 40],
       ["hammer", 35],
       ["wrench", 30],
+      ["con_mix", 10],
+      ["brick_kiln", 10],
       ["g_shovel", 20],
       ["saw", 15],
       ["circsaw_off", 5],
@@ -1857,6 +1870,8 @@
     "items":[
       ["broom", 30],
       ["mop", 30],
+      ["con_mix", 30],
+      ["brick_kiln", 30],
       ["hoe", 30],
       ["shovel", 40],
       ["scythe", 5],
@@ -1888,6 +1903,9 @@
       ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
+      ["concrete", 30],
+      ["brick", 25],
+      ["rebar", 25],
       ["boots_steel", 50],
       ["boots_combat", 20],
       ["boots_hiking", 10],
@@ -2560,6 +2578,7 @@
       ["sig_40", 4],
       ["sw_610", 2],
       ["ruger_redhawk", 3],
+      ["sw629", 4],
       ["deagle_44", 2],
       ["l_enforcer_45", 6],
       ["l_sp_45", 4],
@@ -2572,6 +2591,7 @@
       ["v29_cheap", 3],
       ["l_bak_223", 3],
       ["rm99_pistol", 2],
+      ["needlepistol", 2],
       ["rm103a_pistol", 1]
     ]
   },{
@@ -2737,6 +2757,7 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
+      ["needlepistol", 2],
       ["survnote", 1]
     ]
   },{
@@ -2945,6 +2966,7 @@
       ["thermal_gloves", 10],
       ["thermal_suit", 10],
       ["thermal_mask", 10],
+      ["thermal_outfit", 5],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -2953,6 +2975,7 @@
       ["long_knit_scarf", 15],
       ["scarf_long", 2],
       ["hat_cotton", 45],
+      ["hat_newsboy", 20],
       ["hat_knit", 25],
       ["hat_fur", 15],
       ["pants_ski", 60],
@@ -3051,6 +3074,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -3060,6 +3084,7 @@
       ["scarf_long", 1],
       ["hat_cotton", 45],
       ["hat_knit", 25],
+      ["hat_newsboy", 20],
       ["hat_fur", 15],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -4003,6 +4028,7 @@
       ["disinfectant", 35],
       ["aspirin", 40],
       ["vaccine_shot", 5],
+      ["flu_shot", 2],
       ["blanket", 50],
       ["down_blanket", 10],
       ["pillow", 50],
@@ -4669,6 +4695,7 @@
       ["helmet_army", 40],
       ["helmet_liner", 10],
       ["hat_fur", 15],
+      ["hat_newsboy", 20],
       ["holster", 8],
       ["bootstrap", 3],
       ["remington_870", 9],
@@ -4984,6 +5011,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_tactical", 5],
@@ -5040,6 +5068,7 @@
       ["lamp_oil", 5],
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
+      ["flu_shot", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
       ["umbrella", 7],
@@ -6102,6 +6131,26 @@
       ["con_milk", 10],
       ["sports_drink", 40],
       ["water_clean", 90]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_books",
+    "//" : "Primarily combat manuals and such.",
+    "items":[
+      ["manual_melee", 4],
+      ["manual_bashing", 4],
+      ["manual_stabbing", 7],
+      ["manual_knives", 4],
+      ["manual_krav_maga", 5],
+      ["manual_ninjutsu", 5],
+      ["manual_taekwondo", 6],
+      ["manual_eskrima", 2],
+      ["manual_silat", 2],
+      ["manual_rifle", 10],
+      ["manual_smg", 8],
+      ["manual_launcher", 5],
+      ["textbook_firstaid", 4],
+      ["manual_swimming", 4]
     ]
   },{
     "type" : "item_group",
@@ -7325,6 +7374,7 @@
       ["pur_tablets", 10],
       ["cleansuit", 5],
       ["needlegun", 4],
+      ["needlepistol", 6],
       ["5x50dart", 8],
       ["hazmat_suit", 5],
       ["e_tool", 20],
@@ -7940,6 +7990,7 @@
       ["thermal_gloves_on", 0],
       ["thermal_suit_on", 0],
       ["thermal_socks_on", 0],
+      ["thermal_outfit_on", 0],
       ["miner_hat_on", 0],
       ["shishkebab_on", 0],
       ["broadfire_on", 0],
@@ -8382,6 +8433,8 @@
       ["toolbox", 1],
       ["survivor_belt", 2],
       ["survivor_machete", 2],
+      ["spear_survivor", 2],
+      ["survivor_mess_kit", 6],
       ["survnote", 30]
     ]
   },{

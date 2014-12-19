@@ -906,6 +906,30 @@
     "use_action": "HOTPLATE"
   },
   {
+    "id": "survivor_mess_kit",
+    "sub": "hotplate",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "survivor mess kit",
+    "description": "A homemade mess kit, containing everything you might need for creating post-apocalyptic cuisine. Powered by a lamp oil burner, it is composed of simple yet durable tools and materials.",
+    "price": 2000,
+    "material": ["steel", "glass"],
+    "weight": 2160,
+    "volume": 10,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "lamp_oil",
+    "revert_to": "null",
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "use_action": "HOTPLATE"
+  },
+  {
     "id": "coffeemaker",
     "type": "TOOL",
     "color": "light_gray",
@@ -929,6 +953,72 @@
     "qualities": [["BOIL", 1]]
   },
   {
+    "type":"TOOL",
+    "id": "con_mix",
+    "symbol": "$",
+    "color": "dark_gray",
+    "name": "concrete mixer",
+    "description": "A luggable concrete mixer. It is still large and heavy, but it can be operated solo, and runs on batteries. It also got a heater built in.",
+    "price": 50000,
+    "material": "steel",
+    "weight": 9071,
+    "volume": 20,
+    "bashing": 15,
+    "cutting": 0,
+    "to_hit": -6,
+    "max_charges": 500,
+    "initial_charges": 100,
+    "charges_per_use": 20,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "HOTPLATE"
+  },
+  {
+    "id": "metal_smoother",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "metallic smoother",
+    "description": "This metallic tool is most often used to smooth concrete, or mortar, in construction projects.",
+    "price": 1000,
+    "material": "iron",
+    "weight": 362,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "qualities": [["SMOOTH", 2]]
+  },
+  {
+    "id": "wood_smoother",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "brown",
+    "name": "wooden smoother",
+    "description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
+    "price": 2000,
+    "material": "wood",
+    "weight": 2000,
+    "volume": 14,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "qualities": [["SMOOTH", 1]]
+  },    
+  {    
     "id": "soldering_iron",
     "type": "TOOL",
     "symbol": ",",
@@ -1189,7 +1279,7 @@
   {
     "id": "roadmap",
     "category": "books",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "yellow",
     "name": "road map",
@@ -1201,19 +1291,18 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "ROADMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "shelter", "hospital", "school", "police", "sub_station", "bank"],
+      "message": "You add roads and points of interest to your map."
+    }
   },
 
   {
     "id": "survivormap",
     "category": "books",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "white",
     "name": "survivor's map",
@@ -1225,19 +1314,18 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "SURVIVORMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas"],
+      "message": "You add roads and possible supply points to your map."
+    }
   },
 
   {
     "id": "militarymap",
     "category": "books",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "green",
     "name": "military operations map",
@@ -1249,19 +1337,18 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "MILITARYMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police"],
+      "message": "You add roads and facilities to your map."
+    }
   },
 
   {
     "id": "restaurantmap",
     "category": "books",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "pink",
     "name": "restaurant guide",
@@ -1273,19 +1360,18 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "RESTAURANTMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "s_restaurant_coffee", "s_restaurant", "bar", "s_pizza_parlor", "s_restaurant_fast"],
+      "message": "You add roads and restaurants to your map."
+    }
   },
 
   {
     "id": "touristmap",
     "category": "books",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "blue",
     "name": "tourist guide",
@@ -1297,13 +1383,12 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "TOURISTMAP"
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": ["hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore"],
+      "message": "You add roads and tourist attractions to your map."
+    }
   },
 
   {
@@ -3786,7 +3871,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": "SOLDER_WELD",
+    "qualities": [["WELD", 2]]
   },
 
   {
@@ -5277,7 +5363,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 5
+    }
   },
 
   {
@@ -5300,8 +5389,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PICKLOCK"
+    "use_action": {
+      "type": "picklock",
+      "pick_quality": 3
+    }
   },
+
+    {
+        "id": "pseuso_bio_picklock",
+        "type": "GENERIC",
+        "symbol": ";",
+        "color": "light_gray",
+        "name": "bio lockpick",
+        "description": "this a pseudo item",
+        "price": 0,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "use_action": {
+            "type": "picklock",
+            "pick_quality": 40
+        }
+    },
 
   {
     "id": "safe_box",
@@ -6203,7 +6314,16 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "FLASK_YEAST"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200, "//": "12 hours",
+        "not_ready_msg": "The yeast isn't done culturing yet.",
+        "msg": "You open the flask and harvest the culture.",
+        "moves": 50,
+        "container": "flask_glass",
+        "target": "yeast",
+        "target_charges": 10
+    }
   },
 
   {
@@ -6485,7 +6605,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": "SOLDER_WELD",
+    "qualities": [["WELD", 1]]
   },
 
   {
@@ -6978,6 +7099,7 @@
 
   {
     "id": "kiln_full",
+    "comment": "this item is not justed anymore and can be removed, however I don't want to compromise save compatiblity, so it's still here.",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
@@ -7009,7 +7131,7 @@
   },
   {
     "id": "kiln_lit",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "brown",
     "name": "lit charcoal kiln",
@@ -7022,19 +7144,15 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
-    "max_charges": 3600,
-    "initial_charges": 3600,
-    "charges_per_use": 0,
-    "turns_per_charge": 1,
-    "ammo": "NULL",
-    "revert_to": "kiln_done",
     "category" : "tools",
     "use_action": {
-        "type": "auto_transform",
-        "target": "kiln_done",
-        "non_interactive_msg": "It's already burning!.",
-        "msg": "The kiln's embers die out."
-  }
+        "type": "delayed_transform",
+        "transform_age": 3600,
+        "not_ready_msg": "The kiln is still burning.",
+        "msg": "The kilns embers have died out, you can now disassemble it to harvest the charcoal.",
+        "moves": 0,
+        "target": "kiln_done"
+    }
   },
   {
     "id": "kiln_done",
@@ -7802,7 +7920,7 @@
     "use_action": "MISC_REPAIR",
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
-        ["BUTCHER", 10]]
+        ["BUTCHER", 12]]
   },
   {
     "id": "battery_atomic",
@@ -8396,7 +8514,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "OXYTORCH"
+    "use_action": "OXYTORCH",
+    "qualities": [["WELD", 2]]
   },
   {
     "id": "fertilizer_bomb",
@@ -8589,7 +8708,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning leather hide isn't done yet.",
+        "msg": "You carefully unfold the tanning leather hide and shake it clean.",
+        "moves": 150,
+        "target": "tanned_hide"
+    }
   },
 
   {
@@ -8614,7 +8740,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning fur pelt isn't done yet.",
+        "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
+        "moves": 150,
+        "target": "tanned_pelt"
+    }
   },
 
   {
@@ -8800,6 +8933,46 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE"
+  },{
+    "id": "remotevehcontrol",
+    "type": "TOOL",
+    "symbol": "#",
+    "color": "yellow",
+    "name": "remote vehicle controller",
+    "description": "A remote controller for real cars. Can turn onboard devices on and off. Some cars can be driven remotely.",
+    "price": 2000,
+    "material": "plastic",
+    "weight": 907,
+    "volume": 4,
+    "bashing": -3,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 10,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "REMOTEVEH"
+  },{
+	"id": "brick_kiln",
+	"type": "TOOL",
+	"symbol": ";",
+	"color": "dark_gray",
+	"name": "brick kiln",
+	"description": "This is a portable charcoal-fired kiln. You could use it to fire your own bricks, for use in construction projects.",
+	"price": 25000,
+	"material": "steel",
+	"weight": 9600,
+	"volume": 36,
+	"bashing": 13,
+	"cutting": 0,
+	"to_hit": -3,
+	"max_charges": 200,
+	"initial_charges": 0,
+	"charges_per_use": 0,
+	"turns_per_charge": 0,
+	"ammo": "charcoal",
+	"revert_to": "null"
   }
-
 ]

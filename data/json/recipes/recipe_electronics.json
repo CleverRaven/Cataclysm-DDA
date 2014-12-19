@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "carver_off",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -299,7 +299,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "receiver",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -330,7 +330,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "transponder",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -361,7 +361,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lightstrip_inactive",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -386,7 +386,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flashlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -414,7 +414,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "floodlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -439,7 +439,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "soldering_iron",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -468,7 +468,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "battery",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -481,12 +481,12 @@
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "textbook_anarch", 2 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
+  ],
+  "components": [
     [
       [ "lemon", 1 ],
       [ "orange", 1 ],
       [ "grapefruit", 1 ],
-      [ "potato_raw", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 2 ]
     ],
@@ -504,7 +504,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "battery_compartment",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -518,22 +518,19 @@
   "book_learn": [[ "manual_electronics", 2 ], [ "advanced_electronics", 2 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ]
     ]
   ],
   "components": [
-    [
-      [ "scrap", 4 ]
-    ],
-    [
-      [ "cable", 5 ]
-    ]
+    [ [ "scrap", 4 ] ],
+    [ [ "cable", 5 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rechargeable_battery",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -547,26 +544,23 @@
   "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ]
     ]
   ],
   "components": [
-    [
-      [ "scrap", 4 ]
-    ],
-    [
-      [ "cable", 5 ]
-    ],
+    [ [ "scrap", 4 ] ],
+    [ [ "cable", 5 ] ],
     [
       [ "small_storage_battery", 1 ],
       [ "UPS_off", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "battery_atomic",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -580,25 +574,20 @@
   "book_learn": [[ "recipe_atomic_battery", 6 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
     ]
   ],
   "components": [
-    [
-      [ "scrap", 6 ]
-    ],
-    [
-      [ "cable", 4 ]
-    ],
-    [
-      [ "plut_cell", 1 ]
-    ]
+    [ [ "scrap", 6 ] ],
+    [ [ "cable", 4 ] ],
+    [ [ "plut_cell", 1 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "noise_emitter",
   "id_suffix": "radio-mod",
   "category": "CC_ELECTRONIC",
@@ -618,15 +607,11 @@
     ]
   ],
   "components": [
-    [
-      [ "radio", 1 ]
-    ],
-    [
-      [ "amplifier", 2 ]
-    ]
+    [ [ "radio", 1 ] ],
+    [ [ "amplifier", 2 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "noise_emitter",
   "id_suffix": "from-scratch",
   "category": "CC_ELECTRONIC",
@@ -660,7 +645,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "radio",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -693,7 +678,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "water_purifier",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -727,7 +712,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hotplate",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -842,7 +827,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tazer",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -873,7 +858,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "veh_tracker",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -907,7 +892,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "two_way_radio",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -945,7 +930,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "electrohack",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -980,7 +965,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mp3",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1015,7 +1000,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "portable_game",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1059,7 +1044,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "geiger_off",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1093,7 +1078,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rad_monitor",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1127,7 +1112,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "UPS_off",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -1161,7 +1146,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "battery_ups",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -1195,7 +1180,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -1233,7 +1218,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_power_storage",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1270,7 +1255,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_power_storage_mkII",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1308,7 +1293,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_solar",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1344,7 +1329,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_batteries",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1377,7 +1362,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1409,7 +1394,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_power_armor_interface_mkII",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1444,7 +1429,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_evap",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1477,7 +1462,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_laser",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1513,7 +1498,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_flashlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1549,7 +1534,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_water_extractor",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1585,7 +1570,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_armor_head",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1617,7 +1602,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_armor_arms",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1649,7 +1634,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_armor_torso",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1681,7 +1666,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_armor_legs",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1713,7 +1698,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "recharge_station",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1747,7 +1732,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "solar_panel",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1781,7 +1766,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "solar_panel_v2",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1818,7 +1803,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "teleporter",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1857,7 +1842,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "forgerig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1889,7 +1874,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "weldrig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2227,7 +2212,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2269,7 +2254,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bot_laserturret",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2440,7 +2425,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "atomic_light",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -2470,7 +2455,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "atomic_coffeepot",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2599,5 +2584,184 @@
     [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
     [ [ "duct_tape", 300 ] ]
   ]
-}
+},{
+  "type" : "recipe",
+  "result": "elec_jackhammer",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": true,
+  "decop_learn": 5,
+  "autolearn": false,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_carpentry", 6] , ["advanced_electronics", 5] , ["textbook_electronics", 5]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 150],
+      [ "oxy_torch", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "rebar", 2 ],
+      [ "steel_chunk", 4 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "elec_chainsaw_off",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [["textbook_mechanics", 4] , ["textbook_carpentry", 4] , ["advanced_electronics", 3] , ["textbook_electronics", 3]],
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 150],
+      ["oxy_torch", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "chain", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+    "result": "remotevehcontrol",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 2 ],
+    "difficulty": 7,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [[ "recipe_lab_elec", 5 ] , [ "textbook_robots", 5 ]],
+    "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 14 ]
+    ]
+  ],
+
+     "components": [
+      [
+        [ "e_scrap", 5 ]
+      ],
+      [
+        ["amplifier", 1 ]
+      ],
+      [
+        [ "receiver", 1 ]
+      ],
+      [
+        [ "antenna", 1 ]
+      ],
+      [
+        ["processor", 1 ]
+      ],
+      [
+        ["RAM", 1 ]
+      ],
+      [
+        ["small_lcd_screen", 1 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "drive_by_wire_controls",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 8,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ ["textbook_mechanics", 8], [ "textbook_robots", 7 ] ],
+    "qualities":[
+        {"id":"HAMMER","level":2,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1},
+        {"id":"WRENCH","level":1,"amount":1},
+        {"id":"SCREW","level":1,"amount":1}
+    ], 
+    "tools": [
+        [
+          [ "goggles_welding", -1 ]
+        ],
+        [
+          [ "welder", 50 ],
+          [ "welder_crude", 75 ],
+          [ "toolset", 75 ]
+        ],
+        [
+            [ "soldering_iron", 30 ],
+            [ "toolset", 30 ]
+        ]
+    ],
+     "components": [
+      [
+        [ "vehicle_controls", 1 ]
+      ],
+      [
+        [ "motor_small", 3 ]
+      ],
+      [
+        [ "receiver", 3 ]
+      ],
+      [
+        [ "processor", 3 ]
+      ],
+      [
+        [ "RAM", 3 ]
+      ],
+      [
+        [ "circuit", 3 ]
+      ]
+    ]
+  }
 ]

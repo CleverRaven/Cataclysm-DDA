@@ -29,7 +29,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 35 ] ],
-      [ [ "down_feather", 8 ] ]
+      [ [ "down_feather", 160 ] ]
     ]
   },{
     "type" : "recipe",
@@ -44,7 +44,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "down_feather", 2 ] ]
+      [ [ "down_feather", 40 ] ]
     ]
   },{
     "type" : "recipe",
@@ -108,8 +108,7 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[
-      {"id":"HAMMER","level":1,"amount":1},
-      {"id":"SCREW","level":1,"amount":1}
+      {"id":"HAMMER","level":1,"amount":1}
     ],
     "components": [ [ [ "tin", 100 ] ] ]
   },{
@@ -485,7 +484,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fan",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -589,7 +588,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "television",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -621,7 +620,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "microwave",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -650,7 +649,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "toaster",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -676,7 +675,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "clock",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -696,7 +695,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "knife_steak",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -711,7 +710,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lawnmower",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -740,7 +739,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "vac_sealer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -766,7 +765,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lighter",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -781,7 +780,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ref_lighter",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -799,7 +798,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tshirt",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -815,7 +814,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tank_top",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -831,7 +830,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lightstrip_dead",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -852,7 +851,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_recycler",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -877,7 +876,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_digestion",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -902,7 +901,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_face_mask",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -927,7 +926,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_nanobots",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -952,7 +951,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_ground_sonar",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -977,7 +976,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_metabolics",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1002,7 +1001,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bio_blood_filter",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1060,7 +1059,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "battletorch_done",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1136,7 +1135,7 @@
   "autolearn": false,
   "components": [ [ [ "paper", 1 ] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "broken_manhack",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1329,7 +1328,7 @@
         [ [ "mil_plate", 2 ] ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gold",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1347,7 +1346,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
     "result": "candlestick",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
@@ -1365,7 +1364,7 @@
       ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "char_purifier",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1383,7 +1382,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "baseball",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1404,7 +1403,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "football",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1507,7 +1506,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rag",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1525,7 +1524,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "felt_patch",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1543,7 +1542,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mre_beef_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1585,7 +1584,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mre_veggy_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1627,7 +1626,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mre_chicken_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1669,7 +1668,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mre_hotdog_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -2140,5 +2139,149 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
-}
+},{
+    "type" : "recipe",
+    "result": "fork",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "spoon",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "spork",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "foon",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "glass",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "glass_plate",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "glass_bowl",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "ceramic_plate",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "ceramic_bowl",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "ceramic_cup",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "tin_plate",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [ [ [ "tin", 100 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "toolbox",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "hammer", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "screwdriver", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "pockknife", 1 ] ]
+    ]
+  }
 ]

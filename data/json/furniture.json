@@ -384,6 +384,8 @@
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "items": [
                 { "item": "cu_pipe", "amount": 3, "minamount": 0 },
                 { "item": "ceramic_shard", "amount": 6, "minamount": 2},
@@ -998,6 +1000,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_vending_o",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3}
@@ -1140,7 +1144,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1162,7 +1166,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1967,6 +1971,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_displaycase_b",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
@@ -1988,6 +1994,31 @@
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 3 },
                 { "item": "splinter", "amount": 4, "minamount": 2 }
+            ]
+        }
+    },{
+        "type": "furniture",
+        "id": "f_standing_tank",
+        "name": "standing tank",
+        "symbol" : "O",
+        "color": "ltgray",
+        "move_cost_mod" : -1,
+        "required_str": -1,
+        "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 4 },
+                { "item": "water_faucet", "amount": 1 }
+            ]
+        },
+        "examine_action": "keg",
+        "bash": {
+            "str_min": 10, "str_max": 20,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 32, "minamount": 8},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 }
             ]
         }
     }

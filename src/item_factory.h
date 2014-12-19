@@ -4,6 +4,7 @@
 #include "json.h"
 #include "iuse.h"
 #include <string>
+#include <memory>
 #include <vector>
 #include <map>
 #include <bitset>
@@ -20,6 +21,9 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
+struct islot_container;
+struct islot_armor;
+struct islot_book;
 class item_category;
 
 /**
@@ -221,11 +225,29 @@ class Item_factory
 
         void create_inital_categories();
 
+        /**
+         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
+         * and calls @ref load to do the actual (type specific) loading.
+         */
+        template<typename SlotType>
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        /**
+         * Load item the item slot if present in json.
+         * Checks whether the json object has a member of the given name and if so, loads the item
+         * slot from that object. If the member does not exists, nothing is done.
+         */
+        template<typename SlotType>
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member );
+
+        void load( islot_container &slot, JsonObject &jo );
+        void load( islot_armor &slot, JsonObject &jo );
+        void load( islot_book &slot, JsonObject &jo );
+
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member, itype *new_item_template );
+        void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
         use_function use_from_object(JsonObject obj);
         phase_id phase_from_tag(Item_tag name);
@@ -235,6 +257,7 @@ class Item_factory
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
         void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
+        void set_properties_from_json(JsonObject &jo, std::string member, itype *new_item);
 
         // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
         std::bitset<num_bp> flags_from_json(JsonObject &jo, const std::string &member,

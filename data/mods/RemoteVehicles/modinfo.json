@@ -3,6 +3,6 @@
         "mod-type": "SUPPLEMENTAL",
         "ident": "RemoteVehicles",
         "name": "RemoteVehicles",
-        "description": "Adds remote vehicle controller",
+        "obsolete": true,
         "path": ""
     }
