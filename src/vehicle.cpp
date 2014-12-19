@@ -4928,16 +4928,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
-            for( size_t p = 0; p < parts.size(); p++ ) {
-                if( part_flag( p, "FUEL_TANK" ) && part_info( p ).fuel_type == amt ) {
-                    int less = std::min( parts[p].amount, (int)charges_consumed );
-                    parts[p].amount -= less;
-                    charges_consumed -= less;
-                    if( charges_consumed < 1) {
-                        break;
-                    }
-                }
-            }
+            drain( amt, (int)charges_consumed );
         }
     } else {
         if( parts[p].items.empty() ) {
