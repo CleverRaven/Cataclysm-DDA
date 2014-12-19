@@ -2341,7 +2341,7 @@
     "color": "dark_gray",
     "name": "AR-15",
     "name_plural": "AR-15",
-    "description": "A widely used civilian-spec assault rifle and the father of popular rifles such as the M16.  It is light and accurate, but not very durable.",
+    "description": "A widely used rifle and the father of popular rifles such as the M16.  It is light and accurate, but not very durable.",
     "price": 125000,
     "material": ["steel", "plastic"],
     "skill": "rifle",
