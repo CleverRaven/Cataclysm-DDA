@@ -689,10 +689,8 @@ void add_corpse(int x, int y);
  void add_road_vehicles(bool city, int facing);
 
 protected:
- void saven(const int x, const int y, const int z,
-            const int gridx, const int gridy);
- void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true);
+        void saven( int gridx, int gridy );
+        void loadn( int gridx, int gridy, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.

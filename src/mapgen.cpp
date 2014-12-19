@@ -128,7 +128,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
             dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
 
             if (i <= 1 && j <= 1) {
-                saven(x, y, z, i, j);
+                saven( i, j );
             } else {
                 delete get_submap_at_grid( i, j );
             }

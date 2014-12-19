@@ -4456,7 +4456,7 @@ void map::save()
 {
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            saven( abs_sub.x, abs_sub.y, abs_sub.z, gridx, gridy );
+            saven( gridx, gridy );
         }
     }
 }
@@ -4467,7 +4467,7 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
     set_abs_sub( wx, wy, wz );
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-            loadn(wx, wy, wz, gridx, gridy, update_vehicle);
+            loadn( gridx, gridy, update_vehicle );
         }
     }
 }
@@ -4546,7 +4546,7 @@ void map::shift(const int sx, const int sy)
                                    point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
-                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                        loadn( gridx, gridy, true );
                     }
                 }
             } else { // sy < 0; work through it backwards
@@ -4556,7 +4556,7 @@ void map::shift(const int sx, const int sy)
                                    point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
-                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                        loadn( gridx, gridy, true );
                     }
                 }
             }
@@ -4570,7 +4570,7 @@ void map::shift(const int sx, const int sy)
                                    point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
-                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                        loadn( gridx, gridy, true );
                     }
                 }
             } else { // sy < 0; work through it backwards
@@ -4580,7 +4580,7 @@ void map::shift(const int sx, const int sy)
                                    point( gridx + sx, gridy + sy ) );
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else {
-                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                        loadn( gridx, gridy, true );
                     }
                 }
             }
@@ -4597,21 +4597,20 @@ void map::shift(const int sx, const int sy)
 // 0,2 1,2 2,2
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-void map::saven( const int worldx, const int worldy, const int worldz,
-                 const int gridx, const int gridy )
+void map::saven( const int gridx, const int gridy )
 {
-    dbg( D_INFO ) << "map::saven(worldx[" << worldx << "], worldy[" << worldy << "], gridx[" << gridx <<
+    dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx[" << abs_sub.z <<
                   "], gridy[" << gridy << "])";
     submap *submap_to_save = get_submap_at_grid( gridx, gridy );
     if( submap_to_save == NULL || submap_to_save->ter[0][0] == t_null ) {
         dbg( D_ERROR ) << "map::saven grid NULL!";
         return;
     }
-    const int abs_x = worldx + gridx;
-    const int abs_y = worldy + gridy;
+    const int abs_x = abs_sub.x + gridx;
+    const int abs_y = abs_sub.y + gridy;
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
     submap_to_save->turn_last_touched = int(calendar::turn);
-    MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
+    MAPBUFFER.add_submap( abs_x, abs_y, abs_sub.z, submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;
@@ -4621,19 +4620,18 @@ void map::saven( const int worldx, const int worldy, const int worldz,
 // 0,2  1,2  2,2 etc
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-void map::loadn(const int worldx, const int worldy, const int worldz,
-                const int gridx, const int gridy, const bool update_vehicles) {
+void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) {
 
- dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
+ dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<abs_sub.x<<"], worldy["<<abs_sub.y<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = worldx + gridx,
-           absy = worldy + gridy,
+ const int absx = abs_sub.x + gridx,
+           absy = abs_sub.y + gridy,
            gridn = get_nonant( gridx, gridy );
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
             << "  gridn: " << gridn;
 
- submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
+    submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, abs_sub.z);
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
         dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
@@ -4642,12 +4640,12 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
         //  squares divisible by 2.
         const int newmapx = absx - ( abs( absx ) % 2 );
         const int newmapy = absy - ( abs( absy ) % 2 );
-        tmp_map.generate( newmapx, newmapy, worldz, calendar::turn );
+        tmp_map.generate( newmapx, newmapy, abs_sub.z, calendar::turn );
         // This is the same call to MAPBUFFER as above!
-        tmpsub = MAPBUFFER.lookup_submap( absx, absy, worldz );
+        tmpsub = MAPBUFFER.lookup_submap( absx, absy, abs_sub.z );
         if( tmpsub == nullptr ) {
-            dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << worldz;
-            debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, worldz );
+            dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << abs_sub.z;
+            debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, abs_sub.z );
             return;
         }
     }
