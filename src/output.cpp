@@ -912,7 +912,7 @@ long popup(const std::string &text, PopupFlags flags)
     draw_border(w);
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        mvwprintz(w, i + 1, 1, c_white, "%s", folded[i].c_str());
+        fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
     }
 
     long ch = 0;
