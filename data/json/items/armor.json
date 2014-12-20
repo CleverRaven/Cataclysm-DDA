@@ -9393,7 +9393,7 @@
         "bashing" : 10,
         "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -9419,7 +9419,7 @@
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY", "SUN_GLASSES"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
