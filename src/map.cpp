@@ -3046,25 +3046,6 @@ static void apply_in_fridge(item &it)
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, point location, bool activate )
 {
-    Iterator begin;
-    Iterator end;
-    if( map_stack *stack = dynamic_cast<map_stack *>(&items) ) {
-        begin = stack->begin();
-        end = stack->end();
-    } else if( vehicle_stack *stack = dynamic_cast<vehicle_stack *>(&items) ) {
-        begin = stack->begin();
-        end = stack->end();
-    }
-    bool iter_found = false;
-    for( auto iter = begin; iter != end; ++iter ) {
-        if( n == iter ) {
-            iter_found = true;
-            break;
-        }
-    }
-    if( !iter_found ) {
-        return true;
-    }
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
     item temp_item = *n;
@@ -3142,11 +3123,20 @@ void map::process_items_in_submap( submap *const, int gridx, int gridy, T proces
             point location( gridx * SEEX + i, gridy * SEEY + j );
             auto items = i_at( location.x, location.y );
             std::list<std::list<item>::iterator> active_items;
-            for( auto n = items.begin(); n != items.end(); ++n ) {
-                active_items.push_back( n );
+            for( auto it = items.begin(); it != items.end(); ++it ) {
+                active_items.push_back( it );
             }
             for( auto &n : active_items ) {
-                // Processor increments the iterator as needed.
+                bool item_found = false;
+                for( auto it = items.begin(); it != items.end(); ++it ) {
+                    if( n == it ) {
+                        item_found = true;
+                        break;
+                    }
+                }
+                if( !item_found ) {
+                    continue;
+                }
                 processor( items, n, location, signal );
             }
         }
@@ -3189,10 +3179,22 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
                                    cur_veh->global_y() + vp.precalc_dy[0] );
         auto items = cur_veh->get_items( part );
         std::list<std::list<item>::iterator> active_items;
-        for( auto n = items.begin(); n != items.end(); ++n ) {
-            active_items.push_back( n );
+        for( auto it = items.begin(); it != items.end(); ++it ) {
+            active_items.push_back( it );
         }
         for( auto &n : active_items ) {
+            // First make sure the iterator in question still exists.
+            bool item_found = false;
+            for( auto it = items.begin(); it != items.end(); ++it ) {
+                if( it == n ) {
+                    item_found = true;
+                    break;
+                }
+            }
+            if( !item_found ) {
+                continue;
+            }
+
             if( !processor( items, n, item_location, cur_veh, part, signal ) ) {
                 // If the item was NOT destroyed, we can skip the remainder,
                 // which handles fallout from the vehicle being damaged.
