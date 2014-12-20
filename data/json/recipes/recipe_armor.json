@@ -6689,6 +6689,35 @@
   },
   {
     "type" : "recipe",
+    "result": "back_holster",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "pistol", 3 ],
+    "difficulty": 3,
+    "time": 18000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 30 ],
+        [ "needle_wood", 30 ],
+        [ "sewing_kit", 30 ]
+      ]
+    ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [
+        [ "string_36", 3 ],
+        [ "string_6", 18 ],
+        [ "sinew", 60 ],
+        [ "thread", 60 ],
+        [ "plant_fibre", 60 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
     "result": "bootstrap",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
