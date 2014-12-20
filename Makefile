@@ -129,8 +129,8 @@ ifdef CLANG
     OTHERS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 $(CROSS)clang++
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
   else
     CXX = $(CROSS)clang++
     LD  = $(CROSS)clang++
@@ -455,6 +455,7 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif

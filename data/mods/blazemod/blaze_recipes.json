@@ -73,7 +73,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
-	],
+    ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -88,7 +88,7 @@
       [ "2x4", 5 ],
       [ "log", 1 ]
     ],
-	  [
+      [
         [ "scrap", 10 ],
         [ "rebar", 2 ]
       ]
@@ -110,7 +110,7 @@
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -138,7 +138,7 @@
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -148,15 +148,15 @@
       [ "canister_empty", 1 ]
     ], [
         [ "gunpowder", 72 ],
-		[ "gasoline", 200 ],
-		[ "diesel", 200 ]
-	],[
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ]
+    ],[
         [ "lead", 120 ],
         [ "nail", 30 ],
         [ "bb", 100 ],
-		[ "shards", 50]
+        [ "shards", 50]
       ],
-	  [
+      [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
@@ -181,7 +181,7 @@
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -190,19 +190,19 @@
       [ "can_drink", 1 ],
       [ "canister_empty", 1 ]
     ],
-	[
+    [
         [ "gunpowder", 216 ],
-		[ "gasoline", 600 ],
-		[ "diesel", 600 ]
-	],
-	[
+        [ "gasoline", 600 ],
+        [ "diesel", 600 ]
+    ],
+    [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ]
-				]
+                ]
 },
 {
         "type" : "recipe",
@@ -221,7 +221,7 @@
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ],
-	  [ "duct_tape", 2 ]
+      [ "duct_tape", 2 ]
     ]
   ],
   "components": [
@@ -230,15 +230,15 @@
       [ "can_drink", 1 ],
       [ "canister_empty", 1 ]
     ],
-	[
-	  [ "bleach", 2 ],
+    [
+      [ "bleach", 2 ],
       [ "oxy_powder", 200 ]
     ],
     [
       [ "ammonia", 2 ],
       [ "lye_powder", 200 ]
     ]
-				]
+                ]
 },{
         "type" : "recipe",
   "result": "canbombfire",
@@ -256,7 +256,7 @@
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ],
-	  [ "duct_tape", 2 ]
+      [ "duct_tape", 2 ]
     ]
   ],
   "components": [
@@ -277,18 +277,18 @@
       [ "brandy", 7 ],
       [ "lamp_oil", 150 ],
       [ "gasoline", 200 ],
-	  [ "diesel", 200],
-	  [ "napalm", 100]
+      [ "diesel", 200],
+      [ "napalm", 100]
     ],
-	[
+    [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
-	]
-				]
-	},
+    ]
+                ]
+    },
 {
         "type" : "recipe",
   "result": "canbombfire2",
@@ -307,9 +307,9 @@
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ],
-	  [ "duct_tape", 2 ]
+      [ "duct_tape", 2 ]
     ],
-	[
+    [
       [ "hotplate", 3 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
@@ -333,10 +333,10 @@
       [ "brandy", 21 ],
       [ "lamp_oil", 600 ],
       [ "gasoline", 1000 ],
-	  [ "diesel", 1000],
-	  [ "napalm", 400]
+      [ "diesel", 1000],
+      [ "napalm", 400]
     ],
-	  [
+      [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
@@ -368,25 +368,25 @@
       [ "welder", 90 ],
       [ "welder_crude", 120 ],
       [ "toolset", 120 ],
-	  ["oxy_torch", 9]
+      ["oxy_torch", 9]
     ]
   ],
   "components": [
     [
       [ "pipe", 4 ]
     ],
-	[
+    [
       [ "xlframe", 1 ]
     ],
-	[
-	  [ "chain", 2 ],
-	  [ "bearing", 200]
+    [
+      [ "chain", 2 ],
+      [ "bearing", 200]
     ],
-	[
-	  [ "scrap", 6 ],
-	  [ "steel_chunk", 2]
+    [
+      [ "scrap", 6 ],
+      [ "steel_chunk", 2]
     ],
-	[
+    [
       ["spring", 2]
     ]
   ]
@@ -416,16 +416,16 @@
       [ "welder", 90 ],
       [ "welder_crude", 120 ],
       [ "toolset", 120 ],
-	  ["oxy_torch", 9]
+      ["oxy_torch", 9]
     ]
   ],
   "components": [
     [
       [ "turretframe", 1 ]
     ],
-	[
+    [
       [ "motor", 1 ],
-	  [ "motor_small", 1]
+      [ "motor_small", 1]
     ],
     [
       [ "processor", 2 ]
@@ -433,21 +433,24 @@
     [
       [ "RAM", 2 ]
     ],
-	[
+    [
       [ "small_storage_battery", 1 ],
-	  [ "UPS_off", 1 ]
+      [ "UPS_off", 1 ]
     ],
-	[
+    [
       [ "e_scrap", 2 ]
     ],
-	[
+    [
       [ "solar_cell", 6 ]
     ],
-	[
+    [
       [ "chain", 1 ]
     ],
-	[
+    [
       [ "cable", 20 ]
+    ],
+    [
+      [ "power_supply", 1 ]
     ]
   ]
 },
@@ -460,7 +463,7 @@
   "skills_required": [ "gun", 4 ],
   "difficulty": 6,
   "time": 32000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -473,17 +476,17 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  [ "oxy_torch", 5]
+      [ "oxy_torch", 5]
     ],
-	[
-	  [ "small_repairkit", 100 ],
-	  [ "large_repairkit", 25 ]
-	]
+    [
+      [ "small_repairkit", 100 ],
+      [ "large_repairkit", 25 ]
+    ]
   ],
   "components": [
     [
       ["pipe", 2],
-	  ["rebar", 1]
+      ["rebar", 1]
     ],
     [
       ["metal_tank_small", 1]
@@ -491,46 +494,46 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["spring", 2]
     ],
-	[
+    [
       ["funnel", 2],
-	  ["makeshift_funnel", 2]
+      ["makeshift_funnel", 2]
     ],
-	[
+    [
       [ "scrap", 6],
-	  [ "steel_chunk", 2]
+      [ "steel_chunk", 2]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ]
   ]
 },{
@@ -542,7 +545,7 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 7,
   "time": 40000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -555,17 +558,17 @@
       [ "welder", 100 ],
       [ "welder_crude", 125 ],
       [ "toolset", 125 ],
-	  ["oxy_torch", 10]
+      ["oxy_torch", 10]
     ],
-	[
-	  [ "small_repairkit", 200 ],
-	  [ "large_repairkit", 50 ]
-	]
+    [
+      [ "small_repairkit", 200 ],
+      [ "large_repairkit", 50 ]
+    ]
   ],
   "components": [
     [
       ["pipe", 4],
-	  ["rebar", 2]
+      ["rebar", 2]
     ],
     [
       ["metal_tank_small", 2]
@@ -573,77 +576,77 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["spring", 4]
     ],
-	[
+    [
       ["funnel", 4],
-	  ["makeshift_funnel", 4]
+      ["makeshift_funnel", 4]
     ],
-	[
+    [
       [ "scrap", 12],
-	  [ "steel_chunk", 4],
-	  [ "steel_lump", 1]
+      [ "steel_chunk", 4],
+      [ "steel_lump", 1]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ],
-	[
-	["american_180", 1],
-	["uzi", 1],
-	["tec9", 1],
-	["calico", 1],
-	["hk_mp5", 1],
-	["mac_10", 1],
-	["hk_ump45", 1],
-	["TDI", 1],
-	["fn_p90", 1],
-	["hk_mp7", 1],
-	["ppsh", 1],
-	["rm2000_smg", 1],
-	["needlegun", 1]
+    [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ]
   ]
 },{
@@ -655,7 +658,7 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 5,
   "time": 40000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -668,13 +671,13 @@
       [ "welder", 100 ],
       [ "welder_crude", 125 ],
       [ "toolset", 125 ],
-	  ["oxy_torch", 10]
+      ["oxy_torch", 10]
     ]
   ],
   "components": [
     [
       ["pipe", 4],
-	  ["rebar", 2]
+      ["rebar", 2]
     ],
     [
       ["metal_tank_small", 2]
@@ -682,16 +685,16 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["funnel", 4],
-	  ["makeshift_funnel", 4]
+      ["makeshift_funnel", 4]
     ],
-	[
+    [
       ["scrap", 8],
-	  [ "steel_chunk", 3]
+      [ "steel_chunk", 3]
     ],
-	[
-	  ["nailrifle", 4]
+    [
+      ["nailrifle", 4]
   ]]
 },{
         "type" : "recipe",
@@ -702,7 +705,7 @@
   "skills_required": [ "gun", 2 ],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -715,13 +718,13 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 10]
+      ["oxy_torch", 10]
     ]
   ],
   "components": [
     [
       ["pipe", 2],
-	  ["rebar", 1]
+      ["rebar", 1]
     ],
     [
       ["metal_tank_small", 1]
@@ -729,17 +732,203 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["funnel", 2],
-	  ["makeshift_funnel", 2]
+      ["makeshift_funnel", 2]
     ],
-	[
+    [
       ["scrap", 6],
-	  [ "steel_chunk", 2]
+      [ "steel_chunk", 2]
     ],
-	[
-	  [ "nailrifle", 2]
+    [
+      [ "nailrifle", 2]
   ]]
+},{
+        "type" : "recipe",
+  "result": "lasguns",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 50 ],
+      [ "toolset", 50 ],
+      ["oxy_torch", 3]
+    ],
+    [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+    ]
+  ],
+  "components": [
+    [
+      [ "v29", 1 ],
+      [ "v29_cheap", 1],
+      [ "bio_laser", 1]
+    ],
+    [
+      ["controlframe", 1]
+    ],
+    [
+      ["lens", 2]
+    ],
+    [
+      ["scrap", 2]
+    ],
+    [
+      ["cable", 10]
+    ],
+    [
+      ["e_scrap", 2]
+    ],
+    [
+      ["amplifier", 2]
+    ],
+    [
+      ["power_supply", 2]
+    ],
+    [
+     [ "plastic_chunk", 2 ]
+    ],
+    [
+     [ "solar_panel", 2 ],
+     [ "solar_panel_v2", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "lasgunp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 120 ],
+      [ "toolset", 100 ],
+      ["oxy_torch", 6]
+    ],
+    [
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "v29", 2 ],
+      [ "v29_cheap", 2],
+      [ "bio_laser", 2],
+      [ "laser_rifle", 1]
+    ],
+    [
+      ["controlframe", 1]
+    ],
+    [
+      ["lens", 4]
+    ],
+    [
+      ["scrap", 4]
+    ],
+    [
+      ["cable", 20]
+    ],
+    [
+      ["e_scrap", 4]
+    ],
+    [
+      ["amplifier", 4]
+    ],
+    [
+      ["power_supply", 4]
+    ],
+    [
+     [ "plastic_chunk", 4 ]
+    ],
+    [
+     [ "solar_panel", 2 ],
+     [ "solar_panel_v2", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "lasgun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 5,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 25 ],
+      [ "welder_crude", 50 ],
+      [ "toolset", 50 ],
+      ["oxy_torch", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "controlframe", 1]
+    ],
+    [
+      [ "lens", 2]
+    ],
+    [
+      [ "scrap", 9],
+      [ "steel_chunk", 3]
+    ],
+    [
+      ["cable", 50]
+    ],
+    [
+     [ "plastic_chunk", 2 ]
+    ],
+    [
+      ["amplifier", 2]
+    ],
+    [
+      ["power_supply", 2]
+    ],
+    [
+      [ "cerberus_laser", 1 ],
+      [ "bio_blaster", 1 ]
+    ],
+    [
+     [ "solar_panel", 2 ],
+     [ "solar_panel_v2", 1 ]
+    ]
+]
 },{
         "type" : "recipe",
   "result": "lasgunx",
@@ -747,8 +936,8 @@
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "mechanics", 3 ],
-  "difficulty": 5,
-  "time": 30000,
+  "difficulty": 6,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -758,49 +947,47 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
-      ["UPS_off", 3],
-	  ["small_storage_battery", 3]
+      [ "UPS_off", 2],
+      [ "small_storage_battery", 2]
     ],
     [
-      ["controlframe", 1]
+      [ "controlframe", 1]
     ],
     [
-      ["lens", 6]
+      [ "lens", 4]
     ],
-	[
-      ["scrap", 6],
-	  [ "steel_chunk", 2]
+    [
+      [ "scrap", 9],
+      [ "steel_chunk", 3]
     ],
-	[
-      ["cable", 30]
+    [
+      ["cable", 50]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
-      ["amplifier", 6]
-    ],
-	[
-      ["power_supply", 3]
+    [
+      ["amplifier", 8]
     ],
     [
-      [ "cerberus_laser", 3 ],
-      [ "laser_rifle", 3 ],
-      [ "v29_cheap", 3 ],
-      [ "v29", 3 ]
+      ["power_supply", 8]
+    ],
+    [
+      [ "cerberus_laser", 1 ],
+      [ "bio_blaster", 1 ]
     ],
     [
      [ "solar_panel", 2 ],
-	 [ "solar_panel_v2", 1 ]
+     [ "solar_panel_v2", 1 ]
     ]
 ]
 },{
@@ -825,14 +1012,14 @@
     ],
     [
       [ "welder", 50 ],
-	  [ "welder_crude", 75],
-	  [ "toolset", 75],
-	  ["oxy_torch", 5]
+      [ "welder_crude", 75],
+      [ "toolset", 75],
+      ["oxy_torch", 5]
     ],
-	[
-	[ "soldering_iron", 20],
-	[ "toolset", 20]
-	]
+    [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+    ]
   ],
   "components": [
     [
@@ -853,15 +1040,17 @@
     ],
     [
       [ "pipe", 4 ],
-	  [ "rebar", 2 ]
+      [ "rebar", 2 ]
     ],
     [
       [ "steel_chunk", 8 ],
       [ "scrap", 24 ],
-	  [ "steel_lump", 2]
+      [ "steel_lump", 2]
     ],
     [
-      [ "nail", 100 ]
+      [ "nail", 60 ],
+      [ "duct_tape", 100],
+      [ "superglue", 5]
     ]
   ]
 },{
@@ -873,7 +1062,7 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -882,16 +1071,16 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 30 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 3]
+      ["oxy_torch", 3]
     ],
-	[
-	[ "soldering_iron", 20],
-	[ "toolset", 20]
-	]
+    [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+    ]
   ],
   "components": [
     [
@@ -899,7 +1088,7 @@
     ],
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+      ["small_storage_battery", 1]
     ],
     [
       ["controlframe", 1]
@@ -907,20 +1096,20 @@
     [
       ["lens", 2]
     ],
-	[
+    [
       ["scrap", 8],
-	  [ "steel_chunk", 3]
+      [ "steel_chunk", 3]
     ],
-	[
+    [
       ["cable", 20]
     ],
-	[
+    [
       ["e_scrap", 6]
     ],
-	[
+    [
       ["amplifier", 5]
     ],
-	[
+    [
       ["power_supply", 5]
     ],
     [
@@ -928,7 +1117,7 @@
     ],
     [
      [ "solar_panel", 2 ],
-	 [ "solar_panel_v2", 1 ]
+     [ "solar_panel_v2", 1 ]
     ]
 ]
 },{
@@ -940,7 +1129,7 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 6,
   "time": 20000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -949,16 +1138,16 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 30 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 3]
+      ["oxy_torch", 3]
     ],
-	[
-	[ "soldering_iron", 20],
-	[ "toolset", 20]
-	]
+    [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+    ]
   ],
   "components": [
     [
@@ -970,19 +1159,19 @@
     [
       ["lens", 2]
     ],
-	[
+    [
       ["scrap", 2]
     ],
-	[
+    [
       ["cable", 10]
     ],
-	[
+    [
       ["e_scrap", 2]
     ],
-	[
+    [
       ["amplifier", 2]
     ],
-	[
+    [
       ["power_supply", 2]
     ],
     [
@@ -990,7 +1179,7 @@
     ],
     [
      [ "solar_panel", 2 ],
-	 [ "solar_panel_v2", 1 ]
+     [ "solar_panel_v2", 1 ]
     ]
 ]
 },{
@@ -1006,16 +1195,16 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
     ],
     [
       ["welder", 50],
-	  ["welder_crude", 75],
-	  ["toolset", 75],
-	  ["oxy_torch", 5]
+      ["welder_crude", 75],
+      ["toolset", 75],
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1024,8 +1213,8 @@
     ],
     [
       [ "duct_tape", 400],
-	  [ "superglue", 4],
-	  [ "nail", 100]
+      [ "superglue", 4],
+      [ "nail", 150]
     ],
     [
       [ "foot_crank", 1 ]
@@ -1036,7 +1225,7 @@
     [
       ["spring", 2]
     ],
-	[
+    [
       ["turretframe", 1]
     ],
     [
@@ -1053,7 +1242,7 @@
   "skill_sec": ["gun",3],
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -1066,7 +1255,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 5]
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1076,29 +1265,29 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["funnel", 1],
-	  ["makeshift_funnel", 1]
+      ["makeshift_funnel", 1]
     ],
-	[
+    [
       ["scrap", 9],
-	  ["steel_chunk", 3]
+      ["steel_chunk", 3]
     ],
-	[
+    [
       ["spring", 2]
     ],
-	[
-		["motor", 1],
-	  [ "motor_small", 1]
-	],
-	[
-		["chain", 1]
-	],
-	[
-		["metal_tank", 1]
-	],
-	[
-	  [ "tihar", 1]
+    [
+        ["motor", 1],
+      [ "motor_small", 1]
+    ],
+    [
+        ["chain", 1]
+    ],
+    [
+        ["metal_tank", 1]
+    ],
+    [
+      [ "tihar", 1]
   ]
  ]
 },{
@@ -1110,25 +1299,25 @@
   "skill_sec": ["gun",3],
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
     ],
     [
       ["welder", 50],
-	  ["welder_crude", 75],
-	  ["toolset", 75],
-	  ["oxy_torch", 5]
+      ["welder_crude", 75],
+      ["toolset", 75],
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
     [
-	  ["m249", 1]
+      ["m249", 1]
     ],
     [
       ["spring", 3]
@@ -1150,25 +1339,25 @@
   "skill_sec": ["gun",4],
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
     ],
     [
       ["welder", 75],
-	  ["welder_crude", 125],
-	  ["toolset", 125],
-	  ["oxy_torch", 7]
+      ["welder_crude", 125],
+      ["toolset", 125],
+      ["oxy_torch", 7]
     ]
   ],
   "components": [
     [
-	  ["m249", 1]
+      ["m249", 1]
     ],
     [
       ["spring", 3]
@@ -1182,7 +1371,7 @@
     ],
     [
       ["funnel", 1],
-	  ["makeshift_funnel", 1]
+      ["makeshift_funnel", 1]
     ],
     [
       ["metal_tank_small", 1]
@@ -1197,20 +1386,20 @@
   "skill_sec": ["gun",2],
   "difficulty": 3,
   "time": 24000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
     ],
     [
       ["welder", 50],
-	  ["welder_crude", 75],
-	  ["toolset", 75],
-	  ["oxy_torch", 5]
+      ["welder_crude", 75],
+      ["toolset", 75],
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1224,7 +1413,7 @@
     [
       ["launcher_simple", 1],
       ["m79", 1],
-	  ["m320", 1]
+      ["m320", 1]
     ]
   ]
 },{
@@ -1236,7 +1425,7 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -1249,7 +1438,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 5]
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1259,29 +1448,29 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["funnel", 1],
-	  ["makeshift_funnel", 1]
+      ["makeshift_funnel", 1]
     ],
-	[
+    [
       ["scrap", 9],
-	  ["steel_chunk", 3]
+      ["steel_chunk", 3]
     ],
-	[
+    [
       ["spring", 2]
     ],
-	[
-		["motor", 1],
-	  [ "motor_small", 1]
-	],
-	[
-		["chain", 1]
-	],
-	[
-		["metal_tank", 1]
-	],
-	[
-	  [ "helsing", 1]
+    [
+        ["motor", 1],
+      [ "motor_small", 1]
+    ],
+    [
+        ["chain", 1]
+    ],
+    [
+        ["metal_tank", 1]
+    ],
+    [
+      [ "helsing", 1]
   ]
  ]
 },{
@@ -1304,14 +1493,14 @@
     ],
     [
       [ "welder", 30 ],
-	  [ "welder_crude", 50],
-	  [ "toolset", 50],
-	  ["oxy_torch", 3]
+      [ "welder_crude", 50],
+      [ "toolset", 50],
+      ["oxy_torch", 3]
     ],
-	[
-	[ "soldering_iron", 20],
-	[ "toolset", 20]
-	]
+    [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+    ]
   ],
   "components": [
     [
@@ -1332,15 +1521,17 @@
     ],
     [
       [ "pipe", 6 ],
-	  [ "rebar", 3 ]
+      [ "rebar", 3 ]
     ],
     [
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ],
-	  [ "steel_lump", 1]
+      [ "steel_lump", 1]
     ],
     [
-      [ "nail", 20 ]
+      [ "nail", 20 ],
+      [ "duct_tape", 50],
+      [ "superglue", 1]
     ]
   ]
 },{
@@ -1365,44 +1556,42 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 5]
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
     [
-      ["pipe", 12]
+        ["pipe", 12]
     ],
     [
-      ["duct_tape", 500],
-      ["superglue", 5]
+        ["duct_tape", 500],
+        ["superglue", 5],
+        ["nail", 200]
     ],
     [
-      ["metal_tank", 1]
+        ["controlframe", 1]
     ],
     [
-      ["controlframe", 1]
+        ["funnel", 2],
+        ["makeshift_funnel", 2]
     ],
-	[
-      ["funnel", 2],
-	  ["makeshift_funnel", 2]
+    [
+        ["scrap", 9],
+        ["steel_chunk", 3]
     ],
-	[
-      ["scrap", 9],
-	  ["steel_chunk", 3]
+    [
+        ["spring", 3]
     ],
-	[
-      ["spring", 3]
+    [
+        [ "motor", 1],
+        [ "motor_small", 1]
     ],
-	[
-		["motor", 1],
-		[ "motor_small", 1]
-	],
-	[
-		["chain", 1]
-	],
-	[
-		["metal_tank", 2]
-	]
+    [
+        ["chain", 1]
+    ],
+    [
+        ["metal_tank", 2]
+    ]
  ]
 },{
         "type" : "recipe",
@@ -1426,17 +1615,17 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  ["oxy_torch", 5]
+      ["oxy_torch", 5]
     ]
   ],
   "components": [
     [
-      ["pipe", 8]
+        ["pipe", 8]
     ],
-	[
-		["motor", 1],
-		[ "motor_small", 1]
-	],
+    [
+        ["motor", 1],
+        [ "motor_small", 1]
+    ],
     [
       ["duct_tape", 400],
       ["superglue", 4]
@@ -1447,25 +1636,25 @@
     [
       ["controlframe", 1]
     ],
-	[
+    [
       ["funnel", 1],
-	  ["makeshift_funnel", 1]
+      ["makeshift_funnel", 1]
     ],
-	[
-      ["scrap", 36],
-	  [ "steel_chunk", 12],
-	  [ "steel_lump", 3]
+    [
+      [ "scrap", 36],
+      [ "steel_chunk", 12],
+      [ "steel_lump", 3]
     ],
-	[
+    [
       ["spring", 4]
     ],
-	[
+    [
       ["element", 1],
-	  ["pilot_light", 1]
+      ["pilot_light", 1]
     ],
-	[
-		["chain", 1]
-	]
+    [
+      ["chain", 1]
+    ]
  ]
 },{
         "type" : "recipe",
@@ -1485,17 +1674,17 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+      ["small_storage_battery", 1]
     ],
     [
       ["controlframe", 1]
@@ -1503,22 +1692,22 @@
     [
       ["tazer", 2]
     ],
-	[
+    [
       ["scrap", 4]
     ],
-	[
+    [
       ["antenna", 1]
     ],
-	[
+    [
       ["cable", 30]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
+    [
       ["amplifier", 3]
     ],
-	[
+    [
       ["power_supply", 1]
     ],
     [
@@ -1526,7 +1715,7 @@
     ],
     [
      [ "solar_panel", 2 ],
-	 [ "solar_panel_v2", 1 ]
+     [ "solar_panel_v2", 1 ]
     ]
 ]
 },{
@@ -1547,47 +1736,47 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+      ["small_storage_battery", 1]
     ],
     [
       ["controlframe", 1]
     ],
     [
       ["funnel", 1],
-	  ["makeshift_funnel", 1]
+      ["makeshift_funnel", 1]
     ],
-	[
+    [
       ["scrap", 8],
-	  [ "steel_chunk", 3]
+      [ "steel_chunk", 3]
     ],
-	[
+    [
       ["cable", 60]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
+    [
       ["amplifier", 3]
     ],
-	[
+    [
       ["power_supply", 3]
     ],
     [
       [ "coilgun", 1 ]
     ]
-]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flamethrower1",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1595,45 +1784,34 @@
   "skills_required": [ "mechanics", 5 ],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["scrap", 8],
-	  [ "steel_chunk", 2]
+      [ "steel_chunk", 2]
     ],
-    [
-      ["controlframe", 1]
-    ],
-	[
-      ["hose", 2]
-    ],
-    [
-      [ "pipe", 2 ]
-    ],
-	[
-      ["metal_tank_little", 1]
-    ],
-    [
-      [ "flamethrower_simple", 1 ]
-    ]
-]
+    [ ["controlframe", 1] ],
+    [ ["hose", 2] ],
+    [ [ "pipe", 2 ] ],
+    [ ["metal_tank_little", 1] ],
+    [ [ "flamethrower_simple", 1 ] ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flamethrower2",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1641,45 +1819,34 @@
   "skills_required": [ "mechanics", 4 ],
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["scrap", 8],
-	  [ "steel_chunk", 2]
+      ["steel_chunk", 2]
     ],
-    [
-      ["controlframe", 1]
-    ],
-	[
-      ["hose", 2]
-    ],
-    [
-      [ "pipe", 2 ]
-    ],
-	[
-      ["metal_tank_little", 1]
-    ],
-    [
-      [ "flamethrower", 1 ]
-    ]
-]
+    [ ["controlframe", 1] ],
+    [ ["hose", 2] ],
+    [ ["pipe", 2 ] ],
+    [ ["metal_tank_little", 1] ],
+    [ ["flamethrower", 1 ] ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flamethrower3",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1687,45 +1854,34 @@
   "skills_required": [ "mechanics", 4 ],
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["scrap", 8],
-	  [ "steel_chunk", 2]
+      [ "steel_chunk", 2]
     ],
-    [
-      ["controlframe", 1]
-    ],
-	[
-      ["hose", 2]
-    ],
-    [
-      [ "pipe", 2 ]
-    ],
-	[
-      ["metal_tank_little", 1]
-    ],
-    [
-      [ "rm451_flamethrower", 1 ]
-    ]
-]
+    [ ["controlframe", 1] ],
+    [ ["hose", 2] ],
+    [ [ "pipe", 2 ] ],
+    [ ["metal_tank_little", 1] ],
+    [ [ "rm451_flamethrower", 1 ] ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ripper",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1738,39 +1894,30 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 150 ],
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
-	  ["oxy_torch", 30]
+      ["oxy_torch", 30]
     ]
   ],
   "components": [
+    [ ["ripdisk", 1] ],
+    [ ["turretframe", 1] ],
     [
-      ["ripdisk", 1]
-    ],
-    [
-      ["turretframe", 1]
-    ],
-	[
       ["scrap", 36],
-	  ["steel_chunk", 12],
-	  ["steel_lump", 3]
+      ["steel_chunk", 12],
+      ["steel_lump", 3]
     ],
-	[
-		["chain", 4]
-	],
+    [ ["chain", 4] ],
     [
       ["rebar", 12],
-	  ["pipe", 18]
+      ["pipe", 18]
     ],
-    [
-      ["hdframe", 1]
-    ]
+    [ ["hdframe", 1] ]
  ]
 },{
         "type" : "recipe",
@@ -1785,28 +1932,25 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       ["scrap", 6],
-	  [ "steel_chunk", 2]
+      [ "steel_chunk", 2]
     ],
-    [
-      ["blade", 7]
-    ]
-    ]
+    [ ["blade", 7] ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "teardisk",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -1818,23 +1962,17 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  [ "oxy_torch", 2]
+      [ "oxy_torch", 2]
     ]
   ],
-  "components": [
-    [
-      [ "scrap", 12],
-	  [ "steel_chunk", 4]
-    ]
-    ]
+  "components": [ [ [ "scrap", 12], [ "steel_chunk", 4] ] ]
 },{
   "type" : "recipe",
   "result": "lead_ball",
@@ -1847,21 +1985,15 @@
   "decomp_learn": 1,
   "autolearn": true,
   "tools": [
-    [
-      ["crucible", -1]
-    ],
+    [ ["crucible", -1] ],
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
     ],
     [ ["mold_plastic", -1] ]
-	],
-  "components": [
-    [
-      [ "lead", 100 ]
-    ]
-  ]
+  ],
+  "components": [ [ [ "lead", 100 ] ] ]
 },{
         "type" : "recipe",
   "result": "rebar_plate",
@@ -1873,13 +2005,9 @@
   "reversible": true,
   "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
+    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -1888,27 +2016,21 @@
     ]
   ],
   "components": [
-    [
-      [ "rebar", 4 ]
-    ],
-    [
-      [ "scrap", 3 ]
+    [ [ "rebar", 4 ] ],
+    [ [ "scrap", 3 ] ]
     ]
-	]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spring_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 15000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
+    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -1919,12 +2041,8 @@
     ]
   ],
   "components": [
-    [
-      [ "steel_plate", 1 ]
-    ],
-	[
-      [ "spring", 3 ]
-    ]
+    [ [ "steel_plate", 1 ] ],
+    [ [ "spring", 3 ] ]
   ]
 }
 ]

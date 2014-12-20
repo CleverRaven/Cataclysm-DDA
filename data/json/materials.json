@@ -2,7 +2,7 @@
     {
         "type" : "material",
         "ident" : "null",
-        "name" : "Null",
+        "name" : "Unknown",
         "bash_resist" : 0,
         "cut_resist" : 0,
         "bash_dmg_verb" : "damaged",
@@ -656,5 +656,41 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "density" : 3
+    },{
+        "type" : "material",
+        "ident" : "freshclay",
+        "name" : "Fresh Clay",
+        "bash_resist" : 1,
+        "cut_resist" : 1,
+        "bash_dmg_verb" : "squished",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 2,
+        "elec_resist" : 2,
+        "fire_resist" : 2,
+        "density" : 4
+    },{
+        "type" : "material",
+        "ident" : "clay",
+        "name" : "Clay",
+        "bash_resist" : 2,
+        "cut_resist" : 3,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "chipped",
+            "scratched",
+            "cracked",
+            "shattered"
+        ],
+        "acid_resist" : 2,
+        "elec_resist" : 2,
+        "fire_resist" : 3,
+        "density" : 8
     }
 ]

@@ -305,6 +305,14 @@
     },
     {
         "type": "effect_type",
+        "id": "laserlocked",
+        "name": ["Laser-targeted"],
+        "desc": ["A laser sight is targeting you!"],
+        "apply_message": "",
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
         "id": "smoke",
         "name": ["Smoke"],
         "desc": ["You've inhaled a lungful of thick smoke."],
@@ -814,6 +822,10 @@
             "cough_chance": [300, 0],
             "vomit_chance": [3600, 7200]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "flushot"
     },
     {
         "type": "effect_type",

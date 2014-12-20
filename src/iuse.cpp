@@ -249,7 +249,7 @@ int iuse::royal_jelly(player *p, item *it, bool, point)
     }
     if (p->has_effect("poison") || p->has_effect("foodpoison") ||
         p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
-        p->has_effect("tetanus") || p->has_effect("stung")) {
+        p->has_effect("tetanus") || p->has_effect("infected") || p->has_effect("stung")) {
         message = _("You feel much better!");
         p->remove_effect("poison");
         p->remove_effect("stung");
@@ -257,6 +257,7 @@ int iuse::royal_jelly(player *p, item *it, bool, point)
         p->remove_effect("foodpoison");
         p->remove_effect("paralyzepoison");
         p->remove_effect("tetanus");
+        p->remove_effect("infected");
     }
     if (p->has_effect("asthma")) {
         message = _("Your breathing clears up!");
@@ -576,6 +577,7 @@ int iuse::bandage(player *p, item *it, bool, point)
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
+        p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
         return it->type->charges_to_use();
     }
     return 0;
@@ -1264,6 +1266,7 @@ int iuse::meth(player *p, item *it, bool, point)
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
         p->add_msg_if_player(m_good, _("The world seems to sharpen."));
+        p->fatigue -= 375;
         if (p->has_trait("TOLERANCE")) {
             duration *= 1.2;
         } else {
@@ -1275,6 +1278,7 @@ int iuse::meth(player *p, item *it, bool, point)
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
+        p->fatigue -= 300;
     }
     if (!p->has_effect("meth")) {
         duration += 600;
@@ -1300,6 +1304,19 @@ int iuse::vaccine(player *p, item *it, bool, point)
     p->add_msg_if_player(m_good, _("You feel tough."));
     p->mod_healthy_mod(200);
     p->mod_pain(3);
+    item syringe( "syringe", it->bday );
+    p->i_add( syringe );
+    return it->type->charges_to_use();
+}
+
+int iuse::flu_vaccine(player *p, item *it, bool, point)
+{
+    p->add_msg_if_player(_("You inject the vaccine."));
+    p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
+    p->add_effect("flushot", 1, num_bp, true);
+    p->mod_pain(3);
+    item syringe( "syringe", it->bday );
+    p->i_add( syringe );
     return it->type->charges_to_use();
 }
 
@@ -2850,7 +2867,14 @@ int iuse::sew(player *p, item *it, bool, point)
         return 0;
     }
     int thread_used = 1;
-    int pos = g->inv(_("Repair what?"));
+
+    int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+        return itm.made_of( "cotton" ) ||
+               itm.made_of( "leather" ) ||
+               itm.made_of( "fur" ) ||
+               itm.made_of( "nomex" ) ||
+               itm.made_of( "felt_patch" );
+    } );
     item *fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -2998,8 +3022,11 @@ int iuse::sew(player *p, item *it, bool, point)
 
 int iuse::extra_battery(player *p, item *, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3032,8 +3059,11 @@ int iuse::extra_battery(player *p, item *, bool, point)
 
 int iuse::rechargeable_battery(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3070,8 +3100,11 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
 
 int iuse::atomic_battery(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3109,8 +3142,11 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
 }
 int iuse::ups_battery(player *p, item *, bool, point)
 {
-    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
-    item *modded = &(p->i_at(pos));
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo == "battery";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(_("You do not have that item!"));
@@ -3152,7 +3188,11 @@ int iuse::ups_battery(player *p, item *, bool, point)
 
 int iuse::remove_all_mods(player *p, item *, bool, point)
 {
-    int inventory_index = g->inv( _( "Detach battery mods from what?" ) );
+    int inventory_index = g->inv_for_filter( _( "Detach battery mods from what?" ), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") || 
+                                  itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
+    } );
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
@@ -3536,7 +3576,13 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                 return 0;
             }
 
-            int pos = g->inv(_("Repair what?"));
+            int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+                return itm.made_of( "kevlar" ) ||
+                       itm.made_of( "plastic" ) ||
+                       itm.made_of( "iron" ) ||
+                       itm.made_of( "steel" ) ||
+                       itm.made_of( "hardsteel" );
+            } );
             item *fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -3694,7 +3740,11 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 
 int iuse::water_purifier(player *p, item *it, bool, point)
 {
-    int pos = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+    int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
+        return !itm.contents.empty() && 
+               ( itm.contents[0].type->id == "water" ||
+                 itm.contents[0].type->id == "salt_water" );
+    } );
     if (!p->has_item(pos)) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
@@ -3985,177 +4035,6 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, point pos)
     return it->type->charges_to_use();
 }
 
-static void roadmap_targets(player *, item *, bool,
-                            const std::string &target, int distance,
-                            int reveal_distance)
-{
-    std::vector<point> places = overmap_buffer.find_all(
-                                    g->om_global_location(), target, distance, false);
-    for( auto &place : places ) {
-
-        overmap_buffer.reveal(place, reveal_distance, g->levz);
-    }
-}
-
-int iuse::roadmap(player *p, item *it, bool t, point)
-{
-    if( it->already_used_by_player( *p ) ) {
-        p->add_msg_if_player(_("There isn't anything new on the map."));
-        return 0;
-    } else if (g->levz < 0) {
-        p->add_msg_if_player(_("You should read your map when you get to the surface."));
-        return 0;
-    }
-    // Show roads
-    roadmap_targets(p, it, t, "hiway", 0, 0);
-    roadmap_targets(p, it, t, "road", 0, 0);
-    roadmap_targets(p, it, t, "bridge", 0, 0);
-
-    // Show evac shelters
-    roadmap_targets(p, it, t, "shelter", 0, 0);
-    // Show hospital(s)
-    roadmap_targets(p, it, t, "hospital", 0, 0);
-    // Show schools
-    roadmap_targets(p, it, t, "school", 0, 0);
-    // Show police stations
-    roadmap_targets(p, it, t, "police", 0, 0);
-    // Show subway entrances
-    roadmap_targets(p, it, t, "sub_station", 0, 0);
-    // Show banks
-    roadmap_targets(p, it, t, "bank", 0, 0);
-
-    p->add_msg_if_player(m_good, _("You add roads and points of interest to your map."));
-
-    it->mark_as_used_by_player( *p );
-    return 0;
-}
-
-int iuse::survivormap(player *p, item *it, bool t, point)
-{
-    if( it->already_used_by_player( *p ) ) {
-        p->add_msg_if_player(_("There isn't anything new on the map."));
-        return 0;
-    } else if (g->levz < 0) {
-        p->add_msg_if_player(_("You should read your map when you get to the surface."));
-        return 0;
-    }
-    // Show roads
-    roadmap_targets(p, it, t, "hiway", 0, 0);
-    roadmap_targets(p, it, t, "road", 0, 0);
-    roadmap_targets(p, it, t, "bridge", 0, 0);
-
-    // Show pharmacies
-    roadmap_targets(p, it, t, "s_pharm", 0, 0);
-    // Show gun stores
-    roadmap_targets(p, it, t, "s_gun", 0, 0);
-    // Show grocery stores
-    roadmap_targets(p, it, t, "s_grocery", 0, 0);
-    // Show military surplus stores
-    roadmap_targets(p, it, t, "mil_surplus", 0, 0);
-    // Show gas stations
-    roadmap_targets(p, it, t, "s_gas", 0, 0);
-
-    p->add_msg_if_player(m_good, _("You add roads and possible supply points to your map."));
-
-    it->mark_as_used_by_player( *p );
-    return 0;
-}
-
-int iuse::militarymap(player *p, item *it, bool t, point)
-{
-    if( it->already_used_by_player( *p ) ) {
-        p->add_msg_if_player(_("There isn't anything new on the map."));
-        return 0;
-    } else if (g->levz < 0) {
-        p->add_msg_if_player(_("You should read your map when you get to the surface."));
-        return 0;
-    }
-    // Show roads
-    roadmap_targets(p, it, t, "hiway", 0, 0);
-    roadmap_targets(p, it, t, "road", 0, 0);
-    roadmap_targets(p, it, t, "bridge", 0, 0);
-
-    // Show FEMA camps
-    roadmap_targets(p, it, t, "fema_entrance", 0, 0);
-    // Show bunkers
-    roadmap_targets(p, it, t, "bunker", 0, 0);
-    // Show outposts
-    roadmap_targets(p, it, t, "outpost", 0, 0);
-    // Show nuclear silos
-    roadmap_targets(p, it, t, "silo", 0, 0);
-    // Show evac shelters
-    roadmap_targets(p, it, t, "shelter", 0, 0);
-    // Show police stations
-    roadmap_targets(p, it, t, "police", 0, 0);
-
-    p->add_msg_if_player(m_good, _("You add roads and facilities to your map."));
-
-    it->mark_as_used_by_player( *p );
-    return 0;
-}
-
-int iuse::restaurantmap(player *p, item *it, bool t, point)
-{
-    if( it->already_used_by_player( *p ) ) {
-        p->add_msg_if_player(_("There isn't anything new on the map."));
-        return 0;
-    } else if (g->levz < 0) {
-        p->add_msg_if_player(_("You should read your map when you get to the surface."));
-        return 0;
-    }
-    // Show roads
-    roadmap_targets(p, it, t, "hiway", 0, 0);
-    roadmap_targets(p, it, t, "road", 0, 0);
-    roadmap_targets(p, it, t, "bridge", 0, 0);
-
-    // Show coffee shops
-    roadmap_targets(p, it, t, "s_restaurant_coffee", 0, 0);
-    // Show restaurants
-    roadmap_targets(p, it, t, "s_restaurant", 0, 0);
-    // Show bars
-    roadmap_targets(p, it, t, "bar", 0, 0);
-    // Show pizza parlors
-    roadmap_targets(p, it, t, "s_pizza_parlor", 0, 0);
-    // Show fast food joints
-    roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
-
-    p->add_msg_if_player(m_good, _("You add roads and restaurants to your map."));
-
-    it->mark_as_used_by_player( *p );
-    return 0;
-}
-
-int iuse::touristmap(player *p, item *it, bool t, point)
-{
-    if( it->already_used_by_player( *p ) ) {
-        p->add_msg_if_player(_("There isn't anything new on the map."));
-        return 0;
-    } else if (g->levz < 0) {
-        p->add_msg_if_player(_("You should read your map when you get to the surface."));
-        return 0;
-    }
-    // Show roads
-    roadmap_targets(p, it, t, "hiway", 0, 0);
-    roadmap_targets(p, it, t, "road", 0, 0);
-    roadmap_targets(p, it, t, "bridge", 0, 0);
-
-    // Show hotels
-    roadmap_targets(p, it, t, "hotel_tower", 0, 0);
-    // Show restaurants
-    roadmap_targets(p, it, t, "s_restaurant", 0, 0);
-    // Show cathedrals
-    roadmap_targets(p, it, t, "cathedral", 0, 0);
-    // Show fast food joints
-    roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
-    // Show fast megastores
-    roadmap_targets(p, it, t, "megastore", 0, 0);
-
-    p->add_msg_if_player(m_good, _("You add roads and tourist attractions to your map."));
-
-    it->mark_as_used_by_player( *p );
-    return 0;
-}
-
 int iuse::ma_manual(player *p, item *it, bool, point)
 {
     // strip "manual_" from the start of the item id, add the rest to "style_"
@@ -4171,95 +4050,6 @@ int iuse::ma_manual(player *p, item *it, bool, point)
     p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
 
     return 1;
-}
-
-int iuse::picklock(player *p, item *it, bool, point)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Use your pick lock where?"), dirx, diry)) {
-        return 0;
-    }
-    if (dirx == p->posx && diry == p->posy) {
-        p->add_msg_if_player(m_info, _("You pick your nose and your sinuses swing open."));
-        return 0;
-    }
-    ter_id type = g->m.ter(dirx, diry);
-    int npcdex = g->npc_at(dirx, diry);
-    if (npcdex != -1) {
-        p->add_msg_if_player(m_info,
-                             _("You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose"));
-        return 0;
-    }
-
-    int pick_quality = 1;
-    if (it->typeId() == "picklocks") {
-        pick_quality = 5;
-    } else if (it->typeId() == "crude_picklock" || it->typeId() == "hairpin") {
-        pick_quality = 3;
-    }
-
-    std::string door_name;
-    ter_id new_type;
-    std::string open_message = _("With a satisfying click, the lock on the %s opens.");
-    if (type == t_chaingate_l) {
-        door_name = rm_prefix(_("<door_name>gate"));
-        new_type = t_chaingate_c;
-    } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-        door_name = rm_prefix(_("<door_name>door"));
-        new_type = t_door_c;
-    } else if (type == t_door_locked_peep) {
-        door_name = rm_prefix(_("<door_name>door"));
-        new_type = t_door_c_peep;
-    } else if (type == t_door_metal_pickable) {
-        door_name = rm_prefix(_("<door_name>door"));
-        new_type = t_door_metal_c;
-    } else if (type == t_door_bar_locked) {
-        door_name = rm_prefix(_("<door_name>door"));
-        new_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _("The %s swings open...");
-    } else if (type == t_door_c) {
-        add_msg(m_info, _("That door isn't locked."));
-        return 0;
-    } else {
-        add_msg(m_info, _("That cannot be picked."));
-        return 0;
-    }
-
-    p->practice("mechanics", 1);
-    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
-    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2,
-                     p->dex_cur) - it->damage / 2) * pick_quality;
-    int door_roll = dice(4, 30);
-    if (pick_roll >= door_roll) {
-        p->practice("mechanics", 1);
-        p->add_msg_if_player(m_good, open_message.c_str(), door_name.c_str());
-        g->m.ter_set(dirx, diry, new_type);
-    } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
-        it->damage++;
-
-        std::string sStatus = rm_prefix(_("<door_status>damage"));
-        if (it->damage >= 5) {
-            sStatus = rm_prefix(_("<door_status>destroy"));
-        }
-        p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it, and you %s your tool."),
-                             sStatus.c_str());
-    } else {
-        p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it."));
-    }
-    if (type == t_door_locked_alarm && (door_roll + dice(1, 30)) > pick_roll &&
-        it->damage < 100) {
-        g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
-        if (!g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
-        }
-    }
-    // Special handling, normally the item isn't used up, but it is if broken.
-    if (it->damage >= 5) {
-        return 1;
-    }
-
-    return it->type->charges_to_use();
 }
 
 bool pry_nails(player *p, ter_id &type, int dirx, int diry)
@@ -6610,11 +6400,10 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
     item blood("blood", calendar::turn);
     bool drew_blood = false;
-    for (size_t i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
-        item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
-        if (map_it->corpse != NULL && map_it->type->id == "corpse" &&
-            query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
-            blood.corpse = map_it->corpse;
+    for( auto &map_it : g->m.i_at(p->posx, p->posy) ) {
+        if( map_it.corpse != NULL && map_it.type->id == "corpse" &&
+            query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
+            blood.corpse = map_it.corpse;
             drew_blood = true;
         }
     }
@@ -6633,17 +6422,15 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
 void make_zlave(player *p)
 {
-    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
-    std::vector<item *> corpses;
+    auto &items = g->m.i_at(p->posx, p->posy);
+    std::vector<const item *> corpses;
 
     const int cancel = 0;
 
-    for (auto &i : items) {
-        item &it = i;
-
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
-            corpses.push_back(&it);
+    for( auto &it : items ) {
+        if( it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
+            it.corpse->sym == "Z" && it.active && it.item_vars.find("zlave") == it.item_vars.end() ) {
+            corpses.push_back( &it );
         }
     }
 
@@ -6710,8 +6497,8 @@ void make_zlave(player *p)
 
     const int selected_corpse = amenu.ret - 1;
 
-    item *body = corpses[selected_corpse];
-    mtype *mt = body->corpse;
+    const item *body = corpses[selected_corpse];
+    const mtype *mt = body->corpse;
 
     // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
@@ -6790,7 +6577,7 @@ bool static try_to_cut_up(player *p, item *it)
 }
 
 // This is new silent valid_to_cut_up
-bool iuse::valid_to_cut_up(item *it)
+bool iuse::valid_to_cut_up(const item *it)
 {
     // If a material is made of different items than what is in this set, we
     // do not cut it up.
@@ -6981,7 +6768,7 @@ int iuse::knife(player *p, item *it, bool t, point)
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
         kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
     }
-    
+
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -7028,14 +6815,16 @@ int iuse::cut_log_into_planks(player *p, item *it)
 
 int iuse::lumber(player *p, item *it, bool, point)
 {
-    int inventory_index = g->inv(_("Cut up what?"));
-    item *cut = &(p->i_at(inventory_index));
+    int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
+        return itm.type->id == "log";
+    } );
+    item *cut = &( p->i_at( pos ) );
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
     if (cut->type->id == "log") {
-        p->i_rem(inventory_index);
+        p->i_rem( it );
         cut_log_into_planks(p, it);
         return it->type->charges_to_use();
     } else {
@@ -7869,8 +7658,10 @@ int iuse::spray_can(player *p, item *it, bool, point)
  */
 static bool heat_item(player *p)
 {
-    int inventory_index = g->inv(_("Heat up what?"));
-    item *heat = &(p->i_at(inventory_index));
+    int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
+        return itm.is_food() && itm.has_flag("EATEN_HOT");
+    } );
+    item *heat = &( p->i_at(inventory_index ) );
     if (heat->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return false;
@@ -7920,39 +7711,6 @@ int iuse::hotplate(player *p, item *it, bool, point)
     return 0;
 }
 
-int iuse::flask_yeast(player *p, item *it, bool, point)
-{
-    int cult_time = it->brewing_time();
-    if (calendar::turn.get_turn() > (it->bday + cult_time)) {
-        p->add_msg_if_player(_("You open the flask and harvest the culture."));
-        itype_id yeast_id = (it->type->id).substr(6);
-        it->make("flask_glass");
-        it->contents.push_back(item(yeast_id, 0));
-        it->contents[0].charges = 10;
-        return it->type->charges_to_use();
-    } else {
-        p->add_msg_if_player(m_info, _("The yeast isn't done culturing yet."));
-        return 0;
-    }
-}
-
-int iuse::tanning_hide(player *p, item *it, bool, point)
-{
-    if (calendar::turn.get_turn() > (it->bday + 28800)) {
-        p->add_msg_if_player(m_info, _("You carefully unfold the %s and shake it clean."), it->tname().c_str());
-        p->moves -= 150;
-        if (it->type->id == "tanning_hide") {
-        it->make("tanned_hide");
-        } else {
-        it->make("tanned_pelt");
-        }
-        return 0;
-    } else {
-        p->add_msg_if_player(m_info, _("The %s isn't done yet."), it->tname().c_str());
-        return 0;
-    }
-}
-
 int iuse::quiver(player *p, item *it, bool, point)
 {
     int choice = -1;
@@ -7976,8 +7734,10 @@ int iuse::quiver(player *p, item *it, bool, point)
 
     // if quiver is empty or storing more arrows, pull up menu asking what to store
     if (it->contents.empty() || choice == 1) {
-        int inventory_index = g->inv_type(_("Store which arrows?"), IC_AMMO);
-        item *put = &(p->i_at(inventory_index));
+        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
+            return itm.is_ammo() && (itm.ammo_type() == "arrow" || itm.ammo_type() == "bolt");
+        } );
+        item *put = &( p->i_at(inventory_index ) );
         if (put == NULL || put->is_null()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
@@ -8667,8 +8427,11 @@ int iuse::misc_repair(player *p, item *it, bool, point)
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the item to repair."));
-    item *fix = &(p->i_at(inventory_index));
+    int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
+        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("plastic") || 
+                                 itm.made_of("bone") || itm.made_of("chitin") ) ;
+    } );
+    item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
@@ -8759,22 +8522,21 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
             monster &candidate = g->zombie( i );
             if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
                 rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
-                pick_robot.entries.push_back( uimenu_entry( i, true, -1,
-                                                            candidate.name().c_str() ) );
+                pick_robot.addentry( i, true, -1, candidate.name() );
             }
         }
         if( pick_robot.entries.empty() ) {
             p->add_msg_if_player( m_info, _("No enemy robots in range.") );
-                return it->type->charges_to_use();
-            }
-            pick_robot.entries.push_back(uimenu_entry(-1, true, -1, _("Cancel")));
-
-            pick_robot.query();
-            if (pick_robot.ret == -1) {
-                p->add_msg_if_player(m_info, _("Never mind"));
-                return it->type->charges_to_use();
-            }
-            monster *z = &(g->zombie(pick_robot.ret));
+            return it->type->charges_to_use();
+        }
+        pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+        pick_robot.query();
+        const size_t mondex = pick_robot.ret;
+        if( mondex >= g->num_zombies() ) {
+            p->add_msg_if_player(m_info, _("Never mind"));
+            return it->type->charges_to_use();
+        }
+            monster *z = &(g->zombie(mondex));
             p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel("computer") * 10;
             float success = p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
@@ -9980,24 +9742,37 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
 
 static bool hackveh(player *p, item *it, vehicle *veh)
 {
-    if( veh->security == 0 ) {
+    if( !veh->is_locked || !veh->has_security_working() ) {
         return true;
-    } else if( veh->security < 0 ) {
-        p->add_msg_if_player(m_bad, _("This vehicle's security system has locked you out!"));
+    }
+    bool advanced = veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() > 0;
+    if( advanced && veh->is_locked && veh->is_alarm_on ) {
+        p->add_msg_if_player( m_bad, _("This vehicle's security system has locked you out!") );
         return false;
     }
-    
-    if( !query_yn( _("Try to hack this car's security system?") ) ) {
-        return false;
-    }
-    
+
+    int roll = dice( p->skillLevel( "computer" ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
-    int roll = dice( p->skillLevel( "computer" ) + 2, p->int_cur ) - veh->security * 10;
-    p->practice( "computer", veh->security );
-    if( roll < -20 ) {
-        p->add_msg_if_player( m_bad, _("You trigger the security system which locks you out!") );
-        veh->security = -veh->security;
-    } else if( roll < -10 ) {
+    bool success = false;
+    if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
+        effort = 1;
+        p->add_msg_if_player( m_bad, _("You trigger the alarm!") );
+        veh->is_alarm_on = true;
+    } else if( roll >= 20 ) { // Don't bother the player if it's trivial
+        effort = 1;
+        p->add_msg_if_player( m_good, _("You quickly bypass the security system!") );
+        success = true;
+    }
+
+    if( effort == 0 && !query_yn( _("Try to hack this car's security system?") ) ) {
+        // Scanning for security systems isn't free
+        p->moves -= 100;
+        it->charges -= 1;
+        return false;
+    }
+
+    p->practice( "computer", advanced ? 10 : 3 );
+    if( roll < -10 ) {
         effort = rng( 4, 8 );
         p->add_msg_if_player( m_bad, _("You waste some time, but fail to affect the security system.") );
     } else if( roll < 0 ) {
@@ -10005,17 +9780,16 @@ static bool hackveh(player *p, item *it, vehicle *veh)
         p->add_msg_if_player( m_bad, _("You fail to affect the security system.") );
     } else if( roll < 20 ) {
         effort = rng( 2, 8 );
-        p->add_msg_if_player( m_mixed, _("You take some time, but manage to break the security system!") );
-        veh->security = 0;
-    } else {
-        effort = 1;
-        p->add_msg_if_player( m_good, _("You quickly bypass the security system!") );
-        veh->security = 0;
-    }
+        p->add_msg_if_player( m_mixed, _("You take some time, but manage to bypass the security system!") );
+        success = true;
+    } 
     
-    p->moves -= effort;
+    p->moves -= effort * 100;
     it->charges -= effort;
-    return veh->security == 0;
+    if( success && advanced ) { // Unlock controls, but only if they're drive-by-wire
+        veh->is_locked = false;
+    }
+    return success;
 }
 
 int iuse::remoteveh(player *p, item *it, bool t, point)
@@ -10031,16 +9805,16 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
 
         return it->type->charges_to_use();
     }
-    
+
     bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
-    int choice = menu(true, _("What do with remote vehicle control:"), _("Nothing"), 
+    int choice = menu(true, _("What to do with remote vehicle control:"), _("Nothing"), 
                       controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
                       _("Execute one vehicle action"), NULL);
 
    if (choice < 2 || choice > 3 ) {
         return 0;
     }
-    
+
     if( choice == 2 && controlling ) {
         it->active = false;
         p->remove_value( "remote_controlling_vehicle" );
@@ -10055,18 +9829,26 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
     vehicle* veh = g->m.veh_at( target.x, target.y );
     
     if( veh == nullptr ) {
-        popup(_("No vehicles here!"));
+        popup( _("No vehicles here!") );
         return 0;
-    } 
-    
+    }
+
+    if( veh->fuel_left( "battery", true ) == 0 ) {
+        popup( _("This vehicle has no power!") );
+    }
+
     if( !hackveh( p, it, veh ) ) {
         return 0;
     }
-    
+
     if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
-        popup(_("This vehicle has no working controls!"));
+        popup( _("This vehicle has no working controls.") );
         return 0;
     } else if( choice == 2 ) {
+        if( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() == 0 ) {
+            popup( _("This vehicle has only mechanical controls and can't be driven remotely.") );
+            return 0;
+        }
         std::stringstream car_location_string;
         // Copypaste from RC car.
         car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
@@ -10383,8 +10165,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                 has_tools = false;
             }
 
-            if (!cinv.has_tools("screwdriver", 1)) {
-                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "screwdriver" ).c_str());
+            if( !cinv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
                 has_tools = false;
             }
 

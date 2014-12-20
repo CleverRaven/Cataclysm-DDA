@@ -962,8 +962,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Check for free container space for the whole liquid item
         bool has_container_for(const item &liquid);
-        bool has_item_with_flag( std::string flag )
-        const; // Has a weapon, inventory item or worn item with flag
+        // Has a weapon, inventory item or worn item with flag
+        bool has_item_with_flag( std::string flag ) const;
+        // Has amount (or more) items with at least the required quality level.
+        bool has_items_with_quality( const std::string &quality_id, int level, int amount ) const;
         bool has_item(int position);
         /**
          * Check whether a specific item is in the players possession.
@@ -993,7 +995,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( recipe *rec );
 
-        bool studied_all_recipes(it_book *book);
+        bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
         bool crafting_allowed(); // is morale high enough to craft?
@@ -1015,8 +1017,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             const inventory &crafting_inv, bool print_msg);
+        bool can_disassemble( const item *dis_item, const recipe *cur_recipe,
+                              const inventory &crafting_inv, bool print_msg ) const;
         void disassemble(int pos = INT_MAX);
         void complete_disassemble();
 
@@ -1121,6 +1123,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         inventory inv;
         itype_id last_item;
         std::vector<item> worn;
+        std::map<char, itype_id> assigned_invlet;
+
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;
@@ -1258,8 +1262,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_enough_charges(const item &it, bool show_msg) const;
 
-        bool can_study_recipe(it_book *book);
-        bool try_study_recipe(it_book *book);
+        bool can_study_recipe(const itype &book);
+        bool try_study_recipe(const itype &book);
 
         std::vector<point> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course

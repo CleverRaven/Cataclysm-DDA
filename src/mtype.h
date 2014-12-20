@@ -67,6 +67,7 @@ enum m_flag {
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
+    MF_BORES,               // Tunnels through just about anything
     MF_POISON,              // Poisonous to eat
     MF_VENOM,               // Attack may poison the player
     MF_BADVENOM,            // Attack may SEVERELY poison the player

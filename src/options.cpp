@@ -586,7 +586,7 @@ void initOptions()
     optionNames["zh_CN"] = "中文(天朝)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr_FR,de_DE,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
@@ -712,6 +712,11 @@ void initOptions()
                                            _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
                                            "false,centered,edge",  "centered"
                                           );
+                                          
+    OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
+                                        _("If false, new inventory items will only get letters assigned if they had one before."),
+                                        true
+                                       );
 
     mOptionsSort["interface"]++;
 

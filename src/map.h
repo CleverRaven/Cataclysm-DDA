@@ -473,13 +473,24 @@ void add_corpse(int x, int y);
  void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
 
 // Items
- std::vector<item>& i_at(int x, int y);
+ // Const item accessor for examining items on the map without modifying them.
+ const std::vector<item>& i_at(int x, int y) const;
+ // Non-const item accessor for rare cases where items need to be modified en masse.
+ // Do not insert or remove items using this, it can break assumptions about caching.
+ std::vector<item>& i_at_mutable(int x, int y);
+ // Accessors to retrieve a mutable reference to an item.
+ item *get_item( int x, int y, int i );
+ item *get_item( const int x, const int y, std::vector<item>::const_iterator i );
  itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- void i_rem(const int x, const int y, const int index);
+ // Both i_rem() methods that return values act like conatiner::erase(),
+ // returning an iterator to the next item after removal.
+ std::vector<item>::const_iterator i_rem( const int x, const int y,
+                                          std::vector<item>::const_iterator it );
+ int i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
@@ -491,6 +502,7 @@ void add_corpse(int x, int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
+ void add_item(const int x, const int y, item new_item, int maxitems = 64);
  void process_active_items();
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
@@ -732,11 +744,11 @@ protected:
 
  int my_MAPSIZE;
 
- std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
- ter_id nulter;  // Returned when &ter() is asked for an OOB value
+ mutable std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
+ mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
  mutable field nulfield; // Returned when &field_at() is asked for an OOB value
- vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int null_temperature;  // Because radiation does it too
+ mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
+ mutable int null_temperature;  // Because radiation does it too
 
  bool veh_in_active_range;
 
@@ -790,7 +802,6 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
- void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>

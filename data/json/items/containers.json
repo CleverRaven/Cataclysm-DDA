@@ -32,7 +32,9 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 2,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "cup_plastic",
@@ -50,7 +52,8 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true
     },
     {
         "id": "bottle_glass",
@@ -68,7 +71,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 3,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "can_drink",
@@ -86,7 +91,9 @@
         "to_hit": -3,
         "material": "aluminum",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT", "PRESERVES"],
+        "rigid": true,
+        "watertight": true,
+        "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
@@ -105,7 +112,7 @@
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-        "flags":[ "RIGID" ]
+        "rigid": true
     },
     {
         "id": "can_food",
@@ -123,7 +130,9 @@
         "to_hit": 0,
         "material": "steel",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT", "PRESERVES"],
+        "rigid": true,
+        "watertight": true,
+        "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
@@ -143,7 +152,7 @@
         "to_hit": 0,
         "material": "paper",
         "contains": 4,
-        "flags": ["RIGID"]
+        "rigid": true
     },
     {
         "id": "canteen",
@@ -161,10 +170,19 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 6,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 0,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "2lcanteen",
@@ -182,10 +200,19 @@
         "to_hit": -1,
         "material": "plastic",
         "contains": 10,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "jerrycan",
@@ -203,7 +230,9 @@
         "to_hit": -2,
         "material": "plastic",
         "contains": 40,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "jug_plastic",
@@ -221,7 +250,9 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 15,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "flask_glass",
@@ -239,7 +270,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 1,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "waterskin",
@@ -257,10 +290,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 6,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 0,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "waterskin2",
@@ -278,10 +319,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 12,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "WAIST"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "waterskin3",
@@ -299,10 +348,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 20,
+        "armor_data" : {
         "covers" : ["TORSO"],
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags": ["SEALS", "WATERTIGHT", "IS_ARMOR", "BELTED"]
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["BELTED"]
     },
     {
         "id": "jerrycan_big",
@@ -320,7 +377,9 @@
         "to_hit": -3,
         "material": "steel",
         "contains": 100,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank",
@@ -338,7 +397,9 @@
         "to_hit" : -4,
         "contains" : 225,
         "material" : ["steel", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank_small",
@@ -356,7 +417,9 @@
         "to_hit" : -3,
         "contains" : 45,
         "material" : ["aluminum", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank_little",
@@ -374,7 +437,9 @@
         "to_hit" : -2,
         "contains" : 5,
         "material" : ["aluminum", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "keg",
@@ -392,7 +457,9 @@
         "to_hit": -5,
         "material": "aluminum",
         "contains": 200,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "jar_glass",
@@ -410,7 +477,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -429,7 +498,9 @@
         "to_hit": -1,
         "material": "glass",
         "contains": 12,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -448,7 +519,9 @@
         "to_hit": 1,
         "material": "aluminum",
         "contains": 1,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id":"bowl_plastic",
@@ -466,7 +539,9 @@
         "to_hit":1,
         "material":"plastic",
         "contains":1,
-        "flags":[ "RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "wrapper",
@@ -501,7 +576,9 @@
         "to_hit": -5,
         "material": "steel",
         "contains": 825,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "30gal_drum",
@@ -519,7 +596,9 @@
         "to_hit": -5,
         "material": "plastic",
         "contains": 450,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "wooden_barrel",
@@ -537,7 +616,9 @@
         "to_hit": -5,
         "material": ["wood", "steel"],
         "contains": 400,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "bag_canvas",
@@ -555,7 +636,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 60,
-        "flags": [ "SEALS" ]
+        "seals": true
     },
     {
         "id": "bag_canvas_small",
@@ -573,7 +654,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 4,
-        "flags": [ "SEALS" ]
+        "seals": true
     },
     {
         "id": "bottle_plastic_small",
@@ -591,6 +672,89 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "jug_clay",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "clay jug",
+        "category": "other",
+        "description": "A clay container with a lid, used to hold and pour liquids.",
+        "price": 100,
+        "weight": 400,
+        "volume": 4,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": 0,
+        "material": "clay",
+        "contains": 4,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "bowl_clay",
+        "type": "CONTAINER",
+        "color": "brown",
+        "symbol": ")",
+        "name": "clay bowl",
+        "category": "other",
+        "description": "A clay bowl. Can be used as a container or as a tool. Holds 250 ml of liquid.",
+        "cutting": 0,
+        "price": 100,
+        "weight": 60,
+        "volume": 1,
+        "bashing": 0,
+        "to_hit": -1,
+        "material": "clay",
+        "contains" : 1,
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "qualities": [["CONTAIN", 1]]
+    },
+    {
+        "id": "clay_watercont",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "large clay pot",
+        "category": "other",
+        "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+        "price": 10000,
+        "weight": 4887,
+        "volume": 150,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -2,
+        "material": "clay",
+        "contains": 150,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "clay_canister",
+        "type": "CONTAINER",
+        "symbol": "*",
+        "color": "brown",
+        "name": "clay canister",
+        "description": "A fragile clay vessel. It can be used to make crude impact grenades or to store liquid.",
+        "price": 1000,
+        "weight": 268,
+        "volume": 1,
+        "category": "other",
+        "bashing": -1,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "clay",
+        "contains": 1,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     }
 ]

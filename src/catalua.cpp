@@ -221,10 +221,6 @@ it_gunmod *get_gunmod_type(std::string name)
 {
     return dynamic_cast<it_gunmod *>(item::find_type(name));
 }
-it_armor *get_armor_type(std::string name)
-{
-    return dynamic_cast<it_armor *>(item::find_type(name));
-}
 
 
 // Manually implemented lua functions
@@ -287,7 +283,8 @@ static int game_items_at(lua_State *L)
     int x = lua_tointeger(L, 1);
     int y = lua_tointeger(L, 2);
 
-    std::vector<item> &items = g->m.i_at(x, y);
+    // This breaks any caching we add to the map for items.
+    std::vector<item> &items = g->m.i_at_mutable(x, y);
 
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
 
@@ -399,13 +396,7 @@ static int game_item_type(lua_State *L)
 // game.remove_item(x, y, item)
 void game_remove_item(int x, int y, item *it)
 {
-    std::vector<item> &items = g->m.i_at(x, y);
-
-    for( std::vector<item>::iterator iter = items.begin(); iter != items.end(); ++iter ) {
-        if(&*iter == it) {
-            items.erase(iter);
-        }
-    }
+    g->m.i_rem( x, y, it );
 }
 
 // x, y = choose_adjacent(query_string, x, y)

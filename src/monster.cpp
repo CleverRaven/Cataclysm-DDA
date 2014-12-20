@@ -633,8 +633,8 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
         for (int x = _posx - 3; x <= _posx + 3; x++) {
             for (int y = _posy - 3; y <= _posy + 3; y++) {
                 if (check_meat) {
-                    std::vector<item> *items = &(g->m.i_at(x, y));
-                    for( auto &item : *items ) {
+                    auto &items = g->m.i_at(x, y);
+                    for( auto &item : items ) {
                         if( item.type->id == "corpse" || item.type->id == "meat" ||
                             item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
                             ret += 3;
@@ -975,7 +975,7 @@ bool monster::move_effects()
     if (has_effect("heavysnare")) {
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
-                remove_effect("lightsnare");
+                remove_effect("heavysnare");
                 g->m.spawn_item(xpos(), ypos(), "rope_6");
                 g->m.spawn_item(xpos(), ypos(), "snare_trigger");
                 if (u_see_me) {
@@ -988,7 +988,7 @@ bool monster::move_effects()
     if (has_effect("beartrap")) {
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
-                remove_effect("lightsnare");
+                remove_effect("beartrap");
                 g->m.spawn_item(xpos(), ypos(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
@@ -1278,12 +1278,14 @@ void monster::die(Creature* nkiller) {
                                   name().c_str() );
         }
     }
-    for( const auto &it : inv ) {
-        g->m.add_item_or_charges( posx(), posy(), it );
+    if( !is_hallucination() ) {
+        for( const auto &it : inv ) {
+            g->m.add_item_or_charges( posx(), posy(), it );
+        }
     }
 
     // If we're a queen, make nearby groups of our type start to die out
-    if( has_flag( MF_QUEEN ) ) {
+    if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
         const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
@@ -1302,7 +1304,7 @@ void monster::die(Creature* nkiller) {
         }
     }
     // If we're a mission monster, update the mission
-    if (mission_id != -1) {
+    if (!is_hallucination() && mission_id != -1) {
         mission_type *misstype = g->find_mission_type(mission_id);
         if (misstype->goal == MGOAL_FIND_MONSTER) {
             g->fail_mission(mission_id);
@@ -1317,14 +1319,13 @@ void monster::die(Creature* nkiller) {
         //Hallucinations always just disappear
         md.disappear(this);
         return;
-    } else {
-        //Not a hallucination, go process the death effects.
-        std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-        void (mdeath::*func)(monster *);
-        for( auto &deathfunction : deathfunctions ) {
-            func = deathfunction;
-            (md.*func)(this);
-        }
+    }
+    //Not a hallucination, go process the death effects.
+    std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
+    void (mdeath::*func)(monster *);
+    for( auto &deathfunction : deathfunctions ) {
+        func = deathfunction;
+        (md.*func)(this);
     }
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
@@ -1458,6 +1459,9 @@ void monster::process_effects()
 
 bool monster::make_fungus()
 {
+    if( is_hallucination() ) {
+        return true;
+    }
     char polypick = 0;
     std::string tid = type->id;
     if (type->in_species("FUNGUS")) { // No friendly-fungalizing ;-)

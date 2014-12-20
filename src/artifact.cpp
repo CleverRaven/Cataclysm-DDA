@@ -249,11 +249,24 @@ it_artifact_tool::it_artifact_tool() : it_tool()
     use_methods.push_back( &iuse::artifact );
 };
 
-it_artifact_armor::it_artifact_armor() : it_armor()
+it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
 {
+    use_methods.push_back( &iuse::artifact );
+    deserialize( jo );
+}
+
+it_artifact_armor::it_artifact_armor() : itype()
+{
+    armor.reset( new islot_armor() );
     id = item_controller->create_artifact_id();
     price = 0;
 };
+
+it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
+{
+    armor.reset( new islot_armor() );
+    deserialize( jo );
+}
 
 void init_artifacts()
 {
@@ -783,13 +796,13 @@ std::string new_artifact()
         art->melee_dam = info->melee_bash;
         art->melee_cut = info->melee_cut;
         art->m_to_hit = info->melee_hit;
-        art->covers = info->covers;
-        art->encumber = info->encumb;
-        art->coverage = info->coverage;
-        art->thickness = info->thickness;
-        art->env_resist = info->env_resist;
-        art->warmth = info->warmth;
-        art->storage = info->storage;
+        art->armor->covers = info->covers;
+        art->armor->encumber = info->encumb;
+        art->armor->coverage = info->coverage;
+        art->armor->thickness = info->thickness;
+        art->armor->env_resist = info->env_resist;
+        art->armor->warmth = info->warmth;
+        art->armor->storage = info->storage;
         std::stringstream description;
         description << string_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
@@ -814,31 +827,31 @@ std::string new_artifact()
                     art->weight = 1;
                 }
 
-                art->encumber += modinfo->encumb;
+                art->armor->encumber += modinfo->encumb;
 
-                if (modinfo->coverage > 0 || art->coverage > abs(modinfo->coverage)) {
-                    art->coverage += modinfo->coverage;
+                if (modinfo->coverage > 0 || art->armor->coverage > abs(modinfo->coverage)) {
+                    art->armor->coverage += modinfo->coverage;
                 } else {
-                    art->coverage = 0;
+                    art->armor->coverage = 0;
                 }
 
-                if (modinfo->thickness > 0 || art->thickness > abs(modinfo->thickness)) {
-                    art->thickness += modinfo->thickness;
+                if (modinfo->thickness > 0 || art->armor->thickness > abs(modinfo->thickness)) {
+                    art->armor->thickness += modinfo->thickness;
                 } else {
-                    art->thickness = 0;
+                    art->armor->thickness = 0;
                 }
 
-                if (modinfo->env_resist > 0 || art->env_resist > abs(modinfo->env_resist)) {
-                    art->env_resist += modinfo->env_resist;
+                if (modinfo->env_resist > 0 || art->armor->env_resist > abs(modinfo->env_resist)) {
+                    art->armor->env_resist += modinfo->env_resist;
                 } else {
-                    art->env_resist = 0;
+                    art->armor->env_resist = 0;
                 }
-                art->warmth += modinfo->warmth;
+                art->armor->warmth += modinfo->warmth;
 
-                if (modinfo->storage > 0 || art->storage > abs(modinfo->storage)) {
-                    art->storage += modinfo->storage;
+                if (modinfo->storage > 0 || art->armor->storage > abs(modinfo->storage)) {
+                    art->armor->storage += modinfo->storage;
                 } else {
-                    art->storage = 0;
+                    art->armor->storage = 0;
                 }
 
                 description << string_format(info->plural ?
@@ -1214,14 +1227,14 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    jo.read( "covers", covers);
-    encumber = jo.get_int("encumber");
-    coverage = jo.get_int("coverage");
-    thickness = jo.get_int("material_thickness");
-    env_resist = jo.get_int("env_resist");
-    warmth = jo.get_int("warmth");
-    storage = jo.get_int("storage");
-    power_armor = jo.get_bool("power_armor");
+    jo.read( "covers", armor->covers);
+    armor->encumber = jo.get_int("encumber");
+    armor->coverage = jo.get_int("coverage");
+    armor->thickness = jo.get_int("material_thickness");
+    armor->env_resist = jo.get_int("env_resist");
+    armor->warmth = jo.get_int("warmth");
+    armor->storage = jo.get_int("storage");
+    armor->power_armor = jo.get_bool("power_armor");
 
     JsonArray ja = jo.get_array("effects_worn");
     while (ja.has_more()) {
@@ -1340,14 +1353,14 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // armor data
-    json.member("covers", covers);
-    json.member("encumber", encumber);
-    json.member("coverage", coverage);
-    json.member("material_thickness", thickness);
-    json.member("env_resist", env_resist);
-    json.member("warmth", warmth);
-    json.member("storage", storage);
-    json.member("power_armor", power_armor);
+    json.member("covers", armor->covers);
+    json.member("encumber", armor->encumber);
+    json.member("coverage", armor->coverage);
+    json.member("material_thickness", armor->thickness);
+    json.member("env_resist", armor->env_resist);
+    json.member("warmth", armor->warmth);
+    json.member("storage", armor->storage);
+    json.member("power_armor", armor->power_armor);
 
     // artifact data
     json.member("effects_worn", effects_worn);

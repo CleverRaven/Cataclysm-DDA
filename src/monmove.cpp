@@ -223,7 +223,7 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if (has_flag(MF_ABSORBS)) {
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) ) {
         if(!g->m.i_at(posx(), posy()).empty()) {
             add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
@@ -304,7 +304,7 @@ void monster::move()
         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
         (can_move_to(plans[0].x, plans[0].y) ||
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-         (has_flag(MF_BASHES) &&
+         ( (has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
           g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0) ) ) {
         // CONCRETE PLANS - Most likely based on sight
         next = plans[0];
@@ -392,7 +392,7 @@ void monster::friendly_move()
     //If we successfully calculated a plan in the generic monster movement function, begin executing it.
     if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
         (can_move_to(plans[0].x, plans[0].y) ||
-         (has_flag(MF_BASHES) &&
+         ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
           g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0))) {
         next = plans[0];
         plans.erase(plans.begin());
@@ -439,7 +439,8 @@ point monster::scent_move()
             int mon = g->mon_at(nx, ny);
             if( (mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
                 (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
-                 (has_flag(MF_BASHES) && g->m.bash_rating(bash_estimate(), nx, ny) >= 0))) {
+                 ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
+                 g->m.bash_rating(bash_estimate(), nx, ny) >= 0))) {
                 if ((!fleeing && smell > maxsmell) || (fleeing && smell < minsmell)) {
                     smoves.clear();
                     pbuff.x = nx;
@@ -488,54 +489,54 @@ point monster::wander_next()
 
     if (xbest) {
         if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-            (has_flag(MF_BASHES) &&
+            ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
              g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
         } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
         } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
         } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
             next.y = y3;
         } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
         }
     } else {
         if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-            (has_flag(MF_BASHES) &&
+            ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
              g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
         } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
         } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
         } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
         } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-                   (has_flag(MF_BASHES) &&
+                   ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
             next.y = y3;
@@ -622,7 +623,7 @@ int monster::bash_at(int x, int y) {
        return 0;
     }
     bool try_bash = !can_move_to(x, y) || one_in(3);
-    bool can_bash = g->m.is_bashable(x, y) && has_flag(MF_BASHES);
+    bool can_bash = g->m.is_bashable(x, y) && (has_flag(MF_BASHES) || has_flag(MF_BORES));
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( point(x, y) );
 
@@ -646,8 +647,10 @@ int monster::bash_estimate()
 
 int monster::bash_skill()
 {
-    int ret = type->melee_dice * type->melee_sides;
-    if (has_flag(MF_DESTROYS)) {
+    int ret = type->melee_dice * type->melee_sides; // IOW, the critter's max bashing damage
+    if (has_flag(MF_BORES)) {
+        ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
+    } else if (has_flag(MF_DESTROYS)) {
         ret *= 2.5;
     }
     return ret;
@@ -679,7 +682,7 @@ int monster::group_bash_skill( point target )
                 break;
             }
             monster &helpermon = g->zombie( mondex );
-            if( !helpermon.has_flag(MF_GROUP_BASH) ) {
+            if( !helpermon.has_flag(MF_GROUP_BASH) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
             }
@@ -920,6 +923,10 @@ void monster::knock_back_from(int x, int y)
 {
  if (x == posx() && y == posy())
   return; // No effect
+    if( is_hallucination() ) {
+        die( nullptr );
+        return;
+    }
  point to(posx(), posy());
  if (x < posx())
   to.x++;
@@ -934,6 +941,11 @@ void monster::knock_back_from(int x, int y)
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
+    if( mondex != -1 && g->zombie( mondex ).is_hallucination() ) {
+        // hallucinations should not affect real monsters. If they interfer, just remove them.
+        g->zombie( mondex ).die( this );
+        mondex = -1;
+    }
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   apply_damage( z, bp_torso, z->type->size );

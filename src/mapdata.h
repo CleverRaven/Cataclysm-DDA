@@ -50,6 +50,8 @@ struct map_bash_info {
     int str_min_roll;       // lower bound of success check; defaults to str_min
     int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
+    int sound_vol;          // sound volume of breaking terrain/furniture
+    int sound_fail_vol;     // sound volume on fail
     bool destroy_only;      // Only used for destroying, not normally bashable
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
     std::string sound;      // sound made on success ('You hear a "smash!"')
@@ -57,8 +59,8 @@ struct map_bash_info {
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false),
-                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
+                      destroy_only(false), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {

@@ -1326,7 +1326,7 @@ void npc::find_item()
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
     int linet;
-    item *wanted = NULL;
+    const item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
     }
@@ -1343,7 +1343,7 @@ void npc::find_item()
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
-                std::vector<item> &i = g->m.i_at(x, y);
+                auto &i = g->m.i_at(x, y);
                 for( auto &elem : i ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
@@ -1384,40 +1384,42 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    std::vector<item> *items = &(g->m.i_at(itx, ity));
-    int total_volume = 0, total_weight = 0; // How much the items will add
+    auto &items = g->m.i_at(itx, ity);
+    int total_volume = 0;
+    int total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
 
-    for ( size_t i = 0; i < items->size(); i++ ) {
-        const item &item = ( *items ) [i];
-        int itval = value( item ), vol = item.volume(),
-            wgt = item.weight();
+    for( size_t i = 0; i < items.size(); i++ ) {
+        const item &item = items[i];
+        int itval = value( item );
+        int vol = item.volume();
+        int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
              ( can_pickVolume( total_volume + vol ) &&
                can_pickWeight( total_weight + wgt ) ) &&
-             !item.made_of( LIQUID )
-           ) {
+             !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
             total_volume += vol;
             total_weight += wgt;
         }
     }
     // Describe the pickup to the player
-    bool u_see_me = g->u_see(posx, posy), u_see_items = g->u_see(itx, ity);
+    bool u_see_me = g->u_see(posx, posy);
+    bool u_see_items = g->u_see(itx, ity);
     if (u_see_me) {
         if (pickup.size() == 1) {
-            if (u_see_items)
+            if (u_see_items) {
                 add_msg(_("%s picks up a %s."), name.c_str(),
-                        (*items)[pickup[0]].tname().c_str());
-            else {
+                        items[pickup[0]].tname().c_str());
+            } else {
                 add_msg(_("%s picks something up."), name.c_str());
             }
         } else if (pickup.size() == 2) {
-            if (u_see_items)
+            if (u_see_items) {
                 add_msg(_("%s picks up a %s and a %s."), name.c_str(),
-                        (*items)[pickup[0]].tname().c_str(),
-                        (*items)[pickup[1]].tname().c_str());
-            else {
+                        items[pickup[0]].tname().c_str(),
+                        items[pickup[1]].tname().c_str());
+            } else {
                 add_msg(_("%s picks up a couple of items."), name.c_str());
             }
         } else {
@@ -1426,22 +1428,22 @@ void npc::pick_up_item()
     } else if (u_see_items) {
         if (pickup.size() == 1) {
             add_msg(_("Someone picks up a %s."),
-                    (*items)[pickup[0]].tname().c_str());
-        } else if (pickup.size() == 2)
+                    items[pickup[0]].tname().c_str());
+        } else if (pickup.size() == 2) {
             add_msg(_("Someone picks up a %s and a %s"),
-                    (*items)[pickup[0]].tname().c_str(),
-                    (*items)[pickup[1]].tname().c_str());
-        else {
+                    items[pickup[0]].tname().c_str(),
+                    items[pickup[1]].tname().c_str());
+        } else {
             add_msg(_("Someone picks up several items."));
         }
     }
 
     for (auto &i : pickup) {
-        int itval = value((*items)[i]);
+        int itval = value(items[i]);
         if (itval < worst_item_value) {
             worst_item_value = itval;
         }
-        i_add((*items)[i]);
+        i_add(items[i]);
     }
     for (auto &i : pickup) {
         g->m.i_rem(itx, ity, i);

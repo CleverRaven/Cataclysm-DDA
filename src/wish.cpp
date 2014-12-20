@@ -251,6 +251,7 @@ class wish_monster_callback: public uimenu_callback
         int lastent;           // last menu entry
         std::string msg;       // feedback message
         bool friendly;         // spawn friendly critter?
+        bool hallucination;
         int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
@@ -261,6 +262,7 @@ class wish_monster_callback: public uimenu_callback
         {
             started = false;
             friendly = false;
+            hallucination = false;
             group = 0;
             lastent = -2;
             w_info = NULL;
@@ -285,6 +287,9 @@ class wish_monster_callback: public uimenu_callback
                 return true;  // tell menu we handled keypress
             } else if( key == 'i' ) {
                 group++;
+                return true;
+            } else if( key == 'h' ) {
+                hallucination = !hallucination;
                 return true;
             } else if( key == 'd' ) {
                 group = std::max( 1, group - 1 );
@@ -313,11 +318,14 @@ class wish_monster_callback: public uimenu_callback
             std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
+            if( hallucination ) {
+                wprintw( w_info, _( " (hallucination)" ) );
+            }
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
             mvwprintw(w_info, getmaxy(w_info) - 2, 0,
-                      _("[/] find, [f]riendly, [i]ncrease group, [d]ecrease group, [q]uit"));
+                      _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu)
@@ -363,6 +371,9 @@ void game::wishmonster(int x, int y)
             monster mon = monster(GetMType(wmenu.ret));
             if (cb->friendly) {
                 mon.friendly = -1;
+            }
+            if (cb->hallucination) {
+                mon.hallucination = true;
             }
             point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
             if (spawn.x != -1) {
@@ -464,6 +475,7 @@ void game::wishitem( player *p, int x, int y)
                 for (int i = 0; i < amount; i++) {
                     p->i_add(granted);
                 }
+                p->invalidate_crafting_inventory();
             } else if ( x >= 0 && y >= 0 ) {
                 m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';

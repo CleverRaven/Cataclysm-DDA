@@ -188,7 +188,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
-- ```DESTROYS``` Bashes down walls and more.
+- ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
+- ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
 - ```BADVENOM``` Attack may **severely** poison the player.
@@ -655,13 +656,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BREW``` ... Can be put into fermenting vat.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-
-## Containers
-
-- ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
-- ```WATERTIGHT``` Can hold liquids.
-- ```SEALS``` Can be resealed.
-- ```PRESERVES``` Contents do not spoil.
 
 ## Melee
 

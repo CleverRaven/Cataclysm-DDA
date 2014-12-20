@@ -21,9 +21,10 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-#define num_fuel_types 6
+#define num_fuel_types 7
 extern const ammotype fuel_types[num_fuel_types];
 extern const nc_color fuel_colors[num_fuel_types];
+extern const int fuel_coeff[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -678,6 +679,16 @@ public:
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p,bool on);
+    //true if an engine exists with specified type
+    //If enabled true, this engine must be enabled to return true
+    bool has_engine_type(const ammotype  & ft, bool enabled);
+    //true if an engine exists without the specified type
+    //If enabled true, this engine must be enabled to return true
+    bool has_engine_type_not(const ammotype  & ft, bool enabled);
+    //prints message relating to vehicle start failure
+    void msg_start_engine_fail();
+    //if necessary, damage this engine
+    void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
 
@@ -748,10 +759,7 @@ public:
     std::string music_id;    // what music storage device is in the stereo
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
-    bool engine_on;     // engine on/off
-    bool has_pedals;
-    bool has_paddles;
-    bool has_hand_rims;
+    bool engine_on;     // at least one engine is on, of any type
     bool lights_on;     // lights on/off
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
@@ -775,7 +783,6 @@ public:
     int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
-    int security;           // security level for hacking/breaking in
 };
 
 #endif

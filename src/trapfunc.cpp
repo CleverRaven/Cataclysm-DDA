@@ -8,10 +8,9 @@
 float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
-    for( auto &elem : g->m.i_at( x, y ) ) {
-        item &j = elem;
-        if (j.type->id == "corpse") {
-            corpse_volume += j.volume();
+    for( auto &pit_content : g->m.i_at( x, y ) ) {
+        if( pit_content.type->id == "corpse") {
+            corpse_volume += pit_content.volume();
         }
     }
 
@@ -62,7 +61,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
         } else {
             hit = bp_leg_r;
         }
-        
+
         // Messages
         c->add_memorial_log(pgettext("memorial_male", "Caught by a beartrap."),
                             pgettext("memorial_female", "Caught by a beartrap."));

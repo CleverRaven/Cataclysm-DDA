@@ -1823,8 +1823,10 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             veh_type = "bicycle";
         } else if (rc <= 75) {
             veh_type = "rara_x"; //The Solar Car Toyota RaRa X
-        } else if (rc <= 80) {
+        } else if (rc <= 77) {
             veh_type = "unicycle";
+        } else if (rc <= 82) {
+            veh_type = "bicycle_electric";
         } else if (rc <= 90) {
             veh_type = "motorcycle";
         } else {
@@ -2281,12 +2283,16 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         if (one_in(2)) { //dining table in the kitchen
             square_furn(m, f_table, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1, int((x1 + x2) / 2),
                         int((y1 + y2) / 2) );
+            m->place_items("dining", 20, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1,
+                           int((x1 + x2) / 2), int((y1 + y2) / 2), false, 0);
         }
         if (one_in(2)) {
             for (int i = 0; i <= 2; i++) {
                 pos_x1 = rng(x1 + 2, x2 - 2);
                 pos_y1 = rng(y1 + 1, y2 - 1);
-                if (m->ter(pos_x1, pos_y1) == t_floor) {
+                if (m->ter(pos_x1, pos_y1) == t_floor && !(m->furn(pos_x1, pos_y1) == f_cupboard ||
+                    m->furn(pos_x1, pos_y1) == f_oven || m->furn(pos_x1, pos_y1) == f_sink ||
+                    m->furn(pos_x1, pos_y1) == f_fridge)) {
                     m->furn_set(pos_x1, pos_y1, f_chair);
                 }
             }

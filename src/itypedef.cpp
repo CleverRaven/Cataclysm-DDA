@@ -67,6 +67,9 @@ void Item_factory::init_old()
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
                   '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
     itypes["toolset"]->item_tags.insert( "PSEUDO" );
+    itypes["toolset"]->qualities[ "WRENCH" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M_FINE" ] = 1;
     // For smoking drugs
     add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
@@ -99,11 +102,6 @@ A piece of mathematical software."));
 
     SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
 Medical data on zombie blood."));
-
-    std::vector<std::string> paper_material = { "paper" };
-    add_item_type( new it_macguffin( "note", 0, "note", "notes",
-                                     _("A hand-written paper note."), '?', c_white,
-                                     paper_material, 3, 0, 0, 0, 0, true, &iuse::mcg_note ) );
 
     itype *m_missing_item = new itype();
     // intentionally left untranslated

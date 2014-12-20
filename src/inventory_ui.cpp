@@ -318,6 +318,9 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         }
         nc_color name_color = it.color_in_inventory();
         nc_color invlet_color = c_white;
+        if (g->u.assigned_invlet.count(it.invlet)) {
+            invlet_color = c_yellow;
+        }
         if (a + current_page_offset == selected) {
             name_color = selected_line_color;
             invlet_color = selected_line_color;
@@ -399,10 +402,10 @@ void inventory_selector::display() const
     std::string msg_str;
     nc_color msg_color;
     if (inCategoryMode) {
-        msg_str = _("Category selection; Press [TAB] to switch the mode.");
+        msg_str = _("Category selection; [TAB] switches mode, arrows select.");
         msg_color = c_white_red;
     } else {
-        msg_str = _("Item selection; Press [TAB] to switch the mode.");
+        msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
@@ -453,8 +456,8 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , title(t)
     , current_page_offset_i(0)
     , current_page_offset_w(0)
-    , selected_i(1) // first is the category header
-    , selected_w(1) // ^^
+    , selected_i(0) // first is the category header
+    , selected_w(0) // ^^
     , inCategoryMode(false)
     , multidrop(m)
     , compare(c)
@@ -829,7 +832,7 @@ int game::inv_for_salvage(const std::string title)
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string title)
 {
-    std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
+    auto &here = m.i_at(g->u.posx, g->u.posy);
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
@@ -838,19 +841,19 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
     LIQUID_FILL_ERROR error;
 
     std::set<std::string> dups;
-    for( auto &elem : here ) {
-        if( elem.get_remaining_capacity_for_liquid( liquid, error ) > 0 ) {
-            if( dups.count( elem.tname() ) == 0 ) {
-                grounditems.push_back( std::list<item>( 1, elem ) );
+    for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
+        if( candidate->get_remaining_capacity_for_liquid( liquid, error ) > 0 ) {
+            if( dups.count( candidate->tname() ) == 0 ) {
+                grounditems.push_back( std::list<item>( 1, *candidate ) );
 
                 if( grounditems.size() <= 10 ) {
                     grounditems.back().front().invlet = '0' + grounditems.size() - 1;
                 } else {
                     grounditems.back().front().invlet = ' ';
                 }
-                dups.insert( elem.tname() );
+                dups.insert( candidate->tname() );
 
-                ground_containers.push_back( &elem );
+                ground_containers.push_back( m.get_item( g->u.posx, g->u.posy, candidate ) );
             }
         }
     }
@@ -917,6 +920,14 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
             return reduced_inv[0].second;
         }
     }
+    return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_filter(const std::string title, const item_filter filter )
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
     return display_slice(reduced_inv, title);
 }
 
@@ -994,7 +1005,7 @@ void game::compare(int iCompareX, int iCompareY)
         return;
     }
 
-    std::vector <item> &here = m.i_at(examx, examy);
+    auto &here = m.i_at(examx, examy);
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;

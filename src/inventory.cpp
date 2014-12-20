@@ -323,53 +323,56 @@ void inventory::update_cache_with_item(item &newit)
     }
 
     // Append the selected invlet to the list of preferred invlets of this item type.
-    std::vector<char> &preferred_invlets = invlet_cache[newit.typeId()];
-    preferred_invlets.push_back(newit.invlet);
+    std::vector<char> &pref = invlet_cache[newit.typeId()];
+    if( std::find(pref.begin(), pref.end(), newit.invlet) == pref.end() ) {
+        pref.push_back(newit.invlet);
+    }
 }
 
-char inventory::get_invlet_for_item( std::string item_type )
+char inventory::find_usable_cached_invlet(const std::string &item_type)
 {
-    char candidate_invlet = 0;
+    if( ! invlet_cache.count(item_type) ) {
+        return 0;
+    }
 
-    if( invlet_cache.count( item_type ) ) {
-        std::vector<char> &preferred_invlets = invlet_cache[ item_type ];
-
-        // Some of our preferred letters might already be used.
-        int first_free_invlet = -1;
-        for( size_t invlets_index = 0; invlets_index < preferred_invlets.size(); ++invlets_index ) {
-            bool invlet_is_used = false; // Check if anything is using this invlet.
-            if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
-                continue;
-            }
-            for( auto &elem : items ) {
-                if( elem.front().invlet == preferred_invlets[invlets_index] ) {
-                    invlet_is_used = true;
-                    break;
-                }
-            }
-
-            // If we found one that isn't used, we're done iterating.
-            if( !invlet_is_used ) {
-                first_free_invlet = invlets_index;
+    // Some of our preferred letters might already be used.
+    for( auto invlet : invlet_cache[item_type] ) {
+        // Don't overwrite user assignments.
+        if( g->u.assigned_invlet.count(invlet) ) {
+            continue;
+        }
+        if( g->u.weapon.invlet == invlet ) {
+            continue;
+        }
+        // Check if anything is using this invlet.
+        bool invlet_is_used = false;
+        for( auto &elem : items ) {
+            if( elem.front().invlet == invlet ) {
+                invlet_is_used = true;
                 break;
             }
         }
-
-        if( first_free_invlet != -1 ) {
-            candidate_invlet = preferred_invlets[first_free_invlet];
+        if( !invlet_is_used ) {
+            return invlet;
         }
     }
-    return candidate_invlet;
+
+    return 0;
 }
 
 item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 {
     bool reuse_cached_letter = false;
 
+    // Avoid letters that have been manually assigned to other things.
+    if( !keep_invlet && g->u.assigned_invlet.count(newit.invlet) ) {
+        newit.invlet = '\0';
+    }
+
     // Check how many stacks of this type already are in our inventory.
     if(!keep_invlet && assign_invlet) {
         // Do we have this item in our inventory favourites cache?
-        char temp_invlet = get_invlet_for_item( newit.typeId() );
+        char temp_invlet = find_usable_cached_invlet(newit.typeId());
         if( temp_invlet != 0 ) {
             newit.invlet = temp_invlet;
             reuse_cached_letter = true;
@@ -944,7 +947,11 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
                 continue;
             }
             if( elem_stack_iter.has_quality( id, level ) ) {
-                found++;
+                if( elem_stack_iter.count_by_charges() ) {
+                    found += elem_stack_iter.charges;
+                } else {
+                    found++;
+                }
             }
         }
     }
@@ -1119,10 +1126,25 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet(item &it, bool force)
 {
+    if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
+        return;
+    }
+    
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
+    itype_id target_type = it.typeId();
+    for (auto iter : p->assigned_invlet) {
+        if (iter.second == target_type && !cur_inv.count(iter.first)) {
+            it.invlet = iter.first;
+            return;
+        }
+    }
     if (cur_inv.size() < inv_chars.size()) {
         for( const auto &inv_char : inv_chars ) {
+            if( p->assigned_invlet.count(inv_char) ) {
+                // don't overwrite assigned keys
+                continue;
+            }
             if( cur_inv.find( inv_char ) == cur_inv.end() ) {
                 it.invlet = inv_char;
                 return;

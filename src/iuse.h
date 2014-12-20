@@ -48,6 +48,7 @@ public:
     int meth                (player*, item*, bool, point);
     int vitamins            (player*, item*, bool, point);
     int vaccine             (player*, item*, bool, point);
+    int flu_vaccine         (player*, item*, bool, point);
     int poison              (player*, item*, bool, point);
     int fun_hallu           (player*, item*, bool, point);
     int thorazine           (player*, item*, bool, point);
@@ -91,13 +92,7 @@ public:
     int horn_bicycle        (player *, item *, bool, point);
     int noise_emitter_off   (player *, item *, bool, point);
     int noise_emitter_on    (player *, item *, bool, point);
-    int roadmap             (player *, item *, bool, point);
-    int survivormap         (player *, item *, bool, point);
-    int militarymap         (player *, item *, bool, point);
-    int restaurantmap       (player *, item *, bool, point);
-    int touristmap          (player *, item *, bool, point);
     int ma_manual           (player *, item *, bool, point);
-    int picklock            (player *, item *, bool, point);
     int crowbar             (player *, item *, bool, point);
     int makemound           (player *, item *, bool, point);
     int dig                 (player *, item *, bool, point);
@@ -164,7 +159,7 @@ public:
     int vortex              (player *, item *, bool, point);
     int dog_whistle         (player *, item *, bool, point);
     int vacutainer          (player *, item *, bool, point);
-    static bool valid_to_cut_up(item *it);
+    static bool valid_to_cut_up(const item *it);
     static int cut_up(player *p, item *it, item *cut, bool);
     int knife               (player *, item *, bool, point);
     static int cut_log_into_planks(player *p, item *it);
@@ -185,8 +180,6 @@ public:
     int LAW                 (player *, item *, bool, point);
     int heatpack            (player *, item *, bool, point);
     int hotplate            (player *, item *, bool, point);
-    int flask_yeast         (player *, item *, bool, point);
-    int tanning_hide        (player *, item *, bool, point);
     int quiver              (player *, item *, bool, point);
     int boots               (player *, item *, bool, point);
     int sheath_sword        (player *, item *, bool, point);
@@ -303,6 +296,14 @@ public:
     ~use_function();
 
     int call(player*,item*,bool,point) const;
+
+    iuse_actor *get_actor_ptr() const
+    {
+        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);

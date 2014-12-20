@@ -182,8 +182,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             int maxvolume;
             if ( pane.area == AIM_CONTAINER && squares[pane.area].get_container() != nullptr ) {
-                it_container *container = dynamic_cast<it_container *>(squares[pane.area].get_container()->type);
-                maxvolume = container->contains;
+                maxvolume = squares[pane.area].get_container()->type->container->contains;
             } else {
                 if( squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0 ) {
                     maxvolume = squares[pane.area].veh->max_volume( squares[pane.area].vstor );
@@ -722,7 +721,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
         map &m = g->m;
         const itemslice &stacks = square.veh != nullptr ?
                                   m.i_stacked( square.veh->parts[square.vstor].items ) :
-                                  m.i_stacked( m.i_at( square.x , square.y ) );
+                                  m.i_stacked( m.i_at_mutable( square.x, square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
@@ -1119,6 +1118,11 @@ void advanced_inventory::display()
             if( !query_charges( destarea, *sitem, action == "MOVE_SINGLE_ITEM", amount_to_move ) ) {
                 continue;
             }
+            // This makes sure that all item references in the advanced_inventory_pane::items vector
+            // are recalculated, even when they might not have change, but they could (e.g. items
+            // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
+            // but are potentially at a different place).
+            recalc = true;
             assert( amount_to_move > 0 );
             if( destarea == AIM_CONTAINER ) {
                 if ( !move_content( *sitem->it, *squares[destarea].get_container() ) ) {
@@ -1177,7 +1181,6 @@ void advanced_inventory::display()
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
-            recalc = true;
         } else if( action == "MOVE_ALL_ITEMS" ) {
             if( move_all_items() ) {
                 exit = true;
@@ -1660,7 +1663,7 @@ item* advanced_inv_area::get_container()
             map &m = g->m;
             const itemslice &stacks = veh != nullptr ?
                                       m.i_stacked( veh->parts[vstor].items ) :
-                                      m.i_stacked( m.i_at( x , y ) );
+                                      m.i_stacked( m.i_at_mutable( x, y ) );
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {

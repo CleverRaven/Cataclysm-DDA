@@ -308,13 +308,12 @@ void player::power_bionics()
                         deactivate_bionic(b);
                     } else {
                         // this will clear the bionics menu for targeting purposes
-                        wBioptr.reset();
-                        w_titleptr.reset();
-                        w_descriptionptr.reset();
                         g->draw();
                         redraw = !activate_bionic(b);
                     }
                     if (redraw) {
+                        // To update message on the sidebar
+                        g->refresh_all();
                         continue;
                     } else {
                         // Action done, leave screen
@@ -645,12 +644,12 @@ bool player::activate_bionic(int b, bool eff_only)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
-             it != g->m.i_at(posx, posy).end(); ++it) {
+        for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
             if (it->type->id == "corpse" ) {
                 int avail = 0;
-                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
-                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
+                auto remaining_water = it->item_vars.find("remaining_water");
+                if( remaining_water != it->item_vars.end() ) {
+                    avail = atoi ( remaining_water->second.c_str() );
                 } else {
                     avail = it->volume() / 2;
                 }
@@ -664,7 +663,8 @@ bool player::activate_bionic(int b, bool eff_only)
                     }
                     if( water.charges != avail ) {
                         extracted = true;
-                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                        g->m.get_item(posx, posy, it)->item_vars["remaining_water"] =
+                            string_format("%d", water.charges);
                     }
                     break;
                 }
@@ -724,41 +724,13 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
-        if(!choose_adjacent(_("Use your bio lockpick where?"), dirx, diry)) {
+        item tmp_item( "pseuso_bio_picklock", 0 );
+        if( tmp_item.type->invoke( this, &tmp_item, false, pos() ) == 0 ) {
             power_level += bionics["bio_lockpick"]->power_activate;
             return false;
         }
-        ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                              door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c);
-            // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
-        } else if(type == t_door_bar_locked) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The bars swing open..."),
-                              door_name.c_str()); //Could better copy the messages from lockpick....
-            g->m.ter_set(dirx, diry, t_door_bar_o);
-        } else if(type == t_chaingate_l) {
-            moves -= 40;
-            std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
-                              gate_name.c_str());
-            g->m.ter_set(dirx, diry, t_chaingate_c);
-        } else if (type  == t_door_locked_peep) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
-                              door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c_peep);
-        } else if(type == t_door_c) {
-            add_msg(m_info, _("That door isn't locked."));
-        } else {
-            add_msg_if_player(m_neutral, _("You can't unlock that %s."),
-                              g->m.tername(dirx, diry).c_str());
+        if( tmp_item.damage > 0 ) {
+            // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
         g->flashbang(posx, posy, true);
@@ -991,7 +963,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("You don't have this bionic installed."));
         return false;
     }
-    if (!(inv.has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
+    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }

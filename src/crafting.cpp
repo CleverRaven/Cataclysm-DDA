@@ -262,12 +262,13 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                it_book *book_def = dynamic_cast<it_book *>( item::find_type( book_id ) );
-                if (book_def == NULL) {
+                itype *t = item::find_type( book_id );
+                if( !t->book ) {
+                    // TODO: we could make up a book slot?
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                book_def->recipes[r] = skill_level;
+                t->book->recipes[r] = skill_level;
             }
             r->booksets.clear();
         }
@@ -437,7 +438,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for (item &i : g->m.i_at(posx, posy)) {
+    for( auto &i : g->m.i_at(posx, posy) ) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -1795,8 +1796,8 @@ const recipe *get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             const inventory &crafting_inv, bool print_msg)
+bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
+                              const inventory &crafting_inv, bool print_msg ) const
 {
     if (dis_item->count_by_charges()) {
         // Create a new item to get the default charges
@@ -1836,10 +1837,7 @@ bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
             // If crafting recipe required a welder,
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
-                have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
-                                  crafting_inv.has_tools("survivor_belt", 1) ||
-                                  crafting_inv.has_tools("toolbox", 1) ||
-                                  crafting_inv.has_tools("toolset", 1));
+                have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
             }
 
             if( have_this_tool ) {
@@ -1851,7 +1849,7 @@ bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
             if (print_msg) {
                 int req = it[0].count;
                 if (it[0].type == "welder") {
-                    add_msg(m_info, _("You need a hacksaw to disassemble this."));
+                    add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SAW_M_FINE" ).c_str() );
                 } else {
                     if (req <= 0) {
                         add_msg(m_info, _("You need a %s to disassemble this."),
@@ -1956,13 +1954,13 @@ void player::complete_disassemble()
         return;
     }
     item *org_item;
-    std::vector<item> &items_on_ground = g->m.i_at(posx, posy);
+    auto &items_on_ground = g->m.i_at(posx, posy);
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
             return;
         }
-        org_item = &items_on_ground[item_pos];
+        org_item = g->m.get_item( posx, posy, item_pos );
         if (org_item->type->id != dis->result) {
             add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
             return;
@@ -1993,7 +1991,7 @@ void player::complete_disassemble()
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
-            items_on_ground.erase(items_on_ground.begin() + item_pos);
+            g->m.i_rem( posx, posy, item_pos );
         } else {
             i_rem(item_pos);
         }

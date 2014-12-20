@@ -1183,7 +1183,7 @@ int editmap::edit_itm()
     ilmenu.w_width = width;
     ilmenu.w_height = TERMY - infoHeight - 1;
     ilmenu.return_invalid = true;
-    std::vector<item>& items = g->m.i_at(target.x , target.y );
+    auto &items = g->m.i_at_mutable(target.x , target.y );
     for( size_t i = 0; i < items.size(); ++i ) {
         ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }

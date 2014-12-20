@@ -381,15 +381,25 @@ void player::serialize(JsonOut &json) const
 
     json.member( "player_stats", get_stats() );
 
-        json.member("invcache");
-        inv.json_save_invcache(json);
+    json.member("assigned_invlet");
+    json.start_array();
+    for (auto iter : assigned_invlet) {
+        json.start_array();
+        json.write(iter.first);
+        json.write(iter.second);
+        json.end_array();
+    }
+    json.end_array();
 
-        //FIXME: seperate function, better still another file
-        /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
-                  ptmpvect.push_back(pv(memorial_log[i]));
-              }
-              json.member("memorial",ptmpvect);
-        */
+    json.member("invcache");
+    inv.json_save_invcache(json);
+
+    //FIXME: seperate function, better still another file
+    /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
+              ptmpvect.push_back(pv(memorial_log[i]));
+          }
+          json.member("memorial",ptmpvect);
+    */
 
     json.end_object();
 }
@@ -502,6 +512,12 @@ void player::deserialize(JsonIn &jsin)
 
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
+
+    parray = data.get_array("assigned_invlet");
+    while (parray.has_more()) {
+        JsonArray pair = parray.next_array();
+        assigned_invlet[(char)pair.get_int(0)] = pair.get_string(1);
+    }
 
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
@@ -1038,7 +1054,7 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read( "covers", tmp_covers );
-    const auto armor = dynamic_cast<const it_armor *>( type );
+    const auto armor = type->armor.get();
     if( armor != nullptr && tmp_covers.none() ) {
         covered_bodyparts = armor->covers;
         if (armor->sided.any()) {
@@ -1282,13 +1298,9 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("turn_dir", turn_dir);
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
-    data.read("security", security);
     data.read("music_id", music_id);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
-    data.read("has_pedals", has_pedals);
-    data.read("has_paddles", has_paddles);
-    data.read("has_hand_rims", has_hand_rims);
     data.read("tracking_on", tracking_on);
     data.read("lights_on", lights_on);
     data.read("stereo_on", stereo_on);
@@ -1349,13 +1361,9 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
-    json.member( "security", security );
     json.member( "music_id", music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
-    json.member( "has_pedals", has_pedals );
-    json.member( "has_paddles", has_paddles);
-    json.member( "has_hand_rims", has_hand_rims );
     json.member( "tracking_on", tracking_on );
     json.member( "lights_on", lights_on );
     json.member( "stereo_on", stereo_on);

@@ -313,7 +313,7 @@ static void move_items( point source, point destination,
     }
 
     std::vector<item> &here = (cargo_part >= 0) ?
-        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y );
+        veh->parts[cargo_part].items : g->m.i_at_mutable( source.x, source.y );
 
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn;

@@ -1,6 +1,6 @@
 [
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbomb",
         "price" : 1000,
         "name" : "Big Bang canister",
@@ -26,7 +26,7 @@
         "effects" : ["NEVER_MISFIRES", "EXPLOSIVE_BIG", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombacid",
         "price" : 400,
         "name" : "acid canister",
@@ -52,7 +52,7 @@
         "effects" : ["NEVER_MISFIRES", "ACIDBOMB"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfrag",
         "price" : 800,
         "name" : "fragmentation canister",
@@ -78,7 +78,7 @@
         "effects" : ["FRAG", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfire",
         "price" : 600,
         "name" : "fire canister",
@@ -104,7 +104,7 @@
         "effects" : ["FLAME", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfire2",
         "price" : 2200,
         "name" : "inferno canister",
@@ -130,7 +130,7 @@
         "effects" : ["NAPALM", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombgas",
         "price" : 600,
         "name" : "gas canister",
@@ -155,7 +155,7 @@
         "stack_size" : 1,
         "effects" : ["TEARGAS", "NEVER_MISFIRES"]
     },
-	{
+    {
       "type" : "AMMO",
       "id" : "hbolt_wood",
       "price" : 1000,
@@ -178,8 +178,8 @@
       "recoil" : 0,
       "count" : 5,
       "effects" : ["RECOVER_5"]
-	},
-	{
+    },
+    {
       "type" : "AMMO",
       "id" : "hbolt_metal",
       "price" : 2000,
@@ -226,7 +226,7 @@
       "recoil" : 0,
       "count" : 10
    },
-	{
+   {
       "type" : "AMMO",
       "id" : "ripdisk",
       "price" : 1000,
@@ -250,7 +250,7 @@
       "count" : 1,
       "effects" : ["BOUNCE", "NEVER_MISFIRES"]
    },
-	{
+   {
       "type" : "AMMO",
       "id" : "teardisk",
       "price" : 200,
@@ -297,7 +297,7 @@
       "recoil" : 0,
       "count" : 1,
       "effects" : ["RECOVER_3", "BEANBAG"],
-	  "qualities": [["HAMMER", 1]]
+      "qualities": [["HAMMER", 1]]
    },
    {
       "type" : "AMMO",
@@ -324,7 +324,7 @@
       "effects" : ["RECOVER_3", "BEANBAG"]
    },
    {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "mininuke_mod",
         "price" : 180000,
         "name" : "modified mininuke",
@@ -349,28 +349,28 @@
         "stack_size" : 2,
         "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
     },
-   {
-      "type" : "AMMO",
-      "id": "lead_ball",
-      "symbol": "*",
-      "color": "blue",
-      "name": "lead ball",
-      "description": "A heavy lead ball about 8cm in diameter. Could pack quite a bit of a punch if you had something to launch it.",
-      "price": 200,
-      "material": "steel",
-      "weight": 400,
-      "volume": 1,
-      "bashing": 8,
-      "cutting": 0,
-      "to_hit": -3,
-      "ammo_type" : "mininuke_mod",
-      "casing" : "NULL",
-      "damage" : 50,
-      "pierce" : 0,
-      "range" : 3,
-      "dispersion" : 0,
-      "recoil" : 0,
-      "count" : 1,
-      "effects" : ["RECOVER_3", "LARGE_BEANBAG"]
-   }
+    {
+        "type" : "AMMO",
+        "id": "lead_ball",
+        "symbol": "*",
+        "color": "blue",
+        "name": "lead ball",
+        "description": "A heavy lead ball about 8cm in diameter. Could pack quite a bit of a punch if you had something to launch it.",
+        "price": 200,
+        "material": "steel",
+        "weight": 400,
+        "volume": 1,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -3,
+        "ammo_type" : "mininuke_mod",
+        "casing" : "NULL",
+        "damage" : 50,
+        "pierce" : 0,
+        "range" : 3,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1,
+        "effects" : ["RECOVER_3", "LARGE_BEANBAG"]
+    }
 ]
