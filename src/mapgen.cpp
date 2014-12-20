@@ -11425,7 +11425,10 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
-    std::string signage_rot[SEEX * 2][SEEY * 2];
+    std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
+    field fldrot [SEEX * 2][SEEY * 2];
+    int radrot [SEEX * 2][SEEY * 2];
+
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
@@ -11449,12 +11452,15 @@ void map::rotate(int turns)
                 new_y = old_x;
                 break;
             }
-            rotated[old_x][old_y] = ter(new_x, new_y);
-            furnrot[old_x][old_y] = furn(new_x, new_y);
-            itrot [old_x][old_y] = i_at(new_x, new_y);
-            traprot[old_x][old_y] = tr_at(new_x, new_y);
-            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
-            i_clear(new_x, new_y);
+            int new_lx, new_ly;
+            const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
+            std::swap( itrot[old_x][old_y], new_sm->itm[new_lx][new_ly] );
+            std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
+            std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
+            std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
+            std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
+            std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
         }
     }
 
@@ -11589,11 +11595,15 @@ void map::rotate(int turns)
     grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            ter_set(i, j, rotated[i][j]);
-            furn_set(i, j, furnrot[i][j]);
-            spawn_items(i, j, itrot [i][j]);
-            add_trap(i, j, traprot[i][j]);
-            set_signage(i, j, signage_rot[i][j]);
+            int lx, ly;
+            const auto sm = get_submap_at( i, j, lx, ly );
+            std::swap( rotated[i][j], sm->ter[lx][ly] );
+            std::swap( itrot[i][j], sm->itm[lx][ly] );
+            std::swap( furnrot[i][j], sm->frn[lx][ly] );
+            std::swap( traprot[i][j], sm->trp[lx][ly] );
+            std::swap( fldrot[i][j], sm->fld[lx][ly] );
+            std::swap( radrot[i][j], sm->rad[lx][ly] );
+            std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);
