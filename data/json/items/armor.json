@@ -9362,7 +9362,7 @@
         "cutting" : 0,
         "warmth" : 35,
         "phase" : "solid",
-        "environmental_protection" : 0,
+        "environmental_protection" : 4,
         "encumbrance" : 3,
         "bashing" : 6,
         "flags" : ["VARSIZE", "STURDY"],
