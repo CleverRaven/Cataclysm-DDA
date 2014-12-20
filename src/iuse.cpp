@@ -5138,7 +5138,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
         type = tr_bubblewrap;
         practice = 2;
     } else if (it->type->id == "beartrap") {
-        buried = ((p->has_amount("shovel", 1) || p->has_amount("e_tool", 1)) &&
+        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the beartrap?")));
         type = (buried ? tr_beartrap_buried : tr_beartrap);
@@ -5243,7 +5243,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
             return 0;
         }
     } else if (it->type->id == "landmine") {
-        buried = ((p->has_amount("shovel", 1) || p->has_amount("e_tool", 1)) &&
+        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the land mine?")));
         type = (buried ? tr_landmine_buried : tr_landmine);
