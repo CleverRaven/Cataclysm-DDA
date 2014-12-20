@@ -2758,7 +2758,8 @@
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 20,
         "material_thickness" : 2,
-        "use_action" : "HOLSTER_GUN"
+        "use_action" : "HOLSTER_GUN",
+        "properties" : [["holster_size", "5"]]
     },
         {
         "type" : "ARMOR",
