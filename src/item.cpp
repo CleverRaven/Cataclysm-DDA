@@ -1924,8 +1924,7 @@ int item::damage_cut() const
         for( auto &elem : contents ) {
             tmp_tp = elem.typeId();
             if ( tmp_tp == "bayonet" || tmp_tp == "pistol_bayonet" ||
-                 tmp_tp == "sword_bayonet" || tmp_tp == "diamond_bayonet" || 
-                 tmp_tp == "diamond_pistol_bayonet" || tmp_tp == "diamond_sword_bayonet" ) {
+                 tmp_tp == "sword_bayonet" || tmp_tp == "diamond_bayonet" || tmp_tp == "diamond_pistol_bayonet" || tmp_tp == "diamond_sword_bayonet" ) {
                 return elem.type->melee_cut;
             }
         }
