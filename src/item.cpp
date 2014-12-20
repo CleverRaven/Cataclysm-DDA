@@ -806,18 +806,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-				temp1 << _("Close to skin. ");
-		} else if (has_flag("BELTED")) {
-			temp1 << _("Strapped. ");
-		} else if (has_flag("OUTER")) {
-			temp1 << _("Outer. ");
-		} else if (has_flag("WAIST")) {
-			temp1 << _("Waist. ");
-		} else {
-			temp1 << _("Normal. ");
-		}
+                temp1 << _("Close to skin. ");
+        } else if (has_flag("BELTED")) {
+            temp1 << _("Strapped. ");
+        } else if (has_flag("OUTER")) {
+            temp1 << _("Outer. ");
+        } else if (has_flag("WAIST")) {
+            temp1 << _("Waist. ");
+        } else {
+            temp1 << _("Normal. ");
+        }
 
-		dump->push_back(iteminfo("ARMOR", temp1.str()));
+        dump->push_back(iteminfo("ARMOR", temp1.str()));
 
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
@@ -882,14 +882,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             if (!(book->recipes.empty())) {
                 std::string recipes = "";
                 size_t index = 1;
-                for( auto iter = book->recipes.begin();
-                     iter != book->recipes.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "</color>";
+                //
+                for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index ) {
+                    std::string recipe_color = "";
+                    std::string item_name = nname( (*iter)->result, 1 );
+
+                    if(g->u.knows_recipe(*iter)) recipe_color = "ltgray";
+                    if(!(*iter)->requirements.meets_skill_requirements(g->u)) recipe_color = "red";
+
+                    if (recipe_color.length() == 0) {
+                        recipes += item_name;
+                    } else {
+                        recipes += "<color_" + recipe_color + ">" + item_name + "</color>";
                     }
                     if(index == book->recipes.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
@@ -3012,11 +3016,11 @@ int item::aim_speed( int aim_threshold ) const
         if( elem.is_gunmod() ) {
             it_gunmod *mod = dynamic_cast<it_gunmod *>( elem.type );
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-		 (mod->sight_dispersion <= aim_threshold &&
-		  mod->aim_speed < best_aim_speed)) ) {
-	        best_aim_speed = mod->aim_speed;
-		best_dispersion = mod->sight_dispersion;
+        ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+         (mod->sight_dispersion <= aim_threshold &&
+          mod->aim_speed < best_aim_speed)) ) {
+            best_aim_speed = mod->aim_speed;
+        best_dispersion = mod->sight_dispersion;
             }
         }
     }

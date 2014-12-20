@@ -264,9 +264,9 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
 void player::fire_gun(int tarx, int tary, bool burst)
 {
     item *gunmod = weapon.active_gunmod();
-    it_ammo *curammo = NULL;
-    item *used_weapon = NULL;
-    Skill *skill_used = NULL;
+    it_ammo *curammo = nullptr;
+    item *used_weapon = nullptr;
+    const Skill* skill_used = nullptr;
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.

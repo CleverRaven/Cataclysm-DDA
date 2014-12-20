@@ -1,3 +1,5 @@
+#include "crafting.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -7,7 +9,6 @@
 #include "game.h"
 #include "options.h"
 #include "output.h"
-#include "crafting.h"
 #include "inventory.h"
 #include "catacharset.h"
 #include "messages.h"
@@ -40,32 +41,28 @@ recipe::~recipe()
 }
 
 recipe::recipe() :
-    id(0), result("null"), skill_used(NULL), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1),
+    id(0), result("null"), reversible(false),
+    autolearn(false), learn_by_disassembly(false), result_mult(1),
     paired(false)
 {
 }
-
+//recipe::recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
+               //craft_subcat psubcat,
+               //bool preversible, bool pautolearn, int plearn_dis,
+               //int pmult, bool ppaired, std::vector<byproduct> &bps,
+               //int ptime, double pb_rscale, int pb_rsize);
 recipe::recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
-               craft_subcat psubcat, std::string &to_use,
-               std::map<std::string, int> &to_require,
-               bool preversible, bool pautolearn, int plearn_dis,
+               craft_subcat psubcat,
+               bool preversible, bool pautolearn, bool plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
-               int ptime, int pdiff, double pb_rscale,
+               int ptime, double pb_rscale,
                int pb_rsize) :
-    ident(pident), id(pid), result(pres), time(ptime), difficulty(pdiff),
+    ident(pident), id(pid), result(pres), time(ptime),
     byproducts(bps), cat(pcat),
     subcat(psubcat), reversible(preversible), autolearn(pautolearn),
     learn_by_disassembly(plearn_dis), batch_rscale(pb_rscale),
     batch_rsize(pb_rsize), result_mult(pmult), paired(ppaired)
-{
-    skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
-    if(!to_require.empty()) {
-        for( auto &elem : to_require ) {
-            required_skills[Skill::skill( elem.first )] = elem.second;
-        }
-    }
-}
+{ }
 
 const recipe *find_recipe( std::string id )
 {
@@ -156,44 +153,26 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 
 void load_recipe(JsonObject &jsobj)
 {
-    JsonArray jsarr;
-
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
     bool autolearn = jsobj.get_bool("autolearn");
     int time = jsobj.get_int("time");
-    int difficulty = jsobj.get_int( "difficulty" );
 
     // optional
     std::string subcategory = jsobj.get_string("subcategory", "");
     bool reversible = jsobj.get_bool("reversible", false);
-    std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
-    int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    bool learn_by_disassembly = jsobj.get_int("decomp_learn", -1) != -1;
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if (jsobj.has_array( "batch_time_factors" )) {
-        jsarr = jsobj.get_array( "batch_time_factors" );
+        auto jsarr = jsobj.get_array( "batch_time_factors" );
         batch_rscale = (double)jsarr.get_int(0) / 100.0;
         batch_rsize = jsarr.get_int(1);
     }
     int result_mult = jsobj.get_int("result_mult", 1);
     bool paired = jsobj.get_bool("paired", false);
-
-    std::map<std::string, int> requires_skills;
-    jsarr = jsobj.get_array("skills_required");
-    if (!jsarr.empty()) {
-        // could be a single requirement, or multiple
-        if( jsarr.has_array(0) ) {
-            while (jsarr.has_more()) {
-                JsonArray ja = jsarr.next_array();
-                requires_skills[ja.get_string(0)] = ja.get_int(1);
-            }
-        } else {
-            requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
-        }
-    }
 
     std::vector<byproduct> bps;
     // could be a single byproduct - either id or byproduct, or array of ids and byproducts
@@ -204,7 +183,7 @@ void load_recipe(JsonObject &jsobj)
         bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1),
                                 jsbp.get_int("amount", 1)));
     } else if (jsobj.has_array("byproducts")) {
-        jsarr = jsobj.get_array("byproducts");
+        auto jsarr = jsobj.get_array("byproducts");
         while (jsarr.has_more()) {
             if (jsarr.has_string(0)) {
                 bps.push_back(byproduct(jsarr.next_string()));
@@ -219,14 +198,14 @@ void load_recipe(JsonObject &jsobj)
     std::string rec_name = result + id_suffix;
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
-    recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, reversible, autolearn,
+    recipe *rec = new recipe(rec_name, id, result, category, subcategory,
+                             reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps,
-                             time, difficulty, batch_rscale, batch_rsize);
+                             time, batch_rscale, batch_rsize);
 
     rec->requirements.load(jsobj);
 
-    jsarr = jsobj.get_array("book_learn");
+    auto jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
         JsonArray ja = jsarr.next_array();
         std::string book_name = ja.get_string(0);
@@ -257,7 +236,6 @@ void finalize_recipes()
 
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
                 const std::string &book_id = j->first;
-                const int skill_level = j->second;
                 if( !item::type_is_defined( book_id ) ) {
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
@@ -268,7 +246,7 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                t->book->recipes[r] = skill_level;
+                t->book->recipes.push_back(r);
             }
             r->booksets.clear();
         }
@@ -455,7 +433,7 @@ bool player::can_make(const recipe *r, int batch_size)
 
 bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) const
 {
-    if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv) ) {
+    if( !g->u.knows_recipe( this ) && !g->u.has_recipe( this, crafting_inv) ) {
         return false;
     }
     return requirements.can_make_with_inventory(crafting_inv, batch);
@@ -711,21 +689,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             nc_color col = (available[line] ? c_white : c_ltgray);
             ypos = 0;
             if(display_mode == 0) {
-                mvwprintz(w_data, ypos++, 30, col, _("Skills used: %s"),
-                          (current[line]->skill_used == NULL ? _("N/A") :
-                           current[line]->skill_used->name().c_str()));
+                mvwprintz(w_data, ypos++, 30, col, _("Success: %.2f%%"), 100 * current[line]->requirements.success_rate(g->u));
 
-                mvwprintz(w_data, ypos++, 30, col, _("Required skills: %s"),
-                          (current[line]->required_skills_string().c_str()));
-                mvwprintz(w_data, ypos++, 30, col, _("Difficulty: %d"), current[line]->difficulty);
-                if (current[line]->skill_used == NULL) {
-                    mvwprintz(w_data, ypos++, 30, col, _("Your skill level: N/A"));
-                } else {
-                    mvwprintz(w_data, ypos++, 30, col, _("Your skill level: %d"),
-                              // Macs don't seem to like passing this as a class, so force it to int
-                              (int)g->u.skillLevel(current[line]->skill_used));
-                }
                 ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, (batch) ? line + 1 : 1);
+                ypos += current[line]->requirements.print_skills(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, g->u);
+
                 ypos += current[line]->print_items(w_data, ypos, 30, col, (batch) ? line + 1 : 1);
             }
             if(display_mode == 0 || display_mode == 1) {
@@ -1165,7 +1133,6 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_tool = false;
     bool search_component = false;
     bool search_skill = false;
-    bool search_skill_primary_only = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1179,8 +1146,6 @@ void pick_recipes(const inventory &crafting_inv,
                 search_component = true;
             } else if( elem == 's' ) {
                 search_skill = true;
-            } else if( elem == 'S' ) {
-                search_skill_primary_only = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1209,13 +1174,10 @@ void pick_recipes(const inventory &crafting_inv,
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
             (rec->subcat == "" && last_craft_subcat( tab ) == subtab) ||
             filter != "") {
-            if( !g->u.knows_recipe(rec) && -1 == g->u.has_recipe(rec, crafting_inv) ) {
+            if( !g->u.knows_recipe(rec) && !g->u.has_recipe(rec, crafting_inv) ) {
                 continue;
             }
 
-            if (rec->difficulty < 0 ) {
-                continue;
-            }
             if(filter != "") {
                 if(search_name) {
                     if( !lcmatch( item::nname( rec->result ), filter ) ) {
@@ -1233,18 +1195,17 @@ void pick_recipes(const inventory &crafting_inv,
                     }
                 }
                 if(search_skill) {
-                    if( !rec->skill_used) {
+                    if( rec->requirements.skills.empty()) {
                         continue;
-                    } else if( !lcmatch( rec->skill_used->name(), filter ) &&
-                               !lcmatch( rec->required_skills_string(), filter )) {
-                        continue;
-                    }
-                }
-                if(search_skill_primary_only) {
-                    if( !rec->skill_used ) {
-                        continue;
-                    } else if( !lcmatch( rec->skill_used->name(), filter )) {
-                        continue;
+                    } else {
+                        bool found = false;
+                        for(auto &requirement: rec->requirements.skills) {
+                            if ( lcmatch(requirement.second.skill->name(), filter) ) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if ( !found ) continue;
                     }
                 }
             }
@@ -1252,14 +1213,30 @@ void pick_recipes(const inventory &crafting_inv,
             filtered_list.push_back(rec);
 
         }
-        max_difficulty = std::max(max_difficulty, rec->difficulty);
+
+        for(auto &requirement: rec->requirements.skills) {
+            if ( search_skill && lcmatch(requirement.second.skill->name(), filter) ) {
+                max_difficulty = std::max(max_difficulty, requirement.second.difficulty);
+                break;
+            } else {
+                max_difficulty = std::max(max_difficulty, requirement.second.difficulty);
+            }
+        }
     }
 
     int truecount = 0;
     for( int i = max_difficulty; i != -1; --i ) {
         for( auto rec : filtered_list ) {
-
-            if (rec->difficulty == i) {
+            int difficulty = 0;
+            for(auto &requirement: rec->requirements.skills) {
+                if ( search_skill && lcmatch(requirement.second.skill->name(), filter) ) {
+                    difficulty = std::max(difficulty, requirement.second.difficulty);
+                    break;
+                } else {
+                    difficulty = std::max(difficulty, requirement.second.difficulty);
+                }
+            }
+            if (difficulty == i) {
                 if (rec->can_make_with_inventory(crafting_inv)) {
                     current.insert(current.begin(), rec);
                     available.insert(available.begin(), true);
@@ -1392,55 +1369,20 @@ void player::complete_craft()
         }
     }
 
-    // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-    int skill_dice = skillLevel(making->skill_used) * 4;
-
-    // farsightedness can impose a penalty on electronics and tailoring success
-    // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
-        !is_wearing("glasses_bifocal") && !has_effect("contacts") ) {
-        int main_rank_penalty = 0;
-        if (making->skill_used == Skill::skill("electronics")) {
-            main_rank_penalty = 2;
-        } else if (making->skill_used == Skill::skill("tailor")) {
-            main_rank_penalty = 1;
-        }
-        skill_dice -= main_rank_penalty * 4;
+    // Practice skills used
+    for(auto &requirement: making->requirements.skills) {
+        auto skill = requirement.second.skill;
+        auto diff = requirement.second.difficulty;
+        practice( skill, diff * 5 + 20, int(diff * 1.25) );
     }
 
-    // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
-    // not inability to see what you're doing
-    if (has_trait("PAWS") || has_trait("PAWS_LARGE")) {
-        int paws_rank_penalty = 0;
-        if (has_trait("PAWS_LARGE")) {
-            paws_rank_penalty += 1;
-        }
-        if (making->skill_used == Skill::skill("electronics")) {
-            paws_rank_penalty += 1;
-        } else if (making->skill_used == Skill::skill("tailor")) {
-            paws_rank_penalty += 1;
-        } else if (making->skill_used == Skill::skill("mechanics")) {
-            paws_rank_penalty += 1;
-        }
-        skill_dice -= paws_rank_penalty * 4;
-    }
-
-    // Sides on dice is 16 plus your current intelligence
-    int skill_sides = 16 + int_cur;
-
-    int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
-    int diff_sides = 24; // 16 + 8 (default intelligence)
-
-    int skill_roll = dice(skill_dice, skill_sides);
-    int diff_roll  = dice(diff_dice,  diff_sides);
-
-    if (making->skill_used) {
-        practice( making->skill_used, making->difficulty * 5 + 20,
-                    (int)making->difficulty * 1.25 );
-    }
+    double success_rate = making->requirements.success_rate(*this);
+    double roll = rng_float(0.0, 1.0);
+    bool success = roll < success_rate;
+    bool critical_failure = !success && (roll < (1.0 - pow(1.0 - success_rate, 2)));
 
     // Messed up badly; waste some components.
-    if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
+    if ( critical_failure ) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
         for (const auto &it : making->requirements.components) {
@@ -1453,7 +1395,7 @@ void player::complete_craft()
         activity.type = ACT_NULL;
         return;
         // Messed up slightly; no components wasted.
-    } else if (diff_roll > skill_roll) {
+    } else if ( !success ) {
         add_msg(m_neutral, _("You fail to make the %s, but don't waste any materials."),
                 item::nname(making->result).c_str());
         //this method would only have been called from a place that nulls activity.type,
@@ -1486,16 +1428,10 @@ void player::complete_craft()
                 add_msg(_("You craft %s from memory."), newit.type_name( 1 ).c_str());
             } else {
                 add_msg(_("You craft %s using a book as a reference."), newit.type_name( 1 ).c_str());
-                // If we made it, but we don't know it,
-                // we're making it from a book and have a chance to learn it.
-                // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
-                // This means time to learn is greatly decreased with higher skill level,
-                // but also keeps going up as difficulty goes up.
-                // Worst case is lvl 10, which will typically take
-                // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( making, crafting_inventory() );
-                if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
-                            (get_skill_level( making->skill_used ) * get_int() ) ) ) {
+                double learn_chance = making->requirements.success_rate(*this);
+                double learn_roll = rng_float(0.0, 1.0);
+
+                if( learn_roll < learn_chance ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
                             newit.type_name( 1 ).c_str());
@@ -1947,8 +1883,8 @@ void player::complete_disassemble()
     // which recipe was it?
     const int item_pos = activity.values[0];
     const bool from_ground = activity.values.size() > 1 && activity.values[1] == 1;
-    const recipe *dis = recipe_by_index(activity.index); // Which recipe is it?
-    if( dis == nullptr ) {
+    const recipe *disassembly_recipe = recipe_by_index(activity.index); // Which recipe is it?
+    if( disassembly_recipe == nullptr ) {
         debugmsg( "no recipe with id %d found", activity.index );
         activity.type = ACT_NULL;
         return;
@@ -1961,7 +1897,7 @@ void player::complete_disassemble()
             return;
         }
         org_item = g->m.get_item( posx, posy, item_pos );
-        if (org_item->type->id != dis->result) {
+        if (org_item->type->id != disassembly_recipe->result) {
             add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
             return;
         }
@@ -1986,7 +1922,7 @@ void player::complete_disassemble()
 
     if (dis_item.count_by_charges()) {
         // remove the charges that one would get from crafting it
-        org_item->charges -= dis->create_result().charges;
+        org_item->charges -= disassembly_recipe->create_result().charges;
     }
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
@@ -1998,28 +1934,23 @@ void player::complete_disassemble()
     }
 
     // consume tool charges
-    for (const auto &it : dis->requirements.tools) {
+    for (const auto &it : disassembly_recipe->requirements.tools) {
         consume_tools(it);
     }
 
     // add the components to the map
     // Player skills should determine how many components are returned
 
-    int skill_dice = 2 + skillLevel(dis->skill_used) * 3;
-    skill_dice += skillLevel(dis->skill_used);
-
-    // Sides on dice is 16 plus your current intelligence
-    int skill_sides = 16 + int_cur;
-
-    int diff_dice = dis->difficulty;
-    int diff_sides = 24; // 16 + 8 (default intelligence)
+    double success_rate = disassembly_recipe->requirements.success_rate(*this);
 
     // disassembly only nets a bit of practice
-    if (dis->skill_used) {
-        practice( dis->skill_used, (dis->difficulty) * 2, dis->difficulty );
+    for(auto &requirement: disassembly_recipe->requirements.skills) {
+        auto skill = requirement.second.skill;
+        auto difficulty = requirement.second.difficulty;
+        practice(skill, difficulty * 2, difficulty);
     }
 
-    for (const auto &altercomps : dis->requirements.components) {
+    for (const auto &altercomps : disassembly_recipe->requirements.components) {
         const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
@@ -2039,8 +1970,8 @@ void player::complete_disassemble()
         }
 
         for( ; compcount > 0; compcount--) {
-            const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-            if (dis->difficulty != 0 && !comp_success) {
+            const bool comp_success = rng_float(0.0, 1.0) < success_rate;
+            if (!comp_success) {
                 add_msg(m_bad, _("You fail to recover %s."), newit.tname().c_str());
                 continue;
             }
@@ -2074,10 +2005,13 @@ void player::complete_disassemble()
         }
     }
 
-    if (dis->learn_by_disassembly >= 0 && !knows_recipe(dis)) {
-        if (dis->skill_used == NULL || dis->learn_by_disassembly <= skillLevel(dis->skill_used)) {
-            if (one_in(4)) {
-                learn_recipe((recipe *)dis);
+    // Can the recipe be learned by disassembly? Do we not know it yet? Do we meet the requirements?
+    if (disassembly_recipe->learn_by_disassembly && !knows_recipe(disassembly_recipe)) {
+        if ( disassembly_recipe->requirements.meets_skill_requirements(*this) ) {
+            double learn_roll = rng_float(0.0, 1.0);
+            double learn_difficulty = disassembly_recipe->requirements.success_rate(*this);
+            if (learn_roll > learn_difficulty) {
+                learn_recipe((recipe *)disassembly_recipe);
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));
             } else {
                 add_msg(m_info, _("You might be able to learn a recipe if you disassemble another."));
@@ -2182,21 +2116,4 @@ void remove_ammo(item *dis_item, player &p)
         }
         dis_item->charges = 0;
     }
-}
-
-std::string recipe::required_skills_string() const
-{
-    std::ostringstream skills_as_stream;
-    if(!required_skills.empty()) {
-        for( auto iter = required_skills.begin(); iter != required_skills.end(); ) {
-            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
-            ++iter;
-            if(iter != required_skills.end()) {
-                skills_as_stream << ", ";
-            }
-        }
-    } else {
-        skills_as_stream << _("N/A");
-    }
-    return skills_as_stream.str();
 }

@@ -8610,7 +8610,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 4 ],
+  "skills_required": [ "survival", 4 ],
   "difficulty": 5,
   "time": 15000,
   "reversible": false,
@@ -8647,7 +8647,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 7000,
   "reversible": false,
@@ -8655,9 +8655,9 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ 
+    [
      ["fire", -1]
-    ] 
+    ]
   ],
   "components": [
     [
