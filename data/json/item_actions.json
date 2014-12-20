@@ -13,10 +13,6 @@
         "name" : "Start a fire"
     },{
         "type" : "item_action",
-        "id" : "PICKLOCK",
-        "name" : "Pick a lock"
-    },{
-        "type" : "item_action",
         "id" : "HAMMER",
         "name" : "Pull out nails"
     },{
@@ -63,10 +59,6 @@
         "type" : "item_action",
         "id" : "ROBOTCONTROL",
         "name" : "Hack a robot"
-    },{
-        "type" : "item_action",
-        "id" : "UNFOLD_GENERIC",
-        "name" : "Unfold folded vehicle"
     },{
         "type" : "item_action",
         "id" : "VITAMINS",
