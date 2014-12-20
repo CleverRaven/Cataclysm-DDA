@@ -1027,7 +1027,7 @@ bool monster::will_reach(int x, int y)
  if (has_flag(MF_IMMOBILE) && (posx() != x || posy() != y))
   return false;
 
- std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
+ std::vector<point> path = g->m.route(posx(), posy(), x, y, false);
  if (path.empty())
    return false;
 
@@ -1048,7 +1048,7 @@ bool monster::will_reach(int x, int y)
 
 int monster::turns_to_reach(int x, int y)
 {
-    std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
+    std::vector<point> path = g->m.route(posx(), posy(), x, y, false);
     if (path.empty())
         return 999;
 

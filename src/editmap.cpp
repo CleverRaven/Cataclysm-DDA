@@ -87,9 +87,14 @@ void edit_json( SAVEOBJ *it )
             tm.addentry( -1, true, -2, "%s", elem.c_str() );
         }
         if(tmret == 0) {
-            std::stringstream dump;
-            dump << save1;
-            it->deserialize(dump);
+            std::istringstream dump( save1 );
+            try {
+                SAVEOBJ tmp;
+                tmp.deserialize( dump );
+                *it = tmp;
+            } catch( std::string &err ) {
+                popup( "Error on deserialization: %s", err.c_str() );
+            }
             save2 = it->serialize();
             fs2 = fld_string(save2, TERMX-10);
 

@@ -964,7 +964,7 @@ std::list<std::pair<int, int>> game::multidrop()
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
         if (ch >= '0' && ch <= '9') {
-            count = count * 10 + ((char)ch - '0');
+            count = std::max( 0, count * 10 + ((char)ch - '0') );
         } else if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, count);
             count = 0;

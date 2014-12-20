@@ -1884,6 +1884,17 @@ bool vehicle::remove_part (int p)
     parts[p].removed = true;
     removed_part_count++;
 
+    // If the player is currently working on the removed part, stop them as it's futile now.
+    const player_activity &act = g->u.activity;
+    if( act.type == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
+        if( g->m.veh_at( act.values[0], act.values[1] ) == this ) {
+            if( act.values[6] >= p ) {
+                g->u.cancel_activity();
+                add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
+            }
+        }
+    }
+
     const int dx = global_x() + parts[p].precalc_dx[0];
     const int dy = global_y() + parts[p].precalc_dy[0];
     for (auto &i : parts[p].items) {

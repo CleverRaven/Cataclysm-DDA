@@ -1207,10 +1207,10 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy)
     m->furn_set(examx, examy, f_null);
     m->spawn_item(examx, examy, "dahlia_flower");
     m->spawn_item(examx, examy, "dahlia_bud");
-    if (p->has_amount("shovel", 1) || p->has_amount("e_tool", 1)
-        || p->has_amount("g_shovel", 1) || p->has_amount("primitive_shovel", 1)
-        || p->has_amount("digging_stick", 1)) {
-    m->spawn_item(examx, examy, "dahlia_root");
+    if( p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        m->spawn_item(examx, examy, "dahlia_root");
+    } else {
+        add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
     }
 }
 
