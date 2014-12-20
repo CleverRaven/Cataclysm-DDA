@@ -1666,10 +1666,10 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
                             memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
-                            memcpy( *destsm->itm, srcsm->itm, sizeof(srcsm->itm) ); // items
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
-                                    destsm->cosmetics[x][y] = srcsm->cosmetics[x][y];
+                                    destsm->itm[x][y].swap( srcsm->itm[x][y] );
+                                    destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
                                 }
                             }
 
