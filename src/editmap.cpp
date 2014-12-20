@@ -1687,7 +1687,11 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 }
                             }
 
-                            destsm->active_item_count = srcsm->active_item_count; // various misc variables
+                            // various misc variables
+                            destsm->active_item_count = srcsm->active_item_count;
+                            destsm->active_items = srcsm->active_items;
+                            destsm->active_item_set = srcsm->active_item_set;
+
                             destsm->temperature = srcsm->temperature;
                             destsm->turn_last_touched = int(calendar::turn);
                             destsm->comp = srcsm->comp;

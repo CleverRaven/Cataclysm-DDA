@@ -936,3 +936,23 @@ void submap::delete_graffiti( int x, int y )
 {
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }
+
+void submap::delete_active_item( std::list<item>::iterator it, point location )
+{
+    active_items.remove_if( [&] (const active_item_reference &active_item) {
+            return location == active_item.sm_location && active_item.item_iterator == it; } );
+    active_item_set.erase(it);
+    active_item_count--;
+}
+
+void submap::add_active_item( std::list<item>::iterator it, point location )
+{
+    active_items.push_back( active_item_reference{ location, it } );
+    active_item_set.insert( it );
+    active_item_count++;
+}
+
+bool submap::has_active_item( std::list<item>::iterator it, point )
+{
+    return active_item_set.count( it ) != 0;
+}

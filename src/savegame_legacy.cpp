@@ -1138,15 +1138,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff);
             it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
+            if( it_tmp.active ) {
+                sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
+            }
            } else if (string_identifier == "C") {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
             it_tmp.load_info(databuff);
             sm->itm[itx][ity].back().put_in(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
            } else if (string_identifier == "T") {
             fin >> itx >> ity >> t;
             sm->set_trap(itx, ity, trap_id(t));
@@ -1412,16 +1411,13 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 it_tmp.load_info(databuff);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active) {
-                    sm->active_item_count++;
+                    sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
                 }
             } else if (string_identifier == "C") {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
                 it_tmp.load_info(databuff);
                 sm->itm[itx][ity].back().put_in(it_tmp);
-                if (it_tmp.active) {
-                    sm->active_item_count++;
-                }
             } else if (string_identifier == "T") {
                 fin >> itx >> ity >> t;
                 sm->set_trap(itx, ity, trap_id(trap_key[t]));

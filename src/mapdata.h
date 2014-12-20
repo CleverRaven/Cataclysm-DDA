@@ -1,8 +1,6 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include <vector>
-#include <string>
 #include "color.h"
 #include "item.h"
 #include "trap.h"
@@ -15,6 +13,10 @@
 #include "field.h"
 #include "translations.h"
 #include <iosfwd>
+#include <unordered_set>
+#include <vector>
+#include <list>
+#include <string>
 
 class game;
 class monster;
@@ -350,6 +352,19 @@ struct spawn_point {
              mission_id (MIS), friendly (F), name (N) {}
 };
 
+// Provides hashing operator for item list iterator.
+struct list_iterator_hash {
+    size_t operator()(const std::list<item>::iterator &i) const {
+        return (size_t)&*i;
+    }
+};
+
+struct active_item_reference
+{
+    point sm_location;
+    std::list<item>::iterator item_iterator;
+};
+
 struct submap {
     inline trap_id get_trap(int x, int y) const {
         return trp[x][y];
@@ -383,6 +398,9 @@ struct submap {
     const std::string &get_graffiti( int x, int y ) const;
     void set_graffiti( int x, int y, const std::string &new_graffiti );
     void delete_graffiti( int x, int y );
+    void delete_active_item( std::list<item>::iterator it, point location );
+    void add_active_item( std::list<item>::iterator it, point location );
+    bool has_active_item( std::list<item>::iterator it, point );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
@@ -420,7 +438,12 @@ struct submap {
     int                rad[SEEX][SEEY];  // Irradiation of each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
+    // Cache of just the active items so we can iterate over just them.
+    std::list<active_item_reference> active_items;
+    // Cache for fast lookup when we're iterating over the active items to verify the item is present.
+    std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
     int active_item_count;
+
     int field_count;
     int turn_last_touched;
     int temperature;

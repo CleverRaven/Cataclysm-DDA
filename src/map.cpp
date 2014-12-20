@@ -2766,7 +2766,7 @@ std::list<item>::iterator map::i_rem( const point location, std::list<item>::ite
     submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
 
     if( it->needs_processing() ) {
-        current_submap->active_item_count--;
+        current_submap->delete_active_item( it, point( lx, ly ) );
     }
 
     return current_submap->itm[lx][ly].erase( it );
@@ -2807,9 +2807,10 @@ void map::i_clear(const int x, const int y)
     int lx, ly;
     submap *const current_submap = get_submap_at( x, y, lx, ly );
 
-    for( auto &itm : current_submap->itm[lx][ly] ) {
-        if( itm.needs_processing() ) {
-            current_submap->active_item_count--;
+    for( auto item_it = current_submap->itm[lx][ly].begin();
+         item_it != current_submap->itm[lx][ly].end(); ++item_it ) {
+        if( item_it->needs_processing() ) {
+            current_submap->delete_active_item( item_it, point( lx, ly ) );
         }
     }
     current_submap->itm[lx][ly].clear();
@@ -3012,7 +3013,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     submap * const current_submap = get_submap_at(x, y, lx, ly);
     current_submap->itm[lx][ly].push_back(new_item);
     if( new_item.needs_processing() ) {
-        current_submap->active_item_count++;
+        current_submap->add_active_item( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
     }
 }
 
