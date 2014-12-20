@@ -553,6 +553,9 @@ void Pickup::pick_up(int posx, int posy, int min)
                 ch = (char)ch - '0';
                 itemcount *= 10;
                 itemcount += ch;
+                if( itemcount < 0 ) {
+                    itemcount = 0;
+                }
             } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
                 start -= maxitems;
                 selected = start;
