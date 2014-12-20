@@ -427,7 +427,7 @@
         "bashing" : 4,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 4,
+        "material_thickness" : 3,
         "use_action" : "BOOTS"
     },
     {
