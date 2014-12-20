@@ -11471,7 +11471,7 @@ void map::rotate(int turns)
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
             const auto from = get_submap_at_grid( sx, sy );
-            int gridto;
+            int gridto = 0;
             switch(turns) {
             case 0:
                 gridto = get_nonant( sx, sy );
