@@ -660,7 +660,7 @@ void add_corpse(int x, int y);
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
 
- std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
+ std::map< point, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
     /** return @ref abs_sub */
@@ -689,10 +689,8 @@ void add_corpse(int x, int y);
  void add_road_vehicles(bool city, int facing);
 
 protected:
- void saven(const int x, const int y, const int z,
-            const int gridx, const int gridy);
- void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true);
+        void saven( int gridx, int gridy );
+        void loadn( int gridx, int gridy, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
@@ -728,7 +726,7 @@ protected:
         void player_in_field( player &u );
         void monster_in_field( monster &z );
 
- void copy_grid(const int to, const int from);
+        void copy_grid( point to, point from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
@@ -775,16 +773,37 @@ private:
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
- submap * getsubmap( const int grididx );
-
- /** Get the submap containing the specified position within the reality bubble. */
- submap *get_submap_at(int x, int y) const;
-
- /** Get the submap containing the specified position within the reality bubble.
-  *  Also writes the position within the submap to offset_x, offset_y
-  */
- submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
- submap *get_submap_at_grid(int gridx, int gridy) const;
+        /**
+         * Get the submap pointer with given index in @ref grid, the index must be valid!
+         */
+        submap *getsubmap( int grididx ) const;
+        /**
+         * Get the submap pointer containing the specified position within the reality bubble.
+         * (x,y) must be a valid coordinate, check with @ref inbounds.
+         */
+        submap *get_submap_at( int x, int y ) const;
+        /**
+         * Get the submap pointer containing the specified position within the reality bubble.
+         * The same as other get_submap_at, (x,y) must be valid (@ref inbounds).
+         * Also writes the position within the submap to offset_x, offset_y
+         */
+        submap *get_submap_at( int x, int y, int& offset_x, int& offset_y ) const;
+        /**
+         * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
+         * be valid: 0 <= x < my_MAPSIZE, same for y.
+         */
+        submap *get_submap_at_grid( int gridx, int gridy ) const;
+        /**
+         * Get the index of a submap pointer in the grid given by grid coordinates. The grid
+         * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
+         */
+        int get_nonant( int gridx, int gridy ) const;
+        /**
+         * Set the submap pointer in @ref grid at the give index. This is the inverse of
+         * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
+         * The given submap pointer must not be null.
+         */
+        void setsubmap( int grididx, submap *smap );
 
     void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 
