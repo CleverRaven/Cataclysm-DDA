@@ -270,6 +270,8 @@ std::string action_ident(action_id act)
         return "toggle_fullscreen";
     case ACTION_ACTIONMENU:
         return "action_menu";
+    case ACTION_ITEMACTION:
+        return "item_action_menu";
     case ACTION_NULL:
         return "null";
     default:
@@ -684,6 +686,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_MUTATIONS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
+            REGISTER_ACTION(ACTION_ITEMACTION);
 #ifdef TILES
             if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);

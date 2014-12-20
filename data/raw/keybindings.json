@@ -1342,6 +1342,7 @@
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
     { "type":"keybinding", "name": "Toggle Fullscreen mode", "category":"DEFAULTMODE", "id":"toggle_fullscreen" },
     { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
+    { "type":"keybinding", "name": "Item Action Menu", "category":"DEFAULTMODE", "id":"item_action_menu", "bindings":[ { "input_method":"keyboard", "key":"%" } ] },
     { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
     { "type":"keybinding", "name": "Move View Northeast", "category":"DEFAULTMODE", "id":"shift_ne" },
     { "type":"keybinding", "name": "Move View Southeast", "category":"DEFAULTMODE", "id":"shift_se" },
@@ -2059,6 +2060,54 @@
             {
                 "input_method":"keyboard",
                 "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SEW",
+        "category": "ITEM_ACTIONS",
+        "name": "Sew",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "KNIFE",
+        "category": "ITEM_ACTIONS",
+        "name": "Knife",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "VITAMINS",
+        "category": "ITEM_ACTIONS",
+        "name": "Vitamins",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SOLDER_WELD",
+        "category": "ITEM_ACTIONS",
+        "name": "Solder/Weld",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
             }
         ]
     }

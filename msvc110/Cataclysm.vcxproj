@@ -130,6 +130,7 @@
     <ClCompile Include="..\src\inventory.cpp" />
     <ClCompile Include="..\src\inventory_ui.cpp" />
     <ClCompile Include="..\src\item.cpp" />
+    <ClCompile Include="..\src\item_action.cpp" />
     <ClCompile Include="..\src\item_factory.cpp" />
     <ClCompile Include="..\src\item_group.cpp" />
     <ClCompile Include="..\src\itypedef.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="..\src\input.h" />
     <ClInclude Include="..\src\inventory.h" />
     <ClInclude Include="..\src\item.h" />
+    <ClInclude Include="..\src\item_action.h" />
     <ClInclude Include="..\src\item_factory.h" />
     <ClInclude Include="..\src\item_group.h" />
     <ClInclude Include="..\src\itype.h" />

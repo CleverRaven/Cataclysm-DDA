@@ -37,6 +37,7 @@
 #include "game.h"
 #include "faction.h"
 #include "npc.h"
+#include "item_action.h"
 
 #include <string>
 #include <vector>
@@ -123,6 +124,7 @@ void DynamicDataLoader::initialize()
         &ammunition_type::load_ammunition_type);
     type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
+    type_function_map["item_action"] = new StaticFunctionAccessor(&item_action::load_item_action);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access

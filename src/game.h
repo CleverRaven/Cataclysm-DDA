@@ -654,6 +654,8 @@ class game
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
 
+        void item_action_menu(); // Displays item action menu
+
 
         void rcdrive(int dx, int dy); //driving radio car
         /**
