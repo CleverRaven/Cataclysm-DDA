@@ -211,11 +211,11 @@ class map
  /**
   * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
   *
-  * @param tc Indicates the Bresenham line used to connect the two points, and may
+  * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
   *           subsequently be used to form a path between them
   */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &tc);
+           const int range, int &bresenham_slope);
 
  /**
   * Check whether there's a direct line of sight between `(Fx, Fy)` and
@@ -227,7 +227,7 @@ class map
   *    `cost_min` and `cost_max`.
   */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                 const int range, const int cost_min, const int cost_max, int &tc) const;
+                 const int range, const int cost_min, const int cost_max, int &bresenham_slope) const;
 
 
  /**
@@ -384,11 +384,11 @@ class map
  int bash_strength(const int x, const int y);
  /** Returns min_str of the furniture or terrain at x,y */
  int bash_resistance(const int x, const int y);
- /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning 
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
   *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
  int bash_rating(const int str, const int x, const int y);
- 
- /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists 
+
+ /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
   *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
  void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
                     ter_id floor_type = t_dirt, bool overwrite = false);

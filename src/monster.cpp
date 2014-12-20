@@ -378,14 +378,14 @@ int monster::vision_range(const int x, const int y) const
     return range;
 }
 
-bool monster::sees_player(int & tc, player * p) const {
+bool monster::sees_player(int & bresenham_slope, player * p) const {
     if ( p == NULL ) {
         p = &g->u;
     }
     const int range = vision_range(p->posx, p->posy);
     // * p->visibility() / 100;
     return (
-        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) &&
+        g->m.sees( _posx, _posy, p->posx, p->posy, range, bresenham_slope ) &&
         p->is_invisible() == false
     );
 }
@@ -461,7 +461,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
-        if( friendly != 0 && friendly != 0 ) {
+        if( friendly != 0 && m->friendly != 0 ) {
             // Currently friendly means "friendly to the player" (on same side as player),
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
@@ -1007,7 +1007,7 @@ bool monster::move_effects()
         }
         return false;
     }
-    
+
     // If we ever get more effects that force movement on success this will need to be reworked to
     // only trigger success effects if /all/ rolls succeed
     if (has_effect("in_pit")) {
@@ -1375,9 +1375,9 @@ void monster::process_effects()
             auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
             bool reduced = has_effect(it.get_resist_effect());
-            
+
             mod_speed_bonus(it.get_mod("SPEED", reduced));
-            
+
             if (it.get_mod("HURT", reduced) > 0) {
                 if(it.activated(calendar::turn, "HURT", reduced, mod)) {
                     apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));

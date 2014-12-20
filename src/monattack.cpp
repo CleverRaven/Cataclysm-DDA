@@ -1892,7 +1892,7 @@ void mattack::photograph(monster *z, int index)
     if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
         return;
     }
-    
+
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
@@ -1912,7 +1912,9 @@ void mattack::photograph(monster *z, int index)
                 return;
             }
         }
-    } else if (g->u.has_trait("PROF_PD_DET")) {
+    }
+
+    if (g->u.has_trait("PROF_PD_DET")) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -1961,7 +1963,7 @@ void mattack::photograph(monster *z, int index)
             }
         }
     }
-    
+
     if (g->u.has_trait("PROF_FED")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_marshal")) {
@@ -2582,8 +2584,8 @@ void mattack::searchlight(monster *z, int index)
 
         for (int i = 0; i < rng(1, 2); i++) {
 
-            int tc;
-            if (!z->sees_player(tc)) {
+            int bresenham_slope;
+            if (!z->sees_player(bresenham_slope)) {
                 if (settings.item_vars["SL_DIR"] != "") {
                     shift = atoi(settings.item_vars["SL_DIR"].c_str());
                 }
