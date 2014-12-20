@@ -1063,7 +1063,12 @@
       ["sig_p230", 5],
       ["walther_ppk", 5],
       ["needlepistol", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["fancy_kit_ivory", 5],
+      ["fancy_kit_chrome", 3],
+      ["fancy_kit_silver", 3],
+      ["fancy_kit_gold", 1],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -2592,7 +2597,12 @@
       ["l_bak_223", 3],
       ["rm99_pistol", 2],
       ["needlepistol", 2],
-      ["rm103a_pistol", 1]
+      ["rm103a_pistol", 1],
+      ["fancy_kit_ivory", 2],
+      ["fancy_kit_chrome", 1],
+      ["fancy_kit_silver", 1],
+      ["fancy_kit_gold", 1],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -2758,7 +2768,12 @@
       ["mosin91_30", 3],
       ["mosin44", 3],
       ["needlepistol", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["fancy_kit_ivory", 2],
+      ["fancy_kit_chrome", 1],
+      ["fancy_kit_silver", 1],
+      ["fancy_kit_gold", 1],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -2864,7 +2879,12 @@
       ["large_repairkit", 1],
       ["improve_sights", 20],
       ["survnote", 1],
-      ["shoulder_strap", 24]
+      ["shoulder_strap", 24],
+      ["fancy_kit_ivory", 12],
+      ["fancy_kit_chrome", 10],
+      ["fancy_kit_silver", 8],
+      ["fancy_kit_gold", 3],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -3655,7 +3675,8 @@
       ["oxygen_tank", 5],
       ["jack", 2],
       ["throw_extinguisher", 1],
-      ["smoxygen_tank", 10]
+      ["smoxygen_tank", 10],
+      ["fancy_kit_chrome", 1]
     ]
   },{
     "type" : "item_group",
@@ -3696,6 +3717,11 @@
       ["l_car_223_kit", 5],
       ["l_mbr_223_kit", 2],
       ["l_dsr_223_kit", 2],
+      ["fancy_kit_ivory", 8],
+      ["fancy_kit_chrome", 5],
+      ["fancy_kit_silver", 5],
+      ["fancy_kit_gold", 2],
+      ["fancy_kit_bling", 1],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["clown_suit", 2],
@@ -3860,7 +3886,12 @@
       ["colt_army", 7],
       ["36navy", 6],
       ["44army", 6],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["fancy_kit_ivory", 8],
+      ["fancy_kit_chrome", 5],
+      ["fancy_kit_silver", 5],
+      ["fancy_kit_gold", 2],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -4501,7 +4532,12 @@
       ["money_bundle", 90],
       ["pocketwatch", 5],
       ["sf_watch", 10],
-      ["survnote", 3]
+      ["survnote", 3],
+      ["fancy_kit_ivory", 12],
+      ["fancy_kit_chrome", 8],
+      ["fancy_kit_silver", 5],
+      ["fancy_kit_gold", 2],
+      ["fancy_kit_bling", 1]
     ]
   },{
     "type" : "item_group",
@@ -4535,7 +4571,11 @@
       ["nodachi", 1],
       ["katana", 2],
       ["rapier", 3],
-      ["sf_watch", 5]
+      ["sf_watch", 5],
+      ["fancy_kit_ivory", 4],
+      ["fancy_kit_chrome", 3],
+      ["fancy_kit_silver", 3],
+      ["fancy_kit_gold", 1]
     ]
   },{
     "type" : "item_group",
@@ -4879,7 +4919,12 @@
       ["straw_basket", 2],
       ["fedora", 5],
       ["straw_hat", 5],
-      ["straw_fedora", 5]
+      ["straw_fedora", 5],
+      ["fancy_kit_ivory", 30],
+      ["fancy_kit_chrome", 20],
+      ["fancy_kit_silver", 12],
+      ["fancy_kit_gold", 8],
+      ["fancy_kit_bling", 4]
     ]
   },{
     "type" : "item_group",
@@ -7562,7 +7607,8 @@
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["fancy_kit_bling", 4]
     ]
   },{
     "type" : "item_group",
@@ -7795,7 +7841,11 @@
       ["tanto", 4],
       ["katana", 1],
       ["survnote", 3],
-      ["ear_spool",30]
+      ["ear_spool",30],
+      ["fancy_kit_chrome", 30],
+      ["fancy_kit_silver", 18],
+      ["fancy_kit_gold", 12],
+      ["fancy_kit_bling", 6]
     ]
   },{
     "type" : "item_group",
@@ -8873,7 +8923,8 @@
       ["colt_army", 50],
       ["colt_navy", 50],
       ["36navy", 50],
-      ["44army", 50]
+      ["44army", 50],
+      ["fancy_kit_ivory", 3]
     ]
   },{
 "type" : "item_group",
