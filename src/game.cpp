@@ -4616,17 +4616,17 @@ void game::write_memorial_file(std::string sLastWords)
 {
 
     //Open the file first
-    DIR *dir = opendir("memorial");
+    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-        mkdir("memorial");
+        mkdir(FILENAMES["memorialdir".c_str()]);
 #else
-        mkdir("memorial", 0777);
+        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
 #endif
-        dir = opendir("memorial");
+        dir = opendir(FILENAMES["memorialdir"].c_str());
         if (!dir) {
             dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make './memorial' directory");
+            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
             return;
         }
     }
