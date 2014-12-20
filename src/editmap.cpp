@@ -1626,6 +1626,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 } else if ( gpmenu.ret == 2 ) {
 
                     point target_sub(target.x / 12, target.y / 12);
+                    g->m.clear_vehicle_cache();
 
                     std::string s = "";
                     for(int x = 0; x < 2; x++) {
@@ -1635,6 +1636,10 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
 
+                            for( auto & v : destsm->vehicles ) {
+                                g->m.vehicle_list.erase( v );
+                            }
+                            destsm->delete_vehicles();
                             for (size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
                                 vehicle *veh1 = srcsm->vehicles[i];
@@ -1642,9 +1647,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 veh1->smx = target_sub.x + x;
                                 veh1->smy = target_sub.y + y;
                                 destsm->vehicles.push_back (veh1);
-                                srcsm->vehicles.erase (srcsm->vehicles.begin() + i);
                                 g->m.update_vehicle_cache(veh1);
                             }
+                            srcsm->vehicles.clear();
                             g->m.update_vehicle_list(destsm); // update real map's vcaches
 
                             int spawns_todo = 0;
@@ -1684,6 +1689,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                         }
                     }
+                    g->m.reset_vehicle_cache();
 
                     //~ message when applying the map generator
                     popup(_("Changed 4 submaps\n%s"), s.c_str());
@@ -1723,6 +1729,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gmenu.hilight_color = h_white;
     gmenu.redraw();
     hilights["mapgentgt"].points.clear();
+    cleartmpmap( tmpmap );
     return ret;
 }
 
@@ -1852,7 +1859,7 @@ int editmap::edit_mapgen()
  */
 void editmap::cleartmpmap( tinymap & tmpmap ) {
     for( auto &smap : tmpmap.grid ) {
-        smap->vehicles.clear();
+        delete smap;
     }
 
     memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));
