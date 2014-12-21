@@ -1005,7 +1005,7 @@
             }
         ],
         "traits": [
-            "PROF_POLICE"
+            "PROF_SWAT"
         ],
         "items": {
             "both": [
@@ -1015,11 +1015,13 @@
                 "tac_fullhelmet",
                 "boots_combat",
                 "gloves_tactical",
+                "badge_swat",
                 "usp_9mm",
                 "hk_mp5",
                 "shoulder_strap",
                 "9mm",
                 "9mm",
+                "9mmfmj",
                 "flashbang"
             ],
             "male": [
@@ -1609,7 +1611,7 @@
             "bio_power_storage_mkII"
         ],
         "traits": [
-            "PROF_POLICE"
+            "PROF_CYBERCOP"
         ],
         "skills": [
             {
@@ -1629,7 +1631,7 @@
                 "under_armor",
                 "socks",
                 "boots",
-                "badge_deputy",
+                "badge_cybercop",
                 "holster",
                 "l_mp_9mm",
                 "9mmP",

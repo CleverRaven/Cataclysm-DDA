@@ -4191,6 +4191,24 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_SWAT",
+        "name" : "SWAT Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_CYBERCOP",
+        "name" : "Bionic Officer",
+        "points" : 0,
+        "description" : "You are a cybernetically-resurrected cop, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_PD_DET",
         "name" : "Police Detective",
         "points" : 0,

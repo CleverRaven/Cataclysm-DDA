@@ -1912,9 +1912,7 @@ void mattack::photograph(monster *z, int index)
                 return;
             }
         }
-    }
-    
-    if (g->u.has_trait("PROF_PD_DET")) {
+    } else if (g->u.has_trait("PROF_PD_DET")) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -1926,6 +1924,38 @@ void mattack::photograph(monster *z, int index)
             } else {
                 add_msg(m_info, _("The %s acknowledges you as an officer responding, but hangs around to watch."), z->name().c_str());
                 add_msg(m_info, _("Ops used to do that in case you needed backup..."));
+                z->reset_special(index); // Reset timer
+                return;
+            }
+        }
+    } else if (g->u.has_trait("PROF_SWAT")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_swat")) {
+            if (one_in(3)) {
+                add_msg(m_info, _("The %s flashes a LED and departs.  SWAT's working the area."), z->name().c_str());
+                z->no_corpse_quiet = true;
+                z->no_extra_death_drops = true;
+                z->die(nullptr);
+                return;
+            } else {
+                add_msg(m_info, _("The %s acknowledges you as SWAT onsite, but hangs around to watch."), z->name().c_str());
+                add_msg(m_info, _("Probably some now-obsolete Internal Affairs subroutine..."));
+                z->reset_special(index); // Reset timer
+                return;
+            }
+        }
+    } else if (g->u.has_trait("PROF_CYBERCOP")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_cybercop")) {
+            if (one_in(3)) {
+                add_msg(m_info, _("The %s winks a LED and departs.  One machine to another?"), z->name().c_str());
+                z->no_corpse_quiet = true;
+                z->no_extra_death_drops = true;
+                z->die(nullptr);
+                return;
+            } else {
+                add_msg(m_info, _("The %s acknowledges you as an officer responding, but hangs around to watch."), z->name().c_str());
+                add_msg(m_info, _("Apparently yours aren't the only systems kept alive post-apocalypse."));
                 z->reset_special(index); // Reset timer
                 return;
             }
