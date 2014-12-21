@@ -3115,31 +3115,21 @@ void map::process_items( bool active, T veh_processor, U map_processor, std::str
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const, int gridx, int gridy, T processor,
+void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor,
                                    std::string signal )
 {
-    for (int i = 0; i < SEEX; i++) {
-        for (int j = 0; j < SEEY; j++) {
-            point location( gridx * SEEX + i, gridy * SEEY + j );
-            auto items = i_at( location.x, location.y );
-            std::list<std::list<item>::iterator> active_items;
-            for( auto it = items.begin(); it != items.end(); ++it ) {
-                active_items.push_back( it );
-            }
-            for( auto &n : active_items ) {
-                bool item_found = false;
-                for( auto it = items.begin(); it != items.end(); ++it ) {
-                    if( n == it ) {
-                        item_found = true;
-                        break;
-                    }
-                }
-                if( !item_found ) {
-                    continue;
-                }
-                processor( items, n, location, signal );
-            }
+    // Get a COPY of the active item list for this submap.
+    // If more are added as a side effect of processing, they are ignored this turn.
+    // If they are destroyed before processing, they don't get processed.
+    std::list<active_item_reference> active_items = current_submap->active_items;
+    for( auto &active_item : active_items ) {
+        point map_location( gridx * SEEX + active_item.sm_location.x,
+                            gridy * SEEY + active_item.sm_location.y );
+        auto items = i_at( map_location.x, map_location.y );
+        if( !current_submap->has_active_item( active_item.item_iterator, active_item.sm_location ) ) {
+            continue;
         }
+        processor( items, active_item.item_iterator, map_location, signal );
     }
 }
 
