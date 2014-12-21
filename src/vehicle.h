@@ -621,19 +621,19 @@ public:
 // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
 
-// remove item from part's cargo
+    // remove item from part's cargo
     void remove_item (int part, int itemdex);
     void remove_item (int part, item *it);
     std::list<item>::iterator remove_item (int part, std::list<item>::iterator it);
 
     vehicle_stack get_items( int part );
 
-// Generates starting items in the car, should only be called when placed on the map
+    // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
     void gain_moves();
 
-// reduces velocity to 0
+    // reduces velocity to 0
     void stop ();
 
     void refresh_insides ();
@@ -684,7 +684,7 @@ public:
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
     //handles locked vehicles interaction
-    bool interact_vehicle_locked(); 
+    bool interact_vehicle_locked();
     //true if an alarm part is installed on the vehicle
     bool has_security_working();
     /**
@@ -694,7 +694,7 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
-    
+
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine

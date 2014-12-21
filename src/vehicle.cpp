@@ -902,7 +902,7 @@ void vehicle::use_controls()
             options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
         } else if (has_engine_type_not(fuel_type_muscle, true)){
             options_choice.push_back(toggle_engine);
-            options_message.push_back(uimenu_entry((engine_on) ? 
+            options_message.push_back(uimenu_entry((engine_on) ?
                         _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
     }
@@ -1268,8 +1268,8 @@ void vehicle::start_engine()
     // electric and plasma engines don't require anything special
     for( size_t e = 0; e < engines.size(); ++e ) {
         if(parts[engines[e]].hp > 0) {
-            if(is_engine_type_on(e, fuel_type_gasoline)  || 
-                is_engine_type_on(e, fuel_type_diesel)) {
+            if( is_engine_type_on(e, fuel_type_gasoline)  ||
+                is_engine_type_on(e, fuel_type_diesel) ) {
                 // Big engines can't be pull-started
                 int engine_power = part_power(engines[e]);
                 if(engine_power >= 50) {
@@ -1283,7 +1283,7 @@ void vehicle::start_engine()
             }
         }
     }
-    
+
     if (failed_start) {
         add_msg (_("The %s's engine fails to start."), name.c_str());
     } else {
@@ -1487,8 +1487,8 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     // only one muscle engine allowed
-    if(part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle && 
-        has_engine_type(fuel_type_muscle, false)) {
+    if( part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle &&
+        has_engine_type(fuel_type_muscle, false) ) {
         return false;
     }
 
@@ -2675,7 +2675,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
         int part_under_player;
         vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
         bool player_controlling = player_in_control(&(g->u));
-        
+
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if (veh == this && player_controlling && part_under_player >= 0) {
             int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
@@ -2765,7 +2765,7 @@ int vehicle::total_power (bool fueled)
 {
     int pwr = 0;
     int cnt = 0;
-    
+
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
         if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled)) {
@@ -2773,7 +2773,7 @@ int vehicle::total_power (bool fueled)
             cnt++;
         }
     }
-    
+
     for (size_t a = 0; a < alternators.size();a++){
         int p = alternators[a];
         if (is_alternator_on(a)) {
@@ -2883,7 +2883,7 @@ int vehicle::safe_velocity (bool fueled)
     int cnt = 0;
     for (size_t e = 0; e < engines.size(); e++){
         if (is_engine_on(e) &&
-            (!fueled || is_engine_type(e, fuel_type_muscle) || 
+            (!fueled || is_engine_type(e, fuel_type_muscle) ||
             fuel_left (part_info(engines[e]).fuel_type))) {
             int m2c = 100;
 
@@ -3171,10 +3171,10 @@ void vehicle::consume_fuel( double load = 1.0 )
         // if no engines use this fuel, skip
         int amnt_fuel_use = basic_consumption(fuel_types[ft]);
         if (amnt_fuel_use == 0) continue;
-        
+
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / fuel_coeff[ft];
-        
+
         amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
         // consumption remainder results in chance at additional fuel consumption
@@ -3506,8 +3506,8 @@ int vehicle::discharge_battery (int amount, bool recurse)
 }
 
 void vehicle::do_engine_damage(size_t e, int strain) {
-     if (is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) && fuel_left(part_info(engines[e]).fuel_type) && 
-        rng (1, 100) < strain) {
+     if( is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) &&
+         fuel_left(part_info(engines[e]).fuel_type) &&  rng (1, 100) < strain ) {
         int dmg = rng(strain * 2, strain * 4);
         damage_direct(engines[e], dmg, 0);
         if(one_in(2)) {
@@ -3531,7 +3531,7 @@ void vehicle::idle(bool on_map) {
                 do_engine_damage(e, strn);
             }
         }
-        
+
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
@@ -3540,8 +3540,8 @@ void vehicle::idle(bool on_map) {
             noise_and_smoke( idle_rate, 6.0 );
         }
     } else {
-        if (engine_on && g->u_see(global_x(), global_y()) &&  
-            has_engine_type_not(fuel_type_muscle, true)) {
+        if( engine_on && g->u_see(global_x(), global_y()) &&
+            has_engine_type_not(fuel_type_muscle, true) ) {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
         engine_on = false;
@@ -3615,8 +3615,7 @@ void vehicle::thrust (int thd) {
         last_turn = 0;
         skidding = false;
     }
-    
-    
+
     if (stereo_on == true) {
         play_music();
     }
@@ -3647,7 +3646,6 @@ void vehicle::thrust (int thd) {
        thrusting = (sgn == thd);
     }
 
-    
     int accel = acceleration();
     int max_vel = max_velocity();
     //get braking power
@@ -3674,7 +3672,7 @@ void vehicle::thrust (int thd) {
             vel_inc = std::max( vel_inc, cruise_velocity - velocity );
         }
     }
-    
+
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
@@ -3692,25 +3690,25 @@ void vehicle::thrust (int thd) {
             }
             cruise_velocity = 0;
             return;
-        } 
+        }
 
         //make noise and consume fuel
         noise_and_smoke (load);
         consume_fuel (load);
-    
+
         //break the engines a bit, if going too fast.
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             do_engine_damage(e, strn);
         }
     }
-    
+
     //wheels aren't facing the right way to change velocity properly
     //lower down, since engines should be getting damaged anyway
     if (skidding) {
         return;
     }
-    
+
     //change vehicles velocity
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0)) {
@@ -4439,7 +4437,6 @@ void vehicle::refresh()
     fridge_epower = 0;
     recharger_epower = 0;
     alternator_load = 0;
-    
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
