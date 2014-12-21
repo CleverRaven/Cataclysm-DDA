@@ -4821,71 +4821,72 @@ void vehicle::aim_turrets()
 
     int selected = 0;
 
-    while( true ) {
-        pmenu.title = _("Pick turret to aim");
-        pmenu.callback = &callback;
-        int i = 0;
-        // Regen menu entries
-        for( int p : turrets ) {
-            std::string aimed = aim_type( parts[p] );
-            auto description = !part_flag( p, "LONG_AIM" ) ? 
-                                _("[%s] %s") :
-                                _("[%s] Take time to aim %s");
-            pmenu.addentry( i++, true, MENU_AUTOASSIGN, description,
-                            aimed.c_str(), part_info( p ).name.c_str() );
-        }
-
-        pmenu.addentry( i, true, 'q', _("Finish") );
-        pmenu.w_y = 0; // Move the menu so that we can see our vehicle
-        
-        pmenu.selected = selected;
-        pmenu.fselected = selected;
-        pmenu.query();
-        if( pmenu.ret < 0 || pmenu.ret >= i ) {
-            return;
-        }
-
-        selected = pmenu.ret;
-        
-        int turret_index = turrets[selected];
-        const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
-        if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
-            debugmsg( "vehicle::aim_turrets tried to pick a non-turret part" );
-            return;
-        }
-
-        // Remember turret's position at the time of aiming
-        auto &target = parts[turret_index].target;
-        target.second.x = global_x() + parts[turret_index].precalc_dx[0];
-        target.second.y = global_y() + parts[turret_index].precalc_dy[0];
-
-        point t = g->look_around();
-
-        if( t.x == -1 && t.y == -1 ) {
-            target.first = target.second;
-            pmenu.reset();
-            continue;
-        }
-
-        target.first = point( t.x, t.y );
-        if( parts[turret_index].mode <= 0 ) {
-            // Fire only one full burst, then back to off
-            parts[turret_index].mode = INT_MIN;
-        }
-
-        if( turret_mode < 1 ) {
-            add_msg( _("Activating turrets") );
-            turret_mode = 1;
-        }
-
-        // For big guns, like tank cannons
-        if( part_flag( turret_index, "LONG_AIM" ) ) {
-            g->u.moves -= 100;
-            return;
-        }
-
-        pmenu.reset();
+    pmenu.title = _("Pick turret to aim");
+    pmenu.callback = &callback;
+    int i = 0;
+    for( int p : turrets ) {
+        std::string aimed = aim_type( parts[p] );
+        pmenu.addentry( i++, true, MENU_AUTOASSIGN, _("[%s] %s"),
+                        aimed.c_str(), part_info( p ).name.c_str() );
     }
+
+    pmenu.addentry( i, true, 'q', _("Finish") );
+    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+    
+    pmenu.selected = selected;
+    pmenu.fselected = selected;
+    pmenu.query();
+    if( pmenu.ret < 0 || pmenu.ret >= i ) {
+        return;
+    }
+
+    selected = pmenu.ret;
+
+    int turret_index = turrets[selected];
+
+    const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
+    if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
+        debugmsg( "vehicle::aim_turrets tried to pick a non-turret part" );
+        return;
+    }
+
+    // Remember turret's position at the time of aiming
+    auto &target = parts[turret_index].target;
+    int cx = global_x() + parts[turret_index].precalc_dx[0];
+    int cy = global_y() + parts[turret_index].precalc_dy[0];
+    target.second.x = cx;
+    target.second.y = cy;
+
+    int range = gun->range;
+    int x = cx;
+    int y = cy;
+    int t;
+    auto mons = g->u.get_visible_creatures( range );
+    target_mode tmode = TARGET_MODE_THROW; // We can't aim here yet
+    item weap( part_info( turret_index ).item, 0 );
+    std::vector<point> trajectory = 
+                        g->target( x, y, cx - range, cy - range,
+                                   cx + range, cy + range, mons,
+                                   t, &weap, tmode, point( cx, cy ) );
+
+    if( trajectory.empty() ) {
+        target.first = target.second;
+        return;
+    }
+
+    target.first = point( x, y );
+    if( parts[turret_index].mode <= 0 ) {
+        // Fire only one full burst, then back to off
+        parts[turret_index].mode = INT_MIN;
+    }
+
+    if( turret_mode < 1 ) {
+        add_msg( _("Activating turrets") );
+        turret_mode = 1;
+    }
+
+    g->u.moves -= 100 - g->u.dex_cur; // Take some time to aim
+    g->draw_ter();
 }
 
 void vehicle::control_turrets() {
