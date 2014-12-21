@@ -10857,9 +10857,9 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 2,
+        "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 100,
+        "nutrition" : 25,
         "description" : "Fluffy and delicious pancakes with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
         "price" : 650,
         "material" : ["wheat", "fruit"],
@@ -10867,10 +10867,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 12
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -10887,9 +10887,9 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 1,
+        "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 100,
+        "nutrition" : 25,
         "description" : "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
         "price" : 700,
         "material" : ["wheat", "junk"],
@@ -10897,10 +10897,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 24
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -11951,9 +11951,9 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 2,
+        "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 100,
+        "nutrition" : 25,
         "description" : "Spaghetti covered with a thick meat sauce.  Yum!  ",
         "price" : 1000,
         "material" : ["wheat", "flesh"],
@@ -11961,10 +11961,10 @@
         "volume" : 7,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 15
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -11983,7 +11983,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 100,
+        "nutrition" : 25,
         "description" : "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy that kind of thing.  ",
         "price" : 0,
         "material" : ["wheat", "hflesh"],
@@ -11991,10 +11991,10 @@
         "volume" : 7,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 15
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
