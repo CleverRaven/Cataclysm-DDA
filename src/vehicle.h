@@ -631,6 +631,9 @@ public:
     void leak_fuel (int p);
     void shed_loose_parts();
 
+    // Manual turret aiming
+    void aim_turrets();
+
     // Per-turret mode selection
     void control_turrets();
 
