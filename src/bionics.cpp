@@ -743,7 +743,7 @@ bool player::activate_bionic(int b, bool eff_only)
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
         int vehwindspeed = 0;
         if( veh ) {
-            vehwindspeed = abs(veh->velocity / 100); // For mph
+            vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
