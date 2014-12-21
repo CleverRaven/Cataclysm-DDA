@@ -456,8 +456,8 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , title(t)
     , current_page_offset_i(0)
     , current_page_offset_w(0)
-    , selected_i(0) // first is the category header
-    , selected_w(0) // ^^
+    , selected_i(1) // first is the category header
+    , selected_w(1) // ^^
     , inCategoryMode(false)
     , multidrop(m)
     , compare(c)
