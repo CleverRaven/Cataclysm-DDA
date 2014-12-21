@@ -1300,17 +1300,24 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
-    
+
     face.init (fdir);
     move.init (mdir);
     data.read("name", name);
 
     data.read("parts", parts);
-    /*
-        for(int i=0;i < parts.size();i++ ) {
-           parts[i].setid(parts[i].id);
+
+    // Need to manually backfill the active item cache since the part loader can't call its vehicle.
+    for( auto cargo_index : all_parts_with_feature(VPFLAG_CARGO, true) ) {
+        auto it = parts[cargo_index].items.begin();
+        auto end = parts[cargo_index].items.end();
+        for( ; it != end; ++it ) {
+            if( it->needs_processing() ) {
+                add_active_item( it, point( parts[cargo_index].mount_dx,
+                                            parts[cargo_index].mount_dy ) );
+            }
         }
-    */
+    }
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if ( savegame_loading_version < 11 ) {

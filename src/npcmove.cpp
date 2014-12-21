@@ -1339,8 +1339,7 @@ void npc::find_item()
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
-                auto &i = g->m.i_at(x, y);
-                for( auto &elem : i ) {
+                for( auto &elem : g->m.i_at(x, y) ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
                         continue;
@@ -1380,7 +1379,7 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    auto &items = g->m.i_at(itx, ity);
+    auto items = g->m.i_at(itx, ity);
     int total_volume = 0;
     int total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want

@@ -982,8 +982,6 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
     const field &f = g->m.field_at(x, y);
-    // check for items
-    const std::vector<item> &items = g->m.i_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -1047,6 +1045,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
+        auto items = g->m.i_at(x, y);
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map

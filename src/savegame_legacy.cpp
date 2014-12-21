@@ -1138,16 +1138,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff);
             it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
+            if( it_tmp.active ) {
+                sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
+            }
            } else if (string_identifier == "C") {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
-            int index = sm->itm[itx][ity].size() - 1;
             it_tmp.load_info(databuff);
-            sm->itm[itx][ity][index].put_in(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
+            sm->itm[itx][ity].back().put_in(it_tmp);
            } else if (string_identifier == "T") {
             fin >> itx >> ity >> t;
             sm->set_trap(itx, ity, trap_id(t));
@@ -1413,17 +1411,13 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 it_tmp.load_info(databuff);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active) {
-                    sm->active_item_count++;
+                    sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
                 }
             } else if (string_identifier == "C") {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
-                int index = sm->itm[itx][ity].size() - 1;
                 it_tmp.load_info(databuff);
-                sm->itm[itx][ity][index].put_in(it_tmp);
-                if (it_tmp.active) {
-                    sm->active_item_count++;
-                }
+                sm->itm[itx][ity].back().put_in(it_tmp);
             } else if (string_identifier == "T") {
                 fin >> itx >> ity >> t;
                 sm->set_trap(itx, ity, trap_id(trap_key[t]));
@@ -2005,13 +1999,14 @@ void vehicle::load_legacy(std::ifstream &stin) {
         new_part.flags = pflag;
         new_part.passenger_id = pass;
         new_part.amount = pam;
+        parts.push_back (new_part);
         for (int j = 0; j < pnit; j++)
         {
             itms++;
             getline(stin, databuff);
             item itm;
             itm.load_info(databuff);
-            new_part.items.push_back (itm);
+            add_item(j, itm);
             int ncont;
             stin >> ncont; // how many items inside container
             getline(stin, databuff); // Clear EoL
@@ -2020,10 +2015,9 @@ void vehicle::load_legacy(std::ifstream &stin) {
                 getline(stin, databuff);
                 item citm;
                 citm.load_info(databuff);
-                new_part.items[new_part.items.size()-1].put_in (citm);
+                new_part.items.back().put_in (citm);
             }
         }
-        parts.push_back (new_part);
     }
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */

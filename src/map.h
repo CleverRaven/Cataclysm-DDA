@@ -20,6 +20,8 @@
 #include "vehicle.h"
 #include "lightmap.h"
 #include "coordinates.h"
+#include "item_stack.h"
+
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -41,6 +43,30 @@ struct wrapped_vehicle{
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
+
+class map_stack : public item_stack {
+private:
+    std::list<item> *mystack;
+    point location;
+    map *myorigin;
+public:
+    map_stack( std::list<item> *newstack, point newloc, map *neworigin ) :
+    mystack(newstack), location(newloc), myorigin(neworigin) {};
+    size_t size() const;
+    bool empty() const;
+    std::list<item>::iterator erase( std::list<item>::iterator it );
+    void push_back( const item &newitem );
+    std::list<item>::iterator begin();
+    std::list<item>::iterator end();
+    std::list<item>::const_iterator begin() const;
+    std::list<item>::const_iterator end() const;
+    std::list<item>::reverse_iterator rbegin();
+    std::list<item>::reverse_iterator rend();
+    std::list<item>::const_reverse_iterator rbegin() const;
+    std::list<item>::const_reverse_iterator rend() const;
+    item &front();
+    item &operator[]( size_t index );
+};
 
 /**
  * Manage and cache data about a part of the map.
@@ -473,23 +499,15 @@ void add_corpse(int x, int y);
  void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
 
 // Items
- // Const item accessor for examining items on the map without modifying them.
- const std::vector<item>& i_at(int x, int y) const;
- // Non-const item accessor for rare cases where items need to be modified en masse.
- // Do not insert or remove items using this, it can break assumptions about caching.
- std::vector<item>& i_at_mutable(int x, int y);
- // Accessors to retrieve a mutable reference to an item.
- item *get_item( int x, int y, int i );
- item *get_item( const int x, const int y, std::vector<item>::const_iterator i );
- itemslice i_stacked(std::vector<item>& items);
+ // Accessor that returns a wrapped reference to an item stack for safe modification.
+ map_stack i_at(int x, int y);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
- // Both i_rem() methods that return values act like conatiner::erase(),
+ // i_rem() methods that return values act like conatiner::erase(),
  // returning an iterator to the next item after removal.
- std::vector<item>::const_iterator i_rem( const int x, const int y,
-                                          std::vector<item>::const_iterator it );
+ std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
  int i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
  void spawn_artifact( const int x, const int y );
@@ -707,7 +725,8 @@ protected:
          * that have rotten away completely.
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
-        void remove_rotten_items( std::vector<item> &items, const point &pnt ) const;
+        template <typename Container>
+        void remove_rotten_items( Container &items, const point &pnt ) const;
         /**
          * Try to fill funnel based items here.
          * @param pnt The location in this map where to fill funnels.
@@ -742,7 +761,7 @@ protected:
 
  int my_MAPSIZE;
 
- mutable std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
+ mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
  mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
  mutable field nulfield; // Returned when &field_at() is asked for an OOB value
  mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
@@ -817,20 +836,23 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
- void add_light_from_items( const int x, const int y, const std::vector<item> &items );
+ void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                            std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
 
  // Iterates over every item on the map, passing each item to the provided function.
+ template<typename T, typename U>
+     void process_items( bool active, T veh_processor, U map_processor, std::string signal );
  template<typename T>
- void process_items( bool active, T processor );
+     void process_items_in_submap( submap *const current_submap, int gridx, int gridy,
+                                   T processor, std::string signal );
  template<typename T>
- void process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor );
+     void process_items_in_vehicles( submap *const current_submap, T processor, std::string signal);
  template<typename T>
- void process_items_in_vehicles( submap *const current_submap, T processor);
- template<typename T>
- void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
+     void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap,
+                                    T processor, std::string signal );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

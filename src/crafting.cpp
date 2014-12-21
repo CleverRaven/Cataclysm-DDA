@@ -1954,13 +1954,13 @@ void player::complete_disassemble()
         return;
     }
     item *org_item;
-    auto &items_on_ground = g->m.i_at(posx, posy);
+    auto items_on_ground = g->m.i_at(posx, posy);
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
             return;
         }
-        org_item = g->m.get_item( posx, posy, item_pos );
+        org_item = &items_on_ground[item_pos];
         if (org_item->type->id != dis->result) {
             add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
             return;

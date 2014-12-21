@@ -225,9 +225,9 @@ void monster::move()
     //If there are. Consume them.
     if( !is_hallucination() && has_flag( MF_ABSORBS ) ) {
         if(!g->m.i_at(posx(), posy()).empty()) {
-            add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
-            std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
-            for( auto &elem : items_absorbed ) {
+            add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"),
+                    name().c_str());
+            for( auto &elem : g->m.i_at(posx(), posy()) ) {
                 hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear(posx(), posy());

@@ -172,7 +172,11 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
         const point bp = get_random_from_vec( boardables );
         m.furn_set( bp.x, bp.y, m.furn( fp.x, fp.y ) );
         m.furn_set( fp.x, fp.y, f_null );
-        m.i_at_mutable( bp.x, bp.y ).swap( m.i_at_mutable( fp.x, fp.y ) );
+        auto destination_items = m.i_at(bp.x, bp.y);
+        for( auto moved_item : m.i_at(fp.x, fp.y) ) {
+            destination_items.push_back( moved_item );
+        }
+        m.i_clear( fp.x, fp.y );
     }
 }
 

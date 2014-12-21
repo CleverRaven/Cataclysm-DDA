@@ -11458,12 +11458,15 @@ void map::rotate(int turns)
             int new_lx, new_ly;
             const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
             std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
-            std::swap( itrot[old_x][old_y], new_sm->itm[new_lx][new_ly] );
             std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
             std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
             std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
             std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
             std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
+            auto items = i_at(new_x, new_y);
+            itrot[old_x][old_y].reserve( items.size() );
+            std::move( items.begin(), items.end(), std::back_inserter(itrot[old_x][old_y]) );
+            i_clear(new_x, new_y);
         }
     }
 
@@ -11581,12 +11584,14 @@ void map::rotate(int turns)
             int lx, ly;
             const auto sm = get_submap_at( i, j, lx, ly );
             std::swap( rotated[i][j], sm->ter[lx][ly] );
-            std::swap( itrot[i][j], sm->itm[lx][ly] );
             std::swap( furnrot[i][j], sm->frn[lx][ly] );
             std::swap( traprot[i][j], sm->trp[lx][ly] );
             std::swap( fldrot[i][j], sm->fld[lx][ly] );
             std::swap( radrot[i][j], sm->rad[lx][ly] );
             std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
+            for( auto &itm : itrot[i][j] ) {
+                add_item( i, j, itm );
+            }
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);
@@ -12103,7 +12108,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 rotated[i][j] = m->ter(i, j);
-                itrot[i][j] = m->i_at(i, j);
+                auto items = m->i_at( i, j );
+                itrot[i][j].reserve( items.size() );
+                std::move( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
             }
         }
         for (int i = x1; i <= x2; i++) {

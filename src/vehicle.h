@@ -6,11 +6,11 @@
 #include "item.h"
 #include "line.h"
 #include "veh_type.h"
+#include "item_stack.h"
 #include <vector>
 #include <map>
 #include <string>
 #include <iosfwd>
-
 
 class map;
 class player;
@@ -67,6 +67,31 @@ struct vehicle_prototype
     std::vector<vehicle_item_spawn> item_spawns;
 };
 
+class vehicle_stack : public item_stack {
+private:
+    std::list<item> *mystack;
+    point location;
+    class vehicle *myorigin;
+    int part_num;
+public:
+vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+    mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
+    size_t size() const;
+    bool empty() const;
+    std::list<item>::iterator erase( std::list<item>::iterator it );
+    void push_back( const item &newitem );
+    std::list<item>::iterator begin();
+    std::list<item>::iterator end();
+    std::list<item>::const_iterator begin() const;
+    std::list<item>::const_iterator end() const;
+    std::list<item>::reverse_iterator rbegin();
+    std::list<item>::reverse_iterator rend();
+    std::list<item>::const_reverse_iterator rbegin() const;
+    std::list<item>::const_reverse_iterator rend() const;
+    item &front();
+    item &operator[]( size_t index );
+};
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -116,8 +141,11 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
                     // Two coord pairs are stored: actual target point, and target vehicle center.
                     // Both cases use absolute coordinates (relative to world origin)
-    std::vector<item> items;// inventory
+private:
+    friend vehicle;
+    std::list<item> items;// inventory
 
+public:
     bool setid(const std::string str) {
         std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
         if ( vpit == vehicle_part_types.end() ) {
@@ -342,7 +370,7 @@ public:
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
-    
+
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
@@ -589,20 +617,28 @@ public:
     int stored_volume(int part);
     bool is_full(const int part, const int addvolume = -1, const int addnumber = -1 );
 
-// add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
-// *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
+    // Helpers to manage active item cache.
+    void remove_active_item( std::list<item>::iterator it, point location );
+    void add_active_item( std::list<item>::iterator it, point location );
+    bool has_active_item( std::list<item>::iterator it, point );
+
+    // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
+    // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
 
-// remove item from part's cargo
+    // remove item from part's cargo
     void remove_item (int part, int itemdex);
     void remove_item (int part, item *it);
+    std::list<item>::iterator remove_item (int part, std::list<item>::iterator it);
 
-// Generates starting items in the car, should only be called when placed on the map
+    vehicle_stack get_items( int part );
+
+    // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
     void gain_moves();
 
-// reduces velocity to 0
+    // reduces velocity to 0
     void stop ();
 
     void refresh_insides ();
@@ -653,7 +689,7 @@ public:
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
     //handles locked vehicles interaction
-    bool interact_vehicle_locked(); 
+    bool interact_vehicle_locked();
     //true if an alarm part is installed on the vehicle
     bool has_security_working();
     /**
@@ -663,7 +699,7 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
-    
+
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -721,6 +757,11 @@ public:
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
+
+    // Cache of just the active items so we can iterate over just them.
+    std::list<item_reference> active_items;
+    // Cache for fast lookup when we're iterating over the active items to verify the item is present.
+    std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
 
     /**
      * Submap coordinates of the currently loaded submap (see game::m)
