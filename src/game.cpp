@@ -4619,7 +4619,7 @@ void game::write_memorial_file(std::string sLastWords)
     DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-        mkdir(FILENAMES["memorialdir".c_str()]);
+        mkdir(FILENAMES["memorialdir"].c_str());
 #else
         mkdir(FILENAMES["memorialdir"].c_str(), 0777);
 #endif
