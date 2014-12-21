@@ -98,9 +98,8 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             }
         }
     }
-    if( type->is_var_veh_part() ) {
-        it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
-        bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
+    if( type->variable_bigness ) {
+        bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
     if( !type->snippet_category.empty() ) {
         note = SNIPPET.assign( type->snippet_category );
@@ -1512,15 +1511,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string vehtext = "";
-    if (is_var_veh_part()) {
-        if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT) {
-            float liters = (((float) bigness)/100.0f);
-            //~ liters, e.g. 3.21-Liter V8 engine
-            vehtext = rmp_format(_("<veh_adj>%4.2f-Liter "), liters);
-        }
-        else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) {
-            //~ inches, e.g. 20" wheel
-            vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
+    if( is_var_veh_part() ) {
+        switch( type->variable_bigness->bigness_aspect ) {
+            case BIGNESS_ENGINE_DISPLACEMENT:
+                //~ liters, e.g. 3.21-Liter V8 engine
+                vehtext = rmp_format( _( "<veh_adj>%4.2f-Liter " ), bigness / 100.0f );
+                break;
+            case BIGNESS_WHEEL_DIAMETER:
+                //~ inches, e.g. 20" wheel
+                vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
+                break;
         }
     }
 
@@ -2522,10 +2522,7 @@ bool item::destroyed_at_zero_charges() const
 
 bool item::is_var_veh_part() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_var_veh_part();
+    return type->variable_bigness.get() != nullptr;
 }
 
 bool item::is_gun() const

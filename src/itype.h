@@ -38,12 +38,8 @@ enum software_type {
 };
 
 enum bigness_property_aspect {
-    BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
-    BIGNESS_KILOWATTS,           // electric motor power
     BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
-    //BIGNESS_PLATING_THICKNESS, //
-    NUM_BIGNESS_ASPECTS,
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
@@ -397,6 +393,28 @@ struct islot_gunmod : public common_firing_data {
     }
 };
 
+struct islot_variable_bigness {
+    /**
+     * Minimal value of the bigness value of items of this type.
+     */
+    int min_bigness;
+    /**
+     * Maximal value of the bigness value of items of this type.
+     */
+    int max_bigness;
+    /**
+     * What the bigness actually represent see @ref bigness_property_aspect
+     */
+    bigness_property_aspect bigness_aspect;
+
+    islot_variable_bigness()
+    : min_bigness( 0 )
+    , max_bigness( 0 )
+    , bigness_aspect( BIGNESS_ENGINE_DISPLACEMENT )
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -413,6 +431,7 @@ struct itype {
     std::unique_ptr<islot_book> book;
     std::unique_ptr<islot_gun> gun;
     std::unique_ptr<islot_gunmod> gunmod;
+    std::unique_ptr<islot_variable_bigness> variable_bigness;
     /*@}*/
 
 protected:
@@ -437,7 +456,6 @@ public:
     unsigned int volume; // Space taken up by this item
     int stack_size;      // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
     unsigned int weight; // Weight in grams. Assumes positive weight. No helium, guys!
-    bigness_property_aspect bigness_aspect;
     std::map<std::string, int> qualities; //Tool quality indicators
     std::map<std::string, std::string> properties;
 
@@ -469,8 +487,10 @@ public:
             return "ARMOR";
         } else if( book ) {
             return "BOOK";
-        } else if( gun.get() != nullptr ) {
+        } else if( gun ) {
             return "GUN";
+        } else if( variable_bigness ) {
+            return "VEHICLE_PART";
         }
         return "misc";
     }
@@ -506,18 +526,6 @@ public:
     {
         return false;
     }
-    virtual bool is_var_veh_part() const
-    {
-        return false;
-    }
-    virtual bool is_engine() const
-    {
-        return false;
-    }
-    virtual bool is_wheel() const
-    {
-        return false;
-    }
     virtual bool count_by_charges() const
     {
         return false;
@@ -539,7 +547,7 @@ public:
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
         color(c_white), phase(SOLID), volume(0), stack_size(0),
-        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(),
+        weight(0), qualities(),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
         category(NULL)
     {}
@@ -550,7 +558,7 @@ public:
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
         name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), materials(pmaterials),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), melee_dam(pmelee_dam),
+        qualities(), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -607,40 +615,6 @@ struct it_comest : public virtual itype {
     {
     }
 };
-
-// v6, v8, wankel, etc.
-struct it_var_veh_part: public virtual itype {
-    // TODO? geometric mean: nth root of product
-    unsigned int min_bigness; //CC's
-    unsigned int max_bigness;
-    bool engine;
-
-    it_var_veh_part()
-        : itype()
-        , min_bigness(0)
-        , max_bigness(0)
-        , engine(false)
-    {
-    }
-
-    virtual bool is_var_veh_part() const
-    {
-        return true;
-    }
-    virtual bool is_wheel() const
-    {
-        return false;
-    }
-    virtual bool is_engine() const
-    {
-        return engine;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "VEHICLE_PART";
-    }
-};
-
 
 struct it_ammo : public virtual itype, public common_ranged_data {
     ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)

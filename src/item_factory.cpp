@@ -828,22 +828,25 @@ void Item_factory::load_bionic(JsonObject &jo)
     load_basic_info(jo, bionic_template);
 }
 
+void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
+{
+    slot.min_bigness = jo.get_int( "min-bigness" );
+    slot.max_bigness = jo.get_int( "max-bigness" );
+    const std::string big_aspect = jo.get_string( "bigness-aspect" );
+    if( big_aspect == "WHEEL_DIAMETER" ) {
+        slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
+    } else if( big_aspect == "ENGINE_DISPLACEMENT" ) {
+        slot.bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+    } else {
+        jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
+    }
+}
+
 void Item_factory::load_veh_part(JsonObject &jo)
 {
-    it_var_veh_part *veh_par_template = new it_var_veh_part();
-    veh_par_template->min_bigness = jo.get_int("min-bigness");
-    veh_par_template->max_bigness = jo.get_int("max-bigness");
-    const std::string big_aspect = jo.get_string("bigness-aspect");
-    if (big_aspect == "WHEEL_DIAMETER") {
-        veh_par_template->bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-        veh_par_template->engine = false;
-    } else if (big_aspect == "ENGINE_DISPLACEMENT") {
-        veh_par_template->bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
-        veh_par_template->engine = true;
-    } else {
-        throw std::string("invalid bigness-aspect: ") + big_aspect;
-    }
-    load_basic_info(jo, veh_par_template);
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->variable_bigness, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_generic(JsonObject &jo)
