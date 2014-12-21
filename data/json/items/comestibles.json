@@ -9202,10 +9202,10 @@
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 4,
+        "quench" : 2,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 84,
+        "nutrition" : 42,
         "description" : "Delicious, lumpy, white soup made of clams and potatoes.  A taste of the lost glory of New England.",
         "price" : 400,
         "material" : "flesh",
@@ -9213,10 +9213,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 2,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 11
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -9772,7 +9772,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 88,
+        "nutrition" : 44,
         "description" : "Slow-cooked beans with meat.  Tasty and very filling.",
         "price" : 700,
         "material" : ["veggy", "flesh"],
@@ -9780,10 +9780,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2, "//" : "One beans + one protein/veg = 2 servings",
+        "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 8
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9891,7 +9891,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 82,
+        "nutrition" : 41,
         "description" : "Delicious fried rice with meat.  Tasty and very filling.",
         "price" : 700,
         "material" : ["veggy", "flesh"],
@@ -9899,10 +9899,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2, "//" : "One rice + one protein/veg = 2 servings",
+        "charges" : 4, "//" : "One rice + one protein/veg = 2 servings",
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 9
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -10829,7 +10829,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 88,
+        "nutrition" : 22,
         "description" : "Fluffy and delicious pancakes with real maple syrup.",
         "price" : 550,
         "material" : "wheat",
@@ -10837,10 +10837,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 10
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
