@@ -13698,6 +13698,7 @@ void game::vertical_move(int movez, bool force)
         stairy = u.posy;
     } else { // We need to find the stairs.
         int best = 999;
+        bool danger_lava = false;
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx, u.posy, i, j) <= best &&
@@ -13709,9 +13710,16 @@ void game::vertical_move(int movez, bool force)
                     stairy = j;
                     best = rl_dist(u.posx, u.posy, i, j);
                 }
+                // Magic number used as double-shifting "best" added a bit of lag
+                if (rl_dist(u.posx, u.posy, i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                    danger_lava = true;
+                }
             }
         }
-
+        
+        if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            return;
+        }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
                 if (tmpmap.move_cost(u.posx, u.posy) == 0) {
