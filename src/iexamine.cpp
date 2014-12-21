@@ -32,9 +32,9 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             if( one_in(10 + p->dex_cur) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
                 item spill( item_it->type->id, calendar::turn );
-                spill.charges = rng( dynamic_cast<it_ammo *>(item_it->type)->count,
-                                     dynamic_cast<it_ammo *>(item_it->type)->count *
-                                     (float)(8 / p->dex_cur) );
+                const auto min = dynamic_cast<it_ammo *>(item_it->type)->count;
+                const auto max = dynamic_cast<it_ammo *>(item_it->type)->count * 8.0 / p->dex_cur;
+                spill.charges = rng( min, max );
                 m->add_item_or_charges( p->posx, p->posy, spill, 1 );
                 item_it->charges -= spill.charges;
                 if( item_it->charges < 1 ) {
@@ -2391,8 +2391,7 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             }
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
-                    long count = dynamic_cast<it_ammo *>(k.type)->count;
-                    long units = k.charges / count;
+                    const long units = k.charges / dynamic_cast<it_ammo *>(k.type)->count;
 
                     distance = new_distance;
                     p = point(i, j);
@@ -2513,16 +2512,16 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
     auto items = m->i_at( src.x, src.y );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
+            const long amount = units * dynamic_cast<it_ammo *>(item_it->type)->count;
 
-            if( item_it->charges < count * units ) {
+            if( item_it->charges < amount ) {
                 return false;
             }
 
-            item_it->charges -= count * units;
+            item_it->charges -= amount;
 
             item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = count * units;
+            liq_d.charges = amount;
 
             ter_t backup_pump = m->ter_at(dst.x, dst.y);
             m->ter_set(dst.x, dst.y, "t_null");
@@ -2552,8 +2551,6 @@ static long fromPumpFuel(map *m, point dst, point src)
     auto items = m->i_at( src.x, src.y );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
-
             // how much do we have in the pump?
             item liq_d(item_it->type->id, calendar::turn);
             liq_d.charges = item_it->charges;
@@ -2567,7 +2564,7 @@ static long fromPumpFuel(map *m, point dst, point src)
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return amount / count;
+            return amount / dynamic_cast<it_ammo *>(item_it->type)->count;
         }
     }
     return -1;
