@@ -118,7 +118,6 @@
     "aim_speed" : 0,
     "recoil": 0,
     "durability": 8,
-    "burst": 0,
     "clip_size": 0,
     "reload": 0,
     "valid_mod_locations": []
@@ -149,7 +148,6 @@
     "aim_speed" : 0,
     "recoil": 0,
     "durability": 8,
-    "burst": 0,
     "clip_size": 0,
     "reload": 0,
     "valid_mod_locations": []
@@ -297,7 +295,6 @@
     "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 18,
-    "range": 0,
     "dispersion": 6,
     "sight_dispersion": 150,
     "aim_speed" : 0,
@@ -537,7 +534,6 @@
     "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 30,
-    "range": 0,
     "dispersion": 5,
     "sight_dispersion": 150,
     "aim_speed" : 0,
@@ -599,7 +595,6 @@
     "aim_speed" : 0,
     "recoil": 0,
     "durability": 9,
-    "burst": 0,
     "clip_size": 0,
     "reload": 150
   },

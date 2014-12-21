@@ -7259,7 +7259,7 @@ int iuse::LAW(player *p, item *it, bool, point)
     it->make("LAW");
     it->charges++;
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->curammo = dynamic_cast<it_ammo *>( item( "66mm_HEAT", 0 ).type );
+    it->set_curammo( "66mm_HEAT" );
     return it->type->charges_to_use();
 }
 
@@ -7813,7 +7813,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             return 0;
         }
 
-        it_gun *gun = dynamic_cast<it_gun *>(put->type);
+        auto gun = put->type->gun.get();
         int maxvol = 0;
         if(it->type->properties["holster_size"] != "0") {
           maxvol = helper::to_int(it->type->properties["holster_size"]);
@@ -7846,7 +7846,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             item &gun = it->contents[0];
-            it_gun *t_gun = dynamic_cast<it_gun *>(gun.type);
+            auto t_gun = gun.type->gun.get();
             int lvl = p->skillLevel(t_gun->skill_used);
             std::string message;
             if (lvl < 2) {

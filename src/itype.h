@@ -203,6 +203,201 @@ struct islot_book {
     }
 };
 
+/**
+ * Common data for ranged things: guns, gunmods and ammo.
+ * The values of the gun itself, its mods and its current ammo (optional) are usually summed
+ * up in the item class and the sum is used.
+ */
+struct common_ranged_data {
+    /**
+     * Armor-pierce bonus from gun.
+     */
+    int pierce;
+    /**
+     * Range bonus from gun.
+     */
+    int range;
+    /**
+     * Damage bonus from gun.
+     */
+    int damage;
+    /**
+     * Dispersion "bonus" from gun.
+     */
+    int dispersion;
+    /**
+     * Recoil "bonus" from gun.
+     */
+    int recoil;
+
+    common_ranged_data()
+    : pierce( 0 )
+    , range( 0 )
+    , damage( 0 )
+    , dispersion( 0 )
+    , recoil( 0 )
+    {
+    }
+};
+
+/**
+ * Common data for things that affect firing: guns and gunmods.
+ * The values of the gun itself and its mods are usually summed up in the item class
+ * and the sum is used.
+ */
+struct common_firing_data : public common_ranged_data {
+    /**
+     * TODO: this needs documentation, who knows what it is?
+     * A value of -1 in gunmods means it's ignored.
+     */
+    int sight_dispersion;
+    /**
+     * TODO: this needs documentation, who knows what it is?
+     * A value of -1 in gunmods means it's ignored.
+     */
+    int aim_speed;
+    /**
+     * Burst size.
+     */
+    int burst;
+    /**
+     * Clip size. Note that on some gunmods it means relative (in percent) of the
+     * guns main magazine.
+     */
+    int clip;
+    /**
+     * TODO: document me
+     */
+    int loudness;
+
+    common_firing_data()
+    : common_ranged_data()
+    , sight_dispersion( 0 )
+    , aim_speed( 0 )
+    , burst( 0 )
+    , clip( 0 )
+    , loudness( 0 )
+    {
+    }
+};
+
+// TODO: this shares a lot with the ammo item type, merge into a separate slot type?
+struct islot_gun : public common_firing_data {
+    /**
+     * What type of ammo this gun uses.
+     */
+    ammotype ammo;
+    /**
+     * What skill this gun uses.
+     * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
+     * should probably be made explicit.
+     * TODO: this should be a pointer to a const Skill
+     */
+    Skill *skill_used;
+    /**
+     * Gun durability, affects gun being damaged during shooting.
+     */
+    int durability;
+    /**
+     * Reload time.
+     */
+    int reload_time;
+    /**
+     * Effects that are applied to the ammo when fired.
+     */
+    std::set<std::string> ammo_effects;
+    /**
+     * Location for gun mods.
+     * Key is the location (untranslated!), value is the number of mods
+     * that the location can have. The value should be > 0.
+     */
+    std::map<std::string, int> valid_mod_locations;
+    /**
+     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     */
+    int ups_charges;
+
+    islot_gun()
+    : common_firing_data()
+    , skill_used( nullptr )
+    , durability( 0 )
+    , reload_time( 0 )
+    , ammo_effects()
+    , valid_mod_locations()
+    , ups_charges( 0 )
+    {
+    }
+};
+
+struct islot_gunmod : public common_firing_data {
+    /**
+     * TODO: document me
+     */
+    int req_skill;
+    /**
+     * TODO: document me
+     * TODO: this should be a pointer to const Skill.
+     */
+    Skill *skill_used;
+    /**
+     * TODO: document me
+     */
+    ammotype newtype;
+    /**
+     * TODO: document me
+     */
+    std::set<std::string> acceptible_ammo_types;
+    /**
+     * TODO: document me
+     */
+    bool used_on_pistol;
+    /**
+     * TODO: document me
+     */
+    bool used_on_shotgun;
+    /**
+     * TODO: document me
+     */
+    bool used_on_smg;
+    /**
+     * TODO: document me
+     */
+    bool used_on_rifle;
+    /**
+     * TODO: document me
+     */
+    bool used_on_bow;
+    /**
+     * TODO: document me
+     */
+    bool used_on_crossbow;
+    /**
+     * TODO: document me
+     */
+    bool used_on_launcher;
+    /**
+     * TODO: document me
+     */
+    std::string location;
+
+    islot_gunmod()
+    : common_firing_data()
+    , req_skill( 0 )
+    , skill_used( nullptr )
+    , newtype()
+    , acceptible_ammo_types()
+    , used_on_pistol( false )
+    , used_on_shotgun( false )
+    , used_on_smg( false )
+    , used_on_rifle( false )
+    , used_on_bow( false )
+    , used_on_crossbow( false )
+    , used_on_launcher( false )
+    , location()
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -217,6 +412,8 @@ struct itype {
     std::unique_ptr<islot_container> container;
     std::unique_ptr<islot_armor> armor;
     std::unique_ptr<islot_book> book;
+    std::unique_ptr<islot_gun> gun;
+    std::unique_ptr<islot_gunmod> gunmod;
     /*@}*/
 
 protected:
@@ -273,6 +470,8 @@ public:
             return "ARMOR";
         } else if( book ) {
             return "BOOK";
+        } else if( gun.get() != nullptr ) {
+            return "GUN";
         }
         return "misc";
     }
@@ -289,14 +488,6 @@ public:
         return false;
     }
     virtual bool is_ammo() const
-    {
-        return false;
-    }
-    virtual bool is_gun() const
-    {
-        return false;
-    }
-    virtual bool is_gunmod() const
     {
         return false;
     }
@@ -450,21 +641,16 @@ struct it_var_veh_part: public virtual itype {
 };
 
 
-struct it_ammo : public virtual itype {
+struct it_ammo : public virtual itype, public common_ranged_data {
     ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
     itype_id casing;        // Casing produced by the ammo, if any
-    unsigned int damage;   // Average damage done
-    unsigned int pierce;   // Armor piercing; static reduction in armor
-    unsigned int range;    // Maximum range
-    signed int dispersion; // Dispersion (low is good)
-    unsigned int recoil;   // Recoil; modified by strength
     unsigned int count;    // Default charges
 
     itype_id default_container; // The container it comes in
 
     std::set<std::string> ammo_effects;
 
-    it_ammo(): itype(), type(), casing(), damage(0), pierce(0), range(0), dispersion(0), recoil(0),
+    it_ammo(): itype(), type(), casing(),
         count(0), default_container(), ammo_effects()
     {
     }
@@ -482,80 +668,6 @@ struct it_ammo : public virtual itype {
     {
         return "AMMO";
     }
-};
-
-struct it_gun : public virtual itype {
-    ammotype ammo;
-    Skill *skill_used;
-    int dmg_bonus;
-    int pierce;
-    int range;
-    int dispersion;
-    int sight_dispersion;
-    int aim_speed;
-    int recoil;
-    int durability;
-    int burst;
-    int clip;
-    int reload_time;
-
-    std::set<std::string> ammo_effects;
-    std::map<std::string, int> valid_mod_locations;
-    /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
-     */
-    int ups_charges;
-
-    virtual bool is_gun() const
-    {
-        return true;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "GUN";
-    }
-
-    it_gun() : itype(), skill_used(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
-        sight_dispersion(0), aim_speed(0), recoil(0), durability(0), burst(0), clip(0),
-        reload_time(0), ammo_effects(), valid_mod_locations(), ups_charges(0)
-    {
-    }
-};
-
-struct it_gunmod : public virtual itype {
-    int dispersion;
-    int mod_dispersion;
-    int sight_dispersion;
-    int aim_speed;
-    int damage;
-    int loudness;
-    int clip;
-    int recoil;
-    int burst;
-    int range;
-    int req_skill;
-    Skill *skill_used;
-    // Rest of the attributes are properly part of a gunmod.
-    ammotype newtype;
-    std::set<std::string> acceptible_ammo_types;
-    bool used_on_pistol;
-    bool used_on_shotgun;
-    bool used_on_smg;
-    bool used_on_rifle;
-    bool used_on_bow;
-    bool used_on_crossbow;
-    bool used_on_launcher;
-    std::string location;
-
-    virtual bool is_gunmod() const {
-        return true;
-    }
-
-    it_gunmod() : itype(), dispersion(0), mod_dispersion(0), sight_dispersion(0),
-        aim_speed(0), damage(0), loudness(0), clip(0), recoil(0), burst(0), range(0),
-        req_skill(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
-        used_on_shotgun(false), used_on_smg(false), used_on_rifle(false), used_on_bow(false),
-        used_on_crossbow(false), used_on_launcher(false), location() {}
 };
 
 struct it_tool : public virtual itype {

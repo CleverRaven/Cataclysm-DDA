@@ -2678,7 +2678,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         if (length > max_text_length) {
             max_text_length = length;
         }
-        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )));
         length = utf8_width(_("<r>eload"));
         if (length > max_text_length) {
             max_text_length = length;
@@ -4616,17 +4616,17 @@ void game::write_memorial_file(std::string sLastWords)
 {
 
     //Open the file first
-    DIR *dir = opendir("memorial");
+    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-        mkdir("memorial");
+        mkdir(FILENAMES["memorialdir"].c_str());
 #else
-        mkdir("memorial", 0777);
+        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
 #endif
-        dir = opendir("memorial");
+        dir = opendir(FILENAMES["memorialdir"].c_str());
         if (!dir) {
             dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make './memorial' directory");
+            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
             return;
         }
     }
@@ -5165,21 +5165,6 @@ void game::debug()
     }
     erase();
     refresh_all();
-}
-
-void game::mondebug()
-{
-    int tc = 0;
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        critter.debug(u);
-        if (critter.has_flag(MF_SEES) &&
-            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
-            debugmsg("The %s can see you.", critter.name().c_str());
-        } else {
-            debugmsg("The %s can't see you...", critter.name().c_str());
-        }
-    }
 }
 
 void game::draw_overmap()
@@ -10384,7 +10369,7 @@ int game::list_monsters(const int iLastState)
 
     uistate.list_item_mon = 2; // remember we've tabbed here
 
-    const int iWeaponRange = u.weapon.range(&u);
+    const int iWeaponRange = u.weapon.gun_range(&u);
 
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
@@ -10731,9 +10716,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             ammo = tool->ammo;
             max = tool->max_charges;
         } else {
-            it_gun *gun = dynamic_cast<it_gun *>(cont->type);
-            ammo = gun->ammo;
-            max = gun->clip;
+            ammo = cont->type->gun->ammo;
+            max = cont->type->gun->clip;
         }
 
         ammotype liquid_type = liquid.ammo_type();
@@ -10750,13 +10734,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
+        if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
 
         add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
-        cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
+        cont->set_curammo( liquid );
         if (infinite) {
             cont->charges = max;
         } else {
@@ -10817,9 +10801,8 @@ int game::move_liquid(item &liquid)
                 ammo = tool->ammo;
                 max = tool->max_charges;
             } else {
-                it_gun *gun = dynamic_cast<it_gun *>(cont->type);
-                ammo = gun->ammo;
-                max = gun->clip;
+                ammo = cont->type->gun->ammo;
+                max = cont->type->gun->clip;
             }
 
             ammotype liquid_type = liquid.ammo_type();
@@ -10836,14 +10819,14 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
+            if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
                 add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
                 return -1;
             }
 
             add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
                     cont->tname().c_str());
-            cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
+            cont->set_curammo( liquid );
             cont->charges += liquid.charges;
             if (cont->charges > max) {
                 long extra = cont->charges - max;
@@ -11295,6 +11278,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if (!u.weapon.is_gun()) {
         return;
     }
+    if( u.weapon.is_gunmod() ) {
+        add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
+        return;
+    }
     //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
     //should be fine to place this here, plfire(true,*) only once in code
     if (burst && !u.weapon.has_flag("MODE_BURST")) {
@@ -11306,23 +11293,15 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-        if( u.has_charges( "UPS", 1) ) {
-            add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
-            u.weapon.charges = 0;
-            u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "charge_shot" ) );
-            u.weapon.active = true;
-            return;
-        } else {
-            add_msg(m_info, _("You need a powered UPS."));
+    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+        if( u.weapon.activate_charger_gun( u ) ) {
             return;
         }
     }
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "generic_no_ammo" ) );
+        u.weapon.set_curammo( "generic_no_ammo" );
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
@@ -11410,7 +11389,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
         return;
     }
-    const it_gun *gun = dynamic_cast<const it_gun*>( u.weapon.type );
+    const auto gun = u.weapon.type->gun.get();
     if( gun != nullptr && gun->ups_charges > 0 ) {
         const int ups_drain = gun->ups_charges;
         const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
@@ -11436,7 +11415,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    int range = u.weapon.range(&u);
+    int range = u.weapon.gun_range(&u);
 
     temp_exit_fullscreen();
     m.draw(w_terrain, point(u.posx, u.posy));
@@ -11458,7 +11437,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
     draw_ter(); // Recenter our view
 
-    if (u.weapon.mode == "MODE_BURST") {
+    if (u.weapon.get_gun_mode() == "MODE_BURST") {
         burst = true;
     }
 
@@ -12121,8 +12100,8 @@ void game::reload(int pos)
                 contents = *cont;
                 if ((contents.is_gunmod() &&
                      (contents.typeId() == "spare_mag" &&
-                      contents.charges < (dynamic_cast<it_gun *>(it->type))->clip)) ||
-                    (contents.has_flag("MODE_AUX") &&
+                      contents.charges < it->type->gun->clip)) ||
+                    (contents.is_auxiliary_gunmod() &&
                      contents.charges < contents.clip_size())) {
                     magazine_isfull = false;
                     break;
@@ -12217,81 +12196,91 @@ void game::unload(int pos)
     }
 }
 
+bool add_or_drop_with_msg( player &u, item &it )
+{
+    if( it.made_of( LIQUID ) ) {
+        return g->handle_liquid( it, false, false, nullptr );
+    }
+    if( !u.can_pickVolume( it.volume() ) ) {
+        add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                 it.tname().c_str() );
+        g->m.add_item_or_charges( u.posx, u.posy, it );
+    } else if( !u.can_pickWeight( it.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
+        g->m.add_item_or_charges( u.posx, u.posy, it );
+    } else {
+        auto &ni = u.i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
+    }
+    return true;
+}
+
 void game::unload(item &it)
 {
+    // NOTE: changes here should also be applied to player::rate_action_unload to make the UI consistent
+    if( it.is_container() && !it.contents.empty() ) {
+        // TODO (or not): containers and guns use item::contents to store different things:
+        // the gunmods / the container contents.
+        // Maybe the gunmods should go into their own member?
+        u.moves -= 40 * it.contents.size();
+        std::vector<item> old_contents = it.contents;
+        it.contents.clear();
+        for( auto &content : old_contents ) {
+            if( !add_or_drop_with_msg( u, content ) ) {
+                it.contents.push_back( content );
+            }
+        }
+        return;
+    }
+    if( it.is_gun() && !it.contents.empty() ) {
+        // TODO: same as above: item::contents is shared with containers
+        // Try unloading the active gunmod first as this is the most likely what the player wants.
+        item *active_gunmod = it.active_gunmod();
+        if( active_gunmod != nullptr && active_gunmod->charges > 0 ) {
+            unload( *active_gunmod );
+            return;
+        }
+        // Try to unload all the other gunmods.
+        for( auto &gunmod : it.contents ) {
+            if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
+                unload( gunmod );
+                return;
+            } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
+                // TODO: ^^ this shall be a flag.
+                unload( gunmod );
+                return;
+            }
+        }
+        // If neither the mods nor the gun itself are loaded, try to remove the mods instead.
+        if( it.charges <= 0 ) {
+            while( !it.contents.empty() ) {
+                u.remove_gunmod( &it, 0 );
+            }
+            return;
+        }
+    }
+
     if( it.is_null() ) {
         add_msg(m_info, _("You're not wielding anything."));
         return;
     }
-    if (!it.is_gun() && it.contents.empty() && (!it.is_tool() || it.ammo_type() == "NULL")) {
+    // At this point, the contents have been handled, and the item itself must be unloaded.
+    if( !it.is_gun() &&
+        !it.is_auxiliary_gunmod() &&
+        !( it.typeId() == "spare_mag" ) &&
+        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
         add_msg(m_info, _("You can't unload a %s!"), it.tname().c_str());
         return;
     }
-    int spare_mag = -1;
-    int has_m203 = -1;
-    int has_40mml = -1;
-    int has_shotgun = -1;
-    int has_shotgun2 = -1;
-    int has_shotgun3 = -1;
-    int has_auxflamer = -1;
-    int has_rail_xbow = -1;
-    if (it.is_gun()) {
-        spare_mag = it.has_gunmod("spare_mag");
-        has_m203 = it.has_gunmod("m203");
-        has_40mml = it.has_gunmod("pipe_launcher40mm");
-        has_shotgun = it.has_gunmod("u_shotgun");
-        has_shotgun2 = it.has_gunmod("masterkey");
-        has_shotgun3 = it.has_gunmod("rm121aux");
-        has_auxflamer = it.has_gunmod("aux_flamer");
-        has_rail_xbow = it.has_gunmod("gun_crossbow");
-    }
-    if (it.is_container() ||
-        (it.charges == 0 &&
-         (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
-         (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
-         (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
-         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
-         (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
-         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
-         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) &&
-         (has_rail_xbow == -1 || it.contents[has_rail_xbow].charges <= 0) )) {
-        if (it.contents.empty()) {
-            if (it.is_gun()) {
-                add_msg(m_info, _("Your %s isn't loaded, and is not modified."),
-                        it.tname().c_str());
-            } else {
-                add_msg(m_info, _("Your %s isn't charged."), it.tname().c_str());
-            }
-            return;
+    if( it.charges <= 0 ) {
+        if( it.is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), it.tname().c_str() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), it.tname().c_str() );
         }
-        // Unloading a container!
-        u.moves -= 40 * it.contents.size();
-        std::vector<item> new_contents; // In case we put stuff back
-        while (!it.contents.empty()) {
-            item content = it.contents[0];
-            if (content.is_gunmod() && content.mode == "MODE_AUX") {
-                it.next_mode();
-            }
-            if (content.made_of(LIQUID)) {
-                if (!handle_liquid(content, false, false, &it)) {
-                    new_contents.push_back(content);// Put it back in (we canceled)
-                }
-            } else {
-                if (u.can_pickVolume(content.volume()) &&
-                    u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
-                    add_msg(_("You put the %s in your inventory."), content.tname().c_str());
-                    u.i_add(content);
-                } else {
-                    add_msg(_("You drop the %s on the ground."), content.tname().c_str());
-                    m.add_item_or_charges(u.posx, u.posy, content, 1);
-                }
-            }
-            it.contents.erase(it.contents.begin());
-        }
-        it.contents = new_contents;
         return;
     }
-
     if (it.has_flag("NO_UNLOAD")) {
         if (it.has_flag("RECHARGE")) {
             add_msg(m_info, _("You can't unload a rechargeable %s!"), it.tname().c_str());
@@ -12301,55 +12290,13 @@ void game::unload(item &it)
         return;
     }
 
-    // Unloading a gun or tool!
     u.moves -= int(it.reload_time(u) / 2);
-
-    // Default to unloading the gun, but then try other alternatives.
     item *weapon = &it;
-    if (weapon->is_gun()) { // Gun ammo is combined with existing items
-        // If there's an active gunmod, unload it first.
-        item *active_gunmod = weapon->active_gunmod();
-        if (active_gunmod != NULL && active_gunmod->charges > 0) {
-            weapon = active_gunmod;
-        }
-        // Then try and unload a spare magazine if there is one.
-        else if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0) {
-            weapon = &weapon->contents[spare_mag];
-        }
-        // Then try the grenade launcher
-        else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0) {
-            weapon = &weapon->contents[has_m203];
-        }
-        // Then try the pipe 40mm launcher
-        else if (has_40mml != -1 && weapon->contents[has_40mml].charges > 0) {
-            weapon = &weapon->contents[has_40mml];
-        }
-        // Then try an underslung shotgun
-        else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0) {
-            weapon = &weapon->contents[has_shotgun];
-        }
-        // Then try a masterkey shotgun
-        else if (has_shotgun2 != -1 && weapon->contents[has_shotgun2].charges > 0) {
-            weapon = &weapon->contents[has_shotgun2];
-        }
-        // Then try a Rivtech shotgun
-        else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0) {
-            weapon = &weapon->contents[has_shotgun3];
-        }
-        // Then try an auxiliary flamethrower
-        else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0) {
-            weapon = &weapon->contents[has_auxflamer];
-        }
-        // Then try a rail-mounted crossbow.
-        else if (has_rail_xbow != -1 && weapon->contents[has_rail_xbow].charges > 0) {
-            weapon = &weapon->contents[has_rail_xbow];
-        }
-    }
 
     item newam;
 
-    if (weapon->curammo != NULL) {
-        newam = item(weapon->curammo->id, calendar::turn);
+    if( weapon->has_curammo() ) {
+        newam = item( weapon->get_curammo_id(), calendar::turn );
     } else {
         newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
     }
@@ -12372,28 +12319,14 @@ void game::unload(item &it)
         weapon->charges = 0;
     }
 
-    if (newam.made_of(LIQUID)) {
-        if (!handle_liquid(newam, false, false)) {
-            weapon->charges += newam.charges; // Put it back in
-        }
-    } else if (newam.charges > 0) {
+    if( !add_or_drop_with_msg( u, newam ) ) {
+        weapon->charges += newam.charges; // Put it back in
+    } else {
         add_msg( _( "You unload your %s." ), weapon->tname().c_str() );
-        if( !u.can_pickVolume( newam.volume() ) ) {
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                    newam.tname().c_str() );
-            m.add_item_or_charges( u.posx, u.posy, newam );
-        } else if( !u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                    newam.tname().c_str() );
-            m.add_item_or_charges( u.posx, u.posy, newam );
-        } else {
-            auto &ni = u.i_add(newam);
-            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
-        }
     }
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
-        weapon->curammo = NULL;
+        weapon->unset_curammo();
         // Tools need to be turned off, especially when thy consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
         if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {

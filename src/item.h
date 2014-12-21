@@ -122,20 +122,14 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- int dispersion() const;
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
- int gun_damage(bool with_ammo = true) const;
- int gun_pierce(bool with_ammo = true) const;
  int noise() const;
  int burst_size() const;
- int recoil(bool with_ammo = true) const;
- int range(player *p = NULL) const;
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
- void next_mode();
  std::string skill() const;
 
     using JsonSerializer::serialize;
@@ -258,7 +252,7 @@ public:
  bool has_technique(std::string t);
  int has_gunmod(itype_id type) const;
  item* active_gunmod();
- item const* inspect_active_gunmod() const;
+ item const* active_gunmod() const;
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
@@ -494,10 +488,39 @@ public:
  itype_id typeId() const;
  itype* type;
  mtype*   corpse;
- it_ammo* curammo;
-
  std::vector<item> contents;
 
+        /**
+         * Returns @ref curammo, the ammo that is currently load in this item.
+         * May return a null pointer.
+         */
+        it_ammo* get_curammo() const;
+        /**
+         * Returns the item type id of the currently loaded ammo.
+         * Returns "null" if the item is not loaded.
+         */
+        itype_id get_curammo_id() const;
+        /**
+         * Whether the item is currently loaded (which implies it has some non-null pointer
+         * as @ref curammo).
+         */
+        bool has_curammo() const;
+        /**
+         * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
+         */
+        void unset_curammo();
+        /**
+         * Set the current ammo from an item type id (not an ammo type id!). The type must be an
+         * instance of @ref it_ammo. If the type id is "null", the curammo is unset as by calling
+         * @ref unset_curammo.
+         */
+        void set_curammo( const itype_id &type );
+        /**
+         * Shortcut to set the current ammo to the type of the given item. This is the same as
+         * calling @ref set_curammo with item type id of the ammo item:
+         * \code set_curammo(ammo.typeId()) \endcode
+         */
+        void set_curammo( const item &ammo );
         /**
          * Get a material reference to a random material that this item is made of.
          * This might return the null-material, you may check this with @ref material_type::is_null.
@@ -638,6 +661,107 @@ public:
         /*@}*/
 
         /**
+         * These functions are used on charger guns. Those items are activated, load over time
+         * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
+         * Each function returns false when called on items that are not charger guns.
+         * Nothing is done in that case, so it's save to call them even when it's unknown whether
+         * the item is a charger gun.
+         * You must all @ref update_charger_ammo before using properties of it as they depend
+         * on the charges of the gun.
+         */
+        /*@{*/
+        /**
+         * Deactivate the gun.
+         */
+        bool deactivate_charger_gun();
+        /**
+         * Activate the gun, it will now load charges over time.
+         * The item must be in the possessions of a player (given as parameter).
+         * The function will show a message regarding the loading status. If the player does not
+         * have a power source, it will not start loading and a different message is displayed.
+         * Can be called on npcs (no messages than).
+         */
+        bool activate_charger_gun( player &u );
+        /**
+         * Update the charges ammo settings. This must be called right before firing the gun because
+         * the properties of the ammo depend on the loading of the gun.
+         * E.g. a gun with many charges provides more ammo effects.
+         */
+        bool update_charger_gun_ammo();
+        /** Whether this is a charger gun. */
+        bool is_charger_gun() const;
+        /*@}*/
+
+        /**
+         * Gun and gun mod functions. Anything stated to apply to guns, applies to auxiliary gunmods
+         * as well (they are some kind of gun). Non-guns are items that are neither gun nor
+         * auxiliary gunmod.
+         */
+        /*@{*/
+        /**
+         * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
+         * Example: underslug shotgun.
+         */
+        bool is_auxiliary_gunmod() const;
+        /**
+         * Same as @code get_gun_mode() == "MODE_AUX" @endcode
+         */
+        bool is_in_auxiliary_mode() const;
+        /**
+         * Same as @code set_gun_mode("MODE_AUX") @endcode
+         */
+        void set_auxiliary_mode();
+        /**
+         * Get the gun mode, e.g. BURST, or MODE_AUX, or something else.
+         */
+        std::string get_gun_mode() const;
+        /**
+         * Set the gun mode (see @ref get_gun_mode).
+         */
+        void set_gun_mode( const std::string &mode );
+        /**
+         * If this item is a gun with several firing mods (including auxiliary gunmods), switch
+         * to the next mode. Otherwise, make nothing at all.
+         */
+        void next_mode();
+        /**
+         * The weapons range in map squares. If the item has an active gunmod, it returns the range
+         * of that gunmod, the guns range is returned only when the item has no active gunmod.
+         * This function applies to guns and auxiliary gunmods. For other items, 0 is returned.
+         * It includes the range given by the ammo.
+         * @param u The player that uses the weapon, their strength might affect this.
+         * It's optional and can be null.
+         */
+        int gun_range( const player *u ) const;
+        /**
+         * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_range( bool with_ammo = true ) const;
+        /**
+         * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_recoil( bool with_ammo = true ) const;
+        /**
+         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_damage( bool with_ammo = true ) const;
+        /**
+         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_pierce( bool with_ammo = true ) const;
+        /**
+         * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_dispersion( bool with_ammo = true ) const;
+        /**
+         * The skill used to operate the gun. Can be "null" if this is not a gun.
+         * Note that this function is not like @ref skill, it returns "null" for any non-gun (books)
+         * for which skill() would return a skill.
+         */
+        std::string gun_skill() const;
+        /*@}*/
+
+        /**
          * Recursively check the contents of this item and remove those items
          * that match the filter. Note that this function does *not* match
          * the filter against *this* item, only against the contents.
@@ -689,6 +813,7 @@ public:
     private:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
+        it_ammo* curammo;
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -705,7 +830,6 @@ public:
    int note;            // Associated dynamic text snippet.
    int irridation;      // Tracks radiation dosage.
  };
- std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags; // generic item specific flags
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list

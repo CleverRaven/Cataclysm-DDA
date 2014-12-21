@@ -635,7 +635,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 70
    },
@@ -672,7 +671,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 60
    },
@@ -709,7 +707,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -747,7 +744,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 110,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -785,7 +781,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -823,7 +818,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -861,7 +855,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 80,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -899,7 +892,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 80,
       "valid_mod_locations": [["underbarrel", 1]]
@@ -928,7 +920,6 @@
       "aim_speed" : 4,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 100,
       "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -957,7 +948,6 @@
       "aim_speed" : 4,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 800,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -986,7 +976,6 @@
       "aim_speed" : 4,
       "recoil" : 30,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 6000,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]

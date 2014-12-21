@@ -1892,7 +1892,7 @@ void mattack::photograph(monster *z, int index)
     if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
         return;
     }
-    
+
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
@@ -1912,7 +1912,9 @@ void mattack::photograph(monster *z, int index)
                 return;
             }
         }
-    } else if (g->u.has_trait("PROF_PD_DET")) {
+    }
+
+    if (g->u.has_trait("PROF_PD_DET")) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -1961,7 +1963,7 @@ void mattack::photograph(monster *z, int index)
             }
         }
     }
-    
+
     if (g->u.has_trait("PROF_FED")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_marshal")) {
@@ -2084,7 +2086,7 @@ void mattack::smg(monster *z, int index)
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
     tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2152,7 +2154,7 @@ void mattack::laser(monster *z, int index)
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
     tmp.weapon = item("cerberus_laser", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "laser_capacitor" ) );
+    tmp.weapon.set_curammo( "laser_capacitor" );
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
     if (target == &g->u) {
@@ -2223,7 +2225,7 @@ void mattack::rifle_tur(monster *z, int index)
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
     tmp.weapon = item("m4a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2301,7 +2303,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
     tmp.weapon = item("mgl", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2378,7 +2380,7 @@ void mattack::bmg_tur(monster *z, int index)
         add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
     }
     tmp.weapon = item("m107a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
@@ -2468,7 +2470,7 @@ void mattack::tank_tur(monster *z, int index)
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item("TANK", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( ammo_type ) );
+    tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun( aim_point.x, aim_point.y, false );
@@ -2582,8 +2584,8 @@ void mattack::searchlight(monster *z, int index)
 
         for (int i = 0; i < rng(1, 2); i++) {
 
-            int tc;
-            if (!z->sees_player(tc)) {
+            int bresenham_slope;
+            if (!z->sees_player(bresenham_slope)) {
                 if (settings.item_vars["SL_DIR"] != "") {
                     shift = atoi(settings.item_vars["SL_DIR"].c_str());
                 }

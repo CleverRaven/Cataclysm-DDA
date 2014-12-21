@@ -986,7 +986,10 @@ void item::deserialize(JsonObject &data)
 
     data.read( "bday", bday );
 
-    data.read( "mode", mode );
+    std::string mode;
+    if( data.read( "mode", mode ) ) {
+        set_gun_mode( mode );
+    }
     data.read( "mission_id", mission_id );
     data.read( "player_id", player_id );
 
@@ -1046,11 +1049,8 @@ void item::deserialize(JsonObject &data)
         active = true;
     }
 
-    data.read( "curammo", ammotmp );
-    if ( ammotmp != "null" ) {
-        curammo = dynamic_cast<it_ammo *>( item( ammotmp, 0 ).type );
-    } else {
-        curammo = NULL;
+    if( data.read( "curammo", ammotmp ) ) {
+        set_curammo( ammotmp );
     }
 
     data.read( "covers", tmp_covers );
@@ -1093,15 +1093,6 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if (type == NULL) {
         debugmsg("Tried to save an item with NULL type!");
     }
-    itype_id ammotmp = "null";
-
-    /* TODO: This causes a segfault sometimes, even though we check to make sure
-     * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
-     * NPC, or when saving map data containing an item an NPC has dropped.
-     */
-    if (curammo != NULL) {
-        ammotmp = curammo->id;
-    }
 
     /////
     json.member( "invlet", int(invlet) );
@@ -1123,11 +1114,8 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( poison != 0 ) {
         json.member( "poison", poison );
     }
-    if ( ammotmp != "null" ) {
-        json.member( "curammo", ammotmp );
-    }
-    if ( mode != "NULL" ) {
-        json.member( "mode", mode );
+    if ( has_curammo() ) {
+        json.member( "curammo", get_curammo_id() );
     }
     if ( active == true ) {
         json.member( "active", true );

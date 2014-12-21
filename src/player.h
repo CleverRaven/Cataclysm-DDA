@@ -474,7 +474,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
+        bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
         void fire_gun(int targetx, int targety, bool burst);
 
@@ -730,7 +730,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_read(item *it);
         hint_rating rate_action_takeoff(item *it);
         hint_rating rate_action_reload(item *it);
-        hint_rating rate_action_unload(item *it);
+        hint_rating rate_action_unload( const item &it ) const;
         hint_rating rate_action_disassemble(item *it);
 
         /** Returns warmth provided by armor, etc. */
@@ -978,6 +978,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::set<char> allocated_invlets() const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
         std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
+        // same as has_ammo, but all items with typeId() != id are removed,
+        // returned items all the the same type: id.
+        std::vector<item *> has_exact_ammo( const ammotype &at, const itype_id &id );
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */

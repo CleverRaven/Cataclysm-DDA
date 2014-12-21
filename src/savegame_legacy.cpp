@@ -1902,7 +1902,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 void item::load_legacy(std::stringstream & dump) {
     clear();
-    std::string idtmp, ammotmp, item_tag;
+    std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
@@ -1930,6 +1930,7 @@ void item::load_legacy(std::stringstream & dump) {
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
+    set_gun_mode( mode );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -1944,11 +1945,7 @@ void item::load_legacy(std::stringstream & dump) {
     if (acttmp == 1) {
         active = true;
     }
-    if (ammotmp != "null") {
-        curammo = dynamic_cast<it_ammo*>( item::find_type( ammotmp ) );
-    } else {
-        curammo = NULL;
-    }
+    set_curammo( ammotmp );
 }
 
 ///// vehicle.h

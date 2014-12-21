@@ -3477,13 +3477,13 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();
         for( auto &mod : weapon.contents ) {
-            if (mod.is_gunmod() && mod.has_flag("MODE_AUX")) {
+            if( mod.is_auxiliary_gunmod() ) {
                 attachment << " (" << mod.charges << ")";
             }
         }
         wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
     } else {
-        if (weapon.mode == "MODE_BURST") {
+        if (weapon.get_gun_mode() == "MODE_BURST") {
             wprintz(w, c, _("%s (Burst)"), weapname().c_str());
         } else {
             wprintz(w, c, _("%s"), weapname().c_str());
@@ -8662,10 +8662,9 @@ void player::process_active_items()
 
 item player::remove_weapon()
 {
- if (weapon.has_flag("CHARGE") && weapon.active) { //unwield a charged charge rifle.
-  weapon.charges = 0;
-  weapon.active = false;
- }
+    if( weapon.active ) {
+        weapon.deactivate_charger_gun();
+    }
  item tmp = weapon;
  weapon = ret_null;
  return tmp;
@@ -10807,8 +10806,8 @@ hint_rating player::rate_action_reload(item *it) {
             bool alternate_magazine = false;
             for (auto &i : it->contents) {
                 if ((i.is_gunmod() && (i.typeId() == "spare_mag" &&
-                      i.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-                      (i.has_flag("MODE_AUX") && i.charges < i.clip_size())) {
+                      i.charges < it->type->gun->clip)) ||
+                      (i.is_auxiliary_gunmod() && i.charges < i.clip_size())) {
                     alternate_magazine = true;
                 }
             }
@@ -10827,42 +10826,28 @@ hint_rating player::rate_action_reload(item *it) {
     return HINT_CANT;
 }
 
-hint_rating player::rate_action_unload(item *it) {
- if (!it->is_gun() && !it->is_container() &&
-     (!it->is_tool() || it->ammo_type() == "NULL")) {
-  return HINT_CANT;
- }
- int spare_mag = -1;
- int has_m203 = -1;
- int has_40mml = -1;
- int has_shotgun = -1;
- int has_shotgun2 = -1;
- int has_shotgun3 = -1;
- int has_auxflamer = -1;
- if (it->is_gun()) {
-  spare_mag = it->has_gunmod ("spare_mag");
-  has_m203 = it->has_gunmod ("m203");
-  has_40mml = it->has_gunmod ("pipe_launcher40mm");
-  has_shotgun = it->has_gunmod ("u_shotgun");
-  has_shotgun2 = it->has_gunmod ("masterkey");
-  has_shotgun3 = it->has_gunmod ("rm121aux");
-  has_auxflamer = it->has_gunmod ("aux_flamer");
- }
- if (it->is_container() ||
-     (it->charges == 0 &&
-      (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
-      (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
-      (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
-      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
-      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0) &&
-      (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0) &&
-      (has_auxflamer == -1 || it->contents[has_auxflamer].charges <= 0) )) {
-  if (it->contents.empty()) {
-   return HINT_IFFY;
-  }
- }
-
- return HINT_GOOD;
+hint_rating player::rate_action_unload( const item &it ) const
+{
+    if( ( it.is_container() || it.is_gun() ) && !it.contents.empty() ) {
+        return HINT_GOOD;
+    }
+    if( !it.is_gun() &&
+        !it.is_auxiliary_gunmod() &&
+        !( it.typeId() == "spare_mag" ) &&
+        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
+        return HINT_CANT;
+    }
+    for( auto &gunmod : it.contents ) {
+        if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
+            return HINT_GOOD;
+        } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
+            return HINT_GOOD;
+        }
+    }
+    if( it.charges <= 0 ) {
+        return HINT_CANT;
+    }
+    return HINT_GOOD;
 }
 
 //TODO refactor stuff so we don't need to have this code mirroring game::disassemble
@@ -11026,7 +11011,7 @@ void player::use(int inventory_position)
         // so restack to sort things out.
         inv.restack();
     } else if (used->is_gunmod()) {
-        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
+        const auto mod = used->type->gunmod.get();
         if (!(skillLevel("gun") >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
@@ -11040,8 +11025,11 @@ can install this mod."), mod->req_skill);
         } else if (!gun->is_gun()) {
             add_msg(m_info, _("That %s is not a weapon."), gun->tname().c_str());
             return;
+        } else if( gun->is_gunmod() ) {
+            add_msg(m_info, _("That %s is a gunmod, it can not be modded."), gun->tname().c_str());
+            return;
         }
-        it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
+        islot_gun* guntype = gun->type->gun.get();
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
             add_msg(m_info, _("That %s cannot be attached to a handgun."),
                        used->tname().c_str());
@@ -11083,7 +11071,7 @@ can install this mod."), mod->req_skill);
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
         }
-        if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
+        if (used->typeId() == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
             add_msg(m_info, _("You can not use a spare magazine in your %s."),
                        gun->tname().c_str());
             return;
@@ -11094,22 +11082,22 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                        gun->tname().c_str());
             return;
         }
-        if (mod->id == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
+        if (used->typeId() == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
             add_msg(m_info, _("Your %s is already waterproof."),
                        gun->tname().c_str());
             return;
         }
-        if (mod->id == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
+        if (used->typeId() == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
             add_msg(m_info, _("This %s is eminently reliable. You can't improve upon it this way."),
                        gun->tname().c_str());
             return;
         }
-        if (guntype->id == "hand_crossbow" && !mod->used_on_pistol) {
+        if (gun->typeId() == "hand_crossbow" && !mod->used_on_pistol) {
           add_msg(m_info, _("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
           used->tname().c_str());
           return;
         }
-        if (mod->id == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
+        if (used->typeId() == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
             add_msg(m_info, _("You cannot attach a brass catcher to your %s."),
                        gun->tname().c_str());
             return;
@@ -11119,7 +11107,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                 add_msg(m_info, _("Your %s already has a %s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
-            } else if ((mod->id == "clip" || mod->id == "clip2") &&
+            } else if ((used->typeId() == "clip" || used->typeId() == "clip2") &&
                        (i.type->id == "clip" || i.type->id == "clip2")) {
                 add_msg(m_info, _("Your %s already has an extended magazine."),
                            gun->tname().c_str());
@@ -11203,8 +11191,8 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item *gunmod = &weapon->contents[id];
     item ammo;
     if (gunmod->charges > 0) {
-        if (gunmod->curammo != NULL) {
-            ammo = item(gunmod->curammo->id, calendar::turn);
+        if( gunmod->has_curammo() ) {
+            ammo = item( gunmod->get_curammo_id(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
@@ -11216,10 +11204,10 @@ void player::remove_gunmod(item *weapon, unsigned id)
         } else {
             i_add_or_drop(ammo);
         }
-        gunmod->curammo = NULL;
+        gunmod->unset_curammo();
         gunmod->charges = 0;
     }
-    if (gunmod->mode == "MODE_AUX") {
+    if( gunmod->is_in_auxiliary_mode() ) {
         weapon->next_mode();
     }
     i_add_or_drop(*gunmod);
@@ -12960,6 +12948,19 @@ std::vector<item*> player::has_ammo(ammotype at)
     return result;
 }
 
+std::vector<item *> player::has_exact_ammo( const ammotype &at, const itype_id &id )
+{
+    auto result = has_ammo( at );
+    for( auto it = result.begin(); it != result.end(); ) {
+        if( ( *it )->is_of_type_or_contains_it( id ) ) {
+            ++it;
+        } else {
+            it = result.erase( it );
+        }
+    }
+    return result;
+}
+
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
@@ -12982,7 +12983,7 @@ std::string player::weapname(bool charges)
                 dump << "+" << weapon.contents[spare_mag].charges;
             }
             for (auto &i : weapon.contents) {
-                if (i.is_gunmod() && i.has_flag("MODE_AUX")) {
+                if( i.is_auxiliary_gunmod() ) {
                     dump << "+" << i.charges;
                 }
             }
