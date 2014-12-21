@@ -585,8 +585,8 @@ void Item_factory::load_ammo(JsonObject &jo)
     ammo_template->range = jo.get_int("range");
     ammo_template->dispersion = jo.get_int("dispersion");
     ammo_template->recoil = jo.get_int("recoil");
-    ammo_template->count = jo.get_int("count");
-    ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
+    ammo_template->def_charges = jo.get_long("count");
+    ammo_template->stack_size = jo.get_int("stack_size", ammo_template->def_charges);
     ammo_template->ammo_effects = jo.get_tags("effects");
 
     itype *new_item_template = ammo_template;
@@ -738,11 +738,11 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->spoils *= 600;
     comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->charges = jo.get_long("charges", 0);
+    comest_template->def_charges = jo.get_long("charges", 0);
     if (jo.has_member("stack_size")) {
         comest_template->stack_size = jo.get_long("stack_size");
     } else {
-        comest_template->stack_size = comest_template->charges;
+        comest_template->stack_size = comest_template->def_charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
     // TODO: sometimes in the future: remove this if clause and accept

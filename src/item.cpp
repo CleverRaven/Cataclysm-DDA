@@ -59,13 +59,13 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
     if( type->is_ammo() ) {
         it_ammo* ammo = dynamic_cast<it_ammo*>(type);
-        charges = ammo->count;
+        charges = ammo->def_charges;
     }
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = goes_bad() && !rotten();
         if( comest->count_by_charges() && rand && !has_random_charges ) {
-            charges = comest->charges;
+            charges = comest->def_charges;
         }
     }
     if( type->is_tool() ) {
@@ -271,9 +271,9 @@ item item::in_its_container()
 long item::liquid_charges( long units ) const
 {
     if( is_ammo() ) {
-        return dynamic_cast<it_ammo *>( type )->count * units;
+        return dynamic_cast<it_ammo *>( type )->def_charges * units;
     } else if( is_food() ) {
-        return dynamic_cast<it_comest *>( type )->charges * units;
+        return dynamic_cast<it_comest *>( type )->def_charges * units;
     } else {
         return units;
     }
@@ -282,9 +282,9 @@ long item::liquid_charges( long units ) const
 long item::liquid_units( long charges ) const
 {
     if( is_ammo() ) {
-        return charges / dynamic_cast<it_ammo *>( type )->count;
+        return charges / dynamic_cast<it_ammo *>( type )->def_charges;
     } else if( is_food() ) {
-        return charges / dynamic_cast<it_comest *>( type )->charges;
+        return charges / dynamic_cast<it_comest *>( type )->def_charges;
     } else {
         return charges;
     }
@@ -551,7 +551,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
                                  ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->count, true, "", false, false));
+        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", false, false));
     }
 
     if( is_gun() ) {

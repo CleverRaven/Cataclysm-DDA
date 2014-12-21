@@ -613,7 +613,7 @@ struct it_comest : public virtual itype {
      */
     int spoils;
     unsigned int addict;   // Addictiveness potential
-    long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    long def_charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     signed int stim;
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
@@ -638,13 +638,13 @@ struct it_comest : public virtual itype {
         if (phase == LIQUID) {
             return true;
         } else {
-            return charges > 1 ;
+            return def_charges > 1 ;
         }
     }
 
     add_type add; // Effects of addiction
 
-    it_comest(): itype(), quench(0), nutr(0), charges(0), stim(0), healthy(0),
+    it_comest(): itype(), quench(0), nutr(0), def_charges(0), stim(0), healthy(0),
         brewtime(0), comesttype(), fun(0), tool()
     {
     }
@@ -653,12 +653,12 @@ struct it_comest : public virtual itype {
 struct it_ammo : public virtual itype, public common_ranged_data {
     ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
     itype_id casing;        // Casing produced by the ammo, if any
-    unsigned int count;    // Default charges
+    long def_charges;    // Default charges
 
     std::set<std::string> ammo_effects;
 
     it_ammo(): itype(), type(), casing(),
-        count(0), ammo_effects()
+        def_charges(0), ammo_effects()
     {
     }
 
