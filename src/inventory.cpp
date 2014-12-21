@@ -582,7 +582,8 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 const int cargo = veh->part_with_feature(vpart, "CARGO");
 
                 if (cargo >= 0) {
-                    *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
+                    *this += std::list<item>( veh->get_items(cargo).begin(),
+                                              veh->get_items(cargo).end() );
                 }
 
                 if(faupart >= 0 ) {

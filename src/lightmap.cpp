@@ -228,7 +228,7 @@ void map::generate_lightmap()
                 continue;
             }
             if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
-                add_light_from_items( px, py, v->parts[p].items.begin(), v->parts[p].items.end() );
+                add_light_from_items( px, py, v->get_items(p).begin(), v->get_items(p).end() );
             }
         }
     }

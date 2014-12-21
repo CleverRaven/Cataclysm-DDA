@@ -459,7 +459,7 @@ int advanced_inv_area::get_item_count() const
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( veh != nullptr ) {
-        return veh->parts[vstor].items.size();
+        return veh->get_items(vstor).size();
     } else {
         return g->m.i_at( g->u.posx + offx, g->u.posy + offy ).size();
     }
@@ -761,8 +761,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
     } else {
         map &m = g->m;
         const itemslice &stacks = square.veh != nullptr ?
-                                  i_stacked( square.veh->parts[square.vstor].items ) :
-                                  i_stacked( m.i_at( square.x, square.y ) );
+            i_stacked( square.veh->get_items(square.vstor) ) :
+            i_stacked( m.i_at( square.x, square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
@@ -1006,8 +1006,8 @@ bool advanced_inventory::move_all_items()
             begin = g->m.i_at( sarea.x, sarea.y ).begin();
             end = g->m.i_at( sarea.x, sarea.y ).end();
         } else {
-            begin = sarea.veh->parts[sarea.vstor].items.begin();
-            end = sarea.veh->parts[sarea.vstor].items.end();
+            begin = sarea.veh->get_items(sarea.vstor).begin();
+            end = sarea.veh->get_items(sarea.vstor).end();
         }
 
         int index = -1;
@@ -1712,8 +1712,8 @@ item* advanced_inv_area::get_container()
         } else {
             map &m = g->m;
             const itemslice &stacks = veh != nullptr ?
-                                      i_stacked( veh->parts[vstor].items ) :
-                                      i_stacked( m.i_at( x, y ) );
+                i_stacked( veh->get_items( vstor) ) :
+                i_stacked( m.i_at( x, y ) );
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {

@@ -3227,21 +3227,8 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
     }
 }
 
-std::list<item> use_amount_vehicle( std::list<item> &vec, const itype_id type, int &quantity,
-                                    const bool use_container )
-{
-    std::list<item> ret;
-    for (std::list<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if (a->use_amount(type, quantity, use_container, ret)) {
-            a = vec.erase(a);
-        } else {
-            ++a;
-        }
-    }
-    return ret;
-}
-
-std::list<item> use_amount_map( map_stack stack, const itype_id type, int &quantity,
+template <typename Stack>
+std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantity,
                                 const bool use_container )
 {
     std::list<item> ret;
@@ -3265,12 +3252,12 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_vehicle( veh->parts[cargo].items, type,
+        std::list<item> tmp = use_amount_stack( veh->get_items(cargo), type,
                                                 quantity, use_container );
       ret.splice(ret.end(), tmp);
     }
   }
-  std::list<item> tmp = use_amount_map( i_at(x, y), type, quantity, use_container);
+  std::list<item> tmp = use_amount_stack( i_at(x, y), type, quantity, use_container);
   ret.splice(ret.end(), tmp);
   return ret;
 }
@@ -3294,20 +3281,8 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_vehicle(std::list<item> &vec, const itype_id type, long &quantity)
-{
-    std::list<item> ret;
-    for (std::list<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if( a->use_charges(type, quantity, ret)) {
-            a = vec.erase(a);
-        } else {
-            ++a;
-        }
-    }
-    return ret;
-}
-
-std::list<item> use_charges_from_map( map_stack stack, const itype_id type, long &quantity)
+template <typename Stack>
+std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity)
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -3489,7 +3464,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 
                         if (cargo >= 0) {
                             std::list<item> tmp =
-                                use_charges_from_vehicle(veh->parts[cargo].items, type, quantity);
+                                use_charges_from_stack( veh->get_items(cargo), type, quantity );
                             ret.splice(ret.end(), tmp);
                             if (quantity <= 0) {
                                 return ret;
@@ -3497,7 +3472,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         }
                     }
 
-                    std::list<item> tmp = use_charges_from_map( i_at(x, y), type, quantity );
+                    std::list<item> tmp = use_charges_from_stack( i_at(x, y), type, quantity );
                     ret.splice(ret.end(), tmp);
                     if (quantity <= 0) {
                         return ret;

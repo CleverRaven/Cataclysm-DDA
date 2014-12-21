@@ -8775,7 +8775,7 @@ void game::examine(int examx, int examy)
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
         auto here_ground = m.i_at(examx, examy);
-        if( (vpcargo >= 0 && !veh->parts[vpcargo].items.empty()) || vpkitchen >= 0 ||
+        if( (vpcargo >= 0 && !veh->get_items(vpcargo).empty()) || vpkitchen >= 0 ||
             vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
             vpcontrols >= 0 || !here_ground.empty() ) {
             Pickup::pick_up(examx, examy, 0);

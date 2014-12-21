@@ -1811,10 +1811,12 @@ void complete_vehicle ()
             }
         }
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->parts[vehicle_part].items ) {
+        for( auto &elem : veh->get_items(vehicle_part) ) {
             g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
         }
-        veh->parts[vehicle_part].items.clear();
+        while( !veh->get_items(vehicle_part).empty() ) {
+            veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
+        }
 
         // Power cables must remove parts from the target vehicle, too.
         if (veh->part_flag(vehicle_part, "POWER_TRANSFER")) {
@@ -1826,7 +1828,7 @@ void complete_vehicle ()
             used_item = veh->parts[vehicle_part].properties_to_item();
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             // simple tasks won't train mechanics
-            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) { 
+            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
                 g->u.practice ( "mechanics", 2 * 5 + 20 );
             }
         } else {

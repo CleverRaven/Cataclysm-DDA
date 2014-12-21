@@ -141,8 +141,11 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
                     // Two coord pairs are stored: actual target point, and target vehicle center.
                     // Both cases use absolute coordinates (relative to world origin)
+private:
+    friend vehicle;
     std::list<item> items;// inventory
 
+public:
     bool setid(const std::string str) {
         std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
         if ( vpit == vehicle_part_types.end() ) {

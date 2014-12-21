@@ -1189,10 +1189,12 @@ void vehicle::use_controls()
         // Drop stuff in containers on ground
         for (size_t p = 0; p < parts.size(); p++) {
             if( part_flag( p, "CARGO" ) ) {
-                for( auto &elem : parts[p].items ) {
+                for( auto &elem : get_items(p) ) {
                     g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
                 }
-                parts[p].items.clear();
+                while( !get_items(p).empty() ) {
+                    get_items(p).erase( get_items(p).begin() );
+                }
             }
         }
 
@@ -1968,7 +1970,7 @@ bool vehicle::remove_part (int p)
 
     const int dx = global_x() + parts[p].precalc_dx[0];
     const int dy = global_y() + parts[p].precalc_dy[0];
-    for (auto &i : parts[p].items) {
+    for( auto &i : get_items(p) ) {
         g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), i);
     }
     g->m.dirty_vehicle_list.insert(this);
@@ -2371,7 +2373,7 @@ nc_color vehicle::part_color (int p)
 
     //Invert colors for cargo parts with stuff in them
     int cargo_part = part_with_feature(p, VPFLAG_CARGO);
-    if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
+    if(cargo_part > 0 && !get_items(cargo_part).empty()) {
         return invert_color(col);
     } else {
         return col;
@@ -2600,7 +2602,7 @@ int vehicle::total_mass()
           continue;
         }
         m += item::find_type( part_info(i).item )->weight;
-        for (auto &j : parts[i].items) {
+        for( auto &j : get_items(i) ) {
             m += j.type->weight;
         }
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
@@ -2633,7 +2635,7 @@ void vehicle::center_of_mass(int &x, int &y)
         }
         int m_part = 0;
         m_part += item::find_type( part_info(i).item )->weight;
-        for (auto &j : parts[i].items) {
+        for( auto &j : get_items(i) ) {
             m_part += j.type->weight;
         }
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
@@ -4219,7 +4221,7 @@ int vehicle::stored_volume(int part) {
         return 0;
     }
     int cur_volume = 0;
-    for (auto &i : parts[part].items) {
+    for( auto &i : get_items(part) ) {
        cur_volume += i.volume();
     }
     return cur_volume;
@@ -4247,11 +4249,11 @@ bool vehicle::is_full(const int part, const int addvolume, const int addnumber) 
    const int maxvolume = this->max_volume(part);
 
    if ( addvolume == -1 ) {
-       if ( parts[part].items.size() < maxitems ) return true;
+       if ( get_items(part).size() < maxitems ) return true;
        int cur_volume=stored_volume(part);
        return (cur_volume >= maxvolume ? true : false );
    } else {
-       if ( parts[part].items.size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       if ( get_items(part).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
        int cur_volume=stored_volume(part);
        return ( cur_volume + addvolume > maxvolume ? true : false );
    }
@@ -4991,25 +4993,25 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             drain( amt, (int)charges_consumed );
         }
     } else {
-        if( parts[p].items.empty() ) {
+        if( get_items(p).empty() ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items.front().type);
-        if( !ammo || ammo->type != amt || parts[p].items.front().charges < 1 ) {
+        it_ammo *ammo = dynamic_cast<it_ammo*> (get_items(p).front().type);
+        if( !ammo || ammo->type != amt || get_items(p).front().charges < 1 ) {
             return false;
         }
-        if( charges > parts[p].items.front().charges ) {
-            charges = parts[p].items.front().charges;
+        if( charges > get_items(p).front().charges ) {
+            charges = get_items(p).front().charges;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *ammo, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
-            if( charges_consumed >= parts[p].items[0].charges ) {
-                parts[p].items.erase( parts[p].items.begin() );
+            if( charges_consumed >= get_items(p).front().charges ) {
+                get_items(p).erase( get_items(p).begin() );
             } else {
-                parts[p].items.front().charges -= charges_consumed;
+                get_items(p).front().charges -= charges_consumed;
             }
         }
     }

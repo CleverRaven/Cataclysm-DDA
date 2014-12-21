@@ -11856,9 +11856,9 @@ std::string player::is_snuggling()
         if( veh != nullptr ) {
             int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
             if( cargo >= 0 ) {
-                if( !veh->parts[cargo].items.empty() ) {
-                    begin = veh->parts[cargo].items.begin();
-                    end = veh->parts[cargo].items.end();
+                if( !veh->get_items(cargo).empty() ) {
+                    begin = veh->get_items(cargo).begin();
+                    end = veh->get_items(cargo).end();
                 }
             }
         }
