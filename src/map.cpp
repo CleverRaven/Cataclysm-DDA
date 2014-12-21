@@ -3053,9 +3053,6 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
         items.push_back( temp_item );
-        // Other note: the address of the items vector is
-        // not affected by any explosion, but they could reduce
-        // the amount of items in it.
         return false;
     }
     return true;
@@ -3157,73 +3154,54 @@ template<typename T>
 void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor,
                                     std::string signal )
 {
-    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
-    for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
-        const int part = cargo_parts[part_index];
-        vehicle_part &vp = cur_veh->parts[part];
-        // Cache the mount position and the type, to identify
-        // the vehicle part in case cur_veh->parts got changed
-        const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
-        const int vp_type = vp.iid;
-        const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
-                                   cur_veh->global_y() + vp.precalc_dy[0] );
-        auto items = cur_veh->get_items( part );
-        std::list<std::list<item>::iterator> active_items;
-        for( auto it = items.begin(); it != items.end(); ++it ) {
-            active_items.push_back( it );
+    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
+    auto active_items = cur_veh->active_items;
+    for( auto &active_item : active_items ) {
+        if( !cur_veh->has_active_item( active_item.item_iterator, active_item.location ) ) {
+            continue;
         }
-        for( auto &n : active_items ) {
-            // First make sure the iterator in question still exists.
-            bool item_found = false;
-            for( auto it = items.begin(); it != items.end(); ++it ) {
-                if( it == n ) {
-                    item_found = true;
-                    break;
-                }
-            }
-            if( !item_found ) {
-                continue;
-            }
 
-            if( !processor( items, n, item_location, cur_veh, part, signal ) ) {
-                // If the item was NOT destroyed, we can skip the remainder,
-                // which handles fallout from the vehicle being damaged.
-                continue;
+        // Find the cargo part and coordinates corresponding to the current active item.
+        int part_index = -1;
+        point item_location;
+        // Fetch a possibly empty item stack so we can replace it later.
+        vehicle_stack items = cur_veh->get_items( 0 );
+        for( auto part_index_candidate : cargo_parts ) {
+            vehicle_part &vp = cur_veh->parts[part_index_candidate];
+            if( active_item.location.x == vp.mount_dx &&
+                active_item.location.y == vp.mount_dy ) {
+                part_index = part_index_candidate;
+                item_location = point( cur_veh->global_x() + vp.precalc_dx[0],
+                                       cur_veh->global_y() + vp.precalc_dy[0] );
+                items = cur_veh->get_items( part_index );
+                break;
             }
-            // item does not exist anymore, might have been an exploding bomb,
-            // check if the vehicle is still valid (does exist)
-            std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
-            if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
-                // Nope, vehicle is not in the vehicle list of the submap,
-                // it might have moved to another submap (unlikely)
-                // or be destroyed, anywaay it does not need to be processed here
-                return;
-            }
-            // Vehicle still valid, find the current vehicle part again,
-            // the list of cargo parts might have changed (image a part with
-            // a low index has been removed by an explosion, all the other
-            // parts would move up to fill the gap).
-            cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
-            for(part_index = 0; part_index < cargo_parts.size(); part_index++) {
-                vehicle_part &vp = cur_veh->parts[cargo_parts[part_index]];
-                if(mnt.x == vp.precalc_dx[0] && mnt.y == vp.precalc_dy[0] && vp_type == vp.iid) {
-                    // Found it, this is the vehicle part we are currently iterating overall
-                    // update the item vector (if the part index changed,
-                    // the address of the item vector changed, too.
-                    items = cur_veh->get_items( cargo_parts[part_index] );
-                    break;
-                }
-            }
-            if (part_index >= cargo_parts.size()) {
-                // went over all parts and did not found the current cargo part
-                // it is gone, now we bail out, because we can not know
-                // which cargo part to do next, it could be one that has
-                // already been handled.
-                return;
-            }
-            // Now we can continue as if nothing happened, the item has
-            // already been remove and it is not put back,
         }
+        if( part_index == -1 ) {
+            // Can't find a cargo part matching the active item.
+            continue;
+        }
+
+        if( !processor( items, active_item.item_iterator,
+                        item_location, cur_veh, part_index, signal ) ) {
+            // If the item was NOT destroyed, we can skip the remainder,
+            // which handles fallout from the vehicle being damaged.
+            continue;
+        }
+        // item does not exist anymore, might have been an exploding bomb,
+        // check if the vehicle is still valid (does exist)
+        std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
+        if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+            // Nope, vehicle is not in the vehicle list of the submap,
+            // it might have moved to another submap (unlikely)
+            // or be destroyed, anywaay it does not need to be processed here
+            return;
+        }
+        // Vehicle still valid, reload the list of cargo parts,
+        // the list of cargo parts might have changed (image a part with
+        // a low index has been removed by an explosion, all the other
+        // parts would move up to fill the gap).
+        cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     }
 }
 
