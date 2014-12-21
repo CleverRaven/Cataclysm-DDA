@@ -90,8 +90,8 @@ void monster::plan(const std::vector<int> &friendlies)
     int sightrange = g->light_level();
     int closest = -1;
     int dist = 1000;
-    int tc = 0;
-    int stc = 0;
+    int bresenham_slope = 0;
+    int selected_slope = 0;
     bool fleeing = false;
 
     if (friendly != 0) { // Target monsters, not the player!
@@ -99,10 +99,10 @@ void monster::plan(const std::vector<int> &friendlies)
             monster *tmp = &(g->zombie(i));
             if (tmp->friendly == 0) {
                 int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
-                if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, tc)) {
+                if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope)) {
                     closest = i;
                     dist = d;
-                    stc = tc;
+                    selected_slope = bresenham_slope;
                 }
             }
         }
@@ -112,13 +112,13 @@ void monster::plan(const std::vector<int> &friendlies)
         }
 
         if (closest >= 0) {
-            set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), stc);
+            set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), selected_slope);
         } else if (friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-        } else if (friendly < 0 &&  sees_player( tc ) ) {
+        } else if (friendly < 0 &&  sees_player( bresenham_slope ) ) {
             if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2) {
-                set_dest(g->u.posx, g->u.posy, tc);
+                set_dest(g->u.posx, g->u.posy, bresenham_slope);
             } else {
                 plans.clear();
             }
@@ -127,16 +127,16 @@ void monster::plan(const std::vector<int> &friendlies)
     }
 
     // If we can see, and we can see a character, move toward them or flee.
-    if (can_see() && sees_player( tc ) ) {
+    if (can_see() && sees_player( bresenham_slope ) ) {
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
         if (is_fleeing(g->u)) {
             // Wander away.
             fleeing = true;
-            set_dest(posx() * 2 - g->u.posx, posy() * 2 - g->u.posy, tc);
+            set_dest(posx() * 2 - g->u.posx, posy() * 2 - g->u.posy, bresenham_slope);
         } else {
             // Chase the player.
             closest = -2;
-            stc = tc;
+            selected_slope = bresenham_slope;
         }
     }
 
@@ -145,13 +145,13 @@ void monster::plan(const std::vector<int> &friendlies)
         int medist = rl_dist(posx(), posy(), me->posx, me->posy);
         if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
                 (can_see() &&
-                g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
+                g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope))) {
             if (is_fleeing(*me)) {
                 fleeing = true;
-                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, tc);\
+                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);\
             } else {
                 closest = i;
-                stc = tc;
+                selected_slope = bresenham_slope;
             }
             dist = medist;
         }
@@ -165,7 +165,7 @@ void monster::plan(const std::vector<int> &friendlies)
                 monster *mon = &(g->zombie(i));
                 int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
                 if (mondist < dist &&
-                        g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
+                        g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, bresenham_slope)) {
                     dist = mondist;
                     if (fleeing) {
                         wandx = posx() * 2 - mon->posx();
@@ -173,7 +173,7 @@ void monster::plan(const std::vector<int> &friendlies)
                         wandf = 40;
                     } else {
                         closest = -3 - i;
-                        stc = tc;
+                        selected_slope = bresenham_slope;
                     }
                 }
             }
@@ -181,15 +181,15 @@ void monster::plan(const std::vector<int> &friendlies)
 
         if (closest == -2) {
             if (one_in(2)) {//random for the diversity of the trajectory
-                ++stc;
+                ++selected_slope;
             } else {
-                --stc;
+                --selected_slope;
             }
-            set_dest(g->u.posx, g->u.posy, stc);
+            set_dest(g->u.posx, g->u.posy, selected_slope);
         } else if (closest <= -3) {
-            set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
+            set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), selected_slope);
         } else if (closest >= 0) {
-            set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
+            set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, selected_slope);
         }
     }
     // If we're not adjacent to the start of our plan path, don't act on it.
@@ -908,12 +908,12 @@ void monster::stumble(bool moved)
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
- int tc;
+ int bresenham_slope;
  if (!plans.empty()) {
-  if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, tc))
-   set_dest(plans.back().x, plans.back().y, tc);
-  else if (sees_player( tc ))
-   set_dest(g->u.posx, g->u.posy, tc);
+  if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, bresenham_slope))
+   set_dest(plans.back().x, plans.back().y, bresenham_slope);
+  else if (sees_player( bresenham_slope ))
+   set_dest(g->u.posx, g->u.posy, bresenham_slope);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();
  }

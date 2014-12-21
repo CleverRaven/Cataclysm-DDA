@@ -34,12 +34,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
         monster &operator=(monster &&) = default;
-        
+
         virtual bool is_monster() const
         {
             return true;
         }
-        
+
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
         m_size get_size() const;
@@ -83,7 +83,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         int vision_range(const int x, const int y)
         const; // Returns monster vision range, x and y are the target spot
-        bool sees_player(int &tc, player *p = NULL) const;   // Sees player/npc
+        bool sees_player(int &bresenham_slope, player *p = NULL) const;   // Sees player/npc
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
@@ -208,7 +208,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
-        
+
         /** Processes monster-specific effects effects before calling Creature::process_effects(). */
         virtual void process_effects();
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
@@ -227,7 +227,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
-        
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 #else
     PATH_INFO::init_user_dir("./");
 #endif
-    PATH_INFO::set_standart_filenames();
+    PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
 
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
             argv++;
             if(argc) {
                 PATH_INFO::init_base_path(std::string(argv[0]));
-                PATH_INFO::set_standart_filenames();
+                PATH_INFO::set_standard_filenames();
                 argc--;
                 argv++;
             }
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
             argv++;
             if (argc) {
                 PATH_INFO::init_user_dir( argv[0] );
-                PATH_INFO::set_standart_filenames();
+                PATH_INFO::set_standard_filenames();
                 argc--;
                 argv++;
             }
@@ -165,6 +165,13 @@ int main(int argc, char *argv[])
             if(saved_argc) {
                 PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
                 PATH_INFO::update_config_dir();
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--memorialdir") {
+            saved_argv++;
+            if(saved_argc) {
+                PATH_INFO::update_pathname("memorialdir", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }

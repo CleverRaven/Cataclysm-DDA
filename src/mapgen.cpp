@@ -56,7 +56,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-        grid[i] = new submap;
+        setsubmap( i, new submap() );
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
@@ -126,12 +126,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
             dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
-            dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(x, y, z, i, j);
+                saven( i, j );
             } else {
-                delete grid[i + j * my_MAPSIZE];
+                delete get_submap_at_grid( i, j );
             }
         }
     }
@@ -11426,10 +11425,16 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
-    std::string signage_rot[SEEX * 2][SEEY * 2];
+    std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
+    field fldrot [SEEX * 2][SEEY * 2];
+    int radrot [SEEX * 2][SEEY * 2];
+
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    computer tmpcomp;
+    computer tmpcomp[MAPSIZE * MAPSIZE];
+    int active_item_count[MAPSIZE * MAPSIZE];
+    int field_count[MAPSIZE * MAPSIZE];
+    int temperature[MAPSIZE * MAPSIZE];
 
     //Rotate terrain first
     for (int old_x = 0; old_x < SEEX * 2; old_x++) {
@@ -11450,32 +11455,38 @@ void map::rotate(int turns)
                 new_y = old_x;
                 break;
             }
-            rotated[old_x][old_y] = ter(new_x, new_y);
-            furnrot[old_x][old_y] = furn(new_x, new_y);
-            itrot [old_x][old_y] = i_at(new_x, new_y);
-            traprot[old_x][old_y] = tr_at(new_x, new_y);
-            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
-            i_clear(new_x, new_y);
+            int new_lx, new_ly;
+            const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
+            std::swap( itrot[old_x][old_y], new_sm->itm[new_lx][new_ly] );
+            std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
+            std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
+            std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
+            std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
+            std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
         }
     }
 
     //Next, spawn points
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
-            int gridfrom = sx + sy * my_MAPSIZE;
-            int gridto = gridfrom;;
+            const auto from = get_submap_at_grid( sx, sy );
+            int gridto = 0;
             switch(turns) {
+            case 0:
+                gridto = get_nonant( sx, sy );
+                break;
             case 1:
-                gridto = sx * my_MAPSIZE + 1 - sy;
+                gridto = get_nonant( 1 - sy, sx );
                 break;
             case 2:
-                gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
+                gridto = get_nonant( 1 - sx, 1 - sy );
                 break;
             case 3:
-                gridto = (1 - sx) * my_MAPSIZE + sy;
+                gridto = get_nonant( sy, 1 - sx );
                 break;
             }
-            for (auto &spawn : grid[gridfrom]->spawns) {
+            for (auto &spawn : from->spawns) {
                 spawn_point tmp = spawn;
                 int new_x = tmp.posx;
                 int new_y = tmp.posy;
@@ -11498,36 +11509,12 @@ void map::rotate(int turns)
                 sprot[gridto].push_back(tmp);
             }
             // as vehrot starts out empty, this clears the other vehicles vector
-            vehrot[gridto].swap(grid[gridfrom]->vehicles);
+            vehrot[gridto].swap(from->vehicles);
+            tmpcomp[gridto] = from->comp;
+            active_item_count[gridto] = from->active_item_count;
+            field_count[gridto] = from->field_count;
+            temperature[gridto] = from->temperature;
         }
-    }
-
-    //Then computers
-    switch (turns) {
-    case 1:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
-        grid[1]->comp = tmpcomp;
-        break;
-
-    case 2:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = tmpcomp;
-        tmpcomp = grid[1]->comp;
-        grid[1]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = tmpcomp;
-        break;
-
-    case 3:
-        tmpcomp = grid[0]->comp;
-        grid[0]->comp = grid[1]->comp;
-        grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
-        grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
-        grid[my_MAPSIZE]->comp = tmpcomp;
-        break;
     }
 
     // change vehicles' directions
@@ -11579,22 +11566,27 @@ void map::rotate(int turns)
             veh->smx = new_x;
             veh->smy = new_y;
         }
+        const auto to = getsubmap( i );
         // move back to the actuall submap object, vehrot is only temporary
-        vehrot[i].swap(grid[i]->vehicles);
+        vehrot[i].swap(to->vehicles);
+        sprot[i].swap(to->spawns);
+        to->comp = tmpcomp[i];
+        to->active_item_count = active_item_count[i];
+        to->field_count = field_count[i];
+        to->temperature = temperature[i];
     }
 
-    // Set the spawn points
-    grid[0]->spawns = sprot[0];
-    grid[1]->spawns = sprot[1];
-    grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
-    grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            ter_set(i, j, rotated[i][j]);
-            furn_set(i, j, furnrot[i][j]);
-            spawn_items(i, j, itrot [i][j]);
-            add_trap(i, j, traprot[i][j]);
-            set_signage(i, j, signage_rot[i][j]);
+            int lx, ly;
+            const auto sm = get_submap_at( i, j, lx, ly );
+            std::swap( rotated[i][j], sm->ter[lx][ly] );
+            std::swap( itrot[i][j], sm->itm[lx][ly] );
+            std::swap( furnrot[i][j], sm->frn[lx][ly] );
+            std::swap( traprot[i][j], sm->trp[lx][ly] );
+            std::swap( fldrot[i][j], sm->fld[lx][ly] );
+            std::swap( radrot[i][j], sm->rad[lx][ly] );
+            std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);

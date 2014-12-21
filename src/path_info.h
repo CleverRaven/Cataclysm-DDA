@@ -22,7 +22,7 @@ void init_user_dir(const char *ud = "");
 void update_datadir(void);
 void update_config_dir(void);
 void update_pathname(std::string name, std::string path);
-void set_standart_filenames(void);
+void set_standard_filenames(void);
 /**
  * Return a locale specific path, or if there is no path for the current
  * locale, return the default path.

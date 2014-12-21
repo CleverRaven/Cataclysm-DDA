@@ -4616,17 +4616,17 @@ void game::write_memorial_file(std::string sLastWords)
 {
 
     //Open the file first
-    DIR *dir = opendir("memorial");
+    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-        mkdir("memorial");
+        mkdir(FILENAMES["memorialdir".c_str()]);
 #else
-        mkdir("memorial", 0777);
+        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
 #endif
-        dir = opendir("memorial");
+        dir = opendir(FILENAMES["memorialdir"].c_str());
         if (!dir) {
             dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make './memorial' directory");
+            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
             return;
         }
     }
@@ -5165,21 +5165,6 @@ void game::debug()
     }
     erase();
     refresh_all();
-}
-
-void game::mondebug()
-{
-    int tc = 0;
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        critter.debug(u);
-        if (critter.has_flag(MF_SEES) &&
-            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
-            debugmsg("The %s can see you.", critter.name().c_str());
-        } else {
-            debugmsg("The %s can't see you...", critter.name().c_str());
-        }
-    }
 }
 
 void game::draw_overmap()

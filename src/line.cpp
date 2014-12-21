@@ -27,8 +27,8 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     }
 
     // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) << 1; // bitshift one place, functional *2
-    const int ay = abs(dy) << 1;
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
     const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
 
     // The old version of this algorithm would generate points on the line and check min/max for each point
@@ -76,9 +76,9 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
     // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) << 1; // bitshift one place, functional *2
-    const int ay = abs(dy) << 1;
-    const int az = abs(dz) << 1;
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
+    const int az = abs(dz) * 2;
     const int sx = (dx == 0 ? 0 : SGN(dx));
     const int sy = (dy == 0 ? 0 : SGN(dy));
     const int sz = (dz == 0 ? 0 : SGN(dz));

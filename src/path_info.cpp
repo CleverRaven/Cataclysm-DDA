@@ -95,7 +95,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 }
 
-void PATH_INFO::set_standart_filenames(void)
+void PATH_INFO::set_standard_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
