@@ -9981,7 +9981,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 108,
+        "nutrition" : 36,
         "description" : "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
         "price" : 750,
         "material" : ["veggy", "flesh"],
@@ -9989,10 +9989,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 6,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 11
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -10009,9 +10009,9 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 2,
+        "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 98,
+        "nutrition" : 33,
         "description" : "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
         "price" : 750,
         "material" : "veggy",
@@ -10019,10 +10019,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 6,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 11
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
