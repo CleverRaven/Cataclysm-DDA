@@ -899,10 +899,10 @@
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 25,
+        "quench" : 13,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 90,
+        "nutrition" : 45,
         "description" : "Spicy, and filled with bits of peppers and meat!  It's pretty good.",
         "price" : 750,
         "material" : "flesh",
@@ -910,10 +910,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 2,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
-        "fun" : 15
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -6775,7 +6775,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 90,
+        "nutrition" : 30,
         "description" : "Bread and meat, that's it.",
         "price" : 900,
         "material" : "flesh",
@@ -6783,9 +6783,9 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 3,
         "bashing" : 0,
-        "fun" : 5
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -6804,7 +6804,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 90,
+        "nutrition" : 30,
         "description" : "Bread and human flesh, surprise!",
         "price" : 6000,
         "material" : "hflesh",
@@ -6812,9 +6812,9 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 3,
         "bashing" : 0,
-        "fun" : 5
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10947,7 +10947,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 90,
+        "nutrition" : 45,
         "description" : "Crunchy and delicious waffles with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
         "price" : 600,
         "material" : ["wheat", "fruit"],
@@ -10955,10 +10955,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 12
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
