@@ -743,7 +743,7 @@ bool player::activate_bionic(int b, bool eff_only)
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
         int vehwindspeed = 0;
         if( veh ) {
-            vehwindspeed = abs(veh->velocity / g->is_sheltered(g->u.posx, g->u.posy) ? 5 : 100); // For mph
+            vehwindspeed = abs(abs((veh->velocity / 100) / 4)); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
@@ -752,7 +752,7 @@ bool player::activate_bionic(int b, bool eff_only)
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
-        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_info, _("Wind Speed: %s."), g->is_sheltered(g->u.posx, g->u.posy) ? (print_windspeed((float)0).c_str()) : (print_windspeed((float)windpower).c_str()));
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {

@@ -815,12 +815,12 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at( posx, posy, vpart );
     int vehwindspeed = 0;
     if( veh ) {
-        vehwindspeed = abs(veh->velocity / g->is_sheltered(posx, posy) ? 5 : 100); // For mph
+        vehwindspeed = abs((veh->velocity / 100) / 4); // 25% of speed in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = g->is_sheltered(posx, posy);
-    int total_windpower = vehwindspeed + get_local_windpower(weather.windpower, omtername, sheltered);
+    int total_windpower = (g->is_sheltered(posx, posy) ? 0 : vehwindspeed) + get_local_windpower(weather.windpower, omtername, sheltered);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
