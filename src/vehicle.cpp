@@ -4785,9 +4785,9 @@ void vehicle::control_turrets() {
         // Regen menu entries
         for( int i = 0; i < (int)turrets.size(); i++ ) {
             int p = turrets[i];
-            const auto gun = item::find_type( part_info( p ).item );
-            bool charge = gun->item_tags.count( "CHARGE" ) > 0;
-            bool burst = gun->gun->burst > 1;
+            const item gun( part_info( p ).item, 0 );
+            bool charge = gun.is_charger_gun();
+            bool burst = gun.burst_size() > 1;
             char sym;
             if( parts[p].mode <= 0 ) {
                 sym = ' ';
@@ -4846,31 +4846,30 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
 {
     if (!part_flag (p, "TURRET"))
         return false;
-    const auto gun = item::find_type( part_info( p ).item );
-    if( !gun->gun ) {
+    const item gun( part_info( p ).item, 0 );
+    if( !gun.is_gun() ) {
         return false;
     }
-
     if( parts[p].mode <= 0 ) {
         return false;
     }
     // Check for available power for turrets that use it.
+    const auto &gun_data = *gun.type->gun;
     const int power = fuel_left(fuel_type_battery);
-    if( gun->gun->ups_charges > 0 && gun->gun->ups_charges < power ) {
+    if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
         return false;
     }
-    long charges = std::min( gun->gun->burst, parts[p].mode );
+    long charges = std::min( gun.burst_size(), parts[p].mode );
     std::string whoosh = "";
     if( charges <= 0 ) {
         charges = 1;
     }
-    auto tags = item::find_type( part_info( p ).item )->item_tags;
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
     int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
     if( liquid_fuel > 1 )
     {
-        if ( tags.count( "CHARGE" ) > 0 ) {
+        if ( gun.is_charger_gun() ) {
             if (one_in(100)) {
                 charges = rng(5,8); // kaboom
             } else {
@@ -4899,7 +4898,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun, *ammo, charges_left, whoosh) ) {
+        if( fire_turret_internal(p, *gun.type, *ammo, charges_left, whoosh) ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
@@ -4917,7 +4916,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             charges = parts[p].items[0].charges;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun, *ammo, charges_left ) ) {
+        if( fire_turret_internal(p, *gun.type, *ammo, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;

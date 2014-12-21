@@ -8662,10 +8662,9 @@ void player::process_active_items()
 
 item player::remove_weapon()
 {
- if (weapon.has_flag("CHARGE") && weapon.active) { //unwield a charged charge rifle.
-  weapon.charges = 0;
-  weapon.active = false;
- }
+    if( weapon.active ) {
+        weapon.deactivate_charger_gun();
+    }
  item tmp = weapon;
  weapon = ret_null;
  return tmp;

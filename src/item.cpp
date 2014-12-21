@@ -23,6 +23,8 @@
 #include <set>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
+static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
 light_emission nolight = {0, 0, 0};
 
@@ -3173,7 +3175,7 @@ int item::gun_range( bool with_ammo ) const
     if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
         return ret;
     }
-    if( with_ammo && has_flag( "CHARGE" ) ) {
+    if( with_ammo && is_charger_gun() ) {
         ret += 5 + charges * 5;
     } else if( with_ammo && has_curammo() ) {
         ret += get_curammo()->range;
@@ -4513,13 +4515,78 @@ bool item::process_tool( player *carrier, point pos )
     return false;
 }
 
+bool item::is_charger_gun() const
+{
+    return has_flag( CHARGER_GUN_FLAG_NAME );
+}
+
+bool item::deactivate_charger_gun()
+{
+    if( !is_charger_gun() ) {
+        return false;
+    }
+    charges = 0;
+    active = false;
+    return true;
+}
+
+bool item::activate_charger_gun( player &u )
+{
+    if( !is_charger_gun() ) {
+        return false;
+    }
+    if( u.has_charges( "UPS", 1 ) ) {
+        u.add_msg_if_player( m_info, _( "Your %s starts charging." ), tname().c_str() );
+        charges = 0;
+        poison = 0;
+        set_curammo( CHARGER_GUN_AMMO_ID );
+        active = true;
+    } else {
+        u.add_msg_if_player( m_info, _( "You need a powered UPS." ) );
+    }
+    return true;
+}
+
+bool item::update_charger_gun_ammo()
+{
+    if( !is_charger_gun() ) {
+        return false;
+    }
+    if( get_curammo_id() != CHARGER_GUN_AMMO_ID ) {
+        set_curammo( CHARGER_GUN_AMMO_ID );
+    }
+    auto tmpammo = get_curammo();
+
+    long charges = num_charges();
+    tmpammo->damage = charges * charges;
+    tmpammo->pierce = ( charges >= 4 ? ( charges - 3 ) * 2.5 : 0 );
+    if( charges <= 4 ) {
+        tmpammo->dispersion = 210 - charges * 30;
+    } else {
+        tmpammo->dispersion = charges * ( charges - 4 );
+        tmpammo->dispersion = 15 * charges * ( charges - 4 );
+    }
+    tmpammo->recoil = tmpammo->dispersion * .8;
+    tmpammo->ammo_effects.clear();
+    if( charges == 8 ) {
+        tmpammo->ammo_effects.insert( "EXPLOSIVE_BIG" );
+    } else if( charges >= 6 ) {
+        tmpammo->ammo_effects.insert( "EXPLOSIVE" );
+    }
+    if( charges >= 5 ) {
+        tmpammo->ammo_effects.insert( "FLAME" );
+    } else if( charges >= 4 ) {
+        tmpammo->ammo_effects.insert( "INCENDIARY" );
+    }
+    return true;
+}
+
 bool item::process_charger_gun( player *carrier, point pos )
 {
     if( carrier == nullptr || this != &carrier->weapon ) {
         // Either on the ground or in the inventory of the player, in both cases:
         // stop charging.
-        active = false;
-        charges = 0;
+        deactivate_charger_gun();
         return false;
     }
     if( charges == 8 ) { // Maintaining charge takes less power.
@@ -4615,7 +4682,7 @@ bool item::process( player *carrier, point pos, bool activate )
     if( is_tool() && process_tool( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( "CHARGE" ) && process_charger_gun( carrier, pos ) ) {
+    if( is_charger_gun() && process_charger_gun( carrier, pos ) ) {
         return true;
     }
     return false;

@@ -11308,18 +11308,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-        if( u.has_charges( "UPS", 1) ) {
-            add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
-            u.weapon.charges = 0;
-            u.weapon.poison = 0;
-            u.weapon.set_curammo( "charge_shot" );
-            u.weapon.active = true;
-            return;
-        } else {
-            add_msg(m_info, _("You need a powered UPS."));
-            return;
-        }
+    if( !u.weapon.active && u.weapon.activate_charger_gun( u ) ) {
+        return;
     }
 
     if (u.weapon.has_flag("NO_AMMO")) {

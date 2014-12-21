@@ -275,35 +275,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     } else {
         used_weapon = &weapon;
     }
-    if( used_weapon->has_flag( "CHARGE" ) ) {
-        // It's a charger gun, so make up a type
-        used_weapon->set_curammo( "charge_shot" );
-        auto tmpammo = used_weapon->get_curammo();
-
-        long charges = used_weapon->num_charges();
-        tmpammo->damage = charges * charges;
-        tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
-        if (charges <= 4) {
-            tmpammo->dispersion = 210 - charges * 30;
-        } else { // 75, 180, 315, 480
-            tmpammo->dispersion = charges * (charges - 4);
-            tmpammo->dispersion = 15 * charges * (charges - 4);
-        }
-        tmpammo->recoil = tmpammo->dispersion * .8;
-        tmpammo->ammo_effects.clear(); // Reset effects.
-        // Charges maxes out at 8, compare with item::process_charger_gun
-        if (charges == 8) {
-            tmpammo->ammo_effects.insert("EXPLOSIVE_BIG");
-        } else if (charges >= 6) {
-            tmpammo->ammo_effects.insert("EXPLOSIVE");
-        }
-
-        if (charges >= 5) {
-            tmpammo->ammo_effects.insert("FLAME");
-        } else if (charges >= 4) {
-            tmpammo->ammo_effects.insert("INCENDIARY");
-        }
-    }
+    const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
     curammo = used_weapon->get_curammo();
 
     if( curammo == nullptr ) {
@@ -354,7 +326,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         num_shots = used_weapon->burst_size();
     }
     if (num_shots > used_weapon->num_charges() &&
-        !used_weapon->has_flag("CHARGE") && !used_weapon->has_flag("NO_AMMO")) {
+        !is_charger_gun && !used_weapon->has_flag("NO_AMMO")) {
         num_shots = used_weapon->num_charges();
     }
 
@@ -488,9 +460,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
             used_weapon->charges -= 50;
         } else if (used_weapon->has_flag("FIRE_20")) {
             used_weapon->charges -= 20;
-        } else if (used_weapon->has_flag("CHARGE")) {
-            used_weapon->active = false;
-            used_weapon->charges = 0;
+        } else if( used_weapon->deactivate_charger_gun() ) {
+            // Done, charger gun is deactivated.
         } else if (used_weapon->has_flag("BIO_WEAPON")) {
             //The weapon used is a bio weapon.
             //It should consume a charge to let the game (specific: bionics.cpp:player::activate_bionic)
