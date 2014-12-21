@@ -474,15 +474,19 @@ class partpicker_cb : public uimenu_callback {
     private:
         const std::vector< point > &points;
         int last; // to suppress redrawing
+        int view_x; // to reposition the view after selecting
+        int view_y;
     public:
         partpicker_cb( std::vector< point > &pts ) : points( pts ) { 
             last = INT_MIN;
+            view_x = g->u.view_offset_x;
+            view_y = g->u.view_offset_y;
         }
         ~partpicker_cb() { }
 
     void select( int /*num*/, uimenu * /*menu*/ ) {
-        g->u.view_offset_x = 0;
-        g->u.view_offset_y = 0;
+        g->u.view_offset_x = view_x;
+        g->u.view_offset_y = view_y;
     }
     
     void refresh( uimenu *menu ) {
@@ -2392,28 +2396,46 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int yofs = 0;
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
+    std::vector< ammotype > fuels( &fuel_types[0], &fuel_types[num_fuel_types] );
+    // Find non-hardcoded fuel types, add them after the hardcoded
+    for( int p : fuel ) {
+        const ammotype ft = part_info( p ).fuel_type;
+        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
+            fuels.push_back( ft );
+        }
+    }
 
-    for (int i = 0; i < num_fuel_types; i++) {
-        int cap = fuel_capacity(fuel_types[i]);
-        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
-            if (cur_gauge++ >= max_gauge) {
-                wprintz(win, c_ltgray, "...", ammo_name(fuel_types[i]).c_str() );
+    for( int i = 0; i < (int)fuels.size(); i++ ) {
+        const ammotype &f = fuels[i];
+        int cap = fuel_capacity( f );
+        int f_left = fuel_left( f );
+        nc_color f_color;
+        if( i < num_fuel_types ) {
+            f_color = fuel_colors[i];
+        } else {
+            // Get color of the default item of this type
+            f_color = item::find_type( default_ammo( f ) )->color;
+        }
+        
+        if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
+            if( cur_gauge++ >= max_gauge ) {
+                wprintz(win, c_ltgray, "...", ammo_name( f ).c_str() );
                 break;
             }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
-            int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
+            int amnt = cap > 0 ? fuel_left( f ) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
-            mvwprintz(win, y + yofs, x + indf, fuel_colors[i], "%c", fsyms[indf]);
+            mvwprintz( win, y + yofs, x + indf, f_color, "%c", fsyms[indf] );
             if (verbose) {
                 if( debug_mode ) {
-                    mvwprintz(win, y + yofs, x + 6, fuel_colors[i], "%d/%d", fuel_left(fuel_types[i]), cap);
+                    mvwprintz( win, y + yofs, x + 6, f_color, "%d/%d", f_left, cap );
                 } else {
-                    mvwprintz(win, y + yofs, x + 6, fuel_colors[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);
-                    wprintz(win, c_ltgray, "%c", 045);
+                    mvwprintz( win, y + yofs, x + 6, f_color, "%d", (f_left * 100) / cap );
+                    wprintz( win, c_ltgray, "%c", 045 );
                 }
             }
             if (desc) {
-                wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
+                wprintz(win, c_ltgray, " - %s", ammo_name( f ).c_str() );
             }
             if (fullsize) {
                 yofs++;
@@ -4839,7 +4861,20 @@ void vehicle::cycle_turret_mode()
     if( ++turret_mode > 1 ) {
         turret_mode = 0;
     }
-    add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Enabled") );
+    if( turret_mode < 1 ) {
+        add_msg( _("Turrets: Disabled") );
+        return;
+    }
+    
+    add_msg( _("Turret: Enabled") );
+    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
+    for( int p : turrets ) {
+        if( parts[p].mode > 0 ) {
+            return; // No need to warn
+        }
+    }
+
+    add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
 bool vehicle::fire_turret (int p, bool /* burst */ )
