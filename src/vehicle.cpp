@@ -4984,6 +4984,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     if( parts[p].mode <= 0 && target.first == target.second ) {
         return false;
     }
+    // Don't let manual-only turrets aim
+    if( target.first == target.second && part_flag( p, "MANUAL" ) ) {
+        return false;
+    }
     // Check for available power for turrets that use it.
     const auto &gun_data = *gun.type->gun;
     const int power = fuel_left(fuel_type_battery);
