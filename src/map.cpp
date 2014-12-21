@@ -3121,12 +3121,12 @@ void map::process_items_in_submap( submap *const current_submap, int gridx, int 
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::list<active_item_reference> active_items = current_submap->active_items;
+    std::list<item_reference> active_items = current_submap->active_items;
     for( auto &active_item : active_items ) {
-        point map_location( gridx * SEEX + active_item.sm_location.x,
-                            gridy * SEEY + active_item.sm_location.y );
+        point map_location( gridx * SEEX + active_item.location.x,
+                            gridy * SEEY + active_item.location.y );
         auto items = i_at( map_location.x, map_location.y );
-        if( !current_submap->has_active_item( active_item.item_iterator, active_item.sm_location ) ) {
+        if( !current_submap->has_active_item( active_item.item_iterator, active_item.location ) ) {
             continue;
         }
         processor( items, active_item.item_iterator, map_location, signal );

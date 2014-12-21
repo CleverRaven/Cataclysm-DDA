@@ -12,6 +12,7 @@
 #include "iexamine.h"
 #include "field.h"
 #include "translations.h"
+#include "item_stack.h"
 #include <iosfwd>
 #include <unordered_set>
 #include <vector>
@@ -352,19 +353,6 @@ struct spawn_point {
              mission_id (MIS), friendly (F), name (N) {}
 };
 
-// Provides hashing operator for item list iterator.
-struct list_iterator_hash {
-    size_t operator()(const std::list<item>::iterator &i) const {
-        return (size_t)&*i;
-    }
-};
-
-struct active_item_reference
-{
-    point sm_location;
-    std::list<item>::iterator item_iterator;
-};
-
 struct submap {
     inline trap_id get_trap(int x, int y) const {
         return trp[x][y];
@@ -439,7 +427,7 @@ struct submap {
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     // Cache of just the active items so we can iterate over just them.
-    std::list<active_item_reference> active_items;
+    std::list<item_reference> active_items;
     // Cache for fast lookup when we're iterating over the active items to verify the item is present.
     std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
     int active_item_count;
