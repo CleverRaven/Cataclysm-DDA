@@ -11584,12 +11584,14 @@ void map::rotate(int turns)
             int lx, ly;
             const auto sm = get_submap_at( i, j, lx, ly );
             std::swap( rotated[i][j], sm->ter[lx][ly] );
-            std::swap( itrot[i][j], sm->itm[lx][ly] );
             std::swap( furnrot[i][j], sm->frn[lx][ly] );
             std::swap( traprot[i][j], sm->trp[lx][ly] );
             std::swap( fldrot[i][j], sm->fld[lx][ly] );
             std::swap( radrot[i][j], sm->rad[lx][ly] );
             std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
+            for( auto &itm : itrot[i][j] ) {
+                add_item( i, j, itm );
+            }
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);

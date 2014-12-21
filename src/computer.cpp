@@ -326,7 +326,7 @@ void computer::activate_function(computer_action action)
                                     if( capa <= 0 ) {
                                         continue;
                                     }
-                                    item &elem = *g->m.get_item( x1, y1, candidate );
+                                    item &elem = *candidate;
                                     capa = std::min( sewage.charges, capa );
                                     if( elem.contents.empty() ) {
                                         elem.put_in( sewage );
