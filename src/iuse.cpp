@@ -6637,7 +6637,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
     // Time based on number of components.
     p->moves -= 25 * count;
     // Not much practice, and you won't get very far ripping things up.
-    Skill *isFab = Skill::skill("fabrication");
+    const Skill* isFab = Skill::skill("fabrication");
     p->practice(isFab, rng(0, 5), 1);
 
     // Higher fabrication, less chance of entropy, but still a chance.
@@ -8732,7 +8732,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         for( auto &recipe : recipes ) {
             for( auto &elem : recipe.second ) {
 
-                const int dif = ( elem )->difficulty;
+                const int dif = ( elem )->requirements.skills["cooking"].difficulty;
 
                 if (science) {
                     if( ( elem )->cat != "CC_NONCRAFT" ) {
@@ -10142,7 +10142,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                 it->active = true;
                 it->charges -= 50;
 
-                p->practice("cooking", meal->difficulty * 3); //little bonus
+                int difficulty = meal->requirements.skills.find("cooking")->second.difficulty;
+                p->practice("cooking", difficulty * 3); //little bonus
 
                 return 0;
             }

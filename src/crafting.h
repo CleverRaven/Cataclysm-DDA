@@ -46,16 +46,13 @@ struct recipe {
     int id;
     itype_id result;
     int time; // in movement points (100 per turn)
-    int difficulty;
     requirement_data requirements;
     std::vector<byproduct> byproducts;
     craft_cat cat;
     craft_subcat subcat;
-    Skill *skill_used;
-    std::map<Skill *, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
-    int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
+    bool learn_by_disassembly; // do we learn it by disassembling the item it produces?
 
     // maximum achievable time reduction, as percentage of the original time.
     // if zero then the recipe has no batch crafting time reduction.
@@ -68,19 +65,13 @@ struct recipe {
     // to learn this recipe from.
     std::vector<std::pair<std::string, int> > booksets;
 
-    //Create a string list to describe the skill requirements fir this recipe
-    // Format: skill_name(amount), skill_name(amount)
-    std::string required_skills_string() const;
-
     ~recipe();
     recipe();
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
-           craft_subcat psubcat, std::string &to_use,
-           std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
+           craft_subcat psubcat,
+           bool preversible, bool pautolearn, bool plearn_dis,
            int pmult, bool ppaired, std::vector<byproduct> &bps,
-           int time, int difficulty, double batch_rscale,
-           int batch_rsize);
+           int time, double batch_rscale, int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
@@ -102,7 +93,6 @@ struct recipe {
                    int batch = 1) const;
 
     int batch_time(int batch = 1) const;
-
 };
 
 typedef std::vector<recipe *> recipe_list;

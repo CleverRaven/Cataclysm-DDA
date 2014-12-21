@@ -152,7 +152,7 @@ struct islot_book {
      * Which skill it upgrades, if any. Can be NULL.
      * TODO: this should be a pointer to const
      */
-    Skill *skill;
+    const Skill* skill;
     /**
      * The skill level the book provides.
      */
@@ -180,10 +180,8 @@ struct islot_book {
     int chapters;
     /**
      * What recipes can be learned from this book.
-     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
-     * to learn the recipe.
      */
-    std::map<const recipe *, int> recipes;
+    std::vector<const recipe *> recipes;
     /**
      * Special effects that can happen after the item has been read. May be empty.
      */
@@ -486,7 +484,7 @@ struct it_ammo : public virtual itype {
 
 struct it_gun : public virtual itype {
     ammotype ammo;
-    Skill *skill_used;
+    const Skill* skill_used;
     int dmg_bonus;
     int pierce;
     int range;
@@ -534,7 +532,7 @@ struct it_gunmod : public virtual itype {
     int burst;
     int range;
     int req_skill;
-    Skill *skill_used;
+    const Skill* skill_used;
     // Rest of the attributes are properly part of a gunmod.
     ammotype newtype;
     std::set<std::string> acceptible_ammo_types;

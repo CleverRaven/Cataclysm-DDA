@@ -68,6 +68,41 @@ std::string item_comp::to_string(int batch) const
     return string_format( ngettext( "%d %s", "%d %s", c ), c, item::nname( type, c ).c_str() );
 }
 
+
+// Skill requirement class
+bool skill_requirement::meets_minimum(const player& _player) const
+{
+    return (_player.get_skill_level(skill) >= minimum);
+}
+
+double skill_requirement::success_rate(const player& _player, double difficulty_modifier) const
+{
+    if (difficulty == 0) return 1.0; // It's impossible to fail level 0 recipes
+    double relative_difficulty = _player.get_adjusted_skill_level(skill) - difficulty;
+    int stat = _player.int_cur; // Only intelligence for now
+    double stat_bonus = (stat - 8) * stat_factor;
+
+    double base_rate = base_success;
+    double exponent = pow(2, relative_difficulty - difficulty_modifier + stat_bonus);
+
+    return 1.0 - pow(1.0 - base_rate, exponent);
+}
+
+std::string skill_requirement::to_string() const
+{
+    return string_format("level %d %s", difficulty, skill->name().c_str());
+}
+
+std::string skill_requirement::get_color(const player& _player) const
+{
+    auto skill_level = _player.get_skill_level(skill);
+
+    if (skill_level < minimum) return "red";
+    if (skill_level < difficulty) return "yellow";
+
+    return "green";
+}
+
 void quality_requirement::load( JsonArray &jsarr )
 {
     JsonObject quality_data = jsarr.next_object();
@@ -121,6 +156,7 @@ void requirement_data::load_obj_list(JsonArray &jsarr, std::vector< std::vector<
 
 void requirement_data::load( JsonObject &jsobj )
 {
+    // TODO: Move all requirement data into a subcomponent
     JsonArray jsarr;
     jsarr = jsobj.get_array( "components" );
     load_obj_list( jsarr, components );
@@ -128,6 +164,63 @@ void requirement_data::load( JsonObject &jsobj )
     load_obj_list( jsarr, qualities );
     jsarr = jsobj.get_array( "tools" );
     load_obj_list( jsarr, tools );
+
+    load_skill_requirements(jsobj);
+}
+
+void requirement_data::load_skill_requirements(JsonObject& js_obj) {
+    // Load data files from before the recipe minimum/difficulty skill requirement change
+    // TODO: This should be phased out once/if data files change
+    if(js_obj.has_member("difficulty")) {
+        std::string skill_name = js_obj.get_string("skill_used", "");
+        if (skill_name.length() != 0) {
+            auto skill = Skill::skill(skill_name);
+            auto req = skill_requirement();
+            req.skill = skill;
+            req.difficulty = js_obj.get_int( "difficulty" );;
+            req.minimum = req.difficulty;
+            req.base_success = 0.55f;
+            skills[skill_name] = req;
+        }
+
+        JsonArray skills_array = js_obj.get_array("skills_required");
+        if (!skills_array.empty()) {
+            // could be a single requirement, or multiple
+            if( skills_array.has_array(0) ) {
+                while (skills_array.has_more()) {
+                    JsonArray ja = skills_array.next_array();
+                    auto skill = Skill::skill(ja.get_string(0));
+                    auto req = skill_requirement();
+                    req.skill = skill;
+                    req.difficulty = ja.get_int(1);
+                    req.minimum = ja.get_int(1);
+                    req.base_success = 0.55f;
+                    skills[ja.get_string(0)] = req;
+                }
+            } else {
+                auto skill = Skill::skill(skills_array.get_string(0));
+                auto req = skill_requirement();
+                req.skill = skill;
+                req.difficulty = skills_array.get_int(1);
+                req.minimum = skills_array.get_int(1);
+                req.base_success = 0.55f;
+                skills[skills_array.get_string(0)] = req;
+            }
+        }
+    } else {
+        // Loaded from "skill_requirements": { "tailor": {"min": 3, "difficulty": 3}, "fabrication": {"min": 2, "difficulty": 3, "base_success": 0.7}}
+        JsonObject skills_obj = js_obj.get_object("skill_requirements");
+        for (auto &skill_name : skills_obj.get_member_names()) {
+            JsonObject jo = skills_obj.get_object(skill_name);
+            auto req = skill_requirement();
+            req.skill = Skill::skill(skill_name);
+            req.difficulty = jo.get_int("difficulty"); // Mandatory
+            req.minimum = jo.has_member("min") ? jo.get_int("min") : req.difficulty;
+            req.base_success = jo.has_member("base_success") ? jo.get_float("base_success") : 0.55f;
+            req.stat_factor  = jo.has_member("stat_factor") ? jo.get_float("stat_factor") : 0.75f;
+            skills[skill_name] = req;
+        }
+    }
 }
 
 template<typename T>
@@ -256,6 +349,55 @@ int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_
     return ypos - oldy;
 }
 
+int requirement_data::print_skills(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                                const player& _player) const
+{
+    const int oldy = ypos;
+    mvwprintz( w, ypos, xpos, col, _( "Skills used:" ) );
+    ypos++;
+    if( skills.empty() ) {
+        mvwprintz( w, ypos, xpos, col, "> " );
+        mvwprintz( w, ypos, xpos + 2, c_green, _( "NONE" ) );
+        ypos++;
+        return ypos - oldy;
+    }
+    for(auto &iter: skills) {
+        auto requirement = iter.second;
+        std::ostringstream buffer;
+
+        auto skill_level = _player.get_skill_level(requirement.skill);
+        auto skill_name = requirement.skill->name();
+
+        buffer << "> ";
+        buffer << "<color_" << requirement.get_color(_player) << ">";
+        buffer << requirement.to_string() << "</color>";
+        ypos += fold_and_print( w, ypos, xpos, width, col, buffer.str() );
+    }
+    return ypos - oldy;
+}
+
+// TODO: Listings of requirements
+// std::string requirement_data::required_components_list(const inventory& crafting_inv, int batch = 1) const;
+// std::string requirement_data::required_tools_list(const inventory& crafting_inv) const;
+
+std::string requirement_data::required_skills_list(const player& _player) const
+{
+    std::ostringstream skills_as_stream;
+    if(!skills.empty()) {
+        for( auto &iter: skills ) {
+            auto requirement = iter.second;
+            skills_as_stream << "<color_" << requirement.get_color(_player) << ">";
+            skills_as_stream << requirement.to_string() << "</color>";
+
+            // FIXME: Reintroduce lack of a trailing colon
+            skills_as_stream << ", ";
+        }
+    } else {
+        skills_as_stream << _("NONE");
+    }
+    return skills_as_stream.str();
+}
+
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
     bool retval = true;
@@ -273,6 +415,28 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, i
         retval = false;
     }
     return retval;
+}
+
+bool requirement_data::meets_skill_requirements(const player& _player) const
+{
+    for(auto &requirement: skills) {
+        if( !requirement.second.meets_minimum(_player) ) return false;
+    }
+    return true;
+}
+
+double requirement_data::success_rate(const player& _player, double difficulty_modifier) const
+{
+    int n = skills.size();
+
+    double compound_rate = 1.0f;
+    for(auto &requirement: skills) {
+        double skill_success_rate = requirement.second.success_rate(_player, difficulty_modifier);
+        double adjusted_rate = pow(skill_success_rate, 1.0f / n);
+        compound_rate *= adjusted_rate;
+    }
+
+    return compound_rate;
 }
 
 template<typename T>

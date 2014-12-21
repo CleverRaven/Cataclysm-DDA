@@ -72,6 +72,27 @@ struct item_comp : public component {
     std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
 };
 
+struct skill_requirement {
+    const Skill* skill = nullptr; // This should NEVER be null if it's loaded properly
+    int minimum = 0; // Minimum skill required to use this recipe
+    int difficulty = 0; // Difficulty of this recipe
+    float base_success = 0.5f;
+    float stat_factor = 0.125f; // How much of a bonus/penalty to skill deviating from 8 is
+
+    skill_requirement() { }
+    skill_requirement(const Skill* _skill, int _minimum, int _difficulty,
+                      float _base_success = 0.5f)
+        : skill(_skill), minimum(_minimum), difficulty(_difficulty),
+          base_success(_base_success) { }
+
+    void load(JsonObject &json_obj);
+    bool meets_minimum(const player& _player) const;
+    double success_rate(const player& _player, double difficulty_modifier = 0.0f) const;
+    std::string to_string() const;
+    std::string get_color(const player& _player) const;
+};
+
+
 struct quality_requirement {
     quality_id type;
     int count;
@@ -126,10 +147,12 @@ struct requirement_data {
         typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
         typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
         typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
+        typedef std::map<std::string, skill_requirement> skill_req_map;
 
         alter_tool_comp_vector tools;
         alter_quali_req_vector qualities;
         alter_item_comp_vector components;
+        skill_req_map skills;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
@@ -157,14 +180,25 @@ struct requirement_data {
 
         bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
+        bool meets_skill_requirements(const player& _player) const;
+        double success_rate(const player& _player, double difficulty_modifier=0.0f) const;
+
         int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                              const inventory &crafting_inv, int batch = 1) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
+        int print_skills(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                        const player& _player) const;
+
+        std::string required_components_list(const inventory& crafting_inv, int batch = 1) const;
+        std::string required_tools_list(const inventory& crafting_inv) const;
+        std::string required_skills_list(const player& _player) const;
 
     private:
         bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;
         bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv, int batch = 1) const;
+
+        void load_skill_requirements(JsonObject& js_obj);
 
         template<typename T>
         static void check_consistency(const std::vector< std::vector<T> > &vec,

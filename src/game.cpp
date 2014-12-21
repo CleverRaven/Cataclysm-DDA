@@ -1516,7 +1516,7 @@ void game::set_driving_view_offset(const point &p)
 
 void game::rustCheck()
 {
-    for (std::vector<Skill *>::iterator aSkill = ++Skill::skills.begin();
+    for (std::vector<const Skill*>::iterator aSkill = ++Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill) {
         if (u.rust_rate() <= rng(0, 1000)) {
             continue;
@@ -2033,7 +2033,7 @@ void game::activity_on_finish_reload()
 
 void game::activity_on_finish_train()
 {
-    Skill *skill = Skill::skill(u.activity.name);
+    const Skill* skill = Skill::skill(u.activity.name);
     if (skill == NULL) {
         // Trained martial arts,
         add_msg(m_good, _("You learn %s."), martialarts[u.activity.name].name.c_str());
