@@ -73,7 +73,8 @@ enum safe_mode_type {
 
 enum target_mode {
     TARGET_MODE_FIRE,
-    TARGET_MODE_THROW
+    TARGET_MODE_THROW,
+    TARGET_MODE_TURRET
 };
 
 // Refactoring into base monster class.

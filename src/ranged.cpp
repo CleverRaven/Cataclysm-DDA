@@ -829,8 +829,10 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 wprintz(w_target, c_red, "%s", " ");
                 p.print_recoil( w_target );
             }
-        } else {
+        } else if( mode == TARGET_MODE_THROW ) {
             wprintz(w_target, c_red, _("Throwing %s"), relevant->tname().c_str());
+        } else {
+            wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
         }
     }
     wprintz(w_target, c_white, " >");
@@ -1070,7 +1072,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
                 line_number++;
             } else {
-                // throwing something
+                // throwing something or setting turret's target
                 mvwprintw(w_target, line_number++, 1, _("Range: %d/%d, %s"),
                           rl_dist(from.x, from.y, x, y), range, enemiesmsg.c_str());
             }

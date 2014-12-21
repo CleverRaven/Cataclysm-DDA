@@ -4862,7 +4862,7 @@ void vehicle::aim_turrets()
     int y = cy;
     int t;
     auto mons = g->u.get_visible_creatures( range );
-    target_mode tmode = TARGET_MODE_THROW; // We can't aim here yet
+    target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
     item weap( part_info( turret_index ).item, 0 );
     std::vector<point> trajectory = 
                         g->target( x, y, cx - range, cy - range,
