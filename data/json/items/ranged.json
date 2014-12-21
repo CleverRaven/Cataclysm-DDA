@@ -3616,7 +3616,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 5,
-    "clip_size": 20,
+    "clip_size": 0,
     "reload": 0,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
