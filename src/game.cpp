@@ -11308,8 +11308,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if( !u.weapon.active && u.weapon.activate_charger_gun( u ) ) {
-        return;
+    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+        if( u.weapon.activate_charger_gun( u ) ) {
+            return;
+        }
     }
 
     if (u.weapon.has_flag("NO_AMMO")) {
