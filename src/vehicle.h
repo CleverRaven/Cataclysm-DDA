@@ -617,8 +617,13 @@ public:
     int stored_volume(int part);
     bool is_full(const int part, const int addvolume = -1, const int addnumber = -1 );
 
-// add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
-// *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
+    // Helpers to manage active item cache.
+    void remove_active_item( std::list<item>::iterator it, point location );
+    void add_active_item( std::list<item>::iterator it, point location );
+    bool has_active_item( std::list<item>::iterator it, point );
+
+    // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
+    // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
 
     // remove item from part's cargo
@@ -752,6 +757,11 @@ public:
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
+
+    // Cache of just the active items so we can iterate over just them.
+    std::list<item_reference> active_items;
+    // Cache for fast lookup when we're iterating over the active items to verify the item is present.
+    std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
 
     /**
      * Submap coordinates of the currently loaded submap (see game::m)

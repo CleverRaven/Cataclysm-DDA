@@ -1999,13 +1999,14 @@ void vehicle::load_legacy(std::ifstream &stin) {
         new_part.flags = pflag;
         new_part.passenger_id = pass;
         new_part.amount = pam;
+        parts.push_back (new_part);
         for (int j = 0; j < pnit; j++)
         {
             itms++;
             getline(stin, databuff);
             item itm;
             itm.load_info(databuff);
-            new_part.items.push_back (itm);
+            add_item(j, itm);
             int ncont;
             stin >> ncont; // how many items inside container
             getline(stin, databuff); // Clear EoL
@@ -2017,7 +2018,6 @@ void vehicle::load_legacy(std::ifstream &stin) {
                 new_part.items.back().put_in (citm);
             }
         }
-        parts.push_back (new_part);
     }
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
