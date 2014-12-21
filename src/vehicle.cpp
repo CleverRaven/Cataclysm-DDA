@@ -4832,7 +4832,7 @@ void vehicle::control_turrets() {
         pmenu.fselected = selected;
         pmenu.query();
         if( pmenu.ret < 0 || pmenu.ret >= (int)turrets.size() ) {
-            return;
+            break;
         }
 
         selected = pmenu.ret;
@@ -4840,7 +4840,7 @@ void vehicle::control_turrets() {
         const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
         if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
             debugmsg( "vehicle::toggle_turrets tried to pick a non-turret part" );
-            return;
+            break;
         }
 
         vehicle_part &tr = parts[turret_index];
@@ -4854,6 +4854,10 @@ void vehicle::control_turrets() {
 
         pmenu.reset();
     }
+
+    if( turret_mode < 1 ) {
+        add_msg( m_warning, _("Turrets have been configured, but the vehicle turret system is off.") );
+    }
 }
 
 void vehicle::cycle_turret_mode()
@@ -4866,7 +4870,7 @@ void vehicle::cycle_turret_mode()
         return;
     }
     
-    add_msg( _("Turret: Enabled") );
+    add_msg( _("Turrets: Enabled") );
     std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
     for( int p : turrets ) {
         if( parts[p].mode > 0 ) {
