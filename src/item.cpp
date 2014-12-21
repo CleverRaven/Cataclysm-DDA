@@ -48,6 +48,11 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type_name(1);
+    const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
+    if( has_random_charges ) {
+        const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
+        charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
+    }
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
         charges = 0;
@@ -59,22 +64,14 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = goes_bad() && !rotten();
-        if( comest->count_by_charges() ) {
-            if (rand && comest->rand_charges.size() > 1) {
-                int charge_roll = rng(1, comest->rand_charges.size() - 1);
-                charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
-            } else {
-                charges = comest->charges;
-            }
+        if( comest->count_by_charges() && rand && !has_random_charges ) {
+            charges = comest->charges;
         }
     }
     if( type->is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
         if( tool->max_charges != 0 ) {
-            if (rand && tool->rand_charges.size() > 1) {
-                int charge_roll = rng(1, tool->rand_charges.size() - 1);
-                charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
-            } else {
+            if( rand && !has_random_charges ) {
                 charges = tool->def_charges;
             }
             if (tool->ammo != "NULL") {

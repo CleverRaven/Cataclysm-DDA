@@ -627,6 +627,16 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
 {
+    if( jo.has_array( "rand_charges" ) ) {
+        JsonArray jarr = jo.get_array( "rand_charges" );
+        while( jarr.has_more() ) {
+            slot.rand_charges.push_back( jarr.next_long() );
+        }
+        if( slot.rand_charges.size() == 1 ) {
+            // see item::item(...) for the use of this array
+            jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
+        }
+    }
     slot.default_container = jo.get_string( "container", slot.default_container );
 }
 
@@ -671,16 +681,6 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->ammo = jo.get_string("ammo");
     tool_template->max_charges = jo.get_long("max_charges");
     tool_template->def_charges = jo.get_long("initial_charges");
-
-    if (jo.has_array("rand_charges")) {
-        JsonArray jarr = jo.get_array("rand_charges");
-        while (jarr.has_more()) {
-            tool_template->rand_charges.push_back(jarr.next_long());
-        }
-    } else {
-        tool_template->rand_charges.push_back(tool_template->def_charges);
-    }
-
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
@@ -688,6 +688,7 @@ void Item_factory::load_tool(JsonObject &jo)
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load_tool_armor(JsonObject &jo)
@@ -759,15 +760,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->grow = jo.get_int("grow", 91);
     
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
-
-    if (jo.has_array("rand_charges")) {
-        JsonArray jarr = jo.get_array("rand_charges");
-        while (jarr.has_more()) {
-            comest_template->rand_charges.push_back(jarr.next_long());
-        }
-    } else {
-        comest_template->rand_charges.push_back(comest_template->charges);
-    }
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);

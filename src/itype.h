@@ -446,9 +446,11 @@ struct islot_software {
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
     itype_id default_container; // The container it comes in
+    std::vector<long> rand_charges;
 
     islot_spawn()
     : default_container( "null" )
+    , rand_charges()
     {
     }
 };
@@ -612,7 +614,6 @@ struct it_comest : public virtual itype {
     int spoils;
     unsigned int addict;   // Addictiveness potential
     long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
-    std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
@@ -643,7 +644,7 @@ struct it_comest : public virtual itype {
 
     add_type add; // Effects of addiction
 
-    it_comest(): itype(), quench(0), nutr(0), charges(0), rand_charges(), stim(0), healthy(0),
+    it_comest(): itype(), quench(0), nutr(0), charges(0), stim(0), healthy(0),
         brewtime(0), comesttype(), fun(0), tool()
     {
     }
@@ -680,7 +681,6 @@ struct it_tool : public virtual itype {
     ammotype ammo;
     long max_charges;
     long def_charges;
-    std::vector<long> rand_charges;
     unsigned char charges_per_use;
     unsigned char turns_per_charge;
     itype_id revert_to;
@@ -706,7 +706,7 @@ struct it_tool : public virtual itype {
     {
         return max_charges;
     }
-    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
+    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
     {
     }
