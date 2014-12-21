@@ -245,8 +245,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
     } else if (choice == purchase_cash_card) {
         if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
             item card("cash_card", calendar::turn);
-            it_tool *tool = dynamic_cast<it_tool *>(card.type);
-            card.charges = tool->def_charges;
+            card.charges = 0;
             p->i_add(card);
             p->cash -= 100;
             p->moves -= 100;
