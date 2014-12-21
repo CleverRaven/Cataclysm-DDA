@@ -442,6 +442,17 @@ struct islot_software {
     }
 };
 
+// Data used when spawning items, should be obsoleted by the spawn system, but
+// is still used at several places and makes it easier when it applies to all new items of a type.
+struct islot_spawn {
+    itype_id default_container; // The container it comes in
+
+    islot_spawn()
+    : default_container( "null" )
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -461,6 +472,7 @@ struct itype {
     std::unique_ptr<islot_variable_bigness> variable_bigness;
     std::unique_ptr<islot_bionic> bionic;
     std::unique_ptr<islot_software> software;
+    std::unique_ptr<islot_spawn> spawn;
     /*@}*/
 
 protected:
@@ -609,8 +621,6 @@ struct it_comest : public virtual itype {
     signed int fun;    // How fun its use is
 
     unsigned int grow; //time it takes for a seed to grow (in days, based of off a season length of 91)
-    
-    itype_id default_container; // The container it comes in
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() const
@@ -634,7 +644,7 @@ struct it_comest : public virtual itype {
     add_type add; // Effects of addiction
 
     it_comest(): itype(), quench(0), nutr(0), charges(0), rand_charges(), stim(0), healthy(0),
-        brewtime(0), comesttype(), fun(0), default_container(), tool()
+        brewtime(0), comesttype(), fun(0), tool()
     {
     }
 };
@@ -644,12 +654,10 @@ struct it_ammo : public virtual itype, public common_ranged_data {
     itype_id casing;        // Casing produced by the ammo, if any
     unsigned int count;    // Default charges
 
-    itype_id default_container; // The container it comes in
-
     std::set<std::string> ammo_effects;
 
     it_ammo(): itype(), type(), casing(),
-        count(0), default_container(), ammo_effects()
+        count(0), ammo_effects()
     {
     }
 

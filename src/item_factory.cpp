@@ -445,11 +445,13 @@ void Item_factory::check_definitions() const
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }
+        if( type->spawn ) {
+            if( type->spawn->default_container != "null" && !has_template( type->spawn->default_container ) ) {
+                msg << string_format( "invalid container property %s", type->spawn->default_container.c_str() ) << "\n";
+            }
+        }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
-            if (comest->default_container != "null" && !has_template(comest->default_container)) {
-                msg << string_format("invalid container property %s", comest->default_container.c_str()) << "\n";
-            }
             if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
@@ -459,9 +461,6 @@ void Item_factory::check_definitions() const
             check_ammo_type(msg, ammo->type);
             if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
                 msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
-            }
-            if (ammo->default_container != "null" && !has_template(ammo->default_container)) {
-                msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
             }
         }
         if( type->gun ) {
@@ -589,10 +588,10 @@ void Item_factory::load_ammo(JsonObject &jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
-    ammo_template->default_container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
@@ -624,6 +623,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
                                              curr.get_int( 1 ) ) );
         }
     }
+}
+
+void Item_factory::load( islot_spawn &slot, JsonObject &jo )
+{
+    slot.default_container = jo.get_string( "container", slot.default_container );
 }
 
 void Item_factory::load_gun(JsonObject &jo)
@@ -726,7 +730,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
-    comest_template->default_container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
@@ -768,6 +771,7 @@ void Item_factory::load_comestible(JsonObject &jo)
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load_container(JsonObject &jo)
@@ -982,6 +986,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->gun, jo, "gun_data" );
     load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
     load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
+    load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

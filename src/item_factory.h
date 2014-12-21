@@ -28,6 +28,7 @@ struct islot_gun;
 struct islot_gunmod;
 struct islot_variable_bigness;
 struct islot_bionic;
+struct islot_spawn;
 class item_category;
 
 /**
@@ -250,6 +251,7 @@ class Item_factory
         void load( islot_gunmod &slot, JsonObject &jo );
         void load( islot_variable_bigness &slot, JsonObject &jo );
         void load( islot_bionic &slot, JsonObject &jo );
+        void load( islot_spawn &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);

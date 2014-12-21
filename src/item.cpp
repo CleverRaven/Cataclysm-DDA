@@ -256,16 +256,8 @@ item item::in_its_container()
         ret.invlet = invlet;
         return ret;
     }
-    itype_id container_id;
-    if( is_food() ) {
-        const auto comest = dynamic_cast<it_comest*>( type );
-        container_id = comest->default_container;
-    } else if( is_ammo() ) {
-        const auto ammo = dynamic_cast<it_ammo*>( type );
-        container_id = ammo->default_container;
-    }
-    if( !container_id.empty() && container_id != "null" ) {
-        item ret( container_id, bday );
+    if( type->spawn && type->spawn->default_container != "null" ) {
+        item ret( type->spawn->default_container, bday );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
