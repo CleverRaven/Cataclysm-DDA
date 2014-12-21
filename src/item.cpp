@@ -257,28 +257,47 @@ item item::in_its_container()
         return ret;
     }
     itype_id container_id;
-    long liquid_factor = 1;
     if( is_food() ) {
         const auto comest = dynamic_cast<it_comest*>( type );
         container_id = comest->default_container;
-        liquid_factor = comest->charges;
     } else if( is_ammo() ) {
         const auto ammo = dynamic_cast<it_ammo*>( type );
         container_id = ammo->default_container;
-        liquid_factor = ammo->count;
     }
     if( !container_id.empty() && container_id != "null" ) {
         item ret( container_id, bday );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            charges = ret.type->container->contains * liquid_factor;
+            charges = liquid_charges( ret.type->container->contains );
         }
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
     } else {
         return *this;
+    }
+}
+
+long item::liquid_charges( long units ) const
+{
+    if( is_ammo() ) {
+        return dynamic_cast<it_ammo *>( type )->count * units;
+    } else if( is_food() ) {
+        return dynamic_cast<it_comest *>( type )->charges * units;
+    } else {
+        return units;
+    }
+}
+
+long item::liquid_units( long charges ) const
+{
+    if( is_ammo() ) {
+        return charges / dynamic_cast<it_ammo *>( type )->count;
+    } else if( is_food() ) {
+        return charges / dynamic_cast<it_comest *>( type )->charges;
+    } else {
+        return charges;
     }
 }
 
@@ -3729,15 +3748,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
         }
     }
 
-    int total_capacity = type->container->contains;
-
-    if (liquid.is_food()) {
-        it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-        total_capacity = type->container->contains * tmp_comest->charges;
-    } else if (liquid.is_ammo()) {
-        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-        total_capacity = type->container->contains * tmp_ammo->count;
-    }
+    const auto total_capacity = liquid.liquid_charges( type->container->contains );
 
     int remaining_capacity = total_capacity;
     if (!contents.empty()) {
@@ -3755,15 +3766,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
 // Remaining capacity for currently stored liquid in container - do not call for empty container
 int item::get_remaining_capacity() const
 {
-    int total_capacity = type->container->contains;
-
-    if (contents[0].is_food()) {
-        it_comest *tmp_comest = dynamic_cast<it_comest *>(contents[0].type);
-        total_capacity = type->container->contains * tmp_comest->charges;
-    } else if (contents[0].is_ammo()) {
-        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(contents[0].type);
-        total_capacity = type->container->contains * tmp_ammo->count;
-    }
+    const auto total_capacity = contents[0].liquid_charges( type->container->contains );
 
     int remaining_capacity = total_capacity;
     if (!contents.empty()) {

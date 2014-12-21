@@ -32,8 +32,8 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             if( one_in(10 + p->dex_cur) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
                 item spill( item_it->type->id, calendar::turn );
-                const auto min = dynamic_cast<it_ammo *>(item_it->type)->count;
-                const auto max = dynamic_cast<it_ammo *>(item_it->type)->count * 8.0 / p->dex_cur;
+                const auto min = item_it->liquid_charges( 1 );
+                const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
                 spill.charges = rng( min, max );
                 m->add_item_or_charges( p->posx, p->posy, spill, 1 );
                 item_it->charges -= spill.charges;
@@ -2391,7 +2391,7 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             }
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
-                    const long units = k.charges / dynamic_cast<it_ammo *>(k.type)->count;
+                    const long units = k.liquid_units( k.charges );
 
                     distance = new_distance;
                     p = point(i, j);
@@ -2512,7 +2512,7 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
     auto items = m->i_at( src.x, src.y );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            const long amount = units * dynamic_cast<it_ammo *>(item_it->type)->count;
+            const long amount = item_it->liquid_charges( units );
 
             if( item_it->charges < amount ) {
                 return false;
@@ -2564,7 +2564,7 @@ static long fromPumpFuel(map *m, point dst, point src)
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return amount / dynamic_cast<it_ammo *>(item_it->type)->count;
+            return item_it->liquid_units( amount );
         }
     }
     return -1;

@@ -562,6 +562,22 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
+         * Liquids use a different (and type specific) scale for the charges vs volume.
+         * This functions converts them. You can assume that
+         * @code liquid_charges( liquid_units( x ) ) == x @endcode holds true.
+         * For items that are not liquids or otherwise don't use this system, both functions
+         * simply return their input (conversion factor is 1).
+         * One "unit" takes up one container storage capacity, e.g.
+         * A container with @ref islot_container::contains == 2 can store
+         * @code liquid.liquid_charges( 2 ) @endcode charges of the given liquid.
+         * For water this would be 2, for most strong alcohols it's 14, etc.
+         */
+        /*@{*/
+        long liquid_charges( long units ) const;
+        long liquid_units( long charges ) const;
+        /*@}*/
+
+        /**
          * @name Armor related functions.
          *
          * The functions here refer to values from @ref it_armor. They only apply to armor items,
