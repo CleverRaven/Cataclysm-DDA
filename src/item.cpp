@@ -1717,7 +1717,7 @@ int item::price() const
     // The price from the json data is for the default-sized stack, like the volume
     // calculation.
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ret * charges / static_cast<double>( max_charges() );
+        ret = ret * charges / static_cast<double>( type->stack_size);
     }
     const it_tool* ttype = dynamic_cast<const it_tool*>( type );
     if( has_curammo() && charges > 0 ) {
@@ -1888,7 +1888,7 @@ int item::volume(bool unit_value, bool precise_value ) const
         if ( unit_value == false ) {
             ret *= charges;
         }
-        ret /= max_charges();
+        ret /= type->stack_size;
     }
 
     if (is_gun()) {
@@ -2246,15 +2246,6 @@ bool item::goes_bad() const
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
-}
-
-long item::max_charges() const
-{
-    if(count_by_charges()) {
-        return type->stack_size;
-    } else {
-        return 1;
-    }
 }
 
 bool item::craft_has_charges()

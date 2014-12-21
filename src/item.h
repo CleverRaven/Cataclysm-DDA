@@ -256,7 +256,6 @@ public:
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
- long max_charges() const;
  bool craft_has_charges();
  long num_charges();
 
