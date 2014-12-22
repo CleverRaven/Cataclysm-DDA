@@ -24,7 +24,7 @@ struct item_reference
 class active_item_cache
 {
 private:
-    std::list<item_reference> active_items;
+    std::unordered_map<int,std::list<item_reference>> active_items;
     // Cache for fast lookup when we're iterating over the active items to verify the item is present.
     std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
 
@@ -33,7 +33,7 @@ public:
     void add( std::list<item>::iterator it, point location );
     bool has( std::list<item>::iterator it, point ) const;
     bool empty() const;
-    const std::list<item_reference> &get();
+    std::list<item_reference> get();
 };
 
 #endif
