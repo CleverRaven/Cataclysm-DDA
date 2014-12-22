@@ -1,0 +1,14 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Nether",
+    "name": "No Lovecraft Monsters",
+    "author": "Rivet-the-Zombie",
+    "description": "Removes all Lovecraftian 'nether' creatures from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "categories": ["NETHERTHING"]
+}
+]

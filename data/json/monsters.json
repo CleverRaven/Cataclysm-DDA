@@ -3044,7 +3044,8 @@
         "special_attacks":[["CALLBLOBS", 0]],
         "description":"A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
         "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN"],
-        "phase":"LIQUID"
+        "phase":"LIQUID",
+        "categories":["NETHERTHING"]
     },{
   "type" : "MONSTER",
         "id" : "mon_blob_large",
@@ -3071,7 +3072,8 @@
         "special_attacks":[["FORMBLOB", 20]],
         "description":"A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
         "flags":["HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"],
-        "phase":"LIQUID"
+        "phase":"LIQUID",
+        "categories":["NETHERTHING"]
     },{
   "type" : "MONSTER",
         "id" : "mon_blob",
@@ -3124,7 +3126,8 @@
         "death_function":"BLOBSPLIT",
         "description":"A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
         "flags":["HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"],
-        "phase":"LIQUID"
+        "phase":"LIQUID",
+        "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_chud",
@@ -3970,7 +3973,8 @@
     "death_function":"THING",
     "special_attacks":[["DOGTHING", 40]],
     "description":"A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
-    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "WARM", "FUR", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "WARM", "FUR", "FRIENDLY_SPECIAL"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_headless_dog_thing",
@@ -3996,7 +4000,8 @@
     "death_function":"THING",
     "special_attacks":[["TENTACLE", 5]],
     "description":"A dog's body with a mass of ropey, black tentacles reaching out from its head.",
-    "flags":["SEES", "SMELLS", "HEARS", "BASHES"]
+    "flags":["SEES", "SMELLS", "HEARS", "BASHES"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_thing",
@@ -4022,7 +4027,8 @@
     "death_function":"MELT",
     "special_attacks":[["TENTACLE", 5]],
     "description":"An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
-    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB"]
+    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",
@@ -4127,7 +4133,8 @@
     "hp":350,
     "death_function":"MELT",
     "description":"An amorphous mound of twisting black flesh that flits through the air at incredible speeds.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "ATTACKMON", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN", "NOGIB"]
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "ATTACKMON", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_hunting_horror",
@@ -4153,7 +4160,8 @@
     "death_function":"MELT",
     "description":"A man-sized worm-like creature that swoops around on bat-like wings.  Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
     "flags":["SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN", "NOGIB"],
-    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED"]
+    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_mi_go",
@@ -4179,7 +4187,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["PARROT", 0]],
     "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "ARTHROPOD_BLOOD"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "ARTHROPOD_BLOOD"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
@@ -4205,7 +4214,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["GENE_STING", 20]],
     "description":"An enormous white flatworm that burrows beneath the earth.  Its mouth is lined with pointed teeth, and it is covered in fine hairs which can be shed and fired like darts.",
-    "flags":["SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS", "VIS40"]
+    "flags":["SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS", "VIS40"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_gelatin",
@@ -4232,7 +4242,8 @@
     "special_attacks":[["FORMBLOB", 4]],
     "description":"A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "flags":["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB"],
-    "phase":"LIQUID"
+    "phase":"LIQUID",
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_flaming_eye",
@@ -4258,7 +4269,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["STARE", 12]],
     "description":"An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
-    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD"]
+    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_kreck",
@@ -4283,7 +4295,8 @@
     "hp":30,
     "death_function":"MELT",
     "description":"A fat humanoid the size of a dog, with twisted red flesh and a distended neck.  It scampers around, panting and grunting.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "BONES", "NOGIB"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "BONES", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_gracke",
@@ -4308,7 +4321,8 @@
     "hp":100,
     "death_function":"NORMAL",
     "description":"A bizarre humanoid creature with a calculating stare.  Its twitching hands move so fast they appear to be nothing but blurs.",
-    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES"]
+    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blank",
@@ -4335,7 +4349,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK", 10]],
     "description":"This looks like a human body, but its flesh is snow-white, and its face is featureless save for a perfectly round mouth.",
-    "flags":["SMELLS", "HEARS", "WARM", "ANIMAL", "SUNDEATH", "NO_BREATHE", "HUMAN", "BONES"]
+    "flags":["SMELLS", "HEARS", "WARM", "ANIMAL", "SUNDEATH", "NO_BREATHE", "HUMAN", "BONES"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_gozu",
@@ -4361,7 +4376,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["FEAR_PARALYZE", 20]],
     "description":"A monster with an obese human body and the head of a cow.  It treads slowly, and milky white drool drips from its mouth.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "VIS30", "BONES"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "VIS30", "BONES"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
@@ -4388,7 +4404,8 @@
     "special_attacks":[["DISAPPEAR", 20]],
     "special_when_hit":["ZAPBACK", 100],
     "description":"A strange moving darkness, bringing with it the softest of whispers.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "NOGIB"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_darkman",
@@ -4414,7 +4431,8 @@
     "death_function":"DARKMAN",
     "special_attacks":[["DARKMAN", 5]],
     "description":"A gigantic shadow, chaotically changing in shape and volume , two piercing orbs of light dominate what can only be described as its head.",
-    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF","SUNDEATH", "NO_BREATHE", "VIS50"]
+    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF","SUNDEATH", "NO_BREATHE", "VIS50"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_breather_hub",
@@ -4440,7 +4458,8 @@
     "death_function":"KILL_BREATHERS",
     "special_attacks":[["BREATHE", 8]],
     "description":"A weird mass of immobile pink goo.  It seems to breathe.",
-    "flags":["ACIDPROOF", "ACID_BLOOD", "IMMOBILE"]
+    "flags":["ACIDPROOF", "ACID_BLOOD", "IMMOBILE"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_breather",
@@ -4466,7 +4485,8 @@
     "death_function":"MELT",
     "special_attacks":[["BREATHE", 8]],
     "description":"A weird mass of immobile pink goo.  It seems to breathe.",
-    "flags":["IMMOBILE", "NOGIB"]
+    "flags":["IMMOBILE", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow_snake",
@@ -4492,7 +4512,8 @@
     "death_function":"MELT",
     "special_attacks":[["DISAPPEAR", 20]],
     "description":"A translucent black snake, long and fearsome looking.",
-    "flags":["SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB"]
+    "flags":["SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shoggoth",
@@ -4518,7 +4539,8 @@
     "death_function":"MELT",
     "special_attacks":[["PARROT", 40]],
     "description":"A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
-    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"]
+    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"],
+    "categories":["NETHERTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dementia",
