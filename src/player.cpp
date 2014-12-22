@@ -13401,7 +13401,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
+Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t, int area)
 {
     if (is_player()) {
         debugmsg("called player::auto_find_hostile_target for player themself!");
@@ -13409,8 +13409,8 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
     }
     int t;
     Creature *target = nullptr;
-    const int iff_dist = 24; // iff check triggers at this distance
-    int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
+    const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
+    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
     int closest = range + 1;
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
@@ -13445,19 +13445,22 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
             continue;
         }
         int dist = rl_dist(posx, posy, m->xpos(), m->ypos());
-        if (dist >= closest) {
+        if( dist >= closest || dist < area ) {
             // Have a better target anyway, ignore this one.
+            // Or possibly we'd be wrecking self with explosions.
             continue;
         }
-        if (iff_trig) {
+        if( iff_trig ) {
             int tangle = g->m.coord_to_angle(posx, posy, m->xpos(), m->ypos());
             int diff = abs(u_angle - tangle);
-            if (diff + iff_hangle > 360 || diff < iff_hangle) {
-                // Player is in the way
+            // Player is in the angle and not too far behind the target
+            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
+                ( dist * 3 / 2 + 6 > pldist ) ) {
                 boo_hoo++;
                 continue;
             }
         }
+
         target = m;
         closest = dist;
         fire_t = t;

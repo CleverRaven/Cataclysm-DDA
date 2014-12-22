@@ -2255,7 +2255,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(38, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(38, boo_hoo, fire_t, 4);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2769,16 +2769,39 @@ void mattack::chickenbot(monster *z, int index)
 {
     (void)index; //unused
     int t, mode = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t)) {
+    if( z->friendly == 0 && !g->sees_u(z->posx(), z->posy(), t) ) {
         return;    // Can't see you!
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1 && one_in(2)) {
+    
+    int tx, ty;
+    int fire_t = 0;
+    int boo_hoo = 0;
+    if( z->friendly == 0 ) {
+        tx = g->u.posx;
+        ty = g->u.posy;
+    } else {
+        npc tmp = make_fake_npc(z, 12, 8, 8, 8);
+        auto target = tmp.auto_find_hostile_target(38, boo_hoo, fire_t);
+        if( target == nullptr ) {
+            if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
+                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                            boo_hoo),
+                        z->name().c_str(), boo_hoo);
+            }
+            return;
+        }
+        tx = target->xpos();
+        ty = target->ypos();
+    }
+    // Can't taze when friendly, use frag more when hacked
+    if( z->friendly == 0 && rl_dist( z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
         mode = 1;
-    } else if ((rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 12) ||
-        (g->u.in_vehicle &&
-         (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 6)) ) {
+    } else if( ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 12) ||
+               ( ( z->friendly != 0 || g->u.in_vehicle ) &&
+               ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 6) ) ) {
         mode = 3;
-    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 4) {
+    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) >= 4) {
         mode = 2;
     }
 
@@ -2803,29 +2826,52 @@ void mattack::multi_robot(monster *z, int index)
 {
     (void)index; //unused
     int t, mode = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t)) {
+    if( z->friendly == 0 && !g->sees_u( z->posx(), z->posy(), t ) ) {
         return;    // Can't see you!
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1 && one_in(2)) {
+
+    int tx, ty;
+    int fire_t = 0;
+    int boo_hoo = 0;
+    if( z->friendly == 0 ) {
+        tx = g->u.posx;
+        ty = g->u.posy;
+    } else {
+        npc tmp = make_fake_npc(z, 12, 8, 8, 8);
+        auto target = tmp.auto_find_hostile_target( 48, boo_hoo, fire_t );
+        if( target == nullptr ) {
+            if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
+                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                            boo_hoo),
+                        z->name().c_str(), boo_hoo);
+            }
+            return;
+        }
+        tx = target->xpos();
+        ty = target->ypos();
+    }
+
+    if( z->friendly == 0 && rl_dist(z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
         mode = 1;
-    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 5) {
+    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 5 ) {
         mode = 2;
-    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 20) {
+    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 20 ) {
         mode = 3;
-    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 30) {
+    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 30 ) {
         mode = 4;
-    } else if (g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
-      z->friendly != 0) {
+    } else if( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
+               z->friendly != 0 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if ( (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 35) &&
-          (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 50 )) {
+        if( (rl_dist(z->posx(), z->posy(), tx, ty ) >= 35 ) &&
+            ( rl_dist(z->posx(), z->posy(), tx, ty ) < 50 ) ) {
             // Enforced max-range of 50.
             mode = 5;
         }
     }
 
-    if (mode == 0) {
+    if( mode == 0 ) {
         return;    // No attacks were valid!
     }
 

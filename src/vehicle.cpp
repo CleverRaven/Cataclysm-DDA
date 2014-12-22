@@ -5083,12 +5083,35 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
     return true;
 }
 
+// Ammo/weapon tags to area of effect
+// Maybe move to ranged.cpp and let player/NPCs see it?
+int aoe_size( std::set< std::string > tags )
+{
+    if( tags.count( "NAPALM_BIG" ) ||
+        tags.count( "EXPLOSIVE_HUGE" ) ) {
+        return 4;
+    } else if( tags.count( "NAPALM" ) ||
+               tags.count( "EXPLOSIVE_BIG") ) {
+        return 3;
+    } else if( tags.count( "EXPLOSIVE" ) ||
+               tags.count( "FRAG" ) ) {
+        return 2;
+    } else if( tags.count( "ACIDBOMB" ) ||
+               tags.count( "FLAME" ) ) {
+        return 1;
+    }
+    
+    return 0;
+}
+
 bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
-    // code copied form mattack::smg, mattack::flamethrower
-    int range = ammo.type == fuel_type_gasoline ? 5 : 12;
+    int range = part_info( p ).range;
+    if( range < 1 ) {
+        range = 12;
+    }
 
     npc tmp;
     tmp.set_fake( true );
@@ -5107,10 +5130,16 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     tmp.weapon.set_curammo( ammo.id );
     tmp.weapon.charges = charges;
 
+    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo_effects ),
+                         aoe_size( tmp.weapon.type->gun->ammo_effects ) );
+    if( area > 0 ) {
+        area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
+    }
+    
     const bool u_see = g->u_see(x, y);
 
     int fire_t, boo_hoo;
-    Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
+    Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t, area);
     if (target == NULL) {
         if (u_see && boo_hoo) {
             add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",

@@ -382,8 +382,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * outside of that range is ignored.
          * @param boo_hoo The number of targets that have been skipped
          * because the player is in the way.
+         * @param area The area of effect of the projectile aimed.
          */
-        Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t);
+        Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t, int area = 0);
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
