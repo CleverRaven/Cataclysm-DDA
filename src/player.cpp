@@ -820,7 +820,7 @@ void player::update_bodytemp()
     const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = g->is_sheltered(posx, posy);
-    int total_windpower = (g->is_sheltered(posx, posy) ? 0 : vehwindspeed) + get_local_windpower(weather.windpower, omtername, sheltered);
+    int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
