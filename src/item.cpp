@@ -58,7 +58,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
-        active = true;
+        active = goes_bad() && !rotten();
         if( comest->count_by_charges() ) {
             if (rand && comest->rand_charges.size() > 1) {
                 int charge_roll = rng(1, comest->rand_charges.size() - 1);
