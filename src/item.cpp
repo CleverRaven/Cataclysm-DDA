@@ -4275,8 +4275,7 @@ int item::processing_speed() const
         return 600;
     }
     if( is_corpse() ) {
-        // Corpses don't need to be checked for revivication constantly.
-        return 10;
+        return 100;
     }
     // Unless otherwise indicated, update every turn.
     return 1;
