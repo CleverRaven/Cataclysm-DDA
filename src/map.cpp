@@ -2770,7 +2770,7 @@ std::list<item>::iterator map::i_rem( const point location, std::list<item>::ite
     int lx, ly;
     submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
 
-    if( it->needs_processing() ) {
+    if( current_submap->active_items.has( it, point( lx, ly ) ) ) {
         current_submap->active_items.remove( it, point( lx, ly ) );
     }
 
@@ -2814,7 +2814,7 @@ void map::i_clear(const int x, const int y)
 
     for( auto item_it = current_submap->itm[lx][ly].begin();
          item_it != current_submap->itm[lx][ly].end(); ++item_it ) {
-        if( item_it->needs_processing() ) {
+        if( current_submap->active_items.has( item_it, point( lx, ly ) ) ) {
             current_submap->active_items.remove( item_it, point( lx, ly ) );
         }
     }

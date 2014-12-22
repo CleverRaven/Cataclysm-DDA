@@ -4357,7 +4357,7 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
 {
     std::list<item>& veh_items = parts[part].items;
 
-    if( it->needs_processing() ) {
+    if( active_items.has( it, point( parts[part].mount_dx, parts[part].mount_dy) ) ) {
         active_items.remove( it, point( parts[part].mount_dx, parts[part].mount_dy) );
     }
 
