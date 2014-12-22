@@ -3069,9 +3069,6 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n, point location,
                                std::string )
 {
-    if( !n->needs_processing() ) {
-        return false;
-    }
     return process_item( items, n, location, false );
 }
 
