@@ -5138,8 +5138,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     
     const bool u_see = g->u_see(x, y);
 
-    int fire_t, boo_hoo;
-    Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t, area);
+    int boo_hoo;
+    Creature *target = player::auto_find_hostile_target( point( x, y ), range, boo_hoo, area );
     if (target == NULL) {
         if (u_see && boo_hoo) {
             add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",

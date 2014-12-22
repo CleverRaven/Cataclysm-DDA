@@ -1,6 +1,9 @@
 #ifndef MONATTACK_H
 #define MONATTACK_H
 
+class monster;
+class Creature;
+
 class mattack
 {
     public:
@@ -51,11 +54,9 @@ class mattack
         void smg                (monster *z, int index); // Automated MP5
         void laser              (monster *z, int index);
         void rifle_tur          (monster *z, int index); // Automated M4
-        void frag_tur           (monster *z, int index); // Automated MGL
         void bmg_tur            (monster *z, int index); // Automated M107 >:-D
-        void tank_tur           (monster *z, int index); // Tankbot primary.
-        void searchlight        (monster *z, int index);
         void flamethrower       (monster *z, int index);
+        void searchlight        (monster *z, int index);
         void copbot             (monster *z, int index);
         void chickenbot         (monster *z, int index); // Pick from tazer, M4, MGL
         void multi_robot        (monster *z, int index); // Tazer, flame, M4, MGL, or 120mm!
@@ -75,6 +76,12 @@ class mattack
         void suicide            (monster *z, int index);
         bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown when u.is_throw_immune()
         void riotbot            (monster *z, int index);
+    private:
+        void taze               (monster *z, Creature *target);
+        void rifle              (monster *z, Creature *target); // Automated M4
+        void frag               (monster *z, Creature *target); // Automated MGL
+        void tankgun            (monster *z, Creature *target); // Tankbot primary.
+        void flame              (monster *z, Creature *target);
 };
 
 #endif

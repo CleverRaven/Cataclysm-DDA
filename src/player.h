@@ -377,14 +377,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * chooses a target. This is for creatures that are friendly towards
          * the player and therefor choose a target that is hostile
          * to the player.
-         * @param fire_t The t output of map::sees.
+         * @param pos Position of the fake-player
          * @param range The maximal range to look for monsters, anything
          * outside of that range is ignored.
          * @param boo_hoo The number of targets that have been skipped
          * because the player is in the way.
          * @param area The area of effect of the projectile aimed.
          */
-        Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t, int area = 0);
+        static Creature *auto_find_hostile_target( point pos, int range, int &boo_hoo, int area = 0);
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
