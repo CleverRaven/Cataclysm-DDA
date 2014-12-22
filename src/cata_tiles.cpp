@@ -1095,7 +1095,7 @@ bool cata_tiles::draw_vpart(int x, int y)
         }
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
