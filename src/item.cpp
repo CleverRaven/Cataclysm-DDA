@@ -4267,6 +4267,21 @@ bool item::needs_processing() const
            is_artifact();
 }
 
+int item::processing_speed() const
+{
+    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+        // Hot and cold food need turn-by-turn updates.
+        // If they ever become a performance problem, update process_food to handle them occasionally.
+        return 600;
+    }
+    if( is_corpse() ) {
+        // Corpses don't need to be checked for revivication constantly.
+        return 10;
+    }
+    // Unless otherwise indicated, update every turn.
+    return 1;
+}
+
 bool item::process_food( player * /*carrier*/, point pos )
 {
     calc_rot( pos );

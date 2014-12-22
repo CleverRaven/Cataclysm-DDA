@@ -3052,6 +3052,8 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
+        // If the item lost its active flag in processing,
+        // it won't be re-added to the active list, tidy!
         items.push_back( temp_item );
         return false;
     }
