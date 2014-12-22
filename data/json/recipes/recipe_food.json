@@ -3154,7 +3154,7 @@
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
@@ -3246,7 +3246,7 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "bacon", 1 ],
       [ "irradiated_onion", 1 ],
       [ "onion", 1 ]
@@ -3537,7 +3537,7 @@
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
@@ -3664,7 +3664,7 @@
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
@@ -3788,7 +3788,7 @@
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
@@ -4179,7 +4179,7 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
       [ "rehydrated_meat", 2 ],
-      [ "sausage", 1 ],
+      [ "sausage", 2 ],
       [ "jerky", 3 ],
       [ "salted_fish", 3 ],
       [ "meat_pickled", 1 ],
@@ -7158,7 +7158,7 @@
   ],
   "components": [
     [
-      [ "sausage", 1 ]
+      [ "sausage", 2 ]
     ],
     [
       [ "curry_powder", 1]
@@ -7229,7 +7229,7 @@
   ],
   "components": [
     [
-      [ "mannwurst", 1 ]
+      [ "mannwurst", 2 ]
     ],
     [
       [ "curry_powder", 1]
