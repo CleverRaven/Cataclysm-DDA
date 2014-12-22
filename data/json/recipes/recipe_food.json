@@ -3155,7 +3155,7 @@
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 1 ],
+      [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ],
@@ -3247,7 +3247,7 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 1 ],
+      [ "bacon", 2 ], 
       [ "irradiated_onion", 1 ],
       [ "onion", 1 ]
     ],
@@ -3538,7 +3538,7 @@
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 1 ],
+      [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -3665,7 +3665,7 @@
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 1 ],
+      [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -3789,7 +3789,7 @@
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 1 ],
+      [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -4174,7 +4174,7 @@
       [ "egg_reptile", 2 ]
     ],
     [
-      [ "bacon", 1 ],
+      [ "bacon", 2 ], 
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
@@ -6841,7 +6841,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6874,7 +6874,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6951,7 +6951,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6991,7 +6991,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -7302,7 +7302,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
     ]
   ]
 },{
