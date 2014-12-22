@@ -1,0 +1,14 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Robots",
+    "name": "No Robots",
+    "author": "Rivet-the-Zombie",
+    "description": "Removes all robotic enemies from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "categories": ["ROBOT"]
+}
+]
