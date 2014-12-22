@@ -1,0 +1,14 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Zombanimals",
+    "name": "No Zombie Animals",
+    "author": "Rivet-the-Zombie",
+    "description": "Removes all zombified nonhuman animals from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "categories": ["ZOMBANIMAL"]
+}
+]
