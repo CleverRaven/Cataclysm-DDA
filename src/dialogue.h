@@ -93,7 +93,7 @@ struct talk_response {
     int mission_index;
     mission_id miss; // If it generates a new mission
     int tempvalue; // Used for various stuff
-    Skill *skill;
+    const Skill* skill;
     matype_id style;
     npc_opinion opinion_success;
     npc_opinion opinion_failure;

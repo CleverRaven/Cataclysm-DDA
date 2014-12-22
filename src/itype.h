@@ -152,7 +152,7 @@ struct islot_book {
      * Which skill it upgrades, if any. Can be NULL.
      * TODO: this should be a pointer to const
      */
-    Skill *skill;
+    const Skill* skill;
     /**
      * The skill level the book provides.
      */
@@ -291,9 +291,8 @@ struct islot_gun : public common_firing_data {
      * What skill this gun uses.
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
-     * TODO: this should be a pointer to a const Skill
      */
-    Skill *skill_used;
+    const Skill* skill_used;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -338,7 +337,7 @@ struct islot_gunmod : public common_firing_data {
      * TODO: document me
      * TODO: this should be a pointer to const Skill.
      */
-    Skill *skill_used;
+    const Skill* skill_used;
     /**
      * TODO: document me
      */

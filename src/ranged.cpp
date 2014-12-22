@@ -288,7 +288,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                  used_weapon->tname().c_str());
         return;
     }
-    Skill *skill_used = Skill::skill( used_weapon->gun_skill() );
+    const Skill* skill_used = Skill::skill( used_weapon->gun_skill() );
 
     projectile proj; // damage will be set later
     proj.aoe_size = 0;
