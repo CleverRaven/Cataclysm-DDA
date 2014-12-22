@@ -5160,7 +5160,8 @@
     "hp":1,
     "death_function":"EXPLODE",
     "description":"A small, round turret which extends from the floor.  Two SMG barrels swivel 360 degrees.",
-    "flags":["IMMOBILE", "NO_BREATHE"]
+    "flags":["IMMOBILE", "NO_BREATHE"],
+    "categories":["ROBOT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_hallu_mom",
