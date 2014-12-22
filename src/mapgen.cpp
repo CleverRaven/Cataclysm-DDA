@@ -11432,7 +11432,6 @@ void map::rotate(int turns)
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp[MAPSIZE * MAPSIZE];
-    active_item_cache active_items_rot[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 
@@ -11515,7 +11514,6 @@ void map::rotate(int turns)
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
             tmpcomp[gridto] = from->comp;
-            active_items_rot[gridto] = from->active_items;
             field_count[gridto] = from->field_count;
             temperature[gridto] = from->temperature;
         }
@@ -11575,7 +11573,6 @@ void map::rotate(int turns)
         vehrot[i].swap(to->vehicles);
         sprot[i].swap(to->spawns);
         to->comp = tmpcomp[i];
-        to->active_items = active_items_rot[i];
         to->field_count = field_count[i];
         to->temperature = temperature[i];
     }
