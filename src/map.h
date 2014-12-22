@@ -21,6 +21,7 @@
 #include "lightmap.h"
 #include "coordinates.h"
 #include "item_stack.h"
+#include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11

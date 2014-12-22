@@ -19,18 +19,4 @@ public:
     virtual item &operator[]( size_t index ) = 0;
 };
 
-// Provides hashing operator for item list iterator.
-struct list_iterator_hash {
-    size_t operator()(const std::list<item>::iterator &i) const {
-        return (size_t)&*i;
-    }
-};
-
-// A struct used to uniquely identify an item within a submap or vehicle.
-struct item_reference
-{
-    point location;
-    std::list<item>::iterator item_iterator;
-};
-
 #endif

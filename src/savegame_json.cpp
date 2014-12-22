@@ -1313,8 +1313,8 @@ void vehicle::deserialize(JsonIn &jsin)
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                add_active_item( it, point( parts[cargo_index].mount_dx,
-                                            parts[cargo_index].mount_dy ) );
+                active_items.add( it, point( parts[cargo_index].mount_dx,
+                                             parts[cargo_index].mount_dy ) );
             }
         }
     }
