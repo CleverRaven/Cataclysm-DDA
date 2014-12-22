@@ -394,8 +394,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
                     ],
             "place_groups": [
-                { "item": "trash_forest", "chance": 60, "x": [ 2, 21], "y": [ 5, 19] },
-                { "item": "bed", "chance": 80, "x": [ 12, 13], "y": [ 18, 19] }
+                { "item": "trash_forest", "chance": 60, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
