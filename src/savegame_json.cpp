@@ -1048,6 +1048,10 @@ void item::deserialize(JsonObject &data)
         // if it's already rotten, no need to do this.
         active = true;
     }
+    if( active && dynamic_cast<it_comest*>(type) && (rotten() || !goes_bad()) ) {
+        // There was a bug that set all comestibles active, this reverses that.
+        active = false;
+    }
 
     if( data.read( "curammo", ammotmp ) ) {
         set_curammo( ammotmp );
