@@ -11237,7 +11237,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
-    vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
+    vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
     if(placed_vehicle != NULL) {
         submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
@@ -11259,14 +11259,14 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
+vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
-        const int px = x + veh->parts[*part].precalc_dx[0];
-        const int py = y + veh->parts[*part].precalc_dy[0];
+        const int px = veh->global_x() + veh->parts[*part].precalc_dx[0];
+        const int py = veh->global_y() + veh->parts[*part].precalc_dy[0];
 
         //Don't spawn anything in water
         if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
@@ -11339,7 +11339,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             delete veh;
 
             //Try again with the wreckage
-            return add_vehicle_to_map(wreckage, global_x, global_y);
+            return add_vehicle_to_map(wreckage, true);
 
         } else if (move_cost(px, py) == 0) {
             if( !merge_wrecks ) {
