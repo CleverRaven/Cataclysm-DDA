@@ -144,11 +144,10 @@ void player::load(JsonObject &data)
     data.read("cash", cash);
     data.read("recoil", recoil);
     data.read("in_vehicle", in_vehicle);
-
-    data.read( "str_start", str_start );
-    data.read( "dex_start", dex_start );
-    data.read( "int_start", int_start );
-    data.read( "per_start", per_start );
+    data.read("str_start", str_start);
+    data.read("int_start", int_start);
+    data.read("dex_start", dex_start);
+    data.read("per_start", per_start);
 
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
@@ -194,21 +193,19 @@ void player::load(JsonObject &data)
     } else {
         if (data.has_object("startingSkills")) {
             JsonObject pmap = data.get_object("startingSkills");
-            for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-                 aSkill != Skill::skills.end(); ++aSkill ) {
-                if ( pmap.has_object( (*aSkill)->ident() ) ) {
-                    if(!pmap.read( (*aSkill)->ident(), startSkillLevel(*aSkill) )) {
-                        debugmsg("READ FAILED (%s) Missing starting skill %s", "", (*aSkill)->ident().c_str() );
+            for( auto &skill : Skill::skills ) {
+                if( pmap.has_object( ( skill )->ident() ) ) {
+                    if(!pmap.read( ( skill )->ident(), startSkillLevel( skill ) ) ){
+                        debugmsg("READ FAILED (%s) Missing starting skill %s", "", (skill)->ident().c_str() );
                     }
                 } else {
-                    debugmsg("Load (%s) Missing starting skill %s", "", (*aSkill)->ident().c_str() );
+                    debugmsg("Load (%s) Missing starting skill %s", "", (skill)->ident().c_str() );
                 }
             }
         } else {
             debugmsg("StartingSkills[] data object not loaded in savegame_json.cpp::player::json_load_common_variables");
         }
     }
-
 
     data.read("ma_styles", ma_styles);
     // Just too many changes here to maintain compatibility, so older characters get a free
@@ -254,24 +251,6 @@ void player::store(JsonOut &json) const
     json.member( "posx", posx );
     json.member( "posy", posy );
 
-    // attributes, current / max / starting levels
-    json.member( "str_cur", str_cur );
-    json.member( "str_max", str_max );
-    json.member( "str_start", str_start );
-    json.member( "dex_cur", dex_cur );
-    json.member( "dex_max", dex_max );
-    json.member( "dex_start", dex_start );
-    json.member( "int_cur", int_cur );
-    json.member( "int_max", int_max );
-    json.member( "int_start", int_start );
-    json.member( "per_cur", per_cur );
-    json.member( "per_max", per_max );
-    json.member( "per_start", per_start );
-
-    // Healthy values
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
-
     // om-noms or lack thereof
     json.member( "hunger", hunger );
     json.member( "thirst", thirst );
@@ -295,6 +274,12 @@ void player::store(JsonOut &json) const
     json.member( "cash", cash );
     json.member( "recoil", int(recoil) );
     json.member( "in_vehicle", in_vehicle );
+
+    json.member( "str_start", str_start );
+    json.member( "int_start", int_start );
+    json.member( "dex_start", dex_start );
+    json.member( "per_start", per_start );
+
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
@@ -321,10 +306,9 @@ void player::store(JsonOut &json) const
     // Starting Skills
     json.member( "startingSkills" );
     json.start_object();
-    for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill ) {
-        SkillLevel sk = get_starting_skill_level(*aSkill);
-        json.member((*aSkill)->ident(), sk);
+    for( auto &skill : Skill::skills ) {
+        SkillLevel sk = get_starting_skill_level( skill );
+        json.member(( skill )->ident(), sk);
     }
     json.end_object();
 
