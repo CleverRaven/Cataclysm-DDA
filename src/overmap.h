@@ -1,5 +1,6 @@
-#ifndef _OVERMAP_H_
-#define _OVERMAP_H_
+#ifndef OVERMAP_H
+#define OVERMAP_H
+
 #include "enums.h"
 #include "string.h"
 #include "omdata.h"
@@ -25,7 +26,7 @@ class npc;
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::map<std::string, oter_t> obasetermap;
+extern std::unordered_map<std::string, oter_t> obasetermap;
 
 // Likelihood to pick a specific overmap terrain.
 struct oter_weight {
@@ -48,7 +49,7 @@ struct oter_weight_list {
         for(std::vector<oter_weight>::iterator item_it = items.begin();
             item_it != items.end(); ++item_it ) {
             if ( item_it->ot_iid == -1 ) {
-                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
+                std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
                 if ( it == obasetermap.end() ) {
                     debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
                     item_it->ot_iid = 0;
@@ -240,9 +241,10 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
  bool visible[OMAPX][OMAPY];
+ bool explored[OMAPX][OMAPY];
  std::vector<om_note> notes;
 
- map_layer() : terrain(), visible(), notes() {}
+ map_layer() : terrain(), visible(), explored(), notes() {}
 };
 
 struct node
@@ -261,37 +263,50 @@ class overmap
  public:
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
-  overmap(int x, int y);
-  ~overmap();
+    overmap(int x, int y);
+    ~overmap();
 
-  overmap& operator=(overmap const&) = default;
+    overmap& operator=(overmap const&) = default;
 
-  point const& pos() const { return loc; }
+    point const& pos() const { return loc; }
 
-  void save() const;
-  void first_house(int &x, int &y, const std::string start_location);
+    void save() const;
 
-  void process_mongroups(); // Makes them die out, maybe more
-  void move_hordes();
-  void signal_hordes( const int x, const int y, const int sig_power);
+    /**
+     * @return The (local) overmap terrain coordinates of a randomly
+     * chosen place on the overmap with the specific overmap terrain.
+     * Returns @ref invalid_tripoint if no suitable place has been found.
+     */
+    tripoint find_random_omt( const std::string &omt_base_type ) const;
 
-  std::vector<point> find_terrain(const std::string &term, int zlevel);
-  int closest_city(point p);
-  point random_house_in_city(int city_id);
-  int dist_from_city(point p);
+    void process_mongroups(); // Makes them die out, maybe more
+    void move_hordes();
+    void signal_hordes( const int x, const int y, const int sig_power);
 
-  oter_id& ter(const int x, const int y, const int z);
-  const oter_id get_ter(const int x, const int y, const int z) const;
-  bool&   seen(int x, int y, int z);
-  bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
-  bool is_road_or_highway(int x, int y, int z);
+    /**
+     * Return a vector containing the absolute coordinates of
+     * every matching terrain on the current z level of the current overmap.
+     * @returns A vector of terrain coordinates (absolute overmap terrain
+     * coordinates), or empty vector if no matching terrain is found.
+     */
+    std::vector<point> find_terrain(const std::string &term, int zlevel);
+    int closest_city(point p);
+    point random_house_in_city(int city_id);
+    int dist_from_city(point p);
 
-  bool has_note(int const x, int const y, int const z) const;
-  std::string const& note(int const x, int const y, int const z) const;
-  void add_note(int const x, int const y, int const z, std::string const& message);
-  void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+    oter_id& ter(const int x, const int y, const int z);
+    const oter_id get_ter(const int x, const int y, const int z) const;
+    bool&   seen(int x, int y, int z);
+    bool&   explored(int x, int y, int z);
+    bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
+    bool is_road_or_highway(int x, int y, int z);
+    bool is_explored(int const x, int const y, int const z) const;
 
-//    static oter_id nulloter;
+    bool has_note(int const x, int const y, int const z) const;
+    std::string const& note(int const x, int const y, int const z) const;
+    void add_note(int const x, int const y, int const z, std::string const& message);
+    void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -306,12 +321,12 @@ class overmap
     static const point invalid_point;
     static const tripoint invalid_tripoint;
     /**
-     * Search for the nearest note that contains the given pattern.
-     * (x,y) are in global overmap terrain coordinates.
-     * @returns The location of the chosen note (absolute overmap terrain
-     * coordinates), or invalid_point if no note has been found.
+     * Return a vector containing the absolute coordinates of
+     * every matching note on the current z level of the current overmap.
+     * @returns A vector of note coordinates (absolute overmap terrain
+     * coordinates), or empty vector if no matching notes are found.
      */
-    static point find_note(int const x, int const y, int const z, std::string const& text);
+     std::vector<point> find_notes(int const z, std::string const& text);
     /**
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
@@ -373,20 +388,13 @@ public:
   bool nullbool;
   std::string nullstr;
 
-    struct monster_data {
-        // relative to the position of this overmap,
-        // in submap coordinates.
-        int x;
-        int y;
-        int z;
-        monster mon;
-    };
     /**
      * When monsters despawn during map-shifting they will be added here.
      * map::spawn_monsters will load them and place them into the reality bubble
      * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
      */
-    std::vector<monster_data> monsters;
+    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
   // Initialise
@@ -410,8 +418,8 @@ public:
    * It will be marked specially.
    * @param debug_monstergroups Displays monster groups on the overmap.
    */
-  static void draw(WINDOW *w, const tripoint &center,
-            const tripoint &orig, bool blink,
+  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
+            const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, bool debug_monstergroups = false,
             const int iZoneIndex = -1);
 
@@ -435,7 +443,7 @@ public:
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
   void building_on_hiway(int x, int y, int dir);
   // Polishing
-  bool check_ot_type(const std::string &otype, int x, int y, int z);
+  bool check_ot_type(const std::string &otype, int x, int y, int z) const;
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
@@ -451,10 +459,6 @@ public:
   void place_mongroups();
   void place_radios();
 
-  // Map helper function.
-  static void print_npcs(WINDOW *w, int const x, int const y, int const z);
-  bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
     void add_mon_group(const mongroup &group);
     // not available because *every* overmap needs location, so use the other constructor.
     overmap() = delete;
@@ -465,10 +469,10 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::map<std::string,oter_t> otermap;
+extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
-extern std::map<std::string, regional_settings> region_settings_map;
+extern std::unordered_map<std::string, regional_settings> region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
 void reset_overmap_terrain();

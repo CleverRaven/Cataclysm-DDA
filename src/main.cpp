@@ -9,7 +9,6 @@
 #include "color.h"
 #include "options.h"
 #include "debug.h"
-#include "item_factory.h"
 #include "monstergenerator.h"
 #include "file_wrapper.h"
 #include "path_info.h"
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
 #else
     PATH_INFO::init_user_dir("./");
 #endif
-    PATH_INFO::set_standart_filenames();
+    PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
 
@@ -87,7 +86,7 @@ int main(int argc, char *argv[])
             argv++;
             if(argc) {
                 PATH_INFO::init_base_path(std::string(argv[0]));
-                PATH_INFO::set_standart_filenames();
+                PATH_INFO::set_standard_filenames();
                 argc--;
                 argv++;
             }
@@ -96,7 +95,7 @@ int main(int argc, char *argv[])
             argv++;
             if (argc) {
                 PATH_INFO::init_user_dir( argv[0] );
-                PATH_INFO::set_standart_filenames();
+                PATH_INFO::set_standard_filenames();
                 argc--;
                 argv++;
             }
@@ -140,12 +139,13 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
+        // All paths will decrement saved_argc and do not depend on it before this operation, so it is safe to do it in
+        // just one place, avoiding repeated code.
+        saved_argc--;
         if(std::string(saved_argv[0]) == "--worldmenu") {
-            saved_argc--;
             saved_argv++;
             MAP_SHARING::setWorldmenu(true);
         } else if(std::string(saved_argv[0]) == "--datadir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
@@ -154,7 +154,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--savedir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
@@ -162,7 +161,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--configdir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
@@ -170,8 +168,14 @@ int main(int argc, char *argv[])
                 saved_argc--;
                 saved_argv++;
             }
+        } else if(std::string(saved_argv[0]) == "--memorialdir") {
+            saved_argv++;
+            if(saved_argc) {
+                PATH_INFO::update_pathname("memorialdir", std::string(saved_argv[0]));
+                saved_argc--;
+                saved_argv++;
+            }
         } else if(std::string(saved_argv[0]) == "--optionfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
@@ -179,7 +183,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--keymapfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
@@ -187,7 +190,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--autopickupfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
@@ -195,17 +197,22 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--motdfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
-        } else { // ignore unknown args.
-            saved_argc--;
+        } else {
+            // Unknown arguments are ignored.
             saved_argv++;
         }
+    }
+
+    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_dir"].c_str());
+        exit(1);
     }
 
     setupDebug();
@@ -236,11 +243,6 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
-        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
-            debugmsg("Can't open or create %s. Check permissions.",
-                     FILENAMES["user_dir"].c_str());
-            exit_handler(-999);
-        }
         g->load_static_data();
         if (verifyexit) {
             if(g->game_error()) {
@@ -269,7 +271,7 @@ int main(int argc, char *argv[])
         exit_handler(-999);
     }
 
-    // Now we do the actuall game
+    // Now we do the actual game.
 
     g->init_ui();
     if(g->game_error()) {

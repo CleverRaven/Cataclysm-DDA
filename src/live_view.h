@@ -1,8 +1,7 @@
-#ifndef _LIVE_VIEW_H_
-#define _LIVE_VIEW_H_
+#ifndef LIVE_VIEW_H
+#define LIVE_VIEW_H
 
-#include <vector>
-
+#include "map.h"
 #include "cursesdef.h"
 
 class item;
@@ -26,6 +25,7 @@ class live_view
         int inuse;
         int last_height;
 
-        void print_items(std::vector<item> &items, int &line) const;
+        void print_items( const map_stack &items, int &line ) const;
 };
+
 #endif

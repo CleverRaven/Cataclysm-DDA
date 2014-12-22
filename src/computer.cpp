@@ -164,7 +164,7 @@ void computer::use()
                         shutdown_terminal();
                         return;
                     } else {
-                        // Succesfully hacked function
+                        // Successfully hacked function
                         options[ch].security = 0;
                         activate_function(current.action);
                     }
@@ -184,6 +184,7 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
+    const int hack_skill = p->get_skill_level( "computer" );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -192,8 +193,9 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
+    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     p->practice( "computer", 5 + Security * 2 );
-    int player_roll = p->skillLevel("computer");
+    int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
     } else if (p->int_cur > 8 && one_in(3)) {
@@ -214,20 +216,18 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (std::vector<computer_option>::iterator it = options.begin();
-         it != options.end(); ++it) {
-        savename = it->name;
+    for( auto &elem : options ) {
+        savename = elem.name;
         found = savename.find(" ");
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(it->action) << " " << it->security << " ";
+        data << savename << " " << int( elem.action ) << " " << elem.security << " ";
     }
     data << failures.size() << " ";
-    for (std::vector<computer_failure>::iterator it = failures.begin();
-         it != failures.end(); ++it) {
-        data << int(*it) << " ";
+    for( auto &elem : failures ) {
+        data << int( elem ) << " ";
     }
 
     return data.str();
@@ -274,6 +274,8 @@ void computer::load_data(std::string data)
 
 void computer::activate_function(computer_action action)
 {
+    // Token move cost for any action, if an action takes longer decrement moves further.
+    g->u.moves -= 30;
     switch (action) {
 
     case COMPACT_NULL: // Unknown action.
@@ -307,6 +309,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_SAMPLE:
+        g->u.moves -= 30;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -314,31 +317,27 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for (std::vector<item>::iterator it = g->m.i_at(x1, y1).begin();
-                                     it != g->m.i_at(x1, y1).end(); ++it) {
-                                    if (it->is_container()) {
-                                        item sewage = item("sewage", calendar::turn);
-                                        it_container *container = dynamic_cast<it_container *>(it->type);
-                                        it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
-                                        long maxCharges = container->contains * comest->charges;
-
-                                        if (it->contents.empty()) {
-                                            it->put_in(sewage);
-                                            found_item = true;
-                                            break;
-                                        } else {
-                                            if (it->contents[0].type->id == sewage.type->id) {
-                                                if (it->contents[0].charges < maxCharges) {
-                                                    it->contents[0].charges += comest->charges;
-                                                    found_item = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
+                                item sewage( "sewage", calendar::turn );
+                                auto candidates = g->m.i_at( x1, y1 );
+                                for( auto candidate = candidates.begin();
+                                     candidate !=candidates.end(); ++candidate ) {
+                                    LIQUID_FILL_ERROR lferr;
+                                    long capa = candidate->get_remaining_capacity_for_liquid( sewage, lferr );
+                                    if( capa <= 0 ) {
+                                        continue;
                                     }
+                                    item &elem = *candidate;
+                                    capa = std::min( sewage.charges, capa );
+                                    if( elem.contents.empty() ) {
+                                        elem.put_in( sewage );
+                                        elem.contents[0].charges = capa;
+                                    } else {
+                                        elem.contents[0].charges += capa;
+                                    }
+                                    found_item = true;
+                                    break;
                                 }
                                 if (!found_item) {
-                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -355,6 +354,13 @@ void computer::activate_function(computer_action action)
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -428,6 +434,7 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
+            g->u.moves -= 70;
             log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
                             lab_notes.size()];
         }
@@ -446,6 +453,7 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAPS: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Press any key..."));
@@ -453,6 +461,7 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAP_SEWER: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
@@ -544,15 +553,15 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_LIST_BIONICS: {
+        g->u.moves -= 30;
         std::vector<std::string> names;
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                     it != g->m.i_at(x, y).end(); ++it) {
-                    if (it->is_bionic()) {
+                for( auto &elem : g->m.i_at( x, y ) ) {
+                    if( elem.is_bionic() ) {
                         if ((int)names.size() < TERMY - 8) {
-                            names.push_back(it->tname());
+                            names.push_back( elem.tname() );
                         } else {
                             more++;
                         }
@@ -567,9 +576,8 @@ void computer::activate_function(computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (std::vector<std::string>::iterator it = names.begin();
-             it != names.end(); ++it) {
-            print_line("%s", it->c_str());
+        for( auto &name : names ) {
+            print_line( "%s", name.c_str() );
         }
         if (more > 0) {
             print_line(ngettext("%d OTHER FOUND...", "%d OTHERS FOUND...", more), more);
@@ -592,6 +600,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -609,6 +618,7 @@ themselves.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -627,6 +637,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -660,6 +671,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("\
 SITE %d%d%d\n\
@@ -685,12 +697,13 @@ INITIATING STANDARD TREMOR TEST..."));
     case COMPACT_AMIGARA_START:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_disease("amigara", 20);
+            g->u.add_effect("amigara", 20);
         }
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
-        g->u.add_disease("stemcell_treatment", 120);
+        g->u.moves -= 70;
+        g->u.add_effect("stemcell_treatment", 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -706,6 +719,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
+            g->u.moves -= 30;
             item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
@@ -717,6 +731,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_BLOOD_ANAL:
+        g->u.moves -= 70;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
@@ -731,11 +746,11 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
-                        if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
+                        const item &blood = g->m.i_at(x, y).front().contents[0];
+                        if (blood.corpse == NULL || blood.corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
-                            if( blood->corpse->sym == "Z" ) {
+                        } else if( blood.corpse->in_species( "ZOMBIE" ) ) {
+                            if( blood.corpse->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
                                 print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
@@ -763,6 +778,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DATA_ANAL:
+        g->u.moves -= 30;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
@@ -959,7 +975,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   unidentified compounds in the ground water.  We now have\n\
   conclusive evidence that the SRCFs are a threat to the public\n\
   safety.  We are taking these data to state representatives and\n\
-  petitioning for a full congressional inquiry.  They should be\n\
+  petitioning for a full Congressional inquiry.  They should be\n\
   able to force open your secret vaults, and the world will see\n\
   what you've been hiding.\n\
   \n\
@@ -975,14 +991,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         reset_terminal();
         print_line(_(" Subj: CDC: Internal Memo, Standby [2918115]\n\
   To: all SRCF staff\n\
-  From:  Ellen Grimes, Director of the EPA\n\
+  From:  Ellen Grimes, Director of the CDC\n\
   \n\
       Your site along with many others has been found to be\n\
   contaminated with what we will now refer to as [redacted].\n\
   It is vital that you standby for further orders.  We are\n\
   currently awaiting the President to decide our course of\n\
   action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcophagus with c-4 as outlined\n\
+  safe procedures and rig the sarcophagus with C-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
   and seal the sarcophagus or remove the charges.  It is of the\n\
   utmost importance that the facility be sealed immediatly when\n\
@@ -1022,25 +1038,30 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
+        print_line(_("Charges Detonated"));
+        print_line(_("Backup Generator Power Failing"));
+        print_line(_("Evacuate Immediately"));
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
         }
+        options.clear(); // Disable the terminal.
+        activate_failure(COMPFAIL_SHUTDOWN);
         break;
 
     case COMPACT_SRCF_ELEVATOR:
@@ -1170,7 +1191,7 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y);
                     g->explosion(x, y, 10, 0, false);
                 }
             }
@@ -1213,7 +1234,7 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
-        g->u.add_disease("amigara", 20);
+        g->u.add_effect("amigara", 20);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         break;
@@ -1235,10 +1256,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
-                            it->contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }
@@ -1261,10 +1279,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Memory bank is empty."));
                     } else {
                         print_error(_("ERROR: Data bank destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
-                            it->contents.clear();
-                        }
+                        g->m.i_clear( x, y );
                     }
                 }
             }

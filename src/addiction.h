@@ -1,5 +1,5 @@
-#ifndef _ADDICTION_H_
-#define _ADDICTION_H_
+#ifndef ADDICTION_H
+#define ADDICTION_H
 
 #include <string>
 #include "pldata.h"

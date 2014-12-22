@@ -117,11 +117,11 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
     return true;
 }
 
-void live_view::print_items(std::vector<item> &items, int &line) const
+void live_view::print_items(const map_stack &items, int &line) const
 {
     std::map<std::string, int> item_names;
-    for (size_t i = 0; i < items.size(); i++) {
-        std::string name = items[i].tname();
+    for( auto &item : items ) {
+        std::string name = item.tname();
         if (item_names.find(name) == item_names.end()) {
             item_names[name] = 0;
         }

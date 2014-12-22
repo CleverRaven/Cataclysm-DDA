@@ -1,5 +1,5 @@
-#ifndef _ACTION_H_
-#define _ACTION_H_
+#ifndef ACTION_H
+#define ACTION_H
 
 #include <vector>
 #include <map>
@@ -65,6 +65,7 @@ enum action_id {
     ACTION_DROP,
     ACTION_DIR_DROP,
     ACTION_BIONICS,
+    ACTION_MUTATIONS,
     ACTION_SORT_ARMOR,
     // Long-term / special actions
     ACTION_WAIT,
@@ -99,6 +100,7 @@ enum action_id {
     ACTION_ZOOM_OUT,
     ACTION_ZOOM_IN,
     ACTION_ACTIONMENU,
+    ACTION_ITEMACTION,
     NUM_ACTIONS
 };
 

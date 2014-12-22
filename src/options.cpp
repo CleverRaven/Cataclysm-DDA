@@ -29,7 +29,7 @@ extern cata_tiles *tilecontext;
 
 std::unordered_map<std::string, cOpt> OPTIONS;
 std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
+options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
@@ -270,11 +270,11 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
-        for (size_t i = 0; i < vItems.size(); i++) {
+        for( auto &elem : vItems ) {
             if (sItems != "") {
                 sItems += _(", ");
             }
-            sItems += (bTranslated) ? optionNames[vItems[i]] : vItems[i];
+            sItems += ( bTranslated ) ? optionNames[elem] : elem;
         }
         return string_format(_("Default: %s - Values: %s"),
                              (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
@@ -513,20 +513,20 @@ void initOptions()
                                        );
 
     OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
+                                  _("When true, safemode will alert you to hostiles while you are driving a vehicle."),
                                   false
                                  );
 
     mOptionsSort["general"]++;
 
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
-                               _("If true, game will periodically save the map."),
+                               _("If true, game will periodically save the map. Autosaves occur based on in-game turns or real-time minutes, whichever is larger."),
                                false
                               );
 
     OPTIONS["AUTOSAVE_TURNS"] = cOpt("general", _("Game turns between autosaves"),
                                      _("Number of game turns between autosaves"),
-                                     1, 1000, 5
+                                     10, 1000, 50
                                     );
 
     OPTIONS["AUTOSAVE_MINUTES"] = cOpt("general", _("Real minutes between autosaves"),
@@ -555,6 +555,14 @@ void initOptions()
                                  false
                                 );
 
+    optionNames["ask"]      = _("Ask");
+    optionNames["always"]   = _("Always");
+    optionNames["never"]    = _("Never");
+    OPTIONS["DEATHCAM"]     = cOpt("general", _("DeathCam"),
+                                _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
+                                "always,ask,never", "ask"
+                                );
+
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
@@ -565,19 +573,20 @@ void initOptions()
     optionNames["fr_FR"] =  "Français (France)";
     optionNames["de_DE"] = "Deutsch (Deutschland)";
     optionNames["it"] = "Italiano";
+    optionNames["es_AR"] = "Español (Argentina)";
     optionNames["es_ES"] = "Español (España)";
     optionNames["ja"] = "日本語";
     optionNames["ko"] = "한국어";
-    optionNames["pl"] = "polski";
+    optionNames["pl"] = "Polski";
     optionNames["pt_BR"] = "Português (Brasil)";
     optionNames["pt_PT"] = "Português (Portugal)";
     optionNames["ru"] = "Русский";
     optionNames["sr"] = "Srpski";
     optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_CN"] = "中文(天朝)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr_FR,de_DE,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
@@ -703,6 +712,11 @@ void initOptions()
                                            _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
                                            "false,centered,edge",  "centered"
                                           );
+                                          
+    OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
+                                        _("If false, new inventory items will only get letters assigned if they had one before."),
+                                        true
+                                       );
 
     mOptionsSort["interface"]++;
 
@@ -927,10 +941,11 @@ void initOptions()
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
 
-    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
+    for( auto &elem : OPTIONS ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
-            if (vPages[i].first == (iter->second).getPage() && (iter->second).getSortPos() > -1) {
-                mPageItems[i][(iter->second).getSortPos()] = iter->first;
+            if( vPages[i].first == ( elem.second ).getPage() &&
+                ( elem.second ).getSortPos() > -1 ) {
+                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
                 break;
             }
         }
@@ -993,8 +1008,9 @@ void show_options(bool ingame)
     mvwputch(w_options_border, iTooltipHeight + 1,  0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_options_border, iTooltipHeight + 1, 79, BORDER_COLOR, LINE_XOXX); // -|
 
-    for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+    for( auto &mapLine : mapLines ) {
+        mvwputch( w_options_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR,
+                  LINE_XXOX ); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
@@ -1049,6 +1065,13 @@ void show_options(bool ingame)
 
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
+        // where the column with the names starts
+        const size_t name_col = 5;
+        // where the column with the values starts
+        const size_t value_col = 62;
+        // 2 for the space between name and value column, 3 for the ">> "
+        const size_t name_width = value_col - name_col - 2 - 3;
+        const size_t value_width = getmaxx( w_options ) - value_col;
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iCurrentPage].size()) ?
@@ -1063,21 +1086,22 @@ void show_options(bool ingame)
             sTemp.str("");
             sTemp << i + 1 - iBlankOffset;
             mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, line_pos, 5, c_white, "");
 
             if (iCurrentLine == i) {
-                wprintz(w_options, c_yellow, ">> ");
+                mvwprintz(w_options, line_pos, name_col, c_yellow, ">> ");
             } else {
-                wprintz(w_options, c_yellow, "   ");
+                mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s", current_opt->getMenuText().c_str());
+            const std::string name = utf8_truncate( current_opt->getMenuText(), name_width );
+            mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
 
             if (current_opt->getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, line_pos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", current_opt->getValueName().c_str());
+            const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
+            mvwprintz(w_options, line_pos, value_col, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", value.c_str());
         }
 
         //Draw Scrollbar
@@ -1251,6 +1275,7 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_title();
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
@@ -1343,8 +1368,10 @@ std::string options_header()
 void save_options(bool ingame)
 {
     std::ofstream fout;
-    fout.open(FILENAMES["options"].c_str());
+    const auto path = FILENAMES["options"];
+    fout.open(path.c_str());
     if(!fout.is_open()) {
+        popup( _( "Could not open the options file %s, check file permissions." ), path.c_str() );
         return;
     }
 
@@ -1352,20 +1379,22 @@ void save_options(bool ingame)
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && (int)j == iWorldOptPage );
-        for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
-            if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
-                fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-                fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText(false) << std::endl;
-                fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+        for( auto &elem : mPageItems[j] ) {
+            if( OPTIONS[elem].getDefaultText() != "" ) {
+                fout << "#" << OPTIONS[elem].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[elem].getDefaultText( false ) << std::endl;
+                fout << elem << " " << OPTIONS[elem].getValue() << std::endl << std::endl;
                 if ( update_wopt ) {
-                    world_generator->active_world->world_options[ mPageItems[j][i] ] =
-                        ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
                 }
             }
         }
     }
 
     fout.close();
+    if( fout.fail() ) {
+        popup( _( "Failed to save the options to %s." ), path.c_str() );
+    }
     if ( ingame ) {
         world_generator->save_world( world_generator->active_world, false );
     }
@@ -1389,12 +1418,12 @@ std::string get_tileset_names(std::string dir_path)
     std::string tileset_names;
     bool first_tileset_name = true;
 
-    for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {
+    for( auto &file : files ) {
         std::ifstream fin;
-        fin.open(it->c_str());
+        fin.open( file.c_str() );
         if(!fin.is_open()) {
             fin.close();
-            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << *it;
+            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << file;
             optionNames["deon"] = _("Deon's");          // just setting some standards
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;

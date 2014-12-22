@@ -6,13 +6,13 @@
         "difficulty" : 0,
         "time" : 20,
         "qualities": [
-		    [
+            [
                 { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
                 { "id": "SCREW", "level": 1 }
             ]
-		],
+        ],
         "pre_special" : "check_deconstruct",
         "post_special" : "done_deconstruct"
     },{
@@ -46,6 +46,17 @@
         "post_terrain" : "t_pit_spiked"
     },{
         "type" : "construction",
+        "description" : "Glass Pit",
+        "category" : "DIG",
+        "difficulty" : 0,
+        "time" : 5,
+        "components" : [
+            [ ["glass_shard", 20] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_pit_glass"
+    },{
+        "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a pit",
         "category" : "DIG",
         "difficulty" : 0,
@@ -61,6 +72,15 @@
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_spiked",
+        "post_terrain" : "t_pit_shallow"
+    },{
+        "type" : "construction",
+        "description" : "Fill Pit", "//": "fill in a glass pit",
+        "category" : "DIG",
+        "difficulty" : 0,
+        "time" : 5,
+        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "pre_terrain" : "t_pit_glass",
         "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
@@ -96,7 +116,7 @@
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
-        "pre_terrain" : "t_tree",
+        "pre_flags" : "TREE",
         "post_terrain" : "t_dirt",
         "post_special" : "done_tree"
     },{
@@ -123,6 +143,7 @@
         "post_special" : "done_trunk_plank"
     },{
         "type" : "construction",
+        "skill" : "survival",
         "description" : "Build Improvised Shelter",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
@@ -169,6 +190,29 @@
         "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
+        "description" : "Build Door", "//": "Step 3: peephole",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 10,
+                "qualities": [
+            [
+            { "id": "DRILL", "level": 1 }
+            ],
+            [
+            { "id": "SCREW", "level": 1 }
+            ],
+            [
+            { "id": "WRENCH", "level": 1 }
+            ]
+            ],
+
+        "components" : [
+            [ [ "peephole", 1 ] ]
+        ],
+        "pre_terrain" : "t_door_c",
+        "post_terrain" : "t_door_c_peep"
+    },{
+        "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the regular door",
         "category" : "REPAIR",
         "difficulty" : 1,
@@ -182,6 +226,21 @@
         ],
         "pre_terrain" : "t_door_b",
         "post_terrain" : "t_door_c"
+    },{
+        "type" : "construction",
+        "description" : "Repair Wood Door", "//": "Repair the peephole door",
+        "category" : "REPAIR",
+        "difficulty" : 1,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 3 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_terrain" : "t_door_b_peep",
+        "post_terrain" : "t_door_c_peep"
     },{
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the reinforced door",
@@ -214,6 +273,21 @@
         "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
+        "description" : "Board Up Wood Door", "//": "peephole door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 8,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_door_c_peep",
+        "post_terrain" : "t_door_boarded_peep"
+    },{
+        "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged door",
         "category" : "REINFORCE",
         "difficulty" : 0,
@@ -227,6 +301,21 @@
         ],
         "pre_flags" : "BARRICADABLE_DOOR_DAMAGED",
         "post_terrain" : "t_door_boarded_damaged"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Wood Door", "//": "boarded damaged peephole door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_door_b_peep",
+        "post_terrain" : "t_door_boarded_damaged_peep"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "the reinforced doors",
@@ -279,13 +368,13 @@
         "difficulty" : 8,
         "time" : 15,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_M", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "spike", 8 ] ],
             [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
@@ -299,16 +388,16 @@
         "difficulty" : 8,
         "time" : 15,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_M", "level": 1 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
             [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
@@ -639,6 +728,223 @@
         "post_terrain" : "t_wall_log_chipped"
     },{
         "type" : "construction",
+        "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
+        "category" : "CONSTRUCT",
+        "difficulty" : 0,
+        "time" : 60,
+        "components" : [
+            [ [ "bag_canvas", 2 ] ],
+            [ [ "material_sand", 20 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_sandbag_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Sandbag Wall", "//": "Step 2: Finish the sandbag wall",
+        "category" : "CONSTRUCT",
+        "difficulty" : 0,
+        "time" : 90,
+        "components" : [
+            [ [ "bag_canvas", 4 ] ],
+            [ [ "material_sand", 40 ] ]
+        ],
+        "pre_terrain" : "f_sandbag_half",
+        "post_terrain" : "f_sandbag_wall"
+    },{
+	"type" : "construction",
+	"description" : "Build Brick Wall", "//": "Step 1: start wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 3,
+	"time" : 60,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "brick", 15] ],
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
+	],
+	"pre_terrain" : "t_dirt",
+	"post_terrain" : "t_brick_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Brick Wall", "//": "Step 2: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 3,
+	"time" : 60,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "brick", 15] ],
+		[ [ "mortar_build", 1] ],
+    [ [ "water", 1], ["water_clean", 1]]
+	],
+	"pre_terrain" : "t_brick_wall_halfway",
+	"post_terrain" : "t_brick_wall"
+    },{
+	"type" : "construction",
+	"description" : "Build Simple Concrete Wall", "//": "Step 1: foundation",
+	"category" : "CONSTRUCT",
+	"difficulty" : 4,
+	"time" : 15,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ], 
+		[ [ "2x4", 12] ],
+		[ [ "water", 4] ]
+	],
+	"pre_terrain" : "t_pit_shallow",
+	"post_terrain" : "t_sconc_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 4,
+	"time" : 15,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 2] ]
+	],
+	"pre_terrain" : "t_sconc_wall_halfway",
+	"post_terrain" : "t_sconc_wall"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 45,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 16] ]
+	],
+	"pre_terrain" : "t_pit",
+	"post_terrain" : "t_reb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 4 ] ]
+	],
+	"pre_terrain" : "t_reb_cage",
+	"post_terrain" : "t_strconc_wall_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "2x4", 12] ],
+		[ [ "water", 4 ] ]
+	],
+	"pre_terrain" : "t_strconc_wall_halfway",
+	"post_terrain" : "t_strconc_wall"
+    },{
+    	"type" : "construction",
+	"description" : "Build Concrete Roof", "//": "Step 1: rebar cage & supports",
+	"category" : "CONSTRUCT",
+	"difficulty" : 5,
+	"time" : 30,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 8] ],
+		[ [ "2x4", 12] ],
+		[ [ "pipe", 4] ]
+	],
+	"pre_terrain" : "t_pit_shallow",
+	"post_terrain" : "t_ov_smreb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Concrete Roof", "//": "Step 2: roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 5,
+	"time" : 25,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 1 }
+	] ],
+	"components" : [
+		[ [ "concrete", 4] ],
+		[ [ "water", 4] ]
+	],
+	"pre_terrain" : "t_ov_smreb_cage",
+	"post_terrain" : "t_thconc_floor"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 1: rebar cage & supports",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 40,
+	"qualities": [ [
+		{ "id": "WELD", "level": 2 }
+	], [
+		{ "id": "GLARE", "level": 2}
+	] ],
+	"components" : [
+		[ [ "rebar", 12] ],
+		[ [ "2x4", 12] ],
+		[ [ "pipe", 4] ]
+	],
+	"pre_terrain" : "t_pit",
+	"post_terrain" : "t_ov_reb_cage"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 2: start roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 35,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "water", 3] ]
+	],
+	"pre_terrain" : "t_ov_reb_cage",
+	"post_terrain" : "t_strconc_floor_halfway"
+    },{
+	"type" : "construction",
+	"description" : "Build Reinforced Concrete Roof", "//": "Step 3: finish roof & floor",
+	"category" : "CONSTRUCT",
+	"difficulty" : 6,
+	"time" : 35,
+	"qualities": [ [
+		{ "id": "SMOOTH", "level": 2 }
+	] ],
+	"components" : [
+		[ [ "concrete", 6] ],
+		[ [ "water", 3] ]
+	],
+	"pre_terrain" : "t_strconc_floor_halfway",
+	"post_terrain" : "t_strconc_floor"
+    },{
+        "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
         "difficulty" : 4,
@@ -646,7 +952,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
             [ [ "log", 3 ] ],
-            [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ] ]
+            [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade"
@@ -715,7 +1021,7 @@
         "difficulty" : 6,
         "time" : 5,
         "components" : [
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "stick", 8 ], [ "2x4", 8 ] ]
         ],
         "pre_special" : "check_empty",
@@ -730,7 +1036,7 @@
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "2x4", 3 ] ],
-            [ [ "rope_6", 2 ] ]
+            [ [ "rope_6", 2 ], [ "vine_30", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade_gate"
@@ -741,13 +1047,13 @@
         "difficulty" : 0,
         "time" : 5,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
         ],
@@ -776,6 +1082,27 @@
         "time" : 1,
         "pre_terrain" : "t_fence_h",
         "post_terrain" : "t_fence_v"
+    },{
+        "type" : "construction",
+        "description" : "Build Fence Gate",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 15,
+        "qualities": [ 
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "DIG", "level": 2 }
+            ]
+            ],
+        "components" : [
+            [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ],
+            [ [ "2x4", 5 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_fence_h"
     },{
         "type" : "construction",
         "description" : "Realign Fence", "//": "vertical to horizontal",
@@ -841,34 +1168,6 @@
         "post_terrain" : "t_chaingate_c"
     },{
         "type" : "construction",
-        "description" : "Build Roof",
-        "category" : "CONSTRUCT",
-        "difficulty" : 3,
-        "time" : 40,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
-        "components" : [
-            [ [ "2x4", 8 ] ],
-            [ [ "nail", 40 ] ]
-        ],
-        "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
-    },{
-        "type" : "construction",
-        "description" : "Build Log & Sod Roof",
-        "category" : "CONSTRUCT",
-        "difficulty" : 3,
-        "time" : 40,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components" : [
-            [ [ "log", 2 ] ],
-            [ [ "stick", 4 ], [ "2x4", 8 ] ]
-        ],
-        "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
-    },{
-        "type" : "construction",
         "description" : "Tape up window",
         "category" : "REINFORCE",
         "difficulty" : 0,
@@ -920,11 +1219,11 @@
         "difficulty" : 1,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ]
 
-			],
+            ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 24 ] ]
@@ -938,13 +1237,13 @@
         "difficulty" : 0,
         "time" : 10,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -958,13 +1257,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
@@ -978,13 +1277,13 @@
         "difficulty" : 1,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 16 ] ]
@@ -998,13 +1297,13 @@
         "difficulty" : 4,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "sheet_metal", 2 ] ],
             [ [ "pipe", 8 ] ]
@@ -1018,13 +1317,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "pipe", 12 ] ]
         ],
@@ -1092,20 +1391,68 @@
         "post_terrain" : "f_chair"
     },{
         "type" : "construction",
-        "description" : "Build Makeshift Bed",
+        "description" : "Build Bench",
         "category" : "FURN",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
         ] ],
         "components" : [
-            [ [ "2x4", 10 ] ],
-            [ [ "nail", 8 ] ],
-            [ [ "blanket", 1 ], [ "sheet", 1 ] ]
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 10 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bench"
+    },{
+        "type" : "construction",
+        "description" : "Build Makeshift Bed",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 15,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 6 ] ],
+            [ [ "blanket", 1 ], [ "sheet", 2 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Straw Bed",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 10,
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "straw_pile", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_straw_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Bed",
+        "category" : "FURN",
+        "difficulty" : 3,
+        "time" : 20,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "SAW_W", "level": 1 }
+            ]
+            ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 10 ] ],
+            [ [ "sheet", 7 ], [ "blanket", 4 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bed"
     },{
         "type" : "construction",
         "description" : "Build Armchair",
@@ -1113,13 +1460,13 @@
         "difficulty" : 3,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -1131,19 +1478,19 @@
         "type" : "construction",
         "description" : "Build Sofa",
         "category" : "FURN",
-        "difficulty" : 6,
-        "time" : 20,
+        "difficulty" : 5,
+        "time" : 22,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
-            [ [ "2x4", 10 ] ],
-            [ [ "nail", 8 ] ],
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 10 ] ],
             [ [ "blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -1170,13 +1517,13 @@
         "difficulty" : 2,
         "time" : 40,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "rock", 40 ] ]
         ],
@@ -1204,13 +1551,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
@@ -1226,13 +1573,13 @@
         "difficulty" : 3,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
@@ -1241,6 +1588,25 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_wood_keg"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Standing Tank", "//": "a freestanding metal tank, useful for holding liquids",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 30,
+        "qualities": [
+            [ { "id": "HAMMER", "level": 2 } ],
+            [ { "id": "SAW_M", "level": 1 } ],
+            [ { "id": "WELD", "level": 2 } ],
+            [ { "id": "GLARE", "level": 2} ]
+        ],
+        "components" : [
+            [ [ "metal_tank", 4 ] ],
+            [ [ "water_faucet", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_standing_tank"
     },{
         "type" : "construction",
         "description" : "Place Anvil",
@@ -1254,18 +1620,40 @@
         "post_terrain" : "f_anvil"
     },{
         "type" : "construction",
+        "description" : "Place Forge",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "char_forge", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_forge"
+    },{
+        "type" : "construction",
+        "description" : "Place Still",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "still", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_still"
+    },{
+        "type" : "construction",
         "description" : "Build Water Well",
         "category" : "CONSTRUCT",
         "difficulty" : 9,
         "time" : 480,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "rock", 40 ] ],
             [ [ "2x4", 4 ] ],
@@ -1280,13 +1668,13 @@
         "difficulty" : 5,
         "time" : 120,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "well_pump", 1 ] ],
             [ [ "pipe", 6 ] ]
@@ -1561,15 +1949,15 @@
         "difficulty" : 5,
         "time" : 420,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "pickaxe" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] , [ "log", 8 ] ],
-            [ [ "rope_30", 1 ] ]
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_flags" : "DIGGABLE",
         "post_special" : "done_dig_stair"
@@ -1580,16 +1968,16 @@
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "crowbar", "halligan"]
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "gasoline", 30 ]]
         ],
         "pre_special" : "check_down_OK",
@@ -1602,9 +1990,9 @@
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "crowbar", "halligan"],
@@ -1614,7 +2002,7 @@
         "note" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "gasoline", 30 ]]
         ],
         "pre_special" : "check_up_OK",
@@ -1631,10 +2019,77 @@
                 [ "frame", 1 ],
                 [ "hdframe", 1 ],
                 [ "frame_wood", 1 ],
-                [ "xlframe", 1 ]
+                [ "xlframe", 1 ],
+                [ "frame_wood_light", 1 ],
+                [ "foldframe", 1 ]
             ]
         ],
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle"
+    },{
+        "type" : "construction",
+        "description" : "Build Road Barricade", 
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   6 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_barricade_road"
+    },{
+        "type" : "construction",
+        "description" : "Build Pontoon Bridge", "//": "Set up pontoon bridge",
+        "category" : "CONSTRUCT",
+        "difficulty" : 5,
+        "time" : 80,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   8 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+            [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+        ],
+        "pre_terrain" : "t_water_dp",
+        "post_terrain" : "t_pontoon_dp"
+    },{
+        "type" : "construction",
+        "description" : "Build Dock/Shallow Bridge", "//": "Set up dock",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 80,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   6 ] ],
+            [ [ "log", 1 ] ],
+            [ [ "nail", 12  ] ]
+        ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_dock"
+    },{
+        "type" : "construction",
+        "description" : "Cut Down Grass", 
+        "category" : "OTHER",
+        "difficulty" : -1,
+        "time" : 6,
+        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Extract Clay Mound",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 30,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_claymound"
     }
 ]

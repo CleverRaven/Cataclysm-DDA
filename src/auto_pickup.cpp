@@ -36,21 +36,27 @@ void show_auto_pickup()
 
     WINDOW *w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2,
                                            iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + (FULL_SCREEN_WIDTH / 2) / 2);
+    WINDOW_PTR w_auto_pickup_optionsptr( w_auto_pickup_options );
     WINDOW *w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
+    WINDOW_PTR w_auto_pickup_helpptr( w_auto_pickup_help );
 
     WINDOW *w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW_PTR w_auto_pickup_borderptr( w_auto_pickup_border );
     WINDOW *w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
+    WINDOW_PTR w_auto_pickup_headerptr( w_auto_pickup_header );
     WINDOW *w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
+    WINDOW_PTR w_auto_pickupptr( w_auto_pickup );
 
     draw_border(w_auto_pickup_border);
     mvwputch(w_auto_pickup_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_auto_pickup_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
-    for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_auto_pickup_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+    for( auto &mapLine : mapLines ) {
+        mvwputch( w_auto_pickup_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, c_ltgray,
+                  LINE_XXOX ); // _|_
     }
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
@@ -322,12 +328,6 @@ void show_auto_pickup()
             save_reset_changes(true);
         }
     }
-
-    werase(w_auto_pickup);
-    werase(w_auto_pickup_border);
-    werase(w_auto_pickup_header);
-    werase(w_auto_pickup_options);
-    werase(w_auto_pickup_help);
 }
 
 void test_pattern(int iCurrentPage, int iCurrentLine)
@@ -341,9 +341,8 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     //Loop through all itemfactory items
     //TODO: somehow generate damaged, fitting or container items
-    for (std::vector<std::string>::iterator it = standard_itype_ids.begin();
-         it != standard_itype_ids.end(); ++it) {
-        sItemName = item_controller->find_template(*it)->nname(1);
+    for( auto &p : item_controller->get_all_itypes() ) {
+        sItemName = p.second->nname(1);
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive &&
             auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
             vMatchingItems.push_back(sItemName);
@@ -359,7 +358,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     std::stringstream sTemp;
 
     WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
+    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
     WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
+    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border(w_test_rule_border);
 
@@ -430,9 +431,6 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
             break;
         }
     }
-
-    werase(w_test_rule_border);
-    werase(w_test_rule_content);
 }
 
 void load_auto_pickup(bool bCharacter)
@@ -537,10 +535,8 @@ void merge_vector()
 
 bool hasPickupRule(std::string sRule)
 {
-    for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[APU_CHARACTER].begin();
-         it != vAutoPickupRules[APU_CHARACTER].end(); ++it) {
-        if (sRule.length() == it->sRule.length() &&
-            ci_find_substr(sRule, it->sRule) != -1) {
+    for( auto &elem : vAutoPickupRules[APU_CHARACTER] ) {
+        if( sRule.length() == elem.sRule.length() && ci_find_substr( sRule, elem.sRule ) != -1 ) {
             return true;
         }
     }
@@ -583,25 +579,18 @@ void createPickupRules(const std::string sItemNameIn)
     std::string sItemName = "";
 
     //Includes only
-    for (std::vector<cPickupRules>::iterator pattern_it =
-             vAutoPickupRules[APU_MERGED].begin();
-         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
-        if (!pattern_it->bExclude) {
+    for( auto &elem : vAutoPickupRules[APU_MERGED] ) {
+        if( !elem.bExclude ) {
             if (sItemNameIn != "") {
-                if (pattern_it->bActive &&
-                    auto_pickup_match(sItemNameIn, pattern_it->sRule)) {
+                if( elem.bActive && auto_pickup_match( sItemNameIn, elem.sRule ) ) {
                     mapAutoPickupItems[sItemNameIn] = "true";
                     break;
                 }
             } else {
                 //Check include paterns against all itemfactory items
-                for (std::vector<std::string>::iterator itype_it =
-                         standard_itype_ids.begin();
-                     itype_it != standard_itype_ids.end(); ++itype_it) {
-                    sItemName = item_controller->
-                                find_template(*itype_it)->nname(1);
-                    if (pattern_it->bActive &&
-                        auto_pickup_match(sItemName, pattern_it->sRule)) {
+                for( auto &p : item_controller->get_all_itypes() ) {
+                    sItemName = p.second->nname(1);
+                    if( elem.bActive && auto_pickup_match( sItemName, elem.sRule ) ) {
                         mapAutoPickupItems[sItemName] = "true";
                     }
                 }
@@ -610,13 +599,10 @@ void createPickupRules(const std::string sItemNameIn)
     }
 
     //Excludes only
-    for (std::vector<cPickupRules>::iterator pattern_it =
-             vAutoPickupRules[APU_MERGED].begin();
-         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
-        if (pattern_it->bExclude) {
+    for( auto &elem : vAutoPickupRules[APU_MERGED] ) {
+        if( elem.bExclude ) {
             if (sItemNameIn != "") {
-                if (pattern_it->bActive &&
-                    auto_pickup_match(sItemNameIn, pattern_it->sRule)) {
+                if( elem.bActive && auto_pickup_match( sItemNameIn, elem.sRule ) ) {
                     mapAutoPickupItems[sItemNameIn] = "false";
                     return;
                 }
@@ -625,8 +611,7 @@ void createPickupRules(const std::string sItemNameIn)
                 for (std::map<std::string, std::string>::iterator iter =
                          mapAutoPickupItems.begin();
                      iter != mapAutoPickupItems.end(); ++iter) {
-                    if (pattern_it->bActive &&
-                        auto_pickup_match(iter->first, pattern_it->sRule)) {
+                    if( elem.bActive && auto_pickup_match( iter->first, elem.sRule ) ) {
                         mapAutoPickupItems[iter->first] = "false";
                     }
                 }
@@ -637,10 +622,8 @@ void createPickupRules(const std::string sItemNameIn)
 
 bool checkExcludeRules(const std::string sItemNameIn)
 {
-    for (std::vector<cPickupRules>::iterator pattern_it = vAutoPickupRules[APU_MERGED].begin();
-         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
-        if (pattern_it->bExclude && pattern_it->bActive &&
-            auto_pickup_match(sItemNameIn, pattern_it->sRule)) {
+    for( auto &elem : vAutoPickupRules[APU_MERGED] ) {
+        if( elem.bExclude && elem.bActive && auto_pickup_match( sItemNameIn, elem.sRule ) ) {
             return false;
         }
     }
@@ -705,12 +688,10 @@ bool save_auto_pickup(bool bCharacter)
         fout.open(sFile.c_str());
 
         fout << auto_pickup_header(bCharacter) << std::endl;
-        for (std::vector<cPickupRules>::iterator it =
-                 vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].begin();
-             it != vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].end(); ++it) {
-            fout << it->sRule << ";";
-            fout << (it->bActive ? "T" : "F") << ";";
-            fout << (it->bExclude ? "T" : "F");
+        for( auto &elem : vAutoPickupRules[( bCharacter ) ? APU_CHARACTER : APU_GLOBAL] ) {
+            fout << elem.sRule << ";";
+            fout << ( elem.bActive ? "T" : "F" ) << ";";
+            fout << ( elem.bExclude ? "T" : "F" );
             fout << "\n";
         }
 

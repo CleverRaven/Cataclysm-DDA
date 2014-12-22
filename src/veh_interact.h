@@ -1,5 +1,5 @@
-#ifndef _VEH_INTERACT_H_
-#define _VEH_INTERACT_H_
+#ifndef VEH_INTERACT_H
+#define VEH_INTERACT_H
 
 #include <vector>
 #include "output.h"
@@ -8,6 +8,7 @@
 
 #define DUCT_TAPE_USED 100
 #define CIRC_SAW_USED 20
+#define OXY_CUTTING 10
 
 enum sel_types {
     SEL_NULL, SEL_JACK
@@ -120,7 +121,14 @@ class veh_interact
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart;
-
+        
+        //do_remove supporting operation, writes requirements to ui
+        bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
+        //do install support, writes requirements to ui
+        bool can_install_part(int msg_width);
+        //true if trying to install foot crank with electric engines for example
+        //writes failure to ui
+        bool is_drive_conflict(int msg_width);
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */

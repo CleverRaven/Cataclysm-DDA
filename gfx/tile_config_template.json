@@ -228,7 +228,21 @@
             "multitile":false
         },
         {
+            "id": "t_pit_glass",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id": "t_pit_spiked_covered",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "t_pit_glass_covered",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -9257,20 +9271,6 @@
         },
         {
             "id": "rifle_9mm",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "smg_9mm",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "smg_45",
             "fg":-1,
             "bg":-1,
             "rotates":false,

@@ -6,7 +6,7 @@
         "dummy" : true,
         "messages" : [
             "You parry %s",
-            "<npcname> block %s"
+            "<npcname> parries %s"
         ]
     },{
         "type" : "technique",
@@ -15,7 +15,7 @@
         "dummy" : true,
         "messages" : [
             "You block %s",
-            "<npcname> block %s"
+            "<npcname> blocks %s"
         ]
     },{
         "type" : "technique",
@@ -24,7 +24,7 @@
         "dummy" : true,
         "messages" : [
             "You shield against %s",
-            "<npcname> block %s"
+            "<npcname> shields against %s"
         ]
     },{
         "type" : "technique",
@@ -188,7 +188,7 @@
         "type" : "technique",
         "id" : "tec_boxing_cross",
         "name" : "Cross",
-        "min_unarmed" : 0,
+        "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "messages" : [
             "You throw a heavy cross at %s",
@@ -215,11 +215,12 @@
         "name" : "Uppercut",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You uppercut %s",
             "<npcname> uppercuts %s"
         ],
-        "bash_mult" : 1.25,
+        "bash_mult" : 1.4,
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -237,7 +238,7 @@
             "You Cross-Counter %s",
             "<npcname> throws a perfect counter at %s"
         ],
-        "bash_mult" : 1.5,
+        "bash_mult" : 1.35,
         "quick" : true,
         "stun_dur" : 2
     },{

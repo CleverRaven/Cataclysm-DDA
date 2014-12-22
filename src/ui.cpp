@@ -438,6 +438,19 @@ void uimenu::setup()
         wprintz(window, border_color, " >");
     }
     fselected = selected;
+    if(fselected < 0) {
+        fselected = selected = 0;
+    } else if(fselected >= static_cast<int>(entries.size())) {
+        fselected = selected = static_cast<int>(entries.size()) - 1;
+    }
+    if(!entries.empty() && !entries[fselected].enabled) {
+        for(size_t i = 0; i < entries.size(); ++i) {
+            if(entries[i].enabled) {
+                fselected = selected = i;
+                break;
+            }
+        }
+    }
     started = true;
 }
 
@@ -493,6 +506,7 @@ void uimenu::apply_scrollbar()
         }
     }
 }
+
 /*
  * Generate and refresh output
  */
@@ -515,23 +529,7 @@ void uimenu::show()
 
     int estart = text_lines + 2;
 
-    if( OPTIONS["MENU_SCROLL"] ) {
-        if ((int)fentries.size() > vmax) {
-            vshift = fselected - (vmax - 1) / 2;
-
-            if (vshift < 0) {
-                vshift = 0;
-            } else if (vshift + vmax > (int)fentries.size()) {
-                vshift = fentries.size() - vmax;
-            }
-        }
-    } else {
-        if( fselected < vshift ) {
-            vshift = fselected;
-        } else if( fselected >= vshift + vmax ) {
-            vshift = 1 + fselected - vmax;
-        }
-    }
+    calcStartPos( vshift, fselected, vmax, fentries.size() );
 
     for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if ( fei < (int)fentries.size() ) {
@@ -550,7 +548,14 @@ void uimenu::show()
                 mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }
-            mvwprintz(window, estart + si, pad_left + 4, co, "%s", entries[ ei ].txt.c_str() );
+            if( padspaces.size() > 3 ) {
+                // padspaces's length indicates the maximal width of the entry, it is used above to
+                // activate the highlighting, it is used to override previous text there, but in both
+                // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
+                // to be used.
+                const auto entry = utf8_wrapper( entries[ ei ].txt ).shorten( padspaces.size() - 3 );
+                mvwprintz( window, estart + si, pad_left + 4, co, "%s", entry.c_str() );
+            }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
@@ -667,7 +672,9 @@ bool uimenu::scrollby(int scrollby, const int key)
             }
         }
     }
-    selected = fentries [ fselected ];
+    if( fselected < (int)fentries.size() ) {
+        selected = fentries [ fselected ];
+    }
     return true;
 }
 

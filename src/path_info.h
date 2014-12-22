@@ -1,5 +1,5 @@
-#ifndef PATH_INFO_H_INCLUDED
-#define PATH_INFO_H_INCLUDED
+#ifndef PATH_INFO_H
+#define PATH_INFO_H
 
 #include <string>
 #include <map>
@@ -22,7 +22,7 @@ void init_user_dir(const char *ud = "");
 void update_datadir(void);
 void update_config_dir(void);
 void update_pathname(std::string name, std::string path);
-void set_standart_filenames(void);
+void set_standard_filenames(void);
 /**
  * Return a locale specific path, or if there is no path for the current
  * locale, return the default path.
@@ -39,4 +39,4 @@ std::string find_translated_file(const std::string &pathid, const std::string &e
                                  const std::string &defaultid);
 }
 
-#endif // PATH_INFO_H_INCLUDED
+#endif

@@ -206,6 +206,8 @@ std::string action_ident(action_id act)
         return "drop_adj";
     case ACTION_BIONICS:
         return "bionics";
+    case ACTION_MUTATIONS:
+        return "mutations";
     case ACTION_SORT_ARMOR:
         return "sort_armor";
     case ACTION_WAIT:
@@ -268,6 +270,8 @@ std::string action_ident(action_id act)
         return "toggle_fullscreen";
     case ACTION_ACTIONMENU:
         return "action_menu";
+    case ACTION_ITEMACTION:
+        return "item_action_menu";
     case ACTION_NULL:
         return "null";
     default:
@@ -299,7 +303,7 @@ action_id look_up_action(std::string ident)
     } else if (ident == "move_up") {
         return ACTION_MOVE_UP;
     }
-    // ^^ Temporarly for the interface with the input manager!
+    // ^^ Temporarily for the interface with the input manager!
     for (int i = 0; i < NUM_ACTIONS; i++) {
         if (action_ident( action_id(i) ) == ident) {
             return action_id(i);
@@ -393,34 +397,30 @@ action_id get_movement_direction_from_delta(const int dx, const int dy)
     }
 }
 
-// get the key for an action, used in the action menu to give each
-// action the hotkey it's bound to
+// Get the key for an action, used in the action menu to give each action the
+// hotkey it is bound to.
 long hotkey_for_action(action_id action)
 {
     std::vector<char> keys = keys_bound_to(action);
-    if(keys.size() >= 1) {
-        return keys[0];
-    } else {
-        return -1;
-    }
+    return keys.empty() ? -1 : keys[0];
 }
 
 bool can_butcher_at(int x, int y)
 {
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
-    std::vector<item> &items = g->m.i_at(x, y);
+    auto items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
-    inventory crafting_inv = g->crafting_inventory(&g->u);
-    for (std::vector<item>::iterator it = items.begin();
-         it != items.end(); ++it) {
-        if (it->type->id == "corpse" && it->corpse != NULL) {
+    const inventory &crafting_inv = g->u.crafting_inventory();
+    for( auto &items_it : items ) {
+        if( items_it.type->id == "corpse" && items_it.corpse != NULL ) {
             if (factor != INT_MIN) {
                 has_corpse = true;
             }
         } else {
-            recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
-            if (cur_recipe != NULL && g->can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
+            const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
+            if( cur_recipe != NULL &&
+                g->u.can_disassemble( &items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
             }
         }
@@ -684,7 +684,9 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
+            REGISTER_ACTION(ACTION_MUTATIONS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
+            REGISTER_ACTION(ACTION_ITEMACTION);
 #ifdef TILES
             if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
@@ -709,10 +711,9 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for (std::vector<uimenu_entry>::iterator entry = entries.begin();
-             entry != entries.end(); ++entry) {
-            if (width < (int)entry->txt.length()) {
-                width = entry->txt.length();
+        for( auto &entrie : entries ) {
+            if( width < (int)entrie.txt.length() ) {
+                width = entrie.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.

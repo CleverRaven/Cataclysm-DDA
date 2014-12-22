@@ -7,8 +7,9 @@
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "item_factory.h"
 #include "bionics.h"
+#include "mutation.h"
+#include "text_snippets.h"
 
 profession::profession()
     : _ident(""), _name_male("null"), _name_female("null"),
@@ -75,6 +76,10 @@ void profession::load_profession(JsonObject &jsobj)
     while (jsarr.has_more()) {
         prof.add_CBM(jsarr.next_string());
     }
+    jsarr = jsobj.get_array("traits");
+    while (jsarr.has_more()) {
+        prof.add_trait(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
         prof.flags.insert(jsarr.next_string());
@@ -114,7 +119,7 @@ profession *profession::weighted_random()
             for (int i = rng(0, _all_profs.size() - 1); i > 0; --i) {
                 ++iter;
             }
-            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
+            if (x_in_y(2, abs(iter->second.point_cost()) + 2) && !(iter->second.has_flag("SCEN_ONLY"))) {
                 retval = &(iter->second);
             }  // else reroll in the while loop.
         }
@@ -154,36 +159,48 @@ void profession::check_definitions()
     }
 }
 
+void profession::check_item_definitions( const itypedecvec &items ) const
+{
+    for( auto & itd : items ) {
+        if( !item::type_is_defined( itd.type_id ) ) {
+            debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
+        } else if( !itd.snippet_id.empty() ) {
+            const itype *type = item::find_type( itd.type_id );
+            if( type->snippet_category.empty() ) {
+                debugmsg( "profession %s: item %s has no snippet category - no description can be set",
+                          _ident.c_str(), itd.type_id.c_str() );
+            } else {
+                const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
+                if( SNIPPET.get( hash ).empty() ) {
+                    debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
+                              _ident.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                }
+            }
+        }
+    }
+}
+
 void profession::check_definition() const
 {
-    for (std::vector<std::string>::const_iterator a = _starting_items.begin();
-         a != _starting_items.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
-            debugmsg("item %s for profession %s does not exist", a->c_str(), _ident.c_str());
-        }
-    }
-    for (std::vector<std::string>::const_iterator a = _starting_items_female.begin();
-         a != _starting_items_female.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
-            debugmsg("item %s for profession %s does not exist", a->c_str(), _ident.c_str());
-        }
-    }
-    for (std::vector<std::string>::const_iterator a = _starting_items_male.begin();
-         a != _starting_items_male.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
-            debugmsg("item %s for profession %s does not exist", a->c_str(), _ident.c_str());
-        }
-    }
+    check_item_definitions( _starting_items );
+    check_item_definitions( _starting_items_female );
+    check_item_definitions( _starting_items_male );
     for (std::vector<std::string>::const_iterator a = _starting_CBMs.begin(); a != _starting_CBMs.end();
          ++a) {
         if (bionics.count(*a) == 0) {
             debugmsg("bionic %s for profession %s does not exist", a->c_str(), _ident.c_str());
         }
     }
-    for (StartingSkillList::const_iterator a = _starting_skills.begin(); a != _starting_skills.end();
-         ++a) {
+    
+    for( auto &t : _starting_traits ) {
+        if( ::traits.count( t ) == 0 ) {
+            debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
+        }
+    }
+
+    for( const auto &elem : _starting_skills ) {
         // Skill::skill shows a debug message if the skill is unknown
-        Skill::skill(a->first);
+        Skill::skill( elem.first );
     }
 }
 
@@ -195,24 +212,38 @@ bool profession::has_initialized()
 void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
 {
     while (jsarr.has_more()) {
-        add_item(jsarr.next_string(), gender);
+        // either a plain item type id string, or an array with item type id
+        // and as second entry the item description.
+        if( jsarr.test_array() ) {
+            auto arr = jsarr.next_array();
+            const itypedec entry( arr.get_string( 0 ),
+                                  _( arr.get_string( 1 ).c_str() ) );
+            add_item( entry, gender );
+        } else {
+            add_item( itypedec( jsarr.next_string(), "" ), gender );
+        }
     }
 }
 
-void profession::add_item(std::string item, std::string gender)
+void profession::add_item(const itypedec &entry, const std::string &gender)
 {
     if(gender == "male") {
-        _starting_items_male.push_back(item);
+        _starting_items_male.push_back( entry );
     } else if(gender == "female") {
-        _starting_items_female.push_back(item);
+        _starting_items_female.push_back( entry );
     } else {
-        _starting_items.push_back(item);
+        _starting_items.push_back( entry );
     }
 }
 
 void profession::add_CBM(std::string CBM)
 {
     _starting_CBMs.push_back(CBM);
+}
+
+void profession::add_trait(std::string trait)
+{
+    _starting_traits.push_back(trait);
 }
 
 void profession::add_addiction(add_type type, int intensity)
@@ -252,19 +283,12 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
-std::vector<std::string> profession::items() const
+profession::itypedecvec profession::items(bool male) const
 {
-    return _starting_items;
-}
-
-std::vector<std::string> profession::items_male() const
-{
-    return _starting_items_male;
-}
-
-std::vector<std::string> profession::items_female() const
-{
-    return _starting_items_female;
+    auto result = _starting_items;
+    const auto &gender_items = male ? _starting_items_male : _starting_items_female;
+    result.insert( result.begin(), gender_items.begin(), gender_items.end() );
+    return result;
 }
 
 std::vector<addiction> profession::addictions() const
@@ -275,6 +299,11 @@ std::vector<addiction> profession::addictions() const
 std::vector<std::string> profession::CBMs() const
 {
     return _starting_CBMs;
+}
+
+std::vector<std::string> profession::traits() const
+{
+    return _starting_traits;
 }
 
 const profession::StartingSkillList profession::skills() const

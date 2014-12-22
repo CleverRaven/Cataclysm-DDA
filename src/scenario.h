@@ -1,5 +1,5 @@
-#ifndef _SCENARIO_H_
-#define _SCENARIO_H_
+#ifndef SCENARIO_H
+#define SCENARIO_H
 
 #include <string>
 #include <vector>
@@ -27,7 +27,7 @@ private:
     std::string _gender_req;
     std::string _start_name;
     std::string _default_loc;
-    profession* _profession;
+    std::string _profession;
     std::set<std::string> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
@@ -77,8 +77,10 @@ public:
     std::string description(bool male) const;
     std::string gender_req() const;
     std::string start_location() const;
+    std::string random_start_location() const;
     std::string start_name() const;
     profession* get_profession() const;
+    profession* random_profession() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;

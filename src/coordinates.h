@@ -1,5 +1,5 @@
-#ifndef _COORDINATES_H_
-#define _COORDINATES_H_
+#ifndef COORDINATES_H
+#define COORDINATES_H
 
 #include "mapdata.h"
 #include "overmap.h"

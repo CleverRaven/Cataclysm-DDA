@@ -1,16 +1,16 @@
-# This message may be 16 lines long at maximum.
-# Max length of a line is 68 characters; the following line is for reference
-####################################################################
-Major features v0.A Kaufman:
-* Mod manager (deactivate and activate various content)
-* Fullscreen mode.
-* Many mutations, more refined mutation progression.
-* Improved view options for driving.
-* Item categories, partial stack pickup, view vehicle contents.
-* Greatly accelerated map saving and loading by chunking up saves.
-* Mouse move and mouselook.
-* Fishing and working refrigerators..
-* Backward compatability with 0.8 and 0.9 saves.
+# This message may be 21 lines long at maximum, but ideally will be less.
+# Max length of a line is 72 characters; the following line is for reference
+########################################################################
+Major features in v0.B Brin:
+* Static NPCs with extensive quest lines.
+* Three VERY large new structures.
+* Toggleable bionics and mutations.
+* Fully destructable vehicles.
+* Jumper cables allow linking together vehicle electrical systems.
+* Radio operated items.
+* Starting scenarios and many starting location options.
+* Item pickup and dropping is interruptable.
+* Backward compatability with 0.9 and 0.A saves.
 
 For latest discussions and news on Cataclysm DDA, please visit:
 Homepage: http://www.cataclysmdda.com/

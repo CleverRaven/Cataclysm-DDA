@@ -1,5 +1,5 @@
-#ifndef _REQUIREMENTS_H_
-#define _REQUIREMENTS_H_
+#ifndef REQUIREMENTS_H
+#define REQUIREMENTS_H
 
 #include <string>
 #include <vector>
@@ -56,9 +56,10 @@ struct tool_comp : public component {
     tool_comp(const itype_id &TYPE, int COUNT) : component(TYPE, COUNT) { }
 
     void load(JsonArray &jarr);
-    bool has(const inventory &crafting_inv) const;
-    std::string to_string() const;
-    std::string get_color(bool has_one, const inventory &crafting_inv) const;
+    bool has(const inventory &crafting_inv, int batch = 1) const;
+    std::string to_string(int batch = 1) const;
+    std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
+    bool by_charges() const;
 };
 
 struct item_comp : public component {
@@ -66,9 +67,9 @@ struct item_comp : public component {
     item_comp(const itype_id &TYPE, int COUNT) : component(TYPE, COUNT) { }
 
     void load(JsonArray &jarr);
-    bool has(const inventory &crafting_inv) const;
-    std::string to_string() const;
-    std::string get_color(bool has_one, const inventory &crafting_inv) const;
+    bool has(const inventory &crafting_inv, int batch = 1) const;
+    std::string to_string(int batch = 1) const;
+    std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
 };
 
 struct quality_requirement {
@@ -86,10 +87,10 @@ struct quality_requirement {
     }
 
     void load(JsonArray &jarr);
-    bool has(const inventory &crafting_inv) const;
-    std::string to_string() const;
+    bool has(const inventory &crafting_inv, int = 0) const;
+    std::string to_string(int = 0) const;
     void check_consistency(const std::string &display_name) const;
-    std::string get_color(bool has_one, const inventory &crafting_inv) const;
+    std::string get_color(bool has_one, const inventory &crafting_inv, int = 0) const;
 };
 
 /**
@@ -121,7 +122,7 @@ struct quality_requirement {
  * player fulfills an alternative requirement:
  *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
 */
-struct requirements {
+struct requirement_data {
         typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
         typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
         typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
@@ -130,11 +131,6 @@ struct requirements {
         alter_quali_req_vector qualities;
         alter_item_comp_vector components;
 
-        /**
-         * Time in movement points (100 movement points per turns) required
-         * to do the task.
-         */
-        int time;
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
@@ -159,17 +155,16 @@ struct requirements {
          */
         bool remove_item(const std::string &type);
 
-        bool can_make_with_inventory(const inventory &crafting_inv) const;
+        bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
         int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                             const inventory &crafting_inv) const;
+                             const inventory &crafting_inv, int batch = 1) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                        const inventory &crafting_inv) const;
-        int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
+                        const inventory &crafting_inv, int batch = 1) const;
 
     private:
-        bool check_enough_materials(const inventory &crafting_inv) const;
-        bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv) const;
+        bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;
+        bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv, int batch = 1) const;
 
         template<typename T>
         static void check_consistency(const std::vector< std::vector<T> > &vec,
@@ -178,10 +173,10 @@ struct requirements {
         static std::string print_missing_objs(const std::string &header,
                                               const std::vector< std::vector<T> > &objs);
         template<typename T>
-        static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec);
+        static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec, int batch = 1);
         template<typename T>
         static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs);
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1);
         template<typename T>
         static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
         template<typename T>

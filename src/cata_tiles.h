@@ -99,7 +99,7 @@ enum TILE_CATEGORY
 
 /** Typedefs */
 typedef std::vector<SDL_Texture *> tile_map;
-typedef std::map<std::string, tile_type *> tile_id_map;
+typedef std::unordered_map<std::string, tile_type *> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
@@ -204,8 +204,8 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category,
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
@@ -232,6 +232,7 @@ class cata_tiles
         bool draw_field_or_item(int x, int y);
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
+        void draw_entity_with_overlays(int x, int y);
 
         bool draw_item_highlight(int x, int y);
 
@@ -353,4 +354,4 @@ class cata_tiles
 
 };
 
-#endif // CATA_TILES_H
+#endif

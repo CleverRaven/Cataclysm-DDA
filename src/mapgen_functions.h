@@ -1,5 +1,6 @@
-#ifndef _BUILDING_GENERATION_H_
-#define _BUILDING_GENERATION_H_
+#ifndef BUILDING_GENERATION_H
+#define BUILDING_GENERATION_H
+
 #include "overmap.h"
 #include "map.h"
 
@@ -54,6 +55,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_flowers(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -246,4 +249,5 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
 //
 void init_mapgen_builtin_functions();
+
 #endif

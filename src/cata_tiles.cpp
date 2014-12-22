@@ -5,7 +5,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
+#include "item.h"
 #include "veh_type.h"
 #include <fstream>
 
@@ -163,11 +163,15 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 
 int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
+    std::string img_path = path;
+#ifdef PREFIX   // use the PREFIX path over the current directory
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
+#endif
     /** reinit tile_atlas */
-    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
+    SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
+        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */
@@ -536,7 +540,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
                 // Draw lighting
                 draw_lighting(x, y, l);
                 // continue on to next part of loop
-                g->mapRain[my][mx] = false;
                 continue;
             }
             // light is no longer being considered, for now.
@@ -544,12 +547,12 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             if (!draw_terrain(x, y)) {
                 continue;
             }
-            g->mapRain[my][mx] = g->m.is_outside(x, y);
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);
             draw_vpart(x, y);
             draw_entity(x, y);
+            draw_entity_with_overlays(x, y);
         }
     }
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
@@ -606,22 +609,47 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     rows = ceil((double) height / tile_height);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
 {
     return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                     const std::string &subcategory, int x, int y,
+                                     int subtile, int rota)
 {
-    // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
+    // If the ID string does not produce a drawable tile
+    // it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
 
-    // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
-    if (x - o_x < 0 || x - o_x >= screentile_width || y - o_y < 0 || y - o_y >= screentile_height) {
+    // check to make sure that we are drawing within a valid area
+    // [0->width|height / tile_width|height]
+    if( x - o_x < 0 || x - o_x >= screentile_width ||
+        y - o_y < 0 || y - o_y >= screentile_height ) {
         return false;
     }
 
-    tile_id_iterator it = tile_ids.find(id);
+    std::string seasonal_id;
+    switch (calendar::turn.get_season()) {
+    case SPRING:
+        seasonal_id = id + "_season_spring";
+        break;
+    case SUMMER:
+        seasonal_id = id + "_season_summer";
+        break;
+    case AUTUMN:
+        seasonal_id = id + "_season_autumn";
+        break;
+    case WINTER:
+        seasonal_id = id + "_season_winter";
+        break;
+    }
+    tile_id_iterator it = tile_ids.find(seasonal_id);
+    if (it == tile_ids.end()) {
+        it = tile_ids.find(id);
+    } else {
+        id = seasonal_id;
+    }
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -669,9 +697,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            const itype *i = item_controller->find_template(id);
-            sym = i->sym;
-            col = i->color;
+            const auto tmp = item( id, 0 );
+            sym = tmp.symbol();
+            col = tmp.color();
         }
         // Special cases for walls
         switch(sym) {
@@ -905,7 +933,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     int f_id = g->m.furn(x, y);
 
-    // for rotation inforomation
+    // for rotation information
     const int neighborhood[4] = {
         static_cast<int> (g->m.furn(x, y + 1)), // south
         static_cast<int> (g->m.furn(x + 1, y)), // east
@@ -953,9 +981,7 @@ bool cata_tiles::draw_trap(int x, int y)
 bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
-    field &f = g->m.field_at(x, y);
-    // check for items
-    const std::vector<item> &items = g->m.i_at(x, y);
+    const field &f = g->m.field_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -982,6 +1008,11 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         case fd_weedsmoke:
         case fd_cracksmoke:
         case fd_methsmoke:
+        case fd_hot_air1:
+        case fd_hot_air2:
+        case fd_hot_air3:
+        case fd_hot_air4:
+        case fd_spotlight:
             //need to draw fields and items both
             is_draw_field = true;
             do_item = true;
@@ -1014,6 +1045,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
+        auto items = g->m.i_at(x, y);
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
@@ -1063,7 +1095,7 @@ bool cata_tiles::draw_vpart(int x, int y)
         }
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
@@ -1088,24 +1120,57 @@ bool cata_tiles::draw_entity(int x, int y)
             }
             entity_here = true;
     }
-    // check for NPC (next most common)
-    if (!entity_here && g->npc_at(x, y) >= 0) {
-        npc &m = *g->active_npc[g->npc_at(x, y)];
-        if( !m.is_dead() ) {
-            ent_name = m.male ? "npc_male" : "npc_female";
-            entity_here = true;
-        }
-    }
-    // check for PC (least common, only ever 1)
-    if (!entity_here && g->u.posx == x && g->u.posy == y) {
-        ent_name = g->u.male ? "player_male" : "player_female";
-        entity_here = true;
-    }
     if (entity_here) {
         int subtile = corner;
         return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
     }
     return false;
+}
+
+void cata_tiles::draw_entity_with_overlays(int x, int y) {
+    const player* entity_to_draw = NULL;
+    std::string ent_name;
+
+    int npc_index = g->npc_at(x, y);
+    if (npc_index >= 0) {
+        entity_to_draw = g->active_npc[npc_index];
+        if (! (g->active_npc[npc_index]->is_dead()) ) {
+            ent_name = entity_to_draw->male ? "npc_male" : "npc_female";
+        } else {
+            entity_to_draw = NULL;
+        }
+    }
+
+    if (!entity_to_draw) {
+        if (g->u.posx == x && g->u.posy == y) {
+            entity_to_draw = &(g->u);
+            ent_name = entity_to_draw->male ? "player_male" : "player_female";
+        }
+    }
+
+    if (entity_to_draw) {
+        // first draw the character itself(i guess this means a tileset that
+        // takes this seriously needs a naked sprite)
+        draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
+
+        // next up, draw all the overlays
+        std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
+        for(const std::string& overlay : overlays) {
+            bool exists = true;
+            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            if (tile_ids.find(draw_id) == tile_ids.end()) {
+                draw_id = "overlay_" + overlay;
+                if(tile_ids.find(draw_id) == tile_ids.end()) {
+                    exists = false;
+                }
+            }
+
+            // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
+            if (exists) {
+                draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
+            }
+        }
+    }
 }
 
 bool cata_tiles::draw_item_highlight(int x, int y)

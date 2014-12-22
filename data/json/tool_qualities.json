@@ -4,6 +4,18 @@
         "id" : "CUT",
         "name" : "cutting"
     },{
+    	"type" : "tool_quality",
+	"id" : "GLARE",
+	"name" : "glare protection"
+    },{
+    	"type" : "tool_quality",
+	"id" : "SMOOTH",
+	"name" : "smoothing"
+    },{
+	"type" : "tool_quality",
+	"id" : "WELD",
+	"name" : "welding"
+    },{
         "type" : "tool_quality",
         "id" : "HAMMER",
         "name" : "hammering"
@@ -71,5 +83,9 @@
         "type" : "tool_quality",
         "id" : "BUTCHER",
         "name" : "butchering"
+    },{
+        "type" : "tool_quality",
+        "id" : "DRILL",
+        "name" : "drilling"
     }
 ]

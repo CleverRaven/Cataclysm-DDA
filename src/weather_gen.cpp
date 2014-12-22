@@ -27,7 +27,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 //        initial_season = 3;
 //    }
     const double z( double( t.get_turn() + DAYS(t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
-    
+
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
@@ -35,6 +35,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     double H(raw_noise_4d(x, y, z / 5, SEED + 101));
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
+    double W;
 
     const double now( double( t.turn_of_year() + DAYS(t.season_length()) / 2 ) / double(t.year_turns()) ); // [0,1)
     const double ctn(cos(tau * now));
@@ -66,7 +67,10 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     P += seasonal_variation * 20 +
          base_p; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
-    return w_point(T, H, P);
+    // Wind power
+    W = std::max(0, 1020 - (int)P);
+
+    return w_point(T, H, P, W);
 }
 
 weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t)
@@ -116,6 +120,31 @@ weather_type weather_generator::get_weather_conditions(const w_point &w) const
         r = WEATHER_ACID_RAIN;
     }
     return r;
+}
+
+int weather_generator::get_water_temperature()
+{
+    /**
+    WATER TEMPERATURE
+    source : http://echo2.epfl.ch/VICAIRE/mod_2/chapt_5/main.htm
+    source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
+    **/
+
+    int season_length = calendar::turn.season_length();
+    int day = calendar::turn.day_of_year();
+    int hour = calendar::turn.hours();
+    int water_temperature = 0;
+
+    if (season_length == 0) season_length = 1;
+
+    // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
+    int annual_mean_water_temperature = 54.5 + 20.7 * sin(2.0 * 3.14 * (day - season_length*0.5) / (season_length*4.0));
+    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
+    int daily_water_temperature_varaition = 2.0 + 2.0 * sin(2.0 * 3.14 * (hour - 6.0) / 24.0);
+
+    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
+
+    return water_temperature;
 }
 
 void weather_generator::test_weather()

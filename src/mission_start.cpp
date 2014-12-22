@@ -66,9 +66,11 @@ void mission_start::infect_npc(mission *miss)
   debugmsg("mission_start::infect_npc() couldn't find an NPC!");
   return;
  }
- p->add_disease("infection", 1, true);
- // make sure they don't have any antibiotics
- while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
+ p->add_effect("infection", 1, num_bp, 1, true);
+    // make sure they don't have any antibiotics
+    p->remove_items_with( []( const item & it ) {
+        return it.typeId() == "antibiotics";
+    } );
 }
 
 void mission_start::place_dog(mission *miss)
@@ -132,7 +134,7 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
  bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
  bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
- bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.furn_set(SEEX, SEEY-4, f_ash);
  bay.spawn_item(SEEX-1, SEEY-3, "rock");
  bay.spawn_item(SEEX, SEEY-3, "rock");
  bay.spawn_item(SEEX+1, SEEY-3, "rock");
@@ -219,6 +221,10 @@ void mission_start::place_bandit_camp(mission *miss)
  g->u.i_add( item("holster", 0, false) );
  g->u.i_add( item("badge_marshal", 0, false) );
  add_msg(m_good, _("%s has instated you as a marshal!"), p->name.c_str());
+ // Ideally this would happen at the end of the mission
+ // (you're told that they entered your image into the databases, etc)
+ // but better to get it working.
+ g->u.toggle_mutation("PROF_FED");
 
  point site = target_om_ter_random("bandit_camp_1", 1, miss, false);
  tinymap bay1;
@@ -478,10 +484,12 @@ void mission_start::reveal_lab_black_box(mission *miss)
 void mission_start::open_sarcophagus(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
-    p->attitude = NPCATT_FOLLOW;
     if (p != NULL) {
+        p->attitude = NPCATT_FOLLOW;
         g->u.i_add( item("sarcophagus_access_code", 0) );
         add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "mission_start: open_sarcophagus() <= Can't find NPC";
     }
     target_om_ter("haz_sar", 3, miss, false);
 }

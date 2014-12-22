@@ -1,5 +1,6 @@
 #ifndef FILE_WRAPPER_H
 #define FILE_WRAPPER_H
+
 #include <string>
 
 bool assure_dir_exist( std::string path );
@@ -10,4 +11,4 @@ bool remove_file(const std::string &path);
 // Rename a file, overriding the target!
 bool rename_file(const std::string &old_path, const std::string &new_path);
 
-#endif /* FILE_WRAPPER_H */
+#endif

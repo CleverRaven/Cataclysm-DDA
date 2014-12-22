@@ -1,5 +1,5 @@
-#ifndef _UI_H_
-#define _UI_H_
+#ifndef UI_H
+#define UI_H
 
 #include "output.h"
 #include <stdlib.h>
@@ -50,6 +50,8 @@ struct uimenu_entry {
     {
         text_color = C_UNSET_MASK;
     };
+    uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
+        hotkey_color(H), text_color(C) {};
 };
 
 /*

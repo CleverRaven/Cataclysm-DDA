@@ -1,5 +1,5 @@
-#ifndef _DAMAGE_H_
-#define _DAMAGE_H_
+#ifndef DAMAGE_H
+#define DAMAGE_H
 
 #include "bodypart.h"
 #include "color.h"
@@ -118,4 +118,3 @@ struct projectile {
 void ammo_effects(int x, int y, const std::set<std::string> &effects);
 
 #endif
-

@@ -196,29 +196,34 @@ def complete_json_file(template_file, all_cells, remove_template=True):
 def cli_interface():
     '''Sets up command-line parser, including user documentation and help.'''
 
-    # TODO: epilog needs actual formatting. see argparse formatterclass
     parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
         description="A script for combining multi-cell maps with their json "
         "data.",
-        epilog="To format the json template, add the key '{section}' to the "
-        "root dictionary.  In that section, create a dictionary with one or "
-        "more template type keys.  Each type key should have a dictionary of "
-        "function keys.  Each function key has its own value format, however "
-        "they will all have a destination or list of destinations of where "
-        "in the json template to perform the function.\n\nList of types:\t"
-        "'{cell_map}':\tThe list of ascii lines representing the map cell.\n\t"
-        "'{cell_num}':\tThe number of the current cell.\n\nList of functions:"
-        "\t'{obj_repl}':\tValue is a keypath or list of keypaths where the "
-        "value at the end of the keypath will be replaced with the chosen "
-        "type.\n\t'{str_form}'\tValue is a dictionary with printf formatted "
-        "strings as keys which have keypath or list of keypaths as values.  "
-        "The value at the end of the keypath(s) will be replaced with the "
-        "string formatted with the type as input.".format(
-            section=_TEMPLATE_JSON_SECTION,
-            cell_map=_TEMPLATE_TYPE_CELL_MAP,
-            cell_num=_TEMPLATE_TYPE_CELL_NUM,
-            obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
-            str_form=_TEMPLATE_FUNC_STR_FORMAT))
+        epilog='''template explaination:
+  To format the json template, add the key '{section}' to the root
+  dictionary.  In that section, create a dictionary with one or more template
+  type keys.  Each type key should have a dictionary of function keys.  Each
+  function key has its own value format, however they will all have a
+  destination or list of destinations of where in the json template to perform
+  the function.
+
+  List of types:
+    '{cell_map}'        The list of ascii lines representing the map cell.
+    '{cell_num}'        The number of the current cell.
+
+  List of functions:
+    '{obj_repl}'  A keypath or list of keypaths where the value at the end
+                      of the keypath will be replaced with the chosen type.
+    '{str_form}'   A dictionary with printf formatted strings as keys which
+                      have keypath or list of keypaths as values.  The value at
+                      the end of the keypath(s) will be replaced with the
+                      string formatted with the type as input.
+'''.format(section=_TEMPLATE_JSON_SECTION,
+           cell_map=_TEMPLATE_TYPE_CELL_MAP,
+           cell_num=_TEMPLATE_TYPE_CELL_NUM,
+           obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
+           str_form=_TEMPLATE_FUNC_STR_FORMAT))
 
     parser.add_argument(
         "map_file",

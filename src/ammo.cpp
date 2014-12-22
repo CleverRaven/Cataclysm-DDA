@@ -3,8 +3,8 @@
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
-#include "item_factory.h"
 #include "debug.h"
+#include "item.h"
 
 #include <string>
 
@@ -71,7 +71,7 @@ void ammunition_type::check_consistency()
             continue;
         }
         if( !ammo.second._default_ammotype.empty() &&
-            !item_controller->has_template( ammo.second._default_ammotype ) ) {
+            !item::type_is_defined( ammo.second._default_ammotype ) ) {
             debugmsg( "ammo type %s has invalid default ammo %s", ammo.second._ident.c_str(),
                       ammo.second._default_ammotype.c_str() );
         }

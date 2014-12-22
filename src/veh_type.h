@@ -1,5 +1,5 @@
-#ifndef _VEH_TYPE_H_
-#define _VEH_TYPE_H_
+#ifndef VEH_TYPE_H
+#define VEH_TYPE_H
 
 #include "color.h"
 #include "itype.h"
@@ -72,6 +72,7 @@ struct vpart_info {
     int durability;         // durability
     int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
     int epower;             // electrical power in watts (positive values for generation, negative for consumption)
+    int folded_volume;		// volume of a foldable part when folded
     union {
         int par1;
         int size;       // fuel tank, trunk
@@ -104,4 +105,5 @@ extern const std::string legacy_vpart_id[74];
 extern std::vector<vpart_info> vehicle_part_int_types;
 extern std::map<std::string, vpart_bitflags> vpart_bitflag_map;
 extern void init_vpart_bitflag_map();
+
 #endif

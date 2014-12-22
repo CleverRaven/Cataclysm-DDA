@@ -66,10 +66,12 @@ void PATH_INFO::update_datadir()
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
@@ -93,7 +95,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 }
 
-void PATH_INFO::set_standart_filenames(void)
+void PATH_INFO::set_standard_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
@@ -115,10 +117,12 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
@@ -134,6 +138,7 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+    update_pathname("graveyarddir", FILENAMES["user_dir"] + "graveyard/");
 
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");

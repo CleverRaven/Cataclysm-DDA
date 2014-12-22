@@ -1,5 +1,5 @@
-#ifndef _NPC_H_
-#define _NPC_H_
+#ifndef NPC_H
+#define NPC_H
 
 #include "messages.h"
 #include "player.h"
@@ -20,6 +20,7 @@
 class item;
 class overmap;
 class player;
+class field_entry;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
@@ -198,20 +199,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  };
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
-
- npc_opinion(const npc_opinion &copy): JsonSerializer(), JsonDeserializer()
- {
-  trust = copy.trust;
-  fear = copy.fear;
-  value = copy.value;
-  anger = copy.anger;
-  owed = copy.owed;
-  favors.clear();
-  for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
-       it != copy.favors.end(); ++it) {
-        favors.push_back(*it);
-    }
- };
 
  npc_opinion& operator+= (npc_opinion &rhs)
  {
@@ -476,8 +463,10 @@ class npc : public player
 public:
 
  npc();
- //npc(npc& rhs);
- npc(const npc &rhs);
+ npc(const npc &) = default;
+ npc(npc &&) = default;
+ npc &operator=(const npc &) = default;
+ npc &operator=(npc &&) = default;
  virtual ~npc();
  virtual bool is_player() const { return false; }
  virtual bool is_npc() const { return true; }
@@ -485,8 +474,6 @@ public:
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
  void load_npc_template(std::string ident);
-
- npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);
@@ -522,7 +509,7 @@ public:
     using player::deserialize;
     virtual void deserialize(JsonIn &jsin);
     using player::serialize;
-    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    virtual void serialize(JsonOut &jsout) const override;
 
 // Display
     virtual nc_color basic_symbol_color() const;
@@ -555,6 +542,7 @@ public:
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
  bool is_defending() const; // Putting the player's safety ahead of ours
+        Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
@@ -752,9 +740,18 @@ public:
  unsigned flags : NF_MAX;
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
+
+    protected:
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
+
 private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
+
+    bool is_dangerous_field( const field_entry &fld ) const;
+    bool sees_dangerous_field( point p ) const;
+    bool could_move_onto( point p ) const;
 };
 
 #endif

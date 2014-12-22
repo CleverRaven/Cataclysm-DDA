@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "game.h"
 
+calendar calendar::start;
 calendar calendar::turn;
 
 calendar::calendar()
@@ -16,12 +17,6 @@ calendar::calendar()
     day = 0;
     season = SPRING;
     year = 0;
-}
-
-calendar::calendar(const calendar &copy)
-{
-    turn_number   = copy.turn_number;
-    sync();
 }
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
@@ -44,18 +39,6 @@ int calendar::get_turn() const
 calendar::operator int() const
 {
     return turn_number;
-}
-
-calendar &calendar::operator =(const calendar &rhs)
-{
-    if (this == &rhs) {
-        return *this;
-    }
-
-    turn_number = rhs.turn_number;
-    sync();
-
-    return *this;
 }
 
 calendar &calendar::operator =(int rhs)
@@ -134,12 +117,6 @@ void calendar::increment()
 {
     turn_number++;
     sync();
-}
-
-int calendar::getHour()
-{
-    sync();
-    return hour;
 }
 
 int calendar::minutes_past_midnight() const
@@ -306,7 +283,6 @@ std::string calendar::print_time(bool just_hour) const
 
 std::string calendar::textify_period()
 {
-    sync();
     int am;
     const char *tx;
     // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
@@ -409,9 +385,10 @@ int calendar::season_length()
 
 void calendar::sync()
 {
-    year = turn_number / year_turns();
-    season = season_type(turn_number / DAYS(season_length()) % 4);
-    day = turn_number / DAYS(1) % season_length();
+    const int sl = season_length();
+    year = turn_number / DAYS(sl * 4);
+    season = season_type(turn_number / DAYS(sl) % 4);
+    day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
     minute = turn_number / MINUTES(1) % 60;
     second = (turn_number * 6) % 60;

@@ -126,18 +126,29 @@ std::string utf32_to_utf8(unsigned ch)
 //Calculate width of a unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width(const char *s)
+int utf8_width(const char *s, const bool ignore_tags)
 {
     int len = strlen(s);
     const char *ptr = s;
     int w = 0;
+    bool inside_tag = false;
     while(len > 0) {
         unsigned ch = UTF8_getch(&ptr, &len);
-        if(ch != UNKNOWN_UNICODE) {
-            w += mk_wcwidth(ch);
-        } else {
+        if (ch == UNKNOWN_UNICODE) {
             continue;
         }
+        if (ignore_tags) {
+            if (ch == '<') {
+                inside_tag = true;
+            } else if (ch == '>') {
+                inside_tag = false;
+                continue;
+            }
+            if (inside_tag) {
+                continue;
+            }
+        }
+        w += mk_wcwidth(ch);
     }
     return w;
 }
@@ -155,10 +166,12 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
     while(c < cursorx) {
         const char *utf8str = line + i;
         int len = ANY_LENGTH;
+        if ( utf8str[0] == 0 ) {
+            break;
+        }
         unsigned ch = UTF8_getch(&utf8str, &len);
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH - len;
-
         if( len <= 0 ) {
             len = 1;
         }
@@ -167,7 +180,7 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         }
         i += len;
         if( cw <= 0 ) {
-            cw = 1;
+            cw = 0;
         }
         c += cw;
         if( c <= cursorx ) {
@@ -527,10 +540,10 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _display_width += other._display_width;
 }
 
-std::string utf8_wrapper::shorten(size_t maxlength) const
+std::string utf8_wrapper::shorten( size_t maxlength ) const
 {
-    if(length() <= maxlength) {
+    if( display_width() <= maxlength ) {
         return str();
     }
-    return substr(0, maxlength - 1).str() + "\u2026"; // 2026 is the utf8 for …
+    return substr_display( 0, maxlength - 1 ).str() + "\u2026"; // 2026 is the utf8 for …
 }
