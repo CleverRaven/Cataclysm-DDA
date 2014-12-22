@@ -103,6 +103,7 @@ struct reason_weight_list {
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
         std::map<Skill *, SkillLevel> _skills;
+        std::map<Skill *, SkillLevel> _startSkills;
 
     public:
         player();
@@ -904,10 +905,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         SkillLevel &skillLevel(Skill *_skill);
         SkillLevel &skillLevel(std::string ident);
+        SkillLevel &startSkillLevel(Skill *_skill);
 
         // for serialization
         SkillLevel get_skill_level(Skill *_skill) const;
         SkillLevel get_skill_level(const std::string &ident) const;
+        SkillLevel get_starting_skill_level(Skill *_skill) const;
 
         void set_skill_level(Skill *_skill, int level);
         void set_skill_level(std::string ident, int level);

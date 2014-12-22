@@ -131,12 +131,16 @@ void player::json_load_common_variables(JsonObject &data)
     data.read("posy", posy);
     data.read("str_cur", str_cur);
     data.read("str_max", str_max);
+    data.read("str_start", str_start);
     data.read("dex_cur", dex_cur);
     data.read("dex_max", dex_max);
+    data.read("dex_start", dex_start);
     data.read("int_cur", int_cur);
     data.read("int_max", int_max);
+    data.read("int_start", int_start);
     data.read("per_cur", per_cur);
     data.read("per_max", per_max);
+    data.read("per_start", per_start);
     data.read("healthy", healthy);
     data.read("healthy_mod", healthy_mod);
     data.read("hunger", hunger);
@@ -197,8 +201,34 @@ void player::json_load_common_variables(JsonObject &data)
             }
         }
     } else {
-        debugmsg("Skills[] no bueno");
+        debugmsg("Skills[] data object not loaded in savegame_json.cpp::player::json_load_common_variables");
     }
+
+    //Load the starting skills.
+    if( savegame_loading_version <= 21 ) { //No startingSkills object.
+        debugmsg("Save version < 22, no starting skills object");
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+            aSkill != Skill::skills.end(); ++aSkill) {
+            _startSkills.insert(std::pair<Skill *, SkillLevel>(*aSkill, 0));
+        }
+    } else {
+        if (data.has_object("startingSkills")) {
+            JsonObject pmap = data.get_object("startingSkills");
+            for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
+                 aSkill != Skill::skills.end(); ++aSkill ) {
+                if ( pmap.has_object( (*aSkill)->ident() ) ) {
+                    if(!pmap.read( (*aSkill)->ident(), startSkillLevel(*aSkill) )) {
+                        debugmsg("READ FAILED (%s) Missing starting skill %s", "", (*aSkill)->ident().c_str() );
+                    }
+                } else {
+                    debugmsg("Load (%s) Missing starting skill %s", "", (*aSkill)->ident().c_str() );
+                }
+            }
+        } else {
+            debugmsg("StartingSkills[] data object not loaded in savegame_json.cpp::player::json_load_common_variables");
+        }
+    }
+
 
     data.read("ma_styles", ma_styles);
     data.read("illness", illness);
@@ -239,15 +269,19 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "posx", posx );
     json.member( "posy", posy );
 
-    // attributes, current / max levels
+    // attributes, current / max / starting levels
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
+    json.member( "str_start", str_start );
     json.member( "dex_cur", dex_cur );
     json.member( "dex_max", dex_max );
+    json.member( "dex_start", dex_start );
     json.member( "int_cur", int_cur );
     json.member( "int_max", int_max );
+    json.member( "int_start", int_start );
     json.member( "per_cur", per_cur );
     json.member( "per_max", per_max );
+    json.member( "per_start", per_start );
 
     // Healthy values
     json.member( "healthy", healthy );
@@ -300,6 +334,16 @@ void player::json_save_common_variables(JsonOut &json) const
     for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill ) {
         SkillLevel sk = get_skill_level(*aSkill);
+        json.member((*aSkill)->ident(), sk);
+    }
+    json.end_object();
+
+    // Starting Skills
+    json.member( "startingSkills" );
+    json.start_object();
+    for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
+         aSkill != Skill::skills.end(); ++aSkill ) {
+        SkillLevel sk = get_starting_skill_level(*aSkill);
         json.member((*aSkill)->ident(), sk);
     }
     json.end_object();

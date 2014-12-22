@@ -1982,7 +1982,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << indent << weapon.invlet << " - " << weapon.tname();
     if(weapon.is_gun() && !weapon.has_flag("NO_AMMO")) {
         memorial_file << " (" << weapon.charges << " / " << weapon.clip_size() << ") "
-        << weapon.curammo->name.c_str();
+        << weapon.curammo->nname(1);
     }
     memorial_file << "\n\n";
 
@@ -2013,7 +2013,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         }
         if(next_item.is_gun() && !next_item.has_flag("NO_AMMO")) {
             memorial_file << " (" << next_item.charges << " / " << next_item.clip_size() << ") "
-            << next_item.curammo->name.c_str();
+            << next_item.curammo->nname(1);
         } else if(next_item.charges > 0) {
             memorial_file << " (" << next_item.charges << ")";
         } else if (next_item.contents.size() == 1
@@ -2040,7 +2040,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
 
-    memorial_file << "\n" << _("Starting Stats") << "\n";
+    memorial_file << "\n" << _("Starting Stats:") << "\n";
     memorial_file << indent << _("Str ") << str_start << indent << _("Dex ") << dex_start << indent
                   << _("Int ") << int_start << indent << _("Per ") << per_start << "\n";
     memorial_file << "\n";
@@ -2061,6 +2061,47 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         }
         memorial_file << "\n";
     }
+    //Starting Skills (check if there are starting skills first.
+    bool had_starting_skill = false;
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+        aSkill != Skill::skills.end(); ++aSkill) {
+        SkillLevel next_skill_level = _startSkills[*aSkill];
+        if(next_skill_level.level() > 0) {
+            had_starting_skill = true;
+            break;
+        }
+    }
+    if(had_starting_skill || true) {
+        memorial_file << _("Starting Skills:") << "\n";
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+            aSkill != Skill::skills.end(); ++aSkill) {
+            SkillLevel next_skill_level = _startSkills[*aSkill];
+            if(next_skill_level.level() > 0) {
+                memorial_file << indent << (*aSkill)->name() << ": "
+                    << next_skill_level.level() << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
+/*
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+        aSkill != Skill::skills.end(); ++aSkill) {
+        SkillLevel next_skill_level = skillLevel(*aSkill);
+        memorial_file << indent << (*aSkill)->name() << ": "
+            << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    }
+
+SkillLevel& player::skillLevel(std::string ident)
+{
+    return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& player::skillLevel(Skill *_skill)
+{
+    return _skills[_skill];
+}
+*/
 
     //World statistics
     memorial_file << _("World Information") << "\n";
@@ -2069,7 +2110,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     if (!world->world_options.empty()) {
         memorial_file << _("World Options:") << "\n";
-        for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+        for (std::unordered_map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
             if (it->second.getPage() == "world_default") {
                 memorial_file << indent << it->second.getMenuText() << ": " << world->world_options[it->first].getValue() << "\n";
             }
@@ -11320,6 +11361,11 @@ SkillLevel& player::skillLevel(Skill *_skill)
     return _skills[_skill];
 }
 
+SkillLevel& player::startSkillLevel(Skill *_skill)
+{
+    return _startSkills[_skill];
+}
+
 SkillLevel player::get_skill_level(Skill *_skill) const
 {
     for (std::map<Skill*,SkillLevel>::const_iterator it = _skills.begin();
@@ -11337,9 +11383,21 @@ SkillLevel player::get_skill_level(const std::string &ident) const
     return get_skill_level(sk);
 }
 
+SkillLevel player::get_starting_skill_level(Skill *_skill) const
+{
+    for (std::map<Skill*,SkillLevel>::const_iterator it = _startSkills.begin();
+            it != _startSkills.end(); ++it) {
+        if (it->first == _skill) {
+            return it->second;
+        }
+    }
+    return SkillLevel();
+}
+
 void player::copy_skill_levels(const player *rhs)
 {
     _skills = rhs->_skills;
+    _startSkills = rhs->_startSkills;
 }
 
 void player::set_skill_level(Skill* _skill, int level)

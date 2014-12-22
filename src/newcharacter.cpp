@@ -68,7 +68,6 @@ bool player::create(character_type type, std::string tempname)
     g->u.prof = profession::generic();
     g->scen = scenario::generic();
 
-
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
@@ -545,6 +544,10 @@ bool player::create(character_type type, std::string tempname)
     dex_start = dex_max;
     per_start = per_max;
     int_start = int_max;
+
+    //Copy over the skills into the startSkills map.
+    for (std::map<Skill *, SkillLevel>::iterator iter = _skills.begin(); iter != _skills.end(); ++iter)
+        _startSkills.insert(std::pair<Skill *, SkillLevel>(iter->first, iter->second));
     return true;
 }
 
