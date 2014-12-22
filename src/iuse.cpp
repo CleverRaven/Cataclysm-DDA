@@ -10353,7 +10353,7 @@ int iuse::weather_tool(player *p, item *it, bool, point)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx, g->u.posy));
 
         p->add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         p->add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
