@@ -1,0 +1,14 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Giants",
+    "name": "No Giant Mutants",
+    "author": "Rivet-the-Zombie",
+    "description": "Removes all giant mutated animals from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "categories": ["GIANTTHING"]
+}
+]

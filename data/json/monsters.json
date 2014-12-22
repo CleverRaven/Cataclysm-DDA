@@ -1087,7 +1087,8 @@
     "death_function":"NORMAL",
     "description":"An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "flags":["HEARS", "SMELLS", "CHITIN"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_soldier",
@@ -1113,7 +1114,8 @@
     "death_function":"NORMAL",
     "description":"A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
     "flags":["HEARS", "SMELLS", "CHITIN"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_queen",
@@ -1140,7 +1142,8 @@
     "special_attacks":[["ANTQUEEN", 1]],
     "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "flags":["SMELLS", "QUEEN", "CHITIN", "FAT"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_fungus",
@@ -1166,7 +1169,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
-    "flags":["SMELLS", "POISON"]
+    "flags":["SMELLS", "POISON"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_fly",
@@ -1193,7 +1197,8 @@
     "death_function":"NORMAL",
     "description":"A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
     "flags":["SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
-    "fear_triggers":["PLAYER_CLOSE"]
+    "fear_triggers":["PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_bee",
@@ -1226,7 +1231,8 @@
     "death_function":"NORMAL",
     "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN"],
-    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_wasp",
@@ -1259,7 +1265,8 @@
     "death_function":"NORMAL",
     "description":"A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",
     "flags":["SMELLS", "VENOM", "FLIES", "CHITIN"],
-    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK"]
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_graboid",
@@ -1284,7 +1291,8 @@
     "hp":210,
     "death_function":"WORM",
     "description":"A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
-    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM", "LEATHER", "FAT"]
+    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM", "LEATHER", "FAT"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_worm",
@@ -1309,7 +1317,8 @@
     "hp":50,
     "death_function":"WORM",
     "description":"An enormous, mutated creature that might once have been a nightcrawler.  It possesses a large fanged mouth and a long slender body that comes up to your shoulder, with even more surely hiding underground.",
-    "flags":["DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER"]
+    "flags":["DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_halfworm",
@@ -1334,7 +1343,8 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"A squiggling severed portion of a wounded giant worm.",
-    "flags":["DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER"]
+    "flags":["DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_sludge_crawler",
@@ -3347,7 +3357,8 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"An enormous mutant mosquito, fluttering erratically, its face dominated by a long, spear-tipped proboscis.",
-    "flags":["SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dragonfly",
@@ -3403,7 +3414,8 @@
     "description":"A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
     "flags":["SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "VIS40", "ATTACKMON", "CHITIN"],
     "anger_triggers":["PLAYER_WEAK"],
-    "fear_triggers":["PLAYER_CLOSE"]
+    "fear_triggers":["PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_centipede",
@@ -3453,7 +3465,8 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
-    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"]
+    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_frog",
@@ -3507,7 +3520,8 @@
     "special_attacks":[["LEAP", 5]],
     "description":"A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "VIS40", "ATTACKMON", "BONES", "FAT"],
-    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
+    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_slug",
@@ -3560,7 +3574,8 @@
     "special_attacks":[["ACID", 10]],
     "description":"A mutated leopard slug, as wide as a golf cart.  Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
     "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "VIS30", "FAT", "ARTHROPOD_BLOOD"],
-    "anger_triggers":["PLAYER_CLOSE"]
+    "anger_triggers":["PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik_larva",
@@ -3586,7 +3601,8 @@
     "death_function":"NORMAL",
     "special_attacks":[["DERMATIK_GROWTH", 14400]],
     "description":"A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
-    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA", "FRIENDLY_SPECIAL"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik",
@@ -3613,7 +3629,8 @@
     "special_attacks":[["DERMATIK", 25]],
     "description":"A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding from the abdomen.",
     "flags":["HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES", "CHITIN"],
-    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK"]
+    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_wolf",
@@ -3664,7 +3681,8 @@
     "death_function":"NORMAL",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
     "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"],
-    "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
+    "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_web",
@@ -3689,7 +3707,8 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
-    "flags":["SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"],
+    "categories":["GIANTTHING"]
 },{
     "type" : "MONSTER",
     "id" : "mon_spider_web_s",
@@ -3714,7 +3733,8 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be venomous, or to walk proficiently for that matter",
-    "flags":["SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"]
+    "flags":["SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_jumping",
@@ -3766,7 +3786,8 @@
     "special_attacks":[["LEAP", 2]],
     "description":"A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
     "flags":["SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN"],
-    "anger_triggers":["PLAYER_CLOSE"]
+    "anger_triggers":["PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_trapdoor",
@@ -3816,7 +3837,8 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
-    "flags":["SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT"]
+    "flags":["SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow",
@@ -3867,7 +3889,8 @@
     "death_function":"NORMAL",
     "description":"A giant mutated black widow spider.  A highly venomous nightmare come to life.",
     "flags":["SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN"],
-    "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
+    "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow_giant_s",
@@ -3893,7 +3916,8 @@
     "death_function":"NORMAL",
     "description":"The horrid spawn of a giant black widow spider.  Even as a newborn, this foul creature knows only how to kill.",
     "flags":["SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"],
-    "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
+    "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dark_wyrm",
@@ -3918,7 +3942,8 @@
     "hp":120,
     "death_function":"NORMAL",
     "description":"A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"]
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_amigara_horror",
@@ -5363,7 +5388,8 @@
     "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
     "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
-    "fear_triggers":["FIRE"]
+    "fear_triggers":["FIRE"],
+    "categories":["GIANTTHING"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shia",
