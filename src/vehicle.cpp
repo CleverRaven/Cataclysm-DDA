@@ -83,6 +83,11 @@ void vehicle_stack::push_back( const item &newitem )
     myorigin->add_item(part_num, newitem);
 }
 
+void vehicle_stack::push_back_fast( const item &newitem )
+{
+    myorigin->add_item(part_num, newitem);
+}
+
 std::list<item>::iterator vehicle_stack::begin()
 {
     return mystack->begin();

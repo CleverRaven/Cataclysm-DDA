@@ -57,6 +57,7 @@ public:
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
+    void push_back_fast( const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
