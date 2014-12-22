@@ -4879,7 +4879,11 @@
       ["straw_basket", 2],
       ["fedora", 5],
       ["straw_hat", 5],
-      ["straw_fedora", 5]
+      ["straw_fedora", 5],
+      ["shark_suit", 1],
+      ["motorbike_armor", 2],
+      ["motorbike_pants", 2],
+	  ["motorbike_boots", 2]
     ]
   },{
     "type" : "item_group",
