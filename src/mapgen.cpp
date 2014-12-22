@@ -11465,7 +11465,8 @@ void map::rotate(int turns)
             std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
             auto items = i_at(new_x, new_y);
             itrot[old_x][old_y].reserve( items.size() );
-            std::move( items.begin(), items.end(), std::back_inserter(itrot[old_x][old_y]) );
+            // Copy items, if we move them, it'll wreck i_clear().
+            std::copy( items.begin(), items.end(), std::back_inserter(itrot[old_x][old_y]) );
             i_clear(new_x, new_y);
         }
     }
@@ -12110,7 +12111,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 rotated[i][j] = m->ter(i, j);
                 auto items = m->i_at( i, j );
                 itrot[i][j].reserve( items.size() );
-                std::move( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
+                std::copy( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
+                i_clear( i, j );
             }
         }
         for (int i = x1; i <= x2; i++) {
