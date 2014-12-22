@@ -1491,11 +1491,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1)  {
-          if (is_gun())  {
-            damtext = rm_prefix(_("<dam_adj>accurized "));
-          } else {
-              damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if( damage < 0 )  {
+            if( damage < -1 ) {
+                damtext = rm_prefix(_("<dam_adj>bugged "));
+            } else if (is_gun())  {
+                damtext = rm_prefix(_("<dam_adj>accurized "));
+            } else {
+                damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
         } else {
             if (type->id == "corpse") {
