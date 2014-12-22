@@ -12112,7 +12112,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 auto items = m->i_at( i, j );
                 itrot[i][j].reserve( items.size() );
                 std::copy( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
-                i_clear( i, j );
+                m->i_clear( i, j );
             }
         }
         for (int i = x1; i <= x2; i++) {
