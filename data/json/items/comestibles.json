@@ -10933,7 +10933,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "fruit_",
+        "id" : "fruit_waffles",
         "name" : "fruit waffle",
         "weight" : 354,
         "color" : "yellow",

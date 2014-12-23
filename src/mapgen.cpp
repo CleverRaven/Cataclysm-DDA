@@ -12535,8 +12535,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
             }
         }
         if (one_in(6)) { // Suits of armor
-            if (!one_in(5)) { // 80% chance for European
             int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+            if (!one_in(4)) { // 75% for Euro ornamental, but good weapons maybe
             for (int y = start; y <= end; y += step) {
                 m->spawn_item(x1 + 1, y, "helmet_plate");
                 m->spawn_item(x1 + 1, y, "armor_plate");
@@ -12550,7 +12550,6 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                 } else if (one_in(6)) {
                     m->spawn_item(x1 + 1, y, "morningstar");
                 }
-
                 m->spawn_item(x2 - 1, y, "helmet_plate");
                 m->spawn_item(x2 - 1, y, "armor_plate");
                 if (one_in(2)) {
@@ -12564,8 +12563,60 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                     m->spawn_item(x2 - 1, y, "morningstar");
                 }
             }
-          }
-            else {int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+          } else if (one_in(3)) { // Then 8.25% each for useful plate
+              for (int y = start; y <= end; y += step) {
+                m->spawn_item(x1 + 1, y, "helmet_barbute");
+                m->spawn_item(x1 + 1, y, "armor_lightplate");
+                if (one_in(2)) {
+                    m->spawn_item(x1 + 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x1 + 1, y, "morningstar");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "broadsword");
+                    m->spawn_item(x1 + 1, y, "scabbard");
+                }
+                m->spawn_item(x2 - 1, y, "helmet_barbute");
+                m->spawn_item(x2 - 1, y, "armor_lightplate");
+                if (one_in(2)) {
+                    m->spawn_item(x2 - 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x2 - 1, y, "morningstar");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "broadsword");
+                    m->spawn_item(x2 - 1, y, "scabbard");
+                }
+            }
+          } else if (one_in(2)) { // or chainmail
+              for (int y = start; y <= end; y += step) {
+              // No helmets with the chainmail, sorry.
+                m->spawn_item(x1 + 1, y, "chainmail_suit");
+                if (one_in(2)) {
+                    m->spawn_item(x1 + 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x1 + 1, y, "pike");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "broadsword");
+                    m->spawn_item(x1 + 1, y, "scabbard");
+                }
+                m->spawn_item(x2 - 1, y, "chainmail_suit");
+                if (one_in(2)) {
+                    m->spawn_item(x2 - 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x2 - 1, y, "pike");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "broadsword");
+                    m->spawn_item(x2 - 1, y, "scabbard");
+                }
+            }
+          } else { // or samurai gear
                 for (int y = start; y <= end; y += step) {
                     m->spawn_item(x1 + 1, y, "helmet_kabuto");
                     m->spawn_item(x1 + 1, y, "armor_samurai");
