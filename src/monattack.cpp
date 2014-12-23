@@ -2696,13 +2696,21 @@ void mattack::flamethrower(monster *z, int index)
 
 void mattack::flame( monster *z, Creature *target )
 {
+    int bres = 0;
+    int dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() );
     if( target != &g->u ) {
       // friendly
       npc tmp = make_fake_npc(z, 12, 8, 8, 8);
       tmp.skillLevel("launcher").level(2);
       tmp.skillLevel("gun").level(2);
       z->moves -= 500;   // It takes a while
-      std::vector<point> traj = line_to(z->posx(), z->posy(), target->xpos(), target->ypos(), 0);
+      int bres = 0;
+      if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
+                      dist + 1, bres ) ) {
+        // shouldn't happen
+        debugmsg( "mattack::flame invoked on invisible target" );
+      }
+      std::vector<point> traj = line_to( z->posx(), z->posy(), target->xpos(), target->ypos(), bres );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
@@ -2720,7 +2728,12 @@ void mattack::flame( monster *z, Creature *target )
     }
 
     z->moves -= 500;   // It takes a while
-    std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);
+    if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
+                    dist + 1, bres ) ) {
+        // shouldn't happen
+        debugmsg( "mattack::flame invoked on invisible target" );
+    }
+    std::vector<point> traj = line_to( z->posx(), z->posy(), g->u.posx, g->u.posy, bres );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
