@@ -166,6 +166,101 @@ bool Creature::digging() const
     return false;
 }
 
+bool Creature::sees( const Creature &critter, int range_min, int range_max, int &t ) const
+{
+    int cx = critter.xpos();
+    int cy = critter.ypos();
+    const int wanted_range = rl_dist( xpos(), ypos(), cx, cy );
+    if( ( wanted_range > 1 && critter.digging() ) ||
+        ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
+        return false;
+    }
+
+    return sees( cx, cy, range_min, range_max, t );
+}
+
+bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) const
+{
+    const int wanted_range = rl_dist( xpos(), ypos(), tx, ty );
+    if( wanted_range <= range_min || 
+        ( wanted_range <= range_max &&
+          g->m.light_at( tx, ty ) >= LL_LOW ) ) {
+        if( is_player() ) {
+            return g->m.pl_sees( xpos(), ypos(), tx, ty, wanted_range);
+        } else if( g->m.light_at( tx, ty ) >= LL_LOW ) {
+            return g->m.sees( xpos(), ypos(), tx, ty, wanted_range, t );
+        } else {
+            return g->m.sees( xpos(), ypos(), tx, ty, range_min, t );
+        }
+    } else {
+        return false;
+    }
+}
+
+Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
+{
+    int t;
+    Creature *target = nullptr;
+    const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
+    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
+    int closest = range + 1;
+    int u_angle = 0;         // player angle relative to turret
+    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+    bool iff_trig = false;   // player seen and within range of stray shots
+    int pldist = rl_dist(xpos(), ypos(), g->u.posx, g->u.posy);
+    if (pldist < iff_dist && g->sees_u(xpos(), ypos(), t)) {
+        iff_trig = true;
+        if (pldist < 3) {
+            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
+        }
+        u_angle = g->m.coord_to_angle(xpos(), ypos(), g->u.posx, g->u.posy);
+    }
+    std::vector<Creature*> targets;
+    for (size_t i = 0; i < g->num_zombies(); i++) {
+        monster &m = g->zombie(i);
+        if (m.friendly != 0) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( &m );
+    }
+    for( auto &p : g->active_npc ) {
+        if( p->attitude != NPCATT_KILL ) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( p );
+    }
+    int ll = g->light_level();
+    for( auto &m : targets ) {
+        int t;
+        if( !sees( *m, ll, DAYLIGHT_LEVEL, t ) ) {
+            // can't see nor sense it
+            continue;
+        }
+        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
+        if( dist >= closest || dist < area ) {
+            // Have a better target anyway, ignore this one.
+            // Or possibly we'd be wrecking self with explosions.
+            continue;
+        }
+        if( iff_trig ) {
+            int tangle = g->m.coord_to_angle(xpos(), ypos(), m->xpos(), m->ypos());
+            int diff = abs(u_angle - tangle);
+            // Player is in the angle and not too far behind the target
+            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
+                ( dist * 3 / 2 + 6 > pldist ) ) {
+                boo_hoo++;
+                continue;
+            }
+        }
+
+        target = m;
+        closest = dist;
+    }
+    return target;
+}
+
 /*
  * Damage-related functions
  */

@@ -2084,7 +2084,7 @@ void mattack::smg(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 18, boo_hoo );
+        target = z->auto_find_hostile_target( 18, boo_hoo );
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2148,7 +2148,7 @@ void mattack::laser(monster *z, int index)
 
     if (z->friendly != 0) {   // Attacking monsters, not the player!
         int boo_hoo;
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 18, boo_hoo);
+        target = z->auto_find_hostile_target( 18, boo_hoo);
         z->reset_special(index); // Reset timer
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
@@ -2205,7 +2205,7 @@ void mattack::rifle_tur(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        Creature *target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 18, boo_hoo );
+        Creature *target = z->auto_find_hostile_target( 18, boo_hoo );
         if( target == nullptr ) {// Couldn't find any targets!
             if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2348,7 +2348,7 @@ void mattack::bmg_tur(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 40, boo_hoo );
+        target = z->auto_find_hostile_target( 40, boo_hoo );
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2670,7 +2670,7 @@ void mattack::flamethrower(monster *z, int index)
 
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 5, boo_hoo, 1 );
+        target = z->auto_find_hostile_target( 5, boo_hoo );
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2706,7 +2706,7 @@ void mattack::flame( monster *z, Creature *target )
       z->moves -= 500;   // It takes a while
       int bres = 0;
       if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
-                      dist + 1, bres ) ) {
+                      dist, bres ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
@@ -2802,7 +2802,7 @@ void mattack::chickenbot(monster *z, int index)
         ty = g->u.posy;
         target = &g->u;
     } else {
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 38, boo_hoo );
+        target = z->auto_find_hostile_target( 38, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2860,7 +2860,7 @@ void mattack::multi_robot(monster *z, int index)
         ty = g->u.posy;
         target = &g->u;
     } else {
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 48, boo_hoo );
+        target = z->auto_find_hostile_target( 48, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",

@@ -13401,89 +13401,6 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-Creature *player::auto_find_hostile_target(point pos, int range, int &boo_hoo, int area)
-{
-    int t;
-    Creature *target = nullptr;
-    const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
-    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
-    int closest = range + 1;
-    int u_angle = 0;         // player angle relative to turret
-    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
-    bool iff_trig = false;   // player seen and within range of stray shots
-    int pldist = rl_dist(pos.x, pos.y, g->u.posx, g->u.posy);
-    if (pldist < iff_dist && g->sees_u(pos.x, pos.y, t)) {
-        iff_trig = true;
-        if (pldist < 3) {
-            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
-        }
-        u_angle = g->m.coord_to_angle(pos.x, pos.y, g->u.posx, g->u.posy);
-    }
-    std::vector<Creature*> targets;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &m = g->zombie(i);
-        if (m.friendly != 0) {
-            // friendly to the player, not a target for us
-            continue;
-        }
-        targets.push_back( &m );
-    }
-    for( auto &p : g->active_npc ) {
-        if( p->attitude != NPCATT_KILL ) {
-            // friendly to the player, not a target for us
-            continue;
-        }
-        targets.push_back( p );
-    }
-    for( auto &m : targets ) {
-        // inline player::sees because we're static now
-        int mx = m->xpos();
-        int my = m->ypos();
-        const int wanted_range = rl_dist( pos.x, pos.y, mx, my );
-        bool can_see;
-        const int s_range = g->light_level();
-        // Assume turrets are submerged
-        if( ( wanted_range > 1 && m->digging() ) ||
-            ( m->is_underwater() && !g->m.is_divable( pos.x, pos.y ) ) ) {
-            can_see = false;
-        } else if( wanted_range <= s_range || 
-                   ( wanted_range <= DAYLIGHT_LEVEL &&
-                     g->m.light_at( mx, my ) >= LL_LOW ) ) {
-            if( g->m.light_at( mx, my ) >= LL_LOW ) {
-                can_see = g->m.sees(pos.x, pos.y, mx, my, wanted_range, t);
-            } else {
-                can_see = g->m.sees(pos.x, pos.y, mx, my, s_range, t);
-            }
-        } else {
-            can_see = false;
-        }
-        if (!can_see) {
-            // can't see nor sense it
-            continue;
-        }
-        int dist = rl_dist(pos.x, pos.y, m->xpos(), m->ypos());
-        if( dist >= closest || dist < area ) {
-            // Have a better target anyway, ignore this one.
-            // Or possibly we'd be wrecking self with explosions.
-            continue;
-        }
-        if( iff_trig ) {
-            int tangle = g->m.coord_to_angle(pos.x, pos.y, m->xpos(), m->ypos());
-            int diff = abs(u_angle - tangle);
-            // Player is in the angle and not too far behind the target
-            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
-                ( dist * 3 / 2 + 6 > pldist ) ) {
-                boo_hoo++;
-                continue;
-            }
-        }
-
-        target = m;
-        closest = dist;
-    }
-    return target;
-}
-
 bool player::sees(int x, int y) const
 {
     int dummy = 0;
@@ -13493,19 +13410,10 @@ bool player::sees(int x, int y) const
 bool player::sees(int x, int y, int &t) const
 {
     static const std::string str_bio_night("bio_night");
+    int range_min = sight_range( g->light_level() );
+    int range_max = sight_range( DAYLIGHT_LEVEL );
     const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = false;
-    const int s_range = sight_range(g->light_level());
-    if( wanted_range <= s_range || (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
-         g->m.light_at(x, y) >= LL_LOW) ) {
-        if( is_player() ) {
-            can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
-        } else  if( g->m.light_at(x, y) >= LL_LOW ) {
-            can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
-        } else {
-            can_see = g->m.sees(posx, posy, x, y, s_range, t);
-        }
-    }
+    bool can_see = Creature::sees( x, y, range_min, range_max, t ); // creature::sees
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
