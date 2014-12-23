@@ -96,7 +96,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
                 { "point": "trap", "id": "tr_beartrap", "x": [ 10, 11 ], "y": 2, "repeat": [ 1, 2 ] },
                 { "point": "trap", "id": "tr_beartrap", "x": 2, "y": [ 7, 8 ], "repeat": [ 1, 2 ] },
-                { "point": "trap", "id": "tr_landmine", "x": [ 5,8 ], "y": [ 4, 7 ], "repeat": [ 5, 12 ] }
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 5,8 ], "y": [ 4, 7 ], "repeat": [ 5, 12 ] }
             ],
             "comment": "randomly picked from a group ---v",
             "place_groups": [
