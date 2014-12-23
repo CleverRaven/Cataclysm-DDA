@@ -13440,15 +13440,22 @@ Creature *player::auto_find_hostile_target(point pos, int range, int &boo_hoo, i
         int mx = m->xpos();
         int my = m->ypos();
         const int wanted_range = rl_dist( pos.x, pos.y, mx, my );
-        bool can_see = false;
+        bool can_see;
         const int s_range = g->light_level();
-        if( wanted_range <= s_range || (wanted_range <= DAYLIGHT_LEVEL &&
-            g->m.light_at( mx, my ) >= LL_LOW) ) {
+        // Assume turrets are submerged
+        if( ( wanted_range > 1 && m->digging() ) ||
+            ( m->is_underwater() && !g->m.is_divable( pos.x, pos.y ) ) ) {
+            can_see = false;
+        } else if( wanted_range <= s_range || 
+                   ( wanted_range <= DAYLIGHT_LEVEL &&
+                     g->m.light_at( mx, my ) >= LL_LOW ) ) {
             if( g->m.light_at( mx, my ) >= LL_LOW ) {
                 can_see = g->m.sees(pos.x, pos.y, mx, my, wanted_range, t);
             } else {
                 can_see = g->m.sees(pos.x, pos.y, mx, my, s_range, t);
             }
+        } else {
+            can_see = false;
         }
         if (!can_see) {
             // can't see nor sense it
