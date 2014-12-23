@@ -5109,9 +5109,6 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     int range = part_info( p ).range;
-    if( range < 1 ) {
-        range = 12;
-    }
 
     npc tmp;
     tmp.set_fake( true );

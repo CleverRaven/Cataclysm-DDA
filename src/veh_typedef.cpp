@@ -51,7 +51,7 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.power = jo.get_int("power", 0);
     next_part.epower = jo.get_int("epower", 0);
     next_part.folded_volume = jo.get_int("folded_volume", 0);
-    next_part.range = jo.get_int("range", 0);
+    next_part.range = jo.get_int( "range", 12 );
 
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)

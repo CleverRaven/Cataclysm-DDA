@@ -1988,12 +1988,12 @@ void mattack::tazer( monster *z, int index )
     if( z->friendly != 0 ) {
         // Let friendly bots taze too
         for( size_t i = 0; i < g->num_zombies(); i++ ) {
-            monster *tmp = &( g->zombie( i ) );
-            if( tmp->friendly == 0 ) {
-                int d = rl_dist( z->posx(), z->posy(), tmp->posx(), tmp->posy() );
+            monster &tmp = g->zombie( i );
+            if( tmp.friendly == 0 ) {
+                int d = rl_dist( z->posx(), z->posy(), tmp.posx(), tmp.posy() );
                 if ( d < 2 ) {
                     z->reset_special( index ); // Reset timer
-                    this->taze( z, tmp );
+                    taze( z, &tmp );
                     return;
                 }
             }
@@ -2006,7 +2006,7 @@ void mattack::tazer( monster *z, int index )
     }
 
     z->reset_special( index ); // Reset timer
-    this->taze( z, &g->u );
+    taze( z, &g->u );
 }
 
 void mattack::taze( monster *z, Creature *target )
@@ -2202,24 +2202,10 @@ void mattack::laser(monster *z, int index)
 
 void mattack::rifle_tur(monster *z, int index)
 {
-    const std::string ammo_type("556");
-    // Make sure our ammo isn't weird.
-    if (z->ammo[ammo_type] > 2000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo[ammo_type], z->name().c_str());
-        z->ammo[ammo_type] = 2000;
-    }
-
-    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(6);
-
-    z->reset_special(index); // Reset timer
-    Creature *target = NULL;
-
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 18, boo_hoo );
+        Creature *target = player::auto_find_hostile_target( point( z->posx(), z->posy() ), 18, boo_hoo );
         if( target == nullptr ) {// Couldn't find any targets!
             if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2230,6 +2216,7 @@ void mattack::rifle_tur(monster *z, int index)
             return;
         }
 
+        z->reset_special(index);
         this->rifle( z, target );
     } else {
         // Not friendly; hence, firing at the player
@@ -2242,6 +2229,7 @@ void mattack::rifle_tur(monster *z, int index)
             return;
         }
 
+        z->reset_special(index);
         this->rifle( z, &g->u );
     }
 }
@@ -2251,7 +2239,7 @@ void mattack::rifle( monster *z, Creature *target )
     const std::string ammo_type("556");
     // Make sure our ammo isn't weird.
     if (z->ammo[ammo_type] > 2000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo[ammo_type], z->name().c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type], z->name().c_str());
         z->ammo[ammo_type] = 2000;
     }
 
@@ -2296,7 +2284,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     const std::string ammo_type("40mm_frag");
     // Make sure our ammo isn't weird.
     if (z->ammo[ammo_type] > 100) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::frag_tur", z->ammo[ammo_type], z->name().c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type], z->name().c_str());
         z->ammo[ammo_type] = 100;
     }
 
@@ -2422,7 +2410,7 @@ void mattack::tankgun( monster *z, Creature *target )
     const std::string ammo_type("120mm_HEAT");
     // Make sure our ammo isn't weird.
     if (z->ammo[ammo_type] > 40) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::tank_gun", z->ammo[ammo_type], z->name().c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::tankgun", z->ammo[ammo_type], z->name().c_str());
         z->ammo[ammo_type] = 40;
     }
 
