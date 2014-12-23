@@ -1,23 +1,5 @@
 [
     {
-        "type"  : "item_group",
-        "id"    : "the_book",
-        "items" : [
-            ["holybook_bible1", 100]
-        ]
-    },{
-        "type"  : "item_group",
-        "id"    : "the_flag",
-        "items" : [
-            ["american_flag", 100]
-        ]
-    },{
-        "type"  : "item_group",
-        "id"    : "the_quiver",
-        "items" : [
-            ["quiver_large", 100]
-        ]
-    },{
     "type":"monstergroup",
     "name" : "GROUP_QUIVERFULL",
     "default" : "mon_null",
@@ -127,9 +109,6 @@
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
                 { "item": "livingroom", "chance": 70,  "x": [ 3,8 ], "y": [ 2,10 ] },
-                { "item": "the_flag", "chance": 70,  "x": 2, "y": 5 },
-                { "item": "the_book", "chance": 70,  "x": 2, "y": 6 },
-                { "item": "the_quiver", "chance": 70,  "x": 2, "y": 7 },
                 { "item": "kitchen", "chance": 70,  "x": [ 15,20 ], "y": [ 2,11 ] },
                 { "item": "fridge", "chance": 70,  "x": 21, "y": [ 6,7 ] },
                 { "item": "kitchen", "chance": 70,  "x": 21, "y": [ 2,5 ], "repeat": [1,2] },
@@ -156,6 +135,11 @@
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] },
                 { "monster": "GROUP_QUIVERFULL", "chance": 1, "x": [ 2, 14 ], "y": [ 15, 21 ]  }
             ],
+            "add": [
+                { "item": "american_flag", "x": 2, "y" 5, "amount":1},
+                { "item": "holybook_bible1", "x": 2, "y": 6, "amount":1 },
+                { "item": "quiver_large",  "x": 2, "y": 7, "amount":1 },
+            ]
             "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v"
