@@ -1437,6 +1437,6 @@
         "recoil_modifier": 0,
         "burst_modifier": 0,
         "clip_size_modifier": 0,
-        "mod_targets": ["rifle", "shotgun", "smg", "pistol", "launcher"]
+        "mod_targets": ["rifle", "shotgun", "smg", "pistol"]
     }
 ]
