@@ -7,6 +7,7 @@
 #include "line.h"
 #include "veh_type.h"
 #include "item_stack.h"
+#include "active_item_cache.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -80,6 +81,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
+    void push_back_fast( const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -617,11 +619,6 @@ public:
     int stored_volume(int part);
     bool is_full(const int part, const int addvolume = -1, const int addnumber = -1 );
 
-    // Helpers to manage active item cache.
-    void remove_active_item( std::list<item>::iterator it, point location );
-    void add_active_item( std::list<item>::iterator it, point location );
-    bool has_active_item( std::list<item>::iterator it, point );
-
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
@@ -758,10 +755,7 @@ public:
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
-    // Cache of just the active items so we can iterate over just them.
-    std::list<item_reference> active_items;
-    // Cache for fast lookup when we're iterating over the active items to verify the item is present.
-    std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
+    active_item_cache active_items;
 
     /**
      * Submap coordinates of the currently loaded submap (see game::m)

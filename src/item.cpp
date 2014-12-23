@@ -58,7 +58,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
-        active = true;
+        active = goes_bad() && !rotten();
         if( comest->count_by_charges() ) {
             if (rand && comest->rand_charges.size() > 1) {
                 int charge_roll = rng(1, comest->rand_charges.size() - 1);
@@ -4265,6 +4265,20 @@ bool item::needs_processing() const
     return active ||
            ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
            is_artifact();
+}
+
+int item::processing_speed() const
+{
+    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+        // Hot and cold food need turn-by-turn updates.
+        // If they ever become a performance problem, update process_food to handle them occasionally.
+        return 600;
+    }
+    if( is_corpse() ) {
+        return 100;
+    }
+    // Unless otherwise indicated, update every turn.
+    return 1;
 }
 
 bool item::process_food( player * /*carrier*/, point pos )

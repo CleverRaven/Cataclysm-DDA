@@ -21,6 +21,7 @@
 #include "lightmap.h"
 #include "coordinates.h"
 #include "item_stack.h"
+#include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
@@ -56,6 +57,7 @@ public:
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
+    void push_back_fast( const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;

@@ -386,9 +386,6 @@ struct submap {
     const std::string &get_graffiti( int x, int y ) const;
     void set_graffiti( int x, int y, const std::string &new_graffiti );
     void delete_graffiti( int x, int y );
-    void delete_active_item( std::list<item>::iterator it, point location );
-    void add_active_item( std::list<item>::iterator it, point location );
-    bool has_active_item( std::list<item>::iterator it, point );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
@@ -426,11 +423,7 @@ struct submap {
     int                rad[SEEX][SEEY];  // Irradiation of each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
-    // Cache of just the active items so we can iterate over just them.
-    std::list<item_reference> active_items;
-    // Cache for fast lookup when we're iterating over the active items to verify the item is present.
-    std::unordered_set<std::list<item>::iterator, list_iterator_hash> active_item_set;
-    int active_item_count;
+    active_item_cache active_items;
 
     int field_count;
     int turn_last_touched;

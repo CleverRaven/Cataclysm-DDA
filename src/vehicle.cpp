@@ -83,6 +83,11 @@ void vehicle_stack::push_back( const item &newitem )
     myorigin->add_item(part_num, newitem);
 }
 
+void vehicle_stack::push_back_fast( const item &newitem )
+{
+    myorigin->add_item(part_num, newitem);
+}
+
 std::list<item>::iterator vehicle_stack::begin()
 {
     return mystack->begin();
@@ -4280,24 +4285,6 @@ bool vehicle::is_full(const int part, const int addvolume, const int addnumber) 
 
 }
 
-void vehicle::remove_active_item( std::list<item>::iterator it, point location )
-{
-    active_items.remove_if( [&] (const item_reference &active_item) {
-            return location == active_item.location && active_item.item_iterator == it; } );
-    active_item_set.erase(it);
-}
-
-void vehicle::add_active_item( std::list<item>::iterator it, point location )
-{
-    active_items.push_back( item_reference{ location, it } );
-    active_item_set.insert( it );
-}
-
-bool vehicle::has_active_item( std::list<item>::iterator it, point )
-{
-    return active_item_set.count( it ) != 0;
-}
-
 bool vehicle::add_item (int part, item itm)
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
@@ -4337,8 +4324,8 @@ bool vehicle::add_item (int part, item itm)
 
     parts[part].items.push_back (itm);
     if( itm.needs_processing() ) {
-        add_active_item( std::prev(parts[part].items.end()),
-                         point( parts[part].mount_dx, parts[part].mount_dy) );
+        active_items.add( std::prev(parts[part].items.end()),
+                          point( parts[part].mount_dx, parts[part].mount_dy) );
     }
 
     return true;
@@ -4370,8 +4357,8 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
 {
     std::list<item>& veh_items = parts[part].items;
 
-    if( it->needs_processing() ) {
-        remove_active_item( it, point( parts[part].mount_dx, parts[part].mount_dy) );
+    if( active_items.has( it, point( parts[part].mount_dx, parts[part].mount_dy) ) ) {
+        active_items.remove( it, point( parts[part].mount_dx, parts[part].mount_dy) );
     }
 
     return veh_items.erase(it);

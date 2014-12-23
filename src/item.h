@@ -415,11 +415,13 @@ public:
     void reset_cable(player* carrier);
 
     /**
-     * Whether the item should be processed (by calling @ref process) each turn.
-     * This is only a hint, used by the map to avoid coping the item when it
-     * does not need processing.
+     * Whether the item should be processed (by calling @ref process).
      */
     bool needs_processing() const;
+    /**
+     * The rate at which an item should be processed, in number of turns between updates.
+     */
+    int processing_speed() const;
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
