@@ -4,17 +4,11 @@
 #include <vector>
 #include <string>
 #include "action.h"
+#include "enums.h"
 #include "itype.h"
 #include "mtype.h"
 
 struct special_game;
-
-enum special_game_id {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
-};
 
 std::string special_game_name(special_game_id id);
 special_game *get_special_game(special_game_id id);

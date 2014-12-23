@@ -66,9 +66,11 @@ void mission_start::infect_npc(mission *miss)
   debugmsg("mission_start::infect_npc() couldn't find an NPC!");
   return;
  }
- p->add_disease("infection", 1, true);
- // make sure they don't have any antibiotics
- while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
+ p->add_effect("infection", 1, num_bp, 1, true);
+    // make sure they don't have any antibiotics
+    p->remove_items_with( []( const item & it ) {
+        return it.typeId() == "antibiotics";
+    } );
 }
 
 void mission_start::place_dog(mission *miss)
@@ -219,6 +221,10 @@ void mission_start::place_bandit_camp(mission *miss)
  g->u.i_add( item("holster", 0, false) );
  g->u.i_add( item("badge_marshal", 0, false) );
  add_msg(m_good, _("%s has instated you as a marshal!"), p->name.c_str());
+ // Ideally this would happen at the end of the mission
+ // (you're told that they entered your image into the databases, etc)
+ // but better to get it working.
+ g->u.toggle_mutation("PROF_FED");
 
  point site = target_om_ter_random("bandit_camp_1", 1, miss, false);
  tinymap bay1;

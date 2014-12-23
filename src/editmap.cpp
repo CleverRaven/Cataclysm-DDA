@@ -12,7 +12,6 @@
 #include "map.h"
 #include "output.h"
 #include "uistate.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "trap.h"
 #include "mapdata.h"
@@ -84,14 +83,18 @@ void edit_json( SAVEOBJ *it )
     do {
         uimenu tm;
 
-        for(std::vector<std::string>::iterator it = fs1.begin();
-            it != fs1.end(); ++it) {
-            tm.addentry(-1, true, -2, "%s", it->c_str() );
+        for( auto &elem : fs1 ) {
+            tm.addentry( -1, true, -2, "%s", elem.c_str() );
         }
         if(tmret == 0) {
-            std::stringstream dump;
-            dump << save1;
-            it->deserialize(dump);
+            std::istringstream dump( save1 );
+            try {
+                SAVEOBJ tmp;
+                tmp.deserialize( dump );
+                *it = tmp;
+            } catch( std::string &err ) {
+                popup( "Error on deserialization: %s", err.c_str() );
+            }
             save2 = it->serialize();
             fs2 = fld_string(save2, TERMX-10);
 
@@ -142,9 +145,9 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
         cur_blink = 0;
     }
     if ( blink_interval[ cur_blink ] == true || update == true ) {
-        for(std::map<point, char>::iterator it = points.begin(); it != points.end(); ++it ) {
-            int x = it->first.x;
-            int y = it->first.y;
+        for( auto &elem : points ) {
+            int x = elem.first.x;
+            int y = elem.first.y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
@@ -157,10 +160,10 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -390,10 +393,8 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     if( m != nullptr ) {
                         monster &mon = *m;
                         if ( refresh_mplans == true ) {
-                            for(std::vector<point>::iterator it =
-                                    mon.plans.begin();
-                                it != mon.plans.end(); ++it) {
-                                hilights["mplan"].points[*it] = 1;
+                            for( auto &elem : mon.plans ) {
+                                hilights["mplan"].points[elem] = 1;
                             }
                         }
                     }
@@ -427,7 +428,7 @@ void editmap::update_view(bool update_info)
     target_frn = g->m.furn(target.x, target.y);
     furn_t furniture_type = furnlist[target_frn];
 
-    cur_field = &g->m.field_at(target.x, target.y);
+    cur_field = &g->m.get_field(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
     const Creature *critter = g->critter_at( target.x, target.y );
 
@@ -449,10 +450,9 @@ void editmap::update_view(bool update_info)
 
     // hilight target_list points if blink=true (and if it's more than a point )
     if ( blink && target_list.size() > 1 ) {
-        for (std::vector<point>::iterator it = target_list.begin();
-             it != target_list.end(); ++it) {
-            int x = it->x;
-            int y = it->y;
+        for( auto &elem : target_list ) {
+            int x = elem.x;
+            int y = elem.y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
@@ -465,10 +465,10 @@ void editmap::update_view(bool update_info)
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -482,9 +482,9 @@ void editmap::update_view(bool update_info)
     }
 
     // custom hilight. todo; optimize
-    for(std::map<std::string, editmap_hilight>::iterator mit = hilights.begin(); mit != hilights.end(); ++mit ) {
-        if ( !mit->second.points.empty() ) {
-            mit->second.draw(this);
+    for( auto &elem : hilights ) {
+        if( !elem.second.points.empty() ) {
+            elem.second.draw( this );
         }
     }
 
@@ -541,18 +541,12 @@ void editmap::update_view(bool update_info)
         mvwprintw(w_info, off, 1, "%s %s", g->m.features(target.x, target.y).c_str(), extras.c_str());
         off++;  // 4-5
 
-        if (cur_field->fieldCount() > 0) {
-            for( auto field_list_it = cur_field->getFieldStart();
-                 field_list_it != cur_field->getFieldEnd(); ++field_list_it ) {
-                field_entry* cur = field_list_it->second;
-                if(cur == NULL) {
-                    continue;
-                }
+        for( auto &fld : *cur_field ) {
+                const field_entry* cur = &fld.second;
                 mvwprintz(w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
                           fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
                          );
                 off++; // 5ish
-            }
         }
 
 
@@ -574,7 +568,7 @@ void editmap::update_view(bool update_info)
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
             mvwprintw(w_info, off, 1, _("There is a %s there."),
-                      g->m.i_at(target.x, target.y)[0].tname().c_str());
+                      g->m.i_at(target.x, target.y).front().tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
                 mvwprintw(w_info, off, 1, ngettext("There is %d other item there as well.",
@@ -586,8 +580,8 @@ void editmap::update_view(bool update_info)
         }
 
 
-        if (g->m.graffiti_at(target.x, target.y).contents) {
-            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at(target.x, target.y).contents->c_str());
+        if( g->m.has_graffiti_at( target.x, target.y ) ) {
+            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at( target.x, target.y ).c_str() );
         }
         off++;
 
@@ -858,17 +852,16 @@ int editmap::edit_ter()
                     }
                 }
 
-                for(std::vector<point>::iterator it = target_list.begin();
-                    it != target_list.end(); ++it) {
+                for( auto &elem : target_list ) {
                     int wter=sel_ter;
                     if ( doalt ) {
-                        if ( isvert && (it->y == alta || it->y == altb ) ) {
+                        if( isvert && ( elem.y == alta || elem.y == altb ) ) {
                             wter=teralt;
-                        } else if (ishori && (it->x == alta || it->x == altb)) {
+                        } else if( ishori && ( elem.x == alta || elem.x == altb ) ) {
                             wter=teralt;
                         }
                     }
-                    g->m.ter_set(it->x, it->y, (ter_id)wter);
+                    g->m.ter_set( elem.x, elem.y, (ter_id)wter );
                 }
                 if ( action == "CONFIRM_QUIT" ) {
                     break;
@@ -900,9 +893,8 @@ int editmap::edit_ter()
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
-                for(std::vector<point>::iterator it = target_list.begin();
-                    it != target_list.end(); ++it) {
-                    g->m.furn_set(it->x, it->y, (furn_id)sel_frn);
+                for( auto &elem : target_list ) {
+                    g->m.furn_set( elem.x, elem.y, (furn_id)sel_frn );
                 }
                 if ( action == "CONFIRM_QUIT" ) {
                     break;
@@ -1022,9 +1014,8 @@ int editmap::edit_fld()
                 fsel_dens--;
             }
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
-                for(std::vector<point>::iterator it = target_list.begin();
-                    it != target_list.end(); ++it) {
-                    field *t_field = &g->m.field_at(it->x, it->y);
+                for( auto &elem : target_list ) {
+                    field *t_field = &g->m.get_field( elem.x, elem.y );
                     field_entry *t_fld = t_field->findField((field_id)idx);
                     int t_dens = 0;
                     if ( t_fld != NULL ) {
@@ -1034,7 +1025,7 @@ int editmap::edit_fld()
                         if ( t_dens != 0 ) {
                             t_fld->setFieldDensity(fsel_dens);
                         } else {
-                            g->m.add_field(it->x, it->y, (field_id)idx, fsel_dens );
+                            g->m.add_field( elem.x, elem.y, (field_id)idx, fsel_dens );
                         }
                     } else {
                         if ( t_dens != 0 ) {
@@ -1048,15 +1039,14 @@ int editmap::edit_fld()
                 sel_fdensity = fsel_dens;
             }
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
-            for(std::vector<point>::iterator it = target_list.begin();
-                it != target_list.end(); ++it) {
-                field *t_field = &g->m.field_at(it->x, it->y);
+            for( auto &elem : target_list ) {
+                field *t_field = &g->m.get_field( elem.x, elem.y );
                 if ( t_field->fieldCount() > 0 ) {
-                    for ( auto field_list_it = t_field->getFieldStart();
-                          field_list_it != t_field->getFieldEnd(); /* noop */ ) {
+                    for ( auto field_list_it = t_field->begin();
+                          field_list_it != t_field->end(); /* noop */ ) {
                         field_id rmid = field_list_it->first;
                         field_list_it = t_field->removeField( rmid );
-                        if ( it->x == target.x && it->y == target.y ) {
+                        if( elem.x == target.x && elem.y == target.y ) {
                             update_fmenu_entry( &fmenu, t_field, (int)rmid );
                         }
                     }
@@ -1146,9 +1136,8 @@ int editmap::edit_trp()
             if ( trsel < num_trap_types && trsel >= 0 ) {
                 trset = trsel;
             }
-            for(std::vector<point>::iterator it = target_list.begin();
-                it != target_list.end(); ++it) {
-                g->m.add_trap(it->x, it->y, trap_id(trset));
+            for( auto &elem : target_list ) {
+                g->m.add_trap( elem.x, elem.y, trap_id( trset ) );
             }
             if ( action == "CONFIRM_QUIT" ) {
                 break;
@@ -1199,9 +1188,11 @@ int editmap::edit_itm()
     ilmenu.w_width = width;
     ilmenu.w_height = TERMY - infoHeight - 1;
     ilmenu.return_invalid = true;
-    std::vector<item>& items = g->m.i_at(target.x , target.y );
-    for( size_t i = 0; i < items.size(); ++i ) {
-        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
+    auto items = g->m.i_at( target.x , target.y );
+    int i = 0;
+    for( auto &an_item : items ) {
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+                         (an_item.light.luminance > 0) ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry(-5, true, 'a', _("Add item"));
@@ -1288,8 +1279,10 @@ int editmap::edit_itm()
             ilmenu.ret = UIMENU_INVALID;
             g->wishitem(NULL,target.x, target.y);
             ilmenu.entries.clear();
-            for( size_t i = 0; i < items.size(); ++i ) {
-               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
+            i = 0;
+            for( auto &an_item : items ) {
+               ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+                                (an_item.light.luminance > 0) ? " L" : "" );
             }
             ilmenu.addentry(-5, true, 'a', pgettext("item manipulation debug menu entry for adding an item on a tile","Add item"));
             ilmenu.addentry(-10, true, 'q', pgettext("item manipulation debug menu entry","Cancel"));
@@ -1642,6 +1635,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 } else if ( gpmenu.ret == 2 ) {
 
                     point target_sub(target.x / 12, target.y / 12);
+                    g->m.clear_vehicle_cache();
 
                     std::string s = "";
                     for(int x = 0; x < 2; x++) {
@@ -1651,6 +1645,10 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
 
+                            for( auto & v : destsm->vehicles ) {
+                                g->m.vehicle_list.erase( v );
+                            }
+                            destsm->delete_vehicles();
                             for (size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
                                 vehicle *veh1 = srcsm->vehicles[i];
@@ -1658,9 +1656,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 veh1->smx = target_sub.x + x;
                                 veh1->smy = target_sub.y + y;
                                 destsm->vehicles.push_back (veh1);
-                                srcsm->vehicles.erase (srcsm->vehicles.begin() + i);
                                 g->m.update_vehicle_cache(veh1);
                             }
+                            srcsm->vehicles.clear();
                             g->m.update_vehicle_list(destsm); // update real map's vcaches
 
                             int spawns_todo = 0;
@@ -1682,16 +1680,16 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
                             memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
-                            memcpy( *destsm->itm, srcsm->itm, sizeof(srcsm->itm) ); // items
-                            memcpy( *destsm->graf, srcsm->graf, sizeof(srcsm->graf) ); // graffiti
-                            // at the time of writing, cosmetics holds signage.
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
-                                    destsm->cosmetics[x][y] = srcsm->cosmetics[x][y];
+                                    destsm->itm[x][y].swap( srcsm->itm[x][y] );
+                                    destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
                                 }
                             }
 
-                            destsm->active_item_count = srcsm->active_item_count; // various misc variables
+                            // various misc variables
+                            destsm->active_items = srcsm->active_items;
+
                             destsm->temperature = srcsm->temperature;
                             destsm->turn_last_touched = int(calendar::turn);
                             destsm->comp = srcsm->comp;
@@ -1702,6 +1700,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                         }
                     }
+                    g->m.reset_vehicle_cache();
 
                     //~ message when applying the map generator
                     popup(_("Changed 4 submaps\n%s"), s.c_str());
@@ -1741,6 +1740,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gmenu.hilight_color = h_white;
     gmenu.redraw();
     hilights["mapgentgt"].points.clear();
+    cleartmpmap( tmpmap );
     return ret;
 }
 
@@ -1869,12 +1869,8 @@ int editmap::edit_mapgen()
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
 void editmap::cleartmpmap( tinymap & tmpmap ) {
-    for(int x = 0; x < 2; x++) {
-       for(int y = 0; y < 2; y++) {
-          int snonant = x + y * 2;
-          submap *srcsm = tmpmap.getsubmap(snonant);
-          srcsm->vehicles.clear();
-       }
+    for( auto &smap : tmpmap.grid ) {
+        delete smap;
     }
 
     memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));

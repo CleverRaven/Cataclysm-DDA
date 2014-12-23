@@ -5,7 +5,7 @@
     "ident": "no_olg_guns",
     "name": "No Antique Firearms",
     "author": "Rivet-the-Zombie",
-    "description": "Removes antique firearms and those that are no longer in production",
+    "description": "Removes antique firearms and those that are no longer in production.",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",
@@ -23,6 +23,7 @@
         "36navy",
         "44army",
         "rifle_flintlock",
+        "carbine_flintlock",
         "pistol_flintlock",
         "flintlock_ammo",
         "32_acp",

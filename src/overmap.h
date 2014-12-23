@@ -271,7 +271,13 @@ class overmap
     point const& pos() const { return loc; }
 
     void save() const;
-    void first_house(int &x, int &y, const std::string start_location);
+
+    /**
+     * @return The (local) overmap terrain coordinates of a randomly
+     * chosen place on the overmap with the specific overmap terrain.
+     * Returns @ref invalid_tripoint if no suitable place has been found.
+     */
+    tripoint find_random_omt( const std::string &omt_base_type ) const;
 
     void process_mongroups(); // Makes them die out, maybe more
     void move_hordes();
@@ -382,20 +388,13 @@ public:
   bool nullbool;
   std::string nullstr;
 
-    struct monster_data {
-        // relative to the position of this overmap,
-        // in submap coordinates.
-        int x;
-        int y;
-        int z;
-        monster mon;
-    };
     /**
      * When monsters despawn during map-shifting they will be added here.
      * map::spawn_monsters will load them and place them into the reality bubble
      * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
      */
-    std::vector<monster_data> monsters;
+    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
   // Initialise
@@ -419,7 +418,7 @@ public:
    * It will be marked specially.
    * @param debug_monstergroups Displays monster groups on the overmap.
    */
-  static void draw(WINDOW *w, const tripoint &center,
+  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, bool debug_monstergroups = false,
             const int iZoneIndex = -1);
@@ -444,7 +443,7 @@ public:
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
   void building_on_hiway(int x, int y, int dir);
   // Polishing
-  bool check_ot_type(const std::string &otype, int x, int y, int z);
+  bool check_ot_type(const std::string &otype, int x, int y, int z) const;
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");

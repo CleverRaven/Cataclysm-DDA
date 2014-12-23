@@ -52,14 +52,16 @@ class calendar
         int year;
         // End data
 
+        void sync(); // Synchronize all variables to the turn_number
+
     public:
         calendar();
-        calendar(const calendar &copy);
+        calendar(const calendar &copy) = default;
         calendar(int Minute, int Hour, int Day, season_type Season, int Year);
         calendar(int turn);
         int get_turn() const;
         operator int() const; // Returns get_turn() for backwards compatibility
-        calendar &operator = (const calendar &rhs);
+        calendar &operator = (const calendar &rhs) = default;
         calendar &operator = (int rhs);
         calendar &operator -=(const calendar &rhs);
         calendar &operator -=(int rhs);
@@ -73,10 +75,6 @@ class calendar
         bool      operator ==(const calendar &rhs) const;
 
         void increment();   // Add one turn / 6 seconds
-
-        int getHour(); // return hour
-        
-        void sync(); // Synchronize all variables to the turn_number
 
         // Sunlight and day/night calculations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
@@ -138,6 +136,7 @@ class calendar
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
 
+        static   calendar start;
         static   calendar turn;
 };
 #endif

@@ -1,12 +1,13 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "itype.h"
 #include "json.h"
 #include <string>
 
 #define MIN_MORALE_READ (-40)
 #define MIN_MORALE_CRAFT (-50)
+
+struct itype;
 
 enum morale_type
 {
@@ -56,6 +57,7 @@ enum morale_type
 
     MORALE_MOODSWING,
     MORALE_BOOK,
+    MORALE_COMFY,
 
     MORALE_SCREAM,
 
@@ -85,55 +87,11 @@ class morale_point : public JsonSerializer, public JsonDeserializer
             type (T), item_type (I), bonus (B), duration(D), decay_start(DS), age(A) {};
 
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin)
-        {
-            JsonObject jo = jsin.get_object();
-            type = (morale_type)jo.get_int("type_enum");
-            std::string tmpitype;
-            if ( jo.read("item_type", tmpitype) &&
-                 itypes.find(tmpitype) != itypes.end() ) {
-                item_type = itypes[tmpitype];
-            }
-            jo.read("bonus", bonus);
-            jo.read("duration", duration);
-            jo.read("decay_start", decay_start);
-            jo.read("age", age);
-        }
+        void deserialize(JsonIn &jsin);
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const
-        {
-            json.start_object();
-            json.member("type_enum", (int)type);
-            if (item_type != NULL) {
-                json.member("item_type", item_type->id);
-            }
-            json.member("bonus", bonus);
-            json.member("duration", duration);
-            json.member("decay_start", decay_start);
-            json.member("age", age);
-            json.end_object();
-        }
+        void serialize(JsonOut &json) const;
 
-        std::string name(std::string morale_data[])
-        {
-            // Start with the morale type's description.
-            std::string ret = morale_data[type];
-
-            // Get the name of the referenced item (if any).
-            std::string item_name = "";
-            if (item_type != NULL) {
-                item_name = item_type->nname(1);
-            }
-
-            // Replace each instance of %i with the item's name.
-            size_t it = ret.find("%i");
-            while (it != std::string::npos) {
-                ret.replace(it, 2, item_name);
-                it = ret.find("%i");
-            }
-
-            return ret;
-        }
+        std::string name() const;
 };
 
 #endif

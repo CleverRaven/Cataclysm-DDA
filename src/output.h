@@ -6,6 +6,7 @@
 #include <cstdarg>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "item.h"
 #include "ui.h"
@@ -51,10 +52,31 @@ extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal cha
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
+extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+
+struct delwin_functor {
+    void operator()( WINDOW *w ) const;
+};
+/**
+ * A Wrapper around the WINDOW pointer, it automatically deletes the
+ * window (see delwin_functor) when the variable gets out of scope.
+ * This includes calling werase, wrefresh and delwin.
+ * Usage:
+ * 1. Acquire a WINDOW pointer via @ref newwin like normal, store it in a pointer variable.
+ * 2. Create a variable of type WINDOW_PTR *on the stack*, initialize it with the pointer from 1.
+ * 3. Do the usual stuff with window, print, update, etc. but do *not* call delwin on it.
+ * 4. When the function is left, the WINDOW_PTR variable is destroyed, and its destructor is called,
+ *    it calls werase, wrefresh and most importantly delwin to free the memory associated wit the pointer.
+ * To trigger the delwin call earlier call some_window_ptr.reset().
+ * To prevent the delwin call when the function is left (because the window is already deleted or, it should
+ * not be deleted), call some_window_ptr.release().
+ */
+typedef std::unique_ptr<WINDOW, delwin_functor> WINDOW_PTR;
 
 enum game_message_type {
-    m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
-    m_bad,      /* something bad happened to the player character, eg. health boost, increasing in skill */
+    m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
                   eg. gaining a mutation with mixed effect*/
     m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
@@ -73,6 +95,28 @@ enum game_message_type {
 
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
+
+/**
+ * Print text with embedded color tags, x, y are in curses system.
+ * The text is not word wrapped, but may automatically be wrapped on new line characters or
+ * when it reaches the border of the window (both is done by the curses system).
+ * If the text contains no color tags, it's equivalent to a simple mvprintz.
+ * @param text The text to print.
+ * @param cur_color The current color (could have been set by a previously encountered color tag),
+ * change to a color according to the color tags that are in the text.
+ * @param base_color Base color that is used outside of any color tag.
+ **/
+void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color, const std::string &text );
+/**
+ * Print word wrapped text (with color tags) into the window.
+ * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
+ * @param base_color Color used outside of any color tags.
+ * @param scroll_msg Optional, can be empty. If not empty and the text does not fit the window, the string is printed
+ * on the last line (in light green), it should show how to scroll the text.
+ * @return The maximal scrollable offset ([number of lines to be printed] - [lines available in the window]).
+ * This allows the caller to restrict the begin_line number on future calls / when modified by the user.
+ */
+int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg );
 
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,

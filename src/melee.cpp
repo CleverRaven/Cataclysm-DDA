@@ -35,7 +35,7 @@ std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, i
 
 bool player::is_armed() const
 {
- return (weapon.typeId() != "null");
+    return (weapon.typeId() != "null");
 }
 
 bool player::handle_melee_wear()
@@ -98,8 +98,8 @@ bool player::handle_melee_wear()
                                     _("<npcname>'s %s is destroyed by the blow!"),
                                     weapon.tname().c_str());
             // Dump its contents on the ground
-            for (size_t i = 0; i < weapon.contents.size(); i++) {
-                g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+            for( auto &elem : weapon.contents ) {
+                g->m.add_item_or_charges( posx, posy, elem );
             }
             remove_weapon();
         }
@@ -194,9 +194,9 @@ int player::hit_roll() const
     // Drunken master makes us hit better
     if (has_trait("DRUNKEN")) {
         if (unarmed_attack()) {
-            numdice += int(disease_duration("drunk") / 300);
+            numdice += int(get_effect_dur("drunk") / 300);
         } else {
-            numdice += int(disease_duration("drunk") / 400);
+            numdice += int(get_effect_dur("drunk") / 400);
         }
     }
 
@@ -483,8 +483,8 @@ bool player::scored_crit(int target_dodge)
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
-  num_crits++;
+ if (rng(0, 99) < chance)
+   num_crits++;
 
 // Dexterity to-hit roll
 // ... except sometimes we don't use dexterity!
@@ -528,7 +528,7 @@ bool player::scored_crit(int target_dodge)
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
+ if (rng(0, 99) < chance)
   num_crits++;
 
  if (num_crits == 3)
@@ -549,32 +549,67 @@ int player::get_dodge() const
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
     //If we're asleep or busy we can't dodge
-    if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
+    if (in_sleep_state()) {
+        return 0;
+    }
     if (activity.type != ACT_NULL) {return 0;}
 
-    return Creature::get_dodge();
+    int ret = Creature::get_dodge();
+    
+    // Chop in half if we are unable to move
+    if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
+        ret /= 2;
+    }
+    return ret;
 }
 
 int player::dodge_roll()
 {
     if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level("dodge")) / 3 )) ||
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        if (!has_effect("downed")) {
+            // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
+            if (has_trait("PROF_SKATER")) {
+                if (one_in(3)) {
+                    if (!has_effect("downed")) {
+                        add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                        add_effect("downed", 2);
+                    }
+                }
+                else {
+                    add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+                }
+            } else {
+                if (!has_effect("downed")) {
+                    add_msg_if_player(_("Fighting on wheels is hard!"));
+                    add_effect("downed", 3);
+                }
+            }
         }
-        add_disease("downed", 3);
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        if (has_trait("PROF_SKATER")) {
+            if (one_in(3)) {
+                if (!has_effect("downed")) {
+                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                    add_effect("downed", 2);
+                }
+            }
+            else {
+                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+            }
+        } else {
+            if (!has_effect("downed")) {
+                add_msg_if_player(_("Fighting on wheels is hard!"));
+                add_effect("downed", 3);
+            }
         }
-        add_disease("downed", 3);
     }
     if (has_effect("bouldering")) {
         if(one_in(get_dex())) {
             add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
-            add_disease("downed", 3);
+            add_effect("downed", 3);
             return 0;
         }
     }
@@ -629,15 +664,16 @@ int player::roll_bash_damage(bool crit)
     ret = base_damage(true, stat);
 
     // Drunken Master damage bonuses
-    if (has_trait("DRUNKEN") && has_disease("drunk")) {
+    if (has_trait("DRUNKEN") && has_effect("drunk")) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk, maxdrunk;
+        int drunk_dur = get_effect_dur("drunk");
         if (unarmed_attack()) {
-            mindrunk = disease_duration("drunk") / 600;
-            maxdrunk = disease_duration("drunk") / 250;
+            mindrunk = drunk_dur / 600;
+            maxdrunk = drunk_dur / 250;
         } else {
-            mindrunk = disease_duration("drunk") / 900;
-            maxdrunk = disease_duration("drunk") / 400;
+            mindrunk = drunk_dur / 900;
+            maxdrunk = drunk_dur / 400;
         }
         ret += rng(mindrunk, maxdrunk);
     }
@@ -645,14 +681,20 @@ int player::roll_bash_damage(bool crit)
     int bash_dam = int(stat / 2) + weapon.damage_bash(),
         bash_cap = 5 + stat + skill;
 
-    if (unarmed_attack())
-        bash_dam = rng(0, int(stat / 2) + unarmed_skill);
-    else
+    if (unarmed_attack()) {
+        if (weapon.has_flag("UNARMED_WEAPON")) {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
+        } else {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill);
+        }
+    } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if (bashing_skill <= 5)
+        if (bashing_skill <= 5) {
             ret *= 0.8 + 0.08 * bashing_skill;
-        else
+        } else {
             ret *= 0.92 + 0.04 * bashing_skill;
+        }
+    }
 
     if (crit) {
         bash_dam *= 1.5;
@@ -676,8 +718,6 @@ int player::roll_bash_damage(bool crit)
 
     ret += bash_dam;
 
-    ret += disease_intensity("damage_boost");
-
     // Finally, extra crit effects
     if (crit) {
         ret += int(stat / 2);
@@ -697,14 +737,12 @@ int player::roll_cut_damage(bool crit)
     int cutting_skill = get_skill_level("cutting");
     int unarmed_skill = get_skill_level("unarmed");
 
-    if (has_active_bionic("bio_cqb"))
-    {
+    if (has_active_bionic("bio_cqb")) {
         cutting_skill = 5;
-        unarmed_skill = 5;
     }
 
     if (unarmed_attack()) {
-        if (wearing_something_on(bp_hand_l)) {
+        if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
@@ -713,13 +751,17 @@ int player::roll_cut_damage(bool crit)
             }
             if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
+            // Stainless Steel Claws do stabbing damage, too.
+            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+                ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
             }
         }
-        if (wearing_something_on(bp_hand_r)) {
+        if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
@@ -728,6 +770,9 @@ int player::roll_cut_damage(bool crit)
             }
             if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
+            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+                ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if (has_trait("SLIME_HANDS")) {
@@ -757,32 +802,45 @@ int player::roll_stab_damage(bool crit)
     double ret = 0;
     //TODO: armor formula is z->get_armor_cut() - 3 * get_skill_level("stabbing")
 
-    if (unarmed_attack()) {
-        ret = 0;
-        if (!wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-                ret += 3;
-            if (has_trait("NAILS"))
-                ret += .5;
-            if (has_bionic("bio_razors"))
-                ret += 2;
-            if (has_trait("THORNS"))
-                ret += 2;
-        }
-        if (!wearing_something_on(bp_hand_r)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-                ret += 3;
-            if (has_trait("NAILS"))
-                ret += .5;
-            if (has_bionic("bio_razors"))
-                ret += 2;
-            if (has_trait("THORNS"))
-                ret += 2;
-        }
-    } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
+    int unarmed_skill = get_skill_level("unarmed");
+    int stabbing_skill = get_skill_level("stabbing");
+
+    if (has_active_bionic("bio_cqb")) {
+        stabbing_skill = 5;
+    }
+    
+    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
         ret = weapon.damage_cut();
-    else
-        return 0; // Can't stab at all!
+    }
+    
+    if (unarmed_attack()) {
+        if (!wearing_something_on(bp_hand_l)) {
+            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
+                ret += 3;
+            } if (has_trait("NAILS")) {
+                ret += .5;
+            } if (has_bionic("bio_razors")) {
+                ret += 2;
+            } if (has_trait("THORNS")) {
+                ret += 2;
+            } if (has_trait("CLAWS_ST")) {
+                ret += 3 + (unarmed_skill / 2);
+            }
+        }
+        if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
+            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
+                ret += 3;
+            } if (has_trait("NAILS")) {
+                ret += .5;
+            } if (has_bionic("bio_razors")) {
+                ret += 2;
+            } if (has_trait("THORNS")) {
+                ret += 2;
+            } if (has_trait("CLAWS_ST")) {
+                ret += 3 + (unarmed_skill / 2);
+            }
+        }
+    }
 
     /* TODO: add this bonus back in
     if (z != NULL && z->speed > 100) { // Bonus against fast monsters
@@ -797,11 +855,6 @@ int player::roll_stab_damage(bool crit)
 
     if (ret <= 0)
         return 0; // No negative stabbing!
-
-    int stabbing_skill = get_skill_level("stabbing");
-
-    if (has_active_bionic("bio_cqb"))
-        stabbing_skill = 5;
 
     // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
     if (stabbing_skill <= 5)
@@ -829,8 +882,9 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
     int stuck_cost = weapon_speed;
     int attack_skill = stabbing ? get_skill_level("stabbing") : get_skill_level("cutting");
 
-    if (has_active_bionic("bio_cqb"))
+    if (has_active_bionic("bio_cqb")) {
         attack_skill = 5;
+    }
 
     const float cut_damage = weapon.damage_cut();
     const float bash_damage = weapon.damage_bash();
@@ -852,10 +906,15 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
         // Slicing weapons assumed to have a very low chance of sticking.
         stuck_cost *= 0.25;
     }
-    else if( weapon.has_flag("STAB") || weapon.has_flag("SPEAR") )
+    else if( weapon.has_flag("STAB"))
     {
         // Stabbing has a moderate change of sticking.
         stuck_cost *= 0.50;
+    }
+    else if( weapon.has_flag("SPEAR"))
+    {
+        // Spears should be a bit easier to manage
+        stuck_cost *= 0.25;
     }
     else if( weapon.has_flag("CHOP") )
     {
@@ -1246,9 +1305,8 @@ void player::dodge_hit(Creature *source, int) {
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     //Shouldn't block if player is asleep; this only seems to be used by player.
-    //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep")) {
+    if (blocks_left < 1 || in_sleep_state()) {
         return false;
     }
     blocks_left--;
@@ -1292,39 +1350,38 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     float total_damage = 0.0;
     float damage_blocked = 0.0;
-    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-            it != dam.damage_units.end(); ++it) {
-        total_damage += it->amount;
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount;
         // block physical damage "normally"
-        if( it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB ) {
+        if( elem.type == DT_BASH || elem.type == DT_CUT || elem.type == DT_STAB ) {
             // use up our flat block bonus first
-            float block_amount = std::min(total_phys_block, it->amount);
+            float block_amount = std::min( total_phys_block, elem.amount );
             total_phys_block -= block_amount;
-            it->amount -= block_amount;
+            elem.amount -= block_amount;
             damage_blocked += block_amount;
-            if( it->amount <= std::numeric_limits<float>::epsilon() ) {
+            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
                 continue;
             }
 
-            float previous_amount = it->amount;
-            it->amount *= physical_block_multiplier;
-            damage_blocked += previous_amount - it->amount;
+            float previous_amount = elem.amount;
+            elem.amount *= physical_block_multiplier;
+            damage_blocked += previous_amount - elem.amount;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
-        } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
+        } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             //TODO: should damage weapons if blocked
             if (!unarmed_attack() && can_weapon_block()) {
-                float previous_amount = it->amount;
-                it->amount /= 5;
-                damage_blocked += previous_amount - it->amount;
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
             }
         // electrical damage deals full damage if unarmed OR wielding a
         // conductive weapon
-        } else if (it->type == DT_ELECTRIC) {
+        } else if( elem.type == DT_ELECTRIC ) {
             if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
-                float previous_amount = it->amount;
-                it->amount /= 5;
-                damage_blocked += previous_amount - it->amount;
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
             }
         }
     }
@@ -1408,18 +1465,17 @@ void player::perform_special_attacks(Creature &t)
 
  std::string target = t.disp_name();
 
- for (size_t i = 0; i < special_attacks.size(); i++) {
+ for( auto &special_attack : special_attacks ) {
   dealt_damage_instance dealt_dam;
 
   int hit_spread = t.deal_melee_attack(this, hit_roll() * 0.8);
   if (hit_spread >= 0)
-      t.deal_melee_hit(this, hit_spread, false, damage_instance::physical(
-            special_attacks[i].bash,
-            special_attacks[i].cut,
-            special_attacks[i].stab
-        ), dealt_dam);
+      t.deal_melee_hit(
+          this, hit_spread, false,
+          damage_instance::physical( special_attack.bash, special_attack.cut, special_attack.stab ),
+          dealt_dam );
   if (dealt_dam.total_damage() > 0)
-      add_msg_if_player(m_good, special_attacks[i].text.c_str());
+      add_msg_if_player( m_good, special_attack.text.c_str() );
 
   if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB) > 0 ))
@@ -1427,13 +1483,13 @@ void player::perform_special_attacks(Creature &t)
  }
 
  if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
-    if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
+    if (has_trait("POISONOUS")) {
         t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-        t.add_effect("poisoned", 6);
+        t.add_effect("poison", 6);
     }
-    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+    else if (has_trait("POISONOUS2")) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poisoned", 6);
+        t.add_effect("nasty_poison", 6);
     }
  }
 }
@@ -1526,8 +1582,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
 
         g->sound(posx, posy, 16, "");
         // Dump its contents on the ground
-        for (size_t i = 0; i < weapon.contents.size(); i++) {
-            g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+        for( auto &elem : weapon.contents ) {
+            g->m.add_item_or_charges( posx, posy, elem );
         }
         // Take damage
         deal_damage(this, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
@@ -1545,7 +1601,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
-
+    
+    int stabbing_skill = get_skill_level("stabbing");
+    
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
@@ -1602,8 +1660,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(),
                                   target.c_str());
         }
-        if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
-            t.mod_moves(-30);
+        if (weapon.has_flag("STAB")) {
+            t.mod_moves(-20); //slightly quicker to pull out a knife
+        }
+        else if (weapon.has_flag("SPEAR")) {
+          d.add_damage(DT_CUT, rng(1,stabbing_skill)); //add some extra damage for pulling out a spear
+          t.mod_moves(-30);
         }
     }
     if (cutting_penalty > 0) {
@@ -1640,10 +1702,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     }
 
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
-    // Ursine/Feline, not so much
+    // Ursine/Feline, not so much.  Rat is marginally better.
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
-        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
+        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
           one_in(20 - dex_cur - get_skill_level("unarmed"))) ||
+         (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
         special_attack tmp;
@@ -1656,6 +1719,24 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s sinks her fangs into %s!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+
+    if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+        (!wearing_something_on(bp_mouth))) {
+        special_attack tmp;
+        tmp.cut = 3;
+        tmp.bash = 3;
+        if (is_player()) {
+            tmp.text = string_format(_("You bite into %s with your ratlike incisors!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites %s with his ratlike incisors!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s bites %s with her ratlike incisors!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -2216,8 +2297,6 @@ int attack_speed(player &u)
   move_cost *= .9;
  if (u.has_trait("HOLLOW_BONES"))
   move_cost *= .8;
-
- move_cost -= u.disease_intensity("speed_boost");
 
  if (move_cost < 25)
   return 25;

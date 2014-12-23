@@ -74,9 +74,12 @@ bool trap::detect_trap(const player &p, int x, int y) const
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...
-           (p.has_disease("lack_sleep") ? rng(1, 5) : 0) -
+           (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
-           rl_dist(p.posx, p.posy, x, y) >
+           rl_dist(p.posx, p.posy, x, y) +
+           // Police are trained to notice Something Wrong.
+           (p.has_trait("PROF_POLICE") ? 1 : 0) +
+           (p.has_trait("PROF_PD_DET") ? 2 : 0) >
            // ...must all be greater than the trap visibility.
            visibility;
 }
@@ -104,6 +107,7 @@ tr_cot,
 tr_brazier,
 tr_funnel,
 tr_makeshift_funnel,
+tr_leather_funnel,
 tr_rollmat,
 tr_fur_rollmat,
 tr_beartrap,
@@ -147,6 +151,7 @@ void set_trap_ids()
     tr_brazier = trapfind("tr_brazier");
     tr_funnel = trapfind("tr_funnel");
     tr_makeshift_funnel = trapfind("tr_makeshift_funnel");
+    tr_leather_funnel = trapfind("tr_leather_funnel");
     tr_rollmat = trapfind("tr_rollmat");
     tr_fur_rollmat = trapfind("tr_fur_rollmat");
     tr_beartrap = trapfind("tr_beartrap");
@@ -183,10 +188,9 @@ void set_trap_ids()
     tr_glass_pit = trapfind("tr_glass_pit");
 
     // Set ter_t.trap using ter_t.trap_id_str.
-    for( std::vector<ter_t>::iterator terrain = terlist.begin();
-         terrain != terlist.end(); ++terrain ) {
-        if( terrain->trap_id_str.length() != 0 ) {
-            terrain->trap = trapfind( terrain->trap_id_str );
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.length() != 0 ) {
+            elem.trap = trapfind( elem.trap_id_str );
         }
     }
 }

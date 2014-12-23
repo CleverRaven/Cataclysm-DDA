@@ -6,12 +6,6 @@
 #include <fstream>
 #include <stdexcept>
 
-std::vector<std::string> artifact_itype_ids;
-std::vector<std::string> standard_itype_ids;
-
-std::map<std::string, itype *> itypes;
-
-
 // Members of iuse struct, which is slowly morphing into a class.
 bool itype::has_use() const
 {
@@ -33,83 +27,66 @@ bool itype::can_use( std::string iuse_name ) const
                       *func ) != use_methods.cend();
 }
 
-bool itype::is_covering(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
-    }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->covers.test(bp);
-}
-
-
-bool itype::is_sided(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
-    }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->sided.test(bp);
-}
-
-int itype::invoke( player *p, item *it, bool active )
+int itype::invoke( player *p, item *it, bool active, point pos )
 {
     int charges_to_use = 0;
     for( auto method = use_methods.begin();
          charges_to_use >= 0 && method != use_methods.end(); ++method ) {
-        charges_to_use = method->call( p, it, active );
+        charges_to_use = method->call( p, it, active, pos );
     }
     return charges_to_use;
 }
 
 
-void game::init_itypes ()
+void Item_factory::init_old()
 {
+    auto &itypes = m_templates; // So I don't have to change that in the code below
 
+    std::vector<std::string> no_materials = { "null" };
 
     // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
-    itypes["null"] =
-        new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    add_item_type(
+        new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
+                  0, 0, 0, 0, 0) );
+    itypes["null"]->item_tags.insert( "PSEUDO" );
     // Corpse - a special item
-    itypes["corpse"] =
-        new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white, "null", "null", PNULL,
-                  0, 0,
-                  0, 0, 1);
+    add_item_type(
+        new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white,
+                  no_materials, PNULL, 0, 0, 0, 0, 1) );
     itypes["corpse"]->item_tags.insert("NO_UNLOAD");
-    // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
-    itypes["corpse"]->corpse = GetMType("mon_null");
+    itypes["corpse"]->item_tags.insert( "PSEUDO" );
     // Fire - only appears in crafting recipes
-    itypes["fire"] =
+    add_item_type(
         new itype("fire", 0, "nearby fire", "none",
                   "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
+    itypes["fire"]->item_tags.insert( "PSEUDO" );
     // Integrated toolset - ditto
-    itypes["toolset"] =
+    add_item_type(
         new itype("toolset", 0, "integrated toolset", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
+    itypes["toolset"]->item_tags.insert( "PSEUDO" );
+    itypes["toolset"]->qualities[ "WRENCH" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M_FINE" ] = 1;
     // For smoking drugs
-    itypes["apparatus"] =
+    add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
+    itypes["apparatus"]->item_tags.insert( "PSEUDO" );
     // For CVD Forging
-    itypes["cvd_machine"] =
+    add_item_type(
         new itype("cvd_machine", 0, "cvd machine", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
+    itypes["cvd_machine"]->item_tags.insert( "PSEUDO" );
 
     // SOFTWARE
 #define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
-    itypes[id]=new it_software(id, price, name, name_plural, description,\
-                               ' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
-
-    //Macguffins
-#define MACGUFFIN(id, name, name_plural, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
-                  to_hit, readable, function, description) \
-itypes[id]=new it_macguffin(id, price, name, name_plural, description,\
-                            sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
-                            function)
+    add_item_type( new it_software(id, price, name, name_plural, description,' ', c_white,\
+                                   no_materials, 0, 0, 0, 0, 0, swtype, power) )
 
     SOFTWARE("software_useless", "misc software", "none", 300, SW_USELESS, 0, _("\
 A miscellaneous piece of hobby software. Probably useless."));
@@ -126,19 +103,15 @@ A piece of mathematical software."));
     SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
 Medical data on zombie blood."));
 
-    MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
-              true, &iuse::mcg_note, _("\
-A hand-written paper note."));
-
-    // Finally, add all the keys from the map to a vector of all possible items
-    for(std::map<std::string, itype *>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter) {
-        if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" ||
-           iter->first == "fire" || iter->first == "apparatus") {
-            // pseudo item, do not add to standard_itype_ids
-        } else {
-            standard_itype_ids.push_back(iter->first);
-        }
-    }
+    itype *m_missing_item = new itype();
+    // intentionally left untranslated
+    // because using _() at global scope is problematic,
+    // and if this appears it's a bug anyway.
+    m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->name_plural = "Error: Item Missing.";
+    m_missing_item->description =
+        "There is only the space where an object should be, but isn't. No item template of this type exists.";
+    add_item_type( m_missing_item );
 }
 
 std::string ammo_name(std::string t)

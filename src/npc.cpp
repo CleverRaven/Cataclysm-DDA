@@ -9,7 +9,7 @@
 #include "skill.h"
 #include "output.h"
 #include "line.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "translations.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
@@ -60,9 +60,8 @@ npc::npc()
  myclass = NC_NONE;
  patience = 0;
  restock = -1;
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-   set_skill_level(*aSkill, 0);
+ for( auto &skill : Skill::skills ) {
+     set_skill_level( skill, 0 );
  }
 }
 
@@ -208,24 +207,24 @@ void npc::randomize(npc_class type)
  myclass = type;
  switch (type) { // Type of character
  case NC_NONE: // Untyped; no particular specialization
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(4, 2) - rng(1, 4);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   break;
 
  case NC_EVAC_SHOPKEEP:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
@@ -239,13 +238,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_ARSONIST:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
@@ -261,13 +260,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_HUNTER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("barter", rng(2, 5));
   boost_skill_level("gun", rng(2, 4));
@@ -284,13 +283,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_HACKER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("electronics", rng(1, 4));
   boost_skill_level("computer", rng(3, 6));
@@ -303,13 +302,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_DOCTOR:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(3, 2) - rng(1, 3);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("firstaid", rng(2, 6));
   str_max -= rng(0, 2);
@@ -322,13 +321,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_TRADER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("mechanics", rng(0, 2));
   boost_skill_level("electronics", rng(0, 2));
@@ -341,13 +340,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_NINJA:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("dodge", rng(2, 4));
   boost_skill_level("melee", rng(1, 4));
@@ -362,13 +361,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_COWBOY:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
@@ -381,13 +380,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_SCIENTIST:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 4;
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("computer", rng(0, 3));
   boost_skill_level("electronics", rng(0, 3));
@@ -410,13 +409,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_BOUNTY_HUNTER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
   boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
@@ -425,13 +424,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_THUG:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   str_max -= rng(2, 4);
   dex_max -= rng(0, 2);
@@ -446,13 +445,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_SCAVENGER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
   boost_skill_level("pistol", rng(2, 5));
@@ -680,10 +679,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-       aSkill != Skill::skills.end(); ++aSkill) {
+  for( auto &skill : Skill::skills ) {
    if (one_in(3))
-    boost_skill_level(*aSkill, rng(2, 4));
+       boost_skill_level( skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -719,100 +717,71 @@ void npc::set_fac(std::string fac_name)
     fac_id = my_fac->id;
 }
 
-std::vector<item> starting_clothes(npc_class type, bool male)
+// item id from group "<class-name>_<what>" or from fallback group
+// may still be a null item!
+item random_item_from( npc_class type, const std::string &what, const std::string &fallback )
 {
- std::vector<item> ret;
- itype_id pants = "null",
-          shoes = "null",
-          shirt = "null",
-          gloves = "null",
-          coat = "null",
-          mask = "null",
-          glasses = "null",
-          hat = "null",
-          extras = "null";
+    auto result = item_group::item_from( npc_class_name_str( type ) + "_" + what );
+    if( result.is_null() ) {
+        result = item_group::item_from( fallback );
+    }
+    return result;
+}
 
- pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
- if (!male) {
-     pants = item_controller->id_from(npc_class_name_str(type)+"_pants_female");
- }
- if (pants == "MISSING_ITEM"){
-     if (male)
-        pants = item_controller->id_from("npc_pants_male");
-     else
-        pants = item_controller->id_from("npc_pants_female");
- }
+// item id from "<class-name>_<what>" or from "npc_<what>"
+item random_item_from( npc_class type, const std::string &what )
+{
+    return random_item_from( type, what, "npc_" + what );
+}
 
- shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_male");
- if (!male)
-     shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_female");
- if (shirt == "MISSING_ITEM"){
-     if (male)
-        shirt = item_controller->id_from("npc_shirt_male");
-     else
-        shirt = item_controller->id_from("npc_shirt_female");
- }
+// item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
+item get_clothing_item( npc_class type, const std::string &what, bool male )
+{
+    if( male ) {
+        return random_item_from( type, what + "_male", "npc_" + what + "_male" );
+    } else {
+        return random_item_from( type, what + "_female", "npc_" + what + "_female" );
+    }
+}
 
- gloves = item_controller->id_from(npc_class_name_str(type)+"_gloves");
- if (gloves == "MISSING_ITEM"){
-    gloves = item_controller->id_from("npc_gloves");
- }
+std::vector<item> starting_clothes( npc_class type, bool male )
+{
+    std::vector<item> ret;
 
- coat = item_controller->id_from(npc_class_name_str(type)+"_coat");
- if (coat == "MISSING_ITEM"){
-    coat = item_controller->id_from("npc_coat");
- }
+    item pants = get_clothing_item( type, "pants", male);
+    item shirt = get_clothing_item( type, "shirt", male );
+    item gloves = random_item_from( type, "gloves" );
+    item coat = random_item_from( type, "coat" );
+    item shoes = random_item_from( type, "shoes" );
+    item mask = random_item_from( type, "masks" );
+    // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
+    item glasses = random_item_from( type, "glasses", "npc_eyes" );
+    item hat = random_item_from( type, "hat" );
+    item extras = random_item_from( type, "extra" );
 
- shoes = item_controller->id_from(npc_class_name_str(type)+"_shoes");
- if (shoes == "MISSING_ITEM"){
-    shoes = item_controller->id_from("npc_shoes");
- }
-
- mask = item_controller->id_from(npc_class_name_str(type)+"_masks");
- if (mask == "MISSING_ITEM"){
-    mask = item_controller->id_from("npc_masks");
- }
-
- glasses = item_controller->id_from(npc_class_name_str(type)+"_glasses");
- if (glasses == "MISSING_ITEM"){
-    glasses = item_controller->id_from("npc_eyes");
- }
-
- hat = item_controller->id_from(npc_class_name_str(type)+"_hat");
- if (hat == "MISSING_ITEM"){
-    hat = item_controller->id_from("npc_hat");
- }
-
- extras = item_controller->id_from(npc_class_name_str(type)+"_extra");
- if (extras == "MISSING_ITEM"){
-    extras = item_controller->id_from("npc_extra");
- }
-// Fill in the standard things we wear
- if (shoes != "null")
-  ret.push_back(item(shoes, 0));
- if (pants != "null")
-  ret.push_back(item(pants, 0));
- if (shirt != "null")
-  ret.push_back(item(shirt, 0));
- if (coat != "null")
-  ret.push_back(item(coat, 0));
- if (gloves != "null")
-  ret.push_back(item(gloves, 0));
-// Bad to wear a mask under a motorcycle helmet
- if (mask != "null" && hat != "helmet_motor")
-  ret.push_back(item(mask, 0));
- if (glasses != "null")
-  ret.push_back(item(glasses, 0));
- if (hat != "null")
-  ret.push_back(item(hat, 0));
- if (extras != "null")
-  ret.push_back(item(extras, 0));
+    // Fill in the standard things we wear
+    ret.push_back( shoes );
+    ret.push_back( pants );
+    ret.push_back( shirt );
+    ret.push_back( coat );
+    ret.push_back( gloves );
+    // Bad to wear a mask under a motorcycle helmet
+    if( hat.typeId() != "helmet_motor" ) {
+        ret.push_back( mask );
+    }
+    ret.push_back( glasses );
+    ret.push_back( hat );
+    ret.push_back( extras );
 
     // the player class and other code all over the place assume that the
     // worn vector contains *only* armor items. It will *crash* when there
     // is a non-armor item!
+    // Also: the above might have added null-items that must be filtered out.
     for( auto it = ret.begin(); it != ret.end(); ) {
-        if( it->is_armor() ) {
+        if( !it->is_null() && it->is_armor() ) {
+            if( one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
+                it->item_tags.insert( "FIT" );
+            }
             ++it;
         } else {
             it = ret.erase( it );
@@ -831,8 +800,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
-  it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
-  tmp = default_ammo(gun->ammo);
+  tmp = default_ammo(me->weapon.type->gun->ammo);
   if (tmp == "" || tmp == "UPS"){
     add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
   }else {
@@ -864,9 +832,13 @@ std::list<item> starting_inv(npc *me, npc_class type)
  }
 
  while (total_space > 0 && !one_in(stopChance)) {
-    tmpitem = item_controller->item_from(npc_class_name_str(type)+"_misc");
-    if (tmpitem.is_null())
-        tmpitem = item_controller->item_from("npc_misc");
+    tmpitem = random_item_from( type, "_misc" );
+    if( tmpitem.is_null() ) {
+        continue;
+    }
+    if( one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
+        tmpitem.item_tags.insert( "FIT" );
+    }
     if (total_space >= tmpitem.volume()) {
         ret.push_back(tmpitem);
         ret.back() = ret.back().in_its_container();
@@ -875,7 +847,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
  }
 
  for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
-  if(item_controller->group_contains_item("trader_avoid", iter->type->id)) {
+  if(item_group::group_contains_item("trader_avoid", iter->type->id)) {
    iter = ret.erase(iter);
    --iter;
   }
@@ -969,15 +941,15 @@ Skill* npc::best_skill()
 {
  std::vector<Skill*> best_skills;
  int highest = 0;
- for (std::vector<Skill*>::iterator iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
+ for( auto &skill : Skill::skills ) {
   //Should check to see if the skill has a "combat_skill" tag
-  if ((*iter)->is_combat_skill()) {
-   if (skillLevel(*iter) > highest) {
-    highest = skillLevel(*iter);
+     if( ( skill )->is_combat_skill() ) {
+         if( skillLevel( skill ) > highest ) {
+             highest = skillLevel( skill );
     best_skills.clear();
-    best_skills.push_back(*iter);
-   } else if (skillLevel(*iter) == highest) {
-    best_skills.push_back(*iter);
+    best_skills.push_back( skill );
+         } else if( skillLevel( skill ) == highest ) {
+             best_skills.push_back( skill );
    }
   }
  }
@@ -988,74 +960,40 @@ Skill* npc::best_skill()
 void npc::starting_weapon(npc_class type)
 {
     Skill* best = best_skill();
-    itype_id sel_weapon = "null";
+    item sel_weapon;
     if (best->ident() == "bashing"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_bashing");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_bashing");
-        }
+        sel_weapon = random_item_from( type, "bashing" );
     } else if (best->ident() == "cutting"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_cutting");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_cutting");
-        }
+        sel_weapon = random_item_from( type, "cutting" );
     } else if (best->ident() == "stabbing"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_stabbing");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_stabbing");
-        }
+        sel_weapon = random_item_from( type, "stabbing" );
     } else if (best->ident() == "throw"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_throw");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_throw");
-        }
+        sel_weapon = random_item_from( type, "throw" );
     } else if (best->ident() == "archery"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_archery");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_archery");
-        }
+        sel_weapon = random_item_from( type, "archery" );
     }else if (best->ident() == "pistol"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_pistols");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("pistols");
-        }
+        sel_weapon = random_item_from( type, "pistols", "pistols" );
     }else if (best->ident() == "shotgun"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_shotgun");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("shotguns");
-        }
+        sel_weapon = random_item_from( type, "shotgun", "shotguns" );
     }else if (best->ident() == "smg"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_smg");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("smg");
-        }
+        sel_weapon = random_item_from( type, "smg", "smg" );
     }else if (best->ident() == "rifle"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_rifle");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("rifles");
-        }
+        sel_weapon = random_item_from( type, "rifle", "rifles" );
     }else if (best->ident() == "launcher"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_launcher");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_launcher");
-        }
+        sel_weapon = random_item_from( type, "launcher" );
     }
 
-    if (sel_weapon == "null"){
-        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_weapon_random");
-        if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("npc_weapon_random");
-        }
+    if (sel_weapon.is_null()){
+        sel_weapon = random_item_from( type, "weapon_random" );
     }
-    weapon = item( sel_weapon, 0 );
+    weapon = sel_weapon;
 
     if (weapon.is_gun())
     {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        const std::string tmp = default_ammo( gun->ammo );
+        const std::string tmp = default_ammo( weapon.type->gun->ammo );
         if( tmp != "" ) {
-            weapon.charges = gun->clip;
-            weapon.curammo = dynamic_cast<it_ammo*>( itypes[tmp] );
+            weapon.charges = weapon.type->gun->clip;
+            weapon.set_curammo( tmp );
         }
     }
 }
@@ -1066,11 +1004,11 @@ bool npc::wear_if_wanted(item it)
         return false;
     }
 
-    it_armor* armor = dynamic_cast<it_armor*>(it.type);
     int max_encumb[num_bp] = {2, 3, 3, 4, 3, 3, 3, 2};
     bool encumb_ok = true;
     for (int i = 0; i < num_bp && encumb_ok; i++) {
-        if (it.covers.test(i) && encumb(body_part(i)) + armor->encumber > max_encumb[i]) {
+        const auto bp = static_cast<body_part>( i );
+        if (it.covers(bp) && encumb(bp) + it.get_encumber() > max_encumb[i]) {
             encumb_ok = false;
         }
     }
@@ -1082,7 +1020,8 @@ bool npc::wear_if_wanted(item it)
     std::vector<int> removal;
     for (size_t i = 0; i < worn.size(); i++) {
         for (int j = 0; j < num_bp; j++) {
-            if (it.covers.test(j) && worn[i].covers.test(j)) {
+            const auto bp = static_cast<body_part>( j );
+            if (it.covers(bp) && worn[i].covers(bp)) {
                 removal.push_back(i);
                 j = num_bp;
             }
@@ -1201,7 +1140,7 @@ void npc::form_opinion(player *u)
  if (u->stim > 20)
   op_of_u.fear++;
 
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   op_of_u.fear -= 2;
 
 // TRUST
@@ -1215,9 +1154,9 @@ void npc::form_opinion(player *u)
  else if (u->unarmed_attack())
   op_of_u.trust += 2;
 
- if (u->has_disease("high"))
+ if (u->has_effect("high"))
   op_of_u.trust -= 1;
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
@@ -1324,7 +1263,7 @@ int npc::player_danger(player *u) const
  if (u->stim > 20)
   ret++;
 
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   ret -= 2;
 
  return ret;
@@ -1412,10 +1351,9 @@ std::vector<Skill*> npc::skills_offered_to(player *p)
  std::vector<Skill*> ret;
  if (p == NULL)
   return ret;
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-  if (p->skillLevel(*aSkill) < skillLevel(*aSkill)) {
-   ret.push_back(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
+         ret.push_back( skill );
   }
  }
  return ret;
@@ -1473,11 +1411,10 @@ bool npc::fac_has_job(faction_job job)
 void npc::decide_needs()
 {
     int needrank[num_needs];
-    for (int i = 0; i < num_needs; i++)
-        needrank[i] = 20;
+    for( auto &elem : needrank )
+        elem = 20;
     if (weapon.is_gun()) {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();
+        needrank[need_ammo] = 5 * has_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
@@ -1602,10 +1539,8 @@ void npc::shop_restock(){
     if (from == "NULL")
         return;
     while (total_space > 0 && !one_in(50)) {
-        Item_tag selected_item = item_controller->id_from(from);
-        item tmpit(selected_item, 0);
-        tmpit = tmpit.in_its_container();
-        if (total_space >= tmpit.volume()) {
+        item tmpit = item_group::item_from( from, 0 );
+        if( !tmpit.is_null() && total_space >= tmpit.volume()) {
             ret.push_back(tmpit);
             total_space -= tmpit.volume();
         }
@@ -1655,25 +1590,25 @@ int npc::value(const item &it)
 
  if (it.is_ammo()) {
   it_ammo* ammo = dynamic_cast<it_ammo*>(it.type);
-  it_gun* gun;
   if (weapon.is_gun()) {
-   gun = dynamic_cast<it_gun*>(weapon.type);
-   if (ammo->type == gun->ammo)
+   if (ammo->type == weapon.type->gun->ammo)
     ret += 14;
   }
-  if (inv.has_gun_for_ammo(ammo->type)) {
+  if (has_gun_for_ammo(ammo->type)) {
    // TODO consider making this cumulative (once was)
    ret += 14;
   }
  }
 
  if (it.is_book()) {
-  it_book* book = dynamic_cast<it_book*>(it.type);
-  if (book->intel <= int_cur) {
-   ret += book->fun;
-   if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)
-    ret += book->level * 3;
-  }
+        auto &book = *it.type->book;
+        if( book.intel <= int_cur ) {
+            ret += book.fun;
+            if( book.skill != nullptr && skillLevel( book.skill ) < book.level &&
+                skillLevel( book.skill ) >= book.req ) {
+                ret += book.level * 3;
+            }
+        }
  }
 
 // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
@@ -1710,8 +1645,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
- return (has_disease("pkill1") || has_disease("pkill2") ||
-         has_disease("pkill3") || has_disease("pkill_l"));
+ return (has_effect("pkill1") || has_effect("pkill2") ||
+         has_effect("pkill3") || has_effect("pkill_l"));
 }
 
 bool npc::is_friend() const
@@ -1752,6 +1687,20 @@ bool npc::is_enemy() const
 bool npc::is_defending() const
 {
  return (attitude == NPCATT_DEFEND);
+}
+
+Creature::Attitude npc::attitude_to( const Creature &other ) const
+{
+    if( other.is_npc() ) {
+        // No npc vs npc action, so simply ignore other npcs
+        return A_NEUTRAL;
+    } else if( other.is_player() ) {
+        // For now, make it symmetric.
+        return other.attitude_to( *this );
+    }
+    // Fallback to use the same logic as player, even through it's wrong:
+    // Hostile (towards the player) npcs should see friendly monsters as hostile, too.
+    return player::attitude_to( other );
 }
 
 int npc::danger_assessment()

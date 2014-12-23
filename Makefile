@@ -18,6 +18,8 @@
 # Build types:
 # Debug (no optimizations)
 #  Default
+# ccache (use compilation caches)
+#  make CCACHE=1
 # Release (turn on optimizations)
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
@@ -73,8 +75,7 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.A
-
+VERSION = 0.B
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
@@ -100,8 +101,13 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -s)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+ifdef CCACHE
+  CXX = ccache $(CROSS)g++
+  LD  = ccache $(CROSS)g++
+else
+  CXX = $(CROSS)g++
+  LD  = $(CROSS)g++
+endif
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
@@ -122,8 +128,13 @@ ifdef CLANG
   ifeq ($(NATIVE), osx)
     OTHERS += -stdlib=libc++
   endif
-  CXX = $(CROSS)clang++
-  LD  = $(CROSS)clang++
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
+  else
+    CXX = $(CROSS)clang++
+    LD  = $(CROSS)clang++
+  endif
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
 
@@ -235,10 +246,10 @@ ifdef LUA
     LDFLAGS += -llua
   else
     # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell pkg-config --silence-errors --libs lua5.1)
-    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua5.1)
-    LDFLAGS += $(shell pkg-config --silence-errors --libs lua-5.1)
-    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua-5.1)
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua5.2)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua5.2)
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua-5.2)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua-5.2)
     LDFLAGS += $(shell pkg-config --silence-errors --libs lua)
     CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua)
   endif
@@ -444,6 +455,7 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif

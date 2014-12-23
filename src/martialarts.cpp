@@ -3,7 +3,6 @@
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
-#include "item_factory.h"
 #include <map>
 #include <string>
 #include <algorithm>
@@ -217,7 +216,7 @@ void check_martialarts()
         }
         for( auto weapon = style->second.weapons.cbegin();
              weapon != style->second.weapons.cend(); ++weapon ) {
-            if( !item_controller->has_template( *weapon ) ) {
+            if( !item::type_is_defined( *weapon ) ) {
                 debugmsg( "Weapon %s in style %s doesn't exist.",
                           weapon->c_str(), style->second.name.c_str() );
             }
@@ -234,9 +233,8 @@ void clear_techniques_and_martial_arts()
 
 bool ma_requirements::is_valid_player(player &u)
 {
-    for (std::set<mabuff_id>::iterator it = req_buffs.begin();
-         it != req_buffs.end(); ++it) {
-        mabuff_id buff_id = *it;
+    for( auto buff_id : req_buffs ) {
+
         if (!u.has_mabuff(buff_id)) {
             return false;
         }
@@ -262,9 +260,8 @@ bool ma_requirements::is_valid_player(player &u)
 
 bool ma_requirements::is_valid_weapon(item &i)
 {
-    for (std::set<std::string>::iterator it = req_flags.begin();
-         it != req_flags.end(); ++it) {
-        std::string flag = *it;
+    for( auto flag : req_flags ) {
+
         if (!i.has_flag(flag)) {
             return false;
         }
@@ -359,12 +356,12 @@ ma_buff::ma_buff()
 
 void ma_buff::apply_buff(std::list<disease> &dVec)
 {
-    for (auto it = dVec.begin(); it != dVec.end(); ++it) {
-        if (it->is_mabuff() && it->buff_id == id) {
-            it->duration = buff_duration;
-            it->intensity++;
-            if (it->intensity > max_stacks) {
-                it->intensity = max_stacks;
+    for( auto &elem : dVec ) {
+        if( elem.is_mabuff() && elem.buff_id == id ) {
+            elem.duration = buff_duration;
+            elem.intensity++;
+            if( elem.intensity > max_stacks ) {
+                elem.intensity = max_stacks;
             }
             return;
         }
@@ -472,14 +469,13 @@ martialart::martialart()
 void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::list<disease> &dVec)
 {
     std::vector<ma_buff> buffer; // hey get it because it's for buffs????
-    for (auto it = buffs.begin(); it != buffs.end(); ++it) {
-        if (it->is_valid_player(u)) {
-            buffer.push_back(*it);
+    for( auto &buff : buffs ) {
+        if( buff.is_valid_player( u ) ) {
+            buffer.push_back( buff );
         }
     }
-    for (std::vector<ma_buff>::iterator it = buffer.begin();
-         it != buffer.end(); ++it) {
-        it->apply_buff(dVec);
+    for( auto &elem : buffer ) {
+        elem.apply_buff( dVec );
     }
 }
 
@@ -521,9 +517,8 @@ void martialart::apply_ongethit_buffs(player &u, std::list<disease> &dVec)
 
 bool martialart::has_technique(player &u, matec_id tec_id)
 {
-    for (std::set<matec_id>::iterator it = techniques.begin();
-         it != techniques.end(); ++it) {
-        ma_technique tec = ma_techniques[*it];
+    for( const auto &elem : techniques ) {
+        ma_technique tec = ma_techniques[elem];
         if (tec.is_valid_player(u) && tec.id == tec_id) {
             return true;
         }
@@ -538,9 +533,8 @@ bool martialart::has_weapon(itype_id item) const
 
 std::string martialart::melee_verb(matec_id tec_id, player &u)
 {
-    for (std::set<matec_id>::iterator it = techniques.begin();
-         it != techniques.end(); ++it) {
-        ma_technique tec = ma_techniques[*it];
+    for( const auto &elem : techniques ) {
+        ma_technique tec = ma_techniques[elem];
         if (tec.id == tec_id) {
             if (u.is_npc()) {
                 return tec.messages[1];
@@ -569,9 +563,8 @@ std::vector<matec_id> player::get_all_techniques()
 bool player::has_miss_recovery_tec()
 {
     std::vector<matec_id> techniques = get_all_techniques();
-    for (std::vector<matec_id>::iterator it = techniques.begin();
-         it != techniques.end(); ++it) {
-        if (ma_techniques[*it].miss_recovery == true) {
+    for( auto &technique : techniques ) {
+        if( ma_techniques[technique].miss_recovery == true ) {
             return true;
         }
     }
@@ -581,9 +574,8 @@ bool player::has_miss_recovery_tec()
 bool player::has_grab_break_tec()
 {
     std::vector<matec_id> techniques = get_all_techniques();
-    for (std::vector<matec_id>::iterator it = techniques.begin();
-         it != techniques.end(); ++it) {
-        if (ma_techniques[*it].grab_break == true) {
+    for( auto &technique : techniques ) {
+        if( ma_techniques[technique].grab_break == true ) {
             return true;
         }
     }
@@ -663,10 +655,9 @@ void player::ma_ongethit_effects()
 int player::mabuff_tohit_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += ma_buffs[it->buff_id].hit_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += ma_buffs[elem.buff_id].hit_bonus( *this );
         }
     }
     return ret;
@@ -674,10 +665,9 @@ int player::mabuff_tohit_bonus()
 int player::mabuff_dodge_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].dodge_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].dodge_bonus( *this );
         }
     }
     return ret;
@@ -685,10 +675,9 @@ int player::mabuff_dodge_bonus()
 int player::mabuff_block_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].block_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].block_bonus( *this );
         }
     }
     return ret;
@@ -696,10 +685,9 @@ int player::mabuff_block_bonus()
 int player::mabuff_speed_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].speed_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].speed_bonus( *this );
         }
     }
     return ret;
@@ -707,10 +695,9 @@ int player::mabuff_speed_bonus()
 int player::mabuff_arm_bash_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].arm_bash_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].arm_bash_bonus( *this );
         }
     }
     return ret;
@@ -718,10 +705,9 @@ int player::mabuff_arm_bash_bonus()
 int player::mabuff_arm_cut_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].arm_cut_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].arm_cut_bonus( *this );
         }
     }
     return ret;
@@ -729,12 +715,11 @@ int player::mabuff_arm_cut_bonus()
 float player::mabuff_bash_mult()
 {
     float ret = 1.f;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
             // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
             // becomes 1.4 instead of 2.4 (which would be a 240% buff)
-            ret *= it->intensity * (ma_buffs[it->buff_id].bash_mult() - 1) + 1;
+            ret *= elem.intensity * ( ma_buffs[elem.buff_id].bash_mult() - 1 ) + 1;
         }
     }
     return ret;
@@ -742,10 +727,9 @@ float player::mabuff_bash_mult()
 int player::mabuff_bash_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].bash_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].bash_bonus( *this );
         }
     }
     return ret;
@@ -753,12 +737,11 @@ int player::mabuff_bash_bonus()
 float player::mabuff_cut_mult()
 {
     float ret = 1.f;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
             // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
             // becomes 1.4 instead of 2.4 (which would be a 240% buff)
-            ret *= it->intensity * (ma_buffs[it->buff_id].cut_mult() - 1) + 1;
+            ret *= elem.intensity * ( ma_buffs[elem.buff_id].cut_mult() - 1 ) + 1;
         }
     }
     return ret;
@@ -766,20 +749,18 @@ float player::mabuff_cut_mult()
 int player::mabuff_cut_bonus()
 {
     int ret = 0;
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            ret += it->intensity * ma_buffs[it->buff_id].cut_bonus(*this);
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            ret += elem.intensity * ma_buffs[elem.buff_id].cut_bonus( *this );
         }
     }
     return ret;
 }
 bool player::is_throw_immune()
 {
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            if (ma_buffs[it->buff_id].is_throw_immune()) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            if( ma_buffs[elem.buff_id].is_throw_immune() ) {
                 return true;
             }
         }
@@ -788,10 +769,9 @@ bool player::is_throw_immune()
 }
 bool player::is_quiet()
 {
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            if (ma_buffs[it->buff_id].is_quiet()) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            if( ma_buffs[elem.buff_id].is_quiet() ) {
                 return true;
             }
         }
@@ -801,10 +781,9 @@ bool player::is_quiet()
 
 bool player::can_melee()
 {
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() &&
-            ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-            if (ma_buffs[it->buff_id].can_melee()) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && ma_buffs.find( elem.buff_id ) != ma_buffs.end() ) {
+            if( ma_buffs[elem.buff_id].can_melee() ) {
                 return true;
             }
         }
@@ -814,8 +793,8 @@ bool player::can_melee()
 
 bool player::has_mabuff(mabuff_id id)
 {
-    for (auto it = illness.begin(); it != illness.end(); ++it) {
-        if (it->is_mabuff() && it->buff_id == id) {
+    for( auto &elem : illness ) {
+        if( elem.is_mabuff() && elem.buff_id == id ) {
             return true;
         }
     }

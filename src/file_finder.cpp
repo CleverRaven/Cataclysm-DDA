@@ -18,7 +18,7 @@
     downward through the directory tree to get all files. It will then return a vector of
     file paths that fulfill the search requirements.
     USAGE:
-    Extension should be preceeded by the '.' character to denote it as an extension,
+    Extension should be preceded by the '.' character to denote it as an extension,
     if it is not then it will return all files and folder names that contain the extension string.
     root_path can point to any folder relative to the execution directory.
         Searching from the execution directory -- Supply "." as the root_path

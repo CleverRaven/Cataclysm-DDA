@@ -34,6 +34,10 @@ class Creature
         {
             return false;
         }
+        virtual bool is_monster() const
+        {
+            return false;
+        }
 
         // Fake is used to mark non-real creatures used temporarally,
         // such as fake NPCs that fire weapons to simulate turrets.
@@ -41,8 +45,7 @@ class Creature
         virtual void set_fake (const bool fake_value);
 
         virtual void normalize(); // recreate the Creature from scratch
-        virtual void
-        process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
+        virtual void process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
         virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
         virtual void reset_bonuses(); // reset the value of all bonus fields to 0
         virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
@@ -50,6 +53,22 @@ class Creature
 
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
+
+        /**
+         * Simplified attitude towards any creature:
+         * hostile - hate, want to kill, etc.
+         * friendly - avoid harming it, maybe even help.
+         * neutral - anything between.
+         */
+        enum Attitude {
+            A_HOSTILE,
+            A_NEUTRAL,
+            A_FRIENDLY,
+        };
+        /**
+         * Attitude (of this creature) towards another creature. This might not be symmetric.
+         */
+        virtual Attitude attitude_to( const Creature &other ) const = 0;
 
         // makes a single melee attack, with the currently equipped weapon
         virtual void melee_attack(Creature &t, bool allow_special,
@@ -118,7 +137,7 @@ class Creature
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
-        // returns true iff health is zero or otherwise should be dead
+        // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
         // xpos and ypos, because posx/posy are used as public variables in
@@ -127,23 +146,51 @@ class Creature
         virtual int ypos() const = 0;
         virtual point pos() const = 0;
 
-        // should replace both player.add_disease and monster.add_effect
-        // these are nonvirtual since otherwise they can't be accessed with
-        // the old add_effect
-        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        struct compare_by_dist_to_point {
+            point center;
+            // Compare the two creatures a and b by their distance to a fixed center point.
+            // The nearer creature is considered smaller and sorted first.
+            bool operator()( const Creature *a, const Creature *b ) const;
+        };
+
+        /** Processes move stopping effects. Returns false if movement is stopped. */
+        virtual bool move_effects();
+        
+        /** Handles effect application effects. */
+        virtual void add_eff_effects(effect e, bool reduced);
+        
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 0);
+        /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            int intensity = 1, bool permanent =
-                                false); // gives chance to save via env resist, returns if successful
-        void remove_effect(efftype_id eff_id);
-        void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id) const;
+                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
+         *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
+        bool remove_effect(efftype_id eff_id, body_part bp = num_bp);
+        /** Remove all effects. */
+        void clear_effects();
+        /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
+         *  of the matching type, targeted or untargeted. */
+        bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Return the effect that matches the given arguments exactly. */
+        effect get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_int(efftype_id eff_id, body_part bp = num_bp) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );
         void remove_value( const std::string key );
         std::string get_value( const std::string key ) const;
 
-        virtual void process_effects(); // runs all the effects on the Creature
+        /** Processes through all the effects on the Creature. */
+        virtual void process_effects();
+        
+        /** Returns true if the player has the entered trait, returns false for non-humans */
+        virtual bool has_trait(const std::string &flag) const;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int base_threshold = 0);
@@ -151,6 +198,9 @@ class Creature
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
+        virtual void set_moves(int nmoves);
+        
+        virtual bool in_sleep_state() const;
 
         /*
          * Get/set our killer, this is currently used exclusively to allow
@@ -323,8 +373,9 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::unordered_map<std::string, effect> effects;
-        // Miscelaneous key/value pairs.
+        // Storing body_part as an int to make things easier for hash and JSON
+        std::unordered_map<std::string, std::unordered_map<body_part, effect, std::hash<int>>> effects;
+        // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be

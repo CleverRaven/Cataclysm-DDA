@@ -20,6 +20,7 @@
 class item;
 class overmap;
 class player;
+class field_entry;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
@@ -541,6 +542,7 @@ public:
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
  bool is_defending() const; // Putting the player's safety ahead of ours
+        Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
@@ -746,6 +748,10 @@ public:
 private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
+
+    bool is_dangerous_field( const field_entry &fld ) const;
+    bool sees_dangerous_field( point p ) const;
+    bool could_move_onto( point p ) const;
 };
 
 #endif

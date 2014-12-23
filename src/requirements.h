@@ -59,6 +59,7 @@ struct tool_comp : public component {
     bool has(const inventory &crafting_inv, int batch = 1) const;
     std::string to_string(int batch = 1) const;
     std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
+    bool by_charges() const;
 };
 
 struct item_comp : public component {
@@ -121,7 +122,7 @@ struct quality_requirement {
  * player fulfills an alternative requirement:
  *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
 */
-struct requirements {
+struct requirement_data {
         typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
         typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
         typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
@@ -130,11 +131,6 @@ struct requirements {
         alter_quali_req_vector qualities;
         alter_item_comp_vector components;
 
-        /**
-         * Time in movement points (100 movement points per turns) required
-         * to do the task.
-         */
-        int time;
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
@@ -165,7 +161,6 @@ struct requirements {
                              const inventory &crafting_inv, int batch = 1) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
-        int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col, int batch = 1) const;
 
     private:
         bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;

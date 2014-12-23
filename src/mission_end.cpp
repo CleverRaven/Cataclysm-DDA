@@ -10,7 +10,7 @@ void mission_end::heal_infection(mission *miss)
         debugmsg("could not find mission NPC %d", miss->npc_id);
         return;
     }
-    p->rem_disease("infection");
+    p->remove_effect("infection");
 }
 
 void mission_end::leave(mission *miss)

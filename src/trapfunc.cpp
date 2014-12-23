@@ -8,10 +8,9 @@
 float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
-    for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
-        item &j = g->m.i_at(x, y)[i];
-        if (j.type->id == "corpse") {
-            corpse_volume += j.volume();
+    for( auto &pit_content : g->m.i_at( x, y ) ) {
+        if( pit_content.type->id == "corpse") {
+            corpse_volume += pit_content.volume();
         }
     }
 
@@ -53,41 +52,42 @@ void trapfunc::beartrap(Creature *c, int x, int y)
         return;
     }
     g->sound(x, y, 8, _("SNAP!"));
+    g->m.remove_trap(x, y);
     if (c != NULL) {
+        // What got hit?
+        body_part hit = num_bp;
+        if (one_in(2)) {
+            hit = bp_leg_l;
+        } else {
+            hit = bp_leg_r;
+        }
+
+        // Messages
         c->add_memorial_log(pgettext("memorial_male", "Caught by a beartrap."),
                             pgettext("memorial_female", "Caught by a beartrap."));
         c->add_msg_player_or_npc(m_bad, _("A bear trap closes on your foot!"),
                                  _("A bear trap closes on <npcname>'s foot!"));
+
+        // Actual effects
+        c->add_effect("beartrap", 1, hit, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (z != NULL) {
-            z->moves = 0;
-            z->add_effect("beartrap", rng(8, 15));
-            item beartrap("beartrap", 0);
-            z->add_item(beartrap);
-            z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 35);
+            z->apply_damage( nullptr, hit, 30);
         } else if (n != NULL) {
             damage_instance d;
-            d.add_damage( DT_BASH, 10 );
-            d.add_damage( DT_CUT, 16 );
-            if(one_in(2)) {
-                n->deal_damage( nullptr, bp_leg_l, d );
-            } else {
-                n->deal_damage( nullptr, bp_leg_r, d );
+            d.add_damage( DT_BASH, 12 );
+            d.add_damage( DT_CUT, 18 );
+            n->deal_damage( nullptr, hit, d );
+            
+            if ((n->has_trait("INFRESIST")) && (one_in(512))) {
+                n->add_effect("tetanus", 1, num_bp, true);
             }
-            n->add_disease("beartrap", 1, true);
-              if ((n->has_trait("INFRESIST")) && (one_in(512))) {
-                  n->add_disease("tetanus",1,true);
-              }
-              else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(128))) {
-                      n->add_disease("tetanus",1,true);
-              }
-            g->m.spawn_item(x, y, "beartrap");
+            else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(128))) {
+                    n->add_effect("tetanus", 1, num_bp, true);
+            }
         }
-    } else {
-        g->m.spawn_item(x, y, "beartrap");
     }
-    g->m.remove_trap(x, y);
 }
 
 void trapfunc::board(Creature *c, int, int)
@@ -111,10 +111,10 @@ void trapfunc::board(Creature *c, int, int)
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
         }
     }
@@ -398,41 +398,25 @@ void trapfunc::snare_light(Creature *c, int x, int y)
 {
     g->sound(x, y, 2, _("Snap!"));
     g->m.remove_trap(x, y);
-    g->m.spawn_item(x, y, "string_36");
-    g->m.spawn_item(x, y, "snare_trigger");
-    // large animals will trigger and destroy the trap, but not get harmed
-    if (c != NULL && c->get_size() >= MS_LARGE) {
-        c->add_msg_if_npc(m_neutral, _("The snare has no effect on <npcname>!"));
-        return;
-    }
-    if (c == NULL) {
-        return;
-    }
-    c->add_msg_player_or_npc(m_bad, _("A snare closes on your leg."),
-                             _("A snare closes on <npcname>s leg."));
-    c->add_memorial_log(pgettext("memorial_male", "Triggered a light snare."),
-                        pgettext("memorial_female", "Triggered a light snare."));
-    monster *z = dynamic_cast<monster *>(c);
-    player *n = dynamic_cast<player *>(c);
-    if (n != NULL) {
-        n->add_disease("lightsnare", rng(10, 20));
-    } else if (z != NULL) {
-        switch (z->type->size) {
-            case MS_TINY:
-                z->add_effect("beartrap", 1, 1, true);
-                // TODO: once the beartrap is an effect for players, combine the code above
-                z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
-                break;
-            case MS_SMALL:
-                z->moves = 0;
-                z->add_effect("beartrap", rng(100, 150));
-                break;
-            case MS_MEDIUM:
-                z->moves = 0;
-                z->add_effect("beartrap", rng(20, 30));
-                break;
-            default:
-                break;
+    if (c != NULL) {
+        // Determine what gets hit
+        body_part hit = num_bp;
+        if (one_in(2)) {
+            hit = bp_leg_l;
+        } else {
+            hit = bp_leg_r;
+        }
+        // Messages
+        c->add_msg_player_or_npc(m_bad, _("A snare closes on your leg."),
+                                 _("A snare closes on <npcname>s leg."));
+        c->add_memorial_log(pgettext("memorial_male", "Triggered a light snare."),
+                            pgettext("memorial_female", "Triggered a light snare."));
+
+        // Actual effects
+        c->add_effect("lightsnare", 1, hit, true);
+        monster *z = dynamic_cast<monster *>(c);
+        if (z != NULL && z->type->size == MS_TINY) {
+            z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
         }
     }
 }
@@ -441,59 +425,45 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
 {
     g->sound(x, y, 4, _("Snap!"));
     g->m.remove_trap(x, y);
-    g->m.spawn_item(x, y, "rope_6");
-    g->m.spawn_item(x, y, "snare_trigger");
-    // large animals will trigger and destroy the trap, but not get harmed
-    if (c != NULL && c->get_size() >= MS_HUGE) {
-        c->add_msg_if_npc(m_neutral, _("The snare has no effect on <npcname>!"));
-        return;
-    }
-    if (c == NULL) {
-        return;
-    }
-    body_part hit = num_bp;
-    if (one_in(2)) {
-        hit = bp_leg_l;
-    } else {
-        hit = bp_leg_r;
-    }
-    //~ %s is bodypart name in accusative.
-    c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
-                             _("A snare closes on <npcname>s %s."), body_part_name_accusative(hit).c_str());
-    c->add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
-                        pgettext("memorial_female", "Triggered a heavy snare."));
-    monster *z = dynamic_cast<monster *>(c);
-    player *n = dynamic_cast<player *>(c);
-    if (n != NULL) {
-        damage_instance d;
-        d.add_damage( DT_BASH, 15 );
-        d.add_damage( DT_CUT, 20 );
-        n->deal_damage( nullptr, bp_torso, d );
-        n->add_disease("heavysnare", rng(20, 30));
-    } else if (z != NULL) {
-        int damage;
-        switch (z->type->size) {
-            case MS_TINY:
-                damage = 20;
-                z->add_effect("beartrap", 1, 1, true);
-                break;
-            case MS_SMALL:
-                z->add_effect("beartrap", 1, 1, true);
-                damage = 20;
-                break;
-            case MS_MEDIUM:
-                z->add_effect("beartrap", rng(100, 150));
-                damage = 10;
-                break;
-            case MS_LARGE:
-                z->add_effect("beartrap", rng(20, 30));
-                damage = 0;
-                break;
-            default:
-                damage = 0;
+    if (c != NULL) {
+        // Determine waht got hit
+        body_part hit = num_bp;
+        if (one_in(2)) {
+            hit = bp_leg_l;
+        } else {
+            hit = bp_leg_r;
         }
-        z->moves = 0;
-        z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, damage);
+        //~ %s is bodypart name in accusative.
+        c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
+                                 _("A snare closes on <npcname>s %s."), body_part_name_accusative(hit).c_str());
+        c->add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
+                            pgettext("memorial_female", "Triggered a heavy snare."));
+
+        // Actual effects
+        c->add_effect("heavysnare", 1, hit, true);
+        monster *z = dynamic_cast<monster *>(c);
+        player *n = dynamic_cast<player *>(c);
+        if (n != NULL) {
+            damage_instance d;
+            d.add_damage( DT_BASH, 10 );
+            n->deal_damage( nullptr, hit, d );
+        } else if (z != NULL) {
+            int damage;
+            switch (z->type->size) {
+                case MS_TINY:
+                    damage = 20;
+                    break;
+                case MS_SMALL:
+                    damage = 20;
+                    break;
+                case MS_MEDIUM:
+                    damage = 10;
+                    break;
+                default:
+                    damage = 0;
+            }
+            z->apply_damage( nullptr, hit, damage);
+        }
     }
 }
 
@@ -578,8 +548,8 @@ void trapfunc::goo(Creature *c, int x, int y)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->infect("slimed", bp_foot_l, 6, 20);
-            n->infect("slimed", bp_foot_r, 6, 20);
+            n->add_env_effect("slimed", bp_foot_l, 6, 20);
+            n->add_env_effect("slimed", bp_foot_r, 6, 20);
             if (one_in(3)) {
                 n->add_msg_if_player(m_bad, _("The acidic goo eats away at your feet."));
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
@@ -641,6 +611,7 @@ void trapfunc::pit(Creature *c, int x, int y)
         c->add_msg_player_or_npc(m_bad, _("You fall in a pit!"), _("<npcname> falls in a pit!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell in a pit."),
                             pgettext("memorial_female", "Fell in a pit."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -658,9 +629,7 @@ void trapfunc::pit(Creature *c, int x, int y)
                     n->add_msg_if_player(_("You land nimbly."));
                 }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, eff * rng(10, 20));
         }
     }
@@ -677,6 +646,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                                  _("<npcname> falls in a spiked pit!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell into a spiked pit."),
                             pgettext("memorial_female", "Fell into a spiked pit."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -713,15 +683,13 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name_accusative(hit).c_str());
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
     }
@@ -750,6 +718,7 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
                                  _("<npcname> falls in pit filled with glass shards!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell into a pit filled with glass shards."),
                             pgettext("memorial_female", "Fell into a pit filled with glass shards."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -790,15 +759,13 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The glass shards slash your %s!"), body_part_name_accusative(hit).c_str());
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
     }
@@ -1147,7 +1114,7 @@ void trapfunc::shadow(Creature *c, int x, int y)
 
     if (tries < 5) {
         add_msg(m_warning, _("A shadow forms nearby."));
-        spawned.sp_timeout = rng(2, 10);
+        spawned.reset_special_rng(0);
         spawned.spawn(monx, mony);
         g->add_zombie(spawned);
         g->m.remove_trap(x, y);

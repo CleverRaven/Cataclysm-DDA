@@ -138,6 +138,7 @@ The syntax listed here is still valid.
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
 "categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
 ```	
 ###NAMES
@@ -188,6 +189,7 @@ The syntax listed here is still valid.
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "tools": [                   // Tools needed to craft
 [                            // Equivalent tools are surrounded by a single set of brackets []
   [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
@@ -312,52 +314,82 @@ The syntax listed here is still valid.
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
-###ARMOR
+###GENERIC ITEMS
 ```C++
-"type" : "ARMOR",     // Defines this as armor
+"type" : "GENERIC",   // Defines this as some generic item
 "id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
-"weight" : 350,       // Weight of armour in grams
+"weight" : 350,       // Weight of the item in grams
 "color" : "blue",     // ASCII character colour
-"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
-"storage" : 0,        // How many volume storage slots it adds
 "symbol" : "[",       // ASCII character used in-game
-"description" : "Socks. Put 'em on your feet.", // Description of armour
+"description" : "Socks. Put 'em on your feet.", // Description of the item
 "price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON", "NULL"],    // Material types.  See materials.json for possible options
+"material" : ["COTTON"],    // Material types, can abe as many as you want.  See materials.json for possible options
 "volume" : 1,         // Volume, measured in 1/4 liters
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
-"warmth" : 10,        // How much warmth clothing provides
 "phase" : "solid",    // What phase it is
-"enviromental_protection" : 0,  // How much environmental protection it affords
-"encumberance" : 0,   // Base encumbrance (unfitted value)
 "bashing" : -5,       // Bashing damage caused by using it as a melee weapon
-"flags" : ["VARSIZE"] // Indicates special effects
+"flags" : ["VARSIZE"] // Indicates special effects, see JSON_FLAGS.md
+```
+###ARMOR
+Armor can be define like this:
+```C++
+"type" : "ARMOR",     // Defines this as armor
+...                   // same entries as above for the generic item.
+                      // additional some armor specific entries:
+"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
+"storage" : 0,        // How many volume storage slots it adds
+"warmth" : 10,        // How much warmth clothing provides
+"environmental_protection" : 0,  // How much environmental protection it affords
+"encumberance" : 0,   // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
+"power_armor" : false, // If this is a power armor item (those are special).
+```
+Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"armor_data" : {      // additionally the same armor data like above
+    "covers" : ["FEET"],
+    "storage" : 0,
+    "warmth" : 10,
+    "environmental_protection" : 0,
+    "encumberance" : 0,
+    "coverage" : 80,
+    "material_thickness" : 1
+    "power_armor" : false
+}
 ```
 ###BOOKS
+Books can be define like this:
 ```C++
 "type" : "BOOK",      // Defines this as a BOOK
-"id" : "textbook_computers", // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "Computer Science 301", // In-game name displayed
+...                   // same entries as above for the generic item.
+                      // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
-"description" : "A college textbook on computer science.", // In-game description
-"weight" : 1587,      // Weight, measured in grams
-"to_hit" : 1,         // To-hit bonus if using it as a melee weapon
-"color" : "blue",     // ASCII character colour (see below)
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"symbol" : "?",       // ASCII character used in-game (should always be a question mark for books)
-"material" : ["paper", "null"], // Material types.  See materials.json for possible options
-"volume" : 7,         // Volume, measured in 1/4 liters
-"bashing" : 5,        // Bashing damage caused by using it as a melee weapon
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "time" : 35,          // Time (in minutes) a single read session takes
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
-"price" : 500,        // Used when bartering with NPCs
+"chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
+```
+Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"book_data" : {       // additionally the same book data like above
+    "max_level" : 5,
+    "intelligence" : 11,
+    "time" : 35,
+    "fun" : -2,
+    "skill" : "computer",
+    "chapters" : 4,
+    "use_action" : "MA_MANUAL", // The book_data can have use functions (see USE ACTIONS) that are triggered when the books has been read. These functions are not triggered by simply activating the item (like tools would).
+    "required_level" : 2
+}
 ```
 
 ####Color key
@@ -408,22 +440,24 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 ```
 ###CONTAINERS
 ```C++
-"id": "keg",          // Unique ID. Must be one continuous word, use underscores if necessary
-"type": "CONTAINER",  // Defines this as a CONTAINER
-"symbol": ")",        // ASCII character used in-game
-"color": "light_cyan", // ASCII character colour
-"name": "aluminum keg", // In-game name displayed
-"description": "A reusable aluminum keg, used for shipping beer.\nIt has a capacity of 50 liters.", // In-game description
-"price": 6000,        // Used when bartering with NPCs
-"weight": 13500,      // Weight, measured in grams
-"volume": 200,        // Volume, measured in 1/4 liters
-"bashing": -4,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
-"to_hit": -4,         // To-hit bonus if using it as a melee weapon
-"material": "steel",  // Material types.  See materials.json for possible options
+"type": "CONTAINER",  // Defines this as a container
+...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
-"flags": ["RIGID", "SEALS", "WATERTIGHT"] // Indicates special effects
+"seals": false,       // Can be resealed, this is a required for it to be used for liquids. (optional, default: false)
+"watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
+"rigid": false,       // Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container. (optional, default: false)
+"preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
+Alternately, every item can be used as container:
+```C++
+"type": "ARMOR",      // Any type is allowed here
+...                   // same data as for the type
+"container_data" : {  // The container specific data goes here.
+    "contains": 200,
+}
+```
+This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
+It could also be written as a generic item ("tpye": "GENERIC") with "armor_data" and "container_data" entries.
 ###MELEE
 ```C++
 "id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
@@ -441,32 +475,37 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "to_hit": 1           // To-hit bonus if using it as a melee weapon
 ```
 ###GUN
+Guns can be define like this:
 ```C++
-"id": "nailgun",      // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "GUN",        // Defines this as a GUN
-"symbol": "(",        // ASCII character used in-game
-"color": "light_blue", // ASCII character colour
-"name": "nail gun",   // In-game name displayed
-"description": "A tool used to drive nails into wood or other material. It could also be used as a ad-hoc weapon, or to practice your handgun skill up to level 1.", // In-game description
-"price": 100,         // Used when bartering with NPCs
-"material": "iron",   // Material types.  See materials.json for possible options
-"flags": "MODE_BURST", // Indicates special effects
+...                   // same entries as above for the generic item.
+                      // additional some gun specific entries:
 "skill": "pistol",    // Skill used for firing
 "ammo": "nail",       // Ammo type accepted for reloading
-"weight": 2404,       // Weight, measured in grams
-"volume": 4,          // Volume, measured in 1/4 liters
-"bashing": 12,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
-"to_hit": 1,          // To-hit bonus if using it as a melee weapon
 "ranged_damage": 0,   // Ranged damage when fired
 "range": 0,           // Range when fired
 "dispersion": 32,     // Inaccuracy of gun, measured in quarter-degrees
-"recoil": 0,          // Recoil caused when firing
+// When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
+// sight to use for each aim action, which is the fastest sight with a dispersion under the current
+// aim threshold.
+"sight_dispersion": 10, // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
+"aim_speed": 3,       // A measure of how quickly the player can aim, in moves per point of dispersion.
+"recoil": 0,          // Recoil caused when firing, in quarter-degrees of dispersion.
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
 "ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+```
+Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"gun_data" : {       // additionally the same gun data like above
+    "skill": ...,
+    "recoil": ...,
+    ...
+}
 ```
 ###TOOLS
 ```C++
@@ -548,6 +587,36 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+},
+"use_action": {
+    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "monster_id": "mon_manhack", // monster id, see monsters.json
+    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
+    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
+    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "activate_msg": "You activate your foo.", // Message when the player activates the item.
+    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
+    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
+}
+"use_action" : {
+    "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
+    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
+    "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
+},
+"use_action": {
+    "type": "picklock", // picking a lock on a door
+    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
+},
+"use_action": {
+    "type": "reveal_map", // reveal specific terrains on the overmap
+    "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
+    "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
+    "message": "You add roads and tourist attractions to your map." // Displayed after the revelation.
 }
 ```
 ###Random descriptions

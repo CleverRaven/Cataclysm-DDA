@@ -13,7 +13,7 @@
     "name": "Missed",
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","boarded_house"],
     "start_name": "In Town"
   },{
     "type": "scenario",
@@ -44,7 +44,7 @@
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
     "professions" : ["svictim","tweaker"],
-    "flags" : ["FIRE_START","INFECTED","BAD_DAY"]
+    "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
   },{
     "type": "scenario",
     "ident": "lab_chal",
@@ -54,7 +54,8 @@
     "start_name": "Locked Lab",
     "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
     "allowed_locs" : ["lab_stairs"],
-    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"],
+    "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
     "ident": "ambushed",
@@ -85,7 +86,8 @@
     "start_name": "Hospital",
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
-    "professions" : ["unemployed","bionic_patient","patient"]
+    "professions" : ["unemployed","bionic_patient","patient"],
+    "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
     "ident" : "mutant",
@@ -122,8 +124,17 @@
     "points" : 0,
     "description": "You knew the day was going to be bad when it started with your partner getting eaten by a perp before you even had coffee.  The scene back at the station house looks bad, real bad.  This is going to be an all-nighter.",
     "allowed_locs" : ["police"],
-    "professions" : ["cop","bionic_cop"],
+    "professions" : ["cop","bionic_cop","detective","swat"],
     "start_name": "Police Station",
     "flags" : ["SUR_START"]
-  }
+  },{
+    "type": "scenario",
+    "ident": "wilderness",
+    "name": "Wilderness",
+    "points" : 0,
+    "description": "You find yourself amongst trees. The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "start_name": "Forest",
+    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack"],
+    "allowed_locs" : ["forest"]
+    }
 ]

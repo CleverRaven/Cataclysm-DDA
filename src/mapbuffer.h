@@ -81,6 +81,12 @@ class mapbuffer
 
     private:
         typedef std::map<tripoint, submap *, pointcomp> submap_map_t;
+
+    public:
+        inline submap_map_t::iterator begin() { return submaps.begin(); }
+        inline submap_map_t::iterator end() { return submaps.end(); }
+
+    private:
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );

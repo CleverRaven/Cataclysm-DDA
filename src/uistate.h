@@ -2,6 +2,7 @@
 #define UISTATE_H
 
 #include "json.h"
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -13,7 +14,6 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int wishitem_selected;
         int wishmutate_selected;
         int wishmonster_selected;
-        int iuse_knife_selected;
         int iexamine_atm_selected;
         int adv_inv_leftsort;
         int adv_inv_rightsort;
@@ -24,6 +24,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_src;
         int adv_inv_dest;
         int adv_inv_last_popup_dest;
+        int adv_inv_container_location;
+        int adv_inv_container_index;
+        itype_id adv_inv_container_type;
+        itype_id adv_inv_container_content_type;
         int ags_pay_gas_selected_pump;
         std::string adv_inv_leftfilter;
         std::string adv_inv_rightfilter;
@@ -52,7 +56,6 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             wishitem_selected = 0;
             wishmutate_selected = 0;
             wishmonster_selected = 0;
-            iuse_knife_selected = 0;
             iexamine_atm_selected = 0;
             ags_pay_gas_selected_pump = 0;
             adv_inv_leftsort = 1;
@@ -68,6 +71,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             adv_inv_last_coords.y = -999;
             adv_inv_leftfilter = "";
             adv_inv_rightfilter = "";
+            adv_inv_container_location = -1;
+            adv_inv_container_index = 0;
+            adv_inv_container_type = "null";
+            adv_inv_container_content_type = "null";
             editmap_nsa_viewmode = false;
             overmap_blinking = true;
             overmap_show_overlays = false;
@@ -104,6 +111,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("adv_inv_src", adv_inv_src);
             json.member("adv_inv_dest", adv_inv_dest);
             json.member("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+            json.member("adv_inv_container_location", adv_inv_container_location);
+            json.member("adv_inv_container_index", adv_inv_container_index);
+            json.member("adv_inv_container_type", adv_inv_container_type);
+            json.member("adv_inv_container_content_type", adv_inv_container_content_type);
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
@@ -144,6 +155,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_src", adv_inv_src);
             jo.read("adv_inv_dest", adv_inv_dest);
             jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+            jo.read("adv_inv_container_location", adv_inv_container_location);
+            jo.read("adv_inv_container_index", adv_inv_container_index);
+            jo.read("adv_inv_container_type", adv_inv_container_type);
+            jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);

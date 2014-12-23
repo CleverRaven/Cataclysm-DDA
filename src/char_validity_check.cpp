@@ -11,7 +11,7 @@
  */
 bool is_char_allowed(long ch)
 {
-    if( !std::isprint(ch) && ch <= 127 && ch != ' ' ) {
+    if( !std::isprint(ch) && ch <= 127 ) {
         // above 127 are non-ascii, therefor unicode, therefor OK
         return false;
     }

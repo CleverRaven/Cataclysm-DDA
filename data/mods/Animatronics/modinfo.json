@@ -1,0 +1,9 @@
+    {
+        "type": "MOD_INFO",
+        "mod-type": "SUPPLEMENTAL",
+        "ident": "Animatronics",
+        "name": "Animatronic Monsters",
+        "description": "Adds a chain of pizzerias that have a chance to spawn animatronics.",
+        "author": "Lanceo90",
+    "path": ""
+    }

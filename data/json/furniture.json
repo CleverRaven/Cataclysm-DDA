@@ -11,7 +11,11 @@
         "bash": {
             "str_min": 1, "str_max": 12,
             "sound": "whish!",
-            "sound_fail": "whish."
+            "sound_fail": "whish.",
+            "items": [
+                { "item": "straw_pile", "amount": 10, "minamount": 6},
+                { "item": "rope_6", "amount": 3, "minamount": 1}
+            ]
         }
     },{
         "type" : "furniture",
@@ -188,9 +192,9 @@
         "required_str": -1,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 12 },
+                { "item": "rag", "amount": 135, "minamount": 120 },
+                { "item": "nail", "amount": 10, "minamount": 8 }
             ]
         },
         "max_volume": 4000,
@@ -201,10 +205,10 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 8, "minamount": 3 },
-                { "item": "nail", "amount": 10, "minamount": 6 },
+                { "item": "2x4", "amount": 8, "minamount": 5 },
+                { "item": "nail", "amount": 8, "minamount": 6 },
                 { "item": "splinter", "amount": 6, "minamount": 3 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "rag", "amount": 130, "minamount": 80 }
             ]
         }
     },{
@@ -236,9 +240,9 @@
         "required_str": 12,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 4 },
+                { "item": "rag", "amount": 35, "minamount": 30 },
+                { "item": "nail", "amount": 6, "minamount": 4 }
             ]
         },
         "max_volume": 4000,
@@ -248,10 +252,36 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 2 },
                 { "item": "splinter", "amount": 4, "minamount": 1 },
-                { "item": "rag", "amount": 12, "minamount": 6 }
+                { "item": "rag", "amount": 30, "minamount": 20 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_straw_bed",
+        "name": "straw bed",
+        "symbol": "#",
+        "color": "magenta",
+        "move_cost_mod": 3,
+        "required_str": -1,
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "straw_pile", "amount": 8, "minamount": 7 }
+            ]
+        },
+        "max_volume": 4000,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "bash": {
+            "str_min": 6, "str_max": 20,
+            "sound": "crunch!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 2 },
+                { "item": "straw_pile", "amount": 8, "minamount": 7 },
+                { "item": "splinter", "amount": 2, "minamount": 1 }
             ]
         }
     },{
@@ -354,6 +384,8 @@
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "items": [
                 { "item": "cu_pipe", "amount": 3, "minamount": 0 },
                 { "item": "ceramic_shard", "amount": 6, "minamount": 2},
@@ -391,7 +423,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
-                { "item": "nail", "amount": 10, "minamount": 6 }
+                { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
         "max_volume": 4000,
@@ -416,7 +448,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
+                { "item": "rag", "amount": 33, "minamount": 30 },
                 { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
@@ -430,7 +462,7 @@
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "rag", "amount": 30, "minamount": 20 }
             ]
         }
     },{
@@ -443,9 +475,9 @@
         "required_str": 10,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 12 },
+                { "item": "rag", "amount": 33, "minamount": 30 },
+                { "item": "nail", "amount": 10, "minamount": 8 }
             ]
         },
         "max_volume": 4000,
@@ -455,10 +487,10 @@
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 3, "minamount": 1},
-                { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 8, "minamount": 3},
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "rag", "amount": 30, "minamount": 20 }
             ]
         }
     },{
@@ -472,8 +504,8 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 4 },
-                { "item": "nail", "amount": 10, "minamount": 6 }
+                { "item": "2x4", "amount": 3 },
+                { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
         "max_volume": 4000,
@@ -968,6 +1000,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_vending_o",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3}
@@ -1110,7 +1144,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1132,7 +1166,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1237,7 +1271,7 @@
         "name": "mutated poppy flower",
         "symbol": "f",
         "color": "red",
-        "move_cost_mod": 1,
+        "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_poppy",
@@ -1321,6 +1355,65 @@
         "max_volume": 1000,
         "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "safe",
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_gunsafe_ml",
+        "name": "gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "gunsafe_ml",
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_gunsafe_mj",
+        "name": "jammed gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "screeching metal!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "steel_chunk", "amount": 5, "minamount": 1},
+                { "item": "scrap", "amount": 5, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_gun_safe_el",
+        "name": "electronic gun safe",
+        "symbol": "X",
+        "color": "ltgray",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "max_volume": 1000,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "gunsafe_el",
         "bash": {
             "str_min": 40, "str_max": 200,
             "sound": "screeching metal!",
@@ -1508,7 +1601,7 @@
         "name": "bluebell",
         "symbol": "f",
         "color": "blue",
-        "move_cost_mod": 1,
+        "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_bluebell",
@@ -1523,7 +1616,7 @@
         "name": "dahlia",
         "symbol": "f",
         "color": "magenta",
-        "move_cost_mod": 1,
+        "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dahlia",
@@ -1568,7 +1661,7 @@
         "name": "dandelion",
         "symbol": "f",
         "color": "yellow",
-        "move_cost_mod": 1,
+        "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dandelion",
@@ -1589,7 +1682,7 @@
         "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
         "deconstruct": {
             "items": [
-                { "item": "forge", "amount": 1 }
+                { "item": "char_forge", "amount": 1 }
             ]
         },
         "examine_action": "reload_furniture",
@@ -1598,7 +1691,7 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "forge", "amount": 1 }
+                { "item": "char_forge", "amount": 1 }
             ]
         }
     },{
@@ -1878,6 +1971,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_displaycase_b",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
@@ -1899,6 +1994,31 @@
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 3 },
                 { "item": "splinter", "amount": 4, "minamount": 2 }
+            ]
+        }
+    },{
+        "type": "furniture",
+        "id": "f_standing_tank",
+        "name": "standing tank",
+        "symbol" : "O",
+        "color": "ltgray",
+        "move_cost_mod" : -1,
+        "required_str": -1,
+        "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 4 },
+                { "item": "water_faucet", "amount": 1 }
+            ]
+        },
+        "examine_action": "keg",
+        "bash": {
+            "str_min": 10, "str_max": 20,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 32, "minamount": 8},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 }
             ]
         }
     }

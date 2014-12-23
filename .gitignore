@@ -77,3 +77,10 @@ nbproject/
 
 # taskwarrior files
 *.task*
+
+# GitEye files
+*.project
+
+# vimdiff backup
+*.orig
+

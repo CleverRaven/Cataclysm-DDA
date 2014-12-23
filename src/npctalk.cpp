@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
+#include "ammo.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -803,8 +804,11 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Watch your back out there.");
 
         case TALK_OLD_GUARD_REP:
-            if (g->u.is_wearing("badge_marshal"))
+            // The rep should know whether you're a sworn officer.
+            // TODO: wearing the badge w/o the trait => Bad Idea
+            if (g->u.has_trait("PROF_FED")) {
                 return _("Marshal...");
+            }
             return _("Citizen...");
 
         case TALK_OLD_GUARD_REP_NEW:
@@ -964,7 +968,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("I don't know, look for supplies and other survivors I guess.");
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease(_("asked_for_item"))) {
+            if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
             }
             return _("Why should I share my equipment with you?");
@@ -1006,10 +1010,10 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Alright, let's begin.");
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease(_("infection"))) {
+            if (p->has_effect(_("infection"))) {
                 return _("Not until I get some antibiotics...");
             }
-            if (p->has_disease(_("asked_to_follow"))) {
+            if (p->has_effect(_("asked_to_follow"))) {
                 return _("You asked me recently; ask again later.");
             }
             return _("Why should I travel with you?");
@@ -2108,7 +2112,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease(_("asked_for_item"))) {
+            if (p->has_effect(_("asked_for_item"))) {
                 RESPONSE(_("Okay, fine."));
                     SUCCESS(TALK_NONE);
             } else {
@@ -2267,10 +2271,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease(_("infection"))) {
+            if (p->has_effect(_("infection"))) {
                 RESPONSE(_("Understood.  I'll get those antibiotics."));
                     SUCCESS(TALK_NONE);
-            } else if (p->has_disease(_("asked_to_follow"))) {
+            } else if (p->has_effect(_("asked_to_follow"))) {
                 RESPONSE(_("Right, right, I'll ask later."));
                     SUCCESS(TALK_NONE);
             } else {
@@ -2335,7 +2339,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             }
                 RESPONSE(_("I'm going to go my own way for a while."));
                     SUCCESS(TALK_LEAVE);
-            if (!p->has_disease(_("asked_to_lead"))) {
+            if (!p->has_effect(_("asked_to_lead"))) {
                 RESPONSE(_("I'd like to lead for a while."));
                     TRIAL(TALK_TRIAL_PERSUADE, persuade);
                         SUCCESS(TALK_PLAYER_LEADS);
@@ -2401,7 +2405,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Can I do anything for you?"));
                 SUCCESS(TALK_MISSION_LIST);
             SELECT_TEMP(_("Can you teach me anything?"), 0);
-            if (!p->has_disease("asked_to_train")) {
+            if (!p->has_effect("asked_to_train")) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
                 TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
@@ -2431,7 +2435,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             }
             if (p->is_following()) {
                 RESPONSE(_("I'd like to know a bit more about you..."));
-                if (!p->has_disease("asked_personal_info")) {
+                if (!p->has_effect("asked_personal_info")) {
                     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                     3 * p->op_of_u.anger + p->op_of_u.owed / 25;
                     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
@@ -3047,7 +3051,7 @@ void talk_function::give_equipment(npc *p)
 
     g->u.i_add( it );
     p->op_of_u.owed -= prices[chosen];
-    p->add_disease("asked_for_item", 1800);
+    p->add_effect("asked_for_item", 1800);
 }
 
 void talk_function::follow(npc *p)
@@ -3057,27 +3061,27 @@ void talk_function::follow(npc *p)
 
 void talk_function::deny_follow(npc *p)
 {
-    p->add_disease("asked_to_follow", 3600);
+    p->add_effect("asked_to_follow", 3600);
 }
 
 void talk_function::deny_lead(npc *p)
 {
- p->add_disease("asked_to_lead", 3600);
+ p->add_effect("asked_to_lead", 3600);
 }
 
 void talk_function::deny_equipment(npc *p)
 {
- p->add_disease("asked_for_item", 600);
+ p->add_effect("asked_for_item", 600);
 }
 
 void talk_function::deny_train(npc *p)
 {
- p->add_disease("asked_to_train", 3600);
+ p->add_effect("asked_to_train", 3600);
 }
 
 void talk_function::deny_personal_info(npc *p)
 {
- p->add_disease("asked_personal_info", 1800);
+ p->add_effect("asked_personal_info", 1800);
 }
 
 void talk_function::hostile(npc *p)
@@ -3215,7 +3219,7 @@ void talk_function::start_training(npc *p)
   return;
 // Then receive it
  g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
- p->add_disease("asked_to_train", 3600);
+ p->add_effect("asked_to_train", 3600);
 }
 
 void parse_tags(std::string &phrase, const player *u, const npc *me)
@@ -3253,8 +3257,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
     if (!me->weapon.is_gun())
      phrase.replace(fa, l, _("BADAMMO"));
     else {
-     it_gun* gun = dynamic_cast<it_gun*>(me->weapon.type);
-     phrase.replace(fa, l, ammo_name(gun->ammo));
+     phrase.replace(fa, l, ammunition_type::find_ammunition_type( me->weapon.ammo_type() )->name() );
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {
@@ -3299,8 +3302,8 @@ talk_topic dialogue::opt(talk_topic topic)
 // Number of lines to highlight
  int hilight_lines = 1;
  std::vector<std::string> folded = foldstring(challenge, FULL_SCREEN_WIDTH / 2);
- for (size_t i = 0; i < folded.size(); i++) {
-  history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
   hilight_lines++;
  }
 
@@ -3397,8 +3400,8 @@ talk_topic dialogue::opt(talk_topic topic)
 
  std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for( size_t i = 0; i < folded.size(); ++i ){
-   history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
    hilight_lines++;
  }
 
@@ -3678,8 +3681,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             }
         }
         // Do it in two passes, so removing items doesn't corrupt yours[]
-        for (size_t i = 0; i < removing.size(); i++) {
-            g->u.i_rem(removing[i]);
+        for( auto &elem : removing ) {
+            g->u.i_rem( elem );
         }
 
         for (size_t i = 0; i < theirs.size(); i++) {

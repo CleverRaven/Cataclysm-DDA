@@ -61,6 +61,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "blunderbuss",
+        "name" : "blunderbuss",
+        "default" : "blun_shot"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "22",
         "name" : ".22",
         "default" : "22_lr"
@@ -178,6 +184,12 @@
         "id" : "gasoline",
         "name" : "gasoline",
         "default" : "gasoline"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "diesel",
+        "name" : "diesel",
+        "default" : "diesel"
     },
     {
         "type" : "ammunition_type",

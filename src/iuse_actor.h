@@ -4,6 +4,9 @@
 #include "iuse.h"
 #include "color.h"
 #include "field.h"
+#include "bodypart.h"
+
+class JsonObject;
 
 /**
  * Transform an item into a specific type.
@@ -53,7 +56,8 @@ class iuse_transform : public iuse_actor
         {
         }
         virtual ~iuse_transform();
-        virtual long use(player *, item *, bool) const;
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -84,12 +88,13 @@ class auto_iuse_transform : public iuse_transform
         {
         }
         virtual ~auto_iuse_transform();
-        virtual long use(player *, item *, bool) const;
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
 /**
- * This is a @ref iuse_actor for active items that explose when
+ * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.
  * It can be called each turn, it can make a sound each turn.
  */
@@ -145,7 +150,8 @@ class explosion_iuse : public iuse_actor
         {
         }
         virtual ~explosion_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -168,8 +174,21 @@ class unfold_vehicle_iuse : public iuse_actor
         {
         }
         virtual ~unfold_vehicle_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
+};
+
+/** Used in consume_drug_iuse for storing effect data. */
+struct effect_data
+{
+    std::string id;
+    int duration;
+    body_part bp;
+    bool permanent;
+    
+    effect_data(std::string nid, int dur, body_part nbp, bool perm) :
+                    id(nid), duration(dur), bp(nbp), permanent(perm) {};
 };
 
 /**
@@ -186,14 +205,145 @@ class consume_drug_iuse : public iuse_actor
         std::map<std::string, int> charges_needed;
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
         std::map<std::string, int> tools_needed;
-        /** A disease or diseases (conditions) to give the player for the stated duration. **/
-        std::map<std::string, int> diseases;
+        /** An effect or effects (conditions) to give the player for the stated duration. **/
+        std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
 
         consume_drug_iuse() : iuse_actor() { }
         virtual ~consume_drug_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * This is a @ref iuse_transform for similar to @ref auto_iuse_transform,
+ * but it uses the age of the item instead of a counter.
+ * The age is calculated from the current turn and the birthday of the item.
+ * The player has to activate the item manually, only when the specific
+ * age has been reached, it will transform.
+ */
+class delayed_transform_iuse : public iuse_transform
+{
+    public:
+        /**
+         * The minimal age of the item (in turns) to allow the transformation.
+         */
+        int transform_age;
+        /**
+         * Message to display when the user activates the item before the
+         * age has been reached.
+         */
+        std::string not_ready_msg;
+
+        /** How much longer (in turns) until the transformation can be done, can be negative. */
+        int time_to_do( const item &it ) const;
+
+        delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
+        virtual ~delayed_transform_iuse();
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * This iuse contains the logic to transform a robot item into an actual monster on the map.
+ */
+class place_monster_iuse : public iuse_actor
+{
+    public:
+        /** The monster type id of the monster to create. */
+        std::string mtype_id;
+        /** If true, place the monster at a random square around the player,
+         * otherwise allow the player to select the target square. */
+        bool place_randomly;
+        /** How many move points this action takes. */
+        int moves;
+        /** Difficulty of programming the monster (to be friendly). */
+        int difficulty;
+        /** Shown when programming the monster succeeded and it's friendly. Can be empty. */
+        std::string friendly_msg;
+        /** Shown when programming the monster failed and it's hostile. Can be empty. */
+        std::string hostile_msg;
+        /** Skills used to make the monster not hostile when activated. **/
+        std::string skill1;
+        std::string skill2;
+
+        place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
+        virtual ~place_monster_iuse();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Items that can be worn and can be activated to consume energy from UPS.
+ * Note that the energy consumption is done in @ref player::process_active_items, it is
+ * *not* done by this class!
+ */
+class ups_based_armor_actor : public iuse_actor
+{
+    public:
+        /** Shown when activated. */
+        std::string activate_msg;
+        /** Shown when deactivated. */
+        std::string deactive_msg;
+        /** Shown when it runs out of power. */
+        std::string out_of_power_msg;
+
+        ups_based_armor_actor() : iuse_actor() { }
+        virtual ~ups_based_armor_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * This implements lock picking.
+ */
+class pick_lock_actor : public iuse_actor
+{
+    public:
+        /**
+         * How good the used tool is at picking a lock.
+         */
+        int pick_quality;
+
+        pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
+        virtual ~pick_lock_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Reveals specific things on the overmap.
+ */
+class reveal_map_actor : public iuse_actor
+{
+    public:
+        /**
+         * The radius of the overmap area that gets revealed.
+         * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
+         * the character are revealed.
+         */
+        int radius;
+        /**
+         * Overmap terrain types that get revealed.
+         */
+        std::vector<std::string> omt_types;
+        /**
+         * The message displayed after revealing.
+         */
+        std::string message;
+
+        void reveal_targets( const std::string &target, int reveal_distance ) const;
+
+        reveal_map_actor() : iuse_actor(), radius( 0 ) { }
+        virtual ~reveal_map_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 

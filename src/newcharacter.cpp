@@ -12,7 +12,6 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "item_factory.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -91,6 +90,7 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+        case PLTYPE_RANDOM_WITH_SCENARIO:
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
@@ -98,12 +98,28 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            g->u.prof = profession::weighted_random();
+            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
+                std::vector<scenario *> scenarios;
+                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
+                    if (!(iter->second).has_flag("CHALLENGE")) {
+                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                    }
+                }
+                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                if (g->scen->profsize() > 0) {
+                    g->u.prof = g->scen->random_profession();
+                } else {
+                    g->u.prof = profession::weighted_random();
+                }
+                g->u.start_location = g->scen->random_start_location();
+            } else {
+                g->u.prof = profession::weighted_random();
+            }
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
             per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
+            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
             if (str_max > HIGH_STAT) {
                 points -= (str_max - HIGH_STAT);
             }
@@ -288,6 +304,10 @@ int player::create(character_type type, std::string tempname)
     delwin(w);
 
     if (tab < -1) {
+        // Returned from set_description for reroll
+        if (tab == -3) {
+            return -2;
+        }
         return -1;
     } else if (tab < 0) {
         return 0;
@@ -511,6 +531,13 @@ int player::create(character_type type, std::string tempname)
         }
     }
 
+    // Get traits
+    std::vector<std::string> prof_traits = g->u.prof->traits();
+    for (std::vector<std::string>::const_iterator iter = prof_traits.begin();
+         iter != prof_traits.end(); ++iter) {
+         g->u.toggle_trait(*iter);
+    }
+
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);
@@ -682,9 +709,9 @@ int set_stats(WINDOW *w, player *u, int &points)
                 mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
             }
-            if (u->ranged_dex_mod(false) != 0) {
+            if (u->ranged_dex_mod() != 0) {
                 mvwprintz(w_description, 2, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_dex_mod(false)));
+                          abs(u->ranged_dex_mod()));
             }
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
@@ -712,9 +739,9 @@ int set_stats(WINDOW *w, player *u, int &points)
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
             }
-            if (u->ranged_per_mod(false) != 0) {
+            if (u->ranged_per_mod() != 0) {
                 mvwprintz(w_description, 0, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_per_mod(false)));
+                          abs(u->ranged_per_mod()));
             }
             fold_and_print(w_description, 2, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Perception is also used for detecting traps and other things of interest."));
@@ -789,6 +816,7 @@ int set_stats(WINDOW *w, player *u, int &points)
                 u->per_max++;
             }
         } else if (action == "PREV_TAB") {
+            delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
@@ -808,26 +836,26 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait || g->scen->traitquery(iter->first) == true) {
-            if (iter->second.points >= 0) {
-                vStartingTraits[0].push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
+            if( traits_iter.second.points >= 0 ) {
+                vStartingTraits[0].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_good += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_good += traits_iter.second.points;
                 }
             } else {
-                vStartingTraits[1].push_back(iter->first);
+                vStartingTraits[1].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_bad += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_bad += traits_iter.second.points;
                 }
             }
         }
     }
 
-    for (int i = 0; i < 2; i++) {
-        std::sort(vStartingTraits[i].begin(), vStartingTraits[i].end(), trait_display_sort);
+    for( auto &vStartingTrait : vStartingTraits ) {
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
     }
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
@@ -1054,15 +1082,14 @@ int set_profession(WINDOW *w, player *u, int &points)
     draw_tabs(w, _("PROFESSION"));
     int cur_id = 0;
     int retval = 0;
+    int desc_offset = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
     int iStartPos = 0;
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 6, 30,  6 + getbegy(w), 49 + getbegx(w));
-    WINDOW *w_addictions =  newwin(5,                  30, 14 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 1, 55,  6 + getbegy(w), 24 + getbegx(w));
     WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
@@ -1155,43 +1182,82 @@ int set_profession(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
-        auto prof_items = sorted_profs[cur_id]->items( u->male );
-        int line_offset = 1;
-        werase(w_items);
-        mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (size_t i = 0; i < prof_items.size() && line_offset + (int)i < getmaxy(w_items); i++) {
-            itype *it = item_controller->find_template(prof_items[i].type_id);
-            wprintz(w_items, c_ltgray, _("\n"));
-            line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
-                                          it->nname(1)) - 1;
-        }
-        werase(w_skills);
-        profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
-        mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
-        if (!prof_skills.empty()) {
-            for (size_t i = 0; i < prof_skills.size(); i++) {
-                Skill *skill = Skill::skill(prof_skills[i].first);
-                if (skill == NULL) {
-                    continue;  // skip unrecognized skills.
-                }
-                wprintz(w_skills, c_ltgray, _("%1$s (%2$d)\n"),
-                        skill->name().c_str(), prof_skills[i].second);
+
+        std::ostringstream buffer;
+
+        // Profession addictions
+        const auto prof_addictions = sorted_profs[cur_id]->addictions();
+        if( !prof_addictions.empty() ) {
+            buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
+            for( const auto &a : prof_addictions ) {
+                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
-        } else {
-            wprintz(w_skills, c_ltgray, _("None"));
         }
 
-        werase(w_addictions);
-        std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
-        if (!prof_addictions.empty()) {
-            mvwprintz(w_addictions, 0, 0, COL_HEADER, _("Addictions:"));
-            int add_y = 1;
-            for (size_t i = 0; i < prof_addictions.size(); i++) {
-                add_y += fold_and_print(w_addictions, i + add_y, 0, getmaxx(w_addictions), c_ltgray,
-                                        _("%1$s (%2$d)"), addiction_name(prof_addictions[i]).c_str(),
-                                        prof_addictions[i].intensity) - 1;
+        // Profession traits
+        const auto prof_traits = sorted_profs[cur_id]->traits();
+        buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        if( prof_traits.empty() ) {
+            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
+        } else {
+            for( const auto &t : sorted_profs[cur_id]->traits() ) {
+                buffer << traits[ t ].name << "\n";
             }
         }
+
+        // Profession skills
+        const auto prof_skills = sorted_profs[cur_id]->skills();
+        buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
+        if( prof_skills.empty() ) {
+            buffer << pgettext( "set_profession_skill", "None" ) << "\n";
+        } else {
+            for( const auto &sl : prof_skills ) {
+                const auto skill = Skill::skill( sl.first );
+                if( skill == nullptr ) {
+                    continue;  // skip unrecognized skills.
+                }
+                const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
+                buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
+            }
+        }
+
+        // Profession items
+        const auto prof_items = sorted_profs[cur_id]->items( u->male );
+        if( prof_items.empty() ) {
+            buffer << pgettext( "set_profession_item", "None" ) << "\n";
+        } else {
+            buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+            for( const auto &i : prof_items ) {
+                buffer << item::nname( i.type_id ) << "\n";
+            }
+        }
+
+        // Profession bionics, active bionics shown first
+        auto prof_CBMs = sorted_profs[cur_id]->CBMs();
+        std::sort(prof_CBMs.begin(), prof_CBMs.end(),
+            [=](std::string a, std::string b) {return bionics[a]->activated && !bionics[b]->activated;}
+        );
+        buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
+        if( prof_CBMs.empty() ) {
+            buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
+        } else {
+            for( const auto &b : prof_CBMs ) {
+                if (bionics[b]->activated && bionics[b]->toggled) {
+                    buffer << bionics[b]->name << " (" << _("toggled") << ")\n";
+                } else if (bionics[b]->activated) {
+                    buffer << bionics[b]->name << " (" << _("activated") << ")\n";
+                } else {
+                    buffer << bionics[b]->name << "\n";
+                }
+            }
+        }
+
+        werase( w_items );
+        const auto scroll_msg = string_format( _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
+                                               ctxt.get_desc("LEFT").c_str(),
+                                               ctxt.get_desc("RIGHT").c_str() );
+        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
@@ -1207,8 +1273,6 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_items);
-        wrefresh(w_skills);
-        wrefresh(w_addictions);
         wrefresh(w_genderswap);
 
         const std::string action = ctxt.handle_input();
@@ -1217,10 +1281,20 @@ int set_profession(WINDOW *w, player *u, int &points)
             if (cur_id > (int)sorted_profs.size() - 1) {
                 cur_id = 0;
             }
+            desc_offset = 0;
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
                 cur_id = sorted_profs.size() - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "LEFT" ) {
+            if( desc_offset > 0 ) {
+                desc_offset--;
+            }
+        } else if( action == "RIGHT" ) {
+            if( desc_offset < iheight ) {
+                desc_offset++;
             }
         } else if (action == "CONFIRM") {
             u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
@@ -1236,8 +1310,6 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     delwin(w_description);
     delwin(w_items);
-    delwin(w_skills);
-    delwin(w_addictions);
     delwin(w_genderswap);
     return retval;
 }
@@ -1308,14 +1380,14 @@ int set_skills(WINDOW *w, player *u, int &points)
                         " (%d)", int(u->skillLevel(thisSkill)));
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-            for (size_t k = 0; k < prof_skills.size(); k++) {
-                Skill *skill = Skill::skill(prof_skills[k].first);
+            for( auto &prof_skill : prof_skills ) {
+                Skill *skill = Skill::skill( prof_skill.first );
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
                 }
                 if (skill->ident() == thisSkill->ident()) {
-                    wprintz(w, (i == cur_pos ? h_white : c_white),
-                            " (+%d)", int(prof_skills[k].second));
+                    wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
+                             int( prof_skill.second ) );
                     break;
                 }
             }
@@ -1403,12 +1475,15 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
+    WINDOW_PTR w_descriptionptr( w_description );
 
     WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
                                   6 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_professionptr( w_profession );
 
     WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
                                   10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_locationptr( w_location );
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1418,6 +1493,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
     // Sort scenarios by name.
     // scenario_display_sort() keeps "Evacuee" at the top.
     std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_display_sort);
+
+    // Select the current scenario, if possible.
+    for (size_t i = 0; i < sorted_scens.size(); ++i) {
+        if (sorted_scens[i]->ident() == g->scen->ident()) {
+            cur_id = i;
+            break;
+        }
+    }
 
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
@@ -1539,21 +1622,18 @@ int set_scenario(WINDOW *w, player *u, int &points)
             g->scen = scenario::scen(sorted_scens[cur_id]->ident());
             u->prof = g->scen->get_profession();
             u->empty_traits();
+            u->empty_skills();
             u->add_traits();
             points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 
 
         } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             retval = 1;
         }
     } while (retval == 0);
 
-    delwin(w_description);
-    delwin(w_profession);
-    delwin(w_location);
     return retval;
 }
 
@@ -1566,13 +1646,23 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     draw_tabs(w, _("DESCRIPTION"));
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW_PTR w_nameptr( w_name );
     WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW_PTR w_genderptr( w_gender );
     WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW_PTR w_locationptr( w_location );
     WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_traitsptr( w_traits );
+    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_scenarioptr( w_scenario );
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 11, getbegx(w) + 47);
+    WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW_PTR w_skillsptr( w_skills );
     WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
+    WINDOW_PTR w_guideptr( w_guide );
 
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
@@ -1590,6 +1680,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("REROLL_CHARACTER");
+    ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
 
     uimenu select_location;
@@ -1646,11 +1737,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::vector<std::string>::iterator i = current_traits.begin();
-                     i != current_traits.end(); ++i) {
+                for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
-                            traits[*i].name.c_str());
+                    wprintz( w_traits, ( traits[current_trait].points > 0 ) ? c_ltgreen : c_ltred,
+                             traits[current_trait].name.c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -1666,20 +1756,18 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
             }
             std::sort(sorted.begin(), sorted.end(), skill_description_sort);
-            for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin();
-                 i != sorted.end(); ++i) {
-                skillslist.push_back((*i).first);
+            for( auto &elem : sorted ) {
+                skillslist.push_back( ( elem ).first );
             }
 
             int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
-            for (std::vector<Skill *>::iterator aSkill = skillslist.begin();
-                 aSkill != skillslist.end(); ++aSkill) {
-                int level = int(u->skillLevel(*aSkill));
+            for( auto &elem : skillslist ) {
+                int level = int( u->skillLevel( elem ) );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
-                    if (i->first == (*aSkill)->ident()) {
+                    if( i->first == ( elem )->ident() ) {
                         level += i->second;
                         break;
                     }
@@ -1687,7 +1775,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
 
                 if (level > 0) {
-                    mvwprintz(w_skills, line, 0, c_ltgray, "%s", ((*aSkill)->name() + ":").c_str());
+                    mvwprintz( w_skills, line, 0, c_ltgray, "%s",
+                               ( ( elem )->name() + ":" ).c_str() );
                     mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
@@ -1701,14 +1790,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_skills);
 
             mvwprintz(w_guide, 0, 0, c_green,
-                      _("Press %s to finish character creation or %s to go back and make revisions."),
+                      _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-                    mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s to re-roll."),
-                    ctxt.get_desc("REROLL_CHARACTER").c_str());
+            if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
+                    mvwprintz( w_guide, 1, 0, c_green, _("Press %s to save character template, %s to re-roll or %s for random scenario."),
+                               ctxt.get_desc("SAVE_TEMPLATE").c_str(), ctxt.get_desc("REROLL_CHARACTER").c_str(),
+                               ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
             }else {
                     mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
@@ -1748,6 +1836,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                    c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
         wrefresh(w_location);
 
+        werase(w_scenario);
+        mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wrefresh(w_scenario);
+
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
@@ -1772,46 +1865,20 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     continue;
                 } else {
                     u->pick_name();
-                    delwin(w_name);
-                    delwin(w_gender);
-                    delwin(w_stats);
-                    delwin(w_traits);
-                    delwin(w_profession);
-                    delwin(w_skills);
-                    delwin(w_guide);
                     return 1;
                 }
             } else if (query_yn(_("Are you SURE you're finished?"))) {
-                delwin(w_name);
-                delwin(w_gender);
-                delwin(w_stats);
-                delwin(w_traits);
-                delwin(w_profession);
-                delwin(w_skills);
-                delwin(w_guide);
                 return 1;
             } else {
                 redraw = true;
                 continue;
             }
         } else if (action == "PREV_TAB") {
-            delwin(w_name);
-            delwin(w_gender);
-            delwin(w_stats);
-            delwin(w_traits);
-            delwin(w_profession);
-            delwin(w_skills);
-            delwin(w_guide);
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
-            delwin(w_name);
-            delwin(w_gender);
-            delwin(w_stats);
-            delwin(w_traits);
-            delwin(w_profession);
-            delwin(w_skills);
-            delwin(w_guide);
+        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
             return -7;
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
+            return -8;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
@@ -1869,21 +1936,28 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
 std::vector<std::string> player::get_traits() const
 {
-    return my_traits;
+    return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
 void player::empty_traits()
 {
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (has_trait(iter->first)) {
-            toggle_trait(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( has_trait( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
+    }
+}
+void player::empty_skills()
+{
+    for( auto &skill : Skill::skills ) {
+        SkillLevel &level = skillLevel( skill );
+        level.level(0);
     }
 }
 void player::add_traits()
 {
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (g->scen->locked_traits(iter->first)) {
-            toggle_trait(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( g->scen->locked_traits( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
     }
 }
@@ -1891,9 +1965,9 @@ std::string player::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points >= 0) {
-            vTraitsGood.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
+            vTraitsGood.push_back( traits_iter.first );
         }
     }
 
@@ -1904,9 +1978,9 @@ std::string player::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points < 0) {
-            vTraitsBad.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
+            vTraitsBad.push_back( traits_iter.first );
         }
     }
 

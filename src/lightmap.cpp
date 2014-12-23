@@ -9,13 +9,14 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::add_light_from_items( const int x, const int y, const std::vector<item> &items )
+void map::add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                                std::list<item>::iterator end )
 {
-    for( auto & itm : items ) {
+    for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness
         int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
         int idir = 0;   // otherwise, it's a light_arc pointed in this direction
-        if( itm.getlight( ilum, iwidth, idir ) ) {
+        if( itm_it->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0 ) {
                 apply_light_arc( x, y, idir, ilum, iwidth );
             } else {
@@ -72,8 +73,8 @@ void map::generate_lightmap()
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
-            const std::vector<item> &items = i_at(sx, sy);
-            field &current_field = field_at(sx, sy);
+            auto items = i_at(sx, sy);
+            const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
@@ -92,7 +93,7 @@ void map::generate_lightmap()
                     }
                 }
             }
-            add_light_from_items( sx, sy, items );
+            add_light_from_items( sx, sy, items.begin(), items.end() );
             if(terrain == t_lava) {
                 add_light_source(sx, sy, 50 );
             }
@@ -105,14 +106,8 @@ void map::generate_lightmap()
                 add_light_source(sx, sy, 35 );
             }
 
-            field_entry *cur = NULL;
-            for( auto field_list_it = current_field.getFieldStart();
-                field_list_it != current_field.getFieldEnd(); ++field_list_it ) {
-                cur = field_list_it->second;
-
-                if(cur == NULL) {
-                    continue;
-                }
+            for( auto &fld : current_field ) {
+                const field_entry *cur = &fld.second;
                 // TODO: [lightmap] Attach light brightness to fields
                 switch(cur->getFieldType()) {
                 case fd_fire:
@@ -166,17 +161,21 @@ void map::generate_lightmap()
     }
 
     for (size_t i = 0; i < g->num_zombies(); ++i) {
-        int mx = g->zombie(i).posx();
-        int my = g->zombie(i).posy();
+        auto &critter = g->zombie(i);
+        if(critter.is_hallucination()) {
+            continue;
+        }
+        int mx = critter.posx();
+        int my = critter.posy();
         if (INBOUNDS(mx, my)) {
-            if (g->zombie(i).has_effect("onfire")) {
+            if (critter.has_effect("onfire")) {
                 apply_light_source(mx, my, 3, trigdist);
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if (g->zombie(i).type->luminance > 0) {
-                apply_light_source(mx, my, g->zombie(i).type->luminance, trigdist);
+            if (critter.type->luminance > 0) {
+                apply_light_source(mx, my, critter.type->luminance, trigdist);
             }
         }
     }
@@ -190,34 +189,34 @@ void map::generate_lightmap()
             float veh_luminance = 0.0;
             float iteration = 1.0;
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                veh_luminance += ( v->part_info(*part).bonus / iteration );
+            for( auto &light_indice : light_indices ) {
+                veh_luminance += ( v->part_info( light_indice ).bonus / iteration );
                 iteration = iteration * 1.1;
             }
             if (veh_luminance > LL_LIT) {
-                for (std::vector<int>::iterator part = light_indices.begin();
-                     part != light_indices.end(); ++part) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+                for( auto &light_indice : light_indices ) {
+                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
+                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        apply_light_arc(px, py, dir + v->parts[*part].direction, veh_luminance, 45);
+                        apply_light_arc( px, py, dir + v->parts[light_indice].direction,
+                                         veh_luminance, 45 );
                     }
                 }
             }
         }
         if(v->overhead_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                if((calendar::turn % 2 && v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
-                   (!(calendar::turn % 2) && v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
-                   (!v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
-                    !v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+            for( auto &light_indice : light_indices ) {
+                if( ( calendar::turn % 2 &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ||
+                    ( !( calendar::turn % 2 ) &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) ) ||
+                    ( !v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) &&
+                      !v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ) {
+                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
+                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        add_light_source( px, py, v->part_info(*part).bonus );
+                        add_light_source( px, py, v->part_info( light_indice ).bonus );
                     }
                 }
             }
@@ -229,7 +228,7 @@ void map::generate_lightmap()
                 continue;
             }
             if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
-                add_light_from_items( px, py, v->parts[p].items );
+                add_light_from_items( px, py, v->get_items(p).begin(), v->get_items(p).end() );
             }
         }
     }
@@ -360,9 +359,9 @@ void map::build_seen_cache()
             }
         }
 
-        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); ++m_it) {
-            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
+        for( auto &mirror : mirrors ) {
+            const int mirrorX = veh->global_x() + veh->parts[mirror].precalc_dx[0];
+            const int mirrorY = veh->global_y() + veh->parts[mirror].precalc_dy[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
@@ -598,8 +597,8 @@ void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                           int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
 {
-    int ax = abs(ex - sx) << 1;
-    int ay = abs(ey - sy) << 1;
+    int ax = abs(ex - sx) * 2;
+    int ay = abs(ey - sy) * 2;
     int dx = (sx < ex) ? 1 : -1;
     int dy = (sy < ey) ? 1 : -1;
     int x = sx;
@@ -615,7 +614,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     int td = 0;
     // TODO: [lightmap] Pull out the common code here rather than duplication
     if (ax > ay) {
-        int t = ay - (ax >> 1);
+        int t = ay - (ax / 2);
         do {
             if(t >= 0) {
                 y += dy;
@@ -649,7 +648,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
         } while(!(x == ex && y == ey));
     } else {
-        int t = ax - (ay >> 1);
+        int t = ax - (ay / 2);
         do {
             if(t >= 0) {
                 x += dx;

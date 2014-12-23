@@ -43,6 +43,42 @@ struct ratio_index {
     ratio_index(double R, int I) : ratio (R), index (I) {};
 };
 
+bool npc::is_dangerous_field( const field_entry &fld ) const
+{
+    switch( fld.getFieldType() ) {
+        case fd_smoke:
+            return get_env_resist( bp_mouth ) < 7;
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_gas_vent:
+        case fd_relax_gas:
+            return get_env_resist( bp_mouth ) < 15;
+        case fd_fungal_haze:
+            if( has_trait( "M_IMMUNE" ) ) {
+                return false;
+            }
+            return get_env_resist( bp_mouth ) < 15 || get_env_resist( bp_eyes ) < 15;
+        default:
+            return fld.is_dangerous();
+    }
+}
+
+bool npc::sees_dangerous_field( point p ) const
+{
+    auto &fields = g->m.field_at( p.x, p.y );
+    for( auto & fld : fields ) {
+        if( is_dangerous_field( fld.second ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool npc::could_move_onto( point p ) const
+{
+    return g->m.move_cost( p.x, p.y ) != 0 && !sees_dangerous_field( p );
+}
+
 // class npc functions!
 
 void npc::move()
@@ -64,6 +100,20 @@ void npc::move()
         }
     }
 
+    // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
+    if( sees_dangerous_field( pos() ) ) {
+        auto targets = closest_points_first( 1, pos() );
+        targets.erase( targets.begin() ); // current location
+        auto filter = [this](const point &p) {
+            return !could_move_onto( p );
+        };
+        targets.erase( std::remove_if( targets.begin(), targets.end(), filter ), targets.end() );
+        if( !targets.empty() ) {
+            const auto target = targets[rng( 0, targets.size() - 1 )];
+            move_to( target.x, target.y );
+            return;
+        }
+    }
 
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
@@ -104,7 +154,7 @@ void npc::move()
         add_msg( m_debug, "address_player %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-                || mission == NPC_MISSION_GUARD || has_disease("infection")) {
+                || mission == NPC_MISSION_GUARD || has_effect("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -185,7 +235,7 @@ void npc::execute_action(npc_action action, int target)
         if (!weapon.reload(*this, ammo_index)) {
             debugmsg("NPC reload failed.");
         }
-        recoil = 6;
+        recoil = MIN_RECOIL;
         if (g->u_see(posx, posy)) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
@@ -197,7 +247,7 @@ void npc::execute_action(npc_action action, int target)
         /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
          * we get some sleep, how long watch shifts should be, etc.
          */
-        //add_disease("lying_down", 300);
+        //add_effect("lying_down", 300);
         if (is_friend() && g->u_see(posx, posy)) {
             say(_("I'm going to sleep."));
         }
@@ -233,7 +283,7 @@ void npc::execute_action(npc_action action, int target)
         for (size_t i = 0; i < slice.size(); i++) {
             item &it = slice[i]->front();
             bool am = (it.is_gun() &&
-                       has_ammo( (dynamic_cast<it_gun *>(it.type))->ammo ).size() > 0);
+                       has_ammo( it.type->gun->ammo ).size() > 0);
             if (it.is_gun() && (!ammo_found || am)) {
                 index = i;
                 ammo_found = (ammo_found || am);
@@ -289,11 +339,11 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_shoot:
-        g->fire(*this, tarx, tary, line, false);
+        fire_gun( tarx, tary, false);
         break;
 
     case npc_shoot_burst:
-        g->fire(*this, tarx, tary, line, true);
+        fire_gun( tarx, tary, true);
         break;
 
     case npc_alt_attack:
@@ -523,7 +573,7 @@ npc_action npc::method_of_attack(int target, int danger)
     }
 
     int dist = rl_dist(posx, posy, tarx, tary);
-    unsigned target_HP;
+    int target_HP;
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
     } else {
@@ -538,7 +588,6 @@ npc_action npc::method_of_attack(int target, int danger)
             return npc_alt_attack;
         }
         if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
-            it_gun *gun = dynamic_cast<it_gun *>(weapon.type);
             if (dist > confident_range()) {
                 if (can_reload() && (enough_time_to_reload(target, weapon) || in_vehicle)) {
                     return npc_reload;
@@ -563,12 +612,12 @@ npc_action npc::method_of_attack(int target, int danger)
                 return npc_pause;//Lost you since you went invisible
             } else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)) {
                 return npc_melee;//Can't see target
-            } else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
-                       g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
+            } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
+                       g->m.sees( posx, posy, tarx, tary, weapon.gun_range( this ), junk )) {
                 return npc_melee; // If out of range, move closer to the target
-            } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
-                       gun->burst > 1 &&
-                       ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) ||
+            } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
+                       weapon.type->gun->burst > 1 &&
+                       ((weapon.has_curammo() && target_HP >= weapon.get_curammo()->damage * 3) ||
                         emergency(danger * 2))) {
                 return npc_shoot_burst;
             } else {
@@ -654,7 +703,7 @@ npc_action npc::address_player()
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
         this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
-        if (g->u.has_disease("sleep")) {
+        if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
         }
@@ -692,17 +741,19 @@ npc_action npc::address_player()
     if (attitude == NPCATT_LEAD) {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
             !g->sees_u(posx, posy, linet)) {
-            int intense = disease_intensity("catch_up");
-            if (intense < 10) {
-                say("<keep_up>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else if (intense == 10) {
-                say("<im_leaving_you>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else {
-                return npc_goto_destination;
+            if(has_effect("catch_up")) {
+                int intense = get_effect_int("catch_up");
+                if (intense < 10) {
+                    say("<keep_up>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else if (intense == 10) {
+                    say("<im_leaving_you>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else {
+                    return npc_goto_destination;
+                }
             }
         } else {
             return npc_goto_destination;
@@ -737,10 +788,10 @@ npc_action npc::long_term_goal_action()
 
 bool npc::alt_attack_available()
 {
-    for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
-        if ((!is_following() || combat_rules.use_grenades ||
-             !(itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
-            has_amount(ALT_ATTACK_ITEMS[i], 1)) {
+    for( auto &elem : ALT_ATTACK_ITEMS ) {
+        if( ( !is_following() || combat_rules.use_grenades ||
+              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
+            has_amount( elem, 1 ) ) {
             return true;
         }
     }
@@ -812,34 +863,10 @@ int npc::confident_range(int position)
     double deviation = 0;
     int max = 0;
     if (position == -1) {
-        it_gun *firing = dynamic_cast<it_gun *>(weapon.type);
-        // We want at least 50% confidence that missed_by will be < .5.
-        // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
-        // (range <= 156 / deviation) is okay, so confident range is (156 / deviation)
-        // Here we're using max values for deviation followed by *.5, for around-50% estimate.
-        // See game::fire (ranged.cpp) for where these computations come from
-
-        if (skillLevel(firing->skill_used) < 8) {
-            deviation += 3 * (8 - skillLevel(firing->skill_used));
-        }
-        if (skillLevel("gun") < 9) {
-            deviation += 9 - skillLevel("gun");
-        }
-
-        deviation += ranged_dex_mod();
-        deviation += ranged_per_mod();
-
-        deviation += encumb(bp_arm_l) + encumb(bp_arm_r) + 4 * encumb(bp_eyes);
-
-        if (weapon.curammo == NULL) { // This shouldn't happen, but it does sometimes
-            debugmsg("%s has NULL curammo!", name.c_str());    // TODO: investigate this bug
-        } else {
-            deviation += weapon.curammo->dispersion;
-            max = weapon.range();
-        }
-        deviation += firing->dispersion;
-        deviation += recoil;
-
+        deviation = get_weapon_dispersion( &weapon, true );
+        deviation += recoil + driving_recoil;
+        // Convert from MoA back to quarter-degrees.
+        deviation /= 15;
     } else { // We aren't firing a gun, we're throwing something!
 
         item *thrown = &i_at(position);
@@ -874,8 +901,8 @@ int npc::confident_range(int position)
 
     // Using 180 for now for extra-confident NPCs.
     int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
-    if (weapon.curammo && ret > weapon.range(this)) {
-        return weapon.range(this);
+    if (weapon.has_curammo() && ret > weapon.gun_range(this)) {
+        return weapon.gun_range(this);
     }
     return ret;
 }
@@ -932,8 +959,7 @@ bool npc::can_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    it_gun *gun = dynamic_cast<it_gun *> (weapon.type);
-    return (weapon.charges < gun->clip && has_ammo(gun->ammo).size() > 0);
+    return (weapon.charges < weapon.type->gun->clip && has_ammo(weapon.ammo_type()).size() > 0);
 }
 
 bool npc::need_to_reload()
@@ -941,9 +967,7 @@ bool npc::need_to_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    it_gun *gun = dynamic_cast<it_gun *> (weapon.type);
-
-    return (weapon.charges < gun->clip * .1);
+    return (weapon.charges < weapon.type->gun->clip * .1);
 }
 
 bool npc::enough_time_to_reload(int target, item &gun)
@@ -995,14 +1019,41 @@ bool npc::can_move_to(int x, int y) const
 
 void npc::move_to(int x, int y)
 {
-
-    if (has_effect("downed")) {
-        moves -= 100;
+    if (!move_effects()) {
+        mod_moves(-100);
         return;
+    }
+    if (g->m.has_flag("UNSTABLE", x, y)) {
+        add_effect("bouldering", 1, num_bp, true);
+    } else if (has_effect("bouldering")) {
+        remove_effect("bouldering");
+    }
+    if( sees_dangerous_field( point( x, y ) ) ) {
+        // move to a neighbor field instead, if possible.
+        // Maybe this code already exists somewhere?
+        if( x != posx && y != posy ) {
+            if( could_move_onto( point( x, posy ) ) ) {
+                y = posy;
+            } else if( could_move_onto( point( posx, y ) ) ) {
+                x = posx;
+            }
+        } else if( x != posx && y == posy ) {
+            if( could_move_onto( point( x, posy + 1 ) ) ) {
+                y = posy + 1;
+            } else if( could_move_onto( point( x, posy - 1 ) ) ) {
+                y = posy - 1;
+            }
+        } else if( y != posy && x == posx ) {
+            if( could_move_onto( point( posx + 1, y ) ) ) {
+                x = posx + 1;
+            } else if( could_move_onto( point( posx - 1, y ) ) ) {
+                x = posx - 1;
+            }
+        }
     }
     if (recoil > 0) { // Start by dropping recoil a little
         if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
-            recoil = 0;
+            recoil = MIN_RECOIL;
         } else {
             recoil -= int(str_cur / 2) + skillLevel("gun");
             recoil = int(recoil / 2);
@@ -1067,6 +1118,7 @@ void npc::move_to(int x, int y)
             if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
                 g->m.board_vehicle( posx, posy, this );
             }
+            g->m.creature_in_field( *this );
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
         } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
@@ -1251,7 +1303,7 @@ void npc::move_pause()
     moves = 0;
     if (recoil > 0) {
         if (str_cur + 2 * skillLevel("gun") >= (int)recoil) {
-            recoil = 0;
+            recoil = MIN_RECOIL;
         } else {
             recoil -= str_cur + 2 * skillLevel("gun");
             recoil = int(recoil / 2);
@@ -1270,7 +1322,7 @@ void npc::find_item()
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
     int linet;
-    item *wanted = NULL;
+    const item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
     }
@@ -1287,20 +1339,19 @@ void npc::find_item()
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
-                std::vector<item> &i = g->m.i_at(x, y);
-                for (std::vector<item>::iterator it = i.begin(); it != i.end(); ++it) {
-                    if ( it->made_of( LIQUID ) ) {
+                for( auto &elem : g->m.i_at(x, y) ) {
+                    if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
                         continue;
                     }
-                    int itval = value(*it);
-                    int wgt = it->weight(), vol = it->volume();
+                    int itval = value( elem );
+                    int wgt = elem.weight(), vol = elem.volume();
                     if (itval > best_value &&
                         //(itval > worst_item_value ||
                         (can_pickWeight(wgt) && can_pickVolume(vol))) {
                         itx = x;
                         ity = y;
-                        wanted = &(*it);
+                        wanted = &( elem );
                         best_value = itval;
                         fetching_item = true;
                     }
@@ -1328,40 +1379,42 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    std::vector<item> *items = &(g->m.i_at(itx, ity));
-    int total_volume = 0, total_weight = 0; // How much the items will add
+    auto items = g->m.i_at(itx, ity);
+    int total_volume = 0;
+    int total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
 
-    for ( size_t i = 0; i < items->size(); i++ ) {
-        const item &item = ( *items ) [i];
-        int itval = value( item ), vol = item.volume(),
-            wgt = item.weight();
+    for( size_t i = 0; i < items.size(); i++ ) {
+        const item &item = items[i];
+        int itval = value( item );
+        int vol = item.volume();
+        int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
              ( can_pickVolume( total_volume + vol ) &&
                can_pickWeight( total_weight + wgt ) ) &&
-             !item.made_of( LIQUID )
-           ) {
+             !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
             total_volume += vol;
             total_weight += wgt;
         }
     }
     // Describe the pickup to the player
-    bool u_see_me = g->u_see(posx, posy), u_see_items = g->u_see(itx, ity);
+    bool u_see_me = g->u_see(posx, posy);
+    bool u_see_items = g->u_see(itx, ity);
     if (u_see_me) {
         if (pickup.size() == 1) {
-            if (u_see_items)
+            if (u_see_items) {
                 add_msg(_("%s picks up a %s."), name.c_str(),
-                        (*items)[pickup[0]].tname().c_str());
-            else {
+                        items[pickup[0]].tname().c_str());
+            } else {
                 add_msg(_("%s picks something up."), name.c_str());
             }
         } else if (pickup.size() == 2) {
-            if (u_see_items)
+            if (u_see_items) {
                 add_msg(_("%s picks up a %s and a %s."), name.c_str(),
-                        (*items)[pickup[0]].tname().c_str(),
-                        (*items)[pickup[1]].tname().c_str());
-            else {
+                        items[pickup[0]].tname().c_str(),
+                        items[pickup[1]].tname().c_str());
+            } else {
                 add_msg(_("%s picks up a couple of items."), name.c_str());
             }
         } else {
@@ -1370,22 +1423,22 @@ void npc::pick_up_item()
     } else if (u_see_items) {
         if (pickup.size() == 1) {
             add_msg(_("Someone picks up a %s."),
-                    (*items)[pickup[0]].tname().c_str());
-        } else if (pickup.size() == 2)
+                    items[pickup[0]].tname().c_str());
+        } else if (pickup.size() == 2) {
             add_msg(_("Someone picks up a %s and a %s"),
-                    (*items)[pickup[0]].tname().c_str(),
-                    (*items)[pickup[1]].tname().c_str());
-        else {
+                    items[pickup[0]].tname().c_str(),
+                    items[pickup[1]].tname().c_str());
+        } else {
             add_msg(_("Someone picks up several items."));
         }
     }
 
     for (auto &i : pickup) {
-        int itval = value((*items)[i]);
+        int itval = value(items[i]);
         if (itval < worst_item_value) {
             worst_item_value = itval;
         }
-        i_add((*items)[i]);
+        i_add(items[i]);
     }
     for (auto &i : pickup) {
         g->m.i_rem(itx, ity, i);
@@ -1452,9 +1505,9 @@ void npc::drop_items(int weight, int volume)
             index = rWgt[0].index;
             rWgt.erase(rWgt.begin());
             // Fix the rest of those indices.
-            for (size_t i = 0; i < rWgt.size(); i++) {
-                if (rWgt[i].index > index) {
-                    rWgt[i].index--;
+            for( auto &elem : rWgt ) {
+                if( elem.index > index ) {
+                    elem.index--;
                 }
             }
         } else {
@@ -1580,11 +1633,11 @@ void npc::alt_attack(int target)
      * items, from least to most important.
      * See npc.h for definition of ALT_ATTACK_ITEMS
      */
-    for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
-        if ((!is_following() || combat_rules.use_grenades ||
-             !(itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
-            has_amount(ALT_ATTACK_ITEMS[i], 1)) {
-            which = ALT_ATTACK_ITEMS[i];
+    for( auto &elem : ALT_ATTACK_ITEMS ) {
+        if( ( !is_following() || combat_rules.use_grenades ||
+              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
+            has_amount( elem, 1 ) ) {
+            which = elem;
         }
     }
 
@@ -1732,10 +1785,10 @@ void npc::activate_item(int position)
     item *it = &i_at(position);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->invoke(this, it, false);
+        tool->invoke(this, it, false, pos());
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->invoke(this, it, false);
+        comest->invoke(this, it, false, pos());
     }
 }
 
@@ -1944,7 +1997,6 @@ void npc::pick_and_eat()
     }
 
     if (index == -1) {
-        debugmsg("NPC tried to eat food, but couldn't find any!");
         move_pause();
         return;
     }

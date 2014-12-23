@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "quiver",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -25,7 +25,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestsuper",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -44,7 +44,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularveststeel",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -63,7 +63,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestceramic",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -82,7 +82,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvestkevlar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -101,7 +101,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvesthard",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -120,7 +120,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "modularvest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -136,7 +136,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -159,7 +159,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "scrap", 3 ],
@@ -167,7 +168,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -309,7 +310,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mocassins",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -332,7 +333,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -350,11 +351,12 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -374,14 +376,16 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 7 ],
+      [ "tanned_hide", 1 ]
     ],
     [
-      [ "fur", 7 ]
+      [ "fur", 7 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -405,7 +409,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -435,7 +439,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -458,11 +462,13 @@
   "components": [
     [
       [ "leather", 18 ],
-      [ "fur", 18 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 18 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_western",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -484,11 +490,12 @@
   ],
   "components": [
     [
-      [ "leather", 9 ]
+      [ "leather", 9 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -510,11 +517,13 @@
   "components": [
     [
       [ "leather", 16 ],
-      [ "fur", 16 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 16 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -536,7 +545,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boxer_shorts",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -559,7 +568,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts_cargo",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -582,7 +591,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jeans",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -605,7 +614,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_undertop",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -627,7 +636,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_underpants",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -635,7 +644,7 @@
   "difficulty": 2,
   "time": 35000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
@@ -650,7 +659,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bra",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -675,7 +684,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "undershirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -697,7 +706,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "panties",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -720,7 +729,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "briefs",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -743,7 +752,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "union_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -829,7 +838,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "arm_warmers",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -915,11 +924,12 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_cargo",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -943,7 +953,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -961,11 +971,35 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "chaps_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pants_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -987,11 +1021,12 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1013,7 +1048,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tank_top",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1035,7 +1070,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tshirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1057,7 +1092,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "longshirt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1079,7 +1114,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1101,7 +1136,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1124,7 +1159,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1147,7 +1182,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hoodie",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1169,7 +1204,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bikini_top_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1191,7 +1226,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hot_pants",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1215,7 +1250,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1237,7 +1272,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1253,7 +1288,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "loincloth_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1275,7 +1310,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1293,7 +1328,7 @@
   ],
   "components": [
     [
-      [ "rag", 11 ]
+      [ "rag", 18 ]
     ]
   ]
 },{
@@ -1317,11 +1352,11 @@
   ],
   "components": [
     [
-      [ "rag", 9 ]
+      [ "rag", 16 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat",
   "id_suffix": "from_trenchcoat",
   "byproducts": { "id" : "rag", "amount" : 2 },
@@ -1342,7 +1377,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coat_rain",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1364,7 +1399,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_rain",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -1386,7 +1421,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1405,7 +1440,8 @@
   ],
   "components": [
     [
-      [ "fur", 11 ]
+      [ "fur", 30 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
@@ -1430,11 +1466,12 @@
   ],
   "components": [
     [
-      [ "fur", 9 ]
+      [ "fur", 28 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
   "id_suffix": "from_trenchcoat_fur",
   "byproducts": { "id" : "fur", "amount" : 2 },
@@ -1455,7 +1492,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1474,7 +1511,8 @@
   ],
   "components": [
     [
-      [ "leather", 22 ]
+      [ "leather", 22 ],
+      [ "tanned_hide", 4 ]
     ]
   ]
 },{
@@ -1499,11 +1537,12 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
   "id_suffix": "from_trenchcoat_leather",
   "byproducts": { "id" : "leather", "amount" : 4 },
@@ -1524,7 +1563,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "coat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1544,11 +1583,12 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "jacket_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1567,11 +1607,12 @@
   ],
   "components": [
     [
-      [ "leather", 16 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "vest_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1609,11 +1650,12 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shorts_denim",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -1662,7 +1704,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_liner",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1685,7 +1727,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_light",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1707,7 +1749,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -1730,7 +1772,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_hood",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -1753,7 +1795,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_gloves",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1776,7 +1818,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nomex_socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -1799,7 +1841,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "entry_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -1847,7 +1889,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1889,7 +1931,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fingerless_mod",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1917,7 +1959,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1940,7 +1982,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -1964,7 +2006,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armguard_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -1983,7 +2025,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armguard_metal",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -2006,7 +2048,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "legguard_metal",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -2029,7 +2071,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2048,7 +2090,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2081,7 +2123,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gauntlets_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -2103,11 +2145,13 @@
   "components": [
     [
       [ "leather", 6 ],
-      [ "fur", 6 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2129,7 +2173,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "balclava",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2152,7 +2196,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "knit_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2174,7 +2218,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "long_knit_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2196,7 +2240,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2215,7 +2259,8 @@
   ],
   "components": [
     [
-      [ "fur", 4 ]
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -2239,7 +2284,8 @@
   ],
   "components": [
     [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -2267,7 +2313,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_filter",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2297,7 +2343,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "glasses_safety",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2320,7 +2366,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_gas",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2328,7 +2374,7 @@
   "skills_required": ["fabrication", 1],
   "difficulty": 3,
   "time": 20000,
-  "reversible": true,
+  "reversible": false,
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
@@ -2424,7 +2470,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2464,7 +2510,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_survivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2504,7 +2550,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2548,11 +2594,12 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_wsurvivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2596,11 +2643,12 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2643,7 +2691,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_fsurvivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2686,7 +2734,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2731,7 +2779,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mask_h20survivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2776,7 +2824,7 @@
       ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2807,7 +2855,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_ir",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2841,7 +2889,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rebreather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2968,7 +3016,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rebreather_filter",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
@@ -3006,7 +3054,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3029,7 +3077,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hat_cotton",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3051,7 +3099,29 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "hat_boonie",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_noise_cancelling",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3094,7 +3164,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ]
   ]
 },{
@@ -3116,16 +3187,17 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "tallow", 1 ],
       [ "cooking_oil", 1 ],
-      [ "lamp_oil", 1 ]
+      [ "lamp_oil", 200 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sundress",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3148,7 +3220,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3167,7 +3239,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3186,7 +3258,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3206,7 +3278,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3232,11 +3304,13 @@
     ],
     [
       [ "leather", 20 ],
-      [ "fur", 20 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3259,11 +3333,13 @@
   "components": [
     [
       [ "leather", 42 ],
-      [ "fur", 42 ]
+      [ "tanned_hide", 7 ],
+      [ "fur", 42 ],
+      [ "tanned_pelt", 7 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_farmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3284,11 +3360,12 @@
   ],
   "components": [
     [
-      [ "fur", 48 ]
+      [ "fur", 48 ],
+      [ "tanned_pelt", 8 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_blarmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3327,7 +3404,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_plarmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3355,7 +3432,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "backpack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3373,13 +3450,11 @@
   ],
   "components": [
     [
-      [ "rag", 20 ],
-      [ "fur", 16 ],
-      [ "leather", 12 ]
+      [ "rag", 20 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "backpack_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3397,14 +3472,87 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ],
     [
       [ "scrap", 6 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "chestrig",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skills_required" : ["fabrication", 2],
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 25 ],
+      [ "needle_wood", 25 ],
+      [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "toolset", 5],
+      [ "hotplate", 5],
+      [ "fire", -1]
+    ],
+    [
+      [ "mold_plastic", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 16 ]
+    ],
+    [
+      [ "ragpouch", 2],
+      [ "leather_pouch", 2]
+    ],
+    [
+      [ "plastic_chunk", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "legrig",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skills_required" : ["fabrication", 2],
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ]
+    ],
+    [
+      [ "toolset", 5],
+      [ "hotplate", 5],
+      [ "fire", -1]
+    ],
+    [
+      [ "mold_plastic", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 10 ]
+    ],
+    [
+      [ "plastic_chunk", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "duffelbag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3424,11 +3572,13 @@
     [
       [ "rag", 40 ],
       [ "fur", 32 ],
-      [ "leather", 24 ]
+      [ "tanned_pelt", 6 ],
+      [ "leather", 24 ],
+      [ "tanned_hide", 6 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3450,7 +3600,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "down_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3471,11 +3621,11 @@
       [ "rag", 35 ]
     ],
     [
-      [ "feather", 160]
+      [ "down_feather", 160]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3498,11 +3648,12 @@
       [ "rag", 30 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "house_coat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3524,7 +3675,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3546,7 +3697,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3566,11 +3717,12 @@
   ],
   "components": [
     [
-      [ "fur", 15 ]
+      [ "fur", 15 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cloak_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3588,11 +3740,12 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeping_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3615,7 +3768,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3639,11 +3792,12 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ragpouch",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3672,7 +3826,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_pouch",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -3691,7 +3845,8 @@
   ],
   "components": [
     [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "string_36", 1 ],
@@ -3713,7 +3868,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "rag", 4 ],
+      [ "rag", 6 ],
       [ "fur", 2 ],
       [ "leather", 1 ]
     ],
@@ -3742,7 +3897,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_scrapsuit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -3755,7 +3910,7 @@
   "components": [ [ ["string_36", 2], ["string_6", 12] ],
     [ ["scrap", 15] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bookplate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3819,13 +3974,13 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_wraps",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 10000,
+  "time": 1000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -3834,7 +3989,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "apron_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3852,11 +4007,12 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trenchcoat_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -3964,7 +4120,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
   "id_suffix": "from_trenchcoat_survivor",
   "byproducts": { "id" : "rag", "amount" : 4 },
@@ -3985,7 +4141,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pants_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -4035,32 +4191,18 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_belt",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
-  "skill_used": "tailor",
-  "skills_required" : ["fabrication", 3],
-  "difficulty": 6,
-  "time": 80000,
-  "reversible": false,
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-      [
-      [ "needle_bone", 140 ],
-      [ "needle_wood", 140 ],
-      [ "sewing_kit", 140 ]
-    ]
-  ],
   "components": [
      [
-      [ "leather", 6 ]
-     ],
-     [
-      [ "duct_tape", 100 ]
+      [ "survivor_belt_notools", 1 ]
      ],
      [
       [ "screwdriver", 1]
@@ -4075,21 +4217,11 @@
       [ "hacksaw", 1]
      ],
      [
-      [ "hammer", 1],
-      [ "hatchet", 1 ]
-     ],
-     [
-      [ "sheath", 1]
-     ],
-     [
-      [ "legrig", 1 ],
-      [ "tool_belt", 1 ],
-      [ "dump_pouch", 1 ],
-      [ "leather_pouch", 4 ]
+      [ "hammer", 1]
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_vest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4114,7 +4246,12 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
+     ],
+     [
+      [ "holster", 1 ],
+      [ "sholster", 1 ]
      ],
      [
       [ "chestrig", 1 ],
@@ -4132,7 +4269,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_runner_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4157,7 +4294,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 2 ],
@@ -4181,7 +4319,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4206,7 +4344,8 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 4 ],
@@ -4230,7 +4369,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_rucksack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4255,7 +4394,8 @@
       [ "rag", 14 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "backpack", 4 ],
@@ -4280,7 +4420,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_duffel_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
@@ -4305,7 +4445,8 @@
       [ "rag", 18 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "molle_pack", 4 ],
@@ -4328,7 +4469,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4382,7 +4523,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4412,7 +4553,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4439,7 +4581,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4470,7 +4612,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "steel_chunk", 4 ],
@@ -4501,7 +4644,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4531,10 +4674,12 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4561,7 +4706,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4621,7 +4766,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "h20survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4676,7 +4821,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "xlsurvivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4706,7 +4851,8 @@
       [ "rag", 30 ]
      ],
      [
-      [ "leather", 40 ]
+      [ "leather", 40 ],
+      [ "tanned_hide", 7 ]
      ],
     [
       ["scrap", 8]
@@ -4736,7 +4882,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -4763,7 +4909,8 @@
   ],
   "components": [
      [
-      [ "leather", 24 ]
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "rag", 6 ]
@@ -4780,7 +4927,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -4807,7 +4954,8 @@
   ],
   "components": [
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 6 ]
@@ -4824,7 +4972,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -4851,7 +4999,8 @@
   ],
   "components": [
      [
-      [ "leather", 14 ]
+      [ "leather", 14 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 4 ]
@@ -4871,7 +5020,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_xlsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -4904,7 +5053,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "plastic_chunk", 20 ]
@@ -4921,7 +5071,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -4962,7 +5112,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -4989,7 +5139,8 @@
   ],
   "components": [
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -5006,7 +5157,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5048,7 +5199,8 @@
       [ "bag_plastic", 2 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "duct_tape", 150 ]
@@ -5067,7 +5219,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5129,7 +5281,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5156,7 +5308,8 @@
   ],
   "components": [
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -5173,7 +5326,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5214,7 +5367,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hood_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5254,7 +5407,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5302,7 +5455,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5332,7 +5485,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5350,7 +5504,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5401,7 +5555,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5431,7 +5585,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5449,7 +5604,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5494,7 +5649,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -5535,7 +5690,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5579,7 +5734,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5606,7 +5761,8 @@
   ],
   "components": [
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -5623,7 +5779,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5674,7 +5830,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5701,7 +5857,8 @@
   ],
   "components": [
      [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -5718,7 +5875,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5763,7 +5920,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_h20survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5808,7 +5965,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "aep_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -5843,7 +6000,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "anbc_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -5878,7 +6035,7 @@
      ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_welding",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5906,7 +6063,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "goggles_swim",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -5930,7 +6087,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "swim_fins",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -5969,7 +6126,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_cat_ears",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -5999,7 +6156,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_cat_ears",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6029,7 +6186,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_cat_tail",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6068,7 +6225,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_cat_tail",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6107,7 +6264,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fur_collar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6140,7 +6297,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leather_collar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -6191,7 +6348,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leathersandals",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6213,7 +6370,7 @@
     ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bastsandals",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6233,7 +6390,7 @@
     ]
   ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "clogs",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6259,7 +6416,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 500,
+  "time": 1000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -6268,7 +6425,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "miner_hat",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6292,7 +6449,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6330,7 +6487,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6369,7 +6526,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_gloves",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -6408,7 +6565,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thermal_mask",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6459,13 +6616,14 @@
     "autolearn": false,
     "book_learn": [
         ["textbook_weapwest", 5], ["textbook_weapeast", 5],
-        ["textbook_armwest", 5], ["textbook_armeast", 5] ],
+        ["textbook_armwest", 5], ["textbook_armeast", 5]
+    ],
     "qualities":[
         {"id":"HAMMER","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+        {"id":"CUT","level":1,"amount":1}
     ],
     "components": [
-        [ [ "leather", 10 ] ],
+        [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
         [ ["superglue", 1] ],
         [ ["2x4", 2] ],
         [ ["nail", 5] ]
@@ -6490,13 +6648,71 @@
       ]
     ],
     "components": [
-      [ [ "leather", 6 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [
         [ "string_36", 1 ],
         [ "string_6", 6 ],
         [ "sinew", 20 ],
         [ "thread", 20 ],
         [ "plant_fibre", 20 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "sholster",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "pistol", 3 ],
+    "difficulty": 3,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 20 ],
+        [ "needle_wood", 20 ],
+        [ "sewing_kit", 20 ]
+      ]
+    ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [
+        [ "string_36", 2 ],
+        [ "string_6", 12 ],
+        [ "sinew", 40 ],
+        [ "thread", 40 ],
+        [ "plant_fibre", 40 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "back_holster",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 3,
+    "time": 18000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 30 ],
+        [ "needle_wood", 30 ],
+        [ "sewing_kit", 30 ]
+      ]
+    ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [
+        [ "string_36", 3 ],
+        [ "string_6", 18 ],
+        [ "sinew", 60 ],
+        [ "thread", 60 ],
+        [ "plant_fibre", 60 ]
       ]
     ]
   },
@@ -6549,7 +6765,8 @@
     ],
      "components": [
       [
-        [ "leather", 6 ]
+        [ "leather", 6 ],
+        [ "tanned_hide", 1 ]
       ],
       [
         [ "string_36", 1 ],
@@ -6560,7 +6777,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6596,11 +6813,13 @@
      ],
      [
       [ "fur", 16 ],
-      [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+      [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_lightplate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6637,11 +6856,13 @@
     ],
     [
      [ "fur", 20 ],
-     [ "leather", 20 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 20 ],
+     [ "tanned_hide", 3 ]
     ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gloves_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -6678,11 +6899,13 @@
     ],
     [
      [ "fur", 10 ],
-     [ "leather", 10 ]
+     [ "tanned_pelt", 2 ],
+     [ "leather", 10 ],
+     [ "tanned_hide", 2 ]
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boots_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6720,11 +6943,13 @@
     ],
     [
      [ "fur", 16 ],
-     [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_plate",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6765,7 +6990,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_barbute",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6806,7 +7031,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "armor_samurai",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6843,14 +7068,16 @@
     ],
     [
      [ "fur", 28 ],
-     [ "leather", 28 ]
+     [ "tanned_pelt", 6 ],
+     [ "leather", 28 ],
+     [ "tanned_hide", 6 ]
     ],
     [
      [ "rag", 10 ]
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_kabuto",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6860,52 +7087,1336 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-    "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+  "qualities": [ {"id":"HAMMER","level":3,"amount":1} ],
   "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
-     ],
-     [
-      ["anvil", -1]
-     ],
-     [
-      ["crucible", -1]
-     ],
-     [
-      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
-     ]
-    ],
-  "components":
-   [
-    [
-     [ "steel_lump", 12 ]
-    ],
-    [
-     [ "fur", 14 ],
-     [ "leather", 14 ]
-    ],
-    [
-     [ "rag", 4 ]
-    ]
-   ]
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["crucible", -1] ],
+    [ ["forge", 450], ["char_forge", 90], ["oxy_torch", 90] ]
+  ],
+  "components": [
+    [ [ "steel_lump", 12 ] ],
+    [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
+    [ [ "rag", 4 ] ]
+  ]
 },{
   "type" : "recipe",
   "result": "helmet_netting",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "components": [ [ [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500] ] ]
+},{
+  "type" : "recipe",
+  "result": "sweater",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
   "components": [
     [
-      [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500]
+      [ "yarn", 600 ]
     ]
   ]
-}
+},{
+  "type" : "recipe",
+  "result": "socks_wool",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 75 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wool",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 20 ],
+        [ "needle_wood", 20 ],
+        [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hat_knit",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 75 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "beret_wool",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 20 ],
+        [ "needle_wood", 20 ],
+        [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scarf",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 150 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mittens",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 250 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hat_hunting",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 50 ],
+        [ "needle_wood", 50 ],
+        [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scarf_long",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 300 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "poncho",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "yarn", 16 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "peacoat",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 120 ],
+        [ "needle_wood", 120 ],
+        [ "sewing_kit", 120 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 30 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "blazer",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 100 ],
+        [ "needle_wood", 100 ],
+        [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 25 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "boots_winter",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [ [ "felt_patch", 20 ] ],
+    [ [ "bag_plastic", 8 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plastic_shopping_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [
+    [ [ "string_36", 2 ] ],
+    [ [ "bag_plastic", 8 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "duster",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 42000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 32 ],
+      [ "needle_wood", 32 ],
+      [ "sewing_kit", 32 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 15 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster",
+  "id_suffix": "from_rags",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35700,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 27 ],
+      [ "needle_wood", 27 ],
+      [ "sewing_kit", 27 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster",
+  "id_suffix": "from_duster",
+  "byproducts": { "id" : "rag", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 21000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "duster_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 15 ],
+      [ "tanned_pelt", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_fur",
+  "id_suffix": "from_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_fur",
+  "id_suffix": "from_duster_fur",
+  "byproducts": { "id" : "fur", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_fur", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "duster_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 29 ],
+      [ "tanned_hide", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_leather",
+  "id_suffix": "from_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_leather",
+  "id_suffix": "from_duster_leather",
+  "byproducts": { "id" : "leather", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_leather", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "duster_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 135 ],
+      [ "needle_wood", 135 ],
+      [ "sewing_kit", 135 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "duster", 1 ],
+      [ "duster_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 16 ]
+     ],
+     [
+      [ "rag", 19 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 135 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_survivor",
+  "id_suffix": "from_stuff",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time. The sleeveless survivor duster is the exception with the premade wearable items.",
+  "time": 59500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 115 ],
+      [ "needle_wood", 115 ],
+      [ "sewing_kit", 115 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "duster", 1 ],
+      [ "duster_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 13 ]
+     ],
+     [
+      [ "rag", 14 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 115 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_survivor",
+  "id_suffix": "from_duster_survivor",
+  "byproducts": { "id" : "rag", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_survivor", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "straw_basket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 5 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_sandals",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 4 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 3 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_fedora",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
+  "components": [ [ [ "straw_pile", 7 ] ] ]
+},{
+        "type" : "recipe",
+  "result": "patchwork_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "long_patchwork_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 9 ],
+      [ "needle_wood", 9 ],
+      [ "sewing_kit", 9 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leather_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "tool_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 16000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+      [ "leather_belt", 1 ]
+    ],
+    [
+      [ "leather_pouch", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "survivor_belt_notools",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 6,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 140 ],
+      [ "needle_wood", 140 ],
+      [ "sewing_kit", 140 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+      [ "leather_belt", 1 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "sheath", 1]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "dump_pouch", 1 ],
+      [ "leather_pouch", 4 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "thermal_outfit",
+  "id_suffix": "thermal_outfit_from_scratch",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "skills_required" : [ "tailor", 2 ],
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 52 ],
+      [ "needle_wood", 52 ],
+      [ "sewing_kit", 52 ]
+    ],
+    [
+      [ "soldering_iron", 100 ],
+      [ "toolset", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 40 ]
+    ],
+    [
+      [ "element", 18 ]
+    ],
+    [
+      [ "cable", 37 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "thermal_outfit",
+  "id_suffix": "thermal_outfit_from_bits",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "skills_required" : [ "tailor", 2 ],
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thermal_suit", 1 ]
+    ],
+    [
+      [ "thermal_gloves", 1 ]
+    ],
+    [
+      [ "thermal_socks", 1 ]
+    ],
+    [
+      [ "thermal_mask", 1 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "armguard_paper",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "paper", 60 ]
+    ],
+    [
+      [ "duct_tape", 10 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "legguard_paper",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "paper", 60 ]
+    ],
+    [
+      [ "duct_tape", 10 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "gloves_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "plastic_shopping_bag", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "socks_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "plastic_shopping_bag", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "turban",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "keffiyeh",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "mask_rioter",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "tshirt", 1 ],
+      [ "flag_shirt", 1 ],
+      [ "linuxtshirt", 1 ],
+      [ "tshirt_text", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tunic_rag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "helmet_nomad",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 8,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 65 ],
+      [ "needle_wood", 65 ],
+      [ "sewing_kit", 65 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hat_ball", 1 ],
+      [ "hat_hunting", 1 ]
+    ],
+    [
+      [ "glasses_safety", 1 ],
+      [ "glasses_bal", 1 ]
+    ],
+    [
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "chainmail_suit",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "chainmail_hood", 1 ]
+    ],
+    [
+      [ "chainmail_vest", 1 ]
+    ],
+    [
+      [ "chainmail_arms", 1 ]
+    ],
+    [
+      [ "chainmail_legs", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "armor_nomad",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 90 ],
+      [ "needle_wood", 90 ],
+      [ "sewing_kit", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "duster", 1 ]
+    ],
+    [
+      [ "vest", 1 ],
+      [ "chestrig", 1 ]
+    ],
+    [
+      [ "ragpouch", 1 ],
+      [ "leather_pouch", 1 ],
+      [ "dump_pouch", 1 ],
+      [ "legrig", 1 ]
+    ],
+    [
+      [ "tool_belt", 1 ],
+      [ "legrig", 1 ]
+    ],
+    [
+      [ "pants_cargo", 1 ],
+      [ "pants_army", 1 ]
+    ],
+    [
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wool_hoodie",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 150000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 100 ],
+        [ "needle_wood", 100 ],
+        [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cowl_wool",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_MOUTH",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wool_suit",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 8,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 200 ],
+        [ "needle_wood", 200 ],
+        [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 42 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mask_ski",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_MOUTH",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 150000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 80 ],
+        [ "needle_wood", 80 ],
+        [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 8 ]
+    ]
+  ]
+ }
 ]

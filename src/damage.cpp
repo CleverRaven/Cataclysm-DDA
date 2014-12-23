@@ -29,18 +29,16 @@ void damage_instance::add_effect( std::string effect )
 
 void damage_instance::mult_damage(double multiplier)
 {
-    for (std::vector<damage_unit>::iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        it->damage_multiplier *= multiplier;
+    for( auto &elem : damage_units ) {
+        elem.damage_multiplier *= multiplier;
     }
 }
 float damage_instance::type_damage(damage_type dt) const
 {
     float ret = 0;
-    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        if (it->type == dt) {
-            ret += it->amount;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret += elem.amount;
         }
     }
     return ret;
@@ -49,9 +47,8 @@ float damage_instance::type_damage(damage_type dt) const
 float damage_instance::total_damage() const
 {
     float ret = 0;
-    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        ret += it->amount;
+    for( const auto &elem : damage_units ) {
+        ret += elem.amount;
     }
     return ret;
 }
@@ -200,10 +197,12 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
         g->flashbang(x, y);
     }
 
+    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if (!g->u.weapon.has_flag("NO_BOOM") && effects.count("FLAME")) {
         g->explosion(x, y, 4, 0, true);
     }
 
+    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if (g->u.weapon.has_flag("FLARE") || effects.count("FLARE")) {
         g->m.add_field(x, y, fd_fire, 1);
     }

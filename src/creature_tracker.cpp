@@ -24,7 +24,7 @@ int Creature_tracker::mon_at(int x_pos, int y_pos) const
 
 int Creature_tracker::mon_at(point coords) const
 {
-    std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
+    const auto iter = _old_monsters_by_location.find(coords);
     if (iter != _old_monsters_by_location.end()) {
         const int critter_id = iter->second;
         if (!_old_monsters_list[critter_id]->is_dead()) {
@@ -36,7 +36,7 @@ int Creature_tracker::mon_at(point coords) const
 
 int Creature_tracker::dead_mon_at(point coords) const
 {
-    std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
+    const auto iter = _old_monsters_by_location.find(coords);
     if (iter != _old_monsters_by_location.end()) {
         const int critter_id = iter->second;
         if (_old_monsters_list[critter_id]->is_dead()) {
@@ -102,7 +102,7 @@ void Creature_tracker::remove(const int idx)
 {
     monster &m = *_old_monsters_list[idx];
     const point oldloc(m.posx(), m.posy());
-    const std::map<point, int>::const_iterator i = _old_monsters_by_location.find(oldloc);
+    const auto i = _old_monsters_by_location.find(oldloc);
     const int prev = (i == _old_monsters_by_location.end() ? -1 : i->second);
 
     if (prev == idx) {
@@ -113,19 +113,17 @@ void Creature_tracker::remove(const int idx)
     _old_monsters_list.erase(_old_monsters_list.begin() + idx);
 
     // Fix indices in _old_monsters_by_location for any zombies that were just moved down 1 place.
-    for (std::map<point, int>::iterator iter = _old_monsters_by_location.begin();
-         iter != _old_monsters_by_location.end(); ++iter) {
-        if (iter->second > idx) {
-            --iter->second;
+    for( auto &elem : _old_monsters_by_location ) {
+        if( elem.second > idx ) {
+            --elem.second;
         }
     }
 }
 
 void Creature_tracker::clear()
 {
-    for (std::vector<monster *>::iterator it = _old_monsters_list.begin();
-         it != _old_monsters_list.end(); ++it) {
-        delete *it;
+    for( auto monster_ptr : _old_monsters_list ) {
+        delete monster_ptr;
     }
     _old_monsters_list.clear();
     _old_monsters_by_location.clear();
@@ -144,9 +142,8 @@ const std::vector<monster> &Creature_tracker::list() const
 {
     static std::vector<monster> for_now;
     for_now.clear();
-    for (std::vector<monster *>::const_iterator it = _old_monsters_list.begin();
-         it != _old_monsters_list.end(); ++it) {
-        for_now.push_back(**it);
+    for( const auto monster_ptr : _old_monsters_list ) {
+        for_now.push_back( *monster_ptr );
     }
     return for_now;
 }

@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "salt_water",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -19,16 +19,17 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "saline",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "cooking",
+  "skill_used": "firstaid",
   "difficulty": 2,
+  "skills_required": [ "cooking", 2 ],
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
+  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 2], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
   ], "tools": [
@@ -48,7 +49,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "acid",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -73,7 +74,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "acid",
   "id_suffix": "from batteries",
   "category": "CC_CHEM",
@@ -92,7 +93,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "water_acid",
   "id_suffix": "from electrolysis",
   "category": "CC_CHEM",
@@ -116,7 +117,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lamp_oil",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -148,7 +149,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "handrolled_cig",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -163,11 +164,12 @@
     ],
     [
       [ "cig_butt", 5 ],
+      [ "cigar_butt", 5 ],
       [ "tobacco", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "joint",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -186,7 +188,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "meth",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -221,7 +223,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "crack",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -254,7 +256,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "poppy_sleep",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -284,7 +286,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "poppy_pain",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -314,7 +316,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fungicide",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -346,7 +348,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "antifungal",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -379,7 +381,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "antiparasitic",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -416,7 +418,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "adrenaline_injector",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -456,7 +458,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "heroin",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -487,7 +489,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "diazepam",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -521,7 +523,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "thorazine",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -555,7 +557,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lsd",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -595,7 +597,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -635,7 +637,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -662,7 +664,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_plant",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -698,7 +700,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_plant",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -725,7 +727,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_insect",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -762,7 +764,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_insect",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -789,7 +791,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_spider",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -824,7 +826,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_spider",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -851,7 +853,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_slime",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -886,7 +888,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_slime",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -913,7 +915,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_fish",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -951,7 +953,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_fish",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -978,7 +980,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_rat",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1012,7 +1014,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_rat",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1039,7 +1041,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_beast",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1283,7 +1285,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1317,7 +1319,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_cattle",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1344,7 +1346,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_cephalopod",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1371,7 +1373,8 @@
     ],
     [
       [ "meat_tainted", 3 ],
-      [ "can_chowder", 1 ]
+      [ "can_chowder", 1 ],
+      [ "can_clams", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1379,7 +1382,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_cephalopod",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1406,7 +1409,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_bird",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1440,7 +1443,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_bird",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1467,7 +1470,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_lizard",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1501,7 +1504,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_lizard",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1528,7 +1531,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1562,7 +1565,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_troglobite",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1589,7 +1592,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_medical",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1639,7 +1642,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_medical",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1666,7 +1669,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "canister_goo",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1687,7 +1690,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "purifier",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1723,7 +1726,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_purifier",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1782,11 +1785,12 @@
       [ "mutagen_bird", 2 ]
     ],
     [
-      [ "purifier", 4 ]
+      [ "purifier", 4 ],
+      [ "iv_purifier", 2 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_alpha",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1846,7 +1850,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_elfa",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1909,7 +1913,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_chimera",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -1969,7 +1973,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iv_mutagen_raptor",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -2025,7 +2029,6 @@
       [ "rum", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
-      [ "triple_sec", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
       [ "bleach", 1 ]
@@ -2038,7 +2041,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "iodine",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2069,7 +2072,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "aspirin",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -2104,7 +2107,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pur_tablets",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -2137,7 +2140,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bleach",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2159,7 +2162,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "ammonia",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2188,7 +2191,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "oxy_powder",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2217,7 +2220,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "lye_powder",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2246,7 +2249,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "heatpack",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -2274,7 +2277,8 @@
   "components": [
     [
       [ "rag", 1 ],
-      [ "bag_plastic", 1 ]
+      [ "bag_plastic", 1 ],
+      [ "heatpack_used", 1 ]
     ],
     [
       [ "oxy_powder", 5 ]
@@ -2284,7 +2288,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "superglue",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -2312,6 +2316,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
+      [ "cured_hide", 2 ],
       [ "pine_bough", 10 ],
       [ "raw_dandelion", 20 ],
       [ "biollante_bud", 1],
@@ -2320,7 +2325,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pheromone",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2348,7 +2353,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fertilizer_liquid",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2371,7 +2376,7 @@
     [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flask_yeast",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -2417,10 +2422,163 @@
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[ {"id" : "CHEM", "level" : 1, "amount" : 1} ],
   "components": [
-    [ [ "jug_plastic", 1 ], [ "jar_3l_glass",1 ] ],
+    [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
     [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-    [ [ "gasoline", 400 ], [ "sugar", 8 ] ],
+    [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "sugar", 8 ] ],
     [ [ "string_6", 1 ], [ "rag", 1] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "slime_scrap",
+  "byproducts": "slime_scrap",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+      [
+        [ "chemistry_set", 20 ]
+      ]
+    ],
+  "components": [
+      [
+        [ "meat_tainted", 1 ],
+        [ "dry_meat_tainted", 1 ]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "soap",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "qualities" : [
+    {"id":"CHEM","level":1,"amount":1}],
+  "autolearn": true,
+  "tools": [
+    [
+     [ "chemistry_set", 18 ],
+     [ "hotplate", 18 ],
+     [ "toolset", 18 ],
+     [ "fire", -1 ]
+    ]
+    ],
+  "components": [
+    [
+     [ "tallow", 5 ],
+     [ "lard", 5 ],
+     [ "cooking_oil", 5 ]
+    ],
+    [
+     [ "lye_powder", 20 ]
+    ],
+    [
+     [ "water", 1 ],
+     [ "water_clean", 1 ]
+    ]
+   ]
+},{
+  "type" : "recipe",
+  "result": "poppysyrup",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "poppy_bud", 2 ]
+    ],
+    [
+      [ "poppy_flower", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "inhaler_sewergas",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 10 ],
+      [ "hotplate", 10 ],
+      [ "chemistry_set", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sewage", 1 ]
+    ],
+    [
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "inhaler", 100 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "gasoline",
+  "byproducts": ["diesel", "lamp_oil"],
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
+  "tools": [
+    [
+      [ "chemistry_set", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "plant_sac", 10 ],
+      [ "veggy", 6 ]
+    ],
+    [
+      [ "lye_powder", 5 ]
+    ]
   ]
 }
 ]

@@ -5,7 +5,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
+#include "item.h"
 #include "veh_type.h"
 #include <fstream>
 
@@ -540,7 +540,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
                 // Draw lighting
                 draw_lighting(x, y, l);
                 // continue on to next part of loop
-                g->mapRain[my][mx] = false;
                 continue;
             }
             // light is no longer being considered, for now.
@@ -548,7 +547,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             if (!draw_terrain(x, y)) {
                 continue;
             }
-            g->mapRain[my][mx] = g->m.is_outside(x, y);
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);
@@ -611,18 +609,23 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     rows = ceil((double) height / tile_height);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
 {
     return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                     const std::string &subcategory, int x, int y,
+                                     int subtile, int rota)
 {
-    // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
+    // If the ID string does not produce a drawable tile
+    // it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
 
-    // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
-    if (x - o_x < 0 || x - o_x >= screentile_width || y - o_y < 0 || y - o_y >= screentile_height) {
+    // check to make sure that we are drawing within a valid area
+    // [0->width|height / tile_width|height]
+    if( x - o_x < 0 || x - o_x >= screentile_width ||
+        y - o_y < 0 || y - o_y >= screentile_height ) {
         return false;
     }
 
@@ -642,11 +645,11 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         break;
     }
     tile_id_iterator it = tile_ids.find(seasonal_id);
-    if (it != tile_ids.end()) {
-        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    if (it == tile_ids.end()) {
+        it = tile_ids.find(id);
+    } else {
+        id = seasonal_id;
     }
-
-    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -694,9 +697,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            const itype *i = item_controller->find_template(id);
-            sym = i->sym;
-            col = i->color;
+            const auto tmp = item( id, 0 );
+            sym = tmp.symbol();
+            col = tmp.color();
         }
         // Special cases for walls
         switch(sym) {
@@ -978,9 +981,7 @@ bool cata_tiles::draw_trap(int x, int y)
 bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
-    field &f = g->m.field_at(x, y);
-    // check for items
-    const std::vector<item> &items = g->m.i_at(x, y);
+    const field &f = g->m.field_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -1044,6 +1045,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
+        auto items = g->m.i_at(x, y);
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
@@ -1093,7 +1095,7 @@ bool cata_tiles::draw_vpart(int x, int y)
         }
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);

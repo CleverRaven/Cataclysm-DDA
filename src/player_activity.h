@@ -16,6 +16,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_LONGCRAFT,
     ACT_DISASSEMBLE,
     ACT_BUTCHER,
+    ACT_LONGSALVAGE,
     ACT_FORAGE,
     ACT_BUILD,
     ACT_VEHICLE,
@@ -25,6 +26,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_FIRSTAID,
     ACT_FISH,
     ACT_PICKAXE,
+    ACT_BURROW,
     ACT_PULP,
     ACT_VIBE,
     ACT_MAKE_ZLAVE,
@@ -33,6 +35,10 @@ enum activity_type {    // expanded this enum for readability
     ACT_PICKUP,
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
+    ACT_START_FIRE,
+    ACT_FILL_LIQUID,
+    ACT_HOTWIRE_CAR,
+    ACT_AIM,
     NUM_ACTIVITIES
 };
 

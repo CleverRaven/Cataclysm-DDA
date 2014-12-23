@@ -27,22 +27,18 @@ mapbuffer::~mapbuffer()
 
 void mapbuffer::reset()
 {
-    for (auto it = submaps.begin(); it != submaps.end(); ++it) {
-        delete it->second;
+    for( auto &elem : submaps ) {
+        delete elem.second;
     }
     submaps.clear();
 }
 
 bool mapbuffer::add_submap(const tripoint &p, submap *sm)
 {
-    dbg(D_INFO) << "mapbuffer::add_submap( x[" <<
-                p.x << "], y[" << p.y << "], z[" << p.z << "], submap[" << sm << "])";
-
     if (submaps.count(p) != 0) {
         return false;
     }
 
-    sm->turn_last_touched = int(calendar::turn);
     submaps[p] = sm;
 
     return true;
@@ -92,8 +88,6 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
         return NULL;
     }
 
-    dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
-
     return submaps[p];
 }
 
@@ -117,7 +111,7 @@ void mapbuffer::save( bool delete_after_save )
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
     std::list<tripoint> submaps_to_delete;
-    for( submap_map_t::iterator it = submaps.begin(); it != submaps.end(); ++it ) {
+    for( auto &elem : submaps ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
@@ -126,7 +120,7 @@ void mapbuffer::save( bool delete_after_save )
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
         // we have the rest of it, if that assumtion is broken we have REAL problems.
-        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( it->first );
+        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( elem.first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             // Already handled this one.
             continue;
@@ -155,9 +149,8 @@ void mapbuffer::save( bool delete_after_save )
                    om_addr.y > map_origin.y + (MAPSIZE / 2) );
         num_saved_submaps += 4;
     }
-    for( std::list<tripoint>::iterator it = submaps_to_delete.begin();
-         it != submaps_to_delete.end(); ++it ) {
-        remove_submap( *it );
+    for( auto &elem : submaps_to_delete ) {
+        remove_submap( elem );
     }
 }
 
@@ -177,11 +170,10 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
     offsets.push_back( point(1, 1) );
     JsonOut jsout( fout );
     jsout.start_array();
-    for( std::vector<point>::iterator offset = offsets.begin();
-         offset != offsets.end(); ++offset ) {
+    for( auto &offsets_offset : offsets ) {
         tripoint submap_addr = overmapbuffer::omt_to_sm_copy( om_addr );
-        submap_addr.x += offset->x;
-        submap_addr.y += offset->y;
+        submap_addr.x += offsets_offset.x;
+        submap_addr.y += offsets_offset.y;
 
         if (submaps.count(submap_addr) == 0) {
             continue;
@@ -295,31 +287,13 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                     jsout.write( i );
                     jsout.write( j );
                     jsout.start_array();
-                    for( auto it = sm->fld[i][j].getFieldStart();
-                         it != sm->fld[i][j].getFieldEnd(); ++it ) {
-                        if(it->second != NULL) {
+                    for( auto &fld : sm->fld[i][j] ) {
+                        const field_entry &cur = fld.second;
                             // We don't seem to have a string identifier for fields anywhere.
-                            jsout.write( it->second->getFieldType() );
-                            jsout.write( it->second->getFieldDensity() );
-                            jsout.write( it->second->getFieldAge() );
-                        }
+                            jsout.write( cur.getFieldType() );
+                            jsout.write( cur.getFieldDensity() );
+                            jsout.write( cur.getFieldAge() );
                     }
-                    jsout.end_array();
-                }
-            }
-        }
-        jsout.end_array();
-
-        jsout.member( "graffiti" );
-        jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
-                // Save graffiti
-                if (sm->get_graffiti(i, j).contents) {
-                    jsout.start_array();
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.write( *sm->get_graffiti(i, j).contents );
                     jsout.end_array();
                 }
             }
@@ -344,28 +318,26 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         // Output the spawn points
         jsout.member( "spawns" );
         jsout.start_array();
-        for( std::vector<spawn_point>::iterator spawn_it = sm->spawns.begin();
-             spawn_it != sm->spawns.end(); ++spawn_it ) {
+        for( auto &elem : sm->spawns ) {
             jsout.start_array();
-            jsout.write( spawn_it->type );
-            jsout.write( spawn_it->count );
-            jsout.write( spawn_it->posx );
-            jsout.write( spawn_it->posy );
-            jsout.write( spawn_it->faction_id );
-            jsout.write( spawn_it->mission_id );
-            jsout.write( spawn_it->friendly );
-            jsout.write( spawn_it->name );
+            jsout.write( elem.type );
+            jsout.write( elem.count );
+            jsout.write( elem.posx );
+            jsout.write( elem.posy );
+            jsout.write( elem.faction_id );
+            jsout.write( elem.mission_id );
+            jsout.write( elem.friendly );
+            jsout.write( elem.name );
             jsout.end_array();
         }
         jsout.end_array();
 
         jsout.member( "vehicles" );
         jsout.start_array();
-        for( std::vector<vehicle *>::iterator vehicle_it = sm->vehicles.begin();
-             vehicle_it != sm->vehicles.end(); ++vehicle_it ) {
+        for( auto &elem : sm->vehicles ) {
             // json lib doesn't know how to turn a vehicle * into a vehicle,
             // so we have to iterate manually.
-            jsout.write( **vehicle_it );
+            jsout.write( *elem );
         }
         jsout.end_array();
 
@@ -506,7 +478,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         jsin.read( tmp );
                         sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {
-                            sm->active_item_count++;
+                            sm->active_items.add( std::prev(sm->itm[i][j].end()), point( i, j ) );
                         }
                     }
                 }
@@ -542,7 +514,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->set_graffiti(i, j, graffiti( jsin.get_string() ));
+                    sm->set_graffiti( i, j, jsin.get_string() );
                     jsin.end_array();
                 }
             } else if(submap_member_name == "cosmetics") {

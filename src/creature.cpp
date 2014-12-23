@@ -147,6 +147,10 @@ void Creature::reset_stats()
 
 void Creature::process_turn()
 {
+    if(is_dead_state()) {
+        return;
+    }
+
     process_effects();
 
     // Call this in case any effects have changed our stats
@@ -494,7 +498,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
     case DT_HEAT: // heat damage sets us on fire sometimes
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        if (rng(0, 100) > (100 - 400 / (adjusted_damage + 3))) {
+        if( rng(0, 100) < adjusted_damage ) {
             add_effect("onfire", rng(1, 3));
         }
         break;
@@ -536,46 +540,102 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related methods
  */
-void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool permanent)
+bool Creature::move_effects()
 {
-    // check if we already have it
-    auto found_effect = effects.find( eff_id );
+    return true;
+}
 
-    if (found_effect != effects.end()) {
-        effect &e = found_effect->second;
-        // if we do, mod the duration
-        e.mod_duration(dur);
-        // Adding a permanent effect makes it permanent
-        if( e.is_permanent() ) {
-            e.pause_effect();
+void Creature::add_eff_effects(effect e, bool reduced)
+{
+    (void)e;
+    (void)reduced;
+    return;
+}
+ 
+void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+{
+    // Mutate to a main (HP'd) body_part if necessary.
+    if (effect_types[eff_id].get_main_parts()) {
+        bp = mutate_to_main_part(bp);
+    }
+
+    bool found = false;
+    // Check if we already have it
+    auto matching_map = effects.find(eff_id);
+    if (matching_map != effects.end()) {
+        auto found_effect = effects[eff_id].find(bp);
+        if (found_effect != effects[eff_id].end()) {
+            found = true;
+            effect &e = found_effect->second;
+            // If we do, mod the duration, factoring in the mod value
+            e.mod_duration(dur * e.get_dur_add_perc() / 100);
+            // Limit to max duration
+            if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
+                e.set_duration(e.get_max_duration());
+            }
+            // Adding a permanent effect makes it permanent
+            if( e.is_permanent() ) {
+                e.pause_effect();
+            }
+            // Set intensity if value is given
+            if (intensity > 0) {
+                e.set_intensity(intensity);
+            // Else intensity uses the type'd step size if it already exists
+            } else if (e.get_int_add_val() != 0) {
+                e.mod_intensity(e.get_int_add_val());
+            }
+            
+            // Bound intensity by [1, max intensity]
+            if (e.get_intensity() < 1) {
+                add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+                e.set_intensity(1);
+            } else if (e.get_intensity() > e.get_max_intensity()) {
+                e.set_intensity(e.get_max_intensity());
+            }
         }
-        if( e.get_intensity() + intensity <= e.get_max_intensity() ) {
-            e.mod_intensity( intensity );
-        }
-    } else {
-        // if we don't already have it then add a new one
+    }
+    
+    if (found == false) {
+        // If we don't already have it then add a new one
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
-        effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
-        effects[eff_id] = new_eff;
-        if (is_player()) { // only print the message if we didn't already have it
+        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
+        effect &e = new_eff;
+        // Bound to max duration
+        if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
+            e.set_duration(e.get_max_duration());
+        }
+        // Bound new effect intensity by [1, max intensity]
+        if (new_eff.get_intensity() < 1) {
+            add_msg( m_debug, "Bad intensity, ID: %s", new_eff.get_id().c_str() );
+            new_eff.set_intensity(1);
+        } else if (new_eff.get_intensity() > new_eff.get_max_intensity()) {
+            new_eff.set_intensity(new_eff.get_max_intensity());
+        }
+        effects[eff_id][bp] = new_eff;
+        if (is_player()) {
+            // Only print the message if we didn't already have it
             if(effect_types[eff_id].get_apply_message() != "") {
                      add_msg(effect_types[eff_id].gain_game_message_type(),
                              _(effect_types[eff_id].get_apply_message().c_str()));
             }
-            g->u.add_memorial_log(pgettext("memorial_male",
+            add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
+        // Perform any effect addition effects.
+        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
+        add_eff_effects(e, reduced);
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              int intensity, bool permanent)
+                              body_part bp, bool permanent, int intensity)
 {
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur, intensity, permanent);
+        // Only add the effect if we fail the resist roll
+        add_effect(eff_id, dur, bp, permanent, intensity);
         return true;
     } else {
         return false;
@@ -585,40 +645,111 @@ void Creature::clear_effects()
 {
     effects.clear();
 }
-void Creature::remove_effect(efftype_id rem_id)
+bool Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
-    // remove all effects with this id
-    effects.erase( rem_id );
+    if (!has_effect(eff_id, bp)) {
+        //Effect doesn't exist, so do nothing
+        return false;
+    }
+    
+    if (is_player()) {
+        // Print the removal message and add the memorial log if needed
+        if(effect_types[eff_id].get_remove_message() != "") {
+            add_msg(effect_types[eff_id].lose_game_message_type(),
+                         _(effect_types[eff_id].get_remove_message().c_str()));
+        }
+        add_memorial_log(pgettext("memorial_male",
+                                       effect_types[eff_id].get_remove_memorial_log().c_str()),
+                              pgettext("memorial_female",
+                                       effect_types[eff_id].get_remove_memorial_log().c_str()));
+    }
+    
+    // num_bp means remove all of a given effect id
+    if (bp == num_bp) {
+        effects.erase(eff_id);
+    } else {
+        effects[eff_id].erase(bp);
+        // If there are no more effects of a given type remove the type map
+        if (effects[eff_id].empty()) {
+            effects.erase(eff_id);
+        }
+    }
+    return true;
 }
-bool Creature::has_effect(efftype_id eff_id) const
+bool Creature::has_effect(efftype_id eff_id, body_part bp) const
 {
-    // return if any effect in effects has this id
-    return effects.find( eff_id ) != effects.end();
+    // num_bp means anything targeted or not
+    if (bp == num_bp) {
+        return effects.find( eff_id ) != effects.end();
+    } else {
+        auto got_outer = effects.find(eff_id);
+        if(got_outer != effects.end()) {
+            auto got_inner = got_outer->second.find(bp);
+            if (got_inner != got_outer->second.end()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+effect Creature::get_effect(efftype_id eff_id, body_part bp) const
+{
+    auto got_outer = effects.find(eff_id);
+    if(got_outer != effects.end()) {
+        auto got_inner = got_outer->second.find(bp);
+        if (got_inner != got_outer->second.end()) {
+            return got_inner->second;
+        }
+    }
+    return effect();
+}
+int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
+{
+    if(has_effect(eff_id, bp)) {
+        effect tmp = get_effect(eff_id, bp);
+        return tmp.get_duration();
+    }
+    return 0;
+}
+int Creature::get_effect_int(efftype_id eff_id, body_part bp) const
+{
+    if(has_effect(eff_id, bp)) {
+        effect tmp = get_effect(eff_id, bp);
+        return tmp.get_intensity();
+    }
+    return 0;
 }
 void Creature::process_effects()
 {
-    for( auto it = effects.begin(); it != effects.end(); ++it ) {
-        if( !it->second.is_permanent() ) {
-            it->second.mod_duration( -1 );
-            add_msg( m_debug, "Duration %d", it->second.get_duration() );
-        }
-    }
-    for( auto it = effects.begin(); it != effects.end(); ) {
-        if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
-            const effect_type *type = it->second.get_effect_type();
-            if(type->get_remove_message() != "") {
-                add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
+    // id's and body_part's of all effects to be removed. If we ever get player or
+    // monster specific removals these will need to be moved down to that level and then
+    // passed in to this function.
+    std::vector<std::string> rem_ids;
+    std::vector<body_part> rem_bps;
+    
+    // Decay/removal of effects
+    for( auto &elem : effects ) {
+        for( auto &_it : elem.second ) {
+            // Add any effects that others remove to the removal list
+            if( _it.second.get_removes_effect() != "" ) {
+                rem_ids.push_back( _it.second.get_removes_effect() );
+                rem_bps.push_back(num_bp);
             }
-            g->u.add_memorial_log(
-                pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
-                pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
-            const auto id = it->second.get_id();
-            ++it;
-            remove_effect( id );
-        } else {
-            ++it;
+            // Run decay effects
+            _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }
+    
+    // Actually remove effects. This should be the last thing done in process_effects().
+    for (size_t i = 0; i < rem_ids.size(); ++i) {
+        remove_effect( rem_ids[i], rem_bps[i] );
+    }
+}
+
+bool Creature::has_trait(const std::string &flag) const
+{
+    (void)flag;
+    return false;
 }
 
 void Creature::update_health(int base_threshold)
@@ -660,10 +791,23 @@ std::string Creature::get_value( const std::string key ) const
 void Creature::mod_pain(int npain)
 {
     pain += npain;
+    // Pain should never go negative
+    if (pain < 0) {
+        pain = 0;
+    }
 }
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;
+}
+void Creature::set_moves(int nmoves)
+{
+    moves = nmoves;
+}
+
+bool Creature::in_sleep_state() const
+{
+    return has_effect("sleep") || has_effect("lying_down");
 }
 
 /*
@@ -1182,4 +1326,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     return selected_part;
+}
+
+bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
+{
+    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
+           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
 }

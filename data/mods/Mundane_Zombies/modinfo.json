@@ -1,0 +1,31 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Mundane_Zombies",
+    "name": "Mundane Zombies",
+    "author": "daftfad",
+    "description": "Removes all special zombies from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+	"mon_zombie_tough",
+	"mon_zombie_rot",
+	"mon_zombie_hunter",
+	"mon_zombie_smoker",
+	"mon_zombie_gasbag",
+	"mon_zombie_shrieker",
+	"mon_zombie_spitter",
+	"mon_zombie_electric",
+	"mon_zombie_necro",
+	"mon_boomer",
+	"mon_zombie_brute",
+	"mon_zombie_hulk",
+	"mon_zombie_master",
+	"mon_zombie_brute_shocker",
+	"mon_zombie_grabber",
+	"mon_zombie_swimmer"
+    ]
+}
+]

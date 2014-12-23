@@ -6,7 +6,7 @@
             "s_gas"
         ],
         "method": "json",
-        "weight": 1000,
+        "weight": 350,
         "object": {
             "rows": [
                 "........................",
@@ -68,7 +68,7 @@
             ],
             
             "add": [
-                { "item": "gasoline", "x": 3, "y": 5, "repeat": [60000, 95000] }
+                { "item": "gasoline", "x": 3, "y": 5, "repeat": [200, 1075] }
             ],
 
             "set": [

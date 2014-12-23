@@ -67,8 +67,8 @@
         "points" : 2,
         "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER"],
-        "changes_to" : ["FASTHEALER2"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
+        "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -504,7 +504,7 @@
         "name" : "Sleepy",
         "points" : -1,
         "description" : "You need sleep more often, but still spend most of your time awake.",
-        "changes_to" : ["SLEEPY2"],
+        "changes_to" : ["SLEEPY2", "MET_RAT"],
         "starting_trait" : true,
         "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
@@ -892,6 +892,26 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "CEPH_EYES",
+        "name" : "Cephalopod Eyes",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "Your eyes still bulge, yet your pupils look Different somehow.  Water doesn't seem to cause any trouble at all, though.",
+        "leads_to" : ["CEPH_VISION"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "CEPH_VISION",
+        "name" : "Cephalopod Vision",
+        "points" : 3,
+        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
+        "prereqs" : ["CEPH_EYES"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
         "id" : "ELFAEYES",
         "name" : "Fey Eyes",
         "points" : 1,
@@ -1009,6 +1029,18 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
+        "id" : "REGEN_LIZ",
+        "name" : "Reptilian Healing",
+        "points" : 5,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Your broken limbs mend themselves without significant difficulty.",
+        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "prereqs" : ["FASTHEALER"],
+        "threshreq" : ["THRESH_LIZARD"],
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "WAKEFUL2",
         "name" : "Very Little Sleep",
         "points" : 3,
@@ -1044,6 +1076,18 @@
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "INCISORS",
+        "name" : "Incisors",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 3,
+        "description" : "Your big teeth have grown in.  Folks had best show some more respect.",
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "FANGS"],
+        "prereqs" : ["MUZZLE_RAT"],
+        "threshreq" : ["THRESH_RAT"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
         "id" : "MEMBRANE",
         "name" : "Nictitating Membrane",
         "points" : 1,
@@ -1063,7 +1107,19 @@
         "visibility" : 5,
         "ugliness" : 3,
         "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater. Slightly increases wet benefits.",
-        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
+        "category" : ["MUTCAT_FISH"],
+        "wet_protection" : [
+            { "part" : "HEAD", "good" : 1 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "GILLS_CEPH",
+        "name" : "Cephalopod Gills",
+        "points" : 3,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
+        "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
@@ -1442,7 +1498,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    10,
+        "cost"       :    8,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
@@ -1475,7 +1531,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    15,
+        "cost"       :    10,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
@@ -1498,9 +1554,36 @@
         "ugliness" : 2,
         "description" : "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["NAILS"],
-        "changes_to" : ["CLAWS_RETRACT"],
+        "changes_to" : ["CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "CLAWS_RAT",
+        "name" : "Rat Claws",
+        "points" : 3,
+        "visibility" : 3,
+        "ugliness" : 4,
+        "description" : "Your claws have grown tougher and slightly gnarled.",
+        "prereqs" : ["CLAWS"],
+        "changes_to" : ["CLAWS_ST"],
+        "cancels" : ["TALONS", "CLAWS_RETRACT"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
+        "id" : "CLAWS_ST",
+        "name" : "Stainless Claws",
+        "points" : 6,
+        "visibility" : 3,
+        "ugliness" : 5,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
+        "prereqs" : ["CLAWS_RAT"],
+        "prereqs2" : ["PAWS"],
+        "threshreq" : ["THRESH_RAT"],
+        "cancels" : ["TALONS", "CLAWS_RETRACT"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "CLAWS_RETRACT",
@@ -1513,8 +1596,7 @@
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_FELINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "CLAWS_TENTACLE",
@@ -1860,8 +1942,7 @@
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "GRAZER",
@@ -1873,8 +1954,7 @@
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
@@ -1898,6 +1978,24 @@
         "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
         "category" : ["MUTCAT_RAT", "MUTCAT_CHIMERA"],
         "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "BURROW",
+        "name" : "Burrowing",
+        "points" : 10,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Between your claws and teeth, you can tunnel through just about anything.",
+        "prereqs" : ["CLAWS_ST"],
+        "prereqs2" : ["INCISORS"],
+        "threshreq" : ["THRESH_RAT"],
+        "category" : ["MUTCAT_RAT"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "SABER_TEETH",
@@ -2128,8 +2226,7 @@
         "threshreq" : ["THRESH_URSINE"],
         "category" : ["MUTCAT_URSINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
@@ -2324,7 +2421,7 @@
         "points" : 3,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your momvement, with some effort and noise.",
+        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
         "prereqs" : ["WINGS_STUB"],
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_INSECT"],
@@ -2411,7 +2508,7 @@
         "points" : 0,
         "visibility" : 4,
         "ugliness" : 1,
-        "description" : "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+        "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
         "category" : ["MUTCAT_ELFA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
@@ -2473,8 +2570,18 @@
         "points" : 1,
         "visibility" : 3,
         "ugliness" : 1,
-        "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
-        "category" : ["MUTCAT_RAT", "MUTCAT_FELINE"]
+        "description" : "You have a handsome set of feline whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+        "category" : ["MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "WHISKERS_RAT",
+        "name" : "Wiry Whiskers",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 1,
+        "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge slightly.",
+        "prereqs" : ["MUZZLE_RAT"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "FAT",
@@ -2970,7 +3077,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
+        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -3008,6 +3115,17 @@
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "MUZZLE_RAT",
+        "name" : "Ratlike Muzzle",
+        "points" : -1,
+        "visibility" : 6,
+        "ugliness" : 4,
+        "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
+        "prereqs" : ["SNOUT"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "MUZZLE_LONG",
@@ -3048,19 +3166,23 @@
         "id" : "NAUSEA",
         "name" : "Nausea",
         "points" : -3,
-        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
+        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
-        "category" : ["MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_ALPHA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
         "name" : "Vomitous",
         "points" : -8,
-        "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
+        "description" : "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "HUNGER",
@@ -3069,8 +3191,19 @@
         "description" : "You require more food than most people.",
         "starting_trait" : true,
         "cancels" : ["LIGHTEATER"],
-        "changes_to" :["HUNGER2"],
+        "changes_to" :["HUNGER2", "MET_RAT"],
         "category" : ["MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_ELFA", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "MET_RAT",
+        "name" : "Rapid Metabolism",
+        "points" : -2,
+        "valid" : false,
+        "description" : "You require more resources than most, but heal more rapidly as well.",
+        "cancels" : ["LIGHTEATER", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
+        "prereqs" : ["HUNGER"],
+        "prereqs2" : ["SLEEPY"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
@@ -3231,7 +3364,7 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your hands have fused into quasi-paws. Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit. But they handle water better.",
-        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
+        "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
         "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE"]
@@ -3795,14 +3928,30 @@
         "points" : -5,
         "visibility" : 8,
         "ugliness" : 3,
-        "mixed_effect" : true,
         "description" : "You have grown a thick shell over your torso, providing excellent armor. You find you can use the empty space as 16 storage space, but cannot wear anything on your torso. Somewhat reduces wet effects.",
         "prereqs" : ["CHITIN"],
         "cancels" : ["CHITIN3"],
+        "changes_to" : ["SHELL2"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "SHELL2",
+        "name" : "Roomy Shell",
+        "points" : -1,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "mixed_effect" : true,
+        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "prereqs" : ["SHELL"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "TORSO", "ignored" : 26 }
+        ],
+        "active"     :    true
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
@@ -4031,6 +4180,70 @@
         "valid": false,
         "purifiable": false,
         "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_POLICE",
+        "name" : "Police Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_SWAT",
+        "name" : "SWAT Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_CYBERCOP",
+        "name" : "Bionic Officer",
+        "points" : 0,
+        "description" : "You are a cybernetically-resurrected cop, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_PD_DET",
+        "name" : "Police Detective",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_FED",
+        "name" : "US Marshal",
+        "points" : 0,
+        "description" : "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MED",
+        "name" : "MD",
+        "points" : 0,
+        "//" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+        "description" : "You were just through with the administrative formalities for your residency when the cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_SKATER",
+        "name" : "Skater",
+        "points" : 0,
+        "description" : "You spent a lot of time actively maneuvering on skates before the cataclysm, and are better at staying on your feet when checked or blocked.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",

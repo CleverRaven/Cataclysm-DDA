@@ -286,14 +286,14 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = jo.get_int("sym", (int)'%');
     } else if (jo.has_array("sym")) {
         JsonArray ja = jo.get_array("sym");
-        for (int i = 0; i < 4; ++i) {
-            syms[i] = ja.next_int();
+        for( auto &sym : syms ) {
+            sym = ja.next_int();
         }
         oter.sym = syms[0];
     } else if (oter.rotates) {
         oter.sym = jo.get_int("sym");
-        for (int i = 0; i < 4; ++i) {
-            syms[i] = oter.sym;
+        for( auto &sym : syms ) {
+            sym = oter.sym;
         }
     } else {
         oter.sym = jo.get_int("sym");
@@ -445,10 +445,8 @@ void finalize_overmap_terrain( )
                  " cataclysm pending. And not the fun kind.");
     }
 
-    for( std::unordered_map<std::string, regional_settings>::iterator rsit =
-             region_settings_map.begin();
-         rsit != region_settings_map.end(); ++rsit) {
-        rsit->second.setup();
+    for( auto &elem : region_settings_map ) {
+        elem.second.setup();
     }
 };
 
@@ -515,11 +513,11 @@ void load_region_settings( JsonObject &jo )
         if ( pjo.has_object("other") ) {
             JsonObject opjo = pjo.get_object("other");
             std::set<std::string> keys = opjo.get_member_names();
-            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+            for( const auto &key : keys ) {
                 tmpval = 0.0f;
-                if ( *it != "//" ) {
-                    if ( opjo.read(*it, tmpval) ) {
-                        new_region.field_coverage.percent_str[ *it ] = tmpval;
+                if( key != "//" ) {
+                    if( opjo.read( key, tmpval ) ) {
+                        new_region.field_coverage.percent_str[key] = tmpval;
                     }
                 }
             }
@@ -537,11 +535,11 @@ void load_region_settings( JsonObject &jo )
             if ( pjo.has_object("boosted_other") ) {
                 JsonObject opjo = pjo.get_object("boosted_other");
                 std::set<std::string> keys = opjo.get_member_names();
-                for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                for( const auto &key : keys ) {
                     tmpval = 0.0f;
-                    if ( *it != "//" ) {
-                        if ( opjo.read(*it, tmpval) ) {
-                            new_region.field_coverage.boosted_percent_str[ *it ] = tmpval;
+                    if( key != "//" ) {
+                        if( opjo.read( key, tmpval ) ) {
+                            new_region.field_coverage.boosted_percent_str[key] = tmpval;
                         }
                     }
                 }
@@ -570,10 +568,10 @@ void load_region_settings( JsonObject &jo )
         } else {
             JsonObject wjo = cjo.get_object("shops");
             std::set<std::string> keys = wjo.get_member_names();
-            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
-                if ( *it != "//" ) {
-                    if ( wjo.has_int( *it ) ) {
-                        new_region.city_spec.shops.add_item(*it, wjo.get_int(*it) );
+            for( const auto &key : keys ) {
+                if( key != "//" ) {
+                    if( wjo.has_int( key ) ) {
+                        new_region.city_spec.shops.add_item( key, wjo.get_int( key ) );
                     }
                 }
             }
@@ -585,10 +583,10 @@ void load_region_settings( JsonObject &jo )
         } else {
             JsonObject wjo = cjo.get_object("parks");
             std::set<std::string> keys = wjo.get_member_names();
-            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
-                if ( *it != "//" ) {
-                    if ( wjo.has_int( *it ) ) {
-                        new_region.city_spec.parks.add_item(*it, wjo.get_int(*it) );
+            for( const auto &key : keys ) {
+                if( key != "//" ) {
+                    if( wjo.has_int( key ) ) {
+                        new_region.city_spec.parks.add_item( key, wjo.get_int( key ) );
                     }
                 }
             }
@@ -1105,8 +1103,8 @@ bool overmap::generate_sub(int const z)
 
             // implicitly skip skip_above oter_ids
             bool skipme = false;
-            for (int si = 0; si < 5; si++) {
-                if (oter_above == skip_above[si]) {
+            for( auto &elem : skip_above ) {
+                if( oter_above == elem ) {
                     skipme = true;
                 }
             }
@@ -1299,7 +1297,7 @@ int overmap::dist_from_city(point p)
     return distance;
 }
 
-void overmap::draw(WINDOW *w, const tripoint &center,
+void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt,
                    bool debug_monstergroups,
@@ -1308,9 +1306,10 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     const int z = center.z;
     const int cursx = center.x;
     const int cursy = center.y;
-    static const int LEGEND_WIDTH = 28;
-    const int om_map_width = TERMX - LEGEND_WIDTH;
-    const int om_map_height = TERMY;
+    const int om_map_width = OVERMAP_WINDOW_WIDTH;
+    const int om_map_height = OVERMAP_WINDOW_HEIGHT;
+
+
     // Target of current mission
     point target;
     bool has_target = false;
@@ -1599,6 +1598,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     for( const auto &v : vehicles ) {
         corner_text.push_back( v.name );
     }
+
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
@@ -1631,13 +1631,14 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     // Draw the vertical line
-    for (int j = 0; j < om_map_height; j++) {
-        mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
+    for (int j = 0; j < TERMY; j++) {
+        mvwputch(wbar, j, 0, c_white, LINE_XOXO);
     }
+
     // Clear the legend
-    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
-        for (int j = 0; j < om_map_height; j++) {
-            mvwputch(w, j, i, c_black, ' ');
+    for (int i = 1; i < 55; i++) {
+        for (int j = 0; j < TERMY; j++) {
+            mvwputch(wbar, j, i, c_black, ' ');
         }
     }
 
@@ -1646,65 +1647,66 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         if(!mgroups.empty()) {
             int line_number = 1;
             for( const auto &mgroup : mgroups ) {
-                mvwprintz(w, line_number++, om_map_width + 3,
+                mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Species: %s", mgroup->type.c_str());
-                mvwprintz(w, line_number++, om_map_width + 3,
+                mvwprintz(wbar, line_number++, 3,
                           c_blue, "# monsters: %d", mgroup->population);
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz(w, line_number++, om_map_width + 3,
+                mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Interest: %d", mgroup->interest);
-                mvwprintz(w, line_number, om_map_width + 3,
+                mvwprintz(wbar, line_number, 3,
                           c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
-                mvwprintz(w, line_number++, om_map_width + 3,
+                mvwprintz(wbar, line_number++, 3,
                           c_red, "x");
             }
         } else {
-            mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
+            mvwputch(wbar, 1, 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(w, i + 1, om_map_width + 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+                mvwprintz(wbar, i + 1, 3, otermap[ccur_ter].color, "%s", name[i].c_str());
             }
         }
     } else {
-        mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
+        mvwprintz(wbar, 1, 1, c_dkgray, _("# Unexplored"));
     }
 
     if (has_target) {
         // TODO: mission targets currently have no z-component, are assumed to be on z=0
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
-        mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
+        mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(w, 14, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
+    mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
     if (inp_ctxt != NULL) {
-        mvwprintz(w, 15, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+        mvwprintz(wbar, 15, 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
                   _(" - Center map on character")).c_str());
-        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+        mvwprintz(wbar, 16, 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
                   _(" - Search")).c_str());
-        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+        mvwprintz(wbar, 17, 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
                   _(" - Add/Edit a note")).c_str());
-        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+        mvwprintz(wbar, 18, 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
-        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+        mvwprintz(wbar, 19, 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
                   _(" - List notes")).c_str());
-        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+        mvwprintz(wbar, 20, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
-        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+        mvwprintz(wbar, 21, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
                   _(" - Toggle Overlays")).c_str());
-        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
+        mvwprintz(wbar, 22, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
                   _(" - Toggle Explored")).c_str());
-        mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
+        mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(wbar, 24, 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
-    mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
+    mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
     // Done with all drawing!
     wrefresh(w);
+    wrefresh(wbar);
 }
 
 tripoint overmap::draw_overmap()
@@ -1722,7 +1724,16 @@ tripoint overmap::draw_overmap(int z)
 //Start drawing the overmap on the screen using the (m)ap command.
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
-    WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
+    delwin(g->w_omlegend);
+    g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
+    delwin(g->w_overmap);
+    g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
+
+    // Draw black padding space to avoid gap between map and legend
+    delwin(g->w_blackspace);
+    g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
+    mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
+    wrefresh(g->w_blackspace);
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
@@ -1754,7 +1765,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     do {
         timeout( BLINK_SPEED );
         bool show_explored = uistate.overmap_blinking || uistate.overmap_show_overlays;
-        draw(w_map, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
+        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1826,7 +1837,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(w_map, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
+                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1866,31 +1877,29 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
-    delwin(w_map);
+    werase(g->w_overmap);
+    werase(g->w_omlegend);
     erase();
     g->refresh_all();
     return ret;
 }
 
-void overmap::first_house(int &x, int &y, const std::string start_location)
+tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
 {
-    std::vector<point> valid;
-    for (int i = 0; i < OMAPX; i++) {
-        for (int j = 0; j < OMAPY; j++) {
-            if (ter(i, j, 0).t().id_base == start_location) {
-                valid.push_back( point(i, j) );
+    std::vector<tripoint> valid;
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                if( get_ter( i, j, k ).t().id_base == omt_base_type ) {
+                    valid.push_back( tripoint( i, j, k ) );
+                }
             }
         }
     }
-    if (valid.empty()) {
-        debugmsg("Couldn't find a shelter!");
-        x = 1;
-        y = 1;
-        return;
+    if( valid.empty() ) {
+        return invalid_tripoint;
     }
-    int index = rng(0, valid.size() - 1);
-    x = valid[index].x;
-    y = valid[index].y;
+    return valid[rng( 0, valid.size() - 1 )];
 }
 
 void overmap::process_mongroups()
@@ -1965,8 +1974,8 @@ void overmap::move_hordes()
 void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
     // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
-    for( auto it = zg.begin(); it != zg.end(); ++it ) {
-        mongroup &mg = it->second;
+    for( auto &elem : zg ) {
+        mongroup &mg = elem.second;
         if( !mg.horde ) {
             continue;
         }
@@ -2340,9 +2349,8 @@ bool overmap::build_lab(int x, int y, int z, int s)
     }
 
     bool generate_stairs = true;
-    for (std::vector<point>::iterator it = generated_lab.begin();
-         it != generated_lab.end(); it++) {
-        if (ter(it->x, it->y, z + 1) == "lab_stairs") {
+    for( auto &elem : generated_lab ) {
+        if( ter( elem.x, elem.y, z + 1 ) == "lab_stairs" ) {
             generate_stairs = false;
         }
     }
@@ -2405,9 +2413,8 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
     }
 
     bool generate_stairs = true;
-    for (std::vector<point>::iterator it = generated_ice_lab.begin();
-         it != generated_ice_lab.end(); ++it) {
-        if (ter(it->x, it->y, z + 1) == "ice_lab_stairs") {
+    for( auto &elem : generated_ice_lab ) {
+        if( ter( elem.x, elem.y, z + 1 ) == "ice_lab_stairs" ) {
             generate_stairs = false;
         }
     }
@@ -2614,7 +2621,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         return;
     }
 
-    std::priority_queue<node> nodes[2];
+    std::priority_queue<node, std::deque<node> > nodes[2];
     bool closed[OMAPX][OMAPY] = {{false}};
     int open[OMAPX][OMAPY] = {{0}};
     int dirs[OMAPX][OMAPY] = {{0}};
@@ -2856,9 +2863,9 @@ void overmap::polish(const int z, const std::string &terrain_type)
     }
 }
 
-bool overmap::check_ot_type(const std::string &otype, int x, int y, int z)
+bool overmap::check_ot_type(const std::string &otype, int x, int y, int z) const
 {
-    const oter_id oter = ter(x, y, z);
+    const oter_id oter = get_ter(x, y, z);
     return is_ot_type(otype, oter);
 }
 
@@ -3080,10 +3087,9 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
 {
     for(int h = 0; h < height; ++h) {
         for(int w = 0; w < width; ++w) {
-            for(std::list<std::string>::iterator it = allowed.begin();
-                it != allowed.end(); ++it) {
+            for( auto &elem : allowed ) {
                 oter_id oter = this->ter(p.x + w, p.y + h, p.z);
-                if (!is_ot_type(*it, oter)) {
+                if( !is_ot_type( elem, oter ) ) {
                     return false;
                 }
             }
@@ -3096,15 +3102,12 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
 bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
                               std::list<std::string> allowed, std::list<std::string> disallowed)
 {
-    for(std::list<tripoint>::iterator checkit = tocheck.begin();
-        checkit != tocheck.end(); ++checkit) {
-        tripoint t = *checkit;
+    for( auto t : tocheck ) {
 
         bool passed = false;
-        for(std::list<std::string>::iterator allowedit = allowed.begin();
-            allowedit != allowed.end(); ++allowedit) {
+        for( auto &elem : allowed ) {
             oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
-            if (is_ot_type(*allowedit, oter)) {
+            if( is_ot_type( elem, oter ) ) {
                 passed = true;
             }
         }
@@ -3113,10 +3116,9 @@ bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
             return false;
         }
 
-        for(std::list<std::string>::iterator disallowedit = disallowed.begin();
-            disallowedit != disallowed.end(); ++disallowedit) {
+        for( auto &elem : disallowed ) {
             oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
-            if (is_ot_type(*disallowedit, oter)) {
+            if( is_ot_type( elem, oter ) ) {
                 return false;
             }
         }
@@ -3182,9 +3184,8 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 
     // do bounds & connection checking
     std::list<tripoint> rotated_points;
-    for(std::list<overmap_special_terrain>::iterator points = special.terrains.begin();
-        points != special.terrains.end(); ++points) {
-        overmap_special_terrain t = *points;
+    for( auto t : special.terrains ) {
+
         tripoint rotated_point = rotate_tripoint(t.p, rotate);
         rotated_points.push_back(rotated_point);
 
@@ -3227,14 +3228,13 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
     }
     // then check location flags
     bool passed = false;
-    for(std::list<std::string>::iterator it = special.locations.begin();
-        it != special.locations.end(); ++it) {
+    for( auto location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
         // never, always, water, land, forest, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
         std::list<std::string> allowed_terrains;
         std::list<std::string> disallowed_terrains;
-        std::string location = *it;
+
         if(location == "never") {
             return false;
         } else if(location == "always") {
@@ -3270,18 +3270,20 @@ void overmap::place_specials()
 {
     std::map<overmap_special, int> num_placed;
 
-    for(std::vector<overmap_special>::iterator it = overmap_specials.begin();
-        it != overmap_specials.end(); ++it) {
-            overmap_special special = *it;
+    for( auto &overmap_specials_it : overmap_specials ) {
+        overmap_special special = overmap_specials_it;
             if (special.max_occurrences != 100){
-                num_placed.insert(std::pair<overmap_special, int>(*it, 0));//normal circumstances
+                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it,
+                                                                    0 ) ); // normal circumstances
             }
             else{
                 if (rand() % 100 <= special.min_occurrences){ //occurance is actually a % chance, so less than 1
-                    num_placed.insert(std::pair<overmap_special, int>(*it, -1));//Priority add one in this map
+                    num_placed.insert( std::pair<overmap_special, int>(
+                        overmap_specials_it, -1 ) ); // Priority add one in this map
                 }
                 else
-                    num_placed.insert(std::pair<overmap_special, int>(*it, 999));//Don't add one in this map
+                    num_placed.insert( std::pair<overmap_special, int>(
+                        overmap_specials_it, 999 ) ); // Don't add one in this map
             }
     }
 
@@ -3309,11 +3311,9 @@ void overmap::place_specials()
         do {
             p = tripoint(rng(x, x + OMSPEC_FREQ - 1), rng(y, y + OMSPEC_FREQ - 1), 0);
             // dont need to check for edges yet
-            for(std::vector<overmap_special>::iterator it = overmap_specials.begin();
-                it != overmap_specials.end(); ++it) {
+            for( auto special : overmap_specials ) {
                 std::list<std::string> allowed_terrains;
                 allowed_terrains.push_back("forest");
-                overmap_special special = *it;
 
                 if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && (special.flags.count("CLASSIC") < 1)) {
                     continue;
@@ -3332,9 +3332,8 @@ void overmap::place_specials()
             // Place the MUST HAVE ones first, to try and guarantee that they appear
             //std::vector<overmap_special> must_place;
             std::map<overmap_special, int> must_place;
-            for(std::map<overmap_special, int>::iterator it = valid_specials.begin();
-                it != valid_specials.end(); ++it) {
-                place = *it;
+            for( auto &valid_special : valid_specials ) {
+                place = valid_special;
                 if(num_placed[place.first] < place.first.min_occurrences) {
                     must_place.insert(place);
                 }
@@ -3416,16 +3415,13 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         }
     }
 
-    for(std::vector<std::pair<std::string, tripoint> >::iterator connectit = connections.begin();
-        connectit != connections.end(); ++connectit) {
-        std::pair<std::string, tripoint> connection = *connectit;
+    for( auto connection : connections ) {
 
         if(connection.first == "road") {
             city closest;
             int distance = 999;
-            for(std::vector<city>::iterator cityit = cities.begin();
-                cityit != cities.end(); ++cityit) {
-                city c = *cityit;
+            for( auto c : cities ) {
+
                 int dist = rl_dist(connection.second.x, connection.second.y, c.x, c.y);
                 if (dist < distance) {
                     closest = c;
@@ -3490,11 +3486,11 @@ oter_id overmap::rotate(const oter_id &oter, int dir)
 void overmap::place_mongroups()
 {
     // Cities are full of zombies
-    for( size_t i = 0; i < cities.size(); i++ ) {
+    for( auto &elem : cities ) {
         if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
-            if( !one_in(16) || cities[i].s > 5 ) {
-                mongroup m( "GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                            int(cities[i].s * 2.5), cities[i].s * 80 );
+            if( !one_in( 16 ) || elem.s > 5 ) {
+                mongroup m( "GROUP_ZOMBIE", ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
+                            elem.s * 80 );
 //                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;
                 m.wander();
@@ -3502,8 +3498,8 @@ void overmap::place_mongroups()
             }
         }
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
-            add_mon_group(mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                   int(cities[i].s * 2.5), cities[i].s * 80));
+            add_mon_group( mongroup( "GROUP_ZOMBIE", ( elem.x * 2 ), ( elem.y * 2 ), 0,
+                                     int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 

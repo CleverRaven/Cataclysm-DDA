@@ -67,6 +67,7 @@ enum m_flag {
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
+    MF_BORES,               // Tunnels through just about anything
     MF_POISON,              // Poisonous to eat
     MF_VENOM,               // Attack may poison the player
     MF_BADVENOM,            // Attack may SEVERELY poison the player
@@ -109,6 +110,7 @@ enum m_flag {
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
+    MF_NOGIB,             // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
@@ -123,7 +125,21 @@ enum m_flag {
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_FISHABLE,            // Its fishable.
+    MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
+};
+
+/** Used to store monster effects placed on attack */
+struct mon_effect_data
+{
+    std::string id;
+    int duration;
+    body_part bp;
+    bool permanent;
+    int chance;
+    
+    mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
+                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
 struct mtype {
@@ -146,6 +162,9 @@ struct mtype {
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+        
+        /** Stores effect data for effects placed on attack */
+        std::vector<mon_effect_data> atk_effs;
 
         int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
         int agro;       // How likely to attack; -100 to 100
@@ -159,14 +178,15 @@ struct mtype {
         unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut
-        std::string
-        death_drops;   // Name of item group that is used to create item dropped upon death, or empty
+        std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
+        // Name of item group that is used to create item dropped upon death, or empty.
+        std::string death_drops;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
-        unsigned int sp_freq;     // How long sp_attack takes to charge
+        std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
         std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        void (mattack::*sp_attack)(monster *); // This monster's special attack
+        std::vector<void (mattack::*)(monster *, int index)> sp_attack; // This monster's special attack
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         void (mdefense::*sp_defense)(monster *, const projectile *);
@@ -178,6 +198,11 @@ struct mtype {
          * in both monster types fulfills that test.
          */
         bool same_species( const mtype &other ) const;
+        /**
+         * If this is not empty, the monster can be converted into an item
+         * of this type (if it's friendly).
+         */
+        itype_id revert_to_itype;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

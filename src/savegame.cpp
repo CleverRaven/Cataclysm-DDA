@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 22;
+const int savegame_version = 23;
 const int savegame_minver_game = 11;
 
 /*
@@ -75,6 +75,7 @@ void game::serialize(std::ofstream & fout) {
         json.start_object();
         // basic game state information.
         json.member("turn", (int)calendar::turn);
+        json.member("calendar_start", (int)calendar::start);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
@@ -90,9 +91,9 @@ void game::serialize(std::ofstream & fout) {
         std::stringstream rle_out;
         int rle_lastval = -1;
         int rle_count = 0;
-        for (int i = 0; i < SEEX * MAPSIZE; i++) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
-               int val = grscent[i][j];
+        for( auto &elem : grscent ) {
+            for( auto val : elem ) {
+
                if (val == rle_lastval) {
                    rle_count++;
                } else {
@@ -115,8 +116,8 @@ void game::serialize(std::ofstream & fout) {
         // save killcounts.
         json.member( "kills" );
         json.start_object();
-        for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
-            json.member( kill->first, kill->second );
+        for( auto &elem : kills ) {
+            json.member( elem.first, elem.second );
         }
         json.end_object();
 
@@ -185,12 +186,13 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
 
         data.read("turn",tmpturn);
+        data.read("calendar_start",tmpcalstart);
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
@@ -202,6 +204,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_y",comy);
 
         calendar::turn = tmpturn;
+        calendar::start = tmpcalstart;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
@@ -222,13 +225,13 @@ void game::unserialize(std::ifstream & fin)
 
             int stmp;
             int count = 0;
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
                     if (count == 0) {
                         linein >> stmp >> count;
                     }
                     count--;
-                    grscent[i][j] = stmp;
+                    elem_j = stmp;
                 }
             }
         }
@@ -251,9 +254,8 @@ void game::unserialize(std::ifstream & fin)
 
         JsonObject odata = data.get_object("kills");
         std::set<std::string> members = odata.get_member_names();
-        for (std::set<std::string>::const_iterator it = members.begin();
-                it != members.end(); ++it) {
-            kills[*it] = odata.get_int(*it);
+        for( const auto &member : members ) {
+            kills[member] = odata.get_int( member );
         }
 
         data.read("player", u);
@@ -390,12 +392,14 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             add_mon_group( mg );
             nummg++;
         } else if( datatype == 'M' ) {
-            monster_data mdata;
-            fin >> mdata.x >> mdata.y >> mdata.z;
+            tripoint mon_loc;
+            monster new_monster;
+            fin >> mon_loc.x >> mon_loc.y >> mon_loc.z;
             std::string data;
             getline( fin, data );
-            mdata.mon.deserialize( data );
-            monsters.push_back( std::move( mdata ) );
+            new_monster.deserialize( data );
+            monster_map.insert( std::make_pair( std::move(mon_loc),
+                                                std::move(new_monster) ) );
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -680,16 +684,15 @@ void overmap::save() const
         fout << "T " << i.x << " " << i.y << " " << i.strength <<
             " " << i.type << " " << std::endl << i.message << std::endl;
 
-    for( const auto &mdata : monsters ) {
-        fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
+    for( const auto &mdata : monster_map ) {
+        fout << "M " << mdata.first.x << " " << mdata.first.y << " " << mdata.first.z <<
+            " " << mdata.second.serialize() << std::endl;
     }
 
     // store tracked vehicle locations and names
-    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
-            it != vehicles.end(); it++)
-    {
-        int id = it->first;
-        om_vehicle v = it->second;
+    for( const auto &elem : vehicles ) {
+        int id = elem.first;
+        om_vehicle v = elem.second;
         fout << "v " << id << " " << v.name << " " << v.x << " " << v.y << std::endl;
     }
 
