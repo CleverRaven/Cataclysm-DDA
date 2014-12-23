@@ -136,10 +136,10 @@
                 { "monster": "GROUP_QUIVERFULL", "chance": 1, "x": [ 2, 14 ], "y": [ 15, 21 ]  }
             ],
             "add": [
-                { "item": "american_flag", "x": 2, "y" 5, "amount":1},
+                { "item": "american_flag", "x": 2, "y": 5, "amount":1},
                 { "item": "holybook_bible1", "x": 2, "y": 6, "amount":1 },
-                { "item": "quiver_large",  "x": 2, "y": 7, "amount":1 },
-            ]
+                { "item": "quiver_large",  "x": 2, "y": 7, "amount":1 }
+            ],
             "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v"
