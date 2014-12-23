@@ -5034,8 +5034,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         it_ammo *ammo = dynamic_cast<it_ammo*>( item::find_type( amt ) );
-        if (!ammo) {
-            return false;
+        if( !ammo ) {
+            // Let non-ammo-typed ammo be used too
+            // 0 in all stats, depends on gun to provide everything
+            ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *ammo, charges_left, whoosh) ) {
