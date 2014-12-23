@@ -1771,22 +1771,21 @@ void game::activity_on_turn_refill_vehicle()
             if( m.ter(u.posx + i, u.posy + j) == t_gas_pump ||
                 m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a" ||
                 m.ter(u.posx +i, u.posy + j) == t_diesel_pump ) {
-                for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
-                     it != m.i_at(u.posx + i, u.posy + j).end(); ) {
-                    if( it->type->id == "gasoline" || it->type->id == "diesel" ) {
+                auto maybe_gas = m.i_at(u.posx + i, u.posy + j);
+                for( auto gas = maybe_gas.begin(); gas != maybe_gas.end(); ) {
+                    if( gas->type->id == "gasoline" || gas->type->id == "diesel" ) {
                         fuel_pumped = true;
-                        item *gas = m.get_item( u.posx + i, u.posy + j, it );
-                        int lack = std::min( veh->fuel_capacity(it->type->id) -
-                                             veh->fuel_left(it->type->id),  200 );
+                        int lack = std::min( veh->fuel_capacity(gas->type->id) -
+                                             veh->fuel_left(gas->type->id),  200 );
                         if (gas->charges > lack) {
-                            veh->refill(it->type->id, lack);
+                            veh->refill(gas->type->id, lack);
                             gas->charges -= lack;
                             u.activity.moves_left -= 100;
-                            it++;
+                            gas++;
                         } else {
                             add_msg(m_bad, _("With a clang and a shudder, the pump goes silent."));
-                            veh->refill (it->type->id, gas->charges);
-                            it = m.i_rem( u.posx + i, u.posy + j, it );
+                            veh->refill (gas->type->id, gas->charges);
+                            gas = maybe_gas.erase( gas );
                             u.activity.moves_left = 0;
                         }
                         i = 2;
@@ -1932,13 +1931,13 @@ void game::activity_on_finish_make_zlave()
 {
     static const int full_pulp_threshold = 4;
 
-    auto &items = m.i_at(u.posx, u.posy);
+    auto items = m.i_at(u.posx, u.posy);
     std::string corpse_name = u.activity.str_values[0];
     item *body = NULL;
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( it->display_name() == corpse_name ) {
-            body = m.get_item( u.posx, u.posy, it );
+            body = &*it;
         }
     }
 
@@ -7504,7 +7503,7 @@ void game::emp_blast(int x, int y)
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
         if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo == "battery" ) {
-            m.get_item( x, y, it )->charges = 0;
+            it->charges = 0;
         }
     }
     // TODO: Drain NPC energy reserves
@@ -7673,7 +7672,7 @@ bool game::revive_corpse(int x, int y, int n)
                  y).size());
         return false;
     }
-    if( !revive_corpse( x, y, m.get_item(x, y, n) ) ) {
+    if( !revive_corpse( x, y, &m.i_at(x, y)[n] ) ) {
         return false;
     }
     m.i_rem(x, y, n);
@@ -7785,7 +7784,7 @@ void game::close(int closex, int closey)
     bool didit = false;
     const bool inside = !m.is_outside(u.posx, u.posy);
 
-    auto &items_in_way = m.i_at(closex, closey);
+    auto items_in_way = m.i_at(closex, closey);
     int vpart;
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
@@ -7962,20 +7961,20 @@ void game::activity_on_turn_pulp()
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
-    for( auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it ) {
-        if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
+    auto corpse_pile = m.i_at(smashx, smashy);
+    for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
+        if (!(corpse->type->id == "corpse" && corpse->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
-        auto target_corpse = m.get_item( smashx, smashy, it );
-        int damage = pulp_power / it->volume();
+        int damage = pulp_power / corpse->volume();
         //Determine corpse's blood type.
-        field_id type_blood = it->corpse->bloodType();
+        field_id type_blood = corpse->corpse->bloodType();
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
-            if( x_in_y(pulp_power, target_corpse->volume()) ) {
-                target_corpse->damage++;
+            if( x_in_y(pulp_power, corpse->volume()) ) {
+                corpse->damage++;
                 u.handle_melee_wear();
             }
             // Splatter some blood around
@@ -7988,9 +7987,9 @@ void game::activity_on_turn_pulp()
                     }
                 }
             }
-            if( target_corpse->damage >= full_pulp_threshold ) {
-                target_corpse->damage = full_pulp_threshold;
-                target_corpse->active = false;
+            if( corpse->damage >= full_pulp_threshold ) {
+                corpse->damage = full_pulp_threshold;
+                corpse->active = false;
                 num_corpses++;
             }
             if (moves >= u.moves) {
@@ -7998,7 +7997,7 @@ void game::activity_on_turn_pulp()
                 u.moves -= moves;
                 return;
             }
-        } while( target_corpse->damage < full_pulp_threshold );
+        } while( corpse->damage < full_pulp_threshold );
     }
     // If we reach this, all corpses have been pulped, finish the activity
     u.activity.moves_left = 0;
@@ -8315,7 +8314,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
 
     m.ter_set(x, y, door_type);
     if (m.has_flag("NOITEM", x, y)) {
-        auto &items = m.i_at(x, y);
+        auto items = m.i_at(x, y);
         while (!items.empty()) {
             if (items[0].made_of(LIQUID)) {
                 m.i_rem( x, y, 0 );
@@ -8775,11 +8774,10 @@ void game::examine(int examx, int examy)
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
-        std::vector<item> here_ground = m.i_at(examx, examy);
-        if ((vpcargo >= 0 && !veh->parts[vpcargo].items.empty())
-            || vpkitchen >= 0 || vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
-            vpcontrols >= 0
-            || !here_ground.empty()) {
+        auto here_ground = m.i_at(examx, examy);
+        if( (vpcargo >= 0 && !veh->get_items(vpcargo).empty()) || vpkitchen >= 0 ||
+            vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
+            vpcontrols >= 0 || !here_ground.empty() ) {
             Pickup::pick_up(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -8998,7 +8996,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
             // items are displayed from the live view, don't do this here
             return;
         }
-        auto &items = m.i_at(lx, ly);
+        auto items = m.i_at(lx, ly);
         mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
@@ -9742,7 +9740,6 @@ bool game::list_items_match(item &item, std::string sPattern)
 
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 {
-    std::vector<item> here;
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
@@ -9761,9 +9758,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
             u_see( points_p_it.x, points_p_it.y ) &&
             m.sees_some_items( points_p_it.x, points_p_it.y, u ) ) {
 
-            here.clear();
-            here = m.i_at( points_p_it.x, points_p_it.y );
-            for( auto &elem : here ) {
+            for( auto &elem : m.i_at( points_p_it.x, points_p_it.y ) ) {
                 const std::string name = elem.tname();
 
                 if( temp_items.find( name ) == temp_items.end() ||
@@ -11458,7 +11453,7 @@ void game::butcher()
     bool has_item = false;
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
-    auto &items = m.i_at(u.posx, u.posy);
+    auto items = m.i_at(u.posx, u.posy);
     const inventory &crafting_inv = u.crafting_inventory();
     bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
 
@@ -11573,8 +11568,7 @@ void game::butcher()
         return;
     } else if( dis_item.corpse == NULL ) {
         item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
-        iuse::cut_up( &u, &salvage_tool,
-                      m.get_item( u.posx, u.posy, corpses[butcher_corpse_index] ), false );
+        iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );
         return;
     }
     mtype *corpse = dis_item.corpse;
@@ -11927,11 +11921,11 @@ void game::longsalvage()
         add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
     }
 
-    auto &items = m.i_at(u.posx, u.posy);
+    auto items = m.i_at(u.posx, u.posy);
     item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( iuse::valid_to_cut_up( &*it ) ) {
-            iuse::cut_up( &u, &salvage_tool, m.get_item(u.posx, u.posy, it), false );
+            iuse::cut_up( &u, &salvage_tool, &*it, false );
             u.assign_activity( ACT_LONGSALVAGE, 0 );
             return;
         }
@@ -12988,7 +12982,18 @@ bool game::plmove(int dx, int dy)
                     if ( src_items > 0 ) {  // and the stuff inside.
                         if ( dst_item_ok && src_item_ok ) {
                             // Assume contents of both cells are legal, so we can just swap contents.
-                            m.i_at_mutable( fpos.x, fpos.y).swap( m.i_at_mutable(fdest.x, fdest.y) );
+                            std::list<item> temp;
+                            std::move( m.i_at(fpos.x, fpos.y).begin(), m.i_at(fpos.x, fpos.y).end(),
+                                       std::back_inserter(temp) );
+                            m.i_clear(fpos.x, fpos.y);
+                            for( auto item_iter = m.i_at(fdest.x, fdest.y).begin();
+                                 item_iter != m.i_at(fdest.x, fdest.y).end(); ++item_iter ) {
+                                m.i_at(fpos.x, fpos.y).push_back( *item_iter );
+                            }
+                            m.i_clear(fdest.x, fdest.y);
+                            for( auto item_iter = temp.begin(); item_iter != temp.end(); ++item_iter ) {
+                                m.i_at(fdest.x, fdest.y).push_back( *item_iter );
+                            }
                         } else {
                             add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
                         }
@@ -13631,6 +13636,7 @@ void game::vertical_move(int movez, bool force)
         stairy = u.posy;
     } else { // We need to find the stairs.
         int best = 999;
+        bool danger_lava = false;
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx, u.posy, i, j) <= best &&
@@ -13642,9 +13648,16 @@ void game::vertical_move(int movez, bool force)
                     stairy = j;
                     best = rl_dist(u.posx, u.posy, i, j);
                 }
+                // Magic number used as double-shifting "best" added a bit of lag
+                if (rl_dist(u.posx, u.posy, i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                    danger_lava = true;
+                }
             }
         }
-
+        
+        if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            return;
+        }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
                 if (tmpmap.move_cost(u.posx, u.posy) == 0) {

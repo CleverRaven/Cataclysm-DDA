@@ -37,8 +37,7 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
   {
    if( !sm->itm[x][y].empty() )
    {
-    for( std::vector<item>::const_iterator it = sm->itm[x][y].begin(),
-      end = sm->itm[x][y].end(); it != end; ++it )
+    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
     {
      out << "\n\t("<<x<<","<<y<<") ";
      out << *it << ", ";
@@ -886,8 +885,7 @@ void check_furniture_and_terrain()
     }
 }
 
-submap::submap() : ter(), frn(), trp(), rad(),
-    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+submap::submap() : ter(), frn(), trp(), rad(), field_count(0), turn_last_touched(0), temperature(0) {
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             ter[x][y] = t_null;

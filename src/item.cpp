@@ -58,7 +58,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
-        active = true;
+        active = goes_bad() && !rotten();
         if( comest->count_by_charges() ) {
             if (rand && comest->rand_charges.size() > 1) {
                 int charge_roll = rng(1, comest->rand_charges.size() - 1);
@@ -1491,11 +1491,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1)  {
-          if (is_gun())  {
-            damtext = rm_prefix(_("<dam_adj>accurized "));
-          } else {
-              damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if( damage < 0 )  {
+            if( damage < -1 ) {
+                damtext = rm_prefix(_("<dam_adj>bugged "));
+            } else if (is_gun())  {
+                damtext = rm_prefix(_("<dam_adj>accurized "));
+            } else {
+                damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
         } else {
             if (type->id == "corpse") {
@@ -3801,7 +3803,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
 {
     // First, check contents
     bool used_item_contents = false;
-    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, use_container, used)) {
             a = contents.erase(a);
             used_item_contents = true;
@@ -3884,7 +3886,7 @@ long item::charges_of(const itype_id &it) const
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
-    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_charges(it, quantity, used)) {
             a = contents.erase(a);
         } else {
@@ -3892,7 +3894,8 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
         }
     }
     // Now check the item itself
-    if (!((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) || quantity <= 0 || !contents.empty()) {
+    if( !((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) ||
+        quantity <= 0 || !contents.empty() ) {
         return false;
     }
     if (charges <= quantity) {
@@ -4264,6 +4267,20 @@ bool item::needs_processing() const
     return active ||
            ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
            is_artifact();
+}
+
+int item::processing_speed() const
+{
+    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+        // Hot and cold food need turn-by-turn updates.
+        // If they ever become a performance problem, update process_food to handle them occasionally.
+        return 600;
+    }
+    if( is_corpse() ) {
+        return 100;
+    }
+    // Unless otherwise indicated, update every turn.
+    return 1;
 }
 
 bool item::process_food( player * /*carrier*/, point pos )

@@ -275,13 +275,12 @@ static int game_items_at(lua_State *L)
     int x = lua_tointeger(L, 1);
     int y = lua_tointeger(L, 2);
 
-    // This breaks any caching we add to the map for items.
-    std::vector<item> &items = g->m.i_at_mutable(x, y);
-
+    auto items = g->m.i_at(x, y);
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
 
     // Iterate over the monster list and insert each monster into our returned table.
-    for( size_t i = 0; i < items.size(); ++i ) {
+    int i = 0;
+    for( auto &an_item : items ) {
         // The stack will look like this:
         // 1 - t, table containing item
         // 2 - k, index at which the next item will be inserted
@@ -289,9 +288,9 @@ static int game_items_at(lua_State *L)
         //
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
-        lua_pushnumber(L, i + 1);
+        lua_pushnumber(L, i++ + 1);
         item **item_userdata = (item **) lua_newuserdata(L, sizeof(item *));
-        *item_userdata = &(items[i]);
+        *item_userdata = &an_item;
         luah_setmetatable(L, "item_metatable");
         lua_rawset(L, -3);
     }

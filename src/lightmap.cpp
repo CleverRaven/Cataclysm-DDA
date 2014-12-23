@@ -9,13 +9,14 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::add_light_from_items( const int x, const int y, const std::vector<item> &items )
+void map::add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                                std::list<item>::iterator end )
 {
-    for( auto & itm : items ) {
+    for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness
         int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
         int idir = 0;   // otherwise, it's a light_arc pointed in this direction
-        if( itm.getlight( ilum, iwidth, idir ) ) {
+        if( itm_it->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0 ) {
                 apply_light_arc( x, y, idir, ilum, iwidth );
             } else {
@@ -72,7 +73,7 @@ void map::generate_lightmap()
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
-            const std::vector<item> &items = i_at(sx, sy);
+            auto items = i_at(sx, sy);
             const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
@@ -92,7 +93,7 @@ void map::generate_lightmap()
                     }
                 }
             }
-            add_light_from_items( sx, sy, items );
+            add_light_from_items( sx, sy, items.begin(), items.end() );
             if(terrain == t_lava) {
                 add_light_source(sx, sy, 50 );
             }
@@ -227,7 +228,7 @@ void map::generate_lightmap()
                 continue;
             }
             if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
-                add_light_from_items( px, py, v->parts[p].items );
+                add_light_from_items( px, py, v->get_items(p).begin(), v->get_items(p).end() );
             }
         }
     }

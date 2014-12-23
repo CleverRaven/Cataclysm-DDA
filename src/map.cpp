@@ -31,6 +31,84 @@ enum astar_list {
  ASL_CLOSED
 };
 
+// Map stack methods.
+size_t map_stack::size() const
+{
+    return mystack->size();
+}
+
+bool map_stack::empty() const
+{
+    return mystack->empty();
+}
+
+std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
+{
+    return myorigin->i_rem(location, it);
+}
+
+void map_stack::push_back( const item &newitem )
+{
+    myorigin->add_item_or_charges(location.x, location.y, newitem);
+}
+
+void map_stack::push_back_fast( const item &newitem )
+{
+    myorigin->add_item(location.x, location.y, newitem);
+}
+
+std::list<item>::iterator map_stack::begin()
+{
+    return mystack->begin();
+}
+
+std::list<item>::iterator map_stack::end()
+{
+    return mystack->end();
+}
+
+std::list<item>::const_iterator map_stack::begin() const
+{
+    return mystack->cbegin();
+}
+
+std::list<item>::const_iterator map_stack::end() const
+{
+    return mystack->cend();
+}
+
+std::list<item>::reverse_iterator map_stack::rbegin()
+{
+    return mystack->rbegin();
+}
+
+std::list<item>::reverse_iterator map_stack::rend()
+{
+    return mystack->rend();
+}
+
+std::list<item>::const_reverse_iterator map_stack::rbegin() const
+{
+    return mystack->crbegin();
+}
+
+std::list<item>::const_reverse_iterator map_stack::rend() const
+{
+    return mystack->crend();
+}
+
+item &map_stack::front()
+{
+    return mystack->front();
+}
+
+item &map_stack::operator[]( size_t index )
+{
+    return *(std::next(mystack->begin(), index));
+}
+
+// Map class methods.
+
 map::map(int mapsize)
 {
     nulter = t_null;
@@ -852,12 +930,11 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
-            auto &item_vec = i_at( wheel_x, wheel_y );
+            auto item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                item *smashed_item = get_item( wheel_x, wheel_y, it );
-                smashed_item->damage += rng( 0, 3 );
-                if( smashed_item->damage > 4 ) {
-                    it = i_rem( wheel_x, wheel_y, it );
+                it->damage += rng( 0, 3 );
+                if( it->damage > 4 ) {
+                    it = item_vec.erase(it);
                 } else {
                     ++it;
                 }
@@ -1613,9 +1690,10 @@ bool map::has_nearby_fire(int x, int y, int radius)
 }
 
 void map::mop_spills(const int x, const int y) {
-    for( auto it = i_at(x, y).begin(); it != i_at(x, y).end(); ) {
+    auto items = i_at(x, y);
+    for( auto it = items.begin(); it != items.end(); ) {
         if( it->made_of(LIQUID) ) {
-            it = i_rem( x, y, it );
+            it = items.erase( it );
         } else {
             it++;
         }
@@ -1754,7 +1832,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 
     // Destroy glass items, spilling their contents.
     std::vector<item> smashed_contents;
-    auto &bashed_items = i_at(x, y);
+    auto bashed_items = i_at(x, y);
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
@@ -1764,7 +1842,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             for( auto bashed_content : bashed_item->contents ) {
                 smashed_contents.push_back( bashed_content );
             }
-            bashed_item = i_rem( x, y, bashed_item );
+            bashed_item = bashed_items.erase( bashed_item );
         } else {
             ++bashed_item;
         }
@@ -1828,9 +1906,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             if (success || destroy) {
                 // Clear out any partially grown seeds
                 if (has_flag_ter_or_furn("PLANT", x, y)) {
-                    for (size_t i = 0; i < i_at(x, y).size(); i++) {
-                        i_rem(x, y, i);
-                    }
+                    i_clear( x, y );
                 }
 
                 if (smash_furn) {
@@ -2356,13 +2432,14 @@ void map::shoot(const int x, const int y, int &dam,
         return; // Items on floor-type spaces won't be shot up.
     }
 
-    for( auto target_item = i_at(x, y).begin(); target_item != i_at(x, y).end(); ) {
+    auto target_items = i_at(x, y);
+    for( auto target_item = target_items.begin(); target_item != target_items.end(); ) {
         bool destroyed = false;
         int chance = ( target_item->volume() > 0 ? target_item->volume() : 1);
         // volume dependent chance
 
         if( dam > target_item->bash_resist() && one_in(chance) ) {
-            get_item(x, y, target_item)->damage++;
+            target_item->damage++;
         }
         if( target_item->damage >= 5 ) {
             destroyed = true;
@@ -2370,7 +2447,7 @@ void map::shoot(const int x, const int y, int &dam,
 
         if (destroyed) {
             spawn_items( x, y, target_item->contents );
-            target_item = i_rem( x, y, target_item );
+            target_item = target_items.erase( target_item );
         } else {
             ++target_item;
         }
@@ -2628,87 +2705,18 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-const std::vector<item> &map::i_at( const int x, const int y ) const
+map_stack map::i_at( const int x, const int y )
 {
     if( !INBOUNDS(x, y) ) {
         nulitems.clear();
-        return nulitems;
+        return map_stack{ &nulitems, point(x, y), this };
     }
 
     int lx, ly;
     submap *const current_submap = get_submap_at( x, y, lx, ly );
 
-    return current_submap->itm[lx][ly];
+    return map_stack{ &current_submap->itm[lx][ly], point(x, y), this };
 }
-
-std::vector<item> &map::i_at_mutable( const int x, const int y )
-{
-    if( !INBOUNDS(x, y) ) {
-        nulitems.clear();
-        return nulitems;
-    }
-
-    int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
-
-    return current_submap->itm[lx][ly];
-}
-
-item *map::get_item( const int x, const int y, const int i )
-{
-    auto &item_stack = i_at_mutable( x, y );
-    if( item_stack.size() > (unsigned int)i ) {
-        return &item_stack[i];
-    }
-    return nullptr;
-}
-
-item *map::get_item( const int x, const int y, std::vector<item>::const_iterator i )
-{
-    int offset = std::distance( i_at(x, y).begin(), i );
-    return get_item( x, y, offset );
-}
-
-itemslice map::i_stacked(std::vector<item>& items)
-{
-    //create a new container for our stacked items
-    itemslice islice;
-
-    //iterate through all items in the vector
-    for( auto &items_it : items ) {
-        if( items_it.count_by_charges() ) {
-            // Those exists as a single item all the item anyway
-            islice.push_back( std::make_pair( &items_it, 1 ) );
-            continue;
-        }
-        bool list_exists = false;
-
-        //iterate through stacked item lists
-        for( auto &elem : islice ) {
-            //check if the ID exists
-            item *first_item = elem.first;
-            if( first_item->type->id == items_it.type->id ) {
-                //we've found the list of items with the same type ID
-
-                if( first_item->stacks_with( items_it ) ) {
-                    //add it to the existing list
-                    elem.second++;
-                    list_exists = true;
-                    break;
-                }
-            }
-        }
-
-        if(!list_exists) {
-            //insert the list into islice
-            islice.push_back( std::make_pair( &items_it, 1 ) );
-        }
-
-    } //end items loop
-
-    return islice;
-}
-
 
 bool map::sees_some_items(int x, int y, const player &u)
 {
@@ -2757,11 +2765,16 @@ item map::acid_from(const int x, const int y)
     return ret;
 }
 
-std::vector<item>::const_iterator map::i_rem( const int x, const int y,
-                                              std::vector<item>::const_iterator it )
+std::list<item>::iterator map::i_rem( const point location, std::list<item>::iterator it )
 {
-    int offset = std::distance( i_at(x, y).begin(), it );
-    return i_at_mutable(x, y).begin() + i_rem( x, y, offset );
+    int lx, ly;
+    submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
+
+    if( current_submap->active_items.has( it, point( lx, ly ) ) ) {
+        current_submap->active_items.remove( it, point( lx, ly ) );
+    }
+
+    return current_submap->itm[lx][ly].erase( it );
 }
 
 int map::i_rem(const int x, const int y, const int index)
@@ -2769,15 +2782,23 @@ int map::i_rem(const int x, const int y, const int index)
     if (index > (int)i_at(x, y).size() - 1) {
         return index;
     }
-    return std::distance( i_at_mutable(x, y).begin(),
-                          i_at_mutable(x, y).erase(i_at_mutable(x, y).begin() + index ) );
+    auto map_items = i_at(x, y);
+
+    int i = 0;
+    for( auto iter = map_items.begin(); iter != map_items.end(); iter++, i++ ) {
+        if( i == index) {
+            map_items.erase( iter );
+            return i;
+        }
+    }
+    return index;
 }
 
-void map::i_rem(const int x, const int y, item* it)
+void map::i_rem(const int x, const int y, item *it)
 {
-    std::vector<item>& map_items = i_at_mutable(x, y);
+    auto map_items = i_at(x, y);
 
-    for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
+    for( auto iter = map_items.begin(); iter != map_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
         if(it == &*iter) {
             map_items.erase(iter);
@@ -2788,7 +2809,16 @@ void map::i_rem(const int x, const int y, item* it)
 
 void map::i_clear(const int x, const int y)
 {
-    i_at_mutable(x, y).clear();
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+
+    for( auto item_it = current_submap->itm[lx][ly].begin();
+         item_it != current_submap->itm[lx][ly].end(); ++item_it ) {
+        if( current_submap->active_items.has( item_it, point( lx, ly ) ) ) {
+            current_submap->active_items.remove( item_it, point( lx, ly ) );
+        }
+    }
+    current_submap->itm[lx][ly].clear();
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
@@ -2952,7 +2982,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         }
 
         if( tryaddcharges ) {
-            for( auto &i : i_at_mutable( p_it->x, p_it->y ) ) {
+            for( auto &i : i_at( p_it->x, p_it->y ) ) {
                 if( i.merge_charges( new_item ) ) {
                     return true;
                 }
@@ -2988,7 +3018,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     submap * const current_submap = get_submap_at(x, y, lx, ly);
     current_submap->itm[lx][ly].push_back(new_item);
     if( new_item.needs_processing() ) {
-        current_submap->active_item_count++;
+        current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
     }
 }
 
@@ -3018,104 +3048,95 @@ static void apply_in_fridge(item &it)
     }
 }
 
-static bool process_item( std::vector<item> &items, size_t n, point location, bool activate )
+template <typename Iterator>
+static bool process_item( item_stack &items, Iterator &n, point location, bool activate )
 {
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
-    item temp_item = items[n];
-    items.erase( items.begin() + n );
+    item temp_item = *n;
+    items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again, but make sure
-        // we don't insert far behind the end of the vector
-        n = std::min( items.size(), n );
-        items.insert( items.begin() + n, temp_item );
-        // Other note: the address of the items vector is
-        // not affected by any explosion, but they could reduce
-        // the amount of items in it.
+        // Not destroyed, must be inserted again.
+        // If the item lost its active flag in processing,
+        // it won't be re-added to the active list, tidy!
+        // We know it was already here, so we can skip some checks.
+        items.push_back_fast( temp_item );
         return false;
     }
     return true;
 }
 
-void map::process_active_items()
+static bool process_map_items( item_stack &items, std::list<item>::iterator &n, point location,
+                               std::string )
 {
-    process_items(
-        true,
-        [] ( std::vector<item> &items, size_t n, point location, vehicle *cur_veh, int part ) {
-            if( cur_veh ) {
-                const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
-                item &it = items[n];
-                if( fridge_here ) {
-                    apply_in_fridge(it);
-                }
-                if( cur_veh->recharger_on && it.has_flag("RECHARGE") &&
-                    cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
-                    int full_charge = dynamic_cast<it_tool*>(it.type)->max_charges;
-                    if (it.has_flag("DOUBLE_AMMO")) {
-                        full_charge = full_charge * 2;
-                    }
-                    if (it.is_tool() && full_charge > it.charges ) {
-                        if (one_in(10)) {
-                            it.charges++;
-                        }
-                    }
-                }
-            }
-            if( !items[n].needs_processing() ) {
-                return false;
-            }
-            return process_item( items, n, location, false );
-        } );
+    return process_item( items, n, location, false );
 }
 
-template<typename T>
-void map::process_items( bool active, T processor )
+static bool process_vehicle_items( item_stack &items, std::list<item>::iterator &n, point location,
+                                   vehicle *cur_veh, int part, std::string signal )
+{
+    const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+    if( fridge_here ) {
+        apply_in_fridge(*n);
+    }
+    if( cur_veh->recharger_on && n->has_flag("RECHARGE") &&
+        cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
+        int full_charge = dynamic_cast<it_tool*>(n->type)->max_charges;
+        if (n->has_flag("DOUBLE_AMMO")) {
+            full_charge = full_charge * 2;
+        }
+        if (n->is_tool() && full_charge > n->charges ) {
+            if (one_in(10)) {
+                n->charges++;
+            }
+        }
+    }
+    return process_map_items( items, n, location, signal );
+}
+
+void map::process_active_items()
+{
+    process_items( true, process_vehicle_items, process_map_items, "" );
+}
+
+template<typename T, typename U>
+void map::process_items( bool active, T veh_processor, U map_processor, std::string signal )
 {
     for( int gx = 0; gx < my_MAPSIZE; gx++ ) {
         for( int gy = 0; gy < my_MAPSIZE; gy++ ) {
             submap *const current_submap = get_submap_at_grid(gx, gy);
             // Vehicles first in case they get blown up and drop active items on the map.
             if( !current_submap->vehicles.empty() ) {
-                process_items_in_vehicles(current_submap, processor);
+                process_items_in_vehicles(current_submap, veh_processor, signal);
             }
-            if( !active || current_submap->active_item_count > 0) {
-                process_items_in_submap(current_submap, gx, gy, processor);
+            if( !active || !current_submap->active_items.empty() ) {
+                process_items_in_submap(current_submap, gx, gy, map_processor, signal);
             }
         }
     }
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor )
+void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor,
+                                   std::string signal )
 {
-    for (int i = 0; i < SEEX; i++) {
-        for (int j = 0; j < SEEY; j++) {
-            point location( gridx * SEEX + i, gridy * SEEY + j );
-            std::vector<item> &items = current_submap->itm[i][j];
-            //Do a count-down loop, as some items may be removed
-            for (size_t n = 0; n < items.size(); n++) {
-                bool previously_active = items[n].active;
-                if( processor( items, n, location, nullptr, 0 ) ) {
-                    // Item is destroyed, don't reinsert it.
-                    // Note: this might lead to items not being processed:
-                    // vector: 10 glass items, mininuke, mininuke
-                    // the first nuke explodes, destroys some of the glass items
-                    // now the index of the second nuke is not 11, but less, but
-                    // one can not know which it is now.
-                    current_submap->active_item_count -= previously_active;
-                    n--;
-                } else if( previously_active && !items[n].active ) {
-                    current_submap->active_item_count--;
-                } else if( !previously_active && items[n].active ) {
-                    current_submap->active_item_count++;
-                }
-            }
+    // Get a COPY of the active item list for this submap.
+    // If more are added as a side effect of processing, they are ignored this turn.
+    // If they are destroyed before processing, they don't get processed.
+    std::list<item_reference> active_items = current_submap->active_items.get();
+    for( auto &active_item : active_items ) {
+        point map_location( gridx * SEEX + active_item.location.x,
+                            gridy * SEEY + active_item.location.y );
+        auto items = i_at( map_location.x, map_location.y );
+        if( !current_submap->active_items.has( active_item ) ) {
+            continue;
         }
+        processor( items, active_item.item_iterator, map_location, signal );
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicles( submap *const current_submap, T processor )
+void map::process_items_in_vehicles( submap *const current_submap, T processor, std::string signal )
 {
     std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
@@ -3130,89 +3151,73 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor )
             // Can't be sure that it still exists, so skip it
             continue;
         }
-        process_items_in_vehicle(cur_veh, current_submap, processor);
+        process_items_in_vehicle( cur_veh, current_submap, processor, signal );
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_submap, T processor)
+void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor,
+                                    std::string signal )
 {
-    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
-    for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
-        const int part = cargo_parts[part_index];
-        vehicle_part &vp = cur_veh->parts[part];
-        // Cache the mount position and the type, to identify
-        // the vehicle part in case cur_veh->parts got changed
-        const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
-        const int vp_type = vp.iid;
-        const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
-                                   cur_veh->global_y() + vp.precalc_dy[0] );
-        std::vector<item> *items_in_part = &vp.items;
-        for( size_t n = 0; n < items_in_part->size(); n++ ) {
-            if( !processor( *items_in_part, n, item_location, cur_veh, part ) ) {
-                // If the item was NOT destroyed, we can skip the remainder,
-                // which handles fallout from the vehicle being damaged.
-                continue;
-            }
-            n--; // to process the correct next item.
-            // item does not exist anymore, might have been an exploding bomb,
-            // check if the vehicle is still valid (does exist)
-            std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
-            if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
-                // Nope, vehicle is not in the vehicle list of the submap,
-                // it might have moved to another submap (unlikely)
-                // or be destroyed, anywaay it does not need to be processed here
-                return;
-            }
-            // Vehicle still valid, find the current vehicle part again,
-            // the list of cargo parts might have changed (image a part with
-            // a low index has been removed by an explosion, all the other
-            // parts would move up to fill the gap).
-            cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
-            for(part_index = 0; part_index < cargo_parts.size(); part_index++) {
-                vehicle_part &vp = cur_veh->parts[cargo_parts[part_index]];
-                if(mnt.x == vp.precalc_dx[0] && mnt.y == vp.precalc_dy[0] && vp_type == vp.iid) {
-                    // Found it, this is the vehicle part we are currently iterating overall
-                    // update the item vector (if the part index changed,
-                    // the address of the item vector changed, too.
-                    items_in_part = &vp.items;
-                    break;
-                }
-            }
-            if (part_index >= cargo_parts.size()) {
-                // went over all parts and did not found the current cargo part
-                // it is gone, now we bail out, because we can not know
-                // which cargo part to do next, it could be one that has
-                // already been handled.
-                return;
-            }
-            // Now we can continue as if nothing happened, the item has
-            // already been remove and it is not put back,
+    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
+    auto active_items = cur_veh->active_items.get();
+    for( auto &active_item : active_items ) {
+        if( !cur_veh->active_items.has( active_item.item_iterator, active_item.location ) ) {
+            continue;
         }
+
+        // Find the cargo part and coordinates corresponding to the current active item.
+        int part_index = -1;
+        point item_location;
+        // Fetch a possibly empty item stack so we can replace it later.
+        vehicle_stack items = cur_veh->get_items( 0 );
+        for( auto part_index_candidate : cargo_parts ) {
+            vehicle_part &vp = cur_veh->parts[part_index_candidate];
+            if( active_item.location.x == vp.mount_dx &&
+                active_item.location.y == vp.mount_dy ) {
+                part_index = part_index_candidate;
+                item_location = point( cur_veh->global_x() + vp.precalc_dx[0],
+                                       cur_veh->global_y() + vp.precalc_dy[0] );
+                items = cur_veh->get_items( part_index );
+                break;
+            }
+        }
+        if( part_index == -1 ) {
+            // Can't find a cargo part matching the active item.
+            continue;
+        }
+
+        if( !processor( items, active_item.item_iterator,
+                        item_location, cur_veh, part_index, signal ) ) {
+            // If the item was NOT destroyed, we can skip the remainder,
+            // which handles fallout from the vehicle being damaged.
+            continue;
+        }
+        // item does not exist anymore, might have been an exploding bomb,
+        // check if the vehicle is still valid (does exist)
+        std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
+        if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+            // Nope, vehicle is not in the vehicle list of the submap,
+            // it might have moved to another submap (unlikely)
+            // or be destroyed, anywaay it does not need to be processed here
+            return;
+        }
+        // Vehicle still valid, reload the list of cargo parts,
+        // the list of cargo parts might have changed (image a part with
+        // a low index has been removed by an explosion, all the other
+        // parts would move up to fill the gap).
+        cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     }
 }
 
-std::list<item> use_amount_vehicle( std::vector<item> &vec, const itype_id type, int &quantity,
-                                    const bool use_container )
-{
-    std::list<item> ret;
-    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if (a->use_amount(type, quantity, use_container, ret)) {
-            a = vec.erase(a);
-        } else {
-            ++a;
-        }
-    }
-    return ret;
-}
-
-std::list<item> use_amount_map( map *m, int x, int y, const itype_id type, int &quantity,
+template <typename Stack>
+std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantity,
                                 const bool use_container )
 {
     std::list<item> ret;
-    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
-        if( m->get_item(x, y, a)->use_amount(type, quantity, use_container, ret) ) {
-            a = m->i_rem( x, y, a );
+    for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
+        if( a->use_amount(type, quantity, use_container, ret) ) {
+            a = stack.erase( a );
         } else {
             ++a;
         }
@@ -3230,12 +3235,12 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_vehicle( veh->parts[cargo].items, type,
+        std::list<item> tmp = use_amount_stack( veh->get_items(cargo), type,
                                                 quantity, use_container );
       ret.splice(ret.end(), tmp);
     }
   }
-  std::list<item> tmp = use_amount_map( this, x, y, type, quantity, use_container);
+  std::list<item> tmp = use_amount_stack( i_at(x, y), type, quantity, use_container);
   ret.splice(ret.end(), tmp);
   return ret;
 }
@@ -3259,12 +3264,13 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id type, long &quantity)
+template <typename Stack>
+std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
-        if( a->use_charges(type, quantity, ret)) {
-            a = vec.erase(a);
+    for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
+        if( a->use_charges(type, quantity, ret) ) {
+            a = stack.erase( a );
         } else {
             ++a;
         }
@@ -3272,31 +3278,16 @@ std::list<item> use_charges_from_vehicle(std::vector<item> &vec, const itype_id 
     return ret;
 }
 
-std::list<item> use_charges_from_map( map *m, int x, int y, const itype_id type, long &quantity)
+long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 {
-    std::list<item> ret;
-    for( auto a = m->i_at(x, y).begin(); a != m->i_at(x, y).end() && quantity > 0; ) {
-        if( m->get_item(x, y, a)->use_charges(type, quantity, ret) ) {
-            a = m->i_rem( x, y, a );
-        } else {
-            ++a;
-        }
-    }
-    return ret;
-}
-
-long remove_charges_in_list(const itype *type, map *m, int x, int y, long quantity)
-{
-    size_t i = 0;
-    auto &items = m->i_at(x, y);
-    for( ; i < items.size(); i++) {
-        if( m->i_at(x, y)[i].type == type) {
+    auto target = stack.begin();
+    for( ; target != stack.end(); ++target ) {
+        if( target->type == type ) {
             break;
         }
     }
 
-    if( i < items.size() ) {
-        item *target = m->get_item( x, y, i );
+    if( target != stack.end() ) {
         if( target->charges > quantity) {
             target->charges -= quantity;
             return quantity;
@@ -3304,7 +3295,7 @@ long remove_charges_in_list(const itype *type, map *m, int x, int y, long quanti
             const long charges = target->charges;
             target->charges = 0;
             if( target->destroyed_at_zero_charges() ) {
-                m->i_rem( x, y, i );
+                stack.erase( target );
             }
             return charges;
         }
@@ -3322,7 +3313,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
     const itype *ammo = f.crafting_ammo_item_type();
     if (ammo != NULL) {
         item furn_item(itt->id, 0);
-        furn_item.charges = remove_charges_in_list(ammo, m, x, y, quantity);
+        furn_item.charges = remove_charges_in_list(ammo, m->i_at(x, y), quantity);
         if (furn_item.charges > 0) {
             ret.push_back(furn_item);
             quantity -= furn_item.charges;
@@ -3456,7 +3447,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 
                         if (cargo >= 0) {
                             std::list<item> tmp =
-                                use_charges_from_vehicle(veh->parts[cargo].items, type, quantity);
+                                use_charges_from_stack( veh->get_items(cargo), type, quantity );
                             ret.splice(ret.end(), tmp);
                             if (quantity <= 0) {
                                 return ret;
@@ -3464,7 +3455,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         }
                     }
 
-                    std::list<item> tmp = use_charges_from_map( this, x, y, type, quantity);
+                    std::list<item> tmp = use_charges_from_stack( i_at(x, y), type, quantity );
                     ret.splice(ret.end(), tmp);
                     if (quantity <= 0) {
                         return ret;
@@ -3490,8 +3481,8 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
             if( y != -1 && y != pos.y ) {
                 continue;
             }
-            auto &item_stack = i_at_mutable( pos.x, pos.y );
-            for( auto &elem : item_stack ) {
+            auto items = i_at( pos.x, pos.y );
+            for( auto &elem : items ) {
                 if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &( elem ) ) );
                 }
@@ -3502,24 +3493,25 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( std::string signal, std::vector<item> &items, int n, point pos )
+static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n, point pos,
+                                std::string signal )
 {
     bool trigger_item = false;
-    if( items[n].has_flag("RADIO_ACTIVATION") && items[n].has_flag(signal) ) {
+    if( n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
         g->sound(pos.x, pos.y, 6, "beep.");
-        if( items[n].has_flag("BOMB") ) {
+        if( n->has_flag("BOMB") ) {
             // Set charges to 0 to ensure it detonates.
-            items[n].charges = 0;
+            n->charges = 0;
         }
         trigger_item = true;
-    } else if( items[n].has_flag("RADIO_CONTAINER") && !items[n].contents.empty() &&
-               items[n].contents[0].has_flag( signal ) ) {
+    } else if( n->has_flag("RADIO_CONTAINER") && !n->contents.empty() &&
+               n->contents[0].has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = items[n].contents[0].type->id;
+        itype_id bomb_type = n->contents[0].type->id;
 
-        items[n].make(bomb_type);
-        items[n].charges = 0;
+        n->make(bomb_type);
+        n->charges = 0;
         trigger_item = true;
     }
     if( trigger_item ) {
@@ -3528,13 +3520,15 @@ static bool trigger_radio_item( std::string signal, std::vector<item> &items, in
     return false;
 }
 
+static bool trigger_radio_item_veh( item_stack &items, std::list<item>::iterator &n, point pos,
+                                    vehicle *, int, std::string signal )
+{
+    return trigger_radio_item( items, n, pos, signal );
+}
+
 void map::trigger_rc_items( std::string signal )
 {
-    process_items(
-        false,
-        [&] ( std::vector<item> &items, size_t n, point pos, vehicle *, int ) {
-            return trigger_radio_item( signal, items, n, pos );
-        } );
+    process_items( false, trigger_radio_item_veh, trigger_radio_item, signal );
 }
 
 std::string map::trap_get(const int x, const int y) const {
@@ -3992,7 +3986,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const furn_id curr_furn = furn(x,y);
     const trap_id curr_trap = tr_at(x, y);
     const field &curr_field = field_at(x, y);
-    const std::vector<item> &curr_items = i_at(x, y);
+    auto curr_items = i_at(x, y);
     long sym;
     bool hi = false;
     bool graf = false;
@@ -4696,7 +4690,8 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
     }
 }
 
-void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) const
+template <typename Container>
+void map::remove_rotten_items( Container &items, const point &pnt ) const
 {
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, pnt ) ) {
@@ -4718,17 +4713,16 @@ void map::fill_funnels( const point pnt )
     if( has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) ) {
         return;
     }
-    auto &items = i_at( pnt.x, pnt.y );
-    size_t biggest_container_index = items.size();
+    auto items = i_at( pnt.x, pnt.y );
     int maxvolume = 0;
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if( items[i].is_funnel_container( maxvolume ) ) {
-            biggest_container_index = i;
+    auto biggest_container = items.end();
+    for( auto candidate = items.begin(); candidate != items.end(); ++candidate ) {
+        if( candidate->is_funnel_container( maxvolume ) ) {
+            biggest_container = candidate;
         }
     }
-    if( biggest_container_index != items.size() ) {
-        retroactively_fill_from_funnel( get_item( pnt.x, pnt.y, biggest_container_index),
-                                        t, calendar::turn, pnt );
+    if( biggest_container != items.end() ) {
+        retroactively_fill_from_funnel( &*biggest_container, t, calendar::turn, pnt );
     }
 }
 
@@ -4738,7 +4732,7 @@ void map::grow_plant( const point pnt )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    auto &items = i_at( pnt.x, pnt.y );
+    auto items = i_at( pnt.x, pnt.y );
     if( items.empty() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a seed item has vanished at " << pnt.x << "," << pnt.y;
@@ -4749,10 +4743,10 @@ void map::grow_plant( const point pnt )
     const int plantEpoch = DAYS( calendar::season_length() ) / 2;
     // Erase fertilizer tokens, but keep the seed item
     i_rem( pnt.x, pnt.y, 1 );
-    auto *seed = get_item( pnt.x, pnt.y, 0 );
+    auto &seed = items.front();
     // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed->bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed->bday += plantEpoch;
+    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
+        seed.bday += plantEpoch;
         furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
     }
 }

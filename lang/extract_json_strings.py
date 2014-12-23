@@ -62,6 +62,7 @@ automatically_convertible = {
     "GUN",
     "STATIONARY_ITEM",
     "hint",
+    "item_action",
     "ITEM_CATEGORY",
     "keybinding",
     "lab_note",

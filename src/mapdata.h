@@ -1,8 +1,6 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include <vector>
-#include <string>
 #include "color.h"
 #include "item.h"
 #include "trap.h"
@@ -14,7 +12,12 @@
 #include "iexamine.h"
 #include "field.h"
 #include "translations.h"
+#include "item_stack.h"
 #include <iosfwd>
+#include <unordered_set>
+#include <vector>
+#include <list>
+#include <string>
 
 class game;
 class monster;
@@ -411,7 +414,7 @@ struct submap {
     }
 
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
-    std::vector<item>  itm[SEEX][SEEY];  // Items on each square
+    std::list<item>    itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
@@ -420,7 +423,8 @@ struct submap {
     int                rad[SEEX][SEEY];  // Irradiation of each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
-    int active_item_count;
+    active_item_cache active_items;
+
     int field_count;
     int turn_last_touched;
     int temperature;

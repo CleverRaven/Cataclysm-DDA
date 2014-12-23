@@ -31,7 +31,7 @@ void mdeath::normal(monster *z)
         maxHP = 1;
     }
 
-    float overflowDamage = -(z->hp);
+    float overflowDamage = std::max( -(z->hp), 0 );
     float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
 
     if (leaveCorpse) {

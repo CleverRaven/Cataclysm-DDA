@@ -568,7 +568,7 @@ void editmap::update_view(bool update_info)
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
             mvwprintw(w_info, off, 1, _("There is a %s there."),
-                      g->m.i_at(target.x, target.y)[0].tname().c_str());
+                      g->m.i_at(target.x, target.y).front().tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
                 mvwprintw(w_info, off, 1, ngettext("There is %d other item there as well.",
@@ -1188,9 +1188,11 @@ int editmap::edit_itm()
     ilmenu.w_width = width;
     ilmenu.w_height = TERMY - infoHeight - 1;
     ilmenu.return_invalid = true;
-    auto &items = g->m.i_at_mutable(target.x , target.y );
-    for( size_t i = 0; i < items.size(); ++i ) {
-        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
+    auto items = g->m.i_at( target.x , target.y );
+    int i = 0;
+    for( auto &an_item : items ) {
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+                         (an_item.light.luminance > 0) ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry(-5, true, 'a', _("Add item"));
@@ -1277,8 +1279,10 @@ int editmap::edit_itm()
             ilmenu.ret = UIMENU_INVALID;
             g->wishitem(NULL,target.x, target.y);
             ilmenu.entries.clear();
-            for( size_t i = 0; i < items.size(); ++i ) {
-               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
+            i = 0;
+            for( auto &an_item : items ) {
+               ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+                                (an_item.light.luminance > 0) ? " L" : "" );
             }
             ilmenu.addentry(-5, true, 'a', pgettext("item manipulation debug menu entry for adding an item on a tile","Add item"));
             ilmenu.addentry(-10, true, 'q', pgettext("item manipulation debug menu entry","Cancel"));
@@ -1683,7 +1687,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 }
                             }
 
-                            destsm->active_item_count = srcsm->active_item_count; // various misc variables
+                            // various misc variables
+                            destsm->active_items = srcsm->active_items;
+
                             destsm->temperature = srcsm->temperature;
                             destsm->turn_last_touched = int(calendar::turn);
                             destsm->comp = srcsm->comp;

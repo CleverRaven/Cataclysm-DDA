@@ -178,9 +178,10 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
-		<Unit filename="src/SDLMain.h" />
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
+		<Unit filename="src/active_item_cache.cpp" />
+		<Unit filename="src/active_item_cache.h" />
 		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />
@@ -263,7 +264,6 @@
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
-		<Unit filename="src/globals.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />
 		<Unit filename="src/helper.cpp" />
@@ -285,6 +285,7 @@
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
 		<Unit filename="src/item_group.h" />
+		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.h" />
 		<Unit filename="src/itypedef.cpp" />
 		<Unit filename="src/iuse.cpp" />
@@ -321,7 +322,6 @@
 		<Unit filename="src/mapgen_functions.h" />
 		<Unit filename="src/mapgenformat.cpp" />
 		<Unit filename="src/mapgenformat.h" />
-		<Unit filename="src/mapitems.h" />
 		<Unit filename="src/mapsharing.cpp" />
 		<Unit filename="src/mapsharing.h" />
 		<Unit filename="src/martialarts.cpp" />
@@ -338,7 +338,6 @@
 		<Unit filename="src/mission_place.cpp" />
 		<Unit filename="src/mission_start.cpp" />
 		<Unit filename="src/missiondef.cpp" />
-		<Unit filename="src/mod_factory.h" />
 		<Unit filename="src/mod_manager.cpp" />
 		<Unit filename="src/mod_manager.h" />
 		<Unit filename="src/mod_manager_ui.cpp" />
@@ -405,8 +404,8 @@
 		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
-	<Unit filename="src/scenario.cpp" />
-	<Unit filename="src/scenario.h" />
+		<Unit filename="src/scenario.cpp" />
+		<Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
