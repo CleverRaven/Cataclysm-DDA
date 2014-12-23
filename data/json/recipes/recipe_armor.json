@@ -8125,7 +8125,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "shop_bag", 2 ]
+      [ "plastic_shopping_bag", 2 ]
     ]
   ]
 },
@@ -8141,7 +8141,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "shop_bag", 2 ]
+      [ "plastic_shopping_bag", 2 ]
     ]
   ]
 },
