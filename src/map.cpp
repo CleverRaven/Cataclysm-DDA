@@ -3128,7 +3128,7 @@ void map::process_items_in_submap( submap *const current_submap, int gridx, int 
         point map_location( gridx * SEEX + active_item.location.x,
                             gridy * SEEY + active_item.location.y );
         auto items = i_at( map_location.x, map_location.y );
-        if( !current_submap->active_items.has( active_item.item_iterator, active_item.location ) ) {
+        if( !current_submap->active_items.has( active_item ) ) {
             continue;
         }
         processor( items, active_item.item_iterator, map_location, signal );

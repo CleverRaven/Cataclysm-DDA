@@ -4,18 +4,23 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
 {
     active_items[it->processing_speed()].remove_if( [&] (const item_reference &active_item) {
             return location == active_item.location && active_item.item_iterator == it; } );
-    active_item_set.erase(it);
+    active_item_set.erase( &*it );
 }
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
-    active_items[it->processing_speed()].push_back( item_reference{ location, it } );
-    active_item_set.insert( it );
+    active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
+    active_item_set.insert( &*it );
 }
 
 bool active_item_cache::has( std::list<item>::iterator it, point ) const
 {
-    return active_item_set.count( it ) != 0;
+    return active_item_set.count( &*it ) != 0;
+}
+
+bool active_item_cache::has( item_reference &itm ) const
+{
+    return active_item_set.count( itm.item_id ) != 0;
 }
 
 bool active_item_cache::empty() const
