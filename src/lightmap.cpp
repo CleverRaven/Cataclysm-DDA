@@ -307,8 +307,6 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
     return seen_cache[tx][ty];
 }
 
-
-
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -394,25 +392,17 @@ void map::build_seen_cache()
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
+            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
-            if( !veh->part_info( mirror ).has_flag( "CONE_CAM" ) ) {
-                castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
-                castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
-                castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
-                castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
 
-                castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
-                castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
-
-                castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
-                castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
-            } else {
-                //int angle = veh->parts[mirror].par1; // Angle at which it was installed
-                //int minangle = angle - 15; // Ugly hardcode for now;
-                //int maxangle = angle + 15;
-                //
-            }
+            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
         }
     }
 }

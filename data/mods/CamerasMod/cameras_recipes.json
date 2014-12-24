@@ -36,12 +36,12 @@
     },
     {
         "type" : "recipe",
-        "result": "conecamera",
+        "result": "omnicamera",
         "category": "CC_ELECTRONIC",
         "subcategory": "CSC_ELECTRONIC_PARTS",
         "skill_used": "electronics",
-        "skills_required": [ "computer", 1 ],
-        "difficulty": 5,
+        "skills_required": [ "computer", 3 ],
+        "difficulty": 7,
         "time": 9000,
         "reversible": true,
         "autolearn": true,
@@ -59,48 +59,19 @@
         ],
         "components": [
             [
-                [ "lens", 2 ]
+                [ "lens", 4 ]
             ],
             [
-                [ "e_scrap", 5 ]
+                [ "e_scrap", 10 ]
             ],
             [
-                [ "amplifier", 2 ]
+                [ "amplifier", 4 ]
             ],
             [
-                [ "cable", 5 ] 
+                [ "cable", 20 ] 
             ],
             [
-                [ "plastic_chunk", 3 ]
-            ]
-        ]
-    },
-    {
-        "type" : "recipe",
-        "result": "omnicamera",
-        "category": "CC_ELECTRONIC",
-        "subcategory": "CSC_ELECTRONIC_PARTS",
-        "skill_used": "electronics",
-        "skills_required": [ "computer", 3 ],
-        "difficulty": 7,
-        "time": 9000,
-        "reversible": true,
-        "autolearn": true,
-        "qualities":[
-            {"id":"SCREW","level":1,"amount":1}
-        ],
-        "tools": [
-            [
-                [ "soldering_iron", 50 ],
-                [ "toolset", 50 ]
-            ]
-        ],
-        "components": [
-            [
-                [ "conecamera", 4 ]
-            ],
-            [
-                [ "cable", 5 ] 
+                [ "plastic_chunk", 5 ]
             ]
         ]
     }

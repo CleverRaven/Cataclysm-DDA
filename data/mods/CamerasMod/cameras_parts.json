@@ -20,25 +20,6 @@
     },
     {
         "type" : "vehicle_part",
-        "id" : "conecam",
-        "name" : "directional camera",
-        "symbol" : "c",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "blue",
-        "damage_modifier" : 10,
-        "durability" : 100,
-        "folded_volume": 5,
-        "item" : "conecamera",
-        "difficulty" : 3,
-        "flags" : [ "MIRROR", "CAMERA", "CONE_CAM" ],
-        "breaks_into" : [
-            {"item": "e_scrap", "min": 0, "max": 4},
-            {"item": "plastic_chunk", "min": 1, "max": 2}
-        ]
-    },
-    {
-        "type" : "vehicle_part",
         "id" : "omnicam",
         "name" : "omnidirectional camera",
         "symbol" : "o",
