@@ -1,0 +1,62 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "cam_control",
+        "name" : "camera control system",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 20,
+        "durability" : 200,
+        "folded_volume": 10,
+        "item" : "camera_control",
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : [ "MIRROR", "CAMERA", "CAM_CONTROL" ], "//" : "Cameras are handled in the same place as mirrors, we can process them together",
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 10},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "conecam",
+        "name" : "directional camera",
+        "symbol" : "c",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume": 5,
+        "item" : "conecamera",
+        "difficulty" : 3,
+        "location" : "on_roof",
+        "flags" : [ "MIRROR", "CAMERA", "CONE_CAM" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 0, "max": 4},
+            {"item": "plastic_chunk", "min": 1, "max": 2}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "omnicam",
+        "name" : "omnidirectional camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume": 8,
+        "item" : "omnicamera",
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : [ "MIRROR", "CAMERA", "OMNI_CAM" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 16},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    }
+]

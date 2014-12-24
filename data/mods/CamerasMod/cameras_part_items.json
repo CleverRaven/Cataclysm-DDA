@@ -1,0 +1,50 @@
+[
+    {
+        "type":"GENERIC",
+        "id" : "camera_control",
+        "name" : "camera control system",
+        "description" : "A system to control cameras. Currently runs on magic and doesn't require energy.",
+        "weight" : 11234,
+        "to_hit" : -3,
+        "color" : "light_blue",
+        "symbol" : "#",
+        "material" : ["steel", "null"],
+        "volume" : 16,
+        "bashing" : 0,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 10000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "omnicamera",
+        "name" : "omnidirectional camera",
+        "description" : "4 cameras taped together. They look divine, as if overseeing North, South, West and East at all times. Divine is also their power source.",
+        "weight" : 1100,
+        "to_hit" : -3,
+        "color" : "light_blue",
+        "symbol" : "+",
+        "material" : ["plastic", "null"],
+        "volume" : 8,
+        "bashing" : 0,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 10000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "conecamera",
+        "name" : "directional camera",
+        "description" : "A security camera. It has bad quality and can't move. In fact, it doesn't actually even work yet.",
+        "weight" : 500,
+        "to_hit" : -3,
+        "color" : "light_blue",
+        "symbol" : ";",
+        "material" : ["plastic", "null"],
+        "volume" : 8,
+        "bashing" : 0,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 1000
+    }
+]

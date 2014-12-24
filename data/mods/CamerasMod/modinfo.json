@@ -1,0 +1,9 @@
+{
+    "type": "MOD_INFO",
+    "mod_type": "SUPPLEMENTAL",
+    "ident": "cameramod",
+    "name": "Vehicle Cameras Mod",
+    "description": "Quick&Dirty(&Slow) cameras for vehicles.",
+    "author": "Coolthulhu",
+    "path": ""
+}
