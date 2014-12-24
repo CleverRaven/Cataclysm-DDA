@@ -141,7 +141,7 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer
     npc_favor_type type;
     int value;
     itype_id item_id;
-    Skill *skill;
+    const Skill* skill;
 
     npc_favor() {
         type = FAVOR_NULL;
@@ -433,7 +433,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  std::vector<int> missions_assigned;
  int mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
- Skill* skill;
+ const Skill* skill;
  matype_id style;
  talk_topic first_topic;
 
@@ -498,7 +498,7 @@ public:
      * a spiral search for an empty square around it is performed.
      */
     void place_on_map();
- Skill* best_skill();
+ const Skill* best_skill();
  void starting_weapon(npc_class type);
 
 // Save & load
@@ -534,7 +534,7 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<Skill*> skills_offered_to(player *p); // Skills that're higher
+ std::vector<const Skill*> skills_offered_to(player *p); // Skills that're higher
  std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player

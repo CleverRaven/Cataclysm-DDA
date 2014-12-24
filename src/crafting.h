@@ -51,8 +51,8 @@ struct recipe {
     std::vector<byproduct> byproducts;
     craft_cat cat;
     craft_subcat subcat;
-    Skill *skill_used;
-    std::map<Skill *, int> required_skills;
+    const Skill* skill_used;
+    std::map<const Skill*, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?

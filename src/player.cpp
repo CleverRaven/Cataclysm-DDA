@@ -2235,7 +2235,7 @@ void player::mod_stat( std::string stat, int modifier )
     }
 }
 
-inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
+inline bool skill_display_sort(const std::pair<const Skill*, int> &a, const std::pair<const Skill*, int> &b)
 {
     int levelA = a.second;
     int levelB = b.second;
@@ -2694,16 +2694,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     // Next, draw skills.
     line = 1;
-    std::vector<Skill*> skillslist;
+    std::vector<const Skill*> skillslist;
     const char *title_SKILLS = _("SKILLS");
     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
-    std::vector<std::pair<Skill *, int> > sorted;
+    std::vector<std::pair<const Skill*, int> > sorted;
     int num_skills = Skill::skills.size();
     for (int i = 0; i < num_skills; i++) {
-        Skill *s = Skill::skills[i];
+        const Skill* s = Skill::skills[i];
         SkillLevel &sl = skillLevel(s);
-        sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+        sorted.push_back(std::pair<const Skill*, int>(s, sl.level() * 100 + sl.exercise()));
     }
     std::sort(sorted.begin(), sorted.end(), skill_display_sort);
     for( auto &elem : sorted ) {
@@ -3244,10 +3244,10 @@ Perception %+.1f when throwing items."),
                     max = skillslist.size();
             }
 
-            Skill *selectedSkill = NULL;
+            const Skill* selectedSkill = NULL;
 
             for (unsigned i = min; i < max; i++) {
-                Skill *aSkill = skillslist[i];
+                const Skill* aSkill = skillslist[i];
                 SkillLevel level = skillLevel(aSkill);
 
                 bool isLearning = level.isTraining();
@@ -3296,7 +3296,7 @@ Perception %+.1f when throwing items."),
                 mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
                 mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
-                    Skill *thisSkill = skillslist[i];
+                    const Skill* thisSkill = skillslist[i];
                     SkillLevel level = skillLevel(thisSkill);
                     bool isLearning = level.isTraining();
                     bool rusting = level.isRusting();
@@ -12729,7 +12729,7 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice( Skill *s, int amount, int cap )
+void player::practice( const Skill* s, int amount, int cap )
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
@@ -12743,7 +12743,7 @@ void player::practice( Skill *s, int amount, int cap )
 
     bool isSavant = has_trait("SAVANT");
 
-    Skill *savantSkill = NULL;
+    const Skill* savantSkill = NULL;
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
@@ -12816,7 +12816,7 @@ void player::practice( Skill *s, int amount, int cap )
 
 void player::practice( std::string s, int amount, int cap )
 {
-    Skill *aSkill = Skill::skill(s);
+    const Skill* aSkill = Skill::skill(s);
     practice( aSkill, amount, cap );
 }
 
@@ -13044,12 +13044,12 @@ SkillLevel& player::skillLevel(std::string ident)
     return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(Skill *_skill)
+SkillLevel& player::skillLevel(const Skill* _skill)
 {
     return _skills[_skill];
 }
 
-SkillLevel player::get_skill_level(Skill *_skill) const
+SkillLevel player::get_skill_level(const Skill* _skill) const
 {
     for( const auto &elem : _skills ) {
         if( elem.first == _skill ) {
@@ -13061,7 +13061,7 @@ SkillLevel player::get_skill_level(Skill *_skill) const
 
 SkillLevel player::get_skill_level(const std::string &ident) const
 {
-    Skill *sk = Skill::skill(ident);
+    const Skill* sk = Skill::skill(ident);
     return get_skill_level(sk);
 }
 
@@ -13070,7 +13070,7 @@ void player::copy_skill_levels(const player *rhs)
     _skills = rhs->_skills;
 }
 
-void player::set_skill_level(Skill* _skill, int level)
+void player::set_skill_level(const Skill* _skill, int level)
 {
     skillLevel(_skill).level(level);
 }
@@ -13080,7 +13080,7 @@ void player::set_skill_level(std::string ident, int level)
     skillLevel(ident).level(level);
 }
 
-void player::boost_skill_level(Skill* _skill, int level)
+void player::boost_skill_level(const Skill* _skill, int level)
 {
     skillLevel(_skill).level(level+skillLevel(_skill));
 }
