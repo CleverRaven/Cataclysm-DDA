@@ -3981,6 +3981,28 @@
         "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
     },{
+         "type" : "mutation",
+        "id" : "EEL_ORGAN",
+        "name" : "Electric Organ",
+        "points" : 2,
+        "description" : "You have an electric organ, like that of an electric eel. It periodically discharges electricity, allowing you to sense enemies in the vicinity.",
+        "threshreq" : ["THRESH_FISH"],
+        "category" : ["MUTCAT_EEL"]
+    },{
+        "type" : "mutation",
+        "id" : "EEL_SHOCK",
+        "name" : "Electric Discharge",
+        "points" : 2,
+        "description" : "Your electric organ has evolved to give out strong shocks that arc to nearby enemies and metal objects. However, you have a high chance of shocking yourself.",
+        "prereqs" : ["EEL_ORGAN"],
+        "threshreq" : ["THRESH_FISH"],
+        "category" : ["MUTCAT_EEL"],
+        "active"     :    true,
+        "cost"       :    30,
+        "time"       :    0,
+        "hunger"     :    true,
+        "fatigue"     :    true
+    },{
         "type" : "mutation",
         "id" : "THRESH_LIZARD",
         "name" : "Lizard",
