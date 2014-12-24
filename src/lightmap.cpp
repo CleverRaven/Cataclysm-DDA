@@ -377,11 +377,11 @@ void map::build_seen_cache()
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
-            const int cam_offset = 24; // Ugly hardcode for now
             int offsetDistance;
             if( !is_camera ) {
                 offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
             } else {
+                int cam_offset = veh->part_info( mirror ).bonus;
                 offsetDistance = 2 * cam_offset - ( cam_offset * 
                                                     veh->parts[mirror].hp /
                                                     veh->part_info(mirror).durability );
