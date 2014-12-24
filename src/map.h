@@ -259,19 +259,19 @@ class map
 
 
  /**
-  * Check whether items in the target square are accessable from the source square
+  * Check whether items in the target square are accessible from the source square
   * `(Fx, Fy)` and `(Tx, Ty)`.
   *
   * Checks two things:
   * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)` OR origin and target match.
   * 2. That the target location isn't sealed.
   */
- bool accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+ bool accessible_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
  /**
-  * Like @ref accessable_items but checks for accessable furniture.
+  * Like @ref accessible_items but checks for accessible furniture.
   * It ignores the furniture flags of the target square (ignores if target is SEALED).
   */
- bool accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+ bool accessible_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
   * Calculate next search points surrounding the current position.
