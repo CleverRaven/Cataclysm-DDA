@@ -13439,9 +13439,16 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         }
         targets.push_back( p );
     }
+
+    const vehicle *in_veh = is_fake() ? g->m.veh_at( posx, posy ) : nullptr;
+    int part;
     for( auto &m : targets ) {
         if (!sees(m, t)) {
             // can't see nor sense it
+            continue;
+        }
+        if( in_veh != nullptr && g->m.veh_at( m->xpos(), m->ypos(), part ) == in_veh ) {
+            // No shooting stuff on vehicle we're a part of
             continue;
         }
         int dist = rl_dist(posx, posy, m->xpos(), m->ypos());
