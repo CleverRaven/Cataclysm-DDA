@@ -147,7 +147,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             cur_missed_by = missed_by;
         }
         if (critter != NULL && cur_missed_by <= 1.0) {
-            if( in_veh != nullptr && critter->is_player() ) {
+            if( in_veh != nullptr && g->m.veh_at( px, py ) == in_veh && critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
