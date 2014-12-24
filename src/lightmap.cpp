@@ -342,7 +342,8 @@ void map::build_seen_cache()
     castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    if (vehicle *veh = veh_at(offsetX, offsetY)) {
+    int part;
+    if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
         // Do all the sight checks first to prevent fake multiple reflection
@@ -359,13 +360,29 @@ void map::build_seen_cache()
             }
         }
 
-        for( auto &mirror : mirrors ) {
+        size_t cam_index = mirrors.size();
+        // Cameras
+        if( veh->part_with_feature( part, "CAM_CONTROL" ) != -1 ) {
+            std::vector<int> cameras = veh->all_parts_with_feature( "CAMERA", true );
+            mirrors.insert( mirrors.end(), cameras.begin(), cameras.end() );
+        }
+
+        for( size_t i = 0; i < mirrors.size(); i++ ) {
+            const int &mirror = mirrors[i];
             const int mirrorX = veh->global_x() + veh->parts[mirror].precalc_dx[0];
             const int mirrorY = veh->global_y() + veh->parts[mirror].precalc_dy[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
-            int offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+            const int cam_offset = 24; // Ugly hardcode for now
+            int offsetDistance;
+            if( i < cam_index ) {
+                offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+            } else {
+                offsetDistance = 2 * cam_offset - ( cam_offset * 
+                                                    veh->parts[mirror].hp /
+                                                    veh->part_info(mirror).durability );
+            }
 
             // @todo: Factor in the mirror facing and only cast in the
             // directions the player's line of sight reflects to.
@@ -373,17 +390,24 @@ void map::build_seen_cache()
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+            if( !veh->part_info( mirror ).has_flag( "CONE_CAM" ) ) {
+                castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
+                castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+            } else {
+                //int angle = veh->parts[mirror].par1; // Angle at which it was installed
+                //int minangle = angle - 15; // Ugly hardcode for now;
+                //int maxangle = angle + 15;
+                //
+            }
         }
     }
 }
