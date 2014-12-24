@@ -3329,13 +3329,13 @@ std::list<item> map::use_charges(const point origin, const int range,
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-                if (has_furn(x, y) && accessable_furniture(origin.x, origin.y, x, y, range)) {
+                if (has_furn(x, y) && accessible_furniture(origin.x, origin.y, x, y, range)) {
                     use_charges_from_furn(furn_at(x, y), type, quantity, this, x, y, ret);
                     if (quantity <= 0) {
                         return ret;
                     }
                 }
-                if(accessable_items( origin.x, origin.y, x, y, range) ) {
+                if(accessible_items( origin.x, origin.y, x, y, range) ) {
                     continue;
                 }
                 if (rl_dist(origin.x, origin.y, x, y) >= radius) {
@@ -4245,7 +4245,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
     return false; // Shouldn't ever be reached, but there it is.
 }
 
-bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+bool map::accessible_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
     return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
@@ -4253,7 +4253,7 @@ bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int T
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
-bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+bool map::accessible_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
     return ((Fx == Tx && Fy == Ty) ||
