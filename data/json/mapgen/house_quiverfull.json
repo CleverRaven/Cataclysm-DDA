@@ -97,15 +97,6 @@
                 { "type": "toilet", "x": 15, "y": 20 },
                 { "type": "toilet", "x": 10, "y": 2 }
             ],
-            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 1,3 ] },
-                { "point": "terrain", "id": "t_grass", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 1,3 ] }
-            ],
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
                 { "item": "livingroom", "chance": 70,  "x": [ 3,8 ], "y": [ 2,10 ] },
@@ -119,12 +110,12 @@
                 { "item": "dresser", "chance": 70,  "x": 2, "y": 19 },
                 { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 19 },
                 { "item": "dresser", "chance": 70,  "x": 6, "y": 15 },
-                { "item": "bed", "chance": 70,  "x": 6, "y": [ 15,16 ] },
+                { "item": "bed", "chance": 70,  "x": 7, "y": [ 15,16 ] },
                 { "item": "dresser", "chance": 70,  "x": 8, "y": 15 },
-                { "item": "bed", "chance": 70,  "x": 8, "y": [ 15,16 ] },
+                { "item": "bed", "chance": 70,  "x": 9, "y": [ 15,16 ] },
                 { "item": "dresser", "chance": 70,  "x": 10, "y": 15 },
-                { "item": "bed", "chance": 70,  "x": 10, "y": [ 15,16 ] },
-                { "item": "dresser", "chance": 70,  "x": 13, "y": 19 },
+                { "item": "bed", "chance": 70,  "x": 11, "y": [ 15,16 ] },
+                { "item": "dresser", "chance": 70,  "x": 12, "y": 19 },
                 { "item": "bed", "chance": 70,  "x": [ 13,14 ], "y": 19 },
                 { "item": "dresser", "chance": 70,  "x": 13, "y": 21 },
                 { "item": "bed", "chance": 70,  "x": [ 13,14 ], "y": 21 },
