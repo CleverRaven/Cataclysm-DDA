@@ -1729,7 +1729,7 @@ void complete_vehicle ()
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
 
-        if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") || vehicle_part_types[part_id].has_flag("CONE_CAM") ) {
+        if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
@@ -1739,11 +1739,7 @@ void complete_vehicle ()
             int py = g->u.view_offset_y;
             g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
             g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
-            if( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
-                popup(_("Choose a facing direction for the new headlight."));
-            } else {
-                popup(_("Choose a facing direction for the new camera."));
-            }
+            popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset_x = px;
