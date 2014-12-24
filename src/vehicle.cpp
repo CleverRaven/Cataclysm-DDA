@@ -4463,7 +4463,7 @@ void vehicle::gain_moves()
             }
             // Manually aimed shot failed
             if( !success && parts[p].target.first != parts[p].target.second ) {
-                add_msg( m_bad, _("%s couldn't fire at chosen target."), part_info( p ).name.c_str() );
+                add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), part_info( p ).name.c_str() );
             }
             // Clear manual target
             parts[p].target.first = parts[p].target.second;
@@ -4948,8 +4948,17 @@ void vehicle::aim_turrets()
     pmenu.callback = &callback;
     int i = 0;
     for( int p : turrets ) {
-        std::string aimed = aim_type( parts[p] );
-        pmenu.addentry( i++, true, MENU_AUTOASSIGN, _("[%s] %s"),
+        std::string aimed;
+        bool en;
+        if( get_items(p).front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
+            aimed = _("No ammo");
+            en = false;
+        } else {
+            aimed = aim_type( parts[p] );
+            en = true;
+        }
+        
+        pmenu.addentry( i++, en, MENU_AUTOASSIGN, _("[%s] %s"),
                         aimed.c_str(), part_info( p ).name.c_str() );
     }
 
