@@ -118,8 +118,8 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
 
         if( in_veh != nullptr ) {
             int part;
-            g->m.veh_at( px, py, part );
-            if( in_veh->parts[part].inside ) {
+            vehicle *other = g->m.veh_at( tx, ty, part );
+            if( in_veh == other && in_veh->parts[part].inside ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
@@ -147,7 +147,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             cur_missed_by = missed_by;
         }
         if (critter != NULL && cur_missed_by <= 1.0) {
-            if( in_veh != nullptr && g->m.veh_at( px, py ) == in_veh && critter->is_player() ) {
+            if( in_veh != nullptr && g->m.veh_at( tx, ty ) == in_veh && critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
