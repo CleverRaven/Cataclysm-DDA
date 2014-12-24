@@ -116,6 +116,13 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         // relative to YOUR position, which may not be the gunman's position.
         g->draw_bullet(g->u, tx, ty, (int)i, trajectory, proj.proj_effects.count("FLAME") ? '#' : '*', ts);
 
+        if( in_veh != nullptr ) {
+            int part;
+            g->m.veh_at( px, py, part );
+            if( in_veh->parts[part].inside ) {
+                continue; // Turret is on the roof and can't hit anything inside
+            }
+        }
         /* TODO: add running out of momentum back in
         if (dam <= 0 && !(proj.proj_effects.count("FLAME"))) { // Ran out of momentum.
             break;
@@ -140,6 +147,11 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             cur_missed_by = missed_by;
         }
         if (critter != NULL && cur_missed_by <= 1.0) {
+            if( in_veh != nullptr && critter->is_player() ) {
+                // Turret either was aimed by the player (who is now ducking) and shoots from above
+                // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
+                continue;
+            }
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
