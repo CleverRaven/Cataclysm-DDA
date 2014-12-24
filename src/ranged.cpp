@@ -119,7 +119,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         if( in_veh != nullptr ) {
             int part;
             vehicle *other = g->m.veh_at( tx, ty, part );
-            if( in_veh == other && in_veh->parts[part].inside ) {
+            if( in_veh == other && other->is_inside( part ) ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
