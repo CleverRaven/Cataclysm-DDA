@@ -386,6 +386,12 @@ class Creature
         int per_bonus;
         int int_bonus;
 
+        //Starting stats - Should not be changed after creation. Currently only used for the player memorial file.
+        int str_start;
+        int dex_start;
+        int per_start;
+        int int_start;
+
         int healthy; //How healthy the creature is, currently only used by players
         int healthy_mod;
 

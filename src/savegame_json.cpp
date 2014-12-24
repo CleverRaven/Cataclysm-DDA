@@ -144,6 +144,11 @@ void player::load(JsonObject &data)
     data.read("cash", cash);
     data.read("recoil", recoil);
     data.read("in_vehicle", in_vehicle);
+    data.read("str_start", str_start);
+    data.read("int_start", int_start);
+    data.read("dex_start", dex_start);
+    data.read("per_start", per_start);
+
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
     }
@@ -175,7 +180,31 @@ void player::load(JsonObject &data)
             }
         }
     } else {
-        debugmsg("Skills[] no bueno");
+        debugmsg("Skills[] data object not loaded in savegame_json.cpp::player::json_load_common_variables");
+    }
+
+    //Load the starting skills.
+    if( savegame_loading_version <= 23 ) { //No startingSkills object.
+        debugmsg("Save version < 24, no starting skills object");
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+            aSkill != Skill::skills.end(); ++aSkill) {
+            _startSkills.insert(std::pair<Skill *, SkillLevel>(*aSkill, 0));
+        }
+    } else {
+        if (data.has_object("startingSkills")) {
+            JsonObject pmap = data.get_object("startingSkills");
+            for( auto &skill : Skill::skills ) {
+                if( pmap.has_object( ( skill )->ident() ) ) {
+                    if(!pmap.read( ( skill )->ident(), startSkillLevel( skill ) ) ){
+                        debugmsg("READ FAILED (%s) Missing starting skill %s", "", (skill)->ident().c_str() );
+                    }
+                } else {
+                    debugmsg("Load (%s) Missing starting skill %s", "", (skill)->ident().c_str() );
+                }
+            }
+        } else {
+            debugmsg("StartingSkills[] data object not loaded in savegame_json.cpp::player::json_load_common_variables");
+        }
     }
 
     data.read("ma_styles", ma_styles);
@@ -245,6 +274,12 @@ void player::store(JsonOut &json) const
     json.member( "cash", cash );
     json.member( "recoil", int(recoil) );
     json.member( "in_vehicle", in_vehicle );
+
+    json.member( "str_start", str_start );
+    json.member( "int_start", int_start );
+    json.member( "dex_start", dex_start );
+    json.member( "per_start", per_start );
+
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
@@ -265,6 +300,15 @@ void player::store(JsonOut &json) const
     for( auto &skill : Skill::skills ) {
         SkillLevel sk = get_skill_level( skill );
         json.member( ( skill )->ident(), sk );
+    }
+    json.end_object();
+
+    // Starting Skills
+    json.member( "startingSkills" );
+    json.start_object();
+    for( auto &skill : Skill::skills ) {
+        SkillLevel sk = get_starting_skill_level( skill );
+        json.member(( skill )->ident(), sk);
     }
     json.end_object();
 
@@ -1537,7 +1581,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
-    
+
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
     for (auto maps : effects) {
@@ -1548,8 +1592,8 @@ void Creature::store( JsonOut &jsout ) const
         }
     }
     jsout.member( "effects", tmp_map );
-    
-    
+
+
     jsout.member( "values", values );
 
     jsout.member( "str_bonus", str_bonus );
@@ -1602,7 +1646,7 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "pain", pain );
 
     killer = nullptr; // see Creature::load
-    
+
     // Just too many changes here to maintain compatibility, so older characters get a free
     // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
     if(savegame_loading_version >= 23) {

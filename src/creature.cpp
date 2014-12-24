@@ -62,6 +62,12 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+     //Starting stats
+    str_start = 0;
+    dex_start = 0;
+    per_start = 0;
+    int_start = 0;
+
     healthy = 0;
     healthy_mod = 0;
     moves = 0;
@@ -73,6 +79,7 @@ Creature::Creature()
 
     fake = false;
 }
+
 
 Creature::~Creature()
 {
@@ -551,7 +558,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
     (void)reduced;
     return;
 }
- 
+
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
     // Mutate to a main (HP'd) body_part if necessary.
@@ -584,7 +591,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             } else if (e.get_int_add_val() != 0) {
                 e.mod_intensity(e.get_int_add_val());
             }
-            
+
             // Bound intensity by [1, max intensity]
             if (e.get_intensity() < 1) {
                 add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
@@ -594,7 +601,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             }
         }
     }
-    
+
     if (found == false) {
         // If we don't already have it then add a new one
         if (effect_types.find(eff_id) == effect_types.end()) {
@@ -651,7 +658,7 @@ bool Creature::remove_effect(efftype_id eff_id, body_part bp)
         //Effect doesn't exist, so do nothing
         return false;
     }
-    
+
     if (is_player()) {
         // Print the removal message and add the memorial log if needed
         if(effect_types[eff_id].get_remove_message() != "") {
@@ -663,7 +670,7 @@ bool Creature::remove_effect(efftype_id eff_id, body_part bp)
                               pgettext("memorial_female",
                                        effect_types[eff_id].get_remove_memorial_log().c_str()));
     }
-    
+
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
         effects.erase(eff_id);
@@ -726,7 +733,7 @@ void Creature::process_effects()
     // passed in to this function.
     std::vector<std::string> rem_ids;
     std::vector<body_part> rem_bps;
-    
+
     // Decay/removal of effects
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
@@ -739,7 +746,7 @@ void Creature::process_effects()
             _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }
-    
+
     // Actually remove effects. This should be the last thing done in process_effects().
     for (size_t i = 0; i < rem_ids.size(); ++i) {
         remove_effect( rem_ids[i], rem_bps[i] );

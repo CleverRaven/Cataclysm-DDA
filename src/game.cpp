@@ -4021,7 +4021,7 @@ bool game::handle_action()
             break;
 
         case ACTION_ZOOM_OUT:
-            zoom_out(); 
+            zoom_out();
             break;
 
         case ACTION_ITEMACTION:
@@ -4229,7 +4229,8 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    disp_kills();
+    if( kills.size() > 0) //Only list the kills when there are kills.
+        disp_kills();
 }
 
 void game::move_save_to_graveyard()
@@ -4265,6 +4266,7 @@ void game::move_save_to_graveyard()
             }
         }
     }
+
     closedir( save_dir );
 }
 
@@ -13654,7 +13656,7 @@ void game::vertical_move(int movez, bool force)
                 }
             }
         }
-        
+
         if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
             return;
         }

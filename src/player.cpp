@@ -154,6 +154,7 @@ player::player() : Character(), name("")
  int_max = 8;
  per_cur = 8;
  per_max = 8;
+
  underwater = false;
  dodges_left = 1;
  blocks_left = 1;
@@ -1982,7 +1983,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         }
     }
     if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
+        memorial_file << indent << _("No monsters were killed.") << "\n";
     } else {
       memorial_file << string_format(_("Total kills: %d"), total_kills) << "\n";
     }
@@ -1997,19 +1998,41 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     }
     memorial_file << "\n";
 
+    //Martial Art Styles
+    if(ma_styles.size() > 0) {
+        memorial_file << _("Known martial arts:") << "\n";
+        for (int i = 0; i < ma_styles.size(); i++) {
+            if(martialarts.find(ma_styles[i]) == martialarts.end()) {
+                memorial_file << indent << _("Bad hand to hand style: %s") << ma_styles[i] << "\n";
+            } else {
+                memorial_file << indent << martialarts[ma_styles[i]].name << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
     //Traits
-    memorial_file << _("Traits:") << "\n";
+    //Check if there is a trait
     bool had_trait = false;
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-      if(has_trait(iter->first)) {
-        had_trait = true;
-        memorial_file << indent << traits[iter->first].name << "\n";
-      }
+        if(has_trait(iter->first)) {
+            had_trait = true;
+            iter = traits.end();
+        }
     }
-    if(!had_trait) {
-      memorial_file << indent << _("(None)") << "\n";
+    if(had_trait) {
+        memorial_file << _("Traits:") << "\n";
+        for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+            if(has_trait(iter->first)) {
+                memorial_file << indent << traits[iter->first].name;
+                if(has_base_trait(iter->first)) {
+                    memorial_file << " (Starting Trait)";
+                }
+                memorial_file << "\n";
+            }
+        }
+        memorial_file << "\n";
     }
-    memorial_file << "\n";
 
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
@@ -2022,34 +2045,34 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     }
     //Various effects not covered by the illness list - from player.cpp
     if(morale_level() >= 100) {
-      had_effect = true;
-      memorial_file << indent << _("Elated") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Elated") << "\n";
     }
     if(morale_level() <= -100) {
-      had_effect = true;
-      memorial_file << indent << _("Depressed") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Depressed") << "\n";
     }
     if(pain - pkill > 0) {
-      had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+        had_effect = true;
+        memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")\n" ;
     }
     if(stim > 0) {
-      had_effect = true;
-      int dexbonus = int(stim / 10);
-      if (abs(stim) >= 30) {
-        dexbonus -= int(abs(stim - 15) /  8);
-      }
-      if(dexbonus < 0) {
-        memorial_file << indent << _("Stimulant Overdose") << "\n";
-      } else {
-        memorial_file << indent << _("Stimulant") << "\n";
-      }
+        had_effect = true;
+        int dexbonus = int(stim / 10);
+        if (abs(stim) >= 30) {
+            dexbonus -= int(abs(stim - 15) /  8);
+        }
+        if(dexbonus < 0) {
+            memorial_file << indent << _("Stimulant Overdose") << "\n";
+        } else {
+            memorial_file << indent << _("Stimulant") << "\n";
+        }
     } else if(stim < 0) {
-      had_effect = true;
-      memorial_file << indent << _("Depressants") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Depressants") << "\n";
     }
     if(!had_effect) {
-      memorial_file << indent << _("(None)") << "\n";
+        memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
 
@@ -2057,22 +2080,31 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Bionics:") << "\n";
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics.size(); ++i ) {
-      bionic_id next_bionic_id = my_bionics[i].id;
-      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
-      total_bionics++;
+        bionic_id next_bionic_id = my_bionics[i].id;
+        memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+        total_bionics++;
     }
     if(total_bionics == 0) {
-      memorial_file << indent << _("No bionics were installed.") << "\n";
+        memorial_file << indent << _("No bionics were installed.") << "\n";
     } else {
       memorial_file << string_format(_("Total bionics: %d"), total_bionics) << "\n";
     }
-    memorial_file << string_format(_("Power: %d/%d"), power_level,  max_power_level) << "\n";
+    if(max_power_level != 0 || total_bionics != 0) {
+        memorial_file << string_format(_("Power: %d/%d"), power_level,  max_power_level) << "\n";
+    }
     memorial_file << "\n";
+
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname() << "\n";
-    memorial_file << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname();
+    if(weapon.is_gun() && !weapon.has_flag("NO_AMMO")) {
+        memorial_file << " (" << weapon.charges << " / " << weapon.clip_size() << ") ";
+        if(weapon.has_curammo()) {
+            memorial_file << weapon.get_curammo()->nname(1);
+        }
+    }
+    memorial_file << "\n\n";
 
     memorial_file << _("Equipment:") << "\n";
     for( auto &elem : worn ) {
@@ -2082,9 +2114,9 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         memorial_file << " (" << next_item.charges << ")";
       } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -2099,13 +2131,18 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
       if( elem->size() > 1 ) {
           memorial_file << " [" << elem->size() << "]";
       }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
+        if(next_item.is_gun() && !next_item.has_flag("NO_AMMO")) {
+            memorial_file << " (" << next_item.charges << " / " << next_item.clip_size() << ") ";
+            if(next_item.has_curammo()) {
+                memorial_file << next_item .get_curammo()->nname(1);
+            }
+        } else if(next_item.charges > 0) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -2125,6 +2162,91 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
 
+    memorial_file << "\n" << _("Starting Stats:") << "\n";
+    memorial_file << indent << _("Str ") << str_start << indent << _("Dex ") << dex_start << indent
+                  << _("Int ") << int_start << indent << _("Per ") << per_start << "\n";
+    memorial_file << "\n";
+    //Starting Traits
+    had_trait = false;
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if(has_base_trait(iter->first)) {
+            had_trait = true;
+            iter = traits.end();
+        }
+    }
+    if(had_trait) {
+        memorial_file << _("Base Traits:") << "\n";
+        for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+            if(has_base_trait(iter->first)) {
+                memorial_file << indent << traits[iter->first].name << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+    //Starting Skills (check if there are starting skills first.
+    bool had_starting_skill = false;
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+        aSkill != Skill::skills.end(); ++aSkill) {
+        SkillLevel next_skill_level = _startSkills[*aSkill];
+        if(next_skill_level.level() > 0) {
+            had_starting_skill = true;
+            break;
+        }
+    }
+    if(had_starting_skill) {
+        memorial_file << _("Starting Skills:") << "\n";
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+            aSkill != Skill::skills.end(); ++aSkill) {
+            SkillLevel next_skill_level = _startSkills[*aSkill];
+            if(next_skill_level.level() > 0) {
+                memorial_file << indent << (*aSkill)->name() << ": "
+                    << next_skill_level.level() << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
+/*
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+        aSkill != Skill::skills.end(); ++aSkill) {
+        SkillLevel next_skill_level = skillLevel(*aSkill);
+        memorial_file << indent << (*aSkill)->name() << ": "
+            << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    }
+
+SkillLevel& player::skillLevel(std::string ident)
+{
+    return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& player::skillLevel(Skill *_skill)
+{
+    return _skills[_skill];
+}
+*/
+
+    //World statistics
+    memorial_file << _("World Information") << "\n";
+    WORLDPTR world = world_generator->active_world;
+    memorial_file << indent << _("World name: ") << world->world_name << "\n\n";
+
+    if (!world->world_options.empty()) {
+        memorial_file << _("World Options:") << "\n";
+        for (std::unordered_map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+            if (it->second.getPage() == "world_default") {
+                memorial_file << indent << it->second.getMenuText() << ": " << world->world_options[it->first].getValue() << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
+    if(world->active_mod_order.size() > 0) {
+        memorial_file << _("Active Mods:") << "\n";
+        std::vector<std::string> mods = world->active_mod_order;
+        for(size_t i = 0; i < mods.size(); ++i ) {
+            memorial_file << indent << mods[i] << "\n";
+        }
+    }
 }
 
 /**
@@ -13049,6 +13171,11 @@ SkillLevel& player::skillLevel(Skill *_skill)
     return _skills[_skill];
 }
 
+SkillLevel& player::startSkillLevel(Skill *_skill)
+{
+    return _startSkills[_skill];
+}
+
 SkillLevel player::get_skill_level(Skill *_skill) const
 {
     for( const auto &elem : _skills ) {
@@ -13065,9 +13192,21 @@ SkillLevel player::get_skill_level(const std::string &ident) const
     return get_skill_level(sk);
 }
 
+SkillLevel player::get_starting_skill_level(Skill *_skill) const
+{
+    for (std::map<Skill*,SkillLevel>::const_iterator it = _startSkills.begin();
+            it != _startSkills.end(); ++it) {
+        if (it->first == _skill) {
+            return it->second;
+        }
+    }
+    return SkillLevel();
+}
+
 void player::copy_skill_levels(const player *rhs)
 {
     _skills = rhs->_skills;
+    _startSkills = rhs->_startSkills;
 }
 
 void player::set_skill_level(Skill* _skill, int level)

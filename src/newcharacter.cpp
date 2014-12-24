@@ -67,7 +67,6 @@ int player::create(character_type type, std::string tempname)
     g->u.prof = profession::generic();
     g->scen = scenario::generic();
 
-
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
@@ -560,7 +559,17 @@ int player::create(character_type type, std::string tempname)
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-    return 1;
+
+    //Set the starting stats.
+    str_start = str_max;
+    dex_start = dex_max;
+    per_start = per_max;
+    int_start = int_max;
+
+    //Copy over the skills into the startSkills map.
+    for (std::map<Skill *, SkillLevel>::iterator iter = _skills.begin(); iter != _skills.end(); ++iter)
+        _startSkills.insert(std::pair<Skill *, SkillLevel>(iter->first, iter->second));
+    return true;
 }
 
 void draw_tabs(WINDOW *w, std::string sTab)
