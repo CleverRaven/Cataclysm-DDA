@@ -12,7 +12,6 @@
         "folded_volume": 10,
         "item" : "camera_control",
         "difficulty" : 4,
-        "location" : "on_roof",
         "flags" : [ "MIRROR", "CAMERA", "CAM_CONTROL" ], "//" : "Cameras are handled in the same place as mirrors, we can process them together",
         "breaks_into" : [
             {"item": "e_scrap", "min": 4, "max": 10},
@@ -32,7 +31,6 @@
         "folded_volume": 5,
         "item" : "conecamera",
         "difficulty" : 3,
-        "location" : "on_roof",
         "flags" : [ "MIRROR", "CAMERA", "CONE_CAM" ],
         "breaks_into" : [
             {"item": "e_scrap", "min": 0, "max": 4},
@@ -53,7 +51,7 @@
         "item" : "omnicamera",
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : [ "MIRROR", "CAMERA", "OMNI_CAM" ],
+        "flags" : [ "MIRROR", "CAMERA" ],
         "breaks_into" : [
             {"item": "e_scrap", "min": 4, "max": 16},
             {"item": "plastic_chunk", "min": 2, "max": 8}
