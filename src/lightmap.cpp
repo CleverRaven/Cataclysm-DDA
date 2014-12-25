@@ -343,7 +343,7 @@ void map::build_seen_cache()
     int part;
     if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
-        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
+        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
         // from happening due to mirrors becoming visible due to processing order.
         // Cameras are also handled here, so that we only need to get through all veh parts once
@@ -355,12 +355,13 @@ void map::build_seen_cache()
             // if the player can see the mirror from their position.
             if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees(mirrorX, mirrorY)) {
                 m_it = mirrors.erase(m_it);
-            } else if( !veh->part_info( *m_it ).has_flag( "CAM_CONTROL" ) ) {
+            } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
             } else {
                 cam_control = cam_control || 
                                           ( offsetX == mirrorX && 
-                                            offsetY == mirrorY );
+                                            offsetY == mirrorY &&
+                                            veh->part[*m_it].enabled );
                 m_it = mirrors.erase( m_it );
             }
         }

@@ -4067,7 +4067,7 @@
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MIRROR", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]

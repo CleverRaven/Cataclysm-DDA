@@ -677,6 +677,9 @@ public:
     bool fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges,
                                const std::string &firing_sound = "");
 
+    // Calculate lightmap offset for cameras
+    int camera_offset( int p );
+
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
@@ -804,6 +807,7 @@ public:
     bool tracking_on;        // vehicle tracking on/off
     bool is_locked; //vehicle has no key
     bool is_alarm_on;  //vehicle has alarm on
+    bool camera_on;
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
     bool fridge_on;     //fridge on/off
@@ -821,6 +825,7 @@ public:
     int fridge_epower; // total power consumed by fridges
     int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
+    int camera_epower; // power consumed by camera system
     bool check_environmental_effects; // True if it has bloody or smoking parts
 };
 

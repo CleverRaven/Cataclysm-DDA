@@ -350,5 +350,5 @@ void init_vpart_bitflag_map()
     vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
     /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
     vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
-    vpart_bitflag_map["MIRROR"] = VPFLAG_MIRROR;
+    vpart_bitflag_map["VISION"] = VPFLAG_EXTENDS_VISION;
 }

@@ -50,8 +50,7 @@ enum vpart_bitflags {
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
-    VPFLAG_MIRROR
-
+    VPFLAG_EXTENDS_VISION
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
