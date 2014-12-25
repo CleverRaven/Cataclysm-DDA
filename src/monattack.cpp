@@ -1990,7 +1990,7 @@ void mattack::tazer( monster *z, int index )
         // Let friendly bots taze too
         for( size_t i = 0; i < g->num_zombies(); i++ ) {
             monster &tmp = g->zombie( i );
-            if( tmp.friendly == 0 ) {
+            if( tmp.friendly == 0 && !tmp.is_dead() ) {
                 int d = rl_dist( z->posx(), z->posy(), tmp.posx(), tmp.posy() );
                 if ( d < 2 ) {
                     z->reset_special( index ); // Reset timer
@@ -1999,10 +1999,32 @@ void mattack::tazer( monster *z, int index )
                 }
             }
         }
+        // Taze NPCs too
+        for( auto &n : g->active_npc ) {
+            if( n->attitude == NPCATT_KILL ) {
+            int d = rl_dist( z->posx(), z->posy(), n->posx, n->posy );
+                if ( d < 2 ) {
+                    z->reset_special( index ); // Reset timer
+                    taze( z, n );
+                    return;
+                }
+            }
+        }
         return;
     }
 
     if( within_visual_range(z, 2) < 0 ) {
+        // Try to taze non-hostile NPCs
+        for( auto &n : g->active_npc ) {
+            if( n->attitude != NPCATT_KILL ) {
+            int d = rl_dist( z->posx(), z->posy(), n->posx, n->posy );
+                if ( d < 2 ) {
+                    z->reset_special( index ); // Reset timer
+                    taze( z, n );
+                    return;
+                }
+            }
+        }
         return;
     }
 
@@ -2016,17 +2038,32 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
     z->moves -= 200;   // It takes a while
-    if( target == &g->u ) {
-        if( g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday") ||
-            g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
-            add_msg(m_info, _("The %s unsuccessfully attempts to shock you."), z->name().c_str());
+    player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr ) {
+        if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
+            foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
+            if( target == &g->u ) {
+                add_msg(m_info, _("The %s unsuccessfully attempts to shock you."), z->name().c_str());
+            } else {
+                add_msg(m_info, _("The %s unsuccessfully attempts to shock %s."), 
+                        z->name().c_str(), foe->name.c_str() );
+            }
             return;
         }
 
-        add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
         int shock = rng(1, 5);
-        g->u.apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
-        g->u.moves -= shock * 20;
+        foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
+        foe->moves -= shock * 20;
+        if( foe == &g->u ) {
+            add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
+        } else {
+            add_msg( _("The %s shocks %s!"), z->name().c_str(), foe->name.c_str() );
+            if( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
+                foe->die( z );
+                g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
+            }
+            // NPC
+        }
     } else if( target->is_monster() ) {
         // From iuse::tazer, but simplified
         monster *mon = dynamic_cast< monster* >( target );
@@ -2034,17 +2071,6 @@ void mattack::taze( monster *z, Creature *target )
         mon->moves -= shock * 100;
         mon->apply_damage( z, bp_torso, shock );
         add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
-    } else if( target->is_npc() ) {
-        npc *foe = dynamic_cast< npc* >( target );
-        int shock = rng(5, 20);
-        foe->moves -= shock * 100;
-        foe->hurtall(shock);
-        add_msg( _("The %s shocks %s!"), z->name().c_str(), foe->name.c_str() );
-        if( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-            foe->die( z );
-            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
-        }
-        // NPC
     }
 }
 
