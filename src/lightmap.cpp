@@ -383,6 +383,7 @@ void map::build_seen_cache()
             } else {
                 offsetDistance = 60 - veh->part_info( mirror ).bonus *  
                                       veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+                seen_cache[mirrorX][mirrorY] = true;
             }
 
             // @todo: Factor in the mirror facing and only cast in the
