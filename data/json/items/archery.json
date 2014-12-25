@@ -1216,7 +1216,7 @@
         "damage":8,
         "pierce":1,
         "range":12,
-        "dispersion":1225,
+        "dispersion":125,
         "recoil":0,
         "count":10,
         "effects" : ["RECOVER_10"]

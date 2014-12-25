@@ -116,6 +116,13 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         // relative to YOUR position, which may not be the gunman's position.
         g->draw_bullet(g->u, tx, ty, (int)i, trajectory, proj.proj_effects.count("FLAME") ? '#' : '*', ts);
 
+        if( in_veh != nullptr ) {
+            int part;
+            vehicle *other = g->m.veh_at( tx, ty, part );
+            if( in_veh == other && other->is_inside( part ) ) {
+                continue; // Turret is on the roof and can't hit anything inside
+            }
+        }
         /* TODO: add running out of momentum back in
         if (dam <= 0 && !(proj.proj_effects.count("FLAME"))) { // Ran out of momentum.
             break;
@@ -140,6 +147,11 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             cur_missed_by = missed_by;
         }
         if (critter != NULL && cur_missed_by <= 1.0) {
+            if( in_veh != nullptr && g->m.veh_at( tx, ty ) == in_veh && critter->is_player() ) {
+                // Turret either was aimed by the player (who is now ducking) and shoots from above
+                // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
+                continue;
+            }
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
@@ -288,7 +300,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                  used_weapon->tname().c_str());
         return;
     }
-    Skill *skill_used = Skill::skill( used_weapon->gun_skill() );
+    const Skill* skill_used = Skill::skill( used_weapon->gun_skill() );
 
     projectile proj; // damage will be set later
     proj.aoe_size = 0;
@@ -829,8 +841,10 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 wprintz(w_target, c_red, "%s", " ");
                 p.print_recoil( w_target );
             }
-        } else {
+        } else if( mode == TARGET_MODE_THROW ) {
             wprintz(w_target, c_red, _("Throwing %s"), relevant->tname().c_str());
+        } else {
+            wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
         }
     }
     wprintz(w_target, c_white, " >");
@@ -917,11 +931,14 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature *> t, int &target,
-                                item *relevant, target_mode mode)
+                                item *relevant, target_mode mode, point from)
 {
     std::vector<point> ret;
     int tarx, tary, junk, tart;
-    int range = ( hix - u.posx );
+    if( from.x == -1 && from.y == -1 ) {
+        from = u.pos();
+    }
+    int range = ( hix - from.x );
     // First, decide on a target among the monsters, if there are any in range
     if (!t.empty()) {
         if( static_cast<size_t>( target ) >= t.size() ) {
@@ -981,20 +998,20 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
 
     do {
-        if (m.sees(u.posx, u.posy, x, y, -1, tart)) {
-            ret = line_to(u.posx, u.posy, x, y, tart);
+        if (m.sees(from.x, from.y, x, y, -1, tart)) {
+            ret = line_to(from.x, from.y, x, y, tart);
         } else {
-            ret = line_to(u.posx, u.posy, x, y, 0);
+            ret = line_to(from.x, from.y, x, y, 0);
         }
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
-        if(trigdist && trig_dist(u.posx, u.posy, x, y) > range) {
+        if(trigdist && trig_dist(from.x, from.y, x, y) > range) {
             bool cont = true;
             int cx = x;
             int cy = y;
             for (size_t i = 0; i < ret.size() && cont; i++) {
-                if(trig_dist(u.posx, u.posy, ret[i].x, ret[i].y) > range) {
+                if(trig_dist(from.x, from.y, ret[i].x, ret[i].y) > range) {
                     ret.resize(i);
                     cont = false;
                 } else {
@@ -1033,7 +1050,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         // Draw the player
         draw_critter( g->u, center );
         int line_number = 1;
-        if (x != u.posx || y != u.posy) {
+        if (x != from.x || y != from.y) {
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
@@ -1050,7 +1067,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             } else if (relevant == &u.weapon && relevant->is_gun()) {
                 // firing a gun
                 mvwprintw(w_target, line_number, 1, _("Range: %d/%d, %s"),
-                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
+                          rl_dist(from.x, from.y, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
                 if (u.weapon.get_gun_mode() == "MODE_BURST") {
@@ -1067,9 +1084,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
                 line_number++;
             } else {
-                // throwing something
+                // throwing something or setting turret's target
                 mvwprintw(w_target, line_number++, 1, _("Range: %d/%d, %s"),
-                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
+                          rl_dist(from.x, from.y, x, y), range, enemiesmsg.c_str());
             }
 
             const Creature *critter = critter_at( x, y );
@@ -1110,8 +1127,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
             if (!OPTIONS["USE_TILES"] && snap_to_target) {
                 // Snap to target doesn't currently work with tiles.
-                tarx += x - u.posx;
-                tary += y - u.posy;
+                tarx += x - from.x;
+                tary += y - from.y;
             }
             tarx -= x;
             tary -= y;
@@ -1202,13 +1219,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
         } else if (action == "FIRE") {
             target = find_target( t, x, y );
-            if (u.posx == x && u.posy == y) {
+            if (from.x == x && from.y == y) {
                 ret.clear();
             }
             break;
         } else if (action == "CENTER") {
-            x = u.posx;
-            y = u.posy;
+            x = from.x;
+            y = from.y;
             ret.clear();
         } else if (action == "TOGGLE_SNAP_TO_TARGET") {
             snap_to_target = !snap_to_target;

@@ -19,12 +19,12 @@ class Skill
         std::set<std::string> _tags;
 
     public:
-        static std::vector<Skill *> skills;
+        static std::vector<const Skill*> skills;
         static void load_skill(JsonObject &jsobj);
-        static Skill *skill(std::string ident);
-        static Skill *skill(size_t id);
+        static const Skill* skill(const std::string& ident);
+        static const Skill* skill(size_t id);
 
-        static Skill *random_skill_with_tag(std::string tag);
+        static const Skill* random_skill_with_tag(const std::string& tag);
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!
@@ -35,7 +35,7 @@ class Skill
               std::set<std::string> tags);
 
         //DEBUG
-        size_t id()
+        size_t id() const
         {
             return _id;
         }

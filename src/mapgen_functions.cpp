@@ -3982,7 +3982,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -4006,7 +4006,7 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
     m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
