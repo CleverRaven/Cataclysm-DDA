@@ -173,7 +173,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     engine_on = false;
     is_locked = false;
     is_alarm_on = false;
-    cameras_on = false;
+    camera_on = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -1280,18 +1280,18 @@ void vehicle::use_controls()
         control_turrets();
         break;
     case toggle_cameras:
-        if( cameras_on )
+        if( camera_on )
         {
             for( int p : all_parts_with_feature( "CAMERA", false ) ) {
                 parts[p].enabled = false;
             }
-            cameras_on = false;
+            camera_on = false;
             add_msg( _("Camera system disabled") );
         } else if( fuel_left(fuel_type_battery, true) ) {
             for( int p : all_parts_with_feature( "CAMERA", true ) ) {
                 parts[p].enabled = true;
             }
-            cameras_on = true;
+            camera_on = true;
             add_msg( _("Camera system enabled") );
         } else {
             add_msg( _("Camera system won't turn on") );
@@ -3402,6 +3402,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         fridge_on = false;
         stereo_on = false;
         recharger_on = false;
+        camera_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
         }
@@ -4996,12 +4997,6 @@ void vehicle::control_turrets() {
     if( turret_mode < 1 ) {
         add_msg( m_warning, _("Turrets have been configured, but the vehicle turret system is off.") );
     }
-}
-
-int camera_offset( int p )
-{
-    (void)p;
-    return 24;
 }
 
 void vehicle::cycle_turret_mode()

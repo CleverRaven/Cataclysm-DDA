@@ -347,7 +347,7 @@ void map::build_seen_cache()
         // Do all the sight checks first to prevent fake multiple reflection
         // from happening due to mirrors becoming visible due to processing order.
         // Cameras are also handled here, so that we only need to get through all veh parts once
-        bool cam_control = false;
+        int cam_control = -1;
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
             const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
             const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
@@ -358,10 +358,9 @@ void map::build_seen_cache()
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
             } else {
-                cam_control = cam_control || 
-                                          ( offsetX == mirrorX && 
-                                            offsetY == mirrorY &&
-                                            veh->part[*m_it].enabled );
+                if( offsetX == mirrorX && offsetY == mirrorY && veh->part[*m_it].enabled ) {
+                    cam_control = *m_it;
+                }
                 m_it = mirrors.erase( m_it );
             }
         }
@@ -369,7 +368,7 @@ void map::build_seen_cache()
         for( size_t i = 0; i < mirrors.size(); i++ ) {
             const int &mirror = mirrors[i];
             bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
-            if( is_camera && !cam_control ) {
+            if( is_camera && cam_control < 0 ) {
                 continue; // Player not at camera control, so cameras don't work
             }
 
@@ -382,10 +381,8 @@ void map::build_seen_cache()
             if( !is_camera ) {
                 offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
             } else {
-                int cam_offset = veh->part_info( mirror ).bonus;
-                offsetDistance = 2 * cam_offset - ( cam_offset * 
-                                                    veh->parts[mirror].hp /
-                                                    veh->part_info(mirror).durability );
+                offsetDistance = 60 - part_info( mirror ).bonus *  
+                                      parts[mirror].hp / part_info( mirror ).durability;
             }
 
             // @todo: Factor in the mirror facing and only cast in the

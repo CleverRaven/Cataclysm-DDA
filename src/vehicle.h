@@ -677,9 +677,6 @@ public:
     bool fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges,
                                const std::string &firing_sound = "");
 
-    // Calculate lightmap offset for cameras
-    int camera_offset( int p );
-
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
