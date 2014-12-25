@@ -30,7 +30,7 @@
         "weight": 100, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [ 
-               ".zzz....................",
+                ".zzz....................",
                 ".z---2----232----------.",
                 ".z|BC   | 7777       B2.",
                 ".z| C   +       666  B2.",
