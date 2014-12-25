@@ -2042,27 +2042,22 @@ void mattack::taze( monster *z, Creature *target )
     if( foe != nullptr ) {
         if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
             foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
-            if( target == &g->u ) {
-                add_msg(m_info, _("The %s unsuccessfully attempts to shock you."), z->name().c_str());
-            } else {
-                add_msg(m_info, _("The %s unsuccessfully attempts to shock %s."), 
-                        z->name().c_str(), foe->name.c_str() );
-            }
+            foe->add_msg_player_or_npc( m_info, _("The %s unsuccessfully attempts to shock you."),
+                                                _("The %s unsuccessfully attempts to shock <npcname>."),
+                                                z->name().c_str() );
             return;
         }
 
         int shock = rng(1, 5);
         foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
         foe->moves -= shock * 20;
-        if( foe == &g->u ) {
-            add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
-        } else {
-            add_msg( _("The %s shocks %s!"), z->name().c_str(), foe->name.c_str() );
-            if( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-                foe->die( z );
-                g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
-            }
-            // NPC
+        auto m_type = foe == &g->u ? m_bad : m_info;
+        foe->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
+                                            _("The %s shocks <npcname>!"),
+                                            z->name().c_str() );
+        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
+            foe->die( z );                
+            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
         }
     } else if( target->is_monster() ) {
         // From iuse::tazer, but simplified
