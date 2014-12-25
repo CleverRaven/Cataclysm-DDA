@@ -60,7 +60,7 @@ enum vehicle_controls {
  trigger_alarm,
  toggle_doors,
  cont_turrets,
- toggle_cameras
+ toggle_camera
 };
 
 // Map stack methods.
@@ -1025,7 +1025,7 @@ void vehicle::use_controls()
     }
     // toggle cameras
     if( camera_on || ( has_camera && has_camera_control ) ) {
-        options_choice.push_back( cont_cameras );
+        options_choice.push_back( toggle_camera );
         options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
                                                              _("Turn on camera system"), 'm' ) );
     }
@@ -1280,18 +1280,11 @@ void vehicle::use_controls()
     case cont_turrets:
         control_turrets();
         break;
-    case toggle_cameras:
-        if( camera_on )
-        {
-            for( int p : all_parts_with_feature( "CAMERA", false ) ) {
-                parts[p].enabled = false;
-            }
+    case toggle_camera:
+        if( camera_on ) {
             camera_on = false;
             add_msg( _("Camera system disabled") );
         } else if( fuel_left(fuel_type_battery, true) ) {
-            for( int p : all_parts_with_feature( "CAMERA", true ) ) {
-                parts[p].enabled = true;
-            }
             camera_on = true;
             add_msg( _("Camera system enabled") );
         } else {

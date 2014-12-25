@@ -2,8 +2,8 @@
     {
         "type":"GENERIC",
         "id" : "camera_control",
-        "name" : "camera control system",
-        "description" : "A system to control cameras. Currently runs on magic and doesn't require energy.",
+        "name" : "camera display",
+        "description" : "A set of small monitors. Required to view cameras' output.",
         "weight" : 11234,
         "to_hit" : -3,
         "color" : "light_blue",
@@ -18,8 +18,8 @@
     {
         "type":"GENERIC",
         "id" : "omnicamera",
-        "name" : "omnidirectional camera",
-        "description" : "4 cameras taped together. They look divine, as if overseeing North, South, West and East at all times. Divine is also their power source.",
+        "name" : "security camera",
+        "description" : "A security camera you could connect to a display. Image quality is quite low, but the field of vision is great.",
         "weight" : 1100,
         "to_hit" : -3,
         "color" : "light_blue",

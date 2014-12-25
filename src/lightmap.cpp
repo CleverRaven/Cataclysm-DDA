@@ -358,7 +358,7 @@ void map::build_seen_cache()
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
             } else {
-                if( offsetX == mirrorX && offsetY == mirrorY && veh->part[*m_it].enabled ) {
+                if( offsetX == mirrorX && offsetY == mirrorY && veh->camera_on ) {
                     cam_control = *m_it;
                 }
                 m_it = mirrors.erase( m_it );
@@ -381,8 +381,8 @@ void map::build_seen_cache()
             if( !is_camera ) {
                 offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
             } else {
-                offsetDistance = 60 - part_info( mirror ).bonus *  
-                                      parts[mirror].hp / part_info( mirror ).durability;
+                offsetDistance = 60 - veh->part_info( mirror ).bonus *  
+                                      veh->parts[mirror].hp / veh->part_info( mirror ).durability;
             }
 
             // @todo: Factor in the mirror facing and only cast in the

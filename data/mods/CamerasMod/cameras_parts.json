@@ -11,8 +11,9 @@
         "durability" : 200,
         "folded_volume": 10,
         "item" : "camera_control",
+        "epower": -100,
         "difficulty" : 4,
-        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ], "//" : "Cameras are handled in the same place as mirrors, we can process them together",
+        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
         "breaks_into" : [
             {"item": "e_scrap", "min": 4, "max": 10},
             {"item": "plastic_chunk", "min": 2, "max": 8}
@@ -21,7 +22,7 @@
     {
         "type" : "vehicle_part",
         "id" : "omnicam",
-        "name" : "omnidirectional camera",
+        "name" : "security camera",
         "symbol" : "o",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -29,8 +30,9 @@
         "damage_modifier" : 10,
         "durability" : 100,
         "folded_volume" : 8,
-        "bonus" : 18, "//" : "It's negative - bigger bonus = bigger offset = can't see as much",
+        "bonus" : 24,
         "item" : "omnicamera",
+        "epower": -75,
         "difficulty" : 5,
         "location" : "on_roof",
         "flags" : [ "VISION", "CAMERA" ],
