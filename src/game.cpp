@@ -5651,9 +5651,9 @@ void game::draw_critter(const Creature &critter, const point &center)
         mvwputch( w_terrain, my, mx, c_red, '?' );
     }
     if( has_eel_sense ) {
-        if (p->is_underwater() && critter.is_underwater() && can_feel_swim) {
+        if (u.is_underwater() && critter.is_underwater() && can_feel_swim) {
             mvwputch( w_terrain, my, mx, c_cyan, '?' );
-        } else if (!p->is_underwater() && !critter.is_underwater() && can_feel_land) {
+        } else if (!u.is_underwater() && !critter.is_underwater() && can_feel_land) {
             mvwputch( w_terrain, my, mx, c_cyan, '?' );
         }
     }
