@@ -1664,7 +1664,7 @@
   "skill_used": "mechanics",
   "skills_required": [ "electronics", 5 ],
   "difficulty": 10,
-  "time": 40000,
+  "time": 360000,
   "reversible": true,
   "decomp_learn": 10,
   "autolearn": false,
