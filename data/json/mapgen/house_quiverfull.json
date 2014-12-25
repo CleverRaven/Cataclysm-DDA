@@ -12,7 +12,7 @@
             "house"
         ],
         "method": "json",
-        "weight": 300000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "....................DDD.",
