@@ -478,7 +478,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         jsin.read( tmp );
                         sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {
-                            sm->add_active_item( std::prev(sm->itm[i][j].end()), point( i, j ) );
+                            sm->active_items.add( std::prev(sm->itm[i][j].end()), point( i, j ) );
                         }
                     }
                 }

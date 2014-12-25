@@ -232,6 +232,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         targets.push_back( p );
     }
     int ll = g->light_level();
+    int part;
+    const vehicle *in_veh = is_fake() ? g->m.veh_at(  xpos(), ypos(), part ) : nullptr;
     for( auto &m : targets ) {
         int t;
         if( !sees( *m, ll, DAYLIGHT_LEVEL, t ) ) {
@@ -242,6 +244,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         if( dist >= closest || dist < area ) {
             // Have a better target anyway, ignore this one.
             // Or possibly we'd be wrecking self with explosions.
+            continue;
+        }
+        if( in_veh != nullptr && g->m.veh_at( m->xpos(), m->ypos(), part ) == in_veh ) {
+            // No shooting stuff on vehicle we're a part of
             continue;
         }
         if( iff_trig ) {

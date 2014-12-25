@@ -52,6 +52,11 @@ void map_stack::push_back( const item &newitem )
     myorigin->add_item_or_charges(location.x, location.y, newitem);
 }
 
+void map_stack::push_back_fast( const item &newitem )
+{
+    myorigin->add_item(location.x, location.y, newitem);
+}
+
 std::list<item>::iterator map_stack::begin()
 {
     return mystack->begin();
@@ -2765,8 +2770,8 @@ std::list<item>::iterator map::i_rem( const point location, std::list<item>::ite
     int lx, ly;
     submap *const current_submap = get_submap_at( location.x, location.y, lx, ly );
 
-    if( it->needs_processing() ) {
-        current_submap->delete_active_item( it, point( lx, ly ) );
+    if( current_submap->active_items.has( it, point( lx, ly ) ) ) {
+        current_submap->active_items.remove( it, point( lx, ly ) );
     }
 
     return current_submap->itm[lx][ly].erase( it );
@@ -2809,8 +2814,8 @@ void map::i_clear(const int x, const int y)
 
     for( auto item_it = current_submap->itm[lx][ly].begin();
          item_it != current_submap->itm[lx][ly].end(); ++item_it ) {
-        if( item_it->needs_processing() ) {
-            current_submap->delete_active_item( item_it, point( lx, ly ) );
+        if( current_submap->active_items.has( item_it, point( lx, ly ) ) ) {
+            current_submap->active_items.remove( item_it, point( lx, ly ) );
         }
     }
     current_submap->itm[lx][ly].clear();
@@ -3013,7 +3018,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     submap * const current_submap = get_submap_at(x, y, lx, ly);
     current_submap->itm[lx][ly].push_back(new_item);
     if( new_item.needs_processing() ) {
-        current_submap->add_active_item( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
+        current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
     }
 }
 
@@ -3052,7 +3057,10 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
-        items.push_back( temp_item );
+        // If the item lost its active flag in processing,
+        // it won't be re-added to the active list, tidy!
+        // We know it was already here, so we can skip some checks.
+        items.push_back_fast( temp_item );
         return false;
     }
     return true;
@@ -3061,9 +3069,6 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n, point location,
                                std::string )
 {
-    if( !n->needs_processing() ) {
-        return false;
-    }
     return process_item( items, n, location, false );
 }
 
@@ -3104,7 +3109,7 @@ void map::process_items( bool active, T veh_processor, U map_processor, std::str
             if( !current_submap->vehicles.empty() ) {
                 process_items_in_vehicles(current_submap, veh_processor, signal);
             }
-            if( !active || current_submap->active_item_count > 0) {
+            if( !active || !current_submap->active_items.empty() ) {
                 process_items_in_submap(current_submap, gx, gy, map_processor, signal);
             }
         }
@@ -3118,12 +3123,12 @@ void map::process_items_in_submap( submap *const current_submap, int gridx, int 
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::list<item_reference> active_items = current_submap->active_items;
+    std::list<item_reference> active_items = current_submap->active_items.get();
     for( auto &active_item : active_items ) {
         point map_location( gridx * SEEX + active_item.location.x,
                             gridy * SEEY + active_item.location.y );
         auto items = i_at( map_location.x, map_location.y );
-        if( !current_submap->has_active_item( active_item.item_iterator, active_item.location ) ) {
+        if( !current_submap->active_items.has( active_item ) ) {
             continue;
         }
         processor( items, active_item.item_iterator, map_location, signal );
@@ -3155,9 +3160,9 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
                                     std::string signal )
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
-    auto active_items = cur_veh->active_items;
+    auto active_items = cur_veh->active_items.get();
     for( auto &active_item : active_items ) {
-        if( !cur_veh->has_active_item( active_item.item_iterator, active_item.location ) ) {
+        if( !cur_veh->active_items.has( active_item.item_iterator, active_item.location ) ) {
             continue;
         }
 
@@ -3324,13 +3329,13 @@ std::list<item> map::use_charges(const point origin, const int range,
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-                if (has_furn(x, y) && accessable_furniture(origin.x, origin.y, x, y, range)) {
+                if (has_furn(x, y) && accessible_furniture(origin.x, origin.y, x, y, range)) {
                     use_charges_from_furn(furn_at(x, y), type, quantity, this, x, y, ret);
                     if (quantity <= 0) {
                         return ret;
                     }
                 }
-                if(accessable_items( origin.x, origin.y, x, y, range) ) {
+                if(accessible_items( origin.x, origin.y, x, y, range) ) {
                     continue;
                 }
                 if (rl_dist(origin.x, origin.y, x, y) >= radius) {
@@ -4240,7 +4245,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
     return false; // Shouldn't ever be reached, but there it is.
 }
 
-bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+bool map::accessible_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
     return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
@@ -4248,7 +4253,7 @@ bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int T
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
-bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+bool map::accessible_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
     return ((Fx == Tx && Fy == Ty) ||

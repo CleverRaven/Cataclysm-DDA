@@ -11432,7 +11432,6 @@ void map::rotate(int turns)
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp[MAPSIZE * MAPSIZE];
-    int active_item_count[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 
@@ -11465,7 +11464,8 @@ void map::rotate(int turns)
             std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
             auto items = i_at(new_x, new_y);
             itrot[old_x][old_y].reserve( items.size() );
-            std::move( items.begin(), items.end(), std::back_inserter(itrot[old_x][old_y]) );
+            // Copy items, if we move them, it'll wreck i_clear().
+            std::copy( items.begin(), items.end(), std::back_inserter(itrot[old_x][old_y]) );
             i_clear(new_x, new_y);
         }
     }
@@ -11514,7 +11514,6 @@ void map::rotate(int turns)
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
             tmpcomp[gridto] = from->comp;
-            active_item_count[gridto] = from->active_item_count;
             field_count[gridto] = from->field_count;
             temperature[gridto] = from->temperature;
         }
@@ -11574,7 +11573,6 @@ void map::rotate(int turns)
         vehrot[i].swap(to->vehicles);
         sprot[i].swap(to->spawns);
         to->comp = tmpcomp[i];
-        to->active_item_count = active_item_count[i];
         to->field_count = field_count[i];
         to->temperature = temperature[i];
     }
@@ -12110,7 +12108,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 rotated[i][j] = m->ter(i, j);
                 auto items = m->i_at( i, j );
                 itrot[i][j].reserve( items.size() );
-                std::move( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
+                std::copy( items.begin(), items.end(), std::back_inserter(itrot[i][j]) );
+                m->i_clear( i, j );
             }
         }
         for (int i = x1; i <= x2; i++) {
@@ -12536,8 +12535,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
             }
         }
         if (one_in(6)) { // Suits of armor
-            if (!one_in(5)) { // 80% chance for European
             int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+            if (!one_in(4)) { // 75% for Euro ornamental, but good weapons maybe
             for (int y = start; y <= end; y += step) {
                 m->spawn_item(x1 + 1, y, "helmet_plate");
                 m->spawn_item(x1 + 1, y, "armor_plate");
@@ -12551,7 +12550,6 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                 } else if (one_in(6)) {
                     m->spawn_item(x1 + 1, y, "morningstar");
                 }
-
                 m->spawn_item(x2 - 1, y, "helmet_plate");
                 m->spawn_item(x2 - 1, y, "armor_plate");
                 if (one_in(2)) {
@@ -12565,8 +12563,60 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                     m->spawn_item(x2 - 1, y, "morningstar");
                 }
             }
-          }
-            else {int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+          } else if (one_in(3)) { // Then 8.25% each for useful plate
+              for (int y = start; y <= end; y += step) {
+                m->spawn_item(x1 + 1, y, "helmet_barbute");
+                m->spawn_item(x1 + 1, y, "armor_lightplate");
+                if (one_in(2)) {
+                    m->spawn_item(x1 + 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x1 + 1, y, "morningstar");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "broadsword");
+                    m->spawn_item(x1 + 1, y, "scabbard");
+                }
+                m->spawn_item(x2 - 1, y, "helmet_barbute");
+                m->spawn_item(x2 - 1, y, "armor_lightplate");
+                if (one_in(2)) {
+                    m->spawn_item(x2 - 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x2 - 1, y, "morningstar");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "broadsword");
+                    m->spawn_item(x2 - 1, y, "scabbard");
+                }
+            }
+          } else if (one_in(2)) { // or chainmail
+              for (int y = start; y <= end; y += step) {
+              // No helmets with the chainmail, sorry.
+                m->spawn_item(x1 + 1, y, "chainmail_suit");
+                if (one_in(2)) {
+                    m->spawn_item(x1 + 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x1 + 1, y, "pike");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x1 + 1, y, "broadsword");
+                    m->spawn_item(x1 + 1, y, "scabbard");
+                }
+                m->spawn_item(x2 - 1, y, "chainmail_suit");
+                if (one_in(2)) {
+                    m->spawn_item(x2 - 1, y, "mace");
+                } else if (one_in(3)) {
+                    m->spawn_item(x2 - 1, y, "pike");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "battleaxe");
+                } else if (one_in(6)) {
+                    m->spawn_item(x2 - 1, y, "broadsword");
+                    m->spawn_item(x2 - 1, y, "scabbard");
+                }
+            }
+          } else { // or samurai gear
                 for (int y = start; y <= end; y += step) {
                     m->spawn_item(x1 + 1, y, "helmet_kabuto");
                     m->spawn_item(x1 + 1, y, "armor_samurai");

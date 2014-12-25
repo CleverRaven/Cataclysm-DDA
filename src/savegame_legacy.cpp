@@ -1139,7 +1139,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
             if( it_tmp.active ) {
-                sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
+                sm->active_items.add( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
             }
            } else if (string_identifier == "C") {
             getline(fin, databuff); // Clear out the endline
@@ -1411,7 +1411,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 it_tmp.load_info(databuff);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active) {
-                    sm->add_active_item( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
+                    sm->active_items.add( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
                 }
             } else if (string_identifier == "C") {
                 getline(fin, databuff); // Clear out the endline

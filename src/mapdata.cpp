@@ -885,8 +885,7 @@ void check_furniture_and_terrain()
     }
 }
 
-submap::submap() : ter(), frn(), trp(), rad(),
-    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+submap::submap() : ter(), frn(), trp(), rad(), field_count(0), turn_last_touched(0), temperature(0) {
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             ter[x][y] = t_null;
@@ -935,24 +934,4 @@ void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
 void submap::delete_graffiti( int x, int y )
 {
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
-}
-
-void submap::delete_active_item( std::list<item>::iterator it, point location )
-{
-    active_items.remove_if( [&] (const item_reference &active_item) {
-            return location == active_item.location && active_item.item_iterator == it; } );
-    active_item_set.erase(it);
-    active_item_count--;
-}
-
-void submap::add_active_item( std::list<item>::iterator it, point location )
-{
-    active_items.push_back( item_reference{ location, it } );
-    active_item_set.insert( it );
-    active_item_count++;
-}
-
-bool submap::has_active_item( std::list<item>::iterator it, point )
-{
-    return active_item_set.count( it ) != 0;
 }

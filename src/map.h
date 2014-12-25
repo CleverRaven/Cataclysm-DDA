@@ -21,6 +21,7 @@
 #include "lightmap.h"
 #include "coordinates.h"
 #include "item_stack.h"
+#include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
@@ -56,6 +57,7 @@ public:
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
+    void push_back_fast( const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -257,19 +259,19 @@ class map
 
 
  /**
-  * Check whether items in the target square are accessable from the source square
+  * Check whether items in the target square are accessible from the source square
   * `(Fx, Fy)` and `(Tx, Ty)`.
   *
   * Checks two things:
   * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)` OR origin and target match.
   * 2. That the target location isn't sealed.
   */
- bool accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+ bool accessible_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
  /**
-  * Like @ref accessable_items but checks for accessable furniture.
+  * Like @ref accessible_items but checks for accessible furniture.
   * It ignores the furniture flags of the target square (ignores if target is SEALED).
   */
- bool accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+ bool accessible_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
   * Calculate next search points surrounding the current position.

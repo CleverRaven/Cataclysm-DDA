@@ -149,7 +149,7 @@
         "id": "bouldering",
         "name": ["Unstable footing"],
         "desc": ["Your footing is unstable.  It's more difficult to fight while standing here."],
-        "apply_message": "You balance on the rubble.",
+        "apply_message": "You try to keep your balance.",
         "rating": "bad"
     },
     {

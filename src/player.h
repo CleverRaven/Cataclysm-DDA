@@ -108,7 +108,7 @@ struct reason_weight_list {
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
-        std::map<Skill *, SkillLevel> _skills;
+        std::map<const Skill*, SkillLevel> _skills;
 
     public:
         player();
@@ -149,7 +149,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return true;
         }
-        
+
         /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced);
         /** Processes human-specific effects effects before calling Creature::process_effects(). */
@@ -572,9 +572,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void apply_damage(Creature *source, body_part bp, int amount);
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain(int npain);
-        
+
         void cough(bool harmful = false, int volume = 4);
-        
+
         void add_pain_msg(int val, body_part bp);
 
         /** Heals a body_part for dam */
@@ -751,7 +751,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount);
-        void practice( Skill *s, int amount, int cap = 99 );
+        void practice( const Skill* s, int amount, int cap = 99 );
         void practice( std::string s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
@@ -1094,17 +1094,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        SkillLevel &skillLevel(Skill *_skill);
+        SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(std::string ident);
 
         // for serialization
-        SkillLevel get_skill_level(Skill *_skill) const;
+        SkillLevel get_skill_level(const Skill* _skill) const;
         SkillLevel get_skill_level(const std::string &ident) const;
 
-        void set_skill_level(Skill *_skill, int level);
+        void set_skill_level(const Skill* _skill, int level);
         void set_skill_level(std::string ident, int level);
 
-        void boost_skill_level(Skill *_skill, int level);
+        void boost_skill_level(const Skill* _skill, int level);
         void boost_skill_level(std::string ident, int level);
 
         void copy_skill_levels(const player *rhs);

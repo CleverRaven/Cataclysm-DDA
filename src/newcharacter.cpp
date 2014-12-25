@@ -56,7 +56,7 @@ int set_skills(WINDOW *w, player *u, int &points);
 
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-Skill *random_skill();
+const Skill* random_skill();
 
 void save_template(player *u);
 
@@ -241,7 +241,7 @@ int player::create(character_type type, std::string tempname)
                 case 7:
                 case 8:
                 case 9:
-                    Skill *aSkill = random_skill();
+                    const Skill* aSkill = random_skill();
                     int level = skillLevel(aSkill);
 
                     if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
@@ -1314,7 +1314,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     return retval;
 }
 
-inline bool skill_display_sort(const Skill *a, const Skill *b)
+inline bool skill_display_sort(const Skill* a, const Skill* b)
 {
     return a->name() < b->name();
 }
@@ -1327,11 +1327,11 @@ int set_skills(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(iContentHeight, FULL_SCREEN_WIDTH - 35,
                                    5 + getbegy(w), 31 + getbegx(w));
 
-    std::vector<Skill *> sorted_skills = Skill::skills;
+    std::vector<const Skill*> sorted_skills = Skill::skills;
     std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
-    Skill *currentSkill = sorted_skills[cur_pos];
+    const Skill* currentSkill = sorted_skills[cur_pos];
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
@@ -1366,7 +1366,7 @@ int set_skills(WINDOW *w, player *u, int &points)
             base_y = 5 + iHalf - cur_pos;
         }
         for (int i = first_i; i < end_i; ++i) {
-            Skill *thisSkill = sorted_skills[i];
+            const Skill* thisSkill = sorted_skills[i];
             // Clear the line
             mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
             if (u->skillLevel(thisSkill) == 0) {
@@ -1381,7 +1381,7 @@ int set_skills(WINDOW *w, player *u, int &points)
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
             for( auto &prof_skill : prof_skills ) {
-                Skill *skill = Skill::skill( prof_skill.first );
+                const Skill* skill = Skill::skill( prof_skill.first );
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
                 }
@@ -1443,8 +1443,8 @@ int set_skills(WINDOW *w, player *u, int &points)
     } while (true);
 }
 
-inline bool skill_description_sort(const std::pair<Skill *, int> &a,
-                                   const std::pair<Skill *, int> &b)
+inline bool skill_description_sort(const std::pair<const Skill*, int> &a,
+                                   const std::pair<const Skill*, int> &b)
 {
     int levelA = a.second;
     int levelB = b.second;
@@ -1746,14 +1746,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_traits);
 
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
-            std::vector<Skill *> skillslist;
+            std::vector<const Skill*> skillslist;
 
-            std::vector<std::pair<Skill *, int> > sorted;
+            std::vector<std::pair<const Skill*, int> > sorted;
             int num_skills = Skill::skills.size();
             for (int i = 0; i < num_skills; i++) {
-                Skill *s = Skill::skills[i];
+                const Skill* s = Skill::skills[i];
                 SkillLevel &sl = u->skillLevel(s);
-                sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+                sorted.push_back(std::pair<const Skill*, int>(s, sl.level() * 100 + sl.exercise()));
             }
             std::sort(sorted.begin(), sorted.end(), skill_description_sort);
             for( auto &elem : sorted ) {
@@ -1987,7 +1987,7 @@ std::string player::random_bad_trait()
     return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
-Skill *random_skill()
+const Skill* random_skill()
 {
     return Skill::skill(rng(0, Skill::skill_count() - 1));
 }

@@ -180,6 +180,8 @@
 		</Linker>
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
+		<Unit filename="src/active_item_cache.cpp" />
+		<Unit filename="src/active_item_cache.h" />
 		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />

@@ -6637,7 +6637,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
     // Time based on number of components.
     p->moves -= 25 * count;
     // Not much practice, and you won't get very far ripping things up.
-    Skill *isFab = Skill::skill("fabrication");
+    const Skill* isFab = Skill::skill("fabrication");
     p->practice(isFab, rng(0, 5), 1);
 
     // Higher fabrication, less chance of entropy, but still a chance.

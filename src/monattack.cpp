@@ -394,7 +394,8 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
     valid.push_back(5); // Flavor text
     switch (valid[rng(0, valid.size() - 1)]) { // What kind of attack?
     case 1: // Shock the player
-        if (!g->u.uncanny_dodge()) {
+        if( !g->u.uncanny_dodge() && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) &&
+            !g->u.has_active_bionic("bio_faraday") && !g->u.worn_with_flag("ELECTRIC_IMMUNE") ) {
             add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
             z->moves -= 150;
             g->u.hurtall(rng(1, 2));
