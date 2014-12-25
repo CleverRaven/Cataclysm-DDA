@@ -5274,7 +5274,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     if( target.first == target.second ) {
         // Manual target not set, find one automatically
         const bool u_see = g->u_see(x, y);
-        int fire_t, boo_hoo;
+        int boo_hoo;
         Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if (u_see && boo_hoo) {
