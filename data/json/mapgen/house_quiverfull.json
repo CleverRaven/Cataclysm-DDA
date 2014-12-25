@@ -4,7 +4,7 @@
     "name" : "GROUP_QUIVERFULL",
     "default" : "mon_null",
     "monsters" : [
-      { "monster" : "mon_zombie_child", "freq" : 600, "cost_multiplier" : 1, "pack_size": [1,8] }
+      { "monster" : "mon_zombie_child", "freq" : 100, "cost_multiplier" : 0, "pack_size": [6,10] }
                  ]
       },{
         "type": "mapgen",
@@ -101,24 +101,24 @@
             "place_groups": [
                 { "item": "livingroom", "chance": 70,  "x": [ 3,8 ], "y": [ 2,10 ] },
                 { "item": "kitchen", "chance": 70,  "x": [ 15,20 ], "y": [ 2,11 ] },
-                { "item": "fridge", "chance": 70,  "x": 21, "y": [ 6,7 ] },
+                { "item": "fridge", "chance": 70,  "x": 21, "y": [ 6,7 ], "repeat": [2,3] },
                 { "item": "kitchen", "chance": 70,  "x": 21, "y": [ 2,5 ], "repeat": [1,2] },
                 { "item": "dresser", "chance": 70,  "x": 2, "y": 15 },
-                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 15 },
+                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 16 },
                 { "item": "dresser", "chance": 70,  "x": 2, "y": 17 },
-                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 17 },
+                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 18 },
                 { "item": "dresser", "chance": 70,  "x": 2, "y": 19 },
-                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 19 },
+                { "item": "bed", "chance": 70,  "x": [ 2,3 ], "y": 20 },
                 { "item": "dresser", "chance": 70,  "x": 6, "y": 15 },
                 { "item": "bed", "chance": 70,  "x": 7, "y": [ 15,16 ] },
                 { "item": "dresser", "chance": 70,  "x": 8, "y": 15 },
                 { "item": "bed", "chance": 70,  "x": 9, "y": [ 15,16 ] },
                 { "item": "dresser", "chance": 70,  "x": 10, "y": 15 },
                 { "item": "bed", "chance": 70,  "x": 11, "y": [ 15,16 ] },
+                { "item": "dresser", "chance": 70,  "x": 12, "y": 21 },
+                { "item": "bed", "chance": 70,  "x": [ 12,13 ], "y": 18 },
                 { "item": "dresser", "chance": 70,  "x": 12, "y": 19 },
-                { "item": "bed", "chance": 70,  "x": [ 13,14 ], "y": 19 },
-                { "item": "dresser", "chance": 70,  "x": 13, "y": 21 },
-                { "item": "bed", "chance": 70,  "x": [ 13,14 ], "y": 21 },
+                { "item": "bed", "chance": 70,  "x": [ 12,13 ], "y": 20 },
                 { "item": "dresser", "chance": 70,  "x": 21, "y": 13 },
                 { "item": "dresser", "chance": 70,  "x": 21, "y": 16 },
                 { "item": "bed", "chance": 70,  "x": [ 20,21 ], "y": [ 14,15 ] },
