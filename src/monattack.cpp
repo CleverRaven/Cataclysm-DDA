@@ -2013,7 +2013,7 @@ void mattack::tazer( monster *z, int index )
         return;
     }
 
-    if( within_visual_range(z, 2) < 0 ) {
+    if( within_visual_range(z, 1) < 0 ) {
         // Try to taze non-hostile NPCs
         for( auto &n : g->active_npc ) {
             if( n->attitude != NPCATT_KILL ) {
