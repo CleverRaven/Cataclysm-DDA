@@ -5657,7 +5657,7 @@ void game::draw_critter(const Creature &critter, const point &center)
             mvwputch( w_terrain, my, mx, c_cyan, '?' );
         }
     }
-
+}
 void game::draw_ter(int posx, int posy)
 {
     // posx/posy default to -999
