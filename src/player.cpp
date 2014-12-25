@@ -310,7 +310,7 @@ void player::reset_stats()
         mod_dex_bonus(-2);
         add_miss_reason(_("Your thick scales get in the way."), 2);
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         mod_dex_bonus(-1);
         add_miss_reason(_("Your chitin gets in the way."), 1);
     }
@@ -439,24 +439,15 @@ void player::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if (has_trait("CHITIN_FUR3")) {
-        if (!wearing_something_on(bp_head)) {
-            mod_dodge_bonus(1);
+    static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
+        for( auto bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus(+1);
+            }
         }
-        // Odds of no torso gear = Minimal
+        // Torso handled separately, bigger bonus
         if (!wearing_something_on(bp_torso)) {
             mod_dodge_bonus(4);
-        }
-        if (!wearing_something_on(bp_arm_r)) {
-            mod_dodge_bonus(1);
-        }
-        if (!wearing_something_on(bp_arm_l)) {
-            mod_dodge_bonus(1);
-        }
-        if (!wearing_something_on(bp_leg_r)) {
-            mod_dodge_bonus(1);
-        }
-        if (!wearing_something_on(bp_leg_l)) {
-            mod_dodge_bonus(1);
         }
     }
     if (has_trait("WINGS_BAT")) {
@@ -12145,7 +12136,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
-    if ( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
+    if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
+      bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
@@ -12253,7 +12245,7 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("M_SKIN2")) {
         ret += 3;
     }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
+    if (has_trait("CHITIN")) {
         ret += 2;
     }
     if (has_trait("SHELL") && bp == bp_torso) {
@@ -12598,14 +12590,14 @@ void player::absorb(body_part bp, int &dam, int &cut)
     if (has_trait("FAT")) {
         cut --;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
         cut -= 2;
     }
     if (has_trait("CHITIN2")) {
         dam--;
         cut -= 4;
     }
-    if (has_trait("CHITIN3")) {
+    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         dam -= 2;
         cut -= 8;
     }
