@@ -1024,9 +1024,10 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(_("Configure individual turrets"), 'x'));
     }
     // toggle cameras
-    if( has_camera && has_camera_control ) {
+    if( camera_on || ( has_camera && has_camera_control ) ) {
         options_choice.push_back( cont_cameras );
-        options_message.push_back( uimenu_entry( _("Toggle cameras"), 'm' ) );
+        options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
+                                                             _("Turn on camera system"), 'm' ) );
     }
 
     options_choice.push_back(control_cancel);
