@@ -1,8 +1,8 @@
 [
 
-"comment": "Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.",
+"comment" : "Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.",
 
-"comment": "Chemicals: Tier 1. 
+"comment" : "Chemicals: Tier 1. 
 The most basic stuff, which is either obtained directly as a natural resource or readily available in nigh-unlimited quantities anywhere in the world.",
 
 {
@@ -85,8 +85,8 @@ Chemicals obtained as intermediate products of processing natural resources and 
     "dispersion" : 0,
     "recoil" : 0,
     "charges" : 2,
-    "phase" : "liquid"
-    "container" : "bottle_glass",
+    "phase" : "liquid",
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -112,11 +112,11 @@ Chemicals obtained as intermediate products of processing natural resources and 
     "dispersion" : 0,
     "recoil" : 0,
     "charges" : 1,
-    "phase" : "liquid"
-    "container" : "bottle_glass",
+    "phase" : "liquid",
+    "container" : "bottle_glass"
    },
 
 
 
-"comment": "End file after this line.",
+"comment" : "End file after this line.",
 ]
