@@ -203,7 +203,7 @@ float Creature::power_rating() const
     const monster *mon = dynamic_cast< const monster* >( this );
     if( mon != nullptr ) {
         auto att = mon->attitude( &g->u );
-        if( att == MATT_FRIEND || att == MATT_ZLAVE ) {
+        if( att == MATT_FRIEND ) {
             return -1000; // Friend, don't shoot
         }
         ret = mon->get_size() - 1; // Zed gets 1, cat -1, hulk 3
