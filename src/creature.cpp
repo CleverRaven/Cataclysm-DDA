@@ -197,13 +197,15 @@ bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) cons
     }
 }
 
+extern float power_rating( Creature *target );
+
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     int t;
     Creature *target = nullptr;
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
-    int closest = range + 1;
+    float best_target_rating = range + 1; // smaller for better targets
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool iff_trig = false;   // player seen and within range of stray shots
@@ -241,7 +243,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
         int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
-        if( dist >= closest || dist < area ) {
+        // Prioritize big, armed and hostile stuff
+        float mon_rating = power_rating( m );
+        if( mon_rating <= 0 ) {
+            // Friendly or tiny and docile
+            continue;
+        }
+        float target_rating = dist / mon_rating; 
+        if( target_rating >= best_target_rating || dist < area ) {
             // Have a better target anyway, ignore this one.
             // Or possibly we'd be wrecking self with explosions.
             continue;
@@ -262,7 +271,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
 
         target = m;
-        closest = dist;
+        best_target_rating = dist;
     }
     return target;
 }
