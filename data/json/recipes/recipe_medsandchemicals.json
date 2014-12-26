@@ -2660,6 +2660,35 @@
 ]
 ]
 },
+{
+"type" : "recipe",
+"result": "chem_aluminium_sulphate",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 4000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+]
+],
+"components": [
+[
+[ "chem_sulphuric_acid", 1 ]
+],
+[
+[ "chem_hydrgoen_peroxide", 1 ]
+],
+[
+[ "chem_aluminium_powder", 25 ]
+]
+]
+},
 
 
 ]
