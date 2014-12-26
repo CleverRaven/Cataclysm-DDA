@@ -2809,31 +2809,6 @@ Please put down your weapon.\""));
     }
 }
 
-float power_rating( Creature *target )
-{
-    float ret;
-    monster *mon = dynamic_cast< monster* >( target );
-    if( mon != nullptr ) {
-        auto att = mon->attitude( &g->u );
-        if( att == MATT_FRIEND || att == MATT_ZLAVE ) {
-            return -1000; // Friend, don't shoot
-        }
-        ret = mon->get_size() - 1; // Zed gets 1, cat -1, hulk 3
-        ret += mon->has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
-        // Hostile stuff gets a big boost
-        // Neutral moose will still get burned if it comes close
-        ret += att == MATT_ATTACK ? 2 : 0;
-        return ret;
-    } else {
-        npc *foe = dynamic_cast< npc* >( target );
-        if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
-            debugmsg( "Friendly turret targetted a friend or something weird" );
-            return -1000;
-        }
-        return foe->weapon.is_gun() ? 4 : 2;
-    }
-}
-
 void mattack::chickenbot(monster *z, int index)
 {
     int t, mode = 0;
@@ -2877,7 +2852,7 @@ void mattack::chickenbot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    const int cap = power_rating( target ) - 1;
+    const int cap = target->power_rating() - 1;
     if( mode > cap ) {
         mode = cap;
     }
@@ -2958,7 +2933,7 @@ void mattack::multi_robot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    const int cap = power_rating( target );
+    const int cap = target->power_rating();
     if( mode > cap ) {
         mode = cap;
     }

@@ -197,7 +197,30 @@ bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) cons
     }
 }
 
-extern float power_rating( Creature *target );
+float power_rating() const
+{
+    float ret;
+    monster *mon = dynamic_cast< monster* >( this );
+    if( mon != nullptr ) {
+        auto att = mon->attitude( &g->u );
+        if( att == MATT_FRIEND || att == MATT_ZLAVE ) {
+            return -1000; // Friend, don't shoot
+        }
+        ret = mon->get_size() - 1; // Zed gets 1, cat -1, hulk 3
+        ret += mon->has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+        // Hostile stuff gets a big boost
+        // Neutral moose will still get burned if it comes close
+        ret += att == MATT_ATTACK ? 2 : 0;
+        return ret;
+    } else {
+        npc *foe = dynamic_cast< npc* >( this );
+        if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
+            debugmsg( "Friendly turret targetted a friend or something weird" );
+            return -1000;
+        }
+        return foe->weapon.is_gun() ? 4 : 2;
+    }
+}
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
@@ -244,7 +267,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
         // Prioritize big, armed and hostile stuff
-        float mon_rating = power_rating( m );
+        float mon_rating = m->power_rating();
         if( mon_rating <= 0 ) {
             // Friendly or tiny and docile
             continue;
