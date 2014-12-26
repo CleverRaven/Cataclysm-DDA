@@ -2815,7 +2815,8 @@ void mattack::chickenbot(monster *z, int index)
     if( z->friendly == 0 && !g->sees_u(z->posx(), z->posy(), t) ) {
         return;    // Can't see you!
     }
-    
+
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2836,6 +2837,7 @@ void mattack::chickenbot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating() - 1;
     }
 
     int dist = rl_dist( z->posx(), z->posy(), tx, ty );
@@ -2852,7 +2854,6 @@ void mattack::chickenbot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    const int cap = target->power_rating() - 1;
     if( mode > cap ) {
         mode = cap;
     }
@@ -2888,6 +2889,7 @@ void mattack::multi_robot(monster *z, int index)
         return;    // Can't see you!
     }
 
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2908,6 +2910,7 @@ void mattack::multi_robot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating();
     }
 
     int dist = rl_dist( z->posx(), z->posy(), tx, ty );
@@ -2933,7 +2936,6 @@ void mattack::multi_robot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    const int cap = target->power_rating();
     if( mode > cap ) {
         mode = cap;
     }

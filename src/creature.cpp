@@ -215,7 +215,7 @@ float Creature::power_rating() const
     } else {
         const npc *foe = dynamic_cast< const npc* >( this );
         if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
-            debugmsg( "Friendly turret targetted a friend or something weird" );
+            debugmsg( "Friendly turret picked a bad target: %s", disp_name().c_str() );
             return -1000;
         }
         return foe->weapon.is_gun() ? 4 : 2;
