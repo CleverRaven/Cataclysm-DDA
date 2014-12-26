@@ -1,9 +1,9 @@
 [
 
-"comment" : "Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.",
+// Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.
 
-"comment" : "Chemicals: Tier 1. 
-The most basic stuff, which is either obtained directly as a natural resource or readily available in nigh-unlimited quantities anywhere in the world.",
+//Chemicals: Tier 1. 
+//The most basic stuff, which is either obtained directly as a natural resource or readily available in nigh-unlimited quantities anywhere in the world.
 
 {
     "type" : "AMMO",
@@ -58,8 +58,8 @@ The most basic stuff, which is either obtained directly as a natural resource or
     "count" : 100
    },
 
-"comment": "Chemicals: Tier 2. 
-Chemicals obtained as intermediate products of processing natural resources and those that can be found in most houses (by default, such things as ammonia, vinegar, baking soda, hydrogen peroxide, bleach, etc. fall into this category).",
+//Chemicals: Tier 2.
+//Chemicals obtained as intermediate products of processing natural resources and those that can be found in most houses (by default, such things as ammonia, vinegar, baking soda, hydrogen peroxide, bleach, etc. fall into this category).
 
 {
     "type" : "AMMO",
@@ -118,5 +118,5 @@ Chemicals obtained as intermediate products of processing natural resources and 
 
 
 
-"comment" : "End file after this line.",
+//End file after this line.
 ]
