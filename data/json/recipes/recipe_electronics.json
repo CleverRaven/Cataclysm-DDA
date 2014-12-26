@@ -2763,5 +2763,81 @@
         [ "circuit", 3 ]
       ]
     ]
-  }
+  },
+  {
+        "type" : "recipe",
+        "result": "camera_control",
+        "category": "CC_ELECTRONIC",
+        "subcategory": "CSC_ELECTRONIC_PARTS",
+        "skill_used": "electronics",
+        "skills_required": [ "computer", 2 ],
+        "difficulty": 6,
+        "time": 90000,
+        "reversible": true,
+        "autolearn": true,
+        "qualities":[
+            {"id":"SCREW","level":1,"amount":1}
+        ],
+        "tools": [
+            [
+                [ "soldering_iron", 150 ],
+                [ "toolset", 150 ]
+            ]
+        ],
+        "components": [
+            [
+                [ "small_lcd_screen", 10 ]
+            ],
+            [
+                [ "processor", 3 ]
+            ],
+            [
+                [ "RAM", 2 ]
+            ],
+            [
+                [ "cable", 20 ] 
+            ]
+        ]
+    },
+    {
+        "type" : "recipe",
+        "result": "omnicamera",
+        "category": "CC_ELECTRONIC",
+        "subcategory": "CSC_ELECTRONIC_PARTS",
+        "skill_used": "electronics",
+        "skills_required": [ "computer", 3 ],
+        "difficulty": 7,
+        "time": 9000,
+        "reversible": true,
+        "autolearn": true,
+        "qualities":[
+            {"id":"SCREW","level":1,"amount":1}
+        ],
+        "tools": [
+            [
+                [ "soldering_iron", 50 ],
+                [ "toolset", 50 ]
+            ],
+            [
+                [ "mold_plastic", -1 ]
+            ]
+        ],
+        "components": [
+            [
+                [ "lens", 4 ]
+            ],
+            [
+                [ "e_scrap", 10 ]
+            ],
+            [
+                [ "amplifier", 4 ]
+            ],
+            [
+                [ "cable", 20 ] 
+            ],
+            [
+                [ "plastic_chunk", 5 ]
+            ]
+        ]
+    }
 ]

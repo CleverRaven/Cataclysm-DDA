@@ -60,7 +60,8 @@ enum vehicle_controls {
  trigger_alarm,
  toggle_doors,
  cont_turrets,
- manual_fire
+ manual_fire,
+ toggle_camera
 };
 
 // Map stack methods.
@@ -157,6 +158,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     recharger_epower = 0;
     tracking_epower = 0;
     alarm_epower = 0;
+    camera_epower = 0;
     cruise_velocity = 0;
     music_id = "";
     skidding = false;
@@ -172,6 +174,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     engine_on = false;
     is_locked = false;
     is_alarm_on = false;
+    camera_on = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -861,6 +864,8 @@ void vehicle::use_controls()
     bool has_recharger = false;
     bool can_trigger_alarm = false;
     bool has_door_motor = false;
+    bool has_camera = false;
+    bool has_camera_control = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -899,9 +904,14 @@ void vehicle::use_controls()
             has_recharger = true;
         } else if (part_flag(p, "SECURITY") && !is_alarm_on && parts[p].hp > 0) {
             can_trigger_alarm = true;
-        }
-        else if (part_flag(p, "DOOR_MOTOR")) {
+        } else if (part_flag(p, "DOOR_MOTOR")) {
             has_door_motor = true;
+        } else if( part_flag( p, "CAMERA" ) ) {
+            if( part_flag( p, "CAMERA_CONTROL" ) ) {
+                has_camera_control = true;
+            } else {
+                has_camera = true;
+            }
         }
     }
 
@@ -1016,6 +1026,12 @@ void vehicle::use_controls()
         
         options_choice.push_back(manual_fire);
         options_message.push_back(uimenu_entry(_("Aim a turret manually"), 'w'));
+    }
+    // toggle cameras
+    if( camera_on || ( has_camera && has_camera_control ) ) {
+        options_choice.push_back( toggle_camera );
+        options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
+                                                             _("Turn on camera system"), 'm' ) );
     }
 
     options_choice.push_back(control_cancel);
@@ -1270,6 +1286,17 @@ void vehicle::use_controls()
         break;
     case manual_fire:
         aim_turrets();
+        break;
+    case toggle_camera:
+        if( camera_on ) {
+            camera_on = false;
+            add_msg( _("Camera system disabled") );
+        } else if( fuel_left(fuel_type_battery, true) ) {
+            camera_on = true;
+            add_msg( _("Camera system enabled") );
+        } else {
+            add_msg( _("Camera system won't turn on") );
+        }
         break;
     case control_cancel:
         break;
@@ -3268,6 +3295,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     if(fridge_on) epower += fridge_epower;
     if(recharger_on) epower += recharger_epower;
     if (is_alarm_on) epower += alarm_epower;
+    if( camera_on ) epower += camera_epower;
 
     // Producers of epower
     epower += solar_epower(sm_loc);
@@ -3375,6 +3403,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         fridge_on = false;
         stereo_on = false;
         recharger_on = false;
+        camera_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
         }
@@ -4546,6 +4575,9 @@ void vehicle::refresh()
         }
         if (vpi.has_flag("SECURITY")){
             speciality.push_back(p);
+        }
+        if( vpi.has_flag( "CAMERA" ) ) {
+            camera_epower += vpi.epower;
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );

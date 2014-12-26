@@ -4067,7 +4067,7 @@
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MIRROR", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
@@ -4369,6 +4369,48 @@
             {"item": "motor_small", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
             {"item": "scrap", "min": 1, "max": 3}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "cam_control",
+        "name" : "camera control system",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 20,
+        "durability" : 200,
+        "folded_volume": 10,
+        "item" : "camera_control",
+        "epower": -100,
+        "difficulty" : 4,
+        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 10},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "omnicam",
+        "name" : "security camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume" : 8,
+        "bonus" : 24,
+        "item" : "omnicamera",
+        "epower": -75,
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : [ "VISION", "CAMERA" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 16},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
         ]
     }
 ]
