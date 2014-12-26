@@ -373,18 +373,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool sees(const Creature *critter) const;
         bool sees(const Creature *critter, int &t) const;
         /**
-         * For fake-players (turrets, mounted turrets) this functions
-         * chooses a target. This is for creatures that are friendly towards
-         * the player and therefor choose a target that is hostile
-         * to the player.
-         * @param fire_t The t output of map::sees.
-         * @param range The maximal range to look for monsters, anything
-         * outside of that range is ignored.
-         * @param boo_hoo The number of targets that have been skipped
-         * because the player is in the way.
-         */
-        Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t);
-        /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
          * The player character (g->u) is checked and might be included (if applicable).
