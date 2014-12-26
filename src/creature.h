@@ -74,6 +74,8 @@ class Creature
         bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
         bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
         
+        // An approximation of creature's strength and hostility. Used by friendly turrets
+        float power_rating() const;
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
