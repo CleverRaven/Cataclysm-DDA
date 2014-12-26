@@ -5410,5 +5410,36 @@
 			[ "string_6", 2 ]
 		]
 	]
+},
+{
+"type" : "recipe",
+"result": "tool_anfo_charge",
+"category": "CC_WEAPON",
+"subcategory": "CSC_WEAPON_EXPLOSIVE",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 100000,
+"reversible": false,
+"autolearn": true,
+"tools": [
+[
+[ "welder", 20 ],
+[ "welder_crude", 30 ],
+[ "toolset", 20 ],
+[ "soldering_iron", 30 ]
+] 
+],
+"components": [
+[
+[ "30gal_drum", 1 ]
+],
+[
+[ "chem_anfo", 400 ]
+] ,
+[
+[ "dynamite", 2 ]
+]
+]
 }
+
 ]
