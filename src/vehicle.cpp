@@ -5011,8 +5011,8 @@ void vehicle::aim_turrets()
 
     int turret_index = turrets[selected];
 
-    const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
-    if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
+    const item gun( part_info( turret_index ).item, 0 );
+    if( !part_flag( turret_index, "TURRET" ) || gun.type->gun == nullptr ) {
         debugmsg( "vehicle::aim_turrets tried to pick a non-turret part" );
         return;
     }
@@ -5024,7 +5024,19 @@ void vehicle::aim_turrets()
     target.second.x = cx;
     target.second.y = cy;
 
-    int range = gun->range;
+    it_ammo *ammo;
+    if( get_items( turret_index ).front().charges > 0 ) {
+        ammo = dynamic_cast<it_ammo*>( get_items( turret_index ).front().type );
+    } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
+        ammo = dynamic_cast<it_ammo*>( item::find_type( part_info( turret_index ).fuel_type ) );
+    } else {
+        ammo = dynamic_cast<it_ammo*>( item::find_type( "charge_shot" ) );
+    }
+    if( !ammo ) {
+        ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+    }
+    const auto &gun_data = *gun.type->gun;
+    int range = gun_data.range + ammo->range;
     int x = cx;
     int y = cy;
     int t;
