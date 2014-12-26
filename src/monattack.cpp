@@ -2809,6 +2809,25 @@ Please put down your weapon.\""));
     }
 }
 
+int power_rating( Creature *target )
+{
+    int ret;
+    monster *mon = dynamic_cast< monster* >( target );
+    if( mon != nullptr ) {
+        ret = mon->get_size() - 2; // Zed gets 0, cat -2, hulk 2
+        ret += mon->has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+        ret += mon->friendly == 0 ? 2 : 0;
+        return ret;
+    } else {
+        npc *foe = dynamic_cast< npc* >( target );
+        if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
+            debugmsg( "Friendly turret targetted a friend or something weird" );
+            return INT_MIN;
+        }
+        return foe->weapon.is_gun() ? 4 : 2;
+    }
+}
+
 void mattack::chickenbot(monster *z, int index)
 {
     int t, mode = 0;
@@ -2838,13 +2857,14 @@ void mattack::chickenbot(monster *z, int index)
         ty = target->ypos();
     }
 
-    if( rl_dist( z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
+    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    if( dist == 1 && one_in(2) ) {
         mode = 1;
-    } else if( ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 12) ||
+    } else if( ( dist >= 12) ||
                ( ( z->friendly != 0 || g->u.in_vehicle ) &&
-               ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 6) ) ) {
+               ( dist >= 6) ) ) {
         mode = 3;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) >= 4) {
+    } else if( dist >= 4) {
         mode = 2;
     }
 
@@ -2852,18 +2872,30 @@ void mattack::chickenbot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
-    switch (mode) {
-    case 1:
-        this->taze( z, target );
-        break;
-    case 2:
-        this->rifle( z, target );
-        break;
-    case 3:
-        this->frag( z, target );
-        break;
+    const int cap = power_rating( target ) - 1;
+    if( mode > cap ) {
+        mode = cap;
     }
+    switch (mode) {
+    case 0:
+    case 1:
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
+        return;
+    case 2:
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
+        return;
+    case 3:
+        if( dist == 38 ) {
+            this->frag( z, target );
+        }
+        return;
+    }
+
+    z->reset_special( index );
 }
 
 void mattack::multi_robot(monster *z, int index)
@@ -2919,24 +2951,39 @@ void mattack::multi_robot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
+    const int cap = power_rating( target );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch (mode) {
     case 1:
-        this->taze( z, target );
-        break;
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
+        return;
     case 2:
-        this->flame( z, target );
-        break;
+        if( dist <= 5 ) {
+            this->flame( z, target );
+        }
+        return;
     case 3:
-        this->rifle( z, target );
-        break;
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
+        return;
     case 4:
-        this->frag( z, target );
-        break;
+        if( dist <= 30 ) {
+            this->frag( z, target );
+        }
+        return;
      case 5:
-        this->tankgun( z, target );
-        break;
+        if( dist <= 50 ) {
+            this->tankgun( z, target );
+        }
+        return;
     }
+
+    z->reset_special( index );
 }
 
 void mattack::ratking(monster *z, int index)
