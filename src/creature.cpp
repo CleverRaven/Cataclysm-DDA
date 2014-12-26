@@ -228,7 +228,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     Creature *target = nullptr;
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
-    float best_target_rating = range + 1; // smaller for better targets
+    float best_target_rating = -1.0f; // bigger is better
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool iff_trig = false;   // player seen and within range of stray shots
@@ -266,18 +266,18 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
         int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
+        if( dist > range || dist < area ) {
+            // Too near or too far
+            continue;
+        }
         // Prioritize big, armed and hostile stuff
         float mon_rating = m->power_rating();
-        if( mon_rating <= 0 ) {
-            // Friendly or tiny and docile
+        float target_rating = mon_rating / dist;
+        if( mon_rating <= 0 || target_rating <= best_target_rating ) {
+            // Friendly, tiny and docile or less dangerous than earlier monster
             continue;
         }
-        float target_rating = dist / mon_rating; 
-        if( target_rating >= best_target_rating || dist < area ) {
-            // Have a better target anyway, ignore this one.
-            // Or possibly we'd be wrecking self with explosions.
-            continue;
-        }
+
         if( in_veh != nullptr && g->m.veh_at( m->xpos(), m->ypos(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
