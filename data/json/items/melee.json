@@ -4475,4 +4475,21 @@
 	"cutting": 0,
 	"to_hit": 0
     }
+    {
+	"type":"GENERIC",
+	"id": "material_aluminium_ingot",
+	"symbol": ",",
+	"color": "light_gray",
+	"name": "aluminium ingot",
+	"category": "spare_parts",
+	"description": "An aluminium ingot. Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications/",
+	"price": 2000,
+	"material": "steel",
+	"weight": 2700,
+	"volume": 10,
+	"bashing": 1,
+	"cutting": 0,
+	"to_hit": -2
+    },
+
 ]
