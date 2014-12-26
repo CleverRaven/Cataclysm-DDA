@@ -8974,5 +8974,65 @@
 	"turns_per_charge": 0,
 	"ammo": "charcoal",
 	"revert_to": "null"
-  }
+  },
+  {
+"id": "tool_anfo_charge",
+"type": "TOOL",
+"symbol": "*",
+"color": "red",
+"name": "ANFO charge",
+"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. Use this item to light the fuse. You will then have twenty turns before it explodes and creates a large fireball",
+"price": 75000,
+"material": ["steel", "plastic"],
+"weight": 25000,
+"volume": 450,
+"bashing": 12,
+"cutting": 0,
+"to_hit": -5,
+"max_charges": 0,
+"initial_charges": 0,
+"charges_per_use": 0,
+"turns_per_charge": 0,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "transform",
+"target": "tool_anfo_charge_act",
+"target_charges": 20,
+"active": true,
+"msg": "You light the fuse on the ANFO charge. Run survivor, run !"
+}
+},
+{
+"id": "tool_anfo_charge_act",
+"type": "TOOL",
+"symbol": "*",
+"color": "light_red",
+"name": "active ANFO charge",
+"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. The fuse has been lit - better run like hell!",
+"price": 0,
+"material": ["steel", "plastic"],
+"weight": 25000,
+"volume": 450,
+"bashing": 12,
+"cutting": 0,
+"to_hit": -5,
+"max_charges": 20,
+"initial_charges": 20,
+"charges_per_use": 0,
+"turns_per_charge": 1,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "explosion",
+"sound_volume": 0,
+"sound_msg": "Tick.",
+"no_deactivate_msg": "You've already lit the fuse – run !",
+"explosion_power": 500,
+"explosion_shrapnel": 50
+}
+}
+
 ]
