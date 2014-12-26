@@ -1,9 +1,9 @@
 [
 
-// Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.
+"// "comment" : "Organisation note: Attaching the general character of the item to its id (e.g. chem_ammonium_nitrate) so as to keep the file structured by having the items sorted into continuous groups.","
 
-//Chemicals: Tier 1. 
-//The most basic stuff, which is either obtained directly as a natural resource or readily available in nigh-unlimited quantities anywhere in the world.
+"comment" : "Chemicals: Tier 1.",
+"comment" : "The most basic stuff, which is either obtained directly as a natural resource or readily available in nigh-unlimited quantities anywhere in the world.",
 
 {
     "type" : "AMMO",
@@ -58,8 +58,8 @@
     "count" : 100
    },
 
-//Chemicals: Tier 2.
-//Chemicals obtained as intermediate products of processing natural resources and those that can be found in most houses (by default, such things as ammonia, vinegar, baking soda, hydrogen peroxide, bleach, etc. fall into this category).
+"comment" : "Chemicals: Tier 2.",
+"comment" : "Chemicals obtained as intermediate products of processing natural resources and those that can be found in most houses (by default, such things as ammonia, vinegar, baking soda, hydrogen peroxide, bleach, etc. fall into this category).",
 
 {
     "type" : "AMMO",
@@ -224,8 +224,8 @@
 
 
 
-//Chemicals: Tier 3. 
-//Final products of processing and chemicals typically found in most laboratories.
+"comment" : "Chemicals: Tier 3.",
+"comment" : "Final products of processing and chemicals typically found in most laboratories.",
 
 {
     "type" : "AMMO",
@@ -360,8 +360,8 @@
     "container" : "bottle_glass"
    },
 
-//Chemicals: Tier 4. 
-//Explosives and chemicals typically used by specialised laboratories.
+"comment" : "Chemicals: Tier 4.",
+"comment" : "Explosives and chemicals typically used by specialised laboratories.",
 
 {
     "type" : "AMMO",
@@ -416,6 +416,4 @@
     "count" : 50
    }
 
-
-//End file after this line.
 ]
