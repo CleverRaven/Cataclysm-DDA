@@ -4724,7 +4724,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["TAZER", 5]],
     "description":"A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50", "FRIENDLY_SPECIAL"]
     },{
     "type" : "MONSTER",
     "id" : "mon_secubot",

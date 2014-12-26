@@ -307,8 +307,6 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
     return seen_cache[tx][ty];
 }
 
-
-
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -342,37 +340,57 @@ void map::build_seen_cache()
     castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    if (vehicle *veh = veh_at(offsetX, offsetY)) {
+    int part;
+    if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
-        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
+        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
         // from happening due to mirrors becoming visible due to processing order.
+        // Cameras are also handled here, so that we only need to get through all veh parts once
+        int cam_control = -1;
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
             const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
             const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
-            if (!g->u.sees(mirrorX, mirrorY)) {
+            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees(mirrorX, mirrorY)) {
                 m_it = mirrors.erase(m_it);
-            } else {
+            } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
+            } else {
+                if( offsetX == mirrorX && offsetY == mirrorY && veh->camera_on ) {
+                    cam_control = *m_it;
+                }
+                m_it = mirrors.erase( m_it );
             }
         }
 
-        for( auto &mirror : mirrors ) {
+        for( size_t i = 0; i < mirrors.size(); i++ ) {
+            const int &mirror = mirrors[i];
+            bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+            if( is_camera && cam_control < 0 ) {
+                continue; // Player not at camera control, so cameras don't work
+            }
+
             const int mirrorX = veh->global_x() + veh->parts[mirror].precalc_dx[0];
             const int mirrorY = veh->global_y() + veh->parts[mirror].precalc_dy[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
-            int offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+            int offsetDistance;
+            if( !is_camera ) {
+                offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+            } else {
+                offsetDistance = 60 - veh->part_info( mirror ).bonus *  
+                                      veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+                seen_cache[mirrorX][mirrorY] = true;
+            }
 
             // @todo: Factor in the mirror facing and only cast in the
             // directions the player's line of sight reflects to.
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
-
             castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
             castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 

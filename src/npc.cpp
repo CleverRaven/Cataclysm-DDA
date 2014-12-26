@@ -460,7 +460,7 @@ void npc::randomize(npc_class type)
   personality.aggression += rng(1, 3);
   personality.bravery += rng(1, 4);
   break;
-  
+
  default:
     //Suppress warnings
     break;
@@ -470,7 +470,7 @@ void npc::randomize(npc_class type)
  //The int boost from trade wasn't active... now that it is, most
  //players will vastly outclass npcs in trade without a little help.
  boost_skill_level("barter", rng(2, 4));
- 
+
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
@@ -937,9 +937,9 @@ void npc::place_on_map()
     posy += y;
 }
 
-Skill* npc::best_skill()
+const Skill* npc::best_skill()
 {
- std::vector<Skill*> best_skills;
+ std::vector<const Skill*> best_skills;
  int highest = 0;
  for( auto &skill : Skill::skills ) {
   //Should check to see if the skill has a "combat_skill" tag
@@ -959,7 +959,7 @@ Skill* npc::best_skill()
 
 void npc::starting_weapon(npc_class type)
 {
-    Skill* best = best_skill();
+    const Skill* best = best_skill();
     item sel_weapon;
     if (best->ident() == "bashing"){
         sel_weapon = random_item_from( type, "bashing" );
@@ -1346,9 +1346,9 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(player *p)
 {
- std::vector<Skill*> ret;
+ std::vector<const Skill*> ret;
  if (p == NULL)
   return ret;
  for( auto &skill : Skill::skills ) {
@@ -1571,7 +1571,7 @@ void npc::update_worst_item_value()
 int npc::value(const item &it)
 {
  int ret = it.price() / 50;
- Skill* best = best_skill();
+ const Skill* best = best_skill();
  if (best->ident() != "unarmed") {
   int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
   if (weapon_val > 0)

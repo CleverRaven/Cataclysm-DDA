@@ -3432,6 +3432,7 @@
         "broken_color" : "cyan",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "223",
         "item" : "m249",
         "size" : 40,
@@ -3451,6 +3452,7 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 5,
         "fuel_type" : "gasoline",
         "item" : "flamethrower",
         "difficulty" : 7,
@@ -3469,6 +3471,7 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "plasma",
         "item" : "plasma_rifle",
         "difficulty" : 7,
@@ -3487,6 +3490,7 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "fusion",
         "item" : "ftk93",
         "difficulty" : 7,
@@ -3506,6 +3510,7 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "battery",
         "item" : "nx17",
         "difficulty" : 7,
@@ -3524,6 +3529,7 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "50",
         "item" : "m2browning",
         "difficulty" : 6,
@@ -3543,6 +3549,7 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "40mm",
         "item" : "mark19",
         "difficulty" : 6,
@@ -4067,7 +4074,7 @@
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MIRROR", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
@@ -4305,6 +4312,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 450,
+        "range" : 12,
         "fuel_type" : "8x40mm",
         "item" : "rm614_lmg",
         "difficulty" : 8,
@@ -4325,6 +4333,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 500,
+        "range" : 12,
         "fuel_type" : "8x40mm",
         "item" : "rm298",
         "difficulty" : 9,
@@ -4369,6 +4378,48 @@
             {"item": "motor_small", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
             {"item": "scrap", "min": 1, "max": 3}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "cam_control",
+        "name" : "camera control system",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 20,
+        "durability" : 200,
+        "folded_volume": 10,
+        "item" : "camera_control",
+        "epower": -100,
+        "difficulty" : 4,
+        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 10},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "omnicam",
+        "name" : "security camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume" : 8,
+        "bonus" : 24,
+        "item" : "omnicamera",
+        "epower": -75,
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : [ "VISION", "CAMERA" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 16},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
         ]
     }
 ]

@@ -50,8 +50,7 @@ enum vpart_bitflags {
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
-    VPFLAG_MIRROR
-
+    VPFLAG_EXTENDS_VISION
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
@@ -72,7 +71,8 @@ struct vpart_info {
     int durability;         // durability
     int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
     int epower;             // electrical power in watts (positive values for generation, negative for consumption)
-    int folded_volume;		// volume of a foldable part when folded
+    int folded_volume;      // volume of a foldable part when folded
+    int range;              // turret target finder range
     union {
         int par1;
         int size;       // fuel tank, trunk

@@ -988,7 +988,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
-            std::vector<Skill*> trainable = p->skills_offered_to(&(g->u));
+            std::vector<const Skill*> trainable = p->skills_offered_to(&(g->u));
             std::vector<matype_id> styles = p->styles_offered_to(&(g->u));
             if (trainable.empty() && styles.empty()) {
                 return _("Sorry, but it doesn't seem I have anything to teach you.");
@@ -2188,7 +2188,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                Skill *skillt = Skill::skill(backlog.name);
+                const Skill* skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
                     resume << martialarts[backlog.name].name;
                     SELECT_STYLE(resume.str(), backlog.name);
@@ -2199,7 +2199,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_TRAIN_START);
             }
             std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
-            std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
+            std::vector<const Skill*> trainable = p->skills_offered_to( &(g->u) );
             if (trainable.empty() && styles.empty()) {
                 RESPONSE(_("Oh, okay.")); // Nothing to learn here
                     SUCCESS(TALK_NONE);
@@ -2211,7 +2211,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             for (size_t i = shift; i < trainable.size() && printed < 9; i++) {
                 //shift--;
                 printed++;
-                Skill* trained = trainable[i];
+                const Skill* trained = trainable[i];
                 SELECT_SKIL(string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1,
                       200 * (g->u.skillLevel(trained) + 1)),
@@ -3198,7 +3198,7 @@ void talk_function::set_engagement_all(npc *p)
 void talk_function::start_training(npc *p)
 {
  int cost = 0, time = 0;
- Skill* sk_used = NULL;
+ const Skill* sk_used = NULL;
  std::string name;
  if (p->chatbin.skill == NULL) {
   // we're training a martial art style

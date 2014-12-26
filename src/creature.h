@@ -70,6 +70,24 @@ class Creature
          */
         virtual Attitude attitude_to( const Creature &other ) const = 0;
 
+        // tests for visibility
+        bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
+        bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
+        
+        /**
+         * For fake-players (turrets, mounted turrets) this functions
+         * chooses a target. This is for creatures that are friendly towards
+         * the player and therefor choose a target that is hostile
+         * to the player.
+         * @param pos Position of the fake-player
+         * @param range The maximal range to look for monsters, anything
+         * outside of that range is ignored.
+         * @param boo_hoo The number of targets that have been skipped
+         * because the player is in the way.
+         * @param area The area of effect of the projectile aimed.
+         */
+        Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0);
+
         // makes a single melee attack, with the currently equipped weapon
         virtual void melee_attack(Creature &t, bool allow_special,
                                   matec_id technique) = 0; // Returns a damage

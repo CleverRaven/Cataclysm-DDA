@@ -8098,7 +8098,7 @@
   "type" : "recipe",
   "result": "legguard_paper",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_ARMS",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "survival",
   "difficulty": 0,
   "time": 5000,

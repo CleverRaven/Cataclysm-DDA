@@ -494,7 +494,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
     items.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++) {
         for (int y = origin.y - range; y <= origin.y + range; y++) {
-            if (g->m.has_furn(x, y) && g->m.accessable_furniture(origin.x, origin.y, x, y, range)) {
+            if (g->m.has_furn(x, y) && g->m.accessible_furniture(origin.x, origin.y, x, y, range)) {
                 const furn_t &f = g->m.furn_at(x, y);
                 itype *type = f.crafting_pseudo_item_type();
                 if (type != NULL) {
@@ -507,7 +507,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                     add_item(furn_item);
                 }
             }
-            if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
+            if(g->m.accessible_items(origin.x, origin.y, x, y, range)) {
                 continue;
             }
             for (auto &i : g->m.i_at(x, y)) {
