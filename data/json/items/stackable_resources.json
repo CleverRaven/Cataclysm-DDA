@@ -195,7 +195,40 @@
     "container" : "bag_canvas",
     "count" : 100
    },
+
+
+
+//Chemicals: Tier 3. 
+//Final products of processing and chemicals typically found in most laboratories.
+
 {
+    "type" : "AMMO",
+    "id" : "chem_hydrogen_peroxide_conc",
+    "category" : "spare_parts",
+    "price" : 1000,
+    "name" : "hydrogen peroxide (concentrated)",
+    "name_plural" : "hydrogen peroxide (concentrated)",
+    "symbol" : "p",
+    "color" : "white",
+    "description" : "Concentrated hydrogen peroxide is a powerful oxidant, violently decomposing in contact with most reducing agents. Can be used as rocket fuel or to make high explosives. Causes severe burns to any organic matter and may ignite it on contact.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 325,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "charges" : 1,
+    "phase" : "liquid",
+    "container" : "bottle_glass"
+   },
+   {
     "type" : "AMMO",
     "id" : "chem_ammonium_nitrate",
     "category" : "spare_parts",
@@ -246,38 +279,6 @@
     "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
-   },
-
-
-//Chemicals: Tier 3. 
-//Final products of processing and chemicals typically found in most laboratories.
-
-{
-    "type" : "AMMO",
-    "id" : "chem_hydrogen_peroxide_conc",
-    "category" : "spare_parts",
-    "price" : 1000,
-    "name" : "hydrogen peroxide (concentrated)",
-    "name_plural" : "hydrogen peroxide (concentrated)",
-    "symbol" : "p",
-    "color" : "white",
-    "description" : "Concentrated hydrogen peroxide is a powerful oxidant, violently decomposing in contact with most reducing agents. Can be used as rocket fuel or to make high explosives. Causes severe burns to any organic matter and may ignite it on contact.",
-    "material" : "powder",
-    "volume" : 1,
-    "weight" : 325,
-    "bashing" : 1,
-    "cutting" : 0,
-    "to_hit" : 0,
-    "ammo_type" : "components",
-    "casing" : "NULL",
-    "damage" : 0,
-    "pierce" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
-    "charges" : 1,
-    "phase" : "liquid",
-    "container" : "bottle_glass"
    },
 
 
