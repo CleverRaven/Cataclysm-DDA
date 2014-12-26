@@ -4456,6 +4456,9 @@ void vehicle::gain_moves()
 
     if( turret_mode ) { // handle turrets
         for( size_t p = 0; p < parts.size(); p++ ) {
+            if( !part_flag( p, "TURRET" ) ) {
+                continue;
+            }
             bool success = fire_turret( p );
             // Negative mode means we aimed manually a turret set not to aim automatically
             if( parts[p].mode < 0 ) {
