@@ -2763,6 +2763,29 @@
 [ "gasoline", 500 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_acetic_acid",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 3500,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 10 ]
+]
+],
+"components": [
+[
+[ "vinegar", 10 ]
+]
+]
 }
 
 
