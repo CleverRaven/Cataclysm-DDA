@@ -4989,7 +4989,16 @@ void vehicle::aim_turrets()
     target.second.x = cx;
     target.second.y = cy;
 
-    int range = gun->range;
+    it_ammo *ammo;
+    if( get_items( turret_index ).front().charges > 0 ) {
+        ammo = dynamic_cast<it_ammo*>( get_items( turret_index ).front().type );
+    } else {
+        ammo = dynamic_cast<it_ammo*>( item::find_type( part_info( turret_index ).fuel_type ) );
+    }
+    if( !ammo ) {
+        ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+    }
+    int range = gun->range + ammo->range;
     int x = cx;
     int y = cy;
     int t;
