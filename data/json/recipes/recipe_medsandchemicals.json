@@ -2689,6 +2689,33 @@
 ]
 ]
 },
+{
+"type" : "recipe",
+"result": "chem_ammonium_nitrate",
+"byproducts": "water",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 2000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+]
+],
+"components": [
+[
+[ "chem_nitric_acid", 5 ]
+],
+[
+[ "ammonia", 5 ]
+]
+]
+},
 
 
 ]
