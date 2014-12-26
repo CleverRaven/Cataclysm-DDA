@@ -5734,9 +5734,7 @@ void game::draw_veh_dir_indicator(void)
         float r = 10.0;
         int x = static_cast<int>(r * face.x);
         int y = static_cast<int>(r * face.y);
-        int centerx = POSX;
-        int centery = POSY;
-        mvwputch(w_terrain, centery + y, centerx + x, c_white, 'X');
+        mvwputch(w_terrain, POSY + y - u.view_offset_y, POSX + x - u.view_offset_x, c_white, 'X');
     }
 }
 
