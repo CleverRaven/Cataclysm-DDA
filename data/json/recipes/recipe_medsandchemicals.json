@@ -2716,6 +2716,54 @@
 ]
 ]
 },
+{
+"type" : "recipe",
+"result": "chem_black_powder",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 20000,
+"reversible": false,
+"autolearn": true,
+"qualities" : 
+[
+{"id":"BOIL","level":1,"amount":1}
+],
+"components": [
+[
+[ "chem_saltpetre", 75 ]
+],
+[
+[ "chem_sulphur", 10 ]
+] ,
+[
+[ "charcoal", 15 ]
+]
+]
+},{
+"type" : "recipe",
+"result": "chem_anfo",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 50000,
+"reversible": false,
+"autolearn": true,
+"qualities" : 
+[
+{"id":"BOIL","level":1,"amount":1}
+],
+"components": [
+[
+[ "chem_ammonium_nitrate", 90 ]
+],
+[
+[ "gasoline", 500 ]
+]
+]
+},
 
 
 ]
