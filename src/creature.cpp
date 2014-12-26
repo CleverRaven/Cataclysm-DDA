@@ -197,10 +197,10 @@ bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) cons
     }
 }
 
-float power_rating() const
+float Creature::power_rating() const
 {
     float ret;
-    monster *mon = dynamic_cast< monster* >( this );
+    const monster *mon = dynamic_cast< const monster* >( this );
     if( mon != nullptr ) {
         auto att = mon->attitude( &g->u );
         if( att == MATT_FRIEND || att == MATT_ZLAVE ) {
@@ -213,7 +213,7 @@ float power_rating() const
         ret += att == MATT_ATTACK ? 2 : 0;
         return ret;
     } else {
-        npc *foe = dynamic_cast< npc* >( this );
+        const npc *foe = dynamic_cast< const npc* >( this );
         if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
             debugmsg( "Friendly turret targetted a friend or something weird" );
             return -1000;
