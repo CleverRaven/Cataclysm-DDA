@@ -2604,5 +2604,36 @@
 ]
 ]
 },
+{
+"type" : "recipe",
+"result": "chem_sulphuric_acid",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 15000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+],
+[
+      [ "hotplate", 10 ],
+      [ "toolset", 10 ],
+]
+],
+"components": [
+[
+[ "chem_hydrogen_peroxide_conc", 1 ]
+],
+[
+[ "chem_sulphur", 25 ]
+],
+]
+},
+
 
 ]
