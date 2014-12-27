@@ -5440,6 +5440,35 @@
 [ "dynamite", 2 ]
 ]
 ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_rdx_sand_bomb",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "chem_rdx", 50 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "material_sand", 200 ]
+    ]
+  ]
 }
+
 
 ]
