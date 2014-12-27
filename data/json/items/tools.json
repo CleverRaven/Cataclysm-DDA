@@ -9039,8 +9039,8 @@
 "type": "TOOL",
 "symbol": "g",
 "color": "red",
-"name": "black gunpowder charge",
-"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. Use this item to light the fuse. You will then have twenty turns before it explodes and creates a large fireball",
+"name": "black gunpowder bomb",
+"description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
 "price": 2500,
 "material": ["steel", "plastic"],
 "weight": 500,
@@ -9060,7 +9060,7 @@
 "target": "tool_black_powder_bomb_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the fuse on the black gunpowder charge. Throw it before it blows in your face !"
+"msg": "You light the fuse on the black gunpowder bomb. Throw it before it blows in your face !"
 }
 },
 {
