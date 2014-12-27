@@ -9128,7 +9128,7 @@
 "symbol": "h",
 "color": "light_red",
 "name": "active black gunpowder charge",
-"description": " This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
+"description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
 "price": 0,
 "material": ["steel", "plastic"],
 "weight": 5000,
@@ -9151,7 +9151,67 @@
 "explosion_power": 60,
 "explosion_shrapnel": 30
 }
+},
+{
+"id": "tool_RDX_sand_bomb",
+"type": "TOOL",
+"symbol": "s",
+"color": "red",
+"name": "RDX sand bomb",
+"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. Use this item to light the fuse.",
+"price": 1000,
+"material": ["steel", "plastic"],
+"weight": 2000,
+"volume": 2,
+"bashing": 4,
+"cutting": 0,
+"to_hit": -2,
+"max_charges": 0,
+"initial_charges": 0,
+"charges_per_use": 0,
+"turns_per_charge": 0,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "transform",
+"target": "tool_RDX_sand_bomb_act",
+"target_charges": 2,
+"active": true,
+"msg": "You light the fuse on the sand bomb. Throw it !"
 }
+},
+{
+"id": " tool_RDX_sand_bomb_act",
+"type": "TOOL",
+"symbol": "h",
+"color": "light_red",
+"name": "active RDX sand bomb",
+"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. The fuse has been lit, so why are you still holding it ?",
+"price": 0,
+"material": ["steel", "plastic"],
+"weight": 2000,
+"volume": 2,
+"bashing": 0,
+"cutting": 0,
+"to_hit": -2,
+"max_charges": 2,
+"initial_charges": 2,
+"charges_per_use": 0,
+"turns_per_charge": 1,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "explosion",
+"sound_volume": 0,
+"sound_msg": "Kshhh.",
+"no_deactivate_msg": "You've already lit the fuse – what are you waiting for ?",
+"explosion_power": 9,
+"explosion_shrapnel": 40
+}
+}
+
 
 
 
