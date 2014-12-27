@@ -1,6 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include "enums.h"
 #include "output.h"
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -195,6 +196,21 @@ class uimenu: public ui_container
         bool started;
         int last_fsize;
         int last_vshift;
+};
+
+// Callback for uimenu that pairs menu entries with points
+// When an entry is selected, view will be centered on the paired point
+class pointmenu_cb : public uimenu_callback {
+    private:
+        const std::vector< point > &points;
+        int last; // to suppress redrawing
+        int view_x; // to reposition the view after selecting
+        int view_y;
+    public:
+        pointmenu_cb( std::vector< point > &pts );
+        ~pointmenu_cb() { };
+        void select( int num, uimenu *menu );
+        void refresh( uimenu *menu );
 };
 
 #endif
