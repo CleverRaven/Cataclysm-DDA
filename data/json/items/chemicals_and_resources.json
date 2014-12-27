@@ -429,6 +429,32 @@
     "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
+   },
+   {
+    "type" : "AMMO",
+    "id" : "chem_rdx",
+    "category" : "spare_parts",
+    "price" : 900,
+    "name" : "RDX",
+    "name_plural" : "RDX",
+    "symbol" : "x",
+    "color" : "white",
+    "description" : "Several off-white crystals of RDX or hexogen - a military-grade, shelf-stable high explosive. Can be cast into shaped charges or mixed with scrap to pepper the blast area with high-velocity shrapnel.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 100,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "count" : 5
    }
+
 
 ]
