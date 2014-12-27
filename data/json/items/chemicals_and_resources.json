@@ -213,6 +213,33 @@
     "container" : "bag_plastic",
     "count" : 100
    },
+   {
+    "type" : "AMMO",
+    "id" : "chem_hexamine",
+    "category" : "spare_parts",
+    "price" : 900,
+    "name" : "hexamine",
+    "name_plural" : "hexamine",
+    "symbol" : "x",
+    "color" : "red",
+    "description" : "A handful of waxy hexamine tablets. This ubiquitous fuel was used to start up almost every garden grill and camping trip could do its cooking without it, right until the Cataclysm. Nowadays, it is even more valuable then before, being the key component in the preparation of several military-grade explosives.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 190,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "container" : "box_small",
+    "count" : 20
+   },
+
 
 
 
