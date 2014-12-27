@@ -9210,7 +9210,67 @@
 "explosion_power": 9,
 "explosion_shrapnel": 40
 }
+},
+{
+"id": "tool_RDX_charge",
+"type": "TOOL",
+"symbol": "x",
+"color": "red",
+"name": "RDX charge",
+"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+"price": 90000,
+"material": ["steel", "plastic"],
+"weight": 130000,
+"volume": 200,
+"bashing": 20,
+"cutting": 0,
+"to_hit": -5,
+"max_charges": 0,
+"initial_charges": 0,
+"charges_per_use": 0,
+"turns_per_charge": 0,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "transform",
+"target": "tool_RDX_charge_act",
+"target_charges": 30,
+"active": true,
+"msg": "You light the fuse on the explosive charge. Clear the area !"
 }
+},
+{
+"id": " tool_RDX_charge_act",
+"type": "TOOL",
+"symbol": "h",
+"color": "light_red",
+"name": "active RDX charge",
+"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+"price": 0,
+"material": ["steel", "plastic"],
+"weight": 130000,
+"volume": 200,
+"bashing": 20,
+"cutting": 0,
+"to_hit": -5,
+"max_charges": 30,
+"initial_charges": 30,
+"charges_per_use": 0,
+"turns_per_charge": 1,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "explosion",
+"sound_volume": 0,
+"sound_msg": "Kshhh.",
+"no_deactivate_msg": "You've already lit the fuse – clear the area immediately !",
+"explosion_power": 750,
+"explosion_shrapnel": 200
+}
+}
+
 
 
 
