@@ -5468,7 +5468,40 @@
       [ "material_sand", 200 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_rdx_charge",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "keg", 1 ]
+    ],
+    [
+      [ "chem_rdx", 1000 ]
+    ],
+    [
+      [ "chem_hmtd", 200 ]
+    ],
+
+    [
+      [ "string_36", 5 ],
+      [ "string_6", 20 ]
+    ],
+    [
+      [ "scrap", 50 ]
+    ]
+  ]
 }
+
 
 
 ]
