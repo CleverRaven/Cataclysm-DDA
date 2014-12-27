@@ -85,9 +85,10 @@ void vehicle_stack::push_back( const item &newitem )
     myorigin->add_item(part_num, newitem);
 }
 
-void vehicle_stack::push_back_fast( const item &newitem )
+void vehicle_stack::insert_at( std::list<item>::iterator index,
+                                   const item &newitem )
 {
-    myorigin->add_item(part_num, newitem);
+    myorigin->add_item_at(part_num, index, newitem);
 }
 
 std::list<item>::iterator vehicle_stack::begin()
@@ -4357,8 +4358,12 @@ bool vehicle::add_item (int part, item itm)
     if ( cur_volume + add_volume > maxvolume ) {
         return false;
     }
+    return add_item_at( part, parts[part].items.end(), itm );
+}
 
-    parts[part].items.push_back (itm);
+bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
+{
+    parts[part].items.insert( index, itm );
     if( itm.needs_processing() ) {
         active_items.add( std::prev(parts[part].items.end()),
                           point( parts[part].mount_dx, parts[part].mount_dy) );

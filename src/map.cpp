@@ -52,9 +52,10 @@ void map_stack::push_back( const item &newitem )
     myorigin->add_item_or_charges(location.x, location.y, newitem);
 }
 
-void map_stack::push_back_fast( const item &newitem )
+void map_stack::insert_at( std::list<item>::iterator index,
+                           const item &newitem )
 {
-    myorigin->add_item(location.x, location.y, newitem);
+    myorigin->add_item_at(location.x, location.y, index, newitem);
 }
 
 std::list<item>::iterator map_stack::begin()
@@ -3001,10 +3002,19 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // map::add_item_or_charges
 void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
-    if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
+    if (!INBOUNDS(x, y)) {
         return;
     }
-    if (!INBOUNDS(x, y)) {
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    add_item_at(x, y, current_submap->itm[lx][ly].end(), new_item, maxitems);
+}
+
+void map::add_item_at( const int x, const int y,
+                       std::list<item>::iterator index, item new_item,
+                       const int maxitems )
+{
+    if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
         return;
     }
     if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
@@ -3016,7 +3026,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->itm[lx][ly].push_back(new_item);
+    current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
     }
@@ -3054,13 +3064,16 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
     item temp_item = *n;
-    items.erase( n );
+    auto insertion_point = items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
         // If the item lost its active flag in processing,
         // it won't be re-added to the active list, tidy!
-        // We know it was already here, so we can skip some checks.
-        items.push_back_fast( temp_item );
+        // Re-insert at the item's previous position.
+        // This assumes that the item didn't invalidate any iterators
+        // As a result of activation, because everything that does that
+        // destroys itself.
+        items.insert_at( insertion_point, temp_item );
         return false;
     }
     return true;
