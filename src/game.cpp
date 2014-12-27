@@ -12442,7 +12442,7 @@ void game::pldrive(int x, int y)
             return;
         }
     } else {
-        if ( veh->all_parts_with_feature("CONTROLS", true).size() == 0 ) {
+        if ( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() == 0 ) {
             add_msg(m_info, _("Can't drive this vehicle remotely. It has no working controls."));
             return;
         }

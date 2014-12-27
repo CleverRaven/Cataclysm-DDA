@@ -208,15 +208,8 @@ bool vehicle::player_in_control (player *p)
 
 bool vehicle::remote_controlled (player *p)
 {
-    std::stringstream remote_veh_string( g->u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" ) {
-        return false;
-    }
-
-    int vx, vy;
-    remote_veh_string >> vx >> vy;
-    vehicle *veh = g->m.veh_at( vx, vy );
-    if( veh == NULL || veh != this ) {
+    vehicle *veh = g->remoteveh();
+    if( veh != this ) {
         return false;
     }
 
@@ -230,7 +223,7 @@ bool vehicle::remote_controlled (player *p)
     }
     
     add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
-    p->remove_value( "remote_controlling_vehicle" );
+    g->setremoteveh( nullptr );
     return false;
 }
 
