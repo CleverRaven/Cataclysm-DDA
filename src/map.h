@@ -730,7 +730,7 @@ protected:
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
         template <typename Container>
-        void remove_rotten_items( Container &items, const point &pnt ) const;
+        void remove_rotten_items( Container &items, const point &pnt );
         /**
          * Try to fill funnel based items here.
          * @param pnt The location in this map where to fill funnels.
