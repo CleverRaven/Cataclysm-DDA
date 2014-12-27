@@ -289,7 +289,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
                 // Don't inform of very weak targets we wouldn't shoot anyway
-                if( mon_rating > 2 ) {
+                if( mon_rating > 1 ) {
                     boo_hoo++;
                 }
                 continue;
