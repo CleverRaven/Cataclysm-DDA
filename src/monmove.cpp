@@ -169,7 +169,7 @@ void monster::plan(const std::vector<int> &friendlies)
                 g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope))) {
             if (is_fleeing(*me)) {
                 fleeing = true;
-                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);\
+                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);
             } else {
                 closest = i;
                 selected_slope = bresenham_slope;
