@@ -61,7 +61,8 @@ enum vehicle_controls {
  toggle_doors,
  cont_turrets,
  manual_fire,
- toggle_camera
+ toggle_camera,
+ release_remote_control
 };
 
 // Map stack methods.
@@ -842,12 +843,16 @@ void vehicle::use_controls()
     int vpart;
 
     if (!interact_vehicle_locked()) return;
+    bool remotely_controlled = g->remoteveh() == this;
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+    } else if( remotely_controlled ) {
+        options_choice.push_back(release_remote_control);
+        options_message.push_back(uimenu_entry(_("Stop controlling"), 'l'));
     }
 
 
@@ -916,18 +921,18 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (has_engine) {
-        if (g->u.controlling_vehicle) {
+    if( has_engine ) {
+        if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
             options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
-        } else if (has_engine_type_not(fuel_type_muscle, true)){
+        } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
             options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry((engine_on) ?
                         _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
     }
 
-    if( is_alarm_on && velocity == 0 && !remote_controlled( &g->u ) ) {
+    if( is_alarm_on && velocity == 0 && !remotely_controlled ) {
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
     }
@@ -993,7 +998,7 @@ void vehicle::use_controls()
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
-    if( can_be_folded || is_convertible ) {
+    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(string_format(_("Fold %s"), name.c_str()), 'f'));
     }
@@ -1167,7 +1172,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_engine:
-        if (g->u.controlling_vehicle) {
+        if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
             //if we are controlling the vehicle, stop it.
             if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
                 add_msg(_("You turn the engine off and let go of the controls."));
@@ -1176,6 +1181,7 @@ void vehicle::use_controls()
             }
             engine_on = false;
             g->u.controlling_vehicle = false;
+            g->setremoteveh( nullptr );
         } else if (engine_on) {
             if (has_engine_type_not(fuel_type_muscle, true))
                 add_msg(_("You turn the engine off."));
@@ -1192,6 +1198,11 @@ void vehicle::use_controls()
     case release_control:
         g->u.controlling_vehicle = false;
         add_msg(_("You let go of the controls."));
+        break;
+    case release_remote_control:
+        g->u.controlling_vehicle = false;
+        g->setremoteveh( nullptr );
+        add_msg(_("You stop controlling the vehicle."));
         break;
     case convert_vehicle:
     {
