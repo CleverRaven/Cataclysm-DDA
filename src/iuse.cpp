@@ -8497,50 +8497,6 @@ int iuse::seed(player *, item *it, bool, point)
     return 0;
 }
 
-// Pasted from vehicle.cpp (needs a good home)
-class partpicker_cb : public uimenu_callback {
-    private:
-        const std::vector< point > &points;
-        int last; // to suppress redrawing
-        int view_x; // to reposition the view after selecting
-        int view_y;
-    public:
-        partpicker_cb( std::vector< point > &pts ) : points( pts ) { 
-            last = INT_MIN;
-            view_x = g->u.view_offset_x;
-            view_y = g->u.view_offset_y;
-        }
-        ~partpicker_cb() { }
-
-    void select( int /*num*/, uimenu * /*menu*/ ) {
-        g->u.view_offset_x = view_x;
-        g->u.view_offset_y = view_y;
-    }
-    
-    void refresh( uimenu *menu ) {
-        if( last == menu->selected ) {
-            return;
-        }
-        if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
-            last = menu->selected;
-            g->u.view_offset_x = 0;
-            g->u.view_offset_y = 0;
-            g->draw_ter();
-            menu->redraw( false ); // show() won't redraw borders
-            menu->show();
-            return;
-        }
-
-        last = menu->selected;
-        const point &center = points[menu->selected];
-        g->u.view_offset_x = center.x - g->u.posx;
-        g->u.view_offset_y = center.y - g->u.posy;
-        g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
-        menu->redraw( false );
-        menu->show();
-    }
-};
-
 int iuse::robotcontrol(player *p, item *it, bool, point)
 {
     if (it->charges < it->type->charges_to_use()) {
@@ -8584,7 +8540,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
                 p->add_msg_if_player( m_info, _("No enemy robots in range.") );
                 return it->type->charges_to_use();
             }
-            partpicker_cb callback( locations );
+            pointmenu_cb callback( locations );
             pick_robot.callback = &callback;
             pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             pick_robot.query();
@@ -9879,7 +9835,7 @@ vehicle *pickveh( point center, bool advanced )
     }
 
     pmenu.addentry( vehs.size(), true, 'q', _("Cancel") );
-    partpicker_cb callback( locations );
+    pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0;
     pmenu.query();
