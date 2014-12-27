@@ -9033,6 +9033,66 @@
 "explosion_power": 500,
 "explosion_shrapnel": 50
 }
+},
+{
+"id": "tool_black_powder_bomb",
+"type": "TOOL",
+"symbol": "g",
+"color": "red",
+"name": "black gunpowder charge",
+"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. Use this item to light the fuse. You will then have twenty turns before it explodes and creates a large fireball",
+"price": 2500,
+"material": ["steel", "plastic"],
+"weight": 500,
+"volume": 2,
+"bashing": 0,
+"cutting": 0,
+"to_hit": -2,
+"max_charges": 0,
+"initial_charges": 0,
+"charges_per_use": 0,
+"turns_per_charge": 0,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "transform",
+"target": "tool_black_powder_bomb_act",
+"target_charges": 2,
+"active": true,
+"msg": "You light the fuse on the black gunpowder charge. Throw it before it blows in your face !"
 }
+},
+{
+"id": "tool_black_powder_bomb_act",
+"type": "TOOL",
+"symbol": "g",
+"color": "light_red",
+"name": "active ANFO charge",
+"description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
+"price": 0,
+"material": ["steel", "plastic"],
+"weight": 500,
+"volume": 2,
+"bashing": 0,
+"cutting": 0,
+"to_hit": -2,
+"max_charges": 2,
+"initial_charges": 2,
+"charges_per_use": 0,
+"turns_per_charge": 1,
+"ammo": "NULL",
+"revert_to": "null",
+"category": "weapons",
+"use_action": {
+"type": "explosion",
+"sound_volume": 0,
+"sound_msg": "Kshhh.",
+"no_deactivate_msg": "You've already lit the fuse – throw it !",
+"explosion_power": 10,
+"explosion_shrapnel": 5
+}
+}
+
 
 ]
