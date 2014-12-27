@@ -623,6 +623,32 @@
         }
     },
     {
+        "id": "manual_niten",
+        "type": "GENERIC",
+        "symbol": "?",
+        "color": "green",
+        "name": "The Book of Five Rings",
+        "name_plural": "copies of The Book of Five Rings",
+        "description": "A primer on Miyamoto Musashi's style of combat and wisdom, Niten Ichi Ryuu.",
+        "price": 20000,
+        "material": "paper",
+        "weight": 150,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -1,
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
+    },
+    {
         "type" : "item_group",
         "id"   : "ma_manuals",
         "items":[

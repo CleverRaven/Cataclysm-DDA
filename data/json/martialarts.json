@@ -468,6 +468,80 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_niten",
+        "name" : "Niten Ichi Ryuu",
+        "description" : "Niten Ichi Ryuu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
+        "static_buffs" : [
+            {
+                 "id": "niten_stationary_buff",
+                 "name" : "Niten Ryuu",
+                 "description" : "Perception increases dodging and damage.",
+                 "melee_allowed" : true,
+                 "min_melee" : 2,
+                 "cut_per" : 1.1,
+                 "bash_per" : 1.1,
+                 "dodge_per" : 0.5,
+                 "bonus_dodges" : 3
+            }
+        ],
+        "onmove_buffs" : [
+          {
+             "id" : "niten_move_buff",
+            "name" : "Blocking",
+            "description" : "You forgo dodging on the move, but gain more blocks.",
+            "melee_allowed" : true,
+            "min_melee" : 2,
+            "max_stacks" : 1,
+            "buff_duration" : 2,
+            "bonus_dodges" : -4,
+            "bonus_blocks" : 2
+         }
+      ],
+      "onhit_buffs" : [
+          {
+            "id" : "niten_hit_buff",
+            "name" : "Blocking",
+            "description" : "You forgo dodging on the offensive, but gain more blocks.",
+            "melee_allowed" : true,
+            "min_melee" : 2,
+            "max_stacks" : 1,
+            "buff_duration" : 2,
+            "bonus_dodges" : -4,
+            "bonus_blocks" : 2
+         }
+      ],
+        "ondodge_buffs" : [
+            {
+                 "id" : "niten_set-up",
+                 "name" : "In-One Timing Set-Up",
+                 "description" : "You found a gap in the enemy's defense!",
+                 "melee_allowed": true,
+                 "min_melee" : 4,
+                 "buff_duration" : 2,
+                 "max_stacks" : 1,
+                 "cut_mult" : 1
+            }
+        ],
+        "techniques" : [
+            "niten_water_cut",
+            "niten_red_leaf",
+            "niten_stone_cut",
+            "niten_timing_attack",
+            "niten_feint"
+        ],
+        "weapons" : [
+            "katana",
+            "diamond_katana",
+            "firekatana_off",
+            "firekatana_on",
+            "wakizashi",
+            "diamond_wakizashi",
+            "q_staff",
+            "cudgel"
+        ]
+      
+    },{
+        "type" : "martial_art",
         "id" : "style_eskrima",
         "name" : "Eskrima",
         "description": "Eskrima, also known as Kali, is a Filipino martial art. It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
