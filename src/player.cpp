@@ -755,6 +755,12 @@ int player::calc_focus_equilibrium()
         }
     }
 
+    // Fatigue should at least prevent high focus
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
+    if (fatigue == 383 && focus_gain_rate > 60) {
+        focus_gain_rate = 60;
+    }
+
     // This should be redundant, but just in case...
     if (focus_gain_rate < 1) {
         focus_gain_rate = 1;
