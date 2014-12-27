@@ -500,7 +500,7 @@
         "symbol": "#",
         "color": "blue",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
