@@ -1847,7 +1847,7 @@
         "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
         "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE"],
         "prereqs" : ["EYEBULGE"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PADDED_FEET",
