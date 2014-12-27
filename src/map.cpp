@@ -4698,17 +4698,24 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
         return false;
     } else {
         // Check and remove rotten contents, but always keep the container.
-        remove_rotten_items( itm.contents, pnt );
+        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
+            if( has_rotten_away( *it, pnt ) ) {
+                it = itm.contents.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
         return false;
     }
 }
 
 template <typename Container>
-void map::remove_rotten_items( Container &items, const point &pnt ) const
+void map::remove_rotten_items( Container &items, const point &pnt )
 {
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, pnt ) ) {
-            it = items.erase( it );
+            it = i_rem( pnt, it );
         } else {
             ++it;
         }
