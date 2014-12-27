@@ -376,6 +376,33 @@
     "phase" : "liquid",
     "container" : "bottle_glass"
    },
+   {
+    "type" : "AMMO",
+    "id" : "chem_thermite",
+    "category" : "spare_parts",
+    "price" : 2500,
+    "name" : "thermite",
+    "name_plural" : "thermite",
+    "symbol" : "x",
+    "color" : "white",
+    "description" : "A handful of silvery-greenish powder, produced by mixing aluminium and chromium oxide. This mixture, burning at a constant pace and at extremely high temperature, was once used for on-the-spot welding. Can be used as an incendiary material in a pinch.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 500,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "container" : "bag_canvas",
+    "count" : 50
+   },
+
 
 
 {
@@ -434,7 +461,7 @@
     "type" : "AMMO",
     "id" : "chem_rdx",
     "category" : "spare_parts",
-    "price" : 900,
+    "price" : 7500,
     "name" : "RDX",
     "name_plural" : "RDX",
     "symbol" : "x",
