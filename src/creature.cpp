@@ -265,7 +265,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
+        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos()) + 1; // rl_dist can be 0
         if( dist > range || dist < area ) {
             // Too near or too far
             continue;
@@ -273,8 +273,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // Prioritize big, armed and hostile stuff
         float mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
-        if( mon_rating <= 0 || target_rating <= best_target_rating ) {
-            // Friendly, tiny and docile or less dangerous than earlier monster
+        if( mon_rating <= 0 ) {
+            // Friendly, tiny and docile
             continue;
         }
 
@@ -288,13 +288,19 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
-                boo_hoo++;
+                // Don't inform of very weak targets we wouldn't shoot anyway
+                if( mon_rating > 2 ) {
+                    boo_hoo++;
+                }
                 continue;
             }
         }
+        if( target_rating <= best_target_rating ) {
+            continue; // Handle this late so that boo_hoo++ can happen
+        }
 
         target = m;
-        best_target_rating = dist;
+        best_target_rating = target_rating;
     }
     return target;
 }
