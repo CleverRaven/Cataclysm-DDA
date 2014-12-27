@@ -2580,7 +2580,7 @@
       [ "lye_powder", 5 ]
     ]
   ]
-}
+},
 {
 "type" : "recipe",
 "result": "chem_hydrogen_peroxide_conc",
@@ -2741,7 +2741,8 @@
 [ "charcoal", 15 ]
 ]
 ]
-},{
+},
+{
 "type" : "recipe",
 "result": "chem_anfo",
 "category": "CC_CHEM",
