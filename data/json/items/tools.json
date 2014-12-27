@@ -9241,7 +9241,7 @@
 }
 },
 {
-"id": " tool_RDX_charge_act",
+"id": "tool_RDX_charge_act",
 "type": "TOOL",
 "symbol": "h",
 "color": "light_red",
