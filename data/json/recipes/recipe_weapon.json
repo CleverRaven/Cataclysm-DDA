@@ -5500,7 +5500,29 @@
       [ "scrap", 50 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_black_powder_bomb",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "can_drink", 1 ]
+    ],
+    [
+      [ "chem_black_powder", 100 ]
+    ]
+  ]
 }
+
 
 
 
