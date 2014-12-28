@@ -544,7 +544,7 @@
     "name_plural" : "rocket fuel",
     "symbol" : "r",
     "color" : "white",
-    "description" : "A finely ground mixture of zinc powder and sulphur, that can be used as an impromptu rocket fuel.",
+    "description" : "A chunk of a zinc powder and sulphur mixture, bound together by superglue, that can be used as an impromptu rocket fuel.",
     "material" : "powder",
     "volume" : 1,
     "weight" : 70,
@@ -559,7 +559,7 @@
     "dispersion" : 0,
     "recoil" : 0,
     "container" : "bag_plastic",
-    "count" : 50
+    "count" : 10
    }
 
 
