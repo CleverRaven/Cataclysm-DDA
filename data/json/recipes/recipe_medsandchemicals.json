@@ -2888,6 +2888,35 @@
 [ "superglue", 2 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_rocket_candy",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 3,
+"time": 10000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"tools": [
+    [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+    ]
+  ],
+"components": [
+[
+[ "chem_saltpetre", 50 ]
+],
+[
+[ "sugar", 50 ]
+]
+]
 }
+
 
 ]
