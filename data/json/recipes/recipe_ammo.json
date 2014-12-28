@@ -3921,7 +3921,8 @@
 [ "spike", 1 ]
 ],
 [
-[ "tool_rocket_candy", 10 ]
+[ "tool_rocket_candy", 3 ],
+[ "chem_rocket_fuel", 75 ]
 ],
 [
 [ "scrap", 3 ]
@@ -3956,7 +3957,8 @@
 [ "chem_black_powder", 25 ]
 ],
 [
-[ "tool_rocket_candy", 20 ]
+[ "tool_rocket_candy", 2 ],
+[ "chem_rocket_fuel", 50 ]
 ]
 ]
 },
@@ -3991,7 +3993,8 @@
 [ "plastic_chunk", 5 ]
 ],
 [
-[ "tool_rocket_candy", 20 ]
+[ "tool_rocket_candy", 2 ],
+[ "chem_rocket_fuel", 50 ]
 ]
 ]
 }
