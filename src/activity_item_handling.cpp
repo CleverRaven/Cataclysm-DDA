@@ -320,11 +320,15 @@ static void move_items( point source, point destination,
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = NULL;
+        item *temp_item = nullptr;
         if( cargo_part >= 0 ) {
-            temp_item = &veh->get_items(cargo_part)[index];
+            temp_item = g->m.item_from( veh, cargo_part, index );
         } else {
-            temp_item = &g->m.i_at( source.x, source.y )[index];
+            temp_item = g->m.item_from( source, index );
+        }
+
+        if( temp_item == nullptr ) {
+            continue; // No such item.
         }
         item leftovers = temp_item->clone();
 
