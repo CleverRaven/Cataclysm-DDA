@@ -9853,13 +9853,13 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
     if( t ) {
         bool stop = false;
         if( it->charges == 0 ) {
-            p->add_msg_if_player( m_bad, _("Remote controller's battery dies.") );
+            p->add_msg_if_player( m_bad, _("The remote controller's battery goes dead.") );
             stop = true;
         } else if( remote == nullptr ) {
-            p->add_msg_if_player( _("The connection with remote vehicle has ended.") );
+            p->add_msg_if_player( _("Lost contact with the vehicle.") );
             stop = true;
         } else if( remote->fuel_left( "battery", true ) == 0 ) {
-            p->add_msg_if_player( m_bad, _("Controlled vehicle's batter dies.") );
+            p->add_msg_if_player( m_bad, _("The vehicle's battery died.") );
             stop = true;
         }
         if( stop ) {
