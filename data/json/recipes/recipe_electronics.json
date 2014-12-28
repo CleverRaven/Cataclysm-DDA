@@ -1807,45 +1807,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "teleporter",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_TOOLS",
-  "skill_used": "electronics",
-  "difficulty": 8,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
-  "decomp_learn": 9,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 16 ],
-      [ "toolset", 16 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "power_supply", 3 ],
-      [ "plut_cell", 5 ]
-    ],
-    [
-      [ "amplifier", 3 ]
-    ],
-    [
-      [ "transponder", 3 ]
-    ],
-    [
-      [ "scrap", 10 ]
-    ],
-    [
-      [ "cable", 20 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "forgerig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
