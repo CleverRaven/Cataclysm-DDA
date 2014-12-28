@@ -2843,7 +2843,30 @@
 [ "chem_sulphuric_acid", 5 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_thermite",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 500,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_aluminium_powder", 50 ]
+],
+[
+[ "chem_chromium_oxide", 50 ]
+]
+]
 }
+
 
 
 
