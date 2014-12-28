@@ -5323,7 +5323,7 @@
       ["chemistry_set", 8],
       ["sm_extinguisher", 20],
       ["eyedrops", 15],
-      ["charcoal", 10].
+      ["charcoal", 10],
       ["chem_hydrogen_peroxide", 10],
       { "item": "chem_sulphur", "prob": 10, "charges-min": 25, "charges-max": 100},
       { "item": "chem_aluminium_powder", "prob": 5, "charges-min": 10, "charges-max": 50},
