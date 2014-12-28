@@ -3950,13 +3950,52 @@
 "components":
 [
 [
+[ "pipe", 2 ]
+],
+[
 [ "chem_black_powder", 25 ]
 ],
 [
 [ "tool_rocket_candy", 20 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "incendiary_hm_rocket",
+"category": "CC_AMMO",
+"subcategory": "CSC_AMMO_OTHER",
+"skill_used": "fabrication",
+"difficulty": 5,
+"time": 5000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+]
+],
+"components":
+[
+[
+[ "pipe", 2 ]
+],
+[
+[ "chem_thermite", 50 ]
+],
+[
+[ "plastic_chunk", 5 ]
+],
+[
+[ "tool_rocket_candy", 20 ]
+]
+]
 }
+
 
 
 ]
