@@ -2834,13 +2834,13 @@
 ],
 "components": [
 [
-[ "chem_hexamine", 10 ]
+[ "chem_hexamine", 50 ]
 ],
 [
-[ "chem_nitric_acid", 10 ]
+[ "chem_nitric_acid", 5 ]
 ],
 [
-[ "chem_sulphuric_acid", 5 ]
+[ "chem_sulphuric_acid", 2 ]
 ]
 ]
 },
@@ -2865,7 +2865,33 @@
 [ "chem_chromium_oxide", 50 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_hmtd",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 4500,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_hexamine", 25 ]
+],
+[
+[ "chem_hydrogen_peroxide_conc", 5 ]
+],
+[
+[ "chem_acetic_acid", 2 ]
+]
+]
 }
+
 
 
 
