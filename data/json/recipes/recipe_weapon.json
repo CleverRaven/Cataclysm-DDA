@@ -5553,7 +5553,7 @@
 },
 {
 "type" : "recipe",
-"result": "rock_it_launcher",
+"result": "surv_rocket_launcher",
 "category": "CC_WEAPON",
 "subcategory": "CSC_WEAPON_RANGED",
 "skill_used": "fabrication",
