@@ -5519,9 +5519,39 @@
     ],
     [
       [ "chem_black_powder", 100 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_black_powder_charge",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "jug_plastic", 1 ]
+    ],
+    [
+      [ "chem_black_powder", 100 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
     ]
   ]
 }
+
 
 
 
