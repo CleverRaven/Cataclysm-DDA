@@ -2863,10 +2863,31 @@
 [ "chem_acetic_acid", 2 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_rocket_fuel",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 10000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_zinc_powder", 50 ]
+],
+[
+[ "chem_sulphur", 50 ]
+],
+[
+[ "superglue", 2 ]
+]
+]
 }
-
-
-
-
 
 ]
