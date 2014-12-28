@@ -2790,33 +2790,6 @@
 },
 {
 "type" : "recipe",
-"result": "plasma",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 8,
-"time": 5000,
-"reversible": false,
-"autolearn": true,
-"tools": [
-[
-[ "chemistry_set", 50 ]
-]
-],
-"components": [
-[
-[ "canister_empty", 1 ]
-],
-[
-[ "chem_zinc_powder", 500 ]
-],
-[
-[ "chem_sulphuric_acid", 20 ]
-]
-]
-},
-{
-"type" : "recipe",
 "result": "chem_rdx",
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
