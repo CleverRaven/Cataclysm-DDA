@@ -990,7 +990,10 @@
       [ "superglue", 1 ]
     ],
     [
-      [ "antenna", 1 ]
+      ["processor", 1]
+    ],
+    [
+      ["RAM", 1]
     ],
     [
       [ "amplifier", 1 ]
