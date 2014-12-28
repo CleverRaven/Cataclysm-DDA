@@ -1831,8 +1831,8 @@
       ["fertilizer_commercial",30],
       ["peephole", 25],
       ["magnifying_glass", 5],
-      ["chem_cheromium_oxide", "prob": 5, "charges-min": 25, "charges-max": 200],
-      ["chem_thermite", "prob": 10, "charges-min": 10, "charges-max": 100]
+      { "item": "chem_cheromium_oxide", "prob": 5, "charges-min": 25, "charges-max": 200},
+      { "item": "chem_thermite", "prob": 10, "charges-min": 10, "charges-max": 100}
     ]
   },{
     "type" : "item_group",
@@ -5325,11 +5325,11 @@
       ["eyedrops", 15],
       ["charcoal", 10].
       ["chem_hydrogen_peroxide", 10],
-      ["chem_sulphur", "prob": 10, "charges-min": 25, "charges-max": 100],
-      ["chem_aluminium_powder", "prob": 5, "charges-min": 10, "charges-max": 50],
-      ["chem_zinc_powder", "prob": 10, "charges-min": 25, "charges-max": 100],
-      ["chem_saltpetre", "prob": 10, "charges-min": 25, "charges-max": 100],
-      ["chem_carbide", "prob": 10, "charges-min": 50, "charges-max": 200]
+      { "item": "chem_sulphur", "prob": 10, "charges-min": 25, "charges-max": 100},
+      { "item": "chem_aluminium_powder", "prob": 5, "charges-min": 10, "charges-max": 50},
+      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 25, "charges-max": 100},
+      { "item": "chem_saltpetre", "prob": 10, "charges-min": 25, "charges-max": 100},
+      { "item": "chem_carbide", "prob": 10, "charges-min": 50, "charges-max": 200}
     ]
   },{
     "type" : "item_group",
@@ -5367,7 +5367,7 @@
       ["eyedrops", 25],
       ["charcoal", 15],
       ["chem_hydrogen_peroxide", 15],
-      ["chem_carbide", "prob": 10, "charges-min": 10, "charges-max": 50]
+      { "item": "chem_carbide", "prob": 10, "charges-min": 10, "charges-max": 50}
     ]
   },{
     "type" : "item_group",
@@ -5417,7 +5417,7 @@
       ["chem_hexamine", 10],
       ["chem_saltpetre", 15],
       ["chem_nitric_acid", 15],
-      ["chem_cheromium_oxide", "prob": 10, "charges-min": 50, "charges-max": 200]
+      { "item": "chem_cheromium_oxide", "prob": 10, "charges-min": 50, "charges-max": 200}
     ]
   },{
     "type" : "item_group",
@@ -6657,7 +6657,7 @@
       ["toolbox", 5],
       ["apron_leather", 10],
       ["bio_meteorologist", 10],
-      ["chem_aluminium_sulphate", "prob": 10, "charges-min": 50, "charges-max": 200]
+      { "item": "chem_aluminium_sulphate", "prob": 10, "charges-min": 50, "charges-max": 200}
     ]
   },{
     "type" : "item_group",
@@ -6690,8 +6690,8 @@
       ["toolbox", 5],
       ["coal", 20],
       ["material_shrd_limestone", 40],
-      ["chem_rdx", "prob": 5, "charges-min": 25, "charges-max": 100],
-      ["chem_hmtd", "prob": 10, "charges-min": 25, "charges-max": 50],
+      { "item": "chem_rdx", "prob": 5, "charges-min": 25, "charges-max": 100},
+      { "item": "chem_hmtd", "prob": 10, "charges-min": 25, "charges-max": 50},
       ["tool_anfo_charge", 2]
     ]
   },{
@@ -7665,7 +7665,7 @@
       ["bio_meteorologist", 10],
       ["chem_nitric_acid", 1],
       ["chem_sulphuric_acid", 1],
-      ["chem_hexamine", "prob": 2, "charges-min": 25, "charges-max": 150]
+      { "item": "chem_hexamine", "prob": 2, "charges-min": 25, "charges-max": 150}
     ]
   },{
     "type" : "item_group",
