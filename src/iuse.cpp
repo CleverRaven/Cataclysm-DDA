@@ -9856,7 +9856,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
             p->add_msg_if_player( m_bad, _("Remote controller's battery dies.") );
             stop = true;
         } else if( remote == nullptr ) {
-            p->add_msg_if_player( m_bad, _("You lose connection with the vehicle.") );
+            p->add_msg_if_player( _("The connection with remote vehicle has ended.") );
             stop = true;
         } else if( remote->fuel_left( "battery", true ) == 0 ) {
             p->add_msg_if_player( m_bad, _("Controlled vehicle's batter dies.") );
