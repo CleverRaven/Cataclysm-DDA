@@ -4138,5 +4138,30 @@
         "recoil" : 0,
         "count" : 200,
         "effects" : ["FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES"]
-    }
+    },
+    {
+	"type" : "AMMO",
+	"id" : "spiked_rocket",
+	"price" : 1000,
+	"name" : "spiked home-made rocket",
+	"symbol" : ",",
+	"color" : "dark_gray",
+	"description" : "A home-built rocket, consisting of a spike welded onto a pipe that was filled with improvised rocket fuel. Horribly inaccurate, as can be expected of this grade of weapon, but packs a fierce punch ...if it hits.",
+	"material" : "steel",
+	"volume" : 6,
+	"weight" : 1510,
+	"bashing" : 1,
+	"cutting" : 0,
+	"to_hit" : 0,
+	"ammo_type" : "homebrew_rocket",
+	"casing" : "NULL",
+	"damage" : 80,
+	"pierce" : 80,
+	"range" : 18,
+	"dispersion" : 180,
+	"recoil" : 130,
+	"count" : 1,
+	"effects" : ["COOKOFF", "TRAIL"]
+     }
+
 ]
