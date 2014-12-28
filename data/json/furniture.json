@@ -500,7 +500,7 @@
         "symbol": "#",
         "color": "blue",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -2021,5 +2021,35 @@
                 { "item": "water_faucet", "amount": 1, "minamount": 0 }
             ]
         }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_floor_canvas",
+        "name": "heavy punching bag",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 10,
+        "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
+        "bash": {
+            "str_min": 15, "str_max": 20,
+            "sound": "whack!",
+            "sound_fail": "whud.",
+            "items": [
+                { "item": "chain", "amount": 3, "minamount": 1},
+                { "item": "leather", "amount": 12, "minamount": 4},
+                { "item": "rag", "amount": 18, "minamount": 4 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_canvas_floor",
+        "name": "canvas floor",
+        "symbol": "#",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"]
     }
 ]
