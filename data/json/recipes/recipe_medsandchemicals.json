@@ -2814,6 +2814,35 @@
 [ "chem_sulphuric_acid", 20 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_rdx",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 5000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 20 ]
+]
+],
+"components": [
+[
+[ "chem_hexamine", 10 ]
+],
+[
+[ "chem_nitric_acid", 10 ]
+],
+[
+[ "chem_sulphuric_acid", 5 ]
+]
+]
 }
 
 
