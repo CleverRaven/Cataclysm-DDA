@@ -3543,6 +3543,26 @@ void map::trigger_rc_items( std::string signal )
     process_items( false, trigger_radio_item_veh, trigger_radio_item, signal );
 }
 
+item *map::item_from( const point& pos, size_t index ) {
+    auto items = i_at( pos.x, pos.y );
+
+    if( index >= items.size() ) {
+        return nullptr;
+    } else {
+        return &items[index];
+    }
+}
+
+item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
+   auto items = veh->get_items( cargo_part );
+
+    if( index >= items.size() ) {
+        return nullptr;
+    } else {
+        return &items[index];
+    }
+}
+
 std::string map::trap_get(const int x, const int y) const {
     return traplist[ tr_at(x, y) ]->id;
 }
