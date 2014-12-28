@@ -1831,7 +1831,7 @@
       ["fertilizer_commercial",30],
       ["peephole", 25],
       ["magnifying_glass", 5],
-      { "item": "chem_cheromium_oxide", "prob": 5, "charges-min": 25, "charges-max": 200},
+      { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 25, "charges-max": 200},
       { "item": "chem_thermite", "prob": 10, "charges-min": 10, "charges-max": 100}
     ]
   },{
