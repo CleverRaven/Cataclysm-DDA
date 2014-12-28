@@ -2772,7 +2772,7 @@
         "skill_used": "electronics",
         "skills_required": [ "computer", 2 ],
         "difficulty": 6,
-        "time": 90000,
+        "time": 120000,
         "reversible": true,
         "autolearn": true,
         "qualities":[
@@ -2802,14 +2802,16 @@
     {
         "type" : "recipe",
         "result": "omnicamera",
+        "id_suffix": "from-scratch",
         "category": "CC_ELECTRONIC",
         "subcategory": "CSC_ELECTRONIC_PARTS",
         "skill_used": "electronics",
         "skills_required": [ "computer", 3 ],
         "difficulty": 7,
-        "time": 9000,
-        "reversible": true,
-        "autolearn": true,
+        "time": 180000,
+        "reversible": false,
+        "autolearn": false,
+        "book_learn": [ [ "textbook_electronics", 6 ], ["advanced_electronics", 6 ] ],
         "qualities":[
             {"id":"SCREW","level":1,"amount":1}
         ],
@@ -2837,6 +2839,40 @@
             ],
             [
                 [ "plastic_chunk", 5 ]
+            ]
+        ]
+    },
+    {
+        "type" : "recipe",
+        "result": "omnicamera",
+        "id_suffix": "from-eyebots",
+        "category": "CC_ELECTRONIC",
+        "subcategory": "CSC_ELECTRONIC_PARTS",
+        "skill_used": "electronics",
+        "skills_required": [ "computer", 1 ],
+        "difficulty": 5,
+        "time": 90000,
+        "reversible": false,
+        "autolearn": true,
+        "qualities":[
+            {"id":"SCREW","level":1,"amount":1},
+            {"id":"SAW_M","level":1,"amount":1}
+        ],
+        "tools": [
+            [
+                [ "soldering_iron", 10 ],
+                [ "toolset", 10 ]
+            ]
+        ],
+        "components": [
+            [
+                [ "broken_eyebot", 2 ]
+            ],
+            [
+                [ "power_supply", 1 ]
+            ],
+            [
+                [ "cable", 5 ] 
             ]
         ]
     }
