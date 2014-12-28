@@ -7697,7 +7697,8 @@
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["remotevehcontrol", 3]
     ]
   },{
     "type" : "item_group",

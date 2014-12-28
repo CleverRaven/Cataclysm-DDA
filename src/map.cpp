@@ -482,10 +482,6 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
     x += dx;
     y += dy;
 
-    if( remote ) {
-        g->setremoteveh( veh );
-    }
-
     update_vehicle_cache(veh);
 
     bool was_update = false;
@@ -506,6 +502,9 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         }
         g->update_map(upd_x, upd_y);
         was_update = true;
+    }
+    if( remote ) { // Has to be after update_map or coords won't be valid
+        g->setremoteveh( veh );
     }
 
     return (src_submap != dst_submap) || was_update;

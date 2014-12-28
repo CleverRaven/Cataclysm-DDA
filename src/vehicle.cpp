@@ -61,7 +61,8 @@ enum vehicle_controls {
  toggle_doors,
  cont_turrets,
  manual_fire,
- toggle_camera
+ toggle_camera,
+ release_remote_control
 };
 
 // Map stack methods.
@@ -208,15 +209,8 @@ bool vehicle::player_in_control (player *p)
 
 bool vehicle::remote_controlled (player *p)
 {
-    std::stringstream remote_veh_string( g->u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" ) {
-        return false;
-    }
-
-    int vx, vy;
-    remote_veh_string >> vx >> vy;
-    vehicle *veh = g->m.veh_at( vx, vy );
-    if( veh == NULL || veh != this ) {
+    vehicle *veh = g->remoteveh();
+    if( veh != this ) {
         return false;
     }
 
@@ -230,7 +224,7 @@ bool vehicle::remote_controlled (player *p)
     }
     
     add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
-    p->remove_value( "remote_controlling_vehicle" );
+    g->setremoteveh( nullptr );
     return false;
 }
 
@@ -547,53 +541,6 @@ void vehicle::smash() {
     }
 }
 
-// Callback for uimenu that will center on selected part without having to
-// get into vehicle interact menu (useful if we want to see the rotated vehicle)
-// Used for remote door opening, but could be reusable for any individual part selection
-// where position matters, such as manual turret aiming
-class partpicker_cb : public uimenu_callback {
-    private:
-        const std::vector< point > &points;
-        int last; // to suppress redrawing
-        int view_x; // to reposition the view after selecting
-        int view_y;
-    public:
-        partpicker_cb( std::vector< point > &pts ) : points( pts ) { 
-            last = INT_MIN;
-            view_x = g->u.view_offset_x;
-            view_y = g->u.view_offset_y;
-        }
-        ~partpicker_cb() { }
-
-    void select( int /*num*/, uimenu * /*menu*/ ) {
-        g->u.view_offset_x = view_x;
-        g->u.view_offset_y = view_y;
-    }
-    
-    void refresh( uimenu *menu ) {
-        if( last == menu->selected ) {
-            return;
-        }
-        if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
-            last = menu->selected;
-            g->u.view_offset_x = 0;
-            g->u.view_offset_y = 0;
-            g->draw_ter();
-            menu->redraw( false ); // show() won't redraw borders
-            menu->show();
-            return;
-        }
-
-        last = menu->selected;
-        const point &center = points[menu->selected];
-        g->u.view_offset_x = center.x - g->u.posx;
-        g->u.view_offset_y = center.y - g->u.posy;
-        g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
-        menu->redraw( false );
-        menu->show();
-    }
-};
-
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
@@ -622,7 +569,7 @@ void vehicle::control_doors() {
     }
 
     pmenu.addentry( doors_with_motors.size(), true, 'q', _("Cancel") );
-    partpicker_cb callback( locations );
+    pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
     pmenu.query();
@@ -843,12 +790,16 @@ void vehicle::use_controls()
     int vpart;
 
     if (!interact_vehicle_locked()) return;
+    bool remotely_controlled = g->remoteveh() == this;
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+    } else if( remotely_controlled ) {
+        options_choice.push_back(release_remote_control);
+        options_message.push_back(uimenu_entry(_("Stop controlling"), 'l'));
     }
 
 
@@ -917,18 +868,18 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (has_engine) {
-        if (g->u.controlling_vehicle) {
+    if( has_engine ) {
+        if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
             options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
-        } else if (has_engine_type_not(fuel_type_muscle, true)){
+        } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
             options_choice.push_back(toggle_engine);
             options_message.push_back(uimenu_entry((engine_on) ?
                         _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
     }
 
-    if( is_alarm_on && velocity == 0 && !remote_controlled( &g->u ) ) {
+    if( is_alarm_on && velocity == 0 && !remotely_controlled ) {
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
     }
@@ -994,7 +945,7 @@ void vehicle::use_controls()
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
-    if( can_be_folded || is_convertible ) {
+    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(string_format(_("Fold %s"), name.c_str()), 'f'));
     }
@@ -1168,7 +1119,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_engine:
-        if (g->u.controlling_vehicle) {
+        if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
             //if we are controlling the vehicle, stop it.
             if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
                 add_msg(_("You turn the engine off and let go of the controls."));
@@ -1177,6 +1128,7 @@ void vehicle::use_controls()
             }
             engine_on = false;
             g->u.controlling_vehicle = false;
+            g->setremoteveh( nullptr );
         } else if (engine_on) {
             if (has_engine_type_not(fuel_type_muscle, true))
                 add_msg(_("You turn the engine off."));
@@ -1193,6 +1145,11 @@ void vehicle::use_controls()
     case release_control:
         g->u.controlling_vehicle = false;
         add_msg(_("You let go of the controls."));
+        break;
+    case release_remote_control:
+        g->u.controlling_vehicle = false;
+        g->setremoteveh( nullptr );
+        add_msg(_("You stop controlling the vehicle."));
         break;
     case convert_vehicle:
     {
@@ -4980,7 +4937,7 @@ void vehicle::aim_turrets()
 
     }
 
-    partpicker_cb callback( locations );
+    pointmenu_cb callback( locations );
 
     int selected = 0;
 
@@ -5087,7 +5044,7 @@ void vehicle::control_turrets() {
         }
     }
 
-    partpicker_cb callback( locations );
+    pointmenu_cb callback( locations );
 
     int selected = 0;
 
