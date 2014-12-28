@@ -577,6 +577,9 @@ void game::setup()
     }
 
     load_auto_pickup(false); // Load global auto pickup rules
+
+    remoteveh_cache_turn = INT_MIN;
+    remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
 
@@ -3186,18 +3189,25 @@ void game::rcdrive(int dx, int dy)
 
 vehicle *game::remoteveh()
 {
+    if( calendar::turn == remoteveh_cache_turn ) {
+        return remoteveh_cache;
+    }
+    remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str() == "" ) {
-        return nullptr;
+        remoteveh_cache = nullptr;
+    } else {
+        int vx, vy;
+        remote_veh_string >> vx >> vy;
+        remoteveh_cache = m.veh_at( vx, vy );
     }
-
-    int vx, vy;
-    remote_veh_string >> vx >> vy;
-    return m.veh_at( vx, vy );
+    return remoteveh_cache;
 }
 
 void game::setremoteveh(vehicle *veh)
 {
+    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache = veh;
     if( veh == nullptr ) {
         u.remove_value( "remote_controlling_vehicle" );
         return;

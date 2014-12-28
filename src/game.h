@@ -726,6 +726,9 @@ class game
         time_t last_save_timestamp;
         unsigned char latest_lightlevel;
         calendar latest_lightlevel_turn;
+        // remoteveh() cache
+        int remoteveh_cache_turn;
+        vehicle *remoteveh_cache;
 
         special_game *gamemode;
 

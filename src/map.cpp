@@ -481,11 +481,10 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
     x += dx;
     y += dy;
 
+    update_vehicle_cache(veh);
     if( remote ) {
         g->setremoteveh( veh );
     }
-
-    update_vehicle_cache(veh);
 
     bool was_update = false;
     if (need_update &&
