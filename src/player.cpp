@@ -310,7 +310,7 @@ void player::reset_stats()
         mod_dex_bonus(-2);
         add_miss_reason(_("Your thick scales get in the way."), 2);
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         mod_dex_bonus(-1);
         add_miss_reason(_("Your chitin gets in the way."), 1);
     }
@@ -436,6 +436,19 @@ void player::reset_stats()
     }
     if (has_trait("WHISKERS_RAT") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(2);
+    }
+    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
+    if (has_trait("CHITIN_FUR3")) {
+    static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
+        for( auto bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus(+1);
+            }
+        }
+        // Torso handled separately, bigger bonus
+        if (!wearing_something_on(bp_torso)) {
+            mod_dodge_bonus(4);
+        }
     }
     if (has_trait("WINGS_BAT")) {
         mod_dodge_bonus(-3);
@@ -893,6 +906,13 @@ void player::update_bodytemp()
         if (has_trait("LIGHTFUR")) {
             floor_mut_warmth += 100;
         }
+        // Spider hair really isn't meant for this sort of thing
+        if (has_trait("CHITIN_FUR")) {
+            floor_mut_warmth += 50;
+        }
+        if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
+            floor_mut_warmth += 75;
+        }
         // Down helps too
         if (has_trait("DOWN")) {
             floor_mut_warmth += 250;
@@ -902,7 +922,7 @@ void player::update_bodytemp()
             floor_mut_warmth += 200;
         }
         // DOWN doesn't provide floor insulation, though.
-        // Non-light fur or being in one's shell does.
+        // Better-than-light fur or being in one's shell does.
         if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
             if (floor_bedding_warmth < 0) {
                 floor_bedding_warmth = 0;
@@ -1176,6 +1196,12 @@ void player::update_bodytemp()
         // Feathers: minor means minor.
         if( has_trait("FEATHERS") ) {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
+        }
+        if( has_trait("CHITIN_FUR") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 100 : 150);
+        }
+        if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 150 : 250);
         }
         // Down; lets heat out more easily if needed but not as Warm
         // as full-blown fur.  So less miserable in Summer.
@@ -8196,7 +8222,9 @@ void player::drench(int saturation, int flags)
     int dur = 60;
     int d_start = 30;
     if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
+          has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
+          has_trait("CHITIN_FUR3")) {
             dur /= 5;
             d_start /= 5;
         }
@@ -8252,7 +8280,8 @@ void player::update_body_wetness()
     */
     int delay = 10;
     if( has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
-        has_trait("LUPINE_FUR") ) {
+        has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
+        has_trait("CHITIN_FUR3")) {
         delay += 2;
     }
     if (has_trait("URSINE_FUR")) {
@@ -12113,7 +12142,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
-    if ( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
+    if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
+      bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
@@ -12280,13 +12310,13 @@ int player::get_armor_cut_base(body_part bp) const
     if (has_trait("SLEEK_SCALES")) {
         ret += 1;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR")) {
         ret += 2;
     }
-    if (has_trait("CHITIN2")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR2")) {
         ret += 4;
     }
-    if (has_trait("CHITIN3")) {
+    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         ret += 8;
     }
     if (has_trait("SHELL") && bp == bp_torso) {
@@ -12566,14 +12596,14 @@ void player::absorb(body_part bp, int &dam, int &cut)
     if (has_trait("FAT")) {
         cut --;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
         cut -= 2;
     }
     if (has_trait("CHITIN2")) {
         dam--;
         cut -= 4;
     }
-    if (has_trait("CHITIN3")) {
+    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         dam -= 2;
         cut -= 8;
     }

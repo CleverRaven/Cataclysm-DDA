@@ -1265,10 +1265,10 @@
         "visibility" : 6,
         "ugliness" : 2,
         "description" : "Light fur has grown to cover your entire body, providing slight protection from cold.",
-        "category" : ["MUTCAT_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_SPIDER"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR"]
+        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
@@ -1277,10 +1277,10 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
@@ -1289,7 +1289,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -1300,7 +1300,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Dense grey fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_LUPINE"]
     },{
@@ -1311,7 +1311,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "You've grown sleek brown fur, providing some protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "leads_to" : ["LYNX_FUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
@@ -1335,7 +1335,8 @@
         "description" : "Your epidermis has turned into a thin, flexible layer of chitin. It provides minor protection from cutting wounds. Slightly reduces wet effects.",
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
-        "changes_to" : ["CHITIN2"],
+        "changes_to" : ["CHITIN2", "CHITIN_FUR"],
+        "category" : ["MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 1 },
             { "part" : "LEGS", "ignored" : 5 },
@@ -1372,8 +1373,9 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "You've grown a chitin exoskeleton made of thick, stiff plates. It provides excellent physical protection, but reduces your dexterity by 1 and encumbers all body parts but your eyes and mouth. Greatly reduces wet effects.",
-        "prereqs" : ["CHITIN2"],
+        "prereqs" : ["CHITIN2", "CHITIN_FUR2"],
         "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR3"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 4 },
             { "part" : "LEGS", "ignored" : 14 },
@@ -1382,6 +1384,39 @@
             { "part" : "HANDS", "ignored" : 3 },
             { "part" : "TORSO", "ignored" : 26 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR",
+        "name" : "Hairy Chitin",
+        "points" : 3,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
+        "prereqs" : ["CHITIN", "LIGHTFUR"],
+        "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR2"]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR2",
+        "name" : "Furred Chitin",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
+        "prereqs" : ["CHITIN_FUR"],
+        "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR3", "CHITIN3"]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR3",
+        "name" : "Furred Plate",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "Your exoskeleton has hardened considerably--restricting movement, granted--and boasts a fine coat of hairs that put feline whiskers to shame.",
+        "prereqs" : ["CHITIN_FUR2", "CHITIN3"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "SPINES",
@@ -1812,7 +1847,7 @@
         "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
         "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE"],
         "prereqs" : ["EYEBULGE"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PADDED_FEET",
