@@ -5336,6 +5336,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
                            tmp.name.c_str(), boo_hoo);
             }
             return false;
+        } else if( auto_target->power_rating() <= 1 ) {
+            return true; // Too tiny and docile to waste ammo on
         }
         xtarg = auto_target->xpos();
         ytarg = auto_target->ypos();

@@ -95,14 +95,35 @@ void monster::plan(const std::vector<int> &friendlies)
     bool fleeing = false;
 
     if (friendly != 0) { // Target monsters, not the player!
-        for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
-            monster *tmp = &(g->zombie(i));
-            if (tmp->friendly == 0) {
-                int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
-                if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope)) {
-                    closest = i;
-                    dist = d;
-                    selected_slope = bresenham_slope;
+        bool electronic = has_flag( MF_ELECTRONIC );
+        // Electronic monsters (hacked bots) are more intelligent than pheromoned zeds or tame dogs
+        if( electronic ) {
+            float best_rating = 0.12f; // Tank drone 60 tiles away, moose 16 or boomer 33
+            // Anything with worse power/distance will be ignored. See creature::power_rating()
+            for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
+                monster *tmp = &(g->zombie(i));
+                if( tmp->friendly == 0 ) {
+                    int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy()) + 1; // rl_dist can be 0
+                    float rating = tmp->power_rating() / d;
+                    if( g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope ) && 
+                        rating > best_rating ) {
+                            closest = i;
+                            dist = d;
+                            selected_slope = bresenham_slope;
+                            best_rating = rating;
+                    }
+                }
+            }
+        } else {
+            for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
+                monster *tmp = &(g->zombie(i));
+                if( tmp->friendly == 0 ) {
+                    int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
+                    if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope)) {
+                        closest = i;
+                        dist = d;
+                        selected_slope = bresenham_slope;
+                    }
                 }
             }
         }

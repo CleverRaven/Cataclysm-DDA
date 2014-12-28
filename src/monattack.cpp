@@ -2815,7 +2815,8 @@ void mattack::chickenbot(monster *z, int index)
     if( z->friendly == 0 && !g->sees_u(z->posx(), z->posy(), t) ) {
         return;    // Can't see you!
     }
-    
+
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2836,15 +2837,16 @@ void mattack::chickenbot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating() - 1;
     }
 
-    if( rl_dist( z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
+    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    if( dist == 1 && one_in(2) ) {
         mode = 1;
-    } else if( ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 12) ||
-               ( ( z->friendly != 0 || g->u.in_vehicle ) &&
-               ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 6) ) ) {
+    } else if( ( dist >= 12) ||
+               ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ) {
         mode = 3;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) >= 4) {
+    } else if( dist >= 4) {
         mode = 2;
     }
 
@@ -2852,18 +2854,31 @@ void mattack::chickenbot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch (mode) {
+    case 0:
     case 1:
-        this->taze( z, target );
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
         break;
     case 2:
-        this->rifle( z, target );
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
         break;
     case 3:
-        this->frag( z, target );
+        if( dist == 38 ) {
+            this->frag( z, target );
+        }
         break;
+    default:
+        return; // Weak stuff, shouldn't bother with
     }
+
+    z->reset_special( index );
 }
 
 void mattack::multi_robot(monster *z, int index)
@@ -2874,6 +2889,7 @@ void mattack::multi_robot(monster *z, int index)
         return;    // Can't see you!
     }
 
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2894,22 +2910,23 @@ void mattack::multi_robot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating();
     }
 
-    if( rl_dist(z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
+    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    if( dist == 1 && one_in(2) ) {
         mode = 1;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 5 ) {
+    } else if( dist <= 5 ) {
         mode = 2;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 20 ) {
+    } else if( dist <= 20 ) {
         mode = 3;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 30 ) {
+    } else if( dist <= 30 ) {
         mode = 4;
     } else if( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
                z->friendly != 0 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( (rl_dist(z->posx(), z->posy(), tx, ty ) >= 35 ) &&
-            ( rl_dist(z->posx(), z->posy(), tx, ty ) < 50 ) ) {
+        if( dist >= 35 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
         }
@@ -2919,24 +2936,40 @@ void mattack::multi_robot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch (mode) {
     case 1:
-        this->taze( z, target );
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
         break;
     case 2:
-        this->flame( z, target );
+        if( dist <= 5 ) {
+            this->flame( z, target );
+        }
         break;
     case 3:
-        this->rifle( z, target );
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
         break;
     case 4:
-        this->frag( z, target );
+        if( dist <= 30 ) {
+            this->frag( z, target );
+        }
         break;
-     case 5:
-        this->tankgun( z, target );
+    case 5:
+        if( dist <= 50 ) {
+            this->tankgun( z, target );
+        }
         break;
+    default:
+        return; // Weak stuff, shouldn't bother with
     }
+
+    z->reset_special( index );
 }
 
 void mattack::ratking(monster *z, int index)
