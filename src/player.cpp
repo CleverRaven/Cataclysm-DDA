@@ -695,6 +695,12 @@ void player::update_mental_focus()
     }
 
     focus_pool += (gain * base_change);
+
+    // Fatigue should at least prevent high focus
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
+    if (fatigue >= 383 && focus_pool > 60) {
+        focus_pool = 60;
+    }
 }
 
 // written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
