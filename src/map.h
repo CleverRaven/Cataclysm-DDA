@@ -538,6 +538,16 @@ void add_corpse(int x, int y);
 
  void trigger_rc_items( std::string signal );
 
+ /**
+  * Fetch an item from this map location, with sanity checks to ensure it still exists.
+  */
+ item *item_from( const point& pos, const size_t index );
+
+ /**
+  * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
+  */
+ item *item_from( vehicle *veh, const int cargo_part, const size_t index );
+
 // Traps
  std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);
