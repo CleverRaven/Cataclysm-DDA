@@ -4186,7 +4186,30 @@
 	"recoil" : 130,
 	"count" : 1,
 	"effects" : ["COOKOFF", "TRAIL", "EXPLOSIVE"]
+	},
+	{
+	"type" : "AMMO",
+	"id" : "incendiary_hm_rocket",
+	"price" : 1300,
+	"name" : "explosive home-made rocket",
+	"symbol" : ",",
+	"color" : "red",
+	"description" : "A home-built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel. Short-range incendiary – handle with care !",
+	"material" : "steel",
+	"volume" : 6,
+	"weight" : 1190,
+	"bashing" : 1,
+	"cutting" : 0,
+	"to_hit" : 0,
+	"ammo_type" : "homebrew_rocket",
+	"casing" : "NULL",
+	"damage" : 50,
+	"pierce" : 15,
+	"range" : 13,
+	"dispersion" : 200,
+	"recoil" : 130,
+	"count" : 1,
+	"effects" : ["COOKOFF", "TRAIL", "NAPALM"]
 	}
-
 
 ]
