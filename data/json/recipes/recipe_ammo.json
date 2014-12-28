@@ -3922,8 +3922,41 @@
 ],
 [
 [ "tool_rocket_candy", 10 ]
+],
+[
+[ "scrap", 3 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "explosive_hm_rocket",
+"category": "CC_AMMO",
+"subcategory": "CSC_AMMO_OTHER",
+"skill_used": "fabrication",
+"difficulty": 4,
+"time": 3000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+]
+],
+"components":
+[
+[
+[ "chem_black_powder", 25 ]
+],
+[
+[ "tool_rocket_candy", 20 ]
 ]
 ]
 }
+
 
 ]
