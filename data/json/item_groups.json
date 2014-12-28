@@ -1990,7 +1990,8 @@
       ["wristwatch", 15],
       ["radio_car_box", 3],
       ["radiocontrol", 15],
-      ["magnifying_glass", 4]
+      ["magnifying_glass", 4],
+      ["omnicamera", 2]
     ]
   },{
     "type" : "item_group",
@@ -4296,7 +4297,8 @@
       ["gold_watch", 2],
       ["sf_watch", 1],
       ["survnote", 1],
-      ["magnifying_glass", 8]
+      ["magnifying_glass", 8],
+      ["camera_control", 2]
     ]
   },{
     "type" : "item_group",
@@ -5596,7 +5598,8 @@
       ["software_useless", 10],
       ["vac_sealer", 10],
       ["radio_car_box", 3],
-      ["radiocontrol", 25]
+      ["radiocontrol", 25],
+      ["omnicamera", 7]
     ]
   },{
     "type" : "item_group",
@@ -9031,7 +9034,8 @@
       ["tonfa", 20],
       ["tazer", 20],
       ["flashlight", 40],
-      ["two_way_radio", 10]
+      ["two_way_radio", 10],
+      ["camera_control", 5]
     ]
   },{
 "type" : "item_group",
