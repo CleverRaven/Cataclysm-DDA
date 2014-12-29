@@ -4482,7 +4482,7 @@
 	"color": "light_gray",
 	"name": "aluminium ingot",
 	"category": "spare_parts",
-	"description": "A small aluminium ingot, standardised for further processing. Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications/",
+	"description": "A small aluminium ingot, standardised for further processing. Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications.",
 	"price": 2000,
 	"material": "steel",
 	"weight": 2000,
