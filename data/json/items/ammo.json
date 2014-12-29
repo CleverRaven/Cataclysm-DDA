@@ -4194,7 +4194,7 @@
 	"name" : "explosive home-made rocket",
 	"symbol" : ",",
 	"color" : "red",
-	"description" : "A home-built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel. Short-range incendiary – handle with care !",
+	"description" : "A home-built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel. Short-range incendiary – handle with care!",
 	"material" : "steel",
 	"volume" : 6,
 	"weight" : 1190,
