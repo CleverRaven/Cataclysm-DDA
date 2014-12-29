@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-22 10:40+0300\n"
+"POT-Creation-Date: 2014-12-29 09:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,6 +10,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: lang/json/AMMO_from_json.py
+msgid "fake bullet"
+msgid_plural "fake bullets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "You better be debugging right now or else something is wrong."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "battery"
@@ -3616,29 +3626,6 @@ msgstr[1] ""
 msgid ""
 "A heavy lead ball about 8cm in diameter. Could pack quite a bit of a punch "
 "if you had something to launch it."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
-msgid "pair of boxing gloves"
-msgid_plural "pairs of boxing gloves"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A pair of big, red, 8 oz. boxing gloves. They make dexterous tasks near "
-"impossible, but provide ample protection."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
-msgid "headgear"
-msgid_plural "headgears"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"Lightweight sports headgear designed to protect the head while sparring."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -8992,6 +8979,278 @@ msgid "A broad, black obi belt."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "bag gloves"
+msgid_plural "bag glovess"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of disposable plastic bags, adapted to be used as gloves."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "bag socks"
+msgid_plural "bag sockss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of disposable plastic bags, adapted to be used as socks."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "paper arm guards"
+msgid_plural "paper arm guardss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "Arm guards made of stacked paper sheets held together with duct tape."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "paper leg guards"
+msgid_plural "paper leg guardss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "Leg guards made of stacked paper sheets held together with duct tape."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "turban"
+msgid_plural "turbans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "Rags worn around the head."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "keffiyeh"
+msgid_plural "keffiyehs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A type of headdress traditionally used in the middle east.  It can be used "
+"in different ways to protect the head and mouth from the elements."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "rioter mask"
+msgid_plural "rioter masks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"This is a t-shirt with sleeves tied on the back.  These are usually worn by "
+"rioters to hide their identity."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "rag tunic"
+msgid_plural "rag tunics"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A poorly made long tunic with a string tied around the waist to keep it all "
+"in place."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "shark suit"
+msgid_plural "shark suits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A one piece chainmail suit used by scuba divers for protection against shark "
+"bites.  It comes with attached plastic helmet and booties."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "chainmail armor"
+msgid_plural "chainmail armors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A fully customized chainmail suit.  The coif, shirt, arms, and leggings have "
+"been modified with leather straps to deal with uneven weight distribution "
+"and to allow them to be used separately."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "chainmail coif"
+msgid_plural "chainmail coifs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A customized chainmail hood.  Can be worn comfortably under helmets."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "chainmail vest"
+msgid_plural "chainmail vests"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A customized chainmail vest.  It's a sleeveless piece of chainmail with "
+"small leather straps to better distribute the weight."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "chainmail arms"
+msgid_plural "chainmail armss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Customized chainmail arms.  Each sleeve has leather straps to connect them "
+"with each other.  The lack of fingers makes them less cumbersome and allows "
+"them to be used with gloves."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "chainmail leggings"
+msgid_plural "chainmail leggingss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Customized chainmail legs.  Their leather straps keep everything in place "
+"and the lack of toes and heels allows them to work perfectly well with "
+"footwear."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "nomad cowl"
+msgid_plural "nomad cowls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A makeshift cowl with protection for the eyes and a peak or visor, designed "
+"for long travels."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "nomad gear"
+msgid_plural "nomad gears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A makeshift outfit made from pre-cataclysm clothing designed for long "
+"travels.  It has a lot of storage space."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "knit cowl"
+msgid_plural "knit cowls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in "
+"fashion magazines."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "wool hoodie"
+msgid_plural "wool hoodies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A wool hooded shirt.  It offers decent protection against the cold.  The "
+"front pocket offers both storage room and shelter for your hands."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "wool suit"
+msgid_plural "wool suits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"An encumbering wool suit covered in nice patterns.  It looks like a full "
+"body armor but it only protects against cold, sadly."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "motorcycle armor"
+msgid_plural "motorcycle armors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A suit of armor to be used by dirt bikers and motorcyclists."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "motorcycle pants"
+msgid_plural "motorcycle pantss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of pants designed for dirt bikers and motorcyclists."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "motorcycle boots"
+msgid_plural "motorcycle bootss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of durable boots to be used by dirt bikers and motorcyclists."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of boxing gloves"
+msgid_plural "pairs of boxing gloves"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A pair of big, red, 8 oz. boxing gloves. They make dexterous tasks near "
+"impossible, but provide ample protection."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "headgear"
+msgid_plural "headgears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Lightweight sports headgear designed to protect the head while sparring."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "survivor utility belt"
 msgid_plural "survivor utility belts"
 msgstr[0] ""
@@ -12737,9 +12996,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A mushy, gray semi-liquid soup made from mushrooms.  It tastes good on its "
-"own, but it's also useful in cooking."
+msgid "A mushy, gray semi-liquid soup made from mushrooms."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -23431,6 +23688,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "camera display"
+msgid_plural "camera displays"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A set of small monitors. Required to view cameras' output."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "security camera"
+msgid_plural "security cameras"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A security camera you could connect to a display. Image quality is quite "
+"low, but the field of vision is great."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "broken animatronic fox"
 msgid_plural "broken animatronic foxs"
 msgstr[0] ""
@@ -31185,6 +31464,32 @@ msgid ""
 "on, and continually draining batteries.  Use it to turn it off."
 msgstr ""
 
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "ski mask"
+msgid_plural "ski masks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "You adjust your ski mask for less warmth."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A warm wool mask that protects the head and face from cold.  It has a full "
+"face opening that can be adjusted to set how much is exposed."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "ski mask (open)"
+msgid_plural "ski mask (open)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "You adjust your ski mask for more warmth."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "silver gas discount card"
 msgid_plural "silver gas discount cards"
@@ -35940,6 +36245,10 @@ msgid "none"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
+msgid "fake bullets"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
 
@@ -37738,7 +38047,7 @@ msgid "You dream of recruiting a cult of fishfolk to serve your needs."
 msgstr ""
 
 #: lang/json/dream_from_json.py
-msgid "You excitedly try to hang onto the web you dreamed of... but it fades."
+msgid "You excitedly web up an interloper and prepare to feast...nope, dream."
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -38038,7 +38347,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "You balance on the rubble."
+msgid "You try to keep your balance."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -38965,24 +39274,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/furniture_from_json.py
-msgid "heavy punching bag"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py
-msgid "whack!"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "whud."
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "canvas floor"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
 msgid "hay"
 msgstr ""
 
@@ -39223,6 +39514,12 @@ msgid "glass breaking!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/terrain_from_json.py
+msgid "whack!"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "broken vending machine"
 msgstr ""
 
@@ -39436,6 +39733,18 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "standing tank"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "heavy punching bag"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "whud."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "canvas floor"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -40978,7 +41287,7 @@ msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"Our chemical department has perfected an untargeted stem cell treatment. "
+"Our chemical department has perfected an untargeted stem cell treatment.  "
 "Consumption of the treatment will reverse the effects of mutation, and may "
 "even cure congenital defects.  This substance has been denoted PE018."
 msgstr ""
@@ -41016,17 +41325,17 @@ msgstr ""
 msgid ""
 "Given the current population projections, PE065 deployment is no longer "
 "feasible.  We simply haven't the stock.  Remaining chemical and "
-"psychopharmalogical department assets are being assigned to Dr. Sattler's "
+"psychopharmacological department assets are being assigned to Dr. Sattler's "
 "PE070 project."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Dr. Maiar's success with intravenous mutagenic administration has been "
-"adopted facilitywide; insofar as any of our work can ever be 'published', he "
-"and his team hit the jackpot.  IV administration is quicker and easier, and "
-"in some cases is reportedly more efficient, than the oral techniques we have "
-"been using."
+"adopted facility-wide; insofar as any of our work can ever be 'published', "
+"he and his team hit the jackpot.  IV administration is quicker and easier, "
+"and in some cases is reportedly more efficient, than the oral techniques we "
+"have been using."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -41068,7 +41377,7 @@ msgstr ""
 msgid ""
 "The research team headed by Dr. Isha has produced a concentrated form of "
 "mutagen that shows promising results for the treatment of many forms of "
-"disease. Testing reveals that it inhibits the body's pain responses while "
+"disease.  Testing reveals that it inhibits the body's pain responses while "
 "bolstering the immune system and natural regenerative capabilities, though a "
 "few troubling behavioral side effects have been reported."
 msgstr ""
@@ -41083,7 +41392,7 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "I don't know how it happened, but a janitor managed to activate the portal "
-"while cleaning the lab, shifting in an assortment of prehistoric fauna. "
+"while cleaning the lab, shifting in an assortment of prehistoric fauna.  "
 "Security was called in immediately but was unable to save the janitor from "
 "being torn apart.  By the time the confusion settled, all the fauna had been "
 "terminated."
@@ -41092,7 +41401,7 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Tests on the prehistoric fauna show extremely close genetic relationships "
-"with extant and extinct terranian animals.  It might be that the portal had "
+"with extant and extinct terranean animals.  It might be that the portal had "
 "performed a transposition in time, unfortunately the portal device was "
 "destroyed when security put down the fauna."
 msgstr ""
@@ -41107,9 +41416,9 @@ msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"Test subjects in the teleportation department are showing alarming symptoms. "
-"It seems prolonged rapid transposition along the 4th dimension weakens the "
-"forces holding one on this plane."
+"Test subjects in the teleportation department are showing alarming "
+"symptoms.  It seems prolonged rapid transposition along the 4th dimension "
+"weakens the forces holding one on this plane."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -41130,7 +41439,7 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Specimen XE037, jokingly referred to as \"the blob\", has been observed "
-"entering a kind of dormant state, forming a depression in the floor. "
+"entering a kind of dormant state, forming a depression in the floor.  "
 "Hendelson stepped into one of these pits yesterday, and was immediately "
 "coated and attacked."
 msgstr ""
@@ -41161,7 +41470,7 @@ msgstr ""
 msgid ""
 "Our cloning department has failed to produce results.  In vats containing "
 "stem cell treatments, XE037, and control vats, the subjects simple "
-"disintegrated. This suggests that XE037, while compatible with subprime "
+"disintegrated.  This suggests that XE037, while compatible with subprime "
 "lifeforms, shows only destructive effects on prime plane lifeforms."
 msgstr ""
 
@@ -41190,16 +41499,16 @@ msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"Mendelson shows a dismaying lack of organization and security consciousness. "
-"Containment of all samples of XE037 is of critical importance, as shown by "
-"contamination experiments."
+"Mendelson shows a dismaying lack of organization and security "
+"consciousness.  Containment of all samples of XE037 is of critical "
+"importance, as shown by contamination experiments."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Mendelson has been terminated following an incident with XE037.  A "
 "substantial mobile sample departed his lab and encountered our security "
-"forces.  Before the sample was destroyed, it managed to kill two men. "
+"forces.  Before the sample was destroyed, it managed to kill two men.  "
 "Alarmingly, their corpses displayed mobility and extreme aggression."
 msgstr ""
 
@@ -41229,22 +41538,22 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Earlier conjecture that revivification occurred only in humans and insects "
-"was premature. Exposure introduces a persistent, low level infection in all "
+"was premature.  Exposure introduces a persistent, low level infection in all "
 "mammal subjects, but quickly enters a form of stasis and seems to go dormant."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
 "The primary factor in determining revivification of mammalian subjects seems "
-"to be the amount of XE037 within the body at time of expiration. Smaller "
+"to be the amount of XE037 within the body at time of expiration.  Smaller "
 "mammals such as lab rats do not obtain this critical mass of XE037 before "
-"going dormant. Larger canine subjects, however, do."
+"going dormant.  Larger canine subjects, however, do."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"I swear they are talking to me. No one believes me. No one understands. They "
-"whisper to me, at night, in the dark. Please, please, make them stop."
+"I swear they are talking to me.  No one believes me.  No one understands.  "
+"They whisper to me, at night, in the dark.  Please, please, make them stop."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -41257,23 +41566,23 @@ msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"Attempts to surpass the XE037 mammalian stasis limit have had some success. "
+"Attempts to surpass the XE037 mammalian stasis limit have had some success.  "
 "Direct subcutaneous injection of XE037 quickly spreads through the body, and "
 "while it immediately enters stasis after equalizing, it remains in the body."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"There has been an incident in Lab 24, 2 casualties reported, one lethal. A "
+"There has been an incident in Lab 24, 2 casualties reported, one lethal.  A "
 "rat involved in the stasis breaking project was hooked to a monitoring "
-"machine and left over night. Upon opening the cage, Simon Bellevue was "
+"machine and left over night.  Upon opening the cage, Simon Bellevue was "
 "electrocuted, and another researcher at the opposite end of the lab "
 "sustained severe current burns, despite never approaching the cage."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"A post mortem on the rat involved in the electrocution incident has revealed "
+"A post-mortem on the rat involved in the electrocution incident has revealed "
 "several changes to its internal anatomy centered around its connection with "
 "the monitoring device, and large buildups of XE037 were detected around the "
 "connection point."
@@ -41282,7 +41591,7 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "There is a belief several other rat subjects experienced changes overnight "
-"as well. This hypothesis was informed when an inventory check after the "
+"as well.  This hypothesis was informed when an inventory check after the "
 "incident found almost twenty rats had gone missing from their cages "
 "overnight."
 msgstr ""
@@ -41291,8 +41600,8 @@ msgstr ""
 msgid ""
 "Exposure of large quantities of XE037 to various types of radiation have "
 "shown promising results, stimulating activity and forming interesting "
-"structural changes in the subject being tested. Exposure to radiation on "
-"living subjects schedules."
+"structural changes in the subject being tested.  Exposure to radiation on "
+"living subjects scheduled."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -41304,8 +41613,8 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "As in the tests of isolated XE037 samples, prolonged radiation exposure of "
-"T3D has resulted in significant structural changes. These do not appear to "
-"be random. T3D appears to be in immense pain as a result of these changes, "
+"T3D has resulted in significant structural changes.  These do not appear to "
+"be random.  T3D appears to be in immense pain as a result of these changes, "
 "but the lack of an oral opening has rendered him unable to vocalize."
 msgstr ""
 
@@ -41313,14 +41622,14 @@ msgstr ""
 msgid ""
 "Subject T3D has succumbed to radiation poisoning, but not before undergoing "
 "several more physiological changes the lab boys are referring to as "
-"\"mutations\". They do not appear to be truly random, and may be an attempt "
+"\"mutations\".  They do not appear to be truly random, and may be an attempt "
 "by XE037 to adapt its host to an unknown stimulus."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Post-mortem revivification of subject T3D occurred as expected, followed by "
-"an immediate autopsy. The internal changes were significant, with large "
+"an immediate autopsy.  The internal changes were significant, with large "
 "parts of the subjects internal anatomy replaced with \"organs\" of XE037 "
 "with unknown properties, primarily those known to succumb earlier to the "
 "effects of radiation poisoning."
@@ -41328,9 +41637,9 @@ msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
-"Samples of XE037 from subject T3D remains extremely active. Further "
+"Samples of XE037 from subject T3D remains extremely active.  Further "
 "experimentation on induced mutation in infected individuals shows "
-"significant potential. Samples of the enhanced XE037, labeled PE012, have "
+"significant potential.  Samples of the enhanced XE037, labeled PE012, have "
 "been sent to several researchers for further study."
 msgstr ""
 
@@ -41353,7 +41662,7 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "Time also appears to play a large role in post-mortem revivification, as "
-"does sustained trauma insufficient to permanently disable the subject. "
+"does sustained trauma insufficient to permanently disable the subject.  "
 "Sufficient amounts of trauma in short periods of time lead to deactivation "
 "of XE037, but smaller amounts over several days cause it to expand."
 msgstr ""
@@ -41438,12 +41747,12 @@ msgstr ""
 #: lang/json/lab_note_from_json.py
 msgid ""
 "We have even more distressing news than the widespread XE037 contamination, "
-"there are reports of the XE037 mutating into various new variants. See data "
-"files on XE037a - XE037f. Research on the effects of these variants is "
-"ongoing. We do know that XE037d shows signs of PE062 immunity, and XE037b "
-"can revive various breeds of canines. However, revival is not as guaranteed "
-"as standard XE037 humanoid infection. Canine body size seems to influence "
-"the chances. See experiment tXE037b_c."
+"there are reports of the XE037 mutating into various new variants.  See data "
+"files on XE037a - XE037f.  Research on the effects of these variants is "
+"ongoing.  We do know that XE037d shows signs of PE062 immunity, and XE037b "
+"can revive various breeds of canines.  However, revival is not as guaranteed "
+"as standard XE037 humanoid infection.  Canine body size seems to influence "
+"the chances.  See experiment tXE037b_c."
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -43585,6 +43894,36 @@ msgid ""
 "You've grown a chitin exoskeleton made of thick, stiff plates. It provides "
 "excellent physical protection, but reduces your dexterity by 1 and encumbers "
 "all body parts but your eyes and mouth. Greatly reduces wet effects."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hairy Chitin"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You've developed some sort of hair growing out of your chitin.  It's a bit "
+"warmer than not having hair."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Furred Chitin"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your chitin hair has thickened and spread across your body.  It provides "
+"minor warmth and helps you sense nearby vibrations."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Furred Plate"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your exoskeleton has hardened considerably--restricting movement, granted--"
+"and boasts a fine coat of hairs that put feline whiskers to shame."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46152,10 +46491,6 @@ msgstr ""
 msgid "Temperature and weather won't bug you."
 msgstr ""
 
-#: lang/json/overmap_terrain_from_json.py
-msgid "boxing gym"
-msgstr ""
-
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp
 #: src/mapdata.cpp
 msgid "nothing"
@@ -46674,6 +47009,10 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "bowling alley"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "boxing gym"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -55545,6 +55884,10 @@ msgid "door motor"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "camera control system"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "hand paddles"
 msgstr ""
 
@@ -55722,8 +56065,7 @@ msgstr ""
 #: src/iexamine.cpp
 #: src/iexamine.cpp src/inventory_ui.cpp src/item_action.cpp
 #: src/iuse.cpp
-#: src/iuse.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp src/vehicle.cpp
+#: src/player.cpp src/veh_interact.cpp
 #: src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
@@ -68868,6 +69210,10 @@ msgid "You could use it to craft: %s"
 msgstr ""
 
 #: src/item.cpp
+msgid "<dam_adj>bugged "
+msgstr ""
+
+#: src/item.cpp
 msgid "<dam_adj>accurized "
 msgstr ""
 
@@ -73622,7 +73968,23 @@ msgid "You take some time, but manage to bypass the security system!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You stop remotely controlling the vehicle."
+msgid "Select vehicle to access"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No vehicle available."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "The remote controller's battery goes dead."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Lost contact with the vehicle."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "The vehicle's battery died."
 msgstr ""
 
 #: src/iuse.cpp
@@ -73639,22 +74001,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Execute one vehicle action"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "No vehicles here!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "This vehicle has no power!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "This vehicle has no working controls."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "This vehicle has only mechanical controls and can't be driven remotely."
 msgstr ""
 
 #: src/iuse.cpp
@@ -76915,7 +77261,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid ""
-"Thank you, I suppose it wont change what has already happened but it will "
+"Thank you, I suppose it won't change what has already happened but it will "
 "bring me closure."
 msgstr ""
 
@@ -78403,6 +78749,21 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s unsuccessfully attempts to shock you."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s unsuccessfully attempts to shock <npcname>."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s shocks <npcname>!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s shocks the %s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -83836,7 +84197,7 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "If true will enable to pickup items one tile around to the player. You can "
-"assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your "
+"assign No Auto Pickup zones with the Zones Manager 'Y' key for eg. your "
 "homebase."
 msgstr ""
 
@@ -88170,6 +88531,11 @@ msgid "Throwing %s"
 msgstr ""
 
 #: src/ranged.cpp
+#, c-format
+msgid "Setting target for %s"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Move cursor to target with directional keys"
 msgstr ""
 
@@ -89505,6 +89871,10 @@ msgid "Let go of controls"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Stop controlling"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "Stop driving"
 msgstr ""
 
@@ -89615,6 +89985,18 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Configure individual turrets"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Aim a turret manually"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn off camera system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn on camera system"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -89744,6 +90126,10 @@ msgid "You turn the engine off."
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "You stop controlling the vehicle."
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid ""
 "As the pitiless metal bars close on your nether regions, you reconsider "
@@ -89775,6 +90161,18 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "tracking device won't turn on"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system disabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system enabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system won't turn on"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -89912,6 +90310,11 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
+msgid "%s failed to fire! It isn't loaded and/or powered."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
 msgid "The %s's %s breaks into pieces!"
 msgstr ""
 
@@ -89935,6 +90338,35 @@ msgstr ""
 #, c-format
 msgctxt "memorial_female"
 msgid "The fuel tank of the %s exploded!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Auto"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "No target"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Unseen"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Pick turret to aim"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "No ammo"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "[%s] %s"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Activating turrets"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -90394,10 +90826,10 @@ msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format
-msgid "%s is not a valid world name, it is a reserved name"
+msgid "%s is a reserved name!"
 msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format
-msgid "%s is not a valid world name, already exists!"
+msgid "A world named %s already exists!"
 msgstr ""
