@@ -16596,10 +16596,11 @@
         "price" : 250,
         "material" : "egg",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 4,
         "bashing" : 0,
         "fun" : -8
     },{
@@ -16623,10 +16624,11 @@
         "price" : 250,
         "material" : "egg",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 4,
         "bashing" : 0,
         "fun" : -12
     },{
