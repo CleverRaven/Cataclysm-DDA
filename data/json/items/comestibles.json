@@ -1267,7 +1267,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 28800
+        "brew_time" : 7200
     },
     {
         "type" : "COMESTIBLE",
@@ -1328,7 +1328,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 14400
+        "brew_time" : 3600
     },
     {
         "type" : "COMESTIBLE",
@@ -1417,7 +1417,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 28800
+        "brew_time" : 7200
     },
     {
         "type" : "COMESTIBLE",
@@ -1535,7 +1535,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 43200
+        "brew_time" : 10800
     },
     {
         "type" : "COMESTIBLE",
@@ -1595,7 +1595,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 64800
+        "brew_time" : 16200
     },
     {
         "type" : "COMESTIBLE",
@@ -1865,7 +1865,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 288000
+        "brew_time" : 72000
     },
     {
         "type" : "COMESTIBLE",
@@ -1925,7 +1925,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 88000
+        "brew_time" : 22000
     },
     {
         "type" : "COMESTIBLE",
@@ -1985,7 +1985,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 98000
+        "brew_time" : 24500
     },
     {
         "type" : "COMESTIBLE",
@@ -2045,7 +2045,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 21600
+        "brew_time" : 5400
     },
     {
         "type" : "COMESTIBLE",
@@ -2106,7 +2106,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 14400
+        "brew_time" : 3600
     },
     {
         "type" : "COMESTIBLE",
@@ -14483,7 +14483,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 168000
+        "brew_time" : 42000
     },
     {
         "type" : "COMESTIBLE",
