@@ -469,8 +469,8 @@
     },{
         "type" : "martial_art",
         "id" : "style_niten",
-        "name" : "Niten Ichi Ryuu",
-        "description" : "Niten Ichi Ryuu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
+        "name" : "Niten Ichi-Ryu",
+        "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
         "static_buffs" : [
             {
                  "id": "niten_stationary_buff",

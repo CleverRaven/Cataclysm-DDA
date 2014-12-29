@@ -660,7 +660,7 @@
         "price": 55000,
         "material": "wood",
         "techniques": ["RAPID", "WBLOCK_2"],
-        "flags" : ["DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+        "flags" : ["DURABLE_MELEE"],
         "weight": 1133,
         "volume": 8,
         "bashing": 35,
