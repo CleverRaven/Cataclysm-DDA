@@ -360,10 +360,7 @@ void player::reset_stats()
         if (!(has_trait("CENOBITE"))) {
             mod_str_bonus(-int((pain - pkill) / 15));
             mod_dex_bonus(-int((pain - pkill) / 15));
-            if (pain - pkill > 0) {
-                add_miss_reason(_("Your pain distracts you!"),
-                                int(pain - pkill) / 15);
-            }
+            add_miss_reason(_("Your pain distracts you!"), int(pain - pkill) / 15);
         }
         mod_per_bonus(-int((pain - pkill) / 20));
         if (!(has_trait("INT_SLIME"))) {
