@@ -538,7 +538,7 @@ Thanks so much, you may save both of us yet.");
 regional hospital or doctor's office.  I just want to know who might still be out there.");
         case TALK_MISSION_ACCEPTED:
             return _("\
-Thank you, I suppose it wont change what has already happened but it will bring me closure.");
+Thank you, I suppose it won't change what has already happened but it will bring me closure.");
         case TALK_MISSION_REJECTED:
             return _("Please, I just want to know what happened to everyone.");
         case TALK_MISSION_ADVICE:
