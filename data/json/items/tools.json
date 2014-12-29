@@ -9001,7 +9001,7 @@
 "target": "tool_anfo_charge_act",
 "target_charges": 20,
 "active": true,
-"msg": "You light the fuse on the ANFO charge. Run survivor, run !"
+"msg": "You light the fuse on the ANFO charge. Run survivor, run!"
 }
 },
 {
@@ -9029,7 +9029,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Tick.",
-"no_deactivate_msg": "You've already lit the fuse – run !",
+"no_deactivate_msg": "You've already lit the fuse – run!",
 "explosion_power": 500,
 "explosion_shrapnel": 50
 }
@@ -9060,7 +9060,7 @@
 "target": "tool_black_powder_bomb_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the fuse on the black gunpowder bomb. Throw it before it blows in your face !"
+"msg": "You light the fuse on the black gunpowder bomb. Throw it before it blows in your face!"
 }
 },
 {
@@ -9088,7 +9088,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse – throw it !",
+"no_deactivate_msg": "You've already lit the fuse – throw it!",
 "explosion_power": 10,
 "explosion_shrapnel": 5
 }
@@ -9119,7 +9119,7 @@
 "target": "tool_black_powder_charge_act",
 "target_charges": 5,
 "active": true,
-"msg": "You light the fuse on the black gunpowder charge. Get rid of it quickly !"
+"msg": "You light the fuse on the black gunpowder charge. Get rid of it quickly!"
 }
 },
 {
@@ -9147,7 +9147,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse – run !",
+"no_deactivate_msg": "You've already lit the fuse – run!",
 "explosion_power": 60,
 "explosion_shrapnel": 30
 }
@@ -9178,7 +9178,7 @@
 "target": "tool_RDX_sand_bomb_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the fuse on the sand bomb. Throw it !"
+"msg": "You light the fuse on the sand bomb. Throw it!"
 }
 },
 {
@@ -9187,7 +9187,7 @@
 "symbol": "h",
 "color": "light_red",
 "name": "active RDX sand bomb",
-"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. The fuse has been lit, so why are you still holding it ?",
+"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. The fuse has been lit, so why are you still holding it?",
 "price": 0,
 "material": ["steel", "plastic"],
 "weight": 2000,
@@ -9206,7 +9206,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse – what are you waiting for ?",
+"no_deactivate_msg": "You've already lit the fuse – what are you waiting for?",
 "explosion_power": 9,
 "explosion_shrapnel": 40
 }
@@ -9237,7 +9237,7 @@
 "target": "tool_RDX_charge_act",
 "target_charges": 30,
 "active": true,
-"msg": "You light the fuse on the explosive charge. Clear the area !"
+"msg": "You light the fuse on the explosive charge. Clear the area!"
 }
 },
 {
@@ -9265,7 +9265,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse – clear the area immediately !",
+"no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
 "explosion_power": 750,
 "explosion_shrapnel": 200
 }
@@ -9276,7 +9276,7 @@
 "symbol": "x",
 "color": "green",
 "name": "rocket candy",
-"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid. Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end",
+"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid. Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
 "price": 100,
 "material": ["steel", "plastic"],
 "weight": 250,
@@ -9296,7 +9296,7 @@
 "target": "tool_rocket_candy_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the rocket candy on fire. Throw it !"
+"msg": "You light the rocket candy on fire. Throw it!"
 }
 },
 {
@@ -9324,7 +9324,7 @@
 "type": "explosion",
 "sound_volume": 5,
 "sound_msg": "Hsssss.",
-"no_deactivate_msg": "You've already lit the fuse – clear the area immediately !",
+"no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
 "explosion_power": 1,
 "fields_radius": 2,
 "fields_type": "fd_smoke",
