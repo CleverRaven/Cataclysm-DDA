@@ -218,7 +218,7 @@ class inventory
             std::vector<const item *> result;
             for( auto &stack : items ) {
                 for( auto &it : stack ) {
-                    inventory::items_with_recursive( result, it, filter );
+                    items_with_recursive( result, it, filter );
                 }
             }
             return result;
