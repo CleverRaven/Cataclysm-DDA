@@ -483,7 +483,7 @@ appclean:
 	rm -rf $(APPTARGETDIR)
 
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
-	iconutil -c icns $@
+	iconutil -c icns $<
 
 app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	mkdir -p $(APPTARGETDIR)/Contents
@@ -504,6 +504,9 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
+ifdef SOUND
+	cp -R data/sound $(APPDATADIR)
+endif  # ifdef SOUND
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/

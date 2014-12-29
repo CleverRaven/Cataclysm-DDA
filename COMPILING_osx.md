@@ -123,6 +123,8 @@ or
 
 If you just want to build from source and run the game, this step is not for you.
 
+*The `app` build rule will attempt to automate the instructions listed below.*
+
 Create new folder and name it `Cataclysm.app`.
 
 Put compiled binaries (`./cataclysm-tiles` and/or `./cataclysm`) with `./gfx/` and `./data/` folders inside `/Cataclysm.app/Contents/Resources/`.
