@@ -1240,11 +1240,11 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     std::string msg;
 
     if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
-        msg = string_format(_("%s is not a valid world name, it is a reserved name"), name.c_str());
+        msg = string_format(_("%s is a reserved name!"), name.c_str());
     } else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
         return true;
     } else {
-        msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
+        msg = string_format(_("A world named %s already exists!"), name.c_str());
     }
     if (!automated) {
         popup(msg, PF_GET_KEY);
