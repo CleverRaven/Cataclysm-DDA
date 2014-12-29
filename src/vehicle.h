@@ -22,6 +22,16 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
+/* These values are changed since otherwise vehicle movement (which uses
+   them as the base for calculating speed) becomes too fast compared
+   to running. With the canon values a human uses 6 seconds to run 1
+   meter, which is ridiculously slow. To compensate, using the values
+   below slows down vehicles by a factor of 18. */
+/* The size (width) of a single game tile in mm, 1 meter is canon */
+#define TILE_SIZE_M 3.0d
+/* The length of a single game turn in second, 6 seconds is canon */
+#define TURN_TIME_S 1.0d
+
 #define num_fuel_types 7
 extern const ammotype fuel_types[num_fuel_types];
 extern const nc_color fuel_colors[num_fuel_types];
@@ -300,12 +310,6 @@ private:
     // get vpart epowerinfo for part number.
     int part_epower (int index);
 
-    // convert epower (watts) to power.
-    int epower_to_power (int epower);
-
-    // convert power to epower (watts).
-    int power_to_epower (int power);
-
     //Refresh all caches and re-locate all parts
     void refresh();
 
@@ -534,6 +538,15 @@ public:
 
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
     void center_of_mass(int &x, int &y);
+
+    /* Calculates air_resistance and downforce */
+    void calculate_air_resistance();
+
+    // convert epower (watts) to power.
+    int epower_to_power (int epower);
+
+    // convert power to epower (watts).
+    int power_to_epower (int power);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -783,6 +796,11 @@ public:
      * the map is just shifted (in the later case simply set smx/smy directly).
      */
     void set_submap_moved(int x, int y);
+
+    /* cached values, should in theory be correct, only recalculated occasionally in refresh() */
+    float drag_coeff;               /* Cd * A, includes skin friction, form drag, and interference drag, dimensionless */
+    float downforce;                /* Cl * A, in m^2 */
+
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
     int init_veh_fuel;
     int init_veh_status;
