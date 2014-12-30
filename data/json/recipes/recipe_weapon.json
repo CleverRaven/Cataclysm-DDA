@@ -5420,7 +5420,8 @@
 "difficulty": 7,
 "time": 120000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 7 ] , [ "textbook_anarch", 8 ]],
 "tools": [
 [
 [ "welder", 20 ],
@@ -5450,7 +5451,8 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
@@ -5478,7 +5480,8 @@
   "difficulty": 9,
   "time": 300000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 9 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
@@ -5510,7 +5513,8 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 2 ] , [ "textbook_anarch", 3 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
@@ -5532,10 +5536,11 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
-  "difficulty": 5,
+  "difficulty": 4,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
@@ -5557,10 +5562,11 @@
 "category": "CC_WEAPON",
 "subcategory": "CSC_WEAPON_RANGED",
 "skill_used": "fabrication",
-"difficulty": 4,
+"difficulty": 6,
 "time": 210000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false
+"book_learn": [[ "manual_launcher", 7 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
 {"id":"SAW_M","level":1,"amount":1}
