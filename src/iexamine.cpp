@@ -1867,10 +1867,10 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
         plantCount = 12;
     }
 
-    m->spawn_item(examx, examy, itemType, plantCount, 0, calendar::turn);
+    m->spawn_item( p->xpos(), p->ypos(), itemType, plantCount, 0, calendar::turn);
 
     if (seeds) {
-        m->spawn_item(examx, examy, "seed_" + itemType, 1,
+        m->spawn_item( p->xpos(), p->ypos(), "seed_" + itemType, 1,
                       rng(plantCount / 4, plantCount / 2), calendar::turn);
     }
 
@@ -1952,7 +1952,7 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
             m->ter_set(examx, examy, t_marloss_tree);
         }
     } else if (p->has_trait("THRESH_MARLOSS")) {
-        m->spawn_item( examx, examy, "mycus_fruit" );
+        m->spawn_item( p->xpos(), p->ypos(), "mycus_fruit" );
         m->ter_set(examx, examy, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
     } else {
