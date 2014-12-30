@@ -1,5 +1,5 @@
-#ifndef _VEH_PHYSICS_H_
-#define _VEH_PHYSICS_H_
+#ifndef VEH_PHYSICS_H
+#define VEH_PHYSICS_H
 
 #include "vehicle.h"
 #include <vector>

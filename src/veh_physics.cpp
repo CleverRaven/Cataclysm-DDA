@@ -133,6 +133,7 @@ double veh_physics::calculate_time_to_move_one_tile( double fdir )
         if( distance_traveled < 0.001 || t >= TURN_TIME_S || t <= 0.001 || velocity_end == 0.0 ) {
             time_taken = TURN_TIME_S;
             break; /* For gameplay purposes you can always travel 1 tile in a turn */
+            /* TODO: Lower the 1 tile/turn minimum speed (or remove it) before doing a proper pull request */
         }
     } while( fabs( distance_traveled - TILE_SIZE_M ) > 0.0001 && nr_calcs++ < 999);
     if( nr_calcs >= 1000 ) {

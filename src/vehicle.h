@@ -27,7 +27,7 @@ float get_collision_factor(float delta_v);
    to running. With the canon values a human uses 6 seconds to run 1
    meter, which is ridiculously slow. To compensate, using the values
    below slows down vehicles by a factor of 18. */
-/* The size (width) of a single game tile in mm, 1 meter is canon */
+/* The size (width) of a single game tile in meters, 1 meter is canon */
 #define TILE_SIZE_M 3.0d
 /* The length of a single game turn in second, 6 seconds is canon */
 #define TURN_TIME_S 1.0d
