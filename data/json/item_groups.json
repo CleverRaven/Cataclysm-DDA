@@ -5541,6 +5541,10 @@
       ["seed_strawberries", 1],
       ["seed_barley", 1],
       ["seed_sugar_beet", 1],
+      ["seed_lettuce", 1],
+      ["seed_onion", 1],
+      ["seed_carrot", 1],
+      ["seed_corn", 1],
       ["seed_hops", 1],
       ["tomato", 9],
       ["broccoli", 9],
@@ -8916,6 +8920,10 @@
       ["seed_wheat", 60],
       ["seed_barley", 60],
       ["seed_sugar_beet", 60],
+      ["seed_lettuce", 60],
+      ["seed_onion", 60],
+      ["seed_carrot", 60],
+      ["seed_corn", 60],
       ["seed_cotton_boll", 10],
       ["seed_tomato", 60]
     ]
