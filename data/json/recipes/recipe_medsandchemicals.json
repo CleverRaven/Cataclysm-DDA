@@ -2588,7 +2588,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 7,
-"time": 15000,
+"time": 25000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2641,7 +2641,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 5,
-"time": 4000,
+"time": 10000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2667,7 +2667,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 5,
-"time": 4000,
+"time": 2500,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2697,7 +2697,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 4,
-"time": 2000,
+"time": 3000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2749,7 +2749,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 5,
-"time": 50000,
+"time": 180000,
 "reversible": false,
 "autolearn": true,
 "qualities" : 
@@ -2772,7 +2772,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 4,
-"time": 3500,
+"time": 4000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2795,7 +2795,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 7,
-"time": 5000,
+"time": 75000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2824,7 +2824,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 4,
-"time": 500,
+"time": 2000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2846,7 +2846,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 7,
-"time": 4500,
+"time": 55000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2871,7 +2871,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 4,
-"time": 10000,
+"time": 5000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
@@ -2896,7 +2896,7 @@
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
 "difficulty": 3,
-"time": 10000,
+"time": 30000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
