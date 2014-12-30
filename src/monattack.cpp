@@ -3112,17 +3112,12 @@ void mattack::bite(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u_see( z );
 
-    if( foe != nullptr && foe->uncanny_dodge() ) {
-        return;
-    }
-
     z->reset_special(index); // Reset timer
     z->moves -= 100;
-
+    bool uncanny = foe == &g->u && g->u.uncanny_dodge(); // Uncanny doesn't like monster vs NPC
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
-    bool dodged = rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)));
-    if( dodged ) {
+    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;

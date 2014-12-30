@@ -454,18 +454,7 @@ Creature *monster::attack_target()
     }
 
     point target_point = move_target();
-    Creature *target;
-    if( target_point.x == g->u.posx && target_point.y == g->u.posy ) {
-        target = &g->u;
-    } else if( g->mon_at( target_point.x, target_point.y ) != -1 ) {
-        int mondex = g->mon_at( target_point.x, target_point.y );
-        target = &g->zombie( mondex );
-    } else if( g->npc_at( target_point.x, target_point.y ) != -1 ) {
-        int npcdex = g->npc_at( target_point.x, target_point.y );
-        target = g->active_npc[npcdex];
-    } else {
-        return nullptr;
-    }
+    Creature *target = g->critter_at( target_point.x, target_point.y );
 
     if( attitude_to( *target ) != Creature::A_HOSTILE ) {
         return nullptr;
