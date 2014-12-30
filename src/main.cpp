@@ -34,11 +34,12 @@ class pathname_arg_handler : public LambdaArgHandler {
         pathname_arg_handler(const std::string &name,
             const std::string &param_description,
             const std::string &description,
-            const std::string &pathname_key)
+            const std::string &pathname_key,
+            const std::string &help_group = "")
             : LambdaArgHandler(name, param_description, description, [pathname_key](const std::string &param) {
               PATH_INFO::update_pathname(pathname_key.c_str(), param);
               return true;
-            }) {}
+            }, help_group) {}
 };
 
 #ifdef USE_WINMAIN
@@ -89,42 +90,14 @@ int main(int argc, char *argv[])
             std::make_shared<FlagHandler>("check-mods", "checks the json files belonging to cdda mods", verifyexit));
         parser.AddHandler(
             std::make_shared<LambdaArgHandler>("basepath", "<path>",
-                "???",
+                "the base path for the game data subdirectories",
                 [](const std::string &param){
-                  PATH_INFO::init_base_path(std::string(param.c_str()));
+                  PATH_INFO::init_base_path(param);
                   PATH_INFO::set_standard_filenames();
                   return true;
                 }));
-        parser.AddHandler(
-            std::make_shared<LambdaArgHandler>("userdir", "<path>",
-                "default paths for user-overrides to files from the ./data directory and named below",
-                [](const std::string &param){
-                  PATH_INFO::init_user_dir(param.c_str());
-                  PATH_INFO::set_standard_filenames();
-                  return true;
-                }));
-        parser.AddHandler(
-            std::make_shared<LambdaArgHandler>("username", "<name>",
-                "tells the map-sharing code to use this name for your character.",
-                [](const std::string &param){
-                  MAP_SHARING::setUsername(param);
-                  return true;
-                }));
-        parser.AddHandler(
-            std::make_shared<LambdaArgHandler>("addadmin", "<username>",
-                "tells the map-sharing code to use this name for your character and give you "
-                    "access to the cheat functions.",
-                [](const std::string &param){
-                  MAP_SHARING::addAdmin(param);
-                  return true;
-                }));
-        parser.AddHandler(
-            std::make_shared<LambdaArgHandler>("adddebugger", "<username>",
-                "informs map-sharing code that you're running inside a debugger",
-                [](const std::string &param){
-                  MAP_SHARING::addDebugger(param);
-                  return true;
-                }));
+
+        std::string map_sharing = "Map sharing";
         parser.AddHandler(
             std::make_shared<LambdaFlagHandler>("shared",
                 "activates the map-sharing mode",
@@ -133,59 +106,93 @@ int main(int argc, char *argv[])
                   MAP_SHARING::setCompetitive(true);
                   MAP_SHARING::setWorldmenu(false);
                   return true;
-                }));
+                }, map_sharing));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("username", "<name>",
+                "tells the map-sharing code to use this name for your character.",
+                [](const std::string &param){
+                  MAP_SHARING::setUsername(param);
+                  return true;
+                }, map_sharing));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("addadmin", "<username>",
+                "tells the map-sharing code to use this name for your character and give you "
+                    "access to the cheat functions.",
+                [](const std::string &param){
+                  MAP_SHARING::addAdmin(param);
+                  return true;
+                }, map_sharing));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("adddebugger", "<username>",
+                "informs map-sharing code that you're running inside a debugger",
+                [](const std::string &param){
+                  MAP_SHARING::addDebugger(param);
+                  return true;
+                }, map_sharing));
         parser.AddHandler(
             std::make_shared<LambdaFlagHandler>("competitive",
                 "instructs map-sharing code to disable access to the in-game cheat functions",
                 [](){
                   MAP_SHARING::setCompetitive(true);
                   return true;
-                }));
+                }, map_sharing));
+
+        std::string user_directory_group = "User directories";
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("userdir", "<path>",
+                "base path for user-overrides to files from the ./data directory and named below",
+                [](const std::string &param){
+                  PATH_INFO::init_user_dir(param.c_str());
+                  PATH_INFO::set_standard_filenames();
+                  return true;
+                }, user_directory_group));
 
         // The following arguments are dependent on one or more of the previous flags and are run
         // in a second pass.
         parser.AddHandler(2,
             std::make_shared<LambdaFlagHandler>("worldmenu",
-                "???",
+                "enables the world menu in the map-sharing code",
                 [](){
                   MAP_SHARING::setWorldmenu(true);
                   return true;
-                }));
+                }, map_sharing));
+
         parser.AddHandler(2,
-            std::make_shared<LambdaArgHandler>("datadir", "<path>",
-                "default paths for the ./data directory",
+            std::make_shared<LambdaArgHandler>("datadir", "<directory name>",
+                "sub directory from which game data is loaded",
                 [](const std::string &param){
                   PATH_INFO::update_pathname("datadir", param);
                   PATH_INFO::update_datadir();
                   return true;
                 }));
+
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("savedir", "<path>",
-                "default paths for the ./data directory", "savedir"));
+            std::make_shared<pathname_arg_handler>("savedir", "<directory name>",
+                "subdirectory for game saves", "savedir", user_directory_group));
         parser.AddHandler(2,
-            std::make_shared<LambdaArgHandler>("configdir", "<path>",
-                "",
+            std::make_shared<LambdaArgHandler>("configdir", "<directory name>",
+                "subdirectory for game configuration",
                 [](const std::string &param){
                   PATH_INFO::update_pathname("config_dir", param);
                   PATH_INFO::update_config_dir();
                   return true;
-                }));
+                }, user_directory_group));
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("memorialdir", "<path>",
-                "",
-                "memorialdir"));
+            std::make_shared<pathname_arg_handler>("memorialdir", "<directory name>",
+                "subdirectory for memorials",
+                "memorialdir", user_directory_group));
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("optionfile", "<?>",
-                "", "options"));
+            std::make_shared<pathname_arg_handler>("optionfile", "<filename>",
+                "name of the options file within the configdir", "options", user_directory_group));
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("keymapfile", "<?>",
-                "", "keymap"));
+            std::make_shared<pathname_arg_handler>("keymapfile", "<filename>",
+                "name of the keymap file within the configdir", "keymap", user_directory_group));
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("autopickupfile", "<?>",
-                "", "autopickup"));
+            std::make_shared<pathname_arg_handler>("autopickupfile", "<filename>",
+                "name of the autopickup options file within the configdir", "autopickup"));
         parser.AddHandler(2,
-            std::make_shared<pathname_arg_handler>("motdfile", "<?>",
-                "", "motd"));
+            std::make_shared<pathname_arg_handler>("motdfile", "<filename>",
+                "name of the message of the day file within the motd directory", "motd"));
 
         if (!parser.ParseArgs(argc, (const char**)argv)) {
             parser.PrintUserOutput();
