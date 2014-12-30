@@ -6404,7 +6404,7 @@
 "subcategory": "CSC_OTHER_OTHER",
 "skill_used": "fabrication",
 "difficulty": 5,
-"time": 5000,
+"time": 1000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
