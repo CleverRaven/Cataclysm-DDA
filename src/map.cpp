@@ -4787,6 +4787,7 @@ void map::grow_plant( const point pnt )
     // plantEpoch is the time it takes to grow from one stage to another
     // 91 days is the approximate length of a real world season
     // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
     const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3); 
     
     if ( calendar::turn >= seed.bday + plantEpoch ) {
