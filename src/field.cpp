@@ -551,21 +551,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto items_here = i_at(x, y);
                         // explosions will destroy items on this square, iterating
                         // backwards makes sure that every item is visited.
-                        for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
-                            if( i >= (int) items_here.size() ) {
-                                // the last item exploded and destroyed some items,
-                                // now there is a gap (e.g. exploded item has index 10,
-                                // items 9,8,7 have been destroyed, i is now 9 and thereby
-                                // invalid, continue until the index is valid again.
-                                continue;
-                            }
-                            if( items_here[i].type->explode_in_fire() ) {
-                                // make a copy and let the copy explode
-                                item tmp = items_here[i];
-                                i_rem( x, y, i );
-                                tmp.detonate(point(x, y));
+                        for( auto explosive = items_here.begin();
+                             explosive != items_here.end(); ) {
+                            if( explosive->type->explode_in_fire() ) {
+                                // Make a copy and let the copy explode.
+                                item tmp = *explosive;
+                                i_rem( point(x, y), explosive );
+                                tmp.detonate(point(x,y));
+                                // Just restart from the beginning.
+                                explosive = items_here.begin();
+                            } else {
+                                ++explosive;
                             }
                         }
+
                         std::vector<item> new_content;
                         // Consume items as fuel to help us grow/last longer.
                         bool destroyed = false; //Is the item destroyed?
