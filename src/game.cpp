@@ -8026,6 +8026,7 @@ void game::use_item(int pos)
     }
     refresh_all();
     u.use(pos);
+    u.invalidate_crafting_inventory();
 }
 
 void game::use_wielded_item()
