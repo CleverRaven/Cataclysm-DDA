@@ -2590,7 +2590,8 @@
 "difficulty": 7,
 "time": 25000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 7 ]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
@@ -2725,7 +2726,8 @@
 "difficulty": 4,
 "time": 20000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
 "qualities" : 
 [
 {"id":"BOIL","level":1,"amount":1}
@@ -2751,7 +2753,8 @@
 "difficulty": 5,
 "time": 180000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ]],
 "qualities" : 
 [
 {"id":"BOIL","level":1,"amount":1}
@@ -2797,7 +2800,8 @@
 "difficulty": 7,
 "time": 75000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 8 ]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
@@ -2848,7 +2852,8 @@
 "difficulty": 7,
 "time": 55000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 8 ]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ],
@@ -2873,7 +2878,8 @@
 "difficulty": 4,
 "time": 5000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ],
@@ -2898,7 +2904,8 @@
 "difficulty": 3,
 "time": 30000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 4 ] , [ "recipe_labchem", 3 ]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ],
