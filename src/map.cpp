@@ -4783,15 +4783,16 @@ void map::grow_plant( const point pnt )
     i_rem( pnt.x, pnt.y, 1 );
     auto seed = items.front();
     it_comest* seed_comest = dynamic_cast<it_comest*>(seed.type);
-    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
     
     // plantEpoch is the time it takes to grow from one stage to another
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
     const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3); 
     
     if ( calendar::turn >= seed.bday + plantEpoch ) {
 		if (calendar::turn < seed.bday + plantEpoch * 2 ) {
 				furn_set(pnt.x, pnt.y, "f_plant_seedling");
-		} else if ((calendar::turn >= seed.bday + plantEpoch * 2 ) && (calendar::turn < seed.bday + plantEpoch * 3 )) {
+		} else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
 				furn_set(pnt.x, pnt.y, "f_plant_mature");
 		} else {
 				furn_set(pnt.x, pnt.y, "f_plant_harvest");
