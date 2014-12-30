@@ -1,5 +1,7 @@
 #include "argparse.h"
 
+#include <algorithm>
+
 ArgHandler::ArgHandler(const std::string &name, const std::string &description,
     const std::string &help_group, const std::string &param_description)
     : _name(name),
@@ -10,12 +12,12 @@ ArgHandler::ArgHandler(const std::string &name, const std::string &description,
 
 bool ArgHandler::ParseArglist(const std::string &arg_prefix, std::list<std::string> &args, std::list<std::string> &out_messages) {
   std::string arg_name = arg_prefix + _name;
-  arglist_citerator_t it = args.begin();
-  arglist_citerator_t it_end = args.end();
+  arglist_iterator_t it = args.begin();
+  arglist_iterator_t it_end = args.end();
   for (; it != it_end; ++it) {
     if (*it == arg_name) {
       size_t args_to_pop = HandleArg(it, it_end, out_messages);
-      arglist_citerator_t erase_end = it;
+      arglist_iterator_t erase_end = it;
       std::advance(erase_end, args_to_pop);
       args.erase(it, erase_end);
       return true;
@@ -28,7 +30,7 @@ FlagHandler::FlagHandler(const std::string &name, const std::string &description
     bool value_if_present, const std::string &help_group)
     : ArgHandler(name, description, help_group), _flag(flag), _value_to_set(value_if_present) {}
 
-size_t FlagHandler::HandleArg(const arglist_citerator_t &, const arglist_citerator_t &,
+size_t FlagHandler::HandleArg(const arglist_iterator_t &, const arglist_iterator_t &,
     arglist_t &) {
   _flag = _value_to_set;
   return 1;
@@ -38,8 +40,8 @@ LambdaFlagHandler::LambdaFlagHandler(const std::string &name, const std::string 
     const handler_t handler, const std::string &help_group)
     : ArgHandler(name, description, help_group), _handler(handler) {}
 
-size_t LambdaFlagHandler::HandleArg(const arglist_citerator_t &,
-    const arglist_citerator_t &,
+size_t LambdaFlagHandler::HandleArg(const arglist_iterator_t &,
+    const arglist_iterator_t &,
     arglist_t &) {
   _handling_succeeded = _handler();
   return 1;
@@ -50,10 +52,10 @@ LambdaArgHandler::LambdaArgHandler(const std::string &name, const std::string &p
     const std::string &help_group)
     : ArgHandler(name, description, help_group, param_description), _handler(handler) {}
 
-size_t LambdaArgHandler::HandleArg(const arglist_citerator_t &arg_it,
-    const arglist_citerator_t &arglist_end,
+size_t LambdaArgHandler::HandleArg(const arglist_iterator_t &arg_it,
+    const arglist_iterator_t &arglist_end,
     arglist_t &out_messages) {
-  arglist_citerator_t param = arg_it;
+  arglist_iterator_t param = arg_it;
   if (++param == arglist_end) {
     std::string error_message = "Missing required argument to ";
     error_message += *arg_it;

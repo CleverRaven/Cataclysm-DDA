@@ -4,6 +4,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 
 class ArgHandler {
@@ -39,7 +40,7 @@ public:
 
 protected:
  typedef std::list<std::string> arglist_t;
- typedef arglist_t::const_iterator arglist_citerator_t;
+ typedef arglist_t::iterator arglist_iterator_t;
 
  /**
  * Attempts to consume one or more arguments, returning the number consumed.
@@ -50,8 +51,8 @@ protected:
  *
  * \return int The number of arguments consumed by this handler.
  */
- virtual size_t HandleArg(arglist_citerator_t const &arg_it,
-     arglist_citerator_t const &arglist_end, arglist_t &out_messages) = 0;
+ virtual size_t HandleArg(arglist_iterator_t const &arg_it,
+     arglist_iterator_t const &arglist_end, arglist_t &out_messages) = 0;
 
 private:
  std::string _name;
@@ -82,8 +83,8 @@ public:
      bool value_if_present = true, const std::string &help_group = "");
 
 protected:
- virtual size_t HandleArg(arglist_citerator_t const &arg_it,
-     arglist_citerator_t const &arglist_end,
+ virtual size_t HandleArg(arglist_iterator_t const &arg_it,
+     arglist_iterator_t const &arglist_end,
      arglist_t &out_messages) override;
 
 private:
@@ -111,8 +112,8 @@ public:
      const handler_t handler, const std::string &help_group = "");
 
 protected:
- virtual size_t HandleArg(arglist_citerator_t const &arg_it,
-     arglist_citerator_t const &arglist_end,
+ virtual size_t HandleArg(arglist_iterator_t const &arg_it,
+     arglist_iterator_t const &arglist_end,
      arglist_t &out_messages) override;
 
 private:
@@ -129,8 +130,8 @@ public:
      const std::string &help_group = "");
 
 protected:
- virtual size_t HandleArg(const arglist_citerator_t &arg_it,
-     const arglist_citerator_t &arglist_end,
+ virtual size_t HandleArg(const arglist_iterator_t &arg_it,
+     const arglist_iterator_t &arglist_end,
      arglist_t &out_messages) override;
 
 private:
