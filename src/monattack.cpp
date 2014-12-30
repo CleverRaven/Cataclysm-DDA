@@ -3104,33 +3104,14 @@ void mattack::breathe(monster *z, int index)
 void mattack::bite(monster *z, int index)
 {
     // Let it be used on non-player creatures
-    point target_point = z->move_target();
-    // == and not >, because move_target is usually equal to own position
-    if( rl_dist( z->posx(), z->posy(), target_point.x, target_point.y ) == 1 ) {
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
         return;
     }
 
-    Creature *target;
-    player *foe = nullptr;
-    if( target_point.x == g->u.posx && target_point.y == g->u.posy ) {
-        target = &g->u;
-        foe = &g->u;
-    } else if( g->mon_at( target_point.x, target_point.y ) != -1 ) {
-        int mondex = g->mon_at( target_point.x, target_point.y );
-        target = &g->zombie( mondex );
-    } else if( g->npc_at( target_point.x, target_point.y ) != -1 ) {
-        int npcdex = g->npc_at( target_point.x, target_point.y );
-        target = g->active_npc[npcdex];
-        foe = g->active_npc[npcdex];
-    } else {
-        return;
-    }
+    player *foe = dynamic_cast< player* >( target );
 
-    if( z->attitude_to( *target ) != Creature::A_HOSTILE ) {
-        return;
-    }
-
-    if ( g->u.uncanny_dodge() ) {
+    if( foe != nullptr && foe->uncanny_dodge() ) {
         return;
     }
 
@@ -3176,9 +3157,13 @@ void mattack::bite(monster *z, int index)
                 foe->add_effect( "bite", 1, hit, true );
             }
         }
+        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
+            foe->die( z );                
+            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
+        }
     } else if( foe != nullptr ) {
             foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
-                                        _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!!"),
+                                        _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!"),
                                         z->name().c_str(),
                                         body_part_name_accusative( hit ).c_str() );
     } else {

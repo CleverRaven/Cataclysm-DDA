@@ -98,6 +98,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void debug(player &u);      // Gives debug info
 
         point move_target(); // Returns point at the end of the monster's current plans
+        Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
         void shift(int sx, int sy); // Shifts the monster to the appropriate submap
