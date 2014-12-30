@@ -424,7 +424,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         add_msg(m_warning, _("The %s opens its coat, and a manhack flies out!"),
                 z->name().c_str());
         z->moves -= 200;
-        free_index = rng(0, valid.size() - 1);
+        free_index = rng(0, free.size() - 1);
         tmp.spawn(free[free_index].x, free[free_index].y);
         g->add_zombie(tmp);
         break;
