@@ -3896,7 +3896,8 @@
 "difficulty": 3,
 "time": 8000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 4 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
 {"id":"SAW_M","level":1,"amount":1}
@@ -3938,7 +3939,8 @@
 "difficulty": 4,
 "time": 30000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 5 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
 {"id":"SAW_M","level":1,"amount":1}
@@ -3971,7 +3973,8 @@
 "difficulty": 5,
 "time": 20000,
 "reversible": false,
-"autolearn": true,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 6 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
 {"id":"SAW_M","level":1,"amount":1}
