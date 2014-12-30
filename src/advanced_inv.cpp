@@ -1477,7 +1477,13 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
     assert( sitem.area != AIM_INVENTORY ); // does not work for inventory
     assert( sitem.it != nullptr );
     auto &s = squares[sitem.area];
-    if( s.veh != nullptr ) {
+    if( s.id == AIM_CONTAINER ) {
+        const auto cont = s.get_container();
+        assert( cont != nullptr );
+        assert( !cont->contents.empty() );
+        assert( &cont->contents.front() == sitem.it );
+        cont->contents.erase( cont->contents.begin() );
+    } else if( s.veh != nullptr ) {
         s.veh->remove_item( s.vstor, sitem.it );
     } else {
         g->m.i_rem( g->u.posx + s.offx, g->u.posy + s.offy, sitem.it );
