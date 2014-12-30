@@ -3125,8 +3125,10 @@ void mattack::bite(monster *z, int index)
                                                       _("%s lunges at <npcname>, but they dodge!"),
                                             z->name().c_str() );
             }
-            foe->practice( "dodge", z->type->melee_skill * 2 );
-            foe->ma_ondodge_effects();
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
         } else if( seen ) {
             add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
         }
