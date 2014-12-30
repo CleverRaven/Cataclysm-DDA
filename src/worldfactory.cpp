@@ -767,12 +767,12 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
     // Use active_mod_order of the world,
-    // saves us from writting 'world->active_mod_order' all the time.
+    // saves us from writing 'world->active_mod_order' all the time.
     std::vector<std::string> &active_mod_order = world->active_mod_order;
     {
         std::vector<std::string> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
-        // that changes (like changing depencies) get updated
+        // that changes (like changing dependencies) get updated
         tmp_mod_order.swap(active_mod_order);
         for( auto &elem : tmp_mod_order ) {
             mman_ui->try_add( elem, active_mod_order );
