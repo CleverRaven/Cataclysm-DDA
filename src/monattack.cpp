@@ -3110,6 +3110,7 @@ void mattack::bite(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u_see( z );
 
     if( foe != nullptr && foe->uncanny_dodge() ) {
         return;
@@ -3123,13 +3124,15 @@ void mattack::bite(monster *z, int index)
     bool dodged = rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)));
     if( dodged ) {
         if( foe != nullptr ) {
-            auto msg_type = foe == &g->u ? m_warning : m_info;
-            foe->add_msg_player_or_npc( msg_type, _("%s lunges at you, but you dodge!"),
-                                                  _("%s lunges at <npcname>, but they dodge!"),
-                                        z->name().c_str() );
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("%s lunges at you, but you dodge!"),
+                                                      _("%s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+            }
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
-        } else {
+        } else if( seen ) {
             add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
         }
         return;
@@ -3140,13 +3143,15 @@ void mattack::bite(monster *z, int index)
     dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
 
     if( dam > 0 && foe != nullptr ) {
-        //~ 1$s is monster name, 2$s bodypart in accusative
-        auto msg_type = foe == &g->u ? m_bad : m_info;
-        foe->add_msg_player_or_npc( msg_type, 
-                                    _("The %1$s bites your %2$s!"),
-                                    _("The %1$s bites <npcname>'s %2$s!"),
-                                    z->name().c_str(),
-                                    body_part_name_accusative( hit ).c_str() );
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type, 
+                                        _("The %1$s bites your %2$s!"),
+                                        _("The %1$s bites <npcname>'s %2$s!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
         foe->practice( "dodge", z->type->melee_skill );
         if( one_in( 14 - dam ) ) {
             if( foe->has_effect("bite", hit)) {
@@ -3162,11 +3167,13 @@ void mattack::bite(monster *z, int index)
             g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
         }
     } else if( foe != nullptr ) {
+        if( seen ) {
             foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
                                         _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!"),
                                         z->name().c_str(),
                                         body_part_name_accusative( hit ).c_str() );
-    } else {
+        }
+    } else if( seen ) {
         add_msg( _("The %s bites %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
 }
