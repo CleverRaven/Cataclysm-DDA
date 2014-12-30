@@ -1505,7 +1505,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             } else {
                 seed.bday = 0;
             }
+            // The plant furniture has the NOITEM token wich prevents adding items on that square,
+            // spawned items are moved to an adjacent field instead, but the fertilizer token
+            // must be on the square of the plant, therefor this hack:
+            const auto old_furn = m->furn( examx, examy );
+            m->furn_set( examx, examy, f_null );
             m->spawn_item( examx, examy, "fertilizer", 1, 1, (int)calendar::turn );
+            m->furn_set( examx, examy, old_furn );
         }
     }
 }
