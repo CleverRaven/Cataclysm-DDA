@@ -5418,7 +5418,7 @@
 "subcategory": "CSC_WEAPON_EXPLOSIVE",
 "skill_used": "cooking",
 "difficulty": 7,
-"time": 100000,
+"time": 20000,
 "reversible": false,
 "autolearn": true,
 "tools": [
@@ -5448,7 +5448,7 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 5000,
+  "time": 3250,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -5476,7 +5476,7 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
   "difficulty": 9,
-  "time": 10000,
+  "time": 50000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -5508,7 +5508,7 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 1000,
+  "time": 830,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -5533,7 +5533,7 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 1000,
+  "time": 2500,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -5558,7 +5558,7 @@
 "subcategory": "CSC_WEAPON_RANGED",
 "skill_used": "fabrication",
 "difficulty": 4,
-"time": 30000,
+"time": 35000,
 "reversible": false,
 "autolearn": true,
 "qualities":[
