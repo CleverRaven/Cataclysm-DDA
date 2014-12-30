@@ -9153,7 +9153,7 @@
 }
 },
 {
-"id": "tool_RDX_sand_bomb",
+"id": "tool_rdx_sand_bomb",
 "type": "TOOL",
 "symbol": "s",
 "color": "red",
@@ -9175,14 +9175,14 @@
 "category": "weapons",
 "use_action": {
 "type": "transform",
-"target": "tool_RDX_sand_bomb_act",
+"target": "tool_rdx_sand_bomb_act",
 "target_charges": 2,
 "active": true,
 "msg": "You light the fuse on the sand bomb. Throw it!"
 }
 },
 {
-"id": " tool_RDX_sand_bomb_act",
+"id": " tool_rdx_sand_bomb_act",
 "type": "TOOL",
 "symbol": "h",
 "color": "light_red",
@@ -9212,7 +9212,7 @@
 }
 },
 {
-"id": "tool_RDX_charge",
+"id": "tool_rdx_charge",
 "type": "TOOL",
 "symbol": "x",
 "color": "red",
@@ -9241,7 +9241,7 @@
 }
 },
 {
-"id": "tool_RDX_charge_act",
+"id": "tool_rdx_charge_act",
 "type": "TOOL",
 "symbol": "h",
 "color": "light_red",
