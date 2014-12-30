@@ -12,7 +12,8 @@ double veh_physics::calculate_acceleration( double target_speed, bool max_power 
     if( engine_watt_avail < 1 ) {
         return 0.0;
     }
-    double total_time = 0.0, tile_time;
+    double total_time = 0.0;
+    double tile_time = 0.0;
     int nr_calcs = 0;
     int old_velocity = veh->velocity;
     veh->velocity = 0;
@@ -51,7 +52,8 @@ double veh_physics::calculate_acceleration( double target_speed, bool max_power 
 
 double veh_physics::calculate_cruise_control( double target_speed )
 {
-    double eng_est = -1.0, eng_step = 2.0;
+    double eng_est = -1.0
+    double eng_step = 2.0;
     int nr_calcs = 0;
     bool last_vel_too_high = false;
     do {
