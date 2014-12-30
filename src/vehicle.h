@@ -22,15 +22,13 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-/* These values are changed since otherwise vehicle movement (which uses
-   them as the base for calculating speed) becomes too fast compared
-   to running. With the canon values a human uses 6 seconds to run 1
-   meter, which is ridiculously slow. To compensate, using the values
-   below slows down vehicles by a factor of 18. */
-/* The size (width) of a single game tile in meters, 1 meter is canon */
-#define TILE_SIZE_M 3.0d
+/* The size (width) of a single game tile in meters.
+   18 meters was chosen to make vehicle speed fit roughly with the current
+   walking speed, and makes vehicles roughly 50% faster than the old system
+   of 10 mph = 1 tile every turn. */
+#define TILE_SIZE_M 18.0d
 /* The length of a single game turn in second, 6 seconds is canon */
-#define TURN_TIME_S 1.0d
+#define TURN_TIME_S 6.0d
 
 #define num_fuel_types 7
 extern const ammotype fuel_types[num_fuel_types];
