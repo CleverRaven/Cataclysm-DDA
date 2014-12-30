@@ -492,9 +492,13 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
+        } else if( friendly == 0 && m->friendly == 0 ) {
+            // For now monsters are neutral (not hostile!) to other monsters.
+            return A_NEUTRAL;
+        } else {
+            // Except when one of them is friendly to the player and other is not.
+            return A_HOSTILE;
         }
-        // For now monsters are neutral (not hostile!) to all other monsters.
-        return A_NEUTRAL;
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
