@@ -13,6 +13,7 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "argparse.h"
 
 #include <ctime>
 #include <signal.h>
@@ -27,6 +28,18 @@
 #endif
 
 void exit_handler(int s);
+
+class pathname_arg_handler : public LambdaArgHandler {
+    public:
+        pathname_arg_handler(const std::string &name,
+            const std::string &param_description,
+            const std::string &description,
+            const std::string &pathname_key)
+            : LambdaArgHandler(name, param_description, description, [pathname_key](const std::string &param) {
+              PATH_INFO::update_pathname(pathname_key.c_str(), param);
+              return true;
+            }) {}
+};
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -59,152 +72,129 @@ int main(int argc, char *argv[])
 
     MAP_SHARING::setDefaults();
 
-    // Process CLI arguments
-    int saved_argc = --argc; // skip program name
-    char **saved_argv = ++argv;
+    {
+        // Process CLI arguments
+        ArgParser parser;
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("seed", "<string of letters and or numbers>",
+                "Sets the random number generator's seed value",
+                [&seed](const std::string &param){
+                  unsigned char const *hash_input = (unsigned char const *)param.c_str();
+                  seed = djb2_hash(hash_input);
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<FlagHandler>("jsonverify", "checks the cdda json files", verifyexit));
+        parser.AddHandler(
+            std::make_shared<FlagHandler>("check-mods", "checks the json files belonging to cdda mods", verifyexit));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("basepath", "<path>",
+                "???",
+                [](const std::string &param){
+                  PATH_INFO::init_base_path(std::string(param.c_str()));
+                  PATH_INFO::set_standard_filenames();
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("userdir", "<path>",
+                "default paths for user-overrides to files from the ./data directory and named below",
+                [](const std::string &param){
+                  PATH_INFO::init_user_dir(param.c_str());
+                  PATH_INFO::set_standard_filenames();
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("username", "<name>",
+                "tells the map-sharing code to use this name for your character.",
+                [](const std::string &param){
+                  MAP_SHARING::setUsername(param);
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("addadmin", "<username>",
+                "tells the map-sharing code to use this name for your character and give you "
+                    "access to the cheat functions.",
+                [](const std::string &param){
+                  MAP_SHARING::addAdmin(param);
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaArgHandler>("adddebugger", "<username>",
+                "informs map-sharing code that you're running inside a debugger",
+                [](const std::string &param){
+                  MAP_SHARING::addDebugger(param);
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaFlagHandler>("shared",
+                "activates the map-sharing mode",
+                [](){
+                  MAP_SHARING::setSharing(true);
+                  MAP_SHARING::setCompetitive(true);
+                  MAP_SHARING::setWorldmenu(false);
+                  return true;
+                }));
+        parser.AddHandler(
+            std::make_shared<LambdaFlagHandler>("competitive",
+                "instructs map-sharing code to disable access to the in-game cheat functions",
+                [](){
+                  MAP_SHARING::setCompetitive(true);
+                  return true;
+                }));
 
-    while (argc) {
-        if(std::string(argv[0]) == "--seed") {
-            argc--;
-            argv++;
-            if(argc) {
-                seed = djb2_hash((unsigned char *)argv[0]);
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--jsonverify") {
-            argc--;
-            argv++;
-            verifyexit = true;
-        } else if(std::string(argv[0]) == "--check-mods") {
-            argc--;
-            argv++;
-            check_all_mods = true;
-        } else if(std::string(argv[0]) == "--basepath") {
-            argc--;
-            argv++;
-            if(argc) {
-                PATH_INFO::init_base_path(std::string(argv[0]));
-                PATH_INFO::set_standard_filenames();
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--userdir") {
-            argc--;
-            argv++;
-            if (argc) {
-                PATH_INFO::init_user_dir( argv[0] );
-                PATH_INFO::set_standard_filenames();
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--username") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::setUsername(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--addadmin") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::addAdmin(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--adddebugger") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::addDebugger(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--shared") {
-            argc--;
-            argv++;
-            MAP_SHARING::setSharing(true);
-            MAP_SHARING::setCompetitive(true);
-            MAP_SHARING::setWorldmenu(false);
-        } else if(std::string(argv[0]) == "--competitive") {
-            argc--;
-            argv++;
-            MAP_SHARING::setCompetitive(true);
-        } else { // Skipping other options.
-            argc--;
-            argv++;
+        // The following arguments are dependent on one or more of the previous flags and are run
+        // in a second pass.
+        parser.AddHandler(2,
+            std::make_shared<LambdaFlagHandler>("worldmenu",
+                "???",
+                [](){
+                  MAP_SHARING::setWorldmenu(true);
+                  return true;
+                }));
+        parser.AddHandler(2,
+            std::make_shared<LambdaArgHandler>("datadir", "<path>",
+                "default paths for the ./data directory",
+                [](const std::string &param){
+                  PATH_INFO::update_pathname("datadir", param);
+                  PATH_INFO::update_datadir();
+                  return true;
+                }));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("savedir", "<path>",
+                "default paths for the ./data directory", "savedir"));
+        parser.AddHandler(2,
+            std::make_shared<LambdaArgHandler>("configdir", "<path>",
+                "",
+                [](const std::string &param){
+                  PATH_INFO::update_pathname("config_dir", param);
+                  PATH_INFO::update_config_dir();
+                  return true;
+                }));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("memorialdir", "<path>",
+                "",
+                "memorialdir"));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("optionfile", "<?>",
+                "", "options"));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("keymapfile", "<?>",
+                "", "keymap"));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("autopickupfile", "<?>",
+                "", "autopickup"));
+        parser.AddHandler(2,
+            std::make_shared<pathname_arg_handler>("motdfile", "<?>",
+                "", "motd"));
+
+        if (!parser.ParseArgs(argc, (const char**)argv)) {
+            parser.PrintUserOutput();
+            exit(1);
         }
-    }
-    while (saved_argc) {
-        // All paths will decrement saved_argc and do not depend on it before this operation, so it is safe to do it in
-        // just one place, avoiding repeated code.
-        saved_argc--;
-        if(std::string(saved_argv[0]) == "--worldmenu") {
-            saved_argv++;
-            MAP_SHARING::setWorldmenu(true);
-        } else if(std::string(saved_argv[0]) == "--datadir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
-                PATH_INFO::update_datadir();
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--savedir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--configdir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
-                PATH_INFO::update_config_dir();
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--memorialdir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("memorialdir", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--optionfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--keymapfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--motdfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else {
-            // Unknown arguments are ignored.
-            saved_argv++;
+
+        if (parser.ShouldExit()) {
+            parser.PrintUserOutput();
+            exit(0);
         }
     }
 
