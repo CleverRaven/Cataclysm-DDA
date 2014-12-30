@@ -2600,7 +2600,7 @@
 ],
 "components": [
 [
-[ "chem_hydrogen_peroxide ", 5 ]
+[ "chem_hydrogen_peroxide", 5 ]
 ]
 ]
 },
@@ -2682,7 +2682,7 @@
 [ "chem_sulphuric_acid", 1 ]
 ],
 [
-[ "chem_hydrgoen_peroxide", 1 ]
+[ "chem_hydrogen_peroxide", 1 ]
 ],
 [
 [ "chem_aluminium_powder", 25 ]
@@ -2891,7 +2891,7 @@
 },
 {
 "type" : "recipe",
-"result": "chem_rocket_candy",
+"result": "tool_rocket_candy",
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
