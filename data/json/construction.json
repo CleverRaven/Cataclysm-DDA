@@ -604,14 +604,18 @@
           [ "goggles_welding", -1 ]
         ],
         [
-          [ "oxy_torch", 4 ],
-          [ "welder", 20 ],
-          [ "welder_crude", 20 ],
-          [ "toolset", 20 ]
+          [ "oxy_torch", 6 ],
+          [ "welder", 30 ],
+          [ "welder_crude", 30 ],
+          [ "toolset", 30 ]
         ]
         ],
+        "qualities": [ [
+            { "id": "SAW_M", "level": 1 }
+        ] ],
         "components" : [
-            [ [ "pipe", 6 ] ]
+            [ [ "pipe", 6 ] ],
+            [ [ "sheet_metal", 2 ] ]
         ],
         "pre_terrain" : "t_floor",
         "post_terrain" : "t_bars"
