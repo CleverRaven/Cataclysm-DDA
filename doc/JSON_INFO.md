@@ -436,7 +436,9 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "charges" : 4,        // Number of uses when spawned
 "stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
-"fun" : 50            // Morale effects when used
+"fun" : 50,            // Morale effects when used
+"grow" : 91           // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+                      // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
 ```
 ###CONTAINERS
 ```C++

@@ -577,6 +577,8 @@ struct it_comest : public virtual itype {
 
     signed int fun;    // How fun its use is
 
+    unsigned int grow; //time it takes for a seed to grow (in days, based of off a season length of 91)
+    
     itype_id default_container; // The container it comes in
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 

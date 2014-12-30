@@ -4778,16 +4778,27 @@ void map::grow_plant( const point pnt )
         furn_set( pnt.x, pnt.y, f_null );
         return;
     }
-    // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    
     // Erase fertilizer tokens, but keep the seed item
     i_rem( pnt.x, pnt.y, 1 );
-    auto &seed = items.front();
-    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed.bday += plantEpoch;
-        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
-    }
+    auto seed = items.front();
+    it_comest* seed_comest = dynamic_cast<it_comest*>(seed.type);
+    
+    // plantEpoch is the time it takes to grow from one stage to another
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
+    const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3); 
+    
+    if ( calendar::turn >= seed.bday + plantEpoch ) {
+		if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+				furn_set(pnt.x, pnt.y, "f_plant_seedling");
+		} else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+				furn_set(pnt.x, pnt.y, "f_plant_mature");
+		} else {
+				furn_set(pnt.x, pnt.y, "f_plant_harvest");
+		}
+	}
 }
 
 void map::restock_fruits( const point pnt, int time_since_last_actualize )

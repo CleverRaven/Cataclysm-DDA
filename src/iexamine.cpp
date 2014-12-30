@@ -1500,11 +1500,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             }
 
             item &seed = m->i_at( examx, examy ).front();
-            if( seed.bday > fertilizerEpoch ) {
-                seed.bday -= fertilizerEpoch;
+            
+             if( seed.bday > fertilizerEpoch ) {
+              seed.bday -= fertilizerEpoch;
             } else {
-                seed.bday = 0;
+              seed.bday = 0;
             }
+            
             m->spawn_item( examx, examy, "fertilizer", 1, 1, (int)calendar::turn );
         }
     }
