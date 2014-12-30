@@ -3103,52 +3103,87 @@ void mattack::breathe(monster *z, int index)
 
 void mattack::bite(monster *z, int index)
 {
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+    // Let it be used on non-player creatures
+    point target_point = z->move_target();
+    // == and not >, because move_target is usually equal to own position
+    if( rl_dist( z->posx(), z->posy(), target_point.x, target_point.y ) == 1 ) {
+        return;
+    }
+
+    Creature *target;
+    player *foe = nullptr;
+    if( target_point.x == g->u.posx && target_point.y == g->u.posy ) {
+        target = &g->u;
+        foe = &g->u;
+    } else if( g->mon_at( target_point.x, target_point.y ) != -1 ) {
+        int mondex = g->mon_at( target_point.x, target_point.y );
+        target = &g->zombie( mondex );
+    } else if( g->npc_at( target_point.x, target_point.y ) != -1 ) {
+        int npcdex = g->npc_at( target_point.x, target_point.y );
+        target = g->active_npc[npcdex];
+        foe = g->active_npc[npcdex];
+    } else {
+        return;
+    }
+
+    if( z->attitude_to( *target ) != Creature::A_HOSTILE ) {
+        return;
+    }
+
+    if ( g->u.uncanny_dodge() ) {
         return;
     }
 
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s lunges forward!"), z->name().c_str());
     z->moves -= 100;
 
-    if (g->u.uncanny_dodge()) {
-        return;
-    }
-
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("You dodge it!"));
-        g->u.practice( "dodge", z->type->melee_skill * 2 );
-        g->u.ma_ondodge_effects();
+    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
+    bool dodged = rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)));
+    if( dodged ) {
+        if( foe != nullptr ) {
+            auto msg_type = foe == &g->u ? m_warning : m_info;
+            foe->add_msg_player_or_npc( msg_type, _("%s lunges at you, but you dodge!"),
+                                                  _("%s lunges at <npcname>, but they dodge!"),
+                                        z->name().c_str() );
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        } else {
+            add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+        }
         return;
     }
 
-    body_part hit = random_body_part();
+    body_part hit = foe != nullptr ? random_body_part() : bp_torso;
     int dam = rng(5, 10);
-    dam = g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
 
-    if (dam > 0) {
+    if( dam > 0 && foe != nullptr ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
-        add_msg(m_bad, _("The %1$s bites your %2$s!"), z->name().c_str(),
-                body_part_name_accusative(hit).c_str());
-
-        if(one_in(14 - dam)) {
-            if (g->u.has_effect("bite", hit)) {
-                g->u.add_effect("bite", 400, hit, true);
-            } else if (g->u.has_effect("infected", hit)) {
-                g->u.add_effect("infected", 250, hit, true);
+        auto msg_type = foe == &g->u ? m_bad : m_info;
+        foe->add_msg_player_or_npc( msg_type, 
+                                    _("The %1$s bites your %2$s!"),
+                                    _("The %1$s bites <npcname>'s %2$s!"),
+                                    z->name().c_str(),
+                                    body_part_name_accusative( hit ).c_str() );
+        foe->practice( "dodge", z->type->melee_skill );
+        if( one_in( 14 - dam ) ) {
+            if( foe->has_effect("bite", hit)) {
+                foe->add_effect("bite", 400, hit, true);
+            } else if( foe->has_effect( "infected", hit ) ) {
+                foe->add_effect( "infected", 250, hit, true );
             } else {
-                g->u.add_effect("bite", 1, hit, true);
+                foe->add_effect( "bite", 1, hit, true );
             }
         }
+    } else if( foe != nullptr ) {
+            foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
+                                        _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
     } else {
-        //~ 1$s is monster name, 2$s bodypart in accusative
-        add_msg(_("The %1$s bites your %2$s, but your armor protects you."), z->name().c_str(),
-                body_part_name_accusative(hit).c_str());
+        add_msg( _("The %s bites %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-
-    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::brandish(monster *z, int index)
