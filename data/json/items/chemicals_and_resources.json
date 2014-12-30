@@ -105,7 +105,8 @@
     "recoil" : 0,
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
 {
     "type" : "AMMO",
@@ -132,7 +133,8 @@
     "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
 {
     "type" : "AMMO",
@@ -159,7 +161,8 @@
     "recoil" : 0,
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
 {
     "type" : "AMMO",
@@ -186,7 +189,8 @@
     "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
 {
     "type" : "AMMO",
@@ -296,7 +300,8 @@
     "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
    {
     "type" : "AMMO",
@@ -401,7 +406,8 @@
     "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "count" : 1
    },
    {
     "type" : "AMMO",
