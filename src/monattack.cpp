@@ -145,7 +145,6 @@ void mattack::acid(monster *z, int index)
         return;
     }
 
-    player *foe = dynamic_cast< player* >( target );
     int t;
     int junk = 0;
     if( !z->sees( t, target ) ||
@@ -185,7 +184,6 @@ void mattack::shockstorm(monster *z, int index)
         return;
     }
 
-    player *foe = dynamic_cast< player* >( target );
     bool seen = g->u_see( z );
     int t;
     int junk = 0;
