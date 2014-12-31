@@ -13162,7 +13162,7 @@ bool player::uncanny_dodge(bool is_u)
         if( is_u ) {
             add_msg( _("Time seems to slow down and you instinctively dodge!") );
         } else if( seen ) {
-            add_msg( _("%s dodges... so fast!"), this.disp_name().c_str() );
+            add_msg( _("%s dodges... so fast!"), this->disp_name().c_str() );
             
         }
         return true;
@@ -13170,7 +13170,7 @@ bool player::uncanny_dodge(bool is_u)
     if( is_u ) {
         add_msg( _("You try to dodge but there's no room!") );
     } else if( seen ) {
-        add_msg( _("%s tries to dodge but there's no room!"), this.disp_name().c_str() );
+        add_msg( _("%s tries to dodge but there's no room!"), this->disp_name().c_str() );
     }
     return false;
 }
