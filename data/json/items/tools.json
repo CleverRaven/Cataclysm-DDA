@@ -4261,7 +4261,6 @@
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
-
   {
     "id": "firekatana_off",
     "type": "TOOL",

@@ -424,16 +424,15 @@ int player::create(character_type type, std::string tempname)
     if (has_trait("MARTIAL_ARTS5")) {
         matype_id ma_type;
         do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 2) :
-                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"),
-                              NULL);
+            int choice = (PLTYPE_NOW == type) ? rng(1, 3) :
+                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"), NULL);
             if (choice == 1) {
                 ma_type = "style_eskrima";
             } else if (choice == 2) {
                 ma_type = "style_fencing";
             } else if (choice == 3) {
                 ma_type = "style_silat";
-            }
+            } 
             if (PLTYPE_NOW != type) {
                 popup(martialarts[ma_type].description, PF_NONE);
             }

@@ -3578,6 +3578,30 @@
       ["survnote", 2]
     ]
   },{
+      "type" : "item_group",
+    "id" : "mansion_books",
+    "//" : "Those rich mansion people have all sorts of weird books.",
+    "items":[
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5],
+      ["textbook_gaswarfare", 5],
+      ["photo_album", 10],
+      ["fun_survival", 10],
+      ["brewing_cookbook", 8],
+      ["textbook_robots", 5],
+      ["manual_dodge", 5],
+      ["novel_experimental", 8],
+      ["novel_swash", 10],
+      ["manual_fencing", 3],
+      ["manual_niten", 3],
+      ["novel_samurai", 10],
+      ["plays_book", 10],
+      ["poetry_book", 10],
+      ["carpentry_book", 8]
+    ]
+  },{
     "type" : "item_group",
     "id" : "cop_shoes",
     "items":[
@@ -4987,6 +5011,7 @@
       ["helmet_plate", 1],
       ["huge_crossbow", 2],
       ["katana", 2],
+      ["bokken", 7],
       ["broadsword", 30],
       ["zweihander", 20],
       ["rapier", 3],

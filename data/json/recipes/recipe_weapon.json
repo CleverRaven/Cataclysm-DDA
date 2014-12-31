@@ -4285,6 +4285,44 @@
     ]
 },{
   "type" : "recipe",
+  "result": "bokken",
+  "byproducts": { "id" : "splinter", "amount" : 30 },
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 340000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 6 ]],
+  "qualities": [
+    {"id":"SAW_W","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "//" : "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
+  "components":
+    [
+     [
+      [ "log", 1 ]
+     ],
+     [
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "lamp_oil", 200 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ],
+     [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "tanto",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",

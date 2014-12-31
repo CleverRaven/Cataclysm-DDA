@@ -470,6 +470,56 @@ endif
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
+ifdef TILES
+ifeq ($(NATIVE), osx)
+APPTARGETDIR=Cataclysm.app
+APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
+APPDATADIR=$(APPRESOURCESDIR)/data
+ifndef FRAMEWORK
+SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
+endif  # ifndef FRAMEWORK
+
+appclean:
+	rm -rf $(APPTARGETDIR)
+
+data/osx/AppIcon.icns: data/osx/AppIcon.iconset
+	iconutil -c icns $<
+
+app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
+	mkdir -p $(APPTARGETDIR)/Contents
+	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
+	mkdir -p $(APPTARGETDIR)/Contents/MacOS
+	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+	mkdir -p $(APPRESOURCESDIR)
+	cp $(TILESTARGET) $(APPRESOURCESDIR)/
+	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
+	mkdir -p $(APPDATADIR)
+	cp data/fontdata.json $(APPDATADIR)
+	cp -R data/font $(APPDATADIR)
+	cp -R data/json $(APPDATADIR)
+	cp -R data/mods $(APPDATADIR)
+	cp -R data/names $(APPDATADIR)
+	cp -R data/raw $(APPDATADIR)
+	cp -R data/recycling $(APPDATADIR)
+	cp -R data/motd $(APPDATADIR)
+	cp -R data/credits $(APPDATADIR)
+	cp -R data/title $(APPDATADIR)
+ifdef SOUND
+	cp -R data/sound $(APPDATADIR)
+endif  # ifdef SOUND
+	cp -R gfx $(APPRESOURCESDIR)/
+ifdef FRAMEWORK
+	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+else # libsdl build
+	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+endif  # ifdef FRAMEWORK
+
+endif  # ifeq ($(NATIVE), osx)
+endif  # ifdef TILES
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)

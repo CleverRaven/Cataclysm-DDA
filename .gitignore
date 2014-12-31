@@ -84,3 +84,6 @@ nbproject/
 # vimdiff backup
 *.orig
 
+# OSX
+Cataclysm.app
+data/osx/AppIcon.icns
