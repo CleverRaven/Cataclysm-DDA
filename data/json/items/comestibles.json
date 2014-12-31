@@ -7870,7 +7870,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : "65",
+        "grow" : 65,
         "stack_size" : 100,
         "flags": ["SEED"]
     },
