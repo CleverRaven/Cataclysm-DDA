@@ -9623,13 +9623,13 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 point pos = u.pos();
-                int range = std::max(u.sight_range(g->light_level()), LIGHT_RANGE(u.active_light()));
+                int range = u.sight_range(g->light_level());
 
                 // Distance to new coordinates
                 int dist_t = rl_dist(pos.x, pos.y, lx + dx, ly + dy);
 
-                // Stay within sight range or visible areas
-                if (dist_t <= range || u.sees(lx + dx, ly + dy)) {
+                // Stay within sight range
+                if (dist_t <= range) {
                     // New coordinates within sight, update coordinates
                     lx += dx;
                     ly += dy;
@@ -9639,14 +9639,14 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     // Distance to previous coordinates
                     int dist_f = rl_dist(pos.x, pos.y, lx, ly);
 
-                    if (dist_f <= range || u.sees(lx, ly)) {
+                    if (dist_f <= range) {
                         // Previous coordinates within sight, update coordinates
                         lx += dx;
                         ly += dy;
 
                         // Find first coordinate on the line from new coordinates to
                         // old coordinates within sight
-                        while (dist_t > range && !u.sees(lx, ly)) {
+                        while (dist_t > range) {
                             if (dx != 0) {
                                 lx -= sgn(dx);
                             }
