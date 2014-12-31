@@ -366,7 +366,7 @@ void mattack::smash(monster *z, int index)
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
-    if( foe == &g->u && g->u.uncanny_dodge() ) {
+    if( foe->uncanny_dodge() ) {
         return;
     }
 
@@ -2065,11 +2065,11 @@ void mattack::tazer( monster *z, int index )
 
 void mattack::taze( monster *z, Creature *target )
 {
-    if( target == &g->u && g->u.uncanny_dodge()) {
-        return;
-    }
     z->moves -= 200;   // It takes a while
     player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr && foe->uncanny_dodge()) {
+        return;
+    }
     if( foe != nullptr ) {
         if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
             foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
@@ -3145,7 +3145,7 @@ void mattack::bite(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 100;
-    bool uncanny = foe == &g->u && g->u.uncanny_dodge(); // Uncanny doesn't like monster vs NPC
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
     if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {

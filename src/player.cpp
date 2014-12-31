@@ -13149,6 +13149,9 @@ int player::getID () const
 
 bool player::uncanny_dodge(bool is_u)
 {
+    (void)is_u;
+    is_u = this == &g->u;
+    bool seen = g->u.sees( this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 75;
@@ -13156,14 +13159,19 @@ bool player::uncanny_dodge(bool is_u)
     {
         posx = adjacent.x;
         posy = adjacent.y;
-        if (is_u)
-            add_msg(_("Time seems to slow down and you instinctively dodge!"));
-        else
-            add_msg(_("Your target dodges... so fast!"));
+        if( is_u ) {
+            add_msg( _("Time seems to slow down and you instinctively dodge!") );
+        } else if( seen ) {
+            add_msg( _("%s dodges... so fast!"), this.disp_name().c_str() );
+            
+        }
         return true;
     }
-    if (is_u)
-        add_msg(_("You try to dodge but there's no room!"));
+    if( is_u ) {
+        add_msg( _("You try to dodge but there's no room!") );
+    } else if( seen ) {
+        add_msg( _("%s tries to dodge but there's no room!"), this.disp_name().c_str() );
+    }
     return false;
 }
 
