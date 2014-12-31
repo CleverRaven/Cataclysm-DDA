@@ -148,10 +148,7 @@ void mattack::acid(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     int t;
     int junk = 0;
-    int range = z->vision_range( target->xpos(), target->ypos() );
-    bool mon_sees = g->m.sees( z->xpos(), z->ypos(), target->xpos(), target->ypos(), range, t ) &&
-                        !( foe != nullptr && foe->is_invisible() );
-    if( !mon_sees ||
+    if( !z->sees( t, target ) ||
         !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 10, 1, 100, junk ) ) {
         return; // Can't see/reach target, no attack
     }
@@ -192,10 +189,7 @@ void mattack::shockstorm(monster *z, int index)
     bool seen = g->u_see( z );
     int t;
     int junk = 0;
-    int range = z->vision_range( target->xpos(), target->ypos() );
-    bool mon_sees = g->m.sees( z->xpos(), z->ypos(), target->xpos(), target->ypos(), range, t ) &&
-                        !( foe != nullptr && foe->is_invisible() );
-    if( !mon_sees ||
+    if( !z->sees( t, target ) ||
         !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 12, 1, 100, junk ) ) {
         return; // Can't see/reach target, no attack
     }
