@@ -2292,7 +2292,7 @@
     "symbol": ";",
     "color": "magenta",
     "name": "teleporter",
-    "description": "This is an arcane device, powered by plutonium fuel cells.  Using it will cause you to teleport a short distance away.",
+    "description": "This is an experimental device that will teleport you a short distance when activated.",
     "price": 600000,
     "material": ["plastic", "aluminum"],
     "weight": 1360,
