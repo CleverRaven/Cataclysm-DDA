@@ -9292,7 +9292,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                             add_trap(i, j, tr_tripwire);
                         }
                         if (one_in(15)) {
-                            add_trap(i, j, tr_pit);
+                            ter_set(i, j, t_pit);
                         }
                     }
                 }
