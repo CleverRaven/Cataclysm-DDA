@@ -2941,11 +2941,11 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
    }
 
    if ( addvolume == -1 ) {
-       if ( i_at(x, y).size() < maxitems ) return true;
+       if ( (int)i_at(x, y).size() < maxitems ) return true;
        int cur_volume=stored_volume(x, y);
        return (cur_volume >= maxvolume ? true : false );
    } else {
-       if ( i_at(x, y).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       if ( (int)i_at(x, y).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
        int cur_volume=stored_volume(x, y);
        return ( cur_volume + addvolume > maxvolume ? true : false );
    }

@@ -4268,11 +4268,11 @@ bool vehicle::is_full(const int part, const int addvolume, const int addnumber) 
    const int maxvolume = this->max_volume(part);
 
    if ( addvolume == -1 ) {
-       if ( get_items(part).size() < maxitems ) return true;
+       if( (int)get_items(part).size() < maxitems ) return true;
        int cur_volume=stored_volume(part);
        return (cur_volume >= maxvolume ? true : false );
    } else {
-       if ( get_items(part).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       if ( (int)get_items(part).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
        int cur_volume=stored_volume(part);
        return ( cur_volume + addvolume > maxvolume ? true : false );
    }
@@ -4291,8 +4291,9 @@ bool vehicle::add_item (int part, item itm)
         return false;
     }
 
-    if (parts[part].items.size() >= max_storage)
+    if( (int)parts[part].items.size() >= max_storage ) {
         return false;
+    }
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, "TURRET")) {
         if (!ammo || (ammo->type != part_info(part).fuel_type ||
