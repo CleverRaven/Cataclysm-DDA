@@ -864,6 +864,8 @@ void monster::hit_monster(monster &other)
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
+    mdefense mdf;
+    (mdf.*target->type->sp_defense)( target, this, nullptr );
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
