@@ -9625,17 +9625,17 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 lx += dx;
                 ly += dy;
 
-                //Keep cursor inside DAYLIGHT_LEVEL
+                //Keep cursor inside the reality bubble
                 if (lx < 0) {
                     lx = 0;
-                } else if (lx > DAYLIGHT_LEVEL * 2) {
-                    lx = DAYLIGHT_LEVEL * 2;
+                } else if (lx > MAPSIZE * SEEX) {
+                    lx = MAPSIZE * SEEX;
                 }
 
                 if (ly < 0) {
                     ly = 0;
-                } else if (ly > DAYLIGHT_LEVEL * 2) {
-                    ly = DAYLIGHT_LEVEL * 2;
+                } else if (ly > MAPSIZE * SEEY) {
+                    ly = MAPSIZE * SEEY;
                 }
 
                 draw_ter(lx, ly);
