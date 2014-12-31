@@ -579,18 +579,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             destroyed = false;
                             // Used to feed the fire based on volume of item burnt.
                             vol = fuel->volume();
-                            it_ammo *ammo_type = NULL; //Special case if its ammo.
+                            const islot_ammo *ammo_type = NULL; //Special case if its ammo.
 
                             if( fuel->is_ammo() ) {
-                                ammo_type = dynamic_cast<it_ammo *>(fuel->type);
+                                ammo_type = fuel->type->ammo.get();
                             }
                             // Types of ammo with special effects.
                             bool cookoff = false;
                             bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL &&
-                                (ammo_type->id != "gasoline" || ammo_type->id != "diesel" ||
-                                 ammo_type->id != "lamp_oil") ) {
+                                (fuel->typeId() != "gasoline" || fuel->typeId() != "diesel" ||
+                                 fuel->typeId() != "lamp_oil") ) {
                                 cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
                                           ammo_type->ammo_effects.count("COOKOFF");
                                 special = ammo_type->ammo_effects.count("FRAG") ||

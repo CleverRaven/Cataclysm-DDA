@@ -10,7 +10,6 @@
 #include <numeric>
 
 struct itype;
-struct it_ammo;
 class item;
 class monster;
 
@@ -102,7 +101,7 @@ struct projectile {
     // TODO: things below here are here temporarily until we finish those
     // systems
     std::set<std::string> proj_effects;
-    it_ammo *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
+    itype *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
 
     projectile() :
         aoe_shape(BS_NONE),

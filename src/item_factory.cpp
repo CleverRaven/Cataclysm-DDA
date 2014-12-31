@@ -407,11 +407,11 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
         return;
     }
     for( const auto &elem : m_templates ) {
-        const it_ammo *ammot = dynamic_cast<const it_ammo *>( elem.second );
-        if (ammot == 0) {
+        const auto ammot = elem.second;
+        if( !ammot->ammo ) {
             continue;
         }
-        if (ammot->type == ammo) {
+        if( ammot->ammo->type == ammo ) {
             return;
         }
     }
@@ -456,11 +456,10 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
-        const it_ammo *ammo = dynamic_cast<const it_ammo *>(type);
-        if (ammo != 0) {
-            check_ammo_type(msg, ammo->type);
-            if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
-                msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+        if( type->ammo ) {
+            check_ammo_type( msg, type->ammo->type );
+            if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
         }
         if( type->gun ) {
@@ -575,23 +574,25 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     load_slot( slotptr, slotjo );
 }
 
+void Item_factory::load( islot_ammo &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "ammo_type" );
+    slot.casing = jo.get_string( "casing", "NULL" );
+    slot.damage = jo.get_int( "damage" );
+    slot.pierce = jo.get_int( "pierce" );
+    slot.range = jo.get_int( "range" );
+    slot.dispersion = jo.get_int( "dispersion" );
+    slot.recoil = jo.get_int( "recoil" );
+    slot.def_charges = jo.get_long( "count" );
+    slot.ammo_effects = jo.get_tags( "effects" );
+}
+
 void Item_factory::load_ammo(JsonObject &jo)
 {
-    it_ammo *ammo_template = new it_ammo();
-    ammo_template->type = jo.get_string("ammo_type");
-    ammo_template->casing = jo.get_string("casing", "NULL");
-    ammo_template->damage = jo.get_int("damage");
-    ammo_template->pierce = jo.get_int("pierce");
-    ammo_template->range = jo.get_int("range");
-    ammo_template->dispersion = jo.get_int("dispersion");
-    ammo_template->recoil = jo.get_int("recoil");
-    ammo_template->def_charges = jo.get_long("count");
-    ammo_template->stack_size = jo.get_int("stack_size", ammo_template->def_charges);
-    ammo_template->ammo_effects = jo.get_tags("effects");
-
-    itype *new_item_template = ammo_template;
-    load_basic_info(jo, new_item_template);
-    load_slot( new_item_template->spawn, jo );
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->ammo, jo );
+    new_item_template->stack_size = jo.get_int( "stack_size", new_item_template->ammo->def_charges );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
@@ -979,6 +980,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
     load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
+    load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1482,7 +1484,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->gun && !it->gunmod ) {
         return category_id_guns;
     }
-    if (it->is_ammo()) {
+    if( it->ammo ) {
         return category_id_ammo;
     }
     if (it->is_tool()) {

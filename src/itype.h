@@ -391,6 +391,35 @@ struct islot_gunmod : public common_firing_data {
     }
 };
 
+struct islot_ammo : public common_ranged_data {
+    /**
+     * Ammo type, basically the "form" of the the ammo that fits into the gun/tool.
+     * This is an id, it can be looked up in the @ref ammunition_type class.
+     */
+    ammotype type;
+    /**
+     * Type id of casings, can be "NULL" for no casings at all.
+     */
+    itype_id casing;
+    /**
+     * Default charges.
+     */
+    long def_charges;
+    /**
+     * TODO: document me.
+     */
+    std::set<std::string> ammo_effects;
+
+    islot_ammo()
+    : common_ranged_data()
+    , type()
+    , casing( "NULL" )
+    , def_charges( 0 )
+    , ammo_effects()
+    {
+    }
+};
+
 struct islot_variable_bigness {
     /**
      * Minimal value of the bigness value of items of this type.
@@ -475,6 +504,7 @@ struct itype {
     std::unique_ptr<islot_bionic> bionic;
     std::unique_ptr<islot_software> software;
     std::unique_ptr<islot_spawn> spawn;
+    std::unique_ptr<islot_ammo> ammo;
     /*@}*/
 
 protected:
@@ -536,6 +566,8 @@ public:
             return "VEHICLE_PART";
         } else if( bionic ) {
             return "BIONIC";
+        } else if( ammo ) {
+            return "AMMO";
         }
         return "misc";
     }
@@ -551,10 +583,6 @@ public:
     {
         return false;
     }
-    virtual bool is_ammo() const
-    {
-        return false;
-    }
     virtual bool is_tool() const
     {
         return false;
@@ -565,6 +593,9 @@ public:
     }
     virtual bool count_by_charges() const
     {
+        if( ammo ) {
+            return true;
+        }
         return false;
     }
     virtual int charges_to_use() const
@@ -647,33 +678,6 @@ struct it_comest : public virtual itype {
     it_comest(): itype(), quench(0), nutr(0), def_charges(0), stim(0), healthy(0),
         brewtime(0), comesttype(), fun(0), tool()
     {
-    }
-};
-
-struct it_ammo : public virtual itype, public common_ranged_data {
-    ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
-    itype_id casing;        // Casing produced by the ammo, if any
-    long def_charges;    // Default charges
-
-    std::set<std::string> ammo_effects;
-
-    it_ammo(): itype(), type(), casing(),
-        def_charges(0), ammo_effects()
-    {
-    }
-
-    virtual bool is_ammo() const
-    {
-        return true;
-    }
-    // virtual bool count_by_charges() { return id != "gasoline"; }
-    virtual bool count_by_charges() const
-    {
-        return true;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "AMMO";
     }
 };
 

@@ -4294,11 +4294,12 @@ bool vehicle::add_item (int part, item itm)
     if( (int)parts[part].items.size() >= max_storage ) {
         return false;
     }
-    it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, "TURRET")) {
-        if (!ammo || (ammo->type != part_info(part).fuel_type ||
-                 ammo->type == fuel_type_gasoline ||
-                 ammo->type == fuel_type_plasma)) {
+        const auto atype = itm.ammo_type();
+        if( !itm.is_ammo() || atype != part_info(part).fuel_type ) {
+            return false;
+        }
+        if( atype == fuel_type_gasoline || atype == fuel_type_plasma ) {
             return false;
         }
     }
@@ -4987,17 +4988,18 @@ void vehicle::aim_turrets()
     target.second.x = cx;
     target.second.y = cy;
 
-    it_ammo *ammo;
+    itype *am_itype;
     if( get_items( turret_index ).front().charges > 0 ) {
-        ammo = dynamic_cast<it_ammo*>( get_items( turret_index ).front().type );
+        am_itype = get_items( turret_index ).front().type;
     } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
-        ammo = dynamic_cast<it_ammo*>( item::find_type( part_info( turret_index ).fuel_type ) );
+        am_itype = item::find_type( part_info( turret_index ).fuel_type );
     } else {
-        ammo = dynamic_cast<it_ammo*>( item::find_type( "charge_shot" ) );
+        am_itype = item::find_type( "charge_shot" );
     }
-    if( !ammo ) {
-        ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+    if( !am_itype->ammo ) {
+        am_itype = item::find_type( "fake_ammo" );
     }
+    const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
     int range = gun_data.range + ammo->range;
     int x = cx;
@@ -5188,14 +5190,14 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( liquid_fuel < 1 || charges < 1 ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>( item::find_type( amt ) );
-        if( !ammo ) {
+        itype *am_type = item::find_type( amt );
+        if( !am_type->ammo ) {
             // Let non-ammo-typed ammo be used too
             // 0 in all stats, depends on gun to provide everything
-            ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+            am_type = item::find_type( "fake_ammo" );
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *ammo, charges_left, whoosh) ) {
+        if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
@@ -5205,15 +5207,15 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( get_items(p).empty() ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*> (get_items(p).front().type);
-        if( !ammo || ammo->type != amt || get_items(p).front().charges < 1 ) {
+        itype *am_type = get_items(p).front().type;
+        if( !am_type->ammo || am_type->ammo->type != amt || get_items(p).front().charges < 1 ) {
             return false;
         }
         if( charges > get_items(p).front().charges ) {
             charges = get_items(p).front().charges;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *ammo, charges_left ) ) {
+        if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
@@ -5248,7 +5250,7 @@ int aoe_size( std::set< std::string > tags )
     return 0;
 }
 
-bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges, const std::string &extra_sound)
+bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -5272,7 +5274,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     tmp.weapon.set_curammo( ammo.id );
     tmp.weapon.charges = charges;
 
-    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo_effects ),
+    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo->ammo_effects ),
                          aoe_size( tmp.weapon.type->gun->ammo_effects ) );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire

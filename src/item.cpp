@@ -57,9 +57,8 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     if( type->gun ) {
         charges = 0;
     }
-    if( type->is_ammo() ) {
-        it_ammo* ammo = dynamic_cast<it_ammo*>(type);
-        charges = ammo->def_charges;
+    if( type->ammo ) {
+        charges = type->ammo->def_charges;
     }
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
@@ -271,7 +270,7 @@ item item::in_its_container()
 long item::liquid_charges( long units ) const
 {
     if( is_ammo() ) {
-        return dynamic_cast<it_ammo *>( type )->def_charges * units;
+        return type->ammo->def_charges * units;
     } else if( is_food() ) {
         return dynamic_cast<it_comest *>( type )->def_charges * units;
     } else {
@@ -282,7 +281,7 @@ long item::liquid_charges( long units ) const
 long item::liquid_units( long charges ) const
 {
     if( is_ammo() ) {
-        return charges / dynamic_cast<it_ammo *>( type )->def_charges;
+        return charges / type->ammo->def_charges;
     } else if( is_food() ) {
         return charges / dynamic_cast<it_comest *>( type )->def_charges;
     } else {
@@ -533,11 +532,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("FOOD", _("Smells like: ") + food_item->corpse->nname()));
         }
     }
-    const it_ammo* ammo = nullptr;
+    const islot_ammo* ammo = nullptr;
     if( is_ammo() ) {
-        ammo = dynamic_cast<const it_ammo*>( type );
+        ammo = type->ammo.get();
     } else if( is_ammo_container() ) {
-        ammo = dynamic_cast<const it_ammo*>( contents[0].type );
+        ammo = contents[0].type->ammo.get();
     }
     if( ammo != nullptr ) {
         if (ammo->type != "NULL") {
@@ -570,7 +569,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         int ammo_dispersion = 0;
         bool has_ammo = (has_curammo() && charges > 0);
         if (has_ammo) {
-            const auto curammo = get_curammo();
+            const auto curammo = get_curammo()->ammo.get();
             ammo_dam = curammo->damage;
             ammo_range = curammo->range;
             ammo_recoil = curammo->recoil;
@@ -2538,11 +2537,16 @@ bool item::is_silent() const
  // So far only gun code uses this check
  return type->gun && (
    noise() < 5 ||              // almost silent
-   curammo->type == "bolt" || // crossbows
-   curammo->type == "arrow" ||// bows
-   curammo->type == "pebble" ||// sling[shot]
-   curammo->type == "fishspear" ||// speargun spears
-   curammo->type == "dart"     // blowguns and such
+   (
+        curammo != nullptr &&
+        (
+            curammo->ammo->type == "bolt" || // crossbows
+            curammo->ammo->type == "arrow" ||// bows
+            curammo->ammo->type == "pebble" ||// sling[shot]
+            curammo->ammo->type == "fishspear" ||// speargun spears
+            curammo->ammo->type == "dart"     // blowguns and such
+        )
+   )
  );
 }
 
@@ -2558,10 +2562,7 @@ bool item::is_bionic() const
 
 bool item::is_ammo() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_ammo();
+    return type->ammo.get() != nullptr;
 }
 
 bool item::is_food(player const*u) const
@@ -2575,9 +2576,9 @@ bool item::is_food(player const*u) const
     if (type->is_food())
         return true;
 
-    if (u->has_active_bionic("bio_batteries") && is_ammo() &&
-            (dynamic_cast<it_ammo*>(type))->type == "battery")
+    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
         return true;
+    }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;
     return false;
@@ -2999,7 +3000,7 @@ int item::gun_dispersion( bool with_ammo ) const
         }
     }
     if( with_ammo && has_curammo() ) {
-        dispersion_sum += get_curammo()->dispersion;
+        dispersion_sum += get_curammo()->ammo->dispersion;
     }
     dispersion_sum += damage * 60;
     if( dispersion_sum < 0 ) {
@@ -3070,7 +3071,7 @@ int item::gun_damage( bool with_ammo ) const
     }
     int ret = type->gun->damage;
     if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->damage;
+        ret += get_curammo()->ammo->damage;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3088,7 +3089,7 @@ int item::gun_pierce( bool with_ammo ) const
     }
     int ret = type->gun->pierce;
     if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->pierce;
+        ret += get_curammo()->ammo->pierce;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3111,7 +3112,7 @@ int item::noise() const
     // TODO: use islot_gun::loudness here.
     int ret = 0;
     if( has_curammo() ) {
-        ret = get_curammo()->damage;
+        ret = get_curammo()->ammo->damage;
     }
     ret *= .8;
     if (ret >= 5) {
@@ -3153,7 +3154,7 @@ int item::gun_recoil( bool with_ammo ) const
     }
     int ret = type->gun->recoil;
     if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->recoil;
+        ret += get_curammo()->ammo->recoil;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3181,7 +3182,7 @@ int item::gun_range( bool with_ammo ) const
     if( with_ammo && is_charger_gun() ) {
         ret += 5 + charges * 5;
     } else if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->range;
+        ret += get_curammo()->ammo->range;
     }
     return std::max( 0, ret );
 }
@@ -3240,8 +3241,7 @@ ammotype item::ammo_type() const
         }
         return tool->ammo;
     } else if (is_ammo()) {
-        it_ammo* amm = dynamic_cast<it_ammo*>(type);
-        return amm->type;
+        return type->ammo->type;
     } else if (is_gunmod()) {
         return type->gunmod->newtype;
     }
@@ -3263,8 +3263,7 @@ bool item::is_of_type_or_contains_it(const std::string &type_id) const
 
 bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
 {
-    const it_ammo *amm = dynamic_cast<const it_ammo *>(type);
-    if (amm != NULL && amm->type == ammo_type_id) {
+    if( is_ammo() && ammo_type() == ammo_type_id) {
         return true;
     }
     for( auto &elem : contents ) {
@@ -3374,13 +3373,13 @@ int item::pick_reload_ammo(player &u, bool interactive)
     std::vector<std::string> ammo_ids;
     for (size_t i = 0; i < am.size(); i++) {
         item &it = *am[i];
-        it_ammo *ammo_def = dynamic_cast<it_ammo *>(it.type);
-        // ammo_def == NULL means the item is a container,
+        itype *ammo_def = it.type;
+        // If ammo_def is not ammo (has no ammo slot), it is a container,
         // containing the ammo, go through its content to find the ammo
-        for (size_t j = 0; ammo_def == NULL && j < it.contents.size(); j++) {
-            ammo_def = dynamic_cast<it_ammo *>(it.contents[j].type);
+        for (size_t j = 0; !ammo_def->ammo && j < it.contents.size(); j++) {
+            ammo_def = it.contents[j].type;
         }
-        if (ammo_def == NULL) {
+        if( !ammo_def->ammo ) {
             debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
             ammo_ids.push_back("");
             continue;
@@ -3395,8 +3394,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
             row.erase(namelen, row.length() - namelen);
         }
         row += string_format("| %-7d | %-7d | %-7d | %-7d",
-                                ammo_def->damage, ammo_def->pierce, ammo_def->range,
-                                100 - ammo_def->dispersion);
+                             ammo_def->ammo->damage, ammo_def->ammo->pierce,
+                             ammo_def->ammo->range, 100 - ammo_def->ammo->dispersion);
         amenu.addentry(i, true, i + 'a', row);
         if ( lastreload == ammo_def->id ) {
             amenu.selected = i;
@@ -3532,7 +3531,7 @@ bool item::reload(player &u, int pos)
             reload_target->set_curammo( *ammo_to_use );
         }
         if( has_curammo() ) {
-            eject_casings( u, reload_target, get_curammo()->casing );
+            eject_casings( u, reload_target, get_curammo()->ammo->casing );
         }
         if (single_load || max_load == 1) { // Only insert one cartridge!
             reload_target->charges++;
@@ -4162,7 +4161,7 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-it_ammo *item::get_curammo() const
+itype *item::get_curammo() const
 {
     return curammo;
 }
@@ -4191,8 +4190,10 @@ void item::set_curammo( const itype_id &type )
         unset_curammo();
         return;
     }
-    const auto at = dynamic_cast<it_ammo *>( item_controller->find_template( type ) );
-    if( at == nullptr ) {
+    const auto at = item_controller->find_template( type );
+    if( !at->ammo ) {
+        // Much code expects curammo to be a valid ammo, or null, make sure this assumption
+        // is correct
         debugmsg( "Tried to set non-ammo type %s as curammo of %s", type.c_str(), tname().c_str() );
         return;
     }
@@ -4205,8 +4206,8 @@ void item::set_curammo( const item &ammo )
         unset_curammo();
         return;
     }
-    const auto at = dynamic_cast<it_ammo *>( ammo.type );
-    if( at == nullptr ) {
+    const auto at = ammo.type;
+    if( !at->ammo ) {
         debugmsg( "Tried to set non-ammo type %s as curammo of %s", ammo.type->id.c_str(),
                   tname().c_str() );
         return;
@@ -4557,7 +4558,7 @@ bool item::update_charger_gun_ammo()
     if( get_curammo_id() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
-    auto tmpammo = get_curammo();
+    auto tmpammo = get_curammo()->ammo.get();
 
     long charges = num_charges();
     tmpammo->damage = charges * charges;

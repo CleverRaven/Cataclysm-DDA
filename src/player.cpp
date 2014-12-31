@@ -9425,7 +9425,7 @@ bool player::consume(int target_position)
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            dynamic_cast<it_ammo*>(to_eat->type)->type == "battery") {
+            to_eat->ammo_type() == "battery") {
             const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {

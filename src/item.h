@@ -165,9 +165,9 @@ public:
      */
     bool is_of_type_or_contains_it(const std::string &type_id) const;
     /**
-     * Returns true if this item is ammo and has the specifi ammo type,
+     * Returns true if this item is ammo and has the specific ammo type,
      * or if this functions returns true for any of its contents.
-     * This does not check type->id, but it_ammo::type.
+     * This does not check type->id, but islot_ammo::type.
      */
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
@@ -494,8 +494,10 @@ public:
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
+         * If non-null, the returned itype is quaranted to have an ammo slot:
+         * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
-        it_ammo* get_curammo() const;
+        itype* get_curammo() const;
         /**
          * Returns the item type id of the currently loaded ammo.
          * Returns "null" if the item is not loaded.
@@ -511,8 +513,8 @@ public:
          */
         void unset_curammo();
         /**
-         * Set the current ammo from an item type id (not an ammo type id!). The type must be an
-         * instance of @ref it_ammo. If the type id is "null", the curammo is unset as by calling
+         * Set the current ammo from an item type id (not an ammo type id!). The type must have
+         * an ammo slot (@ref itype::ammo). If the type id is "null", the curammo is unset as by calling
          * @ref unset_curammo.
          */
         void set_curammo( const itype_id &type );
@@ -830,7 +832,7 @@ public:
     private:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
-        it_ammo* curammo;
+        itype* curammo;
 public:
  char invlet;             // Inventory letter
  long charges;
