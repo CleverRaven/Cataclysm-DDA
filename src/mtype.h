@@ -189,7 +189,7 @@ struct mtype {
         std::vector<void (mattack::*)(monster *, int index)> sp_attack; // This monster's special attack
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
-        void (mdefense::*sp_defense)(monster *, const projectile *);
+        void (mdefense::*sp_defense)(monster *, Creature *, const projectile *);
         // Default constructor
         mtype ();
         /**
