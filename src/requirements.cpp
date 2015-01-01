@@ -94,6 +94,8 @@ void item_comp::load( JsonArray &ja )
     JsonArray comp = ja.next_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
+    //Default true for backward compatibility.
+    recoverable = comp.size() > 2 ? comp.get_bool(2) : true;
 }
 
 template<typename T>
