@@ -100,6 +100,22 @@
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
+    { 
+        "type":"GENERIC",
+        "id": "bone_glue",
+        "symbol": ",",
+        "color": "brown",
+        "name": "bone glue",
+        "description": "Glue made from boiling animal bones. The adhesive isn't strong enough for heavy duty usages, but it can be used as a varnish or holding together small items.",
+        "price": 1800,
+        "material": "bone",
+        "weight": 45,
+        "volume": 1,
+        "bashing": -2,
+        "cutting": 0,
+        "to_hit": -2,
+        "flags" : ["UNRECOVERABLE"]
+    },
     {
         "type":"GENERIC",
         "id": "id_science",
