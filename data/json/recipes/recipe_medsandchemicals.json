@@ -2591,7 +2591,7 @@
 "time": 25000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "recipe_labchem", 7 ]],
+"book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
@@ -2727,7 +2727,7 @@
 "time": 20000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
+"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
 "qualities" : 
 [
 {"id":"BOIL","level":1,"amount":1}
@@ -2754,7 +2754,7 @@
 "time": 180000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ]],
+"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ] , ["textbook_chemistry", 7]],
 "qualities" : 
 [
 {"id":"BOIL","level":1,"amount":1}
@@ -2801,7 +2801,7 @@
 "time": 75000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "recipe_labchem", 8 ]],
+"book_learn": [[ "recipe_labchem", 8 ], ["textbook_anarch", 10]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
@@ -2879,7 +2879,7 @@
 "time": 5000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ],
@@ -2905,7 +2905,7 @@
 "time": 30000,
 "reversible": false,
 "autolearn": false,
-"book_learn": [[ "textbook_anarch", 4 ] , [ "recipe_labchem", 3 ]],
+"book_learn": [[ "textbook_anarch", 4 ] , [ "recipe_labchem", 3 ], ["textbook_chemistry", 5]],
 "qualities":[
 {"id":"BOIL","level":2,"amount":1}
 ],
