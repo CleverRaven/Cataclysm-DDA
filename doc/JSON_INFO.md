@@ -216,10 +216,10 @@ The syntax listed here is still valid.
   [ "fur", 1 ]
 ],
 [
-  [ "plant_fibre", 20 ],
-  [ "sinew", 20 ],
-  [ "thread", 20 ],
-  [ "duct_tape", 20 ]
+  [ "plant_fibre", 20, false ], // Optional flag for recoverability, default is true.
+  [ "sinew", 20, false ],
+  [ "thread", 20, false ],
+  [ "duct_tape", 20 ]  // Certain items are flagged as unrecoverable at the item definition level.
 ]
 ]
 ```

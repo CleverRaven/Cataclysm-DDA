@@ -41,11 +41,15 @@ struct component {
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
     mutable available_status available;
+    bool recoverable;
 
-    component() : type("null") , count(0) , available(a_false)
+    component() : type("null") , count(0) , available(a_false), recoverable(true)
     {
     }
-    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false)
+    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false), recoverable(true)
+    {
+    }
+    component(const itype_id &TYPE, int COUNT, bool RECOVERABLE) : type (TYPE), count (COUNT), available(a_false), recoverable(RECOVERABLE)
     {
     }
     void check_consistency(const std::string &display_name) const;
