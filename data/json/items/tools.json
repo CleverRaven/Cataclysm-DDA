@@ -9036,7 +9036,7 @@
 {
 "id": "tool_black_powder_bomb",
 "type": "TOOL",
-"symbol": "g",
+"symbol": "*",
 "color": "red",
 "name": "black gunpowder bomb",
 "description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
@@ -9065,7 +9065,7 @@
 {
 "id": "tool_black_powder_bomb_act",
 "type": "TOOL",
-"symbol": "g",
+"symbol": "*",
 "color": "light_red",
 "name": "active black gunpowder bomb",
 "description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
@@ -9095,7 +9095,7 @@
 {
 "id": "tool_black_powder_charge",
 "type": "TOOL",
-"symbol": "h",
+"symbol": "*",
 "color": "red",
 "name": "black gunpowder charge",
 "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse. Use this item to light the fuse. Should explode in no more than five turns...",
@@ -9124,7 +9124,7 @@
 {
 "id": "tool_black_powder_charge_act",
 "type": "TOOL",
-"symbol": "h",
+"symbol": "*",
 "color": "light_red",
 "name": "active black gunpowder charge",
 "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
@@ -9154,7 +9154,7 @@
 {
 "id": "tool_rdx_sand_bomb",
 "type": "TOOL",
-"symbol": "s",
+"symbol": ";",
 "color": "red",
 "name": "RDX sand bomb",
 "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. Use this item to light the fuse.",
@@ -9181,9 +9181,9 @@
 }
 },
 {
-"id": " tool_rdx_sand_bomb_act",
+"id": "tool_rdx_sand_bomb_act",
 "type": "TOOL",
-"symbol": "h",
+"symbol": ";",
 "color": "light_red",
 "name": "active RDX sand bomb",
 "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. The fuse has been lit, so why are you still holding it?",
@@ -9213,7 +9213,7 @@
 {
 "id": "tool_rdx_charge",
 "type": "TOOL",
-"symbol": "x",
+"symbol": "(",
 "color": "red",
 "name": "RDX charge",
 "description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
@@ -9233,7 +9233,7 @@
 "category": "weapons",
 "use_action": {
 "type": "transform",
-"target": "tool_RDX_charge_act",
+"target": "tool_rdx_charge_act",
 "target_charges": 30,
 "active": true,
 "msg": "You light the fuse on the explosive charge. Clear the area!"
@@ -9242,7 +9242,7 @@
 {
 "id": "tool_rdx_charge_act",
 "type": "TOOL",
-"symbol": "h",
+"symbol": "(",
 "color": "light_red",
 "name": "active RDX charge",
 "description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
@@ -9272,7 +9272,7 @@
 {
 "id": "tool_rocket_candy",
 "type": "TOOL",
-"symbol": "x",
+"symbol": "*",
 "color": "green",
 "name": "rocket candy",
 "description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid. Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
@@ -9301,7 +9301,7 @@
 {
 "id": "tool_rocket_candy_act",
 "type": "TOOL",
-"symbol": "x",
+"symbol": "*",
 "color": "green",
 "name": "burning rocket candy",
 "description": "This is a chunk of rocket candy that has been lit on fire and burns with a loud hiss, spewing forth large amounts of smoke.",
@@ -9323,7 +9323,7 @@
 "type": "explosion",
 "sound_volume": 5,
 "sound_msg": "Hsssss.",
-"no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
+"no_deactivate_msg": "You've already lit the fuse – get rid of it immediately!",
 "explosion_power": 1,
 "fields_radius": 2,
 "fields_type": "fd_smoke",

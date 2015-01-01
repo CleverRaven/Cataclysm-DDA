@@ -5603,7 +5603,7 @@
 "difficulty": 6,
 "time": 210000,
 "reversible": false,
-"autolearn": false
+"autolearn": false,
 "book_learn": [[ "manual_launcher", 7 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
