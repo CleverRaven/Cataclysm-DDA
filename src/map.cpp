@@ -2989,7 +2989,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
             }
         }
         if( i_at( p_it->x, p_it->y ).size() < MAX_ITEM_IN_SQUARE ) {
-            add_item( p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE );
+            add_item( p_it->x, p_it->y, new_item );
             return true;
         }
     }
@@ -2999,24 +2999,23 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 // WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
 // map::add_item_or_charges
-void map::add_item(const int x, const int y, item new_item, const int maxitems)
+void map::add_item(const int x, const int y, item new_item)
 {
     if (!INBOUNDS(x, y)) {
         return;
     }
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    add_item_at(x, y, current_submap->itm[lx][ly].end(), new_item, maxitems);
+    add_item_at(x, y, current_submap->itm[lx][ly].end(), new_item);
 }
 
 void map::add_item_at( const int x, const int y,
-                       std::list<item>::iterator index, item new_item,
-                       const int maxitems )
+                       std::list<item>::iterator index, item new_item )
 {
     if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
         return;
     }
-    if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
+    if (has_flag("DESTROY_ITEM", x, y)) {
         return;
     }
     if (new_item.has_flag("ACT_IN_FIRE") && get_field( point( x, y ), fd_fire ) != nullptr ) {
