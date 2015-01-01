@@ -522,9 +522,8 @@ void add_corpse(int x, int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item_at(const int x, const int y, std::list<item>::iterator index,
-                  item new_item, int maxitems = 64);
- void add_item(const int x, const int y, item new_item, int maxitems = 64);
+ void add_item_at(const int x, const int y, std::list<item>::iterator index, item new_item);
+ void add_item(const int x, const int y, item new_item);
  void process_active_items();
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
