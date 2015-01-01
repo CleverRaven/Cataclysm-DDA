@@ -6396,5 +6396,33 @@
       [ "duct_tape", 50 ]
     ]
   ]
+},
+{
+"type" : "recipe",
+"result": "chem_aluminium_powder",
+"category": "CC_OTHER",
+"subcategory": "CSC_OTHER_OTHER",
+"skill_used": "fabrication",
+"difficulty": 5,
+"time": 5000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"SAW_M","level":1,"amount":1}
+],
+"components":
+[
+[
+[ "material_aluminium_ingot", 1]
+],
+[
+[ "water", 5 ],
+[ "water_clean", 5 ]
+],
+[
+[ "material_sand", 25]
+]
+]
 }
+
 ]

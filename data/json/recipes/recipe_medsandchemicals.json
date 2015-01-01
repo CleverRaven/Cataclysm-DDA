@@ -2580,5 +2580,350 @@
       [ "lye_powder", 5 ]
     ]
   ]
+},
+{
+"type" : "recipe",
+"result": "chem_hydrogen_peroxide_conc",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 25000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 7 ]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+]
+],
+"components": [
+[
+[ "chem_hydrogen_peroxide", 5 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_sulphuric_acid",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 15000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+],
+[
+      [ "hotplate", 10 ],
+      [ "toolset", 10 ]
+]
+],
+"components": [
+[
+[ "chem_hydrogen_peroxide_conc", 1 ]
+],
+[
+[ "chem_sulphur", 25 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_nitric_acid",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 10000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 50 ]
+]
+],
+"components": [
+[
+[ "chem_sulphuric_acid", 1 ]
+],
+[
+[ "chem_saltpetre", 25 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_aluminium_sulphate",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 2500,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+]
+],
+"components": [
+[
+[ "chem_sulphuric_acid", 1 ]
+],
+[
+[ "chem_hydrogen_peroxide", 1 ]
+],
+[
+[ "chem_aluminium_powder", 25 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_ammonium_nitrate",
+"byproducts": "water",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 3000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 25 ]
+]
+],
+"components": [
+[
+[ "chem_nitric_acid", 5 ]
+],
+[
+[ "ammonia", 5 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_black_powder",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 20000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
+"qualities" : 
+[
+{"id":"BOIL","level":1,"amount":1}
+],
+"components": [
+[
+[ "chem_saltpetre", 75 ]
+],
+[
+[ "chem_sulphur", 10 ]
+] ,
+[
+[ "charcoal", 15 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_anfo",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 180000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ]],
+"qualities" : 
+[
+{"id":"BOIL","level":1,"amount":1}
+],
+"components": [
+[
+[ "chem_ammonium_nitrate", 90 ]
+],
+[
+[ "gasoline", 500 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_acetic_acid",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 4000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 10 ]
+]
+],
+"components": [
+[
+[ "vinegar", 10 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_rdx",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 75000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 8 ]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+], "tools": [
+[
+[ "chemistry_set", 20 ]
+]
+],
+"components": [
+[
+[ "chem_hexamine", 50 ]
+],
+[
+[ "chem_nitric_acid", 5 ]
+],
+[
+[ "chem_sulphuric_acid", 2 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_thermite",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 2000,
+"reversible": false,
+"autolearn": true,
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_aluminium_powder", 50 ]
+],
+[
+[ "chem_chromium_oxide", 50 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_hmtd",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 55000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "recipe_labchem", 8 ]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_hexamine", 25 ]
+],
+[
+[ "chem_hydrogen_peroxide_conc", 5 ]
+],
+[
+[ "chem_acetic_acid", 2 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_rocket_fuel",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 5000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"components": [
+[
+[ "chem_zinc_powder", 50 ]
+],
+[
+[ "chem_sulphur", 50 ]
+],
+[
+[ "superglue", 2 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "tool_rocket_candy",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 3,
+"time": 30000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 4 ] , [ "recipe_labchem", 3 ]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"tools": [
+    [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+    ]
+  ],
+"components": [
+[
+[ "chem_saltpetre", 50 ]
+],
+[
+[ "sugar", 5 ]
+]
+]
 }
+
+
 ]

@@ -5448,5 +5448,193 @@
 			[ "string_6", 2 ]
 		]
 	]
+},
+{
+"type" : "recipe",
+"result": "tool_anfo_charge",
+"category": "CC_WEAPON",
+"subcategory": "CSC_WEAPON_EXPLOSIVE",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 120000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 7 ] , [ "textbook_anarch", 8 ]],
+"tools": [
+[
+[ "welder", 20 ],
+[ "welder_crude", 30 ],
+[ "toolset", 20 ],
+[ "soldering_iron", 30 ]
+] 
+],
+"components": [
+[
+[ "30gal_drum", 1 ]
+],
+[
+[ "chem_anfo", 400 ]
+] ,
+[
+[ "dynamite", 2 ]
+]
+]
+},
+{
+  "type" : "recipe",
+  "result": "tool_rdx_sand_bomb",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "chem_rdx", 50 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "material_sand", 200 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_rdx_charge",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 9 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "keg", 1 ]
+    ],
+    [
+      [ "chem_rdx", 1000 ]
+    ],
+    [
+      [ "chem_hmtd", 200 ]
+    ],
+
+    [
+      [ "string_36", 5 ],
+      [ "string_6", 20 ]
+    ],
+    [
+      [ "scrap", 50 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_black_powder_bomb",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 2 ] , [ "textbook_anarch", 3 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "can_drink", 1 ]
+    ],
+    [
+      [ "chem_black_powder", 100 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tool_black_powder_charge",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "jug_plastic", 1 ]
+    ],
+    [
+      [ "chem_black_powder", 100 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 1 ]
+    ]
+  ]
+},
+{
+"type" : "recipe",
+"result": "surv_rocket_launcher",
+"category": "CC_WEAPON",
+"subcategory": "CSC_WEAPON_RANGED",
+"skill_used": "fabrication",
+"difficulty": 6,
+"time": 210000,
+"reversible": false,
+"autolearn": false
+"book_learn": [[ "manual_launcher", 7 ]],
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "goggles_welding", -1 ]
+],
+[
+[ "oxy_torch", 6 ],
+[ "welder", 30 ],
+[ "welder_crude", 30 ],
+[ "toolset", 30 ]
+]
+],
+"components":
+[
+[
+[ "sheet_metal", 4 ]
+],
+[
+[ "pilot_light", 2 ]
+],
+[
+[ "battery", 200 ]
+],
+[
+[ "processor", 2 ]
+]
+]
 }
+
+
 ]
