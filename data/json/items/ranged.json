@@ -3526,7 +3526,7 @@
     "bashing": 12,
     "cutting": 0,
     "to_hit": -1,
-    "range": 18,
+    "range": 24,
     "dispersion": 600,
     "sight_dispersion": 150,
     "aim_speed" : 10,
