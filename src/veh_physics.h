@@ -64,7 +64,16 @@ public:
     const double gravity = 9.80665;   /* in m/s^2 */
 
     /**
-     * Max acceleration mode assumes flat ground and accelerates (from a full stop) as fast as
+     * This function assumes flat ground and homes in on the speed at which the vehicle will
+     * neither gain nor lose speed when using full power (ie top speed).
+     * Used by veh_interact to display vehicle stats.
+     * @param max_power Assume all engines are 100% health and fuelled
+     * @return Max speed reached in meters / second
+     */
+    double calculate_top_speed( bool max_power = false );
+
+    /**
+     * This function assumes flat ground and accelerates (from a full stop) as fast as
      * possible across multiple tiles (max 1000 tiles or 10 secs) until target_speed is reached.
      * Used by veh_interact to display vehicle stats.
      * @param target_speed Target speed to accelerate to in m/s

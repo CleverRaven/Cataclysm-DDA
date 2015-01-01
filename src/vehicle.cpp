@@ -5471,15 +5471,13 @@ float get_collision_factor(float delta_v)
 void vehicle::calculate_air_resistance()
 {
     int t_form_drag = 0;
-    int t_area;
-    int t_skin_friction;
     int t_downforce = 0;
     const int max_obst = 19;
     int obst[max_obst];
-    memset( obst, 0, max_obst );
+    memset( obst, 0, sizeof(obst) );
     std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    t_area = structure_indices.size(); /* Total area of car ~= nr of structure parts */
-    t_skin_friction = t_area; /* Assume 1 skin friction per square */
+    int t_area = structure_indices.size(); /* Total area of car ~= nr of structure parts */
+    int t_skin_friction = t_area; /* Assume 1 skin friction per square */
     for( auto &structure_indice : structure_indices ) {
         int p = structure_indice;
         int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 10 : 5;

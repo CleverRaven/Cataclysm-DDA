@@ -3,6 +3,38 @@
 #include "vehicle.h"
 #include "translations.h"
 
+double veh_physics::calculate_top_speed( bool max_power )
+{
+    engine_watt_avail = double(veh->power_to_epower(eng_pwr_cur));
+    if( max_power ) {
+        engine_watt_avail = double(veh->power_to_epower(eng_pwr_max));
+    }
+    int old_velocity = veh->velocity;
+    int nr_calcs = 0;
+    int speed_step = 128;
+    veh->velocity = 0;
+    int new_vel = 0;
+    do {
+        veh->velocity += speed_step;
+        calculate_time_to_move_one_tile( 1.0 );
+        new_vel = int( velocity_end * 223.6 + 0.5 );
+        if( new_vel == veh->velocity ) {
+            veh->velocity = old_velocity;
+            return velocity_end;
+        }
+        if( new_vel < veh->velocity ) {
+            veh->velocity -= speed_step;
+            speed_step /= 2;
+            if( speed_step < 1 ) {
+                veh->velocity = old_velocity;
+                return velocity_end;
+            }
+        }
+    } while( nr_calcs++ < 999 );
+    veh->velocity = old_velocity;
+    return velocity_end;
+}
+
 double veh_physics::calculate_acceleration( double target_speed, bool max_power )
 {
     engine_watt_avail = double(veh->power_to_epower(eng_pwr_cur));
@@ -19,7 +51,7 @@ double veh_physics::calculate_acceleration( double target_speed, bool max_power 
     veh->velocity = 0;
     do {
         tile_time = calculate_time_to_move_one_tile( 1.0 );
-        veh->velocity = int( velocity_end * 223.6 + 0.5 );
+        veh->velocity = int( velocity_end * 223.6 + 0.5 ); /* m/s to 100 x mph */
         if( veh->velocity == 0 ) {
             veh->velocity = old_velocity;
             return 0.0;
@@ -52,7 +84,7 @@ double veh_physics::calculate_acceleration( double target_speed, bool max_power 
 
 double veh_physics::calculate_cruise_control( double target_speed )
 {
-    double eng_est = -1.0
+    double eng_est = -1.0;
     double eng_step = 2.0;
     int nr_calcs = 0;
     bool last_vel_too_high = false;
