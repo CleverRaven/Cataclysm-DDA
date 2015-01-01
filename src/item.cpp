@@ -2554,10 +2554,7 @@ bool item::is_gunmod() const
 
 bool item::is_bionic() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_bionic();
+    return type->bionic.get() != nullptr;
 }
 
 bool item::is_ammo() const

@@ -480,10 +480,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
         }
-        const it_bionic *bionic = dynamic_cast<const it_bionic *>(type);
-        if (bionic != 0) {
-            if (bionics.count(bionic->id) == 0) {
-                msg << string_format("there is no bionic with id %s", bionic->id.c_str()) << "\n";
+        if( type->bionic ) {
+            if( bionics.count( type->bionic->bionic_id ) == 0 ) {
+                msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }
         if (msg.str().empty()) {
@@ -821,11 +820,18 @@ void Item_factory::load_gunmod(JsonObject &jo)
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load_bionic(JsonObject &jo)
+void Item_factory::load( islot_bionic &slot, JsonObject &jo )
 {
-    it_bionic *bionic_template = new it_bionic();
-    bionic_template->difficulty = jo.get_int("difficulty");
-    load_basic_info(jo, bionic_template);
+    slot.difficulty = jo.get_int( "difficulty" );
+    // TODO: must be the same as the item type id, for compatibility
+    slot.bionic_id = jo.get_string( "id" );
+}
+
+void Item_factory::load_bionic( JsonObject &jo )
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->bionic, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
@@ -975,6 +981,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->book, jo, "book_data" );
     load_slot_optional( new_item_template->gun, jo, "gun_data" );
     load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
+    load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1497,7 +1504,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->gunmod ) {
         return category_id_mods;
     }
-    if (it->is_bionic()) {
+    if( it->bionic ) {
         return category_id_cbm;
     }
     if (it->melee_dam > 7 || it->melee_cut > 5) {

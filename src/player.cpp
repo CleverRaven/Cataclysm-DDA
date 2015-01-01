@@ -11154,8 +11154,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
 
     } else if (used->is_bionic()) {
-        it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
-        if (install_bionics(tmp)) {
+        if( install_bionics( *used->type ) ) {
             i_rem(inventory_position);
         }
         return;
