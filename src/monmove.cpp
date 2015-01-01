@@ -286,8 +286,8 @@ void monster::move()
     bool moved = false;
     point next;
 
-    // Default to attitude to player, like before infighting
-    monster_attitude current_attitude = attitude( &(g->u) );
+    // Set attitude to attitude to our current target
+    monster_attitude current_attitude = attitude( nullptr );
     if( !plans.empty() ) {
         if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
             current_attitude = attitude( &(g->u) );
