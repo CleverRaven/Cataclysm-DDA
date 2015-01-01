@@ -85,7 +85,7 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
 }
 
-void monster::plan(const std::vector<int> &friendlies)
+void monster::plan(const mfactions &factions)
 {
     // Bots (currently only hacked ones) are more intelligent than most living stuff
     bool electronic = friendly != 0 && has_flag( MF_ELECTRONIC );
@@ -154,21 +154,26 @@ void monster::plan(const std::vector<int> &friendlies)
     if( !fleeing ) {
         fleeing = attitude() == MATT_FLEE;
         if( friendly == 0 && can_see() ) {
-            for( auto &friendlie : friendlies ) {
-                const int i = friendlie;
-                monster *mon = &(g->zombie(i));
-                int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
-                int sightrange = vision_range( mon->posx(), mon->posy() );
-                if (mondist < dist &&
+            for( const auto &faction : factions ) {
+                if( faction.first == *type->species.begin() ) {
+                    continue;
+                }
+
+                for( int i : faction.second ) { // mon indices
+                    monster *mon = &( g->zombie( i ) );
+                    int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
+                    int sightrange = vision_range( mon->posx(), mon->posy() );
+                    if (mondist < dist &&
                         g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, bresenham_slope)) {
-                    dist = mondist;
-                    if (fleeing) {
-                        wandx = posx() * 2 - mon->posx();
-                        wandy = posy() * 2 - mon->posy();
-                        wandf = 40;
-                    } else {
-                        closest = -3 - i;
-                        selected_slope = bresenham_slope;
+                        dist = mondist;
+                        if (fleeing) {
+                            wandx = posx() * 2 - mon->posx();
+                            wandy = posy() * 2 - mon->posy();
+                            wandf = 40;
+                        } else {
+                            closest = -3 - i;
+                            selected_slope = bresenham_slope;
+                        }
                     }
                 }
             }
@@ -280,38 +285,37 @@ void monster::move()
 
     bool moved = false;
     point next;
-    int mondex = (!plans.empty() ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
-    monster_attitude current_attitude = attitude();
-    if (friendly == 0) {
-        current_attitude = attitude(&(g->u));
-    }
-    // If our plans end in a player, set our attitude to consider that player
-    if (!plans.empty()) {
+    // Default to attitude to player, like before infighting
+    monster_attitude current_attitude = attitude( &(g->u) );
+    if( !plans.empty() ) {
         if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
-            current_attitude = attitude(&(g->u));
+            current_attitude = attitude( &(g->u) );
         } else {
-            for (auto &i : g->active_npc) {
-                if (plans.back().x == i->posx && plans.back().y == i->posy) {
-                    current_attitude = attitude(i);
+            for( auto &i : g->active_npc ) {
+                if( plans.back().x == i->posx && plans.back().y == i->posy ) {
+                    current_attitude = attitude( i );
                 }
             }
         }
     }
 
-    if (current_attitude == MATT_IGNORE ||
-          (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
+    if( current_attitude == MATT_IGNORE ||
+        (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST) ) {
         moves -= 100;
         stumble(false);
         return;
     }
 
+    int mondex = !plans.empty() ? g->mon_at( plans[0].x, plans[0].y ) : -1;
+    auto mon_att = mondex != -1 ? attitude_to( g->zombie( mondex ) ) : A_HOSTILE;
+
     if( !plans.empty() &&
-        (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-        (can_move_to(plans[0].x, plans[0].y) ||
-         (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-         ( (has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
-          g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0) ) ) {
+        ( mon_att == A_HOSTILE || has_flag(MF_ATTACKMON) ) &&
+        ( can_move_to( plans[0].x, plans[0].y ) ||
+          ( plans[0].x == g->u.posx && plans[0].y == g->u.posy ) ||
+          ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
+          g->m.bash_rating( bash_estimate(), plans[0].x, plans[0].y) >= 0 ) ) ) {
         // CONCRETE PLANS - Most likely based on sight
         next = plans[0];
         moved = true;
@@ -718,8 +722,6 @@ int monster::attack_at(int x, int y) {
     }
 
     if(mondex != -1) {
-        // Currently, there are only pro-player and anti-player groups,
-        // this makes it easy for us.
         monster& mon = g->zombie(mondex);
 
         // Don't attack yourself.
@@ -742,10 +744,9 @@ int monster::attack_at(int x, int y) {
             return 0;
         }
 
-        bool is_enemy = mon.friendly != friendly;
-        is_enemy = is_enemy || has_flag(MF_ATTACKMON); // I guess the flag means all monsters are enemies?
-
-        if(is_enemy) {
+        auto attitude = attitude_to( mon );
+        // MF_ATTACKMON == hulk behavior, whack everything in your way
+        if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
             hit_monster(mon);
             return 1;
         }

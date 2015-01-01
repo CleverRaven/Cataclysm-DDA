@@ -10,6 +10,8 @@ class map;
 class game;
 class item;
 
+typedef std::map< std::string, std::set< int > > mfactions;
+
 enum monster_attitude {
     MATT_NULL = 0,
     MATT_FRIEND,
@@ -131,7 +133,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
         // the route.  Give up after f steps.
-        void plan(const std::vector<int> &friendlies);
+
+        // Pass all factions to mon, so that hordes of same-faction mons
+        // do not iterate over each other
+        void plan(const mfactions &factions);
         void move(); // Actual movement
         void footsteps(int x, int y); // noise made by movement
         void friendly_move();

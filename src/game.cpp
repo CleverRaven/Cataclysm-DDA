@@ -6502,12 +6502,16 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // monster::plan() needs to know about all monsters with nonzero friendliness.
-    // We'll build this list once (instead of once per monster) for speed.
-    std::vector<int> friendlies;
+    // monster::plan() needs to know about all monsters on the same team as the monster
+    static const std::string playerfaction = "PLAYER";
+    std::map< std::string, std::set< int > > monster_factions;
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        if (zombie(i).friendly) {
-            friendlies.push_back(i);
+        if( zombie(i).friendly ) {
+            monster_factions[playerfaction].insert( i );
+        } else {
+            // Only support 1 species for now
+            auto species = *zombie(i).type->species.begin();
+            monster_factions[species].insert( i );
         }
     }
 
@@ -6550,7 +6554,8 @@ void game::monmove()
             critter->made_footstep = false;
             // Controlled critters don't make their own plans
             if (!critter->has_effect("controlled")) {
-                critter->plan(friendlies); // Formulate a path to follow
+                // Formulate a path to follow
+                critter->plan( monster_factions );
             }
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();

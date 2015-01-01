@@ -491,8 +491,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
-        } else if( friendly == 0 && m->friendly == 0 ) {
-            // For now monsters are neutral (not hostile!) to other monsters.
+        } else if( friendly == 0 && m->friendly == 0 &&
+                   *type->species.begin() == *m->type->species.begin() ) {
+            // Monsters are neutral to own species, hostile to all others
             return A_NEUTRAL;
         } else {
             // Except when one of them is friendly to the player and other is not.

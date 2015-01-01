@@ -364,7 +364,7 @@ void mattack::smash(monster *z, int index)
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
-    if( foe->uncanny_dodge() ) {
+    if( foe != nullptr && foe->uncanny_dodge() ) {
         return;
     }
 
