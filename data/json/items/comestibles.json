@@ -12210,7 +12210,6 @@
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "FIRSTAID",
-        "flags" : "PKILL_1",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
