@@ -28,13 +28,11 @@ struct itype;
 typedef std::string ammotype;
 
 enum software_type {
-    SW_NULL,
     SW_USELESS,
     SW_HACKING,
     SW_MEDICAL,
     SW_SCIENCE,
-    SW_DATA,
-    NUM_SOFTWARE_TYPES
+    SW_DATA
 };
 
 enum bigness_property_aspect {
@@ -432,6 +430,18 @@ struct islot_bionic {
     }
 };
 
+struct islot_software {
+    /**
+     * Type of software, see enum.
+     */
+    software_type swtype;
+
+    islot_software()
+    : swtype( SW_USELESS )
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -450,6 +460,7 @@ struct itype {
     std::unique_ptr<islot_gunmod> gunmod;
     std::unique_ptr<islot_variable_bigness> variable_bigness;
     std::unique_ptr<islot_bionic> bionic;
+    std::unique_ptr<islot_software> software;
     /*@}*/
 
 protected:
@@ -531,10 +542,6 @@ public:
         return false;
     }
     virtual bool is_tool() const
-    {
-        return false;
-    }
-    virtual bool is_software() const
     {
         return false;
     }
@@ -694,28 +701,6 @@ struct it_tool : public virtual itype {
     it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
     {
-    }
-};
-
-struct it_software : public virtual itype {
-    software_type swtype;
-    int power;
-
-    virtual bool is_software() const
-    {
-        return true;
-    }
-
-    it_software(std::string pid, unsigned int pprice, std::string pname,
-                std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
-                std::vector<std::string> pmaterial, unsigned int pvolume,
-                unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
-                software_type pswtype, int ppower)
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
-                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
-    {
-        swtype = pswtype;
-        power = ppower;
     }
 };
 

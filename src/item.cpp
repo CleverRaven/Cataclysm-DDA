@@ -250,7 +250,7 @@ const std::bitset<num_bp> &item::get_covered_body_parts() const
 
 item item::in_its_container()
 {
-    if (is_software()) {
+    if( type->software ) {
         item ret( "usb_drive", 0);
         ret.contents.push_back(*this);
         ret.invlet = invlet;
@@ -2753,10 +2753,7 @@ bool item::is_tool() const
 
 bool item::is_software() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_software();
+    return type->software.get() != nullptr;
 }
 
 bool item::is_artifact() const

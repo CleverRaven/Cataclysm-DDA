@@ -37,6 +37,16 @@ int itype::invoke( player *p, item *it, bool active, point pos )
     return charges_to_use;
 }
 
+itype *newSoftwareIType( const itype_id &id, const std::string &name, const std::string &name_plural,
+               unsigned int price, software_type swtype, int /*power*/, const std::string &description )
+{
+    static const std::vector<std::string> no_materials = { "null" };
+    itype *t = new itype( id, price, name, name_plural, description, ' ', c_white, no_materials,
+                          SOLID, 0, 0, 0, 0, 0 );
+    t->software.reset( new islot_software() );
+    t->software->swtype = swtype;
+    return t;
+}
 
 void Item_factory::init_old()
 {
@@ -83,25 +93,20 @@ void Item_factory::init_old()
                   '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
     itypes["cvd_machine"]->item_tags.insert( "PSEUDO" );
 
-    // SOFTWARE
-#define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
-    add_item_type( new it_software(id, price, name, name_plural, description,' ', c_white,\
-                                   no_materials, 0, 0, 0, 0, 0, swtype, power) )
+    add_item_type( newSoftwareIType( "software_useless", "misc software", "none", 300, SW_USELESS, 0,
+    _( "A miscellaneous piece of hobby software. Probably useless." ) ) );
 
-    SOFTWARE("software_useless", "misc software", "none", 300, SW_USELESS, 0, _("\
-A miscellaneous piece of hobby software. Probably useless."));
+    add_item_type( newSoftwareIType( "software_hacking", "hackPRO", "none", 800, SW_HACKING, 2,
+    _( "A piece of hacking software." ) ) );
 
-    SOFTWARE("software_hacking", "hackPRO", "none", 800, SW_HACKING, 2, _("\
-A piece of hacking software."));
+    add_item_type( newSoftwareIType( "software_medical", "MediSoft", "none", 600, SW_MEDICAL, 2,
+    _( "A piece of medical software." ) ) );
 
-    SOFTWARE("software_medical", "MediSoft", "none", 600, SW_MEDICAL, 2, _("\
-A piece of medical software."));
+    add_item_type( newSoftwareIType( "software_math", "MatheMAX", "none", 500, SW_SCIENCE, 3,
+    _( "A piece of mathematical software." ) ) );
 
-    SOFTWARE("software_math", "MatheMAX", "none", 500, SW_SCIENCE, 3, _("\
-A piece of mathematical software."));
-
-    SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
-Medical data on zombie blood."));
+    add_item_type( newSoftwareIType( "software_blood_data", "infection data", "none", 200, SW_DATA, 5,
+    _( "Medical data on zombie blood." ) ) );
 
     itype *m_missing_item = new itype();
     // intentionally left untranslated
