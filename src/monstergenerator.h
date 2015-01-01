@@ -14,20 +14,23 @@ typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projec
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 
 struct species_type {
+    int short_id;
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): id("null_species")
+    species_type(): short_id(0), id("null_species")
     {
 
     }
-    species_type(std::string _id,
+    species_type(int _short_id,
+                 std::string _id,
                  std::set<m_flag> _flags,
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
                  std::set<monster_trigger> _placate)
     {
+        short_id = _short_id;
         id = _id;
         flags = _flags;
         anger_trig = _anger;
@@ -84,6 +87,7 @@ class MonsterGenerator
         void init_flags();
 
         // data acquisition
+        std::set<int> get_species_ids( const std::set< std::string > &specs ) const;
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
         void load_special_defense(mtype *m, JsonObject &jo, std::string member);

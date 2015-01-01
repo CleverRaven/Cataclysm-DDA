@@ -155,20 +155,20 @@ void monster::plan(const mfactions &factions)
         fleeing = attitude() == MATT_FLEE;
         if( friendly == 0 && can_see() ) {
             for( const auto &faction : factions ) {
-                if( faction.first == *type->species.begin() ) {
+                if( faction.first == monfaction() ) {
                     continue;
                 }
 
                 for( int i : faction.second ) { // mon indices
-                    monster *mon = &( g->zombie( i ) );
-                    int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
-                    int sightrange = vision_range( mon->posx(), mon->posy() );
+                    monster &mon = g->zombie( i );
+                    int mondist = rl_dist(posx(), posy(), mon.posx(), mon.posy());
+                    int sightrange = vision_range( mon.posx(), mon.posy() );
                     if (mondist < dist &&
-                        g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, bresenham_slope)) {
+                        g->m.sees(posx(), posy(), mon.posx(), mon.posy(), sightrange, bresenham_slope)) {
                         dist = mondist;
                         if (fleeing) {
-                            wandx = posx() * 2 - mon->posx();
-                            wandy = posy() * 2 - mon->posy();
+                            wandx = posx() * 2 - mon.posx();
+                            wandy = posy() * 2 - mon.posy();
                             wandf = 40;
                         } else {
                             closest = -3 - i;

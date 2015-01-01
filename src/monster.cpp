@@ -491,12 +491,11 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
-        } else if( friendly == 0 && m->friendly == 0 &&
-                   *type->species.begin() == *m->type->species.begin() ) {
+        } else if( monfaction() == m->monfaction() ) {
             // Monsters are neutral to own species, hostile to all others
+            // Player-friendly monsters are a separate faction
             return A_NEUTRAL;
         } else {
-            // Except when one of them is friendly to the player and other is not.
             return A_HOSTILE;
         }
     } else if( p != nullptr ) {
@@ -594,6 +593,17 @@ monster_attitude monster::attitude(player *u) const
     }
 
     return MATT_ATTACK;
+}
+
+int monster::monfaction() const
+{
+    if( friendly != 0 ) {
+        return -1;
+    } else if( !type->species_id.empty() ) {
+        return *type->species_id.begin();
+    } else {
+        return 0;
+    }
 }
 
 void monster::process_triggers()

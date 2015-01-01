@@ -10,7 +10,7 @@ class map;
 class game;
 class item;
 
-typedef std::map< std::string, std::set< int > > mfactions;
+typedef std::map< int, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -190,6 +190,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
+        int monfaction() const; // -1 if friendly, then first species id or 0 if none
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger

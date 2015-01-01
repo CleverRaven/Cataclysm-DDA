@@ -6503,16 +6503,11 @@ void game::monmove()
     cleanup_dead();
 
     // monster::plan() needs to know about all monsters on the same team as the monster
-    static const std::string playerfaction = "PLAYER";
-    std::map< std::string, std::set< int > > monster_factions;
+    mfactions monster_factions; // A map - looks much cleaner than vector here
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        if( zombie(i).friendly ) {
-            monster_factions[playerfaction].insert( i );
-        } else {
-            // Only support 1 species for now
-            auto species = *zombie(i).type->species.begin();
-            monster_factions[species].insert( i );
-        }
+        monster &critter = zombie( i );
+        int mfac = critter.monfaction();
+        monster_factions[ mfac ].insert( i ); // Only 1 faction per mon at the moment
     }
 
     for (size_t i = 0; i < num_zombies(); i++) {
