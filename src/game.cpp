@@ -1479,6 +1479,9 @@ bool game::do_turn()
     m.process_active_items();
     m.creature_in_field( u );
 
+    // Update vision caches for monsters. If this turns out to be expensive,
+    // consider a stripped down cache just for monsters.
+    m.build_map_cache();
     monmove();
     update_stair_monsters();
     u.reset_bonuses();
