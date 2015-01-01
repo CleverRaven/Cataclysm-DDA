@@ -3526,7 +3526,7 @@
     "bashing": 12,
     "cutting": 0,
     "to_hit": -1,
-    "range": 18,
+    "range": 24,
     "dispersion": 600,
     "sight_dispersion": 150,
     "aim_speed" : 10,
@@ -4732,5 +4732,36 @@
     "durability": 7,
     "clip_size": 5,
     "reload": 200
-  }
+  },
+  {
+"id": "surv_rocket_launcher",
+"type": "GUN",
+"symbol": "/",
+"color": "light_gray",
+"name": "survivor's rocket launcher",
+"name_plural": "survivor's rocket launchers",
+"description": "An improvised, direct ignition launcher for home-made rockets. Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board. Effective only at medium range, barely.",
+"price": 5000,
+"material": "steel",
+"flags": ["MODE_BURST"],
+"skill": "launcher",
+"ammo": "homebrew_rocket",
+"weight": 7430,
+"volume": 20,
+"bashing": 10,
+"cutting": 0,
+"to_hit": -3,
+"ranged_damage": 0,
+"pierce": 0,
+"range": 0,
+"dispersion": 300,
+"sight_dispersion": 150,
+"aim_speed" : 2,
+"recoil": 120,
+"durability": 5,
+"burst": 1,
+"clip_size": 1,
+"reload": 800
+}
+
 ]

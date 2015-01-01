@@ -1494,8 +1494,9 @@ void player::complete_craft()
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
                 int difficulty = has_recipe( making, crafting_inventory() );
-                if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
-                            (get_skill_level( making->skill_used ) * get_int() ) ) ) {
+                if( x_in_y( making->time, (1000 * 8 *
+                            ( difficulty * difficulty * difficulty * difficulty ) ) /
+                            ( get_skill_level( making->skill_used ) * get_int() ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
                             newit.type_name( 1 ).c_str());
@@ -2023,7 +2024,7 @@ void player::complete_disassemble()
         const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
-        if( newit.has_flag( "UNRECOVERABLE" ) ) {
+        if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
             continue;
         }
         // Compress liquids and counted-by-charges items into one item,

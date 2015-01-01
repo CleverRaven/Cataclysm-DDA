@@ -9,7 +9,7 @@
 
 typedef void (mdeath::*MonDeathFunction)(monster *);
 typedef void (mattack::*MonAttackFunction)(monster *, int index);
-typedef void (mdefense::*MonDefenseFunction)(monster *, const projectile *);
+typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 

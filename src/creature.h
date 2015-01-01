@@ -73,7 +73,9 @@ class Creature
         // tests for visibility
         bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
         bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
-        
+
+        // An approximation of creature's strength and hostility. Used by friendly turrets
+        float power_rating() const;
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
@@ -173,10 +175,10 @@ class Creature
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects();
-        
+
         /** Handles effect application effects. */
         virtual void add_eff_effects(effect e, bool reduced);
-        
+
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
@@ -206,7 +208,7 @@ class Creature
 
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
-        
+
         /** Returns true if the player has the entered trait, returns false for non-humans */
         virtual bool has_trait(const std::string &flag) const;
 
@@ -217,7 +219,7 @@ class Creature
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
         virtual void set_moves(int nmoves);
-        
+
         virtual bool in_sleep_state() const;
 
         /*
@@ -440,6 +442,24 @@ class Creature
         Creature &operator=(Creature &&) = default;
 
         body_part select_body_part(Creature *source, int hit_roll);
+
+        /**
+         * This function replaces the "<npcname>" substring with the provided NPC name.
+         *
+         * Its purpose is to avoid repeated code and improve source readability / maintainability.
+         *
+         */
+        inline std::string replace_with_npc_name(std::string str, std::string name) const
+        {
+            size_t offset = str.find("<npcname>");
+            if (offset != std::string::npos) {
+                str.replace(offset, 9, name);
+                if (offset == 0 && !str.empty()) {
+                    capitalize_letter(str, 0);
+                }
+            }
+            return str;
+        }
 
         /**
          * These two functions are responsible for storing and loading the members

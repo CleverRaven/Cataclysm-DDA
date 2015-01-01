@@ -469,14 +469,23 @@ std::string effect::disp_desc(bool reduced) const
     std::vector<desc_freq> values;
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
-    values.push_back(desc_freq(get_percentage("PAIN", reduced), get_avg_mod("PAIN", reduced), _("pain"), _("pain")));
-    values.push_back(desc_freq(get_percentage("HURT", reduced), get_avg_mod("HURT", reduced), _("damage"), _("damage")));
-    values.push_back(desc_freq(get_percentage("THIRST", reduced), get_avg_mod("THIRST", reduced), _("thirst"), _("quench")));
-    values.push_back(desc_freq(get_percentage("HUNGER", reduced), get_avg_mod("HUNGER", reduced), _("hunger"), _("sate")));
-    values.push_back(desc_freq(get_percentage("FATIGUE", reduced), get_avg_mod("FATIGUE", reduced), _("fatigue"), _("rest")));
-    values.push_back(desc_freq(get_percentage("COUGH", reduced), get_avg_mod("COUGH", reduced), _("coughing"), _("coughing")));
-    values.push_back(desc_freq(get_percentage("VOMIT", reduced), get_avg_mod("VOMIT", reduced), _("vomiting"), _("vomiting")));
-    values.push_back(desc_freq(get_percentage("SLEEP", reduced), get_avg_mod("SLEEP", reduced), _("blackouts"), _("blackouts")));
+    int val = 0;
+    val = get_avg_mod("PAIN", reduced);
+    values.push_back(desc_freq(get_percentage("PAIN", val, reduced), val, _("pain"), _("pain")));
+    val = get_avg_mod("HURT", reduced);
+    values.push_back(desc_freq(get_percentage("HURT", val, reduced), val, _("damage"), _("damage")));
+    val = get_avg_mod("THIRST", reduced);
+    values.push_back(desc_freq(get_percentage("THIRST", val, reduced), val, _("thirst"), _("quench")));
+    val = get_avg_mod("HUNGER", reduced);
+    values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
+    val = get_avg_mod("FATIGUE", reduced);
+    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("fatigue"), _("rest")));
+    val = get_avg_mod("COUGH", reduced);
+    values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
+    val = get_avg_mod("VOMIT", reduced);
+    values.push_back(desc_freq(get_percentage("VOMIT", val, reduced), val, _("vomiting"), _("vomiting")));
+    val = get_avg_mod("SLEEP", reduced);
+    values.push_back(desc_freq(get_percentage("SLEEP", val, reduced), val, _("blackouts"), _("blackouts")));
 
     for (auto &i : values) {
         if (i.val > 0) {
@@ -850,7 +859,7 @@ bool effect::get_sizing(std::string arg) const
     return false;
 }
 
-double effect::get_percentage(std::string arg, bool reduced) const
+double effect::get_percentage(std::string arg, int val, bool reduced) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
@@ -864,13 +873,17 @@ double effect::get_percentage(std::string arg, bool reduced) const
     if (found_top_scale != mod_data.end()) {
         top_scale = found_top_scale->second * (intensity - 1);
     }
-    // If both top values <= 0 then it should never trigger
-    if (top_base <= 0 && top_scale <= 0) {
-        return false;
-    }
-    // It will also never trigger if top_base + top_scale <= 0
-    if (top_base + top_scale <= 0) {
-        return false;
+    // Check chances if value is 0 (so we can check valueless effects like vomiting)
+    // Else a nonzero value overrides a 0 chance for default purposes
+    if (val == 0) {
+        // If both top values <= 0 then it should never trigger
+        if (top_base <= 0 && top_scale <= 0) {
+            return 0;
+        }
+        // It will also never trigger if top_base + top_scale <= 0
+        if (top_base + top_scale <= 0) {
+            return 0;
+        }
     }
     
     // We only need to calculate these if we haven't already returned
@@ -920,7 +933,7 @@ double effect::get_percentage(std::string arg, bool reduced) const
     return ret;
 }
 
-bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod) const
+bool effect::activated(unsigned int turn, std::string arg, int val, bool reduced, double mod) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
@@ -934,13 +947,17 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     if (found_top_scale != mod_data.end()) {
         top_scale = found_top_scale->second * (intensity - 1);
     }
-    // If both top values <= 0 then it should never trigger
-    if (top_base <= 0 && top_scale <= 0) {
-        return false;
-    }
-    // It will also never trigger if top_base + top_scale <= 0
-    if (top_base + top_scale <= 0) {
-        return false;
+    // Check chances if value is 0 (so we can check valueless effects like vomiting)
+    // Else a nonzero value overrides a 0 chance for default purposes
+    if (val == 0) {
+        // If both top values <= 0 then it should never trigger
+        if (top_base <= 0 && top_scale <= 0) {
+            return false;
+        }
+        // It will also never trigger if top_base + top_scale <= 0
+        if (top_base + top_scale <= 0) {
+            return false;
+        }
     }
     
     // We only need to calculate these if we haven't already returned

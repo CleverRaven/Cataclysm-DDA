@@ -378,6 +378,16 @@ int monster::vision_range(const int x, const int y) const
     return range;
 }
 
+bool monster::sees(int &bresenham_slope, Creature *target) const
+{
+    player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr ) {
+        return sees_player( bresenham_slope, foe );
+    }
+    const int range = vision_range( target->xpos(), target->ypos() );
+    return g->m.sees( _posx, _posy, target->xpos(), target->ypos(), range, bresenham_slope );
+}
+
 bool monster::sees_player(int & bresenham_slope, player * p) const {
     if ( p == NULL ) {
         p = &g->u;
@@ -447,6 +457,21 @@ point monster::move_target()
     return point(plans.back().x, plans.back().y);
 }
 
+Creature *monster::attack_target()
+{
+    if( plans.empty() ) {
+        return nullptr;
+    }
+
+    point target_point = move_target();
+    Creature *target = g->critter_at( target_point.x, target_point.y );
+
+    if( attitude_to( *target ) != Creature::A_HOSTILE ) {
+        return nullptr;
+    }
+    return target;
+}
+
 bool monster::is_fleeing(player &u) const
 {
  if (has_effect("run"))
@@ -466,9 +491,13 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
+        } else if( friendly == 0 && m->friendly == 0 ) {
+            // For now monsters are neutral (not hostile!) to other monsters.
+            return A_NEUTRAL;
+        } else {
+            // Except when one of them is friendly to the player and other is not.
+            return A_HOSTILE;
         }
-        // For now monsters are neutral (not hostile!) to all other monsters.
-        return A_NEUTRAL;
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
@@ -492,11 +521,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 
 monster_attitude monster::attitude(player *u) const
 {
-    if (friendly != 0 && !(has_effect("docile"))) {
-        return MATT_FRIEND;
-    }
-    if (friendly != 0 ) {
-        return MATT_FPASSIVE;
+    if( friendly != 0 ) {
+        if( has_effect( "docile" ) ) {
+            return MATT_FPASSIVE;
+        }
+        if( u == &g->u ) {
+            return MATT_FRIEND;
+        }
+        // Zombies don't understand not attacking NPCs, but dogs and bots should.
+        npc *np = dynamic_cast< npc* >( u );
+        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( "ZOMBIE" ) ) {
+            return MATT_FRIEND;
+        }
     }
     if (has_effect("run")) {
         return MATT_FLEE;
@@ -838,13 +874,15 @@ void monster::hit_monster(monster &other)
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
+    mdefense mdf;
+    (mdf.*target->type->sp_defense)( target, this, nullptr );
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, NULL);
+        (mdf.*type->sp_defense)( this, source, nullptr );
     }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -866,7 +904,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     }
     mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, &proj);
+        (mdf.*type->sp_defense)( this, source, &proj);
     }
 
     // whip has a chance to scare wildlife
@@ -1025,9 +1063,10 @@ bool monster::move_effects()
 
 void monster::add_eff_effects(effect e, bool reduced)
 {
-    if (e.get_amount("HURT", reduced) > 0) {
-        if(e.activated(calendar::turn, "HURT", reduced)) {
-            apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
+    int val = e.get_amount("HURT", reduced);
+    if (val > 0) {
+        if(e.activated(calendar::turn, "HURT", val, reduced)) {
+            apply_damage(nullptr, bp_torso, val);
         }
     }
     Creature::add_eff_effects(e, reduced);
@@ -1378,9 +1417,10 @@ void monster::process_effects()
 
             mod_speed_bonus(it.get_mod("SPEED", reduced));
 
-            if (it.get_mod("HURT", reduced) > 0) {
-                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
-                    apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
+            int val = it.get_mod("HURT", reduced);
+            if (val > 0) {
+                if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
+                    apply_damage(nullptr, bp_torso, val);
                 }
             }
 
@@ -1533,20 +1573,13 @@ m_size monster::get_size() const {
     return type->size;
 }
 
+
 void monster::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual monster name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, disp_name());
-        if (offset == 0 && !processed_npc_string.empty()) {
-            capitalize_letter(processed_npc_string, 0);
-        }
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(processed_npc_string.c_str());
     va_end(ap);
 }
@@ -1557,15 +1590,7 @@ void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) cons
     va_start(ap, npc_str);
     if (g->u_see(this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual monster name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-            if (offset == 0 && !processed_npc_string.empty()) {
-                capitalize_letter(processed_npc_string, 0);
-            }
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
     }
     va_end(ap);
@@ -1576,15 +1601,7 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual monster name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, disp_name());
-        if (offset == 0 && !processed_npc_string.empty()) {
-            capitalize_letter(processed_npc_string, 0);
-        }
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(type, processed_npc_string.c_str());
     va_end(ap);
 }
@@ -1595,15 +1612,7 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
     va_start(ap, npc_str);
     if (g->u_see(this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual monster name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-            if (offset == 0 && !processed_npc_string.empty()) {
-                capitalize_letter(processed_npc_string, 0);
-            }
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());
     }
     va_end(ap);

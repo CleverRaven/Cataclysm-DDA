@@ -310,7 +310,7 @@ void player::reset_stats()
         mod_dex_bonus(-2);
         add_miss_reason(_("Your thick scales get in the way."), 2);
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         mod_dex_bonus(-1);
         add_miss_reason(_("Your chitin gets in the way."), 1);
     }
@@ -360,10 +360,7 @@ void player::reset_stats()
         if (!(has_trait("CENOBITE"))) {
             mod_str_bonus(-int((pain - pkill) / 15));
             mod_dex_bonus(-int((pain - pkill) / 15));
-            if (pain - pkill > 0) {
-                add_miss_reason(_("Your pain distracts you!"),
-                                int(pain - pkill) / 15);
-            }
+            add_miss_reason(_("Your pain distracts you!"), int(pain - pkill) / 15);
         }
         mod_per_bonus(-int((pain - pkill) / 20));
         if (!(has_trait("INT_SLIME"))) {
@@ -436,6 +433,19 @@ void player::reset_stats()
     }
     if (has_trait("WHISKERS_RAT") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(2);
+    }
+    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
+    if (has_trait("CHITIN_FUR3")) {
+    static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
+        for( auto bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus(+1);
+            }
+        }
+        // Torso handled separately, bigger bonus
+        if (!wearing_something_on(bp_torso)) {
+            mod_dodge_bonus(4);
+        }
     }
     if (has_trait("WINGS_BAT")) {
         mod_dodge_bonus(-3);
@@ -695,6 +705,12 @@ void player::update_mental_focus()
     }
 
     focus_pool += (gain * base_change);
+
+    // Fatigue should at least prevent high focus
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
+    if (fatigue >= 383 && focus_pool > 60) {
+        focus_pool = 60;
+    }
 }
 
 // written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
@@ -887,6 +903,13 @@ void player::update_bodytemp()
         if (has_trait("LIGHTFUR")) {
             floor_mut_warmth += 100;
         }
+        // Spider hair really isn't meant for this sort of thing
+        if (has_trait("CHITIN_FUR")) {
+            floor_mut_warmth += 50;
+        }
+        if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
+            floor_mut_warmth += 75;
+        }
         // Down helps too
         if (has_trait("DOWN")) {
             floor_mut_warmth += 250;
@@ -896,7 +919,7 @@ void player::update_bodytemp()
             floor_mut_warmth += 200;
         }
         // DOWN doesn't provide floor insulation, though.
-        // Non-light fur or being in one's shell does.
+        // Better-than-light fur or being in one's shell does.
         if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
             if (floor_bedding_warmth < 0) {
                 floor_bedding_warmth = 0;
@@ -1170,6 +1193,12 @@ void player::update_bodytemp()
         // Feathers: minor means minor.
         if( has_trait("FEATHERS") ) {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
+        }
+        if( has_trait("CHITIN_FUR") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 100 : 150);
+        }
+        if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 150 : 250);
         }
         // Down; lets heat out more easily if needed but not as Warm
         // as full-blown fur.  So less miserable in Summer.
@@ -5818,7 +5847,7 @@ void player::process_effects() {
             val = it.get_mod("H_MOD", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "H_MOD", reduced, mod)) {
+                if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
                     mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
                                 it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
                 }
@@ -5828,7 +5857,7 @@ void player::process_effects() {
             val = it.get_mod("HEALTH", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "HEALTH", reduced, mod)) {
+                if(it.activated(calendar::turn, "HEALTH", val, reduced, mod)) {
                     mod_healthy(bound_mod_to_vals(get_healthy(), val,
                                 it.get_max_val("HEALTH", reduced), it.get_min_val("HEALTH", reduced)));
                 }
@@ -5838,7 +5867,7 @@ void player::process_effects() {
             val = it.get_mod("STIM", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "STIM", reduced, mod)) {
+                if(it.activated(calendar::turn, "STIM", val, reduced, mod)) {
                     stim += bound_mod_to_vals(stim, val, it.get_max_val("STIM", reduced),
                                                 it.get_min_val("STIM", reduced));
                 }
@@ -5848,7 +5877,7 @@ void player::process_effects() {
             val = it.get_mod("HUNGER", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "HUNGER", reduced, mod)) {
+                if(it.activated(calendar::turn, "HUNGER", val, reduced, mod)) {
                     hunger += bound_mod_to_vals(hunger, val, it.get_max_val("HUNGER", reduced),
                                                 it.get_min_val("HUNGER", reduced));
                 }
@@ -5858,7 +5887,7 @@ void player::process_effects() {
             val = it.get_mod("THIRST", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "THIRST", reduced, mod)) {
+                if(it.activated(calendar::turn, "THIRST", val, reduced, mod)) {
                     thirst += bound_mod_to_vals(thirst, val, it.get_max_val("THIRST", reduced),
                                                 it.get_min_val("THIRST", reduced));
                 }
@@ -5868,7 +5897,7 @@ void player::process_effects() {
             val = it.get_mod("FATIGUE", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "FATIGUE", reduced, mod)) {
+                if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
                     fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
                                                 it.get_min_val("FATIGUE", reduced));
                 }
@@ -5878,7 +5907,7 @@ void player::process_effects() {
             val = it.get_mod("RAD", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "RAD", reduced, mod)) {
+                if(it.activated(calendar::turn, "RAD", val, reduced, mod)) {
                     radiation += bound_mod_to_vals(radiation, val, it.get_max_val("RAD", reduced), 0);
                     // Radiation can't go negative
                     if (radiation < 0) {
@@ -5909,7 +5938,7 @@ void player::process_effects() {
                         mod *= 3;
                     }
                 }
-                if(it.activated(calendar::turn, "PAIN", reduced, mod)) {
+                if(it.activated(calendar::turn, "PAIN", val, reduced, mod)) {
                     int pain_inc = bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0);
                     mod_pain(pain_inc);
                     if (pain_inc > 0) {
@@ -5933,7 +5962,7 @@ void player::process_effects() {
                         mod *= 3;
                     }
                 }
-                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
+                if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
                     if (bp == num_bp) {
                         if (val > 5) {
                             add_msg_if_player(_("Your %s HURTS!"), body_part_name_accusative(bp_torso).c_str());
@@ -5956,7 +5985,7 @@ void player::process_effects() {
             val = it.get_mod("SLEEP", reduced);
             if (val != 0) {
                 mod = 1;
-                if(it.activated(calendar::turn, "SLEEP", reduced, mod)) {
+                if(it.activated(calendar::turn, "SLEEP", val, reduced, mod)) {
                     add_msg_if_player(_("You pass out!"));
                     fall_asleep(val);
                 }
@@ -5965,21 +5994,23 @@ void player::process_effects() {
             // Handle painkillers
             val = it.get_mod("PKILL", reduced);
             if (val != 0) {
-                mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));;
-                if(it.activated(calendar::turn, "PKILL", reduced, mod)) {
+                mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
+                if(it.activated(calendar::turn, "PKILL", val, reduced, mod)) {
                     pkill += bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0);
                 }
             }
 
             // Handle coughing
             mod = 1;
-            if (it.activated(calendar::turn, "COUGH", reduced, mod)) {
+            val = 0;
+            if (it.activated(calendar::turn, "COUGH", val, reduced, mod)) {
                 cough(it.get_harmful_cough());
             }
 
             // Handle vomiting
             mod = vomit_mod();
-            if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
+            val = 0;
+            if (it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
                 vomit();
             }
         }
@@ -8190,7 +8221,9 @@ void player::drench(int saturation, int flags)
     int dur = 60;
     int d_start = 30;
     if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
+          has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
+          has_trait("CHITIN_FUR3")) {
             dur /= 5;
             d_start /= 5;
         }
@@ -8246,7 +8279,8 @@ void player::update_body_wetness()
     */
     int delay = 10;
     if( has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
-        has_trait("LUPINE_FUR") ) {
+        has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
+        has_trait("CHITIN_FUR3")) {
         delay += 2;
     }
     if (has_trait("URSINE_FUR")) {
@@ -9776,7 +9810,7 @@ bool player::eat(item *eaten, it_comest *comest)
       }
     }
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh"))) {
-        add_msg_if_player(m_bad, _("Almost instantly you feel a familiar pain in your stomach."));
+        add_msg_if_player(m_bad, _("Yuck! How can anybody eat this stuff?"));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
     }
     if (has_trait("MEATARIAN") && eaten->made_of("veggy")) {
@@ -12107,7 +12141,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
-    if ( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
+    if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
+      bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
@@ -12274,13 +12309,13 @@ int player::get_armor_cut_base(body_part bp) const
     if (has_trait("SLEEK_SCALES")) {
         ret += 1;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR")) {
         ret += 2;
     }
-    if (has_trait("CHITIN2")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR2")) {
         ret += 4;
     }
-    if (has_trait("CHITIN3")) {
+    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         ret += 8;
     }
     if (has_trait("SHELL") && bp == bp_torso) {
@@ -12560,14 +12595,14 @@ void player::absorb(body_part bp, int &dam, int &cut)
     if (has_trait("FAT")) {
         cut --;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
         cut -= 2;
     }
     if (has_trait("CHITIN2")) {
         dam--;
         cut -= 4;
     }
-    if (has_trait("CHITIN3")) {
+    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
         dam -= 2;
         cut -= 8;
     }
@@ -13113,6 +13148,9 @@ int player::getID () const
 
 bool player::uncanny_dodge(bool is_u)
 {
+    (void)is_u;
+    is_u = this == &g->u;
+    bool seen = g->u.sees( this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 75;
@@ -13120,14 +13158,19 @@ bool player::uncanny_dodge(bool is_u)
     {
         posx = adjacent.x;
         posy = adjacent.y;
-        if (is_u)
-            add_msg(_("Time seems to slow down and you instinctively dodge!"));
-        else
-            add_msg(_("Your target dodges... so fast!"));
+        if( is_u ) {
+            add_msg( _("Time seems to slow down and you instinctively dodge!") );
+        } else if( seen ) {
+            add_msg( _("%s dodges... so fast!"), this->disp_name().c_str() );
+            
+        }
         return true;
     }
-    if (is_u)
-        add_msg(_("You try to dodge but there's no room!"));
+    if( is_u ) {
+        add_msg( _("You try to dodge but there's no room!") );
+    } else if( seen ) {
+        add_msg( _("%s tries to dodge but there's no room!"), this->disp_name().c_str() );
+    }
     return false;
 }
 

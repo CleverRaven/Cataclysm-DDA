@@ -594,6 +594,32 @@
         "pre_terrain" : "t_window_reinforced_noglass",
         "post_terrain" : "t_window_enhanced_noglass"
     },{
+        "type" : "construction",
+        "description" : "Build Metal Bars",
+        "category" : "CONSTRUCT",
+        "difficulty" : 7,
+        "time" : 30,
+        "tools": [
+        [
+          [ "goggles_welding", -1 ]
+        ],
+        [
+          [ "oxy_torch", 4 ],
+          [ "welder", 20 ],
+          [ "welder_crude", 30 ],
+          [ "toolset", 30 ]
+        ]
+        ],
+        "qualities": [ [
+            { "id": "SAW_M", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "pipe", 6 ] ],
+            [ [ "sheet_metal", 2 ] ]
+        ],
+        "pre_terrain" : "t_floor",
+        "post_terrain" : "t_bars"
+    },{
 
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall where a window used to be",

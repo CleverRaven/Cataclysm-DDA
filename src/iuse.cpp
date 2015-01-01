@@ -8514,28 +8514,42 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
                       _("Set friendly robots to combat mode"), _("Cancel"), NULL);
     switch( choice ) {
     case 1: { // attempt to make a robot friendly
-        uimenu pick_robot;
-        pick_robot.text = _("Choose an endpoint to hack.");
-        // Build a list of all unfriendly robots in range.
-        for( size_t i = 0; i < g->num_zombies(); ++i ) {
-            monster &candidate = g->zombie( i );
-            if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
-                rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
-                pick_robot.addentry( i, true, -1, candidate.name() );
+            uimenu pick_robot;
+            pick_robot.text = _("Choose an endpoint to hack.");
+            // Build a list of all unfriendly robots in range.
+            std::vector< monster* > mons;
+            std::vector< point > locations;
+            int entry_num = 0;
+            for( size_t i = 0; i < g->num_zombies(); ++i ) {
+                monster &candidate = g->zombie( i );
+                if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
+                    rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() ) <= 10 ) {
+                    mons.push_back( &candidate );
+                    pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+                    point seen_loc;
+                    // Show locations of seen robots, center on player if robot is not seen
+                    if( p->sees( &candidate ) ) {
+                        seen_loc = point( candidate.xpos(), candidate.ypos() );
+                    } else {
+                        seen_loc = point( p->xpos(), p->ypos() );
+                    }
+                    locations.push_back( seen_loc );
+                }
             }
-        }
-        if( pick_robot.entries.empty() ) {
-            p->add_msg_if_player( m_info, _("No enemy robots in range.") );
-            return it->type->charges_to_use();
-        }
-        pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
-        pick_robot.query();
-        const size_t mondex = pick_robot.ret;
-        if( mondex >= g->num_zombies() ) {
-            p->add_msg_if_player(m_info, _("Never mind"));
-            return it->type->charges_to_use();
-        }
-            monster *z = &(g->zombie(mondex));
+            if( mons.empty() ) {
+                p->add_msg_if_player( m_info, _("No enemy robots in range.") );
+                return it->type->charges_to_use();
+            }
+            pointmenu_cb callback( locations );
+            pick_robot.callback = &callback;
+            pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+            pick_robot.query();
+            const size_t mondex = pick_robot.ret;
+            if( mondex >= mons.size() ) {
+                p->add_msg_if_player(m_info, _("Never mind"));
+                return it->type->charges_to_use();
+            }
+            monster *z = mons[mondex];
             p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel("computer") * 10;
             float success = p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
@@ -9791,21 +9805,72 @@ static bool hackveh(player *p, item *it, vehicle *veh)
     return success;
 }
 
-int iuse::remoteveh(player *p, item *it, bool t, point)
+vehicle *pickveh( point center, bool advanced )
 {
-    if (t) {
-        if (it->charges == 0) {
+    static const std::string ctrl = "CONTROLS";
+    static const std::string advctrl = "REMOTE_CONTROLS";
+    uimenu pmenu;
+    pmenu.title = _("Select vehicle to access");
+    std::vector< vehicle* > vehs;
+
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( rl_dist( center.x, center.y, v->global_x(), v->global_y() ) < 40 &&
+            v->fuel_left( "battery", true ) > 0 &&
+            ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
+            ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
+            vehs.push_back( v );
+        }
+    }
+    std::vector< point > locations;
+    for( int i = 0; i < (int)vehs.size(); i++ ) {
+        auto veh = vehs[i];
+        locations.push_back( point( veh->global_x(), veh->global_y() ) );
+        pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
+    }
+
+    if( vehs.size() == 0 ) {
+        add_msg( m_bad, _("No vehicle available.") );
+        return nullptr;
+    }
+
+    pmenu.addentry( vehs.size(), true, 'q', _("Cancel") );
+    pointmenu_cb callback( locations );
+    pmenu.callback = &callback;
+    pmenu.w_y = 0;
+    pmenu.query();
+    
+    if( pmenu.ret < 0 || pmenu.ret >= (int)vehs.size() ) {
+        return nullptr;
+    } else {
+        return vehs[pmenu.ret];
+    }
+}
+
+int iuse::remoteveh(player *p, item *it, bool t, point pos)
+{
+    vehicle *remote = g->remoteveh();
+    if( t ) {
+        bool stop = false;
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( m_bad, _("The remote controller's battery goes dead.") );
+            stop = true;
+        } else if( remote == nullptr ) {
+            p->add_msg_if_player( _("Lost contact with the vehicle.") );
+            stop = true;
+        } else if( remote->fuel_left( "battery", true ) == 0 ) {
+            p->add_msg_if_player( m_bad, _("The vehicle's battery died.") );
+            stop = true;
+        }
+        if( stop ) {
             it->active = false;
-            p->remove_value( "remote_controlling_vehicle" );
-        } else if( g->remoteveh() == nullptr ) {
-            p->add_msg_if_player( _("You stop remotely controlling the vehicle.") );
-            it->active = false;
+            g->setremoteveh( nullptr );
         }
 
         return it->type->charges_to_use();
     }
 
-    bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
+    bool controlling = it->active && remote != nullptr;
     int choice = menu(true, _("What to do with remote vehicle control:"), _("Nothing"),
                       controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
                       _("Execute one vehicle action"), NULL);
@@ -9816,44 +9881,30 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
 
     if( choice == 2 && controlling ) {
         it->active = false;
-        p->remove_value( "remote_controlling_vehicle" );
-        p->add_msg_if_player(m_good, _("You stop remotely controlling the vehicle."));
+        g->setremoteveh( nullptr );
         return 0;
     }
 
     int px = g->u.view_offset_x;
     int py = g->u.view_offset_y;
 
-    point target = g->look_around();
-    vehicle* veh = g->m.veh_at( target.x, target.y );
+    vehicle* veh = pickveh( pos, choice == 2 );
 
     if( veh == nullptr ) {
-        popup( _("No vehicles here!") );
         return 0;
-    }
-
-    if( veh->fuel_left( "battery", true ) == 0 ) {
-        popup( _("This vehicle has no power!") );
     }
 
     if( !hackveh( p, it, veh ) ) {
         return 0;
     }
 
-    if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
-        popup( _("This vehicle has no working controls.") );
-        return 0;
-    } else if( choice == 2 ) {
-        if( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() == 0 ) {
-            popup( _("This vehicle has only mechanical controls and can't be driven remotely.") );
-            return 0;
-        }
-        std::stringstream car_location_string;
-        // Copypaste from RC car.
-        car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
+    if( choice == 2 ) {
+        g->setremoteveh( veh );
         p->add_msg_if_player(m_good, _("You take control of the vehicle."));
-        p->set_value( "remote_controlling_vehicle", car_location_string.str() );
         it->active = true;
+        if( !veh->engine_on ) {
+            veh->start_engine();
+        }
     } else if( choice == 3 ) {
         veh->use_controls();
     } else {

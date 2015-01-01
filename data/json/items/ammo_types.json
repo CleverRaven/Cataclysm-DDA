@@ -406,5 +406,12 @@
         "id" : "fish_bait",
         "name" : "fish bait",
         "default" : "fish_bait_meat"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "homebrew_rocket",
+        "name" : "homebrew rocket",
+        "default" : "spiked_rocket"
     }
+
 ]

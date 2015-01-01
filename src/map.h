@@ -57,7 +57,7 @@ public:
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
-    void push_back_fast( const item &newitem );
+    void insert_at( std::list<item>::iterator index, const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -522,7 +522,8 @@ void add_corpse(int x, int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item(const int x, const int y, item new_item, int maxitems = 64);
+ void add_item_at(const int x, const int y, std::list<item>::iterator index, item new_item);
+ void add_item(const int x, const int y, item new_item);
  void process_active_items();
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
@@ -535,6 +536,16 @@ void add_corpse(int x, int y);
  std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
  void trigger_rc_items( std::string signal );
+
+ /**
+  * Fetch an item from this map location, with sanity checks to ensure it still exists.
+  */
+ item *item_from( const point& pos, const size_t index );
+
+ /**
+  * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
+  */
+ item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps
  std::string trap_get(const int x, const int y) const;
@@ -728,7 +739,7 @@ protected:
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
         template <typename Container>
-        void remove_rotten_items( Container &items, const point &pnt ) const;
+        void remove_rotten_items( Container &items, const point &pnt );
         /**
          * Try to fill funnel based items here.
          * @param pnt The location in this map where to fill funnels.

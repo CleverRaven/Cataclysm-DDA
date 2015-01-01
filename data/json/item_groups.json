@@ -981,6 +981,7 @@
       ["rm120c", 1],
       ["shotgun_sawn", 1],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["bayonet", 5],
       ["pistol_bayonet", 2],
       ["sword_bayonet", 1],
@@ -1759,7 +1760,8 @@
       ["boots_rubber", 20],
       ["charcoal", 5],
       ["fungicide", 2],
-      ["soap", 20]
+      ["soap", 20],
+      ["chem_hydrogen_peroxide", 20]
     ]
   },{
     "type" : "item_group",
@@ -1829,7 +1831,9 @@
       ["survnote", 1],
       ["fertilizer_commercial",30],
       ["peephole", 25],
-      ["magnifying_glass", 5]
+      ["magnifying_glass", 5],
+      ["chem_chromium_oxide", 5],
+      ["chem_thermite", 10]
     ]
   },{
     "type" : "item_group",
@@ -1990,7 +1994,8 @@
       ["wristwatch", 15],
       ["radio_car_box", 3],
       ["radiocontrol", 15],
-      ["magnifying_glass", 4]
+      ["magnifying_glass", 4],
+      ["omnicamera", 2]
     ]
   },{
     "type" : "item_group",
@@ -2795,6 +2800,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
@@ -2941,6 +2947,7 @@
       ["pistol_bayonet", 10],
       ["sword_bayonet", 5],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["grip", 24],
       ["pistol_grip", 24],
       ["adjustable_stock", 24],
@@ -3574,6 +3581,30 @@
       ["survnote", 2]
     ]
   },{
+      "type" : "item_group",
+    "id" : "mansion_books",
+    "//" : "Those rich mansion people have all sorts of weird books.",
+    "items":[
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5],
+      ["textbook_gaswarfare", 5],
+      ["photo_album", 10],
+      ["fun_survival", 10],
+      ["brewing_cookbook", 8],
+      ["textbook_robots", 5],
+      ["manual_dodge", 5],
+      ["novel_experimental", 8],
+      ["novel_swash", 10],
+      ["manual_fencing", 3],
+      ["manual_niten", 3],
+      ["novel_samurai", 10],
+      ["plays_book", 10],
+      ["poetry_book", 10],
+      ["carpentry_book", 8]
+    ]
+  },{
     "type" : "item_group",
     "id" : "cop_shoes",
     "items":[
@@ -4110,7 +4141,8 @@
       ["diazepam", 10],
       ["stethoscope", 35],
       ["jar_3l_glass", 15],
-      ["magnifying_glass", 5]
+      ["magnifying_glass", 5],
+      ["chem_hydrogen_peroxide", 5]
     ]
   },{
     "type" : "item_group",
@@ -4296,7 +4328,8 @@
       ["gold_watch", 2],
       ["sf_watch", 1],
       ["survnote", 1],
-      ["magnifying_glass", 8]
+      ["magnifying_glass", 8],
+      ["camera_control", 2]
     ]
   },{
     "type" : "item_group",
@@ -4982,6 +5015,7 @@
       ["helmet_plate", 1],
       ["huge_crossbow", 2],
       ["katana", 2],
+      ["bokken", 7],
       ["broadsword", 30],
       ["zweihander", 20],
       ["rapier", 3],
@@ -5319,7 +5353,13 @@
       ["chemistry_set", 8],
       ["sm_extinguisher", 20],
       ["eyedrops", 15],
-      ["charcoal", 10]
+      ["charcoal", 10],
+      ["chem_hydrogen_peroxide", 10],
+      ["chem_sulphur", 10],
+      ["chem_aluminium_powder", 5],
+      ["chem_zinc_powder", 10],
+      ["chem_saltpetre", 10],
+      ["chem_carbide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5355,7 +5395,9 @@
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
       ["eyedrops", 25],
-      ["charcoal", 15]
+      ["charcoal", 15],
+      ["chem_hydrogen_peroxide", 15],
+      ["chem_carbide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5399,7 +5441,13 @@
       ["briefcase", 5],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["chem_sulphur", 10],
+      ["chem_aluminium_powder", 10],
+      ["chem_hexamine", 10],
+      ["chem_saltpetre", 15],
+      ["chem_nitric_acid", 15],
+      ["chem_chromium_oxide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5442,7 +5490,8 @@
       ["chemistry_set", 5],
       ["meat_tainted", 8],
       ["veggy_tainted", 4],
-      ["slime_scrap", 8]
+      ["slime_scrap", 8],
+      ["chem_nitric_acid", 5]
     ]
   },{
     "type" : "item_group",
@@ -5514,7 +5563,9 @@
       ["scissors", 50],
       ["boots_rubber", 20],
       ["subsuit_xl", 4],
-      ["rag_bloody", 1]
+      ["rag_bloody", 1],
+      ["chem_nitric_acid", 10],
+      ["chem_hydrogen_peroxide_conc", 10]
     ]
   },{
     "type" : "item_group",
@@ -5539,6 +5590,10 @@
       ["seed_strawberries", 1],
       ["seed_barley", 1],
       ["seed_sugar_beet", 1],
+      ["seed_lettuce", 1],
+      ["seed_onion", 1],
+      ["seed_carrot", 1],
+      ["seed_corn", 1],
       ["seed_hops", 1],
       ["tomato", 9],
       ["broccoli", 9],
@@ -5596,7 +5651,9 @@
       ["software_useless", 10],
       ["vac_sealer", 10],
       ["radio_car_box", 3],
-      ["radiocontrol", 25]
+      ["radiocontrol", 25],
+      ["omnicamera", 7],
+      ["chem_nitric_acid", 1]
     ]
   },{
     "type" : "item_group",
@@ -6100,7 +6157,8 @@
       ["dynamite", 5],
       ["mininuke", 1],
       ["granade", 1],
-      ["c4", 5]
+      ["c4", 5],
+      ["tool_black_powder_bomb", 1]
     ]
   },{
     "type" : "item_group",
@@ -6633,7 +6691,8 @@
       ["grapnel", 1],
       ["toolbox", 5],
       ["apron_leather", 10],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["chem_aluminium_sulphate", 20]
     ]
   },{
     "type" : "item_group",
@@ -6665,7 +6724,10 @@
       ["rock", 40],
       ["toolbox", 5],
       ["coal", 20],
-      ["material_shrd_limestone", 40]
+      ["material_shrd_limestone", 40],
+      ["chem_rdx", 5],
+      ["chem_hmtd", 10],
+      ["tool_anfo_charge", 2]
     ]
   },{
     "type" : "item_group",
@@ -6714,7 +6776,8 @@
       ["miner_hat", 40],
       ["grapnel", 1],
       ["toolbox", 1],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["tool_anfo_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -7081,7 +7144,8 @@
       ["bio_metabolics", 10],
       ["survivormap", 1],
       ["miner_hat", 10],
-      ["bio_blaster", 10]
+      ["bio_blaster", 10],
+      ["tool_black_powder_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -7443,6 +7507,7 @@
       ["mgl", 6],
       ["rm802", 6],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["clip", 8],
       ["brass_catcher", 15],
       ["lighter", 60],
@@ -7633,7 +7698,10 @@
       ["diazepam", 1],
       ["magnifying_glass", 1],
       ["material_quicklime", 10],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["chem_nitric_acid", 1],
+      ["chem_sulphuric_acid", 1],
+      ["chem_hexamine", 2]
     ]
   },{
     "type" : "item_group",
@@ -7697,7 +7765,9 @@
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["remotevehcontrol", 3],
+      ["tool_rdx_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -7889,6 +7959,7 @@
       ["mac_10", 7],
       ["rm228", 1],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["clip2", 4],
       ["autofire", 2],
       ["mag_porn", 20],
@@ -7960,7 +8031,9 @@
       ["lsd", 10],
       ["chemistry_set", 50],
       ["battery", 70],
-      ["flashlight", 40]
+      ["flashlight", 40],
+      ["chem_acetone", 40],
+      ["chem_hexamine", 15]
       ]
   },{
     "type" : "item_group",
@@ -8912,6 +8985,10 @@
       ["seed_wheat", 60],
       ["seed_barley", 60],
       ["seed_sugar_beet", 60],
+      ["seed_lettuce", 60],
+      ["seed_onion", 60],
+      ["seed_carrot", 60],
+      ["seed_corn", 60],
       ["seed_cotton_boll", 10],
       ["seed_tomato", 60]
     ]
@@ -9030,7 +9107,8 @@
       ["tonfa", 20],
       ["tazer", 20],
       ["flashlight", 40],
-      ["two_way_radio", 10]
+      ["two_way_radio", 10],
+      ["camera_control", 5]
     ]
   },{
 "type" : "item_group",

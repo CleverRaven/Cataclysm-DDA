@@ -365,11 +365,15 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        item *target = NULL;
+        item *target = nullptr;
         if( from_vehicle ) {
-            target = &veh->get_items(cargo_part)[index];
+            target = g->m.item_from( veh, cargo_part, index );
         } else {
-            target = &g->m.i_at( pickup_target.x, pickup_target.y )[index];
+            target = g->m.item_from( pickup_target, index );
+        }
+
+        if( target == nullptr ) {
+            continue; // No such item.
         }
 
         pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,

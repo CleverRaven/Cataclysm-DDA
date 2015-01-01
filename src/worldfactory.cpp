@@ -767,12 +767,12 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
     // Use active_mod_order of the world,
-    // saves us from writting 'world->active_mod_order' all the time.
+    // saves us from writing 'world->active_mod_order' all the time.
     std::vector<std::string> &active_mod_order = world->active_mod_order;
     {
         std::vector<std::string> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
-        // that changes (like changing depencies) get updated
+        // that changes (like changing dependencies) get updated
         tmp_mod_order.swap(active_mod_order);
         for( auto &elem : tmp_mod_order ) {
             mman_ui->try_add( elem, active_mod_order );
@@ -1044,6 +1044,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
+    const char* line_of_32_underscores = "________________________________";
+
     WINDOW *w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                     iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
     WINDOW_PTR w_confirmationptr( w_confirmation );
@@ -1064,7 +1066,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     std::string worldname = world->world_name;
     do {
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
-        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
                        _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
@@ -1077,7 +1079,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             }
         }
         if (noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
             noname = false;
         }
 
@@ -1088,7 +1090,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
             if (worldname.empty()) {
-                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("_______NO NAME ENTERED!!!!______"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
@@ -1110,11 +1112,11 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             world->world_name = worldname;
             return -1;
         } else if (action == "PICK_RANDOM_WORLDNAME") {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
             world->world_name = worldname = pick_random_name();
         } else if (action == "QUIT") {
-            world->world_name =
-                worldname; // cache the current worldname just in case they say No to the exit query
+            // Cache the current name just in case they say No to the exit query.
+            world->world_name = worldname;
             return -999;
         } else if (action == "ANY_INPUT") {
             const input_event ev = ctxt.get_raw_input();
@@ -1135,14 +1137,12 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                         worldname.append(tmp);
                     }
                 } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                    // no emty string, no slash, no backslash, no control sequence
+                    // No empty string, no slash, no backslash, no control sequence
                     wrap.append( newtext );
                     worldname = wrap.str();
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                          "______________________________ ");
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                          "%s", worldname.c_str());
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
                 wprintz(w_confirmation, h_ltgray, "_");
             }
             break;
@@ -1240,11 +1240,11 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     std::string msg;
 
     if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
-        msg = string_format(_("%s is not a valid world name, it is a reserved name"), name.c_str());
+        msg = string_format(_("%s is a reserved name!"), name.c_str());
     } else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
         return true;
     } else {
-        msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
+        msg = string_format(_("A world named %s already exists!"), name.c_str());
     }
     if (!automated) {
         popup(msg, PF_GET_KEY);

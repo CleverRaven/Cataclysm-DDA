@@ -81,7 +81,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     bool empty() const;
     std::list<item>::iterator erase( std::list<item>::iterator it );
     void push_back( const item &newitem );
-    void push_back_fast( const item &newitem );
+    void insert_at( std::list<item>::iterator index, const item &newitem );
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -621,7 +621,10 @@ public:
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
-    bool add_item (int part, item itm);
+    bool add_item( int part, item itm );
+    // Position specific item insertion that skips a bunch of safety checks
+    // since it should only ever be used by item processing code.
+    bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
     // remove item from part's cargo
     void remove_item (int part, int itemdex);

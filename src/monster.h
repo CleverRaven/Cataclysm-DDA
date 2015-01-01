@@ -84,6 +84,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int vision_range(const int x, const int y)
         const; // Returns monster vision range, x and y are the target spot
         bool sees_player(int &bresenham_slope, player *p = NULL) const;   // Sees player/npc
+        bool sees(int &bresenham_slope, Creature *target) const; // As above, but for any target
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
@@ -98,6 +99,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void debug(player &u);      // Gives debug info
 
         point move_target(); // Returns point at the end of the monster's current plans
+        Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
         void shift(int sx, int sy); // Shifts the monster to the appropriate submap

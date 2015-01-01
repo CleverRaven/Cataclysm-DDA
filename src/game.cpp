@@ -577,6 +577,9 @@ void game::setup()
     }
 
     load_auto_pickup(false); // Load global auto pickup rules
+
+    remoteveh_cache_turn = INT_MIN;
+    remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
 
@@ -3186,18 +3189,25 @@ void game::rcdrive(int dx, int dy)
 
 vehicle *game::remoteveh()
 {
+    if( calendar::turn == remoteveh_cache_turn ) {
+        return remoteveh_cache;
+    }
+    remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str() == "" ) {
-        return nullptr;
+        remoteveh_cache = nullptr;
+    } else {
+        int vx, vy;
+        remote_veh_string >> vx >> vy;
+        remoteveh_cache = m.veh_at( vx, vy );
     }
-
-    int vx, vy;
-    remote_veh_string >> vx >> vy;
-    return m.veh_at( vx, vy );
+    return remoteveh_cache;
 }
 
 void game::setremoteveh(vehicle *veh)
 {
+    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache = veh;
     if( veh == nullptr ) {
         u.remove_value( "remote_controlling_vehicle" );
         return;
@@ -8016,6 +8026,7 @@ void game::use_item(int pos)
     }
     refresh_all();
     u.use(pos);
+    u.invalidate_crafting_inventory();
 }
 
 void game::use_wielded_item()
@@ -9612,51 +9623,20 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     }
                 }
 
-                point pos = u.pos();
-                int range = std::max(u.sight_range(g->light_level()), LIGHT_RANGE(u.active_light()));
+                lx += dx;
+                ly += dy;
 
-                // Distance to new coordinates
-                int dist_t = rl_dist(pos.x, pos.y, lx + dx, ly + dy);
+                //Keep cursor inside the reality bubble
+                if (lx < 0) {
+                    lx = 0;
+                } else if (lx > MAPSIZE * SEEX) {
+                    lx = MAPSIZE * SEEX;
+                }
 
-                // Stay within sight range or visible areas
-                if (dist_t <= range || u.sees(lx + dx, ly + dy)) {
-                    // New coordinates within sight, update coordinates
-                    lx += dx;
-                    ly += dy;
-                } else {
-                    // New coordinates out of sight
-
-                    // Distance to previous coordinates
-                    int dist_f = rl_dist(pos.x, pos.y, lx, ly);
-
-                    if (dist_f <= range || u.sees(lx, ly)) {
-                        // Previous coordinates within sight, update coordinates
-                        lx += dx;
-                        ly += dy;
-
-                        // Find first coordinate on the line from new coordinates to
-                        // old coordinates within sight
-                        while (dist_t > range && !u.sees(lx, ly)) {
-                            if (dx != 0) {
-                                lx -= sgn(dx);
-                            }
-                            if (dy != 0) {
-                                ly -= sgn(dy);
-                            }
-                            dist_t = rl_dist(pos.x, pos.y, lx, ly);
-                        }
-                    } else {
-                        // Previous coordinates out of sight,
-                        // project coordinates to player position on the edge of sight
-                        double f = double(range)/dist_f;
-                        int tdx = lx - pos.x;
-                        int tdy = ly - pos.y;
-                        tdx = std::round(f*tdx);
-                        tdy = std::round(f*tdy);
-                        lx = pos.x + tdx;
-                        ly = pos.y + tdy;
-                    }
-
+                if (ly < 0) {
+                    ly = 0;
+                } else if (ly > MAPSIZE * SEEY) {
+                    ly = MAPSIZE * SEEY;
                 }
 
                 draw_ter(lx, ly);
@@ -12442,7 +12422,7 @@ void game::pldrive(int x, int y)
             return;
         }
     } else {
-        if ( veh->all_parts_with_feature("CONTROLS", true).size() == 0 ) {
+        if ( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() == 0 ) {
             add_msg(m_info, _("Can't drive this vehicle remotely. It has no working controls."));
             return;
         }

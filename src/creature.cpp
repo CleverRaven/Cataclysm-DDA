@@ -197,13 +197,38 @@ bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) cons
     }
 }
 
+float Creature::power_rating() const
+{
+    float ret;
+    const monster *mon = dynamic_cast< const monster* >( this );
+    if( mon != nullptr ) {
+        auto att = mon->attitude( &g->u );
+        if( att == MATT_FRIEND ) {
+            return -1000; // Friend, don't shoot
+        }
+        ret = mon->get_size() - 1; // Zed gets 1, cat -1, hulk 3
+        ret += mon->has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+        // Hostile stuff gets a big boost
+        // Neutral moose will still get burned if it comes close
+        ret += att == MATT_ATTACK ? 2 : 0;
+        return ret;
+    } else {
+        const npc *foe = dynamic_cast< const npc* >( this );
+        if( foe == nullptr || foe->attitude != NPCATT_KILL ) {
+            debugmsg( "Friendly turret picked a bad target: %s", disp_name().c_str() );
+            return -1000;
+        }
+        return foe->weapon.is_gun() ? 4 : 2;
+    }
+}
+
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     int t;
     Creature *target = nullptr;
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
-    int closest = range + 1;
+    float best_target_rating = -1.0f; // bigger is better
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool iff_trig = false;   // player seen and within range of stray shots
@@ -240,12 +265,19 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos());
-        if( dist >= closest || dist < area ) {
-            // Have a better target anyway, ignore this one.
-            // Or possibly we'd be wrecking self with explosions.
+        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos()) + 1; // rl_dist can be 0
+        if( dist > range || dist < area ) {
+            // Too near or too far
             continue;
         }
+        // Prioritize big, armed and hostile stuff
+        float mon_rating = m->power_rating();
+        float target_rating = mon_rating / dist;
+        if( mon_rating <= 0 ) {
+            // Friendly, tiny and docile
+            continue;
+        }
+
         if( in_veh != nullptr && g->m.veh_at( m->xpos(), m->ypos(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
@@ -256,13 +288,19 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
-                boo_hoo++;
+                // Don't inform of very weak targets we wouldn't shoot anyway
+                if( mon_rating > 1 ) {
+                    boo_hoo++;
+                }
                 continue;
             }
         }
+        if( target_rating <= best_target_rating ) {
+            continue; // Handle this late so that boo_hoo++ can happen
+        }
 
         target = m;
-        closest = dist;
+        best_target_rating = target_rating;
     }
     return target;
 }

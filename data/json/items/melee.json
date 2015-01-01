@@ -100,6 +100,22 @@
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
+    { 
+        "type":"GENERIC",
+        "id": "bone_glue",
+        "symbol": ",",
+        "color": "brown",
+        "name": "bone glue",
+        "description": "Glue made from boiling animal bones. The adhesive isn't strong enough for heavy duty usages, but it can be used as a varnish or holding together small items.",
+        "price": 1800,
+        "material": "bone",
+        "weight": 45,
+        "volume": 1,
+        "bashing": -2,
+        "cutting": 0,
+        "to_hit": -2,
+        "flags" : ["UNRECOVERABLE"]
+    },
     {
         "type":"GENERIC",
         "id": "id_science",
@@ -649,6 +665,30 @@
         "flags" : ["SPEAR"],
         "cutting": 6,
         "to_hit": 0
+    },
+    {
+        "id": "bokken",
+        "type": "GENERIC",
+        "symbol": "/",
+        "color": "brown",
+        "name": "bokken",
+        "description": "This is a solid wood 'training' katana, exactingly crafted to mimic the weight and balance of the real thing.  Despite its lack of a sharp metal edge, it's still quite capable of inflicting deadly wounds.",
+        "price": 55000,
+        "material": "wood",
+        "techniques": ["RAPID", "WBLOCK_2"],
+        "flags" : ["DURABLE_MELEE"],
+        "weight": 1133,
+        "volume": 8,
+        "bashing": 35,
+        "cutting": 1,
+        "to_hit": 1,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
+        "category" : "weapons"
     },
     {
         "type":"GENERIC",
@@ -4474,5 +4514,22 @@
 	"bashing": 4,
 	"cutting": 0,
 	"to_hit": 0
+    },
+    {
+	"type":"GENERIC",
+	"id": "material_aluminium_ingot",
+	"symbol": ",",
+	"color": "light_gray",
+	"name": "aluminium ingot",
+	"category": "spare_parts",
+	"description": "A small aluminium ingot, standardised for further processing. Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications.",
+	"price": 2000,
+	"material": "steel",
+	"weight": 2000,
+	"volume": 4,
+	"bashing": 1,
+	"cutting": 0,
+	"to_hit": -2
     }
+
 ]

@@ -140,16 +140,22 @@ void mattack::rattle(monster *z, int index)
 
 void mattack::acid(monster *z, int index)
 {
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
     int t;
     int junk = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t) ||
-        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 10, 1, 100, junk)) {
-        return; // Can't see/reach you, no attack
+    if( !z->sees( t, target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 10, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
     }
     z->moves -= 300;   // It takes a while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
-    int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
+    int hitx = target->xpos() + rng(-2, 2);
+    int hity = target->ypos() + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
     for (auto &i : line) {
         if (g->m.hit_with_acid(i.x, i.y)) {
@@ -173,17 +179,27 @@ void mattack::acid(monster *z, int index)
 
 void mattack::shockstorm(monster *z, int index)
 {
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
+    bool seen = g->u_see( z );
     int t;
     int junk = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t) ||
-        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
-        return; // Can't see/reach you, no attack
+    if( !z->sees( t, target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 12, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
     }
     z->moves -= 50;   // It takes a while
     z->reset_special(index); // Reset timer
-    add_msg(m_bad, _("A bolt of electricity arcs towards you!"));
-    int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
-    int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
+
+    if( seen ) {
+        auto msg_type = target == &g->u ? m_bad : m_info;
+        add_msg( msg_type, _("A bolt of electricity arcs towards %s!"), target->disp_name().c_str() );
+    }
+    int tarx = target->xpos() + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
+    int tary = target->ypos() + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
     if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t)) {
         t = 0;
     }
@@ -336,29 +352,42 @@ void mattack::resurrect(monster *z, int index)
 
 void mattack::smash(monster *z, int index)
 {
-    if (within_visual_range(z, 1) < 0) {
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
         return;
     }
 
-    z->reset_special(index); // Reset timer
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u_see( z );
+
+    z->reset_special( index ); // Reset timer
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
-    if (g->u.uncanny_dodge()) {
+    if( foe->uncanny_dodge() ) {
         return;
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("the %s takes a powerful swing at you, but you dodge it!"), z->name().c_str());
-        g->u.practice( "dodge", z->type->melee_skill * 2 );
-        g->u.ma_ondodge_effects();
+        if( target == &g->u ) {
+            add_msg( _("The %s takes a powerful swing at you, but you dodge it!"), z->name().c_str() );
+        } else if( seen ) {
+            add_msg( _("The %s takes a powerful swing at %s, but %s dodges it!"), 
+                     z->name().c_str(), target->disp_name().c_str(), target->disp_name().c_str() );
+        }
+        if( foe != nullptr ) {
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        }
         return;
     }
 
-    add_msg( _("A blow from the %s sends you flying!"), z->name().c_str() );
-    g->fling_creature( &(g->u), g->m.coord_to_angle( z->posx(), z->posy(), g->u.xpos(), g->u.ypos() ),
+    if( seen ) {
+        add_msg( _("A blow from the %s sends %s flying!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->xpos(), target->ypos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
 }
 
@@ -424,7 +453,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         add_msg(m_warning, _("The %s opens its coat, and a manhack flies out!"),
                 z->name().c_str());
         z->moves -= 200;
-        free_index = rng(0, valid.size() - 1);
+        free_index = rng(0, free.size() - 1);
         tmp.spawn(free[free_index].x, free[free_index].y);
         g->add_zombie(tmp);
         break;
@@ -2034,11 +2063,11 @@ void mattack::tazer( monster *z, int index )
 
 void mattack::taze( monster *z, Creature *target )
 {
-    if( target == &g->u && g->u.uncanny_dodge()) {
-        return;
-    }
     z->moves -= 200;   // It takes a while
     player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr && foe->uncanny_dodge()) {
+        return;
+    }
     if( foe != nullptr ) {
         if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
             foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
@@ -2815,7 +2844,8 @@ void mattack::chickenbot(monster *z, int index)
     if( z->friendly == 0 && !g->sees_u(z->posx(), z->posy(), t) ) {
         return;    // Can't see you!
     }
-    
+
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2836,15 +2866,16 @@ void mattack::chickenbot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating() - 1;
     }
 
-    if( rl_dist( z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
+    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    if( dist == 1 && one_in(2) ) {
         mode = 1;
-    } else if( ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 12) ||
-               ( ( z->friendly != 0 || g->u.in_vehicle ) &&
-               ( rl_dist( z->posx(), z->posy(), tx, ty ) >= 6) ) ) {
+    } else if( ( dist >= 12) ||
+               ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ) {
         mode = 3;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) >= 4) {
+    } else if( dist >= 4) {
         mode = 2;
     }
 
@@ -2852,18 +2883,31 @@ void mattack::chickenbot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch (mode) {
+    case 0:
     case 1:
-        this->taze( z, target );
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
         break;
     case 2:
-        this->rifle( z, target );
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
         break;
     case 3:
-        this->frag( z, target );
+        if( dist == 38 ) {
+            this->frag( z, target );
+        }
         break;
+    default:
+        return; // Weak stuff, shouldn't bother with
     }
+
+    z->reset_special( index );
 }
 
 void mattack::multi_robot(monster *z, int index)
@@ -2874,6 +2918,7 @@ void mattack::multi_robot(monster *z, int index)
         return;    // Can't see you!
     }
 
+    int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
@@ -2894,22 +2939,23 @@ void mattack::multi_robot(monster *z, int index)
         }
         tx = target->xpos();
         ty = target->ypos();
+        cap = target->power_rating();
     }
 
-    if( rl_dist(z->posx(), z->posy(), tx, ty ) == 1 && one_in(2) ) {
+    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    if( dist == 1 && one_in(2) ) {
         mode = 1;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 5 ) {
+    } else if( dist <= 5 ) {
         mode = 2;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 20 ) {
+    } else if( dist <= 20 ) {
         mode = 3;
-    } else if( rl_dist(z->posx(), z->posy(), tx, ty ) <= 30 ) {
+    } else if( dist <= 30 ) {
         mode = 4;
     } else if( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
                z->friendly != 0 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( (rl_dist(z->posx(), z->posy(), tx, ty ) >= 35 ) &&
-            ( rl_dist(z->posx(), z->posy(), tx, ty ) < 50 ) ) {
+        if( dist >= 35 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
         }
@@ -2919,24 +2965,40 @@ void mattack::multi_robot(monster *z, int index)
         return;    // No attacks were valid!
     }
 
-    z->reset_special( index );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch (mode) {
     case 1:
-        this->taze( z, target );
+        if( dist <= 1 ) {
+            this->taze( z, target );
+        }
         break;
     case 2:
-        this->flame( z, target );
+        if( dist <= 5 ) {
+            this->flame( z, target );
+        }
         break;
     case 3:
-        this->rifle( z, target );
+        if( dist <= 20 ) {
+            this->rifle( z, target );
+        }
         break;
     case 4:
-        this->frag( z, target );
+        if( dist <= 30 ) {
+            this->frag( z, target );
+        }
         break;
-     case 5:
-        this->tankgun( z, target );
+    case 5:
+        if( dist <= 50 ) {
+            this->tankgun( z, target );
+        }
         break;
+    default:
+        return; // Weak stuff, shouldn't bother with
     }
+
+    z->reset_special( index );
 }
 
 void mattack::ratking(monster *z, int index)
@@ -3070,52 +3132,76 @@ void mattack::breathe(monster *z, int index)
 
 void mattack::bite(monster *z, int index)
 {
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+    // Let it be used on non-player creatures
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
         return;
     }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u_see( z );
 
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s lunges forward!"), z->name().c_str());
     z->moves -= 100;
-
-    if (g->u.uncanny_dodge()) {
-        return;
-    }
-
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("You dodge it!"));
-        g->u.practice( "dodge", z->type->melee_skill * 2 );
-        g->u.ma_ondodge_effects();
+    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
+    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
+        if( foe != nullptr ) {
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("%s lunges at you, but you dodge!"),
+                                                      _("%s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+            }
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
+        } else if( seen ) {
+            add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+        }
         return;
     }
 
-    body_part hit = random_body_part();
+    body_part hit = foe != nullptr ? random_body_part() : bp_torso;
     int dam = rng(5, 10);
-    dam = g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
 
-    if (dam > 0) {
-        //~ 1$s is monster name, 2$s bodypart in accusative
-        add_msg(m_bad, _("The %1$s bites your %2$s!"), z->name().c_str(),
-                body_part_name_accusative(hit).c_str());
-
-        if(one_in(14 - dam)) {
-            if (g->u.has_effect("bite", hit)) {
-                g->u.add_effect("bite", 400, hit, true);
-            } else if (g->u.has_effect("infected", hit)) {
-                g->u.add_effect("infected", 250, hit, true);
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type, 
+                                        _("The %1$s bites your %2$s!"),
+                                        _("The %1$s bites <npcname>'s %2$s!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( one_in( 14 - dam ) ) {
+            if( foe->has_effect("bite", hit)) {
+                foe->add_effect("bite", 400, hit, true);
+            } else if( foe->has_effect( "infected", hit ) ) {
+                foe->add_effect( "infected", 250, hit, true );
             } else {
-                g->u.add_effect("bite", 1, hit, true);
+                foe->add_effect( "bite", 1, hit, true );
             }
         }
-    } else {
-        //~ 1$s is monster name, 2$s bodypart in accusative
-        add_msg(_("The %1$s bites your %2$s, but your armor protects you."), z->name().c_str(),
-                body_part_name_accusative(hit).c_str());
+        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
+            foe->die( z );                
+            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
+        }
+    } else if( foe != nullptr ) {
+        if( seen ) {
+            foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
+                                        _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+    } else if( seen ) {
+        add_msg( _("The %s bites %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-
-    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::brandish(monster *z, int index)

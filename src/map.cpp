@@ -52,9 +52,10 @@ void map_stack::push_back( const item &newitem )
     myorigin->add_item_or_charges(location.x, location.y, newitem);
 }
 
-void map_stack::push_back_fast( const item &newitem )
+void map_stack::insert_at( std::list<item>::iterator index,
+                           const item &newitem )
 {
-    myorigin->add_item(location.x, location.y, newitem);
+    myorigin->add_item_at(location.x, location.y, index, newitem);
 }
 
 std::list<item>::iterator map_stack::begin()
@@ -481,10 +482,6 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
     x += dx;
     y += dy;
 
-    if( remote ) {
-        g->setremoteveh( veh );
-    }
-
     update_vehicle_cache(veh);
 
     bool was_update = false;
@@ -505,6 +502,9 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         }
         g->update_map(upd_x, upd_y);
         was_update = true;
+    }
+    if( remote ) { // Has to be after update_map or coords won't be valid
+        g->setremoteveh( veh );
     }
 
     return (src_submap != dst_submap) || was_update;
@@ -2941,11 +2941,11 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
    }
 
    if ( addvolume == -1 ) {
-       if ( i_at(x, y).size() < maxitems ) return true;
+       if ( (int)i_at(x, y).size() < maxitems ) return true;
        int cur_volume=stored_volume(x, y);
        return (cur_volume >= maxvolume ? true : false );
    } else {
-       if ( i_at(x, y).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       if ( (int)i_at(x, y).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
        int cur_volume=stored_volume(x, y);
        return ( cur_volume + addvolume > maxvolume ? true : false );
    }
@@ -2989,7 +2989,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
             }
         }
         if( i_at( p_it->x, p_it->y ).size() < MAX_ITEM_IN_SQUARE ) {
-            add_item( p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE );
+            add_item( p_it->x, p_it->y, new_item );
             return true;
         }
     }
@@ -2999,15 +2999,23 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 // WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
 // map::add_item_or_charges
-void map::add_item(const int x, const int y, item new_item, const int maxitems)
+void map::add_item(const int x, const int y, item new_item)
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    add_item_at(x, y, current_submap->itm[lx][ly].end(), new_item);
+}
+
+void map::add_item_at( const int x, const int y,
+                       std::list<item>::iterator index, item new_item )
 {
     if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
         return;
     }
-    if (!INBOUNDS(x, y)) {
-        return;
-    }
-    if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
+    if (has_flag("DESTROY_ITEM", x, y)) {
         return;
     }
     if (new_item.has_flag("ACT_IN_FIRE") && get_field( point( x, y ), fd_fire ) != nullptr ) {
@@ -3016,7 +3024,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->itm[lx][ly].push_back(new_item);
+    current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
     }
@@ -3054,13 +3062,16 @@ static bool process_item( item_stack &items, Iterator &n, point location, bool a
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
     item temp_item = *n;
-    items.erase( n );
+    auto insertion_point = items.erase( n );
     if( !temp_item.process( nullptr, location, activate ) ) {
         // Not destroyed, must be inserted again.
         // If the item lost its active flag in processing,
         // it won't be re-added to the active list, tidy!
-        // We know it was already here, so we can skip some checks.
-        items.push_back_fast( temp_item );
+        // Re-insert at the item's previous position.
+        // This assumes that the item didn't invalidate any iterators
+        // As a result of activation, because everything that does that
+        // destroys itself.
+        items.insert_at( insertion_point, temp_item );
         return false;
     }
     return true;
@@ -3529,6 +3540,26 @@ static bool trigger_radio_item_veh( item_stack &items, std::list<item>::iterator
 void map::trigger_rc_items( std::string signal )
 {
     process_items( false, trigger_radio_item_veh, trigger_radio_item, signal );
+}
+
+item *map::item_from( const point& pos, size_t index ) {
+    auto items = i_at( pos.x, pos.y );
+
+    if( index >= items.size() ) {
+        return nullptr;
+    } else {
+        return &items[index];
+    }
+}
+
+item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
+   auto items = veh->get_items( cargo_part );
+
+    if( index >= items.size() ) {
+        return nullptr;
+    } else {
+        return &items[index];
+    }
 }
 
 std::string map::trap_get(const int x, const int y) const {
@@ -4685,17 +4716,24 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
         return false;
     } else {
         // Check and remove rotten contents, but always keep the container.
-        remove_rotten_items( itm.contents, pnt );
+        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
+            if( has_rotten_away( *it, pnt ) ) {
+                it = itm.contents.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
         return false;
     }
 }
 
 template <typename Container>
-void map::remove_rotten_items( Container &items, const point &pnt ) const
+void map::remove_rotten_items( Container &items, const point &pnt )
 {
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, pnt ) ) {
-            it = items.erase( it );
+            it = i_rem( pnt, it );
         } else {
             ++it;
         }
@@ -4739,16 +4777,27 @@ void map::grow_plant( const point pnt )
         furn_set( pnt.x, pnt.y, f_null );
         return;
     }
-    // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    
     // Erase fertilizer tokens, but keep the seed item
     i_rem( pnt.x, pnt.y, 1 );
-    auto &seed = items.front();
-    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
-    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
-        seed.bday += plantEpoch;
-        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
-    }
+    auto seed = items.front();
+    it_comest* seed_comest = dynamic_cast<it_comest*>(seed.type);
+    
+    // plantEpoch is the time it takes to grow from one stage to another
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
+    const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3); 
+    
+    if ( calendar::turn >= seed.bday + plantEpoch ) {
+		if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+				furn_set(pnt.x, pnt.y, "f_plant_seedling");
+		} else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+				furn_set(pnt.x, pnt.y, "f_plant_mature");
+		} else {
+				furn_set(pnt.x, pnt.y, "f_plant_harvest");
+		}
+	}
 }
 
 void map::restock_fruits( const point pnt, int time_since_last_actualize )

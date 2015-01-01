@@ -551,21 +551,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto items_here = i_at(x, y);
                         // explosions will destroy items on this square, iterating
                         // backwards makes sure that every item is visited.
-                        for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
-                            if( i >= (int) items_here.size() ) {
-                                // the last item exploded and destroyed some items,
-                                // now there is a gap (e.g. exploded item has index 10,
-                                // items 9,8,7 have been destroyed, i is now 9 and thereby
-                                // invalid, continue until the index is valid again.
-                                continue;
-                            }
-                            if( items_here[i].type->explode_in_fire() ) {
-                                // make a copy and let the copy explode
-                                item tmp = items_here[i];
-                                i_rem( x, y, i );
-                                tmp.detonate(point(x, y));
+                        for( auto explosive = items_here.begin();
+                             explosive != items_here.end(); ) {
+                            if( explosive->type->explode_in_fire() ) {
+                                // Make a copy and let the copy explode.
+                                item tmp = *explosive;
+                                i_rem( point(x, y), explosive );
+                                tmp.detonate(point(x,y));
+                                // Just restart from the beginning.
+                                explosive = items_here.begin();
+                            } else {
+                                ++explosive;
                             }
                         }
+
                         std::vector<item> new_content;
                         // Consume items as fuel to help us grow/last longer.
                         bool destroyed = false; //Is the item destroyed?
@@ -617,7 +616,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int time_added = 0;
 
                             if( special || cookoff ) {
-                                const long rounds_exploded = rng( 1, fuel->charges );
+                                int charges_remaining = fuel->charges;
+                                const long rounds_exploded = rng( 1, charges_remaining );
+                                // Yank the exploding item off the map for the duration of the explosion
+                                // so it doesn't blow itself up.
+                                item temp_item = *fuel;
+                                items_here.erase( fuel );
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
                                     if( cookoff ) {
@@ -632,8 +636,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         ammo_effects( x, y, ammo_type->ammo_effects );
                                     }
                                 }
-                                burn_amt = rounds_exploded;
-
+                                charges_remaining -= rounds_exploded;
+                                if( charges_remaining > 0 ) {
+                                    temp_item.charges = charges_remaining;
+                                    items_here.push_back( temp_item );
+                                }
+                                // Can't find an easy way to handle reinserting the ammo into a potentially
+                                // invalidated list and continuing iteration, so just bail out.
+                                break;
                             } else if( fuel->made_of("paper") ) {
                                 //paper items feed the fire moderately.
                                 base_burn_amt = 3;
@@ -730,14 +740,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                             if (!destroyed) {
-                                if (ammo_type != NULL) {
-                                    burn_amt = std::min( burn_amt, (int)fuel->charges );
-                                    fuel->charges -= burn_amt;
-                                    consumed += burn_amt / base_burn_amt;
-                                    destroyed = fuel->charges <= 0;
-                                } else {
-                                    destroyed = fuel->burn( burn_amt );
-                                }
+                                destroyed = fuel->burn( burn_amt );
                             }
 
                             //lower age is a longer lasting fire

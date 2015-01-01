@@ -1,54 +1,5 @@
 [
     {
-        "type" : "ARMOR",
-        "id" : "boxing_gloves",
-        "name" : "pair of boxing gloves",
-        "name_plural" : "pairs of boxing gloves",
-        "weight" : 453,
-        "color" : "red",
-        "covers" : ["HANDS"],
-        "to_hit" : 1,
-        "storage" : 0,
-        "symbol" : "[",
-        "description" : "A pair of big, red, 8 oz. boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
-        "price" : 4000,
-        "material" : ["leather", "null"],
-        "volume" : 4,
-        "cutting" : 0,
-        "warmth" : 20,
-        "phase" : "solid",
-        "environmental_protection" : 3,
-        "encumbrance" : 7,
-        "bashing" : -1,
-        "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
-        "coverage" : 100,
-        "material_thickness" : 3
-    },
-    {
-        "type" : "ARMOR",
-        "id" : "headgear",
-        "name" : "headgear",
-        "weight" : 500,
-        "color" : "red",
-        "covers" : ["HEAD"],
-        "to_hit" : 1,
-        "storage" : 0,
-        "symbol" : "[",
-        "description" : "Lightweight sports headgear designed to protect the head while sparring.",
-        "price" : 4000,
-        "material" : ["plastic", "leather"],
-        "volume" : 4,
-        "cutting" : 0,
-        "warmth" : 10,
-        "phase" : "solid",
-        "environmental_protection" : 1,
-        "encumbrance" : 2,
-        "bashing" : -1,
-        "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
-        "coverage" : 75,
-        "material_thickness" : 3
-    },
-    {
         "type"  : "item_group",
         "id"    : "boxing_clothes",
         "items" : [
@@ -99,36 +50,6 @@
             ["cig", 15],
             ["matches", 10]
         ]
-    },
-    {
-        "type" : "furniture",
-        "id" : "f_floor_canvas",
-        "name": "heavy punching bag",
-        "symbol": "0",
-        "color": "dkgray",
-        "move_cost_mod": -1,
-        "required_str": 10,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
-        "bash": {
-            "str_min": 15, "str_max": 20,
-            "sound": "whack!",
-            "sound_fail": "whud.",
-            "items": [
-                { "item": "chain", "amount": 3, "minamount": 1},
-                { "item": "leather", "amount": 12, "minamount": 4},
-                { "item": "rag", "amount": 18, "minamount": 4 }
-            ]
-        }
-    },
-    {
-        "type" : "furniture",
-        "id" : "f_canvas_floor",
-        "name": "canvas floor",
-        "symbol": "#",
-        "color": "white",
-        "move_cost_mod": 0,
-        "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"]
     },
     {
         "type" : "overmap_terrain",

@@ -94,6 +94,10 @@ void item_comp::load( JsonArray &ja )
     JsonArray comp = ja.next_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
+    // Recoverable is true by default.
+    if(comp.size() > 2) {
+        recoverable = comp.get_string(2) == "NO_RECOVER" ? false : true;
+    }
 }
 
 template<typename T>

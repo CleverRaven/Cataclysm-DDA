@@ -1267,7 +1267,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 28800
+        "brew_time" : 7200
     },
     {
         "type" : "COMESTIBLE",
@@ -1328,7 +1328,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 14400
+        "brew_time" : 3600
     },
     {
         "type" : "COMESTIBLE",
@@ -1417,7 +1417,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 28800
+        "brew_time" : 7200
     },
     {
         "type" : "COMESTIBLE",
@@ -1535,7 +1535,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 43200
+        "brew_time" : 10800
     },
     {
         "type" : "COMESTIBLE",
@@ -1595,7 +1595,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 64800
+        "brew_time" : 16200
     },
     {
         "type" : "COMESTIBLE",
@@ -1865,7 +1865,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 288000
+        "brew_time" : 72000
     },
     {
         "type" : "COMESTIBLE",
@@ -1925,7 +1925,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 88000
+        "brew_time" : 22000
     },
     {
         "type" : "COMESTIBLE",
@@ -1985,7 +1985,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 98000
+        "brew_time" : 24500
     },
     {
         "type" : "COMESTIBLE",
@@ -2045,7 +2045,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 21600
+        "brew_time" : 5400
     },
     {
         "type" : "COMESTIBLE",
@@ -2106,7 +2106,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 14400
+        "brew_time" : 3600
     },
     {
         "type" : "COMESTIBLE",
@@ -7338,12 +7338,16 @@
         "bashing": 0,
         "fun": 0
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_blueberries",
         "category": "other",
         "price" : 120,
         "name" : "blueberry seed",
         "name_plural" : "blueberry seeds",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "symbol" : ".",
         "color" : "brown",
         "description" : "Some blueberry seeds.",
@@ -7353,14 +7357,10 @@
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
+        "phase": "solid",
+        "charges" : 4,
         "stack_size" : 100,
+        "grow" : 91,
         "flags": ["SEED"]
     },
     {
@@ -7449,7 +7449,7 @@
         "bashing" : 0,
         "fun" : 0
     },
-    {   "type" : "AMMO",
+    {   "type" : "COMESTIBLE",
         "id" : "seed_strawberries",
         "category": "other",
         "price" : 120,
@@ -7459,19 +7459,17 @@
         "color" : "brown",
         "description" : "Some strawberry seeds.",
         "material" : "fruit",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
+        "charges" : 4,
         "stack_size" : 100,
+        "grow" : 91,
         "flags": ["SEED"]
     },
     {
@@ -7503,7 +7501,8 @@
         "bashing" : 0,
         "fun" : -10
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_wheat",
         "category": "other",
         "price" : 50,
@@ -7513,18 +7512,16 @@
         "color" : "brown",
         "description" : "Some wheat seeds.",
         "material" : "wheat",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
+        "charges" : 4,
+        "grow" : 120,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7645,7 +7642,8 @@
         "bashing" : 0,
         "fun" : -15
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_hops",
         "category": "other",
         "price" : 160,
@@ -7655,18 +7653,16 @@
         "color" : "brown",
         "description" : "Roots of a hop plant, for growing your own.",
         "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 152,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 2,
+        "charges" : 2,
+        "grow" : 120,
         "stack_size" : 8,
         "flags": ["SEED"]
     },
@@ -7698,7 +7694,8 @@
         "bashing" : 0,
         "fun" : -15
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_barley",
         "category": "other",
         "price" : 160,
@@ -7708,18 +7705,16 @@
         "color" : "brown",
         "description" : "Some barley seeds.",
         "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 2,
+        "charges" : 2,
+        "grow" : 70,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7751,7 +7746,7 @@
         "bashing" : 0,
         "fun" : -10
     },
-    {   "type" : "AMMO",
+    {   "type" : "COMESTIBLE",
         "id" : "seed_sugar_beet",
         "category": "other",
         "price" : 120,
@@ -7761,18 +7756,16 @@
         "color" : "brown",
         "description" : "Some sugar beet seeds.",
         "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 0,
         "weight" : 5,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
+        "charges" : 4,
+        "grow" : 90,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -7804,6 +7797,30 @@
         "bashing" : 0,
         "fun" : 0
     },
+    {   
+        "type" : "COMESTIBLE",
+        "id" : "seed_lettuce",
+        "category": "other",
+        "price" : 50,
+        "name" : "lettuce seed",
+        "name_plural" : "lettuce seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some lettuce seeds.",
+        "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "grow" : 85,
+        "stack_size" : 100,
+        "flags": ["SEED"]
+    },
     {
         "type" : "COMESTIBLE",
         "id" : "tomato",
@@ -7833,7 +7850,8 @@
         "bashing" : 0,
         "fun" : 0
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_tomato",
         "category": "other",
         "price" : 50,
@@ -7843,22 +7861,21 @@
         "color" : "brown",
         "description" : "Some tomato seeds.",
         "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
+        "charges" : 4,
+        "grow" : 65,
         "stack_size" : 100,
         "flags": ["SEED"]
     },
-    {   "type" : "AMMO",
+    {   
+        "type" : "COMESTIBLE",
         "id" : "seed_cotton_boll",
         "category": "other",
         "price" : 50,
@@ -7868,18 +7885,16 @@
         "color" : "brown",
         "description" : "Some cotton seeds.  Can be processed to produce an edible oil.",
         "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 8,
+        "CHARGES" : 8,
+        "grow" : 130,
         "stack_size" : 40,
         "flags": ["SEED"]
     },
@@ -8032,6 +8047,30 @@
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
+    {   
+        "type" : "COMESTIBLE",
+        "id" : "seed_onion",
+        "category": "other",
+        "price" : 50,
+        "name" : "onion seed",
+        "name_plural" : "onion seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some onion seeds.",
+        "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "grow" : 65,
+        "stack_size" : 100,
+        "flags": ["SEED"]
+    },
     {
         "type" : "COMESTIBLE",
         "id" : "carrot",
@@ -8060,6 +8099,30 @@
         "charges" : 6,
         "bashing" : 0,
         "fun" : -1
+    },
+    {   
+        "type" : "COMESTIBLE",
+        "id" : "seed_carrot",
+        "category": "other",
+        "price" : 50,
+        "name" : "carrot seed",
+        "name_plural" : "carrot seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some carrot seeds.",
+        "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "grow" : 65,
+        "stack_size" : 100,
+        "flags": ["SEED"]
     },
     {
         "type" : "COMESTIBLE",
@@ -8090,6 +8153,30 @@
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
+    },
+    {   
+        "type" : "COMESTIBLE",
+        "id" : "seed_corn",
+        "category": "other",
+        "price" : 50,
+        "name" : "corn seed",
+        "name_plural" : "corn seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some corn seeds.",
+        "material" : "veggy",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "grow" : 80,
+        "charges" : 4,
+        "stack_size" : 100,
+        "flags": ["SEED"]
     },
     {
         "type" : "COMESTIBLE",
@@ -12123,7 +12210,6 @@
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "FIRSTAID",
-        "flags" : "PKILL_1",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -12891,7 +12977,8 @@
         "charges" : 1,
         "stack_size" : 100,
         "bashing" : 0,
-        "fun" : 1
+        "fun" : 1,
+        "grow" : 91
     },
     {
         "type" : "COMESTIBLE",
@@ -14483,7 +14570,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 168000
+        "brew_time" : 42000
     },
     {
         "type" : "COMESTIBLE",
@@ -16596,10 +16683,11 @@
         "price" : 250,
         "material" : "egg",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 4,
         "bashing" : 0,
         "fun" : -8
     },{
@@ -16623,10 +16711,11 @@
         "price" : 250,
         "material" : "egg",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 4,
         "bashing" : 0,
         "fun" : -12
     },{
