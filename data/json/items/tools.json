@@ -3237,7 +3237,7 @@
         "sound_volume": 2,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion_power": 300,
+        "explosion_power": 450,
         "explosion_shrapnel": 0,
         "fields_type": "fd_nuke_gas",
         "fields_radius": 6,
