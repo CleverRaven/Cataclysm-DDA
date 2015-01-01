@@ -87,70 +87,39 @@ void monster::wander_to(int x, int y, int f)
 
 void monster::plan(const std::vector<int> &friendlies)
 {
-    int sightrange = g->light_level();
+    // Bots (currently only hacked ones) are more intelligent than most living stuff
+    bool electronic = friendly != 0 && has_flag( MF_ELECTRONIC );
     int closest = -1;
-    int dist = 1000;
+    float dist = 1000;
     int bresenham_slope = 0;
     int selected_slope = 0;
     bool fleeing = false;
+    bool docile = friendly != 0 && has_effect( "docile" );
 
-    if (friendly != 0) { // Target monsters, not the player!
-        bool electronic = has_flag( MF_ELECTRONIC );
-        // Electronic monsters (hacked bots) are more intelligent than pheromoned zeds or tame dogs
+    if( friendly != 0 && !docile ) { // Target unfriendly monsters
         if( electronic ) {
-            float best_rating = 0.12f; // Tank drone 60 tiles away, moose 16 or boomer 33
-            // Anything with worse power/distance will be ignored. See creature::power_rating()
-            for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
-                monster *tmp = &(g->zombie(i));
-                if( tmp->friendly == 0 ) {
-                    int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy()) + 1; // rl_dist can be 0
-                    float rating = tmp->power_rating() / d;
-                    if( g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope ) && 
-                        rating > best_rating ) {
-                            closest = i;
-                            dist = d;
-                            selected_slope = bresenham_slope;
-                            best_rating = rating;
-                    }
-                }
-            }
-        } else {
-            for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
-                monster *tmp = &(g->zombie(i));
-                if( tmp->friendly == 0 ) {
-                    int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
-                    if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope)) {
-                        closest = i;
-                        dist = d;
+            dist = 8.6f; // Tank drone 60 tiles away, moose 16 or boomer 33
+        }
+        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
+            monster *tmp = &( g->zombie( i ) );
+            if( tmp->friendly == 0 ) {
+                int d = rl_dist( posx(), posy(), tmp->posx(), tmp->posy() );
+                float rating = !electronic ? d : d / std::max( tmp->power_rating(), 0.00001f );
+                int sightrange = vision_range( tmp->posx(), tmp->posy() );
+                if( g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope ) && 
+                    rating < dist ) {
+                        closest = -3 - i;
+                        dist = rating;
                         selected_slope = bresenham_slope;
-                    }
                 }
             }
         }
-
-        if (has_effect("docile")) {
-            closest = -1;
-        }
-
-        if (closest >= 0) {
-            set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), selected_slope);
-        } else if (friendly > 0 && one_in(3)) {
-            // Grow restless with no targets
-            friendly--;
-        } else if (friendly < 0 &&  sees_player( bresenham_slope ) ) {
-            if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2) {
-                set_dest(g->u.posx, g->u.posy, bresenham_slope);
-            } else {
-                plans.clear();
-            }
-        }
-        return;
     }
 
-    // If we can see, and we can see a character, move toward them or flee.
-    if (can_see() && sees_player( bresenham_slope ) ) {
+    // If we can see, and we can see the player, move toward them or flee.
+    if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
-        if (is_fleeing(g->u)) {
+        if( is_fleeing( g->u ) ) {
             // Wander away.
             fleeing = true;
             set_dest(posx() * 2 - g->u.posx, posy() * 2 - g->u.posy, bresenham_slope);
@@ -161,30 +130,35 @@ void monster::plan(const std::vector<int> &friendlies)
         }
     }
 
-    for (size_t i = 0; i < g->active_npc.size(); i++) {
-        npc *me = (g->active_npc[i]);
-        int medist = rl_dist(posx(), posy(), me->posx, me->posy);
-        if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
-                (can_see() &&
-                g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope))) {
-            if (is_fleeing(*me)) {
-                fleeing = true;
-                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);\
-            } else {
-                closest = i;
-                selected_slope = bresenham_slope;
+    if( !docile ) {
+        for( size_t i = 0; i < g->active_npc.size(); i++ ) {
+            npc *me = (g->active_npc[i]);
+            int medist = rl_dist(posx(), posy(), me->posx, me->posy);
+            int sightrange = vision_range( me->posx, me->posy );
+            if( ( medist < dist || (!fleeing && is_fleeing(*me))) &&
+                  ( can_see() &&
+                    g->m.sees( posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope) ) ) {
+                if( is_fleeing( *me ) ) {
+                    fleeing = true;
+                    set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);
+                    dist = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
+                } else if( attitude( me ) == MATT_ATTACK ) {
+                    closest = i;
+                    selected_slope = bresenham_slope;
+                    dist = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
+                }
             }
-            dist = medist;
         }
     }
 
-    if (!fleeing) {
+    if( !fleeing ) {
         fleeing = attitude() == MATT_FLEE;
-        if (can_see()) {
+        if( friendly == 0 && can_see() ) {
             for( auto &friendlie : friendlies ) {
                 const int i = friendlie;
                 monster *mon = &(g->zombie(i));
                 int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
+                int sightrange = vision_range( mon->posx(), mon->posy() );
                 if (mondist < dist &&
                         g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, bresenham_slope)) {
                     dist = mondist;
@@ -200,17 +174,28 @@ void monster::plan(const std::vector<int> &friendlies)
             }
         }
 
-        if (closest == -2) {
-            if (one_in(2)) {//random for the diversity of the trajectory
-                ++selected_slope;
-            } else {
-                --selected_slope;
-            }
+        if (one_in(2)) {//random for the diversity of the trajectory
+            ++selected_slope;
+        } else {
+            --selected_slope;
+        }
+        if (closest == -2) {            
             set_dest(g->u.posx, g->u.posy, selected_slope);
         } else if (closest <= -3) {
             set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), selected_slope);
         } else if (closest >= 0) {
             set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, selected_slope);
+        }
+    }
+    
+    if( closest == -1 && friendly > 0 && one_in(3)) {
+            // Grow restless with no targets
+            friendly--;
+    } else if( closest == -1 && friendly < 0 && sees_player( bresenham_slope ) ) {
+        if( rl_dist( posx(), posy(), g->u.posx, g->u.posy ) > 2 ) {
+            set_dest(g->u.posx, g->u.posy, bresenham_slope);
+        } else {
+            plans.clear();
         }
     }
     // If we're not adjacent to the start of our plan path, don't act on it.

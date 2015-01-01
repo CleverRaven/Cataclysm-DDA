@@ -474,13 +474,13 @@ void npc::choose_monster_target(int &enemy, int &danger,
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
             int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
-            if (!mon->is_fleeing(*this)) {
-                monster_danger++;
-            }
 
-            if (mon->friendly != 0) {
+            auto att = mon->attitude( this );
+            if( att == MATT_FRIEND || att == MATT_FPASSIVE ) {
                 priority = -999;
                 monster_danger *= -1;
+            } else if( att == MATT_ATTACK ) {
+                monster_danger++;
             }
 
             total_danger += int(monster_danger / (distance == 0 ? 1 : distance));

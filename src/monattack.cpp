@@ -140,16 +140,22 @@ void mattack::rattle(monster *z, int index)
 
 void mattack::acid(monster *z, int index)
 {
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
     int t;
     int junk = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t) ||
-        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 10, 1, 100, junk)) {
-        return; // Can't see/reach you, no attack
+    if( !z->sees( t, target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 10, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
     }
     z->moves -= 300;   // It takes a while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
-    int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
+    int hitx = target->xpos() + rng(-2, 2);
+    int hity = target->ypos() + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
     for (auto &i : line) {
         if (g->m.hit_with_acid(i.x, i.y)) {
@@ -173,17 +179,27 @@ void mattack::acid(monster *z, int index)
 
 void mattack::shockstorm(monster *z, int index)
 {
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
+    bool seen = g->u_see( z );
     int t;
     int junk = 0;
-    if (!g->sees_u(z->posx(), z->posy(), t) ||
-        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
-        return; // Can't see/reach you, no attack
+    if( !z->sees( t, target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 12, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
     }
     z->moves -= 50;   // It takes a while
     z->reset_special(index); // Reset timer
-    add_msg(m_bad, _("A bolt of electricity arcs towards you!"));
-    int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
-    int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
+
+    if( seen ) {
+        auto msg_type = target == &g->u ? m_bad : m_info;
+        add_msg( msg_type, _("A bolt of electricity arcs towards %s!"), target->disp_name().c_str() );
+    }
+    int tarx = target->xpos() + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
+    int tary = target->ypos() + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
     if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t)) {
         t = 0;
     }
@@ -336,29 +352,42 @@ void mattack::resurrect(monster *z, int index)
 
 void mattack::smash(monster *z, int index)
 {
-    if (within_visual_range(z, 1) < 0) {
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
         return;
     }
 
-    z->reset_special(index); // Reset timer
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u_see( z );
+
+    z->reset_special( index ); // Reset timer
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
-    if (g->u.uncanny_dodge()) {
+    if( foe->uncanny_dodge() ) {
         return;
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("the %s takes a powerful swing at you, but you dodge it!"), z->name().c_str());
-        g->u.practice( "dodge", z->type->melee_skill * 2 );
-        g->u.ma_ondodge_effects();
+        if( target == &g->u ) {
+            add_msg( _("The %s takes a powerful swing at you, but you dodge it!"), z->name().c_str() );
+        } else if( seen ) {
+            add_msg( _("The %s takes a powerful swing at %s, but %s dodges it!"), 
+                     z->name().c_str(), target->disp_name().c_str(), target->disp_name().c_str() );
+        }
+        if( foe != nullptr ) {
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        }
         return;
     }
 
-    add_msg( _("A blow from the %s sends you flying!"), z->name().c_str() );
-    g->fling_creature( &(g->u), g->m.coord_to_angle( z->posx(), z->posy(), g->u.xpos(), g->u.ypos() ),
+    if( seen ) {
+        add_msg( _("A blow from the %s sends %s flying!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->xpos(), target->ypos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
 }
 
@@ -2034,11 +2063,11 @@ void mattack::tazer( monster *z, int index )
 
 void mattack::taze( monster *z, Creature *target )
 {
-    if( target == &g->u && g->u.uncanny_dodge()) {
-        return;
-    }
     z->moves -= 200;   // It takes a while
     player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr && foe->uncanny_dodge()) {
+        return;
+    }
     if( foe != nullptr ) {
         if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
             foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
@@ -3114,7 +3143,7 @@ void mattack::bite(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 100;
-    bool uncanny = foe == &g->u && g->u.uncanny_dodge(); // Uncanny doesn't like monster vs NPC
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
     if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {

@@ -378,6 +378,16 @@ int monster::vision_range(const int x, const int y) const
     return range;
 }
 
+bool monster::sees(int &bresenham_slope, Creature *target) const
+{
+    player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr ) {
+        return sees_player( bresenham_slope, foe );
+    }
+    const int range = vision_range( target->xpos(), target->ypos() );
+    return g->m.sees( _posx, _posy, target->xpos(), target->ypos(), range, bresenham_slope );
+}
+
 bool monster::sees_player(int & bresenham_slope, player * p) const {
     if ( p == NULL ) {
         p = &g->u;
@@ -511,11 +521,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 
 monster_attitude monster::attitude(player *u) const
 {
-    if (friendly != 0 && !(has_effect("docile"))) {
-        return MATT_FRIEND;
-    }
-    if (friendly != 0 ) {
-        return MATT_FPASSIVE;
+    if( friendly != 0 ) {
+        if( has_effect( "docile" ) ) {
+            return MATT_FPASSIVE;
+        }
+        if( u == &g->u ) {
+            return MATT_FRIEND;
+        }
+        // Zombies don't understand not attacking NPCs, but dogs and bots should.
+        npc *np = dynamic_cast< npc* >( u );
+        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( "ZOMBIE" ) ) {
+            return MATT_FRIEND;
+        }
     }
     if (has_effect("run")) {
         return MATT_FLEE;
@@ -857,13 +874,15 @@ void monster::hit_monster(monster &other)
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
+    mdefense mdf;
+    (mdf.*target->type->sp_defense)( target, this, nullptr );
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, NULL);
+        (mdf.*type->sp_defense)( this, source, nullptr );
     }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -885,7 +904,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     }
     mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, &proj);
+        (mdf.*type->sp_defense)( this, source, &proj);
     }
 
     // whip has a chance to scare wildlife
