@@ -142,7 +142,7 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("MININUKE_MOD")) {
-        g->explosion(x, y, 300, 0, false);
+        g->explosion(x, y, 450, 0, false);
         int junk;
         for (int i = -6; i <= 6; i++) {
             for (int j = -6; j <= 6; j++) {
