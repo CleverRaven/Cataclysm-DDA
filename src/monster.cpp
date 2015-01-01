@@ -1044,9 +1044,10 @@ bool monster::move_effects()
 
 void monster::add_eff_effects(effect e, bool reduced)
 {
-    if (e.get_amount("HURT", reduced) > 0) {
-        if(e.activated(calendar::turn, "HURT", reduced)) {
-            apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
+    int val = e.get_amount("HURT", reduced);
+    if (val > 0) {
+        if(e.activated(calendar::turn, "HURT", val, reduced)) {
+            apply_damage(nullptr, bp_torso, val);
         }
     }
     Creature::add_eff_effects(e, reduced);
@@ -1397,9 +1398,10 @@ void monster::process_effects()
 
             mod_speed_bonus(it.get_mod("SPEED", reduced));
 
-            if (it.get_mod("HURT", reduced) > 0) {
-                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
-                    apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
+            int val = it.get_mod("HURT", reduced);
+            if (val > 0) {
+                if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
+                    apply_damage(nullptr, bp_torso, val);
                 }
             }
 

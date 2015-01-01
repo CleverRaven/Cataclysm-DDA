@@ -253,10 +253,10 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
         bool get_sizing(std::string arg) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage(std::string arg, bool reduced = false) const;
+        double get_percentage(std::string arg, int val, bool reduced = false) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1) const;
+        bool activated(unsigned int turn, std::string arg, int val, bool reduced = false, double mod = 1) const;
         
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod(std::string arg, int addict_level) const;
