@@ -12081,19 +12081,6 @@ void game::reload(int pos)
                 }
             }
 
-//            item contents;
-//            for( auto cont = it->contents.begin(); cont != it->contents.end(); ++cont ) {
-//                contents = *cont;
-//                if ((contents.is_gunmod() &&
-//                     (contents.typeId() == "spare_mag" &&
-//                      contents.charges < it->type->gun->clip)) ||
-//                    (contents.is_auxiliary_gunmod() &&
-//                     contents.charges < contents.clip_size())) {
-//                    magazine_isfull = false;
-//                    break;
-//                }
-//            }
-
             if (magazine_isfull) {
                 add_msg(m_info, _("Your %s is fully loaded!"), it->tname().c_str());
                 return;
