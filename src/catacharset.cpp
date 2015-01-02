@@ -2,7 +2,7 @@
 #include <string.h>
 #include "debug.h"
 #include "cursesdef.h"
-#include "wcwidth.c"
+#include "wcwidth.h"
 
 //copied from SDL2_ttf code
 unsigned UTF8_getch(const char **src, int *srclen)
