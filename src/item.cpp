@@ -3292,7 +3292,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // If the gun is empty, either the spare mag is empty too and anything goes,
         // or the spare mag is loaded and we're doing a tactical reload.
         if (charges < clip_size() ||
-            (has_spare_mag != -1 && contents[has_spare_mag].charges < type->gun->clip)) {
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < clip_size())) { 
             if (charges > 0 && has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
                 tmpammo = u.has_exact_ammo( ammo_type(), get_curammo_id() );
@@ -3469,7 +3469,7 @@ bool item::reload(player &u, int pos)
                 if (&contents[i] != gunmod && (int)i != spare_mag &&
                     contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].type->gun->clip ||
+                    (contents[i].charges <= contents[i].clip_size() ||
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;
