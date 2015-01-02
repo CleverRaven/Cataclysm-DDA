@@ -560,7 +560,9 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 template<typename SlotType>
 void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
 {
-    slotptr.reset( new SlotType() );
+    if( !slotptr ) {
+        slotptr.reset( new SlotType() );
+    }
     load( *slotptr, jo );
 }
 
