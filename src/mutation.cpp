@@ -839,11 +839,11 @@ void player::mutate_towards(std::string mut)
         for (size_t i = 0; i < canceltrait.size(); i++) {
             if(traits[mut].mixed_effect || traits[canceltrait[i]].mixed_effect) {
                 rating = m_mixed;
-            } else if(traits[mut].points <= 0 && traits[canceltrait[i]].points > 0) {
-                rating = m_good;
-            } else if(traits[mut].points > 0 && traits[canceltrait[i]].points <= 0) {
+            } else if(traits[mut].points < traits[canceltrait[i]].points) {
                 rating = m_bad;
-            } else if(traits[mut].points == 0 && traits[canceltrait[i]].points == 0) {
+            } else if(traits[mut].points > traits[canceltrait[i]].points) {
+                rating = m_good;
+            } else if(traits[mut].points == traits[canceltrait[i]].points) {
                 rating = m_neutral;
             } else {
                 rating = m_mixed;
