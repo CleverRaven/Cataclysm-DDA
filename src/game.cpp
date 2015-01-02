@@ -4756,9 +4756,8 @@ void game::debug()
                       _("Display hordes"), // 20
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
-                      _("Fatigue Self"), //23
 #ifdef LUA
-                      _("Lua Command"), // 24
+                      _("Lua Command"), // 23
 #endif
                       _("Cancel"),
                       NULL);
@@ -5160,23 +5159,15 @@ void game::debug()
 
     // Damage Self
     case 22: {
-        int dbg_damage = query_int(_("Damage self for how much? hp: %d"), u.hp_cur[hp_torso]);
+        int dbg_damage = query_int("Damage self for how much? hp: %d", u.hp_cur[hp_torso]);
         u.hp_cur[hp_torso] -= dbg_damage;
-        if(u.hp_cur[hp_torso] <= 0) { u.die(NULL); }
-        draw_sidebar();
-    }
-    break;
-
-    // fatigue self
-    case 23: {
-        int dbg_fatigue = query_int(_("Fatigue self for how much? f:%d"), u.fatigue);
-        u.fatigue += dbg_fatigue;
+        u.die(NULL);
         draw_sidebar();
     }
     break;
 
 #ifdef LUA
-    case 24: {
+    case 23: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
