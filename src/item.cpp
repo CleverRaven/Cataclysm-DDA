@@ -246,12 +246,6 @@ const std::bitset<num_bp> &item::get_covered_body_parts() const
 
 item item::in_its_container()
 {
-    if( type->software ) {
-        item ret( "usb_drive", 0);
-        ret.contents.push_back(*this);
-        ret.invlet = invlet;
-        return ret;
-    }
     if( type->spawn && type->spawn->default_container != "null" ) {
         item ret( type->spawn->default_container, bday );
         if( made_of( LIQUID ) && ret.is_container() ) {

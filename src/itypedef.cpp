@@ -45,6 +45,8 @@ itype *newSoftwareIType( const itype_id &id, const std::string &name, const std:
                           SOLID, 0, 0, 0, 0, 0 );
     t->software.reset( new islot_software() );
     t->software->swtype = swtype;
+    t->spawn.reset( new islot_spawn() );
+    t->spawn->default_container = "usb_drive";
     return t;
 }
 
