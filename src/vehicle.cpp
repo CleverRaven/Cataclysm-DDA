@@ -936,13 +936,13 @@ void vehicle::use_controls()
     if (has_dome_lights) {
         options_choice.push_back(toggle_dome_lights);
         options_message.push_back(uimenu_entry((dome_lights_on) ? _("Turn off dome lights") :
-                                               _("Turn on dome lights"), 'b'));
+                                               _("Turn on dome lights"), 'D'));
     }
 
     if (has_aisle_lights) {
         options_choice.push_back(toggle_aisle_lights);
         options_message.push_back(uimenu_entry((aisle_lights_on) ? _("Turn off aisle lights") :
-                                               _("Turn on aisle lights"), 'a'));
+                                               _("Turn on aisle lights"), 'A'));
     }
 
     //Honk the horn!
