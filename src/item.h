@@ -122,6 +122,8 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
+ // return the appropriate size for a spare magazine
+ int spare_mag_size() const;
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
