@@ -1898,6 +1898,7 @@ void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
+	int owned; // (not used, but exists in legacy save file, read and ignore.)
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
@@ -1907,7 +1908,7 @@ void item::load_legacy(std::stringstream & dump) {
         }
     }
 
-    dump >> burnt >> poison >> ammotmp >> bday >>
+    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     if (corp != -1)
         corpse = GetMType(legacy_mon_id[corp]);
