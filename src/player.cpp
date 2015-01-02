@@ -4795,6 +4795,20 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             // so safer to target the torso
             source->deal_damage(this, bp_torso, thorn_damage);
         }
+        if ((!(wearing_something_on(bp_hit))) && (has_trait("CF_HAIR"))) {
+            if (!is_player()) {
+                if( u_see ) {
+                    add_msg(_("%1$s gets a load of %2$s's %s stuck in!"), source->disp_name().c_str(),
+                      name.c_str(), (_("hair")));
+                }
+            } else {
+                add_msg(m_good, _("Your hairs detach into %s!"), source->disp_name().c_str());
+            }
+            source->add_effect("stunned", 2);
+            if (one_in(3)) { // In the eyes!
+                source->add_effect("blind", 2);
+            }
+        }
     }
 }
 
