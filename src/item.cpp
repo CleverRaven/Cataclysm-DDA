@@ -1669,7 +1669,7 @@ std::string item::display_name(unsigned int quantity) const
 {
     // Show count of contents (e.g. amount of liquid in container)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
-    if (contents.size() == 1 && contents[0].charges > 0) {
+    if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
     } else if( already_used_by_player( g->u ) ) {
         return string_format( _( "%s (used)" ), tname( quantity ).c_str() );
