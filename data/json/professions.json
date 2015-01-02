@@ -84,7 +84,7 @@
         "type": "profession",
         "ident": "sheltered_survivor",
         "name": "Sheltered Survivor",
-        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter. Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
+        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
         "points": 4,
         "skills": [
             {
@@ -331,7 +331,7 @@
         "type": "profession",
         "ident": "beekeeper",
         "name": "Beekeeper",
-        "description": "You used to be a professional beekeeper. You had to abandon your precious bees when the cataclysm struck, but at least you managed to grab some utensils and honey.",
+        "description": "You used to be a professional beekeeper.  You had to abandon your precious bees when the cataclysm struck, but at least you managed to grab some utensils and honey.",
         "points": 2,
         "skills": [
             {
@@ -371,7 +371,7 @@
         "type": "profession",
         "ident": "basketball_player",
         "name": "Basketball Player",
-        "description": "It was going to be your first major game, but then the cataclysm struck. Creatures unlike anything you've seen before, began attacking the attending crowd and only a handful of people managed to escape the carnage. Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+        "description": "It was going to be your first major game, but then the cataclysm struck.  Creatures unlike anything you've seen before, began attacking the attending crowd and only a handful of people managed to escape the carnage.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
         "points": 1,
         "skills": [
             {
@@ -934,7 +934,7 @@
         "type": "profession",
         "ident": "detective",
         "name": "Police Detective",
-        "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You need a smoke.",
+        "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck.  Now that suspect is dead.  Everyone's dead.  You need a smoke.",
         "points": 4,
         "traits": [
             "PROF_PD_DET"
@@ -1441,7 +1441,7 @@
         "type" : "profession",
         "ident": "patient",
         "name": "Patient",
-        "description": "When the diagnosis came back positive, you were willing to fight to keep living. Now, you must renew your vow of tenacity in these new times.",
+        "description": "When the diagnosis came back positive, you were willing to fight to keep living.  Now, you must renew your vow of tenacity in these new times.",
         "points": -2,
         "items":{
             "both": [
@@ -2859,7 +2859,7 @@
             "male": "Paperboy",
             "female": "Papergirl"
         },
-        "description": "You were delivering the morning paper along your usual route when the Cataclysm struck. The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
+        "description": "You were delivering the morning paper along your usual route when the Cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
         "points": 3,
         "skills": [
             {
@@ -3073,7 +3073,7 @@
         "type": "profession",
         "ident": "winter_scavenger",
         "name" : "Hardened Scavenger",
-        "description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
+        "description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
         "points" : 8,
         "skills": [
             {
@@ -3125,7 +3125,7 @@
         "type": "profession",
         "ident": "mall_cop",
         "name": "Mall Security",
-        "description": "A mall security guard. You don't have any useful skills, other than some basic training for your job. You do however have your trusty tazer, baton, and pocket knife.",
+        "description": "A mall security guard.  You don't have any useful skills, other than some basic training for your job.  You do however have your trusty tazer, baton, and pocket knife.",
         "points": 0,
         "items": {
             "both": [
@@ -3153,7 +3153,7 @@
         "type": "profession",
         "ident": "naturalist",
         "name": "Naturalist",
-        "description": "You have come to an understanding with Mother Nature over long years of self-imposed exile in the wilderness. The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
+        "description": "You have come to an understanding with Mother Nature over long years of self-imposed exile in the wilderness.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
         "points": 6,
         "skills": [
             {
@@ -3221,7 +3221,7 @@
         "type": "profession",
         "ident": "fisher",
         "name": "Fisher",
-        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught. You found the buzzing of insects enjoyable, but they got bigger and more mean. Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
+        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught.  You found the buzzing of insects enjoyable, but they got bigger and more mean.  Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
         "points": 2,
         "skills": [
             {
