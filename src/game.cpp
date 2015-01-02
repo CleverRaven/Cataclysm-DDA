@@ -12067,22 +12067,32 @@ void game::reload(int pos)
 
         // See if the gun is fully loaded.
         if (it->charges == it->clip_size()) {
-
             // Also see if the spare magazine is loaded
             bool magazine_isfull = true;
-            item contents;
 
-            for( auto cont = it->contents.begin(); cont != it->contents.end(); ++cont ) {
-                contents = *cont;
-                if ((contents.is_gunmod() &&
-                     (contents.typeId() == "spare_mag" &&
-                      contents.charges < it->type->gun->clip)) ||
-                    (contents.is_auxiliary_gunmod() &&
-                     contents.charges < contents.clip_size())) {
+            for(auto &con : it->contents) {
+                if((con.is_gunmod() &&
+                        (con.typeId() == "spare_mag" &&
+                         con.charges < it->clip_size())) ||
+                    (con.is_auxiliary_gunmod() &&
+                        (con.charges < con.clip_size()))) {
                     magazine_isfull = false;
                     break;
                 }
             }
+
+//            item contents;
+//            for( auto cont = it->contents.begin(); cont != it->contents.end(); ++cont ) {
+//                contents = *cont;
+//                if ((contents.is_gunmod() &&
+//                     (contents.typeId() == "spare_mag" &&
+//                      contents.charges < it->type->gun->clip)) ||
+//                    (contents.is_auxiliary_gunmod() &&
+//                     contents.charges < contents.clip_size())) {
+//                    magazine_isfull = false;
+//                    break;
+//                }
+//            }
 
             if (magazine_isfull) {
                 add_msg(m_info, _("Your %s is fully loaded!"), it->tname().c_str());

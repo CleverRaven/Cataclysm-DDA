@@ -3460,7 +3460,7 @@ bool item::reload(player &u, int pos)
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != type->gun->clip &&
+                   contents[spare_mag].charges != clip_size() && 
                    (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
@@ -3484,7 +3484,7 @@ bool item::reload(player &u, int pos)
         if (reload_target->is_gun() || reload_target->is_gunmod()) {
             if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
                 // Use gun numbers instead of the mod if it's a spare magazine
-                max_load = type->gun->clip;
+                max_load = clip_size();
                 single_load = has_flag("RELOAD_ONE");
             } else {
                 single_load = reload_target->has_flag("RELOAD_ONE");
