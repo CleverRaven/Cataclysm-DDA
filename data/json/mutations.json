@@ -1867,7 +1867,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
@@ -1882,7 +1882,7 @@
         "mixed_effect" : true,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
         "valid" : false,
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
