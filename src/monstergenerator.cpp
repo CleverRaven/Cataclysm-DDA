@@ -46,8 +46,7 @@ void MonsterGenerator::finalize_mtypes()
         mtype *mon = elem.second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
-        // TODO: change the signature of the f below to look like ones above
-        mon->species_id = get_species_ids( mon->species );
+        set_species_ids( mon );
     }
 }
 
@@ -329,18 +328,18 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
 }
 
-std::set< int > MonsterGenerator::get_species_ids( const std::set< std::string > &specs ) const
+void MonsterGenerator::set_species_ids( mtype *mon )
 {
+    const std::set< std::string > &specs = mon->species;
     std::set< int > ret;
     for( const auto &s : specs ) {
         auto iter = mon_species.find( s );
         if( iter != mon_species.end() ) {
-            ret.insert( iter->second->short_id );
+            mon->species_id.insert( iter->second->short_id );
         } else {
-            debugmsg( "Tried to assign species %s, but no entry for the species exists", s.c_str() );
+            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
         }
     }
-    return ret;
 }
 
 void MonsterGenerator::load_monster(JsonObject &jo)
