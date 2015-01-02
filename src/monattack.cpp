@@ -2835,9 +2835,6 @@ void mattack::flame( monster *z, Creature *target )
     int dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() );
     if( target != &g->u ) {
       // friendly
-      npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-      tmp.skillLevel("launcher").level(2);
-      tmp.skillLevel("gun").level(2);
       z->moves -= 500;   // It takes a while
       int bres = 0;
       if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
