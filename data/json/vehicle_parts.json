@@ -3996,11 +3996,12 @@
         "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE"],
-        {"item": "steel_lump", "min": 4, "max": 6},
-        {"item": "steel_chunk", "min": 4, "max": 6},
-        {"item": "scrap", "min": 4, "max": 6},
-        {"item": "cable", "min": 2, "max": 4},
-        {"item": "plastic_chunk", "min": 1, "max": 3}
+        "breaks_into" : [
+          {"item": "steel_lump", "min": 4, "max": 6},
+          {"item": "steel_chunk", "min": 4, "max": 6},
+          {"item": "scrap", "min": 4, "max": 6},
+          {"item": "cable", "min": 2, "max": 4},
+          {"item": "plastic_chunk", "min": 1, "max": 3}
         ]
     },{
       "type" : "vehicle_part",
@@ -4018,11 +4019,11 @@
       "location" : "center",
       "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
       "breaks_into" : [
-      {"item": "steel_lump", "min": 4, "max": 6},
-      {"item": "steel_chunk", "min": 4, "max": 6},
-      {"item": "scrap", "min": 4, "max": 6},
-      {"item": "cable", "min": 2, "max": 4},
-      {"item": "plastic_chunk", "min": 1, "max": 3}
+        {"item": "steel_lump", "min": 4, "max": 6},
+        {"item": "steel_chunk", "min": 4, "max": 6},
+        {"item": "scrap", "min": 4, "max": 6},
+        {"item": "cable", "min": 2, "max": 4},
+        {"item": "plastic_chunk", "min": 1, "max": 3}
       ]
     },{
       "type" : "vehicle_part",
