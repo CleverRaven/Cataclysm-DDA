@@ -1641,6 +1641,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if(has_flag("LITCIG"))
         ret << _(" (lit)");
 
+    if( already_used_by_player( g->u ) ) {
+        ret << _( " (used)" );
+    }
+
     if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -1671,8 +1675,6 @@ std::string item::display_name(unsigned int quantity) const
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else if( already_used_by_player( g->u ) ) {
-        return string_format( _( "%s (used)" ), tname( quantity ).c_str() );
     } else if( is_book() && get_chapters() > 0 ) {
         return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
