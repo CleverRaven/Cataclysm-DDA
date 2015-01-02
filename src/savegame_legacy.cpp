@@ -1907,7 +1907,7 @@ void item::load_legacy(std::stringstream & dump) {
         }
     }
 
-    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
+    dump >> burnt >> poison >> ammotmp >> bday >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     if (corp != -1)
         corpse = GetMType(legacy_mon_id[corp]);

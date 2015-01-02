@@ -152,7 +152,6 @@ void item::init() {
     curammo = NULL;
     corpse = NULL;
     active = false;
-    owned = -1;
     mission_id = -1;
     player_id = -1;
     light = nolight;
@@ -1630,9 +1629,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     } else if (has_flag("RIGHT")) {
         sidedtext = _("right ");
     }
-
-    if (owned > 0)
-        ret << _(" (owned)");
 
     if(has_flag("WET"))
        ret << _(" (wet)");
