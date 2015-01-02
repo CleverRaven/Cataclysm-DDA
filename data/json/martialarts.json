@@ -426,6 +426,7 @@
             "tonfa",
             "tonfa_wood",
             "kukri",
+            "diamond_kukri",
             "knife_rambo",
             "knife_rm42"
         ]
@@ -455,10 +456,12 @@
         ],
         "weapons" : [
             "broadsword",
+            "diamond_broadsword",
             "broadfire_off",
             "broadfire_on",
             "sword_forged",
             "rapier",
+            "diamond_rapier",
             "fencing_foil",
             "fencing_sabre",
             "fencing_epee",
@@ -617,6 +620,7 @@
             "wasp_sting",
             "wrench",
             "kukri",
+            "diamond_kukri",
             "knife_rambo",
             "knife_rm42"
         ]
