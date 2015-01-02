@@ -87,8 +87,8 @@ void monster::wander_to(int x, int y, int f)
 
 void monster::plan(const mfactions &factions)
 {
-    // Bots (currently only hacked ones) are more intelligent than most living stuff
-    bool electronic = friendly != 0 && has_flag( MF_ELECTRONIC );
+    // Bots are more intelligent than most living stuff
+    bool electronic = has_flag( MF_ELECTRONIC );
     int closest = -1;
     float dist = 1000;
     int bresenham_slope = 0;
@@ -101,12 +101,12 @@ void monster::plan(const mfactions &factions)
             dist = 8.6f; // Tank drone 60 tiles away, moose 16 or boomer 33
         }
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster *tmp = &( g->zombie( i ) );
-            if( tmp->friendly == 0 ) {
-                int d = rl_dist( posx(), posy(), tmp->posx(), tmp->posy() );
-                float rating = !electronic ? d : d / std::max( tmp->power_rating(), 0.00001f );
-                int sightrange = vision_range( tmp->posx(), tmp->posy() );
-                if( g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, bresenham_slope ) && 
+            monster tmp = g->zombie( i );
+            if( tmp.friendly == 0 ) {
+                int d = rl_dist( posx(), posy(), tmp.posx(), tmp.posy() );
+                float rating = !electronic ? d : d / std::max( tmp.power_rating(), 0.00001f );
+                int sightrange = vision_range( tmp.posx(), tmp.posy() );
+                if( g->m.sees(posx(), posy(), tmp.posx(), tmp.posy(), sightrange, bresenham_slope ) && 
                     rating < dist ) {
                         closest = -3 - i;
                         dist = rating;
@@ -119,6 +119,9 @@ void monster::plan(const mfactions &factions)
     // If we can see, and we can see the player, move toward them or flee.
     if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
+        if( electronic ) {
+            dist /= 5.0f; // Player considered as dangerous as hulk
+        }
         if( is_fleeing( g->u ) ) {
             // Wander away.
             fleeing = true;
@@ -134,18 +137,19 @@ void monster::plan(const mfactions &factions)
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = (g->active_npc[i]);
             int medist = rl_dist(posx(), posy(), me->posx, me->posy);
+            float rating = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
             int sightrange = vision_range( me->posx, me->posy );
-            if( ( medist < dist || (!fleeing && is_fleeing(*me))) &&
+            if( ( rating < dist || (!fleeing && is_fleeing(*me))) &&
                   ( can_see() &&
                     g->m.sees( posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope) ) ) {
                 if( is_fleeing( *me ) ) {
                     fleeing = true;
                     set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);
-                    dist = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
+                    dist = rating;
                 } else if( attitude( me ) == MATT_ATTACK ) {
                     closest = i;
                     selected_slope = bresenham_slope;
-                    dist = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
+                    dist = rating;
                 }
             }
         }
@@ -161,11 +165,12 @@ void monster::plan(const mfactions &factions)
 
                 for( int i : faction.second ) { // mon indices
                     monster &mon = g->zombie( i );
-                    int mondist = rl_dist(posx(), posy(), mon.posx(), mon.posy());
+                    int d = rl_dist(posx(), posy(), mon.posx(), mon.posy());
+                    float rating = !electronic ? d : d / std::max( mon.power_rating(), 0.00001f );
                     int sightrange = vision_range( mon.posx(), mon.posy() );
-                    if (mondist < dist &&
-                        g->m.sees(posx(), posy(), mon.posx(), mon.posy(), sightrange, bresenham_slope)) {
-                        dist = mondist;
+                    if( rating < dist &&
+                        g->m.sees(posx(), posy(), mon.posx(), mon.posy(), sightrange, bresenham_slope ) ) {
+                        dist = rating;
                         if (fleeing) {
                             wandx = posx() * 2 - mon.posx();
                             wandy = posy() * 2 - mon.posy();
