@@ -834,7 +834,6 @@ void vehicle::use_controls()
     bool has_door_motor = false;
     bool has_camera = false;
     bool has_camera_control = false;
-    bool has_doors = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
 
