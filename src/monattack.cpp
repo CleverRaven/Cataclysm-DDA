@@ -113,6 +113,9 @@ void mattack::antqueen(monster *z, int index)
 
 void mattack::shriek(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (within_visual_range(z, 4) < 0) return;
 
     z->moves -= 240;   // It takes a while
@@ -122,6 +125,9 @@ void mattack::shriek(monster *z, int index)
 
 void mattack::howl(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (within_visual_range(z, 4) < 0) return;
 
     z->moves -= 200;   // It takes a while
@@ -131,6 +137,9 @@ void mattack::howl(monster *z, int index)
 
 void mattack::rattle(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (within_visual_range(z, 4) < 0) return;
 
     z->moves -= 20;   // It takes a very short while
@@ -257,6 +266,9 @@ void mattack::smokecloud(monster *z, int index)
 
 void mattack::boomer(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int dist = within_visual_range(z, 3);
     if (dist < 0) {
         return;
@@ -293,6 +305,9 @@ void mattack::boomer(monster *z, int index)
 
 void mattack::resurrect(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
     }
@@ -393,6 +408,9 @@ void mattack::smash(monster *z, int index)
 
 void mattack::science(monster *z, int index) // I said SCIENCE again!
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int dist = within_visual_range(z, 5);
     if (dist < 0) {
         return;
@@ -486,6 +504,9 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
 
 void mattack::growplants(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     (void)index; //unused
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
@@ -645,6 +666,9 @@ void mattack::growplants(monster *z, int index)
 
 void mattack::grow_vine(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->reset_special(index); // Reset timer
     z->moves -= 100;
     monster vine(GetMType("mon_creeper_vine"));
@@ -665,6 +689,9 @@ void mattack::grow_vine(monster *z, int index)
 
 void mattack::vine(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     std::vector<point> grow;
     int vine_neighbors = 0;
     z->reset_special(index); // Reset timer
@@ -720,6 +747,9 @@ void mattack::vine(monster *z, int index)
 void mattack::spit_sap(monster *z, int index)
 {
     // TODO: Friendly biollantes?
+    if( z->friendly ) {
+        return;
+    }
     int dist = within_visual_range(z, 12);
     if (dist < 0) return;
 
@@ -782,6 +812,9 @@ void mattack::spit_sap(monster *z, int index)
 
 void mattack::triffid_heartbeat(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     g->sound(z->posx(), z->posy(), 14, _("thu-THUMP."));
     z->moves -= 300;
     z->reset_special(index); // Reset timer
@@ -916,6 +949,9 @@ void mattack::fungus(monster *z, int index)
 
 void mattack::fungus_haze(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->reset_special(index); // Reset timer
     //~ That spore sound again
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
@@ -932,6 +968,9 @@ void mattack::fungus_haze(monster *z, int index)
 
 void mattack::fungus_big_blossom(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->reset_special(index); // Reset timer
     bool firealarm = false;
     int monx = z->posx();
@@ -982,6 +1021,9 @@ void mattack::fungus_big_blossom(monster *z, int index)
 
 void mattack::fungus_inject(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
@@ -1036,6 +1078,9 @@ void mattack::fungus_inject(monster *z, int index)
 }
 void mattack::fungus_bristle(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
@@ -1096,6 +1141,9 @@ void mattack::fungus_growth(monster *z, int index)
 
 void mattack::fungus_sprout(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->reset_special(index); // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -1115,6 +1163,9 @@ void mattack::fungus_sprout(monster *z, int index)
 
 void mattack::fungus_fortify(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     bool mycus = false;
     bool peaceful = true;
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
@@ -1242,6 +1293,9 @@ void mattack::fungus_fortify(monster *z, int index)
 
 void mattack::leap(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int linet = 0;
     std::vector<point> options;
     point target = z->move_target();
@@ -1367,6 +1421,9 @@ void mattack::dermatik(monster *z, int index)
 
 void mattack::dermatik_growth(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     (void)index; //unused
     // Dermatik larva growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
@@ -1404,6 +1461,9 @@ void mattack::disappear(monster *z, int index)
 
 void mattack::formblob(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     bool didit = false;
     int thatmon = -1;
     for (int i = -1; i <= 1; i++) {
@@ -1472,6 +1532,9 @@ void mattack::formblob(monster *z, int index)
 
 void mattack::callblobs(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     // The huge brain blob interposes other blobs between it and any threat.
     // For the moment just target the player, this gets a bit more complicated
     // if we want to deal with NPCS and friendly monsters as well.
@@ -1618,6 +1681,9 @@ void mattack::dogthing(monster *z, int index)
 
 void mattack::tentacle(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int t;
     if (!g->sees_u(z->posx(), z->posy(), t)) {
         return;
@@ -1842,6 +1908,9 @@ void mattack::vortex(monster *z, int index)
 
 void mattack::gene_sting(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (within_visual_range(z, 7) < 0) return;
 
     if (g->u.uncanny_dodge()) {
@@ -1855,6 +1924,9 @@ void mattack::gene_sting(monster *z, int index)
 
 void mattack::para_sting(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (within_visual_range(z, 4) < 0) return;
 
     if (g->u.uncanny_dodge()) {
@@ -1880,6 +1952,9 @@ void mattack::triffid_growth(monster *z, int index)
 
 void mattack::stare(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->moves -= 200;
     z->reset_special(index); // Reset timer
     int j;
@@ -1903,6 +1978,9 @@ void mattack::stare(monster *z, int index)
 
 void mattack::fear_paralyze(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (g->u_see(z->posx(), z->posy())) {
         z->reset_special(index); // Reset timer
         if (g->u.has_artifact_with(AEP_PSYSHIELD)) {
@@ -1919,6 +1997,9 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
         return;
     }
@@ -2715,6 +2796,9 @@ void mattack::searchlight(monster *z, int index)
 
 void mattack::flamethrower(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (z->friendly != 0) {
         z->reset_special(index); // Reset timer
         Creature *target = nullptr;
@@ -2803,6 +2887,9 @@ void mattack::flame( monster *z, Creature *target )
 
 void mattack::copbot(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int t;
     bool sees_u = g->sees_u(z->posx(), z->posy(), t);
     bool cuffed = g->u.weapon.type->id == "e_handcuffs";
@@ -3003,6 +3090,9 @@ void mattack::multi_robot(monster *z, int index)
 
 void mattack::ratking(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 50) {
         return;
     }
@@ -3206,6 +3296,9 @@ void mattack::bite(monster *z, int index)
 
 void mattack::brandish(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int linet;
     if (!g->sees_u(z->posx(), z->posy(), linet)) {
         return; // Only brandish if we can see you!
@@ -3217,6 +3310,9 @@ void mattack::brandish(monster *z, int index)
 
 void mattack::flesh_golem(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(12)) {
             int j;
@@ -3260,6 +3356,9 @@ void mattack::flesh_golem(monster *z, int index)
 
 void mattack::lunge(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(5)) {
             int j;
@@ -3303,6 +3402,9 @@ void mattack::lunge(monster *z, int index)
 
 void mattack::longswipe(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(5)) {
             int j;
@@ -3372,6 +3474,9 @@ void mattack::parrot(monster *z, int index)
 
 void mattack::darkman(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if( rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ) {
         return;
     }
@@ -3513,6 +3618,9 @@ bool mattack::thrown_by_judo(monster *z, int index)
 
 void mattack::riotbot(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     z->reset_special(index); // Reset timer
 
     const int monx = z->posx();
@@ -3703,6 +3811,9 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
@@ -3765,6 +3876,9 @@ void mattack::bio_op_takedown(monster *z, int index)
 
 void mattack::suicide(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     (void)index; //unused
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2) {
         return; //commit suicide when close enough to player

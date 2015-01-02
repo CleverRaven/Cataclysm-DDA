@@ -246,12 +246,9 @@ void monster::move()
             sp_timeout[i]--;
         }
 
-        if( sp_timeout[i] == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL)) &&
-            !has_effect("pacified") ) {
+        if( sp_timeout[i] == 0 && !has_effect("pacified") && !is_hallucination() ) {
             mattack ma;
-            if(!is_hallucination()) {
-                (ma.*type->sp_attack[i])(this, i);
-            }
+            (ma.*type->sp_attack[i])(this, i);
         }
     }
     if (moves < 0) {
