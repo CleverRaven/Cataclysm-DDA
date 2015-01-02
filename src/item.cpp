@@ -619,7 +619,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
                                      ammo_dispersion, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
-                                     mod->gun_dispersion( true ) + ammo_dispersion, true, "", true, true, false));
+                                     mod->gun_dispersion( true ), true, "", true, true, false));
         }
 
         dump->push_back(iteminfo("GUN", _("Sight dispersion: "), "",
