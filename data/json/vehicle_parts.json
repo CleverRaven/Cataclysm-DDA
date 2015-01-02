@@ -3973,7 +3973,7 @@
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "WINDOW"],
+        "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
