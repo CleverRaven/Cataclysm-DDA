@@ -90,16 +90,14 @@ void monster::plan(const mfactions &factions)
     // Bots are more intelligent than most living stuff
     bool electronic = has_flag( MF_ELECTRONIC );
     int closest = -1;
-    float dist = 1000;
+    // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
+    float dist = !electronic ? 1000 : 8.6f;
     int bresenham_slope = 0;
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
 
     if( friendly != 0 && !docile ) { // Target unfriendly monsters
-        if( electronic ) {
-            dist = 8.6f; // Tank drone 60 tiles away, moose 16 or boomer 33
-        }
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
@@ -120,7 +118,7 @@ void monster::plan(const mfactions &factions)
     if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
         if( electronic ) {
-            dist /= 5.0f; // Player considered as dangerous as hulk
+            dist /= 7.0f; // Player considered as dangerous as tank drone
         }
         if( is_fleeing( g->u ) ) {
             // Wander away.
