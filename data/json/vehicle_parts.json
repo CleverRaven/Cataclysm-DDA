@@ -5370,7 +5370,8 @@
       {"item": "steel_lump", "min": 1, "max": 1},
       {"item": "steel_chunk", "min": 1, "max": 3},
       {"item": "scrap", "min": 1, "max": 3},
-      {"item": "cable", "min": 0, "max": 4}
+      {"item": "wire",  "min": 0, "max": 3},
+      {"item": "cable", "min": 0, "max": 5}
       ]
     },{
       "type" : "vehicle_part",
