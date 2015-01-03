@@ -12073,7 +12073,7 @@ void game::reload(int pos)
             for(auto &con : it->contents) {
                 if((con.is_gunmod() &&
                         (con.typeId() == "spare_mag" &&
-                         con.charges < it->clip_size())) ||
+                         con.charges < it->spare_mag_size())) ||
                     (con.is_auxiliary_gunmod() &&
                         (con.charges < con.clip_size()))) {
                     magazine_isfull = false;
