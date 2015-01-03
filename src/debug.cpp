@@ -292,7 +292,7 @@ inline time_info get_time() noexcept {
         current->tm_hour
       , current->tm_min
       , current->tm_sec
-      , static_cast<int>(tv.tv_usec / 1000 + 0.5)
+      , static_cast<int>(tv.tv_usec / 1000.0 + 0.5)
     };
 }
 #endif
