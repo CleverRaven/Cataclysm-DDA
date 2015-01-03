@@ -7712,6 +7712,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "powered quarterstaff",
+    "name_plural": "powered quarterstaves",
     "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
     "price": 8000,
     "material": [ "wood", "iron" ],
