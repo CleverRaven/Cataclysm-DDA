@@ -12920,8 +12920,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
             }
         } else {
             if (candidate.has_flag("HAS_RECIPE")){
-                item dummy = candidate;
-                if (dummy.item_vars["RECIPE"] == r->ident){
+                if (candidate.get_var("RECIPE") == r->ident){
                     if (difficulty == -1) difficulty = r->difficulty;
                 }
             }

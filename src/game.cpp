@@ -1962,10 +1962,10 @@ void game::activity_on_finish_make_zlave()
         u.add_msg_if_player(m_good,
                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
 
-        body->item_vars["zlave"] = "zlave";
+        body->set_var( "zlave", "zlave" );
         //take into account the chance that the body yet can regenerate not as we need.
         if (one_in(10)) {
-            body->item_vars["zlave"] = "mutilated";
+            body->set_var( "zlave", "mutilated" );
         }
 
     } else {
@@ -1981,9 +1981,9 @@ void game::activity_on_finish_make_zlave()
             success += rng(1, 20);
 
             if (success > 0 && !one_in(5)) {
-                body->item_vars["zlave"] = "zlave";
+                body->set_var( "zlave", "zlave" );
             } else {
-                body->item_vars["zlave"] = "mutilated";
+                body->set_var( "zlave", "mutilated" );
             }
 
         } else {
@@ -7710,7 +7710,7 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
 
-    if (it->item_vars["zlave"] == "zlave"){
+    if (it->get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
     }

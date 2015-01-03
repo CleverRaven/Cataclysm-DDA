@@ -2550,32 +2550,32 @@ void mattack::searchlight(monster *z, int index)
 
             item settings("processor", 0);
 
-            settings.item_vars["SL_PREFER_UP"] = "TRUE";
-            settings.item_vars["SL_PREFER_DOWN"] = "TRUE";
-            settings.item_vars["SL_PREFER_RIGHT"] = "TRUE";
-            settings.item_vars["SL_PREFER_LEFT"] = "TRUE";
+            settings.set_var( "SL_PREFER_UP", "TRUE" );
+            settings.set_var( "SL_PREFER_DOWN", "TRUE" );
+            settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
+            settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
             for (int x = zposx - 24; x < zposx + 24; x++)
                 for (int y = zposy - 24; y < zposy + 24; y++) {
                     if (g->mon_at(x, y) != -1 && g->zombie(g->mon_at(x, y)).type->id == "mon_turret_searchlight") {
                         if (x < zposx) {
-                            settings.item_vars["SL_PREFER_LEFT"] = "FALSE";
+                            settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                         }
                         if (x > zposx) {
-                            settings.item_vars["SL_PREFER_RIGHT"] = "FALSE";
+                            settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
                         }
                         if (y < zposy) {
-                            settings.item_vars["SL_PREFER_UP"] = "FALSE";
+                            settings.set_var( "SL_PREFER_UP", "FALSE" );
                         }
                         if (y > zposy) {
-                            settings.item_vars["SL_PREFER_DOWN"] = "FALSE";
+                            settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                         }
                     }
 
                 }
 
-            settings.item_vars["SL_SPOT_X"] = string_format("%d", 0);
-            settings.item_vars["SL_SPOT_Y"] = string_format("%d", 0);
+            settings.set_var( "SL_SPOT_X", 0 );
+            settings.set_var( "SL_SPOT_Y", 0 );
 
             z->add_item(settings);
         }
@@ -2593,7 +2593,7 @@ void mattack::searchlight(monster *z, int index)
 
         if (!generator_ok) {
             item &settings = z->inv[index];
-            settings.item_vars["SL_POWER"] = "OFF";
+            settings.set_var( "SL_POWER", "OFF" );
 
             return;
         }
@@ -2603,7 +2603,7 @@ void mattack::searchlight(monster *z, int index)
 
         item &settings = z->inv[i];
 
-        if (settings.item_vars["SL_POWER"] == "OFF") {
+        if (settings.get_var( "SL_POWER" )  == "OFF") {
             return;
         }
 
@@ -2612,33 +2612,31 @@ void mattack::searchlight(monster *z, int index)
         if (one_in(5)) {
 
             if (!one_in(5)) {
-                settings.item_vars["SL_DIR"] = string_format("%d", rng_dir);
+                settings.set_var( "SL_DIR", rng_dir );
             } else {
                 const int rng_pref = rng(0, 3) * 2;
-                if (rng_pref == 0 && settings.item_vars["SL_PREFER_UP"] == "TRUE") {
-                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
-                } else            if (rng_pref == 2 && settings.item_vars["SL_PREFER_RIGHT"] == "TRUE") {
-                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
-                } else            if (rng_pref == 4 && settings.item_vars["SL_PREFER_DOWN"] == "TRUE") {
-                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
-                } else            if (rng_pref == 6 && settings.item_vars["SL_PREFER_LEFT"] == "TRUE") {
-                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
+                if (rng_pref == 0 && settings.get_var( "SL_PREFER_UP" ) == "TRUE") {
+                    settings.set_var( "SL_DIR", rng_pref );
+                } else            if (rng_pref == 2 && settings.get_var( "SL_PREFER_RIGHT" ) == "TRUE") {
+                    settings.set_var( "SL_DIR", rng_pref );
+                } else            if (rng_pref == 4 && settings.get_var( "SL_PREFER_DOWN" ) == "TRUE") {
+                    settings.set_var( "SL_DIR", rng_pref );
+                } else            if (rng_pref == 6 && settings.get_var( "SL_PREFER_LEFT" ) == "TRUE") {
+                    settings.set_var( "SL_DIR", rng_pref );
                 }
             }
         }
 
 
-        int x = zposx + atoi(settings.item_vars["SL_SPOT_X"].c_str());
-        int y = zposy + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
+        int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
+        int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
         int shift = 0;
 
         for (int i = 0; i < rng(1, 2); i++) {
 
             int bresenham_slope;
             if (!z->sees_player(bresenham_slope)) {
-                if (settings.item_vars["SL_DIR"] != "") {
-                    shift = atoi(settings.item_vars["SL_DIR"].c_str());
-                }
+                shift = settings.get_var( "SL_DIR", shift );
 
                 switch (shift) {
                     case 0:
@@ -2705,8 +2703,8 @@ void mattack::searchlight(monster *z, int index)
             }
         }
 
-        settings.item_vars["SL_SPOT_X"] = string_format("%d", x - zposx);
-        settings.item_vars["SL_SPOT_Y"] = string_format("%d", y - zposy);
+        settings.set_var( "SL_SPOT_X", x - zposx );
+        settings.set_var( "SL_SPOT_Y", y - zposy );
 
         g->m.add_field(x, y, fd_spotlight, 1);
 
@@ -3591,8 +3589,8 @@ void mattack::riotbot(monster *z, int index)
             item handcuffs("e_handcuffs", 0);
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
-            handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
-            handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);
+            handcuffs.set_var( "HANDCUFFS_X", g->u.posx );
+            handcuffs.set_var( "HANDCUFFS_Y", g->u.posy );
 
             const bool is_uncanny = g->u.has_active_bionic("bio_uncanny_dodge") && g->u.power_level > 74 &&
                                     !one_in(3);

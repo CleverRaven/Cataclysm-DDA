@@ -579,6 +579,44 @@ public:
         /*@}*/
 
         /**
+         * @name Item variables
+         *
+         * Item variables can be used to store any value in the item. The storage is persistent,
+         * it remains through saving & loading, it is copied when the item is moved etc.
+         * Each item variable is referred to by its name, so make sure you use a name that is not
+         * already used somewhere.
+         * You can directly store integer, floating point and string values. Data of other types
+         * must be converted to one of those to be stored.
+         * The set_var functions override the existing value.
+         * The get_var function return the value (if the variable exists), or the default value
+         * otherwise. The type of the default value determines which get_var function is used:
+         * <code>
+         * auto v = itm.get_var("v", 0); // v will be an int
+         * auto l = itm.get_var("v", 0l); // l will be a long
+         * auto d = itm.get_var("v", 0.0); // d will be a double
+         * auto s = itm.get_var("v", ""); // s will be a std::string
+         * // no default means empty string as default:
+         * auto n = itm.get_var("v"); // v will be a std::string
+         * </code>
+         */
+        /*@{*/
+        void set_var( const std::string &name, int value );
+        int get_var( const std::string &name, int default_value ) const;
+        void set_var( const std::string &name, long value );
+        long get_var( const std::string &name, long default_value ) const;
+        void set_var( const std::string &name, double value );
+        double get_var( const std::string &name, double default_value ) const;
+        void set_var( const std::string &name, const std::string &value );
+        std::string get_var( const std::string &name, const std::string &default_value ) const;
+        /** Get the variable, if it does not exists, returns an empty string. */
+        std::string get_var( const std::string &name ) const;
+        /** Whether the variable is defined at all. */
+        bool has_var( const std::string &name ) const;
+        /** Erase the value of the given variable. */
+        void erase_var( const std::string &name );
+        /*@}*/
+
+        /**
          * @name Armor related functions.
          *
          * The functions here refer to values from @ref it_armor. They only apply to armor items,
@@ -833,6 +871,7 @@ public:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
+        std::map<std::string, std::string> item_vars;
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -852,7 +891,6 @@ public:
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!
- std::map<std::string, std::string> item_vars;
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 

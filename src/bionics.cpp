@@ -646,13 +646,7 @@ bool player::activate_bionic(int b, bool eff_only)
         bool extracted = false;
         for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
             if (it->type->id == "corpse" ) {
-                int avail = 0;
-                auto remaining_water = it->item_vars.find("remaining_water");
-                if( remaining_water != it->item_vars.end() ) {
-                    avail = atoi ( remaining_water->second.c_str() );
-                } else {
-                    avail = it->volume() / 2;
-                }
+                const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
                     water.charges = avail;
@@ -663,7 +657,7 @@ bool player::activate_bionic(int b, bool eff_only)
                     }
                     if( water.charges != avail ) {
                         extracted = true;
-                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                        it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
                     break;
                 }

@@ -488,8 +488,8 @@ void mdeath::focused_beam(monster *z)
 
         item &settings = z->inv[0];
 
-        int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
-        int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
+        int x = z->posx() + settings.get_var( "SL_SPOT_X", 0 );
+        int y = z->posy() + settings.get_var( "SL_SPOT_Y", 0 );
 
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
         for( auto &elem : traj ) {
@@ -644,7 +644,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
-        corpse.item_vars["zlave"] = one_in(2) ? "zlave" : "mutilated";
+        corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
     }
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }
