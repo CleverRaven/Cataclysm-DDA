@@ -63,14 +63,14 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = goes_bad() && !rotten();
-        if( comest->count_by_charges() && rand && !has_random_charges ) {
+        if( comest->count_by_charges() && !has_random_charges ) {
             charges = comest->def_charges;
         }
     }
     if( type->is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
         if( tool->max_charges != 0 ) {
-            if( rand && !has_random_charges ) {
+            if( !has_random_charges ) {
                 charges = tool->def_charges;
             }
             if (tool->ammo != "NULL") {
