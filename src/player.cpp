@@ -7107,7 +7107,6 @@ void player::hardcoded_effects(effect &it)
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
         } else if(int(calendar::turn) % 50 == 0) {
-            int recovery_chance;
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7115,21 +7114,32 @@ void player::hardcoded_effects(effect &it)
             } else if (intense < 1) {
                 it.set_intensity(1);
             }
-            recovery_chance = 24 - intense + 1;
+
+            auto const recovery_chance = 24 - intense + 1;
+
             if (fatigue > 0) {
-                fatigue -= 1 + one_in(recovery_chance);
+                auto const do_roll = [recovery_chance] {
+                    return one_in(recovery_chance) ? 1.0 : 0.0f;
+                };
+
+                auto delta = double {1.0} + do_roll();
+
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
                 if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
-                    fatigue -=(1 + one_in(recovery_chance) / 2);
+                    delta += (1.0 + do_roll()) / 2.0;
                 }
+
                 // Tireless folks recover fatigue really fast
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
                 if (has_trait("WAKEFUL3")) {
-                    fatigue -=(2 + one_in(recovery_chance) / 2);
+                    delta += (2.0 + do_roll()) / 2.0;
                 }
+
+                fatigue -= static_cast<int>(std::round(delta));
             }
+
             int heal_chance = get_healthy() / 4;
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
@@ -8007,10 +8017,10 @@ void player::mend()
                 healing_factor = 20.0;
             }
             // Studies have shown that alcohol and tobacco use delay fracture healing time
-            if(has_effect("cig") | addiction_level(ADD_CIG)) {
+            if(has_effect("cig") || addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
             }
-            if(has_effect("drunk") | addiction_level(ADD_ALCOHOL)) {
+            if(has_effect("drunk") || addiction_level(ADD_ALCOHOL)) {
                 healing_factor *= 0.5;
             }
 
