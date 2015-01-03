@@ -4764,7 +4764,7 @@
 "reload": 800
 },
 {
-	"id": "heavy_rebar_rifle",
+	"id": "heavy_gauss_rifle",
 	"type": "GUN",
 	"symbol": "(",
 	"color": "dark_gray",
