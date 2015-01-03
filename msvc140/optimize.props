@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Label="UserMacros" />
+
+  <PropertyGroup Label="UserMacros">
+    <BuildConfig>Release</BuildConfig>
+  </PropertyGroup>
+  
   <PropertyGroup />
+  
   <ItemDefinitionGroup>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
@@ -16,5 +21,11 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup />
+  
+  <ItemGroup>
+    <BuildMacro Include="BuildConfig">
+      <Value>$(BuildConfig)</Value>
+    </BuildMacro>
+  </ItemGroup>
+  
 </Project>
