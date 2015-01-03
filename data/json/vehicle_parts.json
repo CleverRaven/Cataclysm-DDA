@@ -3712,6 +3712,24 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "domelight",
+        "name" : "dome light",
+        "symbol" : ".",
+        "color" : "white",
+        "broken_symbol" : ".",
+        "broken_color" : "white",
+        "damage_modifier" : 0,
+        "durability" : 20,
+        "epower" : -80,
+        "bonus" : 20,
+        "item" : "flashlight",
+        "difficulty" : 1,
+        "flags" : ["CIRCLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "headlight_reinforced",
         "name" : "reinforced head light",
         "symbol" : "*",
