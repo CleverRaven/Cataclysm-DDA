@@ -835,30 +835,28 @@ void player::mutate_towards(std::string mut)
         mutation_effect(*this, mut);
         mutation_replaced = true;
     }
-    if (canceltrait.size() > 0) {
-        for (size_t i = 0; i < canceltrait.size(); i++) {
-            if(traits[mut].mixed_effect || traits[canceltrait[i]].mixed_effect) {
-                rating = m_mixed;
-            } else if(traits[mut].points < traits[canceltrait[i]].points) {
-                rating = m_bad;
-            } else if(traits[mut].points > traits[canceltrait[i]].points) {
-                rating = m_good;
-            } else if(traits[mut].points == traits[canceltrait[i]].points) {
-                rating = m_neutral;
-            } else {
-                rating = m_mixed;
-            }
-            // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-            add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
-                    traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
-            add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
-                            pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                            traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
-            toggle_mutation(canceltrait[i]);
-            mutation_loss_effect(*this, canceltrait[i]);
-            mutation_effect(*this, mut);
-            mutation_replaced = true;
+    for (size_t i = 0; i < canceltrait.size(); i++) {
+        if(traits[mut].mixed_effect || traits[canceltrait[i]].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[mut].points < traits[canceltrait[i]].points) {
+            rating = m_bad;
+        } else if(traits[mut].points > traits[canceltrait[i]].points) {
+            rating = m_good;
+        } else if(traits[mut].points == traits[canceltrait[i]].points) {
+            rating = m_neutral;
+        } else {
+            rating = m_mixed;
         }
+        // If this new mutation cancels a base trait, remove it and add the mutation at the same time
+        add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
+                traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
+        add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
+                        pgettext("memorial_female", "'%s' mutation turned into '%s'"),
+                        traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
+        toggle_mutation(canceltrait[i]);
+        mutation_loss_effect(*this, canceltrait[i]);
+        mutation_effect(*this, mut);
+        mutation_replaced = true;
     }
     if (!mutation_replaced) {
         if(traits[mut].mixed_effect) {
