@@ -2396,6 +2396,7 @@
         "type":"GENERIC",
         "id" : "spear_survivor",
         "name" : "survivor naginata",
+        "name_plural": "survivor naginata",
         "description" : "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
         "weight" : 1700,
         "to_hit" : 2,
