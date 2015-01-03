@@ -113,9 +113,6 @@ void mattack::antqueen(monster *z, int index)
 
 void mattack::shriek(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     if (within_visual_range(z, 4) < 0) return;
 
     z->moves -= 240;   // It takes a while
@@ -125,22 +122,34 @@ void mattack::shriek(monster *z, int index)
 
 void mattack::howl(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     if (within_visual_range(z, 4) < 0) return;
 
     z->moves -= 200;   // It takes a while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 35, _("an ear-piercing howl!"));
+
+    if( z->friendly != 0 ) {
+        for( size_t i = 0; i < g->num_zombies(); ++i ) {
+            auto &other = g->zombie( i );
+            if( other.is_dead() || other.type != z->type || z->friendly != 0 ) {
+                continue;
+            }
+            // Quote KA101: Chance of friendlying other howlers in the area, I'd imagine:
+            // wolves use howls for communication and can convey that the ape is on Team Wolf.
+            if( one_in( 4 ) ) {
+                other.friendly = z->friendly;
+                break;
+            }
+        }
+    }
 }
 
 void mattack::rattle(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
-    if (within_visual_range(z, 4) < 0) return;
+    // Friendly monsters tolerate you nearby
+    // TODO: react to other monsters (hostile to z).
+    const int min_dist = z->friendly != 0 ? 1 : 4;
+    if (within_visual_range(z, min_dist) < 0) return;
 
     z->moves -= 20;   // It takes a very short while
     z->reset_special(index); // Reset timer
@@ -305,9 +314,6 @@ void mattack::boomer(monster *z, int index)
 
 void mattack::resurrect(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
     }
@@ -344,6 +350,9 @@ void mattack::resurrect(monster *z, int index)
             if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
                 if (!g->revive_corpse(x, y, n)) {
                     continue;
+                }
+                if( z->friendly != 0 ) {
+                    g->zombie(g->num_zombies() - 1).friendly = z->friendly;
                 }
                 if (g->u_see(x, y)) {
                     raised++;
@@ -409,7 +418,7 @@ void mattack::smash(monster *z, int index)
 void mattack::science(monster *z, int index) // I said SCIENCE again!
 {
     if( z->friendly ) {
-        return; // TODO: handle friendly monsters
+        return; // TODO: handle friendly monsters, this requires targeting any creature, not just g->u
     }
     int dist = within_visual_range(z, 5);
     if (dist < 0) {
@@ -504,9 +513,6 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
 
 void mattack::growplants(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     (void)index; //unused
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
@@ -533,7 +539,7 @@ void mattack::growplants(monster *z, int index)
                             rn = 0;
                         }
                         g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
-                    } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
+                    } else if( z->friendly == 0 && g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
                             body_part hit = num_bp;
@@ -609,7 +615,7 @@ void mattack::growplants(monster *z, int index)
                                 rn = 0;
                             }
                             g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
-                        } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
+                        } else if (z->friendly == 0 && g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
                                 body_part hit = num_bp;
                                 if (one_in(2)) {
@@ -667,7 +673,10 @@ void mattack::growplants(monster *z, int index)
 void mattack::grow_vine(monster *z, int index)
 {
     if( z->friendly ) {
-        return; // TODO: handle friendly monsters
+        if( rl_dist( g->u.xpos(), g->u.ypos(), z->xpos(), z->ypos() ) <= 3 ) {
+            // Friendly vines keep the area around you free, so you can move.
+            return;
+        }
     }
     z->reset_special(index); // Reset timer
     z->moves -= 100;
@@ -811,15 +820,16 @@ void mattack::spit_sap(monster *z, int index)
 
 void mattack::triffid_heartbeat(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     g->sound(z->posx(), z->posy(), 14, _("thu-THUMP."));
     z->moves -= 300;
     z->reset_special(index); // Reset timer
     if ((z->posx() < 0 || z->posx() >= SEEX * MAPSIZE) &&
         (z->posy() < 0 || z->posy() >= SEEY * MAPSIZE)   ) {
         return;
+    }
+    if( z->friendly ) {
+        return;
+        // TODO: when friendly: open a way to the stairs, don't spawn monsters
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 5 &&
         !g->m.route(g->u.posx, g->u.posy, z->posx(), z->posy()).empty()) {
@@ -948,9 +958,6 @@ void mattack::fungus(monster *z, int index)
 
 void mattack::fungus_haze(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     z->reset_special(index); // Reset timer
     //~ That spore sound again
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
@@ -967,9 +974,6 @@ void mattack::fungus_haze(monster *z, int index)
 
 void mattack::fungus_big_blossom(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     z->reset_special(index); // Reset timer
     bool firealarm = false;
     int monx = z->posx();
@@ -1020,9 +1024,6 @@ void mattack::fungus_big_blossom(monster *z, int index)
 
 void mattack::fungus_inject(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
@@ -1035,6 +1036,11 @@ void mattack::fungus_inject(monster *z, int index)
     if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) && !g->u.crossed_threshold()) {
         add_msg(m_info, _("The %s seems to wave you toward the tower..."), z->name().c_str());
         z->anger = 0;
+        return;
+    }
+    if( z->friendly ) {
+        // TODO: attack other creatures, not just g->u, for now just skip the code below as it
+        // only attacks g->u but the monster is friendly.
         return;
     }
     add_msg(m_warning, _("The %s jabs at you with a needlelike point!"), z->name().c_str());
@@ -1140,9 +1146,6 @@ void mattack::fungus_growth(monster *z, int index)
 
 void mattack::fungus_sprout(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     z->reset_special(index); // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -1996,9 +1999,6 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
         return;
     }
@@ -2085,6 +2085,11 @@ void mattack::photograph(monster *z, int index)
         }
     }
 
+    if( z->friendly ) {
+        // Friendly (hacked?) bot ignore the player.
+        // TODO: might need to be revisited when it can target npcs.
+        return;
+    }
     z->reset_special(index); // Reset timer
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
