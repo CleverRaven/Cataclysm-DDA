@@ -823,7 +823,6 @@ public:
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
- int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
    int poison;          // How badly poisoned is it?
