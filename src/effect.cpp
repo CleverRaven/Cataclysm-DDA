@@ -967,7 +967,7 @@ bool effect::activated(unsigned int turn, std::string arg, int val, bool reduced
     auto const t_sum = round_to<int>(tick.get_value(intensity));
     auto const t = (t_sum == 0) ? int {1} : t_sum;
 
-    assert(t > 0);
+    //assert(t > 0);
 
     // Check if tick allows for triggering. If both bot values are zero the formula is 
     // x_in_y(1, top) i.e. one_in(top), else the formula is x_in_y(top, bot),
