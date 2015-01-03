@@ -3427,6 +3427,8 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
 bool item::reload(player &u, int pos)
 {
     bool single_load = false;
+    // set to true if the target of the reload is the spare magazine
+    bool reloading_spare_mag = false;
     int max_load = 1;
     item *reload_target = NULL;
     item *ammo_to_use = &u.i_at(pos);
@@ -3468,6 +3470,7 @@ bool item::reload(player &u, int pos)
                    contents[spare_mag].charges != spare_mag_size() && 
                    (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
+            reloading_spare_mag = true;
             // Finally consider other gunmods
         } else {
             for (size_t i = 0; i < contents.size(); i++) {
@@ -3542,9 +3545,7 @@ bool item::reload(player &u, int pos)
             ammo_to_use->charges -= charges_used;
         } else {
             // if this is the spare magazine use appropriate size, otherwise max_load
-            max_load = (reload_target == &contents[has_gunmod("spare_mag")]) ?
-                    spare_mag_size() : max_load;
-
+            max_load = (reloading_spare_mag) ? spare_mag_size() : max_load;
             reload_target->charges += ammo_to_use->charges;
             ammo_to_use->charges = 0;
             if (reload_target->charges > max_load) {
