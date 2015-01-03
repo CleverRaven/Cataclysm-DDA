@@ -85,6 +85,28 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
 }
 
+float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
+{
+    int d = rl_dist( posx(), posy(), c.xpos(), c.ypos() );
+    int sightrange = vision_range( c.xpos(), c.ypos() );
+    if( sightrange < 1 || !g->m.sees( posx(), posy(), c.xpos(), c.ypos(), sightrange, bresenham_slope ) ) {
+        return INT_MAX;
+    }
+    if( !smart ) {
+        return d;
+    }
+    float power = c.power_rating();
+    monster *mon = dynamic_cast< monster* >( &c );
+    // Their attitude to us and not ours to them, so that bobcats won't get gunned down
+    if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
+        power += 2;
+    }
+    if( power > 0 ) {
+        return d / power;
+    }
+    return INT_MAX;
+}
+
 void monster::plan(const mfactions &factions)
 {
     // Bots are more intelligent than most living stuff
@@ -101,14 +123,11 @@ void monster::plan(const mfactions &factions)
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                int d = rl_dist( posx(), posy(), tmp.posx(), tmp.posy() );
-                float rating = !electronic ? d : d / std::max( tmp.power_rating(), 0.00001f );
-                int sightrange = vision_range( tmp.posx(), tmp.posy() );
-                if( g->m.sees(posx(), posy(), tmp.posx(), tmp.posy(), sightrange, bresenham_slope ) && 
-                    rating < dist ) {
-                        closest = -3 - i;
-                        dist = rating;
-                        selected_slope = bresenham_slope;
+                float rating = rate_target( tmp, bresenham_slope, electronic );
+                if( rating < dist ) {
+                    closest = -3 - i;
+                    dist = rating;
+                    selected_slope = bresenham_slope;
                 }
             }
         }
@@ -116,10 +135,7 @@ void monster::plan(const mfactions &factions)
 
     // If we can see, and we can see the player, move toward them or flee.
     if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
-        dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
-        if( electronic ) {
-            dist /= 7.0f; // Player considered as dangerous as tank drone
-        }
+        dist = rate_target( g->u, bresenham_slope, electronic );
         if( is_fleeing( g->u ) ) {
             // Wander away.
             fleeing = true;
@@ -134,12 +150,8 @@ void monster::plan(const mfactions &factions)
     if( !docile ) {
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = (g->active_npc[i]);
-            int medist = rl_dist(posx(), posy(), me->posx, me->posy);
-            float rating = !electronic ? medist : medist / std::max( me->power_rating(), 0.00001f );
-            int sightrange = vision_range( me->posx, me->posy );
-            if( ( rating < dist || (!fleeing && is_fleeing(*me))) &&
-                  ( can_see() &&
-                    g->m.sees( posx(), posy(), me->posx, me->posy, sightrange, bresenham_slope) ) ) {
+            float rating = rate_target( *me, bresenham_slope, electronic );
+            if( rating < dist || ( !fleeing && is_fleeing( *me ) ) ) {
                 if( is_fleeing( *me ) ) {
                     fleeing = true;
                     set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);
@@ -163,11 +175,8 @@ void monster::plan(const mfactions &factions)
 
                 for( int i : faction.second ) { // mon indices
                     monster &mon = g->zombie( i );
-                    int d = rl_dist(posx(), posy(), mon.posx(), mon.posy());
-                    float rating = !electronic ? d : d / std::max( mon.power_rating(), 0.00001f );
-                    int sightrange = vision_range( mon.posx(), mon.posy() );
-                    if( rating < dist &&
-                        g->m.sees(posx(), posy(), mon.posx(), mon.posy(), sightrange, bresenham_slope ) ) {
+                    float rating = rate_target( mon, bresenham_slope, electronic );
+                    if( rating < dist ) {
                         dist = rating;
                         if (fleeing) {
                             wandx = posx() * 2 - mon.posx();

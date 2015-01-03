@@ -357,6 +357,10 @@ bool monster::digging() const
 
 int monster::vision_range(const int x, const int y) const
 {
+    if( !can_see() ) {
+        return 0;
+    }
+
     int range = g->light_level();
     // Set to max possible value if the target is lit brightly
     if (g->m.light_at(x, y) >= LL_LOW)
@@ -491,8 +495,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
-        } else if( monfaction() == m->monfaction() ) {
+        } else if( monfaction() == m->monfaction() || morale < 0 || anger < 10 ) {
             // Monsters are neutral to own species, hostile to all others
+            // Stuff that won't attack is also neutral to everything
             // Player-friendly monsters are a separate faction
             return A_NEUTRAL;
         } else {
@@ -1644,4 +1649,13 @@ item monster::to_item() const
     const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
     result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
     return result;
+}
+
+float monster::power_rating() const
+{
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+    // Hostile stuff gets a big boost
+    // Neutral moose will still get burned if it comes close
+    return ret;
 }
