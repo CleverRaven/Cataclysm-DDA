@@ -750,9 +750,9 @@ namespace detail {
 
 template <typename To, typename From>
 struct select_result_type {
-    using type = std::conditional_t<
+    using type = typename std::conditional<
         std::is_same<void, To>::value, From, To
-    >;
+    >::type;
 };
 
 template <typename To, typename From>
@@ -764,7 +764,7 @@ template <
     typename To = void
   , typename From
   , typename Result = detail::select_result_type_t<To, From>
-  , std::enable_if_t<std::is_floating_point<From>::value>* = nullptr
+  , typename std::enable_if<std::is_floating_point<From>::value>::type* = nullptr
 >
 auto round_to(From const value) -> Result {
     using std::round;
