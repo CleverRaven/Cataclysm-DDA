@@ -2325,7 +2325,7 @@ nc_color vehicle::part_color (int p)
     int parm = -1;
 
     //If armoring is present and the option is set, it colors the visible part
-    if (OPTIONS["VEHICLE_ARMOR_COLOR"] == true)
+    if (!!OPTIONS["VEHICLE_ARMOR_COLOR"])
       parm = part_with_feature(p, VPFLAG_ARMOR, false);
 
     if (parm >= 0) {
@@ -5393,7 +5393,7 @@ void vehicle::open_or_close(int part_index, bool opening)
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
       if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
               (part_info(next_index).id == part_info(part_index).id) &&
-              (parts[next_index].open == opening ? 0 : 1)) {
+              (parts[next_index].open == 1 && opening)) {
         open_or_close(next_index, opening);
       }
     }

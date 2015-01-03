@@ -957,7 +957,7 @@ bool advanced_inventory::move_all_items()
     auto &sarea = squares[spane.area];
     auto &darea = squares[dpane.area];
 
-    if( OPTIONS["CLOSE_ADV_INV"] != true ) {
+    if( !OPTIONS["CLOSE_ADV_INV"] ) {
         // Why is this here? It's because the activity backlog can act
         // like a stack instead of a single deferred activity in order to
         // accomplish some UI shenanigans. The inventory menu activity is
