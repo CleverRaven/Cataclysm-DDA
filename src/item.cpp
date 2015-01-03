@@ -2980,11 +2980,6 @@ int item::clip_size() const
     return ret;
 }
 
-int item::spare_mag_size() const
-{
-    return ((clip_size() < type->gun->clip) ? clip_size() : type->gun->clip);
-}
-
 int item::gun_dispersion( bool with_ammo ) const
 {
     if( !is_gun() ) {
