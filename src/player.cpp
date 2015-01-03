@@ -7119,7 +7119,7 @@ void player::hardcoded_effects(effect &it)
 
             if (fatigue > 0) {
                 auto const do_roll = [recovery_chance] {
-                    return one_in(recovery_chance) ? 1.0 : 0.0f;
+                    return one_in(recovery_chance) ? 1.0 : 0.0;
                 };
 
                 auto delta = double {1.0} + do_roll();
