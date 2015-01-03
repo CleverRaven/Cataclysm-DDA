@@ -1598,7 +1598,6 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
         return;
     }
 
-    std::vector< std::string > kilnable{ "wood", "bone" };
     int total_volume = 0;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
