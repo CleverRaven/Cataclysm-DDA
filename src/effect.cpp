@@ -4,6 +4,7 @@
 #include "player.h"
 #include <map>
 #include <sstream>
+#include <type_traits>
 
 std::map<std::string, effect_type> effect_types;
 
