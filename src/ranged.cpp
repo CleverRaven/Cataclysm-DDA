@@ -91,7 +91,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
-    it_ammo *curammo = proj.ammo;
+    itype *curammo = proj.ammo;
 
     // Trace the trajectory, doing damage in order
     int tx = sourcex;
@@ -276,7 +276,7 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
 void player::fire_gun(int tarx, int tary, bool burst)
 {
     item *gunmod = weapon.active_gunmod();
-    it_ammo *curammo = NULL;
+    itype *curammo = NULL;
     item *used_weapon = NULL;
 
     if( gunmod != nullptr ) {
@@ -307,7 +307,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     proj.ammo = curammo;
     proj.speed = 1000;
 
-    const auto &curammo_effects = curammo->ammo_effects;
+    const auto &curammo_effects = curammo->ammo->ammo_effects;
     const auto &gun_effects = used_weapon->type->gun->ammo_effects;
     proj.proj_effects.insert(gun_effects.begin(), gun_effects.end());
     proj.proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
@@ -368,7 +368,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->dispersion + used_weapon->gun_dispersion();
+    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion();
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
@@ -435,7 +435,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
         // Drop a shell casing if appropriate.
-        itype_id casing_type = curammo->casing;
+        itype_id casing_type = curammo->ammo->casing;
         if( casing_type != "NULL" && !casing_type.empty() ) {
             if( used_weapon->has_flag("RELOAD_EJECT") ) {
                 int num_casings = 0;
@@ -505,7 +505,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         int range = rl_dist(xpos(), ypos(), tarx, tary);
         // penalties for point-blank
         // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
-        if (range < int(weapon.type->volume / 3) && curammo->type != "shot") {
+        if (range < int(weapon.type->volume / 3) && curammo->ammo->type != "shot") {
             total_dispersion *= double(weapon.type->volume / 3) / double(range);
         }
 
@@ -1417,7 +1417,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, 60 * encumb(bp_eyes) );
 
     if( weapon->has_curammo() ) {
-        dispersion += rand_or_max( random, weapon->get_curammo()->dispersion);
+        dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
     }
 
     dispersion += rand_or_max( random, weapon->gun_dispersion() );

@@ -690,7 +690,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(it_bionic *type);
+        bool install_bionics(const itype &type);
         /** Handles reading effects */
         void read(int pos);
         /** Completes book reading action. **/

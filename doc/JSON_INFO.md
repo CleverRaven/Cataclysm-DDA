@@ -534,6 +534,13 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
 ```
+###SPAWN DATA
+Every item type can have optional spawn data:
+```
+"spawn_data" : {
+    "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
+}
+```
 ###USE ACTIONS
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 ```C++

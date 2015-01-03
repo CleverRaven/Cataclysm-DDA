@@ -28,22 +28,16 @@ struct itype;
 typedef std::string ammotype;
 
 enum software_type {
-    SW_NULL,
     SW_USELESS,
     SW_HACKING,
     SW_MEDICAL,
     SW_SCIENCE,
-    SW_DATA,
-    NUM_SOFTWARE_TYPES
+    SW_DATA
 };
 
 enum bigness_property_aspect {
-    BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
-    BIGNESS_KILOWATTS,           // electric motor power
     BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
-    //BIGNESS_PLATING_THICKNESS, //
-    NUM_BIGNESS_ASPECTS,
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
@@ -397,6 +391,99 @@ struct islot_gunmod : public common_firing_data {
     }
 };
 
+struct islot_ammo : public common_ranged_data {
+    /**
+     * Ammo type, basically the "form" of the the ammo that fits into the gun/tool.
+     * This is an id, it can be looked up in the @ref ammunition_type class.
+     */
+    ammotype type;
+    /**
+     * Type id of casings, can be "NULL" for no casings at all.
+     */
+    itype_id casing;
+    /**
+     * Default charges.
+     */
+    long def_charges;
+    /**
+     * TODO: document me.
+     */
+    std::set<std::string> ammo_effects;
+
+    islot_ammo()
+    : common_ranged_data()
+    , type()
+    , casing( "NULL" )
+    , def_charges( 0 )
+    , ammo_effects()
+    {
+    }
+};
+
+struct islot_variable_bigness {
+    /**
+     * Minimal value of the bigness value of items of this type.
+     */
+    int min_bigness;
+    /**
+     * Maximal value of the bigness value of items of this type.
+     */
+    int max_bigness;
+    /**
+     * What the bigness actually represent see @ref bigness_property_aspect
+     */
+    bigness_property_aspect bigness_aspect;
+
+    islot_variable_bigness()
+    : min_bigness( 0 )
+    , max_bigness( 0 )
+    , bigness_aspect( BIGNESS_ENGINE_DISPLACEMENT )
+    {
+    }
+};
+
+struct islot_bionic {
+    /**
+     * Arbitrary difficulty scale, see bionics.cpp for its usage.
+     */
+    int difficulty;
+    /**
+     * Id of the bionic, see @ref bionics.
+     */
+    std::string bionic_id;
+
+    islot_bionic()
+    : difficulty( 0 )
+    , bionic_id()
+    {
+    }
+};
+
+struct islot_software {
+    /**
+     * Type of software, see enum.
+     */
+    software_type swtype;
+
+    islot_software()
+    : swtype( SW_USELESS )
+    {
+    }
+};
+
+// Data used when spawning items, should be obsoleted by the spawn system, but
+// is still used at several places and makes it easier when it applies to all new items of a type.
+struct islot_spawn {
+    itype_id default_container; // The container it comes in
+    std::vector<long> rand_charges;
+
+    islot_spawn()
+    : default_container( "null" )
+    , rand_charges()
+    {
+    }
+};
+
 struct itype {
     itype_id id; // unique string identifier for this item,
     // can be used as lookup key in master itype map
@@ -413,6 +500,11 @@ struct itype {
     std::unique_ptr<islot_book> book;
     std::unique_ptr<islot_gun> gun;
     std::unique_ptr<islot_gunmod> gunmod;
+    std::unique_ptr<islot_variable_bigness> variable_bigness;
+    std::unique_ptr<islot_bionic> bionic;
+    std::unique_ptr<islot_software> software;
+    std::unique_ptr<islot_spawn> spawn;
+    std::unique_ptr<islot_ammo> ammo;
     /*@}*/
 
 protected:
@@ -437,7 +529,6 @@ public:
     unsigned int volume; // Space taken up by this item
     int stack_size;      // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
     unsigned int weight; // Weight in grams. Assumes positive weight. No helium, guys!
-    bigness_property_aspect bigness_aspect;
     std::map<std::string, int> qualities; //Tool quality indicators
     std::map<std::string, std::string> properties;
 
@@ -469,8 +560,14 @@ public:
             return "ARMOR";
         } else if( book ) {
             return "BOOK";
-        } else if( gun.get() != nullptr ) {
+        } else if( gun ) {
             return "GUN";
+        } else if( variable_bigness ) {
+            return "VEHICLE_PART";
+        } else if( bionic ) {
+            return "BIONIC";
+        } else if( ammo ) {
+            return "AMMO";
         }
         return "misc";
     }
@@ -486,19 +583,7 @@ public:
     {
         return false;
     }
-    virtual bool is_ammo() const
-    {
-        return false;
-    }
-    virtual bool is_bionic() const
-    {
-        return false;
-    }
     virtual bool is_tool() const
-    {
-        return false;
-    }
-    virtual bool is_software() const
     {
         return false;
     }
@@ -506,20 +591,11 @@ public:
     {
         return false;
     }
-    virtual bool is_var_veh_part() const
-    {
-        return false;
-    }
-    virtual bool is_engine() const
-    {
-        return false;
-    }
-    virtual bool is_wheel() const
-    {
-        return false;
-    }
     virtual bool count_by_charges() const
     {
+        if( ammo ) {
+            return true;
+        }
         return false;
     }
     virtual int charges_to_use() const
@@ -539,7 +615,7 @@ public:
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
         color(c_white), phase(SOLID), volume(0), stack_size(0),
-        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(),
+        weight(0), qualities(),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
         category(NULL)
     {}
@@ -550,7 +626,7 @@ public:
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
         name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), materials(pmaterials),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), melee_dam(pmelee_dam),
+        qualities(), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -568,8 +644,7 @@ struct it_comest : public virtual itype {
      */
     int spoils;
     unsigned int addict;   // Addictiveness potential
-    long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
-    std::vector<long> rand_charges;
+    long def_charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     signed int stim;
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
@@ -578,8 +653,6 @@ struct it_comest : public virtual itype {
     signed int fun;    // How fun its use is
 
     unsigned int grow; //time it takes for a seed to grow (in days, based of off a season length of 91)
-    
-    itype_id default_container; // The container it comes in
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() const
@@ -596,78 +669,15 @@ struct it_comest : public virtual itype {
         if (phase == LIQUID) {
             return true;
         } else {
-            return charges > 1 ;
+            return def_charges > 1 ;
         }
     }
 
     add_type add; // Effects of addiction
 
-    it_comest(): itype(), quench(0), nutr(0), charges(0), rand_charges(), stim(0), healthy(0),
-        brewtime(0), comesttype(), fun(0), default_container(), tool()
+    it_comest(): itype(), quench(0), nutr(0), def_charges(0), stim(0), healthy(0),
+        brewtime(0), comesttype(), fun(0), tool()
     {
-    }
-};
-
-// v6, v8, wankel, etc.
-struct it_var_veh_part: public virtual itype {
-    // TODO? geometric mean: nth root of product
-    unsigned int min_bigness; //CC's
-    unsigned int max_bigness;
-    bool engine;
-
-    it_var_veh_part()
-        : itype()
-        , min_bigness(0)
-        , max_bigness(0)
-        , engine(false)
-    {
-    }
-
-    virtual bool is_var_veh_part() const
-    {
-        return true;
-    }
-    virtual bool is_wheel() const
-    {
-        return false;
-    }
-    virtual bool is_engine() const
-    {
-        return engine;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "VEHICLE_PART";
-    }
-};
-
-
-struct it_ammo : public virtual itype, public common_ranged_data {
-    ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
-    itype_id casing;        // Casing produced by the ammo, if any
-    unsigned int count;    // Default charges
-
-    itype_id default_container; // The container it comes in
-
-    std::set<std::string> ammo_effects;
-
-    it_ammo(): itype(), type(), casing(),
-        count(0), default_container(), ammo_effects()
-    {
-    }
-
-    virtual bool is_ammo() const
-    {
-        return true;
-    }
-    // virtual bool count_by_charges() { return id != "gasoline"; }
-    virtual bool count_by_charges() const
-    {
-        return true;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "AMMO";
     }
 };
 
@@ -675,7 +685,6 @@ struct it_tool : public virtual itype {
     ammotype ammo;
     long max_charges;
     long def_charges;
-    std::vector<long> rand_charges;
     unsigned char charges_per_use;
     unsigned char turns_per_charge;
     itype_id revert_to;
@@ -701,48 +710,9 @@ struct it_tool : public virtual itype {
     {
         return max_charges;
     }
-    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
+    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
     {
-    }
-};
-
-struct it_bionic : public virtual itype {
-    int difficulty;
-
-    it_bionic() : itype(), difficulty(0)
-    {
-    }
-
-    virtual bool is_bionic() const
-    {
-        return true;
-    }
-    virtual std::string get_item_type_string() const
-    {
-        return "BIONIC";
-    }
-};
-
-struct it_software : public virtual itype {
-    software_type swtype;
-    int power;
-
-    virtual bool is_software() const
-    {
-        return true;
-    }
-
-    it_software(std::string pid, unsigned int pprice, std::string pname,
-                std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
-                std::vector<std::string> pmaterial, unsigned int pvolume,
-                unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
-                software_type pswtype, int ppower)
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
-                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
-    {
-        swtype = pswtype;
-        power = ppower;
     }
 };
 

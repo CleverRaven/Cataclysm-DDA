@@ -680,7 +680,7 @@ public:
     bool fire_turret( int p, bool burst = true );
 
     // internal procedure of turret firing
-    bool fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges,
+    bool fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges,
                                const std::string &firing_sound = "");
 
     // opens/closes doors or multipart doors
