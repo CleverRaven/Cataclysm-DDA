@@ -66,97 +66,92 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  
   <ItemGroup>
     <ClInclude Include="pch.hpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles Localized|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles Localized|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug Localized|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release Localized|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles Localized|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles Localized|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'">
+      </ForcedIncludeFiles>
     </ClCompile>
   </ItemGroup>
-  
   <ItemGroup>
     <ClCompile Include="..\src\*.cpp" />
   </ItemGroup>
-  
   <ItemGroup>
     <ClInclude Include="..\src\*.h" />
   </ItemGroup>
-  
   <ItemGroup>
     <ResourceCompile Include="..\src\resource.rc" />
   </ItemGroup>
-  
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
     <RootNamespace>Cataclysm</RootNamespace>
   </PropertyGroup>
-  
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-    
   <ImportGroup Label="PropertySheets">
     <Import Project="common.props" />
     <Import Project="precompile.props" />
   </ImportGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-   
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
-  <ImportGroup Label="PropertySheets"
-    Condition="'$(Configuration)'=='Debug'
-            Or '$(Configuration)'=='Debug Localized'
-            Or '$(Configuration)'=='Debug SDL Tiles'
-            Or '$(Configuration)'=='Debug SDL Tiles Localized'
-  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug'&#xD;&#xA;            Or '$(Configuration)'=='Debug Localized'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;  ">
     <Import Project="debug.props" />
   </ImportGroup>
-
-  <ImportGroup Label="PropertySheets"
-    Condition="'$(Configuration)'=='Release'
-            Or '$(Configuration)'=='Release Localized'
-            Or '$(Configuration)'=='Release SDL Tiles'
-            Or '$(Configuration)'=='Release SDL Tiles Localized'
-  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Release'&#xD;&#xA;            Or '$(Configuration)'=='Release Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
     <Import Project="optimize.props" />
   </ImportGroup>
-
-  <ImportGroup Label="PropertySheets"
-    Condition="'$(Configuration)'=='Debug SDL Tiles'
-            Or '$(Configuration)'=='Debug SDL Tiles Localized'
-            Or '$(Configuration)'=='Release SDL Tiles'
-            Or '$(Configuration)'=='Release SDL Tiles Localized'
-  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
     <Import Project="sdl.props" />
   </ImportGroup>
-
-  <ImportGroup Label="PropertySheets"
-    Condition="'$(Configuration)'=='Debug Localized'
-            Or '$(Configuration)'=='Debug SDL Tiles Localized'
-            Or '$(Configuration)'=='Release Localized'
-            Or '$(Configuration)'=='Release SDL Tiles Localized'
-  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug Localized'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
     <Import Project="localize.props" />
   </ImportGroup>
-  
   <PropertyGroup Condition="'$(BuildConfig)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(BuildConfig)'=='Release'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  
   <ItemDefinitionGroup>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -165,5 +160,4 @@
       <Message>Generate version.h</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-
 </Project>

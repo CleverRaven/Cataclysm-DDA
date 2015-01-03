@@ -13,7 +13,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>pch.hpp</ForcedIncludeFiles>
+      <ForcedIncludeFiles>pch.hpp;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
