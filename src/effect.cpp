@@ -667,9 +667,9 @@ void effect::mod_duration(int dur)
         duration = eff_type->max_duration;
     }
 }
-void effect::mult_duration(double dur)
+void effect::mult_duration(double const dur)
 {
-    duration *= dur;
+    duration = static_cast<int>(duration * dur);
     // Cap to max_duration if it exists
     if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
         duration = eff_type->max_duration;
@@ -740,113 +740,150 @@ std::string effect::get_removes_effect() const
     return eff_type->removes_effect;
 }
 
-int effect::get_mod(std::string arg, bool reduced) const
-{
-    auto &mod_data = eff_type->mod_data;
-    double min = 0;
-    double max = 0;
-    // Get the minimum total
-    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min"));
-    if (found != mod_data.end()) {
-        min += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min"));
-    if (found != mod_data.end()) {
-        min += found->second * (intensity - 1);
-    }
-    // Get the maximum total
-    found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max"));
-    if (found != mod_data.end()) {
-        max += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max"));
-    if (found != mod_data.end()) {
-        max += found->second * (intensity - 1);
-    }
-    if (int(max) != 0) {
-        // Return a random value between [min, max]
-        return int(rng(min, max));
-    } else {
-        // Else return the minimum value
-        return min;
-    }
+////////////////////////////////////////////////////////////////////////////////
+//! template voodoo syntactic sugar for a round followed by a cast
+//! this should be moved elsewhere if it is to be kept so that it can be
+//! more widely used
+////////////////////////////////////////////////////////////////////////////////
+namespace detail {
+
+template <typename To, typename From>
+struct select_result_type {
+    using type = std::conditional_t<
+        std::is_same<void, To>::value, From, To
+    >;
+};
+
+template <typename To, typename From>
+using select_result_type_t = typename select_result_type<To, From>::type;
+
+} //namespace detail
+
+template <
+    typename To = void
+  , typename From
+  , typename Result = detail::select_result_type_t<To, From>
+  , std::enable_if_t<std::is_floating_point<From>::value>* = nullptr
+>
+auto round_to(From const value) -> Result {
+    using std::round;
+    return static_cast<To>(round(value));
 }
 
-int effect::get_avg_mod(std::string arg, bool reduced) const
+
+//------------------------------------------------------------------------------
+//! return the value in mod_data at key ammened with mods and arg, otherwise 0.0.
+//------------------------------------------------------------------------------
+template <typename Container, typename Key = typename Container::key_type>
+double get_mod_data_value(
+    Container const& mod_data
+  , Key& key
+  , char const* mods
+  , char const* arg
+) {
+    using std::end;
+
+    std::get<0>(key) = mods;
+    std::get<3>(key) = arg;
+
+    auto const where  = mod_data.find(key);
+    auto const found  = where != end(mod_data);
+    auto const result = found ? where->second : 0.0;
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
+//! just a simple struct holding "base_mods" and "scaling_mods"
+//------------------------------------------------------------------------------
+struct mod_data_t {
+    double base;
+    double scaling;
+
+    double get_value(int const intensity) const noexcept {
+        return base + scaling * (intensity - 1);
+    }
+};
+
+//------------------------------------------------------------------------------
+//! return the "base_mods" and "scaling_mods" pair for a key containing field
+//------------------------------------------------------------------------------
+template <typename Container, typename Key = typename Container::key_type>
+mod_data_t get_mod_data(
+    Container const& mod_data
+  , Key&             key
+  , char const*      field
+) {
+    return {
+        get_mod_data_value(mod_data, key, "base_mods",    field)
+      , get_mod_data_value(mod_data, key, "scaling_mods", field)
+    };
+}
+
+int effect::get_mod(std::string arg, bool const reduced) const
 {
-    auto &mod_data = eff_type->mod_data;
-    double min = 0;
-    double max = 0;
-    // Get the minimum total
-    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min"));
-    if (found != mod_data.end()) {
-        min += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min"));
-    if (found != mod_data.end()) {
-        min += found->second * (intensity - 1);
-    }
-    // Get the maximum total
-    found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max"));
-    if (found != mod_data.end()) {
-        max += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max"));
-    if (found != mod_data.end()) {
-        max += found->second * (intensity - 1);
-    }
-    if (int(max) != 0) {
-        // Return an average of min and max
-        return int((min + max) / 2);
-    } else {
-        // Else return the minimum value
-        return min;
-    }
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
+    auto const& mod_data = eff_type->mod_data;
+
+    auto const min = get_mod_data(mod_data, key, "min").get_value(intensity);
+    auto const max = get_mod_data(mod_data, key, "max").get_value(intensity);
+
+    auto const imin = round_to<long>(min);
+    auto const imax = round_to<long>(max);
+    
+    // Return a random value between [min, max]
+    // Else return the minimum value
+    auto const result = (imax != 0) ? rng(imin, imax) : imin;
+
+    return static_cast<int>(result);
+}
+
+int effect::get_avg_mod(std::string arg, bool const reduced) const
+{
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
+    auto const& mod_data = eff_type->mod_data;
+
+    auto const min = get_mod_data(mod_data, key, "min").get_value(intensity);
+    auto const max = get_mod_data(mod_data, key, "max").get_value(intensity);
+
+    //auto const imin = static_cast<int>(std::round(min));
+    auto const imin = round_to<int>(min);
+    auto const imax = round_to<int>(max);
+
+    // Return an average of min and max
+    // Else return the minimum value
+    return (imax != 0)
+      ? round_to<int>((min + max) / 2.0)
+      : imin;
 }
 
 int effect::get_amount(std::string arg, bool reduced) const
 {
-    auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "amount"));
-    if (found != mod_data.end()) {
-        ret += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "amount"));
-    if (found != mod_data.end()) {
-        ret += found->second * (intensity - 1);
-    }
-    return int(ret);
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
+    return round_to<int>(
+        get_mod_data(eff_type->mod_data, key, "amount").get_value(intensity)
+    );
 }
 
 int effect::get_min_val(std::string arg, bool reduced) const
 {
-    auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min_val"));
-    if (found != mod_data.end()) {
-        ret += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min_val"));
-    if (found != mod_data.end()) {
-        ret += found->second * (intensity - 1);
-    }
-    return int(ret);
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
+    return round_to<int>(
+        get_mod_data(eff_type->mod_data, key, "min_val").get_value(intensity)
+    );
 }
 
 int effect::get_max_val(std::string arg, bool reduced) const
 {
-    auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max_val"));
-    if (found != mod_data.end()) {
-        ret += found->second;
-    }
-    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max_val"));
-    if (found != mod_data.end()) {
-        ret += found->second * (intensity - 1);
-    }
-    return int(ret);
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
+    return round_to<int>(
+        get_mod_data(eff_type->mod_data, key, "max_val").get_value(intensity)
+    );
 }
 
 bool effect::get_sizing(std::string arg) const
@@ -861,149 +898,87 @@ bool effect::get_sizing(std::string arg) const
 
 double effect::get_percentage(std::string arg, int val, bool reduced) const
 {
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
     auto &mod_data = eff_type->mod_data;
-    auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
-    auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
-    // Convert to int or 0
-    int top_base = 0;
-    int top_scale = 0;
-    if (found_top_base != mod_data.end()) {
-        top_base = found_top_base->second;
-    }
-    if (found_top_scale != mod_data.end()) {
-        top_scale = found_top_scale->second * (intensity - 1);
-    }
+
+    auto const top  = get_mod_data(mod_data, key, "chance_top");
+    auto const bot  = get_mod_data(mod_data, key, "chance_bot");
+    auto const tick = get_mod_data(mod_data, key, "tick");
+
     // Check chances if value is 0 (so we can check valueless effects like vomiting)
     // Else a nonzero value overrides a 0 chance for default purposes
-    if (val == 0) {
-        // If both top values <= 0 then it should never trigger
-        if (top_base <= 0 && top_scale <= 0) {
-            return 0;
-        }
-        // It will also never trigger if top_base + top_scale <= 0
-        if (top_base + top_scale <= 0) {
-            return 0;
-        }
+
+    // If both top values <= 0 then it should never trigger
+    // It will also never trigger if top_base + top_scale <= 0
+
+    if ((val == 0) && (
+            (top.base <= 0.0 && top.scaling <= 0.0)
+         || (top.base + top.scaling <= 0.0)
+    )) {
+        return 0.0;
     }
     
-    // We only need to calculate these if we haven't already returned
-    int bot_base = 0;
-    int bot_scale = 0;
-    int tick = 0;
-    auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
-    auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
-    auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
-    auto found_tick_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "tick"));
-    if (found_bot_base != mod_data.end()) {
-        bot_base = found_bot_base->second;
-    }
-    if (found_bot_scale != mod_data.end()) {
-        bot_scale = found_bot_scale->second * (intensity - 1);
-    }
-    if (found_tick_base != mod_data.end()) {
-        tick += found_tick_base->second;
-    }
-    if (found_bot_scale != mod_data.end()) {
-        tick += found_tick_scale->second * (intensity - 1);
-    }
+    auto const num = 100.0 * top.get_value(intensity);
+    auto const den = bot.get_value(intensity);
+    
     // Tick is the exception where tick = 0 means tick = 1
-    if (tick == 0) {
-        tick = 1;
+    // Divide by ticks between rolls
+    auto t = tick.get_value(intensity);
+    t = (t > 1.0) ? (1.0 / t) : 1.0;
+
+    // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
+    if (den != 0.0) {
+        return t * 100.0 * num / den;
+    } else if (num != 0.0) {
+        return t * 100.0 / num;
     }
 
-    double ret = 0;
-    // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
-    if(bot_base != 0 && bot_scale != 0) {
-        if (bot_base + bot_scale == 0) {
-            // Special crash avoidance case, in most effect fields 0 = "nothing happens"
-            // so assume false here for consistency
-            ret = 0;
-        } else {
-            // Cast to double here to allow for partial percentages
-            ret = 100 * double(top_base + top_scale) / double(bot_base + bot_scale);
-        }
-    } else {
-        // Cast to double here to allow for partial percentages
-        ret = 100 / double(top_base + top_scale);
-    }
-    // Divide by ticks between rolls
-    if (tick > 1) {
-        ret = ret / tick;
-    }
-    return ret;
+    return 0.0;
 }
 
 bool effect::activated(unsigned int turn, std::string arg, int val, bool reduced, double mod) const
 {
+    effect_type::key_type key {"", reduced, std::move(arg), ""};
+
     auto &mod_data = eff_type->mod_data;
-    auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
-    auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
-    // Convert to int or 0
-    int top_base = 0;
-    int top_scale = 0;
-    if (found_top_base != mod_data.end()) {
-        top_base = found_top_base->second;
-    }
-    if (found_top_scale != mod_data.end()) {
-        top_scale = found_top_scale->second * (intensity - 1);
-    }
+
+    auto const top  = get_mod_data(mod_data, key, "chance_top");
+    auto const bot  = get_mod_data(mod_data, key, "chance_bot");
+    auto const tick = get_mod_data(mod_data, key, "tick");
+
     // Check chances if value is 0 (so we can check valueless effects like vomiting)
     // Else a nonzero value overrides a 0 chance for default purposes
-    if (val == 0) {
-        // If both top values <= 0 then it should never trigger
-        if (top_base <= 0 && top_scale <= 0) {
-            return false;
-        }
-        // It will also never trigger if top_base + top_scale <= 0
-        if (top_base + top_scale <= 0) {
-            return false;
-        }
+
+    // If both top values <= 0 then it should never trigger
+    // It will also never trigger if top_base + top_scale <= 0
+
+    if ((val == 0) && (
+            (top.base <= 0.0 && top.scaling <= 0.0)
+         || (top.base + top.scaling <= 0.0)
+    )) {
+        return 0.0;
     }
     
-    // We only need to calculate these if we haven't already returned
-    int bot_base = 0;
-    int bot_scale = 0;
-    int tick = 0;
-    auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
-    auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
-    auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
-    auto found_tick_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "tick"));
-    if (found_bot_base != mod_data.end()) {
-        bot_base = found_bot_base->second;
-    }
-    if (found_bot_scale != mod_data.end()) {
-        bot_scale = found_bot_scale->second * (intensity - 1);
-    }
-    if (found_tick_base != mod_data.end()) {
-        tick += found_tick_base->second;
-    }
-    if (found_bot_scale != mod_data.end()) {
-        tick += found_tick_scale->second * (intensity - 1);
-    }
+    auto const num = mod * top.get_value(intensity);
+    auto const den = bot.get_value(intensity);
+    
     // Tick is the exception where tick = 0 means tick = 1
-    if (tick == 0) {
-        tick = 1;
-    }
+    // Divide by ticks between rolls
+    auto const t_sum = round_to<int>(tick.get_value(intensity));
+    auto const t = (t_sum == 0) ? int {1} : t_sum;
+
+    assert(t > 0);
 
     // Check if tick allows for triggering. If both bot values are zero the formula is 
     // x_in_y(1, top) i.e. one_in(top), else the formula is x_in_y(top, bot),
     // mod multiplies the overall percentage chances
     
-    // has to be an && here to avoid undefined behavior of turn % 0
-    if(tick > 0 && turn % tick == 0) {
-        if(bot_base != 0 && bot_scale != 0) {
-            if (bot_base + bot_scale == 0) {
-                // Special crash avoidance case, in most effect fields 0 = "nothing happens"
-                // so assume false here for consistency
-                return false;
-            } else {
-                return x_in_y((top_base + top_scale) * mod, (bot_base + bot_scale));
-            }
-        } else {
-            return x_in_y(mod, top_base + top_scale);
-        }
+    if (turn % t != 0) {
+        return false;
     }
-    return false;
+
+   return (den != 0) ? x_in_y(num, den) : x_in_y(mod, num);
 }
 
 double effect::get_addict_mod(std::string arg, int addict_level) const
