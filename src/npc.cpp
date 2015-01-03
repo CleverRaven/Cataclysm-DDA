@@ -1589,12 +1589,11 @@ int npc::value(const item &it)
  }
 
  if (it.is_ammo()) {
-  it_ammo* ammo = dynamic_cast<it_ammo*>(it.type);
   if (weapon.is_gun()) {
-   if (ammo->type == weapon.type->gun->ammo)
+   if( it.ammo_type() == weapon.ammo_type() )
     ret += 14;
   }
-  if (has_gun_for_ammo(ammo->type)) {
+  if (has_gun_for_ammo( it.ammo_type() )) {
    // TODO consider making this cumulative (once was)
    ret += 14;
   }

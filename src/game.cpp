@@ -8798,6 +8798,7 @@ void game::examine(int examx, int examy)
         } else {
             exam_vehicle(*veh, examx, examy);
         }
+        return;
     }
 
     if (m.has_flag("CONSOLE", examx, examy)) {

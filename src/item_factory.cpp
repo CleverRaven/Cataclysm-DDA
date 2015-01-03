@@ -407,11 +407,11 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
         return;
     }
     for( const auto &elem : m_templates ) {
-        const it_ammo *ammot = dynamic_cast<const it_ammo *>( elem.second );
-        if (ammot == 0) {
+        const auto ammot = elem.second;
+        if( !ammot->ammo ) {
             continue;
         }
-        if (ammot->type == ammo) {
+        if( ammot->ammo->type == ammo ) {
             return;
         }
     }
@@ -445,23 +445,21 @@ void Item_factory::check_definitions() const
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }
+        if( type->spawn ) {
+            if( type->spawn->default_container != "null" && !has_template( type->spawn->default_container ) ) {
+                msg << string_format( "invalid container property %s", type->spawn->default_container.c_str() ) << "\n";
+            }
+        }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
-            if (comest->default_container != "null" && !has_template(comest->default_container)) {
-                msg << string_format("invalid container property %s", comest->default_container.c_str()) << "\n";
-            }
             if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
-        const it_ammo *ammo = dynamic_cast<const it_ammo *>(type);
-        if (ammo != 0) {
-            check_ammo_type(msg, ammo->type);
-            if (ammo->casing != "NULL" && !has_template(ammo->casing)) {
-                msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
-            }
-            if (ammo->default_container != "null" && !has_template(ammo->default_container)) {
-                msg << string_format("invalid container property %s", ammo->default_container.c_str()) << "\n";
+        if( type->ammo ) {
+            check_ammo_type( msg, type->ammo->type );
+            if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
         }
         if( type->gun ) {
@@ -480,10 +478,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
         }
-        const it_bionic *bionic = dynamic_cast<const it_bionic *>(type);
-        if (bionic != 0) {
-            if (bionics.count(bionic->id) == 0) {
-                msg << string_format("there is no bionic with id %s", bionic->id.c_str()) << "\n";
+        if( type->bionic ) {
+            if( bionics.count( type->bionic->bionic_id ) == 0 ) {
+                msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }
         if (msg.str().empty()) {
@@ -563,7 +560,9 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 template<typename SlotType>
 void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
 {
-    slotptr.reset( new SlotType() );
+    if( !slotptr ) {
+        slotptr.reset( new SlotType() );
+    }
     load( *slotptr, jo );
 }
 
@@ -577,23 +576,25 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     load_slot( slotptr, slotjo );
 }
 
+void Item_factory::load( islot_ammo &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "ammo_type" );
+    slot.casing = jo.get_string( "casing", "NULL" );
+    slot.damage = jo.get_int( "damage" );
+    slot.pierce = jo.get_int( "pierce" );
+    slot.range = jo.get_int( "range" );
+    slot.dispersion = jo.get_int( "dispersion" );
+    slot.recoil = jo.get_int( "recoil" );
+    slot.def_charges = jo.get_long( "count" );
+    slot.ammo_effects = jo.get_tags( "effects" );
+}
+
 void Item_factory::load_ammo(JsonObject &jo)
 {
-    it_ammo *ammo_template = new it_ammo();
-    ammo_template->type = jo.get_string("ammo_type");
-    ammo_template->casing = jo.get_string("casing", "NULL");
-    ammo_template->damage = jo.get_int("damage");
-    ammo_template->pierce = jo.get_int("pierce");
-    ammo_template->range = jo.get_int("range");
-    ammo_template->dispersion = jo.get_int("dispersion");
-    ammo_template->recoil = jo.get_int("recoil");
-    ammo_template->count = jo.get_int("count");
-    ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
-    ammo_template->ammo_effects = jo.get_tags("effects");
-    ammo_template->default_container = jo.get_string("container", "null");
-
-    itype *new_item_template = ammo_template;
-    load_basic_info(jo, new_item_template);
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->ammo, jo );
+    new_item_template->stack_size = jo.get_int( "stack_size", new_item_template->ammo->def_charges );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
@@ -625,6 +626,21 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
                                              curr.get_int( 1 ) ) );
         }
     }
+}
+
+void Item_factory::load( islot_spawn &slot, JsonObject &jo )
+{
+    if( jo.has_array( "rand_charges" ) ) {
+        JsonArray jarr = jo.get_array( "rand_charges" );
+        while( jarr.has_more() ) {
+            slot.rand_charges.push_back( jarr.next_long() );
+        }
+        if( slot.rand_charges.size() == 1 ) {
+            // see item::item(...) for the use of this array
+            jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
+        }
+    }
+    slot.default_container = jo.get_string( "container", slot.default_container );
 }
 
 void Item_factory::load_gun(JsonObject &jo)
@@ -668,16 +684,6 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->ammo = jo.get_string("ammo");
     tool_template->max_charges = jo.get_long("max_charges");
     tool_template->def_charges = jo.get_long("initial_charges");
-
-    if (jo.has_array("rand_charges")) {
-        JsonArray jarr = jo.get_array("rand_charges");
-        while (jarr.has_more()) {
-            tool_template->rand_charges.push_back(jarr.next_long());
-        }
-    } else {
-        tool_template->rand_charges.push_back(tool_template->def_charges);
-    }
-
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
@@ -685,6 +691,7 @@ void Item_factory::load_tool(JsonObject &jo)
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load_tool_armor(JsonObject &jo)
@@ -727,7 +734,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
-    comest_template->default_container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
@@ -735,11 +741,11 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->spoils *= 600;
     comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->charges = jo.get_long("charges", 0);
+    comest_template->def_charges = jo.get_long("charges", 0);
     if (jo.has_member("stack_size")) {
         comest_template->stack_size = jo.get_long("stack_size");
     } else {
-        comest_template->stack_size = comest_template->charges;
+        comest_template->stack_size = comest_template->def_charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
     // TODO: sometimes in the future: remove this if clause and accept
@@ -758,17 +764,9 @@ void Item_factory::load_comestible(JsonObject &jo)
     
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
-    if (jo.has_array("rand_charges")) {
-        JsonArray jarr = jo.get_array("rand_charges");
-        while (jarr.has_more()) {
-            comest_template->rand_charges.push_back(jarr.next_long());
-        }
-    } else {
-        comest_template->rand_charges.push_back(comest_template->charges);
-    }
-
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load_container(JsonObject &jo)
@@ -821,29 +819,39 @@ void Item_factory::load_gunmod(JsonObject &jo)
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load_bionic(JsonObject &jo)
+void Item_factory::load( islot_bionic &slot, JsonObject &jo )
 {
-    it_bionic *bionic_template = new it_bionic();
-    bionic_template->difficulty = jo.get_int("difficulty");
-    load_basic_info(jo, bionic_template);
+    slot.difficulty = jo.get_int( "difficulty" );
+    // TODO: must be the same as the item type id, for compatibility
+    slot.bionic_id = jo.get_string( "id" );
+}
+
+void Item_factory::load_bionic( JsonObject &jo )
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->bionic, jo );
+    load_basic_info( jo, new_item_template );
+}
+
+void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
+{
+    slot.min_bigness = jo.get_int( "min-bigness" );
+    slot.max_bigness = jo.get_int( "max-bigness" );
+    const std::string big_aspect = jo.get_string( "bigness-aspect" );
+    if( big_aspect == "WHEEL_DIAMETER" ) {
+        slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
+    } else if( big_aspect == "ENGINE_DISPLACEMENT" ) {
+        slot.bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+    } else {
+        jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
+    }
 }
 
 void Item_factory::load_veh_part(JsonObject &jo)
 {
-    it_var_veh_part *veh_par_template = new it_var_veh_part();
-    veh_par_template->min_bigness = jo.get_int("min-bigness");
-    veh_par_template->max_bigness = jo.get_int("max-bigness");
-    const std::string big_aspect = jo.get_string("bigness-aspect");
-    if (big_aspect == "WHEEL_DIAMETER") {
-        veh_par_template->bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-        veh_par_template->engine = false;
-    } else if (big_aspect == "ENGINE_DISPLACEMENT") {
-        veh_par_template->bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
-        veh_par_template->engine = true;
-    } else {
-        throw std::string("invalid bigness-aspect: ") + big_aspect;
-    }
-    load_basic_info(jo, veh_par_template);
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->variable_bigness, jo );
+    load_basic_info( jo, new_item_template );
 }
 
 void Item_factory::load_generic(JsonObject &jo)
@@ -972,6 +980,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->book, jo, "book_data" );
     load_slot_optional( new_item_template->gun, jo, "gun_data" );
     load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
+    load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
+    load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
+    load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1475,7 +1486,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->gun && !it->gunmod ) {
         return category_id_guns;
     }
-    if (it->is_ammo()) {
+    if( it->ammo ) {
         return category_id_ammo;
     }
     if (it->is_tool()) {
@@ -1494,7 +1505,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->gunmod ) {
         return category_id_mods;
     }
-    if (it->is_bionic()) {
+    if( it->bionic ) {
         return category_id_cbm;
     }
     if (it->melee_dam > 7 || it->melee_cut > 5) {

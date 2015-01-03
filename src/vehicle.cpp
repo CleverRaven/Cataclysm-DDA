@@ -44,6 +44,8 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_overhead_lights,
+ toggle_dome_lights,
+ toggle_aisle_lights,
  toggle_turrets,
  toggle_stereo,
  toggle_tracker,
@@ -161,6 +163,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     tracking_epower = 0;
     alarm_epower = 0;
     camera_epower = 0;
+    dome_lights_epower = 0;
+    aisle_lights_epower = 0;
     cruise_velocity = 0;
     music_id = "";
     skidding = false;
@@ -177,6 +181,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     is_locked = false;
     is_alarm_on = false;
     camera_on = false;
+    dome_lights_on = false;
+    aisle_lights_on = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -368,6 +374,16 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         //Turn on lights on some vehicles
         if( one_in(20) ) {
             lights_on = true;
+        }
+
+        // dome lights could be on if the person was hurrily looking for things (or being looted)
+        if( one_in(16) ) {
+            dome_lights_on = true;
+        }
+        
+        // aisle lights being on would be common for the vehicles they are in (vans, RVs, 18-wheelers, etc)
+        if( one_in(8) ) {
+            aisle_lights_on = true;
         }
 
         //Turn flasher/overhead lights on separately (more likely since these are rarer)
@@ -818,6 +834,8 @@ void vehicle::use_controls()
     bool has_door_motor = false;
     bool has_camera = false;
     bool has_camera_control = false;
+    bool has_aisle_lights = false;
+    bool has_dome_lights = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -828,6 +846,12 @@ void vehicle::use_controls()
         }
         if (part_flag(p, "LIGHT")) {
             has_lights = true;
+        }
+        if (part_flag(p, "AISLE_LIGHT")) {
+            has_aisle_lights = true;
+        }
+        if (part_flag(p, "DOME_LIGHT")) {
+            has_dome_lights = true;
         }
         else if (part_flag(p, "TURRET")) {
             has_turrets = true;
@@ -907,6 +931,19 @@ void vehicle::use_controls()
        options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
                                               _("Turn on overhead lights"), 'v'));
    }
+
+
+    if (has_dome_lights) {
+        options_choice.push_back(toggle_dome_lights);
+        options_message.push_back(uimenu_entry((dome_lights_on) ? _("Turn off dome lights") :
+                                               _("Turn on dome lights"), 'D'));
+    }
+
+    if (has_aisle_lights) {
+        options_choice.push_back(toggle_aisle_lights);
+        options_message.push_back(uimenu_entry((aisle_lights_on) ? _("Turn off aisle lights") :
+                                               _("Turn on aisle lights"), 'A'));
+    }
 
     //Honk the horn!
     if (has_horn) {
@@ -1014,6 +1051,22 @@ void vehicle::use_controls()
     case toggle_cruise_control:
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
+        break;
+    case toggle_aisle_lights:
+        if(aisle_lights_on || fuel_left(fuel_type_battery, true)) {
+            aisle_lights_on = !aisle_lights_on;
+            add_msg((aisle_lights_on) ? _("Aisle lights turned on") : _("Aisle lights turned off"));
+        } else {
+            add_msg(_("The aisle lights won't come on!"));
+        }
+        break;
+    case toggle_dome_lights:
+        if(dome_lights_on || fuel_left(fuel_type_battery, true)) {
+            dome_lights_on = !dome_lights_on;
+            add_msg((dome_lights_on) ? _("Dome lights turned on") : _("Dome lights turned off"));
+        } else {
+            add_msg(_("The dome lights won't come on!"));
+        }
         break;
     case toggle_lights:
         if(lights_on || fuel_left(fuel_type_battery, true) ) {
@@ -1801,75 +1854,6 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     parts.back().mount_dy = dy;
     refresh();
     return parts.size() - 1;
-}
-
-void vehicle_part::properties_from_item( const item &used_item )
-{
-    const vpart_info &vpinfo = vehicle_part_int_types[iid];
-    if( used_item.is_var_veh_part() ) {
-        bigness = used_item.bigness;
-    }
-    // item damage is 0,1,2,3, or 4. part hp is 1..durability.
-    // assuming it rusts. other item materials disintegrate at different rates...
-    int health = 5 - used_item.damage;
-    health *= vpinfo.durability; //[0,dur]
-    health /= 5;
-    hp = std::max( 1, health );
-    // Transfer fuel from item to tank
-    const ammotype &desired_liquid = vpinfo.fuel_type;
-    if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
-        amount = std::min<int>( used_item.charges, vpinfo.size );
-    } else if( !used_item.contents.empty() ) {
-        const item &liquid = used_item.contents[0];
-        if( liquid.type->id == default_ammo( desired_liquid ) ) {
-            amount = std::min<int>( liquid.charges, vpinfo.size );
-        }
-    }
-}
-
-item vehicle_part::properties_to_item() const
-{
-    const vpart_info &vpinfo = vehicle_part_int_types[iid];
-    item tmp( vpinfo.item, calendar::turn );
-    if( tmp.is_var_veh_part() ) {
-        tmp.bigness = bigness;
-    }
-    // tools go unloaded to prevent user from exploiting this to
-    // refill their (otherwise not refillable) tools
-    if( tmp.is_tool() ) {
-        tmp.charges = 0;
-    }
-    // Cables get special handling: their target coordinates need to remain
-    // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag("CABLE_SPOOL") ) {
-        point local_pos = g->m.getlocal(target.first);
-        if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
-            tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
-        }
-
-        tmp.item_vars["source_x"] = string_format("%d", target.first.x);
-        tmp.item_vars["source_y"] = string_format("%d", target.first.y);
-        tmp.item_vars["source_z"] = string_format("%d", g->levz);
-        tmp.item_vars["state"] = "pay_out_cable";
-        tmp.active = true;
-    }
-    // translate part damage to item damage.
-    // max damage is 4, min damage 0.
-    // this is very lossy.
-    float hpofdur = ( float )hp / vpinfo.durability;
-    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
-    // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
-        const ammotype &desired_liquid = vpinfo.fuel_type;
-        if( desired_liquid == fuel_type_battery ) {
-            tmp.charges = amount;
-        } else {
-            item liquid( default_ammo( desired_liquid ), calendar::turn );
-            liquid.charges = amount;
-            tmp.put_in( liquid );
-        }
-    }
-    return tmp;
 }
 
 /**
@@ -3254,6 +3238,8 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     if(recharger_on) epower += recharger_epower;
     if (is_alarm_on) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
+    if(dome_lights_on) epower += dome_lights_epower;
+    if(aisle_lights_on) epower += aisle_lights_epower;
 
     // Producers of epower
     epower += solar_epower(sm_loc);
@@ -3362,6 +3348,8 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         stereo_on = false;
         recharger_on = false;
         camera_on = false;
+        dome_lights_on = false;
+        aisle_lights_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
         }
@@ -4294,11 +4282,12 @@ bool vehicle::add_item (int part, item itm)
     if( (int)parts[part].items.size() >= max_storage ) {
         return false;
     }
-    it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, "TURRET")) {
-        if (!ammo || (ammo->type != part_info(part).fuel_type ||
-                 ammo->type == fuel_type_gasoline ||
-                 ammo->type == fuel_type_plasma)) {
+        const auto atype = itm.ammo_type();
+        if( !itm.is_ammo() || atype != part_info(part).fuel_type ) {
+            return false;
+        }
+        if( atype == fuel_type_gasoline || atype == fuel_type_plasma ) {
             return false;
         }
     }
@@ -4486,6 +4475,8 @@ void vehicle::refresh()
     tracking_epower = 0;
     fridge_epower = 0;
     recharger_epower = 0;
+    dome_lights_epower = 0;
+    aisle_lights_epower = 0;
     alternator_load = 0;
 
     // Used to sort part list so it displays properly when examining
@@ -4508,6 +4499,14 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
             overhead_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_DOME_LIGHT) ) {
+            lights.push_back( p);
+            dome_lights_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_AISLE_LIGHT) ) {
+            lights.push_back( p);
+            aisle_lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_TRACK) ) {
             tracking_epower += vpi.epower;
@@ -4987,17 +4986,18 @@ void vehicle::aim_turrets()
     target.second.x = cx;
     target.second.y = cy;
 
-    it_ammo *ammo;
+    itype *am_itype;
     if( get_items( turret_index ).front().charges > 0 ) {
-        ammo = dynamic_cast<it_ammo*>( get_items( turret_index ).front().type );
+        am_itype = get_items( turret_index ).front().type;
     } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
-        ammo = dynamic_cast<it_ammo*>( item::find_type( part_info( turret_index ).fuel_type ) );
+        am_itype = item::find_type( part_info( turret_index ).fuel_type );
     } else {
-        ammo = dynamic_cast<it_ammo*>( item::find_type( "charge_shot" ) );
+        am_itype = item::find_type( "charge_shot" );
     }
-    if( !ammo ) {
-        ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+    if( !am_itype->ammo ) {
+        am_itype = item::find_type( "fake_ammo" );
     }
+    const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
     int range = gun_data.range + ammo->range;
     int x = cx;
@@ -5188,14 +5188,14 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( liquid_fuel < 1 || charges < 1 ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>( item::find_type( amt ) );
-        if( !ammo ) {
+        itype *am_type = item::find_type( amt );
+        if( !am_type->ammo ) {
             // Let non-ammo-typed ammo be used too
             // 0 in all stats, depends on gun to provide everything
-            ammo = dynamic_cast<it_ammo*>( item::find_type( "fake_ammo" ) );
+            am_type = item::find_type( "fake_ammo" );
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *ammo, charges_left, whoosh) ) {
+        if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
@@ -5205,15 +5205,15 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( get_items(p).empty() ) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*> (get_items(p).front().type);
-        if( !ammo || ammo->type != amt || get_items(p).front().charges < 1 ) {
+        itype *am_type = get_items(p).front().type;
+        if( !am_type->ammo || am_type->ammo->type != amt || get_items(p).front().charges < 1 ) {
             return false;
         }
         if( charges > get_items(p).front().charges ) {
             charges = get_items(p).front().charges;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *ammo, charges_left ) ) {
+        if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
@@ -5248,7 +5248,7 @@ int aoe_size( std::set< std::string > tags )
     return 0;
 }
 
-bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long &charges, const std::string &extra_sound)
+bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -5272,7 +5272,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, it_ammo &ammo, long
     tmp.weapon.set_curammo( ammo.id );
     tmp.weapon.charges = charges;
 
-    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo_effects ),
+    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo->ammo_effects ),
                          aoe_size( tmp.weapon.type->gun->ammo_effects ) );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
@@ -5497,3 +5497,77 @@ bool vehicle::restore(const std::string &data)
     precalc_mounts(1, 0);
     return true;
 }
+
+/*-----------------------------------------------------------------------------
+ *                              VEHICLE_PART
+ *-----------------------------------------------------------------------------*/
+
+void vehicle_part::properties_from_item( const item &used_item )
+{
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    if( used_item.is_var_veh_part() ) {
+        bigness = used_item.bigness;
+    }
+    // item damage is 0,1,2,3, or 4. part hp is 1..durability.
+    // assuming it rusts. other item materials disintegrate at different rates...
+    int health = 5 - used_item.damage;
+    health *= vpinfo.durability; //[0,dur]
+    health /= 5;
+    hp = std::max( 1, health );
+    // Transfer fuel from item to tank
+    const ammotype &desired_liquid = vpinfo.fuel_type;
+    if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
+        amount = std::min<int>( used_item.charges, vpinfo.size );
+    } else if( !used_item.contents.empty() ) {
+        const item &liquid = used_item.contents[0];
+        if( liquid.type->id == default_ammo( desired_liquid ) ) {
+            amount = std::min<int>( liquid.charges, vpinfo.size );
+        }
+    }
+}
+
+item vehicle_part::properties_to_item() const
+{
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    item tmp( vpinfo.item, calendar::turn );
+    if( tmp.is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    // tools go unloaded to prevent user from exploiting this to
+    // refill their (otherwise not refillable) tools
+    if( tmp.is_tool() ) {
+        tmp.charges = 0;
+    }
+    // Cables get special handling: their target coordinates need to remain
+    // stored, and if a cable actually drops, it should be half-connected.
+    if( tmp.has_flag("CABLE_SPOOL") ) {
+        point local_pos = g->m.getlocal(target.first);
+        if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
+            tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
+        }
+
+        tmp.item_vars["source_x"] = string_format("%d", target.first.x);
+        tmp.item_vars["source_y"] = string_format("%d", target.first.y);
+        tmp.item_vars["source_z"] = string_format("%d", g->levz);
+        tmp.item_vars["state"] = "pay_out_cable";
+        tmp.active = true;
+    }
+    // translate part damage to item damage.
+    // max damage is 4, min damage 0.
+    // this is very lossy.
+    float hpofdur = ( float )hp / vpinfo.durability;
+    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
+    // Transfer fuel back to tank
+    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
+        const ammotype &desired_liquid = vpinfo.fuel_type;
+        if( desired_liquid == fuel_type_battery ) {
+            tmp.charges = amount;
+        } else {
+            item liquid( default_ammo( desired_liquid ), calendar::turn );
+            liquid.charges = amount;
+            tmp.put_in( liquid );
+        }
+    }
+    return tmp;
+}
+
