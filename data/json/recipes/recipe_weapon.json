@@ -5637,7 +5637,7 @@
 },
 {
 	"type" : "recipe",
-	"result": "heavy_rebar_rifle",
+	"result": "heavy_gauss_rifle",
 	"category": "CC_WEAPON",
 	"subcategory": "CSC_WEAPON_RANGED",
 	"skill_used": "fabrication",
