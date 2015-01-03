@@ -132,16 +132,16 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug'&#xD;&#xA;            Or '$(Configuration)'=='Debug Localized'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Localized' Or '$(Configuration)'=='Debug SDL Tiles' Or '$(Configuration)'=='Debug SDL Tiles Localized'">
     <Import Project="debug.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Release'&#xD;&#xA;            Or '$(Configuration)'=='Release Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Localized' Or '$(Configuration)'=='Release SDL Tiles' Or '$(Configuration)'=='Release SDL Tiles Localized'">
     <Import Project="optimize.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug SDL Tiles' Or '$(Configuration)'=='Debug SDL Tiles Localized' Or '$(Configuration)'=='Release SDL Tiles' Or '$(Configuration)'=='Release SDL Tiles Localized'">
     <Import Project="sdl.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug Localized'&#xD;&#xA;            Or '$(Configuration)'=='Debug SDL Tiles Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release Localized'&#xD;&#xA;            Or '$(Configuration)'=='Release SDL Tiles Localized'&#xD;&#xA;  ">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug Localized' Or '$(Configuration)'=='Debug SDL Tiles Localized' Or '$(Configuration)'=='Release Localized' Or '$(Configuration)'=='Release SDL Tiles Localized'">
     <Import Project="localize.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(BuildConfig)'=='Debug'" Label="Configuration">
