@@ -741,9 +741,9 @@ std::string effect::get_removes_effect() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! template voodoo syntactic sugar for a round followed by a cast
-//! this should be moved elsewhere if it is to be kept so that it can be
-//! more widely used
+// template voodoo syntactic sugar for a round followed by a cast
+// this should be moved elsewhere if it is to be kept so that it can be
+// more widely used
 ////////////////////////////////////////////////////////////////////////////////
 namespace detail {
 
