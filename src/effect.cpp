@@ -770,9 +770,8 @@ auto round_to(From const value) -> Result {
     return static_cast<To>(round(value));
 }
 
-
 //------------------------------------------------------------------------------
-//! return the value in mod_data at key ammened with mods and arg, otherwise 0.0.
+//! return the value in mod_data at key amended with mods and arg, otherwise 0.0.
 //------------------------------------------------------------------------------
 template <typename Container, typename Key = typename Container::key_type>
 double get_mod_data_value(
@@ -848,7 +847,6 @@ int effect::get_avg_mod(std::string arg, bool const reduced) const
     auto const min = get_mod_data(mod_data, key, "min").get_value(intensity);
     auto const max = get_mod_data(mod_data, key, "max").get_value(intensity);
 
-    //auto const imin = static_cast<int>(std::round(min));
     auto const imin = round_to<int>(min);
     auto const imax = round_to<int>(max);
 
