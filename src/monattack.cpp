@@ -671,7 +671,6 @@ void mattack::grow_vine(monster *z, int index)
     }
     z->reset_special(index); // Reset timer
     z->moves -= 100;
-    monster vine(GetMType("mon_creeper_vine"));
     int xshift = rng(0, 2), yshift = rng(0, 2);
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++) {
