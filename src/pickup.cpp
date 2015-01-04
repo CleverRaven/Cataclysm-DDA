@@ -8,7 +8,7 @@
 #include <vector>
 
 // Handles interactions with a vehicle in the examine menu.
-// Returns the part number that wil accept items if any, or -1 to indicate no cargo part.
+// Returns the part number that will accept items if any, or -1 to indicate no cargo part.
 // Returns -2 if a special interaction was performed and the menu should exit.
 int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part )
 {

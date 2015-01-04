@@ -982,7 +982,6 @@ void item::deserialize(JsonObject &data)
     data.read( "burnt", burnt );
 
     data.read( "poison", poison );
-    data.read( "owned", owned );
 
     data.read( "bday", bday );
 
@@ -1142,9 +1141,6 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member( "corpse", corpse->id );
     }
 
-    if ( owned != -1 ) {
-        json.member( "owned", owned );
-    }
     if ( player_id != -1 ) {
         json.member( "player_id", player_id );
     }

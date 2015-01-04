@@ -300,6 +300,38 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sheet_metal_lit",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "electronics",
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "lightstrip_inactive", 1 ],
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "flashlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",

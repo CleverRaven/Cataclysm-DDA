@@ -165,9 +165,9 @@ public:
      */
     bool is_of_type_or_contains_it(const std::string &type_id) const;
     /**
-     * Returns true if this item is ammo and has the specifi ammo type,
+     * Returns true if this item is ammo and has the specific ammo type,
      * or if this functions returns true for any of its contents.
-     * This does not check type->id, but it_ammo::type.
+     * This does not check type->id, but islot_ammo::type.
      */
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
@@ -256,7 +256,6 @@ public:
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
- long max_charges() const;
  bool craft_has_charges();
  long num_charges();
 
@@ -495,8 +494,10 @@ public:
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
+         * If non-null, the returned itype is quaranted to have an ammo slot:
+         * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
-        it_ammo* get_curammo() const;
+        itype* get_curammo() const;
         /**
          * Returns the item type id of the currently loaded ammo.
          * Returns "null" if the item is not loaded.
@@ -512,8 +513,8 @@ public:
          */
         void unset_curammo();
         /**
-         * Set the current ammo from an item type id (not an ammo type id!). The type must be an
-         * instance of @ref it_ammo. If the type id is "null", the curammo is unset as by calling
+         * Set the current ammo from an item type id (not an ammo type id!). The type must have
+         * an ammo slot (@ref itype::ammo). If the type id is "null", the curammo is unset as by calling
          * @ref unset_curammo.
          */
         void set_curammo( const itype_id &type );
@@ -560,6 +561,22 @@ public:
          * character tried to wear).
          */
         std::string type_name( unsigned int quantity = 1 ) const;
+
+        /**
+         * Liquids use a different (and type specific) scale for the charges vs volume.
+         * This functions converts them. You can assume that
+         * @code liquid_charges( liquid_units( x ) ) == x @endcode holds true.
+         * For items that are not liquids or otherwise don't use this system, both functions
+         * simply return their input (conversion factor is 1).
+         * One "unit" takes up one container storage capacity, e.g.
+         * A container with @ref islot_container::contains == 2 can store
+         * @code liquid.liquid_charges( 2 ) @endcode charges of the given liquid.
+         * For water this would be 2, for most strong alcohols it's 14, etc.
+         */
+        /*@{*/
+        long liquid_charges( long units ) const;
+        long liquid_units( long charges ) const;
+        /*@}*/
 
         /**
          * @name Armor related functions.
@@ -815,7 +832,7 @@ public:
     private:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
-        it_ammo* curammo;
+        itype* curammo;
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -823,7 +840,6 @@ public:
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
- int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
    int poison;          // How badly poisoned is it?
