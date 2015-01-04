@@ -5737,7 +5737,8 @@ void game::draw_ter(int posx, int posy)
 
 void game::draw_veh_dir_indicator(void)
 {
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
+    // don't draw indicator if doing look_around()
+    if (OPTIONS["VEHICLE_DIR_INDICATOR"] && !is_looking_around) {
         vehicle *veh = m.veh_at(u.posx, u.posy);
         if (!veh) {
             debugmsg("game::draw_veh_dir_indicator: no vehicle!");
@@ -9457,6 +9458,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 {
     temp_exit_fullscreen();
 
+    is_looking_around = true;
+
     bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
     bool bHasFirstPoint = (pairCoordsFirst.x != -999 && pairCoordsFirst.y != -999);
 
@@ -9654,6 +9657,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         delwin(w_info);
     }
     reenter_fullscreen();
+    is_looking_around = false;
 
     if (action == "CONFIRM") {
         if (bSelectZone) {
