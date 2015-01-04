@@ -1370,8 +1370,7 @@ point editmap::recalc_target(shapetype shape)
             }
             break;
         case editmap_line:
-            int t = 0;
-            target_list = line_to(origin.x, origin.y, target.x, target.y, t);
+            target_list = line_to( origin, target, 0 );
             break;
     }
 

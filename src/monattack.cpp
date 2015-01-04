@@ -283,7 +283,7 @@ void mattack::boomer(monster *z, int index)
         return;
     }
 
-    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, dist);
+    std::vector<point> line = line_to( z->pos(), g->u.pos(), dist );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u_see(z->posx(), z->posy());
@@ -797,7 +797,7 @@ void mattack::spit_sap(monster *z, int index)
     }
     int t;
     g->m.sees(g->u.posx, g->u.posy, z->posx(), z->posy(), 60, t);
-    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
+    std::vector<point> line = line_to( z->pos(), g->u.pos(), t );
     int dam = 5;
     for (auto &i : line) {
         g->m.shoot(i.x, i.y, dam, false, no_effects);
@@ -1694,7 +1694,7 @@ void mattack::tentacle(monster *z, int index)
     z->moves -= 100;
     z->reset_special(index); // Reset timer
 
-    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
+    std::vector<point> line = line_to( z->pos(), g->u.pos(), t );
     std::set<std::string> no_effects;
     for (auto &i : line) {
         int tmpdam = 20;
@@ -1965,7 +1965,7 @@ void mattack::stare(monster *z, int index)
         g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<point> sight = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);
+        std::vector<point> sight = line_to( z->pos(), g->u.pos(), 0 );
         for (auto &i : sight) {
             if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
                 g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
@@ -2843,7 +2843,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
-      std::vector<point> traj = line_to( z->posx(), z->posy(), target->xpos(), target->ypos(), bres );
+      std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
@@ -2866,7 +2866,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<point> traj = line_to( z->posx(), z->posy(), g->u.posx, g->u.posy, bres );
+    std::vector<point> traj = line_to( z->pos(), g->u.pos(), bres );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall

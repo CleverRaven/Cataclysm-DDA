@@ -9227,7 +9227,7 @@ int iuse::camera(player *p, item *it, bool, point)
             return 0;
         }
 
-        std::vector <point> trajectory = line_to(p->posx, p->posy, aim_point.x, aim_point.y, 0);
+        std::vector <point> trajectory = line_to( p->pos(), aim_point, 0 );
         trajectory.push_back(aim_point);
 
         p->moves -= 50;

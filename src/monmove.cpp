@@ -688,8 +688,7 @@ int monster::group_bash_skill( point target )
 
     for( point candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
-        std::vector<point> path_to_target = line_to( target.x, target.y,
-                                                     candidate.x, candidate.y, 0);
+        std::vector<point> path_to_target = line_to( target, candidate, 0 );
         bool connected = true;
         int mondex = -1;
         for( point in_path : path_to_target ) {
