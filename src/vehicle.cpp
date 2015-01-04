@@ -1738,13 +1738,10 @@ bool vehicle::can_unmount (int p)
  *        be included in the path.
  * @return true if a path exists without the excluded part, false otherwise.
  */
-bool vehicle::is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded)
+bool vehicle::is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded_part)
 {
-    int target_x = to.mount.x;
-    int target_y = to.mount.y;
-
-    int excluded_x = excluded.mount.x;
-    int excluded_y = excluded.mount.y;
+    const auto target = to.mount;
+    const auto excluded = excluded_part.mount;
 
     //Breadth-first-search components
     std::list<vehicle_part> discovered;
@@ -1757,36 +1754,35 @@ bool vehicle::is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &e
     while(!discovered.empty()) {
         current_part = discovered.front();
         discovered.pop_front();
-        int current_x = current_part.mount.x;
-        int current_y = current_part.mount.y;
+        auto current = current_part.mount;
 
         for(int i = 0; i < 4; i++) {
-            int next_x = current_x + (i < 2 ? (i == 0 ? -1 : 1) : 0);
-            int next_y = current_y + (i < 2 ? 0 : (i == 2 ? -1 : 1));
+            point next( current.x + (i < 2 ? (i == 0 ? -1 : 1) : 0),
+                        current.y + (i < 2 ? 0 : (i == 2 ? -1 : 1)) );
 
-            if(next_x == target_x && next_y == target_y) {
+            if( next == target ) {
                 //Success!
                 return true;
-            } else if(next_x == excluded_x && next_y == excluded_y) {
+            } else if( next == excluded ) {
                 //There might be a path, but we're not allowed to go that way
                 continue;
             }
 
-            std::vector<int> parts_there = parts_at_relative(next_x, next_y);
+            std::vector<int> parts_there = parts_at_relative(next.x, next.y);
 
             if(!parts_there.empty()) {
                 vehicle_part next_part = parts[parts_there[0]];
                 //Only add the part if we haven't been here before
                 bool found = false;
                 for( auto &elem : discovered ) {
-                    if( elem.mount.x == next_x && elem.mount.y == next_y ) {
+                    if( elem.mount == next ) {
                         found = true;
                         break;
                     }
                 }
                 if(!found) {
                     for( auto &elem : searched ) {
-                        if( elem.mount.x == next_x && elem.mount.y == next_y ) {
+                        if( elem.mount == next ) {
                             found = true;
                             break;
                         }
