@@ -23,9 +23,6 @@ static std::string const eff_arg_chance_top = {"chance_top"};
 static std::string const eff_arg_chance_bot = {"chance_bot"};
 static std::string const eff_arg_tick       = {"tick"};
 
-static std::string const eff_arg_min_value = {"min_value"};
-static std::string const eff_arg_max_value = {"max_value"};
-
 static std::string const eff_type_str     {"STR"};
 static std::string const eff_type_dex   = {"DEX"};
 static std::string const eff_type_per   = {"PER"};
@@ -969,7 +966,7 @@ int effect::get_min_val(std::string const& arg, bool const reduced) const
     effect_type::key_type key {"", reduced, arg, ""};
 
     return round_to<int>(
-        get_mod_data(eff_type->mod_data, key, eff_arg_min_value).get_value(intensity)
+        get_mod_data(eff_type->mod_data, key, eff_arg_min_val).get_value(intensity)
     );
 }
 
@@ -978,7 +975,7 @@ int effect::get_max_val(std::string const& arg, bool const reduced) const
     effect_type::key_type key {"", reduced, arg, ""};
 
     return round_to<int>(
-        get_mod_data(eff_type->mod_data, key, eff_arg_max_value).get_value(intensity)
+        get_mod_data(eff_type->mod_data, key, eff_arg_max_val).get_value(intensity)
     );
 }
 
