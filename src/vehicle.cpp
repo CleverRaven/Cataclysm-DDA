@@ -223,8 +223,8 @@ bool vehicle::remote_controlled (player *p)
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
         if( rl_dist( p->posx, p->posy, 
-                    global_x() + parts[part].precalc_dx[0], 
-                    global_y() + parts[part].precalc_dy[0] ) <= 40 ) {
+                    global_x() + parts[part].precalc[0].x,
+                    global_y() + parts[part].precalc[0].y ) <= 40 ) {
             return true;
         }
     }
@@ -578,8 +578,8 @@ void vehicle::control_doors() {
 
         int val = doors_with_motors.size();
         doors_with_motors.push_back( door );
-        locations.push_back( point( parts[p].precalc_dx[0] + global_x(), 
-                                    parts[p].precalc_dy[0] + global_y() ) );
+        locations.push_back( point( parts[p].precalc[0].x + global_x(),
+                                    parts[p].precalc[0].y + global_y() ) );
         const char *actname = parts[door].open ? _("Close") : _("Open");
         pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
     }
@@ -1362,8 +1362,8 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const int horn_x = global_x() + parts[p].precalc_dx[0];
-        const int horn_y = global_y() + parts[p].precalc_dy[0];
+        const int horn_x = global_x() + parts[p].precalc[0].x;
+        const int horn_y = global_y() + parts[p].precalc[0].y;
         //Determine sound
         if( horn_type.bonus >= 40 ) {
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
@@ -1390,8 +1390,8 @@ void vehicle::play_music()
             return;
         }
         std::string sound = "";
-        const int radio_x = global_x() + parts[p].precalc_dx[0];
-        const int radio_y = global_y() + parts[p].precalc_dy[0];
+        const int radio_x = global_x() + parts[p].precalc[0].x;
+        const int radio_y = global_y() + parts[p].precalc[0].y;
         iuse::play_music( &(g->u), point(radio_x, radio_y), 15 );
     }
 }
@@ -1888,7 +1888,7 @@ bool vehicle::remove_part (int p)
     if(part_flag(p, "WINDOW")) {
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
-            int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
+            int x = parts[curtain].precalc[0].x, y = parts[curtain].precalc[0].y;
             item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(curtain);
@@ -1899,7 +1899,7 @@ bool vehicle::remove_part (int p)
     if(part_flag(p, "SEAT")) {
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
-            int x = parts[seatbelt].precalc_dx[0], y = parts[seatbelt].precalc_dy[0];
+            int x = parts[seatbelt].precalc[0].x, y = parts[seatbelt].precalc[0].y;
             item it = parts[seatbelt].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
@@ -1908,8 +1908,8 @@ bool vehicle::remove_part (int p)
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
-                g->m.unboard_vehicle( global_x() + parts[p].precalc_dx[0],
-                                      global_y() + parts[p].precalc_dy[0] );
+                g->m.unboard_vehicle( global_x() + parts[p].precalc[0].x,
+                                      global_y() + parts[p].precalc[0].y );
             }
         }
     }
@@ -1947,8 +1947,8 @@ bool vehicle::remove_part (int p)
         }
     }
 
-    const int dx = global_x() + parts[p].precalc_dx[0];
-    const int dy = global_y() + parts[p].precalc_dy[0];
+    const int dx = global_x() + parts[p].precalc[0].x;
+    const int dy = global_y() + parts[p].precalc[0].y;
     for( auto &i : get_items(p) ) {
         g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), i);
     }
@@ -2179,7 +2179,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
 int vehicle::part_at(int dx, int dy)
 {
     for (size_t p = 0; p < parts.size(); p++) {
-        if (parts[p].precalc_dx[0] == dx && parts[p].precalc_dy[0] == dy && !parts[p].removed) {
+        if (parts[p].precalc[0].x == dx && parts[p].precalc[0].y == dy && !parts[p].removed) {
             return (int)p;
         }
     }
@@ -2519,8 +2519,8 @@ void vehicle::precalc_mounts (int idir, int dir)
         }
         int dx, dy;
         coord_translate (dir, p.mount_dx, p.mount_dy, dx, dy);
-        p.precalc_dx[idir] = dx;
-        p.precalc_dy[idir] = dy;
+        p.precalc[idir].x = dx;
+        p.precalc[idir].y = dy;
     }
 }
 
@@ -2638,8 +2638,8 @@ void vehicle::center_of_mass(int &x, int &y)
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
-        xf += parts[i].precalc_dx[0] * m_part / 1000;
-        yf += parts[i].precalc_dy[0] * m_part / 1000;
+        xf += parts[i].precalc[0].x * m_part / 1000;
+        yf += parts[i].precalc[0].y * m_part / 1000;
     }
     xf /= m_total;
     yf /= m_total;
@@ -2794,8 +2794,8 @@ int vehicle::solar_epower (tripoint sm_loc)
     int epower = 0;
     for( auto &elem : solar_panels ) {
         if( parts[elem].hp > 0 ) {
-            int px = posx + parts[elem].precalc_dx[0]; // veh. origin submap relative
-            int py = posy + parts[elem].precalc_dy[0]; // as above
+            int px = posx + parts[elem].precalc[0].x; // veh. origin submap relative
+            int py = posy + parts[elem].precalc[0].y; // as above
             //debugmsg("raw coords: sm %d,%d  sm-rel %d,%d", sm_loc.x, sm_loc.y, px, py);
             point pg = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
             pg.x += px;
@@ -2847,8 +2847,8 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
-        int part_x = global_x() + parts[p].precalc_dx[0];
-        int part_y = global_y() + parts[p].precalc_dy[0];
+        int part_x = global_x() + parts[p].precalc[0].x;
+        int part_y = global_y() + parts[p].precalc[0].y;
 
         /* Only lower blood level if:
          * - The part is outside.
@@ -3801,9 +3801,9 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
     for( size_t i = 0; i < structural_indices.size() && can_move; i++ ) {
         const int p = structural_indices[i];
         // coords of where part will go due to movement (dx/dy)
-        // and turning (precalc_dx/dy [1])
-        const int dsx = global_x() + dx + parts[p].precalc_dx[1];
-        const int dsy = global_y() + dy + parts[p].precalc_dy[1];
+        // and turning (precalc[1])
+        const int dsx = global_x() + dx + parts[p].precalc[1].x;
+        const int dsy = global_y() + dy + parts[p].precalc[1].y;
         veh_collision coll = part_collision( p, dsx, dsy, just_detect );
         if( coll.type != veh_coll_nothing && just_detect ) {
             return true;
@@ -4349,8 +4349,8 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
 vehicle_stack vehicle::get_items( int part )
 {
     return vehicle_stack( &parts[part].items,
-                          point( global_x() + parts[part].precalc_dx[0],
-                                 global_x() + parts[part].precalc_dx[0] ),
+                          point( global_x() + parts[part].precalc[0].x,
+                                 global_x() + parts[part].precalc[0].x ),
                           this, part );
 }
 
@@ -4552,8 +4552,8 @@ void vehicle::remove_remote_part(int part_num) {
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
-        int posx = global_x() + parts[part_num].precalc_dx[0];
-        int posy = global_y() + parts[part_num].precalc_dy[0];
+        int posx = global_x() + parts[part_num].precalc[0].x;
+        int posy = global_y() + parts[part_num].precalc[0].y;
         point local_abs = g->m.getabs(posx, posy);
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++) {
@@ -4575,8 +4575,8 @@ void vehicle::shed_loose_parts() {
         }
 
         auto part = &parts[elem];
-        int posx = global_x() + part->precalc_dx[0];
-        int posy = global_y() + part->precalc_dy[0];
+        int posx = global_x() + part->precalc[0].x;
+        int posy = global_y() + part->precalc[0].y;
         item drop = part->properties_to_item();
         g->m.add_item_or_charges(posx, posy, drop);
 
@@ -4645,8 +4645,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (auto &i : bp) {
-        g->m.unboard_vehicle (global_x() + parts[i].precalc_dx[0],
-                              global_y() + parts[i].precalc_dy[0]);
+        g->m.unboard_vehicle (global_x() + parts[i].precalc[0].x,
+                              global_y() + parts[i].precalc[0].y);
     }
 }
 
@@ -4730,8 +4730,8 @@ void vehicle::shift_parts(const int dx, const int dy)
     //Don't use the cache as it hasn't been updated yet
     std::vector<int> origin_parts = parts_at_relative(0, 0, false);
 
-    posx += parts[origin_parts[0]].precalc_dx[0];
-    posy += parts[origin_parts[0]].precalc_dy[0];
+    posx += parts[origin_parts[0]].precalc[0].x;
+    posy += parts[origin_parts[0]].precalc[0].y;
 
     refresh();
 
@@ -4769,8 +4769,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
          * Chance increases with damage, and decreases with part max durability
          * (so lights, etc are easily removed; frames and plating not so much) */
         if(rng(0, part_info(p).durability / 10) < dmg) {
-            int x_pos = global_x() + parts[p].precalc_dx[0];
-            int y_pos = global_y() + parts[p].precalc_dy[0];
+            int x_pos = global_x() + parts[p].precalc[0].x;
+            int y_pos = global_y() + parts[p].precalc[0].y;
             if(part_info(p).location == part_location_structure) {
                 //For structural parts, remove other parts first
                 std::vector<int> parts_in_square = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
@@ -4850,7 +4850,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
-                    g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
+                    g->explosion (global_x() + parts[p].precalc[0].x, global_y() + parts[p].precalc[0].y,
                                 pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
@@ -4859,8 +4859,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE"))
         {
-            g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
-                           global_y() + parts[p].precalc_dy[0],
+            g->m.spawn_item(global_x() + parts[p].precalc[0].x,
+                           global_y() + parts[p].precalc[0].y,
                            part_info(p).item, 1, 0, calendar::turn);
             remove_part (p);
         }
@@ -4926,8 +4926,8 @@ void vehicle::aim_turrets()
     
     uimenu pmenu;
     for( int p : turrets ) {
-        locations.push_back( point( parts[p].precalc_dx[0] + global_x(), 
-                                    parts[p].precalc_dy[0] + global_y() ) );
+        locations.push_back( point( parts[p].precalc[0].x + global_x(),
+                                    parts[p].precalc[0].y + global_y() ) );
 
     }
 
@@ -4975,8 +4975,8 @@ void vehicle::aim_turrets()
 
     // Remember turret's position at the time of aiming
     auto &target = parts[turret_index].target;
-    int cx = global_x() + parts[turret_index].precalc_dx[0];
-    int cy = global_y() + parts[turret_index].precalc_dy[0];
+    int cx = global_x() + parts[turret_index].precalc[0].x;
+    int cy = global_y() + parts[turret_index].precalc[0].y;
     target.second.x = cx;
     target.second.y = cy;
 
@@ -5034,8 +5034,8 @@ void vehicle::control_turrets() {
     for( int p : all_turrets ) {
         if( !part_flag( p, "MANUAL" ) ) {
             turrets.push_back( p );
-            locations.push_back( point( parts[p].precalc_dx[0] + global_x(), 
-                                        parts[p].precalc_dy[0] + global_y() ) );
+            locations.push_back( point( parts[p].precalc[0].x + global_x(),
+                                        parts[p].precalc[0].y + global_y() ) );
         }
     }
 
@@ -5244,8 +5244,8 @@ int aoe_size( std::set< std::string > tags )
 
 bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges, const std::string &extra_sound)
 {
-    int x = global_x() + parts[p].precalc_dx[0];
-    int y = global_y() + parts[p].precalc_dy[0];
+    int x = global_x() + parts[p].precalc[0].x;
+    int y = global_y() + parts[p].precalc[0].y;
     int range = part_info( p ).range;
     bool burst = abs( parts[p].mode ) > 1;
 

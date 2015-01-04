@@ -11265,8 +11265,8 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
-        const int px = veh->global_x() + veh->parts[*part].precalc_dx[0];
-        const int py = veh->global_y() + veh->parts[*part].precalc_dy[0];
+        const int px = veh->global_x() + veh->parts[*part].precalc[0].x;
+        const int py = veh->global_y() + veh->parts[*part].precalc[0].y;
 
         //Don't spawn anything in water
         if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
@@ -11313,9 +11313,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             for (auto &part_index : veh->parts) {
 
                 const int local_x = (veh->smx * SEEX + veh->posx) +
-                                     part_index.precalc_dx[0] - global_x;
+                                     part_index.precalc[0].x - global_x;
                 const int local_y = (veh->smy * SEEY + veh->posy) +
-                                     part_index.precalc_dy[0] - global_y;
+                                     part_index.precalc[0].y - global_y;
 
                 wreckage->install_part(local_x, local_y, part_index);
 
@@ -11323,9 +11323,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             for (auto &part_index : other_veh->parts) {
 
                 const int local_x = (other_veh->smx * SEEX + other_veh->posx) +
-                                     part_index.precalc_dx[0] - global_x;
+                                     part_index.precalc[0].x - global_x;
                 const int local_y = (other_veh->smy * SEEY + other_veh->posy) +
-                                     part_index.precalc_dy[0] - global_y;
+                                     part_index.precalc[0].y - global_y;
 
                 wreckage->install_part(local_x, local_y, part_index);
 

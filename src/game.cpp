@@ -12841,8 +12841,8 @@ bool game::plmove(int dx, int dy)
 
                             if( one_in(2) ) {
                                 grabbed_vehicle->handle_trap(
-                                    gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
+                                    gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
+                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh, p );
                             }
                         }
                         m.displace_vehicle(gx, gy, dxVeh, dyVeh);

@@ -9,6 +9,7 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include <vector>
+#include <array>
 #include <map>
 #include <string>
 #include <iosfwd>
@@ -101,10 +102,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
+                 precalc( { { point( -1, -1 ), point( -1, -1 ) } } ),
                  hp(0), blood(0), bigness(0), inside(false), removed(false),enabled(1), flags(0),
                  passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
-        precalc_dx[0] = precalc_dx[1] = -1;
-        precalc_dy[0] = precalc_dy[1] = -1;
         if (!sid.empty()) {
             setid(sid);
         }
@@ -122,8 +122,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int iid;                // same as above, for lookup via int
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
-    int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
-    int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
+    std::array<point, 2> precalc; // mount_d[x,y] translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
@@ -237,11 +236,11 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   mount coords are rotated to match vehicle's face direction before
  *   their actual positions are known. For optimization purposes
  *   mount coords are precalculated for current vehicle face direction
- *   and stored in `precalc_*[0]`. `precalc_*[1]` stores mount coords for
+ *   and stored in `precalc[0]`. `precalc[1]` stores mount coords for
  *   next move (vehicle can move and turn). Method `map::displace_vehicle()`
  *   assigns `precalc[1]` to `precalc[0]`. At any time (except
  *   `map::vehmove()` innermost cycle) you can get actual part coords
- *   relative to vehicle's position by reading `precalc_*[0]`.
+ *   relative to vehicle's position by reading `precalc[0]`.
  * - Vehicle keeps track of 3 directions:
  *     Direction | Meaning
  *     --------- | -------
@@ -532,7 +531,7 @@ public:
     // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
-// get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
+// get center of mass of vehicle; coordinates are precalc[0]
     void center_of_mass(int &x, int &y);
 
 // Get combined power of all engines. If fueled == true, then only engines which

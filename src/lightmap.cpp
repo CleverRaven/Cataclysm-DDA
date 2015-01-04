@@ -195,8 +195,8 @@ void map::generate_lightmap()
             }
             if (veh_luminance > LL_LIT) {
                 for( auto &light_indice : light_indices ) {
-                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
-                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
+                    int px = vv.x + v->parts[light_indice].precalc[0].x;
+                    int py = vv.y + v->parts[light_indice].precalc[0].y;
                     if(INBOUNDS(px, py)) {
                         apply_light_arc( px, py, dir + v->parts[light_indice].direction,
                                          veh_luminance, 45 );
@@ -213,8 +213,8 @@ void map::generate_lightmap()
                       v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) &&
                       !v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ) {
-                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
-                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
+                    int px = vv.x + v->parts[light_indice].precalc[0].x;
+                    int py = vv.y + v->parts[light_indice].precalc[0].y;
                     if(INBOUNDS(px, py)) {
                         add_light_source( px, py, v->part_info( light_indice ).bonus );
                     }
@@ -225,8 +225,8 @@ void map::generate_lightmap()
         if(v->dome_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_DOME_LIGHT);
             for( auto &light_indice : light_indices ) {
-                int px = vv.x + v->parts[light_indice].precalc_dx[0];
-                int py = vv.y + v->parts[light_indice].precalc_dy[0];
+                int px = vv.x + v->parts[light_indice].precalc[0].x;
+                int py = vv.y + v->parts[light_indice].precalc[0].y;
                 if(INBOUNDS(px, py)) {
                     add_light_source( px, py, v->part_info( light_indice ).bonus );
                 }
@@ -235,16 +235,16 @@ void map::generate_lightmap()
         if(v->aisle_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_AISLE_LIGHT);
             for( auto &light_indice : light_indices ) {
-                int px = vv.x + v->parts[light_indice].precalc_dx[0];
-                int py = vv.y + v->parts[light_indice].precalc_dy[0];
+                int px = vv.x + v->parts[light_indice].precalc[0].x;
+                int py = vv.y + v->parts[light_indice].precalc[0].y;
                 if(INBOUNDS(px, py)) {
                     add_light_source( px, py, v->part_info( light_indice ).bonus );
                 }
             }
         }
         for( size_t p = 0; p < v->parts.size(); ++p ) {
-            int px = vv.x + v->parts[p].precalc_dx[0];
-            int py = vv.y + v->parts[p].precalc_dy[0];
+            int px = vv.x + v->parts[p].precalc[0].x;
+            int py = vv.y + v->parts[p].precalc[0].y;
             if( !INBOUNDS( px, py ) ) {
                 continue;
             }
@@ -370,8 +370,8 @@ void map::build_seen_cache()
         // Cameras are also handled here, so that we only need to get through all veh parts once
         int cam_control = -1;
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
-            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
+            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc[0].x;
+            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc[0].y;
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
             if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees(mirrorX, mirrorY)) {
@@ -393,8 +393,8 @@ void map::build_seen_cache()
                 continue; // Player not at camera control, so cameras don't work
             }
 
-            const int mirrorX = veh->global_x() + veh->parts[mirror].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[mirror].precalc_dy[0];
+            const int mirrorX = veh->global_x() + veh->parts[mirror].precalc[0].x;
+            const int mirrorY = veh->global_y() + veh->parts[mirror].precalc[0].y;
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
