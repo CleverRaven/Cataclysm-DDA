@@ -3664,9 +3664,9 @@ int item::getlight_emit(bool calculate_dimming) const {
 // How much more of this liquid can be put in this container
 int item::get_remaining_capacity_for_liquid(const item &liquid) const
 {
-	if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
-		return 0;
-	}
+    if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
+        return 0;
+    }
 
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
@@ -3681,8 +3681,8 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
     }
 
     const auto total_capacity = liquid.liquid_charges( type->container->contains );
-    
-	int remaining_capacity = total_capacity;
+
+    int remaining_capacity = total_capacity;
     if (!contents.empty()) {
         remaining_capacity -= contents[0].charges;
     }
@@ -3739,10 +3739,10 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
     if (!contents.empty()) {
         const auto total_capacity = liquid.liquid_charges( type->container->contains);
         if( (total_capacity - contents[0].charges) <= 0) {
-			return L_ERR_FULL;
-		}
+            return L_ERR_FULL;
+        }
     }
-	return L_ERR_NONE;
+    return L_ERR_NONE;
 }
 
 // Remaining capacity for currently stored liquid in container - do not call for empty container
@@ -3825,7 +3825,7 @@ bool item::fill_with( item &liquid, std::string &err )
 			return false;
     }
 
-	int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
+    int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
     int amount = std::min( (long)remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {
