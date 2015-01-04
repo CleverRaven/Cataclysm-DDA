@@ -137,7 +137,7 @@ class game
         void start_calendar();
         bool do_turn();
         void draw();
-        void draw_ter(int posx = -999, int posy = -999);
+        void draw_ter(int posx = -999, int posy = -999, bool looking = false);
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h

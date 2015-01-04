@@ -5662,8 +5662,7 @@ void game::draw_critter(const Creature &critter, const point &center)
     }
 }
 
-void game::draw_ter(int posx, int posy)
-{
+void game::draw_ter(int posx, int posy, bool looking) {
     // posx/posy default to -999
     if (posx == -999) {
         posx = u.posx + u.view_offset_x;
@@ -5717,7 +5716,7 @@ void game::draw_ter(int posx, int posy)
                  POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle) {
+    if (u.controlling_vehicle && !looking) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5738,7 +5737,7 @@ void game::draw_ter(int posx, int posy)
 void game::draw_veh_dir_indicator(void)
 {
     // don't draw indicator if doing look_around()
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"] && !u.is_looking_around) {
+    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
         vehicle *veh = m.veh_at(u.posx, u.posy);
         if (!veh) {
             debugmsg("game::draw_veh_dir_indicator: no vehicle!");
@@ -9458,8 +9457,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 {
     temp_exit_fullscreen();
 
-    u.is_looking_around = true;
-
     bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
     bool bHasFirstPoint = (pairCoordsFirst.x != -999 && pairCoordsFirst.y != -999);
 
@@ -9646,7 +9643,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     ly = MAPSIZE * SEEY;
                 }
 
-                draw_ter(lx, ly);
+                draw_ter(lx, ly, true);
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
@@ -9657,7 +9654,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         delwin(w_info);
     }
     reenter_fullscreen();
-    u.is_looking_around = false;
 
     if (action == "CONFIRM") {
         if (bSelectZone) {

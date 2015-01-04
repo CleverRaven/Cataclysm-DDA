@@ -1214,9 +1214,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             turn_died = (turn_died != -1) ? turn : turn_died;
         }
 
-        // are we looking around via ';'?
-        bool is_looking_around;
-
     protected:
         std::unordered_set<std::string> my_traits;
         std::unordered_set<std::string> my_mutations;
