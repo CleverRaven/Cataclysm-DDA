@@ -5182,7 +5182,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( liquid_fuel < 1 || charges < 1 ) {
             return false;
         }
-        itype *am_type = item::find_type( amt );
+        itype *am_type = item::find_type( default_ammo( amt ) );
         itype *fake;
         bool fake_ammo = false;
         if( !am_type->ammo ) {
