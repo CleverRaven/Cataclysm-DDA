@@ -617,6 +617,36 @@
   ]
 },{
   "type" : "recipe",
+  "result" : "arrow_metal_sharpened_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "archery", 3 ],
+  "difficulty" : 4,
+  "time" : 5000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_metal_sharpened", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result" : "arrow_heavy_fire_hardened",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
