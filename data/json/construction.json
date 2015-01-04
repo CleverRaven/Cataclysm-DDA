@@ -2119,7 +2119,7 @@
         "post_terrain" : "t_claymound"
     },{
         "type" : "construction",
-        "description" : "Build Chacoal Kiln",
+        "description" : "Build Charcoal Kiln",
         "category" : "FURN",
         "difficulty" : 3,
         "time" : 60,
