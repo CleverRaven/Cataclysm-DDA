@@ -7,6 +7,7 @@
 #include <sstream>
 #include <type_traits>
 #include <algorithm>
+#include <iterator>
 
 std::map<std::string, effect_type> effect_types;
 
@@ -16,6 +17,7 @@ static std::string const eff_mode_scaling = {"scaling_mods"};
 static std::string const eff_arg_min        = {"min"};
 static std::string const eff_arg_max        = {"max"};
 static std::string const eff_arg_amount     = {"amount"};
+static std::string const eff_arg_min_val    = {"min_val"};
 static std::string const eff_arg_max_val    = {"max_val"};
 static std::string const eff_arg_chance_top = {"chance_top"};
 static std::string const eff_arg_chance_bot = {"chance_bot"};
@@ -44,6 +46,9 @@ static std::string const eff_type_fatigue = {"FATIGUE"};
 static std::string const eff_type_cough   = {"COUGH"};
 static std::string const eff_type_vomit   = {"VOMIT"};
 
+/**
+ * clamp n to [lo, hi]
+ */
 template <typename T>
 inline T clamp(T const n, T const lo, T const hi) noexcept {
     return (n < lo) ? lo :
@@ -51,11 +56,8 @@ inline T clamp(T const n, T const lo, T const hi) noexcept {
            n;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// template voodoo syntactic sugar for a round followed by a cast
-// this should be moved elsewhere if it is to be kept so that it can be
-// more widely used
-////////////////////////////////////////////////////////////////////////////////
+
+// This should probably be moved elsewhere if it is to be kept so that it can be more widely used
 namespace detail {
 
 template <typename To, typename From>
@@ -70,6 +72,11 @@ using select_result_type_t = typename select_result_type<To, From>::type;
 
 } //namespace detail
 
+/**
+ * do a round followed by a cast
+ *
+ * @tparam To optional cast type, the results will otherwise fallback to decltype(value)
+ */
 template <
     typename To = void
   , typename From
@@ -81,9 +88,17 @@ auto round_to(From const value) -> Result {
     return static_cast<To>(round(value));
 }
 
+/**
+ * mapping from hash value to T
+ */
 template <typename T>
 using hash_pair = std::pair<int, T>;
 
+/**
+ * find key in an array
+ *
+ * @return a pair of the form {value at key, key was found}
+ */
 template <typename T, typename K, size_t N>
 std::pair<T, bool>
 find_mapping(hash_pair<T> const (&arr)[N], K const& key) {
@@ -99,17 +114,30 @@ find_mapping(hash_pair<T> const (&arr)[N], K const& key) {
     return std::make_pair(it->second, found);
 }
 
+/**
+ * get a value (enumeration) from a string value
+ *
+ * @return a pair of the form {value, string was valid}
+ */
 template <typename T>
 std::pair<T, bool> from_string(std::string const& s);
 
+/**
+ * get a value (enumeration) from a string value, otherwise @p fallback
+ */
 template <typename T>
 T from_string(std::string const& s, T const fallback) {
     auto const result = from_string<T>(s);
     return result.second ? result.first : fallback;
 }
 
+/**
+ * string -> game_message_type
+ */
 template <>
 std::pair<game_message_type, bool> from_string<game_message_type>(std::string const& s) {
+    //TODO perhaps move this elsewhere and complete for other game_message_type values?
+
     using type = game_message_type;
     
     static hash_pair<type> const hashes[] = {
@@ -122,6 +150,9 @@ std::pair<game_message_type, bool> from_string<game_message_type>(std::string co
     return find_mapping(hashes, djb2_hash(s.c_str()));
 }
 
+/**
+ * string -> effect_rating
+ */
 template <>
 std::pair<effect_rating, bool> from_string<effect_rating>(std::string const& s) {
     using type = effect_rating;
@@ -308,6 +339,7 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string const& member) {
     do_extract("int_mod",   eff_type_int,   eff_arg_min);
     do_extract("speed_mod", eff_type_speed, eff_arg_min);
 
+    // Then pain
     do_extract("pain_amount",     eff_type_pain, eff_arg_amount);
     do_extract("pain_min",        eff_type_pain, eff_arg_min);
     do_extract("pain_max",        eff_type_pain, eff_arg_max);
@@ -316,126 +348,110 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string const& member) {
     do_extract("pain_chance_bot", eff_type_pain, eff_arg_chance_bot);
     do_extract("pain_tick",       eff_type_pain, eff_arg_tick);
 
-    //// Stats first
-    ////                          json field                  type key    arg key
-    //extract_effect(j, mod_data, "str_mod",          member, "STR",      "min");
-    //extract_effect(j, mod_data, "dex_mod",          member, "DEX",      "min");
-    //extract_effect(j, mod_data, "per_mod",          member, "PER",      "min");
-    //extract_effect(j, mod_data, "int_mod",          member, "INT",      "min");
-    //extract_effect(j, mod_data, "speed_mod",        member, "SPEED",    "min");
-    //    
-    //// Then pain
-    //extract_effect(j, mod_data, "pain_amount",      member, "PAIN",     "amount");
-    //extract_effect(j, mod_data, "pain_min",         member, "PAIN",     "min");
-    //extract_effect(j, mod_data, "pain_max",         member, "PAIN",     "max");
-    //extract_effect(j, mod_data, "pain_max_val",     member, "PAIN",     "max_val");
-    //extract_effect(j, mod_data, "pain_chance",      member, "PAIN",     "chance_top");
-    //extract_effect(j, mod_data, "pain_chance_bot",  member, "PAIN",     "chance_bot");
-    //extract_effect(j, mod_data, "pain_tick",        member, "PAIN",     "tick");
-        
     // Then hurt
-    extract_effect(j, mod_data, "hurt_amount",      member, "HURT",     "amount");
-    extract_effect(j, mod_data, "hurt_min",         member, "HURT",     "min");
-    extract_effect(j, mod_data, "hurt_max",         member, "HURT",     "max");
-    extract_effect(j, mod_data, "hurt_chance",      member, "HURT",     "chance_top");
-    extract_effect(j, mod_data, "hurt_chance_bot",  member, "HURT",     "chance_bot");
-    extract_effect(j, mod_data, "hurt_tick",        member, "HURT",     "tick");
-        
+    do_extract("hurt_amount",     eff_type_hurt, eff_arg_amount);
+    do_extract("hurt_min",        eff_type_hurt, eff_arg_min);
+    do_extract("hurt_max",        eff_type_hurt, eff_arg_max);
+    do_extract("hurt_max_val",    eff_type_hurt, eff_arg_max_val);
+    do_extract("hurt_chance",     eff_type_hurt, eff_arg_chance_top);
+    do_extract("hurt_chance_bot", eff_type_hurt, eff_arg_chance_bot);
+    do_extract("hurt_tick",       eff_type_hurt, eff_arg_tick);
+
     // Then sleep
-    extract_effect(j, mod_data, "sleep_amount",     member, "SLEEP",    "amount");
-    extract_effect(j, mod_data, "sleep_min",        member, "SLEEP",    "min");
-    extract_effect(j, mod_data, "sleep_max",        member, "SLEEP",    "max");
-    extract_effect(j, mod_data, "sleep_chance",     member, "SLEEP",    "chance_top");
-    extract_effect(j, mod_data, "sleep_chance_bot", member, "SLEEP",    "chance_bot");
-    extract_effect(j, mod_data, "sleep_tick",       member, "SLEEP",    "tick");
-        
+    do_extract("sleep_amount",     eff_type_sleep, eff_arg_amount);
+    do_extract("sleep_min",        eff_type_sleep, eff_arg_min);
+    do_extract("sleep_max",        eff_type_sleep, eff_arg_max);
+    do_extract("sleep_chance",     eff_type_sleep, eff_arg_chance_top);
+    do_extract("sleep_chance_bot", eff_type_sleep, eff_arg_chance_bot);
+    do_extract("sleep_tick",       eff_type_sleep, eff_arg_tick);
+
     // Then pkill
-    extract_effect(j, mod_data, "pkill_amount",     member, "PKILL",    "amount");
-    extract_effect(j, mod_data, "pkill_min",        member, "PKILL",    "min");
-    extract_effect(j, mod_data, "pkill_max",        member, "PKILL",    "max");
-    extract_effect(j, mod_data, "pkill_max_val",    member, "PKILL",    "max_val");
-    extract_effect(j, mod_data, "pkill_chance",     member, "PKILL",    "chance_top");
-    extract_effect(j, mod_data, "pkill_chance_bot", member, "PKILL",    "chance_bot");
-    extract_effect(j, mod_data, "pkill_tick",       member, "PKILL",    "tick");
+    do_extract("pkill_amount",     eff_type_pkill, eff_arg_amount);
+    do_extract("pkill_min",        eff_type_pkill, eff_arg_min);
+    do_extract("pkill_max",        eff_type_pkill, eff_arg_max);
+    do_extract("pkill_max_val",    eff_type_pkill, eff_arg_max_val);
+    do_extract("pkill_chance",     eff_type_pkill, eff_arg_chance_top);
+    do_extract("pkill_chance_bot", eff_type_pkill, eff_arg_chance_bot);
+    do_extract("pkill_tick",       eff_type_pkill, eff_arg_tick);
         
     // Then stim
-    extract_effect(j, mod_data, "stim_amount",      member, "STIM",     "amount");
-    extract_effect(j, mod_data, "stim_min",         member, "STIM",     "min");
-    extract_effect(j, mod_data, "stim_max",         member, "STIM",     "max");
-    extract_effect(j, mod_data, "stim_min_val",     member, "STIM",     "min_val");
-    extract_effect(j, mod_data, "stim_max_val",     member, "STIM",     "max_val");
-    extract_effect(j, mod_data, "stim_chance",      member, "STIM",     "chance_top");
-    extract_effect(j, mod_data, "stim_chance_bot",  member, "STIM",     "chance_bot");
-    extract_effect(j, mod_data, "stim_tick",        member, "STIM",     "tick");
+    do_extract("stim_amount",     eff_type_stim, eff_arg_amount);
+    do_extract("stim_min",        eff_type_stim, eff_arg_min);
+    do_extract("stim_max",        eff_type_stim, eff_arg_max);
+    do_extract("stim_max_val",    eff_type_stim, eff_arg_min_val);
+    do_extract("stim_max_val",    eff_type_stim, eff_arg_max_val);
+    do_extract("stim_chance",     eff_type_stim, eff_arg_chance_top);
+    do_extract("stim_chance_bot", eff_type_stim, eff_arg_chance_bot);
+    do_extract("stim_tick",       eff_type_stim, eff_arg_tick);
         
     // Then health
-    extract_effect(j, mod_data, "health_amount",    member, "HEALTH",   "amount");
-    extract_effect(j, mod_data, "health_min",       member, "HEALTH",   "min");
-    extract_effect(j, mod_data, "health_max",       member, "HEALTH",   "max");
-    extract_effect(j, mod_data, "health_min_val",   member, "HEALTH",   "min_val");
-    extract_effect(j, mod_data, "health_max_val",   member, "HEALTH",   "max_val");
-    extract_effect(j, mod_data, "health_chance",    member, "HEALTH",   "chance_top");
-    extract_effect(j, mod_data, "health_chance_bot",member, "HEALTH",   "chance_bot");
-    extract_effect(j, mod_data, "health_tick",      member, "HEALTH",   "tick");
-        
+    do_extract("health_amount",     eff_type_health, eff_arg_amount);
+    do_extract("health_min",        eff_type_health, eff_arg_min);
+    do_extract("health_max",        eff_type_health, eff_arg_max);
+    do_extract("health_max_val",    eff_type_health, eff_arg_min_val);
+    do_extract("health_max_val",    eff_type_health, eff_arg_max_val);
+    do_extract("health_chance",     eff_type_health, eff_arg_chance_top);
+    do_extract("health_chance_bot", eff_type_health, eff_arg_chance_bot);
+    do_extract("health_tick",       eff_type_health, eff_arg_tick);
+
     // Then health mod
-    extract_effect(j, mod_data, "h_mod_amount",     member, "H_MOD",    "amount");
-    extract_effect(j, mod_data, "h_mod_min",        member, "H_MOD",    "min");
-    extract_effect(j, mod_data, "h_mod_max",        member, "H_MOD",    "max");
-    extract_effect(j, mod_data, "h_mod_min_val",    member, "H_MOD",    "min_val");
-    extract_effect(j, mod_data, "h_mod_max_val",    member, "H_MOD",    "max_val");
-    extract_effect(j, mod_data, "h_mod_chance",     member, "H_MOD",    "chance_top");
-    extract_effect(j, mod_data, "h_mod_chance_bot", member, "H_MOD",    "chance_bot");
-    extract_effect(j, mod_data, "h_mod_tick",       member, "H_MOD",    "tick");
-        
+    do_extract("h_mod_amount",     eff_type_h_mod, eff_arg_amount);
+    do_extract("h_mod_min",        eff_type_h_mod, eff_arg_min);
+    do_extract("h_mod_max",        eff_type_h_mod, eff_arg_max);
+    do_extract("h_mod_max_val",    eff_type_h_mod, eff_arg_min_val);
+    do_extract("h_mod_max_val",    eff_type_h_mod, eff_arg_max_val);
+    do_extract("h_mod_chance",     eff_type_h_mod, eff_arg_chance_top);
+    do_extract("h_mod_chance_bot", eff_type_h_mod, eff_arg_chance_bot);
+    do_extract("h_mod_tick",       eff_type_h_mod, eff_arg_tick);
+
     // Then radiation
-    extract_effect(j, mod_data, "rad_amount",       member, "RAD",      "amount");
-    extract_effect(j, mod_data, "rad_min",          member, "RAD",      "min");
-    extract_effect(j, mod_data, "rad_max",          member, "RAD",      "max");
-    extract_effect(j, mod_data, "rad_max_val",      member, "RAD",      "max_val");
-    extract_effect(j, mod_data, "rad_chance",       member, "RAD",      "chance_top");
-    extract_effect(j, mod_data, "rad_chance_bot",   member, "RAD",      "chance_bot");
-    extract_effect(j, mod_data, "rad_tick",         member, "RAD",      "tick");
+    do_extract("rad_amount",     eff_type_rad, eff_arg_amount);
+    do_extract("rad_min",        eff_type_rad, eff_arg_min);
+    do_extract("rad_max",        eff_type_rad, eff_arg_max);
+    do_extract("rad_max_val",    eff_type_rad, eff_arg_max_val);
+    do_extract("rad_chance",     eff_type_rad, eff_arg_chance_top);
+    do_extract("rad_chance_bot", eff_type_rad, eff_arg_chance_bot);
+    do_extract("rad_tick",       eff_type_rad, eff_arg_tick);
         
     // Then hunger
-    extract_effect(j, mod_data, "hunger_amount",    member, "HUNGER",   "amount");
-    extract_effect(j, mod_data, "hunger_min",       member, "HUNGER",   "min");
-    extract_effect(j, mod_data, "hunger_max",       member, "HUNGER",   "max");
-    extract_effect(j, mod_data, "hunger_min_val",   member, "HUNGER",   "min_val");
-    extract_effect(j, mod_data, "hunger_max_val",   member, "HUNGER",   "max_val");
-    extract_effect(j, mod_data, "hunger_chance",    member, "HUNGER",   "chance_top");
-    extract_effect(j, mod_data, "hunger_chance_bot",member, "HUNGER",   "chance_bot");
-    extract_effect(j, mod_data, "hunger_tick",      member, "HUNGER",   "tick");
-        
+    do_extract("hunger_amount",     eff_type_hunger, eff_arg_amount);
+    do_extract("hunger_min",        eff_type_hunger, eff_arg_min);
+    do_extract("hunger_max",        eff_type_hunger, eff_arg_max);
+    do_extract("hunger_max_val",    eff_type_hunger, eff_arg_min_val);
+    do_extract("hunger_max_val",    eff_type_hunger, eff_arg_max_val);
+    do_extract("hunger_chance",     eff_type_hunger, eff_arg_chance_top);
+    do_extract("hunger_chance_bot", eff_type_hunger, eff_arg_chance_bot);
+    do_extract("hunger_tick",       eff_type_hunger, eff_arg_tick);
+
     // Then thirst
-    extract_effect(j, mod_data, "thirst_amount",    member, "THIRST",   "amount");
-    extract_effect(j, mod_data, "thirst_min",       member, "THIRST",   "min");
-    extract_effect(j, mod_data, "thirst_max",       member, "THIRST",   "max");
-    extract_effect(j, mod_data, "thirst_min_val",   member, "THIRST",   "min_val");
-    extract_effect(j, mod_data, "thirst_max_val",   member, "THIRST",   "max_val");
-    extract_effect(j, mod_data, "thirst_chance",    member, "THIRST",   "chance_top");
-    extract_effect(j, mod_data, "thirst_chance_bot",member, "THIRST",   "chance_bot");
-    extract_effect(j, mod_data, "thirst_tick",      member, "THIRST",   "tick");
+    do_extract("thirst_amount",     eff_type_thirst, eff_arg_amount);
+    do_extract("thirst_min",        eff_type_thirst, eff_arg_min);
+    do_extract("thirst_max",        eff_type_thirst, eff_arg_max);
+    do_extract("thirst_max_val",    eff_type_thirst, eff_arg_min_val);
+    do_extract("thirst_max_val",    eff_type_thirst, eff_arg_max_val);
+    do_extract("thirst_chance",     eff_type_thirst, eff_arg_chance_top);
+    do_extract("thirst_chance_bot", eff_type_thirst, eff_arg_chance_bot);
+    do_extract("thirst_tick",       eff_type_thirst, eff_arg_tick);
         
     // Then fatigue
-    extract_effect(j, mod_data, "fatigue_amount",    member, "FATIGUE",  "amount");
-    extract_effect(j, mod_data, "fatigue_min",       member, "FATIGUE",  "min");
-    extract_effect(j, mod_data, "fatigue_max",       member, "FATIGUE",  "max");
-    extract_effect(j, mod_data, "fatigue_min_val",   member, "FATIGUE",  "min_val");
-    extract_effect(j, mod_data, "fatigue_max_val",   member, "FATIGUE",  "max_val");
-    extract_effect(j, mod_data, "fatigue_chance",    member, "FATIGUE",  "chance_top");
-    extract_effect(j, mod_data, "fatigue_chance_bot",member, "FATIGUE",  "chance_bot");
-    extract_effect(j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick");
+    do_extract("fatigue_amount",     eff_type_fatigue, eff_arg_amount);
+    do_extract("fatigue_min",        eff_type_fatigue, eff_arg_min);
+    do_extract("fatigue_max",        eff_type_fatigue, eff_arg_max);
+    do_extract("fatigue_max_val",    eff_type_fatigue, eff_arg_min_val);
+    do_extract("fatigue_max_val",    eff_type_fatigue, eff_arg_max_val);
+    do_extract("fatigue_chance",     eff_type_fatigue, eff_arg_chance_top);
+    do_extract("fatigue_chance_bot", eff_type_fatigue, eff_arg_chance_bot);
+    do_extract("fatigue_tick",       eff_type_fatigue, eff_arg_tick);
         
     // Then coughing
-    extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
-    extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
-    extract_effect(j, mod_data, "cough_tick",       member, "COUGH",    "tick");
+    do_extract("cough_chance",     eff_type_cough, eff_arg_chance_top);
+    do_extract("cough_chance_bot", eff_type_cough, eff_arg_chance_bot);
+    do_extract("cough_tick",       eff_type_cough, eff_arg_tick);
         
     // Then vomiting
-    extract_effect(j, mod_data, "vomit_chance",     member, "VOMIT",    "chance_top");
-    extract_effect(j, mod_data, "vomit_chance_bot", member, "VOMIT",    "chance_bot");
-    extract_effect(j, mod_data, "vomit_tick",       member, "VOMIT",    "tick");
+    do_extract("vomit_chance",     eff_type_vomit, eff_arg_chance_top);
+    do_extract("vomit_chance_bot", eff_type_vomit, eff_arg_chance_bot);
+    do_extract("vomit_tick",       eff_type_vomit, eff_arg_tick);
         
     return true;
 }
