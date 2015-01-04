@@ -3803,8 +3803,8 @@ bool item::fill_with( item &liquid, std::string &err )
 {
     LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid );
     switch ( lferr ) {
-		case L_ERR_NONE : 
-			break;
+        case L_ERR_NONE : 
+            break;
         case L_ERR_NO_MIX:
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
 			return false;
@@ -3821,8 +3821,8 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
 			return false;
         default:
-			err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
-			return false;
+            err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
+            return false;
     }
 
     int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
