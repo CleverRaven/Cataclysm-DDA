@@ -3292,7 +3292,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // If the gun is empty, either the spare mag is empty too and anything goes,
         // or the spare mag is loaded and we're doing a tactical reload.
         if (charges < clip_size() ||
-            (has_spare_mag != -1 && contents[has_spare_mag].charges < type->gun->clip)) {
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < spare_mag_size())) {
             if (charges > 0 && has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
                 tmpammo = u.has_exact_ammo( ammo_type(), get_curammo_id() );
@@ -3422,6 +3422,8 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
 bool item::reload(player &u, int pos)
 {
     bool single_load = false;
+    // set to true if the target of the reload is the spare magazine
+    bool reloading_spare_mag = false;
     int max_load = 1;
     item *reload_target = NULL;
     item *ammo_to_use = &u.i_at(pos);
@@ -3460,16 +3462,17 @@ bool item::reload(player &u, int pos)
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != type->gun->clip &&
+                   contents[spare_mag].charges != spare_mag_size() && 
                    (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
+            reloading_spare_mag = true;
             // Finally consider other gunmods
         } else {
             for (size_t i = 0; i < contents.size(); i++) {
                 if (&contents[i] != gunmod && (int)i != spare_mag &&
                     contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].type->gun->clip ||
+                    (contents[i].charges <= contents[i].spare_mag_size() || 
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;
@@ -3528,8 +3531,7 @@ bool item::reload(player &u, int pos)
         if (single_load || max_load == 1) { // Only insert one cartridge!
             reload_target->charges++;
             ammo_to_use->charges--;
-        }
-        else if( reload_target->ammo_type() == "plutonium" ) {
+        } else if( reload_target->ammo_type() == "plutonium" ) {
             int charges_per_plut = 500;
             long max_plut = floor( static_cast<float>((max_load - reload_target->charges) /
                                                       charges_per_plut) );
@@ -3537,6 +3539,8 @@ bool item::reload(player &u, int pos)
             reload_target->charges += (charges_used * charges_per_plut);
             ammo_to_use->charges -= charges_used;
         } else {
+            // if this is the spare magazine use appropriate size, otherwise max_load
+            max_load = (reloading_spare_mag) ? spare_mag_size() : max_load;
             reload_target->charges += ammo_to_use->charges;
             ammo_to_use->charges = 0;
             if (reload_target->charges > max_load) {
