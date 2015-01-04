@@ -4795,6 +4795,20 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             // so safer to target the torso
             source->deal_damage(this, bp_torso, thorn_damage);
         }
+        if ((!(wearing_something_on(bp_hit))) && (has_trait("CF_HAIR"))) {
+            if (!is_player()) {
+                if( u_see ) {
+                    add_msg(_("%1$s gets a load of %2$s's %s stuck in!"), source->disp_name().c_str(),
+                      name.c_str(), (_("hair")));
+                }
+            } else {
+                add_msg(m_good, _("Your hairs detach into %s!"), source->disp_name().c_str());
+            }
+            source->add_effect("stunned", 2);
+            if (one_in(3)) { // In the eyes!
+                source->add_effect("blind", 2);
+            }
+        }
     }
 }
 
@@ -9425,7 +9439,7 @@ bool player::consume(int target_position)
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            dynamic_cast<it_ammo*>(to_eat->type)->type == "battery") {
+            to_eat->ammo_type() == "battery") {
             const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -11154,8 +11168,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
 
     } else if (used->is_bionic()) {
-        it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
-        if (install_bionics(tmp)) {
+        if( install_bionics( *used->type ) ) {
             i_rem(inventory_position);
         }
         return;
@@ -12907,8 +12920,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
             }
         } else {
             if (candidate.has_flag("HAS_RECIPE")){
-                item dummy = candidate;
-                if (dummy.item_vars["RECIPE"] == r->ident){
+                if (candidate.get_var("RECIPE") == r->ident){
                     if (difficulty == -1) difficulty = r->difficulty;
                 }
             }
@@ -13731,6 +13743,11 @@ void player::blossoms()
                 g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
+}
+
+float player::power_rating() const
+{
+    return weapon.is_gun() ? 4 : 2;
 }
 
 std::vector<const item *> player::all_items_with_flag( const std::string flag ) const

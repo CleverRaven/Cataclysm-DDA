@@ -4210,6 +4210,32 @@
 	"recoil" : 130,
 	"count" : 1,
 	"effects" : ["COOKOFF", "TRAIL", "NAPALM"]
-	}
+	},
+    {
+        "type" : "AMMO",
+        "id" : "unfinished_charcoal",
+        "category" : "spare_parts",
+        "price" : 0,
+        "name" : "unfinished charcoal",
+        "name_plural" : "unfinished charcoal",
+        "symbol" : "=",
+        "color" : "brown",
+        "description" : "The result of an interrupted charcoal making process. Useless, except as fuel in a charcoal kiln.",
+        "material" : "wood",
+        "volume" : 1,
+        "weight" : 300,
+        "phase" : "solid",
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "unfinished_char",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1
+    }
 
 ]

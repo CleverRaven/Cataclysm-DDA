@@ -412,6 +412,12 @@
         "id" : "homebrew_rocket",
         "name" : "homebrew rocket",
         "default" : "spiked_rocket"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "unfinished_char",
+        "name" : "semi-charred fuel",
+        "default" : "unfinished_charcoal"
     }
 
 ]

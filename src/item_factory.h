@@ -26,6 +26,10 @@ struct islot_armor;
 struct islot_book;
 struct islot_gun;
 struct islot_gunmod;
+struct islot_variable_bigness;
+struct islot_bionic;
+struct islot_spawn;
+struct islot_ammo;
 class item_category;
 
 /**
@@ -210,7 +214,7 @@ class Item_factory
         GroupMap m_template_groups;
 
         // Checks that ammo is listed in ammo_name(),
-        // That there is at least on instance (it_ammo) of
+        // That there is at least on instance of
         // this ammo type defined.
         // If any of this fails, prints a message to the msg
         // stream.
@@ -246,6 +250,10 @@ class Item_factory
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
         void load( islot_gunmod &slot, JsonObject &jo );
+        void load( islot_variable_bigness &slot, JsonObject &jo );
+        void load( islot_bionic &slot, JsonObject &jo );
+        void load( islot_spawn &slot, JsonObject &jo );
+        void load( islot_ammo &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);

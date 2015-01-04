@@ -1479,6 +1479,9 @@ bool game::do_turn()
     m.process_active_items();
     m.creature_in_field( u );
 
+    // Update vision caches for monsters. If this turns out to be expensive,
+    // consider a stripped down cache just for monsters.
+    m.build_map_cache();
     monmove();
     update_stair_monsters();
     u.reset_bonuses();
@@ -1959,10 +1962,10 @@ void game::activity_on_finish_make_zlave()
         u.add_msg_if_player(m_good,
                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
 
-        body->item_vars["zlave"] = "zlave";
+        body->set_var( "zlave", "zlave" );
         //take into account the chance that the body yet can regenerate not as we need.
         if (one_in(10)) {
-            body->item_vars["zlave"] = "mutilated";
+            body->set_var( "zlave", "mutilated" );
         }
 
     } else {
@@ -1978,9 +1981,9 @@ void game::activity_on_finish_make_zlave()
             success += rng(1, 20);
 
             if (success > 0 && !one_in(5)) {
-                body->item_vars["zlave"] = "zlave";
+                body->set_var( "zlave", "zlave" );
             } else {
-                body->item_vars["zlave"] = "mutilated";
+                body->set_var( "zlave", "mutilated" );
             }
 
         } else {
@@ -6502,13 +6505,12 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // monster::plan() needs to know about all monsters with nonzero friendliness.
-    // We'll build this list once (instead of once per monster) for speed.
-    std::vector<int> friendlies;
+    // monster::plan() needs to know about all monsters on the same team as the monster
+    mfactions monster_factions; // A map - looks much cleaner than vector here
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        if (zombie(i).friendly) {
-            friendlies.push_back(i);
-        }
+        monster &critter = zombie( i );
+        int mfac = critter.monfaction();
+        monster_factions[ mfac ].insert( i ); // Only 1 faction per mon at the moment
     }
 
     for (size_t i = 0; i < num_zombies(); i++) {
@@ -6550,7 +6552,8 @@ void game::monmove()
             critter->made_footstep = false;
             // Controlled critters don't make their own plans
             if (!critter->has_effect("controlled")) {
-                critter->plan(friendlies); // Formulate a path to follow
+                // Formulate a path to follow
+                critter->plan( monster_factions );
             }
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();
@@ -7707,7 +7710,7 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
 
-    if (it->item_vars["zlave"] == "zlave"){
+    if (it->get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
     }
@@ -8795,6 +8798,7 @@ void game::examine(int examx, int examy)
         } else {
             exam_vehicle(*veh, examx, examy);
         }
+        return;
     }
 
     if (m.has_flag("CONSOLE", examx, examy)) {
@@ -12063,18 +12067,15 @@ void game::reload(int pos)
 
         // See if the gun is fully loaded.
         if (it->charges == it->clip_size()) {
-
             // Also see if the spare magazine is loaded
             bool magazine_isfull = true;
-            item contents;
 
-            for( auto cont = it->contents.begin(); cont != it->contents.end(); ++cont ) {
-                contents = *cont;
-                if ((contents.is_gunmod() &&
-                     (contents.typeId() == "spare_mag" &&
-                      contents.charges < it->type->gun->clip)) ||
-                    (contents.is_auxiliary_gunmod() &&
-                     contents.charges < contents.clip_size())) {
+            for(auto &con : it->contents) {
+                if((con.is_gunmod() &&
+                        (con.typeId() == "spare_mag" &&
+                         con.charges < it->spare_mag_size())) ||
+                    (con.is_auxiliary_gunmod() &&
+                        (con.charges < con.clip_size()))) {
                     magazine_isfull = false;
                     break;
                 }

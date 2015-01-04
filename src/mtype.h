@@ -99,7 +99,6 @@ enum m_flag {
     MF_BONES,               // May produce bones and sinews when butchered
     MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
-    MF_FRIENDLY_SPECIAL,    // Use our special attack, even if friendly
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
@@ -151,6 +150,7 @@ struct mtype {
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
+        std::set< int > species_id;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;
@@ -214,6 +214,7 @@ struct mtype {
         bool has_placate_trigger(monster_trigger trigger) const;
         bool in_category(std::string category) const;
         bool in_species(std::string _species) const;
+        bool in_species( int spec_id ) const;
         //Used for corpses.
         field_id bloodType () const;
         field_id gibType () const;

@@ -32,9 +32,9 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             if( one_in(10 + p->dex_cur) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
                 item spill( item_it->type->id, calendar::turn );
-                spill.charges = rng( dynamic_cast<it_ammo *>(item_it->type)->count,
-                                     dynamic_cast<it_ammo *>(item_it->type)->count *
-                                     (float)(8 / p->dex_cur) );
+                const auto min = item_it->liquid_charges( 1 );
+                const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
+                spill.charges = rng( min, max );
                 m->add_item_or_charges( p->posx, p->posy, spill, 1 );
                 item_it->charges -= spill.charges;
                 if( item_it->charges < 1 ) {
@@ -245,8 +245,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
     } else if (choice == purchase_cash_card) {
         if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
             item card("cash_card", calendar::turn);
-            it_tool *tool = dynamic_cast<it_tool *>(card.type);
-            card.charges = tool->def_charges;
+            card.charges = 0;
             p->i_add(card);
             p->cash -= 100;
             p->moves -= 100;
@@ -1517,6 +1516,102 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
     }
 }
 
+// Highly modified fermenting vat functions
+void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
+{
+    std::vector< std::string > kilnable{ "wood", "bone" };
+    bool fuel_present = false;
+    auto items = m->i_at( examx, examy );
+    for( auto i : items ) {
+        if( i.typeId() == "charcoal" ) {
+            add_msg( _("This kiln already contains charcoal.") );
+            add_msg( _("Remove it before firing the kiln again.") );
+            return;
+        } else if( i.only_made_of( kilnable ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _("This kiln contains %s, which can't be made into charcoal!"), i.tname( 1, false ).c_str() );
+            return;
+        }
+    }
+
+    if( !fuel_present ) {
+        add_msg( _("This kiln is empty. Fill it with wood or bone and try again.") );
+        return;
+    }
+
+    SkillLevel &skill = p->skillLevel("carpentry");
+    int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+
+    // Burn stuff that should get charred, leave out the rest
+    int total_volume = 0;
+    for( auto i : items ) {
+        total_volume += i.volume( false, false );
+    }
+
+    auto char_type = item::find_type( "unfinished_charcoal" );
+    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    if( char_charges < 1 ) {
+        add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
+        return;
+    }
+
+    if( !p->has_charges( "fire" , 1 ) ) {
+        add_msg( _("This kiln is ready to be fired, but you have no fire source.") );
+        return;
+    } else if( !query_yn( _("Fire the kiln?") ) ) {
+        return;
+    }
+
+    p->use_charges( "fire", 1 );
+    g->m.i_clear( examx, examy );
+    m->furn_set(examx, examy, f_kiln_full);
+    item result( "unfinished_charcoal", calendar::turn.get_turn() );
+    result.charges = char_charges;
+    m->add_item( examx, examy, result );
+    add_msg( _("You fire the charcoal kiln.") );
+}
+
+void iexamine::kiln_full(player *, map *m, int examx, int examy)
+{
+    auto items = m->i_at( examx, examy );
+    if( items.empty() ) {
+        add_msg( _("This kiln is empty...") );
+        m->furn_set(examx, examy, f_kiln_empty);
+        return;
+    }
+    int last_bday = items[0].bday;
+    for( auto i : items ) {
+        if( i.typeId() == "unfinished_charcoal" && i.bday > last_bday ) {
+            last_bday = i.bday;
+        }
+    }
+    auto char_type = item::find_type( "charcoal" );
+    add_msg( _("There's a charcoal kiln there.") );
+    const int firing_time = HOURS(6); // 5 days in real life
+    int time_left = firing_time - calendar::turn.get_turn() + items[0].bday;
+    if( time_left > 0 ) {
+        add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
+        return;
+    }
+
+    int total_volume = 0;
+    // Burn stuff that should get charred, leave out the rest
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
+            total_volume += item_it->volume( false, false );
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "charcoal", calendar::turn.get_turn() );
+    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    m->add_item( examx, examy, result );
+    m->furn_set( examx, examy, f_kiln_empty);
+}
+
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
 {
     itype_id brew_type;
@@ -2392,8 +2487,7 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             }
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
-                    long count = dynamic_cast<it_ammo *>(k.type)->count;
-                    long units = k.charges / count;
+                    const long units = k.liquid_units( k.charges );
 
                     distance = new_distance;
                     p = point(i, j);
@@ -2514,16 +2608,16 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
     auto items = m->i_at( src.x, src.y );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
+            const long amount = item_it->liquid_charges( units );
 
-            if( item_it->charges < count * units ) {
+            if( item_it->charges < amount ) {
                 return false;
             }
 
-            item_it->charges -= count * units;
+            item_it->charges -= amount;
 
             item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = count * units;
+            liq_d.charges = amount;
 
             ter_t backup_pump = m->ter_at(dst.x, dst.y);
             m->ter_set(dst.x, dst.y, "t_null");
@@ -2553,8 +2647,6 @@ static long fromPumpFuel(map *m, point dst, point src)
     auto items = m->i_at( src.x, src.y );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            long count = dynamic_cast<it_ammo *>(item_it->type)->count;
-
             // how much do we have in the pump?
             item liq_d(item_it->type->id, calendar::turn);
             liq_d.charges = item_it->charges;
@@ -2568,7 +2660,7 @@ static long fromPumpFuel(map *m, point dst, point src)
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return amount / count;
+            return item_it->liquid_units( amount );
         }
     }
     return -1;
@@ -3010,6 +3102,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
+    }
+    if( "kiln_empty" == function_name ) {
+        return &iexamine::kiln_empty;
+    }
+    if( "kiln_full" == function_name ) {
+        return &iexamine::kiln_full;
     }
 
     //No match found
