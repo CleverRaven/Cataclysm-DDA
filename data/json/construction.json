@@ -2117,5 +2117,24 @@
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_water_sh",
         "post_terrain" : "t_claymound"
+    },{
+        "type" : "construction",
+        "description" : "Build Chacoal Kiln",
+        "category" : "FURN",
+        "difficulty" : 3,
+        "time" : 60,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "DIG", "level": 2 }
+            ]
+            ],
+        "components" : [
+            [ [ "rock", 40 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_kiln_empty"
     }
 ]

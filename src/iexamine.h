@@ -78,6 +78,8 @@ class iexamine
         void water_source (player *p, map *m, const int examx, const int examy);
         void swater_source (player *p, map *m, const int examx, const int examy);
         void acid_source (player *p, map *m, const int examx, const int examy);
+        void kiln_empty (player *p, map *m, const int examx, const int examy);
+        void kiln_full (player *p, map *m, const int examx, const int examy);
         void fvat_empty (player *p, map *m, const int examx, const int examy);
         void fvat_full (player *p, map *m, const int examx, const int examy);
         void keg (player *p, map *m, const int examx, const int examy);
