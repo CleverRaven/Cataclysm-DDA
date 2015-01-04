@@ -24,7 +24,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 0]],
     "description":"One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
-    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "VIS50", "BONES", "LEATHER", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "VIS50", "BONES", "LEATHER"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -1387,7 +1387,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
     "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1416,7 +1416,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1445,7 +1445,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1474,7 +1474,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS20", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS20", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1503,7 +1503,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
-    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1588,7 +1588,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 2]],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1673,7 +1673,7 @@
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID", 20]],
     "description":"A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth.  Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "VIS40", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_electric",
@@ -1702,7 +1702,7 @@
     "special_attacks":[["SHOCKSTORM", 25], ["BITE", 5]],
     "special_when_hit":["ZAPBACK", 100],
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "VIS40", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "VIS40", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_smoker",
@@ -1728,7 +1728,7 @@
     "death_function":"SMOKEBURST",
     "special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
     "description":"A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_swimmer",
@@ -1755,7 +1755,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_dog",
@@ -1781,7 +1781,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dog_skeleton",
@@ -1807,7 +1807,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
     "description":"This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
-    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "VIS40", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dog_zombie_cop",
@@ -1840,7 +1840,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
     "description":"A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective Kevlar harness.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1867,7 +1867,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 2]],
     "description":"Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_brute",
@@ -1895,7 +1895,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 30]],
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_hulk",
@@ -1923,7 +1923,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 20]],
     "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_fungus",
@@ -1951,7 +1951,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["FUNGUS", 200], ["BITE", 5]],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
-    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS30", "FRIENDLY_SPECIAL"]
+    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS30"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer",
@@ -2062,7 +2062,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"With its skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into its skull they are barely visible, it's a wonder this once-human creature can move at all.",
-    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "VIS30", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "VIS30"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
@@ -2147,7 +2147,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -2176,7 +2176,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "VIS30", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "VIS30", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
@@ -2240,7 +2240,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
-    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_hunter",
@@ -2542,7 +2542,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["TRIFFID_GROWTH", 28800]],
     "description":"A small triffid, only a few feet tall.  It has not yet developed bark, but its sting is still sharp and deadly.",
-    "flags":["HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM"]
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_fighter",
@@ -2804,7 +2804,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FUNGUS_GROWTH", 100]],
     "description":"A fungal stalk several feet in height.  Two vicious looking tendrils extend from its thorned and leathery exterior, and it moves about faster than the larger fungaloids.",
-    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spore",
@@ -2830,7 +2830,7 @@
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 500]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
-    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL", "NOGIB"]
+    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB"]
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid_queen",
@@ -3586,7 +3586,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["DERMATIK_GROWTH", 14400]],
     "description":"A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
-    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik",
@@ -3970,7 +3970,7 @@
     "death_function":"THING",
     "special_attacks":[["DOGTHING", 40]],
     "description":"A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
-    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "WARM", "FUR", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "WARM", "FUR"]
     },{
     "type" : "MONSTER",
     "id" : "mon_headless_dog_thing",
@@ -4102,7 +4102,7 @@
     "death_function":"MELT",
     "special_attacks":[["VORTEX", 6]],
     "description":"A twisting spot in the air, with some kind of morphing mass at its center.",
-    "flags":["HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "FRIENDLY_SPECIAL", "NOGIB"]
+    "flags":["HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB"]
     },{
     "type" : "MONSTER",
     "id" : "mon_flying_polyp",
@@ -4724,7 +4724,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["TAZER", 5]],
     "description":"A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
     "type" : "MONSTER",
     "id" : "mon_secubot",
@@ -4915,7 +4915,7 @@
     "special_attacks":[["CHICKENBOT", 4]],
     "starting_ammo" : {"556":1000, "40mm_frag":100},
     "description":"The Northrup ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
-    "flags":["SEES", "VIS50", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "VIS50", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC"]
     },{
     "type" : "MONSTER",
     "id" : "mon_tankbot",
@@ -4949,7 +4949,7 @@
     "special_attacks":[["MULTI_ROBOT", 3]],
     "starting_ammo" : {"556":1000, "40mm_frag":100, "120mm_HEAT":40},
     "description":"The Northrup Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
-    "flags":["SEES", "VIS50", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "VIS50", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret",
@@ -4984,7 +4984,7 @@
     "special_attacks":[["SMG", 1]],
     "starting_ammo" : {"9mm":100},
     "description":"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
         "type" : "MONSTER",
     "id" : "mon_laserturret",
@@ -5018,7 +5018,7 @@
     "death_function":"EXPLODE",
     "special_attacks":[["LASER", 1]],
     "description":"The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_rifle",
@@ -5053,7 +5053,7 @@
     "special_attacks":[["RIFLE_TUR", 1]],
     "starting_ammo" : {"556":100},
     "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_bmg",
@@ -5087,7 +5087,7 @@
     "special_attacks":[["BMG_TUR", 1]],
     "starting_ammo" : {"50bmg":100},
     "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
@@ -5120,7 +5120,7 @@
     "death_function":"FOCUSEDBEAM",
     "special_attacks":[["SEARCHLIGHT", 1]],
     "description":"Three high-powered searchlights with automated search AI and mounting, continually seeking targets.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_exploder",
@@ -5223,7 +5223,7 @@
     "death_function":"ACID",
     "special_attacks":[["SLIMESPRING", 15]],
     "description":"A familiar-looking blob of goo.  It sprouts the occasional eyestalk.",
-    "flags":["SEES", "VIS40", "HEARS", "SMELLS", "GOODHEARING", "FRIENDLY_SPECIAL", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT"],
+    "flags":["SEES", "VIS40", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT"],
     "phase":"LIQUID"
     },{
     "type" : "MONSTER",
@@ -5562,7 +5562,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 2]],
     "description":"A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FRIENDLY_SPECIAL"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
     },
@@ -5709,7 +5709,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 20]],
     "description":"Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS45", "REVIVES", "CBM_TECH", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS45", "REVIVES", "CBM_TECH"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_brute_shocker",
@@ -5738,6 +5738,6 @@
     "special_attacks":[["SHOCKSTORM", 15], ["SMASH", 30]],
     "special_when_hit":["ZAPBACK", 75],
     "description":"A huge beast covered in visible scarring from what you can only guess was 'research'.  Being near it, you can hear a slight humming, like that of an electrical transformer.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "VIS40", "REVIVES", "FRIENDLY_SPECIAL"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "VIS40", "REVIVES"]
     }
 ]
