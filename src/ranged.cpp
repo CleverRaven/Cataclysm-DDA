@@ -438,11 +438,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
         itype_id casing_type = curammo->ammo->casing;
         if( casing_type != "NULL" && !casing_type.empty() ) {
             if( used_weapon->has_flag("RELOAD_EJECT") ) {
-                int num_casings = 0;
-                if( used_weapon->item_vars.count( "CASINGS" ) ) {
-                    num_casings = atoi( used_weapon->item_vars[ "CASINGS" ].c_str() );
-                }
-                used_weapon->item_vars[ "CASINGS" ] = string_format( "%d", num_casings + 1 );
+                const int num_casings = used_weapon->get_var( "CASINGS", 0 );
+                used_weapon->set_var( "CASINGS", num_casings + 1 );
             } else {
                 item casing;
                 casing.make(casing_type);

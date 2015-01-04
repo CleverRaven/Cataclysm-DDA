@@ -63,14 +63,14 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     if( type->is_food() ) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
         active = goes_bad() && !rotten();
-        if( comest->count_by_charges() && rand && !has_random_charges ) {
+        if( comest->count_by_charges() && !has_random_charges ) {
             charges = comest->def_charges;
         }
     }
     if( type->is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
         if( tool->max_charges != 0 ) {
-            if( rand && !has_random_charges ) {
+            if( !has_random_charges ) {
                 charges = tool->def_charges;
             }
             if (tool->ammo != "NULL") {
@@ -361,6 +361,83 @@ void item::put_in(item payload)
     contents.push_back(payload);
 }
 const char ivaresc=001;
+
+void item::set_var( const std::string &name, const int value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    item_vars[name] = tmpstream.str();
+}
+
+int item::get_var( const std::string &name, const int default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    return atoi( it->second.c_str() );
+}
+
+void item::set_var( const std::string &name, const long value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    item_vars[name] = tmpstream.str();
+}
+
+long item::get_var( const std::string &name, const long default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    return atol( it->second.c_str() );
+}
+
+void item::set_var( const std::string &name, const double value )
+{
+    item_vars[name] = string_format( "%f", value );
+}
+
+double item::get_var( const std::string &name, const double default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    return atof( it->second.c_str() );
+}
+
+void item::set_var( const std::string &name, const std::string &value )
+{
+    item_vars[name] = value;
+}
+
+std::string item::get_var( const std::string &name, const std::string &default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    return it->second;
+}
+
+std::string item::get_var( const std::string &name ) const
+{
+    return get_var( name, "" );
+}
+
+bool item::has_var( const std::string &name ) const
+{
+    return item_vars.count( name ) > 0;
+}
+
+void item::erase_var( const std::string &name )
+{
+    item_vars.erase( name );
+}
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
     size_t pos = item_tag.find('=');
@@ -1764,12 +1841,7 @@ int item::weight() const
     }
 
     int ret = type->weight;
-
-    const std::map<std::string, std::string>::const_iterator iweight = item_vars.find("weight");
-    if (iweight != item_vars.end()) {
-        char *dummy;
-        ret = strtol(iweight->second.c_str(), &dummy, 10);
-    }
+    ret = get_var( "weight", ret );
 
     if (count_by_charges()) {
         ret *= charges;
@@ -1853,11 +1925,7 @@ int item::volume(bool unit_value, bool precise_value ) const
     }
 
     ret = type->volume;
-    const std::map<std::string, std::string>::const_iterator ivolume = item_vars.find("volume");
-    if (ivolume != item_vars.end()) {
-        char *dummy;
-        ret = strtol(ivolume->second.c_str(), &dummy, 10);
-    }
+    ret = get_var( "volume", ret );
 
     if ( precise_value == true ) {
         ret *= 1000;
@@ -2767,18 +2835,14 @@ int item::get_chapters() const
 int item::get_remaining_chapters( const player &u ) const
 {
     const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    const auto iter = item_vars.find( var );
-    if( iter == item_vars.end() ) {
-        return get_chapters();
-    }
-    return atoi( iter->second.c_str() );
+    return get_var( var, get_chapters() );
 }
 
 void item::mark_chapter_as_read( const player &u )
 {
     const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
     const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    item_vars[var] = string_format( "%d", remain );
+    set_var( var, remain );
 }
 
 const material_type &item::get_random_material() const
@@ -2888,11 +2952,7 @@ void item::set_auxiliary_mode()
 
 std::string item::get_gun_mode() const
 {
-    const auto it = item_vars.find( GUN_MODE_VAR_NAME );
-    if( it == item_vars.end() ) {
-        return "NULL";
-    }
-    return it->second;
+    return get_var( GUN_MODE_VAR_NAME, "NULL" );
 }
 
 void item::set_gun_mode( const std::string &mode )
@@ -2902,9 +2962,9 @@ void item::set_gun_mode( const std::string &mode )
         return;
     }
     if( mode.empty() || mode == "NULL" ) {
-        item_vars.erase( GUN_MODE_VAR_NAME );
+        erase_var( GUN_MODE_VAR_NAME );
     } else {
-        item_vars[GUN_MODE_VAR_NAME] = mode;
+        set_var( GUN_MODE_VAR_NAME, mode );
     }
 }
 
@@ -3405,8 +3465,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
 static void eject_casings( player &p, item *reload_target, itype_id casing_type ) {
     if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
-        if( reload_target->item_vars.count( "CASINGS" ) ) {
-            int num_casings = atoi( reload_target->item_vars[ "CASINGS" ].c_str() );
+        const int num_casings = reload_target->get_var( "CASINGS", 0 );
+        if( num_casings > 0 ) {
             item casing( casing_type, 0);
             // Casings need a count of one to stack properly.
             casing.charges = 1;
@@ -3414,7 +3474,7 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
             for( int i = 0; i < num_casings; ++i ) {
                 g->m.add_item_or_charges(p.posx, p.posy, casing);
             }
-            reload_target->item_vars.erase( "CASINGS" );
+            reload_target->erase_var( "CASINGS" );
         }
     }
 }
@@ -4396,13 +4456,13 @@ bool item::process_litcig( player *carrier, point pos )
 
 bool item::process_cable( player *p, point pos )
 {
-    if( item_vars["state"] != "pay_out_cable" ) {
+    if( get_var( "state" ) != "pay_out_cable" ) {
         return false;
     }
 
-    int source_x = atoi(item_vars["source_x"].c_str());
-    int source_y = atoi(item_vars["source_y"].c_str());
-    int source_z = atoi(item_vars["source_z"].c_str());
+    int source_x = get_var( "source_x", 0 );
+    int source_y = get_var( "source_y", 0 );
+    int source_z = get_var( "source_z", 0 );
 
     point relpos= g->m.getlocal(source_x, source_y);
     auto veh = g->m.veh_at(relpos.x, relpos.y);
@@ -4434,7 +4494,7 @@ void item::reset_cable( player* p )
 {
     int max_charges = type->maximum_charges();
 
-    item_vars["state"] = "attach_first";
+    set_var( "state", "attach_first" );
     active = false;
     charges = max_charges;
 

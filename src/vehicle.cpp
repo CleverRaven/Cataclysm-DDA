@@ -1249,23 +1249,17 @@ void vehicle::use_controls()
             std::ostringstream veh_data;
             JsonOut json(veh_data);
             json.write(parts);
-            bicycle.item_vars["folding_bicycle_parts"] = veh_data.str();
+            bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
         } catch(std::string e) {
             debugmsg("Error storing vehicle: %s", e.c_str());
         }
         if (can_be_folded) {
-            std::ostringstream tmpstream;
-            tmpstream.imbue(std::locale::classic());
-            tmpstream << (total_mass() * 1000);
-            bicycle.item_vars["weight"] = tmpstream.str();
-            // TODO: how to calculate the volume?
-            tmpstream.str(std::string());
-            tmpstream << (total_folded_volume());
-            bicycle.item_vars["volume"] = tmpstream.str();
-            bicycle.item_vars["name"] = string_format(_("folded %s"), name.c_str());
-            bicycle.item_vars["vehicle_name"] = name;
+            bicycle.set_var( "weight", total_mass() * 1000 );
+            bicycle.set_var( "volume", total_folded_volume() );
+            bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
+            bicycle.set_var( "vehicle_name", name );
             // TODO: a better description?
-            bicycle.item_vars["description"] = string_format(_("A folded %s."), name.c_str());
+            bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
         }
 
         g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
@@ -5546,10 +5540,10 @@ item vehicle_part::properties_to_item() const
             tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
         }
 
-        tmp.item_vars["source_x"] = string_format("%d", target.first.x);
-        tmp.item_vars["source_y"] = string_format("%d", target.first.y);
-        tmp.item_vars["source_z"] = string_format("%d", g->levz);
-        tmp.item_vars["state"] = "pay_out_cable";
+        tmp.set_var( "source_x", target.first.x );
+        tmp.set_var( "source_y", target.first.y );
+        tmp.set_var( "source_z", g->levz );
+        tmp.set_var( "state", "pay_out_cable" );
         tmp.active = true;
     }
     // translate part damage to item damage.
