@@ -5393,7 +5393,7 @@ void vehicle::open_or_close(int part_index, bool opening)
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
       if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
               (part_info(next_index).id == part_info(part_index).id) &&
-              (parts[next_index].open == 1 && opening)) {
+              !(parts[next_index].open && opening)) {
         open_or_close(next_index, opening);
       }
     }
