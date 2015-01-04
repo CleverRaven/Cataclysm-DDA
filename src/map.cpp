@@ -4454,7 +4454,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
         while (cur.x != Fx || cur.y != Fy) {
             //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
             tmp.push_back(cur);
-            if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y)>1){
+            if (rl_dist( cur, parent[cur.x][cur.y] )>1){
                 debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
                             parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
                 return ret;

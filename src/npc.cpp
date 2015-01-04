@@ -1717,19 +1717,19 @@ int npc::danger_assessment()
     }
     // Mod for the player
     if (is_enemy()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
+        if (rl_dist( pos(), g->u.pos() ) < 10) {
             if (g->u.weapon.is_gun()) {
                 ret += 10;
             } else {
-                ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret += 10 - rl_dist( pos(), g->u.pos() );
             }
         }
     } else if (is_friend()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
+        if (rl_dist( pos(), g->u.pos() ) < 8) {
             if (g->u.weapon.is_gun()) {
                 ret -= 8;
             } else {
-                ret -= 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret -= 8 - rl_dist( pos(), g->u.pos() );
             }
         }
     }

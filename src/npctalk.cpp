@@ -1040,7 +1040,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             {
             // TODO: this ignores the z-component
             const tripoint player_pos = g->om_global_location();
-            int dist = rl_dist(player_pos.x, player_pos.y, p->goal.x, p->goal.y);
+            int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
             if (dist >= 1300) {

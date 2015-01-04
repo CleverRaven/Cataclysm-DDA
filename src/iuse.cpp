@@ -8516,7 +8516,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
                 if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
-                    rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() ) <= 10 ) {
+                    rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     point seen_loc;
@@ -9241,7 +9241,7 @@ int iuse::camera(player *p, item *it, bool, point)
             int npcID = g->npc_at(tx, ty);
 
             if (zid != -1 || npcID != -1) {
-                int dist = rl_dist(p->posx, p->posy, tx, ty);
+                int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
                 int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
