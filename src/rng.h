@@ -10,4 +10,9 @@ int dice(int number, int sides);
 
 int djb2_hash(const unsigned char *input);
 
+//for C strings
+inline int djb2_hash(const char *input) {
+    return djb2_hash(reinterpret_cast<const unsigned char*>(input));
+}
+
 #endif
