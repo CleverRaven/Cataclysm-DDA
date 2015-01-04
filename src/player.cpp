@@ -7118,23 +7118,21 @@ void player::hardcoded_effects(effect &it)
             auto const recovery_chance = 24 - intense + 1;
 
             if (fatigue > 0) {
-                auto const do_roll = [recovery_chance] {
-                    return one_in(recovery_chance) ? 1.0 : 0.0;
-                };
-
-                auto delta = double {1.0} + do_roll();
+                auto delta = 1.0 + (one_in(recovery_chance) ? 1.0 : 0.0);
 
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
                 if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
-                    delta += (1.0 + do_roll()) / 2.0;
+                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    delta += (1.0 + roll) / 2.0;
                 }
 
                 // Tireless folks recover fatigue really fast
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
                 if (has_trait("WAKEFUL3")) {
-                    delta += (2.0 + do_roll()) / 2.0;
+                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    delta += (2.0 + roll) / 2.0;
                 }
 
                 fatigue -= static_cast<int>(std::round(delta));
