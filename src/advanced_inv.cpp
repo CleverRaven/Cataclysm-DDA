@@ -887,7 +887,7 @@ void advanced_inventory::redraw_pane( side p )
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
     if( square.veh != nullptr ) {
         const auto &part = square.veh->parts[square.vstor];
-        const auto label = square.veh->get_label( part.mount_dx, part.mount_dy );
+        const auto label = square.veh->get_label( part.mount.x, part.mount.y );
         if( !label.empty() ) {
             mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( label, width ).c_str() );
         }

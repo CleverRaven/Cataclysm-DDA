@@ -185,8 +185,7 @@ point map::veh_part_coordinates(const int x, const int y)
         return point(0,0);
     }
 
-    auto part = veh->parts[part_num];
-    return point(part.mount_dx, part.mount_dy);
+    return veh->parts[part_num].mount;
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -795,12 +794,12 @@ bool map::vehproceed()
                 if (parm2 < 0) {
                     parm2 = tmp_c.target_part;
                 }
-                epicenter1.x += veh->parts[parm1].mount_dx;
-                epicenter1.y += veh->parts[parm1].mount_dy;
+                epicenter1.x += veh->parts[parm1].mount.x;
+                epicenter1.y += veh->parts[parm1].mount.y;
                 veh->damage(parm1, dmg1_part, 1);
 
-                epicenter2.x += veh2->parts[parm2].mount_dx;
-                epicenter2.y += veh2->parts[parm2].mount_dy;
+                epicenter2.x += veh2->parts[parm2].mount.x;
+                epicenter2.y += veh2->parts[parm2].mount.y;
                 veh2->damage(parm2, dmg2_part, 1);
             }
         }
@@ -838,8 +837,7 @@ bool map::vehproceed()
 
     for( auto &veh_misc_coll : veh_misc_colls ) {
 
-        point collision_point( veh->parts[veh_misc_coll.part].mount_dx,
-                               veh->parts[veh_misc_coll.part].mount_dy );
+        const point collision_point = veh->parts[veh_misc_coll.part].mount;
         int coll_dmg = veh_misc_coll.imp;
         //Shock damage
         veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
@@ -1630,7 +1628,7 @@ bool map::moppable_items_at(const int x, const int y)
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount.x, veh->parts[vpart].mount.y);
         for(auto &i : parts_here) {
             if(veh->parts[i].blood > 0) {
                 return true;
@@ -1711,8 +1709,8 @@ void map::mop_spills(const int x, const int y) {
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount_dx,
-                                                              veh->parts[vpart].mount_dy );
+        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
+                                                              veh->parts[vpart].mount.y );
         for( auto &elem : parts_here ) {
             veh->parts[elem].blood = 0;
         }
@@ -3183,8 +3181,7 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
         vehicle_stack items = cur_veh->get_items( 0 );
         for( auto part_index_candidate : cargo_parts ) {
             vehicle_part &vp = cur_veh->parts[part_index_candidate];
-            if( active_item.location.x == vp.mount_dx &&
-                active_item.location.y == vp.mount_dy ) {
+            if( active_item.location == vp.mount ) {
                 part_index = part_index_candidate;
                 item_location = point( cur_veh->global_x() + vp.precalc[0].x,
                                        cur_veh->global_y() + vp.precalc[0].y );

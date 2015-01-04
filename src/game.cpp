@@ -13022,7 +13022,7 @@ bool game::plmove(int dx, int dy)
         }
         if (veh1) {
             vehicle_part *part = &(veh1->parts[vpart1]);
-            std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
+            std::string label = veh1->get_label(part->mount.x, part->mount.y);
             if (label != "") {
                 add_msg(m_info, _("Label here: %s"), label.c_str());
             }

@@ -1211,8 +1211,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
         }
     }
     setid(pid);
-    data.read("mount_dx", mount_dx);
-    data.read("mount_dy", mount_dy);
+    data.read("mount.x", mount.x);
+    data.read("mount.y", mount.y);
     data.read("hp", hp );
     data.read("amount", amount );
     data.read("blood", blood );
@@ -1231,8 +1231,8 @@ void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("id", id);
-    json.member("mount_dx", mount_dx);
-    json.member("mount_dy", mount_dy);
+    json.member("mount.x", mount.x);
+    json.member("mount.y", mount.y);
     json.member("hp", hp);
     json.member("amount", amount);
     json.member("blood", blood);
@@ -1313,8 +1313,7 @@ void vehicle::deserialize(JsonIn &jsin)
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, point( parts[cargo_index].mount_dx,
-                                             parts[cargo_index].mount_dy ) );
+                active_items.add( it, parts[cargo_index].mount );
             }
         }
     }

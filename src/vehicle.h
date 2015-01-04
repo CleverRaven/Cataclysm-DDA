@@ -101,7 +101,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
-                 const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
+                 const item *it = NULL) : id("null"), iid(0), mount( dx, dy ),
                  precalc( { { point( -1, -1 ), point( -1, -1 ) } } ),
                  hp(0), blood(0), bigness(0), inside(false), removed(false),enabled(1), flags(0),
                  passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
@@ -120,9 +120,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     std::string id;         // id in map of parts (vehicle_part_types key)
     int iid;                // same as above, for lookup via int
-    int mount_dx;           // mount point on the forward/backward axis
-    int mount_dy;           // mount point on the left/right axis
-    std::array<point, 2> precalc; // mount_d[x,y] translated to face.dir [0] and turn_dir [1]
+    point mount;            // mount point: x is on the forward/backward axis, y is on the left/right axis
+    std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
