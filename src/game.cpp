@@ -5661,8 +5661,13 @@ void game::draw_critter(const Creature &critter, const point &center)
         mvwputch( w_terrain, my, mx, c_red, '?' );
     }
 }
+void game::draw_ter(int posx, int posy)
+{
+    draw_ter(posx, posy, false);
+}
 
-void game::draw_ter(int posx, int posy, bool looking) {
+void game::draw_ter(int posx, int posy, bool looking)
+{
     // posx/posy default to -999
     if (posx == -999) {
         posx = u.posx + u.view_offset_x;
