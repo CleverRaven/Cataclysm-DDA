@@ -4762,6 +4762,35 @@
 "burst": 1,
 "clip_size": 1,
 "reload": 800
-}
+},
+  {
+    "id": "watercannon",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "water cannon",
+    "description": "A water cannon from a fire truck. Mounted on a vehicle, it could be used to stop fires or \"protesters\".",
+    "price": 50000,
+    "material": "steel",
+    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "ammo_effects": ["JET", "BEANBAG", "RECOVER_10"],
+    "skill": "launcher",
+    "ammo": "water",
+    "weight": 24500,
+    "volume": 50,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 0,
+    "range": 10,
+    "dispersion": 450,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 5,
+    "clip_size": 0,
+    "reload": 0
+  }
 
 ]

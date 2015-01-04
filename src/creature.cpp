@@ -201,24 +201,32 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 {
     int t;
     Creature *target = nullptr;
+    player &u = g->u; // Could easily protect something that isn't the player
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
     float best_target_rating = -1.0f; // bigger is better
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
-    bool iff_trig = false;   // player seen and within range of stray shots
+    bool area_iff = false;   // Need to check distance from target to player
+    bool angle_iff = true;   // Need to check if player is in a cone between us and target
     int pldist = rl_dist(xpos(), ypos(), g->u.posx, g->u.posy);
-    if (pldist < iff_dist && g->sees_u(xpos(), ypos(), t)) {
-        iff_trig = true;
-        if (pldist < 3) {
+    int part;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( xpos(), ypos(), part ) : nullptr;
+    if( pldist < iff_dist && g->sees_u(xpos(), ypos(), t) ) {
+        area_iff = area > 0;
+        angle_iff = true;
+        // Player inside vehicle won't be hit by shots from the roof, so we can fire "through" them just fine
+        if( g->m.veh_at( u.posx, u.posy, part ) == in_veh && in_veh->is_inside( part ) ) {
+            angle_iff = false; // No angle IFF, but possibly area IFF
+        } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
         }
-        u_angle = g->m.coord_to_angle(xpos(), ypos(), g->u.posx, g->u.posy);
+        u_angle = g->m.coord_to_angle(xpos(), ypos(), u.posx, u.posy);
     }
     std::vector<Creature*> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &m = g->zombie(i);
-        if (m.friendly != 0) {
+        if( m.friendly != 0 ) {
             // friendly to the player, not a target for us
             continue;
         }
@@ -232,8 +240,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         targets.push_back( p );
     }
     int ll = g->light_level();
-    int part;
-    const vehicle *in_veh = is_fake() ? g->m.veh_at(  xpos(), ypos(), part ) : nullptr;
     for( auto &m : targets ) {
         int t;
         if( !sees( *m, ll, DAYLIGHT_LEVEL, t ) ) {
@@ -249,7 +255,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         float mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
         if( mon_rating <= 0 ) {
-            // Friendly, tiny and docile
+            // We wouldn't attack it even if it was hostile
             continue;
         }
 
@@ -257,7 +263,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( iff_trig ) {
+        if( area_iff > 0 && rl_dist( u.posx, u.posy, m->xpos(), m->ypos() ) <= area ) {
+            // Player in AoE
+            if( mon_rating > 1 ) {
+                boo_hoo++;
+            }
+            continue;
+        }
+        if( angle_iff ) {
             int tangle = g->m.coord_to_angle(xpos(), ypos(), m->xpos(), m->ypos());
             int diff = abs(u_angle - tangle);
             // Player is in the angle and not too far behind the target
@@ -269,6 +282,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 }
                 continue;
             }
+        }
+        if( ( mon_rating + 2 ) / dist <= best_target_rating ) {
+            // "Would we skip the target even if it was hostile?"
+            // Helps avoid (possibly expensive) attitude calculation
+            continue;
+        }
+        if( m->attitude_to( u ) == A_HOSTILE ) {
+            target_rating = ( mon_rating + 2 ) / dist;
         }
         if( target_rating <= best_target_rating ) {
             continue; // Handle this late so that boo_hoo++ can happen

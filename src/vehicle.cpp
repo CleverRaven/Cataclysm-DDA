@@ -5183,10 +5183,13 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         itype *am_type = item::find_type( amt );
+        itype *fake;
+        bool fake_ammo = false;
         if( !am_type->ammo ) {
-            // Let non-ammo-typed ammo be used too
-            // 0 in all stats, depends on gun to provide everything
-            am_type = item::find_type( "fake_ammo" );
+            // Alter ammo type temporarily
+            fake = item::find_type( "fake_ammo" );
+            std::swap( am_type->ammo, fake->ammo );
+            fake_ammo = true;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
@@ -5194,6 +5197,9 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             // consume fuel
             charges_consumed *= charge_mult;
             drain( amt, (int)charges_consumed );
+        }
+        if( fake_ammo ) {
+            std::swap( am_type->ammo, fake->ammo ); // Remove the temporary ammo properties
         }
     } else {
         if( get_items(p).empty() ) {
@@ -5288,8 +5294,6 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
                            tmp.name.c_str(), boo_hoo);
             }
             return false;
-        } else if( auto_target->power_rating() <= 1 ) {
-            return true; // Too tiny and docile to waste ammo on
         }
         xtarg = auto_target->xpos();
         ytarg = auto_target->ypos();
@@ -5529,7 +5533,7 @@ item vehicle_part::properties_to_item() const
     }
     // tools go unloaded to prevent user from exploiting this to
     // refill their (otherwise not refillable) tools
-    if( tmp.is_tool() ) {
+    if( tmp.is_tool() || tmp.is_gun() ) {
         tmp.charges = 0;
     }
     // Cables get special handling: their target coordinates need to remain
@@ -5551,8 +5555,8 @@ item vehicle_part::properties_to_item() const
     // this is very lossy.
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
-    // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
+    // Transfer fuel back to tank, but not to gun or it'll crash
+    if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount;
