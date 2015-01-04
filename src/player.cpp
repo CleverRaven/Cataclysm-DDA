@@ -13529,15 +13529,14 @@ bool player::has_container_for(const item &newit)
         return true;
     }
     unsigned charges = newit.charges;
-    LIQUID_FILL_ERROR tmperr;
-    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    charges -= weapon.get_remaining_capacity_for_liquid(newit);
     for (size_t i = 0; i < worn.size() && charges > 0; i++) {
-        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit);
     }
     for (size_t i = 0; i < inv.size() && charges > 0; i++) {
         const std::list<item>&items = inv.const_stack(i);
         // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+        charges -= items.front().get_remaining_capacity_for_liquid(newit) * items.size();
     }
     return charges <= 0;
 }

@@ -478,7 +478,8 @@ public:
      */
     void set_snippet( const std::string &snippet_id );
 
- int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
+ LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
+ int get_remaining_capacity_for_liquid(const item &liquid) const;
  int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
