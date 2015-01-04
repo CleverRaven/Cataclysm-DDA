@@ -7100,7 +7100,6 @@
 
   {
     "id": "kiln_full",
-    "comment": "this item is not justed anymore and can be removed, however I don't want to compromise save compatiblity, so it's still here.",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
@@ -7123,8 +7122,6 @@
     "use_action": {
         "type": "transform",
         "target": "kiln_lit",
-        "target_charges": 3600,
-        "active": true,
         "msg": "You light the wood.",
         "need_fire": 1,
         "need_fire_msg": "You need something to light it with!"
