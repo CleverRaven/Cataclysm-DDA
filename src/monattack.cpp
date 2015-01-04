@@ -2586,8 +2586,7 @@ void mattack::tankgun( monster *z, Creature *target )
             vehicle *veh = g->m.veh_at( g->u.xpos(), g->u.ypos() );
             if( veh ) {
                 veh->center_of_mass( aim_point.x, aim_point.y );
-                aim_point.x += veh->global_x();
-                aim_point.y += veh->global_y();
+                aim_point += veh->global_pos();
             }
         }
     }

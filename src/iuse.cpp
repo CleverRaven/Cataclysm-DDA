@@ -9804,7 +9804,7 @@ vehicle *pickveh( point center, bool advanced )
 
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( rl_dist( center.x, center.y, v->global_x(), v->global_y() ) < 40 &&
+        if( rl_dist( center, v->global_pos() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
             ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
             ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
@@ -9814,7 +9814,7 @@ vehicle *pickveh( point center, bool advanced )
     std::vector< point > locations;
     for( int i = 0; i < (int)vehs.size(); i++ ) {
         auto veh = vehs[i];
-        locations.push_back( point( veh->global_x(), veh->global_y() ) );
+        locations.push_back( veh->global_pos() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 

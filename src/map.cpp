@@ -226,16 +226,14 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
     }
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
-    const int gx = veh->global_x();
-    const int gy = veh->global_y();
+    const point gpos = veh->global_pos();
     int partid = 0;
     for( std::vector<vehicle_part>::iterator it = parts.begin(),
          end = parts.end(); it != end; ++it, ++partid ) {
         if( it->removed ) {
             continue;
         }
-        const point p( gx + it->precalc[0].x,
-                       gy + it->precalc[0].y );
+        const point p = gpos + it->precalc[0];
         veh_cached_parts.insert( std::make_pair( p,
                                  std::make_pair( veh, partid ) ) );
         if( inbounds( p.x, p.y ) ) {
@@ -3183,8 +3181,7 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
             vehicle_part &vp = cur_veh->parts[part_index_candidate];
             if( active_item.location == vp.mount ) {
                 part_index = part_index_candidate;
-                item_location = point( cur_veh->global_x() + vp.precalc[0].x,
-                                       cur_veh->global_y() + vp.precalc[0].y );
+                item_location = cur_veh->global_pos() + vp.precalc[0];
                 items = cur_veh->get_items( part_index );
                 break;
             }

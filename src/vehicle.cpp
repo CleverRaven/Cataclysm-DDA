@@ -222,9 +222,7 @@ bool vehicle::remote_controlled (player *p)
 
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
-        if( rl_dist( p->posx, p->posy, 
-                    global_x() + parts[part].precalc[0].x,
-                    global_y() + parts[part].precalc[0].y ) <= 40 ) {
+        if( rl_dist( p->pos(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
             return true;
         }
     }
@@ -578,8 +576,7 @@ void vehicle::control_doors() {
 
         int val = doors_with_motors.size();
         doors_with_motors.push_back( door );
-        locations.push_back( point( parts[p].precalc[0].x + global_x(),
-                                    parts[p].precalc[0].y + global_y() ) );
+        locations.push_back( global_pos() + parts[p].precalc[0] );
         const char *actname = parts[door].open ? _("Close") : _("Open");
         pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
     }
@@ -2572,6 +2569,11 @@ int vehicle::global_y() const
     return smy * SEEY + posy;
 }
 
+point vehicle::global_pos() const
+{
+    return point( smx * SEEX + posx, smy * SEEY + posy );
+}
+
 point vehicle::real_global_pos() const
 {
     return g->m.getabs( global_x(), global_y() );
@@ -4345,9 +4347,7 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
 
 vehicle_stack vehicle::get_items( int part )
 {
-    return vehicle_stack( &parts[part].items,
-                          point( global_x() + parts[part].precalc[0].x,
-                                 global_x() + parts[part].precalc[0].x ),
+    return vehicle_stack( &parts[part].items, global_pos() + parts[part].precalc[0],
                           this, part );
 }
 
@@ -4923,9 +4923,7 @@ void vehicle::aim_turrets()
     
     uimenu pmenu;
     for( int p : turrets ) {
-        locations.push_back( point( parts[p].precalc[0].x + global_x(),
-                                    parts[p].precalc[0].y + global_y() ) );
-
+        locations.push_back( global_pos() + parts[p].precalc[0] );
     }
 
     pointmenu_cb callback( locations );
@@ -5031,8 +5029,7 @@ void vehicle::control_turrets() {
     for( int p : all_turrets ) {
         if( !part_flag( p, "MANUAL" ) ) {
             turrets.push_back( p );
-            locations.push_back( point( parts[p].precalc[0].x + global_x(),
-                                        parts[p].precalc[0].y + global_y() ) );
+            locations.push_back( global_pos() + parts[p].precalc[0] );
         }
     }
 

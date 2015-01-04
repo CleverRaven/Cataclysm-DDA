@@ -490,6 +490,7 @@ public:
      */
     int global_x() const;
     int global_y() const;
+    point global_pos() const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
