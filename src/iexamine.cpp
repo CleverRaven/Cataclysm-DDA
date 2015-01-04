@@ -1549,9 +1549,8 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
         total_volume += i.volume( false, false );
     }
 
-    auto charcoal_type = item::find_type( "unfinished_charcoal" );
-    it_ammo* char_type = dynamic_cast< it_ammo* >( charcoal_type );
-    int char_charges = ( 100 - loss ) * total_volume * char_type->count / 100 / char_type->volume;
+    auto char_type = item::find_type( "unfinished_charcoal" );
+    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -1587,8 +1586,7 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
             last_bday = i.bday;
         }
     }
-    auto charcoal_type = item::find_type( "charcoal" );
-    it_ammo* char_type = dynamic_cast< it_ammo* >( charcoal_type );
+    auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
     const int firing_time = HOURS(6); // 5 days in real life
     int time_left = firing_time - calendar::turn.get_turn() + items[0].bday;
@@ -1609,7 +1607,7 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->count / char_type->volume;
+    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
     m->add_item( examx, examy, result );
     m->furn_set( examx, examy, f_kiln_empty);
 }
