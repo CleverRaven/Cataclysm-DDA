@@ -175,6 +175,8 @@ player::player() : Character(), name("")
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
 
+ is_looking_around = false;
+
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
