@@ -777,6 +777,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::string weapname(bool charges = true);
 
+        virtual float power_rating() const;
+
         /**
          * Test whether an item in the possession of this player match a
          * certain filter.

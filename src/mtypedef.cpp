@@ -82,9 +82,14 @@ bool mtype::in_species(std::string spec) const
     return (species.find(spec) != species.end());
 }
 
+bool mtype::in_species( int spec_id ) const
+{
+    return ( species_id.find(spec_id) != species_id.end() );
+}
+
 bool mtype::same_species( const mtype &other ) const
 {
-    for( auto &s : species ) {
+    for( int s : species_id ) {
         if( other.in_species( s ) ) {
             return true;
         }

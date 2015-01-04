@@ -13746,6 +13746,11 @@ void player::blossoms()
     }
 }
 
+float player::power_rating() const
+{
+    return weapon.is_gun() ? 4 : 2;
+}
+
 std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
 {
     return items_with( [&flag]( const item & it ) {

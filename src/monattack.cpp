@@ -364,7 +364,7 @@ void mattack::smash(monster *z, int index)
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
-    if( foe->uncanny_dodge() ) {
+    if( foe != nullptr && foe->uncanny_dodge() ) {
         return;
     }
 
@@ -2840,19 +2840,16 @@ Please put down your weapon.\""));
 
 void mattack::chickenbot(monster *z, int index)
 {
-    int t, mode = 0;
-    if( z->friendly == 0 && !g->sees_u(z->posx(), z->posy(), t) ) {
-        return;    // Can't see you!
-    }
-
+    int mode = 0;
     int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
-        tx = g->u.posx;
-        ty = g->u.posy;
-        target = &g->u;
+        target = z->attack_target();
+        if( target == nullptr ) {
+            return;
+        }
     } else {
         target = z->auto_find_hostile_target( 38, boo_hoo );
         if( target == nullptr ) {
@@ -2864,11 +2861,11 @@ void mattack::chickenbot(monster *z, int index)
             }
             return;
         }
-        tx = target->xpos();
-        ty = target->ypos();
         cap = target->power_rating() - 1;
     }
 
+    tx = target->xpos();
+    ty = target->ypos();
     int dist = rl_dist( z->posx(), z->posy(), tx, ty );
     if( dist == 1 && one_in(2) ) {
         mode = 1;
@@ -2912,20 +2909,16 @@ void mattack::chickenbot(monster *z, int index)
 
 void mattack::multi_robot(monster *z, int index)
 {
-    int t;
     int mode = 0;
-    if( z->friendly == 0 && !g->sees_u( z->posx(), z->posy(), t ) ) {
-        return;    // Can't see you!
-    }
-
     int cap = INT_MAX;
     int tx, ty;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
-        tx = g->u.posx;
-        ty = g->u.posy;
-        target = &g->u;
+        target = z->attack_target();
+        if( target == nullptr ) {
+            return;
+        }
     } else {
         target = z->auto_find_hostile_target( 48, boo_hoo );
         if( target == nullptr ) {
@@ -2937,10 +2930,10 @@ void mattack::multi_robot(monster *z, int index)
             }
             return;
         }
-        tx = target->xpos();
-        ty = target->ypos();
         cap = target->power_rating();
     }
+    tx = target->xpos();
+    ty = target->ypos();
 
     int dist = rl_dist( z->posx(), z->posy(), tx, ty );
     if( dist == 1 && one_in(2) ) {
