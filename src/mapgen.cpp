@@ -11265,18 +11265,17 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
-        const int px = veh->global_x() + veh->parts[*part].precalc[0].x;
-        const int py = veh->global_y() + veh->parts[*part].precalc[0].y;
+        const auto p = veh->global_pos() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
+        if (ter_at(p.x, p.y).has_flag(TFLAG_DEEP_WATER)) {
             delete veh;
             return NULL;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if (veh->type == "shopping_cart") {
-            if (veh_at(px, py) != NULL || move_cost(px, py) == 0) {
+            if (veh_at(p.x, p.y) != NULL || move_cost(p.x, p.y) == 0) {
                 delete veh;
                 return NULL;
             }
@@ -11285,7 +11284,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         //When hitting a wall, only smash the vehicle once (but walls many times)
         bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
-        vehicle *other_veh = veh_at(px, py);
+        vehicle *other_veh = veh_at(p.x, p.y);
         if (other_veh != NULL && other_veh->type != "shopping cart") {
             if( !merge_wrecks ) {
                 delete veh;
@@ -11298,7 +11297,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
              * headache, so instead, let's make another vehicle whose (0, 0) point
              * is the (0, 0) of the existing vehicle, convert the coordinates of both
              * vehicles into global coordinates, find the distance between them and
-             * (px, py) and then install them that way.
+             * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
             vehicle *wreckage = new vehicle();
             wreckage->posx = other_veh->posx;
@@ -11341,14 +11340,14 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             //Try again with the wreckage
             return add_vehicle_to_map(wreckage, true);
 
-        } else if (move_cost(px, py) == 0) {
+        } else if (move_cost(p.x, p.y) == 0) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
             }
 
             //There's a wall or other obstacle here; destroy it
-            destroy(px, py, true);
+            destroy(p.x, p.y, true);
 
             //Then smash up the vehicle
             if(!veh_smashed) {

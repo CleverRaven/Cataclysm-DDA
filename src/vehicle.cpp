@@ -1359,15 +1359,14 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const int horn_x = global_x() + parts[p].precalc[0].x;
-        const int horn_y = global_y() + parts[p].precalc[0].y;
+        const auto horn_pos = global_pos() + parts[p].precalc[0];
         //Determine sound
         if( horn_type.bonus >= 40 ) {
-            g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
+            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
-            g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
+            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
         } else {
-            g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
+            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
         }
     }
 
@@ -1387,9 +1386,8 @@ void vehicle::play_music()
             return;
         }
         std::string sound = "";
-        const int radio_x = global_x() + parts[p].precalc[0].x;
-        const int radio_y = global_y() + parts[p].precalc[0].y;
-        iuse::play_music( &(g->u), point(radio_x, radio_y), 15 );
+        const auto radio_pos = global_pos() + parts[p].precalc[0];
+        iuse::play_music( &(g->u), radio_pos, 15 );
     }
 }
 vpart_info& vehicle::part_info (int index, bool include_removed) const
@@ -1944,10 +1942,9 @@ bool vehicle::remove_part (int p)
         }
     }
 
-    const int dx = global_x() + parts[p].precalc[0].x;
-    const int dy = global_y() + parts[p].precalc[0].y;
+    const auto pos = global_pos() + parts[p].precalc[0];
     for( auto &i : get_items(p) ) {
-        g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), i);
+        g->m.add_item_or_charges(pos.x + rng(-3, +3), pos.y + rng(-3, +3), i);
     }
     g->m.dirty_vehicle_list.insert(this);
     refresh();
@@ -2847,13 +2844,12 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
-        int part_x = global_x() + parts[p].precalc[0].x;
-        int part_y = global_y() + parts[p].precalc[0].y;
+        auto part_pos = global_pos() + parts[p].precalc[0];
 
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside(part_x, part_y) && g->levz >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->levz >= 0 ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -2865,7 +2861,7 @@ bool vehicle::do_environmental_effects()
             for( int ix = -1; ix <= 1; ix++ ) {
                 for( int iy = -1; iy <= 1; iy++ ) {
                     if( !rng(0, 2) ) {
-                        g->m.add_field( part_x + ix, part_y + iy, fd_smoke, rng(2, 4) );
+                        g->m.add_field( part_pos.x + ix, part_pos.y + iy, fd_smoke, rng(2, 4) );
                     }
                 }
             }
@@ -4549,9 +4545,8 @@ void vehicle::remove_remote_part(int part_num) {
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
-        int posx = global_x() + parts[part_num].precalc[0].x;
-        int posy = global_y() + parts[part_num].precalc[0].y;
-        point local_abs = g->m.getabs(posx, posy);
+        auto pos = global_pos() + parts[part_num].precalc[0];
+        point local_abs = g->m.getabs(pos.x, pos.y);
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++) {
             int remote_partnum = veh->loose_parts[j];
@@ -4572,10 +4567,9 @@ void vehicle::shed_loose_parts() {
         }
 
         auto part = &parts[elem];
-        int posx = global_x() + part->precalc[0].x;
-        int posy = global_y() + part->precalc[0].y;
+        auto pos = global_pos() + part->precalc[0];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges(posx, posy, drop);
+        g->m.add_item_or_charges(pos.x, pos.y, drop);
 
         remove_part( elem );
     }
@@ -4766,8 +4760,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
          * Chance increases with damage, and decreases with part max durability
          * (so lights, etc are easily removed; frames and plating not so much) */
         if(rng(0, part_info(p).durability / 10) < dmg) {
-            int x_pos = global_x() + parts[p].precalc[0].x;
-            int y_pos = global_y() + parts[p].precalc[0].y;
+            const auto pos = global_pos() + parts[p].precalc[0];
             if(part_info(p).location == part_location_structure) {
                 //For structural parts, remove other parts first
                 std::vector<int> parts_in_square = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
@@ -4776,19 +4769,19 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     if(parts_in_square[index] != p) {
                         if(parts[parts_in_square[index]].hp == 0) {
                             //Tearing off a broken part - break it up
-                            if(g->u_see(x_pos, y_pos)) {
+                            if(g->u_see(pos.x, pos.y)) {
                                 add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
-                            break_part_into_pieces(parts_in_square[index], x_pos, y_pos, true);
+                            break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
-                            if(g->u_see(x_pos, y_pos)) {
+                            if(g->u_see(pos.x, pos.y)) {
                                 add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                            g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
+                            g->m.add_item_or_charges(pos.x, pos.y, part_as_item, true);
                             remove_part(parts_in_square[index]);
                         }
                     }
@@ -4798,20 +4791,20 @@ int vehicle::damage_direct (int p, int dmg, int type)
                  * some more complicated system (such as actually making two
                  * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
-                    if(g->u_see(x_pos, y_pos)) {
+                    if(g->u_see(pos.x, pos.y)) {
                         add_msg(m_bad, _("The %s's %s is destroyed!"),
                                 name.c_str(), part_info(p).name.c_str());
                     }
-                    break_part_into_pieces(p, x_pos, y_pos, true);
+                    break_part_into_pieces(p, pos.x, pos.y, true);
                     remove_part(p);
                 }
             } else {
                 //Just break it off
-                if(g->u_see(x_pos, y_pos)) {
+                if(g->u_see(pos.x, pos.y)) {
                     add_msg(m_bad, _("The %s's %s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
-                break_part_into_pieces(p, x_pos, y_pos, true);
+                break_part_into_pieces(p, pos.x, pos.y, true);
                 remove_part(p);
             }
         }
@@ -4970,10 +4963,8 @@ void vehicle::aim_turrets()
 
     // Remember turret's position at the time of aiming
     auto &target = parts[turret_index].target;
-    int cx = global_x() + parts[turret_index].precalc[0].x;
-    int cy = global_y() + parts[turret_index].precalc[0].y;
-    target.second.x = cx;
-    target.second.y = cy;
+    auto &turret_pos = target.second;
+    turret_pos = global_pos() + parts[turret_index].precalc[0];
 
     itype *am_itype;
     if( get_items( turret_index ).front().charges > 0 ) {
@@ -4989,19 +4980,19 @@ void vehicle::aim_turrets()
     const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
     int range = gun_data.range + ammo->range;
-    int x = cx;
-    int y = cy;
+    int x = turret_pos.x;
+    int y = turret_pos.y;
     int t;
     auto mons = g->u.get_visible_creatures( range );
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
     item weap( part_info( turret_index ).item, 0 );
     std::vector<point> trajectory = 
-                        g->target( x, y, cx - range, cy - range,
-                                   cx + range, cy + range, mons,
-                                   t, &weap, tmode, point( cx, cy ) );
+                        g->target( x, y, x - range, y - range,
+                                   x + range, y + range, mons,
+                                   t, &weap, tmode, turret_pos );
 
     if( trajectory.empty() ) {
-        target.first = target.second;
+        target.first = turret_pos;
         return;
     }
 
