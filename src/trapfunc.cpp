@@ -1070,11 +1070,8 @@ void trapfunc::glow(Creature *c, int x, int y)
     }
 }
 
-void trapfunc::hum(
-    Creature * //c
-  , int const x
-  , int const y
-) {
+void trapfunc::hum(Creature * /*c*/, int const x, int const y)
+{
     int volume = rng(1, 200);
     std::string sfx;
     if (volume <= 10) {
