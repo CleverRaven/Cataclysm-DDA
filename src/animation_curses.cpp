@@ -87,7 +87,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
         for( auto &elem : ret ) {
             const Creature *critter = critter_at( elem.x, elem.y );
             // NPCs and monsters get drawn with inverted colors
-            if( critter != nullptr && u.sees( critter ) ) {
+            if( critter != nullptr && u.sees( *critter ) ) {
                 critter->draw( w_terrain, center_point.x, center_point.y, true );
             } else {
                 m.drawsq( w_terrain, u, elem.x, elem.y, true, true, center_point.x,

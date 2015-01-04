@@ -469,7 +469,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
 
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
-        if (this->sees(mon, linet)) {
+        if (this->sees(*mon, linet)) {
             int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;

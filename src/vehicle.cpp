@@ -4901,7 +4901,7 @@ std::string aim_type( const vehicle_part &part )
     int lx = target.first.x;
     int ly = target.first.y;
     const Creature *critter = g->critter_at( lx, ly );
-    if( critter != nullptr && g->u.sees( critter ) ) {
+    if( critter != nullptr && g->u.sees( *critter ) ) {
         return critter->disp_name();
     } else if( g->m.has_furn( lx, ly ) ) {
         return g->m.furn_at( lx, ly ).name;

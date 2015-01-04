@@ -370,8 +370,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * hallucinations.
          * @param t The t output of map::sees.
          */
-        bool sees(const Creature *critter) const;
-        bool sees(const Creature *critter, int &t) const;
+        bool sees(const Creature &critter) const;
+        bool sees(const Creature &critter, int &t) const;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.

@@ -8538,7 +8538,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     point seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
-                    if( p->sees( &candidate ) ) {
+                    if( p->sees( candidate ) ) {
                         seen_loc = point( candidate.xpos(), candidate.ypos() );
                     } else {
                         seen_loc = point( p->xpos(), p->ypos() );

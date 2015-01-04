@@ -1460,7 +1460,7 @@ void monster::process_effects()
     //If this monster has the ability to heal in combat, do it now.
     if( has_flag( MF_REGENERATES_50 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
             }
             hp += 50;
@@ -1471,7 +1471,7 @@ void monster::process_effects()
     }
     if( has_flag( MF_REGENERATES_10 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
             }
             hp += 10;
@@ -1504,7 +1504,7 @@ void monster::process_effects()
 
     // If this critter dies in sunlight, check & assess damage.
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
-        if( g->u.sees( this ) ) {
+        if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
         hp -= 100;

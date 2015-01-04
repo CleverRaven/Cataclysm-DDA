@@ -13221,7 +13221,7 @@ int player::getID () const
 bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
-    bool seen = g->u.sees( this );
+    bool seen = g->u.sees( *this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 75;
@@ -13541,28 +13541,28 @@ bool player::sees(int x, int y, int &t) const
     return can_see;
 }
 
-bool player::sees(const Creature *critter) const
+bool player::sees(const Creature &critter) const
 {
     int dummy = 0;
     return sees(critter, dummy);
 }
 
-bool player::sees(const Creature *critter, int &t) const
+bool player::sees(const Creature &critter, int &t) const
 {
-    if( critter->is_hallucination() ) {
+    if( critter.is_hallucination() ) {
         // hallucinations are always visible for the player, but never for anyone else.
         return is_player();
     }
-    const int cx = critter->xpos();
-    const int cy = critter->ypos();
-    int dist = rl_dist( pos(), critter->pos() );
+    const int cx = critter.xpos();
+    const int cy = critter.ypos();
+    int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
-    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
+    if (dist > 1 && critter.digging() && !has_active_bionic("bio_ground_sonar")) {
         return false; // Can't see digging monsters until we're right next to them
     }
-    if (g->m.is_divable(cx, cy) && critter->is_underwater() && !is_underwater()) {
+    if (g->m.is_divable(cx, cy) && critter.is_underwater() && !is_underwater()) {
         //Monster is in the water and submerged, and we're out of/above the water
         return false;
     }
@@ -13686,7 +13686,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
+    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const

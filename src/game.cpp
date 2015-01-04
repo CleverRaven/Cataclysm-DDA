@@ -5651,7 +5651,7 @@ void game::draw_critter(const Creature &critter, const point &center)
     if( !is_valid_in_w_terrain( mx, my ) ) {
         return;
     }
-    if( u.sees( &critter ) || &critter == &u ) {
+    if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
         return;
     }
@@ -6175,17 +6175,17 @@ bool game::u_see(int x, int y)
 
 bool game::u_see(const Creature *t)
 {
-    return u.sees(t);
+    return u.sees(*t);
 }
 
 bool game::u_see(const Creature &t)
 {
-    return u.sees(&t);
+    return u.sees(t);
 }
 
 bool game::u_see(const monster *critter)
 {
-    return u.sees(critter);
+    return u.sees(*critter);
 }
 
 Creature *game::is_hostile_nearby()
@@ -8995,7 +8995,7 @@ void game::print_object_info(int lx, int ly, WINDOW *w_look, const int column, i
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
     const Creature *critter = critter_at( lx, ly );
-    if( critter != nullptr && ( u.sees( critter ) || critter == &u ) ) {
+    if( critter != nullptr && ( u.sees( *critter ) || critter == &u ) ) {
         if( !mouse_hover ) {
             critter->draw( w_terrain, lx, ly, true );
         }

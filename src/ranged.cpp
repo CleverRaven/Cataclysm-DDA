@@ -1088,7 +1088,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
 
             const Creature *critter = critter_at( x, y );
-            if( critter != nullptr && u.sees( critter ) ) {
+            if( critter != nullptr && u.sees( *critter ) ) {
                 // The 4 is 2 for the border and 2 for aim bars.
                 int available_lines = height - num_instruction_lines - line_number - 4;
                 line_number = critter->print_info( w_target, line_number, available_lines, 1);
