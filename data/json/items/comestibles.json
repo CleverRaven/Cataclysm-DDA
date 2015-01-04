@@ -32,7 +32,17 @@
         "fun": 0,
         "stim": 0,
         "flags" : ["EATEN_COLD"],
-        "phase": "liquid"
+        "phase": "liquid",
+        "ammo_data": {
+            "ammo_type" : "water",
+            "damage" : 0,
+            "pierce" : 0,
+            "range" : 0,
+            "dispersion" : 0,
+            "recoil" : 0,
+            "count" : 1,
+            "effects" : []
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -62,7 +72,17 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "fun" : 0,
+        "ammo_data": {
+            "ammo_type" : "water",
+            "damage" : 0,
+            "pierce" : 0,
+            "range" : 0,
+            "dispersion" : 0,
+            "recoil" : 0,
+            "count" : 1,
+            "effects" : []
+        }
     },
     {
         "type" : "COMESTIBLE",

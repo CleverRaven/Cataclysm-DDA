@@ -5183,13 +5183,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         itype *am_type = item::find_type( default_ammo( amt ) );
-        itype *fake;
-        bool fake_ammo = false;
         if( !am_type->ammo ) {
-            // Alter ammo type temporarily
-            fake = item::find_type( "fake_ammo" );
-            std::swap( am_type->ammo, fake->ammo );
-            fake_ammo = true;
+            debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
+                      am_type->nname(1).c_str(), gun.type->nname(1).c_str() );
+            return false;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
@@ -5197,9 +5194,6 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             // consume fuel
             charges_consumed *= charge_mult;
             drain( amt, (int)charges_consumed );
-        }
-        if( fake_ammo ) {
-            std::swap( am_type->ammo, fake->ammo ); // Remove the temporary ammo properties
         }
     } else {
         if( get_items(p).empty() ) {
