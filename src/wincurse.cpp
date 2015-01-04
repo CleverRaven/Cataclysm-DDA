@@ -663,9 +663,7 @@ void load_colors(JsonObject &jsobj)
 #define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
-    //TODO: this function strikes terror into my very soul...
-    //leaks, throw, catch, magic numbers, oh my
-    //any volunteers?
+    //TODO: this should be reviewed in the future.
 
     colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
