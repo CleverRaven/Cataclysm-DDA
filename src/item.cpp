@@ -3807,19 +3807,19 @@ bool item::fill_with( item &liquid, std::string &err )
             break;
         case L_ERR_NO_MIX:
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
-			return false;
+            return false;
         case L_ERR_NOT_CONTAINER:
             err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
-			return false;
+            return false;
         case L_ERR_NOT_WATERTIGHT:
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
-			return false;
+            return false;
         case L_ERR_NOT_SEALED:
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());
-			return false;
+            return false;
         case L_ERR_FULL:
             err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
-			return false;
+            return false;
         default:
             err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
             return false;
