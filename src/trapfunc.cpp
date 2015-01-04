@@ -822,23 +822,16 @@ void trapfunc::lava(Creature *c, int x, int y)
 }
 
 // STUB
-void trapfunc::portal(
-    Creature * //c
-  , int //x
-  , int //y
-) {
+void trapfunc::portal(Creature * /*c*/, int /*x*/, int /*y*/)
+{
     // TODO: make this do something?
 }
 
-void trapfunc::sinkhole(
-    Creature * //c
-  , int //x
-  , int //y
-) {
-    //if (c != &g->u) {
-        // TODO: make something exciting happen here
-        //return;
-    //}
+void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
+    if (c != &g->u) {
+        //TODO: make something exciting happen here
+        return;
+    }
     g->u.add_msg_if_player(m_bad, _("You step into a sinkhole, and start to sink down!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Stepped into a sinkhole."),
                         pgettext("memorial_female", "Stepped into a sinkhole."));
