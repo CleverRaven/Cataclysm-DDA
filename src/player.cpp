@@ -3534,7 +3534,7 @@ void player::print_recoil( WINDOW *w ) const
             } else if (adj_recoil >= 155) {
                 c = c_yellow;
             }
-            wprintz(w, c, _("Shaky"));
+            wprintz(w, c, _("Recoil"));
         }
     }
 }
@@ -3548,10 +3548,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         const int y = sideStyle ? 1 : 0;
         wmove( weapwin, y, 0 );
         print_gun_mode( weapwin, c_ltgray );
-
-        const int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
-        wmove( weapwin, y, x );
-        print_recoil(weapwin);
     }
 
     // Print currently used style or weapon mode.
