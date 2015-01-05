@@ -15,6 +15,7 @@ int cursorx_to_position(const char *line, int cursorx, int *prevppos = NULL, int
 //erease for characters insertion
 int erease_utf8_by_cw( char *t, int cw, int len, int maxlen);
 int utf8_width(const char *s, const bool ignore_tags = false);
+int center_text_pos(const char *text, int start_pos, int end_pos);
 std::string utf8_substr(std::string s, int start, int size = -1);
 std::string utf32_to_utf8(unsigned ch);
 std::string utf8_truncate(std::string s, size_t length);
