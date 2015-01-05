@@ -183,29 +183,40 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
         return false;
     }
 
-    return sees( cx, cy, bresenham_slope );
+    return sees( critter.pos(), bresenham_slope );
 }
 
 bool Creature::sees( const int tx, const int ty ) const
 {
     int bresenham_slope;
-    return sees( tx, ty, bresenham_slope );
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t ) const
+{
+    int bresenham_slope;
+    return sees( t, bresenham_slope );
 }
 
 bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
 {
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t, int &bresenham_slope ) const
+{
     const int range_min = sight_range( g->light_level() );
     const int range_max = sight_range( DAYLIGHT_LEVEL );
-    const int wanted_range = rl_dist( xpos(), ypos(), tx, ty );
+    const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_max &&
-          g->m.light_at( tx, ty ) >= LL_LOW ) ) {
+          g->m.light_at( t.x, t.y ) >= LL_LOW ) ) {
         if( is_player() ) {
-            return g->m.pl_sees( xpos(), ypos(), tx, ty, wanted_range);
-        } else if( g->m.light_at( tx, ty ) >= LL_LOW ) {
-            return g->m.sees( xpos(), ypos(), tx, ty, wanted_range, bresenham_slope );
+            return g->m.pl_sees( xpos(), ypos(), t.x, t.y, wanted_range);
+        } else if( g->m.light_at( t.x, t.y ) >= LL_LOW ) {
+            return g->m.sees( xpos(), ypos(), t.x, t.y, wanted_range, bresenham_slope );
         } else {
-            return g->m.sees( xpos(), ypos(), tx, ty, range_min, bresenham_slope );
+            return g->m.sees( xpos(), ypos(), t.x, t.y, range_min, bresenham_slope );
         }
     } else {
         return false;
