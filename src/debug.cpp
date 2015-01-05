@@ -260,40 +260,31 @@ struct time_info {
 
         static_assert(std::is_base_of<base, Stream>::value, "");
 
-        out << t.hours   << ':' << t.minutes << ':'
-            << t.seconds << '.' << t.mseconds;
+        out << t.hours << ':' << t.minutes << ':' << t.seconds << '.' << t.mseconds;
 
         return out;
     }
 };
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 time_info get_time() noexcept {
     SYSTEMTIME time {};
 
     GetLocalTime(&time);
 
-    return time_info {
-        static_cast<int>(time.wHour)
-      , static_cast<int>(time.wMinute)
-      , static_cast<int>(time.wSecond)
-      , static_cast<int>(time.wMilliseconds)
-    };
+    return time_info { static_cast<int>(time.wHour), static_cast<int>(time.wMinute),
+            static_cast<int>(time.wSecond), static_cast<int>(time.wMilliseconds) };
 }
 #else
 time_info get_time() noexcept {
-    timeval tv {};
+    timeval tv;
     gettimeofday( &tv, nullptr );
 
     auto const tt      = tv.tv_sec;
     auto const current = localtime( &tt );
 
-    return time_info {
-        current->tm_hour
-      , current->tm_min
-      , current->tm_sec
-      , static_cast<int>(tv.tv_usec / 1000.0 + 0.5)
-    };
+    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+            static_cast<int>(tv.tv_usec / 1000.0 + 0.5) };
 }
 #endif
 
