@@ -360,7 +360,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Includes checks for line-of-sight and light.
          * @param t The t output of map::sees.
          */
-        bool sees(int x, int y) const;
         bool sees( int x, int y, int &bresenham_slope ) const;
         /**
          * Check if this creature can see the critter.
@@ -371,7 +370,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * hallucinations.
          * @param t The t output of map::sees.
          */
-        bool sees(const Creature &critter) const;
         bool sees( const Creature &critter, int &bresenham_slope ) const;
         /**
          * Returns all creatures that this player can see and that are in the given

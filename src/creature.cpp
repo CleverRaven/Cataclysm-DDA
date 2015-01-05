@@ -167,6 +167,12 @@ bool Creature::digging() const
     return false;
 }
 
+bool Creature::sees( const Creature &critter ) const
+{
+    int bresenham_slope;
+    return sees( critter, bresenham_slope );
+}
+
 bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 {
     int cx = critter.xpos();
@@ -178,6 +184,12 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
     }
 
     return sees( cx, cy, bresenham_slope );
+}
+
+bool Creature::sees( const int tx, const int ty ) const
+{
+    int bresenham_slope;
+    return sees( tx, ty, bresenham_slope );
 }
 
 bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const

@@ -13515,12 +13515,6 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees(int x, int y) const
-{
-    int dummy = 0;
-    return sees(x, y, dummy);
-}
-
 bool player::sees( const int x, const int y, int &bresenham_slope ) const
 {
     static const std::string str_bio_night("bio_night");
@@ -13537,12 +13531,6 @@ bool player::sees( const int x, const int y, int &bresenham_slope ) const
         return true;
     }
     return can_see;
-}
-
-bool player::sees(const Creature &critter) const
-{
-    int dummy = 0;
-    return sees(critter, dummy);
 }
 
 bool player::sees( const Creature &critter, int &bresenham_slope ) const
