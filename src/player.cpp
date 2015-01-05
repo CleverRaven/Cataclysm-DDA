@@ -13524,10 +13524,8 @@ bool player::sees(int x, int y) const
 bool player::sees(int x, int y, int &t) const
 {
     static const std::string str_bio_night("bio_night");
-    int range_min = sight_range( g->light_level() );
-    int range_max = sight_range( DAYLIGHT_LEVEL );
     const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = Creature::sees( x, y, range_min, range_max, t ); // creature::sees
+    bool can_see = Creature::sees( x, y, t );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {

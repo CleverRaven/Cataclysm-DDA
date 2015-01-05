@@ -71,8 +71,8 @@ class Creature
         virtual Attitude attitude_to( const Creature &other ) const = 0;
 
         // tests for visibility
-        bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
-        bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
+        bool sees(const Creature &critter, int &t) const;
+        bool sees(int cx, int cy, int &t) const;
 
         /**
          * How far the creature sees under the given light. Places outside this range can

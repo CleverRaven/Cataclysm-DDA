@@ -167,7 +167,7 @@ bool Creature::digging() const
     return false;
 }
 
-bool Creature::sees( const Creature &critter, int range_min, int range_max, int &t ) const
+bool Creature::sees( const Creature &critter, int &t ) const
 {
     int cx = critter.xpos();
     int cy = critter.ypos();
@@ -177,11 +177,13 @@ bool Creature::sees( const Creature &critter, int range_min, int range_max, int 
         return false;
     }
 
-    return sees( cx, cy, range_min, range_max, t );
+    return sees( cx, cy, t );
 }
 
-bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) const
+bool Creature::sees( int tx, int ty, int &t ) const
 {
+    const int range_min = sight_range( g->light_level() );
+    const int range_max = sight_range( DAYLIGHT_LEVEL );
     const int wanted_range = rl_dist( xpos(), ypos(), tx, ty );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_max &&
@@ -241,10 +243,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         targets.push_back( p );
     }
-    int ll = g->light_level();
     for( auto &m : targets ) {
         int t;
-        if( !sees( *m, ll, DAYLIGHT_LEVEL, t ) ) {
+        if( !sees( *m, t ) ) {
             // can't see nor sense it
             continue;
         }
