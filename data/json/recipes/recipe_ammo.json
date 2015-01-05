@@ -336,8 +336,8 @@
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ],
-    [ [ "bone", 10 ] ]
-  ]
+    [ [ "bone", 10 ], [ "bone_tainted", 20 ] ]
+    ]
 },{
   "type" : "recipe",
   "result" : "arrow_fire_hardened",
@@ -390,6 +390,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
@@ -424,6 +425,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
@@ -723,6 +725,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],

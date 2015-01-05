@@ -4994,7 +4994,7 @@
         "addiction_potential" : 0,
         "nutrition" : 2,
         "description" : "A rotten and brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal.  You could eat it, but it will poison you.",
-        "price" : 0, "//" : "Not for use in edible recipes, and should require 150%-200% as much as normal for applicable inedible recipes.",
+        "price" : 0, "//" : "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
         "material" : "bone",
         "tool" : "null",
         "volume" : 1,

@@ -4490,6 +4490,7 @@
       [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "bone", 40 ],
+      [ "bone_tainted", 40 ],
       [ "pine_bough", 40 ],
       [ "log", 1 ]
     ],
@@ -5490,7 +5491,8 @@
   "autolearn": true,
   "components": [
     [
-     [ "bone", 25 ]
+     [ "bone", 25 ],
+     [ "bone_tainted", 50 ]
     ],
     [
      [ "rope_6", 5 ]

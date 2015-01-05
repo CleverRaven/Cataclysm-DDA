@@ -431,7 +431,8 @@
   ],
   "components": [
     [
-      [ "bone", 18 ]
+      [ "bone", 18 ],
+      [ "bone_tainted", 36 ]
     ],
     [
       [ "leather", 2 ],
@@ -2116,7 +2117,8 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "bone", 12 ]
+      [ "bone", 12 ],
+      [ "bone_tainted", 24 ]
     ],
     [
       [ "leather", 2 ]
@@ -3254,7 +3256,8 @@
   ],
   "components": [
     [
-      [ "bone", 24 ]
+      [ "bone", 24 ],
+      [ "bone_tainted", 48 ]
     ]
   ]
 },{
@@ -3300,7 +3303,8 @@
   ],
   "components": [
     [
-      [ "bone", 50 ]
+      [ "bone", 50 ],
+      [ "bone_tainted", 100 ]
     ],
     [
       [ "leather", 20 ],
