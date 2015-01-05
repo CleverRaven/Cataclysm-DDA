@@ -140,8 +140,40 @@
   "components": [
     [
       [ "tallow", 2 ],
+      [ "tallow_tainted", 2 ],
       [ "lard", 2 ],
       [ "cooking_oil", 5 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "tallow_tainted",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fat_tainted", 4 ]
     ],
     [
       [ "water", 1 ],
@@ -620,6 +652,7 @@
   ],
   "components": [
     [
+      [ "tallow_tainted", 2 ],
       [ "meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
       [ "slime_scrap", 5 ],

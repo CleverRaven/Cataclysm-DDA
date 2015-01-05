@@ -1802,7 +1802,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
-      [ "tallow", 2 ]
+      [ "tallow", 2 ],
+      [ "tallow_tainted", 2 ]
     ],
     [
       [ "rag", 1 ]

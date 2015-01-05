@@ -1787,7 +1787,8 @@
     ],
     [
       [ "wax", 2 ],
-      [ "tallow", 4 ]
+      [ "tallow", 4 ],
+      [ "tallow_tainted", 4 ]
     ],
     [
       [ "string_6", 1 ]
@@ -5800,6 +5801,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ]
     ],
     [
@@ -5874,6 +5876,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ]
     ],
     [

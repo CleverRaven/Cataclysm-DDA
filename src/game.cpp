@@ -11676,7 +11676,7 @@ void game::complete_butcher(int index)
             add_msg(m_good, _("You harvest some fluid bladders!"));
         } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON)) {
             m.spawn_item(u.posx, u.posy, "bone_tainted", bones / 2, 0, age);
-            add_msg(m_good, _("You harvest some usable bones!"));
+            add_msg(m_good, _("You harvest some salvageable bones!"));
         } else if (corpse->has_flag(MF_BONES)) {
             m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
             add_msg(m_good, _("You harvest some usable bones!"));
@@ -11737,7 +11737,10 @@ void game::complete_butcher(int index)
     }
 
     if (fats > 0) {
-        if (corpse->has_flag(MF_FAT)) {
+        if (corpse->has_flag(MF_FAT) && corpse->has_flag(MF_POISON)) {
+            m.spawn_item(u.posx, u.posy, "fat_tainted", fats, 0, age);
+            add_msg(m_good, _("You harvest some gooey fat!"));
+        } else if (corpse->has_flag(MF_FAT)) {
             m.spawn_item(u.posx, u.posy, "fat", fats, 0, age);
             add_msg(m_good, _("You harvest some fat!"));
         }

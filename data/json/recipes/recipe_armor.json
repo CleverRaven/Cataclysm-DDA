@@ -3194,6 +3194,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "cooking_oil", 1 ],
       [ "lamp_oil", 200 ]
     ]
@@ -3397,6 +3398,7 @@
     [
       [ "wax", 2 ],
       [ "tallow", 8 ],
+      [ "tallow_tainted", 8 ],
       [ "vinegar", 10 ],
       [ "pine_bough", 20 ]
     ],

@@ -898,7 +898,7 @@
     "hp":180,
     "death_function":"NORMAL",
     "description":"This black bear's eyes ooze with black fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR", "BONES", "FAT"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{
@@ -1416,7 +1416,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "BONES", "FAT"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1923,7 +1923,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 20]],
     "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_fungus",
@@ -1979,7 +1979,7 @@
     "death_function":["BOOMER"],
     "special_attacks":[["BOOMER", 20]],
     "description":"A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BILE_BLOOD", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BILE_BLOOD", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer_fungus",
@@ -2007,7 +2007,7 @@
     "death_function":["FUNGUS", "NORMAL"],
     "special_attacks":[["FUNGUS", 200], ["BOOMER", 20]],
     "description":"A rotund and bloated human body with pasty, fungus-ridden flesh.  Its mouth drips with a frothing gray sludge.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS30", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS30", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_gasbag",
@@ -2331,7 +2331,7 @@
         "special_attacks":[["FLESH_GOLEM", 5]],
         "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
         "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS",
-                 "ATTACKMON", "LEATHER", "BONES", "VIS50", "POISON", "BONES"]
+                 "ATTACKMON", "LEATHER", "BONES", "VIS50", "POISON", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_1",
@@ -4179,7 +4179,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["PARROT", 0]],
     "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "ARTHROPOD_BLOOD"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "ARTHROPOD_BLOOD", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
@@ -4205,7 +4205,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["GENE_STING", 20]],
     "description":"An enormous white flatworm that burrows beneath the earth.  Its mouth is lined with pointed teeth, and it is covered in fine hairs which can be shed and fired like darts.",
-    "flags":["SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS", "VIS40"]
+    "flags":["SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS", "VIS40", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_gelatin",
@@ -4258,7 +4258,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["STARE", 12]],
     "description":"An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
-    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD"]
+    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_kreck",
@@ -4361,7 +4361,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FEAR_PARALYZE", 20]],
     "description":"A monster with an obese human body and the head of a cow.  It treads slowly, and milky white drool drips from its mouth.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "VIS30", "BONES"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "VIS30", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
@@ -4571,7 +4571,7 @@
     "hp":120,
     "death_function":["NORMAL"],
     "description":"A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",
@@ -5448,7 +5448,7 @@
     "hp":210,
     "death_function":"NORMAL",
     "description":"This formerly-majestic moose has succumbed to the infection which is killing the world.  Shiny green blowflies swarm the vast suppurated patches of purulent flesh where its skin has sloughed away, and its remaining fur is black and matted with necrotic discharge.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR", "BONES", "FAT"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{
@@ -5562,7 +5562,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 2]],
     "description":"A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "BONES", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
     },
@@ -5647,7 +5647,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["DANCE", 30]],
     "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!",
-    "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "VIS50", "REGENERATES_50", "BONES", "POISON"]
+    "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "VIS50", "REGENERATES_50", "BONES", "POISON", "FAT"]
     }, {
     "type" : "MONSTER",
     "id" : "mon_riotbot",
