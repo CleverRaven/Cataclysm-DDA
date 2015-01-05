@@ -96,7 +96,7 @@ enum m_flag {
     MF_LEATHER,             // May produce leather when butchered
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM_CIV,             // May produce a common cbm or two when butchered
-    MF_BONES,               // May produce bones and sinews when butchered
+    MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones
     MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack

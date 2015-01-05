@@ -11671,17 +11671,20 @@ void game::complete_butcher(int index)
     }
 
     if (bones > 0) {
-        if (corpse->has_flag(MF_BONES)) {
-            m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
-            add_msg(m_good, _("You harvest some usable bones!"));
-        } else if (corpse->mat == "veggy") {
+         if (corpse->mat == "veggy") {
             m.spawn_item(u.posx, u.posy, "plant_sac", bones, 0, age);
             add_msg(m_good, _("You harvest some fluid bladders!"));
+        } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON)) {
+            m.spawn_item(u.posx, u.posy, "bone_tainted", bones / 2, 0, age);
+            add_msg(m_good, _("You harvest some usable bones!"));
+        } else if (corpse->has_flag(MF_BONES)) {
+            m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
+            add_msg(m_good, _("You harvest some usable bones!"));
         }
     }
 
     if (sinews > 0) {
-        if (corpse->has_flag(MF_BONES)) {
+        if (corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON)) {
             m.spawn_item(u.posx, u.posy, "sinew", sinews, 0, age);
             add_msg(m_good, _("You harvest some usable sinews!"));
         } else if (corpse->mat == "veggy") {
