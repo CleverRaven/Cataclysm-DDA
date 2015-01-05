@@ -4461,6 +4461,7 @@ void vehicle::refresh()
     dome_lights_epower = 0;
     aisle_lights_epower = 0;
     alternator_load = 0;
+    camera_epower = 0;
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
