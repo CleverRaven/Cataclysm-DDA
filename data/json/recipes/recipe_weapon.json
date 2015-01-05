@@ -5634,6 +5634,112 @@
 [ "processor", 2 ]
 ]
 ]
+},
+{
+  "type" : "recipe",
+  "result": "heavy_gauss_rifle",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [["mechanics", 10], ["electronics", 9], ["computer", 2]],
+  "difficulty": 11,
+  "time": 720000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":
+    [
+      {"id":"SAW_M","level":1,"amount":1},
+      {"id":"SAW_M_FINE","level":1,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1},
+      {"id":"WRENCH_FINE","level":1,"amount":1},
+      {"id":"HAMMER","level":3,"amount":1}
+    ],
+  "tools":
+    [
+      [
+        ["tongs", -1]
+      ],
+      [
+        ["chisel", -1]
+      ],
+      [
+        ["anvil", -1]
+      ],
+      [
+        ["crucible", -1]
+      ],
+      [
+        ["swage", -1]
+      ],
+      [
+        ["forge", 400],
+        ["char_forge", 80],
+        ["oxy_torch", 80]
+      ],
+      [
+        ["goggles_welding", -1]
+      ],
+      [
+        ["oxy_torch", 100],
+        ["welder", 500],
+        ["welder_crude", 750],
+        ["toolset", 750]
+      ],
+      [
+        ["mold_plastic", -1]
+      ],
+      [
+        ["hotplate", 30],
+        ["toolset", 30],
+        ["fire", -1]
+      ],
+      [
+        ["soldering_iron", 20],
+        ["toolset", 20]
+      ]
+    ],
+  "components":
+    [
+      [
+        ["steel_lump", 6],
+        ["steel_chunk", 24],
+        ["scrap", 72]
+      ],
+      [
+        ["plastic_chunk", 20]
+      ],
+      [
+        ["sheet_metal", 1]
+      ],
+      [
+        ["cable", 240]
+      ],
+      [
+        ["amplifier", 11]
+      ],
+      [
+        ["power_supply", 11]
+      ],
+      [
+        ["e_scrap", 30]
+      ],
+      [
+        ["processor", 1]
+      ],
+      [
+        ["RAM", 1]
+      ],
+      [
+        ["small_lcd_screen", 1]
+      ],
+      [
+        ["battery_ups", 1]
+      ],
+      [
+        [ "small_storage_battery", 2],
+        [ "UPS_off", 2]
+      ]
+    ]
 }
 
 
