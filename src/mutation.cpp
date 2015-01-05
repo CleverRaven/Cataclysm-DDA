@@ -891,6 +891,12 @@ void player::remove_mutation(std::string mut)
                 break;
             }
         }
+        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs2.size(); i++ ) {
+            if( mutation_data[traits_iter.first].prereqs2[i] == traits_iter.first ) {
+                dependant.push_back( traits_iter.first );
+                break;
+            }
+        }
     }
 
     if (!dependant.empty()) {
