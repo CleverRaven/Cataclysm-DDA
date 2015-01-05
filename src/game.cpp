@@ -5661,8 +5661,12 @@ void game::draw_critter(const Creature &critter, const point &center)
         mvwputch( w_terrain, my, mx, c_red, '?' );
     }
 }
-
 void game::draw_ter(int posx, int posy)
+{
+    draw_ter(posx, posy, false);
+}
+
+void game::draw_ter(int posx, int posy, bool looking)
 {
     // posx/posy default to -999
     if (posx == -999) {
@@ -5717,7 +5721,7 @@ void game::draw_ter(int posx, int posy)
                  POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle) {
+    if (u.controlling_vehicle && !looking) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5737,6 +5741,7 @@ void game::draw_ter(int posx, int posy)
 
 void game::draw_veh_dir_indicator(void)
 {
+    // don't draw indicator if doing look_around()
     if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
         vehicle *veh = m.veh_at(u.posx, u.posy);
         if (!veh) {
@@ -9643,7 +9648,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     ly = MAPSIZE * SEEY;
                 }
 
-                draw_ter(lx, ly);
+                draw_ter(lx, ly, true);
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
