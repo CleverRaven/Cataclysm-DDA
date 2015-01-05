@@ -354,6 +354,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has a pda */
         bool has_pda();
 
+        using Creature::sees;
         /**
          * Check if this creature can see the square at (x,y).
          * Includes checks for line-of-sight and light.
