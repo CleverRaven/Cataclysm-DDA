@@ -3524,14 +3524,14 @@ void player::print_recoil( WINDOW *w ) const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
-        if (adj_recoil == 150) {
+        if( adj_recoil > 150 ) {
             // 150 is the minimum when not actively aiming
             nc_color c = c_ltgray;
-            if (adj_recoil >= 200) {
+            if( adj_recoil >= 690 ) {
                 c = c_red;
-            } else if (adj_recoil >= 175) {
+            } else if( adj_recoil >= 450 ) {
                 c = c_ltred;
-            } else if (adj_recoil >= 155) {
+            } else if( adj_recoil >= 210 ) {
                 c = c_yellow;
             }
             wprintz(w, c, _("Recoil"));
