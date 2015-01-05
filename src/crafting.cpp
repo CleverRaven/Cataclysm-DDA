@@ -1541,11 +1541,10 @@ void set_item_food(item &newit)
 {
     int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
     newit.bday = int(newit.bday) + 3600 - bday_tmp;
-    newit.active = true;
-
     if (newit.has_flag("EATEN_HOT")) { // hot foods generated
         newit.item_tags.insert("HOT");
         newit.item_counter = 600;
+        newit.active = true;
     }
 }
 
