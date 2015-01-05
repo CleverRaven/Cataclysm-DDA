@@ -1951,6 +1951,10 @@ void vehicle::part_removal_cleanup() {
     bool changed = false;
     for (std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */) {
         if ((*it).removed) {
+            auto items = get_items( std::distance( parts.begin(), it ) );
+            while( !items.empty() ) {
+                items.erase( items.begin() );
+            }
             it = parts.erase(it);
             changed = true;
         }
