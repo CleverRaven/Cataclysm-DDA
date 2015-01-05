@@ -13521,11 +13521,11 @@ bool player::sees(int x, int y) const
     return sees(x, y, dummy);
 }
 
-bool player::sees(int x, int y, int &t) const
+bool player::sees( const int x, const int y, int &bresenham_slope ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = Creature::sees( x, y, t );
+    bool can_see = Creature::sees( x, y, bresenham_slope );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13545,7 +13545,7 @@ bool player::sees(const Creature &critter) const
     return sees(critter, dummy);
 }
 
-bool player::sees(const Creature &critter, int &t) const
+bool player::sees( const Creature &critter, int &bresenham_slope ) const
 {
     if( critter.is_hallucination() ) {
         // hallucinations are always visible for the player, but never for anyone else.
@@ -13564,7 +13564,7 @@ bool player::sees(const Creature &critter, int &t) const
         //Monster is in the water and submerged, and we're out of/above the water
         return false;
     }
-    return sees(cx, cy, t);
+    return sees(cx, cy, bresenham_slope);
 }
 
 bool player::can_pickup(bool print_msg) const

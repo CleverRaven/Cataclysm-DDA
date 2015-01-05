@@ -167,7 +167,7 @@ bool Creature::digging() const
     return false;
 }
 
-bool Creature::sees( const Creature &critter, int &t ) const
+bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 {
     int cx = critter.xpos();
     int cy = critter.ypos();
@@ -177,10 +177,10 @@ bool Creature::sees( const Creature &critter, int &t ) const
         return false;
     }
 
-    return sees( cx, cy, t );
+    return sees( cx, cy, bresenham_slope );
 }
 
-bool Creature::sees( int tx, int ty, int &t ) const
+bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
 {
     const int range_min = sight_range( g->light_level() );
     const int range_max = sight_range( DAYLIGHT_LEVEL );
@@ -191,9 +191,9 @@ bool Creature::sees( int tx, int ty, int &t ) const
         if( is_player() ) {
             return g->m.pl_sees( xpos(), ypos(), tx, ty, wanted_range);
         } else if( g->m.light_at( tx, ty ) >= LL_LOW ) {
-            return g->m.sees( xpos(), ypos(), tx, ty, wanted_range, t );
+            return g->m.sees( xpos(), ypos(), tx, ty, wanted_range, bresenham_slope );
         } else {
-            return g->m.sees( xpos(), ypos(), tx, ty, range_min, t );
+            return g->m.sees( xpos(), ypos(), tx, ty, range_min, bresenham_slope );
         }
     } else {
         return false;
