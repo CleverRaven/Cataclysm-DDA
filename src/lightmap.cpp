@@ -282,7 +282,7 @@ void map::generate_lightmap()
 
 void map::add_light_source(int x, int y, float luminance )
 {
-    light_source_buffer[x][y] = luminance;
+    light_source_buffer[x][y] = std::max(luminance, light_source_buffer[x][y]);
 }
 
 lit_level map::light_at(int dx, int dy)
