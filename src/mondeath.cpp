@@ -84,7 +84,7 @@ void mdeath::boomer(monster *z)
             }
         }
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1) {
+    if (rl_dist( z->pos(), g->u.pos() ) == 1) {
         g->u.add_env_effect("boomered", bp_eyes, 2, 24);
     }
 }
@@ -106,7 +106,7 @@ void mdeath::kill_vines(monster *z)
     int curX, curY;
     for (auto &i : vines) {
         monster *vine = &(g->zombie(i));
-        int dist = rl_dist(vine->posx(), vine->posy(), z->posx(), z->posy());
+        int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
             curX = g->zombie(j).posx();
@@ -299,7 +299,7 @@ void mdeath::guilt(monster *z)
     if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
         return;
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {
+    if (rl_dist( z->pos(), g->u.pos() ) > MAX_GUILT_DISTANCE) {
         // Too far away, we can deal with it.
         return;
     }

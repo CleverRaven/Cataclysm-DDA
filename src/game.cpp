@@ -3929,7 +3929,7 @@ bool game::handle_action()
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
                     monster &critter = critter_tracker.find( elem );
-                    critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
+                    critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
             }
@@ -6214,7 +6214,7 @@ std::vector<monster*> game::get_fishable(int distance)
         monster &critter = critter_tracker.find(i);
 
         if (critter.has_flag(MF_FISHABLE)) {
-            int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+            int mondist = rl_dist( u.pos(), critter.pos() );
             if (mondist <= distance) {
             unique_fish.push_back (&critter);
             }
@@ -6276,7 +6276,7 @@ int game::mon_info(WINDOW *w)
                     dangerous[index] = true;
                 }
 
-                int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+                int mondist = rl_dist( u.pos(), critter.pos() );
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
                     if (critter.ignoring > 0) {
@@ -6298,9 +6298,8 @@ int game::mon_info(WINDOW *w)
                 unique_mons[index].push_back(critter.type->id);
             }
         } else if( p != nullptr ) {
-            const auto npcp = p->pos();
             if (p->attitude == NPCATT_KILL)
-                if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist) {
+                if (rl_dist( u.pos(), p->pos() ) <= iProxyDist) {
                     newseen++;
                 }
 
@@ -6567,7 +6566,7 @@ void game::monmove()
 
         if (!critter->is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
-                rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
+                rl_dist( u.pos(), critter->pos() ) <= 5) {
                 u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
@@ -11140,8 +11139,7 @@ bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
     if( aa != ab ) {
         return aa < ab;
     }
-    return rl_dist( a->xpos(), a->ypos(), u.xpos(), u.ypos() ) <
-           rl_dist( b->xpos(), b->ypos(), u.xpos(), u.ypos() );
+    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
 }
 
 std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant, target_mode mode,
@@ -12375,7 +12373,7 @@ void game::chat()
 
     for( auto &elem : active_npc ) {
         if( u_see( ( elem )->posx, ( elem )->posy ) &&
-            rl_dist( u.posx, u.posy, ( elem )->posx, ( elem )->posy ) <= 24 ) {
+            rl_dist( u.pos(), elem->pos() ) <= 24 ) {
             available.push_back( elem );
         }
     }
@@ -12848,8 +12846,8 @@ bool game::plmove(int dx, int dy)
 
                             if( one_in(2) ) {
                                 grabbed_vehicle->handle_trap(
-                                    gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
+                                    gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
+                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh, p );
                             }
                         }
                         m.displace_vehicle(gx, gy, dxVeh, dyVeh);
@@ -13029,7 +13027,7 @@ bool game::plmove(int dx, int dy)
         }
         if (veh1) {
             vehicle_part *part = &(veh1->parts[vpart1]);
-            std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
+            std::string label = veh1->get_label(part->mount.x, part->mount.y);
             if (label != "") {
                 add_msg(m_info, _("Label here: %s"), label.c_str());
             }

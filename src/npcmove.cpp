@@ -399,8 +399,8 @@ void npc::execute_action(npc_action action, int target)
                     // TODO: be angry at player, switch to wait or leave - for now pause
                     move_pause();
                 } else {
-                    int px = veh->global_x() + veh->parts[p2].precalc_dx[0];
-                    int py = veh->global_y() + veh->parts[p2].precalc_dy[0];
+                    int px = veh->global_x() + veh->parts[p2].precalc[0].x;
+                    int py = veh->global_y() + veh->parts[p2].precalc[0].y;
                     update_path(px, py);
 
                     // TODO: replace extra hop distance with finding the correct door

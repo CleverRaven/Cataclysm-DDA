@@ -185,8 +185,7 @@ point map::veh_part_coordinates(const int x, const int y)
         return point(0,0);
     }
 
-    auto part = veh->parts[part_num];
-    return point(part.mount_dx, part.mount_dy);
+    return veh->parts[part_num].mount;
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -227,16 +226,14 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
     }
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
-    const int gx = veh->global_x();
-    const int gy = veh->global_y();
+    const point gpos = veh->global_pos();
     int partid = 0;
     for( std::vector<vehicle_part>::iterator it = parts.begin(),
          end = parts.end(); it != end; ++it, ++partid ) {
         if( it->removed ) {
             continue;
         }
-        const point p( gx + it->precalc_dx[0],
-                       gy + it->precalc_dy[0] );
+        const point p = gpos + it->precalc[0];
         veh_cached_parts.insert( std::make_pair( p,
                                  std::make_pair( veh, partid ) ) );
         if( inbounds( p.x, p.y ) ) {
@@ -442,8 +439,8 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         const int p = psg_parts[i];
         if (!psg) {
             debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
-                         veh->global_x() + veh->parts[p].precalc_dx[0],
-                         veh->global_y() + veh->parts[p].precalc_dy[0],
+                         veh->global_x() + veh->parts[p].precalc[0].x,
+                         veh->global_y() + veh->parts[p].precalc[0].y,
                                   g->u.posx, g->u.posy);
             veh->parts[p].remove_flag(vehicle_part::passenger_flag);
             continue;
@@ -451,10 +448,10 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         // add recoil
         psg->driving_recoil = rec;
         // displace passenger taking in account vehicle movement (dx, dy)
-        // and turning: precalc_dx/dy [0] contains previous frame direction,
-        // and precalc_dx/dy[1] should contain next direction
-        psg->posx += dx + veh->parts[p].precalc_dx[1] - veh->parts[p].precalc_dx[0];
-        psg->posy += dy + veh->parts[p].precalc_dy[1] - veh->parts[p].precalc_dy[0];
+        // and turning: precalc[0] contains previous frame direction,
+        // and precalc[1] should contain next direction
+        psg->posx += dx + veh->parts[p].precalc[1].x - veh->parts[p].precalc[0].x;
+        psg->posy += dy + veh->parts[p].precalc[1].y - veh->parts[p].precalc[0].y;
         if (psg == &g->u) { // if passenger is you, we need to update the map
             need_update = true;
             upd_x = psg->posx;
@@ -464,8 +461,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
 
     veh->shed_loose_parts();
     for (auto &p : veh->parts) {
-        p.precalc_dx[0] = p.precalc_dx[1];
-        p.precalc_dy[0] = p.precalc_dy[1];
+        p.precalc[0] = p.precalc[1];
     }
 
     veh->posx = dst_offset_x;
@@ -596,8 +592,8 @@ bool map::vehproceed()
         int num_wheels = wheel_indices.size(), submerged_wheels = 0;
         for (int w = 0; w < num_wheels; w++) {
             const int p = wheel_indices[w];
-            const int px = x + veh->parts[p].precalc_dx[0];
-            const int py = y + veh->parts[p].precalc_dy[0];
+            const int px = x + veh->parts[p].precalc[0].x;
+            const int py = y + veh->parts[p].precalc[0].y;
             // deep water
             if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
                 submerged_wheels++;
@@ -618,8 +614,8 @@ bool map::vehproceed()
         int num = float_indices.size(), moored = 0;
         for (int w = 0; w < num; w++) {
             const int p = float_indices[w];
-            const int px = x + veh->parts[p].precalc_dx[0];
-            const int py = y + veh->parts[p].precalc_dy[0];
+            const int px = x + veh->parts[p].precalc[0].x;
+            const int py = y + veh->parts[p].precalc[0].y;
 
             if (!has_flag("SWIMMABLE", px, py)) {
                 moored++;
@@ -655,8 +651,8 @@ bool map::vehproceed()
     if (!veh->valid_wheel_config()) {
         veh->velocity += veh->velocity < 0 ? 2000 : -2000;
         for (auto &p : veh->parts) {
-            const int px = x + p.precalc_dx[0];
-            const int py = y + p.precalc_dy[0];
+            const int px = x + p.precalc[0].x;
+            const int py = y + p.precalc[0].y;
             const ter_id &pter = ter(px, py);
             if (pter == t_dirt || pter == t_grass) {
                 ter_set(px, py, t_dirtmound);
@@ -796,12 +792,12 @@ bool map::vehproceed()
                 if (parm2 < 0) {
                     parm2 = tmp_c.target_part;
                 }
-                epicenter1.x += veh->parts[parm1].mount_dx;
-                epicenter1.y += veh->parts[parm1].mount_dy;
+                epicenter1.x += veh->parts[parm1].mount.x;
+                epicenter1.y += veh->parts[parm1].mount.y;
                 veh->damage(parm1, dmg1_part, 1);
 
-                epicenter2.x += veh2->parts[parm2].mount_dx;
-                epicenter2.y += veh2->parts[parm2].mount_dy;
+                epicenter2.x += veh2->parts[parm2].mount.x;
+                epicenter2.y += veh2->parts[parm2].mount.y;
                 veh2->damage(parm2, dmg2_part, 1);
             }
         }
@@ -839,8 +835,7 @@ bool map::vehproceed()
 
     for( auto &veh_misc_coll : veh_misc_colls ) {
 
-        point collision_point( veh->parts[veh_misc_coll.part].mount_dx,
-                               veh->parts[veh_misc_coll.part].mount_dy );
+        const point collision_point = veh->parts[veh_misc_coll.part].mount;
         int coll_dmg = veh_misc_coll.imp;
         //Shock damage
         veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
@@ -885,8 +880,8 @@ bool map::vehproceed()
                     add_msg(m_bad, _("%s is hurled from the %s's seat by the power of the impact!"),
                                    psg->name.c_str(), veh->name.c_str());
                 }
-                unboard_vehicle(x + veh->parts[ps].precalc_dx[0],
-                                     y + veh->parts[ps].precalc_dy[0]);
+                unboard_vehicle(x + veh->parts[ps].precalc[0].x,
+                                     y + veh->parts[ps].precalc[0].y);
                 g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
                                             vel1 - psg->str_cur));
@@ -922,8 +917,8 @@ bool map::vehproceed()
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
-            const int wheel_x = x + veh->parts[w].precalc_dx[0];
-            const int wheel_y = y + veh->parts[w].precalc_dy[0];
+            const int wheel_x = x + veh->parts[w].precalc[0].x;
+            const int wheel_y = y + veh->parts[w].precalc[0].y;
             if (one_in(2)) {
                 if( displace_water( wheel_x, wheel_y) && pl_ctrl ) {
                     add_msg(m_warning, _("You hear a splash!"));
@@ -1631,7 +1626,7 @@ bool map::moppable_items_at(const int x, const int y)
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount.x, veh->parts[vpart].mount.y);
         for(auto &i : parts_here) {
             if(veh->parts[i].blood > 0) {
                 return true;
@@ -1712,8 +1707,8 @@ void map::mop_spills(const int x, const int y) {
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount_dx,
-                                                              veh->parts[vpart].mount_dy );
+        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
+                                                              veh->parts[vpart].mount.y );
         for( auto &elem : parts_here ) {
             veh->parts[elem].blood = 0;
         }
@@ -3184,11 +3179,9 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
         vehicle_stack items = cur_veh->get_items( 0 );
         for( auto part_index_candidate : cargo_parts ) {
             vehicle_part &vp = cur_veh->parts[part_index_candidate];
-            if( active_item.location.x == vp.mount_dx &&
-                active_item.location.y == vp.mount_dy ) {
+            if( active_item.location == vp.mount ) {
                 part_index = part_index_candidate;
-                item_location = point( cur_veh->global_x() + vp.precalc_dx[0],
-                                       cur_veh->global_y() + vp.precalc_dy[0] );
+                item_location = cur_veh->global_pos() + vp.precalc[0];
                 items = cur_veh->get_items( part_index );
                 break;
             }
@@ -4454,7 +4447,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
         while (cur.x != Fx || cur.y != Fy) {
             //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
             tmp.push_back(cur);
-            if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y)>1){
+            if (rl_dist( cur, parent[cur.x][cur.y] )>1){
                 debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
                             parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
                 return ret;
@@ -5252,8 +5245,8 @@ void map::build_map_cache()
     VehicleList vehs = get_vehicles();
     for(auto &v : vehs) {
         for (size_t part = 0; part < v.v->parts.size(); part++) {
-            int px = v.x + v.v->parts[part].precalc_dx[0];
-            int py = v.y + v.v->parts[part].precalc_dy[0];
+            int px = v.x + v.v->parts[part].precalc[0].x;
+            int py = v.y + v.v->parts[part].precalc[0].y;
             if(INBOUNDS(px, py)) {
                 if (v.v->is_inside(part)) {
                     outside_cache[px][py] = false;

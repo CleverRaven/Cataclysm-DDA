@@ -8516,7 +8516,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
                 if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
-                    rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() ) <= 10 ) {
+                    rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     point seen_loc;
@@ -9227,7 +9227,7 @@ int iuse::camera(player *p, item *it, bool, point)
             return 0;
         }
 
-        std::vector <point> trajectory = line_to(p->posx, p->posy, aim_point.x, aim_point.y, 0);
+        std::vector <point> trajectory = line_to( p->pos(), aim_point, 0 );
         trajectory.push_back(aim_point);
 
         p->moves -= 50;
@@ -9241,7 +9241,7 @@ int iuse::camera(player *p, item *it, bool, point)
             int npcID = g->npc_at(tx, ty);
 
             if (zid != -1 || npcID != -1) {
-                int dist = rl_dist(p->posx, p->posy, tx, ty);
+                int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
                 int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
@@ -9804,7 +9804,7 @@ vehicle *pickveh( point center, bool advanced )
 
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( rl_dist( center.x, center.y, v->global_x(), v->global_y() ) < 40 &&
+        if( rl_dist( center, v->global_pos() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
             ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
             ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
@@ -9814,7 +9814,7 @@ vehicle *pickveh( point center, bool advanced )
     std::vector< point > locations;
     for( int i = 0; i < (int)vehs.size(); i++ ) {
         auto veh = vehs[i];
-        locations.push_back( point( veh->global_x(), veh->global_y() ) );
+        locations.push_back( veh->global_pos() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 

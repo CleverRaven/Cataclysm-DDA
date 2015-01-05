@@ -482,7 +482,7 @@ bool monster::is_fleeing(player &u) const
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
+         (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -655,11 +655,11 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 break;
 
             case MTRIG_PLAYER_CLOSE:
-                if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5) {
+                if (rl_dist( pos(), g->u.pos() ) <= 5) {
                     ret += 5;
                 }
                 for (auto &i : g->active_npc) {
-                    if (rl_dist(_posx, _posy, i->posx, i->posy) <= 5) {
+                    if (rl_dist( pos(), i->pos() ) <= 5) {
                         ret += 5;
                     }
                 }

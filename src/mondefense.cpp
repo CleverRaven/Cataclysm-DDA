@@ -12,7 +12,7 @@ void mdefense::zapback(monster *m, Creature *source, const projectile *proj)
 {
     player *foe = dynamic_cast< player* >( source );
     monster *othermon = dynamic_cast< monster* >( source );
-    if( rl_dist( m->posx(), m->posy(), source->xpos(), source->ypos() ) > 1 ) {
+    if( rl_dist( m->pos(), source->pos() ) > 1 ) {
         return; // Out of range
     }
     if( proj != nullptr || rng(0, 100) > m->def_chance ) {

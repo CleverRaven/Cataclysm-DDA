@@ -3464,7 +3464,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // Dodge is intentionally not accounted for.
     const double aim_level =
         recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( xpos(), ypos(), target->xpos(), target->ypos() );
+    const double range = rl_dist( pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under the target threshold,
@@ -13501,7 +13501,7 @@ bool player::sees(const Creature *critter, int &t) const
     }
     const int cx = critter->xpos();
     const int cy = critter->ypos();
-    int dist = rl_dist(posx, posy, cx, cy);
+    int dist = rl_dist( pos(), critter->pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13632,7 +13632,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( posx, posy, critter.xpos(), critter.ypos() ) <= range;
+    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
