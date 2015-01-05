@@ -336,7 +336,7 @@
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ],
-    [ [ "bone", 10 ], [ "bone_tainted", 20 ] ]
+    [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ]
     ]
 },{
   "type" : "recipe",
@@ -390,6 +390,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
       [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
@@ -425,6 +426,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
       [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
@@ -725,6 +727,7 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
       [ "bone_tainted", 10 ],
       [ "rock", 1],
       [ "ceramic_shard", 1 ],

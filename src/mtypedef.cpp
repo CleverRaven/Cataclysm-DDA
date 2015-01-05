@@ -31,6 +31,7 @@ mtype::mtype ()
     sp_defense = NULL;
     luminance = 0;
     flags.insert(MF_HUMAN);
+    flags.insert(MF_BONES);
 }
 
 std::string mtype::nname(unsigned int quantity) const

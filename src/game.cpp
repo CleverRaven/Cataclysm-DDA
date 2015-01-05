@@ -11677,6 +11677,9 @@ void game::complete_butcher(int index)
         } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON)) {
             m.spawn_item(u.posx, u.posy, "bone_tainted", bones / 2, 0, age);
             add_msg(m_good, _("You harvest some salvageable bones!"));
+        } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_HUMAN)) {
+            m.spawn_item(u.posx, u.posy, "bone_human", bones, 0, age);
+            add_msg(m_good, _("You harvest some salvageable bones!"));
         } else if (corpse->has_flag(MF_BONES)) {
             m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
             add_msg(m_good, _("You harvest some usable bones!"));
