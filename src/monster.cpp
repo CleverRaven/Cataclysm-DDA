@@ -382,7 +382,7 @@ int monster::vision_range(const int x, const int y) const
     return range;
 }
 
-bool monster::sees(int &bresenham_slope, Creature *target) const
+bool monster::sees(Creature *target, int &bresenham_slope) const
 {
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {

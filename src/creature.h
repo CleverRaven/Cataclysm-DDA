@@ -282,6 +282,10 @@ class Creature
         {
             return false;
         };
+        virtual bool uncanny_dodge()
+        {
+            return false;
+        };
 
         virtual int get_speed_base() const;
         virtual int get_dodge_base() const;
