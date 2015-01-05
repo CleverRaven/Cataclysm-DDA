@@ -3316,7 +3316,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 36000,
+  "time": 120000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3324,7 +3324,7 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      ["rebar", 1]
+      ["rebar", 2]
     ]
   ]
 },{
@@ -3334,7 +3334,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 30000,
+  "time": 100000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3353,14 +3353,15 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
     [
      [
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
+     [ "steel_lump", 4 ],
+     [ "steel_chunk", 16 ],
+     [ "scrap", 48 ]
      ]
     ]
 },{
