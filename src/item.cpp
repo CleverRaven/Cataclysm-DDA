@@ -3726,10 +3726,35 @@ int item::getlight_emit(bool calculate_dimming) const {
 }
 
 // How much more of this liquid can be put in this container
-int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const
+int item::get_remaining_capacity_for_liquid(const item &liquid) const
 {
-    error = L_ERR_NONE;
+    if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
+        return 0;
+    }
 
+    if (liquid.is_ammo() && (is_tool() || is_gun())) {
+        // for filling up chainsaws, jackhammers and flamethrowers
+        int max = 0;
+        if (is_tool()) {
+            it_tool *tool = dynamic_cast<it_tool *>(type);
+            max = tool->max_charges;
+        } else {
+            max = type->gun->clip;
+        }
+        return max - charges;
+    }
+
+    const auto total_capacity = liquid.liquid_charges( type->container->contains );
+
+    int remaining_capacity = total_capacity;
+    if (!contents.empty()) {
+        remaining_capacity -= contents[0].charges;
+    }
+    return remaining_capacity;
+}
+
+LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
+{
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
         ammotype ammo = "NULL";
@@ -3747,55 +3772,41 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
         ammotype liquid_type = liquid.ammo_type();
 
         if (ammo != liquid_type) {
-            error = L_ERR_NOT_CONTAINER;
-            return 0;
+            return L_ERR_NOT_CONTAINER;
         }
 
         if (max <= 0 || charges >= max) {
-            error = L_ERR_FULL;
-            return 0;
+            return L_ERR_FULL;
         }
 
         if (charges > 0 && has_curammo() && get_curammo_id() != liquid.type->id) {
-            error = L_ERR_NO_MIX;
-            return 0;
+            return L_ERR_NO_MIX;
         }
-        return max - charges;
     }
 
     if (!is_container()) {
-        error = L_ERR_NOT_CONTAINER;
-        return 0;
+        return L_ERR_NOT_CONTAINER;
     }
 
     if (contents.empty()) {
-        if( !type->container->watertight ) {
-            error = L_ERR_NOT_WATERTIGHT;
-            return 0;
-        } else if( !type->container->seals ) {
-            error = L_ERR_NOT_SEALED;
-            return 0;
+        if ( !type->container->watertight ) {
+            return L_ERR_NOT_WATERTIGHT;
+        } else if( !type->container->seals) {
+            return L_ERR_NOT_SEALED;
         }
     } else { // Not empty
-        if (contents[0].type->id != liquid.type->id) {
-            error = L_ERR_NO_MIX;
-            return 0;
+        if ( contents[0].type->id != liquid.type->id ) {
+            return L_ERR_NO_MIX;
         }
     }
 
-    const auto total_capacity = liquid.liquid_charges( type->container->contains );
-
-    int remaining_capacity = total_capacity;
     if (!contents.empty()) {
-        remaining_capacity -= contents[0].charges;
+        const auto total_capacity = liquid.liquid_charges( type->container->contains);
+        if( (total_capacity - contents[0].charges) <= 0) {
+            return L_ERR_FULL;
+        }
     }
-
-    if (remaining_capacity <= 0) {
-        error = L_ERR_FULL;
-        return 0;
-    }
-
-    return remaining_capacity;
+    return L_ERR_NONE;
 }
 
 // Remaining capacity for currently stored liquid in container - do not call for empty container
@@ -3854,31 +3865,31 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
 
 bool item::fill_with( item &liquid, std::string &err )
 {
-    LIQUID_FILL_ERROR error;
-    int remaining_capacity = get_remaining_capacity_for_liquid( liquid, error );
-    if( remaining_capacity <= 0 ) {
-        switch ( error ) {
+    LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid );
+    switch ( lferr ) {
+        case L_ERR_NONE : 
+            break;
         case L_ERR_NO_MIX:
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
-            break;
+            return false;
         case L_ERR_NOT_CONTAINER:
             err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
-            break;
+            return false;
         case L_ERR_NOT_WATERTIGHT:
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
-            break;
+            return false;
         case L_ERR_NOT_SEALED:
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());
-            break;
+            return false;
         case L_ERR_FULL:
             err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
-            break;
+            return false;
         default:
-            break;
-        }
-        return false;
+            err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
+            return false;
     }
 
+    int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
     int amount = std::min( (long)remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {

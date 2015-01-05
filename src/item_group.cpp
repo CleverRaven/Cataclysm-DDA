@@ -226,8 +226,7 @@ void Item_modifier::modify(item &new_item) const
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {
             if (new_item.made_of(LIQUID)) {
-                LIQUID_FILL_ERROR err;
-                int rc = cont.get_remaining_capacity_for_liquid(new_item, err);
+                int rc = cont.get_remaining_capacity_for_liquid(new_item);
                 if(rc > 0 && (new_item.charges > rc || ch == -1)) {
                     // make sure the container is not over-full.
                     // fill up the container (if using default charges)
