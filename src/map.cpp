@@ -3168,7 +3168,7 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
     auto active_items = cur_veh->active_items.get();
     for( auto &active_item : active_items ) {
-        if( !cur_veh->active_items.has( active_item.item_iterator, active_item.location ) ) {
+        if( !cur_veh->active_items.has( active_item ) ) {
             continue;
         }
 
