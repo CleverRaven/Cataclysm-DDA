@@ -375,27 +375,6 @@ int monster::sight_range( const int light_level ) const
     return std::max( range, 1 );
 }
 
-bool monster::sees( const int cx, const int cy, int &bresenham_slope ) const
-{
-    int range;
-    if( g->m.light_at( cx, cy ) >= LL_LOW ) {
-        range = sight_range( DAYLIGHT_LEVEL );
-    } else {
-        range = sight_range( g->light_level() );
-    }
-    return range >= 1 && g->m.sees( posx(), posy(), cx, cy, range, bresenham_slope );
-}
-
-bool monster::sees(const Creature &target, int &bresenham_slope) const
-{
-    auto foe = dynamic_cast< const player* >( &target );
-    if( foe != nullptr ) {
-        return sees( foe->posx, foe->posy, bresenham_slope ) &&
-               !foe->is_invisible();
-    }
-    return sees( target.xpos(), target.ypos(), bresenham_slope );
-}
-
 bool monster::made_of(std::string m) const
 {
     return type->mat == m;

@@ -85,8 +85,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         int sight_range( int light_level ) const override;
         using Creature::sees;
-        bool sees(const Creature &target, int &bresenham_slope) const; // As above, but for any target
-        bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 

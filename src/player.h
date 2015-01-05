@@ -355,22 +355,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_pda();
 
         using Creature::sees;
-        /**
-         * Check if this creature can see the square at (x,y).
-         * Includes checks for line-of-sight and light.
-         * @param t The t output of map::sees.
-         */
-        bool sees( int x, int y, int &bresenham_slope ) const;
-        /**
-         * Check if this creature can see the critter.
-         * Includes checks for simple critter visibility
-         * (digging/submerged) and if this can see the square
-         * the creature is on.
-         * If this is not the player, it ignores critters that are
-         * hallucinations.
-         * @param t The t output of map::sees.
-         */
-        bool sees( const Creature &critter, int &bresenham_slope ) const;
+        // see Creature::sees
+        bool sees( point c, int &bresenham_slope ) const override;
+        // see Creature::sees
+        bool sees( const Creature &critter, int &bresenham_slope ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.

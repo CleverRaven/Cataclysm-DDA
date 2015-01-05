@@ -13515,11 +13515,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const int x, const int y, int &bresenham_slope ) const
+bool player::sees( const point t, int &bresenham_slope ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = Creature::sees( x, y, bresenham_slope );
+    const int wanted_range = rl_dist( pos(), t );
+    bool can_see = Creature::sees( t, bresenham_slope );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13535,24 +13535,19 @@ bool player::sees( const int x, const int y, int &bresenham_slope ) const
 
 bool player::sees( const Creature &critter, int &bresenham_slope ) const
 {
-    if( critter.is_hallucination() ) {
-        // hallucinations are always visible for the player, but never for anyone else.
-        return is_player();
-    }
-    const int cx = critter.xpos();
-    const int cy = critter.ypos();
-    int dist = rl_dist( pos(), critter.pos() );
+    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
+    const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
-    if (dist > 1 && critter.digging() && !has_active_bionic("bio_ground_sonar")) {
-        return false; // Can't see digging monsters until we're right next to them
+    if( critter.digging() && has_active_bionic( "bio_ground_sonar" ) ) {
+        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
+        // walls don't block sonar which is transmitted in the ground, not the air.
+        // TODO: this might need checks whether the player is in the air, or otherwise not connected
+        // to the ground. It also might need a range check.
+        return true;
     }
-    if (g->m.is_divable(cx, cy) && critter.is_underwater() && !is_underwater()) {
-        //Monster is in the water and submerged, and we're out of/above the water
-        return false;
-    }
-    return sees(cx, cy, bresenham_slope);
+    return Creature::sees( critter, bresenham_slope );
 }
 
 bool player::can_pickup(bool print_msg) const

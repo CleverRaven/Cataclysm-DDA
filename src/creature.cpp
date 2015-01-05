@@ -175,6 +175,16 @@ bool Creature::sees( const Creature &critter ) const
 
 bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 {
+    if( critter.is_hallucination() ) {
+        // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
+        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
+        // the player will see them always.
+        return is_player();
+    }
+    const auto p = dynamic_cast< const player* >( &critter );
+    if( p != nullptr && p->is_invisible() ) {
+        return false;
+    }
     int cx = critter.xpos();
     int cy = critter.ypos();
     const int wanted_range = rl_dist( pos(), critter.pos() );
