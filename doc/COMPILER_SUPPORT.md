@@ -24,6 +24,6 @@ MinGW version 4.9.0 is currently building the project, but has a few rough edges
 This is the preferred compiler for building on Windows, and is the compiler we use to cross-compile for Windows experimental and release builds.
 MinGW-w64 is currently building the project.  Input on the earliest version that will successfully compile the project is welcome.
 
-## Visual Studio (BROKEN!)
+## Visual Studio
 
-The project is currently unable to compile under any version of Visual Studio.  When we made the switch to c++11, Visual Studio was not able to compile the code, and no one on the project has been willing to put in the time necessary to sort out the issues.  We welcome non-invasive code changes that restore compilation on VS (probably limited to VS 2013), but be aware that VS 2013 does not support various c++11 features we are likely to use in the future.  Foremost among them is UTF-8 literals and constexpr.
+MSVC 14 can build Cataclysm and we have project files for it in msvc140/.  We strongly suspect that MSVC 13 and earlier are incapable of building Cataclysm and we've removed their project files.  If we can support MSVC 13, feel free to restore the project files.

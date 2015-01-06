@@ -32,7 +32,7 @@ advanced_inventory::advanced_inventory()
     , dest( right )
     , filter_edit( false )
     // panes don't need initialization, they are recalculated immediately
-    , squares { {
+    , squares ({ {
         { AIM_INVENTORY, 2, 25, 0, 0, _( "Inventory" ), _( "IN" ) },
         { AIM_SOUTHWEST, 3, 30, -1, 1, _( "South West" ), _( "SW" ) },
         { AIM_SOUTH, 3, 33, 0, 1, _( "South" ), _( "S" ) },
@@ -47,7 +47,7 @@ advanced_inventory::advanced_inventory()
         { AIM_DRAGED, 1, 25, 0, 0, _( "Grabbed Vehicle" ), _( "GR" ) },
         { AIM_CONTAINER, 1, 22, 0, 0, _( "Container" ), _( "CN" ) }
     }
-}
+})
 , head( nullptr )
 , left_window( nullptr )
 , right_window( nullptr )
@@ -887,7 +887,7 @@ void advanced_inventory::redraw_pane( side p )
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
     if( square.veh != nullptr ) {
         const auto &part = square.veh->parts[square.vstor];
-        const auto label = square.veh->get_label( part.mount_dx, part.mount_dy );
+        const auto label = square.veh->get_label( part.mount.x, part.mount.y );
         if( !label.empty() ) {
             mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( label, width ).c_str() );
         }

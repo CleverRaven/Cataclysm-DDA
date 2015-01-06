@@ -31,6 +31,7 @@ mtype::mtype ()
     sp_defense = NULL;
     luminance = 0;
     flags.insert(MF_HUMAN);
+    flags.insert(MF_BONES);
 }
 
 std::string mtype::nname(unsigned int quantity) const
@@ -161,7 +162,7 @@ itype_id mtype::get_meat_itype() const
                 return "meat";
             }
         } else if( mat == "bone" ) {
-            return "bone";
+            return "bone_tainted";
         } else if( mat == "iflesh" ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";

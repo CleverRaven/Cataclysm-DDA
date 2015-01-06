@@ -524,7 +524,7 @@ void editmap::update_view(bool update_info)
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist(g->u.posx, g->u.posy, target.x, target.y), g->u_see(target.x, target.y), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
+        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos(), target ), g->u_see(target.x, target.y), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
         off++; // 3-4
 
         std::string extras = "";
@@ -1327,7 +1327,7 @@ point editmap::recalc_target(shapetype shape)
     target_list.clear();
     switch(shape) {
         case editmap_circle: {
-            int radius = rl_dist(origin.x, origin.y, target.x, target.y);
+            int radius = rl_dist( origin, target );
             for ( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
                 for ( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
                     if(rl_dist(x, y, origin.x, origin.y) <= radius) {
@@ -1370,8 +1370,7 @@ point editmap::recalc_target(shapetype shape)
             }
             break;
         case editmap_line:
-            int t = 0;
-            target_list = line_to(origin.x, origin.y, target.x, target.y, t);
+            target_list = line_to( origin, target, 0 );
             break;
     }
 

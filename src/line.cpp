@@ -64,6 +64,11 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     return ret;
 }
 
+std::vector<point> line_to( const point p1, const point p2, const int t )
+{
+    return line_to( p1.x, p1.y, p2.x, p2.y, t );
+}
+
 std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2)
 {
     std::vector<tripoint> ret;
@@ -254,7 +259,7 @@ std::vector<point> continue_line(const std::vector<point> &line, const int dista
     const std::pair<double, double> slope = slope_of(line);
     end.x += distance * slope.first;
     end.y += distance * slope.second;
-    return line_to(start.x, start.y, end.x, end.y, 0);
+    return line_to( start, end, 0 );
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)

@@ -87,7 +87,7 @@ void monster::wander_to(int x, int y, int f)
 
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
-    int d = rl_dist( posx(), posy(), c.xpos(), c.ypos() );
+    int d = rl_dist( pos(), c.pos() );
     int sightrange = vision_range( c.xpos(), c.ypos() );
     if( sightrange < 1 || !g->m.sees( posx(), posy(), c.xpos(), c.ypos(), sightrange, bresenham_slope ) ) {
         return INT_MAX;
@@ -209,7 +209,7 @@ void monster::plan(const mfactions &factions)
             // Grow restless with no targets
             friendly--;
     } else if( closest == -1 && friendly < 0 && sees_player( bresenham_slope ) ) {
-        if( rl_dist( posx(), posy(), g->u.posx, g->u.posy ) > 2 ) {
+        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest(g->u.posx, g->u.posy, bresenham_slope);
         } else {
             plans.clear();
@@ -688,8 +688,7 @@ int monster::group_bash_skill( point target )
 
     for( point candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
-        std::vector<point> path_to_target = line_to( target.x, target.y,
-                                                     candidate.x, candidate.y, 0);
+        std::vector<point> path_to_target = line_to( target, candidate, 0 );
         bool connected = true;
         int mondex = -1;
         for( point in_path : path_to_target ) {
