@@ -5371,8 +5371,8 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         }
 
         //Look for parts 1 square off in any cardinal direction
-        auto const dx = parts[next_index].mount_dx - parts[part_index].mount_dx;
-        auto const dy = parts[next_index].mount_dy - parts[part_index].mount_dy;
+        auto const dx = parts[next_index].mount.x - parts[part_index].mount.x;
+        auto const dy = parts[next_index].mount.y - parts[part_index].mount.y;
         auto const delta = dx * dx + dy * dy;
 
         auto const is_near = (delta == 1);
