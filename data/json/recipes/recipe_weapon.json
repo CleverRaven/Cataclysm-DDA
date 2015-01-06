@@ -519,7 +519,8 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "bone", 3 ]
+      [ "bone", 3 ],
+      [ "bone_human", 3 ]
     ],
     [
       [ "string_36", 2 ],
@@ -1802,7 +1803,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
-      [ "tallow", 2 ]
+      [ "tallow", 2 ],
+      [ "tallow_tainted", 2 ]
     ],
     [
       [ "rag", 1 ]

@@ -431,7 +431,9 @@
   ],
   "components": [
     [
-      [ "bone", 18 ]
+      [ "bone", 18 ],
+      [ "bone_human", 18 ],
+      [ "bone_tainted", 36 ]
     ],
     [
       [ "leather", 2 ],
@@ -2116,7 +2118,9 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "bone", 12 ]
+      [ "bone", 12 ],
+      [ "bone_human", 12 ],
+      [ "bone_tainted", 24 ]
     ],
     [
       [ "leather", 2 ]
@@ -3192,6 +3196,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "cooking_oil", 1 ],
       [ "lamp_oil", 200 ]
     ]
@@ -3254,7 +3259,9 @@
   ],
   "components": [
     [
-      [ "bone", 24 ]
+      [ "bone", 24 ],
+      [ "bone_human", 24 ],
+      [ "bone_tainted", 48 ]
     ]
   ]
 },{
@@ -3300,7 +3307,9 @@
   ],
   "components": [
     [
-      [ "bone", 50 ]
+      [ "bone", 50 ],
+      [ "bone_human", 50 ],
+      [ "bone_tainted", 100 ]
     ],
     [
       [ "leather", 20 ],
@@ -3393,6 +3402,7 @@
     [
       [ "wax", 2 ],
       [ "tallow", 8 ],
+      [ "tallow_tainted", 8 ],
       [ "vinegar", 10 ],
       [ "pine_bough", 20 ]
     ],
