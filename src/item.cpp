@@ -516,7 +516,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( !is_null() ) {
         dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
         dump->push_back(iteminfo("BASE", space + _("Weight: "),
-                                 string_format(_("<num> %s"),
+                                 string_format("<num> %s",
                                                OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
                                                _("lbs") : _("kg")),
                                  g->u.convert_weight(weight()), false, "", true, true));
