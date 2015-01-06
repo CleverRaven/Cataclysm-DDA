@@ -847,20 +847,35 @@ void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
                                  std::map<std::string, item> &item_info)
 {
     // iterator _should_ be the same, as std::map is ordered...
-    std::map<std::string, int>::iterator mp_iter = mapPickup.begin();
-    std::map<std::string, item>::iterator ii_iter = item_info.begin();
-    while(mp_iter != mapPickup.end() && ii_iter != item_info.end()) {
+    auto mp_iter = mapPickup.begin();
+    auto ii_iter = item_info.begin();
+    auto const mp_end = mapPickup.end();
+    auto const ii_end = item_info.end();
+
+    while(mp_iter != mp_end && ii_iter != ii_end) {
+        auto const& mp_name = mp_iter->first;
+        auto const& ii_name = ii_iter->first;
+
         // name seems to be a fitting test
-        if(mp_iter->first == ii_iter->first) {
-            add_msg(_("You pick up: %d %s [%c]"),
-                    mp_iter->second, ii_iter->second.display_name(mp_iter->second).c_str(), ii_iter->second.invlet);
+        if(mp_name == ii_name) {
+            auto const &itm       = ii_iter->second;
+            auto const quantity   = mp_iter->second;
+            auto const name       = itm.display_name(mp_iter->second).c_str();
+            auto const letter     = itm.invlet;
+            auto const use_letter = letter != 0;
+
+            if (use_letter) {
+                add_msg(_("You pick up: %d %s [%c]"), quantity, name, letter);
+            } else {
+                add_msg(_("You pick up: %d %s"), quantity, name);
+            }
         } else {
             // ... and if it for some reason isn't, catch it in debug logs.
             debugmsg("show_pickup_message: mp_iter->first [%s] != ii_iter->first [%s]",
-                    mp_iter->first.c_str(), ii_iter->first.c_str());
+                    mp_name.c_str(), ii_name.c_str());
         }
+
         ++mp_iter;
         ++ii_iter;
     }
 }
-
