@@ -853,8 +853,8 @@ void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
     auto const ii_end = item_info.end();
 
     while(mp_iter != mp_end && ii_iter != ii_end) {
-        auto const& mp_name = mp_iter->first;
-        auto const& ii_name = ii_iter->first;
+        auto const &mp_name = mp_iter->first;
+        auto const &ii_name = ii_iter->first;
 
         // name seems to be a fitting test
         if(mp_name == ii_name) {
