@@ -4770,7 +4770,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "survivor's rocket launcher",
-      "name_plural": "survivor's rocket launchers",
+    "name_plural": "survivor's rocket launchers",
     "description": "An improvised, direct ignition launcher for home-made rockets. Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board. Effective only at medium range, barely.",
     "price": 5000,
     "material": "steel",
