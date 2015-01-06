@@ -3379,5 +3379,37 @@
                 "hardtack"
             ]
         }
+    },{
+
+        "type": "profession",
+        "ident": "drone_op",
+        "name": "Drone Operator",
+        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones. Now the all the drones carry guns instead of pizza.",
+        "points": 2,
+        "CBMs":[
+            "bio_batteries",
+            "bio_power_storage",
+            "bio_remote"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "computer"
+            }
+        ],
+        "items": {
+            "both": [
+                "jumpsuit",
+                "socks",
+                "boots"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]

@@ -602,8 +602,11 @@ bool map::vehproceed()
         // submerged wheels threshold is 2/3.
         if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
             add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
-            if (pl_ctrl) {
+            if( pl_ctrl ) {
                 veh->unboard_all();
+            }
+            if( g->remoteveh() == veh ) {
+                g->setremoteveh( nullptr );
             }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
@@ -5598,14 +5601,16 @@ void map::add_road_vehicles(bool city, int facing)
                 veh_y = rng(4, 16);
             }
             int veh_type = rng(0, 100);
-            if(veh_type <= 70) {
+            if(veh_type <= 67) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 92) {
+            } else if(veh_type <= 89) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 95) {
+            } else if(veh_type <= 92) {
                 add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
-            } else {
+            } else if(veh_type <= 97) {
                 add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
+            } else {
+                add_vehicle("autosweeper", veh_x, veh_y, facing, -1, 1);
             }
         } else if(spawn_type <= 99) {
             //Totally clear section of road

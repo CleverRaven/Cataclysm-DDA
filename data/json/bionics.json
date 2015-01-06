@@ -646,5 +646,13 @@
         "name": "Weather Reader",
         "act_cost": 25,
         "description": "A multitude of scientific instruments and sensors collect environmental data. The data is compiled and presented as a simple readout of the current weather."
+    },{
+        "type": "bionic",
+        "id": "bio_remote",
+        "name": "Remote Controller",
+        "toggled": true,
+        "react_cost": 1,
+        "time": 4,
+        "description": "A small module connected to your brain allows you to interface with nearby devices with wireless capabilities."
     }
 ]
