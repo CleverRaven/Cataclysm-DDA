@@ -2051,5 +2051,42 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"]
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_empty",
+        "name": "empty charcoal kiln",
+        "symbol": "U",
+        "color": "brown",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_empty",
+        "max_volume": 500,
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 25, "str_max": 180,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 15}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_full",
+        "name": "full charcoal kiln",
+        "symbol": "U",
+        "color": "brown_red",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_full",
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 25, "str_max": 180,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 15}
+            ]
+        }
     }
 ]

@@ -10,6 +10,8 @@ class map;
 class game;
 class item;
 
+typedef std::map< int, std::set< int > > mfactions;
+
 enum monster_attitude {
     MATT_NULL = 0,
     MATT_FRIEND,
@@ -131,7 +133,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
         // the route.  Give up after f steps.
-        void plan(const std::vector<int> &friendlies);
+
+        // How good of a target is given creature (checks for visibility)
+        float rate_target( Creature &c, int &bresenham_slope, bool smart = false ) const;
+        // Pass all factions to mon, so that hordes of same-faction mons
+        // do not iterate over each other
+        void plan(const mfactions &factions);
         void move(); // Actual movement
         void footsteps(int x, int y); // noise made by movement
         void friendly_move();
@@ -185,6 +192,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
+        int monfaction() const; // -1 if friendly, then first species id or 0 if none
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
@@ -221,6 +229,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                 int intensity = 0);
+
+        virtual float power_rating() const;
 
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor

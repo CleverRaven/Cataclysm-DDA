@@ -640,8 +640,8 @@ void veh_interact::do_repair()
         if(mostDamagedPart != -1) {
             int p = mostDamagedPart; // for convenience
 
-            int xOffset = veh->parts[p].mount_dy + ddy;
-            int yOffset = -(veh->parts[p].mount_dx + ddx);
+            int xOffset = veh->parts[p].mount.y + ddy;
+            int yOffset = -(veh->parts[p].mount.x + ddx);
 
             move_cursor(xOffset, yOffset);
         } else {
@@ -1171,7 +1171,7 @@ void veh_interact::move_cursor (int dx, int dy)
     has_ptank = false;
     wheel = NULL;
     if (cpart >= 0) {
-        parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
+        parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability) {
@@ -1245,13 +1245,13 @@ void veh_interact::display_veh ()
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         if (vertical_menu) {
-            x =   veh->parts[p].mount_dy + ddy;
-            y = -(veh->parts[p].mount_dx + ddx);
+            x =   veh->parts[p].mount.y + ddy;
+            y = -(veh->parts[p].mount.x + ddx);
         } else {
             tileray tdir( 0 );
             sym = tdir.dir_symbol( sym );
-            x = veh->parts[p].mount_dx + ddx;
-            y = veh->parts[p].mount_dy + ddy;
+            x = veh->parts[p].mount.x + ddx;
+            y = veh->parts[p].mount.y + ddy;
         }
         if (x == 0 && y == 0) {
             col = hilite(col);

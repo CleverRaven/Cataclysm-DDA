@@ -357,6 +357,10 @@ bool monster::digging() const
 
 int monster::vision_range(const int x, const int y) const
 {
+    if( !can_see() ) {
+        return 0;
+    }
+
     int range = g->light_level();
     // Set to max possible value if the target is lit brightly
     if (g->m.light_at(x, y) >= LL_LOW)
@@ -478,7 +482,7 @@ bool monster::is_fleeing(player &u) const
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
+         (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -491,11 +495,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             return A_FRIENDLY;
-        } else if( friendly == 0 && m->friendly == 0 ) {
-            // For now monsters are neutral (not hostile!) to other monsters.
+        } else if( monfaction() == m->monfaction() || morale < 0 || anger < 10 ) {
+            // Monsters are neutral to own species, hostile to all others
+            // Stuff that won't attack is also neutral to everything
+            // Player-friendly monsters are a separate faction
             return A_NEUTRAL;
         } else {
-            // Except when one of them is friendly to the player and other is not.
             return A_HOSTILE;
         }
     } else if( p != nullptr ) {
@@ -595,6 +600,17 @@ monster_attitude monster::attitude(player *u) const
     return MATT_ATTACK;
 }
 
+int monster::monfaction() const
+{
+    if( friendly != 0 ) {
+        return -1;
+    } else if( !type->species_id.empty() ) {
+        return *type->species_id.begin();
+    } else {
+        return 0;
+    }
+}
+
 void monster::process_triggers()
 {
  anger += trigger_sum(&(type->anger));
@@ -639,11 +655,11 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 break;
 
             case MTRIG_PLAYER_CLOSE:
-                if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5) {
+                if (rl_dist( pos(), g->u.pos() ) <= 5) {
                     ret += 5;
                 }
                 for (auto &i : g->active_npc) {
-                    if (rl_dist(_posx, _posy, i->posx, i->posy) <= 5) {
+                    if (rl_dist( pos(), i->pos() ) <= 5) {
                         ret += 5;
                     }
                 }
@@ -1633,4 +1649,13 @@ item monster::to_item() const
     const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
     result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
     return result;
+}
+
+float monster::power_rating() const
+{
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+    // Hostile stuff gets a big boost
+    // Neutral moose will still get burned if it comes close
+    return ret;
 }

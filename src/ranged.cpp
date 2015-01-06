@@ -104,7 +104,8 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
 
     //Start this now in case we hit something early
     std::vector<point> blood_traj = std::vector<point>();
-    for (size_t i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
+    bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
+    for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         px = tx;
         py = ty;
@@ -114,7 +115,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(g->u, tx, ty, (int)i, trajectory, proj.proj_effects.count("FLAME") ? '#' : '*', ts);
+        g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*', ts);
 
         if( in_veh != nullptr ) {
             int part;
@@ -438,11 +439,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
         itype_id casing_type = curammo->ammo->casing;
         if( casing_type != "NULL" && !casing_type.empty() ) {
             if( used_weapon->has_flag("RELOAD_EJECT") ) {
-                int num_casings = 0;
-                if( used_weapon->item_vars.count( "CASINGS" ) ) {
-                    num_casings = atoi( used_weapon->item_vars[ "CASINGS" ].c_str() );
-                }
-                used_weapon->item_vars[ "CASINGS" ] = string_format( "%d", num_casings + 1 );
+                const int num_casings = used_weapon->get_var( "CASINGS", 0 );
+                used_weapon->set_var( "CASINGS", num_casings + 1 );
             } else {
                 item casing;
                 casing.make(casing_type);

@@ -336,8 +336,8 @@
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ],
-    [ [ "bone", 10 ] ]
-  ]
+    [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ]
+    ]
 },{
   "type" : "recipe",
   "result" : "arrow_fire_hardened",
@@ -390,6 +390,8 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
@@ -424,6 +426,8 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
@@ -617,6 +621,36 @@
   ]
 },{
   "type" : "recipe",
+  "result" : "arrow_metal_sharpened_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "archery", 3 ],
+  "difficulty" : 4,
+  "time" : 5000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_metal_sharpened", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result" : "arrow_heavy_fire_hardened",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -693,6 +727,8 @@
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
@@ -3286,7 +3322,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 36000,
+  "time": 120000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3294,7 +3330,7 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      ["rebar", 1]
+      ["rebar", 2]
     ]
   ]
 },{
@@ -3304,7 +3340,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 30000,
+  "time": 100000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3323,14 +3359,15 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
     [
      [
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
+     [ "steel_lump", 4 ],
+     [ "steel_chunk", 16 ],
+     [ "scrap", 48 ]
      ]
     ]
 },{

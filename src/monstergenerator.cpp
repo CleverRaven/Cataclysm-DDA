@@ -46,6 +46,7 @@ void MonsterGenerator::finalize_mtypes()
         mtype *mon = elem.second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
+        set_species_ids( mon );
     }
 }
 
@@ -300,7 +301,6 @@ void MonsterGenerator::init_flags()
     flag_map["BONES"] = MF_BONES;
     flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
-    flag_map["FRIENDLY_SPECIAL"] = MF_FRIENDLY_SPECIAL;
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
     flag_map["GUILT"] = MF_GUILT;
     flag_map["HUMAN"] = MF_HUMAN;
@@ -327,6 +327,19 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
 }
 
+void MonsterGenerator::set_species_ids( mtype *mon )
+{
+    const std::set< std::string > &specs = mon->species;
+    std::set< int > ret;
+    for( const auto &s : specs ) {
+        auto iter = mon_species.find( s );
+        if( iter != mon_species.end() ) {
+            mon->species_id.insert( iter->second->short_id );
+        } else {
+            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
+        }
+    }
+}
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
@@ -427,7 +440,9 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")) {
         sid = jo.get_string("id");
+        int species_num = mon_species.size();
         if (mon_species.count(sid) > 0) {
+            species_num = mon_species[sid]->short_id; // Keep it or weird things may happen
             delete mon_species[sid];
         }
 
@@ -443,7 +458,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
         fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
         placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
 
-        species_type *new_species = new species_type(sid, flags, anger, fear, placate);
+        species_type *new_species = new species_type(species_num, sid, flags, anger, fear, placate);
 
         mon_species[sid] = new_species;
     }

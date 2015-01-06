@@ -569,24 +569,24 @@ void initOptions()
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     // Note: language names are in their own language and are *not* translated at all.
-    optionNames["cs"] = "Čeština";
-    optionNames["en"] = "English";
-    optionNames["fi"] = "Suomi";
-    optionNames["fr_FR"] =  "Français (France)";
-    optionNames["de_DE"] = "Deutsch (Deutschland)";
-    optionNames["it"] = "Italiano";
-    optionNames["es_AR"] = "Español (Argentina)";
-    optionNames["es_ES"] = "Español (España)";
-    optionNames["ja"] = "日本語";
-    optionNames["ko"] = "한국어";
-    optionNames["pl"] = "Polski";
-    optionNames["pt_BR"] = "Português (Brasil)";
-    optionNames["pt_PT"] = "Português (Portugal)";
-    optionNames["ru"] = "Русский";
-    optionNames["sr"] = "Srpski";
-    optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(天朝)";
-    optionNames["zh_TW"] = "中文(台灣)";
+    optionNames["cs"] = R"(Čeština)";
+    optionNames["en"] = R"(English)";
+    optionNames["fi"] = R"(Suomi)";
+    optionNames["fr_FR"] =  R"(Français (France))";
+    optionNames["de_DE"] = R"(Deutsch (Deutschland))";
+    optionNames["it"] = R"(Italiano)";
+    optionNames["es_AR"] = R"(Español (Argentina))";
+    optionNames["es_ES"] = R"(Español (España))";
+    optionNames["ja"] = R"(日本語)";
+    optionNames["ko"] = R"(한국어)";
+    optionNames["pl"] = R"(Polski)";
+    optionNames["pt_BR"] = R"(Português (Brasil))";
+    optionNames["pt_PT"] = R"(Português (Portugal))";
+    optionNames["ru"] = R"(Русский)";
+    optionNames["sr"] = R"(Srpski)";
+    optionNames["vi"] = R"(Tiếng Việt)";
+    optionNames["zh_CN"] = R"(中文(天朝))";
+    optionNames["zh_TW"] = R"(中文(台灣))";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fi,fr_FR,de_DE,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""

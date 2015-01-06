@@ -84,7 +84,7 @@ void mdeath::boomer(monster *z)
             }
         }
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1) {
+    if (rl_dist( z->pos(), g->u.pos() ) == 1) {
         g->u.add_env_effect("boomered", bp_eyes, 2, 24);
     }
 }
@@ -106,7 +106,7 @@ void mdeath::kill_vines(monster *z)
     int curX, curY;
     for (auto &i : vines) {
         monster *vine = &(g->zombie(i));
-        int dist = rl_dist(vine->posx(), vine->posy(), z->posx(), z->posy());
+        int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
             curX = g->zombie(j).posx();
@@ -299,7 +299,7 @@ void mdeath::guilt(monster *z)
     if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
         return;
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {
+    if (rl_dist( z->pos(), g->u.pos() ) > MAX_GUILT_DISTANCE) {
         // Too far away, we can deal with it.
         return;
     }
@@ -488,8 +488,8 @@ void mdeath::focused_beam(monster *z)
 
         item &settings = z->inv[0];
 
-        int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
-        int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
+        int x = z->posx() + settings.get_var( "SL_SPOT_X", 0 );
+        int y = z->posy() + settings.get_var( "SL_SPOT_Y", 0 );
 
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
         for( auto &elem : traj ) {
@@ -644,7 +644,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
-        corpse.item_vars["zlave"] = one_in(2) ? "zlave" : "mutilated";
+        corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
     }
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

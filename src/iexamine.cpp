@@ -1516,6 +1516,102 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
     }
 }
 
+// Highly modified fermenting vat functions
+void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
+{
+    std::vector< std::string > kilnable{ "wood", "bone" };
+    bool fuel_present = false;
+    auto items = m->i_at( examx, examy );
+    for( auto i : items ) {
+        if( i.typeId() == "charcoal" ) {
+            add_msg( _("This kiln already contains charcoal.") );
+            add_msg( _("Remove it before firing the kiln again.") );
+            return;
+        } else if( i.only_made_of( kilnable ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _("This kiln contains %s, which can't be made into charcoal!"), i.tname( 1, false ).c_str() );
+            return;
+        }
+    }
+
+    if( !fuel_present ) {
+        add_msg( _("This kiln is empty. Fill it with wood or bone and try again.") );
+        return;
+    }
+
+    SkillLevel &skill = p->skillLevel("carpentry");
+    int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+
+    // Burn stuff that should get charred, leave out the rest
+    int total_volume = 0;
+    for( auto i : items ) {
+        total_volume += i.volume( false, false );
+    }
+
+    auto char_type = item::find_type( "unfinished_charcoal" );
+    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    if( char_charges < 1 ) {
+        add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
+        return;
+    }
+
+    if( !p->has_charges( "fire" , 1 ) ) {
+        add_msg( _("This kiln is ready to be fired, but you have no fire source.") );
+        return;
+    } else if( !query_yn( _("Fire the kiln?") ) ) {
+        return;
+    }
+
+    p->use_charges( "fire", 1 );
+    g->m.i_clear( examx, examy );
+    m->furn_set(examx, examy, f_kiln_full);
+    item result( "unfinished_charcoal", calendar::turn.get_turn() );
+    result.charges = char_charges;
+    m->add_item( examx, examy, result );
+    add_msg( _("You fire the charcoal kiln.") );
+}
+
+void iexamine::kiln_full(player *, map *m, int examx, int examy)
+{
+    auto items = m->i_at( examx, examy );
+    if( items.empty() ) {
+        add_msg( _("This kiln is empty...") );
+        m->furn_set(examx, examy, f_kiln_empty);
+        return;
+    }
+    int last_bday = items[0].bday;
+    for( auto i : items ) {
+        if( i.typeId() == "unfinished_charcoal" && i.bday > last_bday ) {
+            last_bday = i.bday;
+        }
+    }
+    auto char_type = item::find_type( "charcoal" );
+    add_msg( _("There's a charcoal kiln there.") );
+    const int firing_time = HOURS(6); // 5 days in real life
+    int time_left = firing_time - calendar::turn.get_turn() + items[0].bday;
+    if( time_left > 0 ) {
+        add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
+        return;
+    }
+
+    int total_volume = 0;
+    // Burn stuff that should get charred, leave out the rest
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
+            total_volume += item_it->volume( false, false );
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "charcoal", calendar::turn.get_turn() );
+    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    m->add_item( examx, examy, result );
+    m->furn_set( examx, examy, f_kiln_empty);
+}
+
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
 {
     itype_id brew_type;
@@ -2159,8 +2255,7 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
         p->drink_from_hands(water);
     } else {
         // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        LIQUID_FILL_ERROR junk;
-        int turns = cont->get_remaining_capacity_for_liquid( water, junk ) * 10;
+        int turns = cont->get_remaining_capacity_for_liquid( water ) * 10;
         if (turns > 0) {
             if( turns/1000 > 1 ) {
                 // If it takes less than a minute, no need to inform the player about time.
@@ -2183,8 +2278,7 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
         p->drink_from_hands(swater);
     } else {
         // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        LIQUID_FILL_ERROR junk;
-        int turns = cont->get_remaining_capacity_for_liquid( swater, junk ) * 10;
+        int turns = cont->get_remaining_capacity_for_liquid( swater ) * 10;
         if (turns > 0) {
             if( turns/1000 > 1 ) {
                 // If it takes less than a minute, no need to inform the player about time.
@@ -3006,6 +3100,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
+    }
+    if( "kiln_empty" == function_name ) {
+        return &iexamine::kiln_empty;
+    }
+    if( "kiln_full" == function_name ) {
+        return &iexamine::kiln_full;
     }
 
     //No match found

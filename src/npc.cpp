@@ -1291,7 +1291,7 @@ int npc::vehicle_danger(int radius) const
     * vehicles. This should just count frames instead. Or actually find the
     * size. */
    vehicle_part last_part = vehicles[i].v->parts.back();
-   int size = std::max(last_part.mount_dx, last_part.mount_dy);
+   int size = std::max(last_part.mount.x, last_part.mount.y);
 
    float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
@@ -1717,19 +1717,19 @@ int npc::danger_assessment()
     }
     // Mod for the player
     if (is_enemy()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
+        if (rl_dist( pos(), g->u.pos() ) < 10) {
             if (g->u.weapon.is_gun()) {
                 ret += 10;
             } else {
-                ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret += 10 - rl_dist( pos(), g->u.pos() );
             }
         }
     } else if (is_friend()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
+        if (rl_dist( pos(), g->u.pos() ) < 8) {
             if (g->u.weapon.is_gun()) {
                 ret -= 8;
             } else {
-                ret -= 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret -= 8 - rl_dist( pos(), g->u.pos() );
             }
         }
     }

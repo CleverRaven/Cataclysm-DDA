@@ -3464,7 +3464,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // Dodge is intentionally not accounted for.
     const double aim_level =
         recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( xpos(), ypos(), target->xpos(), target->ypos() );
+    const double range = rl_dist( pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under the target threshold,
@@ -3524,13 +3524,14 @@ void player::print_recoil( WINDOW *w ) const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
-        if (adj_recoil > 0) {
+        if( adj_recoil > 150 ) {
+            // 150 is the minimum when not actively aiming
             nc_color c = c_ltgray;
-            if (adj_recoil >= 36) {
+            if( adj_recoil >= 690 ) {
                 c = c_red;
-            } else if (adj_recoil >= 20) {
+            } else if( adj_recoil >= 450 ) {
                 c = c_ltred;
-            } else if (adj_recoil >= 4) {
+            } else if( adj_recoil >= 210 ) {
                 c = c_yellow;
             }
             wprintz(w, c, _("Recoil"));
@@ -3547,10 +3548,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         const int y = sideStyle ? 1 : 0;
         wmove( weapwin, y, 0 );
         print_gun_mode( weapwin, c_ltgray );
-
-        const int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
-        wmove( weapwin, y, x );
-        print_recoil(weapwin);
     }
 
     // Print currently used style or weapon mode.
@@ -7121,7 +7118,6 @@ void player::hardcoded_effects(effect &it)
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
         } else if(int(calendar::turn) % 50 == 0) {
-            int recovery_chance;
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7129,21 +7125,30 @@ void player::hardcoded_effects(effect &it)
             } else if (intense < 1) {
                 it.set_intensity(1);
             }
-            recovery_chance = 24 - intense + 1;
+
+            auto const recovery_chance = 24 - intense + 1;
+
             if (fatigue > 0) {
-                fatigue -= 1 + one_in(recovery_chance);
+                auto delta = 1.0 + (one_in(recovery_chance) ? 1.0 : 0.0);
+
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
                 if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
-                    fatigue -=(1 + one_in(recovery_chance) / 2);
+                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    delta += (1.0 + roll) / 2.0;
                 }
+
                 // Tireless folks recover fatigue really fast
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
                 if (has_trait("WAKEFUL3")) {
-                    fatigue -=(2 + one_in(recovery_chance) / 2);
+                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    delta += (2.0 + roll) / 2.0;
                 }
+
+                fatigue -= static_cast<int>(std::round(delta));
             }
+
             int heal_chance = get_healthy() / 4;
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
@@ -8021,10 +8026,10 @@ void player::mend()
                 healing_factor = 20.0;
             }
             // Studies have shown that alcohol and tobacco use delay fracture healing time
-            if(has_effect("cig") | addiction_level(ADD_CIG)) {
+            if(has_effect("cig") || addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
             }
-            if(has_effect("drunk") | addiction_level(ADD_ALCOHOL)) {
+            if(has_effect("drunk") || addiction_level(ADD_ALCOHOL)) {
                 healing_factor *= 0.5;
             }
 
@@ -12920,8 +12925,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
             }
         } else {
             if (candidate.has_flag("HAS_RECIPE")){
-                item dummy = candidate;
-                if (dummy.item_vars["RECIPE"] == r->ident){
+                if (candidate.get_var("RECIPE") == r->ident){
                     if (difficulty == -1) difficulty = r->difficulty;
                 }
             }
@@ -13497,7 +13501,7 @@ bool player::sees(const Creature *critter, int &t) const
     }
     const int cx = critter->xpos();
     const int cy = critter->ypos();
-    int dist = rl_dist(posx, posy, cx, cy);
+    int dist = rl_dist( pos(), critter->pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13529,15 +13533,14 @@ bool player::has_container_for(const item &newit)
         return true;
     }
     unsigned charges = newit.charges;
-    LIQUID_FILL_ERROR tmperr;
-    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    charges -= weapon.get_remaining_capacity_for_liquid(newit);
     for (size_t i = 0; i < worn.size() && charges > 0; i++) {
-        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit);
     }
     for (size_t i = 0; i < inv.size() && charges > 0; i++) {
         const std::list<item>&items = inv.const_stack(i);
         // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+        charges -= items.front().get_remaining_capacity_for_liquid(newit) * items.size();
     }
     return charges <= 0;
 }
@@ -13629,7 +13632,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( posx, posy, critter.xpos(), critter.ypos() ) <= range;
+    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
@@ -13744,6 +13747,11 @@ void player::blossoms()
                 g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
+}
+
+float player::power_rating() const
+{
+    return weapon.is_gun() ? 4 : 2;
 }
 
 std::vector<const item *> player::all_items_with_flag( const std::string flag ) const

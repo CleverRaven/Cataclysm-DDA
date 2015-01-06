@@ -140,6 +140,16 @@ struct point : public JsonSerializer, public JsonDeserializer {
         x = ja.get_int(0);
         y = ja.get_int(1);
     }
+    point operator+(const point &rhs) const
+    {
+        return point( x + rhs.x, y + rhs.y );
+    }
+    point &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
 };
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,

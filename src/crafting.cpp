@@ -389,8 +389,7 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
                 std::vector<item>::iterator iter;
                 for(iter = conts.begin(); iter != conts.end();) {
                     if (iter->is_container_empty()) {
-                        LIQUID_FILL_ERROR tmperr;
-                        charges_to_store -= iter->get_remaining_capacity_for_liquid(prod, tmperr);
+                        charges_to_store -= iter->get_remaining_capacity_for_liquid(prod);
                         iter = conts.erase(iter);
                         if (charges_to_store <= 0) {
                             break;
@@ -1541,11 +1540,10 @@ void set_item_food(item &newit)
 {
     int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
     newit.bday = int(newit.bday) + 3600 - bday_tmp;
-    newit.active = true;
-
     if (newit.has_flag("EATEN_HOT")) { // hot foods generated
         newit.item_tags.insert("HOT");
         newit.item_counter = 600;
+        newit.active = true;
     }
 }
 

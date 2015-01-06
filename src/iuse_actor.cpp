@@ -268,12 +268,12 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     }
     p->moves -= moves;
     // Restore HP of parts if we stashed them previously.
-    if (it->item_vars.count("folding_bicycle_parts") == 0) {
+    if( it->has_var( "folding_bicycle_parts" ) ) {
         // Brand new, no HP stored
         return 1;
     }
     std::istringstream veh_data;
-    const std::string &data = it->item_vars["folding_bicycle_parts"];
+    const auto data = it->get_var( "folding_bicycle_parts" );
     veh_data.str(data);
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
@@ -284,7 +284,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         try {
             JsonIn json(veh_data);
             // Load parts into a temporary vector to not override
-            // cached values (like precalc_dx, passenger_id, ...)
+            // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read(parts);
             for(size_t i = 0; i < parts.size() && i < veh->parts.size(); i++) {
