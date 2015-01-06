@@ -168,8 +168,7 @@ inventory inventory::operator+ (const item &rhs)
 
 /*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
 {
-    LIQUID_FILL_ERROR error;
-    return (it.get_remaining_capacity_for_liquid(liquid, error) > 0);
+    return (it.get_remaining_capacity_for_liquid(liquid) > 0);
 }
 
 indexed_invslice inventory::slice_filter()

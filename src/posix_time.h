@@ -16,7 +16,8 @@ extern "C" {
 #   endif
 
 // Apparently this is defined by pthread.h, if that header had been included.
-#ifndef _TIMESPEC_DEFINED
+// _INC_TIME is defined in time.h for MSVC
+#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME)
 #define _TIMESPEC_DEFINED
 struct timespec
 {

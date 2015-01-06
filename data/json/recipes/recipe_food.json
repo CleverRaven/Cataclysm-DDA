@@ -8709,5 +8709,97 @@
       [ "water_clean", 1 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "honey_bottled",
+  "id_suffix": "from_honeycomb",
+  "byproducts": { "id" : "wax", "amount" : 4 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" :
+    [
+      {"id":"CUT","level":1,"amount":1}
+    ],
+  "tools":
+    [
+      [
+        ["rag", -1]
+      ]
+    ],
+  "components":
+    [
+      [
+        ["honeycomb", 2]
+      ]
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "honey_bottled",
+  "id_suffix": "from_honey_glassed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" :
+    [
+      {"id":"BOIL","level":1,"amount":1},
+      {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "tools":
+    [
+      [
+        [ "hotplate", 5 ],
+        [ "char_smoker", 1 ],
+        [ "toolset", 5 ],
+        [ "fire", -1 ]
+      ],
+      [
+        ["rag", -1]
+      ]
+    ],
+  "components":
+    [
+      [
+        [ "water", 1 ],
+        [ "water_clean", 1 ]
+      ],
+      [
+        [ "honey_glassed", 5 ]
+      ]
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "honey_glassed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" :
+    [
+      {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "components":
+    [
+      [
+        [ "honey_bottled", 5 ]
+      ],
+      [
+        [ "sugar", 2 ]
+      ]
+    ]
 }
 ]

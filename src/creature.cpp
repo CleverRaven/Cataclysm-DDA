@@ -170,7 +170,7 @@ bool Creature::sees( const Creature &critter, int range_min, int range_max, int 
 {
     int cx = critter.xpos();
     int cy = critter.ypos();
-    const int wanted_range = rl_dist( xpos(), ypos(), cx, cy );
+    const int wanted_range = rl_dist( pos(), critter.pos() );
     if( ( wanted_range > 1 && critter.digging() ) ||
         ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
         return false;
@@ -182,7 +182,7 @@ bool Creature::sees( const Creature &critter, int range_min, int range_max, int 
 bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) const
 {
     const int wanted_range = rl_dist( xpos(), ypos(), tx, ty );
-    if( wanted_range <= range_min || 
+    if( wanted_range <= range_min ||
         ( wanted_range <= range_max &&
           g->m.light_at( tx, ty ) >= LL_LOW ) ) {
         if( is_player() ) {
@@ -209,14 +209,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool area_iff = false;   // Need to check distance from target to player
     bool angle_iff = true;   // Need to check if player is in a cone between us and target
-    int pldist = rl_dist(xpos(), ypos(), g->u.posx, g->u.posy);
+    int pldist = rl_dist( pos(), g->u.pos() );
     int part;
     vehicle *in_veh = is_fake() ? g->m.veh_at( xpos(), ypos(), part ) : nullptr;
     if( pldist < iff_dist && g->sees_u(xpos(), ypos(), t) ) {
         area_iff = area > 0;
         angle_iff = true;
-        // Player inside vehicle won't be hit by shots from the roof, so we can fire "through" them just fine
-        if( g->m.veh_at( u.posx, u.posy, part ) == in_veh && in_veh->is_inside( part ) ) {
+        // Player inside vehicle won't be hit by shots from the roof,
+        // so we can fire "through" them just fine.
+        if( in_veh && g->m.veh_at( u.posx, u.posy, part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -246,7 +247,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist(xpos(), ypos(), m->xpos(), m->ypos()) + 1; // rl_dist can be 0
+        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range || dist < area ) {
             // Too near or too far
             continue;
@@ -1465,6 +1466,5 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
-           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
+    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
 }

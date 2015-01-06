@@ -11237,7 +11237,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
-    vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
+    vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
     if(placed_vehicle != NULL) {
         submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
@@ -11259,24 +11259,23 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
+vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
-        const int px = x + veh->parts[*part].precalc_dx[0];
-        const int py = y + veh->parts[*part].precalc_dy[0];
+        const auto p = veh->global_pos() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
+        if (ter_at(p.x, p.y).has_flag(TFLAG_DEEP_WATER)) {
             delete veh;
             return NULL;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if (veh->type == "shopping_cart") {
-            if (veh_at(px, py) != NULL || move_cost(px, py) == 0) {
+            if (veh_at(p.x, p.y) != NULL || move_cost(p.x, p.y) == 0) {
                 delete veh;
                 return NULL;
             }
@@ -11285,7 +11284,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
         //When hitting a wall, only smash the vehicle once (but walls many times)
         bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
-        vehicle *other_veh = veh_at(px, py);
+        vehicle *other_veh = veh_at(p.x, p.y);
         if (other_veh != NULL && other_veh->type != "shopping cart") {
             if( !merge_wrecks ) {
                 delete veh;
@@ -11298,7 +11297,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
              * headache, so instead, let's make another vehicle whose (0, 0) point
              * is the (0, 0) of the existing vehicle, convert the coordinates of both
              * vehicles into global coordinates, find the distance between them and
-             * (px, py) and then install them that way.
+             * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
             vehicle *wreckage = new vehicle();
             wreckage->posx = other_veh->posx;
@@ -11313,9 +11312,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             for (auto &part_index : veh->parts) {
 
                 const int local_x = (veh->smx * SEEX + veh->posx) +
-                                     part_index.precalc_dx[0] - global_x;
+                                     part_index.precalc[0].x - global_x;
                 const int local_y = (veh->smy * SEEY + veh->posy) +
-                                     part_index.precalc_dy[0] - global_y;
+                                     part_index.precalc[0].y - global_y;
 
                 wreckage->install_part(local_x, local_y, part_index);
 
@@ -11323,9 +11322,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             for (auto &part_index : other_veh->parts) {
 
                 const int local_x = (other_veh->smx * SEEX + other_veh->posx) +
-                                     part_index.precalc_dx[0] - global_x;
+                                     part_index.precalc[0].x - global_x;
                 const int local_y = (other_veh->smy * SEEY + other_veh->posy) +
-                                     part_index.precalc_dy[0] - global_y;
+                                     part_index.precalc[0].y - global_y;
 
                 wreckage->install_part(local_x, local_y, part_index);
 
@@ -11339,16 +11338,16 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             delete veh;
 
             //Try again with the wreckage
-            return add_vehicle_to_map(wreckage, global_x, global_y);
+            return add_vehicle_to_map(wreckage, true);
 
-        } else if (move_cost(px, py) == 0) {
+        } else if (move_cost(p.x, p.y) == 0) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
             }
 
             //There's a wall or other obstacle here; destroy it
-            destroy(px, py, true);
+            destroy(p.x, p.y, true);
 
             //Then smash up the vehicle
             if(!veh_smashed) {

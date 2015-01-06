@@ -321,8 +321,7 @@ void computer::activate_function(computer_action action)
                                 auto candidates = g->m.i_at( x1, y1 );
                                 for( auto candidate = candidates.begin();
                                      candidate !=candidates.end(); ++candidate ) {
-                                    LIQUID_FILL_ERROR lferr;
-                                    long capa = candidate->get_remaining_capacity_for_liquid( sewage, lferr );
+                                    long capa = candidate->get_remaining_capacity_for_liquid( sewage );
                                     if( capa <= 0 ) {
                                         continue;
                                     }

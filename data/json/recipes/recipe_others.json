@@ -1787,7 +1787,8 @@
     ],
     [
       [ "wax", 2 ],
-      [ "tallow", 4 ]
+      [ "tallow", 4 ],
+      [ "tallow_tainted", 4 ]
     ],
     [
       [ "string_6", 1 ]
@@ -4490,6 +4491,8 @@
       [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "bone", 40 ],
+      [ "bone_human", 40 ],
+      [ "bone_tainted", 40 ],
       [ "pine_bough", 40 ],
       [ "log", 1 ]
     ],
@@ -5490,7 +5493,9 @@
   "autolearn": true,
   "components": [
     [
-     [ "bone", 25 ]
+     [ "bone", 25 ],
+     [ "bone_human", 25 ],
+     [ "bone_tainted", 50 ]
     ],
     [
      [ "rope_6", 5 ]
@@ -5798,6 +5803,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ]
     ],
     [
@@ -5872,6 +5878,7 @@
     ],
     [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ]
     ],
     [

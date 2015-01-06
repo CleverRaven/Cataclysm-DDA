@@ -549,13 +549,13 @@ WINDOW *curses_init(void)
 
     // Load private fonts
     if (SetCurrentDirectoryW(L"data\\font")){
-        WIN32_FIND_DATA findData;
+        WIN32_FIND_DATAW findData;
         for (HANDLE findFont = FindFirstFileW(L".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
         {
             if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){ // Skip folders
                 AddFontResourceExW(findData.cFileName, FR_PRIVATE,NULL);
             }
-            if (!FindNextFile(findFont, &findData)){
+            if (!FindNextFileW(findFont, &findData)){
                 FindClose(findFont);
                 break;
             }
@@ -614,7 +614,7 @@ int curses_getch(WINDOW* win)
     else
     {
         CheckMessages();
-    };
+    }
 
     if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
         CursorVisible = false;
@@ -663,6 +663,8 @@ void load_colors(JsonObject &jsobj)
 #define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
+    //TODO: this should be reviewed in the future.
+
     colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
 

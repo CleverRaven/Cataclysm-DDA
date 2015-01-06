@@ -838,11 +838,9 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
     indexed_invslice grounditems_slice;
     std::vector<item *> ground_containers;
 
-    LIQUID_FILL_ERROR error;
-
     std::set<std::string> dups;
     for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
-        if( candidate->get_remaining_capacity_for_liquid( liquid, error ) > 0 ) {
+        if( candidate->get_remaining_capacity_for_liquid( liquid ) > 0 ) {
             if( dups.count( candidate->tname() ) == 0 ) {
                 grounditems.push_back( std::list<item>( 1, *candidate ) );
 

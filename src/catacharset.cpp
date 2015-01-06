@@ -2,7 +2,7 @@
 #include <string.h>
 #include "debug.h"
 #include "cursesdef.h"
-#include "wcwidth.c"
+#include "wcwidth.h"
 
 //copied from SDL2_ttf code
 unsigned UTF8_getch(const char **src, int *srclen)
@@ -400,6 +400,19 @@ std::string base64_decode(std::string str)
     delete[] decoded_data;
 
     return ret;
+}
+
+int center_text_pos(const char *text, int start_pos, int end_pos)
+{
+    int full_screen = end_pos - start_pos + 1;
+    int str_len = utf8_width(text);
+    int position = (full_screen - str_len) / 2;
+
+    if (position <= 0) {
+        return start_pos;
+    }
+
+    return start_pos + position;
 }
 
 // In an attempt to maintain compatibility with gcc 4.6, use an initializer function

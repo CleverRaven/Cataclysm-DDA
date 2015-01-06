@@ -284,7 +284,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         try {
             JsonIn json(veh_data);
             // Load parts into a temporary vector to not override
-            // cached values (like precalc_dx, passenger_id, ...)
+            // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read(parts);
             for(size_t i = 0; i < parts.size() && i < veh->parts.size(); i++) {

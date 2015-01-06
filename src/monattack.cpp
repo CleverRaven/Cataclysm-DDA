@@ -26,7 +26,7 @@
 int within_visual_range(monster *z, int max) {
     int j, dist;
 
-    dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
+    dist = rl_dist( z->pos(), g->u.pos() );
     if (dist > max || !g->sees_u(z->posx(), z->posy(), j)) {
         return -1;    // Out of range
     }
@@ -295,13 +295,13 @@ void mattack::boomer(monster *z, int index)
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 3 || 
+        rl_dist( z->pos(), target->pos() ) > 3 || 
         !z->sees( target, t ) ) {
         return;
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->posx(), z->posy(), target->xpos(), target->ypos(), t );
+    std::vector<point> line = line_to( z->pos(), target->pos(), t );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u_see( z->posx(), z->posy() );
@@ -397,7 +397,7 @@ void mattack::resurrect(monster *z, int index)
 void mattack::smash(monster *z, int index)
 {
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return;
     }
 
@@ -689,7 +689,7 @@ void mattack::growplants(monster *z, int index)
 void mattack::grow_vine(monster *z, int index)
 {
     if( z->friendly ) {
-        if( rl_dist( g->u.xpos(), g->u.ypos(), z->xpos(), z->ypos() ) <= 3 ) {
+        if( rl_dist( g->u.pos(), z->pos() ) <= 3 ) {
             // Friendly vines keep the area around you free, so you can move.
             return;
         }
@@ -759,7 +759,7 @@ void mattack::vine(monster *z, int index)
     int dist_from_hub = 999;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).type->id == "mon_creeper_hub") {
-            int dist = rl_dist(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy());
+            int dist = rl_dist( z->pos(), g->zombie(i).pos() );
             if (dist < dist_from_hub) {
                 dist_from_hub = dist;
             }
@@ -782,7 +782,7 @@ void mattack::spit_sap(monster *z, int index)
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        ( dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) ) > 12 || 
+        ( dist = rl_dist( z->pos(), target->pos() ) ) > 12 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -824,7 +824,7 @@ void mattack::spit_sap(monster *z, int index)
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
     g->m.sees(g->u.posx, g->u.posy, z->posx(), z->posy(), 60, t);
-    std::vector<point> line = line_to(z->posx(), z->posy(), target->xpos(), target->ypos(), t);
+    std::vector<point> line = line_to( z->pos(), target->pos(), t );
     int dam = 5;
     for (auto &i : line) {
         g->m.shoot(i.x, i.y, dam, false, no_effects);
@@ -858,7 +858,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         return;
         // TODO: when friendly: open a way to the stairs, don't spawn monsters
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 5 &&
+    if (rl_dist( z->posx(), g->u.pos() ) > 5 &&
         !g->m.route(g->u.posx, g->u.posy, z->posx(), z->posy()).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for (int x = g->u.posx; x <= z->posx() - 3; x++) {
@@ -1051,7 +1051,7 @@ void mattack::fungus_big_blossom(monster *z, int index)
 
 void mattack::fungus_inject(monster *z, int index)
 {
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+    if (rl_dist( z->pos(), g->u.pos() ) > 1) {
         return;
     }
 
@@ -1113,6 +1113,7 @@ void mattack::fungus_bristle(monster *z, int index)
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
     }
+    if (rl_dist( z->pos(), g->u.pos() ) > 1) {
 
     int t;
     Creature *target = z->attack_target();
@@ -1212,7 +1213,7 @@ void mattack::fungus_fortify(monster *z, int index)
          !g->u.crossed_threshold() && !mycus) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg(m_info, _("The %s spreads its tendrils.  It seems as though it's expecting you..."), z->name().c_str());
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 3) {
+        if (rl_dist( z->pos(), g->u.pos() ) < 3) {
             if (query_yn(_("The tower extends and aims several tendrils from its depths.  Hold still?"))) {
                 add_msg(m_warning, _("The %s works several tendrils into your arms, legs, torso, and even neck..."), z->name().c_str());
                 g->u.hurtall(1);
@@ -1254,8 +1255,8 @@ void mattack::fungus_fortify(monster *z, int index)
         }
     }
     if( !fortified && !(mycus || peaceful) ) {
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 12) {
-            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3) {
+        if (rl_dist( z->pos(), g->u.pos() ) < 12) {
+            if (rl_dist( z->pos(), g->u.pos() ) > 3) {
                 // Oops, can't reach.  ):
                 // How's about we spawn more tendrils? :)
                 // Aimed at the player, too?  Sure!
@@ -1333,7 +1334,7 @@ void mattack::leap(monster *z, int index)
     int linet = 0;
     std::vector<point> options;
     point target = z->move_target();
-    int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
+    int best = rl_dist( z->pos(), target );
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
@@ -1370,7 +1371,7 @@ void mattack::leap(monster *z, int index)
     // Go back and remove all options that aren't tied for best
     for (size_t i = 0; i < options.size() && options.size() > 1; i++) {
         point p = options[i];
-        if (rl_dist(target.x, target.y, options[i].x, options[i].y) != best) {
+        if (rl_dist( target, options[i] ) != best) {
             options.erase(options.begin() + i);
             i--;
         }
@@ -1396,7 +1397,7 @@ void mattack::dermatik(monster *z, int index)
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 || 
+        rl_dist( z->pos(), target->pos() ) > 1 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -1734,7 +1735,7 @@ void mattack::tentacle(monster *z, int index)
     z->moves -= 100;
     z->reset_special(index); // Reset timer
 
-    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
+    std::vector<point> line = line_to( z->pos(), g->u.pos(), t );
     std::set<std::string> no_effects;
     for (auto &i : line) {
         int tmpdam = 20;
@@ -1765,7 +1766,7 @@ void mattack::vortex(monster *z, int index)
 {
     // Make sure that the player's butchering is interrupted!
     if (g->u.activity.type == ACT_BUTCHER &&
-        rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 2) {
+        rl_dist( z->pos(), g->u.pos() ) <= 2) {
         add_msg(m_warning, _("The buffeting winds interrupt your butchering!"));
         g->u.activity.type = ACT_NULL;
     }
@@ -2005,7 +2006,7 @@ void mattack::stare(monster *z, int index)
         g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<point> sight = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);
+        std::vector<point> sight = line_to( z->pos(), g->u.pos(), 0 );
         for (auto &i : sight) {
             if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
                 g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
@@ -2145,7 +2146,7 @@ void mattack::tazer( monster *z, int index )
         for( size_t i = 0; i < g->num_zombies(); i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 && !tmp.is_dead() ) {
-                int d = rl_dist( z->posx(), z->posy(), tmp.posx(), tmp.posy() );
+                int d = rl_dist( z->pos(), tmp.pos() );
                 if ( d < 2 ) {
                     z->reset_special( index ); // Reset timer
                     taze( z, &tmp );
@@ -2156,7 +2157,7 @@ void mattack::tazer( monster *z, int index )
         // Taze NPCs too
         for( auto &n : g->active_npc ) {
             if( n->attitude == NPCATT_KILL ) {
-            int d = rl_dist( z->posx(), z->posy(), n->posx, n->posy );
+            int d = rl_dist( z->pos(), n->pos() );
                 if ( d < 2 ) {
                     z->reset_special( index ); // Reset timer
                     taze( z, n );
@@ -2171,7 +2172,7 @@ void mattack::tazer( monster *z, int index )
         // Try to taze non-hostile NPCs
         for( auto &n : g->active_npc ) {
             if( n->attitude != NPCATT_KILL ) {
-            int d = rl_dist( z->posx(), z->posy(), n->posx, n->posy );
+            int d = rl_dist( z->pos(), n->pos() );
                 if ( d < 2 ) {
                     z->reset_special( index ); // Reset timer
                     taze( z, n );
@@ -2626,8 +2627,7 @@ void mattack::tankgun( monster *z, Creature *target )
             vehicle *veh = g->m.veh_at( g->u.xpos(), g->u.ypos() );
             if( veh ) {
                 veh->center_of_mass( aim_point.x, aim_point.y );
-                aim_point.x += veh->global_x();
-                aim_point.y += veh->global_y();
+                aim_point += veh->global_pos();
             }
         }
     }
@@ -2874,7 +2874,7 @@ void mattack::flamethrower(monster *z, int index)
 void mattack::flame( monster *z, Creature *target )
 {
     int bres = 0;
-    int dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() );
+    int dist = rl_dist( z->pos(), target->pos() );
     if( target != &g->u ) {
       // friendly
       z->moves -= 500;   // It takes a while
@@ -2884,7 +2884,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
-      std::vector<point> traj = line_to( z->posx(), z->posy(), target->xpos(), target->ypos(), bres );
+      std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
@@ -2907,7 +2907,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<point> traj = line_to( z->posx(), z->posy(), g->u.posx, g->u.posy, bres );
+    std::vector<point> traj = line_to( z->pos(), g->u.pos(), bres );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
@@ -2968,7 +2968,6 @@ void mattack::chickenbot(monster *z, int index)
 {
     int mode = 0;
     int cap = INT_MAX;
-    int tx, ty;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
@@ -2990,9 +2989,7 @@ void mattack::chickenbot(monster *z, int index)
         cap = target->power_rating() - 1;
     }
 
-    tx = target->xpos();
-    ty = target->ypos();
-    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    int dist = rl_dist( z->pos(), target->pos() );
     if( dist == 1 && one_in(2) ) {
         mode = 1;
     } else if( ( dist >= 12) ||
@@ -3037,7 +3034,6 @@ void mattack::multi_robot(monster *z, int index)
 {
     int mode = 0;
     int cap = INT_MAX;
-    int tx, ty;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
@@ -3058,10 +3054,8 @@ void mattack::multi_robot(monster *z, int index)
         }
         cap = target->power_rating();
     }
-    tx = target->xpos();
-    ty = target->ypos();
 
-    int dist = rl_dist( z->posx(), z->posy(), tx, ty );
+    int dist = rl_dist( z->pos(), target->pos() );
     if( dist == 1 && one_in(2) ) {
         mode = 1;
     } else if( dist <= 5 ) {
@@ -3125,7 +3119,7 @@ void mattack::ratking(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 50) {
+    if (rl_dist( z->pos(), g->u.pos() ) > 50) {
         return;
     }
     z->reset_special(index); // Reset timer
@@ -3147,7 +3141,7 @@ void mattack::ratking(monster *z, int index)
         add_msg(m_warning, _("\"FOUL INTERLOPER...\""));
         break;
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 10) {
+    if (rl_dist( z->pos(), g->u.pos() ) <= 10) {
         g->u.add_effect("rat", 30);
     }
 }
@@ -3167,7 +3161,7 @@ void mattack::upgrade(monster *z, int index)
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
         if( zed.type->id == "mon_zombie" &&
-            rl_dist(z->posx(), z->posy(), zed.posx(), zed.posy()) <= 5 &&
+            rl_dist( z->posy(), zed.posy() ) <= 5 &&
             z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE ) {
             targets.push_back(i);
         }
@@ -3258,7 +3252,7 @@ void mattack::bite(monster *z, int index)
 {
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 ) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return;
     }
 
@@ -3348,7 +3342,7 @@ void mattack::flesh_golem(monster *z, int index)
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        ( dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) ) > 20 || 
+        ( dist = rl_dist( z->posy(), target->pos() ) ) > 20 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -3402,7 +3396,7 @@ void mattack::lunge(monster *z, int index)
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        ( dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) ) > 20 || 
+        ( dist = rl_dist( z->pos(), target->pos() ) ) > 20 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -3410,6 +3404,7 @@ void mattack::lunge(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( dist > 1 ) {
         if (one_in(5)) {
+            int j;
             if( dist > 4 || !z->sees( target, t ) ) {
                 return; // Out of range
             }
@@ -3458,10 +3453,10 @@ void mattack::longswipe(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+    if (rl_dist( z->pos(), g->u.pos() ) > 1) {
         if (one_in(5)) {
             int j;
-            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3 ||
+            if (rl_dist( z->pos(), g->u.pos() ) > 3 ||
                 !g->sees_u(z->posx(), z->posy(), j)) {
                 return; // Out of range
             }
@@ -3530,7 +3525,7 @@ void mattack::darkman(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
-    if( rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ) {
+    if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return;
     }
     z->reset_special(index); // Reset timer
@@ -3583,7 +3578,7 @@ void mattack::darkman(monster *z, int index)
 
 void mattack::slimespring(monster *z, int index)
 {
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 30) {
+    if (rl_dist( z->pos(), g->u.pos() ) > 30) {
         return;
     }
     z->reset_special(index); // Reset timer
@@ -3605,7 +3600,7 @@ void mattack::slimespring(monster *z, int index)
             break;
         }
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
+    if (rl_dist( z->pos(), g->u.pos() ) <= 3) {
         if ( (g->u.has_effect("bleed")) || (g->u.has_effect("bite")) ) {
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
@@ -3874,10 +3869,13 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
+    if( z->friendly ) {
+        return; // TODO: handle friendly monsters
+    }
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 || 
+        rl_dist( z->pos(), target->pos() ) > 1 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -3958,7 +3956,7 @@ void mattack::suicide(monster *z, int index)
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 2 || 
+        rl_dist( z->pos(), target->pos() ) > 2 || 
         !z->sees( target, t ) ) {
         return;
     }

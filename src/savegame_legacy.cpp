@@ -1992,8 +1992,8 @@ void vehicle::load_legacy(std::ifstream &stin) {
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.setid(legacy_vpart_id[ pid ]);
-        new_part.mount_dx = pdx;
-        new_part.mount_dy = pdy;
+        new_part.mount.x = pdx;
+        new_part.mount.y = pdy;
         new_part.hp = php;
         new_part.blood = pbld;
         new_part.bigness = pbig;

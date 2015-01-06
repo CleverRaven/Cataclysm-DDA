@@ -3464,7 +3464,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // Dodge is intentionally not accounted for.
     const double aim_level =
         recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( xpos(), ypos(), target->xpos(), target->ypos() );
+    const double range = rl_dist( pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under the target threshold,
@@ -3524,13 +3524,14 @@ void player::print_recoil( WINDOW *w ) const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
-        if (adj_recoil > 0) {
+        if( adj_recoil > 150 ) {
+            // 150 is the minimum when not actively aiming
             nc_color c = c_ltgray;
-            if (adj_recoil >= 36) {
+            if( adj_recoil >= 690 ) {
                 c = c_red;
-            } else if (adj_recoil >= 20) {
+            } else if( adj_recoil >= 450 ) {
                 c = c_ltred;
-            } else if (adj_recoil >= 4) {
+            } else if( adj_recoil >= 210 ) {
                 c = c_yellow;
             }
             wprintz(w, c, _("Recoil"));
@@ -3547,10 +3548,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         const int y = sideStyle ? 1 : 0;
         wmove( weapwin, y, 0 );
         print_gun_mode( weapwin, c_ltgray );
-
-        const int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
-        wmove( weapwin, y, x );
-        print_recoil(weapwin);
     }
 
     // Print currently used style or weapon mode.
@@ -13504,7 +13501,7 @@ bool player::sees(const Creature *critter, int &t) const
     }
     const int cx = critter->xpos();
     const int cy = critter->ypos();
-    int dist = rl_dist(posx, posy, cx, cy);
+    int dist = rl_dist( pos(), critter->pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13536,15 +13533,14 @@ bool player::has_container_for(const item &newit)
         return true;
     }
     unsigned charges = newit.charges;
-    LIQUID_FILL_ERROR tmperr;
-    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    charges -= weapon.get_remaining_capacity_for_liquid(newit);
     for (size_t i = 0; i < worn.size() && charges > 0; i++) {
-        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit);
     }
     for (size_t i = 0; i < inv.size() && charges > 0; i++) {
         const std::list<item>&items = inv.const_stack(i);
         // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+        charges -= items.front().get_remaining_capacity_for_liquid(newit) * items.size();
     }
     return charges <= 0;
 }
@@ -13636,7 +13632,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( posx, posy, critter.xpos(), critter.ypos() ) <= range;
+    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
