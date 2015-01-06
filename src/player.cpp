@@ -13163,9 +13163,8 @@ int player::getID () const
     return this->id;
 }
 
-bool player::uncanny_dodge(bool is_u)
+bool player::uncanny_dodge()
 {
-    (void)is_u;
     is_u = this == &g->u;
     bool seen = g->u.sees( this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
