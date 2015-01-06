@@ -226,7 +226,7 @@ bool vehicle::remote_controlled (player *p)
             return true;
         }
     }
-    
+
     add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
     g->setremoteveh( nullptr );
     return false;
@@ -378,7 +378,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if( one_in(16) ) {
             dome_lights_on = true;
         }
-        
+
         // aisle lights being on would be common for the vehicles they are in (vans, RVs, 18-wheelers, etc)
         if( one_in(8) ) {
             aisle_lights_on = true;
@@ -586,7 +586,7 @@ void vehicle::control_doors() {
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
     pmenu.query();
-    
+
     if( pmenu.ret >= 0 && pmenu.ret < (int)doors_with_motors.size() ) {
         int part = doors_with_motors[pmenu.ret];
         open_or_close( part, !(parts[part].open) );
@@ -621,7 +621,7 @@ void vehicle::control_engines() {
     if( velocity > safe_vel ) {
         cruise_velocity = safe_vel;
     }
-    
+
     //if an engine isn't running, and player is in control, need to start engine.
     if (g->u.controlling_vehicle && !engine_on) {
         start_engine();
@@ -634,9 +634,8 @@ int vehicle::select_engine() {
     tmenu.text = _("Toggle which?");
     for( size_t e = 0; e < engines.size(); ++e ) {
         name = part_info(engines[e]).name;
-        tmenu.addentry(e, true, -1, "[%s] %s",
-                        ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str());
-        
+        tmenu.addentry( e, true, -1, "[%s] %s",
+                        ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str() );
     }
 
     tmenu.addentry(-1, true, 'q', _("Finish"));
@@ -645,7 +644,7 @@ int vehicle::select_engine() {
 }
 
 void vehicle::toggle_specific_engine(int e,bool on) {
-    toggle_specific_part(engines[e],on);
+    toggle_specific_part( engines[e], on );
 }
 void vehicle::toggle_specific_part(int p,bool on) {
     parts[p].enabled = on;
@@ -655,18 +654,18 @@ bool vehicle::is_engine_type_on(int e, const ammotype  & ft) {
 }
 
 bool vehicle::has_engine_type(const ammotype  & ft, bool enabled) {
-    for (size_t e=0; e<engines.size(); ++e) {
-            if (is_engine_type(e, ft) && 
-                (!enabled || is_engine_on(e))) 
-                return true;
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if( is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
+            return true;
+        }
     }
     return false;
 }
 bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
-    for (size_t e=0; e<engines.size(); ++e) {
-            if (!is_engine_type(e, ft) && 
-                (!enabled || is_engine_on(e))) 
-                return true;
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if( !is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
+            return true;
+        }
     }
     return false;
 }
@@ -707,7 +706,7 @@ bool vehicle::is_active_engine_at(int x,int y) {
 }
 
 bool vehicle::is_alternator_on(int a) {
-    return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
+    return (parts[alternators[a]].hp > 0) && is_active_engine_at(
         parts[alternators[a]].mount.x, parts[alternators[a]].mount.y );
 }
 bool vehicle::has_security_working(){
@@ -1908,14 +1907,14 @@ bool vehicle::remove_part (int p)
     // Update current engine configuration if needed
     if(part_flag(p, "ENGINE") && engines.size() > 1){
         bool any_engine_on = false;
-        
+
         for(auto &e : engines) {
             if(e != p && is_part_on(e)) {
                 any_engine_on = true;
                 break;
             }
         }
-        
+
         if(!any_engine_on) {
             engine_on = false;
             for(auto &e : engines) {
@@ -1951,6 +1950,10 @@ void vehicle::part_removal_cleanup() {
     bool changed = false;
     for (std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */) {
         if ((*it).removed) {
+            auto items = get_items( std::distance( parts.begin(), it ) );
+            while( !items.empty() ) {
+                items.erase( items.begin() );
+            }
             it = parts.erase(it);
             changed = true;
         }
@@ -4345,8 +4348,8 @@ vehicle_stack vehicle::get_items( int part )
 
 void vehicle::place_spawn_items()
 {
-    for(std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
-            next_spawn != item_spawns.end(); next_spawn++) {
+    for( std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
+         next_spawn != item_spawns.end(); next_spawn++ ) {
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
             int part = part_at(next_spawn->x, next_spawn->y);
@@ -4405,8 +4408,9 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
-        thrust (cruise_velocity > velocity? 1 : -1);
+    if( player_in_control(&g->u) && cruise_on && cruise_velocity != velocity ) {
+        thrust( (cruise_velocity) > velocity ? 1 : -1 );
+    }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
     // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
@@ -5159,7 +5163,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
         if( liquid_fuel < charges * charge_mult ) {
-            charges = liquid_fuel / charge_mult;            
+            charges = liquid_fuel / charge_mult;
         }
         if( liquid_fuel < 1 || charges < 1 ) {
             return false;
@@ -5220,7 +5224,7 @@ int aoe_size( std::set< std::string > tags )
                tags.count( "FLAME" ) ) {
         return 1;
     }
-    
+
     return 0;
 }
 
