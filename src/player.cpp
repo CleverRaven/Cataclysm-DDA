@@ -13165,7 +13165,7 @@ int player::getID () const
 
 bool player::uncanny_dodge()
 {
-    is_u = this == &g->u;
+    bool is_u = this == &g->u;
     bool seen = g->u.sees( this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
