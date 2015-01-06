@@ -1796,8 +1796,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("MANDIBLES") && one_in(22 - dex_cur - get_skill_level("unarmed")) &&
-        (!wearing_something_on(bp_mouth))) {
+    if ((has_trait("MANDIBLES") || (has_trait("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
+        one_in(22 - dex_cur - get_skill_level("unarmed")) && (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 12;
         if (is_player()) {
@@ -1808,6 +1808,23 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s slices %s with her mandibles!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+    
+    if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level("unarmed")) &&
+        (!wearing_something_on(bp_mouth)) ) {
+        special_attack tmp;
+        tmp.stab = 15;
+        if (is_player()) {
+            tmp.text = string_format(_("You bite %s with your fangs!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites %s with his fangs!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s bites %s with her fangs!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);

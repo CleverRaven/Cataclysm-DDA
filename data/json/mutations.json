@@ -1422,6 +1422,15 @@
         "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "CF_HAIR",
+        "name" : "Urticating Hairs",
+        "points" : 3,
+        "description" : "Significant amounts of your hairs have loosened.  If somme creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
+        "prereqs" : ["CHITIN_FUR2", "CHITIN_FUR3"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
         "id" : "SPINES",
         "name" : "Spines",
         "points" : 1,
@@ -1858,7 +1867,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
@@ -1873,7 +1882,7 @@
         "mixed_effect" : true,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
         "valid" : false,
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -2493,11 +2502,30 @@
         "mixed_effect" : true,
         "description" : "A set of insect-like mandibles have grown around your mouth. They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear. Slightly reduces wet effects.",
         "prereqs" : ["MOUTH_FLAPS"],
+        "changes_to" : ["FANGS_SPIDER"],
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "FANGS_SPIDER",
+        "name" : "Folding Fangs",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 6,
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
+        "prereqs" : ["MANDIBLES"],
+        "prereqs2" : ["POISONOUS", "POISONOUS2"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 1 }
+        ],
+        "active"     :    true,
+        "time"       :    10
     },{
         "type" : "mutation",
         "id" : "CANINE_EARS",
@@ -3187,7 +3215,7 @@
         "valid" : false,
         "purifiable" : false,
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
-        "prereqs" : ["EYEBULGE"],
+        "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["MUTCAT_INSECT"]
     },{
@@ -3700,10 +3728,10 @@
         "visibility" : 4,
         "ugliness" : 5,
         "//~" : "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task. The handheld game does count.",
-        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting on, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients from the soil.",
+        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients from the soil.",
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["MUTCAT_PLANT"]
     },{
@@ -3861,7 +3889,7 @@
         "purifiable" : false,
         "changes_to" : ["INSECT_ARMS_OK", "ARACHNID_ARMS"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "prereqs" : ["CHITIN"],
+        "prereqs" : ["CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"]
@@ -3893,7 +3921,7 @@
         "changes_to" : ["ARACHNID_ARMS_OK"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["INSECT_ARMS"],
-        "prereqs2" : ["CHITIN3", "FUR"],
+        "prereqs2" : ["CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -3908,7 +3936,7 @@
         "purifiable" : false,
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["ARACHNID_ARMS"],
-        "prereqs2" : ["VENOMOUS", "WEB_RAPPEL"],
+        "prereqs2" : ["POISONOUS", "POISONOUS2", "WEB_RAPPEL"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
