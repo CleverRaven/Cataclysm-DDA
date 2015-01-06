@@ -497,7 +497,7 @@
         "description" : "Cumbersome boots designed for warmth.",
         "price" : 7000,
         "material" : ["wool", "plastic"],
-        "volume" : 22,
+        "volume" : 14,
         "cutting" : 0,
         "warmth" : 80,
         "phase" : "solid",
