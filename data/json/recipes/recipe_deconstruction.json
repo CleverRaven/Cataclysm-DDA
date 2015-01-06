@@ -2283,5 +2283,19 @@
       [ [ "saw", 1 ] ],
       [ [ "pockknife", 1 ] ]
     ]
-  }
+  },{
+  "type" : "recipe",
+  "result": "material_uranium_ingot",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 9000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+  "tools": [ [ [ "welder", 10 ], [ "toolset", 10 ] ] ],
+  "components": [ [ [ "material_uranium", 100 ] ] ]
+}
+
 ]
