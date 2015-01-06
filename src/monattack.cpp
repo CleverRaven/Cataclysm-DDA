@@ -1113,12 +1113,10 @@ void mattack::fungus_bristle(monster *z, int index)
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
     }
-    if (rl_dist( z->pos(), g->u.pos() ) > 1) {
-
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 || 
+        rl_dist( z->pos(), target->pos() ) > 1 || 
         !z->sees( target, t ) ) {
         return;
     }
@@ -3161,7 +3159,7 @@ void mattack::upgrade(monster *z, int index)
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
         if( zed.type->id == "mon_zombie" &&
-            rl_dist( z->posy(), zed.posy() ) <= 5 &&
+            rl_dist( z->pos(), zed.pos() ) <= 5 &&
             z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE ) {
             targets.push_back(i);
         }
@@ -3404,7 +3402,6 @@ void mattack::lunge(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( dist > 1 ) {
         if (one_in(5)) {
-            int j;
             if( dist > 4 || !z->sees( target, t ) ) {
                 return; // Out of range
             }
