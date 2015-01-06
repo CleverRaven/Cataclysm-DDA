@@ -215,8 +215,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     if( pldist < iff_dist && g->sees_u(xpos(), ypos(), t) ) {
         area_iff = area > 0;
         angle_iff = true;
-        // Player inside vehicle won't be hit by shots from the roof, so we can fire "through" them just fine
-        if( g->m.veh_at( u.posx, u.posy, part ) == in_veh && in_veh->is_inside( part ) ) {
+        // Player inside vehicle won't be hit by shots from the roof,
+        // so we can fire "through" them just fine.
+        if( in_veh && g->m.veh_at( u.posx, u.posy, part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
