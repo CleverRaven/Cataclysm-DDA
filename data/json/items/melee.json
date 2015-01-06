@@ -4533,6 +4533,22 @@
 	"bashing": 1,
 	"cutting": 0,
 	"to_hit": -2
+    },
+    {
+	"type":"GENERIC",
+	"id": "material_uranium_ingot",
+	"symbol": ",",
+	"color": "light_gray",
+	"name": "uranium ingot",
+	"category": "spare_parts",
+	"description": "An ingot made of not-quite-depleted uranium. Can be used to make high-quality AP ammunition. Slightly radioactive, but who cares, right?",
+	"price": 50000,
+	"material": "steel",
+	"weight": 19100,
+	"volume": 4,
+	"bashing": 15,
+	"cutting": 0,
+	"to_hit": -5
     }
 
 ]
