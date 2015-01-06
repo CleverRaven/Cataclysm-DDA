@@ -508,7 +508,7 @@ std::string item::info(bool showtext) const
 std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) const
 {
     std::stringstream temp1, temp2;
-    std::string space="   ";
+    std::string space=" ";
     if( g != NULL && debug == false &&
         ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
         debug = true;
@@ -903,7 +903,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
 		dump->push_back(iteminfo("ARMOR", temp1.str()));
 
-        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
