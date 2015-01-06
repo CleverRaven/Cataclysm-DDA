@@ -4474,7 +4474,7 @@
             {"x": -2, "y": 1, "chance": 40, "items": "fireman_belt"},
             {"x": -2, "y": 1, "chance": 20, "items": "nomex_suit"},
             {"x": -2, "y": 1, "chance": 20, "items": "nomex_hood"},
-            {"x": -2, "y": 1, "chance": 40, "items": "nomex_gloves"},
+            {"x": -2, "y": 1, "chance": 40, "items": "nomex_gloves"}
         ]
     }
 ]
