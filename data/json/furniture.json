@@ -183,7 +183,8 @@
                 { "item": "wrapper", "amount": 1, "minamount": 0 },
                 { "item": "can_drink", "amount": 1, "minamount": 0 },
                 { "item": "bag_plastic", "amount": 1, "minamount": 0 },
-                { "item": "ceramic_shard", "amount": 3, "minamount": 1 }
+                { "item": "ceramic_shard", "amount": 3, "minamount": 1 },
+                { "item": "cig_butt", "amount": 1, "minamount": 0 }
             ]
         }
     },{
@@ -1583,7 +1584,8 @@
                 { "item": "wrapper", "amount": 1, "minamount": 0 },
                 { "item": "can_drink", "amount": 1, "minamount": 0 },
                 { "item": "bag_plastic", "amount": 1, "minamount": 0 },
-                { "item": "ceramic_shard", "amount": 3, "minamount": 1 }
+                { "item": "ceramic_shard", "amount": 3, "minamount": 1 },
+                { "item": "cig_butt", "amount": 1, "minamount": 0 }
             ]
         }
     },{
