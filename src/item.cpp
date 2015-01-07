@@ -15,6 +15,7 @@
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "algorithm.h"
 
 #include <cmath> // floor
 #include <sstream>

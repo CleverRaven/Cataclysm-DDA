@@ -12,6 +12,8 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "itype.h"
+#include "algorithm.h"
+
 #include <queue>
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -1830,6 +1832,11 @@ void print_missing_tool(std::vector<tool_comp> const &require_one_of) {
     for (auto const &tool : require_one_of) {
         int const req = tool.count;
 
+        if (!first_tool) {
+            add_msg(m_info, _("Or..."));
+            first_tool = false;
+        }
+
         if (tool.type == "welder") {
             add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."),
                 quality::get_name( "SAW_M_FINE" ).c_str() );
@@ -1841,11 +1848,6 @@ void print_missing_tool(std::vector<tool_comp> const &require_one_of) {
                                      "You need a %s with %d charges to disassemble this.",
                                       req),
                     item::nname(tool.type).c_str(), req);
-        }
-
-        if (!first_tool) {
-            add_msg(m_info, _("Or..."));
-            first_tool = false;
         }
     }
 }
