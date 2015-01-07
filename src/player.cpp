@@ -11453,7 +11453,7 @@ void player::read(int inventory_position)
         it->typeId() == "cookbook_human") {
         add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
     } else if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
-        add_morale(MORALE_BOOK, 50, 300, minutes + 60, minutes, false, it->type);
+        add_morale(MORALE_BOOK, 50, 150, minutes + 60, minutes, false, it->type);
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
