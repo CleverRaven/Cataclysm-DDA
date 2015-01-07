@@ -1143,11 +1143,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has pockets to warm your hands.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Put away your weapon to warm your hands in the pockets.")));
         }
         if (is_armor() && has_flag("HOOD")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has a hood to keep your head warm.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Leave your head unencumbered to put on the hood.")));
         }
         if (is_armor() && has_flag("RAINPROOF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
