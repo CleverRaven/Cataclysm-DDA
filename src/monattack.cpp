@@ -322,8 +322,9 @@ void mattack::boomer(monster *z, int index)
     if( !target->uncanny_dodge() ) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect("boomered", bp_eyes, 3, 12);
-        } else if( u_see && target == &g->u ) {
-            add_msg(_("You dodge it!"));
+        } else if( u_see ) {
+            target->add_msg_player_or_npc( _("You dodge it!"),
+                                           _("<npcname> dodges it!") );
         }
         if( foe != nullptr ) {
             foe->practice( "dodge", 10 );
@@ -415,12 +416,9 @@ void mattack::smash(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        if( target == &g->u ) {
-            add_msg( _("The %s takes a powerful swing at you, but you dodge it!"), z->name().c_str() );
-        } else if( seen ) {
-            add_msg( _("The %s takes a powerful swing at %s, but %s dodges it!"), 
-                     z->name().c_str(), target->disp_name().c_str(), target->disp_name().c_str() );
-        }
+        target->add_msg_player_or_npc( _("The %s takes a powerful swing at you, but you dodge it!"),
+                                       _("The %s takes a powerful swing at <npcname>, but <npcname> dodges it!"),
+                                       z->name().c_str() );
         if( foe != nullptr ) {
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
@@ -1051,6 +1049,7 @@ void mattack::fungus_big_blossom(monster *z, int index)
 
 void mattack::fungus_inject(monster *z, int index)
 {
+    Creature *target = &g->u; // For faster copy+paste
     if (rl_dist( z->pos(), g->u.pos() ) > 1) {
         return;
     }
@@ -1080,7 +1079,8 @@ void mattack::fungus_inject(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("You dodge it!"));
+        target->add_msg_player_or_npc( _("You dodge it!"),
+                                       _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
@@ -1135,9 +1135,8 @@ void mattack::fungus_bristle(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        if( target == &g->u ) {
-            add_msg(_("You dodge it!"));
-        }
+        target->add_msg_player_or_npc( _("You dodge it!"),
+                                       _("<npcname> dodges it!") );
         if( foe != nullptr )  {
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
@@ -1202,6 +1201,7 @@ void mattack::fungus_fortify(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
+    Creature *target = &g->u;
     bool mycus = false;
     bool peaceful = true;
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
@@ -1300,7 +1300,8 @@ void mattack::fungus_fortify(monster *z, int index)
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
             int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
             if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-                add_msg(_("You dodge it!"));
+                target->add_msg_player_or_npc( _("You dodge it!"),
+                                               _("<npcname> dodges it!") );
                 g->u.practice( "dodge", z->type->melee_skill * 2 );
                 g->u.ma_ondodge_effects();
                 return;
@@ -1725,6 +1726,7 @@ void mattack::tentacle(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
+    Creature *target = &g->u;
     int t;
     if (!g->sees_u(z->posx(), z->posy(), t)) {
         return;
@@ -1746,7 +1748,8 @@ void mattack::tentacle(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("You dodge it!"));
+        target->add_msg_player_or_npc( _("You dodge it!"),
+                                       _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
@@ -3365,8 +3368,9 @@ void mattack::flesh_golem(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        target->add_msg_player_or_npc( _("You dodge it!"),
+                                       _("<npcname> dodges it!") );
         if( foe != nullptr ) {
-            foe->add_msg_if_player(_("You dodge it!"));
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
         }
@@ -3422,8 +3426,9 @@ void mattack::lunge(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        target->add_msg_player_or_npc( _("You sidestep it!"),
+                                       _("<npcname> sidesteps it!") );
         if( foe != nullptr ) {
-            foe->add_msg_if_player(_("You sidestep it!"));
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
         }
@@ -3889,8 +3894,9 @@ void mattack::bio_op_takedown(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill ), 0L );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        target->add_msg_player_or_npc( _("You dodge it!"),
+                                       _("<npcname> dodges it!") );
         if( foe != nullptr ) {
-            foe->add_msg_if_player(_("You dodge it!"));
             foe->practice( "dodge", z->type->melee_skill * 2 );
             foe->ma_ondodge_effects();
         }
