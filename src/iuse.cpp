@@ -1355,7 +1355,7 @@ int iuse::fun_hallu(player *p, item *it, bool, point)
 int iuse::meditate(player *p, item *it, bool, point)
 {
     if (p->has_trait("SPIRITUAL")) {
-        p->moves -= 1000;
+        p->moves -= 2000;
         p->add_msg_if_player(m_good, _("You pause to engage in spiritual contemplation."));
         p->add_morale(MORALE_FEELING_GOOD, 5, 10);
     } else {
