@@ -537,7 +537,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const char *get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
-        bool uncanny_dodge(bool is_u = true);
+        bool uncanny_dodge();
         /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
         point adjacent_tile();
 
