@@ -4780,7 +4780,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             if (!is_player()) {
                 if( u_see ) {
                     add_msg(_("%1$s's %2$s scrape %s in mid-attack!"), name.c_str(),
-                                (_("thorns"), source->disp_name().c_str()));
+                                _("thorns"), source->disp_name().c_str());
                 }
             } else {
                 add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());

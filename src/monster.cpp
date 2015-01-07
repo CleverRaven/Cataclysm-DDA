@@ -824,10 +824,12 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         } else {
             if (u_see_me) {
                 //~ $1s is monster name, %2$s is that monster target name,
-                //~ $3s is target bodypart name in accusative, 4$s is target armor name.
-                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                //~ $3s is target bodypart name in accusative, $4s is the monster target name,
+                //~ 5$s is target armor name.
+                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %4$s %5$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name_accusative(bp_hit).c_str(),
+                            target.disp_name(true).c_str(),
                             target.skin_name().c_str());
             }
         }
