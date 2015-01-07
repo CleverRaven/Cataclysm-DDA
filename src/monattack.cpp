@@ -457,11 +457,14 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
     auto msg_type = foe == &g->u ? m_bad : m_neutral;
     std::vector<int> valid;// List of available attacks
     int free_index;
+    bool seen = g->u_see( z );
     monster tmp(GetMType("mon_manhack"));
     if( dist == 1 ) {
         valid.push_back(1);    // Shock
     }
-    if( foe != nullptr && dist <= 2 ) { // No irradiating mons
+    // mutate() doesn't like non-players right now
+    // It will mutate NPCs, but it will say it mutated the player
+    if( foe != &g->u && dist <= 2 ) {
         valid.push_back(2);    // Radiation
     }
     if( !free.empty() ) {
@@ -475,12 +478,15 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         taze( z, target );
         break;
     case 2: // Radioactive beam
-        add_msg( msg_type, _("The %s opens it's mouth and a beam shoots towards %s!"),
-                z->name().c_str(), target->disp_name().c_str() );
+        if( seen ) {
+            add_msg( msg_type, _("The %s opens it's mouth and a beam shoots towards %s!"),
+                     z->name().c_str(), target->disp_name().c_str() );
+        }
         z->moves -= 400;
         if( !foe->uncanny_dodge() ) {
             if( foe->get_dodge() > rng(0, 16) && !one_in( foe->get_dodge() ) ) {
-                add_msg(_("You dodge the beam!"));
+                target->add_msg_player_or_npc( _("You dodge the beam!"),
+                                               _("<npcname> dodges the beam!") );
             } else if( one_in(6) ) {
                 foe->mutate();
             } else {
@@ -490,8 +496,10 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         }
         break;
     case 3: // Spawn a manhack
-        add_msg(m_warning, _("The %s opens its coat, and a manhack flies out!"),
-                z->name().c_str());
+        if( seen ) {
+            add_msg( m_warning, _("The %s opens its coat, and a manhack flies out!"),
+                     z->name().c_str());
+        }
         z->moves -= 200;
         free_index = rng(0, free.size() - 1);
         tmp.spawn(free[free_index].x, free[free_index].y);
@@ -499,27 +507,33 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         g->add_zombie(tmp);
         break;
     case 4: // Acid pool
-        add_msg(m_warning, _("The %s drops a flask of acid!"), z->name().c_str());
+        if( seen ) {
+            add_msg(m_warning, _("The %s drops a flask of acid!"), z->name().c_str());
+        }
         z->moves -= 100;
         for (auto &i : free) {
             g->m.add_field(i.x, i.y, fd_acid, 3);
         }
         break;
     case 5: // Flavor text
+        const char *flavtext = "";
         switch (rng(1, 4)) {
         case 1:
-            add_msg(m_warning, _("The %s gesticulates wildly!"), z->name().c_str());
+            flavtext = _("The %s gesticulates wildly!");
             break;
         case 2:
-            add_msg(m_warning, _("The %s coughs up a strange dust."), z->name().c_str());
+            flavtext = _("The %s coughs up a strange dust.");
             break;
         case 3:
-            add_msg(m_warning, _("The %s moans softly."), z->name().c_str());
+            flavtext = _("The %s moans softly.");
             break;
         case 4:
-            add_msg(m_warning, _("The %s's skin crackles with electricity."), z->name().c_str());
+            flavtext = _("The %s's skin crackles with electricity.");
             z->moves -= 80;
             break;
+        }
+        if( seen ) {
+            add_msg( m_warning, flavtext, z->name().c_str() );
         }
         break;
     }
@@ -718,22 +732,23 @@ void mattack::vine(monster *z, int index)
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             Creature *critter = g->critter_at( x, y );
-            if( critter != nullptr && z->attitude_to( *critter ) != Creature::Attitude::A_FRIENDLY ) {
+            if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::A_HOSTILE ) {
                 if ( critter->uncanny_dodge() ) {
                     return;
                 } else {
                     player *foe = dynamic_cast< player* >( critter );
                     body_part bphit = random_body_part();
+                    bool seen = g->u_see( critter );
                     //~ 1$s monster name(vine), 2$s bodypart in accusative
                     if( critter == &g->u ) {
                         add_msg( m_bad, _("The %1$s lashes your %2$s!"), z->name().c_str(),
                                  body_part_name_accusative(bphit).c_str() );
-                    } else if( foe != nullptr ) {
-                        add_msg( _("The %1$s lashes %s's %2$s!"), z->name().c_str(), 
+                    } else if( seen && foe != nullptr ) {
+                        add_msg( _("The %1$s lashes %s's %2$s!"), z->name().c_str(),
                                  foe->disp_name().c_str(),
                                  body_part_name_accusative(bphit).c_str() );
-                    } else {
-                        add_msg( _("The %1$s lashes at %s!"), z->name().c_str(), 
+                    } else if( seen ) {
+                        add_msg( _("The %1$s lashes %s!"), z->name().c_str(), 
                                  critter->disp_name().c_str() );
                     }
                     damage_instance d;
@@ -838,7 +853,9 @@ void mattack::spit_sap(monster *z, int index)
     if( target->uncanny_dodge() ) {
         return;
     }
-    add_msg( msg_type, _("A glob of sap hits %s!"), target->disp_name().c_str() );
+    if( g->u_see( target->xpos(), target->ypos() ) ) {
+        add_msg( msg_type, _("A glob of sap hits %s!"), target->disp_name().c_str() );
+    }
     target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
     target->add_effect("sap", dam);
 }
@@ -2207,7 +2224,7 @@ void mattack::taze( monster *z, Creature *target )
         int shock = rng(1, 5);
         foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
         foe->moves -= shock * 20;
-        auto m_type = foe == &g->u ? m_bad : m_info;
+        auto m_type = foe == &g->u ? m_bad : m_neutral;
         foe->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
                                             _("The %s shocks <npcname>!"),
                                             z->name().c_str() );
