@@ -2958,6 +2958,140 @@
 [ "sugar", 5 ]
 ]
 ]
+},
+{
+"type" : "recipe",
+"result": "chem_cordite",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 6,
+"time": 50000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 7 ] , [ "recipe_labchem", 6 ], ["textbook_chemistry", 7]],
+"tools": [
+    [
+      [ "pastaextruder", -1 ]
+],
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+    ]
+  ],
+"components": [
+[
+[ "chem_nitroglycerine", 35 ]
+],
+[
+[ "chem_nitrocellulose", 50 ]
+],
+[
+[ "chem_petro_jelly", 15 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_rdx_powder",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 7,
+"time": 7500,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 8 ] , [ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"tools": [
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+    ]
+  ],
+"components": [
+[
+[ "chem_rdx", 15 ]
+],
+[
+[ "gunpowder", 85 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_nitroglycerine",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 5,
+"time": 40000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ], ["textbook_chemistry", 5]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"tools": [
+[
+[ "hotplate", 10 ],
+[ "toolset", 10 ]
+    ]
+  ],
+"components": [
+[
+[ "chem_glycerine", 1 ]
+],
+[
+[ "chem_nitric_acid", 2 ]
+],
+[
+[ "chem_sulphuric_acid", 1 ]
+],
+[
+[ "water", 3 ],
+[ "water_clean", 3 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "chem_nitrocellulose",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 4,
+"time": 10000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 4]],
+"qualities":[
+{"id":"BOIL","level":2,"amount":1}
+],
+"tools": [
+[
+[ "hotplate", 10 ],
+[ "toolset", 10 ]
+    ]
+  ],
+"components": [
+[
+[ "medical_gauze", 4 ],
+[ "cotton_ball", 2 ]
+],
+[
+[ "chem_nitric_acid", 2 ]
+],
+[
+[ "chem_sulphuric_acid", 1 ]
+],
+[
+[ "water", 1 ],
+[ "water_clean", 1 ]
+]
+]
 }
 
 
