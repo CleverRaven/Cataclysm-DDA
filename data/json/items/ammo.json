@@ -3105,7 +3105,7 @@
         "to_hit" : 0,
         "ammo_type" : "5x50",
         "casing" : "5x50_hull",
-        "damage" : 25,
+        "damage" : 20,
         "pierce" : 45,
         "range" : 50,
         "dispersion" : 160,
