@@ -9501,7 +9501,7 @@ bool player::consume(int target_position)
                 add_msg(_("You drop the empty %s."), target.tname().c_str());
                 g->m.add_item_or_charges(posx, posy, inv.remove_item(&target));
             } else {
-                add_msg(m_info, _("%c - an empty %s"), target.invlet, target.tname().c_str());
+                add_msg(m_info, _("%c - an empty %s"), (target.invlet ? target.invlet : ' '), target.tname().c_str());
             }
         }
     }
