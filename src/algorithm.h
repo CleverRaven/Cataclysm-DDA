@@ -46,15 +46,13 @@ struct identity_t {
 
 template <typename Container, typename Transform = identity_t>
 struct delimited_values_t {
-    delimited_values_t(Container const &cont, char const *delim, Transform trans)
-      : cont  {cont}
-      , delim {delim}
-      , trans {trans}
+    delimited_values_t(Container const &cont, char const *delim, Transform &trans)
+      : cont  {cont}, delim {delim}, trans {trans}
     {
     }
 
     template <typename Stream>
-    friend Stream& operator<<(Stream &out, delimited_values_t const& d) {
+    friend Stream& operator<<(Stream &out, delimited_values_t const &d) {
         using std::begin; //ADL
         using std::end;   //ADL
 
@@ -75,7 +73,7 @@ struct delimited_values_t {
 
     Container const &cont;
     char const      *delim;
-    Transform       trans;
+    Transform       &trans;
 };
 
 } //namespace detail
