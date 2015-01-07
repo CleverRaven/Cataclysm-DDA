@@ -1320,12 +1320,12 @@
         [ [ "tazer", 1 ] ],
         [ [ "m4a1", 1 ] ],
         [ [ "motor_large", 1 ] ],
-        [ [ "power_supply", 30 ] ],
+        [ [ "power_supply", 20 ] ],
         [ [ "plut_cell", 4 ] ],
-        [ [ "processor", 3 ] ],
-        [ [ "RAM", 4 ] ],
-        [ [ "steel_chunk", 20 ] ],
-        [ [ "mil_plate", 2 ] ]
+        [ [ "RAM", 2 ] ],
+        [ [ "steel_chunk", 15 ] ],
+        [ [ "mil_plate", 2 ] ],
+        [ [ "robot_controls", 1 ] ]
     ]
 },{
   "type" : "recipe",
@@ -2283,5 +2283,27 @@
       [ [ "saw", 1 ] ],
       [ [ "pockknife", 1 ] ]
     ]
-  }
+},{
+    "type" : "recipe",
+    "result": "robot_controls",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"WRENCH","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+    ], "components": [
+        [ [ "motor_small", 3 ] ],
+        [ [ "processor", 3 ] ],
+        [ [ "RAM", 2 ] ],
+        [ [ "plastic_chunk", 2 ] ]
+    ]
+}
 ]

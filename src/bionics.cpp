@@ -752,6 +752,7 @@ bool player::activate_bionic(int b, bool eff_only)
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
             power_level += bionics[bio.id]->power_activate;
+            bio.powered = false;
             return false;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
@@ -769,6 +770,7 @@ bool player::activate_bionic(int b, bool eff_only)
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
             power_level += bionics[bio.id]->power_activate;
+            bio.powered = false;
             return false;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
@@ -780,6 +782,23 @@ bool player::activate_bionic(int b, bool eff_only)
             add_msg(m_neutral, _("You extend your blade!"));
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
+        }
+    } else if( bio.id == "bio_remote" ) {
+        int choice = menu( true, _("Perform which function:"), _("Nothing"),
+                           _("Control vehicle"), _("RC radio"), NULL );
+        if( choice >= 2 && choice <= 3 ) {
+            item ctr;
+            if( choice == 2 ) {
+                ctr = item( "remotevehcontrol", 0 );
+            } else {
+                ctr = item( "radiocontrol", 0 );
+            }
+            ctr.charges = power_level;
+            int power_use = ctr.type->invoke( &g->u, &ctr, false, point( posx, posy ) );
+            power_level -= power_use;
+            bio.powered = ctr.active;
+        } else {
+            bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
         }
     }
 
@@ -836,6 +855,12 @@ bool player::deactivate_bionic(int b, bool eff_only)
             add_msg(m_neutral, _("You retract your blade."));
             weapon = ret_null;
         }
+    } else if( bio.id == "bio_remote" ) {
+        if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
+            g->setremoteveh( nullptr );
+        } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
+            set_value( "remote_controlling", "" );
+        }
     }
 
     return true;
@@ -884,6 +909,12 @@ void player::process_bionic(int b)
     if (bio.id == "bio_night") {
         if (calendar::turn % 5) {
             add_msg(m_neutral, _("Artificial night generator active!"));
+        }
+    } else if( bio.id == "bio_remote" ) {
+        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
+            bio.powered = false;
+            add_msg( m_warning, _("Your %s has lost connection and is turning off."), 
+                     bionics[bio.id]->name.c_str() );
         }
     }
 }

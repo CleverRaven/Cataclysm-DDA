@@ -4780,7 +4780,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             if (!is_player()) {
                 if( u_see ) {
                     add_msg(_("%1$s's %2$s scrape %s in mid-attack!"), name.c_str(),
-                                (_("thorns"), source->disp_name().c_str()));
+                                _("thorns"), source->disp_name().c_str());
                 }
             } else {
                 add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
@@ -9501,7 +9501,7 @@ bool player::consume(int target_position)
                 add_msg(_("You drop the empty %s."), target.tname().c_str());
                 g->m.add_item_or_charges(posx, posy, inv.remove_item(&target));
             } else {
-                add_msg(m_info, _("%c - an empty %s"), target.invlet, target.tname().c_str());
+                add_msg(m_info, _("%c - an empty %s"), (target.invlet ? target.invlet : ' '), target.tname().c_str());
             }
         }
     }
