@@ -2566,7 +2566,8 @@
       ["300_casing", 4],
       ["762R_casing", 3],
       ["762_25", 3],
-      ["5x50dart", 4]
+      ["5x50dart", 4],
+      ["5x50heavy", 2]
     ]
   },{
     "type" : "item_group",
@@ -6132,6 +6133,7 @@
       ["rail_laser_sight", 10],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["rm20", 1],
       ["20x66_shot", 5],
       ["20x66_exp", 1],
@@ -7576,6 +7578,7 @@
       ["needlegun", 4],
       ["needlepistol", 6],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["hazmat_suit", 5],
       ["e_tool", 20],
       ["knife_trench", 14],
@@ -8772,6 +8775,7 @@
       ["8mm_civilian", 5],
       ["8mm_hvp", 1],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["8mm_inc", 2]
     ]
   },{
