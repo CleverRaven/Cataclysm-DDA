@@ -285,13 +285,8 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                                                       g->u.remove_weapon(), 1 );
                             g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
                             g->u.wield( &( g->u.i_add(newit) ) );
-
-                            if (newit.invlet) {
-                                add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                            add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
                                     newit.display_name().c_str());
-                            } else {
-                                add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
-                            }
                         }
                     }
                 } else {
@@ -309,13 +304,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                     g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                     g->u.wield(&(g->u.i_add(newit)));
                     picked_up = true;
-
-                    if (newit.invlet) {
-                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                            newit.display_name().c_str());
-                    } else {
-                        add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
-                    }
+                    add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
                 }
             } // end of if unarmed
         } // end of if !autopickup
@@ -858,26 +847,20 @@ void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
                                  std::map<std::string, item> &item_info)
 {
     // iterator _should_ be the same, as std::map is ordered...
-    auto mp_iter = mapPickup.begin();
-    auto ii_iter = item_info.begin();
-
+    std::map<std::string, int>::iterator mp_iter = mapPickup.begin();
+    std::map<std::string, item>::iterator ii_iter = item_info.begin();
     while(mp_iter != mapPickup.end() && ii_iter != item_info.end()) {
         // name seems to be a fitting test
         if(mp_iter->first == ii_iter->first) {
-            if( ii_iter->second.invlet != 0 ) {
-                add_msg(_("You pick up: %d %s [%c]"), mp_iter->second,
-                        ii_iter->second.display_name(mp_iter->second).c_str(), ii_iter->second.invlet);
-            } else {
-                add_msg(_("You pick up: %d %s"), mp_iter->second,
-                        ii_iter->second.display_name(mp_iter->second).c_str());
-            }
+            add_msg(_("You pick up: %d %s [%c]"),
+                    mp_iter->second, ii_iter->second.display_name(mp_iter->second).c_str(), ii_iter->second.invlet);
         } else {
             // ... and if it for some reason isn't, catch it in debug logs.
             debugmsg("show_pickup_message: mp_iter->first [%s] != ii_iter->first [%s]",
                     mp_iter->first.c_str(), ii_iter->first.c_str());
         }
-
         ++mp_iter;
         ++ii_iter;
     }
 }
+

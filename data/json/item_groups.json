@@ -936,7 +936,8 @@
       ["leathersandals", 25],
       ["survnote", 2],
       ["mask_guy_fawkes", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["holy_symbol", 5]
     ]
   },{
     "type":"item_group",
@@ -1159,7 +1160,8 @@
       ["sleeveless_tunic", 5],
       ["fedora", 10],
       ["straw_hat", 5],
-      ["straw_fedora", 5]
+      ["straw_fedora", 5],
+      ["holy_symbol", 20]
     ]
   },{
     "type" : "item_group",
@@ -2566,8 +2568,7 @@
       ["300_casing", 4],
       ["762R_casing", 3],
       ["762_25", 3],
-      ["5x50dart", 4],
-      ["5x50heavy", 2]
+      ["5x50dart", 4]
     ]
   },{
     "type" : "item_group",
@@ -4567,7 +4568,8 @@
       ["folding_poncho", 1],
       ["pocketwatch", 10],
       ["knitting_needles", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["holy_symbol", 80]
     ]
   },{
     "type":"item_group",
@@ -5911,8 +5913,7 @@
       ["bio_leukocyte", 10],
       ["bio_speed", 5],
       ["bio_faraday", 10],
-      ["bio_power_armor_interface_mkII", 5],
-      ["bio_remote", 10]
+      ["bio_power_armor_interface_mkII", 5]
     ]
   },{
     "type" : "item_group",
@@ -6134,7 +6135,6 @@
       ["rail_laser_sight", 10],
       ["needlegun", 4],
       ["5x50dart", 8],
-      ["5x50heavy", 4],
       ["rm20", 1],
       ["20x66_shot", 5],
       ["20x66_exp", 1],
@@ -6780,8 +6780,7 @@
       ["grapnel", 1],
       ["toolbox", 1],
       ["apron_leather", 10],
-      ["tool_anfo_charge", 1],
-      ["remotevehcontrol", 10]
+      ["tool_anfo_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -6894,8 +6893,7 @@
       ["bio_meteorologist", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3],
-      ["remotevehcontrol", 10]
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -6996,6 +6994,7 @@
     "id" : "spider",
     "items":[
       ["corpse", 10],
+      ["holy_symbol", 1],
       ["mutagen", 8],
       ["purifier", 12],
       ["meat", 50],
@@ -7098,8 +7097,7 @@
       ["miner_hat", 10],
       ["grapnel", 2],
       ["toolbox", 1],
-      ["pur_tablets", 10],
-      ["remotevehcontrol", 8]
+      ["pur_tablets", 10]
     ]
   },{
     "type" : "item_group",
@@ -7246,8 +7244,7 @@
     "id" : "molebot",
     "items":[
       ["spiked_plate", 15],
-      ["hard_plate", 30],
-      ["robot_controls", 5]
+      ["hard_plate", 30]
     ]
   },{
     "type" : "item_group",
@@ -7256,8 +7253,7 @@
       ["flamethrower", 1],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10],
-      ["robot_controls", 3]
+      ["alloy_plate", 10]
     ]
   },{
     "type" : "item_group",
@@ -7266,8 +7262,7 @@
       ["9mm", 8],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10],
-      ["robot_controls", 5]
+      ["alloy_plate", 10]
     ]
   },{
     "type" : "item_group",
@@ -7279,8 +7274,7 @@
       ["alloy_plate", 10],
       ["kevlar_plate", 10],
       ["ceramic_armor", 10],
-      ["hard_plate", 30],
-      ["robot_controls", 5]
+      ["hard_plate", 30]
     ]
   },{
     "type" : "item_group",
@@ -7391,8 +7385,7 @@
       ["optical_cloak", 1],
       ["grapnel", 1],
       ["briefcase", 5],
-      ["survnote", 2],
-      ["robot_controls", 3]
+      ["survnote", 2]
     ]
   },{
     "type" : "item_group",
@@ -7587,7 +7580,6 @@
       ["needlegun", 4],
       ["needlepistol", 6],
       ["5x50dart", 8],
-      ["5x50heavy", 4],
       ["hazmat_suit", 5],
       ["e_tool", 20],
       ["knife_trench", 14],
@@ -7696,7 +7688,6 @@
       ["bio_watch", 10],
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
-      ["bio_remote", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -7714,8 +7705,7 @@
       ["bio_meteorologist", 10],
       ["chem_nitric_acid", 1],
       ["chem_sulphuric_acid", 1],
-      ["chem_hexamine", 2],
-      ["remotevehcontrol", 5]
+      ["chem_hexamine", 2]
     ]
   },{
     "type" : "item_group",
@@ -7780,7 +7770,7 @@
       ["knife_rm42", 2],
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
-      ["remotevehcontrol", 8],
+      ["remotevehcontrol", 3],
       ["tool_rdx_charge", 1]
     ]
   },{
@@ -8786,7 +8776,6 @@
       ["8mm_civilian", 5],
       ["8mm_hvp", 1],
       ["5x50dart", 8],
-      ["5x50heavy", 4],
       ["8mm_inc", 2]
     ]
   },{
@@ -8884,7 +8873,8 @@
       ["pocketwatch", 30],
       ["tieclip", 35],
       ["pearl_collar", 30],
-      ["diamond", 10]
+      ["diamond", 10],
+      ["holy_symbol", 20]
     ]
   },{
 "type" : "item_group",
@@ -8967,7 +8957,8 @@
       ["boxing_gloves", 12],
       ["straw_doll", 1],
       ["pitchfork", 1],
-      ["straw_sandals", 1]
+      ["straw_sandals", 1],
+      ["holy_symbol", 10]
     ]
   },{
 "type"  : "item_group",
@@ -9108,6 +9099,7 @@
 "id" : "museum_misc",
 "items" : [
       ["small_relic", 80],
+      ["holy_symbol", 80],
       ["spiral_stone", 80],
       ["petrified_eye",5],
       ["etched_skull", 80],

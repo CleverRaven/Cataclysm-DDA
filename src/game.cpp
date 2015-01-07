@@ -3197,18 +3197,12 @@ vehicle *game::remoteveh()
     }
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" || 
-        ( !u.has_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
+    if( remote_veh_string.str() == "" ) {
         remoteveh_cache = nullptr;
     } else {
         int vx, vy;
         remote_veh_string >> vx >> vy;
-        vehicle *veh = m.veh_at( vx, vy );
-        if( veh->fuel_left( "battery", true ) > 0 ) {
-            remoteveh_cache = veh;
-        } else {
-            remoteveh_cache = nullptr;
-        }
+        remoteveh_cache = m.veh_at( vx, vy );
     }
     return remoteveh_cache;
 }
@@ -3217,7 +3211,7 @@ void game::setremoteveh(vehicle *veh)
 {
     remoteveh_cache_turn = calendar::turn;
     remoteveh_cache = veh;
-    if( veh == nullptr || ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
+    if( veh == nullptr ) {
         u.remove_value( "remote_controlling_vehicle" );
         return;
     }

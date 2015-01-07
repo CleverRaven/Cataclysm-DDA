@@ -734,6 +734,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 
+## Books
+
+- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
+
 ### Use actions
 
 - ```NONE``` Do nothing.
