@@ -479,7 +479,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
         break;
     case 2: // Radioactive beam
         if( seen ) {
-            add_msg( msg_type, _("The %s opens it's mouth and a beam shoots towards %s!"),
+            add_msg( msg_type, _("The %s opens its mouth and a beam shoots towards %s!"),
                      z->name().c_str(), target->disp_name().c_str() );
         }
         z->moves -= 400;
