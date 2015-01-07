@@ -266,6 +266,8 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
             }
         } else if( !autopickup ) {
             // Armor can be instantly worn
+            bool const use_invlet = newit.invlet != 0;
+
             if (newit.is_armor() &&
                 query_yn(_("Put on the %s?"),
                          newit.display_name().c_str())) {
@@ -285,8 +287,13 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                                                       g->u.remove_weapon(), 1 );
                             g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
                             g->u.wield( &( g->u.i_add(newit) ) );
-                            add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+
+                            if (use_invlet) {
+                                add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
                                     newit.display_name().c_str());
+                            } else {
+                                add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
+                            }
                         }
                     }
                 } else {
@@ -304,7 +311,13 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                     g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                     g->u.wield(&(g->u.i_add(newit)));
                     picked_up = true;
-                    add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+
+                    if (use_invlet) {
+                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                            newit.display_name().c_str());
+                    } else {
+                        add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
+                    }
                 }
             } // end of if unarmed
         } // end of if !autopickup
