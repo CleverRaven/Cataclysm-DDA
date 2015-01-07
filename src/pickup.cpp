@@ -858,11 +858,11 @@ void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
 
         // name seems to be a fitting test
         if(mp_name == ii_name) {
-            auto const &itm       = ii_iter->second;
-            auto const quantity   = mp_iter->second;
-            auto const name       = itm.display_name(mp_iter->second).c_str();
-            auto const letter     = itm.invlet;
-            auto const use_letter = letter != 0;
+            item const &itm       = ii_iter->second;
+            int  const quantity   = mp_iter->second;
+            char const *name      = itm.display_name(mp_iter->second).c_str();
+            char const letter     = itm.invlet;
+            bool const use_letter = letter != 0;
 
             if (use_letter) {
                 add_msg(_("You pick up: %d %s [%c]"), quantity, name, letter);
