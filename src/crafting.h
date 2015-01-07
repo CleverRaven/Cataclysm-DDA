@@ -128,7 +128,7 @@ const recipe *recipe_by_name(const std::string &name);
 
 //--------------------------------------------------------------------------------------------------
 /**
- * Returns a vector or all possible recipes which can be used to disassemble an item.
+ * Returns a vector of all possible recipes which can be used to disassemble an item.
  */
 std::vector<recipe const*> get_disassemble_recipes(const itype_id &type, recipe_map const &recipes);
 
@@ -140,7 +140,7 @@ bool can_disassemble_recipe(itype_id const &type, recipe const &r);
 
 //--------------------------------------------------------------------------------------------------
 /**
- * Returns whether a recipe required tool to disassemble an item can be satified.
+ * Returns whether a tool needed to disassemble an item can be satisfied.
  *
  * @param type The item type to disassemble.
  * @param required_tool A tool required by some recipe.
