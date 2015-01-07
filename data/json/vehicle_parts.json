@@ -6707,5 +6707,26 @@
         "breaks_into" : [
             {"item": "watercannon", "min": 0, "max": 1}
         ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "robot_controls",
+        "name" : "robot controls",
+        "symbol" : "&",
+        "color" : "white",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 300,
+        "item" : "robot_controls",
+        "difficulty" : 6,
+        "folded_volume": 5,
+        "location" : "center",
+        "flags" : ["REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "motor_small", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "e_scrap", "min": 1, "max": 5}
+        ]
     }
 ]

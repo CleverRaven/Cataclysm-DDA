@@ -5910,7 +5910,8 @@
       ["bio_leukocyte", 10],
       ["bio_speed", 5],
       ["bio_faraday", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_remote", 10]
     ]
   },{
     "type" : "item_group",
@@ -6777,7 +6778,8 @@
       ["grapnel", 1],
       ["toolbox", 1],
       ["apron_leather", 10],
-      ["tool_anfo_charge", 1]
+      ["tool_anfo_charge", 1],
+      ["remotevehcontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -6890,7 +6892,8 @@
       ["bio_meteorologist", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["remotevehcontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -7093,7 +7096,8 @@
       ["miner_hat", 10],
       ["grapnel", 2],
       ["toolbox", 1],
-      ["pur_tablets", 10]
+      ["pur_tablets", 10],
+      ["remotevehcontrol", 8]
     ]
   },{
     "type" : "item_group",
@@ -7240,7 +7244,8 @@
     "id" : "molebot",
     "items":[
       ["spiked_plate", 15],
-      ["hard_plate", 30]
+      ["hard_plate", 30],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -7249,7 +7254,8 @@
       ["flamethrower", 1],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["robot_controls", 3]
     ]
   },{
     "type" : "item_group",
@@ -7258,7 +7264,8 @@
       ["9mm", 8],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -7270,7 +7277,8 @@
       ["alloy_plate", 10],
       ["kevlar_plate", 10],
       ["ceramic_armor", 10],
-      ["hard_plate", 30]
+      ["hard_plate", 30],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -7381,7 +7389,8 @@
       ["optical_cloak", 1],
       ["grapnel", 1],
       ["briefcase", 5],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["robot_controls", 3]
     ]
   },{
     "type" : "item_group",
@@ -7684,6 +7693,7 @@
       ["bio_watch", 10],
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
+      ["bio_remote", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -7701,7 +7711,8 @@
       ["bio_meteorologist", 10],
       ["chem_nitric_acid", 1],
       ["chem_sulphuric_acid", 1],
-      ["chem_hexamine", 2]
+      ["chem_hexamine", 2],
+      ["remotevehcontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -7766,7 +7777,7 @@
       ["knife_rm42", 2],
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
-      ["remotevehcontrol", 3],
+      ["remotevehcontrol", 8],
       ["tool_rdx_charge", 1]
     ]
   },{
