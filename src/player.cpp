@@ -9838,6 +9838,9 @@ bool player::eat(item *eaten, it_comest *comest)
       } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL")) {
           add_msg_if_player(m_good, _("You indulge your shameful hunger."));
           add_morale(MORALE_CANNIBAL, 10, 50);
+      } else if (!has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_bad, _("This is probably going to count against you if there's still an afterlife."));
+          add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       } else {
           add_msg_if_player(m_bad, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
