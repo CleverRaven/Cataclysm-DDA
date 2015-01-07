@@ -1792,7 +1792,8 @@ std::vector<recipe const*> get_disassemble_recipes(itype_id const &type, recipe_
 {
     std::vector<recipe const*> candidates;
 
-    for (auto &p : recipes) {
+    // For all categories, copy matching recipes to candidates
+    for (auto const &p : recipes) {
         copy_if(p.second, std::back_inserter(candidates), [&](recipe const* r) {
             return can_disassemble_recipe(type, *r);
         });
@@ -1824,7 +1825,7 @@ bool have_req_disassemble_tool(
     bool const has_hacksaw = (type == "welder" &&
         crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ));
 
-    return have_tool || uses_goggles || uses_cruible || uses_mold || has_charges;
+    return have_tool || uses_goggles || uses_cruible || uses_mold || has_charges || has_hacksaw;
 }
 
 void print_missing_tool(std::vector<tool_comp> const &require_one_of) {
@@ -1856,8 +1857,7 @@ bool have_req_disassemble_tools(
     itype_id const &type,
     requirement_data::alter_tool_comp_vector const &required_tools,
     inventory const &crafting_inv,
-    bool const print_msg
-    )
+    bool const print_msg)
 {
     return all_of(required_tools, [&](std::vector<tool_comp> const &required) {
         bool const ok = any_of(required, [&](tool_comp const &optional) {
@@ -1904,11 +1904,8 @@ bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
         return false;
     }
 
-    bool const have_all_tools = have_req_disassemble_tools(dis_item->type->id,
+    return have_req_disassemble_tools(dis_item->type->id,
         cur_recipe->requirements.tools, crafting_inv, true);
-
-    // all tools present, so assign the activity
-    return have_all_tools;
 }
 
 bool query_dissamble(const item &dis_item)
