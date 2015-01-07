@@ -12039,6 +12039,17 @@ int player::get_wind_resistance(body_part bp) const
     return totalCoverage;
 }
 
+int bestwarmth( const std::vector< item > &its, const std::string &flag )
+{
+    int best = 0;
+    for( auto &w : its ) {
+        if( w.has_flag( flag ) && w.get_warmth() > best ) {
+            best = w.get_warmth();
+        }
+    }
+    return best;
+}
+
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
@@ -12046,25 +12057,19 @@ int player::warmth(body_part bp) const
     // If the player is not wielding anything big, check if hands can be put in pockets
     if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 && 
         ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
-        int best = 0;
-        for( auto &w : worn ) {
-            if( w.has_flag("POCKETS") && w.get_warmth() > best ) {
-                best = w.get_warmth();
-            }
-        }
-        ret += best;
+        ret += bestwarmth( worn, "POCKETS" );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
     if( bp == bp_head && encumb( bp_head ) < 1 &&
         ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
-        int best = 0;
-        for( auto &w : worn ) {
-            if( w.has_flag("HOOD") && w.get_warmth() > best ) {
-                best = w.get_warmth();
-            }
-        }
-        ret += best;
+        ret += bestwarmth( worn, "HOOD" );
+    }
+
+    // If the player's mouth is not encumbered, check if collar can be put up
+    if( bp == bp_mouth && encumb( bp_mouth ) < 1 &&
+        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ret += bestwarmth( worn, "COLLAR" );
     }
 
     for (auto &i : worn) {
