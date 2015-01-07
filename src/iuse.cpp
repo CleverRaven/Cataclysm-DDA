@@ -1357,7 +1357,7 @@ int iuse::meditate(player *p, item *it, bool, point)
     if (p->has_trait("SPIRITUAL")) {
         p->moves -= 1000;
         p->add_msg_if_player(m_good, _("You pause to engage in spiritual contemplation."));
-        p->add_morale(MORALE_FEELING_GOOD, 5, 25);
+        p->add_morale(MORALE_FEELING_GOOD, 5, 10);
     } else {
             p->add_msg_if_player(_("This %s probably meant a lot to someone at one time."), it->tname().c_str());
       }
