@@ -4306,7 +4306,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active ||
+    return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
            is_artifact();
 }
