@@ -180,6 +180,9 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "withered", "amount": 1, "minamount": 0 }
+                { "item": "wrapper", "amount": 1, "minamount": 0 }
+                { "item": "can_drink", "amount": 1, "minamount": 0 }
+                { "item": "bag_plastic", "amount": 1, "minamount": 0 }
             ]
         }
     },{
@@ -1576,6 +1579,9 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "withered", "amount": 1, "minamount": 0 }
+                { "item": "wrapper", "amount": 1, "minamount": 0 }
+                { "item": "can_drink", "amount": 1, "minamount": 0 }
+                { "item": "bag_plastic", "amount": 1, "minamount": 0 }
             ]
         }
     },{
