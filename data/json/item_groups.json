@@ -936,7 +936,8 @@
       ["leathersandals", 25],
       ["survnote", 2],
       ["mask_guy_fawkes", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["holy_symbol", 5]
     ]
   },{
     "type":"item_group",
@@ -1159,7 +1160,8 @@
       ["sleeveless_tunic", 5],
       ["fedora", 10],
       ["straw_hat", 5],
-      ["straw_fedora", 5]
+      ["straw_fedora", 5],
+      ["holy_symbol", 20]
     ]
   },{
     "type" : "item_group",
@@ -4566,7 +4568,8 @@
       ["folding_poncho", 1],
       ["pocketwatch", 10],
       ["knitting_needles", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["holy_symbol", 80]
     ]
   },{
     "type":"item_group",
@@ -6991,6 +6994,7 @@
     "id" : "spider",
     "items":[
       ["corpse", 10],
+      ["holy_symbol", 1],
       ["mutagen", 8],
       ["purifier", 12],
       ["meat", 50],
@@ -8869,7 +8873,8 @@
       ["pocketwatch", 30],
       ["tieclip", 35],
       ["pearl_collar", 30],
-      ["diamond", 10]
+      ["diamond", 10],
+      ["holy_symbol", 20]
     ]
   },{
 "type" : "item_group",
@@ -8952,7 +8957,8 @@
       ["boxing_gloves", 12],
       ["straw_doll", 1],
       ["pitchfork", 1],
-      ["straw_sandals", 1]
+      ["straw_sandals", 1],
+      ["holy_symbol", 10]
     ]
   },{
 "type"  : "item_group",
@@ -9093,6 +9099,7 @@
 "id" : "museum_misc",
 "items" : [
       ["small_relic", 80],
+      ["holy_symbol", 80],
       ["spiral_stone", 80],
       ["petrified_eye",5],
       ["etched_skull", 80],

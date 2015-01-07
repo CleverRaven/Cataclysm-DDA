@@ -9585,8 +9585,14 @@ bool player::eat(item *eaten, it_comest *comest)
         !is_npc() && !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
-    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH") && !has_trait("SPIRITUAL")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel both guilty and excited. Really do it?"))) {
+        return false;
+    }
+
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) &&
+         eaten->made_of("hflesh")&& !is_npc() &&
+        !query_yn(_("Cannibalism is such a universal taboo.  Will you break it?"))) {
         return false;
     }
 
@@ -9815,14 +9821,26 @@ bool player::eat(item *eaten, it_comest *comest)
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.
     // It's not cannibalism if you're not eating your own kind.
-      if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
+      if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_good, _("You feast upon the human flesh, and in doing so, devour their spirit."));
+          add_morale(MORALE_CANNIBAL, 25, 300); // You're not really consuming anything special; you just think you are.
+      } else if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
           add_msg_if_player(m_good, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 200);
+      } else if (has_trait("PSYCHOPATH") && !has_trait("CANNIBAL") && has_trait("SPIRITUAL")) {
+          add_msg_if_player( _("You greedily devour the taboo meat."));
+          add_morale(MORALE_CANNIBAL, 5, 50); // Small bonus for violating a taboo.
       } else if (has_trait("PSYCHOPATH") && !has_trait("CANNIBAL")) {
           add_msg_if_player( _("Meh. You've eaten worse."));
+      } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_good, _("You consume the sacred human flesh."));
+          add_morale(MORALE_CANNIBAL, 15, 200); // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
       } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL")) {
           add_msg_if_player(m_good, _("You indulge your shameful hunger."));
           add_morale(MORALE_CANNIBAL, 10, 50);
+      } else if (!has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_bad, _("This is probably going to count against you if there's still an afterlife."));
+          add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       } else {
           add_msg_if_player(m_bad, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
@@ -11434,6 +11452,8 @@ void player::read(int inventory_position)
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
         it->typeId() == "cookbook_human") {
         add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
+    } else if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
+        add_morale(MORALE_BOOK, 50, 300, minutes + 60, minutes, false, it->type);
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
