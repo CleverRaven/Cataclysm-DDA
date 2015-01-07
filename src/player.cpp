@@ -5932,7 +5932,7 @@ void player::process_effects() {
             mod_dex_bonus(it.get_mod("DEX", reduced));
             mod_per_bonus(it.get_mod("PER", reduced));
             mod_int_bonus(it.get_mod("INT", reduced));
-            mod_speed_bonus(it.get_mod("SPEED", reduced));
+            // Speed is already added in recalc_speed_bonus
 
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
