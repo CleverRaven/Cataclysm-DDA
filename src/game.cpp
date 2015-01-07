@@ -2693,7 +2693,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         if (length > max_text_length) {
             max_text_length = length;
         }
-        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(oThisItem)));
         length = utf8_width(_("<=> reassign"));
         if (length > max_text_length) {
             max_text_length = length;
@@ -11455,10 +11455,12 @@ void game::butcher()
     // then get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
-                corpses.push_back(i);
-                has_item = true;
+            for (auto const &cur_recipe : get_disassemble_recipes(items[i].type->id, recipes)) {
+                if (u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+                    corpses.push_back(i);
+                    has_item = true;
+                    break;
+                }
             }
         }
     }
@@ -11542,15 +11544,16 @@ void game::butcher()
     }
     const item &dis_item = items[corpses[butcher_corpse_index]];
     if( dis_item.corpse == NULL && butcher_corpse_index < (int)salvage_index) {
-        const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
-        assert(cur_recipe != NULL); // tested above
-        if( !query_dissamble( dis_item ) ) {
+        //TODO should probably give a choice for how to disassemble
+        for (auto const &cur_recipe : get_disassemble_recipes(dis_item.type->id, recipes)) {
+            if( !query_dissamble( dis_item ) ) {
+                return;
+            }
+            u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+            u.activity.values.push_back(corpses[butcher_corpse_index]);
+            u.activity.values.push_back(1);
             return;
         }
-        u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
-        u.activity.values.push_back(corpses[butcher_corpse_index]);
-        u.activity.values.push_back(1);
-        return;
     } else if( dis_item.corpse == NULL ) {
         item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
         iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );

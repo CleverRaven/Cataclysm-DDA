@@ -12,6 +12,95 @@
 #include "bodypart.h"
 #include "requirements.h"
 
+//--------------------------------------------------------------------------------------------------
+// Container-wide version of algoithms
+// TODO: move somewhere more widely accessible; perhaps something like "algorithms.h"
+//--------------------------------------------------------------------------------------------------
+#include <algorithm>
+
+template <typename Container, typename Predicate>
+inline bool any_of(Container&& c, Predicate p) {
+    using std::begin; //ADL
+    using std::end;   //ADL
+
+    return std::any_of(begin(c), end(c), p);
+}
+
+template <typename Container, typename Predicate>
+inline bool all_of(Container&& c, Predicate p) {
+    using std::begin; //ADL
+    using std::end;   //ADL
+
+    return std::all_of(begin(c), end(c), p);
+}
+
+template <typename Container, typename Predicate, typename Iterator>
+inline Iterator copy_if(Container&& c, Iterator dst, Predicate p) {
+    using std::begin; //ADL
+    using std::end;   //ADL
+
+    return std::copy_if(begin(c), end(c), dst, p);
+}
+//--------------------------------------------------------------------------------------------------
+// Generalized infix delimited container stream output.
+// TODO: move somewhere more widely accessible project-wide.
+//--------------------------------------------------------------------------------------------------
+namespace detail {
+
+struct identity_t {
+    template <typename T>
+    T&& operator()(T&& t) const noexcept {
+        return std::forward<T>(t);
+    }
+};
+
+template <typename Container, typename Transform = identity_t>
+struct delimited_values_t {
+    delimited_values_t(Container const &cont, char const *delim, Transform trans)
+      : cont  {cont}
+      , delim {delim}
+      , trans {trans}
+    {
+    }
+
+    template <typename Stream>
+    friend Stream& operator<<(Stream &out, delimited_values_t const& d) {
+        using std::begin; //ADL
+        using std::end;   //ADL
+
+        auto it = begin(d.cont);
+        auto const last = end(d.cont);
+        
+        if (it == last) {
+            return out;
+        }
+
+        out << d.trans(*it);
+        while (++it != last) {
+            out << d.delim << d.trans(*it);
+        }
+
+        return out;
+    }
+
+    Container const &cont;
+    char const      *delim;
+    Transform       trans;
+};
+
+} //namespace detail
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Ouputs the contents of a container to a stream with an infix delimiter.
+ * i.e "a, b, c" not "a, b, c,".
+ */
+template <typename Container, typename Transform = detail::identity_t>
+detail::delimited_values_t<Container, Transform>
+infix_delimited(Container const &c, char const *delim, Transform t = Transform {}) {
+    return detail::delimited_values_t<Container, Transform>(c, delim, t);
+}
+
 #define MAX_DISPLAYED_RECIPES 18
 
 typedef std::string craft_cat;
@@ -125,7 +214,54 @@ void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);
 const recipe *recipe_by_name(const std::string &name);
-const recipe *get_disassemble_recipe(const itype_id &type);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns a vector or all possible recipes which can be used to disassemble an item.
+ */
+std::vector<recipe const*> get_disassemble_recipes(const itype_id &type, recipe_map const &recipes);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether an item can be disassembled using a given recipe.
+ */
+bool can_disassemble_recipe(itype_id const &type, recipe const &r);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether a recipe required tool to disassemble an item can be satified.
+ *
+ * @param type The item type to disassemble.
+ * @param required_tool A tool required by some recipe.
+ * @param crafting_inv The crafting items to consider.
+ */
+bool have_req_disassemble_tool(
+    itype_id  const &type,
+    tool_comp const &required_tool,
+    inventory const &crafting_inv);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether a recipe's required tools can be satisfied.
+ *
+ * @param type The item type to disassemble.
+ * @param required_tools The tools required by some recipe.
+ * @param crafting_inv The crafting items to consider.
+ */
+bool have_req_disassemble_tools(
+    itype_id const &type,
+    requirement_data::alter_tool_comp_vector const &required_tools,
+    inventory const &crafting_inv,
+    bool print_msg = false);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether an item has enough charges to be disassembled using a recipe.
+ *
+ * @return 0 if no charges are needed, otherwise returns the number needed.
+ */
+int req_disassemble_charges(item const &it, recipe const &r);
+
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.

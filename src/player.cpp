@@ -10903,95 +10903,21 @@ hint_rating player::rate_action_unload( const item &it ) const
     return HINT_GOOD;
 }
 
-//--------------------------------------------------------------------------------------------------
-// Container-wide version of algoithms
-// TODO: move somewhere more widely accessible
-//--------------------------------------------------------------------------------------------------
-template <typename Container, typename Predicate>
-auto find_if(Container&& c, Predicate p) -> decltype(c.begin()) {
-    using std::begin; //ADL
-    using std::end;   //ADL
-
-    return std::find_if(begin(c), end(c), p);
-}
-
-template <typename Container, typename Predicate>
-bool find_at_least_one(Container&& c, Predicate p) {
-    using std::begin; //ADL
-    using std::end;   //ADL
-
-    return std::find_if(begin(c), end(c), p) != end(c);
-}
-
-template <typename Container, typename Predicate>
-bool all_of(Container&& c, Predicate p) {
-    using std::begin; //ADL
-    using std::end;   //ADL
-
-    return std::all_of(begin(c), end(c), p);
-}
-
-template <typename Container, typename Predicate>
-bool any_of(Container&& c, Predicate p) {
-    using std::begin; //ADL
-    using std::end;   //ADL
-
-    return std::all_of(begin(c), end(c), p);
-}
-
-//TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item const &it) const {
     //TODO crafting_inventory() should be made const
     const inventory &crafting_inv = const_cast<player*>(this)->crafting_inventory();
 
-    // At least one viable recipe exists
-    bool have_reversible_recipe = false;
+    bool have_recipe = false;
+    for (auto const& r : get_disassemble_recipes(it.type->id, recipes)) {
+        have_recipe = true;
 
-    // In at least one category
-    using pair_t = decltype(*recipes.begin());
-    auto const recipe_ok = find_at_least_one(recipes, [&](pair_t const &cat) {
-        // In at least one recipe
-        return find_at_least_one(cat.second, [&](recipe const *r) {
-            if (!r->reversible || it.type->id != r->result) {
-                return false; // no good
-            }
-
-            have_reversible_recipe = true;
-
-            // no tools required, may change this
-            if (r->requirements.tools.empty()) {
-                return true;
-            }
-
-            // Match all required tools
-            return all_of(r->requirements.tools, [&](std::vector<tool_comp> const &req) {
-                // Match any option
-                return any_of(req, [&](tool_comp const &tool) {
-                    itype_id const type = tool.type;
-                    int      const req  = tool.count; // -1 => 1
-
-                    // if crafting recipe required a welder,
-                    // disassembly requires a hacksaw or super toolkit
-                    if (type == "welder") {
-                        if( crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
-                            return true;
-                        }
-                    }
-
-                    return (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                        (req  > 0 && crafting_inv.has_charges(type, req));
-                });
-            });
-        });
-    });
-
-    // have recipe and have tools
-    if (recipe_ok) {
-        return HINT_GOOD;
+        if (have_req_disassemble_tools(r->result, r->requirements.tools, crafting_inv) &&
+                req_disassemble_charges(it, *r) == 0) {
+            return HINT_GOOD;
+        }
     }
-    
-    // one of more tools are missing, but there is a viable recipe
-    if (have_reversible_recipe) {
+
+    if (have_recipe) {
         return HINT_IFFY;
     }
 

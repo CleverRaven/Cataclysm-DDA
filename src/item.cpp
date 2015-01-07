@@ -1048,18 +1048,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if (!components.empty()) {
         dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = get_disassemble_recipe( type->id );
-        if( dis_recipe != nullptr ) {
+        for (auto const *dis_recipe : get_disassemble_recipes(type->id, recipes)) {
+            //TODO how should this work with multiple recipes and multiple item_comps?
             std::ostringstream buffer;
-            bool first_component = true;
-            for( const auto &it : dis_recipe->requirements.components) {
-                if( first_component ) {
-                    first_component = false;
-                } else {
-                    buffer << _(", ");
-                }
-                buffer << it.front().to_string();
-            }
+
+            buffer << infix_delimited(dis_recipe->requirements.components, _(", "),
+                [](std::vector<item_comp> const& comps) { return comps.front().to_string(); }
+            );
+
             dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Disassembling this item might yield %s"),
                                                                      buffer.str().c_str() ) ) );
         }
@@ -2780,7 +2776,8 @@ bool item::is_disassemblable() const
     if( is_null() ) {
         return false;
     }
-    return get_disassemble_recipe(typeId()) != NULL;
+
+    return !get_disassemble_recipes(typeId(), recipes).empty();
 }
 
 bool item::is_funnel_container(int &bigger_than) const
