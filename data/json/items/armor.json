@@ -7420,7 +7420,14 @@
         "storage" : 0,
         "description" : "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
         "weight" : 50,
-        "to_hit" : 0,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "use_action": "MEDITATE",
+        "to_hit": 0,
+        "revert_to": "null",
         "color" : "white",
         "encumbrance" : 0,
         "price" : 1000,
@@ -7433,6 +7440,70 @@
         "environmental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
+    },
+    {
+        "type": "ARMOR",
+        "id": "holy_symbol",
+        "symbol": ",",
+        "color": "yellow",
+        "name": "holy symbol",
+        "description": "A necklace made of fine gold chain bearing the symbol of a forgotten faith.",
+        "price": 5000,
+        "material": "gold",
+        "weight": 22,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "encumbrance" : 0,
+        "coverage" : 0,
+        "warmth" : 0,
+        "storage" : 0,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "use_action": "MEDITATE",
+        "to_hit": 0,
+        "revert_to": "null",
+        "environmental_protection" : 0,
+        "material_thickness" : 0,
+        "flags" : ["FANCY"],
+        "snippet_category" : [
+            { "id" : "christianity",
+              "text" : "A necklace made of fine gold chain bearing a simple cross; a symbol of Christianity."
+            },
+            { "id" : "islam",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the name of Allah in Arabic script; a symbol of Islam."
+            },
+            { "id" : "judaism",
+              "text" : "A necklace made of fine gold chain bearing a simple Star of David; a symbol of Judaism."
+            },
+            { "id" : "hinduism",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the svastika; a symbol of Hinduism."
+            },
+            { "id" : "buddhism",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a lotus; a symbol of Buddhism."
+            },
+            { "id" : "sikhism",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the khanda; a symbol of Sikhism."
+            },
+            { "id" : "shintoism",
+              "text" : "A necklace made of fine gold chain bearing a simple torii; a symbol of Shintoism."
+            },
+            { "id" : "pastafarianism",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a depiction of the Flying Spaghetti Monster; a symbol of Pastafarianism."
+            },
+            { "id" : "bob",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a depiction of J. R. \"Bob\" Dobbs; a symbol of the Church of the Subgenius."
+            },
+            { "id" : "discordianism",
+              "text" : "A necklace made of fine gold chain bearing a simple golden apple; a symbol of Discordianism."
+            },
+            { "id" : "scientology",
+              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the Scientologist Cross; a symbol of The Church of Scientology."
+            }
+        ]
     },
     {
         "type" : "ARMOR",
