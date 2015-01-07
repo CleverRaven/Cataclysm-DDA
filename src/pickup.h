@@ -22,12 +22,14 @@ class Pickup
         // No instances of Pickup allowed.
         Pickup() {}
 
+        typedef std::pair<item, int> ItemCount;
+        typedef std::map<std::string, ItemCount> PickupMap;
+
         // Pickup helper functions
         static void pick_one_up( const point &pickup_target, item &newit,
                                  vehicle *veh, int cargo_part, int index, int quantity,
                                  bool &got_water, bool &offered_swap,
-                                 std::map<std::string, int> &mapPickup,
-                                 std::map<std::string, item> &item_info, bool autopickup );
+                                 PickupMap &mapPickup, bool autopickup );
 
         static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );
 
@@ -35,8 +37,7 @@ class Pickup
                                             bool &picked_up );
         static void remove_from_map_or_vehicle( int posx, int posy, vehicle *veh, int cargo_part,
                                                 int &moves_taken, int curmit );
-        static void show_pickup_message( std::map<std::string, int> &mapPickup,
-                                         std::map<std::string, item> &item_info );
+        static void show_pickup_message( const PickupMap &mapPickup );
 };
 
 #endif
