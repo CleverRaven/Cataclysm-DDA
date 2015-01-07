@@ -6994,6 +6994,7 @@
     "id" : "spider",
     "items":[
       ["corpse", 10],
+      ["holy_symbol", 1],
       ["mutagen", 8],
       ["purifier", 12],
       ["meat", 50],
@@ -7096,8 +7097,7 @@
       ["miner_hat", 10],
       ["grapnel", 2],
       ["toolbox", 1],
-      ["pur_tablets", 10],
-      ["holy_symbol", 1]
+      ["pur_tablets", 10]
     ]
   },{
     "type" : "item_group",
