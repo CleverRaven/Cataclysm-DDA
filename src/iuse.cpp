@@ -1339,9 +1339,13 @@ int iuse::poison(player *p, item *it, bool, point)
 int iuse::fun_hallu(player *p, item *it, bool, point)
 {
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
-
-    //Fake a normal food morale effect
-    p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
+   
+   //Fake a normal food morale effect
+   if (p->has_trait("SPIRITUAL")) {
+        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+    } else {
+            p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
+      }
     if (!p->has_effect("hallu")) {
         p->add_effect("hallu", 3600);
     }
