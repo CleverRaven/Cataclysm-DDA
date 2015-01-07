@@ -1155,7 +1155,7 @@ void mattack::fungus_bristle(monster *z, int index)
                                 body_part_name_accusative(hit).c_str());
 
         if(one_in(15 - dam)) {
-            g->u.add_effect("fungus", 200, num_bp, true);
+            foe->add_effect("fungus", 200, num_bp, true);
             foe->add_msg_if_player(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
         foe->practice( "dodge", z->type->melee_skill );
