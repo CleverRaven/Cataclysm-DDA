@@ -7,6 +7,7 @@
 #include "text_snippets.h"
 #include "material.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "options.h"
 #include "uistate.h"
 #include "helper.h" //to_string_int
@@ -1143,11 +1144,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has pockets to warm your hands.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Put away your weapon to warm your hands in the pockets.")));
         }
         if (is_armor() && has_flag("HOOD")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has a hood to keep your head warm.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Leave your head unencumbered to put on the hood.")));
+        }
+        if (is_armor() && has_flag("COLLAR")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing has a wide collar that can keep your mouth warm.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Leave your mouth unencumbered to raise the collar.")));
         }
         if (is_armor() && has_flag("RAINPROOF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1507,15 +1519,21 @@ nc_color item::color(player *u) const
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
-            if( tmp.skill && tmp.intel <= u->int_cur + u->skillLevel( tmp.skill ) &&
+            if( tmp.skill && // Book can improve skill: blue
                 ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
                 ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
                 ret = c_ltblue;
-            } else if( !u->studied_all_recipes( *type ) ) {
+            } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill right now, but has more recipes: yellow
                 ret = c_yellow;
+            } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
+                       u->skillLevel( tmp.skill ) < tmp.level ) {
+                ret = c_pink;
+            } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
+                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart("style_" + type->id.substr(7))) ) {
+                ret = c_ltblue;
             }
         } else {
-            ret = c_red;
+            ret = c_red; // Book hasn't been identified yet: red
         }
     }
     return ret;
@@ -3522,7 +3540,7 @@ bool item::reload(player &u, int pos)
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != spare_mag_size() && 
+                   contents[spare_mag].charges != spare_mag_size() &&
                    (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
             reloading_spare_mag = true;
@@ -3532,7 +3550,7 @@ bool item::reload(player &u, int pos)
                 if (&contents[i] != gunmod && (int)i != spare_mag &&
                     contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].spare_mag_size() || 
+                    (contents[i].charges <= contents[i].spare_mag_size() ||
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;
@@ -3867,7 +3885,7 @@ bool item::fill_with( item &liquid, std::string &err )
 {
     LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid );
     switch ( lferr ) {
-        case L_ERR_NONE : 
+        case L_ERR_NONE :
             break;
         case L_ERR_NO_MIX:
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
@@ -4306,7 +4324,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active ||
+    return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
            is_artifact();
 }

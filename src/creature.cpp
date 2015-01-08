@@ -150,6 +150,7 @@ void Creature::process_turn()
     if(is_dead_state()) {
         return;
     }
+    reset_bonuses();
 
     process_effects();
 

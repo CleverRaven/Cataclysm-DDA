@@ -856,8 +856,8 @@ private:
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
  // Iterates over every item on the map, passing each item to the provided function.
- template<typename T, typename U>
-     void process_items( bool active, T veh_processor, U map_processor, std::string signal );
+ template<typename T>
+     void process_items( bool active, T processor, std::string signal );
  template<typename T>
      void process_items_in_submap( submap *const current_submap, int gridx, int gridy,
                                    T processor, std::string signal );

@@ -5932,7 +5932,7 @@ void player::process_effects() {
             mod_dex_bonus(it.get_mod("DEX", reduced));
             mod_per_bonus(it.get_mod("PER", reduced));
             mod_int_bonus(it.get_mod("INT", reduced));
-            mod_speed_bonus(it.get_mod("SPEED", reduced));
+            // Speed is already added in recalc_speed_bonus
 
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
@@ -9585,8 +9585,14 @@ bool player::eat(item *eaten, it_comest *comest)
         !is_npc() && !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
-    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH") && !has_trait("SPIRITUAL")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel both guilty and excited. Really do it?"))) {
+        return false;
+    }
+
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) &&
+         eaten->made_of("hflesh")&& !is_npc() &&
+        !query_yn(_("Cannibalism is such a universal taboo.  Will you break it?"))) {
         return false;
     }
 
@@ -9815,14 +9821,26 @@ bool player::eat(item *eaten, it_comest *comest)
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.
     // It's not cannibalism if you're not eating your own kind.
-      if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
+      if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_good, _("You feast upon the human flesh, and in doing so, devour their spirit."));
+          add_morale(MORALE_CANNIBAL, 25, 300); // You're not really consuming anything special; you just think you are.
+      } else if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
           add_msg_if_player(m_good, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 200);
+      } else if (has_trait("PSYCHOPATH") && !has_trait("CANNIBAL") && has_trait("SPIRITUAL")) {
+          add_msg_if_player( _("You greedily devour the taboo meat."));
+          add_morale(MORALE_CANNIBAL, 5, 50); // Small bonus for violating a taboo.
       } else if (has_trait("PSYCHOPATH") && !has_trait("CANNIBAL")) {
           add_msg_if_player( _("Meh. You've eaten worse."));
+      } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_good, _("You consume the sacred human flesh."));
+          add_morale(MORALE_CANNIBAL, 15, 200); // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
       } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL")) {
           add_msg_if_player(m_good, _("You indulge your shameful hunger."));
           add_morale(MORALE_CANNIBAL, 10, 50);
+      } else if (!has_trait("PSYCHOPATH") && has_trait("SPIRITUAL")) {
+          add_msg_if_player(m_bad, _("This is probably going to count against you if there's still an afterlife."));
+          add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       } else {
           add_msg_if_player(m_bad, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
@@ -11434,6 +11452,8 @@ void player::read(int inventory_position)
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
         it->typeId() == "cookbook_human") {
         add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
+    } else if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
+        add_morale(MORALE_BOOK, 50, 150, minutes + 60, minutes, false, it->type);
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
@@ -12039,20 +12059,37 @@ int player::get_wind_resistance(body_part bp) const
     return totalCoverage;
 }
 
+int bestwarmth( const std::vector< item > &its, const std::string &flag )
+{
+    int best = 0;
+    for( auto &w : its ) {
+        if( w.has_flag( flag ) && w.get_warmth() > best ) {
+            best = w.get_warmth();
+        }
+    }
+    return best;
+}
+
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
 
-    // If the player is not wielding anything, check if hands can be put in pockets
-    if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
-        worn_with_flag("POCKETS")) {
-        ret += 10;
+    // If the player is not wielding anything big, check if hands can be put in pockets
+    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 && 
+        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ret += bestwarmth( worn, "POCKETS" );
     }
 
-    // If the players head is not encumbered, check if hood can be put up
-    if(bp == bp_head && encumb(bp_head) < 1 &&
-       (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD")) {
-        ret += 10;
+    // If the player's head is not encumbered, check if hood can be put up
+    if( bp == bp_head && encumb( bp_head ) < 1 &&
+        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ret += bestwarmth( worn, "HOOD" );
+    }
+
+    // If the player's mouth is not encumbered, check if collar can be put up
+    if( bp == bp_mouth && encumb( bp_mouth ) < 1 &&
+        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ret += bestwarmth( worn, "COLLAR" );
     }
 
     for (auto &i : worn) {
@@ -13163,10 +13200,9 @@ int player::getID () const
     return this->id;
 }
 
-bool player::uncanny_dodge(bool is_u)
+bool player::uncanny_dodge()
 {
-    (void)is_u;
-    is_u = this == &g->u;
+    bool is_u = this == &g->u;
     bool seen = g->u.sees( this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();

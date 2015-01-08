@@ -242,6 +242,14 @@
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
+        "id" : "SPIRITUAL",
+        "name" : "Spiritual",
+        "points" : 1,
+        "description" : "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "TOLERANCE",
         "name" : "Substance Tolerance",
         "points" : 1,
