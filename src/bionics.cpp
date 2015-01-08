@@ -302,7 +302,6 @@ void player::power_bionics()
             }
             if (menu_mode == "activating") {
                 if (bio_data.activated) {
-                    itype_id weapon_id = weapon.type->id;
                     int b = tmp - &my_bionics[0];
                     if (tmp->powered) {
                         deactivate_bionic(b);
