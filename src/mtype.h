@@ -170,6 +170,9 @@ struct mtype {
         int agro;       // How likely to attack; -100 to 100
         int morale;     // Default morale level
 
+        int vision_min; // Vision range in total darkness
+        int vision_dec; // Vision range penalty (MF_VIS flags increase this)
+
         int  speed;       // Speed; human = 100
         unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
         unsigned char melee_dice;  // Number of dice on melee hit

@@ -1581,6 +1581,8 @@
     "dodge":0,
     "armor_bash":0,
     "armor_cut":0,
+    "vision_min" : 40,
+    "vision_dec" : 20,
     "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
@@ -1588,7 +1590,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 2]],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -1638,6 +1640,8 @@
     "dodge":1,
     "armor_bash":0,
     "armor_cut":0,
+    "vision_min" : 20,
+    "vision_dec" : 10,
     "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
@@ -1645,7 +1649,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SHRIEK", 10]],
     "description":"An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_spitter",
@@ -1862,12 +1866,14 @@
     "dodge":1,
     "armor_bash":0,
     "armor_cut":0,
+    "vision_min" : 10,
+    "vision_dec" : 10,
     "luminance":0,
     "hp":24,
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 2]],
     "description":"Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_brute",

@@ -363,21 +363,12 @@ int monster::vision_range(const int x, const int y) const
 
     int range = g->light_level();
     // Set to max possible value if the target is lit brightly
-    if (g->m.light_at(x, y) >= LL_LOW)
+    if( g->m.light_at(x, y) >= LL_LOW ) {
         range = DAYLIGHT_LEVEL;
-
-    if(has_flag(MF_VIS10)) {
-        range -= 50;
-    } else if(has_flag(MF_VIS20)) {
-        range -= 40;
-    } else if(has_flag(MF_VIS30)) {
-        range -= 30;
-    } else if(has_flag(MF_VIS40)) {
-        range -= 20;
-    } else if(has_flag(MF_VIS50)) {
-        range -= 10;
     }
-    range = std::max(range, 1);
+
+    range -= type->vision_dec;
+    range = std::max( range, type->vision_min );
 
     return range;
 }
