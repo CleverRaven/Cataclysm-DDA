@@ -6241,8 +6241,7 @@ int game::mon_info(WINDOW *w)
 
             monster_attitude matt = critter.attitude(&u);
             if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
-                int j;
-                if (index < 8 && critter.sees( g->u, j )) {
+                if (index < 8 && critter.sees( g->u )) {
                     dangerous[index] = true;
                 }
 
@@ -10426,8 +10425,7 @@ int game::list_monsters(const int iLastState)
                     const auto m = dynamic_cast<monster*>( critter );
                     const auto p = dynamic_cast<npc*>( critter );
 
-                        int iDummy;
-                        if( critter->sees( g->u, iDummy ) ) {
+                        if( critter->sees( g->u ) ) {
                             mvwprintz(w_monsters, y, 0, c_yellow, "!");
                         }
 

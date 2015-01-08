@@ -462,14 +462,13 @@ void npc::execute_action(npc_action action, int target)
 void npc::choose_monster_target(int &enemy, int &danger,
                                 int &total_danger)
 {
-    int linet = 0;
-    bool defend_u = sees( g->u, linet ) && is_defending();
+    bool defend_u = sees( g->u ) && is_defending();
     int highest_priority = 0;
     total_danger = 0;
 
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
-        if (this->sees(*mon, linet)) {
+        if (this->sees(*mon)) {
             int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
@@ -700,7 +699,6 @@ npc_action npc::address_needs(int danger)
 
 npc_action npc::address_player()
 {
-    int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
         sees( g->u.pos() ) && g->u.is_invisible() == false) {
         if (g->u.in_sleep_state()) {
@@ -740,7 +738,7 @@ npc_action npc::address_player()
 
     if (attitude == NPCATT_LEAD) {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
-            !sees( g->u, linet ) ) {
+            !sees( g->u ) ) {
             if(has_effect("catch_up")) {
                 int intense = get_effect_int("catch_up");
                 if (intense < 10) {

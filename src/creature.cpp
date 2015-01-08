@@ -235,7 +235,6 @@ bool Creature::sees( const point t, int &bresenham_slope ) const
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
-    int t;
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
@@ -248,7 +247,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     int pldist = rl_dist( pos(), g->u.pos() );
     int part;
     vehicle *in_veh = is_fake() ? g->m.veh_at( xpos(), ypos(), part ) : nullptr;
-    if( pldist < iff_dist && sees( g->u, t ) ) {
+    if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
@@ -277,8 +276,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         targets.push_back( p );
     }
     for( auto &m : targets ) {
-        int t;
-        if( !sees( *m, t ) ) {
+        if( !sees( *m ) ) {
             // can't see nor sense it
             continue;
         }
