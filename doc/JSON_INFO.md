@@ -127,6 +127,8 @@ The syntax listed here is still valid.
 "dodge" : 8,						// Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics
 "armor_bash" : 0,					// Monster protection from bashing damage
 "armor_cut" : 0,					// Monster protection from cutting damage
+"vision_dec" : 10,                  // Vision range penalty for monster. Subtracted from the light level for vision calculations for this monster.
+"vision_min" : 1,                   // Vision range in total darkness
 "luminance" : 0,					// Amount of light passively output by monster. Ranges from 0 to 10.
 "hp" : 10,							// Monster hit points
 "special_freq" : 0,					// Number of turns required to "charge" a monster's special attack

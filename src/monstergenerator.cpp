@@ -433,19 +433,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->fear = get_set_from_tags(fear_trig, trigger_map, MTRIG_NULL);
         newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
 
-        // Handle legacy flags
-        if( newmon->has_flag(MF_VIS10) ) {
-            newmon->vision_dec = 10;
-        } else if( newmon->has_flag(MF_VIS20) ) {
-            newmon->vision_dec = 20;
-        } else if( newmon->has_flag(MF_VIS30) ) {
-            newmon->vision_dec = 30;
-        } else if( newmon->has_flag(MF_VIS40) ) {
-            newmon->vision_dec = 40;
-        } else if( newmon->has_flag(MF_VIS50) ) {
-            newmon->vision_dec = 50;
-        }
-
         mon_templates[mid] = newmon;
     }
 }
