@@ -317,7 +317,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         point pos() const;
         /** Returns the player's sight range */
-        int  sight_range(int light_level) const;
+        int sight_range( int light_level ) const override;
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:

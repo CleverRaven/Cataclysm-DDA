@@ -355,17 +355,12 @@ bool monster::digging() const
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
 
-int monster::vision_range(const int x, const int y) const
+int monster::sight_range( const int light_level ) const
 {
     if( !can_see() ) {
         return 0;
     }
-
-    int range = g->light_level();
-    // Set to max possible value if the target is lit brightly
-    if (g->m.light_at(x, y) >= LL_LOW)
-        range = DAYLIGHT_LEVEL;
-
+    int range = light_level;
     if(has_flag(MF_VIS10)) {
         range -= 50;
     } else if(has_flag(MF_VIS20)) {
@@ -377,9 +372,17 @@ int monster::vision_range(const int x, const int y) const
     } else if(has_flag(MF_VIS50)) {
         range -= 10;
     }
-    range = std::max(range, 1);
+    return std::max( range, 1 );
+}
 
-    return range;
+int monster::vision_range( const int x, const int y ) const
+{
+    // Set to max possible value if the target is lit brightly
+    if( g->m.light_at( x, y ) >= LL_LOW ) {
+        return sight_range( DAYLIGHT_LEVEL );
+    } else {
+        return sight_range( g->light_level() );
+    }
 }
 
 bool monster::sees(Creature *target, int &bresenham_slope) const

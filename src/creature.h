@@ -74,6 +74,12 @@ class Creature
         bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
         bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
 
+        /**
+         * How far the creature sees under the given light. Places outside this range can
+         * @param light_level See @ref game::light_level.
+         */
+        virtual int sight_range( int light_level ) const = 0;
+
         // An approximation of creature's strength. Used by bots
         virtual float power_rating() const = 0;
         /**
