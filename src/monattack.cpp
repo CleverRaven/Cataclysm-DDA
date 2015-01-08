@@ -1985,19 +1985,22 @@ void mattack::gene_sting(monster *z, int index)
 
 void mattack::para_sting(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
     }
-    if (within_visual_range(z, 4) < 0) return;
+    if( rl_dist( z->pos(), target->pos() ) > 4 ) {
+        return;
+    }
 
-    if (g->u.uncanny_dodge()) {
+    if( target->uncanny_dodge() ) {
         return;
     }
     z->moves -= 150;
     z->reset_special(index); // Reset timer
-    add_msg(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
-    add_msg(m_bad, _("You feel poison enter your body!"));
-    g->u.add_effect("paralyzepoison", 50);
+    target->add_msg_if_player(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
+    target->add_msg_if_player(m_bad, _("You feel poison enter your body!"));
+    target->add_effect("paralyzepoison", 50);
 }
 
 void mattack::triffid_growth(monster *z, int index)
@@ -2269,18 +2272,14 @@ void mattack::smg(monster *z, int index)
         z->ammo[ammo_type] = 1000;
     }
 
-    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel("smg").level(8);
-    tmp.skillLevel("gun").level(4);
-
     z->reset_special(index); // Reset timer
-    Creature *target = NULL;
+    Creature *target = nullptr;
 
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
         target = z->auto_find_hostile_target( 18, boo_hoo );
-        if (target == NULL) {// Couldn't find any targets!
+        if( target == nullptr ) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
                                             "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
@@ -2290,22 +2289,29 @@ void mattack::smg(monster *z, int index)
             return;
         }
     } else {
-        // Not friendly; hence, firing at the player
-        if (within_visual_range(z, 24) < 0) {
+        // Not friendly; hence, firing at the player too
+        target = z->attack_target();
+        if( target == nullptr ) {
             return;
         }
-        if( ignore_mutants(z) ) {
+        int dist = rl_dist( z->pos(), target->pos() );
+        if( dist > 18 ) {
+            return;
+        }
+        if( target == &g->u && ignore_mutants(z) ) {
             return;
         }
 
-        if (!z->has_effect("targeted")) {
+        if( !z->has_effect("targeted") ) {
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
             z->moves -= 100;
             return;
         }
-        target = &g->u;
     }
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
+    tmp.skillLevel("smg").level(8);
+    tmp.skillLevel("gun").level(4);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2334,18 +2340,13 @@ void mattack::laser(monster *z, int index)
 {
     bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
 
-    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(4);
-
     z->reset_special(index); // Reset timer
-    Creature *target = NULL;
+    Creature *target = nullptr;
 
     if (z->friendly != 0) {   // Attacking monsters, not the player!
         int boo_hoo;
         target = z->auto_find_hostile_target( 18, boo_hoo);
-        z->reset_special(index); // Reset timer
-        if (target == NULL) {// Couldn't find any targets!
+        if( target == nullptr ) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
                                             "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
@@ -2355,12 +2356,16 @@ void mattack::laser(monster *z, int index)
             return;
         }
     } else {
-        // Not friendly; hence, firing at the player
-        if (within_visual_range(z, 24) < 0) {
+        // Not friendly; hence, firing at the player too
+        target = z->attack_target();
+        if( target == nullptr ) {
             return;
         }
-
-        if( ignore_mutants(z) ) {
+        int dist = rl_dist( z->pos(), target->pos() );
+        if( dist > 18 ) {
+            return;
+        }
+        if( target == &g->u && ignore_mutants(z) ) {
             return;
         }
 
@@ -2370,8 +2375,10 @@ void mattack::laser(monster *z, int index)
             z->moves -= 100;
             return;
         }
-        target = &g->u;
     }
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
+    tmp.skillLevel("rifle").level(8);
+    tmp.skillLevel("gun").level(4);
     z->moves -= 150;   // It takes a while
     if (!sunlight) {
         if (one_in(3)) {
@@ -2397,10 +2404,11 @@ void mattack::laser(monster *z, int index)
 
 void mattack::rifle_tur(monster *z, int index)
 {
+    Creature *target;
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        Creature *target = z->auto_find_hostile_target( 18, boo_hoo );
+        target = z->auto_find_hostile_target( 18, boo_hoo );
         if( target == nullptr ) {// Couldn't find any targets!
             if( boo_hoo > 0 && g->u_see( z->posx(), z->posy() ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2414,18 +2422,22 @@ void mattack::rifle_tur(monster *z, int index)
         z->reset_special(index);
         this->rifle( z, target );
     } else {
-        // Not friendly; hence, firing at the player
         // (This is a bit generous: 5.56 has 38 range.)
-        if (within_visual_range(z, 36) < 0) {
+        // Not friendly; hence, firing at the player too
+        target = z->attack_target();
+        if( target == nullptr ) {
             return;
         }
-
-        if( ignore_mutants(z) ) {
+        int dist = rl_dist( z->pos(), target->pos() );
+        if( dist > 18 ) {
+            return;
+        }
+        if( target == &g->u && ignore_mutants(z) ) {
             return;
         }
 
         z->reset_special(index);
-        this->rifle( z, &g->u );
+        this->rifle( z, target );
     }
 }
 
@@ -2483,10 +2495,6 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         z->ammo[ammo_type] = 100;
     }
 
-    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("launcher").level(8);
-    tmp.skillLevel("gun").level(6);
-
     if( target == &g->u ) {
         if (!z->has_effect("targeted")) {
             //~Potential grenading detected.
@@ -2500,6 +2508,9 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             return;
         }
     }
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
+    tmp.skillLevel("launcher").level(8);
+    tmp.skillLevel("gun").level(6);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2533,18 +2544,13 @@ void mattack::bmg_tur(monster *z, int index)
         z->ammo[ammo_type] = 500;
     }
 
-    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(6);
-
-    z->reset_special(index); // Reset timer
-    Creature *target = NULL;
+    Creature *target = nullptr;
 
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
         target = z->auto_find_hostile_target( 40, boo_hoo );
-        if (target == NULL) {// Couldn't find any targets!
+        if( target == nullptr ) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
                                             "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
@@ -2553,28 +2559,36 @@ void mattack::bmg_tur(monster *z, int index)
             }
             return;
         }
+        z->reset_special(index);
     } else {
-        // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.  50BMG has range 90.)
-        if (within_visual_range(z, 40) < 0) {
+        target = z->attack_target();
+        if( target == nullptr ) {
+            return;
+        }
+        int dist = rl_dist( z->pos(), target->pos() );
+        if( dist > 18 ) {
+            return;
+        }
+        if( target == &g->u && ignore_mutants(z) ) {
             return;
         }
 
-        if( ignore_mutants(z) ) {
-            return;
-        }
+        z->reset_special(index);
 
         if (!z->has_effect("targeted")) {
             //~There will be a .50BMG shell sent at high speed to your location next turn.
-            add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
+            target->add_msg_if_player( m_warning, _("Why is there a laser dot on your torso..?") );
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
-            g->u.add_effect("laserlocked", 3);
+            target->add_effect( "laserlocked", 3 );
             z->add_effect("targeted", 8);
             z->moves -= 100;
             return;
         }
-        target = &g->u;
     }
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
+    tmp.skillLevel("rifle").level(8);
+    tmp.skillLevel("gun").level(6);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2609,46 +2623,49 @@ void mattack::tankgun( monster *z, Creature *target )
         z->ammo[ammo_type] = 40;
     }
 
-    // kevingranade KA101: yes, but make it really inaccurate
-    // Sure thing.
-    npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel("launcher").level(1);
-    tmp.skillLevel("gun").level(1);
     point aim_point;
 
     if( target != &g->u ) {
         aim_point = target->pos();
     } else {
         // Not friendly; hence, firing at the player
-        // (Be grateful for safety precautions.)
-        if (within_visual_range(z, 48) < 0) return;
-
-        if( ignore_mutants(z) ) {
+        target = z->attack_target();
+        if( target == nullptr ) {
+            return;
+        }
+        int dist = rl_dist( z->pos(), target->pos() );
+        if( dist > 48 ) {
+            return;
+        }
+        if( target == &g->u && ignore_mutants(z) ) {
             return;
         }
 
         if (!z->has_effect("targeted")) {
             //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-            add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
+            target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
             z->add_effect("targeted", 3);
-            g->u.add_effect("laserlocked", 3);
+            target->add_effect( "laserlocked", 3 );
             z->moves -= 200;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
             return;
         }
-        aim_point = g->u.pos();
+        aim_point = target->pos();
         // Target the vehicle itself instead if there is one.
-        if( g->u.in_vehicle ) {
-            vehicle *veh = g->m.veh_at( g->u.xpos(), g->u.ypos() );
-            if( veh ) {
-                veh->center_of_mass( aim_point.x, aim_point.y );
-                aim_point += veh->global_pos();
-            }
+        vehicle *veh = g->m.veh_at( target->xpos(), target->ypos() );
+        if( veh != nullptr ) {
+            veh->center_of_mass( aim_point.x, aim_point.y );
+            aim_point += veh->global_pos();
         }
     }
+    // kevingranade KA101: yes, but make it really inaccurate
+    // Sure thing.
+    npc tmp = make_fake_npc(z, 12, 8, 8, 8);
+    tmp.skillLevel("launcher").level(1);
+    tmp.skillLevel("gun").level(1);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2925,7 +2942,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<point> traj = line_to( z->pos(), g->u.pos(), bres );
+    std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
@@ -2937,8 +2954,8 @@ void mattack::flame( monster *z, Creature *target )
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if (!g->u.uncanny_dodge() && !g->u.has_trait("M_SKIN2")) {
-        g->u.add_effect("onfire", 8);
+    if( !target->uncanny_dodge() && !target->has_trait("M_SKIN2")) {
+        target->add_effect("onfire", 8);
     }
 }
 
