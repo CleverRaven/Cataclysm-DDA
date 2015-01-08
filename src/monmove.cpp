@@ -134,7 +134,7 @@ void monster::plan(const mfactions &factions)
     }
 
     // If we can see, and we can see the player, move toward them or flee.
-    if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
+    if( friendly == 0 && can_see() && sees_player( bresenham_slope, &g->u ) ) {
         dist = rate_target( g->u, bresenham_slope, electronic );
         if( is_fleeing( g->u ) ) {
             // Wander away.
@@ -208,7 +208,7 @@ void monster::plan(const mfactions &factions)
     if( closest == -1 && friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-    } else if( closest == -1 && friendly < 0 && sees_player( bresenham_slope ) ) {
+    } else if( closest == -1 && friendly < 0 && sees_player( bresenham_slope, &g->u ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest(g->u.posx, g->u.posy, bresenham_slope);
         } else {
@@ -927,7 +927,7 @@ void monster::stumble(bool moved)
  if (!plans.empty()) {
   if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, bresenham_slope))
    set_dest(plans.back().x, plans.back().y, bresenham_slope);
-  else if (sees_player( bresenham_slope ))
+  else if (sees_player( bresenham_slope, &g->u ))
    set_dest(g->u.posx, g->u.posy, bresenham_slope);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();

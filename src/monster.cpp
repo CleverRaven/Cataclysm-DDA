@@ -396,9 +396,6 @@ bool monster::sees(const Creature &target, int &bresenham_slope) const
 }
 
 bool monster::sees_player(int & bresenham_slope, player * p) const {
-    if ( p == NULL ) {
-        p = &g->u;
-    }
     const int range = vision_range(p->posx, p->posy);
     // * p->visibility() / 100;
     return (

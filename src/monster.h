@@ -87,7 +87,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int vision_range(const int x, const int y)
         const; // Returns monster vision range, x and y are the target spot
         using Creature::sees;
-        bool sees_player(int &bresenham_slope, player *p = NULL) const;   // Sees player/npc
+        bool sees_player(int &bresenham_slope, player *p) const;   // Sees player/npc
         bool sees(const Creature &target, int &bresenham_slope) const; // As above, but for any target
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
