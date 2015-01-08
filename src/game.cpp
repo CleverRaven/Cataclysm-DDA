@@ -6154,20 +6154,6 @@ faction *game::faction_by_ident(std::string id)
     return NULL;
 }
 
-bool game::sees_u(int x, int y, int &t)
-{
-    const int mondex = mon_at(x, y);
-    if (mondex != -1) {
-        const monster &critter = critter_tracker.find(mondex);
-        return critter.sees(u, t);
-    }
-    // range = -1 = unlimited, proceeding sans critter
-    return (
-               m.sees(x, y, u.posx, u.posy, -1, t) &&
-               !u.is_invisible()
-           );
-}
-
 bool game::u_see(int x, int y)
 {
     return u.sees(x, y);
@@ -6266,7 +6252,7 @@ int game::mon_info(WINDOW *w)
             monster_attitude matt = critter.attitude(&u);
             if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
                 int j;
-                if (index < 8 && sees_u(critter.posx(), critter.posy(), j)) {
+                if (index < 8 && critter.sees( g->u, j )) {
                     dangerous[index] = true;
                 }
 
@@ -10451,7 +10437,7 @@ int game::list_monsters(const int iLastState)
                     const auto p = dynamic_cast<npc*>( critter );
 
                         int iDummy;
-                        if (sees_u(critter->xpos(), critter->ypos(), iDummy)) {
+                        if( critter->sees( g->u, iDummy ) ) {
                             mvwprintz(w_monsters, y, 0, c_yellow, "!");
                         }
 

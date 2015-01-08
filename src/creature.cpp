@@ -248,7 +248,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     int pldist = rl_dist( pos(), g->u.pos() );
     int part;
     vehicle *in_veh = is_fake() ? g->m.veh_at( xpos(), ypos(), part ) : nullptr;
-    if( pldist < iff_dist && g->sees_u(xpos(), ypos(), t) ) {
+    if( pldist < iff_dist && sees( g->u, t ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,

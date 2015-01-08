@@ -463,7 +463,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
                                 int &total_danger)
 {
     int linet = 0;
-    bool defend_u = g->sees_u(posx, posy, linet) && is_defending();
+    bool defend_u = sees( g->u, linet ) && is_defending();
     int highest_priority = 0;
     total_danger = 0;
 
@@ -740,7 +740,7 @@ npc_action npc::address_player()
 
     if (attitude == NPCATT_LEAD) {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
-            !g->sees_u(posx, posy, linet)) {
+            !sees( g->u, linet ) ) {
             if(has_effect("catch_up")) {
                 int intense = get_effect_int("catch_up");
                 if (intense < 10) {
@@ -977,7 +977,7 @@ bool npc::enough_time_to_reload(int target, item &gun)
     int dist, speed, linet;
 
     if (target == TARGET_PLAYER) {
-        if (g->sees_u(posx, posy, linet) && g->u.weapon.is_gun() && rltime > 200) {
+        if (sees( g->u, linet ) && g->u.weapon.is_gun() && rltime > 200) {
             return false;    // Don't take longer than 2 turns if player has a gun
         }
         dist = rl_dist(posx, posy, g->u.posx, g->u.posy);

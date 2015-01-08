@@ -27,7 +27,7 @@ int within_visual_range(monster *z, int max) {
     int j, dist;
 
     dist = rl_dist( z->pos(), g->u.pos() );
-    if (dist > max || !g->sees_u(z->posx(), z->posy(), j)) {
+    if (dist > max || !z->sees( g->u, j ) ) {
         return -1;    // Out of range
     }
     return dist;
@@ -1744,7 +1744,7 @@ void mattack::tentacle(monster *z, int index)
     }
     Creature *target = &g->u;
     int t;
-    if (!g->sees_u(z->posx(), z->posy(), t)) {
+    if (!z->sees( g->u, t )) {
         return;
     }
     add_msg(m_bad, _("The %s lashes its tentacle at you!"), z->name().c_str());
@@ -2021,7 +2021,7 @@ void mattack::stare(monster *z, int index)
     z->moves -= 200;
     z->reset_special(index); // Reset timer
     int j;
-    if (g->sees_u(z->posx(), z->posy(), j)) {
+    if( z->sees( g->u, j ) ) {
         add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
         g->u.add_effect("teleglow", 800);
     } else {
@@ -2954,7 +2954,7 @@ void mattack::copbot(monster *z, int index)
         return; // TODO: handle friendly monsters
     }
     int t;
-    bool sees_u = g->sees_u(z->posx(), z->posy(), t);
+    bool sees_u = z->sees( g->u, t );
     bool cuffed = g->u.weapon.type->id == "e_handcuffs";
     z->reset_special(index); // Reset timer
     if (within_visual_range(z, 2) < 0) {
@@ -3371,7 +3371,7 @@ void mattack::brandish(monster *z, int index)
         return; // TODO: handle friendly monsters
     }
     int linet;
-    if (!g->sees_u(z->posx(), z->posy(), linet)) {
+    if( !z->sees( g->u, linet ) ) {
         return; // Only brandish if we can see you!
     }
     z->reset_special(index); // Reset timer
@@ -3501,7 +3501,7 @@ void mattack::longswipe(monster *z, int index)
         if (one_in(5)) {
             int j;
             if (rl_dist( z->pos(), g->u.pos() ) > 3 ||
-                !g->sees_u(z->posx(), z->posy(), j)) {
+                !z->sees( g->u, j ) ) {
                 return; // Out of range
             }
             z->moves -= 150;
@@ -3591,7 +3591,7 @@ void mattack::darkman(monster *z, int index)
                 z->name().c_str() );
     }
     int linet;
-    if( !g->sees_u(z->posx(), z->posy(), linet) ) {
+    if( !z->sees( g->u, linet ) ) {
         return; // Wont do the combat stuff unless it can see you
     }
     switch (rng(1, 7)) { // What do we say?

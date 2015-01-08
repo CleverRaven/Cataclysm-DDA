@@ -279,7 +279,6 @@ class game
         int assign_npc_id();
         int assign_faction_id();
         faction *faction_by_ident(std::string ident);
-        bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
         bool u_see (const Creature &t);
         Creature *is_hostile_nearby();
