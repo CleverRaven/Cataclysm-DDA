@@ -412,6 +412,11 @@
         "id" : "unfinished_char",
         "name" : "semi-charred fuel",
         "default" : "unfinished_charcoal"
+    },{
+        "type" : "ammunition_type",
+        "id" : "41_round",
+        "name" : ".41 round",
+        "default" : "41_hb"
     }
 
 ]
