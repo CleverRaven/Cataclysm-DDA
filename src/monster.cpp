@@ -385,14 +385,14 @@ int monster::vision_range( const int x, const int y ) const
     }
 }
 
-bool monster::sees(Creature *target, int &bresenham_slope) const
+bool monster::sees(const Creature &target, int &bresenham_slope) const
 {
-    player *foe = dynamic_cast< player* >( target );
+    player *foe = dynamic_cast< player* >( const_cast<Creature*>( &target ) );
     if( foe != nullptr ) {
         return sees_player( bresenham_slope, foe );
     }
-    const int range = vision_range( target->xpos(), target->ypos() );
-    return g->m.sees( _posx, _posy, target->xpos(), target->ypos(), range, bresenham_slope );
+    const int range = vision_range( target.xpos(), target.ypos() );
+    return g->m.sees( _posx, _posy, target.xpos(), target.ypos(), range, bresenham_slope );
 }
 
 bool monster::sees_player(int & bresenham_slope, player * p) const {

@@ -117,7 +117,7 @@ void mattack::shriek(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 4 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -132,7 +132,7 @@ void mattack::howl(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 4 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -164,7 +164,7 @@ void mattack::rattle(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > min_dist || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -182,7 +182,7 @@ void mattack::acid(monster *z, int index)
 
     int t;
     int junk = 0;
-    if( !z->sees( target, t ) ||
+    if( !z->sees( *target, t ) ||
         !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 10, 1, 100, junk ) ) {
         return; // Can't see/reach target, no attack
     }
@@ -222,7 +222,7 @@ void mattack::shockstorm(monster *z, int index)
     bool seen = g->u_see( *z );
     int t;
     int junk = 0;
-    if( !z->sees( target, t ) ||
+    if( !z->sees( *target, t ) ||
         !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), 12, 1, 100, junk ) ) {
         return; // Can't see/reach target, no attack
     }
@@ -296,7 +296,7 @@ void mattack::boomer(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 3 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -440,7 +440,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
     Creature *target = z->attack_target();
     if( target == nullptr || 
         ( dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) ) > 5 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -796,7 +796,7 @@ void mattack::spit_sap(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         ( dist = rl_dist( z->pos(), target->pos() ) ) > 12 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -1134,7 +1134,7 @@ void mattack::fungus_bristle(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -1414,7 +1414,7 @@ void mattack::dermatik(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -3387,7 +3387,7 @@ void mattack::flesh_golem(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         ( dist = rl_dist( z->posy(), target->pos() ) ) > 20 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -3442,14 +3442,14 @@ void mattack::lunge(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         ( dist = rl_dist( z->pos(), target->pos() ) ) > 20 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
     player *foe = dynamic_cast< player* >( target );
     if( dist > 1 ) {
         if (one_in(5)) {
-            if( dist > 4 || !z->sees( target, t ) ) {
+            if( dist > 4 || !z->sees( *target, t ) ) {
                 return; // Out of range
             }
             z->moves += 200;
@@ -3676,7 +3676,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > 1 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return false;
     }
 
@@ -3921,7 +3921,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
 
@@ -4003,7 +4003,7 @@ void mattack::suicide(monster *z, int index)
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 2 || 
-        !z->sees( target, t ) ) {
+        !z->sees( *target, t ) ) {
         return;
     }
     z->die(z);
