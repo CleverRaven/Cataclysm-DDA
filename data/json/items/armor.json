@@ -7468,42 +7468,7 @@
         "revert_to": "null",
         "environmental_protection" : 0,
         "material_thickness" : 0,
-        "flags" : ["FANCY"],
-        "snippet_category" : [
-            { "id" : "christianity",
-              "text" : "A necklace made of fine gold chain bearing a simple cross; a symbol of Christianity."
-            },
-            { "id" : "islam",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the name of Allah in Arabic script; a symbol of Islam."
-            },
-            { "id" : "judaism",
-              "text" : "A necklace made of fine gold chain bearing a simple Star of David; a symbol of Judaism."
-            },
-            { "id" : "hinduism",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the svastika; a symbol of Hinduism."
-            },
-            { "id" : "buddhism",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a lotus; a symbol of Buddhism."
-            },
-            { "id" : "sikhism",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the khanda; a symbol of Sikhism."
-            },
-            { "id" : "shintoism",
-              "text" : "A necklace made of fine gold chain bearing a simple torii; a symbol of Shintoism."
-            },
-            { "id" : "pastafarianism",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a depiction of the Flying Spaghetti Monster; a symbol of Pastafarianism."
-            },
-            { "id" : "bob",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with a depiction of J. R. \"Bob\" Dobbs; a symbol of The Church of the Subgenius."
-            },
-            { "id" : "discordianism",
-              "text" : "A necklace made of fine gold chain bearing a simple golden apple; a symbol of Discordianism."
-            },
-            { "id" : "scientology",
-              "text" : "A necklace made of fine gold chain bearing a simple pendant engraved with the Scientology Cross; a symbol of The Church of Scientology."
-            }
-        ]
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
