@@ -1,8 +1,9 @@
-#include <cstdlib>
 #include "path_info.h"
+#include "platform.h"
 #include "options.h"
 #include "file_wrapper.h"
 #include <locale.h>
+#include <cstdlib>
 
 // create map where we will store the FILENAMES
 std::map<std::string, std::string> FILENAMES;
@@ -27,7 +28,7 @@ void PATH_INFO::init_user_dir(const char *ud)
 
     if (dir.empty()) {
         const char *user_dir;
-#if (defined _WIN32 || defined WINDOW)
+#if defined(CATA_OS_WINDOWS)
         user_dir = getenv("LOCALAPPDATA");
         // On Windows userdir without dot
         dir = std::string(user_dir) + "/cataclysm-dda/";

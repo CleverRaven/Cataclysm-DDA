@@ -1,4 +1,6 @@
-#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#include "platform.h"
+
+#if !defined(TILES) && !defined(SDLTILES) && !defined(CATA_OS_WINDOWS)
 #define UNICODE 1
 #define _UNICODE 1
 

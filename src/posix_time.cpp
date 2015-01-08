@@ -1,6 +1,7 @@
 #include "posix_time.h"
+#include "platform.h"
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#if defined(CATA_OS_WINDOWS) && !defined(CATA_OS_CYGWIN)
 int
 nanosleep (const struct timespec *requested_delay,
            struct timespec *remaining_delay)

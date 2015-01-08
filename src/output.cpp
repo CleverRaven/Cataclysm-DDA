@@ -1,14 +1,5 @@
-#include <string>
-#include <vector>
-#include <cstdarg>
-#include <cstring>
-#include <stdlib.h>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-
 #include "output.h"
-
+#include "platform.h"
 #include "color.h"
 #include "input.h"
 #include "rng.h"
@@ -19,6 +10,15 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+
+#include <string>
+#include <vector>
+#include <cstdarg>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 // Display data
 int TERMX;
@@ -1426,7 +1426,7 @@ std::string vstring_format(const char *pattern, va_list argptr)
     std::vector<char> buffer(buffer_size, '\0');
     // Call of vsnprintf() makes va_list unusable, so we need a copy.
     va_list cur_argptr;
-#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
+#if defined(CATA_OS_WINDOWS)
     // Microsofts vsnprintf does return -1 on buffer overflow, not
     // the required size of the buffer. So we have to increase the buffer
     // until we succeed.

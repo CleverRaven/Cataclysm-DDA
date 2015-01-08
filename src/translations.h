@@ -1,14 +1,16 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include "platform.h"
+
 #ifdef LOCALIZE
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if defined _WIN32 || defined __CYGWIN__
-#ifndef LIBINTL_STATIC
-#define LIBINTL_STATIC
-#endif
+#if defined(CATA_OS_WINDOWS) || defined(CATA_OS_CYGWIN)
+#   ifndef LIBINTL_STATIC
+#       define LIBINTL_STATIC
+#   endif
 #endif
 
 #include <string>
