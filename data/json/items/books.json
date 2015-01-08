@@ -3087,7 +3087,7 @@
         "weight" : 340,
         "to_hit" : 1,
         "color" : "light_gray",
-        "intelligence" : 0,
+        "intelligence" : 15,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 3,
