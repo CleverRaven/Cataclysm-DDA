@@ -4533,7 +4533,7 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
-        if( !g->m.pl_sees( posx, posy, x, y, -1 ) ) {
+        if( !sees( x, y ) ) {
             continue;
         }
         const trap *tr = traplist[trid];

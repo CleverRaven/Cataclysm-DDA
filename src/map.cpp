@@ -3937,7 +3937,7 @@ void map::draw(WINDOW* w, const point center)
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = DAYLIGHT_LEVEL;
 
-   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   bool can_see = pl_sees( realx, realy, distance_to_look );
    lit_level lit = light_at(realx, realy);
 
    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",

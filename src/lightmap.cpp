@@ -315,13 +315,13 @@ float map::ambient_light_at(int dx, int dy)
     return lm[dx][dy];
 }
 
-bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
+bool map::pl_sees( const int tx, const int ty, const int max_range )
 {
     if (!INBOUNDS(tx, ty)) {
         return false;
     }
 
-    if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range)) {
+    if( max_range >= 0 && square_dist( tx, ty, g->u.posx, g->u.posy ) > max_range ) {
         return false;    // Out of range!
     }
 

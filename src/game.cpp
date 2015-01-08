@@ -3056,7 +3056,7 @@ input_context game::get_player_input(std::string &action)
                     if( m.is_outside( mapx, mapy ) &&
                         ( m.light_at( mapx, mapy ) > LL_LOW ||
                           distance <= light_sight_range ) &&
-                        m.pl_sees( u.posx, u.posy, mapx, mapy, distance ) &&
+                        m.pl_sees( mapx, mapy, distance ) &&
                         !critter_at(mapx, mapy) ) {
                         // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
@@ -5659,7 +5659,7 @@ void game::draw_critter(const Creature &critter, const point &center)
                         u.has_trait( "INFRARED" ) ||
                         u.has_trait( "LIZ_IR" ) ||
                         u.worn_with_flag( "IR_EFFECT" );
-    const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
+    const bool can_see = m.pl_sees( critter.xpos(), critter.ypos(),
                                     u.sight_range( DAYLIGHT_LEVEL ) );
     if( critter.is_warm() && has_ir && can_see ) {
         mvwputch( w_terrain, my, mx, c_red, '?' );
@@ -6699,7 +6699,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
         }
     }
 
-    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
+    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees( x, y, dist )) {
         if (u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {

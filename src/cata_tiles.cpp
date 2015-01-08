@@ -1467,7 +1467,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = DAYLIGHT_LEVEL;
 
-    bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
+    bool can_see = g->m.pl_sees( x, y, distance_to_look );
     lit_level lit = g->m.light_at(x, y);
 
     if (lit != LL_BRIGHT && dist > real_max_sight_range) {
