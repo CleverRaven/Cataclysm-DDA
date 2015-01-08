@@ -2624,42 +2624,32 @@ void mattack::tankgun( monster *z, Creature *target )
     }
 
     point aim_point;
+    int dist = rl_dist( z->pos(), target->pos() );
+    aim_point = target->pos();
+    if( dist > 50 ) {
+        return;
+    }
+    if( target == &g->u && ignore_mutants(z) ) {
+        return;
+    }
 
-    if( target != &g->u ) {
-        aim_point = target->pos();
-    } else {
-        // Not friendly; hence, firing at the player
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 50 ) {
-            return;
-        }
-        if( target == &g->u && ignore_mutants(z) ) {
-            return;
-        }
-
-        if (!z->has_effect("targeted")) {
-            //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-            target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );
-            //~ Sound of a tank turret swiveling into place
-            g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 3);
-            target->add_effect( "laserlocked", 3 );
-            z->moves -= 200;
-            // Should give some ability to get behind cover,
-            // even though it's patently unrealistic.
-            return;
-        }
-        aim_point = target->pos();
-        // Target the vehicle itself instead if there is one.
-        vehicle *veh = g->m.veh_at( target->xpos(), target->ypos() );
-        if( veh != nullptr ) {
-            veh->center_of_mass( aim_point.x, aim_point.y );
-            aim_point += veh->global_pos();
-        }
+    if (!z->has_effect("targeted")) {
+        //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+        target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );
+        //~ Sound of a tank turret swiveling into place
+        g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
+        z->add_effect("targeted", 5);
+        target->add_effect( "laserlocked", 3 );
+        z->moves -= 200;
+        // Should give some ability to get behind cover,
+        // even though it's patently unrealistic.
+        return;
+    }
+    // Target the vehicle itself instead if there is one.
+    vehicle *veh = g->m.veh_at( target->xpos(), target->ypos() );
+    if( veh != nullptr ) {
+        veh->center_of_mass( aim_point.x, aim_point.y );
+        aim_point += veh->global_pos();
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
@@ -3026,7 +3016,9 @@ void mattack::chickenbot(monster *z, int index)
     monster *mon = dynamic_cast< monster* >( target );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
-    if( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) {
+    // Unless damaged - then everything is hostile
+    if( z->hp == z->type->hp ||
+        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
     
@@ -3035,7 +3027,7 @@ void mattack::chickenbot(monster *z, int index)
         mode = 1;
     } else if( ( dist >= 12) ||
                ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ||
-               ( target != &g->u && cap > 2 ) ) {
+               cap > 2 ) {
         mode = 3;
     } else if( dist >= 4) {
         mode = 2;
@@ -3099,7 +3091,9 @@ void mattack::multi_robot(monster *z, int index)
     monster *mon = dynamic_cast< monster* >( target );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
-    if( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) {
+    // Unless damaged - then everything is hostile
+    if( z->hp == z->type->hp ||
+        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
 
@@ -3112,15 +3106,15 @@ void mattack::multi_robot(monster *z, int index)
         mode = 3;
     } else if( dist <= 30 ) {
         mode = 4;
-    } else if( ( target == &g->u && // Player stuff
-                    ( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ) ) ||
+    } else if( ( target == &g->u && g->u.in_vehicle ) ||
                  z->friendly != 0 || 
-                 ( target != &g->u && cap > 4 ) ) {
+                 cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
         if( dist >= 35 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
+            cap = 5;
         }
     }
 
