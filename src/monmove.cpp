@@ -88,8 +88,7 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    int sightrange = vision_range( c.xpos(), c.ypos() );
-    if( sightrange < 1 || !g->m.sees( posx(), posy(), c.xpos(), c.ypos(), sightrange, bresenham_slope ) ) {
+    if( !sees( c.xpos(), c.ypos(), bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {

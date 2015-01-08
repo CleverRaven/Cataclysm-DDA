@@ -84,10 +84,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
         bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         int sight_range( int light_level ) const override;
-        int vision_range(const int x, const int y)
-        const; // Returns monster vision range, x and y are the target spot
         using Creature::sees;
         bool sees(const Creature &target, int &bresenham_slope) const; // As above, but for any target
+        bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 

@@ -1354,11 +1354,10 @@ void mattack::leap(monster *z, int index)
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
-            const int vision_range = z->vision_range( x, y );
             if (x == z->posx() && y == z->posy()) {
                 continue;
             }
-            if (!g->m.sees(z->posx(), z->posy(), x, y, vision_range, linet)) {
+            if( !z->sees( x, y, linet ) ) {
                 continue;
             }
             if (!g->is_empty(x, y)) {

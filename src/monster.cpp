@@ -375,26 +375,25 @@ int monster::sight_range( const int light_level ) const
     return std::max( range, 1 );
 }
 
-int monster::vision_range( const int x, const int y ) const
+bool monster::sees( const int cx, const int cy, int &bresenham_slope ) const
 {
-    // Set to max possible value if the target is lit brightly
-    if( g->m.light_at( x, y ) >= LL_LOW ) {
-        return sight_range( DAYLIGHT_LEVEL );
+    int range;
+    if( g->m.light_at( cx, cy ) >= LL_LOW ) {
+        range = sight_range( DAYLIGHT_LEVEL );
     } else {
-        return sight_range( g->light_level() );
+        range = sight_range( g->light_level() );
     }
+    return range >= 1 && g->m.sees( posx(), posy(), cx, cy, range, bresenham_slope );
 }
 
 bool monster::sees(const Creature &target, int &bresenham_slope) const
 {
     auto foe = dynamic_cast< const player* >( &target );
     if( foe != nullptr ) {
-        const int range = vision_range(foe->posx, foe->posy);
-        return g->m.sees( _posx, _posy, foe->posx, foe->posy, range, bresenham_slope ) &&
+        return sees( foe->posx, foe->posy, bresenham_slope ) &&
                !foe->is_invisible();
     }
-    const int range = vision_range( target.xpos(), target.ypos() );
-    return g->m.sees( _posx, _posy, target.xpos(), target.ypos(), range, bresenham_slope );
+    return sees( target.xpos(), target.ypos(), bresenham_slope );
 }
 
 bool monster::made_of(std::string m) const
