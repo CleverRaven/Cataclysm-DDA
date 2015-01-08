@@ -4211,6 +4211,29 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 1
+    },
+    {   "type" : "AMMO",
+        "id" : "41_hb",
+        "price" : 100,
+        "name" : ".41 homebrew cartridge",
+        "name_plural" : ".41 homebrew cartridge",
+        "symbol" : "=",
+        "color" : "dark_gray",
+        "description" : "Homebrew .41 cartridge made using black gunpowder and a lead ball, encased in paper. Easy to make and delivers a lot of energy, but the acidic residue from firing this round would rapidly render any modern weapon inoperable.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 73,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "41_round",
+        "damage" : 50,
+        "pierce" : 20,
+        "range" : 15,
+        "dispersion" : 25,
+        "recoil" : 750,
+        "count" : 25,
+        "effects" : ["COOKOFF"]
     }
 
 ]
