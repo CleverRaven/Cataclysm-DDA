@@ -2634,7 +2634,7 @@ void mattack::tankgun( monster *z, Creature *target )
             return;
         }
         int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 48 ) {
+        if( dist > 50 ) {
             return;
         }
         if( target == &g->u && ignore_mutants(z) ) {
@@ -3002,7 +3002,6 @@ Please put down your weapon.\""));
 void mattack::chickenbot(monster *z, int index)
 {
     int mode = 0;
-    int cap = INT_MAX;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
@@ -3021,14 +3020,22 @@ void mattack::chickenbot(monster *z, int index)
             }
             return;
         }
-        cap = target->power_rating() - 1;
     }
 
+    int cap = target->power_rating() - 1;
+    monster *mon = dynamic_cast< monster* >( target );
+    // Their attitude to us and not ours to them, so that bobcats won't get gunned down
+    // Only monster-types for now - assuming humans are smart enough not to make it obvious
+    if( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) {
+        cap += 2;
+    }
+    
     int dist = rl_dist( z->pos(), target->pos() );
     if( dist == 1 && one_in(2) ) {
         mode = 1;
     } else if( ( dist >= 12) ||
-               ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ) {
+               ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ||
+               ( target != &g->u && cap > 2 ) ) {
         mode = 3;
     } else if( dist >= 4) {
         mode = 2;
@@ -3068,7 +3075,6 @@ void mattack::chickenbot(monster *z, int index)
 void mattack::multi_robot(monster *z, int index)
 {
     int mode = 0;
-    int cap = INT_MAX;
     int boo_hoo = 0;
     Creature *target;
     if( z->friendly == 0 ) {
@@ -3087,7 +3093,14 @@ void mattack::multi_robot(monster *z, int index)
             }
             return;
         }
-        cap = target->power_rating();
+    }
+
+    int cap = target->power_rating();
+    monster *mon = dynamic_cast< monster* >( target );
+    // Their attitude to us and not ours to them, so that bobcats won't get gunned down
+    // Only monster-types for now - assuming humans are smart enough not to make it obvious
+    if( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) {
+        cap += 2;
     }
 
     int dist = rl_dist( z->pos(), target->pos() );
@@ -3099,8 +3112,10 @@ void mattack::multi_robot(monster *z, int index)
         mode = 3;
     } else if( dist <= 30 ) {
         mode = 4;
-    } else if( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
-               z->friendly != 0 ) {
+    } else if( ( target == &g->u && // Player stuff
+                    ( g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ) ) ||
+                 z->friendly != 0 || 
+                 ( target != &g->u && cap > 4 ) ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
         if( dist >= 35 && dist < 50 ) {
