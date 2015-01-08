@@ -1,9 +1,10 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "json.h"
 #include "cursesdef.h"
 #include <string>
+
+class JsonObject;
 
 void init_colors();
 
@@ -13,7 +14,7 @@ HI = 1,
 INV = 2
 };
 
-enum nc_color {
+enum nc_color : int {
 c_black   = COLOR_PAIR(30),
 c_white   = COLOR_PAIR(1)  | A_BOLD,
 c_ltgray  = COLOR_PAIR(1),

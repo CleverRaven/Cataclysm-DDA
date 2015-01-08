@@ -18,6 +18,8 @@ class game;
 class JsonObject;
 class JsonOut;
 
+struct WINDOW;
+
 class Creature
 {
     public:

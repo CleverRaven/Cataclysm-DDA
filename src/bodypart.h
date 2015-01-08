@@ -5,7 +5,7 @@
 #include <map>
 
 // The order is important ; pldata.h has to be in the same order
-enum body_part {
+enum body_part : int {
     bp_torso = 0,
     bp_head,
     bp_eyes,
@@ -21,11 +21,14 @@ enum body_part {
     num_bp
 };
 
-enum handedness {
+enum handedness : int {
     NONE,
     LEFT,
     RIGHT
 };
+
+// Global map of body_parts names
+extern std::map<std::string, body_part> body_parts;
 
 std::string body_part_name(body_part bp);
 std::string body_part_name_accusative(body_part bp);
@@ -35,7 +38,6 @@ body_part random_body_part(bool main_parts_only = false);
 body_part mutate_to_main_part(body_part bp);
 
 void init_body_parts();
-extern std::map<std::string, body_part> body_parts;
 std::string get_body_part_id(body_part bp);
 
 #endif

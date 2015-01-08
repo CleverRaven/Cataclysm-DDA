@@ -5,35 +5,37 @@
 #include <vector>
 #include <map>
 #include <list>
-#include "itype.h"
-#include "skill.h"
-#include "rng.h"
-#include "json.h"
-#include "bodypart.h"
-#include "requirements.h"
 
-#define MAX_DISPLAYED_RECIPES 18
+#include "item.h"         //item
+#include "requirements.h" //requirement_data
+#include "bodypart.h"     //handedness::NONE
 
-typedef std::string craft_cat;
-typedef std::string craft_subcat;
+class JsonObject;
+class Skill;
+class inventory;
+class player;
+struct WINDOW;
 
-enum TAB_MODE {
-    NORMAL,
-    FILTERED,
-    BATCH
-};
+enum body_part : int; // From bodypart.h
+enum nc_color : int; // From color.h
+
+using craft_cat    = std::string;
+using craft_subcat = std::string;
+using recipe_list  = std::vector<recipe *>;
+using recipe_map   = std::map<craft_cat, recipe_list>;
+using itype_id     = std::string; // From itype.h
+
+// Global list of valid recipes
+extern recipe_map recipes;
+// Global reverse lookup
+extern std::map<itype_id, recipe_list> recipes_by_component;
 
 struct byproduct {
     itype_id result;
-    int charges_mult;
-    int amount;
+    int      charges_mult;
+    int      amount;
 
-    byproduct()
-    {
-        result = "null";
-        charges_mult = 1;
-        amount = 1;
-    }
+    byproduct() : byproduct("null") {}
 
     byproduct(itype_id res, int mult = 1, int amnt = 1)
         : result(res), charges_mult(mult), amount(amnt)
@@ -105,14 +107,6 @@ struct recipe {
 
 };
 
-typedef std::vector<recipe *> recipe_list;
-typedef std::map<craft_cat, recipe_list> recipe_map;
-
-extern recipe_map recipes; // The list of valid recipes
-
-extern std::map<itype_id, recipe_list> recipes_by_component; // reverse lookup
-
-class item;
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
 void remove_ammo(item *dis_item, player &p);
