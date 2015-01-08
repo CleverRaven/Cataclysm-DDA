@@ -1241,7 +1241,7 @@
         "dispersion" : 15,
         "recoil" : 615,
         "count" : 10,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {
         "type" : "AMMO",
@@ -1266,7 +1266,7 @@
         "dispersion" : 165,
         "recoil" : 135,
         "count" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {
         "type" : "AMMO",
@@ -1291,7 +1291,7 @@
         "dispersion" : 15,
         "recoil" : 540,
         "count" : 20,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_signal_flare",
