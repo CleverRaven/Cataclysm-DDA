@@ -373,7 +373,7 @@ void map::build_seen_cache()
             const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
-            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees( mirror_pos.x, mirror_pos.y )) {
+            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees( mirror_pos )) {
                 m_it = mirrors.erase(m_it);
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;

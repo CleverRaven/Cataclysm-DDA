@@ -5475,10 +5475,10 @@ void game::calculate_footstep_markers(std::vector<point> &result)
 {
     result.reserve(footsteps.size());
     for (size_t i = 0; i < footsteps.size(); i++) {
-        if (!u.sees(footsteps_source[i]->posx(), footsteps_source[i]->posy())) {
+        if (!u.sees( footsteps_source[i]->pos() )) {
             std::vector<point> unseen_points;
             for( auto &elem : footsteps[i] ) {
-                if( !u.sees( elem.x, elem.y ) ) {
+                if( !u.sees( elem ) ) {
                     unseen_points.push_back( elem );
                 }
             }
@@ -9714,7 +9714,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
     for( auto &points_p_it : points ) {
         if( points_p_it.y >= u.posy - iRadius && points_p_it.y <= u.posy + iRadius &&
-            u.sees( points_p_it.x, points_p_it.y ) &&
+            u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it.x, points_p_it.y, u ) ) {
 
             for( auto &elem : m.i_at( points_p_it.x, points_p_it.y ) ) {
@@ -12354,7 +12354,7 @@ void game::chat()
     std::vector<npc *> available;
 
     for( auto &elem : active_npc ) {
-        if( u.sees( ( elem )->posx, ( elem )->posy ) &&
+        if( u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
             available.push_back( elem );
         }

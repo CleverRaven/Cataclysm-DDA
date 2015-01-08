@@ -1191,7 +1191,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                        if (g->u.sees(newp.x, newp.y)) {
+                                        if (g->u.sees( newp )) {
                                             add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                     }
@@ -1199,7 +1199,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (mondex != -1) {
                                         monster *mon = &(g->zombie(mondex));
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
-                                        if (g->u.sees(newp.x, newp.y))
+                                        if (g->u.sees( newp ))
                                             add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
                                     }

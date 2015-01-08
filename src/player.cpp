@@ -4828,7 +4828,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if(g->u.sees(this->posx, this->posy)) {
+    if(g->u.sees( pos() )) {
         g->draw_hit_player(this, dam);
 
         if (dam > 0 && is_player() && source) {
@@ -6647,7 +6647,7 @@ void player::hardcoded_effects(effect &it)
                  add_msg(m_warning, _("You start scratching your %s!"),
                                           body_part_name_accusative(bp).c_str());
                  g->cancel_activity();
-            } else if (g->u.sees(posx, posy)) {
+            } else if (g->u.sees( pos() )) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg(_("%1$s starts scratching their %2$s!"), name.c_str(),
                                    body_part_name_accusative(bp).c_str());

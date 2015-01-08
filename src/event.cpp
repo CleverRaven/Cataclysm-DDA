@@ -299,7 +299,7 @@ void event::per_turn()
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
-    if (g->u.sees( place.x, place.y ))
+    if (g->u.sees( place ))
      add_msg(m_warning, _("An eyebot swoops down nearby!"));
    }
   } break;

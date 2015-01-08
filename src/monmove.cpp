@@ -88,7 +88,7 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    if( !sees( c.xpos(), c.ypos(), bresenham_slope ) ) {
+    if( !sees( c.pos(), bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
@@ -951,7 +951,7 @@ void monster::knock_back_from(int x, int y)
  if (y > posy())
   to.y--;
 
- bool u_see = g->u.sees(to.x, to.y);
+ bool u_see = g->u.sees( to );
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);

@@ -91,7 +91,7 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)
+    if (my_fac != NULL && my_fac->likes_u < -10 && sees( g->u.pos() )
         && g->u.is_invisible() == false) {
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
             attitude = NPCATT_FLEE;    // We don't want to take u on!
@@ -236,7 +236,7 @@ void npc::execute_action(npc_action action, int target)
             debugmsg("NPC reload failed.");
         }
         recoil = MIN_RECOIL;
-        if (g->u.sees(posx, posy)) {
+        if (g->u.sees( pos() )) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
         }
@@ -248,7 +248,7 @@ void npc::execute_action(npc_action action, int target)
          * we get some sleep, how long watch shifts should be, etc.
          */
         //add_effect("lying_down", 300);
-        if (is_friend() && g->u.sees(posx, posy)) {
+        if (is_friend() && g->u.sees( pos() )) {
             say(_("I'm going to sleep."));
         }
         break;
@@ -610,7 +610,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 }
             else if (target == TARGET_PLAYER && g->u.is_invisible() == true) {
                 return npc_pause;//Lost you since you went invisible
-            } else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)) {
+            } else if (target == TARGET_PLAYER && !sees( g->u.pos() )) {
                 return npc_melee;//Can't see target
             } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
                        g->m.sees( posx, posy, tarx, tary, weapon.gun_range( this ), junk )) {
@@ -702,7 +702,7 @@ npc_action npc::address_player()
 {
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
-        this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
+        sees( g->u.pos() ) && g->u.is_invisible() == false) {
         if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -717,7 +717,7 @@ npc_action npc::address_player()
         }
     }
 
-    if (attitude == NPCATT_MUG && this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
+    if (attitude == NPCATT_MUG && sees( g->u.pos() ) && g->u.is_invisible() == false) {
         if (one_in(3)) {
             say(_("Don't move a <swear> muscle..."));
         }
@@ -1399,7 +1399,7 @@ void npc::pick_up_item()
         }
     }
     // Describe the pickup to the player
-    bool u_see_me = g->u.sees(posx, posy);
+    bool u_see_me = g->u.sees( pos() );
     bool u_see_items = g->u.sees(itx, ity);
     if (u_see_me) {
         if (pickup.size() == 1) {
@@ -1536,7 +1536,7 @@ void npc::drop_items(int weight, int volume)
     }
     // Finally, describe the action if u can see it
     std::string item_name_str = item_name.str();
-    if (g->u.sees(posx, posy)) {
+    if (g->u.sees( pos() )) {
         if (num_items_dropped >= 3) {
             add_msg(ngettext("%s drops %d item.", "%s drops %d items.",
                              num_items_dropped), name.c_str(),
@@ -1686,7 +1686,7 @@ void npc::alt_attack(int target)
                 trajectory = line_to(posx, posy, tarx, tary, 0);
             }
             moves -= 125;
-            if (g->u.sees(posx, posy)) {
+            if (g->u.sees( pos() )) {
                 add_msg(_("%s throws a %s."),
                         name.c_str(), used->tname().c_str());
             }
@@ -1751,7 +1751,7 @@ void npc::alt_attack(int target)
                     trajectory = line_to(posx, posy, tarx, tary, 0);
                 }
                 moves -= 125;
-                if (g->u.sees(posx, posy)) {
+                if (g->u.sees( pos() )) {
                     add_msg(_("%s throws a %s."), name.c_str(),
                             used->tname().c_str());
                 }
@@ -1827,8 +1827,8 @@ void npc::heal_player(player &patient)
             }
         }
 
-        bool u_see_me      = g->u.sees(posx, posy),
-             u_see_patient = g->u.sees(patient.posx, patient.posy);
+        bool u_see_me      = g->u.sees( pos() ),
+             u_see_patient = g->u.sees( patient.pos() );
         if (patient.is_npc()) {
             if (u_see_me) {
                 if (u_see_patient) {
@@ -1937,7 +1937,7 @@ void npc::heal_self()
         debugmsg("NPC tried to heal self, but has no bandages / first aid");
         move_pause();
     }
-    if (g->u.sees(posx, posy)) {
+    if (g->u.sees( pos() )) {
         add_msg(_("%s heals %s."), name.c_str(),
                 (male ? _("himself") : _("herself")));
     }
@@ -1954,7 +1954,7 @@ void npc::use_painkiller()
         debugmsg("NPC tried to use painkillers, but has none!");
         move_pause();
     } else {
-        if (g->u.sees(posx, posy)) {
+        if (g->u.sees( pos() )) {
             add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
@@ -2011,8 +2011,8 @@ void npc::mug_player(player &mark)
         update_path(mark.posx, mark.posy);
         move_to_next();
     } else {
-        bool u_see_me   = g->u.sees(posx, posy),
-             u_see_mark = g->u.sees(mark.posx, mark.posy);
+        bool u_see_me   = g->u.sees( pos() ),
+             u_see_mark = g->u.sees( mark.pos() );
         if (mark.cash > 0) {
             cash += mark.cash;
             mark.cash = 0;
@@ -2066,8 +2066,8 @@ void npc::mug_player(player &mark)
                 }
                 moves -= 100;
             } else {
-                bool u_see_me   = g->u.sees(posx, posy),
-                     u_see_mark = g->u.sees(mark.posx, mark.posy);
+                bool u_see_me   = g->u.sees( pos() ),
+                     u_see_mark = g->u.sees( mark.pos() );
                 item stolen = mark.i_rem(position);
                 if (mark.is_npc()) {
                     if (u_see_me) {

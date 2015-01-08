@@ -5455,7 +5455,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, point pos)
     } else { // The timer has run down
         if (one_in(10)) {
             // Fizzled, but we may not have seen it to know that
-            if (g->u.sees( pos.x, pos.y )) {
+            if (g->u.sees( pos )) {
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
