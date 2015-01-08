@@ -4822,6 +4822,31 @@
     "burst": 5,
     "clip_size": 0,
     "reload": 0
+  },{
+    "id": "41_deringer",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "double-barreled .41 deringer",
+    "name_plural": "double-barreled .41 deringers",
+    "description": "This deringer or pocket-pistol makes up the lack of semi-auto capability with its tiny size and the ability to deliver two .41 rounds before it has to be reloaded. Useful to keep as a pair of those as a last resort - one to fend off the zombies and one to ensure you do not become one of them... This particular deringer seems to have been manufactured in 1865 and still can kill a president.",
+    "price": 3600,
+    "material": ["steel"],
+    "skill": "pistol",
+    "ammo": "41_round",
+    "weight": 310,
+    "volume": 1,
+    "bashing": 2,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "dispersion": 375,
+    "sight_dispersion": 180,
+    "aim_speed" : 2,
+    "recoil": 50,
+    "durability": 5,
+    "clip_size": 2,
+    "reload": 750
   }
 
 ]
