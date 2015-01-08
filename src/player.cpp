@@ -6869,6 +6869,9 @@ void player::hardcoded_effects(effect &it)
             }
         }
     } else if (id == "brainworm") {
+        if (one_in(256)) {
+            add_msg_if_player(m_bad, _("Your head aches faintly."));
+        }
         if(one_in(1024)) {
             mod_healthy_mod(-10);
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
@@ -6885,7 +6888,22 @@ void player::hardcoded_effects(effect &it)
                 add_effect("blind", rng(5, 20));
             }
         }
+    } else if (id == "tapeworm") {
+        if (one_in(512)) {
+            add_msg_if_player(m_bad, _("Your bowels ache."));
+        }
+    } else if (id == "bloodworms") {
+        if (one_in(512)) {
+            add_msg_if_player(m_bad, _("Your veins itch."));
+        }
+    } else if (id == "paincysts") {
+        if (one_in(512)) {
+            add_msg_if_player(m_bad, _("Your muscles feel like they're knotted and tired."));
+        }
     } else if (id == "tetanus") {
+        if (one_in(256)) {
+            add_msg_if_player(m_bad, _("Your muscles are tight and sore."));
+        }
         if (!has_effect("valium")) {
             add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
