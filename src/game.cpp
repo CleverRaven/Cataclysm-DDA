@@ -2713,7 +2713,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         const std::string str = oThisItem.info(true, &vThisItem);
         const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
-        WINDOW_PTR wptr( w );
 
         wmove(w, 1, 2);
         wprintz(w, c_white, "%s", item_name.c_str());
@@ -8719,6 +8718,11 @@ bool pet_menu(monster *z)
             }
         }
 
+        if (max_weight <= 0) {
+            add_msg(_("%s is overburdened. You can't transfer your %s"),
+                    pet_name.c_str(), it->tname(1).c_str());
+            return true;
+        }
         if (max_cap <= 0) {
             add_msg(_("There's no room in your %s's %s for that, it's too bulky!"),
                     pet_name.c_str(), it->tname(1).c_str() );
@@ -10055,16 +10059,12 @@ int game::list_items(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
                              TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW_PTR w_itemsptr( w_items );
     WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                     TERMX - width - VIEW_OFFSET_X);
-    WINDOW_PTR w_items_borderptr( w_items_border );
     WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                  TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW_PTR w_item_infoptr( w_item_info );
     WINDOW *w_item_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                         TERMX - width - VIEW_OFFSET_X);
-    WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -10339,13 +10339,10 @@ int game::list_monsters(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
                                 VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW_PTR w_monstersptr( w_monsters );
     WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                        TERMX - width - VIEW_OFFSET_X);
-    WINDOW_PTR w_monsters_borderptr( w_monsters_border );
     WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                     TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW_PTR w_monster_infoptr( w_monster_info );
     WINDOW *w_monster_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                            TERMX - width - VIEW_OFFSET_X);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );

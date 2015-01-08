@@ -76,7 +76,6 @@ std::string dis_name(disease& dis)
 
 std::string dis_description(disease& dis)
 {
-    std::stringstream stream;
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 

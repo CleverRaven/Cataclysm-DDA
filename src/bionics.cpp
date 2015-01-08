@@ -111,20 +111,17 @@ void player::power_bionics()
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
     WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
-    WINDOW_PTR wBioptr( wBio );
 
     // Description window @ the bottom of the bio window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, WIDTH - 2,
                                    DESCRIPTION_START_Y, START_X + 1);
-    WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
-    WINDOW_PTR w_titleptr( w_title );
 
     int scroll_position = 0;
     int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
@@ -302,7 +299,6 @@ void player::power_bionics()
             }
             if (menu_mode == "activating") {
                 if (bio_data.activated) {
-                    itype_id weapon_id = weapon.type->id;
                     int b = tmp - &my_bionics[0];
                     if (tmp->powered) {
                         deactivate_bionic(b);
