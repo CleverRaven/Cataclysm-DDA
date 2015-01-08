@@ -361,6 +361,14 @@ classes = {
                 type = "int",
                 writable = true
             },
+            vision_min = {
+                type = "int",
+                writable = true
+            },
+            vision_dec = {
+                type = "int",
+                writable = true
+            },
         },
         functions = {
             in_category = {
