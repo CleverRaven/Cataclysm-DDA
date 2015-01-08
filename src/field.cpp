@@ -974,7 +974,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (mondex != -1) { // Haze'd!
                                 if (!g->zombie(mondex).type->in_species("FUNGUS") &&
                                   !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
-                                    if (g->u_see(x, y)) {
+                                    if (g->u.sees(x, y)) {
                                         add_msg(m_info, _("The %s inhales thousands of live spores!"),
                                     g->zombie(mondex).name().c_str());
                                     }
@@ -1191,7 +1191,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                        if (g->u_see(newp.x, newp.y)) {
+                                        if (g->u.sees(newp.x, newp.y)) {
                                             add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                     }
@@ -1199,7 +1199,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (mondex != -1) {
                                         monster *mon = &(g->zombie(mondex));
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
-                                        if (g->u_see(newp.x, newp.y))
+                                        if (g->u.sees(newp.x, newp.y))
                                             add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
                                     }
@@ -2011,7 +2011,7 @@ void map::monster_in_field( monster &z )
                 } else {
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
-                        if (g->u_see(z)) {
+                        if (g->u.sees(z)) {
                             add_msg(_("The %s teleports into a %s, killing them both!"),
                                        z.name().c_str(), g->zombie(mon_hit).name().c_str());
                         }

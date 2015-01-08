@@ -1728,7 +1728,7 @@ void map::create_spores(const int x, const int y, Creature* source)
             mondex = g->mon_at(i, j);
             if (move_cost(i, j) > 0 || (i == x && j == y)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) &&
+                    if (g->u.sees(i, j) &&
                         !g->zombie(mondex).type->in_species("FUNGUS")) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                 g->zombie(mondex).name().c_str());

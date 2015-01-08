@@ -3313,7 +3313,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         else {
             // all reactors out of fuel or destroyed
             reactor_on = false;
-            if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+            if(player_in_control(&g->u) || g->u.sees(global_x(), global_y())) {
                 add_msg(_("The %s's reactor dies!"), name.c_str());
             }
         }
@@ -3339,13 +3339,13 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         camera_on = false;
         dome_lights_on = false;
         aisle_lights_on = false;
-        if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+        if(player_in_control(&g->u) || g->u.sees(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
         }
         if(gas_epower < 0) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
-            if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+            if(player_in_control(&g->u) || g->u.sees(global_x(), global_y())) {
                 add_msg("The %s's engine dies!",name.c_str());
             }
         }
@@ -3538,7 +3538,7 @@ void vehicle::idle(bool on_map) {
             noise_and_smoke( idle_rate, 6.0 );
         }
     } else {
-        if( engine_on && g->u_see(global_x(), global_y()) &&
+        if( engine_on && g->u.sees(global_x(), global_y()) &&
             has_engine_type_not(fuel_type_muscle, true) ) {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
@@ -4190,7 +4190,7 @@ void vehicle::handle_trap (int x, int y, int part)
     } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
         part_damage = 500;
     }
-    if( g->u_see(x, y) ) {
+    if( g->u.sees(x, y) ) {
         if( g->u.knows_trap(x, y) ) {
             add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
                     part_info(part).name.c_str(), traplist[t]->name.c_str() );
@@ -4770,14 +4770,14 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     if(parts_in_square[index] != p) {
                         if(parts[parts_in_square[index]].hp == 0) {
                             //Tearing off a broken part - break it up
-                            if(g->u_see(pos.x, pos.y)) {
+                            if(g->u.sees(pos.x, pos.y)) {
                                 add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
-                            if(g->u_see(pos.x, pos.y)) {
+                            if(g->u.sees(pos.x, pos.y)) {
                                 add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
@@ -4792,7 +4792,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                  * some more complicated system (such as actually making two
                  * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
-                    if(g->u_see(pos.x, pos.y)) {
+                    if(g->u.sees(pos.x, pos.y)) {
                         add_msg(m_bad, _("The %s's %s is destroyed!"),
                                 name.c_str(), part_info(p).name.c_str());
                     }
@@ -4801,7 +4801,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 }
             } else {
                 //Just break it off
-                if(g->u_see(pos.x, pos.y)) {
+                if(g->u.sees(pos.x, pos.y)) {
                     add_msg(m_bad, _("The %s's %s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
@@ -4894,7 +4894,7 @@ std::string aim_type( const vehicle_part &part )
         return part.mode > 0 ? _("Auto") : _("No target");
     }
 
-    if( !g->u_see( target.first.x, target.first.y ) ) {
+    if( !g->u.sees( target.first.x, target.first.y ) ) {
         return _("Unseen");
     }
 
@@ -5263,7 +5263,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     std::pair< point, point > &target = parts[p].target;
     if( target.first == target.second ) {
         // Manual target not set, find one automatically
-        const bool u_see = g->u_see(x, y);
+        const bool u_see = g->u.sees(x, y);
         int boo_hoo;
         Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
@@ -5293,7 +5293,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
         g->sound(x, y, 20, extra_sound);
     }
     // notify player if player can see the shot
-    if( g->u_see(x, y) ) {
+    if( g->u.sees(x, y) ) {
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.

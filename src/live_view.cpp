@@ -38,7 +38,7 @@ void live_view::show(const int x, const int y)
 
     bool did_hide = hide(false); // Clear window if it's visible
 
-    if (!g->u_see(x, y)) {
+    if (!g->u.sees(x, y)) {
         if (did_hide) {
             wrefresh(w_live_view);
         }

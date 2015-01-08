@@ -1365,7 +1365,7 @@ void cata_tiles::draw_line()
 {
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
-    if (!is_target_line || g->u_see(mx, my)) {
+    if (!is_target_line || g->u.sees(mx, my)) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             mx = it->x;
             my = it->y;

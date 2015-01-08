@@ -417,7 +417,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
-    bool u_see_this = g->u_see(*this);
+    bool u_see_this = g->u.sees(*this);
     body_part bp_hit;
 
     // do 10,speed because speed could potentially be > 10000

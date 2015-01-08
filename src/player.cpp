@@ -4744,7 +4744,7 @@ bool player::is_dead_state() const {
 }
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
-    bool u_see = g->u_see(*this);
+    bool u_see = g->u.sees(*this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {
@@ -4828,7 +4828,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if(g->u_see(this->posx, this->posy)) {
+    if(g->u.sees(this->posx, this->posy)) {
         g->draw_hit_player(this, dam);
 
         if (dam > 0 && is_player() && source) {
@@ -6117,7 +6117,7 @@ void player::hardcoded_effects(effect &it)
                         if (g->m.move_cost(sporex, sporey) > 0) {
                             const int zid = g->mon_at(sporex, sporey);
                             if (zid >= 0) {  // Spores hit a monster
-                                if (g->u_see(sporex, sporey) &&
+                                if (g->u.sees(sporex, sporey) &&
                                       !g->zombie(zid).type->in_species("FUNGUS")) {
                                     add_msg(_("The %s is covered in tiny spores!"),
                                                g->zombie(zid).name().c_str());
@@ -6647,7 +6647,7 @@ void player::hardcoded_effects(effect &it)
                  add_msg(m_warning, _("You start scratching your %s!"),
                                           body_part_name_accusative(bp).c_str());
                  g->cancel_activity();
-            } else if (g->u_see(posx, posy)) {
+            } else if (g->u.sees(posx, posy)) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg(_("%1$s starts scratching their %2$s!"), name.c_str(),
                                    body_part_name_accusative(bp).c_str());
@@ -6703,7 +6703,7 @@ void player::hardcoded_effects(effect &it)
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
-                if (g->u_see(x, y)) {
+                if (g->u.sees(x, y)) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                 }
@@ -6786,7 +6786,7 @@ void player::hardcoded_effects(effect &it)
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
-                    if (g->u_see(x, y)) {
+                    if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                     }
@@ -13754,7 +13754,7 @@ void player::spores()
                     mondex = g->mon_at(sporex, sporey);
                     if (g->m.move_cost(sporex, sporey) > 0) {
                         if (mondex != -1) { // Spores hit a monster
-                            if (g->u_see(sporex, sporey) &&
+                            if (g->u.sees(sporex, sporey) &&
                                 !g->zombie(mondex).type->in_species("FUNGUS")) {
                                 add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());

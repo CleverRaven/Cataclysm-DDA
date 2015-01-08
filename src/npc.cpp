@@ -1054,7 +1054,7 @@ bool npc::wield(item* it)
     }
     moves -= 15;
     weapon = inv.remove_item(it);
-    if ( g->u_see( posx, posy ) ) {
+    if ( g->u.sees( posx, posy ) ) {
         add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
@@ -1476,7 +1476,7 @@ void npc::say(std::string line, ...) const
  line = vstring_format(line, ap);
  va_end(ap);
  parse_tags(line, &(g->u), this);
- if (g->u_see(posx, posy)) {
+ if (g->u.sees(posx, posy)) {
   add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
@@ -2044,7 +2044,7 @@ void npc::die(Creature* nkiller) {
         g->m.unboard_vehicle(posx, posy);
     }
 
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees(posx, posy)) {
         add_msg(_("%s dies!"), name.c_str());
     }
     if( killer == &g->u ){
@@ -2255,7 +2255,7 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
 
     va_start(ap, npc_str);
 
-    if (g->u_see(*this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
@@ -2279,7 +2279,7 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
 
     va_start(ap, npc_str);
 
-    if (g->u_see(*this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());

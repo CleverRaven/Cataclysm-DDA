@@ -725,7 +725,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         add_effect("run", 4);
     }
 
-    bool u_see_me = g->u_see(*this);
+    bool u_see_me = g->u.sees(*this);
 
     body_part bp_hit;
     //int highest_hit = 0;
@@ -856,11 +856,11 @@ void monster::hit_monster(monster &other)
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u_see(*this))
+  if (g->u.sees(*this))
    add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
- if (g->u_see(*this))
+ if (g->u.sees(*this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
@@ -879,7 +879,7 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
                                     const projectile& proj, dealt_damage_instance &dealt_dam) {
-    bool u_see_mon = g->u_see(*this);
+    bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
         if (u_see_mon) {
@@ -969,7 +969,7 @@ void monster::die_in_explosion(Creature* source)
 
 bool monster::move_effects()
 {
-    bool u_see_me = g->u_see(*this);
+    bool u_see_me = g->u.sees(*this);
     if (has_effect("tied")) {
         return false;
     }
@@ -1578,7 +1578,7 @@ void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) cons
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(*this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
@@ -1600,7 +1600,7 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(*this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());

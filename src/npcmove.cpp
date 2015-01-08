@@ -236,7 +236,7 @@ void npc::execute_action(npc_action action, int target)
             debugmsg("NPC reload failed.");
         }
         recoil = MIN_RECOIL;
-        if (g->u_see(posx, posy)) {
+        if (g->u.sees(posx, posy)) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
         }
@@ -248,7 +248,7 @@ void npc::execute_action(npc_action action, int target)
          * we get some sleep, how long watch shifts should be, etc.
          */
         //add_effect("lying_down", 300);
-        if (is_friend() && g->u_see(posx, posy)) {
+        if (is_friend() && g->u.sees(posx, posy)) {
             say(_("I'm going to sleep."));
         }
         break;
@@ -1399,8 +1399,8 @@ void npc::pick_up_item()
         }
     }
     // Describe the pickup to the player
-    bool u_see_me = g->u_see(posx, posy);
-    bool u_see_items = g->u_see(itx, ity);
+    bool u_see_me = g->u.sees(posx, posy);
+    bool u_see_items = g->u.sees(itx, ity);
     if (u_see_me) {
         if (pickup.size() == 1) {
             if (u_see_items) {
@@ -1536,7 +1536,7 @@ void npc::drop_items(int weight, int volume)
     }
     // Finally, describe the action if u can see it
     std::string item_name_str = item_name.str();
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees(posx, posy)) {
         if (num_items_dropped >= 3) {
             add_msg(ngettext("%s drops %d item.", "%s drops %d items.",
                              num_items_dropped), name.c_str(),
@@ -1686,7 +1686,7 @@ void npc::alt_attack(int target)
                 trajectory = line_to(posx, posy, tarx, tary, 0);
             }
             moves -= 125;
-            if (g->u_see(posx, posy)) {
+            if (g->u.sees(posx, posy)) {
                 add_msg(_("%s throws a %s."),
                         name.c_str(), used->tname().c_str());
             }
@@ -1751,7 +1751,7 @@ void npc::alt_attack(int target)
                     trajectory = line_to(posx, posy, tarx, tary, 0);
                 }
                 moves -= 125;
-                if (g->u_see(posx, posy)) {
+                if (g->u.sees(posx, posy)) {
                     add_msg(_("%s throws a %s."), name.c_str(),
                             used->tname().c_str());
                 }
@@ -1827,8 +1827,8 @@ void npc::heal_player(player &patient)
             }
         }
 
-        bool u_see_me      = g->u_see(posx, posy),
-             u_see_patient = g->u_see(patient.posx, patient.posy);
+        bool u_see_me      = g->u.sees(posx, posy),
+             u_see_patient = g->u.sees(patient.posx, patient.posy);
         if (patient.is_npc()) {
             if (u_see_me) {
                 if (u_see_patient) {
@@ -1937,7 +1937,7 @@ void npc::heal_self()
         debugmsg("NPC tried to heal self, but has no bandages / first aid");
         move_pause();
     }
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees(posx, posy)) {
         add_msg(_("%s heals %s."), name.c_str(),
                 (male ? _("himself") : _("herself")));
     }
@@ -1954,7 +1954,7 @@ void npc::use_painkiller()
         debugmsg("NPC tried to use painkillers, but has none!");
         move_pause();
     } else {
-        if (g->u_see(posx, posy)) {
+        if (g->u.sees(posx, posy)) {
             add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
@@ -2011,8 +2011,8 @@ void npc::mug_player(player &mark)
         update_path(mark.posx, mark.posy);
         move_to_next();
     } else {
-        bool u_see_me   = g->u_see(posx, posy),
-             u_see_mark = g->u_see(mark.posx, mark.posy);
+        bool u_see_me   = g->u.sees(posx, posy),
+             u_see_mark = g->u.sees(mark.posx, mark.posy);
         if (mark.cash > 0) {
             cash += mark.cash;
             mark.cash = 0;
@@ -2066,8 +2066,8 @@ void npc::mug_player(player &mark)
                 }
                 moves -= 100;
             } else {
-                bool u_see_me   = g->u_see(posx, posy),
-                     u_see_mark = g->u_see(mark.posx, mark.posy);
+                bool u_see_me   = g->u.sees(posx, posy),
+                     u_see_mark = g->u.sees(mark.posx, mark.posy);
                 item stolen = mark.i_rem(position);
                 if (mark.is_npc()) {
                     if (u_see_me) {

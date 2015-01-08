@@ -788,12 +788,12 @@ int monster::move_to(int x, int y, bool force)
     bool was_water = g->m.is_divable(posx(), posy());
     bool will_be_water = g->m.is_divable(x, y);
 
-    if(was_water && !will_be_water && g->u_see(x, y)) {
+    if(was_water && !will_be_water && g->u.sees(x, y)) {
         //Use more dramatic messages for swimming monsters
         add_msg(m_warning, _("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
-    } else if(!was_water && will_be_water && g->u_see(x, y)) {
+    } else if(!was_water && will_be_water && g->u.sees(x, y)) {
         add_msg(m_warning, _("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
@@ -951,7 +951,7 @@ void monster::knock_back_from(int x, int y)
  if (y > posy())
   to.y--;
 
- bool u_see = g->u_see(to.x, to.y);
+ bool u_see = g->u.sees(to.x, to.y);
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
