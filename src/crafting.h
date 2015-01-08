@@ -1,20 +1,20 @@
 #ifndef CRAFTING_H
 #define CRAFTING_H
 
+#include "item.h"         // item
+#include "requirements.h" // requirement_data
+#include "bodypart.h"     // handedness::NONE
+#include "cursesdef.h"    // WINDOW
+
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
 
-#include "item.h"         //item
-#include "requirements.h" //requirement_data
-#include "bodypart.h"     //handedness::NONE
-
 class JsonObject;
 class Skill;
 class inventory;
 class player;
-struct WINDOW;
 
 enum body_part : int; // From bodypart.h
 enum nc_color : int; // From color.h

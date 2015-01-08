@@ -10,6 +10,8 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "cursesdef.h" // WINDOW
+
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
@@ -17,8 +19,6 @@
 class game;
 class JsonObject;
 class JsonOut;
-
-struct WINDOW;
 
 class Creature
 {
