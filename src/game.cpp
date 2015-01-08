@@ -3105,7 +3105,7 @@ input_context game::get_player_input(std::string &action)
                     for (int i = 0; i < (int)iter->getText().length(); ++i) {
                         const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
 
-                        if (dex != -1 && u_see(&zombie(dex))) {
+                        if (dex != -1 && u_see(zombie(dex))) {
                             i = -1;
 
                             int iPos = iter->getStep() + iter->getStepOffset();
@@ -3308,7 +3308,7 @@ bool game::handle_action()
                     int mouse_selected_mondex = mon_at(mx, my);
                     if (mouse_selected_mondex != -1) {
                         monster &critter = critter_tracker.find(mouse_selected_mondex);
-                        if (!u_see(&critter)) {
+                        if (!u_see(critter)) {
                             add_msg(_("Nothing relevant here."));
                             return false;
                         }
@@ -6173,19 +6173,9 @@ bool game::u_see(int x, int y)
     return u.sees(x, y);
 }
 
-bool game::u_see(const Creature *t)
-{
-    return u.sees(*t);
-}
-
 bool game::u_see(const Creature &t)
 {
     return u.sees(t);
-}
-
-bool game::u_see(const monster *critter)
-{
-    return u.sees(*critter);
 }
 
 Creature *game::is_hostile_nearby()
@@ -7103,14 +7093,14 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
             targ->setpos(traj[i]);
             if (m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->is_dead()) {
                 targ->die( nullptr );
-                if (u_see(targ)) {
+                if (u_see(*targ)) {
                     add_msg(_("The %s drowns!"), targ->name().c_str());
                 }
             }
             if (!m.has_flag("LIQUID", targ->posx(), targ->posy()) && targ->has_flag(MF_AQUATIC) &&
                 !targ->is_dead()) {
                 targ->die( nullptr );
-                if (u_see(targ)) {
+                if (u_see(*targ)) {
                     add_msg(_("The %s flops around and dies!"), targ->name().c_str());
                 }
             }

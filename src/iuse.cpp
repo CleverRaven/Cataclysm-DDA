@@ -3411,11 +3411,11 @@ int iuse::extinguisher(player *p, item *it, bool, point)
     int mondex = g->mon_at(x, y);
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
-        if (g->u_see(&(g->zombie(mondex)))) {
+        if (g->u_see(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
         }
         if (g->zombie(mondex).made_of(LIQUID)) {
-            if (g->u_see(&(g->zombie(mondex)))) {
+            if (g->u_see(g->zombie(mondex))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
             monster &critter = g->zombie( mondex );
@@ -5914,7 +5914,7 @@ int iuse::pheromone(player *p, item *it, bool, point)
         }
     }
 
-    if (g->u_see(p)) {
+    if (g->u_see(*p)) {
         if (converts == 0) {
             add_msg(_("...but nothing happens."));
         } else if (converts == 1) {
@@ -6385,7 +6385,7 @@ int iuse::dog_whistle(player *p, item *it, bool, point)
     p->add_msg_if_player(_("You blow your dog whistle."));
     for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
-            bool u_see = g->u_see(&(g->zombie(i)));
+            bool u_see = g->u_see(g->zombie(i));
             if (g->zombie(i).has_effect("docile")) {
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s looks ready to attack."), g->zombie(i).name().c_str());

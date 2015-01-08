@@ -80,7 +80,7 @@ void mattack::antqueen(monster *z, int index)
         z->moves -= 100; // It takes a while
         int mondex = ants[ rng(0, ants.size() - 1) ];
         monster *ant = &(g->zombie(mondex));
-        if (g->u_see(z->posx(), z->posy()) && g->u_see(ant->posx(), ant->posy()))
+        if (g->u.sees(z->posx(), z->posy()) && g->u_see(ant->posx(), ant->posy()))
             add_msg(m_warning, _("The %s feeds an %s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
         if (ant->type->id == "mon_ant_larva") {
@@ -219,7 +219,7 @@ void mattack::shockstorm(monster *z, int index)
         return;
     }
 
-    bool seen = g->u_see( z );
+    bool seen = g->u_see( *z );
     int t;
     int junk = 0;
     if( !z->sees( target, t ) ||
@@ -358,7 +358,7 @@ void mattack::resurrect(monster *z, int index)
         return;
     }
     z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
-    bool sees_necromancer = (g->u_see(z));
+    bool sees_necromancer = g->u_see(*z);
     if (sees_necromancer) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
     }
@@ -403,7 +403,7 @@ void mattack::smash(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    bool seen = g->u_see( z );
+    bool seen = g->u_see( *z );
 
     z->reset_special( index ); // Reset timer
     // Costs lots of moves to give you a little bit of a chance to get away.
@@ -457,7 +457,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
     auto msg_type = foe == &g->u ? m_bad : m_neutral;
     std::vector<int> valid;// List of available attacks
     int free_index;
-    bool seen = g->u_see( z );
+    bool seen = g->u_see( *z );
     monster tmp(GetMType("mon_manhack"));
     if( dist == 1 ) {
         valid.push_back(1);    // Shock
@@ -738,7 +738,7 @@ void mattack::vine(monster *z, int index)
                 } else {
                     player *foe = dynamic_cast< player* >( critter );
                     body_part bphit = random_body_part();
-                    bool seen = g->u_see( critter );
+                    bool seen = g->u_see( *critter );
                     //~ 1$s monster name(vine), 2$s bodypart in accusative
                     if( critter == &g->u ) {
                         add_msg( m_bad, _("The %1$s lashes your %2$s!"), z->name().c_str(),
@@ -1400,9 +1400,9 @@ void mattack::leap(monster *z, int index)
     z->moves -= 150;
     z->reset_special(index); // Reset timer
     point chosen = options[rng(0, options.size() - 1)];
-    bool seen = g->u_see(z); // We can see them jump...
+    bool seen = g->u_see(*z); // We can see them jump...
     z->setpos(chosen);
-    seen |= g->u_see(z); // ... or we can see them land
+    seen |= g->u_see(*z); // ... or we can see them land
     if (seen) {
         add_msg(_("The %s leaps!"), z->name().c_str());
     }
@@ -1719,7 +1719,7 @@ void mattack::dance(monster *z, int index)
 void mattack::dogthing(monster *z, int index)
 {
     (void)index; //unused
-    if (!one_in(3) || !g->u_see(z)) {
+    if (!one_in(3) || !g->u_see(*z)) {
         return;
     }
 
@@ -1881,7 +1881,7 @@ void mattack::vortex(monster *z, int index)
                 damage -= mon_mat->density() / 5;
 
                 if (distance > 0) {
-                    if (g->u_see(thrown)) {
+                    if (g->u_see(*thrown)) {
                         add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
                     }
                     std::vector<point> traj = continue_line(from_monster, distance);
@@ -3301,7 +3301,7 @@ void mattack::bite(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    bool seen = g->u_see( z );
+    bool seen = g->u_see( *z );
 
     z->reset_special(index); // Reset timer
     z->moves -= 100;

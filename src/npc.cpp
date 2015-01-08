@@ -2255,7 +2255,7 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
 
     va_start(ap, npc_str);
 
-    if (g->u_see(this)) {
+    if (g->u_see(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
@@ -2279,7 +2279,7 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
 
     va_start(ap, npc_str);
 
-    if (g->u_see(this)) {
+    if (g->u_see(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());

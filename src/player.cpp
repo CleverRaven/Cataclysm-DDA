@@ -4744,7 +4744,7 @@ bool player::is_dead_state() const {
 }
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
-    bool u_see = g->u_see(this);
+    bool u_see = g->u_see(*this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {

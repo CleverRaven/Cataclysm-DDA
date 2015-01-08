@@ -238,7 +238,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                                          _("<npcname> dodges the shot!"));
             }
         } else if (z != NULL) {
-            bool seen = g->u_see(z);
+            bool seen = g->u_see(*z);
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch (z->type->size) {
@@ -331,7 +331,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                                          _("<npcname> dodges the shot!"));
             }
         } else if (z != NULL) {
-            bool seen = g->u_see(z);
+            bool seen = g->u_see(*z);
             int chance = 0;
             switch (z->type->size) {
                 case MS_TINY:
@@ -508,7 +508,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                                 pgettext("memorial_female", "Triggered a teleport trap."));
             g->teleport();
         } else if (z != NULL) {
-            if (g->u_see(z)) {
+            if (g->u_see(*z)) {
                 add_msg(_("The air shimmers around the %s..."), z->name().c_str());
             }
 
@@ -525,7 +525,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             } else {
                 int mon_hit = g->mon_at(newposx, newposy);
                 if (mon_hit != -1) {
-                    if (g->u_see(z)) {
+                    if (g->u_see(*z)) {
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
                                 z->name().c_str(), g->zombie(mon_hit).name().c_str());
                     }

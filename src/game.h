@@ -281,8 +281,6 @@ class game
         faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
-        bool u_see (const monster *critter);
-        bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();

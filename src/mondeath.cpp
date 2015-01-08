@@ -10,7 +10,7 @@
 
 void mdeath::normal(monster *z)
 {
-    if ((g->u_see(z)) && (!z->no_corpse_quiet)) {
+    if ((g->u_see(*z)) && (!z->no_corpse_quiet)) {
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
@@ -58,7 +58,7 @@ void mdeath::normal(monster *z)
 
 void mdeath::acid(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         if(z->type->dies.size() ==
            1) { //If this death function is the only function. The corpse gets dissolved.
             add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
@@ -159,7 +159,7 @@ void mdeath::vine_cut(monster *z)
 
 void mdeath::triffid_heart(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_warning, _("The surrounding roots begin to crack and crumble."));
     }
     g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
@@ -235,14 +235,14 @@ void mdeath::fungus(monster *z)
 
 void mdeath::disintegrate(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_good, _("The %s disintegrates!"), z->name().c_str());
     }
 }
 
 void mdeath::worm(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         if(z->type->dies.size() == 1) {
             add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         } else {
@@ -277,7 +277,7 @@ void mdeath::worm(monster *z)
 
 void mdeath::disappear(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_good, _("The %s disappears."), z->name().c_str());
     }
 }
@@ -353,7 +353,7 @@ void mdeath::blobsplit(monster *z)
     int speed = z->get_speed() - rng(30, 50);
     g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(1, 4));
     if( z->get_speed() <= 0) {
-        if (g->u_see(z)) {
+        if (g->u_see(*z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
             add_msg(m_good, _("The %s splatters apart."), z->name().c_str());
         }
@@ -363,7 +363,7 @@ void mdeath::blobsplit(monster *z)
     blob.set_speed_base( speed );
     // If we're tame, our kids are too
     blob.friendly = z->friendly;
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         if(z->type->dies.size() == 1) {
             add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         } else {
@@ -418,7 +418,7 @@ void mdeath::jackson(monster *z) {
 
 void mdeath::melt(monster *z)
 {
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
@@ -482,7 +482,7 @@ void mdeath::focused_beam(monster *z)
 
     if (z->inv.size() > 0) {
 
-        if (g->u_see(z)) {
+        if (g->u_see(*z)) {
             add_msg(m_warning, _("As the final light is destroyed, it erupts in a blinding flare!"));
         }
 
@@ -522,7 +522,7 @@ void mdeath::broken(monster *z) {
 void mdeath::ratking(monster *z)
 {
     g->u.remove_effect("rat");
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_warning, _("Rats suddenly swarm into view."));
     }
 
@@ -550,7 +550,7 @@ void mdeath::ratking(monster *z)
 void mdeath::darkman(monster *z)
 {
     g->u.remove_effect("darkness");
-    if (g->u_see(z)) {
+    if (g->u_see(*z)) {
         add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
