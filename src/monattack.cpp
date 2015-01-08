@@ -2785,7 +2785,7 @@ void mattack::searchlight(monster *z, int index)
         for (int i = 0; i < rng(1, 2); i++) {
 
             int bresenham_slope;
-            if (!z->sees_player(bresenham_slope, g->u)) {
+            if (!z->sees(g->u, bresenham_slope)) {
                 shift = settings.get_var( "SL_DIR", shift );
 
                 switch (shift) {

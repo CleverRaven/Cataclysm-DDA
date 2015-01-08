@@ -6159,7 +6159,7 @@ bool game::sees_u(int x, int y, int &t)
     const int mondex = mon_at(x, y);
     if (mondex != -1) {
         const monster &critter = critter_tracker.find(mondex);
-        return critter.sees_player(t, u);
+        return critter.sees(u, t);
     }
     // range = -1 = unlimited, proceeding sans critter
     return (
