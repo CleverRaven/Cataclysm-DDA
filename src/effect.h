@@ -117,9 +117,9 @@ class effect_type
         bool get_main_parts() const;
 
         /** Loading helper functions */
-        bool load_mod_data(JsonObject &jsobj, std::string member);
-        bool load_miss_msgs(JsonObject &jsobj, std::string member);
-        bool load_decay_msgs(JsonObject &jsobj, std::string member);
+        bool load_mod_data(JsonObject &jsobj, std::string const& member);
+        bool load_miss_msgs(JsonObject &jsobj, std::string const& member);
+        bool load_decay_msgs(JsonObject &jsobj, std::string const& member);
 
     protected:
         int max_intensity;
@@ -162,8 +162,10 @@ class effect_type
         std::string remove_message;
         std::string remove_memorial_log;
         
+        using key_type = std::tuple<std::string, bool, std::string, std::string>;
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map<key_type, double> mod_data;
 };
 
 class effect : public JsonSerializer, public JsonDeserializer
@@ -241,25 +243,25 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_removes_effect() const;
         
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod(std::string arg, bool reduced = false) const;
+        int get_mod(std::string const& arg, bool reduced = false) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod(std::string arg, bool reduced = false) const;
+        int get_avg_mod(std::string const& arg, bool reduced = false) const;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount(std::string arg, bool reduced = false) const;
+        int get_amount(std::string const& arg, bool reduced = false) const;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val(std::string arg, bool reduced = false) const;
+        int get_min_val(std::string const& arg, bool reduced = false) const;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val(std::string arg, bool reduced = false) const;
+        int get_max_val(std::string const& arg, bool reduced = false) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
-        bool get_sizing(std::string arg) const;
+        bool get_sizing(std::string const& arg) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage(std::string arg, int val, bool reduced = false) const;
+        double get_percentage(std::string const& arg, int val, bool reduced = false) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated(unsigned int turn, std::string arg, int val, bool reduced = false, double mod = 1) const;
+        bool activated(unsigned int turn, std::string const& arg, int val, bool reduced = false, double mod = 1) const;
         
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
-        double get_addict_mod(std::string arg, int addict_level) const;
+        double get_addict_mod(std::string const& arg, int addict_level) const;
         /** Returns true if the coughs caused by an effect can harm the player directly. */
         bool get_harmful_cough() const;
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
