@@ -410,7 +410,7 @@ void mdeath::jackson(monster *z) {
             candidate->poly(GetMType("mon_zombie_hulk"));
             candidate->remove_effect("controlled");
         }
-        if (g->u.sees( z->pos() )) {
+        if (g->u.sees( *z )) {
             add_msg(m_warning, _("The music stops!"));
         }
     }
