@@ -3017,7 +3017,7 @@ void mattack::chickenbot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp == z->type->hp ||
+    if( z->hp <= z->type->hp ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
@@ -3092,7 +3092,7 @@ void mattack::multi_robot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp == z->type->hp ||
+    if( z->hp <= z->type->hp ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
