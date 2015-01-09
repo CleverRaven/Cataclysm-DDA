@@ -13735,6 +13735,24 @@ void player::place_corpse()
     g->m.add_item_or_charges( posx, posy, body );
 }
 
+bool player::sees_with_infrared( const Creature &critter ) const
+{
+    const bool has_ir = has_active_bionic( "bio_infrared" ) ||
+                        has_trait( "INFRARED" ) ||
+                        has_trait( "LIZ_IR" ) ||
+                        worn_with_flag( "IR_EFFECT" );
+    if( !has_ir || !critter.is_warm() ) {
+        return false;
+    }
+    const auto range = sight_range( DAYLIGHT_LEVEL );
+    if( is_player() ) {
+        return g->m.pl_sees( posx, posy, critter.xpos(), critter.ypos(), range );
+    } else {
+        int bresenham_slope;
+        return g->m.sees( posx, posy, critter.xpos(), critter.ypos(), range, bresenham_slope );
+    }
+}
+
 std::vector<std::string> player::get_overlay_ids() const {
     std::vector<std::string> rval;
 

@@ -380,6 +380,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
+        /**
+         * Check whether the this player can see the other creature with infrared. This implies
+         * this player can see infrared and the target is visible with infrared (is warm).
+         * And of course a line of sight exists.
+         */
+        bool sees_with_infrared( const Creature &critter ) const;
 
         Attitude attitude_to( const Creature &other ) const override;
 

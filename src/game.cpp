@@ -5655,13 +5655,7 @@ void game::draw_critter(const Creature &critter, const point &center)
         critter.draw( w_terrain, center.x, center.y, false );
         return;
     }
-    const bool has_ir = u.has_active_bionic( "bio_infrared" ) ||
-                        u.has_trait( "INFRARED" ) ||
-                        u.has_trait( "LIZ_IR" ) ||
-                        u.worn_with_flag( "IR_EFFECT" );
-    const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
-                                    u.sight_range( DAYLIGHT_LEVEL ) );
-    if( critter.is_warm() && has_ir && can_see ) {
+    if( u.sees_with_infrared( critter ) ) {
         mvwputch( w_terrain, my, mx, c_red, '?' );
     }
 }
