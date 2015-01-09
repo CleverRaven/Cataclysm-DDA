@@ -490,15 +490,16 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
-        if( friendly != 0 && m->friendly != 0 ) {
+        if( ( friendly != 0 && m->friendly != 0 ) ||
+            ( monfaction() == m->monfaction() ) ) {
             // Currently friendly means "friendly to the player" (on same side as player),
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
-            return A_FRIENDLY;
-        } else if( monfaction() == m->monfaction() || morale < 0 || anger < 10 ) {
-            // Monsters are neutral to own species, hostile to all others
-            // Stuff that won't attack is also neutral to everything
+            // Monsters are also friendly to own species
             // Player-friendly monsters are a separate faction
+            return A_FRIENDLY;
+        } else if( morale < 0 || anger < 10 ) {
+            // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
         } else {
             return A_HOSTILE;

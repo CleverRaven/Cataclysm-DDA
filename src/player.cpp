@@ -13805,7 +13805,22 @@ void player::blossoms()
 
 float player::power_rating() const
 {
-    return weapon.is_gun() ? 4 : 2;
+    int ret = 2;
+    // Small guns can be easily hidden from view
+    if( weapon.volume() <= 1 ) {
+        ret = 2;
+    } else if( weapon.is_gun() ) {
+        ret = 4;
+    } else if( weapon.damage_bash() + weapon.damage_cut() > 20 ) {
+        ret = 3; // Melee weapon or weapon-y tool
+    }
+    if( has_trait("HUGE") || has_trait("HUGE_OK") ) {
+        ret += 1;
+    }
+    if( is_wearing_power_armor( nullptr ) ) {
+        ret = 5; // No mercy!
+    }
+    return ret;
 }
 
 std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
