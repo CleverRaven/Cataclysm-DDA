@@ -1,4 +1,4 @@
-#include <string>
+#include "platform.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "overmapbuffer.h"
@@ -9,13 +9,15 @@
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
-#include <cmath>
 
-#ifdef _MSC_VER
-#include <math.h>
-#define ISNAN _isnan
+#include <cmath>
+#include <string>
+
+#ifdef CATA_COMPILER_MSVC
+#   include <math.h>
+#   define ISNAN _isnan
 #else
-#define ISNAN std::isnan
+#   define ISNAN std::isnan
 #endif
 
 /**

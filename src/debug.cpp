@@ -267,7 +267,7 @@ struct time_info {
     }
 };
 
-#ifdef _MSC_VER
+#ifdef CATA_COMPILER_MSVC
 time_info get_time() noexcept {
     SYSTEMTIME time {};
 

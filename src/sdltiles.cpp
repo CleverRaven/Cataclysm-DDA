@@ -1,4 +1,4 @@
-#if (defined TILES)
+#if defined(TILES)
 #include "platform.h"
 #include "catacurse.h"
 #include "options.h"

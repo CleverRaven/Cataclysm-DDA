@@ -19,13 +19,13 @@
 #include <sys/stat.h>
 #include <signal.h>
 #ifdef LOCALIZE
-#include <libintl.h>
+#   include <libintl.h>
 #endif
 #include "translations.h"
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#elif (defined OSX_SDL_LIBS)
-#include "SDL/SDL.h"
+#if defined(OSX_SDL_FW)
+#   include "SDL.h"
+#elif defined(OSX_SDL_LIBS)
+#   include "SDL/SDL.h"
 #endif
 
 void exit_handler(int s);
@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad(stdscr, true); // Numpad is numbers
-#if !(defined TILES || defined CATA_OS_WINDOWS)
+#if !(defined(TILES) || defined(CATA_OS_WINDOWS))
     // For tiles or windows, this is handled already in initscr().
     init_colors();
 #endif

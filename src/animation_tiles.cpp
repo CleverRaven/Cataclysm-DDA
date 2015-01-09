@@ -1,4 +1,4 @@
-#if (defined SDLTILES)
+#if defined(SDLTILES)
 
 #include "game.h"
 #include "debug.h"

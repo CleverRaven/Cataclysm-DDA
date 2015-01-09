@@ -72,7 +72,7 @@ void set_language(bool reload_options)
 
     // Step 2. Bind to gettext domain.
     const char *locale_dir;
-#ifdef __linux__
+#ifdef CATA_OS_LINUX
     if (!FILENAMES["base_path"].empty()) {
         locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
     } else {
@@ -80,7 +80,7 @@ void set_language(bool reload_options)
     }
 #else
     locale_dir = "lang/mo";
-#endif // __linux__
+#endif // CATA_OS_LINUX
 
     bindtextdomain("cataclysm-dda", locale_dir);
     bind_textdomain_codeset("cataclysm-dda", "UTF-8");

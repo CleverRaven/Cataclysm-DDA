@@ -27,6 +27,10 @@
 #   endif
 #endif
 
-#if defined (__CYGWIN__)
+#if defined(__CYGWIN__)
 #   define CATA_PLATFORM_CYGWIN
+#endif
+
+#if defined(__linux__)
+#   define CATA_OS_LINUX
 #endif

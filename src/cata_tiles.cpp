@@ -1,4 +1,4 @@
-#if (defined SDLTILES)
+#if defined(SDLTILES)
 #include "platform.h"
 #include "cata_tiles.h"
 #include "debug.h"

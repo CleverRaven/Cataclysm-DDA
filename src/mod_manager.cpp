@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "mod_manager.h"
 #include "file_finder.h"
 #include "debug.h"
@@ -14,11 +15,11 @@
 #include "json.h"
 #include <fstream>
 #include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#ifdef CATA_COMPILER_MSVC
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 #define MOD_SEARCH_FILE "modinfo.json"
