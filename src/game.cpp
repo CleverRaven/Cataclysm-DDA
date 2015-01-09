@@ -8719,6 +8719,11 @@ bool pet_menu(monster *z)
             }
         }
 
+        if (max_weight <= 0) {
+            add_msg(_("%s is overburdened. You can't transfer your %s"),
+                    pet_name.c_str(), it->tname(1).c_str());
+            return true;
+        }
         if (max_cap <= 0) {
             add_msg(_("There's no room in your %s's %s for that, it's too bulky!"),
                     pet_name.c_str(), it->tname(1).c_str() );
