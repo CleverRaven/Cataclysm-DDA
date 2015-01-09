@@ -1682,6 +1682,7 @@
         "name" : "Radiogenic",
         "points" : 3,
         "description" : "Your system has adapted to radiation. While irradiated, you will actually heal slowly, converting the radiation into hit points.",
+        "cancels" : ["RADIOACTIVE1", "RADIOACTIVE2", "RADIOACTIVE3"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -3528,14 +3529,16 @@
         "name" : "Minor Radioactivity",
         "points" : -4,
         "description" : "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "cancels" : ["RADIOGENIC"],
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
-        "points" : -4,
+        "points" : -7,
         "description" : "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "cancels" : ["RADIOGENIC"],
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
         "category": ["MUTCAT_ELFA"]
@@ -3543,8 +3546,9 @@
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
-        "points" : -4,
+        "points" : -10,
         "description" : "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "cancels" : ["RADIOGENIC"],
         "prereqs" : ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
