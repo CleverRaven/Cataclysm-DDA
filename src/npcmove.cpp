@@ -91,8 +91,7 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    if (my_fac != NULL && my_fac->likes_u < -10 && sees( g->u.pos() )
-        && g->u.is_invisible() == false) {
+    if (my_fac != NULL && my_fac->likes_u < -10 && sees( g->u ) ) {
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
             attitude = NPCATT_FLEE;    // We don't want to take u on!
         } else {
@@ -597,7 +596,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 }
             }
             int junk = 0;
-            if (!wont_hit_friend(tarx, tary))
+            if (!wont_hit_friend(tarx, tary)) {
                 if (in_vehicle)
                     if (can_reload()) {
                         return npc_reload;
@@ -607,9 +606,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (target == TARGET_PLAYER && g->u.is_invisible() == true) {
-                return npc_pause;//Lost you since you went invisible
-            } else if (target == TARGET_PLAYER && !sees( g->u.pos() )) {
+            } else if (target == TARGET_PLAYER && !sees( g->u )) {
                 return npc_melee;//Can't see target
             } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
                        g->m.sees( posx, posy, tarx, tary, weapon.gun_range( this ), junk )) {
@@ -699,8 +696,7 @@ npc_action npc::address_needs(int danger)
 
 npc_action npc::address_player()
 {
-    if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
-        sees( g->u.pos() ) && g->u.is_invisible() == false) {
+    if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) && sees( g->u ) ) {
         if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -715,7 +711,7 @@ npc_action npc::address_player()
         }
     }
 
-    if (attitude == NPCATT_MUG && sees( g->u.pos() ) && g->u.is_invisible() == false) {
+    if (attitude == NPCATT_MUG && sees( g->u.pos() ) ) {
         if (one_in(3)) {
             say(_("Don't move a <swear> muscle..."));
         }
