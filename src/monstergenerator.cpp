@@ -391,8 +391,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         jo.read("starting_ammo", newmon->starting_ammo);
         newmon->luminance = jo.get_float("luminance", 0);
         newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
-        newmon->vision_min = jo.get_int("vision_min", 1);
-        newmon->vision_dec = jo.get_int("vision_dec", 0);
+        newmon->vision_day = jo.get_int("vision_day", 60);
+        newmon->vision_night = jo.get_int("vision_night", 1);
         
         if (jo.has_array("attack_effs")) {
             JsonArray jsarr = jo.get_array("attack_effs");
