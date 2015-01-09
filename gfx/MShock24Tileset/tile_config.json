@@ -19205,7 +19205,12 @@
     },
     {
       "file": "gfx/MShock24Tileset/fallback.png",
-      "tiles": [],
+      "tiles": [
+        {
+          "id": "infrared_creature",
+          "fg": 1087
+        }
+      ],
       "ascii": [
         {
           "offset": 0,
