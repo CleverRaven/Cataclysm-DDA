@@ -2981,7 +2981,7 @@ int iuse::sew(player *p, item *it, bool, point)
             fix->damage++;
             if (fix->damage >= 5) {
                 p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem(pos);
+                p->i_rem_keep_contents( pos );
             }
         } else if (rn <= 6) {
             p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
@@ -3690,7 +3690,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                     fix->damage++;
                     if (fix->damage >= 5) {
                         p->add_msg_if_player(m_bad, _("You destroy it!"));
-                        p->i_rem(pos);
+                        p->i_rem_keep_contents( pos );
                     }
                 } else if (rn <= 6) {
                     p->add_msg_if_player(m_bad, _("You don't repair your %s, and you waste lots of charge."),
@@ -6573,7 +6573,7 @@ bool static try_to_cut_up(player *p, item *it)
         add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
         return false;
     }
-    if (it->is_container() && !it->contents.empty()) {
+    if( !it->contents.empty() ) {
         add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
         return false;
     }
@@ -6652,6 +6652,11 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
     // Final just in case check (that perhaps was not done elsewhere);
     if (cut == it) {
         add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
+        return 0;
+    }
+    if( !cut->contents.empty() ) {
+        // Should have been ensured by try_to_cut_up
+        debugmsg( "tried to cut a non-empty item %s", cut->tname().c_str() );
         return 0;
     }
 
