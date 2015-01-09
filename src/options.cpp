@@ -572,7 +572,7 @@ void initOptions()
     optionNames["fi"] = R"(Suomi)";
     optionNames["fr_FR"] =  R"(Français (France))";
     optionNames["de_DE"] = R"(Deutsch (Deutschland))";
-    optionNames["it"] = R"(Italiano)";
+    optionNames["it_IT"] = R"(Italiano)";
     optionNames["es_AR"] = R"(Español (Argentina))";
     optionNames["es_ES"] = R"(Español (España))";
     optionNames["ja"] = R"(日本語)";
