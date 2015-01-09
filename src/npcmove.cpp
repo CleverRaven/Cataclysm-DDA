@@ -2102,7 +2102,7 @@ void npc::mug_player(player &mark)
 void npc::look_for_player(player &sought)
 {
     int linet, range = sight_range(g->light_level());
-    if (g->m.sees(posx, posy, sought.posx, sought.posy, range, linet)) {
+    if (g->m.sees( pos(), sought.pos(), range, linet)) {
         if (sought.is_npc())
             debugmsg("npc::look_for_player() called, but we can see %s!",
                      sought.name.c_str());
@@ -2115,7 +2115,7 @@ void npc::look_for_player(player &sought)
 
     if (!path.empty()) {
         point dest = path[path.size() - 1];
-        if (!g->m.sees(posx, posy, dest.x, dest.y, range, linet)) {
+        if (!g->m.sees( pos(), dest, range, linet)) {
             move_to_next();
             return;
         }

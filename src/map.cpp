@@ -4138,6 +4138,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 }
 
+bool map::sees( const point F, const point T, const int range, int &bresenham_slope )
+{
+    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
+}
+
 /*
 map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight

@@ -924,7 +924,7 @@ void monster::stumble(bool moved)
  // target == either end of current plan, or the player.
  int bresenham_slope;
  if (!plans.empty()) {
-  if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, bresenham_slope))
+  if (g->m.sees( pos(), plans.back(), -1, bresenham_slope))
    set_dest(plans.back().x, plans.back().y, bresenham_slope);
   else if (sees( g->u, bresenham_slope ))
    set_dest(g->u.posx, g->u.posy, bresenham_slope);

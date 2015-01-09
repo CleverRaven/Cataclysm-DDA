@@ -244,6 +244,7 @@ class map
   */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
            const int range, int &bresenham_slope);
+ bool sees( point F, point T, int range, int &bresenham_slope );
 
  /**
   * Check whether there's a direct line of sight between `(Fx, Fy)` and

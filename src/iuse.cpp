@@ -185,7 +185,7 @@ std::vector<point> points_for_gas_cloud(const point &center, int radius)
             continue;
         }
         if (p.x != center.x || p.y != center.y) {
-            if (!g->m.sees(center.x, center.y, p.x, p.y, radius, junk)) {
+            if (!g->m.sees(center, p, radius, junk)) {
                 // No clear line of sight
                 continue;
             }

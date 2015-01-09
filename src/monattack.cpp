@@ -827,7 +827,7 @@ void mattack::spit_sap(monster *z, int index)
     if( g->u.sees( z->pos() ) ) {
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
-    g->m.sees(g->u.posx, g->u.posy, z->posx(), z->posy(), 60, t);
+    g->m.sees( z->pos(), target->pos(), 60, t);
     std::vector<point> line = line_to( z->pos(), target->pos(), t );
     int dam = 5;
     for (auto &i : line) {
@@ -2890,8 +2890,7 @@ void mattack::flame( monster *z, Creature *target )
       // friendly
       z->moves -= 500;   // It takes a while
       int bres = 0;
-      if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
-                      dist, bres ) ) {
+      if( !g->m.sees( z->pos(), target->pos(), dist, bres ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
@@ -2913,8 +2912,7 @@ void mattack::flame( monster *z, Creature *target )
     }
 
     z->moves -= 500;   // It takes a while
-    if( !g->m.sees( z->posx(), z->posy(), target->xpos(), target->ypos(),
-                    dist + 1, bres ) ) {
+    if( !g->m.sees( z->pos(), target->pos(), dist + 1, bres ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }

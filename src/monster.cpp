@@ -1376,7 +1376,7 @@ void monster::die(Creature* nkiller) {
                 continue;
             }
             int t = 0;
-            if( g->m.sees( critter.posx(), critter.posy(), _posx, _posy, light, t ) ) {
+            if( g->m.sees( critter.pos(), pos(), light, t ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }

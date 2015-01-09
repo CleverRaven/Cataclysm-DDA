@@ -224,9 +224,9 @@ bool Creature::sees( const point t, int &bresenham_slope ) const
         if( is_player() ) {
             return g->m.pl_sees( t.x, t.y, wanted_range );
         } else if( g->m.light_at( t.x, t.y ) >= LL_LOW ) {
-            return g->m.sees( xpos(), ypos(), t.x, t.y, wanted_range, bresenham_slope );
+            return g->m.sees( pos(), t, wanted_range, bresenham_slope );
         } else {
-            return g->m.sees( xpos(), ypos(), t.x, t.y, range_min, bresenham_slope );
+            return g->m.sees( pos(), t, range_min, bresenham_slope );
         }
     } else {
         return false;
