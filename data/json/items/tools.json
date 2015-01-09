@@ -6012,7 +6012,7 @@
     "name": "packed M72 LAW",
     "name_plural": "packed M72 LAWs",
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
-    "price": 50000,
+    "price": 450000,
     "material": "aluminum",
     "weight": 2500,
     "volume": 6,
