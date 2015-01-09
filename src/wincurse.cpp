@@ -1,6 +1,6 @@
 #include "platform.h"
 
-#if !defined(TILES) && !defined(SDLTILES) && !defined(CATA_OS_WINDOWS)
+#if !defined(TILES) && !defined(SDLTILES) && defined(CATA_OS_WINDOWS)
 #define UNICODE 1
 #define _UNICODE 1
 
