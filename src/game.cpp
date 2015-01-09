@@ -5659,10 +5659,20 @@ void game::draw_critter(const Creature &critter, const point &center)
                         u.has_trait( "INFRARED" ) ||
                         u.has_trait( "LIZ_IR" ) ||
                         u.worn_with_flag( "IR_EFFECT" );
+    const bool has_eel_sense =  u.has_trait( "EEL_ORGAN" );
     const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
                                     u.sight_range( DAYLIGHT_LEVEL ) );
+    const bool can_feel_swim = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(), 30 );
+    const bool can_feel_land = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(), 3 );
     if( critter.is_warm() && has_ir && can_see ) {
         mvwputch( w_terrain, my, mx, c_red, '?' );
+    }
+    if( has_eel_sense ) {
+        if (u.is_underwater() && critter.is_underwater() && can_feel_swim) {
+            mvwputch( w_terrain, my, mx, c_cyan, '?' );
+        } else if (!u.is_underwater() && !critter.is_underwater() && can_feel_land) {
+            mvwputch( w_terrain, my, mx, c_cyan, '?' );
+        }
     }
 }
 void game::draw_ter(int posx, int posy)
