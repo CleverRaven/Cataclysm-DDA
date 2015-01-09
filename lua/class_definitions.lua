@@ -361,11 +361,11 @@ classes = {
                 type = "int",
                 writable = true
             },
-            vision_min = {
+            vision_day = {
                 type = "int",
                 writable = true
             },
-            vision_dec = {
+            vision_night = {
                 type = "int",
                 writable = true
             },
