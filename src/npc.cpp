@@ -1054,7 +1054,7 @@ bool npc::wield(item* it)
     }
     moves -= 15;
     weapon = inv.remove_item(it);
-    if ( g->u.sees( pos() ) ) {
+    if ( g->u.sees( *this ) ) {
         add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
@@ -1476,7 +1476,7 @@ void npc::say(std::string line, ...) const
  line = vstring_format(line, ap);
  va_end(ap);
  parse_tags(line, &(g->u), this);
- if (g->u.sees( pos() )) {
+ if (g->u.sees( *this )) {
   add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
@@ -1705,9 +1705,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 int npc::danger_assessment()
 {
     int ret = 0;
-    int sightdist = g->light_level(), junk;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->m.sees( pos(), g->zombie(i).pos(), sightdist, junk)) {
+        if( sees( g->zombie( i ) ) ) {
             ret += g->zombie(i).type->difficulty;
         }
     }
@@ -2044,7 +2043,7 @@ void npc::die(Creature* nkiller) {
         g->m.unboard_vehicle(posx, posy);
     }
 
-    if (g->u.sees( pos() )) {
+    if (g->u.sees( *this )) {
         add_msg(_("%s dies!"), name.c_str());
     }
     if( killer == &g->u ){
