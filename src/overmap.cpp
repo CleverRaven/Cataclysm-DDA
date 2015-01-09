@@ -603,9 +603,8 @@ void reset_region_settings()
 
 // *** BEGIN overmap FUNCTIONS ***
 
-overmap::overmap(int x, int y)
+overmap::overmap(int const x, int const y)
     : loc(x, y)
-    , layer()
     , nullret("")
     , nullbool(false)
     , nullstr("")
