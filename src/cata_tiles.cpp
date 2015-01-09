@@ -535,7 +535,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             x = mx + o_x;
             y = my + o_y;
             l = light_at(x, y);
-
+            const auto critter = g->critter_at( x, y );
             if (l != CLEAR) {
                 // Draw lighting
                 draw_lighting(x, y, l);
@@ -551,8 +551,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_trap(x, y);
             draw_field_or_item(x, y);
             draw_vpart(x, y);
-            draw_entity(x, y);
-            draw_entity_with_overlays(x, y);
+            if( critter != nullptr ) {
+                draw_entity( *critter, x, y );
+            }
         }
     }
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
@@ -1103,61 +1104,48 @@ bool cata_tiles::draw_vpart(int x, int y)
     return ret;
 }
 
-bool cata_tiles::draw_entity(int x, int y)
+bool cata_tiles::draw_entity( const Creature &critter, const int x, const int y )
 {
-    // figure out what entity exists at x,y
-    std::string ent_name;
-    TILE_CATEGORY ent_category = C_NONE;
-    std::string ent_subcategory = empty_string;
-    bool entity_here = false;
-    // check for monster (most common)
-    if (!entity_here && g->mon_at(x, y) >= 0) {
-        monster &m = g->zombie(g->mon_at(x, y));
-            ent_name = m.type->id;
-            ent_category = C_MONSTER;
-            if(!(m.type->species.empty())) {
-                ent_subcategory = *(m.type->species.begin());
-            }
-            entity_here = true;
+    if( !g->u.sees( &critter ) ) {
+        return false;
     }
-    if (entity_here) {
-        int subtile = corner;
+    const monster *m = dynamic_cast<const monster*>( &critter );
+    if( m != nullptr ) {
+        const auto ent_name = m->type->id;
+        const auto ent_category = C_MONSTER;
+        std::string ent_subcategory = empty_string;
+        if( !m->type->species.empty() ) {
+            ent_subcategory = *m->type->species.begin();
+        }
+        const int subtile = corner;
         return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
+    }
+    const player *p = dynamic_cast<const player*>( &critter );
+    if( p != nullptr ) {
+        draw_entity_with_overlays( *p, x, y );
+        return true;
     }
     return false;
 }
 
-void cata_tiles::draw_entity_with_overlays(int x, int y) {
-    const player* entity_to_draw = NULL;
+void cata_tiles::draw_entity_with_overlays( const player &p, const int x, const int y )
+{
     std::string ent_name;
 
-    int npc_index = g->npc_at(x, y);
-    if (npc_index >= 0) {
-        entity_to_draw = g->active_npc[npc_index];
-        if (! (g->active_npc[npc_index]->is_dead()) ) {
-            ent_name = entity_to_draw->male ? "npc_male" : "npc_female";
-        } else {
-            entity_to_draw = NULL;
-        }
+    if( p.is_npc() ) {
+        ent_name = p.male ? "npc_male" : "npc_female";
+    } else {
+        ent_name = p.male ? "player_male" : "player_female";
     }
-
-    if (!entity_to_draw) {
-        if (g->u.posx == x && g->u.posy == y) {
-            entity_to_draw = &(g->u);
-            ent_name = entity_to_draw->male ? "player_male" : "player_female";
-        }
-    }
-
-    if (entity_to_draw) {
         // first draw the character itself(i guess this means a tileset that
         // takes this seriously needs a naked sprite)
         draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
 
         // next up, draw all the overlays
-        std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
+        std::vector<std::string> overlays = p.get_overlay_ids();
         for(const std::string& overlay : overlays) {
             bool exists = true;
-            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            std::string draw_id = p.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
             if (tile_ids.find(draw_id) == tile_ids.end()) {
                 draw_id = "overlay_" + overlay;
                 if(tile_ids.find(draw_id) == tile_ids.end()) {
@@ -1170,7 +1158,6 @@ void cata_tiles::draw_entity_with_overlays(int x, int y) {
                 draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
             }
         }
-    }
 }
 
 bool cata_tiles::draw_item_highlight(int x, int y)
