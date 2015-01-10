@@ -78,10 +78,37 @@ class Creature
          */
         virtual Attitude attitude_to( const Creature &other ) const = 0;
 
-        /** Returns true if the passed in creature can seen within the given range. */
-        bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
-        /** Returns true if the passed in x and y can be seen within the given range. */
-        bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
+        /**
+         * The functions check whether this creature can see the target.
+         * The target may either be another creature (critter), or a specific point on the map.
+         *
+         * The bresenham_slope parameter is only set when the target is actually visible. Its
+         * value must be passed to @ref line_to to get a line from this creature to the target
+         * which will pass through transparent terrain only. Using a different value for line_to
+         * may result in a line that passes through opaque terrain.
+         *
+         * Different creatures types are supposed to only implement the two virtual functions.
+         * The other functions are here to give the callers more freedom, they simply forward
+         * to one of the virtual functions.
+         *
+         * The function that take another creature as input should check visibility of that creature
+         * (e.g. not digging, or otherwise invisible). They must than check whether the location of
+         * the other monster is visible.
+         */
+        /*@{*/
+        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        bool sees( const Creature &critter ) const;
+        bool sees( int cx, int cy, int &bresenham_slope ) const;
+        bool sees( int tx, int ty ) const;
+        virtual bool sees( point t, int &bresenham_slope ) const;
+        bool sees( point t ) const;
+        /*@}*/
+
+        /**
+         * How far the creature sees under the given light. Places outside this range can
+         * @param light_level See @ref game::light_level.
+         */
+        virtual int sight_range( int light_level ) const = 0;
 
         /** Returns an approximation of the creature's strength. Should always be overwritten by
          *  the appropriate player/NPC/monster function. */

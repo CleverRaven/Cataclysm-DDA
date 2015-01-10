@@ -329,15 +329,6 @@ class game
         int assign_npc_id();
         int assign_faction_id();
         faction *faction_by_ident(std::string ident);
-        bool sees_u(int x, int y, int &t);
-        /** Returns true if the player can see the given (x, y) coordinates. */
-        bool u_see (int x, int y);
-        /** Returns true if the player can see the given monster. */
-        bool u_see (const monster *critter);
-        /** Returns true if the player can see the given creature. Currently only for backwards compatibility. */
-        bool u_see (const Creature *t);
-        /** Returns true if the player can see the given creature. */
-        bool u_see (const Creature &t);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();

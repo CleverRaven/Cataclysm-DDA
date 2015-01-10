@@ -1365,7 +1365,7 @@ void cata_tiles::draw_line()
 {
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
-    if (!is_target_line || g->u_see(mx, my)) {
+    if (!is_target_line || g->u.sees(mx, my)) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             mx = it->x;
             my = it->y;
@@ -1467,7 +1467,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = DAYLIGHT_LEVEL;
 
-    bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
+    bool can_see = g->m.pl_sees( x, y, distance_to_look );
     lit_level lit = g->m.light_at(x, y);
 
     if (lit != LL_BRIGHT && dist > real_max_sight_range) {

@@ -4533,7 +4533,7 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
-        if( !g->m.pl_sees( posx, posy, x, y, -1 ) ) {
+        if( !sees( x, y ) ) {
             continue;
         }
         const trap *tr = traplist[trid];
@@ -4744,7 +4744,7 @@ bool player::is_dead_state() const {
 }
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
-    bool u_see = g->u_see(this);
+    bool u_see = g->u.sees(*this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {
@@ -4828,7 +4828,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if(g->u_see(this->posx, this->posy)) {
+    if(g->u.sees( pos() )) {
         g->draw_hit_player(this, dam);
 
         if (dam > 0 && is_player() && source) {
@@ -6117,7 +6117,7 @@ void player::hardcoded_effects(effect &it)
                         if (g->m.move_cost(sporex, sporey) > 0) {
                             const int zid = g->mon_at(sporex, sporey);
                             if (zid >= 0) {  // Spores hit a monster
-                                if (g->u_see(sporex, sporey) &&
+                                if (g->u.sees(sporex, sporey) &&
                                       !g->zombie(zid).type->in_species("FUNGUS")) {
                                     add_msg(_("The %s is covered in tiny spores!"),
                                                g->zombie(zid).name().c_str());
@@ -6647,7 +6647,7 @@ void player::hardcoded_effects(effect &it)
                  add_msg(m_warning, _("You start scratching your %s!"),
                                           body_part_name_accusative(bp).c_str());
                  g->cancel_activity();
-            } else if (g->u_see(posx, posy)) {
+            } else if (g->u.sees( pos() )) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg(_("%1$s starts scratching their %2$s!"), name.c_str(),
                                    body_part_name_accusative(bp).c_str());
@@ -6703,7 +6703,7 @@ void player::hardcoded_effects(effect &it)
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
-                if (g->u_see(x, y)) {
+                if (g->u.sees(x, y)) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                 }
@@ -6786,7 +6786,7 @@ void player::hardcoded_effects(effect &it)
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
-                    if (g->u_see(x, y)) {
+                    if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                     }
@@ -13221,7 +13221,7 @@ int player::getID () const
 bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
-    bool seen = g->u.sees( this );
+    bool seen = g->u.sees( *this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 75;
@@ -13515,19 +13515,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees(int x, int y) const
-{
-    int dummy = 0;
-    return sees(x, y, dummy);
-}
-
-bool player::sees(int x, int y, int &t) const
+bool player::sees( const point t, int &bresenham_slope ) const
 {
     static const std::string str_bio_night("bio_night");
-    int range_min = sight_range( g->light_level() );
-    int range_max = sight_range( DAYLIGHT_LEVEL );
-    const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = Creature::sees( x, y, range_min, range_max, t ); // creature::sees
+    const int wanted_range = rl_dist( pos(), t );
+    bool can_see = Creature::sees( t, bresenham_slope );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13541,32 +13533,21 @@ bool player::sees(int x, int y, int &t) const
     return can_see;
 }
 
-bool player::sees(const Creature *critter) const
+bool player::sees( const Creature &critter, int &bresenham_slope ) const
 {
-    int dummy = 0;
-    return sees(critter, dummy);
-}
-
-bool player::sees(const Creature *critter, int &t) const
-{
-    if( critter->is_hallucination() ) {
-        // hallucinations are always visible for the player, but never for anyone else.
-        return is_player();
-    }
-    const int cx = critter->xpos();
-    const int cy = critter->ypos();
-    int dist = rl_dist( pos(), critter->pos() );
+    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
+    const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
-    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
-        return false; // Can't see digging monsters until we're right next to them
+    if( critter.digging() && has_active_bionic( "bio_ground_sonar" ) ) {
+        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
+        // walls don't block sonar which is transmitted in the ground, not the air.
+        // TODO: this might need checks whether the player is in the air, or otherwise not connected
+        // to the ground. It also might need a range check.
+        return true;
     }
-    if (g->m.is_divable(cx, cy) && critter->is_underwater() && !is_underwater()) {
-        //Monster is in the water and submerged, and we're out of/above the water
-        return false;
-    }
-    return sees(cx, cy, t);
+    return Creature::sees( critter, bresenham_slope );
 }
 
 bool player::can_pickup(bool print_msg) const
@@ -13686,7 +13667,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
+    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
@@ -13773,7 +13754,7 @@ void player::spores()
                     mondex = g->mon_at(sporex, sporey);
                     if (g->m.move_cost(sporex, sporey) > 0) {
                         if (mondex != -1) { // Spores hit a monster
-                            if (g->u_see(sporex, sporey) &&
+                            if (g->u.sees(sporex, sporey) &&
                                 !g->zombie(mondex).type->in_species("FUNGUS")) {
                                 add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());

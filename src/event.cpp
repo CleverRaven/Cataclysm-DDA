@@ -190,7 +190,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u_see(x, y))
+      if (!saw_grate && g->u.sees(x, y))
        saw_grate = true;
      }
     }
@@ -299,7 +299,7 @@ void event::per_turn()
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
-    if (g->u_see(place.x, place.y))
+    if (g->u.sees( place ))
      add_msg(m_warning, _("An eyebot swoops down nearby!"));
    }
   } break;

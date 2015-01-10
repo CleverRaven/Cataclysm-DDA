@@ -244,6 +244,7 @@ class map
   */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
            const int range, int &bresenham_slope);
+ bool sees( point F, point T, int range, int &bresenham_slope );
 
  /**
   * Check whether there's a direct line of sight between `(Fx, Fy)` and
@@ -687,7 +688,14 @@ void add_corpse(int x, int y);
  void build_map_cache();
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
- bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
+        /**
+         * Whether the player character (g->u) can see the given square (local map coordinates).
+         * This only checks the transparency of the path to the target, the light level is not
+         * checked.
+         * @param max_range All squares that are further away than this are invisible.
+         * Ignored if smaller than 0.
+         */
+        bool pl_sees( int tx, int ty, int max_range );
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
 
