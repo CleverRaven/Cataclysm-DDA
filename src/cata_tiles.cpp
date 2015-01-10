@@ -1108,7 +1108,7 @@ bool cata_tiles::draw_vpart(int x, int y)
 
 bool cata_tiles::draw_entity( const Creature &critter, const int x, const int y )
 {
-    if( !g->u.sees( &critter ) ) {
+    if( !g->u.sees( critter ) ) {
         if( g->u.sees_with_infrared( critter ) ) {
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
         }
