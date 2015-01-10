@@ -1411,9 +1411,16 @@ int iuse::iodine(player *p, item *it, bool, point)
 
 int iuse::datura(player *p, item *it, bool, point)
 {
+    it_comest *comest = dynamic_cast<it_comest *>(it->type);
+
+{
     p->add_effect("datura", rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
+    if (p->has_trait("SPIRITUAL")) {
+        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+    }
     return it->type->charges_to_use();
+}
 }
 
 int iuse::flumed(player *p, item *it, bool, point)
