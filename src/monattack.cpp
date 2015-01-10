@@ -455,7 +455,7 @@ void mattack::science(monster *z, int index) // I said SCIENCE again!
     }
     // mutate() doesn't like non-players right now
     // It will mutate NPCs, but it will say it mutated the player
-    if( foe != &g->u && dist <= 2 ) {
+    if( foe == &g->u && dist <= 2 ) {
         valid.push_back(2);    // Radiation
     }
     if( !free.empty() ) {
