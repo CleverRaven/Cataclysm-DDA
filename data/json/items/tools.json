@@ -5698,7 +5698,7 @@
     "color": "dark_gray",
     "name" : "makeshift knife",
     "name_plural" : "makeshift knives",
-    "description" : "A knife consisting of a long somewhat sharpened spike and a tightly wrapped a rag as a handle.  It makes a good melee weapon.",
+    "description" : "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "price": 0,
     "material": ["steel", "null"],
     "weight": 550,
