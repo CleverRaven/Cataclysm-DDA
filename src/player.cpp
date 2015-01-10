@@ -7856,7 +7856,7 @@ void player::suffer()
     if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
         g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
     }
-if( int(calendar::turn) % MINUTES(1) == 0 ) add_msg("radiation: %d", radiation);
+
     if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(10) == 0 && radiation > 0 ) {
         // At 100 irradiation, 6 times faster than REGEN
         if( x_in_y( radiation, 100 ) ) {
