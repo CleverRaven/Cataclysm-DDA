@@ -311,27 +311,27 @@ std::string calendar::textify_period()
 
 std::string calendar::day_of_week() const
 {
-    // Design rationale
-    // <kevingranade> here's a question
-    // <kevingranade> what day of the week is day 0?
-    // <wito> Sunday
-    // <GlyphGryph> Why does it matter?
-    // <GlyphGryph> For like where people are and stuff?
-    // <wito> 7 is also Sunday
-    // <kevingranade> NOAA weather forecasts include day of week
-    // <GlyphGryph> Also by day0 do you mean the day people start day 0
-    // <GlyphGryph> Or actual day 0
-    // <kevingranade> good point, turn 0
-    // <GlyphGryph> So day 5
-    // <wito> Oh, I thought we were talking about week day numbering in general.
-    // <wito> Day 5 is a thursday, I think.
-    // <wito> Nah, Day 5 feels like a thursday. :P
-    // <wito> Which would put the apocalpyse on a saturday?
-    // <Starfyre> must be a thursday.  I was never able to get the hang of those.
-    // <ZChris13> wito: seems about right to me
-    // <wito> kevingranade: add four for thursday. ;)
-    // <kevingranade> sounds like consensus to me
-    // <kevingranade> Thursday it is
+    /* Design rationale:
+     * <kevingranade> here's a question
+     * <kevingranade> what day of the week is day 0?
+     * <wito> Sunday
+     * <GlyphGryph> Why does it matter?
+     * <GlyphGryph> For like where people are and stuff?
+     * <wito> 7 is also Sunday
+     * <kevingranade> NOAA weather forecasts include day of week
+     * <GlyphGryph> Also by day0 do you mean the day people start day 0
+     * <GlyphGryph> Or actual day 0
+     * <kevingranade> good point, turn 0
+     * <GlyphGryph> So day 5
+     * <wito> Oh, I thought we were talking about week day numbering in general.
+     * <wito> Day 5 is a thursday, I think.
+     * <wito> Nah, Day 5 feels like a thursday. :P
+     * <wito> Which would put the apocalpyse on a saturday?
+     * <Starfyre> must be a thursday.  I was never able to get the hang of those.
+     * <ZChris13> wito: seems about right to me
+     * <wito> kevingranade: add four for thursday. ;)
+     * <kevingranade> sounds like consensus to me
+     * <kevingranade> Thursday it is */
 
     enum weekday {
         THURSDAY = 0,

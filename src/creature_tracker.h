@@ -12,12 +12,19 @@ class Creature_tracker
     public:
         Creature_tracker();
         ~Creature_tracker();
+        /** Returns the monster at the given index. */
         monster &find(int index);
+        /** Returns the monster index of the monster at the given point. */
         int mon_at(point coords) const;
+        /** Returns the monster index of the monster at the given x and y values. */
         int mon_at(int x_pos, int y_pos) const;
+        /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
         bool add(monster &critter);
         size_t size() const;
+        /** Updates the position of the given monster to the given point. Returns whether the operation 
+         *  was successful. */
         bool update_pos(const monster &critter, const int new_x_pos, const int new_y_pos);
+        /** Removes the given monster index from the Creature tracker, adjusting other entries as needed. */
         void remove(const int idx);
         void clear();
         void rebuild_cache();
@@ -26,7 +33,7 @@ class Creature_tracker
     private:
         std::vector<monster *> _old_monsters_list;
         std::unordered_map<point, int> _old_monsters_by_location;
-        // Same as mon_at, but only returns id of dead critters.
+        /** Returns the monster index of the dead monster at the given point. */
         int dead_mon_at(point coords) const;
 };
 
