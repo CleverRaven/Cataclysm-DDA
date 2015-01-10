@@ -121,7 +121,7 @@ void Creature::reset_bonuses()
 void Creature::reset_stats()
 {
     // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in disease.h,
+    // Any persistent buffs/debuffs will take place in effects,
     // player::suffer(), etc.
 
     // repopulate the stat fields
