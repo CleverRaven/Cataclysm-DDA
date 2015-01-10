@@ -580,12 +580,20 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if( itemcount < 0 ) {
                     itemcount = 0;
                 }
-            } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
-                start -= maxitems;
+            } else if ( ch == '<' || ch == KEY_PPAGE ) {
+                if ( start > 0 ) {
+                    start -= maxitems;
+                } else {
+                    start = (int)( (here.size()-1) / maxitems ) * maxitems;
+                }
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < (int)here.size()) {
-                start += maxitems;
+            } else if ( ch == '>' || ch == KEY_NPAGE ) {
+                if ( start + maxitems < (int)here.size() ) {
+                    start += maxitems;
+                } else {
+                    start = 0;
+                }
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
             } else if ( ch == KEY_UP ) {
@@ -623,7 +631,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     }
                 }
             } else {
-                idx = pickup_chars.find(ch);
+                idx = ( ch <= 127 ) ? pickup_chars.find(ch) : -1;
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
@@ -750,13 +758,9 @@ void Pickup::pick_up(int posx, int posy, int min)
             const char *prev = _("[pgup] Prev");
             const char *all = _("[,] All");
             const char *next   = _("[pgdn] Next");
-            if (start > 0) {
-                mvwprintw(w_pickup, maxitems + 2, 0, prev);
-            }
+            mvwprintw(w_pickup, maxitems + 2, 0, prev);
             mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            if (cur_it < (int)here.size()) {
-                mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
-            }
+            mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
 
             if (update) { // Update weight & volume information
                 update = false;
