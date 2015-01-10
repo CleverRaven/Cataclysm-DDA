@@ -102,39 +102,49 @@ class game
         game();
         ~game();
 
-        // Static data, does not depend on mods or similar.
+        /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        // Load core data and all mods.
+        /** Loads core data and all mods. */
         void check_all_mod_data();
     protected:
-        // Load core dynamic data
+        /** Loads core dynamic data. */
         void load_core_data();
-        // Load dynamic data from given directory
+        /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
-        // Load core data and mods from that world
+        /** Loads core data and mods from the given world. */
         void load_world_modfiles(WORLDPTR world);
     public:
 
-
+        /** Initializes the UI. */
         void init_ui();
         void setup();
-        bool game_quit(); // True if we actually quit the game - used in main.cpp
+        /** Returns true if we actually quit the game. Used in main.cpp. */
+        bool game_quit();
+        /** Returns true if the game quits through some error. */
         bool game_error();
-        bool new_game;    // Is true if game has just started or loaded, false otherwise
-        quit_status uquit;    // used in main.cpp to determine what type of quit
+        /** True if the game has just started or loaded, else false. */
+        bool new_game;
+        /** Used in main.cpp to determine what type of quit is being performed. */
+        quit_status uquit;
+        /** Saving and loading functions. */
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
         bool unserialize_legacy(std::ifstream &fin);  // for old load
         void unserialize_master(std::ifstream &fin);  // for load
         bool unserialize_master_legacy(std::ifstream &fin);  // for old load
 
-        // returns false if saving faild for whatever reason
+        /** Returns false if saving failed. */
         bool save();
+        /** Deletes the given world. If delete_folder is true delete all the files and directories
+         *  of the given world folder. Else just avoid deleting the two config files and the directory
+         *  itself. */
         void delete_world(std::string worldname, bool delete_folder);
+        /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         bool cleanup_at_end();
         void start_calendar();
+        /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
@@ -162,112 +172,152 @@ class game
          * @returns true if the player could hear the sound.
          */
         bool sound(int x, int y, int vol, std::string description, bool ambient = false);
-        // same as sound(..., true)
+        /** Functions identical to sound(..., true). */
         bool ambient_sound(int x, int y, int vol, std::string description);
-        // creates a list of coordinates to draw footsteps
+        /** Creates a list of coordinates at which to draw footsteps. */
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
         std::vector<monster *> footsteps_source;
-        // Calculate where footstep marker should appear and put those points into the result.
-        // It also clears @ref footsteps_source and @ref footsteps
+        /** Calculates where footstep marker should appear and puts those points into the result.
+         *  It also clears @ref footsteps_source and @ref footsteps. */
         void calculate_footstep_markers(std::vector<point> &result);
-        // visual cue to monsters moving out of the players sight
+        /** Draws visual footstep cues to monsters moving out of the players sight. */
         void draw_footsteps();
-        // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
+        /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
-        // Draws an explosion with set radius and color at the given location
-        /* Defined later in this file */
-        //void draw_explosion(int x, int y, int radius, nc_color col);
-        // Flashback at (x, y)
+        /** Triggers a flashbang explosion at (x, y). */
         void flashbang(int x, int y, bool player_immune = false);
-        // Move the player vertically, if (force) then they fell
+        /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move(int z, bool force);
+        /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer(int x, int y);
+        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
         bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
+        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
         bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
+        /** Triggers a resonance cascade at (x, y). */
         void resonance_cascade(int x, int y);
+        /** Triggers a scrambler blast at (x, y). */
         void scrambler_blast(int x, int y);
+        /** Triggers an emp blast at (x, y). */
         void emp_blast(int x, int y);
-        int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
-        int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
-        // Return any critter at (x,y), be it a monster, an npc, or u (the player).
+        /** Returns the NPC index of the npc at (x, y). Returns -1 if no NPC is present. */
+        int  npc_at(const int x, const int y) const;
+        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
+        int  npc_by_id(const int id) const;
+        /** Returns the Creature at (x, y). */
         Creature *critter_at(int x, int y);
-        // void build_monmap();  // Caches data for mon_at()
 
+        /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
+        /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
+        /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
         monster &zombie(const int idx);
+        /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos(const monster &critter, const int newx, const int newy);
         void remove_zombie(const int idx);
+        /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        bool spawn_hallucination(); //Spawns a hallucination close to the player
+        /** Spawns a hallucination close to the player. */
+        bool spawn_hallucination();
 
-        int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
+        /** Returns the monster index of the monster at (x, y). Returns -1 if no monster is present. */
+        int  mon_at(const int x, const int y) const;
+        /** Returns the monster index of the monster at the given point. Returns -1 if no monster is present. */
         int  mon_at(point p) const;
-        bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
+        /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
+        bool is_empty(const int x, const int y);
+        /** Returns true if the value of test is between down and up. */
         bool isBetween(int test, int down, int up);
-        bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
-        bool is_sheltered(int x, int y); // Checks if indoors, underground or in a car.
+        /** Returns true if (x, y) is outdoors and it is sunny. */
+        bool is_in_sunlight(int x, int y);
+        /** Returns true if (x, y) is indoors, underground, or in a car. */
+        bool is_sheltered(int x, int y);
+        /** Returns true if the given point is in an ice lab. */
         bool is_in_ice_lab(point location);
-        bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
-        bool revive_corpse(int x, int y,
-                           item *it); // revives a corpse by item pointer, caller handles item deletion
-        // Player wants to fire a gun (target selection) etc. actual firing is done in player::fire_gun
-        // This is interactive and therefor not for npcs.
+        /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
+        bool revive_corpse(int x, int y, int n);
+        /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
+        bool revive_corpse(int x, int y, item *it);
+        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done 
+         *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
-        // Target is an interactive function which allows the player to choose a nearby
-        // square.  It display information on any monster/NPC on that square, and also
-        // returns a Bresenham line to that square.  It is called by plfire(),
-        // throw() and vehicle::aim_turrets()
+        /** Target is an interactive function which allows the player to choose a nearby
+         *  square.  It display information on any monster/NPC on that square, and also
+         *  returns a Bresenham line to that square.  It is called by plfire(),
+         *  throw() and vehicle::aim_turrets() */
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                                   int hiy, std::vector <Creature *> t, int &target,
                                   item *relevent, target_mode mode, 
                                   point from = point(-1, -1));
+        /** Redirects to player::cancel_activity(). */
         void cancel_activity();
+        /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query(const char *message, ...);
+        /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
+         *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query(const char *reason, ...);
+        /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount(int tox, int toy);
 
-        vehicle *remoteveh(); // Get remotely controlled vehicle
-        void setremoteveh(vehicle *veh); // Set remotely controlled vehicle
+        /** Returns the current remotely controlled vehicle. */
+        vehicle *remoteveh();
+        /** Sets the current remotely controlled vehicle. */
+        void setremoteveh(vehicle *veh);
 
-        int assign_mission_id(); // Just returns the next available one
-        void give_mission(mission_id type); // Create the mission and assign it
-        void assign_mission(int id); // Just assign an existing mission
-        // reserve_mission() creates a new mission of the given type and pushes it to
-        // active_missions.  The function returns the UID of the new mission, which can
-        // then be passed to a MacGuffin or something else that needs to track a mission
+        /** Returns the next available mission id. */
+        int assign_mission_id();
+        /** Creates a mission of the matching type and assigns it to the player. */
+        void give_mission(mission_id type);
+        /** Assigns an existing mission to the player. */
+        void assign_mission(int id);
+        /** reserve_mission() creates a new mission of the given type and pushes it to
+         *  active_missions.  The function returns the UID of the new mission, which can
+         *  then be passed to a MacGuffin or something else that needs to track a mission. */
         int reserve_mission(mission_id type, int npc_id = -1);
         int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                                    int npc_id = -1);
         npc *find_npc(int id);
-        void load_npcs(); //Make any nearby NPCs from the overmap active.
-        int kill_count(std::string mon);       // Return the number of kills of a given mon_id
-        // Register one kill of a monster of type mtype_id by the player.
+        /** Makes any nearby NPC's on the overmap active. */
+        void load_npcs();
+        /** Returns the number of kills of the given mon_id by the player. */
+        int kill_count(std::string mon);
+        /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
-        mission_type *find_mission_type(int id); // Same, but returns its type
-        bool mission_complete(int id, int npc_id); // True if we made it
-        bool mission_failed(int id); // True if we failed it
-        void wrap_up_mission(int id); // Perform required actions
-        void fail_mission(int id); // Perform required actions, move to failed list
-        void mission_step_complete(int id, int step); // Parial completion
-        void process_missions(); // Process missions, see if time's run out
+        /** Returns the matching mission with UID == id; else returns NULL. */
+        mission *find_mission(int id);
+        /** Returns the mission type of the mission with UID == id; else returns NULL. */
+        mission_type *find_mission_type(int id);
+        /** Checks if the player has completed the matching mission and returns true if they have. */
+        bool mission_complete(int id, int npc_id);
+        /** Checks if the player has failed the matching mission and returns true if they have. */
+        bool mission_failed(int id);
+        /** Handles mission completion tasks (remove given item, etc.). */
+        void wrap_up_mission(int id);
+        /** Handles mission failure tasks (remove mission items, etc.). */
+        void fail_mission(int id);
+        /** Handles partial mission completion (kill complete, now report back!). */
+        void mission_step_complete(int id, int step);
+        /** Handles mission deadline processing. */
+        void process_missions();
 
+        /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
-        void plswim(int x, int y); // Called by plmove.  Handles swimming
-        void rod_fish(int sSkillLevel, int fishChance); // fish with rod catching function
-        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
-        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
-        // when player is thrown (by impact or something)
-        void fling_creature(Creature *c, const int &dir, float flvel,
-                            bool controlled = false);
+        /** Handles swimming by the player. Called by plmove(). */
+        void plswim(int x, int y);
+        /** Handles fishing with a fishing rod. */
+        void rod_fish(int sSkillLevel, int fishChance);
+        /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0);
+        /** Returns the list of currently fishable monsters within distance of the player. */
+        std::vector<monster*> get_fishable(int distance);
+        /** Flings the input creature in the given direction. */
+        void fling_creature(Creature *c, const int &dir, float flvel, bool controlled = false);
 
-        /**
-         * Nuke the area at (x,y) - global overmap terrain coordinates!
-         */
+        /** Nuke the area at (x, y) - global overmap terrain coordinates! */
         void nuke(int x, int y);
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
@@ -280,9 +330,13 @@ class game
         int assign_faction_id();
         faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
+        /** Returns true if the player can see the given (x, y) coordinates. */
         bool u_see (int x, int y);
+        /** Returns true if the player can see the given monster. */
         bool u_see (const monster *critter);
-        bool u_see (const Creature *t); // for backwards compatibility
+        /** Returns true if the player can see the given creature. Currently only for backwards compatibility. */
+        bool u_see (const Creature *t);
+        /** Returns true if the player can see the given creature. */
         bool u_see (const Creature &t);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
@@ -719,7 +773,6 @@ class game
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
         int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<std::string, int> kills;         // Player's kill count
