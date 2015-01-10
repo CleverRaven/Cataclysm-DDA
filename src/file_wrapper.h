@@ -3,7 +3,7 @@
 
 #include <string>
 
-bool assure_dir_exist( std::string path );
+bool assure_dir_exist(std::string const &path);
 bool file_exist(const std::string &path);
 // Remove a file, does not remove folders,
 // returns true on success
