@@ -2310,7 +2310,7 @@ nc_color vehicle::part_color (int p)
     int parm = -1;
 
     //If armoring is present and the option is set, it colors the visible part
-    if (OPTIONS["VEHICLE_ARMOR_COLOR"] == true)
+    if (!!OPTIONS["VEHICLE_ARMOR_COLOR"])
       parm = part_with_feature(p, VPFLAG_ARMOR, false);
 
     if (parm >= 0) {
@@ -5352,30 +5352,37 @@ void vehicle::open_all_at(int p)
     }
 }
 
-void vehicle::open_or_close(int part_index, bool opening)
+void vehicle::open_or_close(int const part_index, bool const opening)
 {
-  parts[part_index].open = opening ? 1 : 0;
-  insides_dirty = true;
-  g->m.set_transparency_cache_dirty();
+    parts[part_index].open = opening ? 1 : 0;
+    insides_dirty = true;
+    g->m.set_transparency_cache_dirty();
 
-  if(part_info(part_index).has_flag("MULTISQUARE")) {
+    if (!part_info(part_index).has_flag("MULTISQUARE")) {
+        return;
+    }
+
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
     for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
-      if (parts[next_index].removed) {
-        continue;
-      }
-      //Look for parts 1 square off in any cardinal direction
-      int xdiff = parts[next_index].mount.x - parts[part_index].mount.x;
-      int ydiff = parts[next_index].mount.y - parts[part_index].mount.y;
-      if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
-              (part_info(next_index).id == part_info(part_index).id) &&
-              (parts[next_index].open == opening ? 0 : 1)) {
-        open_or_close(next_index, opening);
-      }
+        if (parts[next_index].removed) {
+            continue;
+        }
+
+        //Look for parts 1 square off in any cardinal direction
+        auto const dx = parts[next_index].mount.x - parts[part_index].mount.x;
+        auto const dy = parts[next_index].mount.y - parts[part_index].mount.y;
+        auto const delta = dx * dx + dy * dy;
+
+        auto const is_near = (delta == 1);
+        auto const is_id   = part_info(next_index).id == part_info(part_index).id;
+        auto const do_next = parts[next_index].open ^ opening;
+
+        if (is_near && is_id && do_next) {
+            open_or_close(next_index, opening);
+        }
     }
-  }
 }
 
 // a chance to stop skidding if moving in roughly the faced direction

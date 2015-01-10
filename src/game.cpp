@@ -1002,7 +1002,7 @@ static int veh_lumi(vehicle *veh)
 
 void game::calc_driving_offset(vehicle *veh)
 {
-    if (veh == NULL || !(OPTIONS["DRIVING_VIEW_OFFSET"] == true)) {
+    if (veh == nullptr || !OPTIONS["DRIVING_VIEW_OFFSET"]) {
         set_driving_view_offset(point(0, 0));
         return;
     }
@@ -13770,7 +13770,7 @@ void game::vertical_move(int movez, bool force)
             }
             const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
-            if (OPTIONS["AUTO_NOTES"] == true) {
+            if (!!OPTIONS["AUTO_NOTES"]) {
                 if (movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
                     overmap_buffer.set_seen(cursx, cursy, z_coord, true);
                     overmap_buffer.add_note(cursx, cursy, z_coord, _(">:W;AUTO: goes down"));

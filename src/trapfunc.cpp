@@ -822,15 +822,14 @@ void trapfunc::lava(Creature *c, int x, int y)
 }
 
 // STUB
-void trapfunc::portal(Creature */*c*/, int /*x*/, int /*y*/)
+void trapfunc::portal(Creature * /*c*/, int /*x*/, int /*y*/)
 {
     // TODO: make this do something?
 }
 
-void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
-{
+void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
     if (c != &g->u) {
-        // TODO: make something exciting happen here
+        //TODO: make something exciting happen here
         return;
     }
     g->u.add_msg_if_player(m_bad, _("You step into a sinkhole, and start to sink down!"));
@@ -1071,7 +1070,7 @@ void trapfunc::glow(Creature *c, int x, int y)
     }
 }
 
-void trapfunc::hum(Creature */*c*/, int x, int y)
+void trapfunc::hum(Creature * /*c*/, int const x, int const y)
 {
     int volume = rng(1, 200);
     std::string sfx;
