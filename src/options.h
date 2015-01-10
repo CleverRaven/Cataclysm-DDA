@@ -84,6 +84,8 @@ class cOpt
 
         //Set default class behaviour to float
         operator float() const;
+        //allow (explicit) boolean conversions
+        explicit operator bool() const;
         // if (class == "string")
         bool operator==(const std::string sCompare) const;
         // if (class != "string")

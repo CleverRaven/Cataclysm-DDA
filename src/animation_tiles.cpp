@@ -48,7 +48,7 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
 {
     (void)i; //unused
     (void)trajectory; //unused
-    if (u_see(tx, ty)) {
+    if (u.sees(tx, ty)) {
         std::string bullet;// = "animation_bullet_normal";
         switch(bullet_char) {
         case '*':
@@ -135,12 +135,12 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
 {
-    if (u_see( x, y)) {
+    if (u.sees( x, y)) {
         for (std::vector<point>::iterator it = ret.begin();
              it != ret.end(); it++) {
             const Creature *critter = critter_at( it->x, it->y );
             // NPCs and monsters get drawn with inverted colors
-            if( critter != nullptr && u.sees( critter ) ) {
+            if( critter != nullptr && u.sees( *critter ) ) {
                 critter->draw( w_terrain, center_point.x, center_point.y, true );
             } else {
                 m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);

@@ -2997,7 +2997,7 @@
     {
         "type" : "AMMO",
         "id" : "RPG-7_ammo",
-        "price" : 60000,
+        "price" : 10000,
         "name" : "PG-7VL rocket",
         "symbol" : "=",
         "color" : "dark_gray",

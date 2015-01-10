@@ -327,7 +327,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 add_msg(_("You swing wildly and miss."));
             else
                 add_msg(_("You miss."));
-        } else if( g->u.sees( this ) ) {
+        } else if( g->u.sees( *this ) ) {
             if (stumble_pen >= 60)
                 add_msg( _("%s misses and stumbles with the momentum."),name.c_str());
             else if (stumble_pen >= 10)

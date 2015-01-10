@@ -91,8 +91,7 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)
-        && g->u.is_invisible() == false) {
+    if (my_fac != NULL && my_fac->likes_u < -10 && sees( g->u ) ) {
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
             attitude = NPCATT_FLEE;    // We don't want to take u on!
         } else {
@@ -200,7 +199,6 @@ void npc::execute_action(npc_action action, int target)
 {
     int oldmoves = moves;
     int tarx = posx, tary = posy;
-    int linet, light = g->light_level();
     if (target == -2) {
         tarx = g->u.posx;
         tary = g->u.posy;
@@ -236,7 +234,7 @@ void npc::execute_action(npc_action action, int target)
             debugmsg("NPC reload failed.");
         }
         recoil = MIN_RECOIL;
-        if (g->u_see(posx, posy)) {
+        if (g->u.sees( *this )) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
         }
@@ -248,7 +246,7 @@ void npc::execute_action(npc_action action, int target)
          * we get some sleep, how long watch shifts should be, etc.
          */
         //add_effect("lying_down", 300);
-        if (is_friend() && g->u_see(posx, posy)) {
+        if (is_friend() && g->u.sees( *this )) {
             say(_("I'm going to sleep."));
         }
         break;
@@ -351,7 +349,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_look_for_player:
-        if (saw_player_recently() && g->m.sees(posx, posy, plx, ply, light, linet)) {
+        if (saw_player_recently() && sees( plx, ply )) {
             // (plx, ply) is the point where we last saw the player
             update_path(plx, ply);
             move_to_next();
@@ -462,14 +460,13 @@ void npc::execute_action(npc_action action, int target)
 void npc::choose_monster_target(int &enemy, int &danger,
                                 int &total_danger)
 {
-    int linet = 0;
-    bool defend_u = g->sees_u(posx, posy, linet) && is_defending();
+    bool defend_u = sees( g->u ) && is_defending();
     int highest_priority = 0;
     total_danger = 0;
 
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
-        if (this->sees(mon, linet)) {
+        if (this->sees(*mon)) {
             int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
@@ -597,8 +594,7 @@ npc_action npc::method_of_attack(int target, int danger)
                     return npc_melee;
                 }
             }
-            int junk = 0;
-            if (!wont_hit_friend(tarx, tary))
+            if (!wont_hit_friend(tarx, tary)) {
                 if (in_vehicle)
                     if (can_reload()) {
                         return npc_reload;
@@ -608,12 +604,10 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (target == TARGET_PLAYER && g->u.is_invisible() == true) {
-                return npc_pause;//Lost you since you went invisible
-            } else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)) {
+            } else if (target == TARGET_PLAYER && !sees( g->u )) {
                 return npc_melee;//Can't see target
             } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
-                       g->m.sees( posx, posy, tarx, tary, weapon.gun_range( this ), junk )) {
+                       sees( tarx, tary )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
                        weapon.type->gun->burst > 1 &&
@@ -700,9 +694,7 @@ npc_action npc::address_needs(int danger)
 
 npc_action npc::address_player()
 {
-    int linet;
-    if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
-        this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
+    if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) && sees( g->u ) ) {
         if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -717,7 +709,7 @@ npc_action npc::address_player()
         }
     }
 
-    if (attitude == NPCATT_MUG && this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
+    if (attitude == NPCATT_MUG && sees( g->u ) ) {
         if (one_in(3)) {
             say(_("Don't move a <swear> muscle..."));
         }
@@ -739,8 +731,7 @@ npc_action npc::address_player()
     }
 
     if (attitude == NPCATT_LEAD) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
-            !g->sees_u(posx, posy, linet)) {
+        if( rl_dist( pos(), g->u.pos() ) >= 12 || !sees( g->u ) ) {
             if(has_effect("catch_up")) {
                 int intense = get_effect_int("catch_up");
                 if (intense < 10) {
@@ -974,10 +965,10 @@ bool npc::enough_time_to_reload(int target, item &gun)
 {
     int rltime = gun.reload_time(*this);
     double turns_til_reloaded = rltime / get_speed();
-    int dist, speed, linet;
+    int dist, speed;
 
     if (target == TARGET_PLAYER) {
-        if (g->sees_u(posx, posy, linet) && g->u.weapon.is_gun() && rltime > 200) {
+        if (sees( g->u ) && g->u.weapon.is_gun() && rltime > 200) {
             return false;    // Don't take longer than 2 turns if player has a gun
         }
         dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
@@ -1073,6 +1064,8 @@ void npc::move_to(int x, int y)
         std::vector<point> newpath;
         if (g->m.sees(posx, posy, x, y, -1, linet)) {
             newpath = line_to(posx, posy, x, y, linet);
+        } else {
+            newpath = line_to(posx, posy, x, y, 0);
         }
         x = newpath[0].x;
         y = newpath[0].y;
@@ -1321,7 +1314,6 @@ void npc::find_item()
     }
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
-    int linet;
     const item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
@@ -1338,7 +1330,7 @@ void npc::find_item()
 
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
-            if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
+            if (sees(x, y) && g->m.sees_some_items(x, y, *this)) {
                 for( auto &elem : g->m.i_at(x, y) ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
@@ -1399,8 +1391,8 @@ void npc::pick_up_item()
         }
     }
     // Describe the pickup to the player
-    bool u_see_me = g->u_see(posx, posy);
-    bool u_see_items = g->u_see(itx, ity);
+    bool u_see_me = g->u.sees( *this );
+    bool u_see_items = g->u.sees(itx, ity);
     if (u_see_me) {
         if (pickup.size() == 1) {
             if (u_see_items) {
@@ -1536,7 +1528,7 @@ void npc::drop_items(int weight, int volume)
     }
     // Finally, describe the action if u can see it
     std::string item_name_str = item_name.str();
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees( *this )) {
         if (num_items_dropped >= 3) {
             add_msg(ngettext("%s drops %d item.", "%s drops %d items.",
                              num_items_dropped), name.c_str(),
@@ -1686,7 +1678,7 @@ void npc::alt_attack(int target)
                 trajectory = line_to(posx, posy, tarx, tary, 0);
             }
             moves -= 125;
-            if (g->u_see(posx, posy)) {
+            if (g->u.sees( *this )) {
                 add_msg(_("%s throws a %s."),
                         name.c_str(), used->tname().c_str());
             }
@@ -1751,7 +1743,7 @@ void npc::alt_attack(int target)
                     trajectory = line_to(posx, posy, tarx, tary, 0);
                 }
                 moves -= 125;
-                if (g->u_see(posx, posy)) {
+                if (g->u.sees( *this )) {
                     add_msg(_("%s throws a %s."), name.c_str(),
                             used->tname().c_str());
                 }
@@ -1827,8 +1819,8 @@ void npc::heal_player(player &patient)
             }
         }
 
-        bool u_see_me      = g->u_see(posx, posy),
-             u_see_patient = g->u_see(patient.posx, patient.posy);
+        bool u_see_me      = g->u.sees( *this ),
+             u_see_patient = g->u.sees( patient );
         if (patient.is_npc()) {
             if (u_see_me) {
                 if (u_see_patient) {
@@ -1937,7 +1929,7 @@ void npc::heal_self()
         debugmsg("NPC tried to heal self, but has no bandages / first aid");
         move_pause();
     }
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees( *this )) {
         add_msg(_("%s heals %s."), name.c_str(),
                 (male ? _("himself") : _("herself")));
     }
@@ -1954,7 +1946,7 @@ void npc::use_painkiller()
         debugmsg("NPC tried to use painkillers, but has none!");
         move_pause();
     } else {
-        if (g->u_see(posx, posy)) {
+        if (g->u.sees( *this )) {
             add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
@@ -2011,8 +2003,8 @@ void npc::mug_player(player &mark)
         update_path(mark.posx, mark.posy);
         move_to_next();
     } else {
-        bool u_see_me   = g->u_see(posx, posy),
-             u_see_mark = g->u_see(mark.posx, mark.posy);
+        bool u_see_me   = g->u.sees( *this ),
+             u_see_mark = g->u.sees( mark );
         if (mark.cash > 0) {
             cash += mark.cash;
             mark.cash = 0;
@@ -2066,8 +2058,8 @@ void npc::mug_player(player &mark)
                 }
                 moves -= 100;
             } else {
-                bool u_see_me   = g->u_see(posx, posy),
-                     u_see_mark = g->u_see(mark.posx, mark.posy);
+                bool u_see_me   = g->u.sees( *this ),
+                     u_see_mark = g->u.sees( mark );
                 item stolen = mark.i_rem(position);
                 if (mark.is_npc()) {
                     if (u_see_me) {
@@ -2103,8 +2095,7 @@ void npc::mug_player(player &mark)
 
 void npc::look_for_player(player &sought)
 {
-    int linet, range = sight_range(g->light_level());
-    if (g->m.sees(posx, posy, sought.posx, sought.posy, range, linet)) {
+    if( sees( sought ) ) {
         if (sought.is_npc())
             debugmsg("npc::look_for_player() called, but we can see %s!",
                      sought.name.c_str());
@@ -2117,7 +2108,7 @@ void npc::look_for_player(player &sought)
 
     if (!path.empty()) {
         point dest = path[path.size() - 1];
-        if (!g->m.sees(posx, posy, dest.x, dest.y, range, linet)) {
+        if( !sees( dest ) ) {
             move_to_next();
             return;
         }
@@ -2126,7 +2117,7 @@ void npc::look_for_player(player &sought)
     std::vector<point> possibilities;
     for (int x = 1; x < SEEX * MAPSIZE; x += 11) { // 1, 12, 23, 34
         for (int y = 1; y < SEEY * MAPSIZE; y += 11) {
-            if (g->m.sees(posx, posy, x, y, range, linet)) {
+            if( sees( x, y ) ) {
                 possibilities.push_back(point(x, y));
             }
         }
@@ -2267,7 +2258,7 @@ void npc::go_to_destination()
             sy = 0;
         }
         // sx and sy are now equal to the direction we need to move in
-        int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();
+        int x = posx + 8 * sx, y = posy + 8 * sy;
         // x and y are now equal to a local square that's close by
         for (int i = 0; i < 8; i++) {
             for (int dx = 0 - i; dx <= i; dx++) {
@@ -2276,7 +2267,7 @@ void npc::go_to_destination()
                          //Needs 20% chance of bashing success to be considered for pathing
                          g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
                          g->m.ter(x + dx, y + dy) == t_door_c) &&
-                        g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
+                        sees( x + dx, y + dy )) {
                         path = g->m.route(posx, posy, x + dx, y + dy);
                         if (!path.empty() && can_move_to(path[0].x, path[0].y)) {
                             move_to_next();

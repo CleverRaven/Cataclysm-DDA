@@ -12,6 +12,9 @@
 #include <sstream>
 #include <algorithm>
 
+// TODO: Convert martial art buffs over to the effects system and cut out this and disease.h completely
+// NOTE: DO NOT PUT MORE STUFF IN THIS FILE, THIS IS ONLY HERE FOR LEGACY PURPOSES UNTIL IT CAN BE REMOVED
+
 // Used only internally for fast lookups.
 enum dis_type_enum {
  DI_NULL,
@@ -76,7 +79,6 @@ std::string dis_name(disease& dis)
 
 std::string dis_description(disease& dis)
 {
-    std::stringstream stream;
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 
