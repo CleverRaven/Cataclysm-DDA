@@ -88,15 +88,6 @@ inline size_t sizeof_array(T const (&)[N]) noexcept {
 }
 
 //--------------------------------------------------------------------------------------------------
-void log_file_error(int const e, char con) {
-    auto const e_str = strerror(e);
-
-    DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error [" << e
-        << " " << path;
-    return;
-}
-
-//--------------------------------------------------------------------------------------------------
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
 template <typename Function>
@@ -255,10 +246,12 @@ std::vector<std::string> get_directories_with(std::vector<std::string> const &pa
         });
     });
 
+    //chop off the file names
     for (auto &file : files) {
         file.erase(file.rfind('/'), std::string::npos);
     }
 
+    //remove resulting duplicates
     files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
 
     return files;
