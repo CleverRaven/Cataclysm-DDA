@@ -1498,11 +1498,7 @@ void mapbuffer::load( std::string worldname )
     if( num_submaps > 0 ) {
         // Chunked up saves need to be fully loaded to convert them to json.
         // Hopefully this is the last time we ever need to do this.
-        std::vector<std::string> map_files = file_finder::get_files_from_path(
-            ".map", world_map_path.str(), true, true );
-        if( map_files.empty() ) {
-            return;
-        }
+        auto const map_files = get_files_from_path(".map", world_map_path.str(), true, true);
         for( auto &map_file : map_files ) {
             fin.open( map_file.c_str() );
             unserialize_legacy_submaps( fin, num_submaps, ter_key, furn_key, trap_key );

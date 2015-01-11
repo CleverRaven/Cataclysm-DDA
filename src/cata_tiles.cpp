@@ -104,8 +104,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
+    // search for the files (tileset.txt)
+    auto files = get_files_from_path(filename, dir_path, true);
 
     for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
         std::ifstream fin;

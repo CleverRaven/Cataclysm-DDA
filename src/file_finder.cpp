@@ -39,6 +39,9 @@ using dir_ptr = std::unique_ptr<DIR, decltype(&closedir)>;
         have been worked through.
 */
 
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
 template <typename Function>
 void for_each_dir_entry(std::string const &path, Function function)
 {
@@ -57,6 +60,9 @@ void for_each_dir_entry(std::string const &path, Function function)
     }
 }
 
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
 bool is_directory(dirent const &entry)
 {
     if (entry.d_type == DT_DIR) {
@@ -74,12 +80,18 @@ bool is_directory(dirent const &entry)
     return S_ISDIR(result.st_mode);
 }
 
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
 bool is_special_dir(dirent const &entry)
 {
     return !strncmp(entry.d_name, ".",  sizeof(entry.d_name) - 1) ||
            !strncmp(entry.d_name, "..", sizeof(entry.d_name) - 1);
 }
 
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
 bool matches_extension(dirent const &entry, std::string const &extension,
     bool const match_extension)
 {
@@ -94,109 +106,84 @@ bool matches_extension(dirent const &entry, std::string const &extension,
     return strstr(start, extension.c_str()) != 0;
 }
 
-std::vector<std::string> file_finder::get_files_from_path(std::string const extension,
-        std::string const root_path, bool const recursive_search, bool const match_extension)
+template <typename Predicate>
+std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool const recurse,
+    Predicate predicate)
 {
-    std::vector<std::string> files;
     std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
- 
+    std::vector<std::string> results;
+
     while (!directories.empty()) {
         auto const path = std::move(directories.front());
         directories.pop_front();
 
-        // old end positions
-        auto const n_files = files.size();
-        auto const n_dirs  = directories.size();
-
+        auto const n_dirs    = directories.size();
+        auto const n_results = results.size();
+        
         for_each_dir_entry(path, [&](dirent const &entry) {
+            // exclude special directories.
             if (is_special_dir(entry)) {
                 return;
             }
 
-            if (recursive_search && is_directory(entry)) {
+            // add sub directories to recurse if requested
+            auto const is_dir = is_directory(entry);
+            if (recurse && is_dir) {
                 directories.emplace_back(path + "/" + entry.d_name);
+            }
+
+            // check the file
+            if (!predicate(entry, is_dir)) {
                 return;
             }
 
-            if (!matches_extension(entry, extension, match_extension)) {
-                return;
-            }
-            
-            files.emplace_back(path + "/" + entry.d_name);   
-            if (files.back().back() == '~') {
-                files.pop_back();
+            // don't add files ending in '~'.
+            results.emplace_back(path + "/" + entry.d_name);   
+            if (results.back().back() == '~') {
+                results.pop_back();
             }
         });
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
-        std::sort(std::begin(files) + n_files, std::end(files));
-        std::sort(std::begin(directories) + n_dirs, std::end(directories));
+        std::sort(std::begin(directories) + n_dirs,    std::end(directories));
+        std::sort(std::begin(results)     + n_results, std::end(results));
+    }
+
+    return results;
+}
+
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
+std::vector<std::string> get_files_from_path(std::string const &extension,
+    std::string const &root_path, bool const recurse, bool const match_extension)
+{
+    return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
+        return matches_extension(entry, extension, match_extension);
+    });
+}
+
+//--------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------
+
+std::vector<std::string> get_directories_with(std::vector<std::string> const &extensions,
+    std::string const &root_path, bool const recurse)
+{
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
+        for (auto const &ext : extensions) {
+            if (matches_extension(entry, ext, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    });
+
+    for (auto &file : files) {
+        file.erase(file.rfind('/'), std::string::npos);
     }
 
     return files;
-}
-
-std::vector<std::string> file_finder::get_directories_with( std::vector<std::string> extensions,
-        std::string root_path, bool recursive_search )
-{
-    std::vector<std::string> found;
-    const int num_extensions = extensions.size();
-    // Test for empty root path.
-    if( root_path.empty() ) {
-        root_path = ".";
-    }
-    std::stack<std::string> directories, tempstack;
-    directories.push( root_path );
-    std::string path = "";
-
-    while( !directories.empty() ) {
-
-        path = directories.top();
-        directories.pop();
-        DIR *root = opendir( path.c_str() );
-
-        if( root ) {
-            struct dirent *root_file;
-            struct stat _buff;
-            DIR *subdir;
-            bool foundit = false;
-            while( (root_file = readdir(root)) ) {
-                // Check to see if it is a folder!
-                if( stat(root_file->d_name, &_buff) != 0x4 ) {
-                    // Ignore '.' and '..' folder names, which are current and parent folder
-                    // relative paths.
-                    if( strcmp(root_file->d_name, ".") != 0 &&
-                        strcmp(root_file->d_name, "..") != 0 ) {
-                        std::string subpath = path + "/" + root_file->d_name;
-
-                        if( recursive_search ) {
-                            subdir = opendir( subpath.c_str() );
-                            if( subdir ) {
-                                tempstack.push( subpath );
-                                closedir( subdir );
-                            }
-                        }
-                    }
-                }
-                // check to see if it is a file with the appropriate extension
-                std::string tmp = root_file->d_name;
-                for( int i = 0; i < num_extensions && foundit == false; i++ ) {
-                    if( tmp.find(extensions[i].c_str()) != std::string::npos ) {
-                        found.push_back( path );
-                        foundit = true;
-                    }
-                }
-            }
-            closedir( root );
-        }
-        // Directories are added to tempstack in A->Z order, which makes them pop from Z->A.
-        // This Makes sure that directories are searched in the proper order and that
-        // the final output is in the proper order.
-        while( !tempstack.empty() ) {
-            directories.push( tempstack.top() );
-            tempstack.pop();
-        }
-    }
-    return found;
 }

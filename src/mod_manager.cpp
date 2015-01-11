@@ -91,7 +91,7 @@ bool mod_manager::has_mod(const std::string &ident) const
 
 void mod_manager::load_mods_from(std::string path)
 {
-    std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
+    auto const mod_files = get_files_from_path(MOD_SEARCH_FILE, path, true);
     for( auto &mod_file : mod_files ) {
         load_mod_info( mod_file );
     }
@@ -259,10 +259,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         size_t start_index = mod->path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true,
-                                               true);
-        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions,
-                                               mod->path, true);
+        auto input_files = get_files_from_path(".json", mod->path, true, true);
+        auto input_dirs  = get_directories_with(search_extensions, mod->path, true);
 
         if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
             // Self contained mod, all data is inside the modinfo.json file

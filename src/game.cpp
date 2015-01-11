@@ -4560,10 +4560,9 @@ static bool isForbidden(std::string candidate)
 void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    std::vector<std::string> file_paths;
     std::set<std::string> directory_paths;
 
-    file_paths = file_finder::get_files_from_path("", worldpath, true, true);
+    auto file_paths = get_files_from_path("", worldpath, true, true);
     if (!delete_folder) {
         std::vector<std::string>::iterator forbidden = find_if(file_paths.begin(), file_paths.end(),
                 isForbidden);
