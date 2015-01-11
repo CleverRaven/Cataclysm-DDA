@@ -163,11 +163,11 @@ bool name_contains(dirent const &entry, std::string const &match, bool const at_
 //--------------------------------------------------------------------------------------------------
 // Return every file at root_path matching predicate.
 //
-// If root_path is empty, seach the current working directory.
+// If root_path is empty, search the current working directory.
 // If recurse is true, search breadth-first into the directory hierarchy.
 //
-// Results are ordered depth-first with directories searched in lexigraphical order. Furthermore,
-// regular files at each level are also ordered lexigraphically by file name.
+// Results are ordered depth-first with directories searched in lexically order. Furthermore,
+// regular files at each level are also ordered lexically by file name.
 //
 // Files ending in ~ are excluded.
 //--------------------------------------------------------------------------------------------------
