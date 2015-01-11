@@ -417,7 +417,7 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = has_wrench && has_jack && has_wheel;
         break;
     case 'd': // drain tank
-        valid_target = veh->fuel_left("water") > 0;
+        valid_target = veh->fuel_left("water_clean") > 0;
         has_tools = has_siphon;
         break;
     case 'a': // relabel
@@ -753,10 +753,13 @@ void veh_interact::do_refill()
         unsigned int entry_num;
         uimenu fuel_choose;
         fuel_choose.text = _("What to refill:");
-        for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
-            fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
-                                 ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
-                                 vehicle_part_types[ptanks[entry_num]->id].name.c_str());
+        for( entry_num = 0; entry_num < ptanks.size(); entry_num++ ) {
+            const std::string fuel_type_name = vehicle_part_types[ptanks[entry_num]->id].fuel_type;
+            const std::string type_name = !fuel_type_name.empty() ? 
+                item::find_type( fuel_type_name )->nname(1) : _("Any liquid");
+            fuel_choose.addentry( entry_num, true, -1, "%s -> %s",
+                                  type_name.c_str(),
+                                  vehicle_part_types[ptanks[entry_num]->id].name.c_str() );
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
@@ -1177,9 +1180,11 @@ void veh_interact::move_cursor (int dx, int dy)
             if (veh->parts[p].hp < veh->part_info(p).durability) {
                 need_repair.push_back (i);
             }
-            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size) {
+            if( veh->part_flag(p, "FUEL_TANK") ) {
+                if( veh->capacity_left( p ) > 0 ) {
                 ptanks.push_back(&veh->parts[p]);
                 has_ptank = true;
+                }
             }
             if (veh->part_flag(p, "WHEEL")) {
                 wheel = &veh->parts[p];
@@ -1396,7 +1401,8 @@ void veh_interact::display_stats()
     for (int i = 0; i < num_fuel_types; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
-            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
+            item dummy( fuel_types[i], 0 );
+            fuel_name_length = std::max(fuel_name_length, utf8_width( dummy.type->nname(1).c_str() ) );
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1989,7 +1995,7 @@ void complete_vehicle ()
         }
         break;
     case 'd':
-        g->u.siphon( veh, "water" );
+        g->u.siphon( veh, "water_clean" );
         break;
     }
     g->u.invalidate_crafting_inventory();

@@ -5644,7 +5644,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( default_ammo(desired_liquid), calendar::turn );
+    item used_item( desired_liquid, calendar::turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {

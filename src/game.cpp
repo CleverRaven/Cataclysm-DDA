@@ -8027,7 +8027,10 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     bool in_container = false;
 
     std::string ftype = part_info.fuel_type;
-    itype_id itid = default_ammo(ftype);
+    if( ftype.empty() ) {
+        return false; // TODO: FIX!
+    }
+    itype_id itid = ftype;
     if (u.weapon.is_container() && !u.weapon.contents.empty() &&
         u.weapon.contents[0].type->id == itid) {
         it = &u.weapon;

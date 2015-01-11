@@ -307,6 +307,9 @@ private:
     //Refresh all caches and re-locate all parts
     void refresh();
 
+    // Update tanks to generic liquid tanks
+    void update_tanks();
+
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
@@ -509,6 +512,19 @@ public:
     // returns amount actually drained, does not engage reactor
     int drain (const ammotype & ftype, int amount);
 
+    // Charges in a tank
+    int tank_charges( int p );
+    // Drain charges from a specific tank. Returns charges actually drained
+    int tank_drain( int p, int charges );
+    // Adds charges to a tank. Should not be invoked on a tank filled with different ammotype.
+    // Returns number of charges actually added
+    int tank_fill( int p, const ammotype &ftype, int charges );
+    // How many charges of ftype will fit in this tank
+    int capacity_left( int p, const ammotype &ftype = "" );
+    // True if the tank can hold this type of item
+    bool can_hold_type( int p, const ammotype &ftype );
+    // Clear tank and fill it with charges of ftype. Tank has to be able to accept ftype
+    void tank_set_charges( int p, const ammotype &ftype, int charges );
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 
