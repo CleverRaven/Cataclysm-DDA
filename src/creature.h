@@ -39,18 +39,26 @@ class Creature
             return false;
         }
 
-        // Fake is used to mark non-real creatures used temporarally,
-        // such as fake NPCs that fire weapons to simulate turrets.
+        /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake () const;
+        /** Sets a Creature's fake boolean. */
         virtual void set_fake (const bool fake_value);
 
-        virtual void normalize(); // recreate the Creature from scratch
-        virtual void process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
-        virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
-        virtual void reset_bonuses(); // reset the value of all bonus fields to 0
-        virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
+        /** Recreates the Creature from scratch. */
+        virtual void normalize();
+        /** Processes effects and bonuses and allocates move points based on speed. */
+        virtual void process_turn();
+        /** Handles both reset steps. Should be called instead of each individual reset function generally. */
+        virtual void reset();
+        /** Resets the value of all bonus fields to 0. */
+        virtual void reset_bonuses();
+        /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
+        virtual void reset_stats();
+        
+        /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
+        /** Should always be overwritten by the appropriate player/NPC/monster version, return 0 just in case. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
 
@@ -70,11 +78,40 @@ class Creature
          */
         virtual Attitude attitude_to( const Creature &other ) const = 0;
 
-        // tests for visibility
-        bool sees(const Creature &critter, int range_min, int range_max, int &t) const;
-        bool sees(int cx, int cy, int range_min, int range_max, int &t) const;
+        /**
+         * The functions check whether this creature can see the target.
+         * The target may either be another creature (critter), or a specific point on the map.
+         *
+         * The bresenham_slope parameter is only set when the target is actually visible. Its
+         * value must be passed to @ref line_to to get a line from this creature to the target
+         * which will pass through transparent terrain only. Using a different value for line_to
+         * may result in a line that passes through opaque terrain.
+         *
+         * Different creatures types are supposed to only implement the two virtual functions.
+         * The other functions are here to give the callers more freedom, they simply forward
+         * to one of the virtual functions.
+         *
+         * The function that take another creature as input should check visibility of that creature
+         * (e.g. not digging, or otherwise invisible). They must than check whether the location of
+         * the other monster is visible.
+         */
+        /*@{*/
+        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        bool sees( const Creature &critter ) const;
+        bool sees( int cx, int cy, int &bresenham_slope ) const;
+        bool sees( int tx, int ty ) const;
+        virtual bool sees( point t, int &bresenham_slope ) const;
+        bool sees( point t ) const;
+        /*@}*/
 
-        // An approximation of creature's strength. Used by bots
+        /**
+         * How far the creature sees under the given light. Places outside this range can
+         * @param light_level See @ref game::light_level.
+         */
+        virtual int sight_range( int light_level ) const = 0;
+
+        /** Returns an approximation of the creature's strength. Should always be overwritten by
+         *  the appropriate player/NPC/monster function. */
         virtual float power_rating() const = 0;
         /**
          * For fake-players (turrets, mounted turrets) this functions
@@ -90,15 +127,16 @@ class Creature
          */
         Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0);
 
-        // makes a single melee attack, with the currently equipped weapon
+        /** Make a single melee attack with the currently equipped weapon against the targeted
+         *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
-                                  matec_id technique) = 0; // Returns a damage
+                                  matec_id technique) = 0;
 
-        // fires a projectile at target point from source point, with total_dispersion
-        // dispersion. returns the rolled dispersion of the shot.
+        /** Fires a projectile at the target point from the source point with total_dispersion
+         *  dispersion. Returns the rolled dispersion of the shot. */
         virtual double projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                          int targetx, int targety, double total_dispersion);
-        // overloaded version, assume it comes from this Creature's position
+        /** Overloaded version that assumes the projectile comes from this Creature's postion. */
         virtual double projectile_attack(const projectile &proj, int targetx, int targety,
                                          double total_dispersion);
 

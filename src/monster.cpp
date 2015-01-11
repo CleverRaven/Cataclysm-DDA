@@ -355,53 +355,17 @@ bool monster::digging() const
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
 
-int monster::vision_range(const int x, const int y) const
+int monster::sight_range( const int light_level ) const
 {
     if( !can_see() ) {
         return 0;
     }
 
-    int range = g->light_level();
-    // Set to max possible value if the target is lit brightly
-    if (g->m.light_at(x, y) >= LL_LOW)
-        range = DAYLIGHT_LEVEL;
-
-    if(has_flag(MF_VIS10)) {
-        range -= 50;
-    } else if(has_flag(MF_VIS20)) {
-        range -= 40;
-    } else if(has_flag(MF_VIS30)) {
-        range -= 30;
-    } else if(has_flag(MF_VIS40)) {
-        range -= 20;
-    } else if(has_flag(MF_VIS50)) {
-        range -= 10;
-    }
-    range = std::max(range, 1);
+    int range = ( light_level * type->vision_day ) + 
+                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    range /= DAYLIGHT_LEVEL;
 
     return range;
-}
-
-bool monster::sees(Creature *target, int &bresenham_slope) const
-{
-    player *foe = dynamic_cast< player* >( target );
-    if( foe != nullptr ) {
-        return sees_player( bresenham_slope, foe );
-    }
-    const int range = vision_range( target->xpos(), target->ypos() );
-    return g->m.sees( _posx, _posy, target->xpos(), target->ypos(), range, bresenham_slope );
-}
-
-bool monster::sees_player(int & bresenham_slope, player * p) const {
-    if ( p == NULL ) {
-        p = &g->u;
-    }
-    const int range = vision_range(p->posx, p->posy);
-    // * p->visibility() / 100;
-    return (
-        g->m.sees( _posx, _posy, p->posx, p->posy, range, bresenham_slope ) &&
-        p->is_invisible() == false
-    );
 }
 
 bool monster::made_of(std::string m) const
@@ -754,7 +718,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         add_effect("run", 4);
     }
 
-    bool u_see_me = g->u_see(this);
+    bool u_see_me = g->u.sees(*this);
 
     body_part bp_hit;
     //int highest_hit = 0;
@@ -885,11 +849,11 @@ void monster::hit_monster(monster &other)
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u_see(this))
+  if (g->u.sees(*this))
    add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
- if (g->u_see(this))
+ if (g->u.sees(*this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
@@ -908,7 +872,7 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
                                     const projectile& proj, dealt_damage_instance &dealt_dam) {
-    bool u_see_mon = g->u_see(this);
+    bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
         if (u_see_mon) {
@@ -998,7 +962,7 @@ void monster::die_in_explosion(Creature* source)
 
 bool monster::move_effects()
 {
-    bool u_see_me = g->u_see(this);
+    bool u_see_me = g->u.sees(*this);
     if (has_effect("tied")) {
         return false;
     }
@@ -1405,7 +1369,7 @@ void monster::die(Creature* nkiller) {
                 continue;
             }
             int t = 0;
-            if( g->m.sees( critter.posx(), critter.posy(), _posx, _posy, light, t ) ) {
+            if( g->m.sees( critter.pos(), pos(), light, t ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }
@@ -1460,7 +1424,7 @@ void monster::process_effects()
     //If this monster has the ability to heal in combat, do it now.
     if( has_flag( MF_REGENERATES_50 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
             }
             hp += 50;
@@ -1471,7 +1435,7 @@ void monster::process_effects()
     }
     if( has_flag( MF_REGENERATES_10 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
             }
             hp += 10;
@@ -1504,7 +1468,7 @@ void monster::process_effects()
 
     // If this critter dies in sunlight, check & assess damage.
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
-        if( g->u.sees( this ) ) {
+        if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
         hp -= 100;
@@ -1607,7 +1571,7 @@ void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) cons
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
@@ -1629,7 +1593,7 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
         processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());

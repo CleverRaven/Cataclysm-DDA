@@ -5771,6 +5771,7 @@ ff.......|....|WWWWWWWW|\n\
             spawn_item(16, 7, "2x4", rng(1, 20));
             spawn_item(12, 2, "nail");
             spawn_item(13, 2, "nail");
+            spawn_item(14, 2, "material_sand", rng(1, 10));
             place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works_entrance") {
                 rotate(1);

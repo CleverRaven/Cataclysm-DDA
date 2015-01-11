@@ -49,7 +49,6 @@
     "id" : "field",
     "items":[
       ["rock", 40],
-      { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 },
       ["months_old_newspaper", 1],
       ["weeks_old_newspaper", 2],
       ["newest_newspaper", 3]
@@ -1586,6 +1585,7 @@
       ["saline", 25],
       ["contacts", 10],
       ["vitamins", 75],
+      ["gummy_vitamins", 25],
       ["aspirin", 85],
       ["caffeine", 25],
       ["pills_sleep", 15],
@@ -5162,6 +5162,7 @@
       ["1st_aid", 35],
       ["saline", 10],
       ["vitamins", 75],
+      ["gummy_vitamins", 25],
       ["iodine", 5],
       ["dayquil", 70],
       ["screwdriver", 40],

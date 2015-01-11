@@ -93,9 +93,13 @@ class computer
         void add_option(std::string opt_name, computer_action action, int Security);
         void add_failure(computer_failure failure);
         // Basic usage
-        void shutdown_terminal(); // Shutdown (free w_terminal, etc)
+        /** Shutdown (free w_terminal, etc.) */
+        void shutdown_terminal();
+        /** Handles player use of a computer */
         void use();
-        bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+        /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
+         *  the main system security. */
+        bool hack_attempt(player *p, int Security = -1);
         // Save/load
         std::string save_data();
         void load_data(std::string data);

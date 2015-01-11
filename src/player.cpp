@@ -4533,7 +4533,7 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
-        if( !g->m.pl_sees( posx, posy, x, y, -1 ) ) {
+        if( !sees( x, y ) ) {
             continue;
         }
         const trap *tr = traplist[trid];
@@ -4744,7 +4744,7 @@ bool player::is_dead_state() const {
 }
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
-    bool u_see = g->u_see(this);
+    bool u_see = g->u.sees(*this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {
@@ -4828,7 +4828,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if(g->u_see(this->posx, this->posy)) {
+    if(g->u.sees( pos() )) {
         g->draw_hit_player(this, dam);
 
         if (dam > 0 && is_player() && source) {
@@ -6117,7 +6117,7 @@ void player::hardcoded_effects(effect &it)
                         if (g->m.move_cost(sporex, sporey) > 0) {
                             const int zid = g->mon_at(sporex, sporey);
                             if (zid >= 0) {  // Spores hit a monster
-                                if (g->u_see(sporex, sporey) &&
+                                if (g->u.sees(sporex, sporey) &&
                                       !g->zombie(zid).type->in_species("FUNGUS")) {
                                     add_msg(_("The %s is covered in tiny spores!"),
                                                g->zombie(zid).name().c_str());
@@ -6647,7 +6647,7 @@ void player::hardcoded_effects(effect &it)
                  add_msg(m_warning, _("You start scratching your %s!"),
                                           body_part_name_accusative(bp).c_str());
                  g->cancel_activity();
-            } else if (g->u_see(posx, posy)) {
+            } else if (g->u.sees( pos() )) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg(_("%1$s starts scratching their %2$s!"), name.c_str(),
                                    body_part_name_accusative(bp).c_str());
@@ -6703,7 +6703,7 @@ void player::hardcoded_effects(effect &it)
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
-                if (g->u_see(x, y)) {
+                if (g->u.sees(x, y)) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                 }
@@ -6786,7 +6786,7 @@ void player::hardcoded_effects(effect &it)
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
-                    if (g->u_see(x, y)) {
+                    if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                     }
@@ -7164,7 +7164,7 @@ void player::hardcoded_effects(effect &it)
                     delta += (2.0 + roll) / 2.0;
                 }
 
-                fatigue -= static_cast<int>(std::round(delta));
+                fatigue -= static_cast<int>(round(delta));
             }
 
             int heal_chance = get_healthy() / 4;
@@ -7857,31 +7857,27 @@ void player::suffer()
         g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
     }
 
-    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation > 0) {
-        if (radiation > 10) {
-            radiation -= 10;
-            healall(1);
-        } else {
-            if(x_in_y(radiation, 10)) {
-                healall(1);
-            }
-            radiation = 0;
+    if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+        // At 100 irradiation, twice as fast as REGEN
+        if( x_in_y( radiation, 100 ) ) {
+            healall( 1 );
+            radiation -= 5;
         }
     }
 
-    if (has_trait("RADIOACTIVE1")) {
-        if (g->m.get_radiation(posx, posy) < 10 && one_in(50)) {
-            g->m.adjust_radiation(posx, posy, 1);
-        }
+    int rad_mut = 0;
+    if (has_trait("RADIOACTIVE3") ) {
+        rad_mut = 3;
+    } else if (has_trait("RADIOACTIVE2")) {
+        rad_mut = 2;
+    } else if (has_trait("RADIOACTIVE1")) {
+        rad_mut = 1;
     }
-    if (has_trait("RADIOACTIVE2")) {
-        if (g->m.get_radiation(posx, posy) < 20 && one_in(25)) {
+    if( rad_mut > 0 ) {
+        if( g->m.get_radiation(posx, posy) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
             g->m.adjust_radiation(posx, posy, 1);
-        }
-    }
-    if (has_trait("RADIOACTIVE3")) {
-        if (g->m.get_radiation(posx, posy) < 30 && one_in(10)) {
-            g->m.adjust_radiation(posx, posy, 1);
+        } else if( one_in( 300 / rad_mut ) ) {
+            radiation++;
         }
     }
 
@@ -7909,12 +7905,16 @@ void player::suffer()
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
 
+        double rads;
         if ((power_armored && has_helmet) || worn_with_flag("RAD_PROOF")) {
-            radiation += 0; // Power armor protects completely from radiation
+            rads = 0; // Power armor protects completely from radiation
         } else if (power_armored || worn_with_flag("RAD_RESIST")) {
-            radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
+            rads = localRadiation / 100.0f + selfRadiation / 10.0f;
         } else {
-            radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
+            rads = localRadiation / 30.0f + selfRadiation / 3.0f;
+        }
+        if( rads > 0 && x_in_y( rads, 1 ) ) {
+            radiation++;
         }
 
         // Apply rads to any radiation badges.
@@ -7957,7 +7957,7 @@ void player::suffer()
         }
     }
 
-    if( radiation > 150 && !(int(calendar::turn) % 90) ) {
+    if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
         hurtall(radiation / 100);
     }
 
@@ -8768,6 +8768,13 @@ item player::reduce_charges( item *it, long quantity )
     item result( *it );
     result.charges = quantity;
     return result;
+}
+
+void player::i_rem_keep_contents( const int pos )
+{
+    for( auto &content : i_rem( pos ).contents ) {
+        i_add_or_drop( content );
+    }
 }
 
 item player::i_rem(int pos)
@@ -12094,19 +12101,19 @@ int player::warmth(body_part bp) const
 
     // If the player is not wielding anything big, check if hands can be put in pockets
     if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 && 
-        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
         ret += bestwarmth( worn, "POCKETS" );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
     if( bp == bp_head && encumb( bp_head ) < 1 &&
-        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
     if( bp == bp_mouth && encumb( bp_mouth ) < 1 &&
-        ( temp_conv[bp] <= BODYTEMP_COLD || temp_cur[bp] <= BODYTEMP_COLD ) ) {
+        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 
@@ -13221,7 +13228,7 @@ int player::getID () const
 bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
-    bool seen = g->u.sees( this );
+    bool seen = g->u.sees( *this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 75;
@@ -13515,19 +13522,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees(int x, int y) const
-{
-    int dummy = 0;
-    return sees(x, y, dummy);
-}
-
-bool player::sees(int x, int y, int &t) const
+bool player::sees( const point t, int &bresenham_slope ) const
 {
     static const std::string str_bio_night("bio_night");
-    int range_min = sight_range( g->light_level() );
-    int range_max = sight_range( DAYLIGHT_LEVEL );
-    const int wanted_range = rl_dist(posx, posy, x, y);
-    bool can_see = Creature::sees( x, y, range_min, range_max, t ); // creature::sees
+    const int wanted_range = rl_dist( pos(), t );
+    bool can_see = Creature::sees( t, bresenham_slope );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13541,32 +13540,21 @@ bool player::sees(int x, int y, int &t) const
     return can_see;
 }
 
-bool player::sees(const Creature *critter) const
+bool player::sees( const Creature &critter, int &bresenham_slope ) const
 {
-    int dummy = 0;
-    return sees(critter, dummy);
-}
-
-bool player::sees(const Creature *critter, int &t) const
-{
-    if( critter->is_hallucination() ) {
-        // hallucinations are always visible for the player, but never for anyone else.
-        return is_player();
-    }
-    const int cx = critter->xpos();
-    const int cy = critter->ypos();
-    int dist = rl_dist( pos(), critter->pos() );
+    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
+    const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
-    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
-        return false; // Can't see digging monsters until we're right next to them
+    if( critter.digging() && has_active_bionic( "bio_ground_sonar" ) ) {
+        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
+        // walls don't block sonar which is transmitted in the ground, not the air.
+        // TODO: this might need checks whether the player is in the air, or otherwise not connected
+        // to the ground. It also might need a range check.
+        return true;
     }
-    if (g->m.is_divable(cx, cy) && critter->is_underwater() && !is_underwater()) {
-        //Monster is in the water and submerged, and we're out of/above the water
-        return false;
-    }
-    return sees(cx, cy, t);
+    return Creature::sees( critter, bresenham_slope );
 }
 
 bool player::can_pickup(bool print_msg) const
@@ -13686,7 +13674,7 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( &critter ) && rl_dist( pos(), critter.pos() ) <= range;
+    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
@@ -13735,6 +13723,24 @@ void player::place_corpse()
     g->m.add_item_or_charges( posx, posy, body );
 }
 
+bool player::sees_with_infrared( const Creature &critter ) const
+{
+    const bool has_ir = has_active_bionic( "bio_infrared" ) ||
+                        has_trait( "INFRARED" ) ||
+                        has_trait( "LIZ_IR" ) ||
+                        worn_with_flag( "IR_EFFECT" );
+    if( !has_ir || !critter.is_warm() ) {
+        return false;
+    }
+    const auto range = sight_range( DAYLIGHT_LEVEL );
+    if( is_player() ) {
+        return g->m.pl_sees(critter.xpos(), critter.ypos(), range );
+    } else {
+        int bresenham_slope;
+        return g->m.sees(critter.xpos(), critter.ypos(), range, bresenham_slope );
+    }
+}
+
 std::vector<std::string> player::get_overlay_ids() const {
     std::vector<std::string> rval;
 
@@ -13773,7 +13779,7 @@ void player::spores()
                     mondex = g->mon_at(sporex, sporey);
                     if (g->m.move_cost(sporex, sporey) > 0) {
                         if (mondex != -1) { // Spores hit a monster
-                            if (g->u_see(sporex, sporey) &&
+                            if (g->u.sees(sporex, sporey) &&
                                 !g->zombie(mondex).type->in_species("FUNGUS")) {
                                 add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());

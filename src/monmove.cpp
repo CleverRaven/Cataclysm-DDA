@@ -88,8 +88,7 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    int sightrange = vision_range( c.xpos(), c.ypos() );
-    if( sightrange < 1 || !g->m.sees( posx(), posy(), c.xpos(), c.ypos(), sightrange, bresenham_slope ) ) {
+    if( !sees( c.pos(), bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
@@ -134,7 +133,7 @@ void monster::plan(const mfactions &factions)
     }
 
     // If we can see, and we can see the player, move toward them or flee.
-    if( friendly == 0 && can_see() && sees_player( bresenham_slope ) ) {
+    if( friendly == 0 && can_see() && sees( g->u, bresenham_slope ) ) {
         dist = rate_target( g->u, bresenham_slope, electronic );
         if( is_fleeing( g->u ) ) {
             // Wander away.
@@ -208,7 +207,7 @@ void monster::plan(const mfactions &factions)
     if( closest == -1 && friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-    } else if( closest == -1 && friendly < 0 && sees_player( bresenham_slope ) ) {
+    } else if( closest == -1 && friendly < 0 && sees( g->u, bresenham_slope ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest(g->u.posx, g->u.posy, bresenham_slope);
         } else {
@@ -789,12 +788,12 @@ int monster::move_to(int x, int y, bool force)
     bool was_water = g->m.is_divable(posx(), posy());
     bool will_be_water = g->m.is_divable(x, y);
 
-    if(was_water && !will_be_water && g->u_see(x, y)) {
+    if(was_water && !will_be_water && g->u.sees(x, y)) {
         //Use more dramatic messages for swimming monsters
         add_msg(m_warning, _("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
-    } else if(!was_water && will_be_water && g->u_see(x, y)) {
+    } else if(!was_water && will_be_water && g->u.sees(x, y)) {
         add_msg(m_warning, _("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
@@ -925,9 +924,9 @@ void monster::stumble(bool moved)
  // target == either end of current plan, or the player.
  int bresenham_slope;
  if (!plans.empty()) {
-  if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, bresenham_slope))
+  if (g->m.sees( pos(), plans.back(), -1, bresenham_slope))
    set_dest(plans.back().x, plans.back().y, bresenham_slope);
-  else if (sees_player( bresenham_slope ))
+  else if (sees( g->u, bresenham_slope ))
    set_dest(g->u.posx, g->u.posy, bresenham_slope);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();
@@ -952,7 +951,7 @@ void monster::knock_back_from(int x, int y)
  if (y > posy())
   to.y--;
 
- bool u_see = g->u_see(to.x, to.y);
+ bool u_see = g->u.sees( to );
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
