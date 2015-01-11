@@ -177,7 +177,7 @@ class game
         /** Creates a list of coordinates at which to draw footsteps. */
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
-        std::vector<monster *> footsteps_source;
+        std::vector<point> footsteps_source;
         /** Calculates where footstep marker should appear and puts those points into the result.
          *  It also clears @ref footsteps_source and @ref footsteps. */
         void calculate_footstep_markers(std::vector<point> &result);
