@@ -177,7 +177,7 @@ You can also set the tracking information at the same time as creating the branc
         To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         xxxx..xxxx  new_feature -> new_feature
 
-#### PR Title Tags
+#### PR Tags
 If you file a PR but you're still working on it, please add a [WIP] at the end of the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
 
 If you are also looking for suggestions then mark it with [CR] - (comments requested).
