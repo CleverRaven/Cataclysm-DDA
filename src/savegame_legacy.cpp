@@ -14,14 +14,6 @@
 #include "trap.h"
 #include "mapdata.h"
 #include "translations.h"
-#include <map>
-#include <set>
-#include <algorithm>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <math.h>
-#include <vector>
 #include "debug.h"
 #include "weather.h"
 #include "monstergenerator.h"
@@ -38,12 +30,24 @@
 #include "vehicle.h"
 #include "filesystem.h"
 
-#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
-
-//
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+
+#if !defined(_MSC_VER)
+#include <unistd.h>
+#endif
+
+#include <map>
+#include <set>
+#include <algorithm>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <math.h>
+#include <vector>
+
+#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
 /*
  * Properly reuse a stringstream object for line by line parsing
  */

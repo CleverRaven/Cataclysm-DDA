@@ -88,6 +88,15 @@ inline size_t sizeof_array(T const (&)[N]) noexcept {
 }
 
 //--------------------------------------------------------------------------------------------------
+void log_file_error(int const e, char con) {
+    auto const e_str = strerror(e);
+
+    DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error [" << e
+        << " " << path;
+    return;
+}
+
+//--------------------------------------------------------------------------------------------------
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
 template <typename Function>
@@ -101,9 +110,9 @@ void for_each_dir_entry(std::string const &path, Function function)
 
     dir_ptr root {opendir(path.c_str()), closedir};
     if (!root) {
-        auto const e = errno;
-        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error " << e
-            << " couldn't open file " << path.c_str();
+        auto const e_str = strerror(errno);
+        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) <<
+            "Warning: [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
     
@@ -125,9 +134,9 @@ bool is_directory(dirent const &entry)
 
     struct stat result;
     if (stat(entry.d_name, &result) != 0) {
-        auto const e = errno;
-        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error " << e
-            << " couldn't call stat on file";
+        auto const e_str = strerror(errno);
+        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) <<
+            "Warning: stat failed with \"" << e_str << "\".";
         return false;
     }
 
