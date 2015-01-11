@@ -2456,11 +2456,13 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     // Find non-hardcoded fuel types, add them after the hardcoded
     for( int p : fuel ) {
         const ammotype ft = part_info( p ).fuel_type;
-        if( ft.empty() && !parts[p].items.empty() ) {
-            // Handle generic liquids separately
-            fuels.push_back( parts[p].items.front().typeId() );
-        } else if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
-            fuels.push_back( ft );
+        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
+            if( ft.empty() && !parts[p].items.empty() ) {
+                // Handle generic liquids separately
+                fuels.push_back( parts[p].items.front().typeId() );
+            } else {
+                fuels.push_back( ft );
+            }
         }
     }
 
@@ -5648,9 +5650,8 @@ void vehicle_part::properties_from_item( const item &used_item )
         if( desired_liquid.empty() || liquid.type->id == desired_liquid ) {
             int mul = liquid.type->ammo.get() == nullptr ? 1 : liquid.type->ammo->def_charges;
             int amount = std::min<int>( liquid.charges, vpinfo.size * mul );
-            item liq( liquid.typeId(), calendar::turn );
-            liq.charges = amount;
-            items.push_front( liq );
+            liquid.charges = amount;
+            items.push_front( liquid );
         }
     }
 }

@@ -8026,8 +8026,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 {
     (void)test; // TODO: remove unused variable
     
-    if( part < 0 || part > (int)veh.parts.size() || !veh.part_info( part ).has_flag("FUEL_TANK") ) {
-    debugmsg("bad");
+    if( !veh.part_info( part ).has_flag("FUEL_TANK") ) {
         return false;
     }
     vpart_info part_info = veh.part_info( part );
@@ -8068,6 +8067,11 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 
     if( p_itm == nullptr || p_itm->is_null() ) {
         debugmsg( "game::refill_vehicle_part picked invalid item" );
+        return false;
+    }
+    if( p_itm->typeId() != ftype && 
+        ( ftype.empty() || !p_itm->made_of( LIQUID ) ) ) {
+        return false;
     }
 
     int fuel_per_charge = 1; //default for gasoline
