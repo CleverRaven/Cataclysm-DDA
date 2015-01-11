@@ -14374,7 +14374,7 @@ void game::nuke(int x, int y)
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            tmpmap.adjust_radiation(i, j, rng(20, 80));
+            tmpmap.adjust_radiation(i, j, rng(40, 160));
         }
     }
     tmpmap.save();
