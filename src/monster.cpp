@@ -1253,9 +1253,7 @@ void monster::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }

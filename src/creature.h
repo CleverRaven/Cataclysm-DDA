@@ -436,6 +436,7 @@ class Creature
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
+        void set_killer( Creature *killer );
 
         // Storing body_part as an int to make things easier for hash and JSON
         std::unordered_map<std::string, std::unordered_map<body_part, effect, std::hash<int>>> effects;

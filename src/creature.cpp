@@ -993,6 +993,15 @@ Creature *Creature::get_killer() const
     return killer;
 }
 
+void Creature::set_killer( Creature * const killer )
+{
+    // Only the first killer will be stored, calling set_killer again with a different
+    // killer would mean it's called on a dead creature and therefor ignored.
+    if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
+        this->killer = killer;
+    }
+}
+
 /*
  * Innate stats getters
  */
