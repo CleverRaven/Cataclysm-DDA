@@ -1,7 +1,9 @@
 #include "file_finder.h"
-#include <cstring>  // for strcmp
-#include <stack>    // for stack (obviously)
-#include <queue>
+
+#include <cstring>
+#include <string>
+#include <vector>
+#include <deque>
 #include <algorithm>
 #include <memory>
 
@@ -16,36 +18,19 @@
 
 namespace {
 
-using dir_ptr = std::unique_ptr<DIR, decltype(&closedir)>;
-
-
-} //anonymous namespace
-
-/**
-    Searches the supplied root directory for the extension provided. Can recursively search
-    downward through the directory tree to get all files. It will then return a vector of
-    file paths that fulfill the search requirements.
-    USAGE:
-    Extension should be preceded by the '.' character to denote it as an extension,
-    if it is not then it will return all files and folder names that contain the extension string.
-    root_path can point to any folder relative to the execution directory.
-        Searching from the execution directory -- Supply "." as the root_path
-        Searching from the parent directory of the execution directory -- Supply ".." as the root_path
-        Searching child directories within the execution directory --
-            Supply "<directory path>" or "./<directory path>", both will provide correct results.
-    recursive_search will:
-        if true, continue searching all child directories from the supplied root_path
-        if false, search only the supplied root_path, and stop when the directory contents
-        have been worked through.
-*/
-
 //--------------------------------------------------------------------------------------------------
-//
+// For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
 template <typename Function>
 void for_each_dir_entry(std::string const &path, Function function)
 {
-    dir_ptr root {opendir(!path.empty() ? path.c_str() : "."), closedir};
+    using dir_ptr = std::unique_ptr<DIR, decltype(&closedir)>;
+
+    if (path.empty()) {
+        return;
+    }
+
+    dir_ptr root {opendir(path.c_str()), closedir};
     if (!root) {
         auto const e = errno;
         return;
@@ -61,7 +46,7 @@ void for_each_dir_entry(std::string const &path, Function function)
 }
 
 //--------------------------------------------------------------------------------------------------
-//
+// Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
 bool is_directory(dirent const &entry)
 {
@@ -81,7 +66,7 @@ bool is_directory(dirent const &entry)
 }
 
 //--------------------------------------------------------------------------------------------------
-//
+// Returns true if the name of entry matches "." or "..".
 //--------------------------------------------------------------------------------------------------
 bool is_special_dir(dirent const &entry)
 {
@@ -90,22 +75,33 @@ bool is_special_dir(dirent const &entry)
 }
 
 //--------------------------------------------------------------------------------------------------
-//
+// If at_end is true, returns whether entry's name ends in match.
+// Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool matches_extension(dirent const &entry, std::string const &extension,
-    bool const match_extension)
+bool name_contains(dirent const &entry, std::string const &match, bool const at_end)
 {
     auto const len_fname = entry.d_namlen;
-    auto const len_ext   = extension.length();
+    auto const len_match = match.length();
 
-    if (len_ext > len_fname) {
+    if (len_match > len_fname) {
         return false;
     }
 
-    auto const start = entry.d_name + (match_extension ? len_fname - len_ext : 0);
-    return strstr(start, extension.c_str()) != 0;
+    auto const offset = at_end ? (len_fname - len_match) : 0;
+    return strstr(entry.d_name + offset, match.c_str()) != 0;
 }
 
+//--------------------------------------------------------------------------------------------------
+// Return every file at root_path matching predicate.
+//
+// If root_path is empty, seach the current working directory.
+// If recurse is true, search breadth-first into the directory hierarchy.
+//
+// Results are ordered depth-first with directories searched in lexigraphical order. Furthermore,
+// regular files at each level are also ordered lexigraphically by file name.
+//
+// Files ending in ~ are excluded.
+//--------------------------------------------------------------------------------------------------
 template <typename Predicate>
 std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool const recurse,
     Predicate predicate)
@@ -153,37 +149,39 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
     return results;
 }
 
+} //anonymous namespace
+
 //--------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------
-std::vector<std::string> get_files_from_path(std::string const &extension,
+std::vector<std::string> get_files_from_path(std::string const &pattern,
     std::string const &root_path, bool const recurse, bool const match_extension)
 {
     return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
-        return matches_extension(entry, extension, match_extension);
+        return name_contains(entry, pattern, match_extension);
     });
 }
 
 //--------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------
-
-std::vector<std::string> get_directories_with(std::vector<std::string> const &extensions,
+std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
     std::string const &root_path, bool const recurse)
 {
-    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
-        for (auto const &ext : extensions) {
-            if (matches_extension(entry, ext, true)) {
-                return true;
-            }
-        }
+    if (patterns.empty()) {
+        return std::vector<std::string>();
+    }
 
-        return false;
+    auto const ext_beg = std::begin(patterns);
+    auto const ext_end = std::end(patterns);
+
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
+        return std::any_of(ext_beg, ext_end, [&](std::string const& ext) {
+            return name_contains(entry, ext, true);
+        });
     });
 
     for (auto &file : files) {
         file.erase(file.rfind('/'), std::string::npos);
     }
+
+    files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
 
     return files;
 }
