@@ -5,19 +5,19 @@
 #include "output.h"
 #include "game.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <errno.h>
 
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <unistd.h>
-#include <dirent.h>
-#endif
+//#ifdef _MSC_VER
+//#include "wdirent.h"
+//#include <direct.h>
+//#else
+//#include <unistd.h>
+//#include <dirent.h>
+//#endif
 
 static const std::string default_context_id("default");
 

@@ -22,9 +22,6 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include "debug.h"
 #include "weather.h"
 #include "monstergenerator.h"
@@ -39,7 +36,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "vehicle.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
 #define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
 

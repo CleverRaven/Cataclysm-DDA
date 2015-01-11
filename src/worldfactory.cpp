@@ -1,8 +1,7 @@
 #include "worldfactory.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "char_validity_check.h"
 #include "mod_manager.h"
-#include "file_wrapper.h"
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
@@ -11,15 +10,6 @@
 #include "name.h"
 
 #include <fstream>
-
-// FILE I/O
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif // _MSC_VER
 
 #define WORLD_OPTION_FILE "worldoptions.txt"
 #define SAVE_MASTER "master.gsav"

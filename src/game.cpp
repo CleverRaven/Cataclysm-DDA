@@ -30,8 +30,7 @@
 #include "monstergenerator.h"
 #include "monattack.h"
 #include "worldfactory.h"
-#include "file_finder.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "mapbuffer.h"
@@ -40,6 +39,8 @@
 #include "pickup.h"
 #include "weather_gen.h"
 #include "start_location.h"
+#include "debug.h"
+#include "catalua.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -49,6 +50,10 @@
 #include <cmath>
 #include <vector>
 #include <locale>
+#include <cassert>
+
+//TODO replace these includes with filesystem.h
+#include <sys/stat.h>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -57,11 +62,6 @@
 #include <unistd.h>
 #include <dirent.h>
 #endif
-
-#include <sys/stat.h>
-#include "debug.h"
-#include "catalua.h"
-#include <cassert>
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX

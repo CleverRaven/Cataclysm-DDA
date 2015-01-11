@@ -10,12 +10,13 @@
 #include "get_version.h"
 #include "help.h"
 #include "worldfactory.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
 
 #include <fstream>
 
+//TODO replace these with filesystem.h
 #include <sys/stat.h>
 #ifdef _MSC_VER
 #include "wdirent.h"

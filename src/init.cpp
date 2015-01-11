@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
 // can load from json
 #include "effect.h"

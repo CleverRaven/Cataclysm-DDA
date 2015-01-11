@@ -3,11 +3,10 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "file_wrapper.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"

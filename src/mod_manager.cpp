@@ -1,8 +1,7 @@
 #include "mod_manager.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "debug.h"
 #include "output.h"
-#include "file_wrapper.h"
 #include "worldfactory.h"
 #include "path_info.h"
 
@@ -10,16 +9,9 @@
 #include <queue>
 #include <iostream>
 #include <fstream>
-// FILE I/O
+
 #include "json.h"
 #include <fstream>
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif
 
 #define MOD_SEARCH_FILE "modinfo.json"
 

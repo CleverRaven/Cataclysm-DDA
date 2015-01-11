@@ -1,5 +1,4 @@
 #if (defined SDLTILES)
-#include <algorithm>
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
@@ -7,6 +6,9 @@
 #include "monstergenerator.h"
 #include "item.h"
 #include "veh_type.h"
+#include "filesystem.h"
+
+#include <algorithm>
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
