@@ -7164,7 +7164,7 @@ void player::hardcoded_effects(effect &it)
                     delta += (2.0 + roll) / 2.0;
                 }
 
-                fatigue -= static_cast<int>(std::round(delta));
+                fatigue -= static_cast<int>(round(delta));
             }
 
             int heal_chance = get_healthy() / 4;
@@ -7857,31 +7857,27 @@ void player::suffer()
         g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
     }
 
-    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation > 0) {
-        if (radiation > 10) {
-            radiation -= 10;
-            healall(1);
-        } else {
-            if(x_in_y(radiation, 10)) {
-                healall(1);
-            }
-            radiation = 0;
+    if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+        // At 100 irradiation, twice as fast as REGEN
+        if( x_in_y( radiation, 100 ) ) {
+            healall( 1 );
+            radiation -= 5;
         }
     }
 
-    if (has_trait("RADIOACTIVE1")) {
-        if (g->m.get_radiation(posx, posy) < 10 && one_in(50)) {
-            g->m.adjust_radiation(posx, posy, 1);
-        }
+    int rad_mut = 0;
+    if (has_trait("RADIOACTIVE3") ) {
+        rad_mut = 3;
+    } else if (has_trait("RADIOACTIVE2")) {
+        rad_mut = 2;
+    } else if (has_trait("RADIOACTIVE1")) {
+        rad_mut = 1;
     }
-    if (has_trait("RADIOACTIVE2")) {
-        if (g->m.get_radiation(posx, posy) < 20 && one_in(25)) {
+    if( rad_mut > 0 ) {
+        if( g->m.get_radiation(posx, posy) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
             g->m.adjust_radiation(posx, posy, 1);
-        }
-    }
-    if (has_trait("RADIOACTIVE3")) {
-        if (g->m.get_radiation(posx, posy) < 30 && one_in(10)) {
-            g->m.adjust_radiation(posx, posy, 1);
+        } else if( one_in( 300 / rad_mut ) ) {
+            radiation++;
         }
     }
 
@@ -7909,12 +7905,16 @@ void player::suffer()
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
 
+        double rads;
         if ((power_armored && has_helmet) || worn_with_flag("RAD_PROOF")) {
-            radiation += 0; // Power armor protects completely from radiation
+            rads = 0; // Power armor protects completely from radiation
         } else if (power_armored || worn_with_flag("RAD_RESIST")) {
-            radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
+            rads = localRadiation / 100.0f + selfRadiation / 10.0f;
         } else {
-            radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);
+            rads = localRadiation / 30.0f + selfRadiation / 3.0f;
+        }
+        if( rads > 0 && x_in_y( rads, 1 ) ) {
+            radiation++;
         }
 
         // Apply rads to any radiation badges.
@@ -7961,7 +7961,7 @@ void player::suffer()
         }
     }
 
-    if( radiation > 150 && !(int(calendar::turn) % 90) ) {
+    if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
         hurtall(radiation / 100);
     }
 
@@ -8772,6 +8772,13 @@ item player::reduce_charges( item *it, long quantity )
     item result( *it );
     result.charges = quantity;
     return result;
+}
+
+void player::i_rem_keep_contents( const int pos )
+{
+    for( auto &content : i_rem( pos ).contents ) {
+        i_add_or_drop( content );
+    }
 }
 
 item player::i_rem(int pos)

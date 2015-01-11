@@ -177,7 +177,26 @@ You can also set the tracking information at the same time as creating the branc
         To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         xxxx..xxxx  new_feature -> new_feature
 
+#### PR Tags
+If you file a PR but you're still working on it, please add a [WIP] at the end of the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
 
+If you are also looking for suggestions then mark it with [CR] - (comments requested).
+
+This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+
+One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
+close
+closes
+closed
+fix
+fixes
+fixed
+resolve
+resolves
+resolved
+And ??? is the number. This automatically closes the issue when the PR is pulled in, and allows mergers to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
+        
+        
 ## Frequently Asked Questions
 
 ####Why does `git pull --ff-only` result in an error?

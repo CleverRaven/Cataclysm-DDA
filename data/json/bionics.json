@@ -220,7 +220,7 @@
         "act_cost": 5,
         "react_cost": 5,
         "time": 1,
-        "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark, and even through walls."
+        "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark."
     },{
         "type": "bionic",
         "id": "bio_face_mask",

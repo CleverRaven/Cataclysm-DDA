@@ -875,6 +875,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return A copy of the removed item.
          */
         item i_rem(int pos);
+        void i_rem_keep_contents( int pos );
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.

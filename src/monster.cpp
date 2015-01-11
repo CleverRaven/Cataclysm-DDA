@@ -360,19 +360,12 @@ int monster::sight_range( const int light_level ) const
     if( !can_see() ) {
         return 0;
     }
-    int range = light_level;
-    if(has_flag(MF_VIS10)) {
-        range -= 50;
-    } else if(has_flag(MF_VIS20)) {
-        range -= 40;
-    } else if(has_flag(MF_VIS30)) {
-        range -= 30;
-    } else if(has_flag(MF_VIS40)) {
-        range -= 20;
-    } else if(has_flag(MF_VIS50)) {
-        range -= 10;
-    }
-    return std::max( range, 1 );
+
+    int range = ( light_level * type->vision_day ) + 
+                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    range /= DAYLIGHT_LEVEL;
+
+    return range;
 }
 
 bool monster::made_of(std::string m) const
