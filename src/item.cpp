@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <set>
+#include <array>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -31,14 +32,13 @@ std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
     
-    constexpr int size = 6;
-    static pair_t const values[size] = {
-        pair_t {  0, _("green") },
-        pair_t { 30, _("blue")  },
-        pair_t { 60, _("yellow")},
-        pair_t {120, _("orange")},
-        pair_t {240, _("red")   },
-        pair_t {500, _("black") },
+    static std::array<pair_t, 6> const values = {
+        pair_t {  0, "green" },
+        pair_t { 30, "blue"  },
+        pair_t { 60, "yellow"},
+        pair_t {120, "orange"},
+        pair_t {240, "red"   },
+        pair_t {500, "black" },
     };
 
     for (auto const &i : values) {
@@ -47,7 +47,7 @@ std::string const& rad_badge_color(int const rad)
         }
     }
 
-    return values[size - 1].second;
+    return values.back().second;
 }
 
 light_emission nolight = {0, 0, 0};
