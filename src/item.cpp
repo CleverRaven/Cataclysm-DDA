@@ -32,14 +32,14 @@ std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
     
-    static std::array<pair_t, 6> const values = {
+    static std::array<pair_t, 6> const values = {{
         pair_t {  0, "green" },
         pair_t { 30, "blue"  },
         pair_t { 60, "yellow"},
         pair_t {120, "orange"},
         pair_t {240, "red"   },
         pair_t {500, "black" },
-    };
+    }};
 
     for (auto const &i : values) {
         if (rad <= i.first) {
