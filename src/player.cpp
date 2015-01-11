@@ -7918,6 +7918,9 @@ void player::suffer()
         }
 
         // Apply rads to any radiation badges.
+        auto const rad_delta_min = 0;
+        auto const rad_delta_max = localRadiation / 16;
+
         for (item *const it : inv_dump()) {
             if (it->type->id != "rad_badge") {
                 continue;
@@ -7926,7 +7929,13 @@ void player::suffer()
             // Actual irradiation levels of badges and the player aren't precisely matched.
             // This is intentional.
             int const before = it->irridation;
-            it->irridation += rng(0, localRadiation / 16);
+
+            auto const delta = rng(rad_delta_min, rad_delta_max);
+            if (delta == 0) {
+                continue;
+            }
+
+            it->irridation += static_cast<int>(delta);
 
             // If in inventory (not worn), don't print anything.
             if (inv.has_item(it)) {
@@ -7936,7 +7945,7 @@ void player::suffer()
             // If the color hasn't changed, don't print anything.
             auto const &col_before = rad_badge_color(before);
             auto const &col_after  = rad_badge_color(it->irridation);
-            if (before == it->irridation || col_before == col_after) {
+            if (col_before == col_after) {
                 continue;
             }
 
