@@ -156,7 +156,7 @@ class veh_interact
         std::vector<int> parts_here;
 
         /* Refers to the fuel tanks (if any) in the currently selected square. */
-        std::vector<vehicle_part *> ptanks;
+        std::vector<int> ptanks;
 
         /* Refers to the wheel (if any) in the currently selected square. */
         struct vehicle_part *wheel;

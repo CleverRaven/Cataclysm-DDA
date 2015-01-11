@@ -378,10 +378,8 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'f': // refill mode
         if (!ptanks.empty()) {
-            std::vector<vehicle_part *>::iterator iter;
-            for (iter = ptanks.begin(); iter != ptanks.end(); ) {
-                if ((*iter)->hp > 0 &&
-                    g->refill_vehicle_part(*veh, *iter, true)) {
+            for( auto iter = ptanks.begin(); iter != ptanks.end(); ) {
+                if( veh->parts[*iter].hp > 0 ) {
                     pass_checks = true;
                     iter++;
                 } else {
@@ -749,27 +747,27 @@ void veh_interact::do_refill()
     // Now at least one of "fuel tank" is can be refilled.
     // If we have more that one tank we need to create choosing menu
     if (ptanks.size() > 1) {
-        unsigned int pt_choise;
+        unsigned int pt_choice;
         unsigned int entry_num;
         uimenu fuel_choose;
         fuel_choose.text = _("What to refill:");
         for( entry_num = 0; entry_num < ptanks.size(); entry_num++ ) {
-            const std::string fuel_type_name = vehicle_part_types[ptanks[entry_num]->id].fuel_type;
+            const std::string fuel_type_name = veh->part_info( ptanks[entry_num] ).fuel_type;
             const std::string type_name = !fuel_type_name.empty() ? 
                 item::find_type( fuel_type_name )->nname(1) : _("Any liquid");
             fuel_choose.addentry( entry_num, true, -1, "%s -> %s",
                                   type_name.c_str(),
-                                  vehicle_part_types[ptanks[entry_num]->id].name.c_str() );
+                                  veh->part_info( ptanks[entry_num] ).name.c_str() );
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
-        pt_choise = fuel_choose.ret;
-        if(pt_choise == entry_num) { // Select canceled
+        pt_choice = fuel_choose.ret;
+        if(pt_choice == entry_num) { // Select canceled
             return;
         }
-        sel_vehicle_part = ptanks[pt_choise];
+        sel_vehicle_part = &veh->parts[ptanks[pt_choice]];
     } else {
-        sel_vehicle_part = ptanks.front();
+        sel_vehicle_part = &veh->parts[ptanks.front()];
     }
     sel_cmd = 'f';
 }
@@ -1182,8 +1180,8 @@ void veh_interact::move_cursor (int dx, int dy)
             }
             if( veh->part_flag(p, "FUEL_TANK") ) {
                 if( veh->capacity_left( p ) > 0 ) {
-                ptanks.push_back(&veh->parts[p]);
-                has_ptank = true;
+                    ptanks.push_back( p );
+                    has_ptank = true;
                 }
             }
             if (veh->part_flag(p, "WHEEL")) {
@@ -1802,9 +1800,6 @@ void complete_vehicle ()
         g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
     case 'f':
-        if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
-            debugmsg ("complete_vehicle refill broken");
-        }
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
@@ -1817,11 +1812,10 @@ void complete_vehicle ()
             }
         }
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
-        }
-        while( !veh->get_items(vehicle_part).empty() ) {
-            veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
+        if( veh->part_flag( vehicle_part, "CARGO" ) ) { // Liquid tanks handled elsewhere
+            for( auto &elem : veh->get_items(vehicle_part) ) {
+                g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+            }
         }
 
         // Power cables must remove parts from the target vehicle, too.
@@ -1840,6 +1834,11 @@ void complete_vehicle ()
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
+        // Needs to be this late to handle tank removal
+        while( !veh->get_items(vehicle_part).empty() ) {
+            veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
+        }
+
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
             g->u.activity.type = ACT_NULL;

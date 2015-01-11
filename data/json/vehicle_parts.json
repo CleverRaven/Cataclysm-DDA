@@ -2902,7 +2902,7 @@
         "durability" : 580,
         "size" : 10000,
         "epower" : 149200,
-        "fuel_type" : "plutonium",
+        "fuel_type" : "plut_cell",
         "item" : "minireactor",
         "difficulty" : 7,
         "location" : "fuel_source",
@@ -6727,6 +6727,27 @@
             {"item": "motor_small", "min": 1, "max": 3},
             {"item": "steel_chunk", "min": 1, "max": 3},
             {"item": "e_scrap", "min": 1, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "generic_tank",
+        "name" : "liquid tank",
+        "symbol" : "O",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 225,
+        "fuel_type" : "",
+        "item" : "metal_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     }
 ]
