@@ -1,4 +1,5 @@
 #include "filesystem.h"
+#include "debug.h"
 
 #include <cstring>
 #include <string>
@@ -81,6 +82,12 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
 
 namespace {
 
+//TODO move elsewhere.
+template <typename T, size_t N>
+inline size_t sizeof_array(T const (&)[N]) noexcept {
+    return N;
+}
+
 //--------------------------------------------------------------------------------------------------
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
@@ -96,6 +103,7 @@ void for_each_dir_entry(std::string const &path, Function function)
     dir_ptr root {opendir(path.c_str()), closedir};
     if (!root) {
         auto const e = errno;
+        debugmsg("Warning: error %d couldn't open file %s", e, path.c_str());
         return;
     }
     
@@ -122,6 +130,7 @@ bool is_directory(dirent const &entry)
     struct stat result;
     if (stat(entry.d_name, &result) != 0) {
         auto const e = errno;
+        debugmsg("Warning: error %d couldn't call stat on file", e);
         return false;
     }
 
@@ -143,7 +152,7 @@ bool is_special_dir(dirent const &entry)
 //--------------------------------------------------------------------------------------------------
 bool name_contains(dirent const &entry, std::string const &match, bool const at_end)
 {
-    auto const len_fname = entry.d_namlen;
+    auto const len_fname = strnlen(entry.d_name, sizeof_array(entry.d_name));
     auto const len_match = match.length();
 
     if (len_match > len_fname) {
