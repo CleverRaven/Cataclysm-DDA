@@ -9,11 +9,13 @@
 
 // FILE I/O
 #include <sys/stat.h>
+
 #ifdef _MSC_VER
 #include "wdirent.h"
 #include <direct.h>
 #else
 #include <dirent.h>
+#include <unistd.h>
 #endif
 
 namespace {
