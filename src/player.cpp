@@ -7915,10 +7915,10 @@ void player::suffer()
         }
         if( rads > 0 ) {
             int rads_trunc = static_cast<int>( rads );
-            radiation += rads_trunc;
             if( x_in_y( rads - rads_trunc, 1 ) ) {
-                radiation++;
+                rads_trunc++;
             }
+            radiation += rng( 0, rads_trunc );
         }
 
         // Apply rads to any radiation badges.
