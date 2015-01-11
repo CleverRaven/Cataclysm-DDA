@@ -10,8 +10,6 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#include <stdio.h>
-
 #ifdef _MSC_VER
 #include "wdirent.h"
 #include <direct.h>

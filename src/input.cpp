@@ -11,14 +11,6 @@
 #include <stdexcept>
 #include <errno.h>
 
-//#ifdef _MSC_VER
-//#include "wdirent.h"
-//#include <direct.h>
-//#else
-//#include <unistd.h>
-//#include <dirent.h>
-//#endif
-
 static const std::string default_context_id("default");
 
 template <class T1, class T2>
@@ -138,11 +130,7 @@ void input_manager::init()
     // Finally if we did import a file, and saved it to the new keybindings
     // file, delete the old keymap file to prevent re-importing it.
     if (!keymap_file_loaded_from.empty()) {
-#if (defined _WIN32 || defined __WIN32__)
-        DeleteFile(keymap_file_loaded_from.c_str());
-#else
-        unlink(keymap_file_loaded_from.c_str());
-#endif
+        remove_file(keymap_file_loaded_from);
     }
 }
 
