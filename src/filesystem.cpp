@@ -108,10 +108,6 @@ void for_each_dir_entry(std::string const &path, Function function)
     }
     
     while (auto const entry = readdir(root.get())) {
-        if (!entry) {
-            return;
-        }
-    
         function(*entry);
     }
 }
@@ -227,7 +223,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
 std::vector<std::string> get_files_from_path(std::string const &pattern,
     std::string const &root_path, bool const recurse, bool const match_extension)
 {
-    return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
+    return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return name_contains(entry, pattern, match_extension);
     });
 }
@@ -243,7 +239,7 @@ std::vector<std::string> get_directories_with(std::vector<std::string> const &pa
     auto const ext_beg = std::begin(patterns);
     auto const ext_end = std::end(patterns);
 
-    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool const is_dir) {
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return std::any_of(ext_beg, ext_end, [&](std::string const& ext) {
             return name_contains(entry, ext, true);
         });
