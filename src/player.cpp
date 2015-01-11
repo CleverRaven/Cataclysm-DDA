@@ -8770,6 +8770,13 @@ item player::reduce_charges( item *it, long quantity )
     return result;
 }
 
+void player::i_rem_keep_contents( const int pos )
+{
+    for( auto &content : i_rem( pos ).contents ) {
+        i_add_or_drop( content );
+    }
+}
+
 item player::i_rem(int pos)
 {
  item tmp;
