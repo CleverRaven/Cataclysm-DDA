@@ -30,18 +30,6 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::store(JsonOut &jsout) const
-{
-    Creature::store( jsout );
-    // Add members of this class here:
-}
-
-void Character::load(JsonObject &jsin)
-{
-    Creature::load( jsin );
-    // Add members of this class here:
-}
-
 bool Character::move_effects()
 {
     if (has_effect("downed")) {
