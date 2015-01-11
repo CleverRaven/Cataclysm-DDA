@@ -10,6 +10,7 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <stdio.h>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -103,7 +104,8 @@ void for_each_dir_entry(std::string const &path, Function function)
     dir_ptr root {opendir(path.c_str()), closedir};
     if (!root) {
         auto const e = errno;
-        debugmsg("Warning: error %d couldn't open file %s", e, path.c_str());
+        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error " << e
+            << " couldn't open file " << path.c_str();
         return;
     }
     
@@ -126,7 +128,8 @@ bool is_directory(dirent const &entry)
     struct stat result;
     if (stat(entry.d_name, &result) != 0) {
         auto const e = errno;
-        debugmsg("Warning: error %d couldn't call stat on file", e);
+        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) << "Warning: error " << e
+            << " couldn't call stat on file";
         return false;
     }
 
