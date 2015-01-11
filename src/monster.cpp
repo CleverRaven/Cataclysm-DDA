@@ -1447,7 +1447,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
-        hp -= 100;
+        apply_damage( nullptr, bp_torso, 100 );
         if( hp < 0 ) {
             hp = 0;
         }

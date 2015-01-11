@@ -3913,8 +3913,8 @@ bool mattack::thrown_by_judo(monster *z, int index)
             // Monster is down,
             z->add_effect("downed", 2);
             // Here, have a crit!
-            z->hp -= (foe->roll_bash_damage(true));
-            z->hp -= 3; // Bonus for the takedown.
+            const auto damage = foe->roll_bash_damage( true ) + 3; // Bonus for the takedown.
+            z->apply_damage( foe, bp_torso, damage );
         } else {
             // Still avoids the major hit!
             foe->add_msg_if_player(_("but you deftly spin out of its grasp!"));
