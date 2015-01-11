@@ -1564,7 +1564,7 @@ void item::on_wield( player &p  )
     }
 }
 
-void item::on_pickup( player &p  )
+void item::on_pickup( Character &p  )
 {
     const auto art = dynamic_cast<const it_artifact_tool*>( type );
     // TODO: artifacts currently only work with the player character

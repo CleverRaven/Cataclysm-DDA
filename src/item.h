@@ -14,6 +14,7 @@
 #include "bodypart.h"
 
 class game;
+class Character;
 class player;
 class npc;
 struct itype;
@@ -556,7 +557,7 @@ public:
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( player &p );
+        void on_pickup( Character &p );
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in

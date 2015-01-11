@@ -1933,11 +1933,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::vector<std::string> player::get_traits() const
+std::vector<std::string> Character::get_traits() const
 {
     return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
-void player::empty_traits()
+void Character::empty_traits()
 {
     for( auto &traits_iter : traits ) {
         if( has_trait( traits_iter.first ) ) {
@@ -1952,7 +1952,7 @@ void player::empty_skills()
         level.level(0);
     }
 }
-void player::add_traits()
+void Character::add_traits()
 {
     for( auto &traits_iter : traits ) {
         if( g->scen->locked_traits( traits_iter.first ) ) {
