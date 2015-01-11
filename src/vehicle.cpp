@@ -17,7 +17,6 @@
 #include "ui.h"
 #include "debug.h"
 #include "helper.h"
-#include "item_factory.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -2480,7 +2479,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
         if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
             std::string fuel_name;
             if( !f.empty() ) {
-                itype *fuel_type = item_controller->find_template( f );
+                itype *fuel_type = item::find_type( f );
                 fuel_name = fuel_type->nname( 1 );
             } else {
                 fuel_name = _("Any liquid");
@@ -2675,24 +2674,36 @@ void vehicle::center_of_mass(int &x, int &y)
     y = int(yf + 0.5);
 }
 
+const std::string vehicle::tank_stored_type( int p ) const
+{
+    if( parts[p].items.empty() ) {
+        return "";
+    }
+    return parts[p].items.front().typeId();
+}
+
+// Returns stored liquid or a null item
+item &vehicle::tank_stored_liquid( int p ) const
+{
+    if( parts[p].items.empty() ) {
+        return item();
+    }
+    return parts[p].items.front();
+}
+
 bool vehicle::can_hold_type( int p, const ammotype &ftype )
 {
     const vehicle_part &tank = parts[p];
     const vpart_info &tank_info = part_info( p );
     return tank_info.fuel_type == ftype ||
-        ( tank_info.fuel_type.empty() &&
+        ( tank_info.is_generic_tank() &&
             ( tank.items.empty() ||
               tank.items.front().typeId() == ftype ) );
 }
 
 int vehicle::tank_charges( int p )
 {
-    const vehicle_part &tank = parts[p];
-    if( !tank.items.empty() ) {
-        return tank.items.front().charges;
-    } else {
-        return 0;
-    }
+    return tank_stored_liquid( p ).charges;
 }
 
 int vehicle::capacity_left( int p, const ammotype &ftype )
@@ -2700,20 +2711,20 @@ int vehicle::capacity_left( int p, const ammotype &ftype )
     const vehicle_part &tank = parts[p];
     const vpart_info &tank_info = part_info( p );
     if( ftype.empty() ) {
-        int occ = tank.items.empty() ? 0 : tank.items.front().volume();
+        int occ = tank_stored_liquid.volume();
         return tank_info.size - occ;
     }
     // Incompatible fuel types
-    if( ( !tank_info.fuel_type.empty() && tank_info.fuel_type != ftype ) ||
-        ( !tank.items.empty() && tank.items.front().typeId() != ftype ) ) {
+    if( ( !tank_info.is_generic_tank() && tank_info.fuel_type != ftype ) ||
+        ( !tank.items.empty() && tank_stored_type( p ) != ftype ) ) {
         return 0;
     }
-    const itype *type = item_controller->find_template( ftype );
+    const itype *type = item::find_type( ftype );
     const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     if( tank.items.empty() ) {
         return tank_info.size * mul;
     }
-    return ( tank_info.size - tank.items.front().volume() ) * mul;
+    return ( tank_info.size - tank_stored_liquid( p ).volume() ) * mul;
 }
 
 void vehicle::tank_set_charges( int p, const ammotype &ftype, int charges )
@@ -2737,12 +2748,13 @@ int vehicle::tank_drain( int p, int charges )
 {
     vehicle_part &tank = parts[p];
     if( !tank.items.empty() ) {
-        if( tank.items.front().charges > charges ) {
-            tank.items.front().charges -= charges;
+        auto &liquid = tank.items.front();
+        if( liquid.charges > charges ) {
+            liquid.charges -= charges;
             return charges;
         }
 
-        charges = tank.items.front().charges;
+        charges = liquid.charges;
         tank.items.pop_front();
         return charges;
     }
@@ -2768,13 +2780,14 @@ int vehicle::tank_fill( int p, const ammotype &ftype, int charges )
         tank.items.push_front( fuel );
         return fuel.charges;
     } else {
-        ammotype fuel_id = tank.items.front().typeId();
+        ammotype fuel_id = tank_stored_type( p );
         if( fuel_id != ftype ) {
             debugmsg( "vehicle::tank_fill tried to mix %s with %s", fuel_id.c_str(), ftype.c_str() );
             return INT_MIN;
         }
-        tank.items.front().charges = std::min( charges, capacity_left( p, ftype ) );
-        return charges - tank.items.front().charges;
+        auto &liquid = tank.items.front();
+        liquid.charges = std::min( charges, capacity_left( p, ftype ) );
+        return charges - liquid.charges;
     }
 }
 
@@ -2783,7 +2796,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     int fl = 0;
     for(auto &p : fuel) {
         if( can_hold_type( p, ftype ) && !parts[p].items.empty() ) {
-            fl += parts[p].items.front().charges;
+            fl += tank_stored_liquid( p ).charges;
         }
     }
 
@@ -2830,7 +2843,7 @@ int vehicle::fuel_capacity (const ammotype & ftype)
 
 int vehicle::refill (const ammotype & ftype, int amount)
 {
-    const itype *type = item_controller->find_template( ftype );
+    const itype *type = item::find_type( ftype );
     const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     for (size_t p = 0; p < parts.size(); p++)
     {

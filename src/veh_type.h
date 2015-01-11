@@ -100,6 +100,11 @@ struct vpart_info {
     {
         return (bitflags & mfb(flag));
     }
+    // Returns false if the tank can only accept one type of content
+    bool is_generic_tank() const
+    {
+        return !fuel_type.empty();
+    }
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;

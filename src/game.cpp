@@ -25,7 +25,6 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "init.h"
-#include "item_factory.h"
 #include "help.h"
 #include "action.h"
 #include "monstergenerator.h"
@@ -8030,7 +8029,6 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
         return false;
     }
     vpart_info part_info = veh.part_info( part );
-    bool in_container = false;
 
     std::string ftype = part_info.fuel_type;
     auto part_items = veh.get_items( part );
@@ -8066,13 +8064,8 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
         p_itm = it;
     } else {
         p_itm = &it->contents.front();
-        in_container = true;
     }
 
-    if( p_itm == nullptr || p_itm->is_null() ) {
-        debugmsg( "game::refill_vehicle_part picked invalid item" );
-        return false;
-    }
     if( p_itm->typeId() != ftype && 
         ( ftype.empty() || !p_itm->made_of( LIQUID ) ) ) {
         return false;
@@ -8098,7 +8091,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
             add_msg(m_good, _("The battery is fully charged."));
         }
     } else {
-        const auto &ftype_itype = item_controller->find_template( ftype );
+        const auto &ftype_itype = item::find_type( ftype );
         add_msg(_("You fill %s's %s with %d units of %s."), 
             veh.name.c_str(), veh.part_info( part ).name.c_str(), 
             used_charges, ftype_itype->nname( 1 ).c_str() );
@@ -8111,13 +8104,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
         ( used_charges % fuel_per_charge > 0 ? 1 : 0 );
     p_itm->charges -= used_charges;
     if( p_itm->charges <= 0 ) {
-        if( in_container ) {
-            it->contents.erase( it->contents.begin() );
-        } else if( &u.weapon == it ) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item( u.get_item_position(it) );
-        }
+        u.i_rem( p_itm );
     }
     return true;
 }
