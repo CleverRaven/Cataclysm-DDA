@@ -7164,7 +7164,7 @@ void player::hardcoded_effects(effect &it)
                     delta += (2.0 + roll) / 2.0;
                 }
 
-                fatigue -= static_cast<int>(std::round(delta));
+                fatigue -= static_cast<int>(round(delta));
             }
 
             int heal_chance = get_healthy() / 4;
