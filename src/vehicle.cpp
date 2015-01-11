@@ -2732,6 +2732,7 @@ void vehicle::tank_set_charges( int p, const ammotype &ftype, int charges )
     }
 }
 
+// Returns charges actually drained
 int vehicle::tank_drain( int p, int charges )
 {
     vehicle_part &tank = parts[p];
@@ -2741,7 +2742,7 @@ int vehicle::tank_drain( int p, int charges )
             return charges;
         }
 
-        charges -= tank.items.front().charges;
+        charges = tank.items.front().charges;
         tank.items.pop_front();
         return charges;
     }
@@ -2829,7 +2830,6 @@ int vehicle::fuel_capacity (const ammotype & ftype)
 
 int vehicle::refill (const ammotype & ftype, int amount)
 {
-debugmsg("%s, %d",ftype.c_str(),amount);
     const itype *type = item_controller->find_template( ftype );
     const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     for (size_t p = 0; p < parts.size(); p++)
@@ -2845,17 +2845,14 @@ debugmsg("%s, %d",ftype.c_str(),amount);
             int need = ( part_info(p).size - has ) * mul;
             int to_add = need > amount ? amount : need;
             if( parts[p].items.empty() ) {
-debugmsg("adding new %d of %s to part %d",amount,ftype.c_str(),p);
                 item cont( ftype, 0 );
                 cont.charges = to_add;
                 parts[p].items.push_front( cont );
             } else {
-debugmsg("adding %d of %s to part %d",amount,ftype.c_str(),p);
                 parts[p].items.front().charges += to_add;
             }
             amount -= to_add;
             if( amount == 0 ) {
-debugmsg("zero, toadd:%d",to_add);
                 return 0;
             }
         }
@@ -5650,8 +5647,8 @@ void vehicle_part::properties_from_item( const item &used_item )
         if( desired_liquid.empty() || liquid.type->id == desired_liquid ) {
             int mul = liquid.type->ammo.get() == nullptr ? 1 : liquid.type->ammo->def_charges;
             int amount = std::min<int>( liquid.charges, vpinfo.size * mul );
-            liquid.charges = amount;
             items.push_front( liquid );
+            items.front().charges = amount;
         }
     }
 }

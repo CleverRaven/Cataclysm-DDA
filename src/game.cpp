@@ -8033,9 +8033,13 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
     bool in_container = false;
 
     std::string ftype = part_info.fuel_type;
+    auto part_items = veh.get_items( part );
+    if( ftype.empty() && !part_items.empty() ) {
+        ftype = part_items.front().typeId();
+    }
     indexed_invslice reduced_inv;
     if( ftype.empty() ) {
-        reduced_inv = u.inv.slice_filter_by( []( const item &itm ) {
+        reduced_inv = u.inv.slice_filter_by( [ ftype ]( const item &itm ) {
                 return !itm.contents.empty() &&
                        itm.contents.front().made_of( LIQUID );
             } );

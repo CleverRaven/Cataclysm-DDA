@@ -753,8 +753,15 @@ void veh_interact::do_refill()
         fuel_choose.text = _("What to refill:");
         for( entry_num = 0; entry_num < ptanks.size(); entry_num++ ) {
             const std::string fuel_type_name = veh->part_info( ptanks[entry_num] ).fuel_type;
-            const std::string type_name = !fuel_type_name.empty() ? 
-                item::find_type( fuel_type_name )->nname(1) : _("Any liquid");
+            std::string type_name;
+            if( !fuel_type_name.empty() ) {
+                type_name = item::find_type( fuel_type_name )->nname(1);
+            } else {
+                auto part_items = veh->get_items( entry_num );
+                type_name = !part_items.empty() ?
+                    part_items.front().type->nname(1) :
+                    _("Any liquid");
+            }
             fuel_choose.addentry( entry_num, true, -1, "%s -> %s",
                                   type_name.c_str(),
                                   veh->part_info( ptanks[entry_num] ).name.c_str() );
@@ -1399,8 +1406,7 @@ void veh_interact::display_stats()
     for (int i = 0; i < num_fuel_types; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
-            item dummy( fuel_types[i], 0 );
-            fuel_name_length = std::max(fuel_name_length, utf8_width( dummy.type->nname(1).c_str() ) );
+            fuel_name_length = std::max(fuel_name_length, utf8_width( item::nname( fuel_types[i] ).c_str() ) );
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
