@@ -27,6 +27,29 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
+std::string const& rad_badge_color(int const rad)
+{
+    using pair_t = std::pair<int const, std::string const>;
+    
+    constexpr int size = 6;
+    static pair_t const values[size] = {
+        pair_t {  0, _("green") },
+        pair_t { 30, _("blue")  },
+        pair_t { 60, _("yellow")},
+        pair_t {120, _("orange")},
+        pair_t {240, _("red")   },
+        pair_t {500, _("black") },
+    };
+
+    for (auto const &i : values) {
+        if (rad <= i.first) {
+            return i.second;
+        }
+    }
+
+    return values[size - 1].second;
+}
+
 light_emission nolight = {0, 0, 0};
 
 // Returns the default item type, used for the null item (default constructed),
@@ -1246,15 +1269,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 _("This piece of clothing is very fancy.")));
         }
         if (is_armor() && type->id == "rad_badge") {
-            size_t i;
-            for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
-                if( irridation < rad_dosage_thresholds[i] ) {
-                    break;
-                }
-            }
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              _(rad_threshold_colors[i - 1].c_str()))));
+                              _(rad_badge_color(irridation).c_str()))));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
