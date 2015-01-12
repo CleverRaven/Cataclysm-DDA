@@ -2432,9 +2432,8 @@ void mattack::taze( monster *z, Creature *target )
         foe->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
                                             _("The %s shocks <npcname>!"),
                                             z->name().c_str() );
-        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
+        if( foe != &g->u && foe->is_dead_state() ) {
             foe->die( z );                
-            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
         }
     } else if( target->is_monster() ) {
         // From iuse::tazer, but simplified
@@ -3554,9 +3553,8 @@ void mattack::bite(monster *z, int index)
                 foe->add_effect( "bite", 1, hit, true );
             }
         }
-        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
+        if( foe != &g->u && foe->is_dead_state() ) {
             foe->die( z );                
-            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
         }
     } else if( foe != nullptr ) {
         if( seen ) {

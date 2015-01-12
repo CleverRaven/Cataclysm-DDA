@@ -5778,9 +5778,8 @@ int iuse::tazer(player *p, item *it, bool, point)
         int shock = rng(5, 20);
         foe->moves -= shock * 100;
         foe->hurtall(shock);
-        if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
+        if( foe->is_dead_state() ) {
             foe->die( p );
-            g->active_npc.erase(g->active_npc.begin() + npcdex);
         }
     }
     return it->type->charges_to_use();
@@ -5874,9 +5873,8 @@ int iuse::tazer2(player *p, item *it, bool, point)
             foe->moves -= shock * 100;
             foe->hurtall(shock);
 
-            if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
+            if( foe->is_dead_state() ) {
                 foe->die( p );
-                g->active_npc.erase(g->active_npc.begin() + npcdex);
             }
         }
 
