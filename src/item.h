@@ -21,11 +21,7 @@ struct islot_armor;
 class material_type;
 class item_category;
 
-// Thresholds for radiation dosage for the radiation film badge.
-const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
-                                             _("orange"), _("red"), _("black")
-                                           };
+std::string const& rad_badge_color(int rad);
 
 struct light_emission {
     unsigned short luminance;

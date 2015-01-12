@@ -5475,7 +5475,7 @@ void game::calculate_footstep_markers(std::vector<point> &result)
 {
     result.reserve(footsteps.size());
     for (size_t i = 0; i < footsteps.size(); i++) {
-        if (!u.sees( footsteps_source[i]->pos() )) {
+        if( !u.sees( footsteps_source[i] ) ) {
             std::vector<point> unseen_points;
             for( auto &elem : footsteps[i] ) {
                 if( !u.sees( elem ) ) {
@@ -6765,7 +6765,7 @@ void game::add_footstep(int x, int y, int volume, int distance, monster *source)
         }
     }
     footsteps.push_back(point_vector);
-    footsteps_source.push_back(source);
+    footsteps_source.push_back(source->pos());
 }
 
 void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)

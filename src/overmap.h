@@ -239,12 +239,10 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 };
 
 struct map_layer {
- oter_id terrain[OMAPX][OMAPY];
- bool visible[OMAPX][OMAPY];
- bool explored[OMAPX][OMAPY];
- std::vector<om_note> notes;
-
- map_layer() : terrain(), visible(), explored(), notes() {}
+    oter_id terrain[OMAPX][OMAPY];
+    bool visible[OMAPX][OMAPY];
+    bool explored[OMAPX][OMAPY];
+    std::vector<om_note> notes;
 };
 
 struct node

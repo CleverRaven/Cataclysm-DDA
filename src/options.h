@@ -84,6 +84,8 @@ class cOpt
 
         //Set default class behaviour to float
         operator float() const;
+        // return integer via int
+        explicit operator int() const;
         //allow (explicit) boolean conversions
         explicit operator bool() const;
         // if (class == "string")
