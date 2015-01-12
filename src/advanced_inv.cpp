@@ -1835,9 +1835,3 @@ void advanced_inv_area::set_container_position()
         veh = nullptr;
     }
 }
-
-void game::advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
-}
