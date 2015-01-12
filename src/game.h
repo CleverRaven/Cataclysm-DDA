@@ -191,9 +191,7 @@ class game
         void vertical_move(int z, bool force);
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer(int x, int y);
-        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
-        bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
-        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
+        /** Attempts to refill part 'part' of veh. Prompts for item to use for refilling. Returns true if successful. */
         bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
         /** Triggers a resonance cascade at (x, y). */
         void resonance_cascade(int x, int y);

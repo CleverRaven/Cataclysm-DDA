@@ -527,8 +527,8 @@ public:
     void tank_set_charges( int p, const ammotype &ftype, int charges );
     // Returns stored liquid typeId or ""
     const std::string tank_stored_type( int p ) const;
-    // Returns reference to stored liquid or to a null item
-    item &tank_stored_liquid( int p ) const;
+    // Returns pointer to stored liquid or null
+    item *tank_stored_liquid( int p );
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 

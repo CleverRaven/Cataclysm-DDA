@@ -8015,12 +8015,6 @@ bool game::vehicle_near()
     return false;
 }
 
-bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part_ptr, bool test)
-{
-(void)veh;(void)part_ptr;(void)test;
-    return false;// TODO: remove function
-}
-
 bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 {
     (void)test; // TODO: remove unused variable
@@ -8067,8 +8061,11 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
     }
 
     if( p_itm->typeId() != ftype && 
-        ( ftype.empty() || !p_itm->made_of( LIQUID ) ) ) {
+        ( ftype.empty() && !p_itm->made_of( LIQUID ) ) ) {
         return false;
+    }
+    if( ftype.empty() ) {
+        ftype = p_itm->typeId();
     }
 
     int fuel_per_charge = 1; //default for gasoline

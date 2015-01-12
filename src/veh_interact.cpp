@@ -1806,7 +1806,9 @@ void complete_vehicle ()
         g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
     case 'f':
-        g->pl_refill_vehicle(*veh, vehicle_part);
+        if( !g->pl_refill_vehicle(*veh, vehicle_part) ) {
+            debugmsg("refill failed");
+        }
         break;
     case 'o':
         // Only parts that use charges

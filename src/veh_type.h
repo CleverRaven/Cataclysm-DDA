@@ -103,7 +103,7 @@ struct vpart_info {
     // Returns false if the tank can only accept one type of content
     bool is_generic_tank() const
     {
-        return !fuel_type.empty();
+        return fuel_type.empty();
     }
 };
 
