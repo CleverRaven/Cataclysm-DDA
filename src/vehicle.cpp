@@ -4057,11 +4057,13 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!is_body_collision) {
         if (pl_ctrl) {
             if (snd.length() > 0) {
-                add_msg (m_warning, _("Your %s's %s rams into a %s with a %s"), name.c_str(),
-                            part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s with a %4$s"),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
             } else {
-                add_msg (m_warning, _("Your %s's %s rams into a %s."), name.c_str(),
-                            part_info(part).name.c_str(), obs_name.c_str());
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s."),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str());
             }
         } else if (snd.length() > 0) {
             add_msg (m_warning, _("You hear a %s"), snd.c_str());
@@ -4075,9 +4077,15 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             dname = ph->name;
         }
         if (pl_ctrl) {
-            add_msg (m_warning, _("Your %s's %s rams into %s%s!"),
-                        name.c_str(), part_info(part).name.c_str(), dname.c_str(),
-                        turns_stunned > 0 && z? _(" and stuns it") : "");
+            if (turns_stunned > 0 && z) {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
+                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+            } else {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
+                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+            }
         }
 
         if (part_flag(part, "SHARP")) {
