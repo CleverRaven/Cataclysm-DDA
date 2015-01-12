@@ -1709,14 +1709,14 @@ void mattack::plant(monster *z, int index)
             add_msg(_("The %s falls to the ground and bursts!"),
                     z->name().c_str());
         }
-        z->hp = 0;
+        z->set_hp( 0 );
     }
 }
 
 void mattack::disappear(monster *z, int index)
 {
     (void)index; //unused
-    z->hp = 0;
+    z->set_hp( 0 );
 }
 
 void mattack::formblob(monster *z, int index)
@@ -1742,8 +1742,8 @@ void mattack::formblob(monster *z, int index)
                         // But only if they are hurt badly.
                         if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
                             didit = true;
-                            othermon.hp += z->get_speed_base();
-                            z->hp = 0;
+                            othermon.heal( z->get_speed_base() );
+                            z->set_hp( 0 );
                             return;
                         }
                         continue;
@@ -1763,7 +1763,7 @@ void mattack::formblob(monster *z, int index)
                     didit = true;
                     othermon.poly(GetMType("mon_blob"));
                     othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
-                    othermon.hp = othermon.get_speed_base();
+                    othermon.set_hp( othermon.get_speed_base() );
                 }
             } else if (z->get_speed_base() >= 85 && rng(0, 250) < z->get_speed_base()) {
                 // If we're big enough, spawn a baby blob.
@@ -1772,7 +1772,7 @@ void mattack::formblob(monster *z, int index)
                 monster blob(GetMType("mon_blob_small"));
                 blob.spawn(z->posx() + i, z->posy() + j);
                 blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
-                blob.hp = blob.get_speed_base();
+                blob.set_hp( blob.get_speed_base() );
                 blob.faction = z->faction;
                 g->add_zombie(blob);
             }
@@ -3392,7 +3392,7 @@ void mattack::generator(monster *z, int index)
     (void)index; //unused
     sounds::sound(z->posx(), z->posy(), 100, "");
     if (int(calendar::turn) % 10 == 0 && z->get_hp() < z->get_hp_max()) {
-        z->hp++;
+        z->heal( 1 );
     }
 }
 

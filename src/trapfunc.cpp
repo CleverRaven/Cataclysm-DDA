@@ -559,11 +559,11 @@ void trapfunc::goo(Creature *c, int x, int y)
         } else if (z != NULL) {
             if (z->type->id == "mon_blob") {
                 z->set_speed_base( z->get_speed_base() + 15 );
-                z->hp = z->get_speed();
+                z->set_hp( z->get_speed() );
             } else {
                 z->poly(GetMType("mon_blob"));
                 z->set_speed_base( z->get_speed_base() - 15 );
-                z->hp = z->get_speed();
+                z->set_hp( z->get_speed() );
             }
         }
     }

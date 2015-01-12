@@ -922,6 +922,16 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
+void monster::heal( const int delta_hp )
+{
+    hp += delta_hp;
+}
+
+void monster::set_hp( const int hp )
+{
+    this->hp = hp;
+}
+
 void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
     if( dead ) {
         return;

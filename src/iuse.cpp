@@ -5155,7 +5155,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
         critter.poly(GetMType("mon_blob"));
 
         critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
-        critter.hp = critter.get_speed();
+        critter.set_hp( critter.get_speed() );
     } else {
         if (g->u.sees(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -5281,7 +5281,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                             auto &critter = g->zombie( mon_hit );
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
-                            critter.hp *= rng_float(1.1, 2.0);
+                            critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5315,7 +5315,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                             auto &critter = g->zombie( mon_hit );
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
-                            critter.hp = rng(1, critter.hp);
+                            critter.set_hp( rng( 1, critter.get_hp() ) );
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5347,7 +5347,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                         if (mon_hit != -1) {
                             auto &critter = g->zombie( mon_hit );
                             critter.set_speed_base( critter.type->speed );
-                            critter.hp = critter.type->hp;
+                            critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);

@@ -373,7 +373,7 @@ void mdeath::blobsplit(monster *z)
             add_msg(m_bad, _("Two small blobs slither out of the corpse."), z->name().c_str());
         }
     }
-    blob.hp = speed;
+    blob.set_hp( speed );
     std::vector <point> valid;
 
     for (int i = -1; i <= 1; i++) {
