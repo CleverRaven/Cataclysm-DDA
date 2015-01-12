@@ -425,109 +425,258 @@ void mattack::smash(monster *z, int index)
                        z->type->melee_sides * z->type->melee_dice * 3 );
 }
 
-void mattack::science(monster *z, int index) // I said SCIENCE again!
+//--------------------------------------------------------------------------------------------------
+// TODO: move elsewhere
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Find empty spaces around origin within a radius of N.
+ *
+ * @returns a pair with first  = array<point, area>; area = (2*N + 1)^2.
+ *                      second = the number of empty spaces found.
+ */
+template <size_t N = 1>
+std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
+find_empty_neighbors(point const origin) {
+    constexpr auto r = static_cast<int>(N);
+
+    auto const x_min = origin.x - r;
+    auto const x_max = origin.x + r;
+    auto const y_min = origin.y - r;
+    auto const y_max = origin.y + r;
+
+    std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t> result;
+
+    for (auto x = x_min; x <= x_max; ++x) {
+        for (auto y = y_min; y <= y_max; ++y) {
+            if (g->is_empty(x, y)) {
+                result.first[result.second++] = point {x, y};
+            }
+        }
+    }
+
+    return result;
+}
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Find empty spaces around a creature within a radius of N.
+ *
+ * @see find_empty_neighbors
+ */
+ template <size_t N = 1>
+std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
+find_empty_neighbors(Creature const &c) {
+    return find_empty_neighbors<N>(c.pos());
+}
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
+  */
+size_t get_random_index(size_t const size) {
+    return static_cast<size_t>(rng(0, static_cast<long>(size - 1)));
+}
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Get a size_t value in the closed interval [0, c.size()]; a convenience to avoid messy casting.
+ */
+template <typename Container>
+size_t get_random_index(Container const &c) {
+    return get_random_index(c.size());
+}
+
+void mattack::science(monster *const z, int const index) // I said SCIENCE again!
 {
-    int dist;
-    Creature *target = z->attack_target();
-    if( target == nullptr || 
-        ( dist = rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) ) > 5 || 
-        !z->sees( *target ) ) {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constants and Configuration
+
+    // attack types
+    enum : int {
+        att_shock,
+        att_radiation,
+        att_manhack,
+        att_acid_pool,
+        att_flavor,
+        att_enum_size
+    };
+
+    // max distance that "science" can be applied to the target.
+    constexpr auto max_distance = 5;
+
+    // attack movement costs
+    constexpr int att_cost_shock   = 0;
+    constexpr int att_cost_rad     = 400;
+    constexpr int att_cost_manhack = 200;
+    constexpr int att_cost_acid    = 100;
+    constexpr int att_cost_flavor  = 80;
+    
+    // radiation attack behaviour
+    constexpr int att_rad_dodge_diff    = 16; // how hard it is to dodge
+    constexpr int att_rad_mutate_chance = 6;  // inverse chance to cause mutation.
+    constexpr int att_rad_dose_min      = 20; // min radiation
+    constexpr int att_rad_dose_max      = 50; // max radiation
+
+    // acid attack behaviour
+    constexpr int att_acid_density = 3;
+
+    // message strings
+    using cstr_t = char const* const;
+    static cstr_t m_rad_seen      = _("The %s opens its mouth and a beam shoots towards %s!");
+    static cstr_t m_rad_dodge_u   = _("You dodge the beam!");
+    static cstr_t m_rad_dodge_npc = _("<npcname> dodges the beam!");
+    static cstr_t m_rad_irradiate = _("You get pins and needles all over.");
+    static cstr_t m_manhack_seen  = _("The %s opens its coat, and a manhack flies out!");
+    static cstr_t m_acid_seen     = _("The %s drops a flask of acid!");
+
+    // flavor messages
+    static std::array<char const*, 4> const m_flavor = {{
+        _("The %s gesticulates wildly!"),
+        _("The %s coughs up a strange dust."),
+        _("The %s moans softly."),
+        _("The %s's skin crackles with electricity."), //special case; leave this last
+    }};
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Look for a valid target...
+    Creature *const target = z->attack_target();
+    if (!target) {
         return;
     }
 
-    z->reset_special(index); // Reset timer
-    std::vector<point> free;
-    for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
-        for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-            if (g->is_empty(x, y)) {
-                free.push_back(point(x, y));
-            }
-        }
+    // too far
+    auto const dist = rl_dist(z->pos(), target->pos());
+    if (dist > max_distance) {
+        return;
     }
-    player *foe = dynamic_cast< player* >( target );
-    auto msg_type = foe == &g->u ? m_bad : m_neutral;
-    std::vector<int> valid;// List of available attacks
-    int free_index;
-    bool seen = g->u.sees( *z );
-    monster tmp(GetMType("mon_manhack"));
-    if( dist == 1 ) {
-        valid.push_back(1);    // Shock
+
+    // can't attack what you can't see
+    if (!z->sees(*target)) {
+        return;
     }
-    // mutate() doesn't like non-players right now
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ok, we have a valid target; populate valid attack options...
+    std::array<int, att_enum_size> valid_attacks;
+    size_t valid_attack_count = 0;
+
+    // can only shock if adjacent
+    if (dist == 1) {
+        valid_attacks[valid_attack_count++] = att_shock;
+    }
+
+    // TODO: mutate() doesn't like non-players right now
     // It will mutate NPCs, but it will say it mutated the player
-    if( foe == &g->u && dist <= 2 ) {
-        valid.push_back(2);    // Radiation
+    player *const foe = dynamic_cast<player*>(target);
+    if ((foe == &g->u) && dist <= 2) {
+        valid_attacks[valid_attack_count++] = att_radiation;
     }
-    if( !free.empty() ) {
-        valid.push_back(3); // Manhack
-        valid.push_back(4); // Acid pool
+
+    // need an open space for these attacks
+    auto const empty_neighbors = find_empty_neighbors(*z);
+    size_t const empty_neighbor_count = empty_neighbors.second;
+
+    if (empty_neighbor_count) {
+        valid_attacks[valid_attack_count++] = att_manhack;
+        valid_attacks[valid_attack_count++] = att_acid_pool;
     }
-    valid.push_back(5); // Flavor text
-    switch (valid[rng(0, valid.size() - 1)]) { // What kind of attack?
-    case 1: // Shock the target
-        // Just reuse the taze - it's a bit different (shocks torso vs all), but let's go for consistency here
-        taze( z, target );
+
+    // flavor is always ok
+    valid_attacks[valid_attack_count++] = att_flavor;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // choose and do a valid attack
+    auto const attack_index = get_random_index(valid_attack_count);
+    switch (valid_attacks[attack_index]) {
+    default :
+        //TODO log the strangeness.
         break;
-    case 2: // Radioactive beam
-        if( seen ) {
-            add_msg( msg_type, _("The %s opens its mouth and a beam shoots towards %s!"),
-                     z->name().c_str(), target->disp_name().c_str() );
-        }
-        z->moves -= 400;
-        if( !foe->uncanny_dodge() ) {
-            if( foe->get_dodge() > rng(0, 16) && !one_in( foe->get_dodge() ) ) {
-                target->add_msg_player_or_npc( _("You dodge the beam!"),
-                                               _("<npcname> dodges the beam!") );
-            } else if( one_in(6) ) {
-                foe->mutate();
-            } else {
-                foe->add_msg_if_player( m_bad, _("You get pins and needles all over.") );
-                foe->radiation += rng(20, 50);
-            }
-        }
+    case att_shock :
+        z->moves -= att_cost_shock;
+
+        // Just reuse the taze - it's a bit different (shocks torso vs all),
+        // but let's go for consistency here
+        taze(z, target);
         break;
-    case 3: // Spawn a manhack
-        if( seen ) {
-            add_msg( m_warning, _("The %s opens its coat, and a manhack flies out!"),
-                     z->name().c_str());
+    case att_radiation : {
+        z->moves -= att_cost_rad;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            auto const msg_type = (foe == &g->u) ? m_bad : m_neutral;
+            add_msg(msg_type, m_rad_seen, z->name().c_str(), target->disp_name().c_str());
         }
-        z->moves -= 200;
-        free_index = rng(0, free.size() - 1);
-        tmp.spawn(free[free_index].x, free[free_index].y);
-        tmp.friendly = z->friendly; // TODO: Factions
-        g->add_zombie(tmp);
-        break;
-    case 4: // Acid pool
-        if( seen ) {
-            add_msg(m_warning, _("The %s drops a flask of acid!"), z->name().c_str());
-        }
-        z->moves -= 100;
-        for (auto &i : free) {
-            g->m.add_field(i.x, i.y, fd_acid, 3);
-        }
-        break;
-    case 5: // Flavor text
-        const char *flavtext = "";
-        switch (rng(1, 4)) {
-        case 1:
-            flavtext = _("The %s gesticulates wildly!");
-            break;
-        case 2:
-            flavtext = _("The %s coughs up a strange dust.");
-            break;
-        case 3:
-            flavtext = _("The %s moans softly.");
-            break;
-        case 4:
-            flavtext = _("The %s's skin crackles with electricity.");
-            z->moves -= 80;
+
+        // (1) Give the target a chance at an uncanny_dodge.
+        // (2) If that fails, always fail to dodge 1 in dodge_skill times.
+        // (3) If ok, dodge if dodge_skill > att_rad_dodge_diff.
+        // (4) Otherwise, fail 1 in (att_rad_dodge_diff - dodge_skill) times.
+        if (foe->uncanny_dodge()) {
             break;
         }
-        if( seen ) {
-            add_msg( m_warning, flavtext, z->name().c_str() );
+
+        int const  dodge_skill  = foe->get_dodge();
+        bool const critial_fail = one_in(dodge_skill);
+        bool const is_trivial   = dodge_skill > att_rad_dodge_diff;
+
+        if (!critial_fail && (is_trivial || dodge_skill > rng(0, att_rad_dodge_diff))) {
+            target->add_msg_player_or_npc(m_rad_dodge_u, m_rad_dodge_npc);
+        } else if (one_in(att_rad_mutate_chance)) {
+            foe->mutate();
+        } else {
+            foe->add_msg_if_player(m_bad, m_rad_irradiate);
+            foe->radiation += rng(att_rad_dose_min, att_rad_dose_max);
         }
+      } break;
+    case att_manhack : {
+        z->moves -= att_cost_manhack;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, m_manhack_seen, z->name().c_str());
+        }
+        
+        auto const where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+
+        monster manhack {GetMType("mon_manhack")};
+        manhack.spawn(where.x, where.y);
+        manhack.friendly = z->friendly; // TODO: Factions
+        g->add_zombie(manhack);
+      } break;
+    case att_acid_pool :
+        z->moves -= att_cost_acid;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, m_acid_seen, z->name().c_str());
+        }
+        
+        // fill empty tiles with acid
+        for (size_t i = 0; i < empty_neighbor_count; ++i) {
+            auto const& p = empty_neighbors.first[i];
+            g->m.add_field(p.x, p.y, fd_acid, att_acid_density);
+        }
+
         break;
+    case att_flavor : {
+        // if the player can't see it, forget about it
+        if (!g->u.sees(*z)) {
+            break;
+        }
+
+        auto const i = get_random_index(m_flavor);
+        add_msg(m_warning, m_flavor[i], z->name().c_str());
+
+        // the special case; see above
+        if (i == m_flavor.size() - 1) {
+            z->moves -= att_cost_flavor;
+        }
+      } break;
     }
+
+    z->reset_special(index); // Reset timer
 }
 
 void mattack::growplants(monster *z, int index)
