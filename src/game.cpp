@@ -6785,7 +6785,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
         }
     }       check_list.push_back(point(x, y));
     
-    for (int i = 0; i < check_list.size(); i++) {
+    for (unsigned int i = 0; i < check_list.size(); i++) {
         int xp = check_list[i].x;
         int yp = check_list[i].y;
         
