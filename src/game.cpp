@@ -6806,16 +6806,16 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
         }
             
         // Double up for tough doors, etc.
-        m.bash(i, j, 2*dam);
+        m.bash(xp, yp, 2*dam);
 
-        int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
+        int mon_hit = mon_at(xp, yp), npc_hit = npc_at(xp, yp);
         if (mon_hit != -1) {
             monster &critter = critter_tracker.find(mon_hit);
             critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
         }
 
         int vpart;
-        vehicle *veh = m.veh_at(i, j, vpart);
+        vehicle *veh = m.veh_at(xp, yp, vpart);
         if (veh) {
         veh->damage(vpart, dam, fire ? 2 : 1, false);
         }
@@ -6823,7 +6823,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
         player *n = nullptr;
         if (npc_hit != -1) {
             n = active_npc[npc_hit];
-        } else if( u.posx == i && u.posy == j ) {
+        } else if( u.posx == xp && u.posy == yp ) {
             add_msg(m_bad, _("You're caught in the explosion!"));
             n = &u;
         }
@@ -6836,7 +6836,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
         }
         if (fire) {
-            m.add_field(i, j, fd_fire, dam / 10);
+            m.add_field(xp, yp, fd_fire, dam / 10);
         }
     }
 }
