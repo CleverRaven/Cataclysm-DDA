@@ -3202,7 +3202,7 @@ vehicle *game::remoteveh()
         int vx, vy;
         remote_veh_string >> vx >> vy;
         vehicle *veh = m.veh_at( vx, vy );
-        if( veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh->fuel_left_recursive( "battery" ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -8047,6 +8047,9 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
             } );
     }
 
+    if( test ) {
+        return !reduced_inv.empty();
+    }
     int item_pos = display_slice(reduced_inv, _("Select item to refill with") );
     
     item *it = &( u.i_at( item_pos ) ); // Item or container

@@ -18,6 +18,8 @@
 #define ISNAN std::isnan
 #endif
 
+static const std::set< ammotype > unsiphonable = { "gasoline", "diesel", "battery", "plut_cell", "plasma" };
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -415,8 +417,15 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = has_wrench && has_jack && has_wheel;
         break;
     case 'd': // drain tank
-        valid_target = veh->fuel_left("water_clean") > 0;
+    {
+        auto liquids = veh->all_liquids();
+        for( auto &liquid : liquids ) {
+            if( unsiphonable.count( liquid.first ) == 0 && liquid.second > 0 ) {
+                valid_target = true;
+            }
+        }
         has_tools = has_siphon;
+    }
         break;
     case 'a': // relabel
         valid_target = cpart >= 0;
@@ -757,12 +766,13 @@ void veh_interact::do_refill()
             if( !fuel_type_name.empty() ) {
                 type_name = item::find_type( fuel_type_name )->nname(1);
             } else {
-                auto part_items = veh->get_items( entry_num );
-                type_name = !part_items.empty() ?
-                    part_items.front().type->nname(1) :
+                item *liquid = veh->tank_stored_liquid( ptanks[entry_num] );
+                type_name = liquid != nullptr ?
+                    liquid->type->nname(1) :
                     _("Any liquid");
             }
-            fuel_choose.addentry( entry_num, true, -1, "%s -> %s",
+            bool enabled = g->pl_refill_vehicle( *veh, ptanks[entry_num], true );
+            fuel_choose.addentry( entry_num, enabled, -1, "%s -> %s",
                                   type_name.c_str(),
                                   veh->part_info( ptanks[entry_num] ).name.c_str() );
         }
@@ -1003,8 +1013,8 @@ void veh_interact::do_tirechange()
 }
 
 /**
- * Handles draining water from a vehicle.
- * @param reason INVALID_TARGET if the vehicle has no water,
+ * Handles draining non-fuel liquids from a vehicle.
+ * @param reason INVALID_TARGET if the vehicle has no drainable liquid,
  *               LACK_TOOLS if the player has no hose.
  */
 void veh_interact::do_drain()
@@ -1015,12 +1025,12 @@ void veh_interact::do_drain()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no water to siphon.") );
+        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no liquid to siphon.") );
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_red>hose</color> to siphon water.") );
+                       _("You need a <color_red>hose</color> to siphon liquid.") );
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
@@ -1715,7 +1725,7 @@ void complete_vehicle ()
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
-    // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
+    // cmd = Install Repair reFill remOve Siphon Drain Changetire reName relAbel
     switch (cmd) {
     case 'i':
         // Only parts that use charges
@@ -1806,8 +1816,10 @@ void complete_vehicle ()
         g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
     case 'f':
-        if( !g->pl_refill_vehicle(*veh, vehicle_part) ) {
-            debugmsg("refill failed");
+        if( !g->pl_refill_vehicle( *veh, vehicle_part, true ) ) {
+            debugmsg("complete_vehicle listed invalid part for refilling");
+        } else {
+            g->pl_refill_vehicle( *veh, vehicle_part, false );
         }
         break;
     case 'o':
@@ -2002,8 +2014,40 @@ void complete_vehicle ()
         }
         break;
     case 'd':
-        g->u.siphon( veh, "water_clean" );
-        break;
+    {
+        auto liquids = veh->all_liquids();
+        uimenu lmenu;
+        int count = -1; // Distance from .begin()
+        int choice = 0;
+        for( auto &l : liquids ) {
+            const std::string &ltype = l.first;
+            count++;
+            if( unsiphonable.count( ltype ) > 0 ) {
+                continue;
+            }
+            choice = count; // Set here in case there's only 1 entry
+            lmenu.addentry( count, l.second > 0, -1, "%s (%ld)",
+                            item::nname( ltype, 1 ).c_str(),
+                            l.second );
+        }
+        if( count == 0 ) {
+            debugmsg( "complete_vehicle tried to drain a vehicle with no liquid" );
+            break;
+        }
+        if( lmenu.entries.size() > 1 ) {
+            lmenu.title = _("Pick liquid to drain");
+            lmenu.addentry( count + 1, true, -1, _("Cancel") );
+            lmenu.query();
+            choice = lmenu.ret;
+            if( choice > count ) {
+                break;
+            }
+        }
+        auto iter = liquids.begin();
+        std::advance( iter, choice );
+        g->u.siphon( veh, iter->first );
+    }
+    break;
     }
     g->u.invalidate_crafting_inventory();
 }

@@ -293,16 +293,16 @@ private:
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-    int part_power( int index, bool at_full_hp = false );
+    int part_power( int index, bool at_full_hp = false ) const;
 
     // get vpart epowerinfo for part number.
-    int part_epower (int index);
+    int part_epower (int index) const;
 
     // convert epower (watts) to power.
-    int epower_to_power (int epower);
+    int epower_to_power (int epower) const;
 
     // convert power to epower (watts).
-    int power_to_epower (int power);
+    int power_to_epower (int power) const;
 
     //Refresh all caches and re-locate all parts
     void refresh();
@@ -343,9 +343,9 @@ public:
     ~vehicle ();
 
 // check if given player controls this vehicle
-    bool player_in_control (player *p);
+    bool player_in_control (player *p) const;
 // check if player controls this vehicle remotely
-    bool remote_controlled (player *p);
+    bool remote_controlled (player *p) const;
 
 // init parts state for randomly generated vehicle
     void init_state(int veh_init_fuel, int veh_init_status);
@@ -407,11 +407,11 @@ public:
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true) const;
 
 // returns index of part, inner to given, with certain flag, or -1
-    int part_with_feature (int p, const std::string &f, bool unbroken = true);
-    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
+    int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -436,8 +436,8 @@ public:
     int next_part_to_close (int p, bool outside = false);
 
 // returns indices of all parts in the vehicle with the given flag
-    std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
-    std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
+    std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true) const;
+    std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true) const;
 
 // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location);
@@ -501,8 +501,10 @@ public:
     point real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
-    int fuel_left (const ammotype & ftype, bool recurse=false);
-    int fuel_capacity (const ammotype & ftype);
+    int fuel_left (const ammotype & ftype) const;
+    // Recursive version - should be only used for battery power now
+    int fuel_left_recursive (const ammotype & ftype);
+    int fuel_capacity (const ammotype & ftype) const;
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
@@ -512,6 +514,9 @@ public:
     // returns amount actually drained, does not engage reactor
     int drain (const ammotype & ftype, int amount);
 
+    // Maps liquid types to fuel left of that type
+    // Contains "":0 if the vehicle has an empty generic liquid tank
+    std::map< ammotype, long > all_liquids() const;
     // Charges in a tank
     int tank_charges( int p ) const;
     // Drain charges from a specific tank. Returns charges actually drained
@@ -529,6 +534,7 @@ public:
     const std::string tank_stored_type( int p ) const;
     // Returns pointer to stored liquid or null
     item *tank_stored_liquid( int p );
+    const item *tank_stored_liquid( int p ) const;
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 

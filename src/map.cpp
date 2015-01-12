@@ -3356,6 +3356,8 @@ std::list<item> map::use_charges(const point origin, const int range,
                     vehicle *veh = veh_at(x, y, vpart);
 
                     if (veh) { // check if a vehicle part is present to provide water/power
+                        const int faupart = veh->part_with_feature(vpart, "FAUCET");
+                        const int genfaupart = veh->part_with_feature(vpart, "FAUCET_GENERIC");
                         const int kpart = veh->part_with_feature(vpart, "KITCHEN");
                         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
                         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
@@ -3363,7 +3365,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
                         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-                        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+                        if (kpart >= 0 || faupart >= 0) { // we have a kitchen, now to see what to drain
                             ammotype ftype = "NULL";
 
                             if (type == "water_clean") {
@@ -3452,6 +3454,24 @@ std::list<item> map::use_charges(const point origin, const int range,
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if( genfaupart >= 0 ) {
+                            auto liquids = veh->all_liquids();
+                            auto iter = liquids.find( type );
+                            if( iter != liquids.end() ) {
+                                item liquid( iter->first, 0 ); // TODO: Acquire bday from the veh
+                                // Allows crafting with gas tank's contents
+                                if( iter->second > 0 && liquid.made_of( LIQUID ) ) {
+                                    liquid.charges = veh->drain( type, quantity );
+                                    quantity -= liquid.charges;
+                                    ret.push_back( liquid );
+                                }
+                            }
 
                             if (quantity == 0) {
                                 return ret;

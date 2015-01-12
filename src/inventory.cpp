@@ -574,6 +574,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 //ShouldBreak into own variable
                 const int kpart = veh->part_with_feature(vpart, "KITCHEN");
                 const int faupart = veh->part_with_feature(vpart, "FAUCET");
+                const int genfaupart = veh->part_with_feature(vpart, "FAUCET_GENERIC");
                 const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
                 const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
                 const int forgepart = veh->part_with_feature(vpart, "FORGE");
@@ -589,6 +590,17 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                     item water("water_clean", 0);
                     water.charges = veh->fuel_left("water_clean");
                     add_item(water);
+                }
+                if( genfaupart >= 0 ) {
+                    auto liquids = veh->all_liquids();
+                    for( auto &l : liquids ) {
+                        item liquid( l.first, 0 );
+                        // Allows crafting with gas tank's contents
+                        if( l.second > 0 && liquid.made_of( LIQUID ) ) {
+                            liquid.charges = l.second;
+                            add_item( liquid );
+                        }
+                    }
                 }
 
                 if (kpart >= 0) {
