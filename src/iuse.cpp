@@ -5673,7 +5673,7 @@ int iuse::pheromone(player *p, item *it, bool, point)
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.hp ) {
+            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
             }
@@ -7214,7 +7214,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         int mondex = g->mon_at(x, y);
                         if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
-                            rng(0, 600) > g->zombie(mondex).hp) {
+                            rng(0, 600) > g->zombie(mondex).get_hp()) {
                             g->zombie(mondex).make_friendly();
                         }
                     }

@@ -1651,7 +1651,7 @@ void mattack::dermatik(monster *z, int index)
     }
     if( player_swat > dodge_roll ) {
         foe->add_msg_if_player(_("The %s lands on you, but you swat it off."), z->name().c_str());
-        if (z->hp >= z->type->hp / 2) {
+        if (z->get_hp() >= z->get_hp_max() / 2) {
             z->apply_damage( &g->u, bp_torso, 1 );
         }
         if (player_swat > dodge_roll * 1.5) {
@@ -1732,7 +1732,7 @@ void mattack::formblob(monster *z, int index)
             if (g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + i) {
                 // If we hit the player, cover them with slime
                 didit = true;
-                g->u.add_effect("slimed", rng(0, z->hp));
+                g->u.add_effect("slimed", rng(0, z->get_hp()));
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
@@ -1740,7 +1740,7 @@ void mattack::formblob(monster *z, int index)
                     if( othermon.type->id == "mon_blob_brain" ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
-                        if( othermon.hp < othermon.type->hp / 2 ) {
+                        if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
                             didit = true;
                             othermon.hp += z->get_speed_base();
                             z->hp = 0;
@@ -1759,7 +1759,7 @@ void mattack::formblob(monster *z, int index)
                 } else if( (othermon.made_of("flesh") ||
                             othermon.made_of("veggy") ||
                             othermon.made_of("iflesh") ) &&
-                           rng(0, z->hp) > rng(0, othermon.hp)) { // Blobify!
+                           rng(0, z->get_hp()) > rng(0, othermon.get_hp())) { // Blobify!
                     didit = true;
                     othermon.poly(GetMType("mon_blob"));
                     othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
@@ -2451,7 +2451,7 @@ static bool ignore_mutants( monster *z )
     // Target not human, presumably some weird animal, not worth the ammo
     // unless the turret's damaged, at which point, shoot to kill
     // or target is driving a vehicle, because weird animals don't do that
-    if( z->hp == z->type->hp && !g->u.in_vehicle ) {
+    if( z->get_hp() == z->get_hp_max() && !g->u.in_vehicle ) {
         if( g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") ) {
             if( g->u.sees( *z ) && one_in(10) ) {
                 add_msg(m_info, _("The %s doesn't seem to consider you a target at the moment."),
@@ -2884,10 +2884,10 @@ void mattack::searchlight(monster *z, int index)
     z->reset_special(index); // Reset timer
 
     int max_lamp_count = 3;
-    if (z->hp < z->type->hp) {
+    if (z->get_hp() < z->get_hp_max()) {
         max_lamp_count--;
     }
-    if (z->hp < z->type->hp / 3) {
+    if (z->get_hp() < z->get_hp_max() / 3) {
         max_lamp_count--;
     }
 
@@ -3179,7 +3179,7 @@ Please put down your weapon.\""));
     }
     // If cuffed don't attack the player, unless the bot is damaged
     // presumably because of the player's actions
-    if (z->hp == z->type->hp) {
+    if (z->get_hp() == z->get_hp_max()) {
         z->anger = 1;
     } else {
         z->anger = z->type->agro;
@@ -3214,7 +3214,7 @@ void mattack::chickenbot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp <= z->type->hp ||
+    if( z->get_hp() <= z->get_hp_max() ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
@@ -3289,7 +3289,7 @@ void mattack::multi_robot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp <= z->type->hp ||
+    if( z->get_hp() <= z->get_hp_max() ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
@@ -3391,7 +3391,7 @@ void mattack::generator(monster *z, int index)
 {
     (void)index; //unused
     sounds::sound(z->posx(), z->posy(), 100, "");
-    if (int(calendar::turn) % 10 == 0 && z->hp < z->type->hp) {
+    if (int(calendar::turn) % 10 == 0 && z->get_hp() < z->get_hp_max()) {
         z->hp++;
     }
 }
@@ -4094,7 +4094,7 @@ void mattack::riotbot(monster *z, int index)
         z->moves -= 50;
 
         int delta = dist / 4 + 1;  //precautionary shot
-        if (z->hp < z->type->hp) {
+        if (z->get_hp() < z->get_hp_max()) {
             delta = 1;    //precision shot
         }
 

@@ -29,12 +29,12 @@ void mdeath::normal(monster *z)
         }
     }
 
-    int maxHP = z->type->hp;
+    int maxHP = z->get_hp_max();
     if (!maxHP) {
         maxHP = 1;
     }
 
-    float overflowDamage = std::max( -(z->hp), 0 );
+    float overflowDamage = std::max( -z->get_hp(), 0 );
     float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
 
     if (leaveCorpse) {
@@ -306,7 +306,7 @@ void mdeath::guilt(monster *z)
         // Too far away, we can deal with it.
         return;
     }
-    if (z->hp >= 0) {
+    if (z->get_hp() >= 0) {
         // We probably didn't kill it
         return;
     }

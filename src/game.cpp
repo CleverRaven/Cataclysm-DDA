@@ -5885,7 +5885,7 @@ void game::cleanup_dead()
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
-                                         critter.hp, critter.name().c_str());
+                                         critter.get_hp(), critter.name().c_str());
             remove_zombie( i );
         } else {
             i++;

@@ -50,10 +50,18 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return hp;
         };
-        int get_hp_max( hp_part = num_hp_parts ) const
+        int get_hp() const
+        {
+            return hp;
+        }
+        int get_hp_max( hp_part ) const
         {
             return type->hp;
         };
+        int get_hp_max() const
+        {
+            return type->hp;
+        }
         std::string get_material() const
         {
             return type->mat;
