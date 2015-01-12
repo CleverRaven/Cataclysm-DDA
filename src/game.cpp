@@ -6890,7 +6890,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             } else if( npcdex != -1 ) {
                 //...an NPC
                 body_part hit = random_body_part();
-                dam -= critter.get_armor_cut(hit); //fragment loses power as it travels through stuff
+                dam -= active_npc[npcdex]->get_armor_cut(hit); //fragment loses power as it travels through stuff
                 long tmpdam = dam;
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
                     tmpdam = rng(2 * dam, 5 * dam);
@@ -6907,7 +6907,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             } else {
                 //...nothing
                 std::set<std::string> shrapnel_effects;
-                //shoot whatever is there
+                //shoot whatever is there (i.e. items + furniture)
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
             }
         }
