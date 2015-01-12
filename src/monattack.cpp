@@ -481,7 +481,7 @@ size_t get_random_index(size_t const size) {
 
 //--------------------------------------------------------------------------------------------------
 /**
- * Get a size_t value in the closed interval [0, c.size()]; a convenience to avoid messy casting.
+ * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
 size_t get_random_index(Container const &c) {
@@ -515,21 +515,12 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     
     // radiation attack behaviour
     constexpr int att_rad_dodge_diff    = 16; // how hard it is to dodge
-    constexpr int att_rad_mutate_chance = 6;  // inverse chance to cause mutation.
+    constexpr int att_rad_mutate_chance = 6;  // (1/x) inverse chance to cause mutation.
     constexpr int att_rad_dose_min      = 20; // min radiation
     constexpr int att_rad_dose_max      = 50; // max radiation
 
     // acid attack behaviour
     constexpr int att_acid_density = 3;
-
-    // message strings
-    using cstr_t = char const* const;
-    static cstr_t m_rad_seen      = _("The %s opens its mouth and a beam shoots towards %s!");
-    static cstr_t m_rad_dodge_u   = _("You dodge the beam!");
-    static cstr_t m_rad_dodge_npc = _("<npcname> dodges the beam!");
-    static cstr_t m_rad_irradiate = _("You get pins and needles all over.");
-    static cstr_t m_manhack_seen  = _("The %s opens its coat, and a manhack flies out!");
-    static cstr_t m_acid_seen     = _("The %s drops a flask of acid!");
 
     // flavor messages
     static std::array<char const*, 4> const m_flavor = {{
@@ -591,7 +582,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     auto const attack_index = get_random_index(valid_attack_count);
     switch (valid_attacks[attack_index]) {
     default :
-        //TODO log the strangeness.
+        DebugLog(D_WARNING, D_GAME) << "Bad enum value in science.";
         break;
     case att_shock :
         z->moves -= att_cost_shock;
@@ -605,8 +596,9 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            auto const msg_type = (foe == &g->u) ? m_bad : m_neutral;
-            add_msg(msg_type, m_rad_seen, z->name().c_str(), target->disp_name().c_str());
+            // TODO: mutate() doesn't like non-players right now
+            add_msg(m_bad, _("The %s opens its mouth and a beam shoots towards %s!"),
+                z->name().c_str(), target->disp_name().c_str());
         }
 
         // (1) Give the target a chance at an uncanny_dodge.
@@ -622,11 +614,12 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         bool const is_trivial   = dodge_skill > att_rad_dodge_diff;
 
         if (!critial_fail && (is_trivial || dodge_skill > rng(0, att_rad_dodge_diff))) {
-            target->add_msg_player_or_npc(m_rad_dodge_u, m_rad_dodge_npc);
+            target->add_msg_player_or_npc(_("You dodge the beam!"),
+                                          _("<npcname> dodges the beam!"));
         } else if (one_in(att_rad_mutate_chance)) {
             foe->mutate();
         } else {
-            foe->add_msg_if_player(m_bad, m_rad_irradiate);
+            foe->add_msg_if_player(m_bad, _("You get pins and needles all over."));
             foe->radiation += rng(att_rad_dose_min, att_rad_dose_max);
         }
       } break;
@@ -635,7 +628,8 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, m_manhack_seen, z->name().c_str());
+            add_msg(m_warning, _("The %s opens its coat, and a manhack flies out!"),
+                z->name().c_str());
         }
         
         auto const where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
@@ -650,7 +644,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, m_acid_seen, z->name().c_str());
+            add_msg(m_warning, _("The %s drops a flask of acid!"), z->name().c_str());
         }
         
         // fill empty tiles with acid
@@ -661,17 +655,16 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         break;
     case att_flavor : {
-        // if the player can't see it, forget about it
-        if (!g->u.sees(*z)) {
-            break;
-        }
-
         auto const i = get_random_index(m_flavor);
-        add_msg(m_warning, m_flavor[i], z->name().c_str());
 
         // the special case; see above
         if (i == m_flavor.size() - 1) {
             z->moves -= att_cost_flavor;
+        }
+
+        // if the player can see it, else forget about it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, m_flavor[i], z->name().c_str());
         }
       } break;
     }
