@@ -6797,7 +6797,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             dam = 3 * power / pow(rl_dist(x, y, xp, yp), falloff_exp);
          
             //now determine loss in power due to intervening obstacles
-            std::vector<point> traj = line_to(x, y, xp, yp);
+            std::vector<point> traj = line_to(x, y, xp, yp, 0);
             for(int k = 0; k < traj.size(); k++) {
                 if(m.has_furn(traj[k].x, traj[k].y)) {
                     dam -= m.furn_at(traj[k].x, traj[k].y).bash.str_min / 2;
