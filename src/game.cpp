@@ -6821,6 +6821,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     int dam;
     int noise = power * (fire ? 2 : 10);
 
+    //play the right sound
     if (power >= 30) {
         sound(x, y, noise, _("a huge explosion!"));
     } else if (power >= 4) {
@@ -6828,6 +6829,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     } else {
         sound(x, y, 3, _("a loud pop!"));
     }
+    
+    //draw explosion
     if (blast) {
         do_blast(x, y, power, radius, fire);
         // Draw the explosion
@@ -6836,52 +6839,75 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
 
     // The rest of the function is shrapnel
     if (shrapnel <= 0 || power < 4) {
+        //no more shrapnel
         return;
     }
+    
     int sx, sy, t, tx, ty;
     std::vector<point> traj;
     timespec ts;
     ts.tv_sec = 0;
     ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
+    
+    //for each piece of shrapnel
     for (int i = 0; i < shrapnel; i++) {
-        sx = rng(x - 2 * radius, x + 2 * radius);
-        sy = rng(y - 2 * radius, y + 2 * radius);
+        sx = rng(x - 2 * radius, x + 2 * radius); //random x-coordinate in explosion
+        sy = rng(y - 2 * radius, y + 2 * radius); //random y-coordinate in explosion
+        
+        //synthesize resultant point into a trajectory
         if (m.sees(x, y, sx, sy, 50, t)) {
             traj = line_to(x, y, sx, sy, t);
         } else {
             traj = line_to(x, y, sx, sy, 0);
         }
+        
+        
         // If the randomly chosen spot is the origin, it already points there.
         // Otherwise line_to excludes the origin, so add it.
         if( sx !=x || sy != y ) {
             traj.insert( traj.begin(), point(x, y) );
         }
+        
+        //damage between half and twice the power
+        dam = rng(power / 2, power * 2);
+        
+        //for each spot along the trajectory
         for (size_t j = 0; j < traj.size(); j++) {
-            dam = rng(power / 2, power * 2);
             draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`', ts);
             tx = traj[j].x;
             ty = traj[j].y;
+            
+            //find the creature that was hit
             const int zid = mon_at(tx, ty);
             const int npcdex = npc_at(tx, ty);
+            
+            //apply the hit to...
             if (zid != -1) {
+                //...a zombie
                 monster &critter = critter_tracker.find(zid);
-                dam -= critter.get_armor_cut(bp_torso);
+                dam -= critter.get_armor_cut(bp_torso); //fragment loses power as it travels through stuff
                 critter.apply_damage( nullptr, bp_torso, dam );
             } else if( npcdex != -1 ) {
+                //...an NPC
                 body_part hit = random_body_part();
+                dam -= critter.get_armor_cut(hit); //fragment loses power as it travels through stuff
+                long tmpdam = dam;
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
-                    dam = rng(2 * dam, 5 * dam);
+                    tmpdam = rng(2 * dam, 5 * dam);
                 } else if (hit == bp_torso) {
-                    dam = rng(long(1.5 * dam), 3 * dam);
+                    tmpdam = rng(long(1.5 * dam), 3 * dam);
                 }
-                active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
+                active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, tmpdam ) );
             } else if (tx == u.posx && ty == u.posy) {
+                //...the player
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else {
+                //...nothing
                 std::set<std::string> shrapnel_effects;
+                //shoot whatever is there
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
             }
         }
