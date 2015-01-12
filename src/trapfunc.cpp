@@ -88,6 +88,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
                     n->add_effect("tetanus", 1, num_bp, true);
             }
         }
+        c->check_dead_state();
     }
 }
 
@@ -118,6 +119,7 @@ void trapfunc::board(Creature *c, int, int)
                       n->add_effect("tetanus", 1, num_bp, true);
               }
         }
+        c->check_dead_state();
     }
 }
 
@@ -141,6 +143,7 @@ void trapfunc::caltrops(Creature *c, int, int)
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 9, 30 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 30 ) ) );
         }
+        c->check_dead_state();
     }
 }
 
@@ -186,6 +189,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
                 g->update_map(&g->u);
             }
         }
+        c->check_dead_state();
     }
 }
 
@@ -269,6 +273,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                 add_msg(m_neutral, _("A bolt shoots out, but misses the %s."), z->name().c_str());
             }
         }
+        c->check_dead_state();
     }
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "crossbow");
@@ -360,6 +365,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, bp_torso, rng(40 * shots, 60 * shots));
         }
+        c->check_dead_state();
     }
     if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
         g->m.remove_trap(x, y);
@@ -392,6 +398,7 @@ void trapfunc::blade(Creature *c, int, int)
             // Creature::hit for player *and* monster
             z->apply_damage( nullptr, bp_torso, bashdam + cutdam);
         }
+        c->check_dead_state();
     }
 }
 
@@ -419,6 +426,7 @@ void trapfunc::snare_light(Creature *c, int x, int y)
         if (z != NULL && z->type->size == MS_TINY) {
             z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
         }
+        c->check_dead_state();
     }
 }
 
@@ -465,6 +473,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, hit, damage);
         }
+        c->check_dead_state();
     }
 }
 
@@ -598,6 +607,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
                 z->explode();
             }
         }
+        c->check_dead_state();
     }
 }
 
@@ -633,6 +643,7 @@ void trapfunc::pit(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, eff * rng(10, 20));
         }
+        c->check_dead_state();
     }
 }
 
@@ -693,6 +704,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
+        c->check_dead_state();
     }
     if (one_in(4)) {
         if (g->u.sees(x, y)) {
@@ -769,6 +781,7 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
+        c->check_dead_state();
     }
     if (one_in(5)) {
         if (g->u.sees(x, y)) {
@@ -819,6 +832,7 @@ void trapfunc::lava(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, bp_torso, dam );
         }
+        c->check_dead_state();
     }
 }
 
@@ -1068,6 +1082,7 @@ void trapfunc::glow(Creature *c, int x, int y)
             z->apply_damage( nullptr, bp_torso, rng( 5, 10 ) );
             z->set_speed_base( z->get_speed_base() * 0.9 );
         }
+        c->check_dead_state();
     }
 }
 
@@ -1134,6 +1149,7 @@ void trapfunc::drain(Creature *c, int, int)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, 1 );
         }
+        c->check_dead_state();
     }
 }
 

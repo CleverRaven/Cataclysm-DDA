@@ -4877,7 +4877,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
     lifetime_stats()->damage_taken += dam;
     if( is_dead_state() ) {
-        die( source );
+        set_killer( source );
     }
 }
 
@@ -4994,6 +4994,7 @@ void player::knock_back_from(int x, int y)
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         }
+        critter->check_dead_state();
 
         add_msg_player_or_npc(_("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                               critter->name().c_str() );

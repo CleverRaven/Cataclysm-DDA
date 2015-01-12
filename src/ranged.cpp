@@ -758,6 +758,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             // actually deal damage now
             if (zid != -1) {
                 z->apply_damage( &p, bp_torso, dam );
+                z->check_dead_state();
             } else if (npcID != -1) {
                 guy->apply_damage( &p, bp, dam );
                 guy->check_dead_state();

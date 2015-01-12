@@ -840,6 +840,7 @@ void monster::hit_monster(monster &other)
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
     type->sp_defense(target, this, nullptr);
+    target->check_dead_state();
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -933,12 +934,12 @@ void monster::set_hp( const int hp )
 }
 
 void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
-    if( dead ) {
+    if( is_dead_state() ) {
         return;
     }
     hp -= dam;
     if( hp < 1 ) {
-        die( source );
+        set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
     }

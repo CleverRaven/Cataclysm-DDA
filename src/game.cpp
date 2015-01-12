@@ -6044,6 +6044,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
                 critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+                critter.check_dead_state();
             }
 
             int vpart;
@@ -6126,6 +6127,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
@@ -6279,6 +6281,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
+                    targ->check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -6713,6 +6716,7 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
                 critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -7430,6 +7434,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bp_torso, bash_dmg );
+            critter.check_dead_state();
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
@@ -12188,6 +12193,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             dname = critter->name();
             dam2 = rng( flvel, flvel * 2.0 );
             critter->apply_damage( c, bp_torso, dam2 );
+            critter->check_dead_state();
             if( !critter->is_dead() ) {
                 thru = false;
             }
@@ -12224,6 +12230,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 p->hitall(dam1, 40, critter);
             } else {
                 zz->apply_damage( critter, bp_torso, dam1 );
+                zz->check_dead_state();
             }
         }
         if( thru ) {
@@ -12268,6 +12275,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             }
         } else {
             zz->apply_damage( nullptr, bp_torso, dam1 );
+            zz->check_dead_state();
         }
         if (is_u) {
             if (dam1 > 0) {
@@ -13140,6 +13148,7 @@ void game::teleport(player *p, bool add_teleglow)
             }
         }
         p->apply_damage( nullptr, bp_torso, 500 );
+        p->check_dead_state();
     } else if (can_see) {
         const int i = mon_at(newx, newy);
         if (i != -1) {

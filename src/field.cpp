@@ -1213,6 +1213,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         if (g->u.sees( newp ))
                                             add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
+                                        mon->check_dead_state();
                                     }
                                 }
                             }
@@ -2083,6 +2084,7 @@ void map::monster_in_field( monster &z )
     }
     if (dam > 0) {
         z.apply_damage( nullptr, bp_torso, dam );
+        z.check_dead_state();
     }
 }
 

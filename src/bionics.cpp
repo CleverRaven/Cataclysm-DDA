@@ -693,6 +693,7 @@ bool player::activate_bionic(int b, bool eff_only)
                             int index = g->mon_at(it->x, it->y);
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
+                                g->zombie(index).check_dead_state();
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
                             } else if (g->m.move_cost(it->x, it->y) == 0) {

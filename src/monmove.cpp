@@ -1030,6 +1030,7 @@ void monster::knock_back_from(int x, int y)
    z->apply_damage( this, bp_torso, type->size );
    z->add_effect("stunned", 1);
   }
+  z->check_dead_state();
 
   if (u_see)
    add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
@@ -1078,6 +1079,7 @@ void monster::knock_back_from(int x, int y)
  } else { // It's no wall
   setpos(to);
  }
+    check_dead_state();
 }
 
 

@@ -762,6 +762,7 @@ void mattack::growplants(monster *z, int index)
                             rn = 0;
                         }
                         g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
+                        g->zombie( mondex ).check_dead_state();
                     } else if( z->friendly == 0 && g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
@@ -838,6 +839,7 @@ void mattack::growplants(monster *z, int index)
                                 rn = 0;
                             }
                             g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
+                            g->zombie( mondex ).check_dead_state();
                         } else if (z->friendly == 0 && g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
                                 body_part hit = num_bp;
@@ -1653,6 +1655,7 @@ void mattack::dermatik(monster *z, int index)
         foe->add_msg_if_player(_("The %s lands on you, but you swat it off."), z->name().c_str());
         if (z->get_hp() >= z->get_hp_max() / 2) {
             z->apply_damage( &g->u, bp_torso, 1 );
+            z->check_dead_state();
         }
         if (player_swat > dodge_roll * 1.5) {
             z->stumble(false);
@@ -2021,6 +2024,7 @@ void mattack::vortex(monster *z, int index)
                         int mondex = g->mon_at(traj[i].x, traj[i].y);
                         if (mondex != -1) {
                             g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
+                            g->zombie( mondex ).check_dead_state();
                             dam = 0;
                         }
                         if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -2095,6 +2099,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                                         g->zombie(monhit).name().c_str());
                             g->zombie( monhit ).apply_damage( z, bp_torso, damage );
+                            g->zombie( monhit ).check_dead_state();
                             hit_wall = true;
                             thrown->setpos(traj[i - 1]);
                         } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -2113,6 +2118,7 @@ void mattack::vortex(monster *z, int index)
                         thrown->setpos(traj[traj.size() - 1]);
                     }
                     thrown->apply_damage( z, bp_torso, damage );
+                    thrown->check_dead_state();
                 } // if (distance > 0)
             } // if (mondex != -1)
 
@@ -2139,6 +2145,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
                             }
                             g->zombie( monhit ).apply_damage( &g->u, bp_torso, damage ); // We get the kill :)
+                            g->zombie( monhit ).check_dead_state();
                             hit_wall = true;
                             g->u.setx( traj[i - 1].x );
                             g->u.sety( traj[i - 1].y );
@@ -2440,6 +2447,7 @@ void mattack::taze( monster *z, Creature *target )
         mon->moves -= shock * 100;
         mon->apply_damage( z, bp_torso, shock );
         add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
+        mon->check_dead_state();
     }
 }
 
@@ -3909,6 +3917,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
             // Here, have a crit!
             const auto damage = foe->roll_bash_damage( true ) + 3; // Bonus for the takedown.
             z->apply_damage( foe, bp_torso, damage );
+            z->check_dead_state();
         } else {
             // Still avoids the major hit!
             foe->add_msg_if_player(_("but you deftly spin out of its grasp!"));
