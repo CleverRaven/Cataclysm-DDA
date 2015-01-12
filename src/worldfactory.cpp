@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "char_validity_check.h"
@@ -14,12 +15,12 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#ifdef CATA_COMPILER_MSVC
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
-#endif // _MSC_VER
+#   include <dirent.h>
+#endif // CATA_COMPILER_MSVC
 
 #define WORLD_OPTION_FILE "worldoptions.txt"
 #define SAVE_MASTER "master.gsav"

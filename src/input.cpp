@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "action.h"
 #include "cursesdef.h"
 #include "input.h"
@@ -11,12 +12,12 @@
 #include <stdexcept>
 #include <errno.h>
 
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#if defined(CATA_OS_WINDOWS)
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <unistd.h>
-#include <dirent.h>
+#   include <unistd.h>
+#   include <dirent.h>
 #endif
 
 static const std::string default_context_id("default");
@@ -54,7 +55,7 @@ static std::string long_to_str(long number)
 
 bool is_mouse_enabled()
 {
-#if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
+#if defined(CATA_OS_WINDOWS) && !defined(SDLTILES) && !defined(TILES)
     return false;
 #else
     return true;
@@ -138,7 +139,7 @@ void input_manager::init()
     // Finally if we did import a file, and saved it to the new keybindings
     // file, delete the old keymap file to prevent re-importing it.
     if (!keymap_file_loaded_from.empty()) {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
         DeleteFile(keymap_file_loaded_from.c_str());
 #else
         unlink(keymap_file_loaded_from.c_str());
@@ -659,7 +660,7 @@ std::string input_context::get_available_single_char_hotkeys(std::string request
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
                                                       ContainsPredicate<std::vector<long>, char>(
                                                           events_event.sequence ) ),
-                                      requested_keys.end() );
+                                      requested_keys.end() ); //TODO use lambda
             }
         }
     }
@@ -1064,7 +1065,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
     previously_pressed_key = 0;
     long key = getch();
     // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(SDLTILES) || defined(CATA_OS_WINDOWS))
     if (key != ERR) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
@@ -1086,7 +1087,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined(TILES) || defined(SDLTILES) || defined(CATA_OS_WINDOWS) || defined(CATA_OS_CYGWIN))
         // ncurses mouse handling
     } else if (key == KEY_MOUSE) {
         MEVENT event;
@@ -1188,7 +1189,7 @@ bool input_context::get_coordinates(WINDOW *capture_win, int &x, int &y)
 #ifndef SDLTILES
 void init_interface()
 {
-#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined(TILES) || defined(CATA_OS_WINDOWS) || defined(CATA_OS_CYGWIN))
     // ncurses mouse registration
     mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
 #endif

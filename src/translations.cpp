@@ -1,4 +1,5 @@
 #include "translations.h"
+#include "platform.h"
 
 #include <string>
 #ifdef LOCALIZE
@@ -11,7 +12,6 @@
 #include <cstring> // strcmp
 #include <map>
 #endif // LOCALIZE
-
 
 #ifdef LOCALIZE
 
@@ -39,7 +39,7 @@ void set_language(bool reload_options)
     std::string lang_opt = OPTIONS["USE_LANG"].getValue();
     if (lang_opt != "") { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(CATA_OS_WINDOWS)
         std::string lang_env = "LANGUAGE=" + lang_opt;
         if (_putenv(lang_env.c_str()) != 0) {
             DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
@@ -59,7 +59,7 @@ void set_language(bool reload_options)
         }
     }
 
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(CATA_OS_WINDOWS)
     // Use the ANSI code page 1252 to work around some language output bugs.
     if (setlocale(LC_ALL, ".1252") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";
@@ -72,7 +72,7 @@ void set_language(bool reload_options)
 
     // Step 2. Bind to gettext domain.
     const char *locale_dir;
-#ifdef __linux__
+#ifdef CATA_OS_LINUX
     if (!FILENAMES["base_path"].empty()) {
         locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
     } else {
@@ -80,7 +80,7 @@ void set_language(bool reload_options)
     }
 #else
     locale_dir = "lang/mo";
-#endif // __linux__
+#endif // CATA_OS_LINUX
 
     bindtextdomain("cataclysm-dda", locale_dir);
     bind_textdomain_codeset("cataclysm-dda", "UTF-8");

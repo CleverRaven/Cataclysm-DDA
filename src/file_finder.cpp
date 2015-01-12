@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "file_finder.h"
 #include <cstring>  // for strcmp
 #include <stack>    // for stack (obviously)
@@ -6,11 +7,11 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#ifdef CATA_COMPILER_MSVC
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 /**

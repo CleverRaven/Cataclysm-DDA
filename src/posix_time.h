@@ -1,5 +1,8 @@
 #ifndef TIME_SPEC_H
 #define TIME_SPEC_H
+
+#include "platform.h"
+
 /* Windows lacks the nanosleep() function. The following code was stuffed
    together from GNUlib (http://www.gnu.org/software/gnulib/), which is
    licensed under the GPLv3. */
@@ -8,7 +11,7 @@
 
 enum { BILLION = 1000 * 1000 * 1000 };
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#if defined(CATA_OS_WINDOWS) && !defined(CATA_OS_CYGWIN)
 /* Windows platforms.  */
 
 #   ifdef __cplusplus
@@ -30,10 +33,6 @@ struct timespec
 }
 #   endif
 
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-# define WIN32_LEAN_AND_MEAN
 # include <windows.h>
 
 /* The Win32 function Sleep() has a resolution of about 15 ms and takes

@@ -92,7 +92,7 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin("admin");
 }
 
-#ifndef __linux__ // make non-linux operating systems happy
+#ifndef CATA_OS_LINUX // make non-linux operating systems happy
 
 int getLock( char const *)
 {
@@ -127,7 +127,7 @@ void releaseLock( int fd, char const *lockName )
     close( fd );
 }
 
-#endif // __linux__
+#endif // CATA_OS_LINUX
 
 std::map<std::string, int> lockFiles;
 

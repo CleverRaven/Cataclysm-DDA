@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "player.h"
 #include "profession.h"
 #include "scenario.h"
@@ -12,8 +13,8 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#ifndef _MSC_VER
-#include <unistd.h>
+#ifndef CATA_COMPILER_MSVC
+#   include <unistd.h>
 #endif
 #include <fstream>
 #include <sstream>

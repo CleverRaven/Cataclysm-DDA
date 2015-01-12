@@ -1,4 +1,4 @@
-#if (!defined SDLTILES)
+#if !defined(SDLTILES)
 
 // see game.cpp
 bool is_valid_in_w_terrain(int x, int y);

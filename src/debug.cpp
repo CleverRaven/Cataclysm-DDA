@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "debug.h"
 #include "path_info.h"
 #include "output.h"
@@ -10,13 +11,13 @@
 #include <streambuf>
 #include <sys/stat.h>
 
-#ifndef _MSC_VER
-#include <sys/time.h>
+#if !defined(CATA_OS_WINDOWS)
+#   include <sys/time.h>
 #endif
 
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-#include <execinfo.h>
-#include <stdlib.h>
+#if !defined(CATA_OS_WINDOWS) && !defined(CATA_OS_CYGWIN)
+#   include <execinfo.h>
+#   include <stdlib.h>
 #endif
 
 // Static defines                                                   {{{1
@@ -266,7 +267,7 @@ struct time_info {
     }
 };
 
-#ifdef _MSC_VER
+#ifdef CATA_COMPILER_MSVC
 time_info get_time() noexcept {
     SYSTEMTIME time {};
 
@@ -309,7 +310,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         debugFile.file << ": ";
 
         // Backtrace on error.
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !defined(CATA_OS_WINDOWS) && !defined(CATA_OS_CYGWIN)
         if( lev == D_ERROR ) {
             int count = backtrace( tracePtrs, TRACE_SIZE );
             char **funcNames = backtrace_symbols( tracePtrs, count );

@@ -1,16 +1,18 @@
 #ifndef PATH_INFO_H
 #define PATH_INFO_H
 
+#include "platform.h"
+
 #include <string>
 #include <map>
 
 #ifndef FILE_SEP
-#if (defined _WIN32 || defined WINDOW)
-#define FILE_SEP '\\'
-#else
-#define FILE_SEP '/'
-#endif // if
-#define is_filesep(ch) (ch == '/' || ch == '\\')
+#   if defined(CATA_OS_WINDOWS)
+#       define FILE_SEP '\\'
+#   else
+#       define FILE_SEP '/'
+#   endif // if
+#   define is_filesep(ch) (ch == '/' || ch == '\\')
 #endif // ifndef
 
 extern std::map<std::string, std::string> FILENAMES;

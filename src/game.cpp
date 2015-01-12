@@ -40,6 +40,21 @@
 #include "pickup.h"
 #include "weather_gen.h"
 #include "start_location.h"
+#include "catalua.h"
+
+#include "platform.h"
+
+#if defined(CATA_OS_WINDOWS)
+#   include "wdirent.h"
+#   include <direct.h>
+#else
+#   include <unistd.h>
+#   include <dirent.h>
+#endif
+
+#include <sys/stat.h>
+
+#include <cassert>
 #include <map>
 #include <set>
 #include <algorithm>
@@ -49,27 +64,6 @@
 #include <cmath>
 #include <vector>
 #include <locale>
-
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <unistd.h>
-#include <dirent.h>
-#endif
-
-#include <sys/stat.h>
-#include "debug.h"
-#include "catalua.h"
-#include <cassert>
-
-#if (defined _WIN32 || defined __WIN32__)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <tchar.h>
-#endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
@@ -245,7 +239,7 @@ game::~game()
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
-#if (defined TILES)
+#if defined(TILES)
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
 void from_map_font_dimension(int &w, int &h);
@@ -281,7 +275,7 @@ void game::init_ui()
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     // First get TERMX, TERMY
-#if (defined TILES || defined _WIN32 || defined __WIN32__)
+#if defined(TILES) || defined(CATA_OS_WINDOWS)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 #else
@@ -4584,7 +4578,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
         }
     }
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
     for (std::vector<std::string>::iterator file = file_paths.begin();
          file != file_paths.end(); ++file) {
         DeleteFile(file->c_str());
@@ -4634,7 +4628,7 @@ void game::write_memorial_file(std::string sLastWords)
     //Open the file first
     DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
         mkdir(FILENAMES["memorialdir"].c_str());
 #else
         mkdir(FILENAMES["memorialdir"].c_str(), 0777);

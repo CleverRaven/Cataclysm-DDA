@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "game.h"
 #include "gamemode.h"
 #include "debug.h"
@@ -17,11 +18,11 @@
 #include <fstream>
 
 #include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#ifdef CATA_OS_WINDOWS
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

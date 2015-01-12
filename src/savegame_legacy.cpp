@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "game.h"
 #include "output.h"
 #include "skill.h"
@@ -22,8 +23,8 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#ifndef _MSC_VER
-#include <unistd.h>
+#ifndef CATA_COMPILER_MSVC
+#   include <unistd.h>
 #endif
 #include "debug.h"
 #include "weather.h"

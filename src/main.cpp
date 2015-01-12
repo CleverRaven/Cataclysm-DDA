@@ -13,18 +13,19 @@
 #include "file_wrapper.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "platform.h"
 
 #include <ctime>
 #include <sys/stat.h>
 #include <signal.h>
 #ifdef LOCALIZE
-#include <libintl.h>
+#   include <libintl.h>
 #endif
 #include "translations.h"
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#elif (defined OSX_SDL_LIBS)
-#include "SDL/SDL.h"
+#if defined(OSX_SDL_FW)
+#   include "SDL.h"
+#elif defined(OSX_SDL_LIBS)
+#   include "SDL/SDL.h"
 #endif
 
 void exit_handler(int s);
@@ -230,7 +231,7 @@ int main(int argc, char *argv[])
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad(stdscr, true); // Numpad is numbers
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(CATA_OS_WINDOWS))
     // For tiles or windows, this is handled already in initscr().
     init_colors();
 #endif
@@ -280,7 +281,7 @@ int main(int argc, char *argv[])
 
     curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
-#if (!(defined _WIN32 || defined WINDOWS))
+#if !defined(CATA_OS_WINDOWS)
     struct sigaction sigIntHandler;
     sigIntHandler.sa_handler = exit_handler;
     sigemptyset(&sigIntHandler.sa_mask);
@@ -311,7 +312,7 @@ void exit_handler(int s)
         erase(); // Clear screen
         endwin(); // End ncurses
         int ret;
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(CATA_OS_WINDOWS)
         ret = system("cls"); // Tell the terminal to clear itself
         ret = system("color 07");
 #else

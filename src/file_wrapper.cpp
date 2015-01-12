@@ -1,20 +1,15 @@
 #include "file_wrapper.h"
+#include "platform.h"
 
 #include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+
+#if defined(CATA_OS_WINDOWS)
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
-#include <unistd.h>
-#include <stdio.h>
-#endif
-#if (defined _WIN32 || defined __WIN32__)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <tchar.h>
+#   include <dirent.h>
+#   include <unistd.h>
+#   include <stdio.h>
 #endif
 
 bool assure_dir_exist( std::string path )
@@ -24,7 +19,7 @@ bool assure_dir_exist( std::string path )
         closedir( dir );
         return true;
     }
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
     return ( mkdir( path.c_str() ) == 0 );
 #else
     return ( mkdir( path.c_str(), 0777 ) == 0 );
@@ -39,7 +34,7 @@ bool file_exist(const std::string &path)
 
 bool remove_file(const std::string &path)
 {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
     return DeleteFile(path.c_str()) != 0;
 #else
     return unlink(path.c_str()) == 0;
@@ -48,7 +43,7 @@ bool remove_file(const std::string &path)
 
 bool rename_file(const std::string &old_path, const std::string &new_path)
 {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(CATA_OS_WINDOWS)
     // Windows rename function does not override existing targets, so we
     // have to remove the target to make it compatible with the linux rename
     if (file_exist(new_path)) {
