@@ -7922,26 +7922,39 @@ void player::suffer()
         }
 
         // Apply rads to any radiation badges.
-        std::vector<item *> possessions = inv_dump();
-        for( auto &possession : possessions ) {
-            if( ( possession )->type->id == "rad_badge" ) {
-                // Actual irradiation levels of badges and the player aren't precisely matched.
-                // This is intentional.
-                int before = ( possession )->irridation;
-                ( possession )->irridation += rng( 0, localRadiation / 16 );
-                if( inv.has_item( possession ) ) {
-                    continue;
-                }
-                for( size_t i = 0; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]);
-                     i++ ){
-                    if( before < rad_dosage_thresholds[i] &&
-                        ( possession )->irridation >= rad_dosage_thresholds[i] ) {
-                        add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
-                                          _(rad_threshold_colors[i - 1].c_str()),
-                                          _(rad_threshold_colors[i].c_str()) );
-                    }
-                }
+        auto const rad_delta_min = 0;
+        auto const rad_delta_max = localRadiation / 16;
+
+        for (item *const it : inv_dump()) {
+            if (it->type->id != "rad_badge") {
+                continue;
             }
+
+            // Actual irradiation levels of badges and the player aren't precisely matched.
+            // This is intentional.
+            int const before = it->irridation;
+
+            auto const delta = rng(rad_delta_min, rad_delta_max);
+            if (delta == 0) {
+                continue;
+            }
+
+            it->irridation += static_cast<int>(delta);
+
+            // If in inventory (not worn), don't print anything.
+            if (inv.has_item(it)) {
+                continue;
+            }
+
+            // If the color hasn't changed, don't print anything.
+            auto const &col_before = rad_badge_color(before);
+            auto const &col_after  = rad_badge_color(it->irridation);
+            if (col_before == col_after) {
+                continue;
+            }
+
+            add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
+                col_before.c_str(), col_after.c_str() );
         }
     }
 
