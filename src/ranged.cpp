@@ -760,9 +760,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 z->apply_damage( &p, bp_torso, dam );
             } else if (npcID != -1) {
                 guy->apply_damage( &p, bp, dam );
-                if (guy->is_dead_state()) {
-                    guy->die(&p);
-                }
+                guy->check_dead_state();
             }
             break; // trajectory stops at this square
             // end if (hit_something)

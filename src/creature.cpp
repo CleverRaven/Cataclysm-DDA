@@ -611,9 +611,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             }
         }
     }
-    if (this->is_dead_state()) {
-        this->die(source);
-    }
+    check_dead_state();
     return 0;
 }
 
@@ -646,9 +644,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     }
 
     apply_damage(source, bp, total_damage);
-    if( is_dead_state() ) {
-        die( source );
-    }
+    check_dead_state();
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
@@ -1515,4 +1511,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
     return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
+}
+
+void Creature::check_dead_state() {
+    if( is_dead_state() ) {
+        die( nullptr );
+    }
 }

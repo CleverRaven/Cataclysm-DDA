@@ -2432,9 +2432,7 @@ void mattack::taze( monster *z, Creature *target )
         foe->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
                                             _("The %s shocks <npcname>!"),
                                             z->name().c_str() );
-        if( foe != &g->u && foe->is_dead_state() ) {
-            foe->die( z );                
-        }
+        foe->check_dead_state();
     } else if( target->is_monster() ) {
         // From iuse::tazer, but simplified
         monster *mon = dynamic_cast< monster* >( target );
@@ -3553,9 +3551,7 @@ void mattack::bite(monster *z, int index)
                 foe->add_effect( "bite", 1, hit, true );
             }
         }
-        if( foe != &g->u && foe->is_dead_state() ) {
-            foe->die( z );                
-        }
+        foe->check_dead_state();
     } else if( foe != nullptr ) {
         if( seen ) {
             foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),

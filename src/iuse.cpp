@@ -5778,9 +5778,7 @@ int iuse::tazer(player *p, item *it, bool, point)
         int shock = rng(5, 20);
         foe->moves -= shock * 100;
         foe->hurtall(shock);
-        if( foe->is_dead_state() ) {
-            foe->die( p );
-        }
+        foe->check_dead_state();
     }
     return it->type->charges_to_use();
 }
@@ -5872,10 +5870,7 @@ int iuse::tazer2(player *p, item *it, bool, point)
             int shock = rng(5, 20);
             foe->moves -= shock * 100;
             foe->hurtall(shock);
-
-            if( foe->is_dead_state() ) {
-                foe->die( p );
-            }
+            foe->check_dead_state();
         }
 
         return 100;

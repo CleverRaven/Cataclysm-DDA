@@ -199,6 +199,8 @@ class Creature
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
+        // If is_dead_state(), calls die().
+        void check_dead_state();
 
         virtual int posx() const = 0;
         virtual int posy() const = 0;
