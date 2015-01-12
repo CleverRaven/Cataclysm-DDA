@@ -1382,12 +1382,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        recipe_list &rec = recipes_by_component[tid];
+        std::vector<recipe *> &rec = recipes_by_component[tid];
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
-            recipe_list known_recipes;
+            std::vector<recipe *> known_recipes;
             for (recipe *r : rec) {
                 if (g->u.knows_recipe(r)) {
                     known_recipes.push_back(r);

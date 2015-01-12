@@ -22,21 +22,21 @@ enum TAB_MODE {
     BATCH
 };
 
-std::vector<craft_cat> craft_cat_list;
-std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
-recipe_map recipes;
-std::map<itype_id, recipe_list> recipes_by_component;
+std::vector<std::string> craft_cat_list;
+std::map<std::string, std::vector<std::string> > craft_subcat_list;
+std::map<std::string, std::vector<recipe *>> recipes;
+std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode = NORMAL);
-static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
+static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
+static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab,
                                 TAB_MODE mode = NORMAL);
-static craft_cat first_craft_cat();
-static craft_cat next_craft_cat(const craft_cat cat);
-static craft_cat prev_craft_cat(const craft_cat cat);
-static craft_subcat first_craft_subcat(const craft_cat cat);
-static craft_subcat last_craft_subcat(const craft_cat cat);
-static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
-static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static std::string first_craft_cat();
+static std::string next_craft_cat(const std::string cat);
+static std::string prev_craft_cat(const std::string cat);
+static std::string first_craft_subcat(const std::string cat);
+static std::string last_craft_subcat(const std::string cat);
+static std::string next_craft_subcat(const std::string cat, const std::string subcat);
+static std::string prev_craft_subcat(const std::string cat, const std::string subcat);
 
 void remove_from_component_lookup(recipe* r);
 
@@ -52,8 +52,8 @@ recipe::recipe() :
 {
 }
 
-recipe::recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
-               craft_subcat psubcat, std::string &to_use,
+recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
+               std::string psubcat, std::string &to_use,
                std::map<std::string, int> &to_require,
                bool preversible, bool pautolearn, int plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
@@ -102,7 +102,7 @@ void add_to_component_lookup(recipe* r)
 void remove_from_component_lookup(recipe* r)
 {
     for (auto &map_item : recipes_by_component) {
-        recipe_list &rlist = map_item.second;
+        std::vector<recipe *> &rlist = map_item.second;
         rlist.erase(std::remove(rlist.begin(), rlist.end(), r), rlist.end());
     }
 }
@@ -117,7 +117,7 @@ void load_recipe_category(JsonObject &jsobj)
     if( category != "CC_NONCRAFT" ) {
         craft_cat_list.push_back( category );
     }
-    craft_subcat_list[category] = std::vector<craft_subcat>();
+    craft_subcat_list[category] = std::vector<std::string>();
     subcats = jsobj.get_array("recipe_subcategories");
     while (subcats.has_more()) {
         craft_subcat_list[category].push_back( subcats.next_string() );
@@ -139,8 +139,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
     const bool override_existing = jsobj.get_bool("override", false);
     int recipe_count = 0;
     for( auto &recipe : recipes ) {
-        for( recipe_list::iterator list_iter = recipe.second.begin();
-             list_iter != recipe.second.end(); ++list_iter ) {
+        for( auto list_iter = recipe.second.begin(); list_iter != recipe.second.end(); ++list_iter ) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
                     jsobj.throw_error(
@@ -466,14 +465,14 @@ bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) c
     return requirements.can_make_with_inventory(crafting_inv, batch);
 }
 
-static craft_cat first_craft_cat()
+static std::string first_craft_cat()
 {
     return craft_cat_list.front();
 }
 
-static craft_cat next_craft_cat(const craft_cat cat)
+static std::string next_craft_cat(const std::string cat)
 {
-    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+    for (std::vector<std::string>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( ++iter == craft_cat_list.end() ) {
@@ -485,9 +484,9 @@ static craft_cat next_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-static craft_cat prev_craft_cat(const craft_cat cat)
+static std::string prev_craft_cat(const std::string cat)
 {
-    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+    for (std::vector<std::string>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( iter == craft_cat_list.begin() ) {
@@ -499,19 +498,19 @@ static craft_cat prev_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-static craft_subcat first_craft_subcat(const craft_cat cat)
+static std::string first_craft_subcat(const std::string cat)
 {
     return craft_subcat_list[cat].front();
 }
 
-static craft_subcat last_craft_subcat(const craft_cat cat)
+static std::string last_craft_subcat(const std::string cat)
 {
     return craft_subcat_list[cat].back();
 }
 
-static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static std::string next_craft_subcat(const std::string cat, const std::string subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+    for (std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( ++iter == craft_subcat_list[cat].end() ) {
@@ -523,9 +522,9 @@ static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat su
     return NULL;
 }
 
-static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static std::string prev_craft_subcat(const std::string cat, const std::string subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+    for (std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( iter == craft_subcat_list[cat].begin() ) {
@@ -560,8 +559,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
     std::string item_info_text;
-    craft_cat tab = first_craft_cat();
-    craft_subcat subtab = first_craft_subcat( tab );
+    std::string tab = first_craft_cat();
+    std::string subtab = first_craft_subcat( tab );
     std::vector<const recipe *> current;
     std::vector<bool> available;
     item tmp;
@@ -854,7 +853,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
+static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -916,7 +915,7 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
     wrefresh(w);
 }
 
-static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, TAB_MODE mode)
+static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1173,8 +1172,8 @@ int recipe::batch_time(int batch) const
 
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
-                  std::vector<bool> &available, craft_cat tab,
-                  craft_subcat subtab, std::string filter)
+                  std::vector<bool> &available, std::string tab,
+                  std::string subtab, std::string filter)
 {
     bool search_name = true;
     bool search_tool = false;
@@ -1200,7 +1199,7 @@ void pick_recipes(const inventory &crafting_inv,
         }
         filter = filter.substr(pos + 1);
     }
-    recipe_list available_recipes;
+    std::vector<recipe *> available_recipes;
 
     if (filter == "") {
         available_recipes = recipes[tab];
