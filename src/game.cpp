@@ -5980,20 +5980,25 @@ void game::monmove()
                     u.wake_up();
                 }
             }
-            // We might have stumbled out of range of the player; if so, kill us
-            if (critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-                critter.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-                critter.posx() > (SEEX * MAPSIZE * 7) / 6 ||
-                critter.posy() > (SEEY * MAPSIZE * 7) / 6) {
-                // Remove the zombie, but don't let it "die", it still exists, just
-                // not in the reality bubble.
-                despawn_monster( i );
-                i--;
-            }
         }
     }
 
     cleanup_dead();
+
+    // The remaining monsters are all alive, but may be outside of the reality bubble.
+    // If so, despawn them. This is not the same as dying, they will be stored for later and the
+    // monster::die function is not called.
+    for( size_t i = 0; i < num_zombies(); ) {
+        monster &critter = critter_tracker.find( i );
+        if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
+            critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
+            critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
+            critter.posy() > ( SEEY * MAPSIZE * 7 ) / 6 ) {
+            despawn_monster( i );
+        } else {
+            i++;
+        }
+    }
 
     // Now, do active NPCs.
     for( auto &elem : active_npc ) {
