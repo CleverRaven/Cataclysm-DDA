@@ -13310,8 +13310,6 @@ void game::plswim(int x, int y)
         x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2))) {
         update_map(x, y);
     }
-    u.posx = x;
-    u.posy = y;
     if (!m.has_flag("SWIMMABLE", x, y)) {
         dbg(D_ERROR) << "game:plswim: Tried to swim in "
                      << m.tername(x, y).c_str() << "!";
@@ -13341,6 +13339,8 @@ void game::plswim(int x, int y)
         }
     }
     bool diagonal = (x != u.posx && y != u.posy);
+    u.posx = x;
+    u.posy = y;
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
 
