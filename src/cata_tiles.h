@@ -231,8 +231,8 @@ class cata_tiles
         bool draw_trap(int x, int y);
         bool draw_field_or_item(int x, int y);
         bool draw_vpart(int x, int y);
-        bool draw_entity(int x, int y);
-        void draw_entity_with_overlays(int x, int y);
+        bool draw_entity( const Creature &critter, int x, int y );
+        void draw_entity_with_overlays( const player &p, int x, int y );
 
         bool draw_item_highlight(int x, int y);
 

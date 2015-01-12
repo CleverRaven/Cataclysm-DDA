@@ -7,6 +7,7 @@
 #include "text_snippets.h"
 #include "material.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "options.h"
 #include "uistate.h"
 #include "helper.h" //to_string_int
@@ -21,10 +22,33 @@
 #include <algorithm>
 #include <unordered_set>
 #include <set>
+#include <array>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
+
+std::string const& rad_badge_color(int const rad)
+{
+    using pair_t = std::pair<int const, std::string const>;
+    
+    static std::array<pair_t, 6> const values = {{
+        pair_t {  0, _("green") },
+        pair_t { 30, _("blue")  },
+        pair_t { 60, _("yellow")},
+        pair_t {120, _("orange")},
+        pair_t {240, _("red")   },
+        pair_t {500, _("black") },
+    }};
+
+    for (auto const &i : values) {
+        if (rad <= i.first) {
+            return i.second;
+        }
+    }
+
+    return values.back().second;
+}
 
 light_emission nolight = {0, 0, 0};
 
@@ -508,7 +532,7 @@ std::string item::info(bool showtext) const
 std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) const
 {
     std::stringstream temp1, temp2;
-    std::string space="   ";
+    std::string space=" ";
     if( g != NULL && debug == false &&
         ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
         debug = true;
@@ -516,7 +540,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( !is_null() ) {
         dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
         dump->push_back(iteminfo("BASE", space + _("Weight: "),
-                                 string_format(_("<num> %s"),
+                                 string_format("<num> %s",
                                                OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
                                                _("lbs") : _("kg")),
                                  g->u.convert_weight(weight()), false, "", true, true));
@@ -903,7 +927,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
 		dump->push_back(iteminfo("ARMOR", temp1.str()));
 
-        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
@@ -1143,11 +1167,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has pockets to warm your hands.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Put away your weapon to warm your hands in the pockets.")));
         }
         if (is_armor() && has_flag("HOOD")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing has a hood to keep your head warm.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Leave your head unencumbered to put on the hood.")));
+        }
+        if (is_armor() && has_flag("COLLAR")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing has a wide collar that can keep your mouth warm.")));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("Leave your mouth unencumbered to raise the collar.")));
         }
         if (is_armor() && has_flag("RAINPROOF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1234,15 +1269,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 _("This piece of clothing is very fancy.")));
         }
         if (is_armor() && type->id == "rad_badge") {
-            size_t i;
-            for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
-                if( irridation < rad_dosage_thresholds[i] ) {
-                    break;
-                }
-            }
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              _(rad_threshold_colors[i - 1].c_str()))));
+                              rad_badge_color(irridation).c_str())));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1370,12 +1399,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        recipe_list &rec = recipes_by_component[tid];
+        std::vector<recipe *> &rec = recipes_by_component[tid];
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
-            recipe_list known_recipes;
+            std::vector<recipe *> known_recipes;
             for (recipe *r : rec) {
                 if (g->u.knows_recipe(r)) {
                     known_recipes.push_back(r);
@@ -1507,15 +1536,21 @@ nc_color item::color(player *u) const
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
-            if( tmp.skill && tmp.intel <= u->int_cur + u->skillLevel( tmp.skill ) &&
+            if( tmp.skill && // Book can improve skill: blue
                 ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
                 ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
                 ret = c_ltblue;
-            } else if( !u->studied_all_recipes( *type ) ) {
+            } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill right now, but has more recipes: yellow
                 ret = c_yellow;
+            } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
+                       u->skillLevel( tmp.skill ) < tmp.level ) {
+                ret = c_pink;
+            } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
+                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart("style_" + type->id.substr(7))) ) {
+                ret = c_ltblue;
             }
         } else {
-            ret = c_red;
+            ret = c_red; // Book hasn't been identified yet: red
         }
     }
     return ret;
@@ -3522,7 +3557,7 @@ bool item::reload(player &u, int pos)
             // Then prefer a spare mag if present
         } else if (spare_mag != -1 &&
                    ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != spare_mag_size() && 
+                   contents[spare_mag].charges != spare_mag_size() &&
                    (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
             reload_target = &contents[spare_mag];
             reloading_spare_mag = true;
@@ -3532,7 +3567,7 @@ bool item::reload(player &u, int pos)
                 if (&contents[i] != gunmod && (int)i != spare_mag &&
                     contents[i].is_auxiliary_gunmod() &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].spare_mag_size() || 
+                    (contents[i].charges <= contents[i].spare_mag_size() ||
                      (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
                     reload_target = &contents[i];
                     break;
@@ -3867,7 +3902,7 @@ bool item::fill_with( item &liquid, std::string &err )
 {
     LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid );
     switch ( lferr ) {
-        case L_ERR_NONE : 
+        case L_ERR_NONE :
             break;
         case L_ERR_NO_MIX:
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
@@ -4306,7 +4341,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active ||
+    return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
            is_artifact();
 }
@@ -4366,7 +4401,7 @@ bool item::process_corpse( player *carrier, point pos )
     }
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
         if( carrier == nullptr ) {
-            if( g->u_see( pos.x, pos.y ) ) {
+            if( g->u.sees( pos ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {

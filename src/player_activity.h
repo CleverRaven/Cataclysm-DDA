@@ -61,6 +61,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
   void pulp_do_turn();
   void refill_vehicle_do_turn();
   void reload_finish();
+  /** Handles fishing with a fishing rod. */
   void rod_fish(int, int);
   void start_fire_finish();
   void start_fire_lens_do_turn();
@@ -69,17 +70,27 @@ class player_activity : public JsonSerializer, public JsonDeserializer
   void vibe_do_turn();
   void finish();
 public:
+  /** The type of this activity. */
   activity_type type;
+  /** The number of moves remaining in this activity before it is complete. */
   int moves_left;
+  /** An activity specific value. */
   int index;
+  /** An activity specific value. */
   int position;
+  /** An activity specific value. */
   std::string name;
   bool ignore_trivial;
   std::vector<int> values;
   std::vector<std::string> str_values;
   point placement;
-  bool warned_of_proximity; // True if player has been warned of dangerously close monsters
-  // Property that makes the activity resume if the previous activity completes.
+  /** If true, the player has been warned of dangerously close monsters with
+   * respect to this activity.
+   */
+  bool warned_of_proximity;
+  /** If true, the activity will be auto-resumed next time the player attempts
+   *  an identical activity. This value is set dynamically.
+   */
   bool auto_resume;
 
   player_activity(activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,

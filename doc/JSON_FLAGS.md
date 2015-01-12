@@ -171,11 +171,6 @@ Flags used to describe monsters and define their properties and abilities.
 
 - ```NULL``` Source use only.
 - ```SEES``` It can see you (and will run/follow).
-- ```VIS50``` Vision -10
-- ```VIS40``` Vision -20
-- ```VIS30``` Vision -30
-- ```VIS20``` Vision -40
-- ```VIS10``` Vision -50
 - ```HEARS``` It can hear you.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```SMELLS``` It can smell you.
@@ -733,6 +728,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+
+## Books
+
+- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
 
 ### Use actions
 

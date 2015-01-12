@@ -26665,6 +26665,10 @@
 	{
       "file": "gfx/RetroDaysTileset10/retrodaysfallback10.png",
       "tiles": [
+        {
+          "id": "infrared_creature",
+          "fg": 1087
+        }
       ],
       "ascii": [
         { "offset": 0, "color": "BLACK" },

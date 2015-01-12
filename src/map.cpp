@@ -602,8 +602,11 @@ bool map::vehproceed()
         // submerged wheels threshold is 2/3.
         if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
             add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
-            if (pl_ctrl) {
+            if( pl_ctrl ) {
                 veh->unboard_all();
+            }
+            if( g->remoteveh() == veh ) {
+                g->setremoteveh( nullptr );
             }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
@@ -1725,7 +1728,7 @@ void map::create_spores(const int x, const int y, Creature* source)
             mondex = g->mon_at(i, j);
             if (move_cost(i, j) > 0 || (i == x && j == y)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) &&
+                    if (g->u.sees(i, j) &&
                         !g->zombie(mondex).type->in_species("FUNGUS")) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                 g->zombie(mondex).name().c_str());
@@ -3078,45 +3081,49 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n, 
     return process_item( items, n, location, false );
 }
 
-static bool process_vehicle_items( item_stack &items, std::list<item>::iterator &n, point location,
-                                   vehicle *cur_veh, int part, std::string signal )
+static void process_vehicle_items( vehicle *cur_veh, int part )
 {
     const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
     if( fridge_here ) {
-        apply_in_fridge(*n);
-    }
-    if( cur_veh->recharger_on && n->has_flag("RECHARGE") &&
-        cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
-        int full_charge = dynamic_cast<it_tool*>(n->type)->max_charges;
-        if (n->has_flag("DOUBLE_AMMO")) {
-            full_charge = full_charge * 2;
+        for( auto &n : cur_veh->get_items( part ) ) {
+            apply_in_fridge(n);
         }
-        if (n->is_tool() && full_charge > n->charges ) {
-            if (one_in(10)) {
-                n->charges++;
+    }
+    if( cur_veh->recharger_on && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
+        for( auto &n : cur_veh->get_items( part ) ) {
+            if( !n.has_flag("RECHARGE") ) {
+                continue;
+            }
+            int full_charge = dynamic_cast<it_tool*>(n.type)->max_charges;
+            if( n.has_flag("DOUBLE_AMMO") ) {
+                full_charge = full_charge * 2;
+            }
+            if( n.is_tool() && full_charge > n.charges ) {
+                if( one_in(10) ) {
+                    n.charges++;
+                }
             }
         }
     }
-    return process_map_items( items, n, location, signal );
 }
 
 void map::process_active_items()
 {
-    process_items( true, process_vehicle_items, process_map_items, "" );
+    process_items( true, process_map_items, "" );
 }
 
-template<typename T, typename U>
-void map::process_items( bool active, T veh_processor, U map_processor, std::string signal )
+template<typename T>
+void map::process_items( bool active, T processor, std::string signal )
 {
     for( int gx = 0; gx < my_MAPSIZE; gx++ ) {
         for( int gy = 0; gy < my_MAPSIZE; gy++ ) {
             submap *const current_submap = get_submap_at_grid(gx, gy);
             // Vehicles first in case they get blown up and drop active items on the map.
             if( !current_submap->vehicles.empty() ) {
-                process_items_in_vehicles(current_submap, veh_processor, signal);
+                process_items_in_vehicles(current_submap, processor, signal);
             }
             if( !active || !current_submap->active_items.empty() ) {
-                process_items_in_submap(current_submap, gx, gy, map_processor, signal);
+                process_items_in_submap(current_submap, gx, gy, processor, signal);
             }
         }
     }
@@ -3166,9 +3173,12 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
                                     std::string signal )
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
+    for( int part : cargo_parts ) {
+        process_vehicle_items( cur_veh, part );
+    }
     auto active_items = cur_veh->active_items.get();
     for( auto &active_item : active_items ) {
-        if( !cur_veh->active_items.has( active_item.item_iterator, active_item.location ) ) {
+        if( !cur_veh->active_items.has( active_item ) ) {
             continue;
         }
 
@@ -3191,8 +3201,7 @@ void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_subm
             continue;
         }
 
-        if( !processor( items, active_item.item_iterator,
-                        item_location, cur_veh, part_index, signal ) ) {
+        if( !processor( items, active_item.item_iterator, item_location, signal ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -3524,15 +3533,9 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     return false;
 }
 
-static bool trigger_radio_item_veh( item_stack &items, std::list<item>::iterator &n, point pos,
-                                    vehicle *, int, std::string signal )
-{
-    return trigger_radio_item( items, n, pos, signal );
-}
-
 void map::trigger_rc_items( std::string signal )
 {
-    process_items( false, trigger_radio_item_veh, trigger_radio_item, signal );
+    process_items( false, trigger_radio_item, signal );
 }
 
 item *map::item_from( const point& pos, size_t index ) {
@@ -3934,7 +3937,7 @@ void map::draw(WINDOW* w, const point center)
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = DAYLIGHT_LEVEL;
 
-   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   bool can_see = pl_sees( realx, realy, distance_to_look );
    lit_level lit = light_at(realx, realy);
 
    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
@@ -4133,6 +4136,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     } else {
         mvwputch    (w, j, k, tercol, sym);
     }
+}
+
+bool map::sees( const point F, const point T, const int range, int &bresenham_slope )
+{
+    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
 }
 
 /*
@@ -5598,14 +5606,16 @@ void map::add_road_vehicles(bool city, int facing)
                 veh_y = rng(4, 16);
             }
             int veh_type = rng(0, 100);
-            if(veh_type <= 70) {
+            if(veh_type <= 67) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 92) {
+            } else if(veh_type <= 89) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 95) {
+            } else if(veh_type <= 92) {
                 add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
-            } else {
+            } else if(veh_type <= 97) {
                 add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
+            } else {
+                add_vehicle("autosweeper", veh_x, veh_y, facing, -1, 1);
             }
         } else if(spawn_type <= 99) {
             //Totally clear section of road

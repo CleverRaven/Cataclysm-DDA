@@ -1137,5 +1137,22 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 10000
+    },
+    {
+        "type":"GENERIC",
+        "id": "robot_controls",
+        "name": "robot driving unit",
+        "name_plural" : "robot driving units",
+        "description": "A set of servos, microcontrollers and other devices, together capable of driving an unmanned vehicle. Its AI is not functional, but it should still have some sort of maintenance mode.",
+        "weight": 2000,
+        "to_hit": -4,
+        "color": "white",
+        "symbol": "&",
+        "material": ["plastic", "steel"],
+        "volume": 20,
+        "bashing": 1,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 20000
     }
 ]

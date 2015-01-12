@@ -1,39 +1,37 @@
 #ifndef CRAFTING_H
 #define CRAFTING_H
 
+#include "item.h"         // item
+#include "requirements.h" // requirement_data
+#include "bodypart.h"     // handedness::NONE
+#include "cursesdef.h"    // WINDOW
+
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
-#include "itype.h"
-#include "skill.h"
-#include "rng.h"
-#include "json.h"
-#include "bodypart.h"
-#include "requirements.h"
 
-#define MAX_DISPLAYED_RECIPES 18
+class JsonObject;
+class Skill;
+class inventory;
+class player;
 
-typedef std::string craft_cat;
-typedef std::string craft_subcat;
+enum body_part : int; // From bodypart.h
+enum nc_color : int; // From color.h
 
-enum TAB_MODE {
-    NORMAL,
-    FILTERED,
-    BATCH
-};
+using itype_id     = std::string; // From itype.h
+
+// Global list of valid recipes
+extern std::map<std::string, std::vector<recipe *>> recipes;
+// Global reverse lookup
+extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
 struct byproduct {
     itype_id result;
     int charges_mult;
     int amount;
 
-    byproduct()
-    {
-        result = "null";
-        charges_mult = 1;
-        amount = 1;
-    }
+    byproduct() : byproduct("null") {}
 
     byproduct(itype_id res, int mult = 1, int amnt = 1)
         : result(res), charges_mult(mult), amount(amnt)
@@ -49,8 +47,8 @@ struct recipe {
     int difficulty;
     requirement_data requirements;
     std::vector<byproduct> byproducts;
-    craft_cat cat;
-    craft_subcat subcat;
+    std::string cat;
+    std::string subcat;
     const Skill* skill_used;
     std::map<const Skill*, int> required_skills;
     bool reversible; // can the item be disassembled?
@@ -74,8 +72,8 @@ struct recipe {
 
     ~recipe();
     recipe();
-    recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
-           craft_subcat psubcat, std::string &to_use,
+    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
+           std::string psubcat, std::string &to_use,
            std::map<std::string, int> &to_require,
            bool preversible, bool pautolearn, int plearn_dis,
            int pmult, bool ppaired, std::vector<byproduct> &bps,
@@ -105,14 +103,6 @@ struct recipe {
 
 };
 
-typedef std::vector<recipe *> recipe_list;
-typedef std::map<craft_cat, recipe_list> recipe_map;
-
-extern recipe_map recipes; // The list of valid recipes
-
-extern std::map<itype_id, recipe_list> recipes_by_component; // reverse lookup
-
-class item;
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
 void remove_ammo(item *dis_item, player &p);
@@ -133,8 +123,8 @@ bool query_dissamble(const item &dis_item);
 const recipe *select_crafting_recipe(int &batch_size);
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
-                  std::vector<bool> &available, craft_cat tab,
-                  craft_subcat subtab, std::string filter);
+                  std::vector<bool> &available, std::string tab,
+                  std::string subtab, std::string filter);
 void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);

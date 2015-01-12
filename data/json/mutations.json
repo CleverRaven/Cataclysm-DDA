@@ -242,6 +242,14 @@
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
+        "id" : "SPIRITUAL",
+        "name" : "Spiritual",
+        "points" : 1,
+        "description" : "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "TOLERANCE",
         "name" : "Substance Tolerance",
         "points" : 1,
@@ -3519,14 +3527,14 @@
         "id" : "RADIOACTIVE1",
         "name" : "Minor Radioactivity",
         "points" : -4,
-        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
-        "points" : -4,
+        "points" : -7,
         "description" : "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
@@ -3535,7 +3543,7 @@
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
-        "points" : -4,
+        "points" : -10,
         "description" : "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE2"]
     },{
@@ -3728,7 +3736,7 @@
         "visibility" : 4,
         "ugliness" : 5,
         "//~" : "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task. The handheld game does count.",
-        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients from the soil.",
+        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
@@ -3741,7 +3749,7 @@
         "points" : -3,
         "visibility" : 5,
         "ugliness" : 5,
-        "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
+        "description" : "You find it difficult not to sink roots when able. You extract nutrients and water whenever on diggable terrain, but move more slowly.",
         "prereqs" : ["ROOTS2"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
@@ -3754,7 +3762,7 @@
         "points" : 10,
         "visibility" : 7,
         "ugliness" : 1,
-        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger you might have.",
+        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger or thirst you might have.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["ROOTS2", "ROOTS3"],

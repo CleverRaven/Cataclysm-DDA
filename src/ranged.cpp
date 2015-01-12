@@ -728,7 +728,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             }
 
             // Combat text and message
-            if (u_see(tx, ty)) {
+            if (u.sees(tx, ty)) {
                 nc_color color;
                 std::string health_bar = "";
                 if (zid != -1) {
@@ -784,7 +784,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
     // Add the thrown item to the map at the place it stopped (tx, ty)
     if (shatter) {
-        if (u_see(tx, ty)) {
+        if (u.sees(tx, ty)) {
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         }
         for (item &i : thrown.contents) {
@@ -1088,7 +1088,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
 
             const Creature *critter = critter_at( x, y );
-            if( critter != nullptr && u.sees( critter ) ) {
+            if( critter != nullptr && u.sees( *critter ) ) {
                 // The 4 is 2 for the border and 2 for aim bars.
                 int available_lines = height - num_instruction_lines - line_number - 4;
                 line_number = critter->print_info( w_target, line_number, available_lines, 1);

@@ -409,19 +409,36 @@ void cOpt::setValue(std::string sSetIn)
 cOpt::operator float() const
 {
     if (sType == "string") {
-        return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
-
+        return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
-        return (bSet) ? 1.0 : 0.0;
-
+        return (bSet) ? 1.0f : 0.0f;
     } else if (sType == "int") {
-        return (float)iSet;
-
+        return static_cast<float>(iSet);
     } else if (sType == "float") {
         return fSet;
     }
 
-    return 0.0;
+    return 0.0f;
+}
+
+cOpt::operator int() const
+{
+    if (sType == "string") {
+        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
+    } else if (sType == "bool") {
+        return (bSet) ? 1 : 0;
+    } else if (sType == "int") {
+        return iSet;
+    } else if (sType == "float") {
+        return static_cast<int>(fSet);
+    }
+
+    return 0;
+}
+
+cOpt::operator bool() const
+{
+    return static_cast<float>(*this) != 0.0f;
 }
 
 // if (class == "string")
@@ -572,7 +589,7 @@ void initOptions()
     optionNames["fi"] = R"(Suomi)";
     optionNames["fr_FR"] =  R"(Français (France))";
     optionNames["de_DE"] = R"(Deutsch (Deutschland))";
-    optionNames["it"] = R"(Italiano)";
+    optionNames["it_IT"] = R"(Italiano)";
     optionNames["es_AR"] = R"(Español (Argentina))";
     optionNames["es_ES"] = R"(Español (España))";
     optionNames["ja"] = R"(日本語)";

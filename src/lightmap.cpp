@@ -315,13 +315,13 @@ float map::ambient_light_at(int dx, int dy)
     return lm[dx][dy];
 }
 
-bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
+bool map::pl_sees( const int tx, const int ty, const int max_range )
 {
     if (!INBOUNDS(tx, ty)) {
         return false;
     }
 
-    if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range)) {
+    if( max_range >= 0 && square_dist( tx, ty, g->u.posx, g->u.posy ) > max_range ) {
         return false;    // Out of range!
     }
 
@@ -373,7 +373,7 @@ void map::build_seen_cache()
             const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
-            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees( mirror_pos.x, mirror_pos.y )) {
+            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees( mirror_pos )) {
                 m_it = mirrors.erase(m_it);
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;

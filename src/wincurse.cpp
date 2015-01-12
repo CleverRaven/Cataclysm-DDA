@@ -47,7 +47,7 @@ std::map< std::string, std::vector<int> > consolecolors;
 //***********************************
 
 // declare this locally, because it's not generally cross-compatible in catacurse.h
-LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam);
 
 std::wstring widen( const std::string &s )
 {

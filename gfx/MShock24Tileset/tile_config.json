@@ -1,13 +1,13 @@
 {
   "tile_info": [
     {
-      "height": 32,
-      "width": 32
+      "height": 24,
+      "width": 24
     }
   ],
   "tiles-new": [
     {
-      "file": "gfx/MShock32Tileset/tiles.png",
+      "file": "gfx/MShock24Tileset/tiles.png",
       "tiles": [
         {
           "id": "10mm",
@@ -19204,8 +19204,13 @@
       ]
     },
     {
-      "file": "gfx/MShock32Tileset/fallback.png",
-      "tiles": [],
+      "file": "gfx/MShock24Tileset/fallback.png",
+      "tiles": [
+        {
+          "id": "infrared_creature",
+          "fg": 1087
+        }
+      ],
       "ascii": [
         {
           "offset": 0,

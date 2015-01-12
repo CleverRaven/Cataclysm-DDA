@@ -185,7 +185,7 @@ std::vector<point> points_for_gas_cloud(const point &center, int radius)
             continue;
         }
         if (p.x != center.x || p.y != center.y) {
-            if (!g->m.sees(center.x, center.y, p.x, p.y, radius, junk)) {
+            if (!g->m.sees(center, p, radius, junk)) {
                 // No clear line of sight
                 continue;
             }
@@ -1091,7 +1091,7 @@ int iuse::fungicide(player *p, item *it, bool, point)
                     if (g->m.move_cost(i, j) > 0 && x_in_y(spore_count, 8)) {
                         const int zid = g->mon_at(i, j);
                         if (zid >= 0) {  // Spores hit a monster
-                            if (g->u_see(i, j) &&
+                            if (g->u.sees(i, j) &&
                                 !g->zombie(zid).type->in_species("FUNGUS")) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
@@ -1339,12 +1339,28 @@ int iuse::poison(player *p, item *it, bool, point)
 int iuse::fun_hallu(player *p, item *it, bool, point)
 {
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
-
-    //Fake a normal food morale effect
-    p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
+   
+   //Fake a normal food morale effect
+    if (p->has_trait("SPIRITUAL")) {
+        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+    } else {
+            p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
+      }
     if (!p->has_effect("hallu")) {
         p->add_effect("hallu", 3600);
     }
+    return it->type->charges_to_use();
+}
+
+int iuse::meditate(player *p, item *it, bool, point)
+{
+    if (p->has_trait("SPIRITUAL")) {
+        p->moves -= 2000;
+        p->add_msg_if_player(m_good, _("You pause to engage in spiritual contemplation."));
+        p->add_morale(MORALE_FEELING_GOOD, 5, 10);
+    } else {
+            p->add_msg_if_player(_("This %s probably meant a lot to someone at one time."), it->tname().c_str());
+      }
     return it->type->charges_to_use();
 }
 
@@ -1395,9 +1411,16 @@ int iuse::iodine(player *p, item *it, bool, point)
 
 int iuse::datura(player *p, item *it, bool, point)
 {
+    it_comest *comest = dynamic_cast<it_comest *>(it->type);
+
+{
     p->add_effect("datura", rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
+    if (p->has_trait("SPIRITUAL")) {
+        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+    }
     return it->type->charges_to_use();
+}
 }
 
 int iuse::flumed(player *p, item *it, bool, point)
@@ -2958,7 +2981,7 @@ int iuse::sew(player *p, item *it, bool, point)
             fix->damage++;
             if (fix->damage >= 5) {
                 p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem(pos);
+                p->i_rem_keep_contents( pos );
             }
         } else if (rn <= 6) {
             p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
@@ -3395,11 +3418,11 @@ int iuse::extinguisher(player *p, item *it, bool, point)
     int mondex = g->mon_at(x, y);
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
-        if (g->u_see(&(g->zombie(mondex)))) {
+        if (g->u.sees(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
         }
         if (g->zombie(mondex).made_of(LIQUID)) {
-            if (g->u_see(&(g->zombie(mondex)))) {
+            if (g->u.sees(g->zombie(mondex))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
             monster &critter = g->zombie( mondex );
@@ -3667,7 +3690,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                     fix->damage++;
                     if (fix->damage >= 5) {
                         p->add_msg_if_player(m_bad, _("You destroy it!"));
-                        p->i_rem(pos);
+                        p->i_rem_keep_contents( pos );
                     }
                 } else if (rn <= 6) {
                     p->add_msg_if_player(m_bad, _("You don't repair your %s, and you waste lots of charge."),
@@ -5265,7 +5288,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
     }
     int mondex = g->mon_at(goox, gooy);
     if (mondex != -1) {
-        if (g->u_see(goox, gooy)) {
+        if (g->u.sees(goox, gooy)) {
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     g->zombie(mondex).name().c_str());
         }
@@ -5274,7 +5297,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
         g->zombie(mondex).set_speed_base( g->zombie(mondex).get_speed_base() - rng(5, 25) );
         g->zombie(mondex).hp = g->zombie(mondex).get_speed();
     } else {
-        if (g->u_see(goox, gooy)) {
+        if (g->u.sees(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
         monster goo(GetMType("mon_blob"));
@@ -5292,7 +5315,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
         } while (g->m.move_cost(goox, gooy) == 0 &&
                  g->m.tr_at(goox, gooy) == tr_null && tries < 10);
         if (tries < 10) {
-            if (g->u_see(goox, gooy)) {
+            if (g->u.sees(goox, gooy)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));
             }
             g->m.add_trap(goox, gooy, tr_goo);
@@ -5339,7 +5362,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, point pos)
     } else { // The timer has run down
         if (one_in(10)) {
             // Fizzled, but we may not have seen it to know that
-            if (g->u_see(pos.x, pos.y)) {
+            if (g->u.sees( pos )) {
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
@@ -5798,7 +5821,7 @@ int iuse::pheromone(player *p, item *it, bool, point)
         }
     }
 
-    if (g->u_see(p)) {
+    if (g->u.sees(*p)) {
         if (converts == 0) {
             add_msg(_("...but nothing happens."));
         } else if (converts == 1) {
@@ -6269,7 +6292,7 @@ int iuse::dog_whistle(player *p, item *it, bool, point)
     p->add_msg_if_player(_("You blow your dog whistle."));
     for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
-            bool u_see = g->u_see(&(g->zombie(i)));
+            bool u_see = g->u.sees(g->zombie(i));
             if (g->zombie(i).has_effect("docile")) {
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
@@ -6450,7 +6473,7 @@ bool static try_to_cut_up(player *p, item *it)
         add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
         return false;
     }
-    if (it->is_container() && !it->contents.empty()) {
+    if( !it->contents.empty() ) {
         add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
         return false;
     }
@@ -6529,6 +6552,11 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
     // Final just in case check (that perhaps was not done elsewhere);
     if (cut == it) {
         add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
+        return 0;
+    }
+    if( !cut->contents.empty() ) {
+        // Should have been ensured by try_to_cut_up
+        debugmsg( "tried to cut a non-empty item %s", cut->tname().c_str() );
         return 0;
     }
 
@@ -7262,7 +7290,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 for (int x = p->posx - 4; x <= p->posx + 4; x++) {
                     for (int y = p->posy - 4; y <= p->posy + 4; y++) {
                         if (!one_in(4) && g->m.add_field(x, y, fd_blood, 3) &&
-                            (blood || g->u_see(x, y))) {
+                            (blood || g->u.sees(x, y))) {
                             blood = true;
                         }
                     }
@@ -8397,7 +8425,8 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
         return 0;
 
     }
-    if (p->has_trait("ILLITERATE")) {
+    if( p->has_trait("ILLITERATE") ) {
+        // bio_remote makes interaction with wifi-enabled computers intuitive
         p->add_msg_if_player(_("You cannot read a computer screen."));
         return 0;
     }
@@ -8421,7 +8450,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     point seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
-                    if( p->sees( &candidate ) ) {
+                    if( p->sees( candidate ) ) {
                         seen_loc = point( candidate.xpos(), candidate.ypos() );
                     } else {
                         seen_loc = point( p->xpos(), p->ypos() );

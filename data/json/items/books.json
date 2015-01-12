@@ -66,7 +66,8 @@
         "skill" : "none",
         "price" : 3000,
         "required_level" : 0,
-        "chapters": 4
+        "chapters": 4,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3086,7 +3087,7 @@
         "weight" : 340,
         "to_hit" : 1,
         "color" : "light_gray",
-        "intelligence" : 0,
+        "intelligence" : 15,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 3,
@@ -3096,7 +3097,8 @@
         "fun" : -1,
         "skill" : "none",
         "price" : 1500,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3118,7 +3120,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 2900,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3817,7 +3820,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3838,7 +3842,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3859,7 +3864,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3880,7 +3886,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3901,7 +3908,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3922,7 +3930,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3943,7 +3952,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3965,7 +3975,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3987,7 +3998,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4009,7 +4021,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4031,7 +4044,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4053,7 +4067,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4075,7 +4090,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4097,7 +4113,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4119,7 +4136,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4141,7 +4159,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4163,7 +4182,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4185,7 +4205,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
