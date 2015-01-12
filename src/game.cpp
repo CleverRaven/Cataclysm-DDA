@@ -6771,12 +6771,14 @@ void game::add_footstep(int x, int y, int volume, int distance, monster *source)
 void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)
 {
     int dam;
+    double falloff_exp = 2;
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
             if (i == x && j == y) {
+                //this is the epicenter
                 dam = 3 * power;
             } else {
-                dam = 3 * power / (rl_dist(x, y, i, j));
+                dam = 3 * power / pow(rl_dist(x, y, i, j), falloff_exp);
             }
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
