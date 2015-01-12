@@ -13339,8 +13339,18 @@ void game::plswim(int x, int y)
         }
     }
     bool diagonal = (x != u.posx && y != u.posy);
+    if( u.in_vehicle ) {
+        m.unboard_vehicle( u.posx, u.posy );
+    }
     u.posx = x;
     u.posy = y;
+    {
+        int part;
+        const auto veh = m.veh_at( u.posx, u.posy, part );
+        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+            m.board_vehicle( u.posx, u.posy, &u );
+        }
+    }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
 
