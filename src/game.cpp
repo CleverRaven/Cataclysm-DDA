@@ -6819,12 +6819,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
 {
     int radius = int(sqrt(double(power / 4)));
     int dam;
-    int noise = power * (fire ? 2 : 10);
+    int noise = power * (fire ? .5 : 1);
 
     //play the right sound
-    if (power >= 30) {
+    if (noise >= 30) {
         sound(x, y, noise, _("a huge explosion!"));
-    } else if (power >= 4) {
+    } else if (noise >= 4) {
         sound(x, y, noise, _("an explosion!"));
     } else {
         sound(x, y, 3, _("a loud pop!"));
