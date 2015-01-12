@@ -5,7 +5,7 @@
 #include <map>
 
 // The order is important ; pldata.h has to be in the same order
-enum body_part {
+enum body_part : int {
     bp_torso = 0,
     bp_head,
     bp_eyes,
@@ -21,13 +21,19 @@ enum body_part {
     num_bp
 };
 
-enum handedness {
+enum handedness : int {
     NONE,
     LEFT,
     RIGHT
 };
 
+<<<<<<< HEAD
+// Global map of body_parts names
+extern std::map<std::string, body_part> body_parts;
+
+=======
 /** Returns the matching name of the body_part token. */
+>>>>>>> origin/master
 std::string body_part_name(body_part bp);
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in english, but not in some other languages. */
@@ -42,8 +48,11 @@ body_part mutate_to_main_part(body_part bp);
 
 /** Initializes the body_part token map keys; i.e. "HEAD" -> bp_head. */
 void init_body_parts();
+<<<<<<< HEAD
+=======
 extern std::map<std::string, body_part> body_parts;
 /** Returns the matching body_part key from the corresponding body_part token. */
+>>>>>>> origin/master
 std::string get_body_part_id(body_part bp);
 
 #endif

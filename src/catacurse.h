@@ -18,9 +18,10 @@
 #include <vector>
 #include <array>
 #include <string>
+#include <cstdint>
+
 typedef int chtype;
 typedef unsigned short attr_t;
-typedef unsigned int u_int32_t;
 
 //a pair of colors[] indexes, foreground and background
 typedef struct {
@@ -61,7 +62,7 @@ struct curseline {
 };
 
 //The curses window struct
-typedef struct {
+struct WINDOW {
     int x;//left side of window
     int y;//top side of window
     int width;//width of the curses window
@@ -73,8 +74,7 @@ typedef struct {
     int cursorx;//x location of the cursor
     int cursory;//y location of the cursor
     std::vector<curseline> line;
-
-} WINDOW;
+};
 
 #define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
 #define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
@@ -99,7 +99,7 @@ typedef struct {
 #define COLOR_CYAN 0x06        //RGB{0, 170, 200}
 #define COLOR_WHITE 0x07        //RGB{196, 196, 196}
 
-#define COLOR_PAIR(n) ((((u_int32_t)n) << 17) & A_COLOR)
+#define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
 //#define PAIR_NUMBER(n) ((((u_int32_t)n) & A_COLOR) >> 17)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
