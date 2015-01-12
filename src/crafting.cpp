@@ -16,6 +16,12 @@
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
+enum TAB_MODE {
+    NORMAL,
+    FILTERED,
+    BATCH
+};
+
 std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 recipe_map recipes;
