@@ -312,6 +312,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * a non-empty item id as revet_to_itype.
          */
         item to_item() const;
+        /**
+         * Initialize values like speed / hp from data of an item.
+         * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
+         * and to reviving monsters that spawn from a corpse.
+         */
+        void init_from_item( const item &itm );
 
     private:
         std::vector<int> sp_timeout;

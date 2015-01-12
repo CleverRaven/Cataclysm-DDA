@@ -1582,6 +1582,24 @@ bool monster::is_dead() const
     return dead || is_dead_state();
 }
 
+void monster::init_from_item( const item &itm )
+{
+    if( itm.typeId() == "corpse" ) {
+        const int burnt_penalty = itm.burnt;
+        set_speed_base( static_cast<int>( get_speed_base() * 0.8 ) - ( burnt_penalty / 2 ) );
+        hp = static_cast<int>( hp * 0.7 ) - burnt_penalty;
+        if( itm.damage > 0 ) {
+            set_speed_base( speed_base / ( itm.damage + 1 ) );
+            hp /= itm.damage + 1;
+        }
+    } else {
+        // must be a robot
+        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+        hp = std::max( 1, hp * damfac / 5 );
+    }
+}
+
 item monster::to_item() const
 {
     if( type->revert_to_itype.empty() ) {
