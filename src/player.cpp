@@ -7950,7 +7950,7 @@ void player::suffer()
             }
 
             add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
-                _(col_before.c_str()), _(col_after.c_str()) );
+                col_before.c_str(), col_after.c_str() );
         }
     }
 

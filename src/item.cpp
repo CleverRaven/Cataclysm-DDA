@@ -33,12 +33,12 @@ std::string const& rad_badge_color(int const rad)
     using pair_t = std::pair<int const, std::string const>;
     
     static std::array<pair_t, 6> const values = {{
-        pair_t {  0, "green" },
-        pair_t { 30, "blue"  },
-        pair_t { 60, "yellow"},
-        pair_t {120, "orange"},
-        pair_t {240, "red"   },
-        pair_t {500, "black" },
+        pair_t {  0, _("green") },
+        pair_t { 30, _("blue")  },
+        pair_t { 60, _("yellow")},
+        pair_t {120, _("orange")},
+        pair_t {240, _("red")   },
+        pair_t {500, _("black") },
     }};
 
     for (auto const &i : values) {
@@ -1271,7 +1271,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && type->id == "rad_badge") {
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              _(rad_badge_color(irridation).c_str()))));
+                              rad_badge_color(irridation).c_str())));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
