@@ -6773,14 +6773,17 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
     int dam;
     double falloff_exp = 2;
     vector<point> check_list;
-    for(int i = x - radius; i <= x + radius; i++) {
-        check_list.push_back(point(i, 0));
-        check_list.push_back(point(i, y + radius));
-    }
-    for(int i = y - radius + 1; i < y + radius; i++) {
-        check_list.push_back(point(0. i));
-        check_list.push_back(point(x + radius, i));
-    }
+
+    for(int j = 0; j < radius; j++) {
+        for(int i = x - radius + j; i <= x + radius - j; i++) {
+            check_list.push_back(point(i, y - radius + j));
+            check_list.push_back(point(i, y + radius - j));
+        }
+        for(int i = y - radius + 1 + j; i < y + radius - j; i++) {
+            check_list.push_back(point(x - radius + j. i));
+            check_list.push_back(point(x + radius - j, i));
+        }
+    }       check_list.push_back(x, y);
     
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
