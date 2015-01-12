@@ -6779,6 +6779,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 dam = 3 * power;
             } else {
                 dam = 3 * power / pow(rl_dist(x, y, i, j), falloff_exp);
+                
             }
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
@@ -6862,7 +6863,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         } else {
             traj = line_to(x, y, sx, sy, 0);
         }
-        
         
         // If the randomly chosen spot is the origin, it already points there.
         // Otherwise line_to excludes the origin, so add it.
