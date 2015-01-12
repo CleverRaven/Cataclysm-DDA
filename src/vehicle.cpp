@@ -4299,9 +4299,9 @@ bool vehicle::add_item (int part, item itm)
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
 {
-    parts[part].items.insert( index, itm );
+    const auto new_pos = parts[part].items.insert( index, itm );
     if( itm.needs_processing() ) {
-        active_items.add( std::prev(parts[part].items.end()), parts[part].mount );
+        active_items.add( new_pos, parts[part].mount );
     }
 
     return true;
