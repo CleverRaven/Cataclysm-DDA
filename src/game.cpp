@@ -6772,17 +6772,36 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
 {
     int dam;
     double falloff_exp = 2;
+    vector<point> check_list;
+    for(int i = x - radius; i <= x + radius; i++) {
+        check_list.push_back(point(i, 0));
+        check_list.push_back(point(i, y + radius));
+    }
+    for(int i = y - radius + 1; i < y + radius; i++) {
+        check_list.push_back(point(0. i));
+        check_list.push_back(point(x + radius, i));
+    }
+    
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
             if (i == x && j == y) {
                 //this is the epicenter
                 dam = 3 * power;
             } else {
+                //not epicenter
                 dam = 3 * power / pow(rl_dist(x, y, i, j), falloff_exp);
-                
+             
+                //now determine loss in power due to intervening obstacles
+                std::vector<point> traj = line_to(x, y, i, y);
+                for(int k = 0; k < traj.size(); k++) {
+                    if(m.has_furn(traj[k].x, traj[k].y)) {
+                        dam -= m.furn_at(traj[k].x, traj[k].y).bash.str_min / 2;
+                    }
+                }
             }
-            m.bash(i, j, dam);
-            m.bash(i, j, dam); // Double up for tough doors, etc.
+            
+            // Double up for tough doors, etc.
+            m.bash(i, j, 2*dam);
 
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
