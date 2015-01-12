@@ -8650,7 +8650,7 @@
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -9188,7 +9188,7 @@
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4,
+        "material_thickness" : 5,
         "use_action" : "BOOTS"
     },
     {
@@ -9269,7 +9269,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -9346,7 +9346,7 @@
         "bashing" : 10,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY", "OUTER"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
