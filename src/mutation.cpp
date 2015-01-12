@@ -695,10 +695,14 @@ void player::mutate_towards(std::string mut)
         }
     }
 
-    if (!cancel.empty()) {
-        std::string removed = cancel[ rng(0, cancel.size() - 1) ];
-        remove_mutation(removed);
-        return;
+    for (size_t i = 0; i < cancel.size(); i++) {
+        if (!cancel.empty()) {
+            std::string removed = cancel[i];
+            remove_mutation(removed);
+            cancel.erase(cancel.begin() + i);
+            i--;
+            return;
+        }
     }
 
     for (size_t i = 0; (!prereq1) && i < prereq.size(); i++) {
