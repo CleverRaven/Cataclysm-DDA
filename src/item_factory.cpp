@@ -28,11 +28,11 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
-std::unique_ptr<Item_factory> item_controller( new Item_factory() );
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
+
+std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
 {

@@ -421,6 +421,21 @@ cOpt::operator float() const
     return 0.0f;
 }
 
+cOpt::operator int() const
+{
+    if (sType == "string") {
+        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
+    } else if (sType == "bool") {
+        return (bSet) ? 1 : 0;
+    } else if (sType == "int") {
+        return iSet;
+    } else if (sType == "float") {
+        return static_cast<int>(fSet);
+    }
+
+    return 0;
+}
+
 cOpt::operator bool() const
 {
     return static_cast<float>(*this) != 0.0f;

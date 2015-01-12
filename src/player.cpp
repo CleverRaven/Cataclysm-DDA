@@ -7909,12 +7909,16 @@ void player::suffer()
         if ((power_armored && has_helmet) || worn_with_flag("RAD_PROOF")) {
             rads = 0; // Power armor protects completely from radiation
         } else if (power_armored || worn_with_flag("RAD_RESIST")) {
-            rads = localRadiation / 100.0f + selfRadiation / 10.0f;
+            rads = localRadiation / 200.0f + selfRadiation / 10.0f;
         } else {
-            rads = localRadiation / 30.0f + selfRadiation / 3.0f;
+            rads = localRadiation / 32.0f + selfRadiation / 3.0f;
         }
-        if( rads > 0 && x_in_y( rads, 1 ) ) {
-            radiation++;
+        if( rads > 0 ) {
+            int rads_trunc = static_cast<int>( rads );
+            if( x_in_y( rads - rads_trunc, 1 ) ) {
+                rads_trunc++;
+            }
+            radiation += rng( 0, rads_trunc );
         }
 
         // Apply rads to any radiation badges.
