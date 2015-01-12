@@ -796,6 +796,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                 done = true;
             }
         } else if (action == "HELP_RECIPE") {
+            if (current.empty()) {
+                popup(_("Nothing selected!"));
+                redraw = true;
+                continue;
+            }
             tmp = current[line]->create_result();
 
             full_screen_popup("%s\n%s", tmp.type_name( 1 ).c_str(),  tmp.info(true).c_str());
@@ -812,6 +817,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             filterstring = "";
             redraw = true;
         } else if (action == "CYCLE_BATCH") {
+            if (current.empty()) {
+                popup(_("Nothing selected!"));
+                redraw = true;
+                continue;
+            }
             if (current[line]->reversible) {
                 popup(_("Batch crafting is not available for reversible items!"));
             } else {

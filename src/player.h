@@ -317,7 +317,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         point pos() const;
         /** Returns the player's sight range */
-        int  sight_range(int light_level) const;
+        int sight_range( int light_level ) const override;
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -354,24 +354,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has a pda */
         bool has_pda();
 
-        /**
-         * Check if this creature can see the square at (x,y).
-         * Includes checks for line-of-sight and light.
-         * @param t The t output of map::sees.
-         */
-        bool sees(int x, int y) const;
-        bool sees(int x, int y, int &t) const;
-        /**
-         * Check if this creature can see the critter.
-         * Includes checks for simple critter visibility
-         * (digging/submerged) and if this can see the square
-         * the creature is on.
-         * If this is not the player, it ignores critters that are
-         * hallucinations.
-         * @param t The t output of map::sees.
-         */
-        bool sees(const Creature *critter) const;
-        bool sees(const Creature *critter, int &t) const;
+        using Creature::sees;
+        // see Creature::sees
+        bool sees( point c, int &bresenham_slope ) const override;
+        // see Creature::sees
+        bool sees( const Creature &critter, int &bresenham_slope ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
@@ -380,6 +367,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
+        /**
+         * Check whether the this player can see the other creature with infrared. This implies
+         * this player can see infrared and the target is visible with infrared (is warm).
+         * And of course a line of sight exists.
+         */
+        bool sees_with_infrared( const Creature &critter ) const;
 
         Attitude attitude_to( const Creature &other ) const override;
 
@@ -882,6 +875,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return A copy of the removed item.
          */
         item i_rem(int pos);
+        void i_rem_keep_contents( int pos );
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.

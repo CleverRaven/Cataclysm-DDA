@@ -34,9 +34,6 @@ void show_auto_pickup()
 
     const int iTotalCols = mapLines.size() - 1;
 
-    WINDOW *w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2,
-                                           iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + (FULL_SCREEN_WIDTH / 2) / 2);
-    WINDOW_PTR w_auto_pickup_optionsptr( w_auto_pickup_options );
     WINDOW *w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
     WINDOW_PTR w_auto_pickup_helpptr( w_auto_pickup_help );

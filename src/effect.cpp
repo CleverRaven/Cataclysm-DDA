@@ -853,7 +853,7 @@ bool effect::get_sizing(std::string arg) const
 {
     if (arg == "PAIN") {
         return eff_type->pain_sizing;
-    } else if ("HURT") {
+    } else if (arg == "HURT") {
         return eff_type->hurt_sizing;
     }
     return false;

@@ -171,11 +171,6 @@ Flags used to describe monsters and define their properties and abilities.
 
 - ```NULL``` Source use only.
 - ```SEES``` It can see you (and will run/follow).
-- ```VIS50``` Vision -10
-- ```VIS40``` Vision -20
-- ```VIS30``` Vision -30
-- ```VIS20``` Vision -40
-- ```VIS10``` Vision -50
 - ```HEARS``` It can hear you.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```SMELLS``` It can smell you.

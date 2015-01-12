@@ -121,7 +121,7 @@ void Creature::reset_bonuses()
 void Creature::reset_stats()
 {
     // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in disease.h,
+    // Any persistent buffs/debuffs will take place in effects,
     // player::suffer(), etc.
 
     // repopulate the stat fields
@@ -167,8 +167,24 @@ bool Creature::digging() const
     return false;
 }
 
-bool Creature::sees( const Creature &critter, int range_min, int range_max, int &t ) const
+bool Creature::sees( const Creature &critter ) const
 {
+    int bresenham_slope;
+    return sees( critter, bresenham_slope );
+}
+
+bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+{
+    if( critter.is_hallucination() ) {
+        // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
+        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
+        // the player will see them always.
+        return is_player();
+    }
+    const auto p = dynamic_cast< const player* >( &critter );
+    if( p != nullptr && p->is_invisible() ) {
+        return false;
+    }
     int cx = critter.xpos();
     int cy = critter.ypos();
     const int wanted_range = rl_dist( pos(), critter.pos() );
@@ -177,21 +193,41 @@ bool Creature::sees( const Creature &critter, int range_min, int range_max, int 
         return false;
     }
 
-    return sees( cx, cy, range_min, range_max, t );
+    return sees( critter.pos(), bresenham_slope );
 }
 
-bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) const
+bool Creature::sees( const int tx, const int ty ) const
 {
-    const int wanted_range = rl_dist( xpos(), ypos(), tx, ty );
+    int bresenham_slope;
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t ) const
+{
+    int bresenham_slope;
+    return sees( t, bresenham_slope );
+}
+
+bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
+{
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t, int &bresenham_slope ) const
+{
+    const int range_cur = sight_range( g->light_level() );
+    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_min = std::min( range_cur, range_day );
+    const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
-        ( wanted_range <= range_max &&
-          g->m.light_at( tx, ty ) >= LL_LOW ) ) {
+        ( wanted_range <= range_day &&
+          g->m.light_at( t.x, t.y ) >= LL_LOW ) ) {
         if( is_player() ) {
-            return g->m.pl_sees( xpos(), ypos(), tx, ty, wanted_range);
-        } else if( g->m.light_at( tx, ty ) >= LL_LOW ) {
-            return g->m.sees( xpos(), ypos(), tx, ty, wanted_range, t );
+            return g->m.pl_sees( t.x, t.y, wanted_range );
+        } else if( g->m.light_at( t.x, t.y ) >= LL_LOW ) {
+            return g->m.sees( pos(), t, wanted_range, bresenham_slope );
         } else {
-            return g->m.sees( xpos(), ypos(), tx, ty, range_min, t );
+            return g->m.sees( pos(), t, range_min, bresenham_slope );
         }
     } else {
         return false;
@@ -200,7 +236,6 @@ bool Creature::sees( int tx, int ty, int range_min, int range_max, int &t ) cons
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
-    int t;
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
@@ -213,7 +248,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     int pldist = rl_dist( pos(), g->u.pos() );
     int part;
     vehicle *in_veh = is_fake() ? g->m.veh_at( xpos(), ypos(), part ) : nullptr;
-    if( pldist < iff_dist && g->sees_u(xpos(), ypos(), t) ) {
+    if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
@@ -241,10 +276,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         targets.push_back( p );
     }
-    int ll = g->light_level();
     for( auto &m : targets ) {
-        int t;
-        if( !sees( *m, ll, DAYLIGHT_LEVEL, t ) ) {
+        if( !sees( *m ) ) {
             // can't see nor sense it
             continue;
         }
@@ -383,7 +416,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
-    bool u_see_this = g->u_see(this);
+    bool u_see_this = g->u.sees(*this);
     body_part bp_hit;
 
     // do 10,speed because speed could potentially be > 10000

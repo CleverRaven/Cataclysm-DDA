@@ -1145,7 +1145,8 @@
             "thirst_tick": [100],
             "thirst_min": [1],
             "h_mod_chance": [512],
-            "h_mod_min": [-10]
+            "h_mod_min": [-10],
+            "cough_chance": [300, 0]
         }
     },
     {

@@ -42,7 +42,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 void game::draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory,
                        char bullet, timespec &ts)
 {
-    if (u_see(tx, ty)) {
+    if (u.sees(tx, ty)) {
         if (i > 0) {
             m.drawsq(w_terrain, u, trajectory[i - 1].x, trajectory[i - 1].y, false,
                      true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
@@ -83,11 +83,11 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
 {
-    if (u_see( x, y)) {
+    if (u.sees( x, y)) {
         for( auto &elem : ret ) {
             const Creature *critter = critter_at( elem.x, elem.y );
             // NPCs and monsters get drawn with inverted colors
-            if( critter != nullptr && u.sees( critter ) ) {
+            if( critter != nullptr && u.sees( *critter ) ) {
                 critter->draw( w_terrain, center_point.x, center_point.y, true );
             } else {
                 m.drawsq( w_terrain, u, elem.x, elem.y, true, true, center_point.x,

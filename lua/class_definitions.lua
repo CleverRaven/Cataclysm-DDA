@@ -361,6 +361,14 @@ classes = {
                 type = "int",
                 writable = true
             },
+            vision_day = {
+                type = "int",
+                writable = true
+            },
+            vision_night = {
+                type = "int",
+                writable = true
+            },
         },
         functions = {
             in_category = {

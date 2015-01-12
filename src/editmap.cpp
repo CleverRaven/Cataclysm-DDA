@@ -524,7 +524,7 @@ void editmap::update_view(bool update_info)
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos(), target ), g->u_see(target.x, target.y), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
+        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos(), target ), g->u.sees(target), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
         off++; // 3-4
 
         std::string extras = "";

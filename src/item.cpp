@@ -4384,7 +4384,7 @@ bool item::process_corpse( player *carrier, point pos )
     }
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
         if( carrier == nullptr ) {
-            if( g->u_see( pos.x, pos.y ) ) {
+            if( g->u.sees( pos ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {

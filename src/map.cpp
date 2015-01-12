@@ -1728,7 +1728,7 @@ void map::create_spores(const int x, const int y, Creature* source)
             mondex = g->mon_at(i, j);
             if (move_cost(i, j) > 0 || (i == x && j == y)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) &&
+                    if (g->u.sees(i, j) &&
                         !g->zombie(mondex).type->in_species("FUNGUS")) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                 g->zombie(mondex).name().c_str());
@@ -3937,7 +3937,7 @@ void map::draw(WINDOW* w, const point center)
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = DAYLIGHT_LEVEL;
 
-   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   bool can_see = pl_sees( realx, realy, distance_to_look );
    lit_level lit = light_at(realx, realy);
 
    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
@@ -4136,6 +4136,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     } else {
         mvwputch    (w, j, k, tercol, sym);
     }
+}
+
+bool map::sees( const point F, const point T, const int range, int &bresenham_slope )
+{
+    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
 }
 
 /*
