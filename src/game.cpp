@@ -6772,7 +6772,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
 {
     int dam;
     double falloff_exp = 2;
-    vector<point> check_list;
+    std::vector<point> check_list;
 
     for(int j = 0; j < radius; j++) {
         for(int i = x - radius + j; i <= x + radius - j; i++) {
@@ -6780,62 +6780,63 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             check_list.push_back(point(i, y + radius - j));
         }
         for(int i = y - radius + 1 + j; i < y + radius - j; i++) {
-            check_list.push_back(point(x - radius + j. i));
+            check_list.push_back(point(x - radius + j, i));
             check_list.push_back(point(x + radius - j, i));
         }
-    }       check_list.push_back(x, y);
+    }       check_list.push_back(point(x, y));
     
-    for (int i = x - radius; i <= x + radius; i++) {
-        for (int j = y - radius; j <= y + radius; j++) {
-            if (i == x && j == y) {
-                //this is the epicenter
-                dam = 3 * power;
-            } else {
-                //not epicenter
-                dam = 3 * power / pow(rl_dist(x, y, i, j), falloff_exp);
-             
-                //now determine loss in power due to intervening obstacles
-                std::vector<point> traj = line_to(x, y, i, y);
-                for(int k = 0; k < traj.size(); k++) {
-                    if(m.has_furn(traj[k].x, traj[k].y)) {
-                        dam -= m.furn_at(traj[k].x, traj[k].y).bash.str_min / 2;
-                    }
+    for (int i = 0; i < check_list.size(); i++) {
+        int xp = check_list[i].x;
+        int yp = check_list[i].y;
+        
+        if (xp == x && yp == y) {
+            //this is the epicenter
+            dam = 3 * power;
+        } else {
+            //not epicenter
+            dam = 3 * power / pow(rl_dist(x, y, xp, yp), falloff_exp);
+         
+            //now determine loss in power due to intervening obstacles
+            std::vector<point> traj = line_to(x, y, xp, yp);
+            for(int k = 0; k < traj.size(); k++) {
+                if(m.has_furn(traj[k].x, traj[k].y)) {
+                    dam -= m.furn_at(traj[k].x, traj[k].y).bash.str_min / 2;
                 }
             }
+        }
             
-            // Double up for tough doors, etc.
-            m.bash(i, j, 2*dam);
+        // Double up for tough doors, etc.
+        m.bash(i, j, 2*dam);
 
-            int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
-            if (mon_hit != -1) {
-                monster &critter = critter_tracker.find(mon_hit);
-                critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
-            }
+        int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
+        if (mon_hit != -1) {
+            monster &critter = critter_tracker.find(mon_hit);
+            critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+        }
 
-            int vpart;
-            vehicle *veh = m.veh_at(i, j, vpart);
-            if (veh) {
-                veh->damage(vpart, dam, fire ? 2 : 1, false);
-            }
+        int vpart;
+        vehicle *veh = m.veh_at(i, j, vpart);
+        if (veh) {
+        veh->damage(vpart, dam, fire ? 2 : 1, false);
+        }
 
-            player *n = nullptr;
-            if (npc_hit != -1) {
-                n = active_npc[npc_hit];
-            } else if( u.posx == i && u.posy == j ) {
-                add_msg(m_bad, _("You're caught in the explosion!"));
-                n = &u;
-            }
-            if( n != nullptr ) {
-                n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-                n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            }
-            if (fire) {
-                m.add_field(i, j, fd_fire, dam / 10);
-            }
+        player *n = nullptr;
+        if (npc_hit != -1) {
+            n = active_npc[npc_hit];
+        } else if( u.posx == i && u.posy == j ) {
+            add_msg(m_bad, _("You're caught in the explosion!"));
+            n = &u;
+        }
+        if( n != nullptr ) {
+            n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
+            n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+        }
+        if (fire) {
+            m.add_field(i, j, fd_fire, dam / 10);
         }
     }
 }
