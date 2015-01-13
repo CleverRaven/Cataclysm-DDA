@@ -237,8 +237,8 @@ void MonsterGenerator::init_trigger()
     trigger_map["NULL"] = MTRIG_NULL;// = 0,
     trigger_map["STALK"] = MTRIG_STALK;//  // Increases when following the player
     trigger_map["MEAT"] = MTRIG_MEAT;//  // Meat or a corpse nearby
-    trigger_map["PLAYER_WEAK"] = MTRIG_PLAYER_WEAK;// // The player is hurt
-    trigger_map["PLAYER_CLOSE"] = MTRIG_PLAYER_CLOSE;// // The player gets within a few tiles
+    trigger_map["PLAYER_WEAK"] = MTRIG_HOSTILE_WEAK;// // Hurt hostile player/npc/monster seen
+    trigger_map["PLAYER_CLOSE"] = MTRIG_HOSTILE_CLOSE;// // Hostile creature within a few tiles
     trigger_map["HURT"] = MTRIG_HURT;//  // We are hurt
     trigger_map["FIRE"] = MTRIG_FIRE;//  // Fire nearby
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
@@ -325,6 +325,8 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["SWARMS"] = MF_SWARMS;
+    flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )

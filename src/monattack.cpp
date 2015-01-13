@@ -103,6 +103,7 @@ void mattack::antqueen(monster *z, int index)
                 if (g->m.i_at(i.x, i.y)[j].type->id == "ant_egg") {
                     g->m.i_rem(i.x, i.y, j);
                     monster tmp(GetMType("mon_ant_larva"), i.x, i.y);
+                    tmp.faction_id = z->faction_id;
                     g->add_zombie(tmp);
                     break; // Max one hatch per tile
                 }
@@ -636,7 +637,8 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         monster manhack {GetMType("mon_manhack")};
         manhack.spawn(where.x, where.y);
-        manhack.friendly = z->friendly; // TODO: Factions
+        manhack.friendly = z->friendly;
+        manhack.faction_id = z->faction_id;
         g->add_zombie(manhack);
       } break;
     case att_acid_pool :
@@ -850,6 +852,7 @@ void mattack::grow_vine(monster *z, int index)
                 monster vine(GetMType("mon_creeper_vine"));
                 vine.reset_special(0);
                 vine.spawn(xvine, yvine);
+                vine.faction_id = z->faction_id;
                 g->add_zombie(vine);
             }
         }
@@ -919,6 +922,7 @@ void mattack::vine(monster *z, int index)
     monster vine(GetMType("mon_creeper_vine"));
     vine.reset_special(0);
     vine.spawn(grow[free_index].x, grow[free_index].y);
+    vine.faction_id = z->faction_id;
     g->add_zombie(vine);
 }
 
@@ -1035,6 +1039,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
                 }
                 monster plant(GetMType(montype));
                 plant.spawn(x, y);
+                plant.faction_id = z->faction_id;
                 g->add_zombie(plant);
             }
         }
@@ -1046,6 +1051,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
                 if (g->is_empty(x, y) && one_in(2)) {
                     triffid.spawn(x, y);
+                    triffid.faction_id = z->faction_id;
                     g->add_zombie(triffid);
                 }
             }
@@ -1124,6 +1130,7 @@ void mattack::fungus(monster *z, int index)
                     }
                 } else if (one_in(4) && g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(sporex, sporey);
+                    spore.faction_id = z->faction_id;
                     g->add_zombie(spore);
                 }
             }
@@ -1340,6 +1347,7 @@ void mattack::fungus_sprout(monster *z, int index)
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_wall"));
                 wall.spawn(x, y);
+                wall.faction_id = z->faction_id;
                 g->add_zombie(wall);
             }
         }
@@ -1397,6 +1405,7 @@ void mattack::fungus_fortify(monster *z, int index)
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_hedgerow"));
                 wall.spawn(x, y);
+                wall.faction_id = z->faction_id;
                 g->add_zombie(wall);
                 fortified = true;
             }
@@ -1438,6 +1447,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 }
                 monster tendril(GetMType("mon_fungal_tendril"));
                 tendril.spawn(g->u.posx + i, g->u.posy + j);
+                tendril.faction_id = z->faction_id;
                 g->add_zombie(tendril);
                 return;
             }
@@ -1703,6 +1713,7 @@ void mattack::formblob(monster *z, int index)
                 blob.spawn(z->posx() + i, z->posy() + j);
                 blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
                 blob.hp = blob.get_speed_base();
+                blob.faction_id = z->faction_id;
                 g->add_zombie(blob);
             }
         }
@@ -3420,6 +3431,7 @@ void mattack::breathe(monster *z, int index)
         monster spawned(GetMType("mon_breather"));
         spawned.reset_special(0);
         spawned.spawn(place.x, place.y);
+        spawned.faction_id = z->faction_id;
         g->add_zombie(spawned);
     }
 }
@@ -3714,6 +3726,7 @@ void mattack::darkman(monster *z, int index)
     monster tmp( GetMType("mon_shadow") );
     z->moves -= 10;
     tmp.spawn( free[free_index].x, free[free_index].y );
+    tmp.faction_id = z->faction_id;
     g->add_zombie( tmp );
     if( g->u.sees( *z ) ) {
         add_msg(m_warning, _("A shadow splits from the %s!"),

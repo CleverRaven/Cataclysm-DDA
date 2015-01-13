@@ -106,6 +106,24 @@ float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) cons
     return INT_MAX;
 }
 
+// -2 returns player pos
+// -3 and less returns position of mon with index -(index + 3)
+// Positive returns position of NPC with index
+// -1 shouldn't happen
+point position_from_index( const int index )
+{
+    if( index == -2 ) {
+        return g->u.pos();
+    } else if( index <= -3) {
+        return g->zombie( -3 - index ).pos();
+    } else if( index >= 0) {
+        return g->active_npc[index]->pos();
+    } else {
+        debugmsg( "position_from_index called on index -1" );
+        return point( -999, -999 );
+    }
+}
+
 void monster::plan(const mfactions &factions)
 {
     // Bots are more intelligent than most living stuff
@@ -117,6 +135,9 @@ void monster::plan(const mfactions &factions)
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
+    bool angers_when_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
+    bool group_morale = has_flag( MF_GROUP_MORALE );
+    bool swarms = has_flag( MF_SWARMS );
 
     if( friendly != 0 && !docile ) { // Target unfriendly monsters
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
@@ -144,6 +165,9 @@ void monster::plan(const mfactions &factions)
             closest = -2;
             selected_slope = bresenham_slope;
         }
+        if( angers_when_near && dist <= 5 ) {
+            anger += 5;
+        }
     }
 
     if( !docile ) {
@@ -161,53 +185,76 @@ void monster::plan(const mfactions &factions)
                     dist = rating;
                 }
             }
+            if( angers_when_near && rating <= 5 ) {
+                anger += 5;
+            }
         }
     }
 
-    if( !fleeing ) {
-        fleeing = attitude() == MATT_FLEE;
-        if( friendly == 0 && can_see() ) {
-            for( const auto &faction : factions ) {
-                if( faction.first == monfaction() ) {
-                    continue;
-                }
+    int myfaction = monfaction();
+    fleeing = attitude() == MATT_FLEE;
+    if( friendly == 0 && can_see() ) {
+        for( const auto &faction : factions ) {
+            if( faction.first == myfaction ) {
+                continue;
+            }
 
-                for( int i : faction.second ) { // mon indices
-                    monster &mon = g->zombie( i );
-                    float rating = rate_target( mon, bresenham_slope, electronic );
-                    if( rating < dist ) {
-                        dist = rating;
-                        if (fleeing) {
-                            wandx = posx() * 2 - mon.posx();
-                            wandy = posy() * 2 - mon.posy();
-                            wandf = 40;
-                        } else {
-                            closest = -3 - i;
-                            selected_slope = bresenham_slope;
-                        }
+            for( int i : faction.second ) { // mon indices
+                monster &mon = g->zombie( i );
+                float rating = rate_target( mon, bresenham_slope, electronic );
+                if( rating < dist ) {
+                    dist = rating;
+                    if (fleeing) {
+                        wandx = posx() * 2 - mon.posx();
+                        wandy = posy() * 2 - mon.posy();
+                        wandf = 40;
+                    } else {
+                        closest = -3 - i;
+                        selected_slope = bresenham_slope;
                     }
+                }
+                if( angers_when_near && rating <= 5 ) {
+                    anger += 5;
                 }
             }
         }
+    }
 
-        if (one_in(2)) {//random for the diversity of the trajectory
-            ++selected_slope;
-        } else {
-            --selected_slope;
-        }
-        if (closest == -2) {            
-            set_dest(g->u.posx, g->u.posy, selected_slope);
-        } else if (closest <= -3) {
-            set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), selected_slope);
-        } else if (closest >= 0) {
-            set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, selected_slope);
+    // Friendly monsters here
+    // Avoid for hordes of same-faction stuff or it could get expensive
+    swarms = swarms && closest == -1; // Only swarm if we have no target
+    if( group_morale || swarms ) {
+        for( int i : factions.find( myfaction )->second ) {
+            monster &mon = g->zombie( i );
+            float rating = rate_target( mon, bresenham_slope, electronic );
+            if( group_morale && rating <= 10 ) {
+                morale += 10 - rating;
+            }
+            if( swarms ) {
+                if( rating > 5 ) { // Too crowded here
+                    wandx = posx() * 2 - mon.posx();
+                    wandy = posy() * 2 - mon.posy();
+                    wandf = 5;
+                } else if( wandf <= 0 ) {
+                    closest = -3 - i;
+                }
+            }
         }
     }
-    
-    if( closest == -1 && friendly > 0 && one_in(3)) {
+
+    if (one_in(2)) {//random for the diversity of the trajectory
+        ++selected_slope;
+    } else {
+        --selected_slope;
+    }
+
+    if( closest != -1 ) {
+        point dest = position_from_index( closest );
+        set_dest( dest.x, dest.y, selected_slope);
+    } else if( friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-    } else if( closest == -1 && friendly < 0 && sees( g->u, bresenham_slope ) ) {
+    } else if( friendly < 0 && sees( g->u, bresenham_slope ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest(g->u.posx, g->u.posy, bresenham_slope);
         } else {

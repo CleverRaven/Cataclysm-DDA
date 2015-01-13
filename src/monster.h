@@ -57,6 +57,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return type->mat;
         };
+        int hp_percentage() const;
 
         // Access
         std::string name(unsigned int quantity = 1) const; // Returns the monster's formal name

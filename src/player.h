@@ -589,7 +589,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         static void hp_convert(hp_part hpart, body_part &bp);
 
         /** Returns overall % of HP remaining */
-        int hp_percentage();
+        int hp_percentage() const;
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
 

@@ -32,7 +32,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- faction_id = -1;
+ faction_id = 0;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -60,7 +60,7 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
- faction_id = -1;
+    faction_id = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -89,7 +89,7 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction_id = -1;
+    faction_id = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -569,11 +569,14 @@ int monster::monfaction() const
 {
     if( friendly != 0 ) {
         return -1;
-    } else if( !type->species_id.empty() ) {
-        return *type->species_id.begin();
     } else {
-        return 0;
+        return faction_id;
     }
+}
+
+int monster::hp_percentage() const
+{
+    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -619,25 +622,14 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 check_meat = true;
                 break;
 
-            case MTRIG_PLAYER_CLOSE:
-                if (rl_dist( pos(), g->u.pos() ) <= 5) {
-                    ret += 5;
-                }
-                for (auto &i : g->active_npc) {
-                    if (rl_dist( pos(), i->pos() ) <= 5) {
-                        ret += 5;
-                    }
-                }
-                break;
-
             case MTRIG_FIRE:
                 check_terrain = true;
                 check_fire = true;
                 break;
 
-            case MTRIG_PLAYER_WEAK:
-                if (g->u.hp_percentage() <= 70) {
-                    ret += 10 - int(g->u.hp_percentage() / 10);
+            case MTRIG_HOSTILE_WEAK: // TODO: Move to plan() and make target mons too
+                if( g->u.hp_percentage() <= 70 ) {
+                    ret += 10 - int( g->u.hp_percentage() / 10 );
                 }
                 break;
 
