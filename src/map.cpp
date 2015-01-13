@@ -3022,9 +3022,9 @@ void map::add_item_at( const int x, const int y,
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->itm[lx][ly].insert( index, new_item );
+    const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
-        current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
+        current_submap->active_items.add( new_pos, point(lx, ly) );
     }
 }
 
