@@ -418,7 +418,7 @@ void npc::talk_to_u()
 
     int most_difficult_mission = 0;
     for (size_t i = 0; i < chatbin.missions.size(); i++) {
-        mission_type *type = g->find_mission_type(chatbin.missions[i]);
+        mission_type *type = g->find_mission(chatbin.missions[i])->type;
         if (type->urgent && type->difficulty > most_difficult_mission) {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
             chatbin.mission_selected = i;
@@ -428,7 +428,7 @@ void npc::talk_to_u()
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for (size_t i = 0; i < chatbin.missions_assigned.size(); i++) {
-        mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
+        mission_type *type = g->find_mission(chatbin.missions_assigned[i])->type;
         if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
               (type->urgent || !chosen_urgent))) {
             chosen_urgent = type->urgent;
@@ -1368,7 +1368,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_NONE);
             } else {
                 for (size_t i = 0; i < p->chatbin.missions.size(); i++) {
-                    SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
+                    SELECT_MISS(g->find_mission( p->chatbin.missions[i] )->type->name, i);
                         SUCCESS(TALK_MISSION_OFFER);
                 }
                 RESPONSE(_("Never mind, I'm not interested."));
@@ -1387,7 +1387,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_NONE);
             } else {
                 for (size_t i = 0; i < p->chatbin.missions_assigned.size(); i++) {
-                    SELECT_MISS(g->find_mission_type( p->chatbin.missions_assigned[i] )->name, i);
+                    SELECT_MISS(g->find_mission( p->chatbin.missions_assigned[i] )->type->name, i);
                         SUCCESS(TALK_MISSION_INQUIRE);
                 }
                 RESPONSE(_("Never mind."));
@@ -1447,7 +1447,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     FAILURE(TALK_MISSION_FAILURE);
                         FAILURE_OPINION(-3, 0, -1, 2, 0);
             } else if (!g->mission_complete(id, p->getID())) {
-                mission_type *type = g->find_mission_type(id);
+                mission_type *type = g->find_mission(id)->type;
                 RESPONSE(_("Not yet."));
                     SUCCESS(TALK_NONE);
                 if (type->goal == MGOAL_KILL_MONSTER) {
@@ -1463,7 +1463,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_DONE);
             } else {
                 // TODO: Lie about mission
-                mission_type *type = g->find_mission_type(id);
+                mission_type *type = g->find_mission(id)->type;
                 switch (type->goal) {
                     case MGOAL_FIND_ITEM:
                     case MGOAL_FIND_ANY_ITEM:

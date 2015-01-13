@@ -1776,16 +1776,6 @@ mission *game::find_mission(int id)
     return NULL;
 }
 
-mission_type *game::find_mission_type(int id)
-{
-    for( auto &elem : active_missions ) {
-        if( elem.uid == id ) {
-            return elem.type;
-        }
-    }
-    return NULL;
-}
-
 bool game::mission_complete(int id, int npc_id)
 {
     mission *miss = find_mission(id);

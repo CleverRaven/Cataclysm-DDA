@@ -254,8 +254,6 @@ class game
         void increase_kill_count(const std::string &mtype_id);
         /** Returns the matching mission with UID == id; else returns NULL. */
         mission *find_mission(int id);
-        /** Returns the mission type of the mission with UID == id; else returns NULL. */
-        mission_type *find_mission_type(int id);
         /** Checks if the player has completed the matching mission and returns true if they have. */
         bool mission_complete(int id, int npc_id);
         /** Checks if the player has failed the matching mission and returns true if they have. */
