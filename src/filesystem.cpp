@@ -10,7 +10,10 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#ifdef _MSC_VER
+#if defined(_WIN32) || defined (__WIN32__)
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h> //TODO replace after merge
 #include "wdirent.h"
 #include <direct.h>
 #else
@@ -113,16 +116,8 @@ void for_each_dir_entry(std::string const &path, Function function)
 }
 
 //--------------------------------------------------------------------------------------------------
-// Returns true if entry is a directory, false otherwise.
-//--------------------------------------------------------------------------------------------------
-bool is_directory(dirent const &entry)
+bool is_directory_stat(dirent const &entry)
 {
-    if (entry.d_type == DT_DIR) {
-        return true;
-    } else if (entry.d_type != DT_UNKNOWN) {
-        return false;
-    }
-
     struct stat result;
     if (stat(entry.d_name, &result) != 0) {
         auto const e_str = strerror(errno);
@@ -133,6 +128,28 @@ bool is_directory(dirent const &entry)
 
     return S_ISDIR(result.st_mode);
 }
+
+//--------------------------------------------------------------------------------------------------
+// Returns true if entry is a directory, false otherwise.
+//--------------------------------------------------------------------------------------------------
+#if defined (__MINGW32__)
+bool is_directory(dirent const &entry)
+{
+    // no dirent::d_type
+    return is_directory_stat(entry);
+}
+#else
+bool is_directory(dirent const &entry)
+{
+    if (entry.d_type == DT_DIR) {
+        return true;
+    } else if (entry.d_type != DT_UNKNOWN) {
+        return false;
+    }
+
+    return is_directory_stat(entry);
+}
+#endif
 
 //--------------------------------------------------------------------------------------------------
 // Returns true if the name of entry matches "." or "..".
