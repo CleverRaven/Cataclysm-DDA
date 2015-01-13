@@ -12,7 +12,7 @@ class mission;
 class game;
 enum talk_topic;
 
-enum mission_id {
+enum mission_type_id {
     MISSION_NULL,
     MISSION_GET_ANTIBIOTICS,
     MISSION_GET_SOFTWARE,
@@ -56,7 +56,7 @@ enum mission_id {
     NUM_MISSION_IDS
 };
 
-std::string mission_dialogue(mission_id id, talk_topic state);
+std::string mission_dialogue(mission_type_id id, talk_topic state);
 
 enum mission_origin {
     ORIGIN_NULL = 0,
@@ -146,7 +146,7 @@ struct mission_fail {
 };
 
 struct mission_type {
-    int id; // Matches it to a mission_id above
+    int id; // Matches it to a mission_type_id above
     std::string name; // The name the mission is given in menus
     mission_goal goal; // The basic goal type
     int difficulty; // Difficulty; TODO: come up with a scale
@@ -163,7 +163,7 @@ struct mission_type {
     std::string monster_type;
     int monster_kill_goal;
     oter_id target_id;
-    mission_id follow_up;
+    mission_type_id follow_up;
 
     bool (mission_place::*place)(int x, int y);
     void (mission_start::*start)(mission *);
@@ -217,7 +217,7 @@ class mission : public JsonSerializer, public JsonDeserializer
         int npc_id;             // ID of a related npc
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
         int step;               // How much have we completed?
-        mission_id follow_up;   // What mission do we get after this succeeds?
+        mission_type_id follow_up;   // What mission do we get after this succeeds?
 
         std::string name();
         void load_info(std::ifstream &info);

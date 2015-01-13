@@ -1486,7 +1486,7 @@ void mission::deserialize(JsonIn &jsin)
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
-    follow_up = mission_id(jo.get_int("follow_up", follow_up));
+    follow_up = static_cast<mission_type_id>(jo.get_int("follow_up", follow_up));
     item_id = itype_id(jo.get_string("item_id", item_id));
 
     const std::string omid = jo.get_string( "target_id", "" );

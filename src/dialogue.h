@@ -91,7 +91,7 @@ struct talk_response {
     talk_trial trial;
     int difficulty;
     int mission_index;
-    mission_id miss; // If it generates a new mission
+    mission_type_id miss; // If it generates a new mission
     int tempvalue; // Used for various stuff
     const Skill* skill;
     matype_id style;

@@ -128,8 +128,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (mission_id(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
+        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
+            int mission_index = g->reserve_mission(static_cast<mission_type_id>(found->second.miss_id), getID());
             if (mission_index != -1)
                 chatbin.missions.push_back(mission_index);
         }

@@ -49,7 +49,7 @@ void mission::load_info(std::ifstream &data)
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
-    follow_up = mission_id(tmpfollow);
+    follow_up = mission_type_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::skill( rew_skill );
@@ -57,7 +57,7 @@ void mission::load_info(std::ifstream &data)
     item_count = int(item_num);
 }
 
-std::string mission_dialogue (mission_id id, talk_topic state)
+std::string mission_dialogue (mission_type_id id, talk_topic state)
 {
     switch (id) {
 

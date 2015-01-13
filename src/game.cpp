@@ -1716,7 +1716,7 @@ void game::assign_mission(int id)
     (m_s.*miss->type->start)(miss);
 }
 
-int game::reserve_mission(mission_id type, int npc_id)
+int game::reserve_mission(mission_type_id type, int npc_id)
 {
     mission tmp = mission_types[type].create(npc_id);
     active_missions.push_back(tmp);
@@ -1743,7 +1743,7 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 
     int index = valid[rng(0, valid.size() - 1)];
 
-    return reserve_mission(mission_id(index), npc_id);
+    return reserve_mission(static_cast<mission_type_id>( index ), npc_id);
 }
 
 npc *game::find_npc(int id)
