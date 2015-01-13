@@ -544,9 +544,9 @@ int player::get_dodge_base() const {
     return Creature::get_dodge_base() + get_skill_level("dodge");
 }
 
-int player::get_dodge() const
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
+int player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if (in_sleep_state()) {
