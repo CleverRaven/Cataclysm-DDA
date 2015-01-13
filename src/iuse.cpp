@@ -7868,6 +7868,9 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
         p->store(it, put, gun->skill_used->ident(), 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else draw the holstered gun and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -7936,6 +7939,9 @@ int iuse::sheath_knife(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
         p->store(it, put, "cutting", 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -7998,6 +8004,9 @@ int iuse::sheath_sword(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
         p->store(it, put, "cutting", 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
