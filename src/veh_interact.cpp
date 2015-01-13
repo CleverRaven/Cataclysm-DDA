@@ -18,7 +18,7 @@
 #define ISNAN std::isnan
 #endif
 
-static const std::set< ammotype > unsiphonable = { "gasoline", "diesel", "battery", "plut_cell", "plasma" };
+static const std::set< ammotype > unsiphonable = { "battery", "plut_cell", "plasma" };
 
 /**
  * Creates a blank veh_interact window.
@@ -48,7 +48,6 @@ veh_interact::veh_interact ()
     main_context.register_action("RENAME");
     main_context.register_action("SIPHON");
     main_context.register_action("TIRE_CHANGE");
-    main_context.register_action("DRAIN");
     main_context.register_action("RELABEL");
     main_context.register_action("PREV_TAB");
     main_context.register_action("NEXT_TAB");
@@ -256,8 +255,6 @@ void veh_interact::do_main_loop()
             do_siphon();
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
-        } else if (action == "DRAIN") {
-            do_drain();
         } else if (action == "RELABEL") {
             do_relabel();
         }
@@ -409,14 +406,6 @@ task_reason veh_interact::cant_do (char mode)
         has_skill = true;
         break;
     case 's': // siphon mode
-        valid_target = (veh->fuel_left("gasoline") > 0 || veh->fuel_left("diesel") > 0);
-        has_tools = has_siphon;
-        break;
-    case 'c': // change tire
-        valid_target = wheel != NULL;
-        has_tools = has_wrench && has_jack && has_wheel;
-        break;
-    case 'd': // drain tank
     {
         auto liquids = veh->all_liquids();
         for( auto &liquid : liquids ) {
@@ -426,6 +415,11 @@ task_reason veh_interact::cant_do (char mode)
         }
         has_tools = has_siphon;
     }
+        break;
+    case 'c': // change tire
+        valid_target = wheel != NULL;
+        has_tools = has_wrench && has_jack && has_wheel;
+        break;
         break;
     case 'a': // relabel
         valid_target = cpart >= 0;
@@ -925,7 +919,7 @@ void veh_interact::do_remove()
 
 /**
  * Handles siphoning gas.
- * @param reason INVALID_TARGET if the vehicle has no gas,
+ * @param reason INVALID_TARGET if the vehicle has no siphonable liquids,
  *               NO_TOOLS if the player has no hose.
  */
 void veh_interact::do_siphon()
@@ -936,12 +930,12 @@ void veh_interact::do_siphon()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no fuel left to siphon."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no liquid to siphon.") );
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_red>hose</color> to siphon fuel."));
+                       _("You need a <color_red>hose</color> to siphon liquid.") );
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
@@ -1010,38 +1004,6 @@ void veh_interact::do_tirechange()
             move_in_list(pos, action, wheel_types.size());
         }
     }
-}
-
-/**
- * Handles draining non-fuel liquids from a vehicle.
- * @param reason INVALID_TARGET if the vehicle has no drainable liquid,
- *               LACK_TOOLS if the player has no hose.
- */
-void veh_interact::do_drain()
-{
-    const task_reason reason = cant_do('d');
-    display_mode('d');
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
-    switch (reason) {
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no liquid to siphon.") );
-        wrefresh (w_msg);
-        return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_red>hose</color> to siphon liquid.") );
-        wrefresh (w_msg);
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "You can't siphon from a moving vehicle." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
-    }
-    sel_cmd = 'd';
 }
 
 /**
@@ -1480,7 +1442,6 @@ void veh_interact::display_mode(char mode)
         actions.push_back(_("re<f>ill"));
         actions.push_back(_("rem<o>ve"));
         actions.push_back(_("<s>iphon"));
-        actions.push_back(_("<d>rain"));
         actions.push_back(_("<c>hange tire"));
         actions.push_back(_("r<e>name"));
         actions.push_back(_("l<a>bel"));
@@ -1491,12 +1452,11 @@ void veh_interact::display_mode(char mode)
         enabled[2] = !cant_do('f');
         enabled[3] = !cant_do('o');
         enabled[4] = !cant_do('s');
-        enabled[5] = !cant_do('d');
-        enabled[6] = !cant_do('c');
-        enabled[7] = true;          // 'rename' is always available
-        enabled[8] = !cant_do('a');
+        enabled[5] = !cant_do('c');
+        enabled[6] = true;          // 'rename' is always available
+        enabled[7] = !cant_do('a');
 
-        int pos[10];
+        int pos[9];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
             pos[i + 1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
@@ -1724,8 +1684,7 @@ void complete_vehicle ()
     bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
-
-    // cmd = Install Repair reFill remOve Siphon Drain Changetire reName relAbel
+    // cmd = Install Repair reFill remOve Siphon Changetire reName relAbel
     switch (cmd) {
     case 'i':
         // Only parts that use charges
@@ -1878,19 +1837,37 @@ void complete_vehicle ()
         }
         break;
     case 's':
+    {
+        auto liquids = veh->all_liquids();
+        std::set< vehicle* > checked;
         for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
             for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
                 fillv = g->m.veh_at(x, y);
-                if ( fillv != NULL &&
-                     fillv != veh &&
-                     foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-                     (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("diesel") > 0)) {
-                    foundv[point(fillv->posx, fillv->posy)] = fillv;
+                if( fillv != nullptr &&
+                    fillv != veh &&
+                    foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() ) {
+                    if( checked.count( fillv ) > 0 ) {
+                        continue;
+                    }
+                    checked.insert( fillv );
+                    bool valid_target = false;
+                    for( auto &liquid : liquids ) {
+                        if( unsiphonable.count( liquid.first ) || liquid.second <= 0 ) {
+                            continue;
+                        }
+                        if( fillv->fuel_capacity( liquid.first ) > fillv->fuel_left( liquid.first ) ) {
+                            valid_target = true;
+                            break;
+                        }
+                    }
+                    if( valid_target ) {
+                        foundv[point(fillv->posx, fillv->posy)] = fillv;
+                    }
                 }
             }
         }
-        fillv = NULL;
-        if ( ! foundv.empty() ) {
+        fillv = nullptr;
+        if( !foundv.empty() ) {
             uimenu fmenu;
             fmenu.text = _("Fill what?");
             fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
@@ -1912,78 +1889,54 @@ void complete_vehicle ()
                 break;
             }
         }
-    { // Weird indention to avoid moving this whole block over 4 spaces.
-        int menu_choice = -1;
-        if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-            uimenu smenu;
-            smenu.text = _("Siphon what?");
-            smenu.addentry(_("Gasoline"));
-            smenu.addentry(_("Diesel"));
-            smenu.addentry(_("Never mind"));
-            smenu.query();
-            menu_choice = smenu.ret;
+        uimenu lmenu;
+        int count = -1; // Distance from .begin()
+        int choice = 0;
+        for( auto &liquid : liquids ) {
+            const std::string &ltype = liquid.first;
+            count++;
+            if( unsiphonable.count( ltype ) > 0 || liquid.first.empty() ) {
+                continue; // Don't list unsiphonable or undefined
+            }
+            if( fillv != nullptr && 
+                ( fillv->fuel_capacity( liquid.first ) <= fillv->fuel_left( liquid.first ) ) ) {
+                continue; // Selected vehicle can't accept this liquid
+            }
+            choice = count; // Set here in case there's only 1 entry
+            lmenu.addentry( count, liquid.second > 0, -1, "%s (%ld)",
+                            item::nname( ltype, 1 ).c_str(),
+                            liquid.second );
         }
-        if( fillv != NULL ) {
-            int want = 0;
-            int got = 0;
-            std::string choice = "none";
-
-            if( menu_choice != -1 ) {
-
-                if ( menu_choice == 0 ) {
-                    choice = "gasoline";
-                    want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                    got = veh->drain("gasoline", want);
-                    fillv->refill("gasoline", got);
-                } else if( menu_choice == 1 ) {
-                    choice = "diesel";
-                    want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                    got = veh->drain("diesel", want);
-                    fillv->refill("diesel", got);
-                } else {
-                    choice = "none";
-                    break;
-                }
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("diesel") > 0 ) {
-                want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                got = veh->drain("diesel", want);
-                fillv->refill("diesel",got);
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("gasoline") > 0 ) {
-                want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                got = veh->drain("gasoline", want);
-                fillv->refill("gasoline",got);
-                g->u.moves -= 200;
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
+        if( count == 0 ) {
+            debugmsg( "complete_vehicle tried to siphon from vehicle with no liquid" );
+            break;
+        }
+        if( lmenu.entries.size() > 1 ) {
+            lmenu.title = _("Pick liquid to siphon");
+            lmenu.addentry( count + 1, true, -1, _("Cancel") );
+            lmenu.query();
+            choice = lmenu.ret;
+            if( choice > count ) {
                 break;
             }
-            // Common message for all cases, no fuel case breaks and avoids it..
+        }
+        auto iter = liquids.begin();
+        std::advance( iter, choice );
+        if( fillv != nullptr ) {
+            long want = fillv->fuel_capacity( iter->first ) - fillv->fuel_left( iter->first );
+            long got = veh->drain( iter->first, want );
+            fillv->refill( iter->first, got );
+            g->u.moves -= 200;
+            std::string liquid_name = item::nname( iter->first, 1 );
             if( got < want ) {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, draining the tank."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
+            add_msg(_("Siphoned %ld units of %s from the %s into the %s, draining the tank."),
+                    got, liquid_name.c_str(), veh->name.c_str(), fillv->name.c_str() );
             } else {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
+                add_msg(_("Siphoned %ld units of %s from the %s into the %s, receiving tank is full."),
+                        got, liquid_name.c_str(), veh->name.c_str(), fillv->name.c_str() );
             }
         } else {
-            if( menu_choice != -1 ) {
-                if( menu_choice == 0 ) {
-                    g->u.siphon( veh, "gasoline" );
-                } else if( menu_choice == 1 ) {
-                    g->u.siphon( veh, "diesel" );
-                } else {
-                    break;
-                }
-            } else if( veh->fuel_left("diesel") > 0 ) {
-                g->u.siphon( veh, "diesel" );
-            } else if( veh->fuel_left("gasoline") > 0 ) {
-                g->u.siphon( veh, "gasoline" );
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
-                break;
-            }
+            g->u.siphon( veh, iter->first );
         }
     }
     break;
@@ -2013,41 +1966,6 @@ void complete_vehicle ()
             }
         }
         break;
-    case 'd':
-    {
-        auto liquids = veh->all_liquids();
-        uimenu lmenu;
-        int count = -1; // Distance from .begin()
-        int choice = 0;
-        for( auto &l : liquids ) {
-            const std::string &ltype = l.first;
-            count++;
-            if( unsiphonable.count( ltype ) > 0 ) {
-                continue;
-            }
-            choice = count; // Set here in case there's only 1 entry
-            lmenu.addentry( count, l.second > 0, -1, "%s (%ld)",
-                            item::nname( ltype, 1 ).c_str(),
-                            l.second );
-        }
-        if( count == 0 ) {
-            debugmsg( "complete_vehicle tried to drain a vehicle with no liquid" );
-            break;
-        }
-        if( lmenu.entries.size() > 1 ) {
-            lmenu.title = _("Pick liquid to drain");
-            lmenu.addentry( count + 1, true, -1, _("Cancel") );
-            lmenu.query();
-            choice = lmenu.ret;
-            if( choice > count ) {
-                break;
-            }
-        }
-        auto iter = liquids.begin();
-        std::advance( iter, choice );
-        g->u.siphon( veh, iter->first );
-    }
-    break;
     }
     g->u.invalidate_crafting_inventory();
 }

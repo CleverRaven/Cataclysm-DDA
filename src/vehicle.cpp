@@ -438,8 +438,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
         }
-        if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
-            tank_set_charges( p, part_info( p ).fuel_type, part_info( p ).size * veh_fuel_mult / 100 );
+        if( part_flag(p, "FUEL_TANK") && !part_info( p ).is_generic_tank() ) {   // set fuel status
+            tank_set_charges( p, part_info( p ).fuel_type, 
+                              capacity_left( p, part_info( p ).fuel_type ) * veh_fuel_mult / 100 );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -2506,7 +2507,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
         int cap = fuel_capacity( f );
         long f_left = liquid.second;
         nc_color f_color = c_white;
-        auto left_iter = std::find( &fuel_types[0], &fuel_types[num_fuel_types + 1], f );
+        auto left_iter = std::find( &fuel_types[0], (&fuel_types[num_fuel_types]) + 1, f );
         int index = std::distance( &fuel_types[0], left_iter );
         if( index < num_fuel_types ) {
             f_color = fuel_colors[index];
@@ -2810,18 +2811,22 @@ int vehicle::tank_drain( int p, int charges )
     return 0;
 }
 
+// Returns charge used
 int vehicle::tank_fill( int p, const ammotype &ftype, int charges )
 {
     vehicle_part &tank = parts[p];
     const vpart_info &tank_info = part_info( p );
+    if( charges < 0 ) {
+        debugmsg( "vehicle::tank_fill got negative charges" );
+        return INT_MIN;
+    } else if( charges == 0 ) {
+        return 0;
+    }
     if( !tank_info.is_generic_tank() && tank_info.fuel_type != ftype && charges > 0 ) {
         debugmsg( "vehicle::tank_fill tried to fill %s tank with %s", tank_info.fuel_type.c_str(), ftype.c_str() );
         return INT_MIN;
     }
-    if( charges <= 0 ) {
-        tank.items.clear();
-        return 0;
-    }
+
     if( tank.items.empty() ) {
         item fuel( ftype, calendar::turn );
         fuel.charges = std::min( charges, capacity_left( p, ftype ) );
@@ -2834,8 +2839,12 @@ int vehicle::tank_fill( int p, const ammotype &ftype, int charges )
             return INT_MIN;
         }
         auto &liquid = tank.items.front();
-        liquid.charges = std::min( charges, capacity_left( p, ftype ) );
-        return charges - liquid.charges;
+        int oldcharges = liquid.charges;
+        liquid.charges += charges;
+        if( liquid.charges > capacity_left( p, ftype ) ) {
+            liquid.charges = capacity_left( p, ftype );
+        }
+        return liquid.charges - oldcharges;
     }
 }
 
@@ -2890,10 +2899,12 @@ int vehicle::fuel_left_recursive(const ammotype & ftype)
 int vehicle::fuel_capacity (const ammotype & ftype) const
 {
     int cap = 0;
+    const itype *type = item::find_type( ftype );
+    const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     for(auto &p : fuel) {
         if( part_info( p ).fuel_type == ftype ||
             ( tank_stored_liquid( p ) != nullptr && tank_stored_type( p ) == ftype ) ) {
-            cap += part_info(p).size;
+            cap += part_info(p).size * mul;
         }
     }
     return cap;

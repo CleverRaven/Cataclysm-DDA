@@ -8077,12 +8077,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
     } else if (ftype == "plasma") {
         fuel_per_charge = 100;
     }
-    int max_fuel = veh.capacity_left( part, ftype );
-    int cur_amount = veh.tank_charges( part );
-    int charge_difference = ( max_fuel - cur_amount ) / fuel_per_charge;
-    if( charge_difference < 1 ) {
-        charge_difference = 1;
-    }
+
     long used_charges = veh.tank_fill( part, ftype, p_itm->charges * fuel_per_charge );
 
     if (ftype == "battery") {
@@ -8091,10 +8086,9 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
             add_msg(m_good, _("The battery is fully charged."));
         }
     } else {
-        const auto &ftype_itype = item::find_type( ftype );
         add_msg(_("You fill %s's %s with %d units of %s."), 
             veh.name.c_str(), veh.part_info( part ).name.c_str(), 
-            used_charges, ftype_itype->nname( 1 ).c_str() );
+            used_charges, item::nname( ftype, 1 ).c_str() );
         if( veh.capacity_left( part, ftype ) <= 0 ) {
             add_msg( m_good, _("The %s is full."), veh.part_info( part ).name.c_str() );
         }
@@ -8155,7 +8149,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
             dmg = 1000 - vehint.sel_vehicle_part->hp * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
-        // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
+        // sel_cmd = Install Repair reFill remOve Siphon Changetire reName
         // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
