@@ -191,13 +191,13 @@ struct mission_type {
         follow_up = MISSION_NULL;
     };
 
-    mission create(int npc_id); // Create a mission
+    mission create( int npc_id ) const;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
 {
     public:
-        mission_type *type;
+        const mission_type *type;
         std::string description;// Basic descriptive text
         bool failed;            // True if we've failed it!
         unsigned long value;    // Cash/Favor value of completing this

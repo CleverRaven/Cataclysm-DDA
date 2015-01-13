@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-mission mission_type::create(int npc_id)
+mission mission_type::create( const int npc_id ) const
 {
     mission ret;
     ret.uid = g->assign_mission_id();

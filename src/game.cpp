@@ -1782,7 +1782,7 @@ bool game::mission_complete(int id, int npc_id)
     if (miss == NULL) {
         return false;
     }
-    mission_type *type = miss->type;
+    const auto type = miss->type;
     switch (type->goal) {
     case MGOAL_GO_TO: {
         // TODO: target does not contain a z-component, targets are assume to be on z=0

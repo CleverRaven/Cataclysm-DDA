@@ -2145,9 +2145,8 @@ void npc::die(Creature* nkiller) {
 
     place_corpse();
 
-    mission_type *type;
     for (auto &i : g->active_missions) {
-        type = i.type;
+        const auto type = i.type;
         //complete the mission if you needed killing
         if (type->goal == MGOAL_ASSASSINATE && i.target_npc_id == getID()) {
                 g->mission_step_complete( i.uid, 1);

@@ -418,7 +418,7 @@ void npc::talk_to_u()
 
     int most_difficult_mission = 0;
     for (size_t i = 0; i < chatbin.missions.size(); i++) {
-        mission_type *type = g->find_mission(chatbin.missions[i])->type;
+        const auto type = g->find_mission(chatbin.missions[i])->type;
         if (type->urgent && type->difficulty > most_difficult_mission) {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
             chatbin.mission_selected = i;
@@ -428,7 +428,7 @@ void npc::talk_to_u()
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for (size_t i = 0; i < chatbin.missions_assigned.size(); i++) {
-        mission_type *type = g->find_mission(chatbin.missions_assigned[i])->type;
+        const auto type = g->find_mission(chatbin.missions_assigned[i])->type;
         if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
               (type->urgent || !chosen_urgent))) {
             chosen_urgent = type->urgent;
@@ -517,7 +517,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         // Mission stuff is a special case, so we'll handle it up here
         mission *miss = g->find_mission(id);
-        mission_type *type = miss->type;
+        auto type = miss->type;
         std::string ret = mission_dialogue( type->id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%d)",
@@ -1447,7 +1447,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     FAILURE(TALK_MISSION_FAILURE);
                         FAILURE_OPINION(-3, 0, -1, 2, 0);
             } else if (!g->mission_complete(id, p->getID())) {
-                mission_type *type = g->find_mission(id)->type;
+                const auto type = g->find_mission(id)->type;
                 RESPONSE(_("Not yet."));
                     SUCCESS(TALK_NONE);
                 if (type->goal == MGOAL_KILL_MONSTER) {
@@ -1463,7 +1463,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_DONE);
             } else {
                 // TODO: Lie about mission
-                mission_type *type = g->find_mission(id)->type;
+                const auto type = g->find_mission(id)->type;
                 switch (type->goal) {
                     case MGOAL_FIND_ITEM:
                     case MGOAL_FIND_ANY_ITEM:

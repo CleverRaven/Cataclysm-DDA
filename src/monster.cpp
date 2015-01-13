@@ -1373,7 +1373,7 @@ void monster::die(Creature* nkiller) {
     }
     // If we're a mission monster, update the mission
     if (!is_hallucination() && mission_id != -1) {
-        mission_type *misstype = g->find_mission(mission_id)->type;
+        const auto misstype = g->find_mission(mission_id)->type;
         if (misstype->goal == MGOAL_FIND_MONSTER) {
             g->fail_mission(mission_id);
         }
