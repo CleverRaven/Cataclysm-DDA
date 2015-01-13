@@ -2477,11 +2477,11 @@ struct fuel_sort
         auto right_iter = std::find( &fuel_types[0], &fuel_types[num_fuel_types], right.first );
         int ldist = std::distance( &fuel_types[0], left_iter );
         int rdist = std::distance( &fuel_types[0], right_iter );
-        if( ldist < rdist ) {
-            return true;
+        if( ldist != rdist ) {
+            return ldist < rdist;
         }
-        if( left.second > right.second ) {
-            return true;
+        if( left.second != right.second ) {
+            return left.second > right.second; // Bigger charges earlier
         }
         return left.first < right.first;
     }
@@ -2498,7 +2498,6 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int cur_gauge = 0;
     const auto &fuels = all_liquids();
     // Sort for better display
-    // Can't define a map with a comparer - for some reason skips entries when iterating
     std::vector< fuel_val > fuels_sorted( fuels.begin(), fuels.end() );
     std::sort( fuels_sorted.begin(), fuels_sorted.end(), fuel_sort() );
 
