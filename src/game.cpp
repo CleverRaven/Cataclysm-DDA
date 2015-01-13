@@ -6774,6 +6774,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
     double falloff_exp = 2;
     std::vector<point> check_list;
 
+    //set up list of spots to check, ordered from furthest from epicenter to closest
     for(int j = 0; j < radius; j++) {
         for(int i = x - radius + j; i <= x + radius - j; i++) {
             check_list.push_back(point(i, y - radius + j));
@@ -6785,6 +6786,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
         }
     }       check_list.push_back(point(x, y));
     
+    //go thru the list of spots to check, and determine the damage each spot "sees"
     for (unsigned int i = 0; i < check_list.size(); i++) {
         int xp = check_list[i].x;
         int yp = check_list[i].y;
@@ -6808,34 +6810,42 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
         // Double up for tough doors, etc.
         m.bash(xp, yp, 2*dam);
 
+        //check for hits on this tile
         int mon_hit = mon_at(xp, yp), npc_hit = npc_at(xp, yp);
+        int vpart; vehicle *veh = m.veh_at(xp, yp, vpart);
+        
         if (mon_hit != -1) {
+            //hit a monster
             monster &critter = critter_tracker.find(mon_hit);
             critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
         }
-
-        int vpart;
-        vehicle *veh = m.veh_at(xp, yp, vpart);
+        
         if (veh) {
-        veh->damage(vpart, dam, fire ? 2 : 1, false);
+            //hit a vehicle
+            veh->damage(vpart, dam, fire ? 2 : 1, false);
         }
 
         player *n = nullptr;
         if (npc_hit != -1) {
+            //hit NPC
             n = active_npc[npc_hit];
         } else if( u.posx == xp && u.posy == yp ) {
+            //hit player
             add_msg(m_bad, _("You're caught in the explosion!"));
             n = &u;
         }
         if( n != nullptr ) {
+            //deal damage to NPC/player, if such were hit
             n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
         }
+        
         if (fire) {
+            //set fire
             m.add_field(xp, yp, fd_fire, dam / 10);
         }
     }
@@ -6889,7 +6899,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         
         // If the randomly chosen spot is the origin, it already points there.
         // Otherwise line_to excludes the origin, so add it.
-        if( sx !=x || sy != y ) {
+        if( sx != x || sy != y ) {
             traj.insert( traj.begin(), point(x, y) );
         }
         
@@ -6902,9 +6912,11 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             tx = traj[j].x;
             ty = traj[j].y;
             
-            //find the creature that was hit
+            //find what was hit
             const int zid = mon_at(tx, ty);
             const int npcdex = npc_at(tx, ty);
+            int vpart; vehicle *veh = m.veh_at(tx, ty, vpart);
+            bool hit_something = false;
             
             //apply the hit to...
             if (zid != -1) {
@@ -6912,7 +6924,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso); //fragment loses power as it travels through stuff
                 critter.apply_damage( nullptr, bp_torso, dam );
-            } else if( npcdex != -1 ) {
+                hit_something = true;
+            }
+            if( npcdex != -1 ) {
                 //...an NPC
                 body_part hit = random_body_part();
                 dam -= active_npc[npcdex]->get_armor_cut(hit); //fragment loses power as it travels through stuff
@@ -6923,16 +6937,25 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                     tmpdam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, tmpdam ) );
-            } else if (tx == u.posx && ty == u.posy) {
+                hit_something = true;
+            }
+            if (tx == u.posx && ty == u.posy) {
                 //...the player
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-            } else {
+                hit_something = true;
+            }
+            if (veh) {
+                //...a vehicle
+                veh->damage(vpart, dam, fire ? 2 : 1, false);
+                hit_something = true;
+            }
+            if (!hit_something)
                 //...nothing
                 std::set<std::string> shrapnel_effects;
-                //shoot whatever is there (i.e. items + furniture)
+                //shoot whatever is there (i.e. items + furniture)?
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
             }
         }
