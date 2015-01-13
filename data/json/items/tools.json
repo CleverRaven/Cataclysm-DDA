@@ -4137,7 +4137,7 @@
     "color": "cyan",
     "name": "diamond katana",
     "description": "The edge of this katana has been enhanced with a coating of diamond-like carbon.  It is now stronger and sharper than Muramasa could have ever dreamed.",
-    "price": 15000,
+    "price": 155000,
     "material": ["steel", "diamond"],
     "techniques": ["RAPID", "PRECISE", "WBLOCK_2"],
     "flags" : ["DURABLE_MELEE", "SLICE", "SHEATH_SWORD", "IAIJUTSU"],
