@@ -6,7 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 
 #include <stdlib.h>
 #include <fstream>

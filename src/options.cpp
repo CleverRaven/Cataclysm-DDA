@@ -3,11 +3,10 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "file_wrapper.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -1429,8 +1428,8 @@ std::string get_tileset_names(std::string dir_path)
     const std::string defaultTilesets = "hoder,deon";
 
     const std::string filename = "tileset.txt";                             // tileset-info-file
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search it
+    // search it
+    auto const files = get_files_from_path(filename, dir_path, true);
 
     std::string tileset_names;
     bool first_tileset_name = true;

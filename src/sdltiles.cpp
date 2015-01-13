@@ -16,8 +16,9 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 
+//TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
 #include "wdirent.h"
 #include <direct.h>

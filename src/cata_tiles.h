@@ -14,7 +14,6 @@
 #include "mapdata.h"
 #include "tile_id_data.h"
 #include "enums.h"
-#include "file_finder.h"
 
 #include <map>
 #include <vector>
