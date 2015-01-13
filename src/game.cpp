@@ -6952,7 +6952,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 veh->damage(vpart, dam, fire ? 2 : 1, false);
                 hit_something = true;
             }
-            if (!hit_something)
+            if (!hit_something) {
                 //...nothing
                 std::set<std::string> shrapnel_effects;
                 //shoot whatever is there (i.e. items + furniture)?
