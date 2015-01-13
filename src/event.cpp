@@ -74,17 +74,15 @@ void event::actualize()
 
   case EVENT_ROBOT_ATTACK: {
    if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
-    mtype *robot_type = GetMType("mon_tripod");
-    if (faction_id == 0) { // The cops!
-     if (one_in(2)) {
-         robot_type = GetMType("mon_copbot");
-     } else {
-         robot_type = GetMType("mon_riotbot");
-     }
-
-     g->u.add_memorial_log(pgettext("memorial_male", "Became wanted by the police!"),
-                           pgettext("memorial_female", "Became wanted by the police!"));
+    mtype *robot_type;
+    if (one_in(2)) {
+        robot_type = GetMType("mon_copbot");
+    } else {
+        robot_type = GetMType("mon_riotbot");
     }
+
+    g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
+                           pgettext("memorial_female", "Became wanted by the police!"));
     monster robot(robot_type);
     int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
         roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
@@ -293,7 +291,6 @@ void event::per_turn()
    // About once every 10 minutes. Suppress in classic zombie mode.
    if (g->levz >= 0 && one_in(100) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
-    eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
      return; // We're safely indoors!

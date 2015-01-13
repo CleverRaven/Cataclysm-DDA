@@ -70,6 +70,8 @@ class MonsterGenerator
         std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
+        const std::string &faction_from_id( int id ) const;
+        int faction_to_id( const std::string &faction ) const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -86,6 +88,8 @@ class MonsterGenerator
         void init_trigger();
         void init_flags();
 
+        void init_hardcoded_factions(); // Player faction only at the moment
+
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
@@ -100,6 +104,7 @@ class MonsterGenerator
         void apply_species_attributes(mtype *mon);
         void set_mtype_flags(mtype *mon);
         void set_species_ids(mtype *mon);
+        void set_default_faction( mtype *mon );
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
@@ -113,6 +118,9 @@ class MonsterGenerator
         std::map<std::string, MonDefenseFunction> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
+
+        std::map<std::string, int> faction_map;
+        std::map<int, std::string> inverted_faction_map; // For monster faction serialization
 };
 
 #endif

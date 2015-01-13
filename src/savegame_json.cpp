@@ -918,6 +918,10 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
+
+    std::string faction;
+    data.read( "faction", faction );
+    faction_id = MonsterGenerator::generator().faction_to_id( faction ); 
 }
 
 /*
@@ -954,6 +958,9 @@ void monster::store(JsonOut &json) const
     json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
+
+    std::string faction_name = MonsterGenerator::generator().faction_from_id( faction_id );
+    json.member( "faction", faction_name );
 
     json.member( "inv", inv );
 }

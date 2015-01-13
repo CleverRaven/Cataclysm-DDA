@@ -276,7 +276,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        int faction_id; // If we belong to a faction
+        int faction_id; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death

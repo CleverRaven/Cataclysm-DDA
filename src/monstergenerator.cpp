@@ -7,6 +7,8 @@
 #include "catacharset.h"
 #include "item.h"
 
+const static std::string playerfac = "Player";
+
 MonsterGenerator::MonsterGenerator()
 {
     mon_templates["mon_null"] = new mtype();
@@ -19,6 +21,7 @@ MonsterGenerator::MonsterGenerator()
     init_flags();
     init_trigger();
     init_sizes();
+    init_hardcoded_factions();
 }
 
 MonsterGenerator::~MonsterGenerator()
@@ -47,6 +50,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes(mon);
         set_mtype_flags(mon);
         set_species_ids( mon );
+        set_default_faction( mon );
     }
 }
 
@@ -329,6 +333,29 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
 }
 
+void MonsterGenerator::init_hardcoded_factions()
+{
+    faction_map[playerfac] = -1;
+    inverted_faction_map[-1] = playerfac;
+}
+
+void MonsterGenerator::set_default_faction( mtype *mon )
+{
+    if( mon->default_faction.empty() && !mon->species.empty() ) {
+        mon->default_faction = *( mon->species.begin() );
+    }
+    int myid;
+    auto found = faction_map.find( mon->default_faction );
+    if( found == faction_map.end() ) {
+        myid = faction_map.size();
+        faction_map[mon->default_faction] = myid;
+        inverted_faction_map[myid] = mon->default_faction;
+    } else {
+        myid = found->second;
+    }
+    mon->default_faction_id = myid;
+}
+
 void MonsterGenerator::set_species_ids( mtype *mon )
 {
     const std::set< std::string > &specs = mon->species;
@@ -369,6 +396,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
+
+        newmon->default_faction = jo.get_string("default_faction", "");
 
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
@@ -528,6 +557,26 @@ mtype *MonsterGenerator::get_valid_hallucination()
     }
 
     return potentials[rng(0, potentials.size() - 1)];
+}
+
+const std::string &MonsterGenerator::faction_from_id( int id ) const
+{
+    auto found = inverted_faction_map.find( id );
+    if( found == inverted_faction_map.end() ) {
+        debugmsg( "Couldn't find monster faction with id %d", id );
+        return playerfac;
+    }
+    return found->second;
+}
+
+int MonsterGenerator::faction_to_id( const std::string &faction ) const
+{
+    auto found = faction_map.find( faction );
+    if( found == faction_map.end() ) {
+        debugmsg( "Couldn't find monster faction %s", faction.c_str() );
+        return -1;
+    }
+    return found->second;
 }
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const

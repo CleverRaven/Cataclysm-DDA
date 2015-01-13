@@ -60,7 +60,7 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
-    faction_id = t->default_faction;
+    faction_id = t->default_faction_id;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -89,7 +89,7 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
-    faction_id = t->default_faction;
+    faction_id = t->default_faction_id;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;

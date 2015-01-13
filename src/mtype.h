@@ -153,7 +153,8 @@ struct mtype {
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
-        int default_faction; // 0 is factionless, -1 player ally, -2 by species
+        std::string default_faction; // Default faction of new monsters of this type
+        int default_faction_id; // Cached index of the above
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;
