@@ -10,20 +10,23 @@
 
 // FILE I/O
 #include <sys/stat.h>
+
 #if defined(_WIN32) || defined (__WIN32__)
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h> //TODO replace after merge
+#include <windows.h>
+#endif
+
+#ifdef _MSC_VER
 #include "wdirent.h"
 #include <direct.h>
 #else
 #include <dirent.h>
-#include <unistd.h>
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
-#include <windows.h>
-#endif
+#include <unistd.h>
 
 namespace {
 
