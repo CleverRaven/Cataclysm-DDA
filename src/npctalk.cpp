@@ -3307,9 +3307,9 @@ void talk_function::player_weapon_drop(npc *p)
 
 void talk_function::lead_to_safety(npc *p)
 {
- g->give_mission(MISSION_REACH_SAFETY);
- int missid = g->u.active_missions[g->u.active_mission];
- point target = g->find_mission( missid )->target;
+    const auto mission_id = g->reserve_mission( MISSION_REACH_SAFETY, -1 );
+    g->assign_mission( mission_id );
+    const point target = g->find_mission( mission_id )->target;
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;

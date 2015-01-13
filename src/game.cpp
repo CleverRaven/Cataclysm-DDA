@@ -1707,17 +1707,6 @@ int game::assign_mission_id()
     return ret;
 }
 
-void game::give_mission(mission_id type)
-{
-    mission tmp = mission_types[type].create();
-    active_missions.push_back(tmp);
-    u.active_missions.push_back(tmp.uid);
-    u.active_mission = u.active_missions.size() - 1;
-    mission_start m_s;
-    mission *miss = find_mission(tmp.uid);
-    (m_s.*miss->type->start)(miss);
-}
-
 void game::assign_mission(int id)
 {
     u.active_missions.push_back(id);

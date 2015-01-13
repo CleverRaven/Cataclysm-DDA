@@ -191,7 +191,7 @@ struct mission_type {
         follow_up = MISSION_NULL;
     };
 
-    mission create(int npc_id = -1); // Create a mission
+    mission create(int npc_id); // Create a mission
 };
 
 class mission : public JsonSerializer, public JsonDeserializer

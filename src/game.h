@@ -237,8 +237,6 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
-        /** Creates a mission of the matching type and assigns it to the player. */
-        void give_mission(mission_id type);
         /** Assigns an existing mission to the player. */
         void assign_mission(int id);
         /** reserve_mission() creates a new mission of the given type and pushes it to
