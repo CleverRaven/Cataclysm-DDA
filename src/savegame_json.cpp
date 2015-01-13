@@ -1509,7 +1509,7 @@ void mission::serialize(JsonOut &json) const
 {
     json.start_object();
 
-    json.member("type_id", type == NULL ? -1 : (int)type->id);
+    json.member("type_id", type == NULL ? -1 : static_cast<int>( type->id ) );
     json.member("description", description);
     json.member("failed", failed);
     json.member("value", value);

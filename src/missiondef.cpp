@@ -6,7 +6,7 @@ void game::init_missions()
 {
  #define MISSION(name, goal, diff, val, urgent, place, start, end, fail) \
  id++; mission_types.push_back( \
-mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
+mission_type(static_cast<mission_type_id>( id ), name, goal, diff, val, urgent, place, start, end, fail) )
 
  #define ORIGINS(...) mission_types[id].origins = { __VA_ARGS__ }
  #define ITEM(itid)     mission_types[id].item_id = itid

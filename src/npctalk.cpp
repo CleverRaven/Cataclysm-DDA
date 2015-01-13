@@ -518,7 +518,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         // Mission stuff is a special case, so we'll handle it up here
         mission *miss = g->find_mission(id);
         mission_type *type = miss->type;
-        std::string ret = mission_dialogue(static_cast<mission_type_id>(type->id), topic);
+        std::string ret = mission_dialogue( type->id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%d)",
                      type->id, topic);

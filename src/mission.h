@@ -146,7 +146,7 @@ struct mission_fail {
 };
 
 struct mission_type {
-    int id; // Matches it to a mission_type_id above
+    mission_type_id id; // Matches it to a mission_type_id above
     std::string name; // The name the mission is given in menus
     mission_goal goal; // The basic goal type
     int difficulty; // Difficulty; TODO: come up with a scale
@@ -170,7 +170,7 @@ struct mission_type {
     void (mission_end  ::*end  )(mission *);
     void (mission_fail ::*fail )(mission *);
 
-    mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
+    mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
                  bool (mission_place::*PLACE)(int x, int y),
                  void (mission_start::*START)(mission *),
