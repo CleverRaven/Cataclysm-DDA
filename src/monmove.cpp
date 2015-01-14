@@ -174,17 +174,16 @@ void monster::plan(const mfactions &factions)
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = (g->active_npc[i]);
             float rating = rate_target( *me, bresenham_slope, electronic );
-            if( rating < dist || ( !fleeing && is_fleeing( *me ) ) ) {
-                if( is_fleeing( *me ) ) {
-                    fleeing = true;
-                    set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, bresenham_slope);
-                    dist = rating;
-                } else if( attitude( me ) == MATT_ATTACK ) {
+            bool fleeing_from = is_fleeing( *me );
+            // Switch targets if closer and hostile or scarier than current target
+            if( ( rating < dist && fleeing ) ||
+                ( rating < dist && attitude( me ) == MATT_ATTACK ) ||
+                ( !fleeing && fleeing_from ) ) {
                     closest = i;
-                    selected_slope = bresenham_slope;
                     dist = rating;
-                }
+                    selected_slope = bresenham_slope;
             }
+            fleeing = fleeing || fleeing_from;
             if( angers_when_near && rating <= 5 ) {
                 anger += 5;
             }
@@ -192,7 +191,7 @@ void monster::plan(const mfactions &factions)
     }
 
     fleeing = attitude() == MATT_FLEE;
-    if( friendly == 0 && can_see() ) {
+    if( !docile && friendly == 0 && can_see() ) {
         for( const auto &fac : factions ) {
             if( fac.first == faction->id ) {
                 continue;
@@ -203,14 +202,8 @@ void monster::plan(const mfactions &factions)
                 float rating = rate_target( mon, bresenham_slope, electronic );
                 if( rating < dist ) {
                     dist = rating;
-                    if (fleeing) {
-                        wandx = posx() * 2 - mon.posx();
-                        wandy = posy() * 2 - mon.posy();
-                        wandf = 40;
-                    } else {
-                        closest = -3 - i;
-                        selected_slope = bresenham_slope;
-                    }
+                    closest = -3 - i;
+                    selected_slope = bresenham_slope;
                 }
                 if( angers_when_near && rating <= 5 ) {
                     anger += 5;
@@ -249,7 +242,11 @@ void monster::plan(const mfactions &factions)
 
     if( closest != -1 ) {
         point dest = position_from_index( closest );
-        set_dest( dest.x, dest.y, selected_slope);
+        if( !fleeing ) {
+            set_dest( dest.x, dest.y, selected_slope );
+        } else {
+            set_dest( posx() * 2 - dest.x, posy() * 2 - dest.y, selected_slope );
+        }
     } else if( friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
