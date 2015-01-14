@@ -4190,7 +4190,7 @@
 	"type" : "AMMO",
 	"id" : "incendiary_hm_rocket",
 	"price" : 1300,
-	"name" : "explosive home-made rocket",
+	"name" : "incendiary home-made rocket",
 	"symbol" : ",",
 	"color" : "red",
 	"description" : "A home-built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel. Short-range incendiary – handle with care!",
