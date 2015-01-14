@@ -358,7 +358,7 @@ bool monster::digging() const
 int monster::sight_range( const int light_level ) const
 {
     if( !can_see() ) {
-        return 0;
+        return 1;
     }
 
     int range = ( light_level * type->vision_day ) + 
