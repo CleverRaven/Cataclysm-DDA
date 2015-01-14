@@ -107,13 +107,15 @@ void veh_interact::allocate_windows()
         // +--------+---------+---------+
         // | w_disp | w_parts |  w_list |
         // +--------+---------+---------+
-        // |          w_name            |
+        // |          w_name   w_details|
         // |          w_stats           |
         // +----------------------------+
         //
         // w_disp/w_parts/w_list expand to take up extra height.
         // w_disp, w_parts and w_list share extra width in a 2:1:1 ratio,
         // but w_parts and w_list start with more than w_disp.
+        //
+        // w_details only shows in install view and covers rightmost colums of w_name and w_stats
 
         const int h1 = 4; // 4 lines for msg + mode
         const int h3 = 6; // 6 lines for name + stats
@@ -163,11 +165,14 @@ void veh_interact::allocate_windows()
         // +------------------+---------+
         // |      w_disp      |         |
         // +---------+--------+ w_stats |
-        // | w_parts | w_list |         |
+        // | w_parts | w_list |w_details|
         // +---------+--------+---------+
         // |           w_mode           |
         // |           w_msg            |
         // +----------------------------+
+        //
+        // w_details only shows in install view and covers lower part of w_stats
+
         name_h  = 1;
         name_w  = grid_w;
         mode_h  = 1;
@@ -214,6 +219,7 @@ void veh_interact::allocate_windows()
     w_disp  = newwin(disp_h,  disp_w,  disp_y,  disp_x );
     w_parts = newwin(parts_h, parts_w, parts_y, parts_x);
     w_list  = newwin(list_h,  list_w,  list_y,  list_x );
+    w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
@@ -453,7 +459,7 @@ bool veh_interact::is_drive_conflict(int msg_width){
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
     bool can_install = !(has_muscle_engine && install_muscle_engine);
-    
+
     if (!can_install) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
@@ -471,18 +477,18 @@ bool veh_interact::can_install_part(int msg_width){
     int dif_eng = 0;
     if (is_engine && !install_muscle_engine) {
         for (size_t p = 0; p < veh->parts.size(); p++) {
-            if (veh->part_flag (p, "ENGINE") && 
-                veh->part_info(p).fuel_type != "muscle") 
+            if (veh->part_flag (p, "ENGINE") &&
+                veh->part_info(p).fuel_type != "muscle")
             {
                 engines++;
                 dif_eng = dif_eng / 2 + 12;
             }
         }
     }
-    
+
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width);
-    
+
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
@@ -572,13 +578,14 @@ void veh_interact::do_install()
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
-    
+
     int pos = 0;
     while (true) {
         sel_vpart_info = &(can_mount[pos]);
         display_list (pos, can_mount);
+        display_details (*sel_vpart_info);
         bool can_install = can_install_part(msg_width);
-        
+
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
@@ -595,6 +602,16 @@ void veh_interact::do_install()
             move_in_list(pos, action, can_mount.size());
         }
     }
+
+    //destroy w_details
+    werase(w_details);
+    delwin(w_details);
+    w_details = NULL;
+
+    //restore windows that had been covered by w_details
+    werase(w_stats);
+    display_stats();
+    display_name();
 }
 
 bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
@@ -779,10 +796,10 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
     werase (w_msg);
     if (veh->can_unmount(veh_part_index)) {
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
-        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") || 
+        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") ||
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
-        
+
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
             skill_req = veh->part_info(veh_part_index).difficulty;
@@ -791,10 +808,10 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         } else {
             skill_req = 2;
         }
-        
+
         bool has_skill = false;
         if (mech_skill >= skill_req) has_skill = true;
-        
+
         //print necessary materials
         if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
@@ -824,8 +841,8 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         }
         wrefresh (w_msg);
         //check if have all necessary materials
-        if (has_skill && ((is_wheel && has_wrench && has_jack) || 
-                            (is_wrenchable && has_wrench) || 
+        if (has_skill && ((is_wheel && has_wrench && has_jack) ||
+                            (is_wrenchable && has_wrench) ||
                             (is_hand_remove) ||
                             ((!is_wheel) && has_wrench && has_hacksaw) )) {
             return true;
@@ -836,7 +853,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         wrefresh (w_msg);
     }
     return false;
-    
+
 }
 
 /**
@@ -1524,6 +1541,111 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
     wrefresh (w_list);
 }
 
+/**
+ * Used when installing parts.
+ * Opens up w_details containing info for part currently selected in w_list.
+ */
+void veh_interact::display_details(const vpart_info &part)
+{
+    if (w_details == NULL) { // create details window first if required
+
+        if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
+            for (size_t i = 0; i < w_stats->height; i++) {
+                mvwhline(w_stats, i, 34, ' ', w_stats->width - 34);
+            }
+            wrefresh(w_stats);
+        }
+
+        // covers right part of w_name and w_stats in vertical/hybrid, lower block of w_stats in horizontal mode
+        const int details_y = vertical_menu ? w_name->y : w_stats->y + 7;
+        const int details_x = vertical_menu ? w_list->x : w_stats->x;
+
+        const int details_h = vertical_menu ? 6 : 7; // 6 lines in vertical/hybrid, 7 lines in horizontal mode
+        const int details_w = w_grid->x + w_grid->width - details_x;
+
+        w_details = newwin(details_h, details_w, details_y, details_x);
+    }
+    else {
+        werase(w_details);
+   }
+
+    wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+
+    int column_width = w_details->width / 2; // displays data in two columns
+    int col_1 = vertical_menu ? 2 : 1;
+    int col_2 = col_1 + column_width;
+    int line = vertical_menu ? 0 : 0;
+    bool small_mode = column_width < 20 ? true : false;
+
+    // line 0: part name
+    fold_and_print(w_details, line, col_1, w_details->width, c_ltgreen,
+                   part.name);
+
+    // line 1: (column 1) durability   (column 2) damage mod
+    fold_and_print(w_details, line+1, col_1, column_width, c_white,
+                   "%s: <color_ltgray>%d</color>",
+                   small_mode ? _("Dur") : _("Durability"),
+                   part.durability);
+    fold_and_print(w_details, line+1, col_2, column_width, c_white,
+                   "%s: <color_ltgray>%d\%</color>",
+                   small_mode ? _("Dmg") : _("Damage"),
+                   part.dmg_mod);
+
+    // line 2: (column 1) weight   (column 2) folded volume (if applicable)
+    fold_and_print(w_details, line+2, col_1, column_width, c_white,
+                   "%s: <color_ltgray>%.1f%s</color>",
+                   small_mode ? _("Wgt") : _("Weight"),
+                   g->u.convert_weight(item::find_type( part.item )->weight),
+                   OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
+    if ( part.folded_volume != 0 ) {
+        fold_and_print(w_details, line+2, col_2, column_width, c_white,
+                       "%s: <color_ltgray>%d</color>",
+                       small_mode ? _("FoldVol") : _("Folded Volume"),
+                       part.folded_volume);
+    }
+
+    // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
+    if ( part.size > 0 ) {
+        bool part_is_light_source = part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) || part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
+                                    part.has_flag(VPFLAG_DOME_LIGHT) || part.has_flag(VPFLAG_AISLE_LIGHT) ||
+                                    part.has_flag(VPFLAG_EVENTURN) || part.has_flag(VPFLAG_ODDTURN);
+        std::string label = small_mode ? _("Vol") : part.has_flag(VPFLAG_CARGO) ? _("Cargo Volume") :
+                            part.has_flag(VPFLAG_FUEL_TANK) ? _("Volume") :
+                            part.has_flag(VPFLAG_WHEEL) ? _("Wheel Size") :
+                            part.has_flag(VPFLAG_SEATBELT) ? _("Seatbelt Str") :
+                            part.has_flag("MUFFLER") ? _("Muffler Str") :
+                            part.has_flag("HORN") ? _("Noise") :
+                            part_is_light_source ? _("Light Str") :
+                            _("Size");
+        fold_and_print(w_details, line+3, col_1, column_width, c_white,
+                       (label + ": <color_ltgray>%d</color>").c_str(),
+                       part.size);
+    }
+    if ( part.epower != 0 ) {
+        fold_and_print(w_details, line+3, col_2, column_width, c_white,
+                       "%s: %c<color_ltgray>%d</color>",
+                       small_mode ? _("Bat") : _("Battery"),
+                       part.epower < 0 ? '-' : '+',
+                       abs(part.epower));
+    }
+
+    // line 4 [horizontal]: fuel_type (if applicable)
+    // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
+    if ( part.fuel_type != "NULL" ) {
+        fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : w_details->width ), c_white,
+                       _("Charge: <color_ltgray>%s</color>"),
+                      //part.has_flag("TURRET") ? _("Ammo") : _("Type"), part.fuel_type.c_str());
+                       part.fuel_type.c_str());
+    }
+    if ( part.power != 0 ) {
+        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ), ( vertical_menu ? column_width : w_details->width ), c_white,
+                       _("Power: <color_ltgray>%d</color>"), //Battery
+                       part.power);
+    }
+
+    wrefresh(w_details);
+}
+
 void veh_interact::countDurability()
 {
     int sum = 0; // sum of part HP
@@ -1704,7 +1826,7 @@ void complete_vehicle ()
     int posy = 0;
     std::map<point, vehicle *> foundv;
     vehicle *fillv = NULL;
-    
+
     bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
