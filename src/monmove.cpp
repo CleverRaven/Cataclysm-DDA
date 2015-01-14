@@ -224,11 +224,14 @@ void monster::plan(const mfactions &factions)
             }
             if( swarms ) {
                 if( rating < 5 ) { // Too crowded here
-                    wandx = posx() * 2 - mon.posx();
-                    wandy = posy() * 2 - mon.posy();
+                    wandx = posx() * rng( 1, 3 ) - mon.posx();
+                    wandy = posy() * rng( 1, 3 ) - mon.posy();
                     wandf = 2;
                     closest = -1;
-                } else if( wandf <= 0 ) {
+                    // Swarm to the furthest ally you can see
+                } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
+                    dist = rating;
+                    selected_slope = bresenham_slope;
                     closest = -3 - i;
                 }
             }
