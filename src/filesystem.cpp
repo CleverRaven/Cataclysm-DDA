@@ -142,7 +142,7 @@ bool is_directory_stat(std::string const &full_path)
 bool is_directory(dirent const &entry, std::string const &full_path)
 {
     // no dirent::d_type
-    return is_directory_stat(entry, full_path);
+    return is_directory_stat(full_path);
 }
 #else
 bool is_directory(dirent const &entry, std::string const &full_path)
