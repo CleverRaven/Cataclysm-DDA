@@ -11,22 +11,23 @@
 // FILE I/O
 #include <sys/stat.h>
 
-#if defined(_WIN32) || defined (__WIN32__)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-
 #ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
+#   include <unistd.h>
 #endif
 
-#include <unistd.h>
+#if defined(_WIN32) || defined (__WIN32__)
+#   ifndef NOMINMAX
+#       define NOMINMAX
+#   endif
+#   ifndef WIN32_LEAN_AND_MEAN
+#       define WIN32_LEAN_AND_MEAN
+#   endif
+#   include <windows.h>
+#endif
 
 namespace {
 
@@ -112,24 +113,22 @@ void for_each_dir_entry(std::string const &path, Function function)
     dir_ptr root {opendir(path.c_str()), closedir};
     if (!root) {
         auto const e_str = strerror(errno);
-        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) <<
-            "Warning: [" << path << "] failed with \"" << e_str << "\".";
+        DebugLog(D_WARNING, D_MAIN) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
-    
+
     while (auto const entry = readdir(root.get())) {
         function(*entry);
     }
 }
 
 //--------------------------------------------------------------------------------------------------
-bool is_directory_stat(dirent const &entry)
+bool is_directory_stat(dirent const &entry, std::string const &full_path)
 {
     struct stat result;
-    if (stat(entry.d_name, &result) != 0) {
+    if (stat(full_path.c_str(), &result) != 0) {
         auto const e_str = strerror(errno);
-        DebugLog(DebugLevel::D_WARNING, DebugClass::D_MAIN) <<
-            "Warning: stat failed with \"" << e_str << "\".";
+        DebugLog(D_WARNING, D_MAIN) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
 
@@ -140,13 +139,13 @@ bool is_directory_stat(dirent const &entry)
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
 #if defined (__MINGW32__)
-bool is_directory(dirent const &entry)
+bool is_directory(dirent const &entry, std::string const &full_path)
 {
     // no dirent::d_type
-    return is_directory_stat(entry);
+    return is_directory_stat(entry, full_path);
 }
 #else
-bool is_directory(dirent const &entry)
+bool is_directory(dirent const &entry, std::string const &full_path)
 {
     if (entry.d_type == DT_DIR) {
         return true;
@@ -154,7 +153,7 @@ bool is_directory(dirent const &entry)
         return false;
     }
 
-    return is_directory_stat(entry);
+    return is_directory_stat(entry, full_path);
 }
 #endif
 
@@ -215,10 +214,17 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
                 return;
             }
 
+            auto const full_path = path + "/" + entry.d_name;
+            
+            // don't add files ending in '~'.
+            if (full_path.back() == '~') {
+                return;
+            }
+
             // add sub directories to recurse if requested
-            auto const is_dir = is_directory(entry);
+            auto const is_dir = is_directory(entry, full_path);
             if (recurse && is_dir) {
-                directories.emplace_back(path + "/" + entry.d_name);
+                directories.emplace_back(full_path);
             }
 
             // check the file
@@ -226,11 +232,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
                 return;
             }
 
-            // don't add files ending in '~'.
-            results.emplace_back(path + "/" + entry.d_name);   
-            if (results.back().back() == '~') {
-                results.pop_back();
-            }
+            results.emplace_back(full_path);
         });
 
         // Keep files and directories to recurse ordered consistently
