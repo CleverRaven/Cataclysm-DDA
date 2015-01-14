@@ -2185,7 +2185,7 @@ bool field::addField(const field_id field_to_add, const int new_density, const i
     }
     field_list[field_to_add] = field_entry(field_to_add, new_density, new_age);
     return true;
-};
+}
 
 /*
 Function: removeField

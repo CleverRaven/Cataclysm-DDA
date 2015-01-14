@@ -197,7 +197,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
     } else {
         debugmsg("No such mapgen function: %s ", sptr.c_str() );
     }
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
@@ -826,7 +826,7 @@ bool mapgen_function_json::setup() {
     jdata.clear(); // ssh, we're not -really- a json function <.<
     is_ready = true; // skip setup attempts from any additional pointers
     return true;
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)

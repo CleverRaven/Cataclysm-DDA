@@ -759,10 +759,10 @@ void Item_factory::load_comestible(JsonObject &jo)
         comest_template->healthy = jo.get_int("healthy", 0);
     }
     comest_template->fun = jo.get_int("fun", 0);
-    
+
     //Default to 91 as an approximation of a real world season length.
     comest_template->grow = jo.get_int("grow", 91);
-    
+
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
     itype *new_item_template = comest_template;
@@ -1451,7 +1451,7 @@ phase_id Item_factory::phase_from_tag(Item_tag name)
     } else {
         return PNULL;
     }
-};
+}
 
 void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int max)
 {

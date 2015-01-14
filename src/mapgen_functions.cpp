@@ -351,7 +351,7 @@ bool mapgendata::is_groundcover(const int iid ) const {
 
 ter_id mapgendata::groundcover() {
     return (ter_id)this->default_groundcover.get();
-};
+}
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
