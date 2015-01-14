@@ -1,11 +1,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
-
-#include <array>
-#include <string>
-
 #include "output.h"
-#include "vehicle.h"
+#include <string>
+#include <array>
 
 class uimenu;
 

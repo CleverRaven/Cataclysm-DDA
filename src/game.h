@@ -621,7 +621,7 @@ class game
         bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e
+        void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
 
         // Establish a grab on something.
         void grab();

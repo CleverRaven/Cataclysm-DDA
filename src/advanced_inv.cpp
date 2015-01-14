@@ -1835,3 +1835,10 @@ void advanced_inv_area::set_container_position()
         veh = nullptr;
     }
 }
+
+
+void advanced_inv()
+{
+    advanced_inventory advinv;
+    advinv.display();
+}

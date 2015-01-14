@@ -67,12 +67,9 @@
 #   include <tchar.h>
 #endif
 
-inline std::ostream& dbg(int x)
-{
-  return DebugLog((DebugLevel)(x), D_GAME) << __FILE__ << ":" << __LINE__ << ": ";
-}
 
-//#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
 
 void advanced_inv(); // player_activity.cpp
 void intro();

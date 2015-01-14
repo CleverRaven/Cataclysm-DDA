@@ -1,16 +1,15 @@
-#include "advanced_inv.h"
 #include "debug.h"
 #include "game.h"
 #include "player.h"
 #include "player_activity.h"
-#include "veh_interact.h"
 #include "translations.h"
 
-#include <ostream>
 #include <sstream>
 
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-extern game* g;
+
+extern game *g;
 
 
 // activity_item_handling.cpp
@@ -19,10 +18,11 @@ void activity_on_turn_move_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
-std::ostream& dbg(int); // game.cpp
-
-
+// advanced_inv.cpp
 void advanced_inv();
+
+// veh_interact.cpp
+void complete_vehicle();
 
 
 player_activity::player_activity(activity_type t, int turns, int Index, int pos,
@@ -50,8 +50,8 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
-        _(" Stop lighting the fire?"),_(" Stop filling the container?"),
-         _(" Stop hotwiring the vehicle?"),
+        _(" Stop lighting the fire?"), _(" Stop filling the container?"),
+        _(" Stop hotwiring the vehicle?"),
         _(" Stop aiming?")
     };
     return stop_phrase[type];
@@ -60,55 +60,55 @@ const std::string &player_activity::get_stop_phrase() const
 bool player_activity::is_abortable() const
 {
     switch(type) {
-    case ACT_READ:
-    case ACT_BUILD:
-    case ACT_CRAFT:
-    case ACT_LONGCRAFT:
-    case ACT_REFILL_VEHICLE:
-    case ACT_WAIT:
-    case ACT_WAIT_WEATHER:
-    case ACT_FIRSTAID:
-    case ACT_PICKAXE:
-    case ACT_BURROW:
-    case ACT_PULP:
-    case ACT_MAKE_ZLAVE:
-    case ACT_DROP:
-    case ACT_STASH:
-    case ACT_PICKUP:
-    case ACT_HOTWIRE_CAR:
-    case ACT_MOVE_ITEMS:
-    case ACT_ADV_INVENTORY:
-    case ACT_START_FIRE:
-    case ACT_FILL_LIQUID:
-        return true;
-    default:
-        return false;
+        case ACT_READ:
+        case ACT_BUILD:
+        case ACT_CRAFT:
+        case ACT_LONGCRAFT:
+        case ACT_REFILL_VEHICLE:
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+        case ACT_FIRSTAID:
+        case ACT_PICKAXE:
+        case ACT_BURROW:
+        case ACT_PULP:
+        case ACT_MAKE_ZLAVE:
+        case ACT_DROP:
+        case ACT_STASH:
+        case ACT_PICKUP:
+        case ACT_HOTWIRE_CAR:
+        case ACT_MOVE_ITEMS:
+        case ACT_ADV_INVENTORY:
+        case ACT_START_FIRE:
+        case ACT_FILL_LIQUID:
+            return true;
+        default:
+            return false;
     }
 }
 
 
 bool player_activity::is_complete() const
 {
-  return moves_left <= 0;
+    return moves_left <= 0;
 }
 
 
 bool player_activity::is_suspendable() const
 {
     switch(type) {
-    case ACT_NULL:
-    case ACT_RELOAD:
-    case ACT_DISASSEMBLE:
-    case ACT_MAKE_ZLAVE:
-    case ACT_DROP:
-    case ACT_STASH:
-    case ACT_PICKUP:
-    case ACT_MOVE_ITEMS:
-    case ACT_ADV_INVENTORY:
-    case ACT_AIM:
-        return false;
-    default:
-        return true;
+        case ACT_NULL:
+        case ACT_RELOAD:
+        case ACT_DISASSEMBLE:
+        case ACT_MAKE_ZLAVE:
+        case ACT_DROP:
+        case ACT_STASH:
+        case ACT_PICKUP:
+        case ACT_MOVE_ITEMS:
+        case ACT_ADV_INVENTORY:
+        case ACT_AIM:
+            return false;
+        default:
+            return true;
     }
 }
 
@@ -126,210 +126,200 @@ std::string player_activity::get_str_value(size_t index, std::string def) const
 void player_activity::do_turn()
 {
     switch (type) {
-    case ACT_WAIT:
-    case ACT_WAIT_WEATHER:
-        // Based on time, not speed
-        moves_left -= 100;
-        g->u.rooted();
-        g->u.pause();
-        break;
-    case ACT_PICKAXE:
-        // Based on speed, not time
-        moves_left -= g->u.moves;
-        g->u.moves = 0;
-        pickaxe_do_turn(&g->u);
-        break;
-    case ACT_BURROW:
-        // Based on speed, not time
-        moves_left -= g->u.moves;
-        g->u.moves = 0;
-        burrow_do_turn(&g->u);
-        break;
-    case ACT_AIM:
-        if( index == 0 ) {
-            g->plfire(false);
-        }
-        break;
-    case ACT_GAME:
-        // Takes care of u.activity.moves_left
-        game_do_turn();
-        break;
-    case ACT_VIBE:
-        // Takes care of u.activity.moves_left
-        vibe_do_turn();
-        break;
-    case ACT_REFILL_VEHICLE:
-        // Takes care of u.activity.moves_left
-        refill_vehicle_do_turn();
-        break;
-    case ACT_PULP:
-        // does not really use u.activity.moves_left, stops itself when finished
-        pulp_do_turn();
-        break;
-    case ACT_FISH:
-        // Based on time, not speed--or it should be
-        // (Being faster doesn't make the fish bite quicker)
-        moves_left -= 100;
-        g->u.rooted();
-        g->u.pause();
-        break;
-    case ACT_DROP:
-        activity_on_turn_drop();
-        break;
-    case ACT_STASH:
-        activity_on_turn_stash();
-        break;
-    case ACT_PICKUP:
-        activity_on_turn_pickup();
-        break;
-    case ACT_MOVE_ITEMS:
-        activity_on_turn_move_items();
-        break;
-    case ACT_ADV_INVENTORY:
-        g->u.cancel_activity();
-        advanced_inv();
-        break;
-    case ACT_START_FIRE:
-        moves_left -= 100; // based on time
-        if (g->u.i_at(position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
-            start_fire_lens_do_turn();
-        }
-        g->u.rooted();
-        g->u.pause();
-        break;
-    case ACT_FILL_LIQUID:
-        fill_liquid_do_turn();
-        break;
-    default:
-        // Based on speed, not time
-        if( g->u.moves <= moves_left ) {
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            // Based on time, not speed
+            moves_left -= 100;
+            g->u.rooted();
+            g->u.pause();
+            break;
+        case ACT_PICKAXE:
+            // Based on speed, not time
             moves_left -= g->u.moves;
             g->u.moves = 0;
-        } else {
-            g->u.moves -= moves_left;
-            moves_left = 0;
-        }
+            pickaxe_do_turn(&g->u);
+            break;
+        case ACT_BURROW:
+            // Based on speed, not time
+            moves_left -= g->u.moves;
+            g->u.moves = 0;
+            burrow_do_turn(&g->u);
+            break;
+        case ACT_AIM:
+            if( index == 0 ) {
+                g->plfire(false);
+            }
+            break;
+        case ACT_GAME:
+            // Takes care of u.activity.moves_left
+            game_do_turn();
+            break;
+        case ACT_VIBE:
+            // Takes care of u.activity.moves_left
+            vibe_do_turn();
+            break;
+        case ACT_REFILL_VEHICLE:
+            // Takes care of u.activity.moves_left
+            refill_vehicle_do_turn();
+            break;
+        case ACT_PULP:
+            // does not really use u.activity.moves_left, stops itself when finished
+            pulp_do_turn();
+            break;
+        case ACT_FISH:
+            // Based on time, not speed--or it should be
+            // (Being faster doesn't make the fish bite quicker)
+            moves_left -= 100;
+            g->u.rooted();
+            g->u.pause();
+            break;
+        case ACT_DROP:
+            activity_on_turn_drop();
+            break;
+        case ACT_STASH:
+            activity_on_turn_stash();
+            break;
+        case ACT_PICKUP:
+            activity_on_turn_pickup();
+            break;
+        case ACT_MOVE_ITEMS:
+            activity_on_turn_move_items();
+            break;
+        case ACT_ADV_INVENTORY:
+            g->u.cancel_activity();
+            advanced_inv();
+            break;
+        case ACT_START_FIRE:
+            moves_left -= 100; // based on time
+            if (g->u.i_at(position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
+                start_fire_lens_do_turn();
+            }
+            g->u.rooted();
+            g->u.pause();
+            break;
+        case ACT_FILL_LIQUID:
+            fill_liquid_do_turn();
+            break;
+        default:
+            // Based on speed, not time
+            if( g->u.moves <= moves_left ) {
+                moves_left -= g->u.moves;
+                g->u.moves = 0;
+            } else {
+                g->u.moves -= moves_left;
+                moves_left = 0;
+            }
     }
 
-	if (is_complete())
-		finish();
+    if (is_complete()) {
+        finish();
+    }
 }
 
 
 void player_activity::finish()
 {
-  switch (type) {
-  case ACT_RELOAD:
-    reload_finish();
-    break;
-  case ACT_READ:
-    g->u.do_read(&(g->u.i_at(position)));
+    switch (type) {
+        case ACT_RELOAD:
+            reload_finish();
+            break;
+        case ACT_READ:
+            g->u.do_read(&(g->u.i_at(position)));
+            if (type == ACT_NULL) {
+                add_msg(_("You finish reading."));
+            }
+            break;
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            add_msg(_("You finish waiting."));
+            type = ACT_NULL;
+            break;
+        case ACT_CRAFT:
+            g->u.complete_craft();
+            type = ACT_NULL;
+            break;
+        case ACT_LONGCRAFT:
+            g->u.complete_craft();
+            type = ACT_NULL;
+            {
+                int batch_size = values.front();
+                if( g->u.making_would_work( g->u.lastrecipe, batch_size ) ) {
+                    g->u.make_all_craft(g->u.lastrecipe, batch_size);
+                }
+            }
+            break;
+        case ACT_FORAGE:
+            forage_finish();
+            type = ACT_NULL;
+            break;
+        case ACT_DISASSEMBLE:
+            g->u.complete_disassemble();
+            type = ACT_NULL;
+            break;
+        case ACT_BUTCHER:
+            butcher_finish();
+            type = ACT_NULL;
+            break;
+        case ACT_LONGSALVAGE:
+            longsalvage_finish();
+            break;
+        case ACT_VEHICLE:
+            vehicle_finish();
+            break;
+        case ACT_BUILD:
+            complete_construction();
+            type = ACT_NULL;
+            break;
+        case ACT_TRAIN:
+            train_finish();
+            break;
+        case ACT_FIRSTAID:
+            firstaid_finish();
+            break;
+        case ACT_FISH:
+            fish_finish();
+            break;
+        case ACT_PICKAXE:
+            pickaxe_finish(&g->u);
+            type = ACT_NULL;
+            break;
+        case ACT_BURROW:
+            burrow_finish(&g->u);
+            type = ACT_NULL;
+            break;
+        case ACT_VIBE:
+            add_msg(m_good, _("You feel much better."));
+            type = ACT_NULL;
+            break;
+        case ACT_MAKE_ZLAVE:
+            make_zlave_finish();
+            type = ACT_NULL;
+            break;
+        case ACT_PICKUP:
+        case ACT_MOVE_ITEMS:
+            // Do nothing, the only way this happens is if we set this activity after
+            // entering the advanced inventory menu as an activity, and we want it to play out.
+            break;
+        case ACT_START_FIRE:
+            start_fire_finish();
+            break;
+        case ACT_HOTWIRE_CAR:
+            hotwire_finish();
+        case ACT_AIM:
+            // Aim bails itself by resetting itself every turn,
+            // you only re-enter if it gets set again.
+            break;
+        default:
+            type = ACT_NULL;
+    }
     if (type == ACT_NULL) {
-      add_msg(_("You finish reading."));
+        // Make sure data of previous activity is cleared
+        g->u.activity = player_activity();
+        if( !g->u.backlog.empty() && g->u.backlog.front().auto_resume ) {
+            g->u.activity = g->u.backlog.front();
+            g->u.backlog.pop_front();
+        }
     }
-    break;
-  case ACT_WAIT:
-  case ACT_WAIT_WEATHER:
-    add_msg(_("You finish waiting."));
-    type = ACT_NULL;
-    break;
-  case ACT_CRAFT:
-    g->u.complete_craft();
-    type = ACT_NULL;
-    break;
-  case ACT_LONGCRAFT:
-    g->u.complete_craft();
-    type = ACT_NULL;
-    {
-      int batch_size = values.front();
-      if( g->u.making_would_work( g->u.lastrecipe, batch_size ) ) {
-	g->u.make_all_craft(g->u.lastrecipe, batch_size);
-      }
-    }
-    break;
-  case ACT_FORAGE:
-    forage_finish();
-    type = ACT_NULL;
-    break;
-  case ACT_DISASSEMBLE:
-    g->u.complete_disassemble();
-    type = ACT_NULL;
-    break;
-  case ACT_BUTCHER:
-    butcher_finish();
-    type = ACT_NULL;
-    break;
-  case ACT_LONGSALVAGE:
-    longsalvage_finish();
-    break;
-  case ACT_VEHICLE:
-    vehicle_finish();
-    break;
-  case ACT_BUILD:
-    complete_construction();
-    type = ACT_NULL;
-    break;
-  case ACT_TRAIN:
-    train_finish();
-    break;
-  case ACT_FIRSTAID:
-    firstaid_finish();
-    break;
-  case ACT_FISH:
-    fish_finish();
-    break;
-  case ACT_PICKAXE:
-    pickaxe_finish(&g->u);
-    type = ACT_NULL;
-    break;
-  case ACT_BURROW:
-    burrow_finish(&g->u);
-    type = ACT_NULL;
-    break;
-  case ACT_VIBE:
-    add_msg(m_good, _("You feel much better."));
-    type = ACT_NULL;
-    break;
-  case ACT_MAKE_ZLAVE:
-    make_zlave_finish();
-    type = ACT_NULL;
-    break;
-  case ACT_PICKUP:
-  case ACT_MOVE_ITEMS:
-    // Do nothing, the only way this happens is if we set this activity after
-    // entering the advanced inventory menu as an activity, and we want it to play out.
-    break;
-  case ACT_START_FIRE:
-    start_fire_finish();
-    break;
-  case ACT_HOTWIRE_CAR:
-    hotwire_finish();
-  case ACT_AIM:
-    // Aim bails itself by resetting itself every turn,
-    // you only re-enter if it gets set again.
-    break;
-  default:
-    type = ACT_NULL;
-  }
-  if (type == ACT_NULL) {
-    // Make sure data of previous activity is cleared
-    g->u.activity = player_activity();
-    if( !g->u.backlog.empty() && g->u.backlog.front().auto_resume ) {
-      g->u.activity = g->u.backlog.front();
-      g->u.backlog.pop_front();
-    }
-  }
-}
-
-
-/* This function was moved out of game, but it cannot be made static because
- * it is also called from game::handle_action until/unless action handling and
- * activity handling are merged together.
- */
-void advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
 }
 
 
@@ -384,8 +374,7 @@ void player_activity::butcher_finish()
     // corpses can disappear (rezzing!), so check for that
     if (static_cast<int>(g->m.i_at(g->u.posx, g->u.posy).size()) <= index ||
         g->m.i_at(g->u.posx, g->u.posy)[index].corpse == NULL ||
-        g->m.i_at(g->u.posx, g->u.posy)[index].typeId() != "corpse")
-    {
+        g->m.i_at(g->u.posx, g->u.posy)[index].typeId() != "corpse") {
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
@@ -400,46 +389,46 @@ void player_activity::butcher_finish()
     int sSkillLevel = g->u.skillLevel("survival");
 
     switch (corpse->size) {
-    case MS_TINY:
-        pieces = 1;
-        skins = 1;
-        bones = 1;
-        fats = 1;
-        sinews = 1;
-        feathers = 2;
-        break;
-    case MS_SMALL:
-        pieces = 2;
-        skins = 2;
-        bones = 4;
-        fats = 2;
-        sinews = 4;
-        feathers = 6;
-        break;
-    case MS_MEDIUM:
-        pieces = 4;
-        skins = 4;
-        bones = 9;
-        fats = 4;
-        sinews = 9;
-        feathers = 11;
-        break;
-    case MS_LARGE:
-        pieces = 8;
-        skins = 8;
-        bones = 14;
-        fats = 8;
-        sinews = 14;
-        feathers = 17;
-        break;
-    case MS_HUGE:
-        pieces = 16;
-        skins = 16;
-        bones = 21;
-        fats = 16;
-        sinews = 21;
-        feathers = 24;
-        break;
+        case MS_TINY:
+            pieces = 1;
+            skins = 1;
+            bones = 1;
+            fats = 1;
+            sinews = 1;
+            feathers = 2;
+            break;
+        case MS_SMALL:
+            pieces = 2;
+            skins = 2;
+            bones = 4;
+            fats = 2;
+            sinews = 4;
+            feathers = 6;
+            break;
+        case MS_MEDIUM:
+            pieces = 4;
+            skins = 4;
+            bones = 9;
+            fats = 4;
+            sinews = 9;
+            feathers = 11;
+            break;
+        case MS_LARGE:
+            pieces = 8;
+            skins = 8;
+            bones = 14;
+            fats = 8;
+            sinews = 14;
+            feathers = 17;
+            break;
+        case MS_HUGE:
+            pieces = 16;
+            skins = 16;
+            bones = 21;
+            fats = 16;
+            sinews = 21;
+            feathers = 24;
+            break;
     }
 
     skill_shift += rng(0, sSkillLevel - 3);
@@ -467,7 +456,7 @@ void player_activity::butcher_finish()
     }
 
     if (bones > 0) {
-         if (corpse->mat == "veggy") {
+        if (corpse->mat == "veggy") {
             g->m.spawn_item(g->u.posx, g->u.posy, "plant_sac", bones, 0, age);
             add_msg(m_good, _("You harvest some fluid bladders!"));
         } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON)) {
@@ -679,7 +668,7 @@ void player_activity::butcher_finish()
 
 
     // Recover hidden items
-    for( auto &content : contents ) {
+    for( auto & content : contents ) {
         if ((skill_shift + 10) * 5 > rng(0, 100)) {
             add_msg( m_good, _( "You discover a %s in the %s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
@@ -742,35 +731,38 @@ void player_activity::firstaid_finish()
 void player_activity::fish_finish()
 {
     item &it = g->u.i_at(position);
-    int sSkillLevel = 0; //given values to avoid possible null errors if the item used has not any of the flags.
+    int sSkillLevel =
+        0; //given values to avoid possible null errors if the item used has not any of the flags.
     int fishChance = 20;
     if (it.has_flag("FISH_POOR")) {
         sSkillLevel = g->u.skillLevel("survival") + dice(1, 6);
         fishChance = dice(1, 20);
     } else if (it.has_flag("FISH_GOOD")) {
-        sSkillLevel = g->u.skillLevel("survival")*1.5 + dice(1, 6) + 3; //much better chances with a good fishing implement
+        sSkillLevel = g->u.skillLevel("survival") * 1.5 + dice(1,
+                      6) + 3; //much better chances with a good fishing implement
         fishChance = dice(1, 20);
     }
-    rod_fish(sSkillLevel,fishChance);
+    rod_fish(sSkillLevel, fishChance);
     g->u.practice("survival", rng(5, 15));
     type = ACT_NULL;
 }
 
 
 // Helper function for fish_finish()
-void player_activity::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catching function
+void player_activity::rod_fish(int sSkillLevel,
+                               int fishChance) // fish-with-rod fish catching function
 {
     if (sSkillLevel > fishChance) {
-        std::vector<monster*> fishables = g->get_fishable(60); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if (fishables.size() < 1){
+        if (fishables.size() < 1) {
             if (one_in(20)) {
-            item fish;
-            std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-            std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-            fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, fish);
-            g->u.add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
+                g->m.add_item_or_charges(g->u.posx, g->u.posy, fish);
+                g->u.add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
             } else {
                 g->u.add_msg_if_player(_("You didn't catch anything."));
             }
@@ -786,69 +778,70 @@ void player_activity::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod
 
 void player_activity::forage_finish()
 {
-  int veggy_chance = rng(1, 100);
-  bool found_something = false;
+    int veggy_chance = rng(1, 100);
+    bool found_something = false;
 
-  if (one_in(12)) {
-    add_msg(m_good, _("You found some trash!"));
-    g->m.put_items_from_loc( "trash_forest", g->u.posx, g->u.posy, calendar::turn );
-    found_something = true;
-  }
-  // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-  if (veggy_chance < ((g->u.skillLevel("survival") * 1.5) + ((g->u.per_cur / 2 - 4) + 3))) {
-    items_location loc;
-    switch (calendar::turn.get_season()) {
-    case SPRING:
-      loc = "forage_spring";
-      break;
-    case SUMMER:
-      loc = "forage_summer";
-      break;
-    case AUTUMN:
-      loc = "forage_autumn";
-      break;
-    case WINTER:
-      loc = "forage_winter";
-      break;
+    if (one_in(12)) {
+        add_msg(m_good, _("You found some trash!"));
+        g->m.put_items_from_loc( "trash_forest", g->u.posx, g->u.posy, calendar::turn );
+        found_something = true;
     }
-    int cnt = g->m.put_items_from_loc(loc, g->u.posx, g->u.posy, calendar::turn); // returns zero if location has no defined items
-    if (cnt > 0) {
-      add_msg(m_good, _("You found something!"));
-      g->m.ter_set(placement.x, placement.y, t_dirt);
-      found_something = true;
+    // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
+    if (veggy_chance < ((g->u.skillLevel("survival") * 1.5) + ((g->u.per_cur / 2 - 4) + 3))) {
+        items_location loc;
+        switch (calendar::turn.get_season()) {
+            case SPRING:
+                loc = "forage_spring";
+                break;
+            case SUMMER:
+                loc = "forage_summer";
+                break;
+            case AUTUMN:
+                loc = "forage_autumn";
+                break;
+            case WINTER:
+                loc = "forage_winter";
+                break;
+        }
+        int cnt = g->m.put_items_from_loc(loc, g->u.posx, g->u.posy,
+                                          calendar::turn); // returns zero if location has no defined items
+        if (cnt > 0) {
+            add_msg(m_good, _("You found something!"));
+            g->m.ter_set(placement.x, placement.y, t_dirt);
+            found_something = true;
+        }
+    } else {
+        if (one_in(2)) {
+            g->m.ter_set(placement.x, placement.y, t_dirt);
+        }
     }
-  } else {
-    if (one_in(2)) {
-      g->m.ter_set(placement.x, placement.y, t_dirt);
+    if (!found_something) {
+        add_msg(_("You didn't find anything."));
     }
-  }
-  if (!found_something) {
-    add_msg(_("You didn't find anything."));
-  }
 
-  //Determinate maximum level of skill attained by foraging using ones intelligence score
-  int max_forage_skill = 0;
-  if (g->u.int_cur < 4) {
-    max_forage_skill = 1;
-  } else if (g->u.int_cur < 6) {
-    max_forage_skill = 2;
-  } else if (g->u.int_cur < 8) {
-    max_forage_skill = 3;
-  } else if (g->u.int_cur < 11) {
-    max_forage_skill = 4;
-  } else if (g->u.int_cur < 15) {
-    max_forage_skill = 5;
-  } else if (g->u.int_cur < 20) {
-    max_forage_skill = 6;
-  } else if (g->u.int_cur < 26) {
-    max_forage_skill = 7;
-  } else if (g->u.int_cur > 25) {
-    max_forage_skill = 8;
-  }
+    //Determinate maximum level of skill attained by foraging using ones intelligence score
+    int max_forage_skill = 0;
+    if (g->u.int_cur < 4) {
+        max_forage_skill = 1;
+    } else if (g->u.int_cur < 6) {
+        max_forage_skill = 2;
+    } else if (g->u.int_cur < 8) {
+        max_forage_skill = 3;
+    } else if (g->u.int_cur < 11) {
+        max_forage_skill = 4;
+    } else if (g->u.int_cur < 15) {
+        max_forage_skill = 5;
+    } else if (g->u.int_cur < 20) {
+        max_forage_skill = 6;
+    } else if (g->u.int_cur < 26) {
+        max_forage_skill = 7;
+    } else if (g->u.int_cur > 25) {
+        max_forage_skill = 8;
+    }
 
-  const int max_exp {(max_forage_skill * 2) - (g->u.skillLevel("survival") * 2)};
-  //Award experience for foraging attempt regardless of success
-  g->u.practice("survival", rng(1, max_exp), max_forage_skill);
+    const int max_exp {(max_forage_skill * 2) - (g->u.skillLevel("survival") * 2)};
+    //Award experience for foraging attempt regardless of success
+    g->u.practice("survival", rng(1, max_exp), max_forage_skill);
 }
 
 
@@ -880,16 +873,16 @@ void player_activity::hotwire_finish()
     vehicle *veh = g->m.veh_at(values[0], values[1]);
     if (veh) {
         int mech_skill = values[2];
-        if (mech_skill > (int)rng(1,6)){
+        if (mech_skill > (int)rng(1, 6)) {
             //success
             veh->is_locked = false;
             add_msg(_("This wire will start the engine."));
-        } else if (mech_skill > (int)rng(0,4)) {
+        } else if (mech_skill > (int)rng(0, 4)) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
             add_msg(_("This wire will probably start the engine."));
-        } else if (veh->is_alarm_on){
+        } else if (veh->is_alarm_on) {
             veh->is_locked = false;
             add_msg(_("By process of elimination, this wire will start the engine."));
         } else {
@@ -954,7 +947,7 @@ void player_activity::make_zlave_finish()
         g->u.practice("survival", rng(2, 5));
 
         g->u.add_msg_if_player(m_good,
-                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+                               _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
 
         body->set_var( "zlave", "zlave" );
         //take into account the chance that the body yet can regenerate not as we need.
@@ -970,7 +963,7 @@ void player_activity::make_zlave_finish()
             g->u.practice("survival", rng(3, 6));
 
             g->u.add_msg_if_player(m_warning,
-                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
+                                   _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
 
             success += rng(1, 20);
 
@@ -995,7 +988,8 @@ void player_activity::make_zlave_finish()
 
                 g->u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
-                g->u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
+                g->u.add_msg_if_player(m_warning,
+                                       _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
             }
         }
     }
@@ -1010,13 +1004,15 @@ void player_activity::pickaxe_do_turn(player *p)
         //~ Sound of a Pickaxe at work!
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         if (p->activity.moves_left <= 91000 && p->activity.moves_left > 89000) {
-            p->add_msg_if_player(m_info, _("Ugh.  You figure it'll take about an hour and a half at this rate."));
+            p->add_msg_if_player(m_info,
+                                 _("Ugh.  You figure it'll take about an hour and a half at this rate."));
         }
         if (p->activity.moves_left <= 71000 && p->activity.moves_left > 69000) {
             p->add_msg_if_player(m_info, _("If it keeps up like this, you might be through in an hour."));
         }
         if (p->activity.moves_left <= 31000 && p->activity.moves_left > 29000) {
-            p->add_msg_if_player(m_info, _("Feels like you're making good progress.  Another half an hour, maybe?"));
+            p->add_msg_if_player(m_info,
+                                 _("Feels like you're making good progress.  Another half an hour, maybe?"));
         }
         if (p->activity.moves_left <= 11000 && p->activity.moves_left > 9000) {
             p->add_msg_if_player(m_info, _("That's got it.  Ten more minutes of work and it's open."));
@@ -1140,7 +1136,7 @@ void player_activity::refill_vehicle_do_turn()
         for(int j = -1; j <= 1; j++) {
             if( g->m.ter(g->u.posx + i, g->u.posy + j) == t_gas_pump ||
                 g->m.ter_at(g->u.posx + i, g->u.posy + j).id == "t_gas_pump_a" ||
-                g->m.ter(g->u.posx +i, g->u.posy + j) == t_diesel_pump ) {
+                g->m.ter(g->u.posx + i, g->u.posy + j) == t_diesel_pump ) {
                 auto maybe_gas = g->m.i_at(g->u.posx + i, g->u.posy + j);
                 for( auto gas = maybe_gas.begin(); gas != maybe_gas.end(); ) {
                     if( gas->type->id == "gasoline" || gas->type->id == "diesel" ) {
@@ -1221,30 +1217,34 @@ void player_activity::start_fire_lens_do_turn()
 {
     float natural_light_level = g->natural_light_level();
     // if the weather changes, we cannot start a fire with a lens. abort activity
-    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !( natural_light_level >= 60 )) {
+    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) ||
+        !( natural_light_level >= 60 )) {
         add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
         g->u.cancel_activity();
-    } else if (natural_light_level != values.back()) { // when lighting changes we recalculate the time needed
+    } else if (natural_light_level !=
+               values.back()) { // when lighting changes we recalculate the time needed
         float previous_natural_light_level = values.back();
         values.pop_back();
         values.push_back(natural_light_level); // update light level
         iuse tmp;
-        float progress_left = float(moves_left)/float(tmp.calculate_time_for_lens_fire(&g->u, previous_natural_light_level));
-        moves_left = int(progress_left*(tmp.calculate_time_for_lens_fire(&g->u, natural_light_level))); // update moves left
+        float progress_left = float(moves_left) / float(tmp.calculate_time_for_lens_fire(&g->u,
+                              previous_natural_light_level));
+        moves_left = int(progress_left * (tmp.calculate_time_for_lens_fire(&g->u,
+                                          natural_light_level))); // update moves left
     }
 }
 
 
 void player_activity::train_finish()
 {
-    const Skill* skill = Skill::skill(name);
+    const Skill *skill = Skill::skill(name);
     if (skill == NULL) {
         // Trained martial arts,
         add_msg(m_good, _("You learn %s."), martialarts[name].name.c_str());
         //~ %s is martial art
         g->u.add_memorial_log(pgettext("memorial_male", "Learned %s."),
-                           pgettext("memorial_female", "Learned %s."),
-                           martialarts[name].name.c_str());
+                              pgettext("memorial_female", "Learned %s."),
+                              martialarts[name].name.c_str());
         g->u.add_martialart(name);
     } else {
         int new_skill_level = g->u.skillLevel(skill) + 1;
@@ -1255,8 +1255,8 @@ void player_activity::train_finish()
         if (new_skill_level % 4 == 0) {
             //~ %d is skill level %s is skill name
             g->u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
-                               pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                               new_skill_level, skill->name().c_str());
+                                  pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
+                                  new_skill_level, skill->name().c_str());
         }
     }
     type = ACT_NULL;
@@ -1284,7 +1284,7 @@ void player_activity::vehicle_finish()
         if (veh) {
             g->refresh_all();
             g->exam_vehicle(*veh, values[0], values[1],
-                         values[2], values[3]);
+                            values[2], values[3]);
             return;
         } else {
             dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
