@@ -30,6 +30,18 @@
 #   include <windows.h>
 #endif
 
+//--------------------------------------------------------------------------------------------------
+// HACK: mingw only issue as of 14/01/2015
+// TODO: move elsewhere
+//--------------------------------------------------------------------------------------------------
+#ifdef __MINGW32__
+size_t strnlen(const char *const start, size_t const maxlen)
+{
+    auto const end = reinterpret_cast<const char*>(memchr(start, '\0', maxlen));
+    return (end) ? static_cast<size_t>(end - start) : maxlen;
+}
+#endif
+
 namespace {
 
 #if (defined _WIN32 || defined __WIN32__)
@@ -207,8 +219,8 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
         auto const path = std::move(directories.front());
         directories.pop_front();
 
-        auto const n_dirs    = directories.size();
-        auto const n_results = results.size();
+        auto const n_dirs    = static_cast<ptrdiff_t>(directories.size());
+        auto const n_results = static_cast<ptrdiff_t>(results.size());
         
         for_each_dir_entry(path, [&](dirent const &entry) {
             // exclude special directories.
