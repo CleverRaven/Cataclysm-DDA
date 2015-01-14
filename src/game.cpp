@@ -557,7 +557,7 @@ void game::setup()
     coming_to_stairs.clear();
     active_npc.clear();
     factions.clear();
-    active_missions.clear();
+    mission::clear_all();
     items_dragged.clear();
     Messages::clear_messages();
     events.clear();
@@ -728,7 +728,7 @@ void game::create_starting_npcs()
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
+        mission::reserve_random(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
 }
 
 bool game::cleanup_at_end()
@@ -1112,7 +1112,7 @@ bool game::do_turn()
         calendar::turn.increment();
     }
     process_events();
-    process_missions();
+    mission::process_all();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         cur_om->process_mongroups();
@@ -1716,22 +1716,6 @@ void game::assign_mission(int id)
     (m_s.*miss->type->start)(miss);
 }
 
-int game::reserve_mission(mission_type_id type, int npc_id)
-{
-    mission tmp = mission_type::get( type )->create( npc_id );
-    active_missions.push_back(tmp);
-    return tmp.uid;
-}
-
-int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
-{
-    const auto type = mission_type::get_random_id( origin, p );
-    if( type == MISSION_NULL ) {
-        return -1;
-    }
-    return reserve_mission( type, npc_id );
-}
-
 npc *game::find_npc(int id)
 {
     return overmap_buffer.find_npc(id);
@@ -1752,14 +1736,7 @@ void game::increase_kill_count(const std::string &mtype_id)
 
 mission *game::find_mission(int id)
 {
-    for( auto &elem : active_missions ) {
-        if( elem.uid == id ) {
-            return &elem;
-        }
-    }
-    dbg(D_ERROR) << "game:find_mission: " << id << " - it's NULL!";
-    debugmsg("game::find_mission(%d) - it's NULL!", id);
-    return NULL;
+    return mission::find( id );
 }
 
 bool game::mission_complete(int id, int npc_id)
@@ -1943,15 +1920,6 @@ void game::mission_step_complete(int id, int step)
     default:
         //Suppress warnings
         break;
-    }
-}
-
-void game::process_missions()
-{
-    for( auto &elem : active_missions ) {
-        if( elem.deadline > 0 && !elem.failed && int( calendar::turn ) > elem.deadline ) {
-            fail_mission( elem.uid );
-        }
     }
 }
 
@@ -4198,8 +4166,7 @@ void game::debug()
         temp->sety( u.posy() - 4 );
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                            om_location(), temp->getID());
+        int mission_index = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), temp->getID());
         if (mission_index != -1) {
             temp->chatbin.missions.push_back(mission_index);
         }
@@ -13299,7 +13266,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());
+        int mission_index = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), tmp->getID());
         if (mission_index != -1) {
             tmp->chatbin.missions.push_back(mission_index);
         }

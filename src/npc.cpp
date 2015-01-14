@@ -129,7 +129,7 @@ void npc::load_npc_template(std::string ident)
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
         if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(static_cast<mission_type_id>(found->second.miss_id), getID());
+            int mission_index = mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID());
             if (mission_index != -1)
                 chatbin.missions.push_back(mission_index);
         }
@@ -2145,17 +2145,7 @@ void npc::die(Creature* nkiller) {
 
     place_corpse();
 
-    for (auto &i : g->active_missions) {
-        const auto type = i.type;
-        //complete the mission if you needed killing
-        if (type->goal == MGOAL_ASSASSINATE && i.target_npc_id == getID()) {
-                g->mission_step_complete( i.uid, 1);
-        }
-        //fail the mission if the mission giver dies or the recruit target
-        if (i.npc_id == getID() || (i.target_npc_id == getID() && type->goal == MGOAL_RECRUIT_NPC)) {
-            g->fail_mission( i.uid );
-        }
-    }
+    mission::on_npc_death( *this );
 }
 
 std::string npc_attitude_name(npc_attitude att)

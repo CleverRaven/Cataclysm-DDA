@@ -715,10 +715,10 @@ of pureed bone & LSD."));
 
     case COMPACT_COMPLETE_MISSION:
         for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
-            if (g->find_mission(g->u.active_missions[i])->name() == options[ch].name){
+            if (mission::find(g->u.active_missions[i])->name() == options[ch].name){
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
-                g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+                g->mission_step_complete( mission::find(g->u.active_missions[i])->uid, 1);
                 getch();
                 return;
                 //break;
@@ -731,8 +731,8 @@ of pureed bone & LSD."));
     case COMPACT_REPEATER_MOD:
         if (g->u.has_amount("radio_repeater_mod", 1)) {
             for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
-                if (g->find_mission(g->u.active_missions[i])->name() == "Install Repeater Mod"){
-                    g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+                if (mission::find(g->u.active_missions[i])->name() == "Install Repeater Mod"){
+                    g->mission_step_complete( mission::find(g->u.active_missions[i])->uid, 1);
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
                     g->u.use_amount("radio_repeater_mod", 1);

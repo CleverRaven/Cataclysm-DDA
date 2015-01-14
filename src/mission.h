@@ -239,7 +239,6 @@ class mission : public JsonSerializer, public JsonDeserializer
         mission_type_id follow_up;   // What mission do we get after this succeeds?
 
         std::string name();
-        void load_info(std::ifstream &info);
         using JsonSerializer::serialize;
         void serialize(JsonOut &jsout) const;
         using JsonDeserializer::deserialize;
@@ -266,6 +265,46 @@ class mission : public JsonSerializer, public JsonDeserializer
             bad_fac_id = -1;
             step = 0;
         }
+
+    /**
+     * Create a new mission of the given type and assign it to the given npc.
+     * Returns the id (@ref uid) of the new mission. The mission object can be retrieved by
+     * @ref find.
+     */
+    static int reserve_new( mission_type_id type, int npc_id );
+    static int reserve_random( mission_origin origin, point p, int npc_id );
+    /**
+     * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
+     * id exists.
+     */
+    static mission *find( int id );
+    /**
+     * Remove all active missions, used to cleanup on exit and before reloading a new game.
+     */
+    static void clear_all();
+    /**
+     * Handles mission deadline processing.
+     */
+    static void process_all();
+
+    // various callbacks from events that may affect all missions
+    static void on_npc_death( npc &poor_dead_dude );
+
+    // Don't use this, it's only for loading legacy saves.
+    static void unserialize_legacy( std::istream &fin );
+    // Serializes and unserializes all missions in @ref active_missions
+    static void serialize_all( JsonOut &json );
+    static void unserialize_all( JsonIn &jsin );
+
+private:
+    /**
+     * Missions which have been created, they might have been assigned or can be assigned or
+     * are already done. They are stored with the main save.
+     */
+    static std::vector<mission> active_missions;
+
+    // Don't use this, it's only for loading legacy saves.
+    void load_info(std::istream &info);
 };
 
 #endif

@@ -2053,22 +2053,29 @@ void vehicle::load_legacy(std::ifstream &stin) {
     getline(stin, databuff); // Clear EoL
 }
 
+void mission::unserialize_legacy( std::istream &fin )
+{
+    int num_missions;
+    fin >> num_missions;
+    if( fin.peek() == '\n' ) {
+        char junk;
+        fin.get( junk );    // Chomp that pesky endline
+    }
+    for( int i = 0; i < num_missions; i++ ) {
+        mission tmpmiss;
+        tmpmiss.load_info( fin );
+        active_missions.push_back( tmpmiss );
+    }
+}
 
 bool game::unserialize_master_legacy(std::ifstream & fin) {
 // First, get the next ID numbers for each of these
  std::string data;
  char junk;
  fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
+ int num_factions;
 
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(fin);
-  active_missions.push_back(tmpmiss);
- }
+    mission::unserialize_legacy( fin );
 
  fin >> num_factions;
  if (fin.peek() == '\n')

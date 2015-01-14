@@ -709,6 +709,16 @@ void overmap::save() const
 ///////////////////////////////////////////////////////////////////////////////////////
 ///// master.gsav
 
+void mission::unserialize_all( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        mission mis;
+        mis.deserialize( jsin );
+        active_missions.push_back( mis );
+    }
+}
+
 void game::unserialize_master(std::ifstream &fin) {
    savegame_loading_version = 0;
    chkversion(fin);
@@ -732,12 +742,7 @@ void game::unserialize_master(std::ifstream &fin) {
             } else if (name == "next_npc_id") {
                 next_npc_id = jsin.get_int();
             } else if (name == "active_missions") {
-                jsin.start_array();
-                while (!jsin.end_array()) {
-                    mission mis;
-                    mis.deserialize(jsin);
-                    active_missions.push_back(mis);
-                }
+                mission::unserialize_all( jsin );
             } else if (name == "factions") {
                 jsin.start_array();
                 while (!jsin.end_array()) {
@@ -755,6 +760,15 @@ void game::unserialize_master(std::ifstream &fin) {
     }
 }
 
+void mission::serialize_all( JsonOut &json )
+{
+    json.start_array();
+    for( auto & m : active_missions ) {
+        m.serialize( json );
+    }
+    json.end_array();
+}
+
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
@@ -766,11 +780,7 @@ void game::serialize_master(std::ofstream &fout) {
         json.member("next_npc_id", next_npc_id);
 
         json.member("active_missions");
-        json.start_array();
-        for (auto &i : active_missions) {
-            i.serialize(json);
-        }
-        json.end_array();
+        mission::serialize_all( json );
 
         json.member("factions");
         json.start_array();

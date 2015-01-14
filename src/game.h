@@ -239,12 +239,6 @@ class game
         int assign_mission_id();
         /** Assigns an existing mission to the player. */
         void assign_mission(int id);
-        /** reserve_mission() creates a new mission of the given type and pushes it to
-         *  active_missions.  The function returns the UID of the new mission, which can
-         *  then be passed to a MacGuffin or something else that needs to track a mission. */
-        int reserve_mission(mission_type_id type, int npc_id = -1);
-        int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
-                                   int npc_id = -1);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
@@ -264,8 +258,6 @@ class game
         void fail_mission(int id);
         /** Handles partial mission completion (kill complete, now report back!). */
         void mission_step_complete(int id, int step);
-        /** Handles mission deadline processing. */
-        void process_missions();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -387,7 +379,6 @@ class game
         int monstairz;
         std::vector<npc *> active_npc;
         std::vector<faction> factions;
-        std::vector<mission> active_missions; // Missions which may be assigned
         // NEW: Dragging a piece of furniture, with a list of items contained
         ter_id dragging;
         std::vector<item> items_dragged;

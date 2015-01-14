@@ -1,8 +1,11 @@
 #include "mission.h"
 #include "game.h"
+#include "debug.h"
 
 #include <fstream>
 #include <sstream>
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 mission mission_type::create( const int npc_id ) const
 {
@@ -24,6 +27,69 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
+std::vector<mission> mission::active_missions;
+
+int mission::reserve_new( const mission_type_id type, const int npc_id )
+{
+    const mission tmp = mission_type::get( type )->create( npc_id );
+    active_missions.push_back( tmp );
+    return tmp.uid;
+}
+
+mission *mission::find( int id )
+{
+    for( auto & m : active_missions ) {
+        if( m.uid == id ) {
+            return &m;
+        }
+    }
+    dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
+    debugmsg( "requested mission with uid %d does not exist", id );
+    return nullptr;
+}
+
+void mission::process_all()
+{
+    for( auto & m : active_missions ) {
+        if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
+            g->fail_mission( m.uid );
+        }
+    }
+}
+
+void mission::clear_all()
+{
+    active_missions.clear();
+}
+
+void mission::on_npc_death( npc &poor_dead_dude )
+{
+    const auto dead_guys_id = poor_dead_dude.getID();
+    for( auto & i : active_missions ) {
+        //complete the mission if you needed killing
+        if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
+            g->mission_step_complete( i.uid, 1 );
+        }
+        //fail the mission if the mission giver dies
+        if( i.npc_id == dead_guys_id ) {
+            g->fail_mission( i.uid );
+        }
+        //fail the mission if recruit target dies
+        if( i.type->goal == MGOAL_RECRUIT_NPC && i.target_npc_id == dead_guys_id ) {
+            g->fail_mission( i.uid );
+        }
+    }
+}
+
+int mission::reserve_random( const mission_origin origin, const point p, const int npc_id )
+{
+    const auto type = mission_type::get_random_id( origin, p );
+    if( type == MISSION_NULL ) {
+        return -1;
+    }
+    return mission::reserve_new( type, npc_id );
+}
+
 std::string mission::name()
 {
     if (type == NULL) {
@@ -32,7 +98,7 @@ std::string mission::name()
     return type->name;
 }
 
-void mission::load_info(std::ifstream &data)
+void mission::load_info(std::istream &data)
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
