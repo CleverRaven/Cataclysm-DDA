@@ -192,6 +192,25 @@ struct mission_type {
     };
 
     mission create( int npc_id ) const;
+
+    /**
+     * Get the mission_type object of the given id. Returns null if the input is invalid!
+     */
+    static const mission_type *get( mission_type_id id );
+    /**
+     * Returns a random id of a mission type that can be started at the defined origin
+     * around point p, see @ref mission_start.
+     * Returns @ref MISSION_NULL if no suitable type could be found.
+     */
+    static mission_type_id get_random_id( mission_origin origin, point p );
+
+    static void reset();
+    static void initialize();
+private:
+    /**
+     * All the known mission templates.
+     */
+    static std::vector<mission_type> types;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer

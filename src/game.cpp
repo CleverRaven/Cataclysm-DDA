@@ -1718,32 +1718,18 @@ void game::assign_mission(int id)
 
 int game::reserve_mission(mission_type_id type, int npc_id)
 {
-    mission tmp = mission_types[type].create(npc_id);
+    mission tmp = mission_type::get( type )->create( npc_id );
     active_missions.push_back(tmp);
     return tmp.uid;
 }
 
 int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 {
-    std::vector<int> valid;
-    mission_place place;
-    for( auto &elem : mission_types ) {
-        for( std::vector<mission_origin>::iterator orig = elem.origins.begin();
-             orig != elem.origins.end(); ++orig ) {
-            if( *orig == origin && ( place.*elem.place )( p.x, p.y ) ) {
-                valid.push_back( elem.id );
-                break;
-            }
-        }
-    }
-
-    if (valid.empty()) {
+    const auto type = mission_type::get_random_id( origin, p );
+    if( type == MISSION_NULL ) {
         return -1;
     }
-
-    int index = valid[rng(0, valid.size() - 1)];
-
-    return reserve_mission(static_cast<mission_type_id>( index ), npc_id);
+    return reserve_mission( type, npc_id );
 }
 
 npc *game::find_npc(int id)

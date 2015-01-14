@@ -364,8 +364,6 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::vector <mission_type> mission_types; // The list of mission templates
-
         weather_generator weatherGen; //A weather engine.
         bool has_generator = false;
         unsigned int weatherSeed = 0;
@@ -536,7 +534,6 @@ class game
         void init_faction_data();
         void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
-        void init_missions();     // Initializes mission templates
         void init_autosave();     // Initializes autosave parameters
         void init_diseases();     // Initializes disease lookup table.
         void init_savedata_translation_tables();

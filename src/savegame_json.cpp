@@ -1474,7 +1474,7 @@ void mission::deserialize(JsonIn &jsin)
     JsonObject jo = jsin.get_object();
 
     if (jo.has_member("type_id")) {
-        type = &(g->mission_types[jo.get_int("type_id")]);
+        type = mission_type::get( static_cast<mission_type_id>( jo.get_int( "type_id" ) ) );
     }
     jo.read("description", description);
     jo.read("failed", failed);

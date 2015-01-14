@@ -37,7 +37,7 @@ void mission::load_info(std::ifstream &data)
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
-    type = &(g->mission_types[type_id]);
+    type = mission_type::get( static_cast<mission_type_id>( type_id ) );
     std::string tmpdesc;
     do {
         data >> tmpdesc;

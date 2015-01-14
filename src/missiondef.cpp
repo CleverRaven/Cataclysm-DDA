@@ -1,22 +1,23 @@
 #include "mission.h"
-#include "game.h"
 #include "translations.h"
 
-void game::init_missions()
+std::vector<mission_type> mission_type::types;
+
+void mission_type::initialize()
 {
  #define MISSION(name, goal, diff, val, urgent, place, start, end, fail) \
- id++; mission_types.push_back( \
+ id++; types.push_back( \
 mission_type(static_cast<mission_type_id>( id ), name, goal, diff, val, urgent, place, start, end, fail) )
 
- #define ORIGINS(...) mission_types[id].origins = { __VA_ARGS__ }
- #define ITEM(itid)     mission_types[id].item_id = itid
- #define COUNT(num)     mission_types[id].item_count = num
- #define DESTINATION(dest)     mission_types[id].target_id = dest
- #define FOLLOWUP(next_up) mission_types[id].follow_up = next_up
+ #define ORIGINS(...) types[id].origins = { __VA_ARGS__ }
+ #define ITEM(itid)     types[id].item_id = itid
+ #define COUNT(num)     types[id].item_count = num
+ #define DESTINATION(dest)     types[id].target_id = dest
+ #define FOLLOWUP(next_up) types[id].follow_up = next_up
 // DEADLINE defines the low and high end time limits, in hours
 // Omitting DEADLINE means the mission never times out
- #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
-                             mission_types[id].deadline_high = high * 600
+ #define DEADLINE(low, high) types[id].deadline_low  = low  * 600;\
+                             types[id].deadline_high = high * 600
 
 
 // The order of missions should match enum mission_id in mission.h
@@ -292,4 +293,36 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_place::always, &mission_start::place_book,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_ANY_NPC);
+}
+
+const mission_type *mission_type::get( const mission_type_id id )
+{
+    for( auto & t : types ) {
+        if( t.id == id ) {
+            return &t;
+        }
+    }
+    return nullptr;
+}
+
+mission_type_id mission_type::get_random_id( const mission_origin origin, const point p )
+{
+    std::vector<mission_type_id> valid;
+    mission_place place;
+    for( auto & t : types ) {
+        if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
+            continue;
+        }
+        if( ( place.*t.place )( p.x, p.y ) ) {
+            valid.push_back( t.id );
+        }
+    }
+    if( valid.empty() ) {
+        return MISSION_NULL;
+    }
+    return valid[rng( 0, valid.size() - 1 )];
+}
+
+void mission_type::reset() {
+    types.clear();
 }
