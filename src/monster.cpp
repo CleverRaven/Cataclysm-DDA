@@ -60,7 +60,7 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
-    faction_id = t->default_faction_id;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -89,7 +89,7 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
-    faction_id = t->default_faction_id;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -455,12 +455,11 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
         if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( monfaction() == m->monfaction() ) ) {
+            ( faction == m->faction ) ) {
             // Currently friendly means "friendly to the player" (on same side as player),
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             // Monsters are also friendly to own species
-            // Player-friendly monsters are a separate faction
             return A_FRIENDLY;
         } else if( morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
@@ -563,15 +562,6 @@ monster_attitude monster::attitude(player *u) const
     }
 
     return MATT_ATTACK;
-}
-
-int monster::monfaction() const
-{
-    if( friendly != 0 ) {
-        return -1;
-    } else {
-        return faction_id;
-    }
 }
 
 int monster::hp_percentage() const

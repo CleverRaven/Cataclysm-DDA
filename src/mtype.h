@@ -130,6 +130,11 @@ enum m_flag {
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
+struct monfaction {
+    int id;
+    std::string name;
+};
+
 /** Used to store monster effects placed on attack */
 struct mon_effect_data
 {
@@ -153,8 +158,7 @@ struct mtype {
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
-        std::string default_faction; // Default faction of new monsters of this type
-        int default_faction_id; // Cached index of the above
+        const monfaction *default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;

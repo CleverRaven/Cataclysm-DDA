@@ -921,7 +921,7 @@ void monster::load(JsonObject &data)
 
     std::string faction;
     data.read( "faction", faction );
-    faction_id = MonsterGenerator::generator().faction_to_id( faction ); 
+    faction_id = MonsterGenerator::generator().faction_by_name( faction ); 
 }
 
 /*
@@ -959,8 +959,7 @@ void monster::store(JsonOut &json) const
     json.member("plans", plans);
     json.member("ammo", ammo);
 
-    std::string faction_name = MonsterGenerator::generator().faction_from_id( faction_id );
-    json.member( "faction", faction_name );
+    json.member( "faction", faction->name );
 
     json.member( "inv", inv );
 }

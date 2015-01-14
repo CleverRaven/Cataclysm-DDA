@@ -9,6 +9,7 @@
 class map;
 class game;
 class item;
+struct monfaction;
 
 typedef std::map< int, std::set< int > > mfactions;
 
@@ -191,7 +192,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
-        int monfaction() const; // -1 if friendly, then first species id or 0 if none
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
@@ -276,7 +276,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        int faction_id; // Our faction (species, for most monsters)
+        const monfaction *faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death

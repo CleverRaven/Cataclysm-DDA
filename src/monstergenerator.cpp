@@ -7,8 +7,6 @@
 #include "catacharset.h"
 #include "item.h"
 
-const static std::string playerfac = "Player";
-
 MonsterGenerator::MonsterGenerator()
 {
     mon_templates["mon_null"] = new mtype();
@@ -335,8 +333,10 @@ void MonsterGenerator::init_flags()
 
 void MonsterGenerator::init_hardcoded_factions()
 {
-    faction_map[playerfac] = -1;
-    inverted_faction_map[-1] = playerfac;
+    monfaction mfact;
+    mfact.id = -1;
+    mfact.name = "Player";
+    faction_map[mfact.name] = mfact;
 }
 
 void MonsterGenerator::set_default_faction( mtype *mon )
@@ -344,16 +344,16 @@ void MonsterGenerator::set_default_faction( mtype *mon )
     if( mon->default_faction.empty() && !mon->species.empty() ) {
         mon->default_faction = *( mon->species.begin() );
     }
-    int myid;
     auto found = faction_map.find( mon->default_faction );
     if( found == faction_map.end() ) {
-        myid = faction_map.size();
-        faction_map[mon->default_faction] = myid;
-        inverted_faction_map[myid] = mon->default_faction;
+        monsterfaction mfact;
+        int myid = faction_map.size();
+        mfact.id = myid;
+        mfact.name = mon->default_faction;
+        faction_map[mfact.name] = mfact;
     } else {
-        myid = found->second;
+        mon->default_faction = &found->second;
     }
-    mon->default_faction_id = myid;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -559,22 +559,12 @@ mtype *MonsterGenerator::get_valid_hallucination()
     return potentials[rng(0, potentials.size() - 1)];
 }
 
-const std::string &MonsterGenerator::faction_from_id( int id ) const
+const monfaction *faction_by_name( const std::string &name ) const
 {
-    auto found = inverted_faction_map.find( id );
-    if( found == inverted_faction_map.end() ) {
-        debugmsg( "Couldn't find monster faction with id %d", id );
-        return playerfac;
-    }
-    return found->second;
-}
-
-int MonsterGenerator::faction_to_id( const std::string &faction ) const
-{
-    auto found = faction_map.find( faction );
+    auto found = faction_map.find( name );
     if( found == faction_map.end() ) {
-        debugmsg( "Couldn't find monster faction %s", faction.c_str() );
-        return -1;
+        debugmsg( "Couldn't find monster faction with name %d", name.c_str() );
+        return faction_map.find( "Player" );
     }
     return found->second;
 }

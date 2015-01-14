@@ -70,8 +70,7 @@ class MonsterGenerator
         std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
-        const std::string &faction_from_id( int id ) const;
-        int faction_to_id( const std::string &faction ) const;
+        const monfaction *faction_by_name( const std::string &name ) const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -119,8 +118,7 @@ class MonsterGenerator
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
 
-        std::map<std::string, int> faction_map;
-        std::map<int, std::string> inverted_faction_map; // For monster faction serialization
+        std::map<std::string, monfaction> faction_map;
 };
 
 #endif
