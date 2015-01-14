@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
 // can load from json
 #include "effect.h"
@@ -223,7 +223,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = file_finder::get_files_from_path(".json", path, true, true);
+    str_vec files = get_files_from_path(".json", path, true, true);
     if (files.empty()) {
         std::ifstream tmp(path.c_str(), std::ios::in);
         if (tmp) {

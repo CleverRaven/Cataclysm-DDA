@@ -10,12 +10,11 @@
 #include "options.h"
 #include "debug.h"
 #include "monstergenerator.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
 
 #include <ctime>
-#include <sys/stat.h>
 #include <signal.h>
 #ifdef LOCALIZE
 #include <libintl.h>

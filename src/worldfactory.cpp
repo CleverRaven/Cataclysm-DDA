@@ -1,8 +1,7 @@
 #include "worldfactory.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "char_validity_check.h"
 #include "mod_manager.h"
-#include "file_wrapper.h"
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
@@ -11,15 +10,6 @@
 #include "name.h"
 
 #include <fstream>
-
-// FILE I/O
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif // _MSC_VER
 
 #define WORLD_OPTION_FILE "worldoptions.txt"
 #define SAVE_MASTER "master.gsav"
@@ -211,7 +201,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
-        std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
+        auto const origin_files = get_files_from_path(".", origin_path, false);
         for( auto &origin_file : origin_files ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
@@ -297,63 +287,57 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.clear();
     }
     // get the master files. These determine the validity of a world
-    std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers,
-                                          FILENAMES["savedir"], true);
+    auto const world_dirs = get_directories_with(qualifiers, FILENAMES["savedir"], true);
+    // worlds exist by having an option file
+    // create worlds
+    for( auto &world_dir : world_dirs ) {
+        // get the option file again
+        // we can assume that there is only one master.gsav, so just collect the first path
+        bool no_options = true;
+        auto const detected_world_op = get_files_from_path( WORLD_OPTION_FILE, world_dir, false );
+        if ( ! detected_world_op.empty() ) {
+            no_options = false;
+        }
+        // get the save files
+        auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
+        // split the save file names between the directory and the extension
+        for( auto &world_sav_file : world_sav_files ) {
+            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
+            world_sav_file = world_sav_file.substr( world_dir.size() + 1,
+                                                    save_index - ( world_dir.size() + 1 ) );
+        }
+        // the directory name is the name of the world
+        std::string worldname;
+        unsigned name_index = world_dir.find_last_of( "/\\" );
+        worldname = world_dir.substr( name_index + 1 );
 
-    // check to see if there are >0 world directories found
-    if (!world_dirs.empty()) {
-        // worlds exist by having an option file
-        // create worlds
-        for( auto &world_dir : world_dirs ) {
-            // get the option file again
-            // we can assume that there is only one master.gsav, so just collect the first path
-            bool no_options = true;
-            std::vector<std::string> detected_world_op =
-                file_finder::get_files_from_path( WORLD_OPTION_FILE, world_dir, false );
-            if ( ! detected_world_op.empty() ) {
-                no_options = false;
-            }
-            // get the save files
-            std::vector<std::string> world_sav_files =
-                file_finder::get_files_from_path( SAVE_EXTENSION, world_dir, false );
-            // split the save file names between the directory and the extension
-            for( auto &world_sav_file : world_sav_files ) {
-                size_t save_index = world_sav_file.find( SAVE_EXTENSION );
-                world_sav_file = world_sav_file.substr( world_dir.size() + 1,
-                                                        save_index - ( world_dir.size() + 1 ) );
-            }
-            // the directory name is the name of the world
-            std::string worldname;
-            unsigned name_index = world_dir.find_last_of( "/\\" );
-            worldname = world_dir.substr( name_index + 1 );
+        // create and store the world
+        retworlds[worldname] = new WORLD();
+        // give the world a name
+        retworlds[worldname]->world_name = worldname;
+        all_worldnames.push_back(worldname);
+        // add sav files
+        for( auto &world_sav_file : world_sav_files ) {
+            retworlds[worldname]->world_saves.push_back( world_sav_file );
+        }
+        // set world path
+        retworlds[worldname]->world_path = world_dir;
+        mman->load_mods_list(retworlds[worldname]);
 
-            // create and store the world
-            retworlds[worldname] = new WORLD();
-            // give the world a name
-            retworlds[worldname]->world_name = worldname;
-            all_worldnames.push_back(worldname);
-            // add sav files
-            for( auto &world_sav_file : world_sav_files ) {
-                retworlds[worldname]->world_saves.push_back( world_sav_file );
-            }
-            // set world path
-            retworlds[worldname]->world_path = world_dir;
-            mman->load_mods_list(retworlds[worldname]);
-
-            // load options into the world
-            if ( no_options ) {
-                for( auto &elem : OPTIONS ) {
-                    if( elem.second.getPage() == "world_default" ) {
-                        retworlds[worldname]->world_options[elem.first] = elem.second;
-                    }
+        // load options into the world
+        if ( no_options ) {
+            for( auto &elem : OPTIONS ) {
+                if( elem.second.getPage() == "world_default" ) {
+                    retworlds[worldname]->world_options[elem.first] = elem.second;
                 }
-                retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
-                save_world(retworlds[worldname]);
-            } else {
-                retworlds[worldname]->world_options = get_world_options(detected_world_op[0]);
             }
+            retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
+            save_world(retworlds[worldname]);
+        } else {
+            retworlds[worldname]->world_options = get_world_options(detected_world_op[0]);
         }
     }
+
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if (retworlds.find("save") != retworlds.end()) {

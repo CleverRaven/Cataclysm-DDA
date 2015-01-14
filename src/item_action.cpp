@@ -2,7 +2,6 @@
 #include "output.h"
 #include "options.h"
 #include "path_info.h"
-#include "file_wrapper.h"
 #include "debug.h"
 #include "game.h"
 #include "options.h"

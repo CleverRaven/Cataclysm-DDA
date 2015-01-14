@@ -7768,6 +7768,9 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
         p->store(it, put, gun->skill_used->ident(), 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else draw the holstered gun and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -7836,6 +7839,9 @@ int iuse::sheath_knife(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
         p->store(it, put, "cutting", 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -7898,6 +7904,9 @@ int iuse::sheath_sword(player *p, item *it, bool, point)
         p->add_msg_if_player(message.c_str(), put->tname().c_str());
         p->store(it, put, "cutting", 14);
 
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -7982,6 +7991,9 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
         } else if (choice == 2) {
             sheath_knife(p, it, b, pos);
         }
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
         // unsheathe knife or draw pistol
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
@@ -8027,6 +8039,9 @@ int iuse::boots(player *p, item *it, bool, point)
     int choice = -1;
     if (it->contents.empty()) {
         choice = menu(true, _("Using boots:"), _("Put a knife in the boot"), _("Cancel"), NULL);
+    } else if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
     } else if (it->contents.size() == 1) {
         choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(), _("Put a knife in the boot"),
                       _("Cancel"), NULL);

@@ -3022,9 +3022,9 @@ void map::add_item_at( const int x, const int y,
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->itm[lx][ly].insert( index, new_item );
+    const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
-        current_submap->active_items.add( std::prev(current_submap->itm[lx][ly].end()), point(lx, ly) );
+        current_submap->active_items.add( new_pos, point(lx, ly) );
     }
 }
 
@@ -4788,7 +4788,7 @@ void map::grow_plant( const point pnt )
     // 91 days is the approximate length of a real world season
     // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
     // Note that it is converted based on the season_length option!
-    const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3); 
+    const int plantEpoch = DAYS(seed_comest->grow * calendar::season_length() / ( 91 * 3 ));
     
     if ( calendar::turn >= seed.bday + plantEpoch ) {
 		if (calendar::turn < seed.bday + plantEpoch * 2 ) {

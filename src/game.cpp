@@ -30,8 +30,7 @@
 #include "monstergenerator.h"
 #include "monattack.h"
 #include "worldfactory.h"
-#include "file_finder.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "mapbuffer.h"
@@ -40,6 +39,8 @@
 #include "pickup.h"
 #include "weather_gen.h"
 #include "start_location.h"
+#include "debug.h"
+#include "catalua.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -49,6 +50,10 @@
 #include <cmath>
 #include <vector>
 #include <locale>
+#include <cassert>
+
+//TODO replace these includes with filesystem.h
+#include <sys/stat.h>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -57,11 +62,6 @@
 #include <unistd.h>
 #include <dirent.h>
 #endif
-
-#include <sys/stat.h>
-#include "debug.h"
-#include "catalua.h"
-#include <cassert>
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX
@@ -3969,10 +3969,9 @@ static bool isForbidden(std::string candidate)
 void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    std::vector<std::string> file_paths;
     std::set<std::string> directory_paths;
 
-    file_paths = file_finder::get_files_from_path("", worldpath, true, true);
+    auto file_paths = get_files_from_path("", worldpath, true, true);
     if (!delete_folder) {
         std::vector<std::string>::iterator forbidden = find_if(file_paths.begin(), file_paths.end(),
                 isForbidden);
@@ -12242,8 +12241,6 @@ void game::plswim(int x, int y)
         x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2))) {
         update_map(x, y);
     }
-    u.posx = x;
-    u.posy = y;
     if (!m.has_flag("SWIMMABLE", x, y)) {
         dbg(D_ERROR) << "game:plswim: Tried to swim in "
                      << m.tername(x, y).c_str() << "!";
@@ -12273,6 +12270,18 @@ void game::plswim(int x, int y)
         }
     }
     bool diagonal = (x != u.posx && y != u.posy);
+    if( u.in_vehicle ) {
+        m.unboard_vehicle( u.posx, u.posy );
+    }
+    u.posx = x;
+    u.posy = y;
+    {
+        int part;
+        const auto veh = m.veh_at( u.posx, u.posy, part );
+        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+            m.board_vehicle( u.posx, u.posy, &u );
+        }
+    }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
 

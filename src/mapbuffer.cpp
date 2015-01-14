@@ -3,7 +3,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "savegame.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "overmapbuffer.h"
 #include "mapsharing.h"
 #include "mapdata.h"

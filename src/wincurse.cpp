@@ -13,7 +13,7 @@
 #include <sstream>
 #include "init.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "debug.h"
 
 //***********************************
