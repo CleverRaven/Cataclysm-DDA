@@ -4699,9 +4699,13 @@ ff.......|....|WWWWWWWW|\n\
                                 }
                             }
                         }
-                        int index = rng(0, next.size() - 1);
-                        x = next[index].x;
-                        y = next[index].y;
+                        if(next.empty()) {
+                            break;
+                        } else {
+                            int index = rng(0, next.size() - 1);
+                            x = next[index].x;
+                            y = next[index].y;
+                        }
                     }
                 }
                 // Now go backwards through path (start to finish), toggling any tiles that need

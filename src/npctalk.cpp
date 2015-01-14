@@ -2119,7 +2119,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                               p->personality.altruism * 2;
                 int missions_value = p->assigned_missions_value();
-                if (g->u.has_amount(_("mininuke"), 1)) {
+                if (g->u.has_amount("mininuke", 1)) {
                     RESPONSE(_("Because I'm holding a thermal detonator!"));
                         SUCCESS(TALK_GIVE_EQUIPMENT);
                             SUCCESS_ACTION(&talk_function::give_equipment);
