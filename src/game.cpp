@@ -6474,7 +6474,6 @@ void game::monmove()
 
     // monster::plan() needs to know about all monsters on the same team as the monster
     mfactions monster_factions; // A map - looks much cleaner than vector here
-    auto playerfaction = MonsterGenerator::generator().faction_by_name( "Player" );
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = zombie( i );
         if( critter.friendly == 0 ) {
