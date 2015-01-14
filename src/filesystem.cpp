@@ -1,6 +1,7 @@
 #include "filesystem.h"
 #include "debug.h"
 
+#include <string.h> // for strnlen
 #include <cstring>
 #include <string>
 #include <vector>
@@ -142,6 +143,7 @@ bool is_directory_stat(std::string const &full_path)
 bool is_directory(dirent const &entry, std::string const &full_path)
 {
     // no dirent::d_type
+    (void)entry; //not used for mingw
     return is_directory_stat(full_path);
 }
 #else
