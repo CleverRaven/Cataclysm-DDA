@@ -32,7 +32,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- faction_id = 0;
+ faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;

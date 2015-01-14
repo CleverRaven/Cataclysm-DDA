@@ -2202,7 +2202,7 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    if (z->faction == -1 || (within_visual_range(z, 6) < 0)) {
+    if( within_visual_range(z, 6) < 0 ) {
         return;
     }
 
@@ -2297,7 +2297,7 @@ void mattack::photograph(monster *z, int index)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), z->faction,
+    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
                  g->get_abs_levx(), g->get_abs_levy());
 }
 

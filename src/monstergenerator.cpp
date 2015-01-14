@@ -337,23 +337,10 @@ void MonsterGenerator::init_hardcoded_factions()
     mfact.id = -1;
     mfact.name = "Player";
     faction_map[mfact.name] = mfact;
-}
 
-void MonsterGenerator::set_default_faction( mtype *mon )
-{
-    if( mon->default_faction.empty() && !mon->species.empty() ) {
-        mon->default_faction = *( mon->species.begin() );
-    }
-    auto found = faction_map.find( mon->default_faction );
-    if( found == faction_map.end() ) {
-        monsterfaction mfact;
-        int myid = faction_map.size();
-        mfact.id = myid;
-        mfact.name = mon->default_faction;
-        faction_map[mfact.name] = mfact;
-    } else {
-        mon->default_faction = &found->second;
-    }
+    mfact.id = 0;
+    mfact.name = "";
+    faction_map[mfact.name] = mfact;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -367,6 +354,15 @@ void MonsterGenerator::set_species_ids( mtype *mon )
         } else {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
         }
+    }
+}
+
+void MonsterGenerator::set_default_faction( mtype *mon )
+{
+    if( mon->faction_name.empty() && !mon->species.empty() ) {
+        mon->faction_name = *( mon->species.begin() );
+        add_faction( mon->faction_name );
+        mon->default_faction = faction_by_name( mon->faction_name );
     }
 }
 
@@ -397,7 +393,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
 
-        newmon->default_faction = jo.get_string("default_faction", "");
+        newmon->faction_name = jo.get_string("default_faction", "");
+        add_faction( newmon->faction_name );
 
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
@@ -559,15 +556,30 @@ mtype *MonsterGenerator::get_valid_hallucination()
     return potentials[rng(0, potentials.size() - 1)];
 }
 
-const monfaction *faction_by_name( const std::string &name ) const
+const monfaction *MonsterGenerator::faction_by_name( const std::string &name ) const
 {
     auto found = faction_map.find( name );
     if( found == faction_map.end() ) {
-        debugmsg( "Couldn't find monster faction with name %d", name.c_str() );
-        return faction_map.find( "Player" );
+        debugmsg( "Couldn't find monster faction with name %s", name.c_str() );
+        return &faction_map.find( "" )->second;
     }
-    return found->second;
+    return &found->second;
 }
+
+bool MonsterGenerator::add_faction( const std::string &name )
+{
+    auto found = faction_map.find( name );
+    if( found == faction_map.end() ) {
+        monfaction mfact;
+        mfact.name = name;
+        mfact.id = faction_map.size();
+        faction_map[mfact.name] = mfact;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
 {

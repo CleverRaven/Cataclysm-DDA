@@ -153,6 +153,7 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string faction_name;
     public:
         std::string id;
         std::string description;

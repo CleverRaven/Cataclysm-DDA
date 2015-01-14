@@ -12,6 +12,7 @@ typedef void (mattack::*MonAttackFunction)(monster *, int index);
 typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
+#define GetMFact(x) MonsterGenerator::generator().faction_by_name(x)
 
 struct species_type {
     int short_id;
@@ -70,7 +71,7 @@ class MonsterGenerator
         std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
-        const monfaction *faction_by_name( const std::string &name ) const;
+        const monfaction *faction_by_name(const std::string &name) const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -98,12 +99,13 @@ class MonsterGenerator
                 std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
                                                 T fallback);
+        bool add_faction( const std::string &name );
 
         // finalization
         void apply_species_attributes(mtype *mon);
         void set_mtype_flags(mtype *mon);
         void set_species_ids(mtype *mon);
-        void set_default_faction( mtype *mon );
+        void set_default_faction(mtype *mon);
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 

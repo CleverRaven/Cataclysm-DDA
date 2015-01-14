@@ -900,7 +900,6 @@ void monster::load(JsonObject &data)
     }
 
     data.read("friendly", friendly);
-    data.read("faction_id", faction_id);
     data.read("mission_id", mission_id);
     data.read("no_extra_death_drops", no_extra_death_drops);
     data.read("dead", dead);
@@ -918,10 +917,14 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
-
-    std::string faction;
-    data.read( "faction", faction );
-    faction_id = MonsterGenerator::generator().faction_by_name( faction ); 
+    std::string fac;
+    if( data.read( "faction", fac ) ) {
+        faction = GetMFact(fac);
+    } else {
+        // Handle faction-less monsters (legacy)
+        fac = type->species.begin() == type->species.end() ? "" : *( type->species.begin() );
+        faction = GetMFact(fac);
+    }
 }
 
 /*
@@ -948,7 +951,7 @@ void monster::store(JsonOut &json) const
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
-    json.member("faction_id", faction_id);
+    json.member("faction", faction->name);
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
     json.member("dead", dead);
@@ -958,8 +961,6 @@ void monster::store(JsonOut &json) const
     json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
-
-    json.member( "faction", faction->name );
 
     json.member( "inv", inv );
 }

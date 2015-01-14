@@ -193,12 +193,12 @@ void monster::plan(const mfactions &factions)
 
     fleeing = attitude() == MATT_FLEE;
     if( friendly == 0 && can_see() ) {
-        for( const auto &faction : factions ) {
-            if( faction.first == faction ) {
+        for( const auto &fac : factions ) {
+            if( fac.first == faction->id ) {
                 continue;
             }
 
-            for( int i : faction.second ) { // mon indices
+            for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
                 float rating = rate_target( mon, bresenham_slope, electronic );
                 if( rating < dist ) {
@@ -223,7 +223,7 @@ void monster::plan(const mfactions &factions)
     // Avoid for hordes of same-faction stuff or it could get expensive
     swarms = swarms && closest == -1; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( int i : factions.find( faction )->second ) {
+        for( int i : factions.find( faction->id )->second ) {
             monster &mon = g->zombie( i );
             float rating = rate_target( mon, bresenham_slope, electronic );
             if( group_morale && rating <= 10 ) {
