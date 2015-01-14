@@ -3,6 +3,7 @@
 
 #include <string.h> // for strnlen
 #include <cstring>
+#include <cstddef>
 #include <string>
 #include <vector>
 #include <deque>
@@ -219,8 +220,8 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
         auto const path = std::move(directories.front());
         directories.pop_front();
 
-        auto const n_dirs    = static_cast<ptrdiff_t>(directories.size());
-        auto const n_results = static_cast<ptrdiff_t>(results.size());
+        auto const n_dirs    = static_cast<std::ptrdiff_t>(directories.size());
+        auto const n_results = static_cast<std::ptrdiff_t>(results.size());
         
         for_each_dir_entry(path, [&](dirent const &entry) {
             // exclude special directories.
