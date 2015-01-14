@@ -223,7 +223,7 @@ void veh_interact::allocate_windows()
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
-    page_size = list_h;
+    page_size = list_h - 2; // reserve two rows for tab menu
 
     wrefresh(w_border);
     delwin( w_border );
@@ -470,6 +470,12 @@ bool veh_interact::is_drive_conflict(int msg_width){
 }
 
 bool veh_interact::can_install_part(int msg_width){
+    if( sel_vpart_info == NULL ) {
+        werase (w_msg);
+        wrefresh (w_msg);
+        return false;
+    }
+
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     //count current engines, muscle engines don't require higher skill
@@ -579,11 +585,43 @@ void veh_interact::do_install()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
 
-    int pos = 0;
+    std::array<std::string,7> tab_list = {_("All"),_("Cargo"),_("Light"),_("Util"),_("Hull"),_("Armor"),_("Other")};
+    std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
+    tab_filters[0] = [&](vpart_info part) { return true; }; // All
+    tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO); }; // Cargo
+    tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||  // Light
+                                                   part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
+                                                   part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||
+                                                   part.has_flag(VPFLAG_ODDTURN); };
+    tab_filters[3] = [&](vpart_info part) { return part.has_flag(VPFLAG_TRACK) || part.has_flag(VPFLAG_FRIDGE) || //Util
+                                                   part.has_flag("KITCHEN") || part.has_flag("WELDRIG") || part.has_flag("CRAFTRIG") ||
+                                                   part.has_flag("CHEMLAB") || part.has_flag("FORGE") || part.has_flag("HORN") ||
+                                                   part.has_flag(VPFLAG_RECHARGE) || part.has_flag(VPFLAG_EXTENDS_VISION) ||
+                                                   part.has_flag("POWER_TRANSFER"); };
+    tab_filters[4] = [&](vpart_info part) { return part.has_flag(VPFLAG_OBSTACLE); }; // Hull
+    tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ARMOR); }; // Armor
+    tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
+        for (int i=1; i < tab_filters.size()-1; i++ ) {
+            if( tab_filters[i](part) ) return false;
+        }
+        return true; };
+
+    std::vector<vpart_info> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
+
+    int pos = 0, tab = 0;
     while (true) {
-        sel_vpart_info = &(can_mount[pos]);
-        display_list (pos, can_mount);
-        display_details (*sel_vpart_info);
+        display_list(pos, tab_vparts);
+
+        // draw tab menu
+        for(int i=0; i < tab_list.size(); i++){
+            draw_subtab(w_list, 1+i*2, tab_list[i].substr(0,1), tab == i, false); // only display first letter for each tab
+        }
+        mvwprintz(w_list, 0, w_list->width - tab_list[tab].length(), c_white, tab_list[tab].c_str()); // show full name of tab
+        wrefresh(w_list);
+
+        sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
+
+        display_details(*sel_vpart_info);
         bool can_install = can_install_part(msg_width);
 
         const std::string action = main_context.handle_input();
@@ -598,8 +636,20 @@ void veh_interact::do_install()
             werase (w_msg);
             wrefresh(w_msg);
             break;
-        } else {
-            move_in_list(pos, action, can_mount.size());
+        } else if (action == "PREV_TAB" || action == "NEXT_TAB") {
+            tab_vparts.clear();
+            pos = 0;
+
+            if(action == "PREV_TAB") {
+                tab = ( --tab < 0 ) ? tab_list.size() - 1 : tab;
+            } else {
+                tab = ( ++tab < tab_list.size() ) ? tab : 0;
+            }
+
+            copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
+        }
+        else {
+            move_in_list(pos, action, tab_vparts.size());
         }
     }
 
@@ -1533,7 +1583,7 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
     werase (w_list);
     size_t page = pos / page_size;
     for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
-        int y = i - page * page_size;
+        int y = i - page * page_size + 2;  // first two lines are reserved for tab menu
         nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
@@ -1547,6 +1597,8 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
  */
 void veh_interact::display_details(const vpart_info &part)
 {
+    if( &part == NULL ) return;
+
     if (w_details == NULL) { // create details window first if required
 
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
