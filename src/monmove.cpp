@@ -136,7 +136,7 @@ void monster::plan(const mfactions &factions)
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
     bool angers_when_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
-    bool group_morale = has_flag( MF_GROUP_MORALE );
+    bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
 
     if( friendly != 0 && !docile ) { // Target unfriendly monsters
@@ -191,7 +191,7 @@ void monster::plan(const mfactions &factions)
     }
 
     fleeing = attitude() == MATT_FLEE;
-    if( !docile && friendly == 0 && can_see() ) {
+    if( !docile && friendly == 0 ) {
         for( const auto &fac : factions ) {
             if( fac.first == faction->id ) {
                 continue;
@@ -223,10 +223,11 @@ void monster::plan(const mfactions &factions)
                 morale += 10 - rating;
             }
             if( swarms ) {
-                if( rating > 5 ) { // Too crowded here
+                if( rating < 5 ) { // Too crowded here
                     wandx = posx() * 2 - mon.posx();
                     wandy = posy() * 2 - mon.posy();
-                    wandf = 5;
+                    wandf = 2;
+                    closest = -1;
                 } else if( wandf <= 0 ) {
                     closest = -3 - i;
                 }

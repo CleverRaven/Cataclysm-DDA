@@ -1244,6 +1244,7 @@
     "dodge":4,
     "armor_bash":4,
     "armor_cut":6,
+    "vision_day":10,
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of an item from group bees",
@@ -1255,7 +1256,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
-    "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -1277,6 +1278,7 @@
     "dodge":4,
     "armor_bash":4,
     "armor_cut":8,
+    "vision_day":10,
     "death_drops": {
         "subtype": "collection",
         "//": "40% chance of an item from group bees",
@@ -1288,7 +1290,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",
-    "flags":["SMELLS", "VENOM", "FLIES", "CHITIN", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "SMELLS", "VENOM", "FLIES", "CHITIN", "SWARMS", "GROUP_MORALE"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK"]
     },{
     "type" : "MONSTER",
