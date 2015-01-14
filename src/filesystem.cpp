@@ -123,7 +123,7 @@ void for_each_dir_entry(std::string const &path, Function function)
 }
 
 //--------------------------------------------------------------------------------------------------
-bool is_directory_stat(dirent const &entry, std::string const &full_path)
+bool is_directory_stat(std::string const &full_path)
 {
     struct stat result;
     if (stat(full_path.c_str(), &result) != 0) {
@@ -153,7 +153,7 @@ bool is_directory(dirent const &entry, std::string const &full_path)
         return false;
     }
 
-    return is_directory_stat(entry, full_path);
+    return is_directory_stat(full_path);
 }
 #endif
 
