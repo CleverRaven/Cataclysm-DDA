@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "rng.h"
+#include "mission.h"
 
 #include <fstream>
 #include <string>
@@ -755,7 +756,7 @@ of pureed bone & LSD."));
         if (!g->u.has_amount("usb_drive", 1)) {
             print_error(_("USB drive required!"));
         } else {
-            mission *miss = g->find_mission(mission_id);
+            mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;

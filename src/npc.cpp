@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "mission.h"
 #include "json.h"
 #include "sounds.h"
 
@@ -1383,7 +1384,7 @@ int npc::assigned_missions_value()
 {
     int ret = 0;
     for (auto &i : chatbin.missions_assigned) {
-        ret += g->find_mission(i)->value;
+        ret += mission::find(i)->value;
     }
     return ret;
 }

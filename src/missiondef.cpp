@@ -1,5 +1,6 @@
 #include "mission.h"
 #include "translations.h"
+#include "rng.h"
 
 std::vector<mission_type> mission_type::types;
 

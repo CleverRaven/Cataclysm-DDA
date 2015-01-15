@@ -16,6 +16,7 @@
 #include "json.h"
 #include "messages.h"
 #include "mondefense.h"
+#include "mission.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -1373,7 +1374,7 @@ void monster::die(Creature* nkiller) {
     }
     // If we're a mission monster, update the mission
     if (!is_hallucination() && mission_id != -1) {
-        const auto misstype = g->find_mission(mission_id)->type;
+        const auto misstype = mission::find(mission_id)->type;
         if (misstype->goal == MGOAL_FIND_MONSTER) {
             g->fail_mission(mission_id);
         }

@@ -51,6 +51,7 @@
 #include "lightmap.h"
 #include "npc.h"
 #include "scenario.h"
+#include "mission.h"
 
 #include <map>
 #include <set>
@@ -1725,14 +1726,9 @@ void game::increase_kill_count(const std::string &mtype_id)
     kills[mtype_id]++;
 }
 
-mission *game::find_mission(int id)
-{
-    return mission::find( id );
-}
-
 bool game::mission_complete(int id, int npc_id)
 {
-    mission *miss = find_mission(id);
+    mission *miss = mission::find(id);
     if (miss == NULL) {
         return false;
     }
@@ -1826,7 +1822,7 @@ bool game::mission_complete(int id, int npc_id)
 
 bool game::mission_failed(int id)
 {
-    mission *miss = find_mission(id);
+    mission *miss = mission::find(id);
     if (miss == NULL) {
         return true;    //If the mission is null it is failed.
     }
@@ -1835,7 +1831,7 @@ bool game::mission_failed(int id)
 
 void game::wrap_up_mission(int id)
 {
-    mission *miss = find_mission(id);
+    mission *miss = mission::find(id);
     if (miss == NULL) {
         return;
     }
@@ -1861,7 +1857,7 @@ void game::wrap_up_mission(int id)
 
 void game::fail_mission(int id)
 {
-    mission *miss = find_mission(id);
+    mission *miss = mission::find(id);
     if (miss == NULL) {
         return;
     }
@@ -1873,7 +1869,7 @@ void game::fail_mission(int id)
 
 void game::mission_step_complete(int id, int step)
 {
-    mission *miss = find_mission(id);
+    mission *miss = mission::find(id);
     if (miss == NULL) {
         return;
     }
@@ -4710,7 +4706,7 @@ void game::list_missions()
         mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
         for (size_t i = 0; i < umissions.size(); i++) {
-            mission *miss = find_mission(umissions[i]);
+            mission *miss = mission::find(umissions[i]);
             nc_color col = c_white;
             if( u.get_active_mission() == miss ) {
                 col = c_ltred;
@@ -4723,7 +4719,7 @@ void game::list_missions()
         }
 
         if (selection < umissions.size()) {
-            mission *miss = find_mission(umissions[selection]);
+            mission *miss = mission::find(umissions[selection]);
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
@@ -4774,7 +4770,7 @@ void game::list_missions()
                 selection--;
             }
         } else if (action == "CONFIRM") {
-            u.set_active_mission( *find_mission( umissions[selection] ) );
+            u.set_active_mission( *mission::find( umissions[selection] ) );
             break;
         } else if (action == "QUIT") {
             break;

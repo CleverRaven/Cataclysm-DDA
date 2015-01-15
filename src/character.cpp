@@ -1,5 +1,6 @@
 #include "character.h"
 #include "game.h"
+#include "mission.h"
 
 Character::Character()
 {

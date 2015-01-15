@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
+#include "mission.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2

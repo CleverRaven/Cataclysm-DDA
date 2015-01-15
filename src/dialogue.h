@@ -4,6 +4,7 @@
 #include "player.h"
 #include "output.h"
 #include "npc.h"
+#include "mission.h"
 #include <vector>
 #include <string>
 

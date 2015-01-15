@@ -7,6 +7,8 @@
 #include "faction.h"
 #include "event.h"
 #include "mission.h"
+#include "weather.h"
+#include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
 #include "worldfactory.h"
@@ -69,7 +71,7 @@ enum target_mode {
 
 struct special_game;
 struct mtype;
-struct mission_type;
+class mission;
 class map;
 class player;
 class npc;
@@ -244,8 +246,6 @@ class game
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        /** Returns the matching mission with UID == id; else returns NULL. */
-        mission *find_mission(int id);
         /** Checks if the player has completed the matching mission and returns true if they have. */
         bool mission_complete(int id, int npc_id);
         /** Checks if the player has failed the matching mission and returns true if they have. */
