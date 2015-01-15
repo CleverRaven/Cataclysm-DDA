@@ -4939,7 +4939,7 @@ void vehicle::aim_turrets()
         std::string aimed;
         bool en;
         auto items = get_items( p );
-        if( items.front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
+        if( !items.empty() && items.front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
             aimed = _("No ammo");
             en = false;
         } else {
@@ -4978,7 +4978,7 @@ void vehicle::aim_turrets()
 
     itype *am_itype;
     auto items = get_items( turret_index );
-    if( items.front().charges > 0 ) {
+    if( !items.empty() && items.front().charges > 0 ) {
         am_itype = items.front().type;
     } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
         am_itype = item::find_type( part_info( turret_index ).fuel_type );
