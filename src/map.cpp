@@ -4788,7 +4788,8 @@ void map::grow_plant( const point pnt )
     // 91 days is the approximate length of a real world season
     // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
     // Note that it is converted based on the season_length option!
-    const int plantEpoch = DAYS(seed_comest->grow / 91 * calendar::season_length() / 3);
+
+    const int plantEpoch = DAYS(seed_comest->grow * calendar::season_length() / ( 91 * 3 ));
 
     if ( calendar::turn >= seed.bday + plantEpoch ) {
 		if (calendar::turn < seed.bday + plantEpoch * 2 ) {
@@ -4962,7 +4963,6 @@ void map::spawn_monsters(bool ignore_sight)
                     int tries = 0;
                     int mx = i.posx, my = i.posy;
                     monster tmp(GetMType(i.type));
-                    tmp.faction_id = i.faction_id;
                     tmp.mission_id = i.mission_id;
                     if (i.name != "NONE") {
                         tmp.unique_name = i.name;
