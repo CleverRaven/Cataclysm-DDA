@@ -587,7 +587,7 @@ void veh_interact::do_install()
 
     std::array<std::string,7> tab_list = {_("All"),_("Cargo"),_("Light"),_("Util"),_("Hull"),_("Armor"),_("Other")};
     std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
-    tab_filters[0] = [&](vpart_info part) { return true; }; // All
+    tab_filters[0] = [&](vpart_info) { return true; }; // All
     tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO); }; // Cargo
     tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||  // Light
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
@@ -601,22 +601,23 @@ void veh_interact::do_install()
     tab_filters[4] = [&](vpart_info part) { return part.has_flag(VPFLAG_OBSTACLE); }; // Hull
     tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ARMOR); }; // Armor
     tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
-        for (int i=1; i < tab_filters.size()-1; i++ ) {
+        for (size_t i=1; i < tab_filters.size()-1; i++ ) {
             if( tab_filters[i](part) ) return false;
         }
         return true; };
 
     std::vector<vpart_info> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
 
-    int pos = 0, tab = 0;
+    int pos = 0;
+    size_t tab = 0;
     while (true) {
         display_list(pos, tab_vparts);
 
         // draw tab menu
-        for(int i=0; i < tab_list.size(); i++){
+        for( size_t i=0; i < tab_list.size(); i++ ){
             draw_subtab(w_list, 1+i*2, tab_list[i].substr(0,1), tab == i, false); // only display first letter for each tab
         }
-        mvwprintz(w_list, 0, w_list->width - tab_list[tab].length(), c_white, tab_list[tab].c_str()); // show full name of tab
+        mvwprintz(w_list, 0, list_w - tab_list[tab].length(), c_white, tab_list[tab].c_str()); // show full name of tab
         wrefresh(w_list);
 
         sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
@@ -641,9 +642,9 @@ void veh_interact::do_install()
             pos = 0;
 
             if(action == "PREV_TAB") {
-                tab = ( --tab < 0 ) ? tab_list.size() - 1 : tab;
+                tab = ( tab < 1 ) ? tab_list.size() - 1 : tab - 1;
             } else {
-                tab = ( ++tab < tab_list.size() ) ? tab : 0;
+                tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
             copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
@@ -1602,18 +1603,18 @@ void veh_interact::display_details(const vpart_info &part)
     if (w_details == NULL) { // create details window first if required
 
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
-            for (size_t i = 0; i < w_stats->height; i++) {
-                mvwhline(w_stats, i, 34, ' ', w_stats->width - 34);
+            for( int i = 0; i < stats_h; i++) {
+                mvwhline(w_stats, i, 34, ' ', stats_w - 34);
             }
             wrefresh(w_stats);
         }
 
         // covers right part of w_name and w_stats in vertical/hybrid, lower block of w_stats in horizontal mode
-        const int details_y = vertical_menu ? w_name->y : w_stats->y + 7;
-        const int details_x = vertical_menu ? w_list->x : w_stats->x;
+        const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + 7;
+        const int details_x = vertical_menu ? getbegx(w_list) : getbegx(w_stats);
 
         const int details_h = vertical_menu ? 6 : 7; // 6 lines in vertical/hybrid, 7 lines in horizontal mode
-        const int details_w = w_grid->x + w_grid->width - details_x;
+        const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
 
         w_details = newwin(details_h, details_w, details_y, details_x);
     }
@@ -1623,14 +1624,15 @@ void veh_interact::display_details(const vpart_info &part)
 
     wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
-    int column_width = w_details->width / 2; // displays data in two columns
+    int details_w = getmaxx(w_details);
+    int column_width = details_w / 2; // displays data in two columns
     int col_1 = vertical_menu ? 2 : 1;
     int col_2 = col_1 + column_width;
     int line = vertical_menu ? 0 : 0;
     bool small_mode = column_width < 20 ? true : false;
 
     // line 0: part name
-    fold_and_print(w_details, line, col_1, w_details->width, c_ltgreen,
+    fold_and_print(w_details, line, col_1, details_w, c_ltgreen,
                    part.name);
 
     // line 1: (column 1) durability   (column 2) damage mod
@@ -1639,7 +1641,7 @@ void veh_interact::display_details(const vpart_info &part)
                    small_mode ? _("Dur") : _("Durability"),
                    part.durability);
     fold_and_print(w_details, line+1, col_2, column_width, c_white,
-                   "%s: <color_ltgray>%d\%</color>",
+                   "%s: <color_ltgray>%d%%</color>",
                    small_mode ? _("Dmg") : _("Damage"),
                    part.dmg_mod);
 
@@ -1684,13 +1686,13 @@ void veh_interact::display_details(const vpart_info &part)
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     if ( part.fuel_type != "NULL" ) {
-        fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : w_details->width ), c_white,
+        fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ), c_white,
                        _("Charge: <color_ltgray>%s</color>"),
                       //part.has_flag("TURRET") ? _("Ammo") : _("Type"), part.fuel_type.c_str());
                        part.fuel_type.c_str());
     }
     if ( part.power != 0 ) {
-        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ), ( vertical_menu ? column_width : w_details->width ), c_white,
+        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ), ( vertical_menu ? column_width : details_w ), c_white,
                        _("Power: <color_ltgray>%d</color>"), //Battery
                        part.power);
     }
