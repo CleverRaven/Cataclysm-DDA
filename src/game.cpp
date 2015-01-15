@@ -13467,7 +13467,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
-        if( seen ) {
+        if( seen || u.sees( *c ) ) {
             draw();
         }
     }
