@@ -585,7 +585,7 @@ void veh_interact::do_install()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
 
-    std::array<std::string,7> tab_list = {_("All"),_("Cargo"),_("Light"),_("Util"),_("Hull"),_("Armor"),_("Other")};
+    std::array<std::string,7> tab_list = { {_("All"),_("Cargo"),_("Light"),_("Util"),_("Hull"),_("Armor"),_("Other")} };
     std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
     tab_filters[0] = [&](vpart_info) { return true; }; // All
     tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO); }; // Cargo
@@ -622,7 +622,9 @@ void veh_interact::do_install()
 
         sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
 
-        display_details(*sel_vpart_info);
+        if (sel_vpart_info != NULL ) {
+        	display_details(*sel_vpart_info);
+        }
         bool can_install = can_install_part(msg_width);
 
         const std::string action = main_context.handle_input();
@@ -1598,7 +1600,6 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
  */
 void veh_interact::display_details(const vpart_info &part)
 {
-    if( &part == NULL ) return;
 
     if (w_details == NULL) { // create details window first if required
 
