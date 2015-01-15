@@ -280,7 +280,7 @@ time_info get_time() noexcept {
     timeval tv;
     gettimeofday( &tv, nullptr );
 
-    auto const tt      = tv.tv_sec;
+    auto const tt      = time_t {tv.tv_sec};
     auto const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
