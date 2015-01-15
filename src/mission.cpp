@@ -100,9 +100,8 @@ void mission::assign( player &u )
         debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d", uid, player_id );
         return;
     }
-    u.active_missions.push_back( uid );
-    u.active_mission = u.active_missions.size() - 1;
     player_id = u.getID();
+    u.on_mission_assignment( *this );
     mission_start m_s;
     (m_s.*type->start)(this);
 }

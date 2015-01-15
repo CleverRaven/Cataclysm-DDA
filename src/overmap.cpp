@@ -1353,8 +1353,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // Target of current mission
     point target;
     bool has_target = false;
-    if (g->u.active_mission >= 0 && size_t(g->u.active_mission) < g->u.active_missions.size()) {
-        target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
+    const auto active_mission = g->u.get_active_mission();
+    if( active_mission != nullptr ) {
+        target = active_mission->target;
         has_target = target != overmap::invalid_point;
     }
     // seen status & terrain of center position

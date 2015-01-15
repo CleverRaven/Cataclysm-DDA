@@ -1839,14 +1839,7 @@ void game::wrap_up_mission(int id)
     if (miss == NULL) {
         return;
     }
-    u.completed_missions.push_back( id );
-    for( auto it = u.active_missions.begin(); it != u.active_missions.end();) {
-        if (*it == id) {
-            it = u.active_missions.erase(it);
-        } else {
-            it++;
-        }
-    }
+    u.on_mission_finished( *miss );
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
         if( item::count_by_charges( miss->type->item_id ) ) {
@@ -1873,15 +1866,7 @@ void game::fail_mission(int id)
         return;
     }
     miss->failed = true;
-    u.failed_missions.push_back( id );
-    for (std::vector<int>::iterator it = u.active_missions.begin();
-         it != u.active_missions.end();) {
-        if (*it == id) {
-            it = u.active_missions.erase(it);
-        } else {
-            it++;
-        }
-    }
+    u.on_mission_finished( *miss );
     mission_fail failfunc;
     (failfunc.*miss->type->fail)(miss);
 }
@@ -4690,13 +4675,13 @@ void game::list_missions()
         std::vector<int> umissions;
         switch (tab) {
         case 0:
-            umissions = u.active_missions;
+            umissions = u.get_active_missions();
             break;
         case 1:
-            umissions = u.completed_missions;
+            umissions = u.get_completed_missions();
             break;
         case 2:
-            umissions = u.failed_missions;
+            umissions = u.get_failed_missions();
             break;
         }
 
@@ -4727,7 +4712,7 @@ void game::list_missions()
         for (size_t i = 0; i < umissions.size(); i++) {
             mission *miss = find_mission(umissions[i]);
             nc_color col = c_white;
-            if (static_cast<int>(i) == u.active_mission && tab == 0) {
+            if( u.get_active_mission() == miss ) {
                 col = c_ltred;
             }
             if (selection == i) {
@@ -4789,7 +4774,7 @@ void game::list_missions()
                 selection--;
             }
         } else if (action == "CONFIRM") {
-            u.active_mission = selection;
+            u.set_active_mission( *find_mission( umissions[selection] ) );
             break;
         } else if (action == "QUIT") {
             break;
@@ -5190,8 +5175,9 @@ void game::draw_minimap()
     const int cursy = curs.y;
     bool drew_mission = false;
     point targ;
-    if (u.active_mission >= 0 && u.active_mission < (int)u.active_missions.size()) {
-        targ = find_mission(u.active_missions[u.active_mission])->target;
+    const auto active_mission = u.get_active_mission();
+    if( active_mission != nullptr ) {
+        targ = active_mission->target;
         if (targ == overmap::invalid_point) {
             drew_mission = true;
         }

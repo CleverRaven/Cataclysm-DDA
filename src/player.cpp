@@ -13342,3 +13342,43 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
         return amount <= 0;
     } );
 }
+
+void player::on_mission_assignment( const mission &new_mission )
+{
+    active_missions.push_back( new_mission.uid );
+    set_active_mission( new_mission );
+}
+
+void player::on_mission_finished( const mission &mission )
+{
+    if( mission.failed ) {
+        completed_missions.push_back( mission.uid );
+    } else {
+        failed_missions.push_back( mission.uid );
+    }
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.uid );
+    if( iter == active_missions.end() ) {
+        debugmsg( "completed mission %d was not in the active_missions list", mission.uid );
+    } else {
+        active_missions.erase( iter );
+    }
+}
+
+void player::set_active_mission( const mission &mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.uid );
+    if( iter == active_missions.end() ) {
+        debugmsg( "new active mission %d is not in the active_missions list", mission.uid );
+    } else {
+        active_mission = iter - active_missions.begin();
+    }
+}
+
+mission *player::get_active_mission() const
+{
+    const auto i = static_cast<size_t>( active_mission );
+    if( i < active_missions.size() ) {
+        return mission::find( active_missions[i] );
+    }
+    return nullptr;
+}
