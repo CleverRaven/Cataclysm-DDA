@@ -250,9 +250,9 @@ void monster::plan(const mfactions &factions)
         Creature *target = creature_from_index( closest );
         point dest = target->pos();
         auto att_to_target = attitude_to( *target );
-        if( !fleeing ) {
+        if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
             set_dest( dest.x, dest.y, selected_slope );
-        } else if( att_to_target == Attitude::A_HOSTILE ) {
+        } else if( fleeing ) {
             set_dest( posx() * 2 - dest.x, posy() * 2 - dest.y, selected_slope );
         }
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
