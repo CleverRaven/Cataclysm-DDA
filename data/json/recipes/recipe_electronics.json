@@ -1939,10 +1939,11 @@
   "book_learn": [[ "recipe_caseless", 8 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
-    [ [ "plastic_chunk", 3 ] ],
+    [ [ "plastic_chunk", 5 ] ],
     [ [ "superglue", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "element", 1 ] ],
+    [ [ "scrap", 2 ] ],
     [ [ "plut_cell", 1 ] ]
   ]
 },{
