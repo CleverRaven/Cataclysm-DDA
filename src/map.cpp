@@ -4962,7 +4962,6 @@ void map::spawn_monsters(bool ignore_sight)
                     int tries = 0;
                     int mx = i.posx, my = i.posy;
                     monster tmp(GetMType(i.type));
-                    tmp.faction_id = i.faction_id;
                     tmp.mission_id = i.mission_id;
                     if (i.name != "NONE") {
                         tmp.unique_name = i.name;

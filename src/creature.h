@@ -311,6 +311,7 @@ class Creature
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
+        virtual int hp_percentage() const = 0;
         virtual std::string get_material() const
         {
             return "flesh";
