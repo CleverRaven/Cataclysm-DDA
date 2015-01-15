@@ -106,21 +106,21 @@ float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) cons
     return INT_MAX;
 }
 
-// -2 returns player pos
-// -3 and less returns position of mon with index -(index + 3)
-// Positive returns position of NPC with index
+// -2 returns player
+// -3 and less returns mon with index -(index + 3)
+// Positive returns NPC with index
 // -1 shouldn't happen
-point position_from_index( const int index )
+Creature *creature_from_index( const int index )
 {
     if( index == -2 ) {
-        return g->u.pos();
+        return &g->u;
     } else if( index <= -3) {
-        return g->zombie( -3 - index ).pos();
+        return &g->zombie( -3 - index );
     } else if( index >= 0) {
-        return g->active_npc[index]->pos();
+        return g->active_npc[index];
     } else {
-        debugmsg( "position_from_index called on index -1" );
-        return point( -999, -999 );
+        debugmsg( "creature_from_index called on index -1" );
+        return &g->u;
     }
 }
 
@@ -135,7 +135,8 @@ void monster::plan(const mfactions &factions)
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
-    bool angers_when_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
+    bool angers_hostile_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
+    bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
 
@@ -153,8 +154,8 @@ void monster::plan(const mfactions &factions)
         }
     }
 
-    // If we can see, and we can see the player, move toward them or flee.
-    if( friendly == 0 && can_see() && sees( g->u, bresenham_slope ) ) {
+    // If we can see the player, move toward them or flee.
+    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
         dist = rate_target( g->u, bresenham_slope, electronic );
         if( is_fleeing( g->u ) ) {
             // Wander away.
@@ -165,7 +166,7 @@ void monster::plan(const mfactions &factions)
             closest = -2;
             selected_slope = bresenham_slope;
         }
-        if( angers_when_near && dist <= 5 ) {
+        if( angers_hostile_near && dist <= 5 ) {
             anger += 5;
         }
     }
@@ -184,7 +185,7 @@ void monster::plan(const mfactions &factions)
                     selected_slope = bresenham_slope;
             }
             fleeing = fleeing || fleeing_from;
-            if( angers_when_near && rating <= 5 ) {
+            if( angers_hostile_near && rating <= 5 ) {
                 anger += 5;
             }
         }
@@ -205,7 +206,7 @@ void monster::plan(const mfactions &factions)
                     closest = -3 - i;
                     selected_slope = bresenham_slope;
                 }
-                if( angers_when_near && rating <= 5 ) {
+                if( angers_hostile_near && rating <= 5 ) {
                     anger += 5;
                 }
             }
@@ -214,9 +215,10 @@ void monster::plan(const mfactions &factions)
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
+    auto myfaction = factions.find( faction->id )->second;
     swarms = swarms && closest == -1; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( int i : factions.find( faction->id )->second ) {
+        for( int i : myfaction ) {
             monster &mon = g->zombie( i );
             float rating = rate_target( mon, bresenham_slope, electronic );
             if( group_morale && rating <= 10 ) {
@@ -245,11 +247,19 @@ void monster::plan(const mfactions &factions)
     }
 
     if( closest != -1 ) {
-        point dest = position_from_index( closest );
+        Creature *target = creature_from_index( closest );
+        point dest = target->pos();
+        auto att_to_target = attitude_to( *target );
         if( !fleeing ) {
             set_dest( dest.x, dest.y, selected_slope );
-        } else {
+        } else if( att_to_target == Attitude::A_HOSTILE ) {
             set_dest( posx() * 2 - dest.x, posy() * 2 - dest.y, selected_slope );
+        }
+        if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
+            int hp_per = target->hp_percentage();
+            if( hp_per <= 70 ) {
+                anger += 10 - int( hp_per / 10 );
+            }
         }
     } else if( friendly > 0 && one_in(3)) {
             // Grow restless with no targets

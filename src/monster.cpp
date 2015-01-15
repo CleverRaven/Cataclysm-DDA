@@ -617,12 +617,6 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 check_fire = true;
                 break;
 
-            case MTRIG_HOSTILE_WEAK: // TODO: Move to plan() and make target mons too
-                if( g->u.hp_percentage() <= 70 ) {
-                    ret += 10 - int( g->u.hp_percentage() / 10 );
-                }
-                break;
-
             default:
                 break; // The rest are handled when the impetus occurs
         }
