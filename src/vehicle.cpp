@@ -4983,9 +4983,6 @@ void vehicle::aim_turrets()
     } else {
         am_itype = item::find_type( "charge_shot" );
     }
-    if( !am_itype->ammo ) {
-        am_itype = item::find_type( "fake_ammo" );
-    }
     const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
     int range = gun_data.range + ammo->range;
