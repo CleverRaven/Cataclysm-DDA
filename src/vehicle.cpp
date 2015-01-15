@@ -5157,7 +5157,8 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             } else {
                 charges = rng(1,4);
             }
-            if( charges > abs( parts[p].mode ) ) {
+            // mode is INT_MIN when aimed manually, do not use abs(INT_MIN) for charges!
+            if( charges > abs( parts[p].mode ) && target.first == target.second ) {
                 charges = abs( parts[p].mode ); // Currently only limiting, not increasing
             }
             if( charges > 4 ) {
