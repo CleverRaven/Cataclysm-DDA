@@ -1707,15 +1707,6 @@ int game::assign_mission_id()
     return ret;
 }
 
-void game::assign_mission(int id)
-{
-    u.active_missions.push_back(id);
-    u.active_mission = u.active_missions.size() - 1;
-    mission_start m_s;
-    mission *miss = find_mission(id);
-    (m_s.*miss->type->start)(miss);
-}
-
 npc *game::find_npc(int id)
 {
     return overmap_buffer.find_npc(id);

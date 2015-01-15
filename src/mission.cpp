@@ -90,6 +90,23 @@ int mission::reserve_random( const mission_origin origin, const point p, const i
     return mission::reserve_new( type, npc_id );
 }
 
+void mission::assign( player &u )
+{
+    if( player_id == u.getID() ) {
+        debugmsg( "strange: player is already assigned to mission %d", uid );
+        return;
+    }
+    if( player_id != -1 ) {
+        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d", uid, player_id );
+        return;
+    }
+    u.active_missions.push_back( uid );
+    u.active_mission = u.active_missions.size() - 1;
+    player_id = u.getID();
+    mission_start m_s;
+    (m_s.*type->start)(this);
+}
+
 std::string mission::name()
 {
     if (type == NULL) {

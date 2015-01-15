@@ -237,8 +237,6 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
-        /** Assigns an existing mission to the player. */
-        void assign_mission(int id);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();

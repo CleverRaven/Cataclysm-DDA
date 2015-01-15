@@ -237,6 +237,7 @@ class mission : public JsonSerializer, public JsonDeserializer
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
         int step;               // How much have we completed?
         mission_type_id follow_up;   // What mission do we get after this succeeds?
+        int player_id; // The id of the player that has accepted this mission.
 
         std::string name();
         using JsonSerializer::serialize;
@@ -264,7 +265,11 @@ class mission : public JsonSerializer, public JsonDeserializer
             good_fac_id = -1;
             bad_fac_id = -1;
             step = 0;
+            player_id = -1;
         }
+
+    /** Assigns the mission to the player. */
+    void assign( player &u );
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
