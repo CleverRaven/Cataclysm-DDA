@@ -4938,7 +4938,8 @@ void vehicle::aim_turrets()
     for( int p : turrets ) {
         std::string aimed;
         bool en;
-        if( get_items(p).front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
+        auto items = get_items( p );
+        if( items.front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
             aimed = _("No ammo");
             en = false;
         } else {
@@ -4976,8 +4977,9 @@ void vehicle::aim_turrets()
     turret_pos = global_pos() + parts[turret_index].precalc[0];
 
     itype *am_itype;
-    if( get_items( turret_index ).front().charges > 0 ) {
-        am_itype = get_items( turret_index ).front().type;
+    auto items = get_items( turret_index );
+    if( items.front().charges > 0 ) {
+        am_itype = items.front().type;
     } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
         am_itype = item::find_type( part_info( turret_index ).fuel_type );
     } else {
@@ -5187,25 +5189,26 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             drain( amt, (int)charges_consumed );
         }
     } else {
-        if( get_items(p).empty() ) {
+        auto items = get_items( p );
+        if( items.empty() ) {
             return false;
         }
-        itype *am_type = get_items(p).front().type;
-        if( !am_type->ammo || am_type->ammo->type != amt || get_items(p).front().charges < 1 ) {
+        itype *am_type = items.front().type;
+        if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
             return false;
         }
-        if( charges > get_items(p).front().charges ) {
-            charges = get_items(p).front().charges;
+        if( charges > items.front().charges ) {
+            charges = items.front().charges;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
-            if( charges_consumed >= get_items(p).front().charges ) {
-                get_items(p).erase( get_items(p).begin() );
+            if( charges_consumed >= items.front().charges ) {
+                items.erase( items.begin() );
             } else {
-                get_items(p).front().charges -= charges_consumed;
+                items.front().charges -= charges_consumed;
             }
         }
     }
