@@ -1016,7 +1016,7 @@ void vehicle::use_controls()
     if( camera_on || ( has_camera && has_camera_control ) ) {
         options_choice.push_back( toggle_camera );
         options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
-                                                             _("Turn on camera system"), 'm' ) );
+                                                             _("Turn on camera system"), 'M' ) );
     }
 
     options_choice.push_back(control_cancel);
