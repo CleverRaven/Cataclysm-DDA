@@ -2219,7 +2219,7 @@
             "ter_set": "t_rock_floor",
             "items": [
                 { "item": "rock", "amount": 7, "minamount": 3 },
-                { "item": "material_limestone", "amount": 25, "minamount": 0, "chance": 80 }
+                { "item": "material_limestone", "amount": 25, "minamount": 10, "chance": 80 }
             ]
         }
     },{
