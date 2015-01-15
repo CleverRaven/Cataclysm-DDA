@@ -6,17 +6,17 @@
 #include "item.h"
 #include "item_group.h"
 #include "veh_interact.h"
-#include <fstream>
-#include <sstream>
-#include <stdlib.h>
-#include <set>
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
-#include "helper.h"
+
+#include <fstream>
+#include <sstream>
+#include <stdlib.h>
+#include <set>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

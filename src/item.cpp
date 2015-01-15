@@ -10,12 +10,12 @@
 #include "item_group.h"
 #include "options.h"
 #include "uistate.h"
-#include "helper.h" //to_string_int
 #include "messages.h"
 #include "disease.h"
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "compatibility.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1038,7 +1038,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         if ((tool->max_charges)!=0) {
             std::string charges_line = _("Charges"); //;
-            dump->push_back(iteminfo("TOOL",charges_line+ ": " + helper::to_string_int(charges)));
+            dump->push_back(iteminfo("TOOL",charges_line+ ": " + std::to_string(charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?

@@ -7,7 +7,6 @@
 #include "options.h"
 #include "auto_pickup.h"
 #include "debug.h"
-#include "helper.h"
 #include "editmap.h"
 #include "map.h"
 #include "output.h"
@@ -16,6 +15,7 @@
 #include "trap.h"
 #include "mapdata.h"
 #include "overmapbuffer.h"
+#include "compatibility.h"
 
 #include <fstream>
 #include <sstream>
@@ -1241,8 +1241,8 @@ int editmap::edit_itm()
                             intval = (int)it->light.width;
                             break;
                     }
-                    int retval = helper::to_int (
-                                     string_input_popup( "set: ", 20, helper::to_string_int(  intval ) )
+                    int retval = std::stoi (
+                                     string_input_popup( "set: ", 20, std::to_string(  intval ) )
                                  );
                     if ( intval != retval ) {
                         if (imenu.ret == imenu_bday ) {

@@ -16,7 +16,6 @@
 #include "map.h"
 #include "uistate.h"
 #include "item_group.h"
-#include "helper.h"
 #include "json.h"
 #include "artifact.h"
 #include "overmapbuffer.h"

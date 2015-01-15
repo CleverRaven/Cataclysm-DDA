@@ -220,6 +220,7 @@
 		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
+        <Unit filename="src/compatibility.h" />
 		<Unit filename="src/computer.cpp" />
 		<Unit filename="src/computer.h" />
 		<Unit filename="src/construction.cpp" />
@@ -264,8 +265,6 @@
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />
-		<Unit filename="src/helper.cpp" />
-		<Unit filename="src/helper.h" />
 		<Unit filename="src/iexamine.cpp" />
 		<Unit filename="src/iexamine.h" />
 		<Unit filename="src/init.cpp" />

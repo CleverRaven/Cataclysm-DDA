@@ -4,12 +4,11 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "uistate.h"
-#include "helper.h"
 #include "auto_pickup.h"
 #include "messages.h"
 #include "player_activity.h"
-
 #include "advanced_inv.h"
+#include "compatibility.h"
 
 #include <map>
 #include <set>
@@ -156,10 +155,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     if( pane.area == AIM_INVENTORY ) {
         //right align
         int hrightcol = columns -
-                        helper::to_string_int( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
-                        helper::to_string_int( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        helper::to_string_int( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        helper::to_string_int( g->u.volume_capacity() - 2 ).length() - 1; //"xxx|"
+                        std::to_string( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
+                        std::to_string( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
+                        std::to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
+                        std::to_string( g->u.volume_capacity() - 2 ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
@@ -1632,8 +1631,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ), amount );
         }
         const long possible_max = std::min( input_amount, amount );
-        amount = helper::to_int( string_input_popup( popupmsg, 20,
-                                 helper::to_string_int( possible_max ),
+        amount = std::stoi( string_input_popup( popupmsg, 20,
+                                 std::to_string( possible_max ),
                                  "", "", -1, true ) );
         if( amount <= 0 ) {
             return false;
