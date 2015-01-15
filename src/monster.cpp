@@ -32,7 +32,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- faction_id = -1;
+ faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -60,7 +60,7 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
- faction_id = -1;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -89,7 +89,7 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction_id = -1;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -358,7 +358,7 @@ bool monster::digging() const
 int monster::sight_range( const int light_level ) const
 {
     if( !can_see() ) {
-        return 0;
+        return 1;
     }
 
     int range = ( light_level * type->vision_day ) + 
@@ -455,12 +455,11 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
         if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( monfaction() == m->monfaction() ) ) {
+            ( faction == m->faction ) ) {
             // Currently friendly means "friendly to the player" (on same side as player),
             // so if both monsters are friendly (towards the player), they are friendly towards
             // each other.
             // Monsters are also friendly to own species
-            // Player-friendly monsters are a separate faction
             return A_FRIENDLY;
         } else if( morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
@@ -565,15 +564,9 @@ monster_attitude monster::attitude(player *u) const
     return MATT_ATTACK;
 }
 
-int monster::monfaction() const
+int monster::hp_percentage() const
 {
-    if( friendly != 0 ) {
-        return -1;
-    } else if( !type->species_id.empty() ) {
-        return *type->species_id.begin();
-    } else {
-        return 0;
-    }
+    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -619,26 +612,9 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 check_meat = true;
                 break;
 
-            case MTRIG_PLAYER_CLOSE:
-                if (rl_dist( pos(), g->u.pos() ) <= 5) {
-                    ret += 5;
-                }
-                for (auto &i : g->active_npc) {
-                    if (rl_dist( pos(), i->pos() ) <= 5) {
-                        ret += 5;
-                    }
-                }
-                break;
-
             case MTRIG_FIRE:
                 check_terrain = true;
                 check_fire = true;
-                break;
-
-            case MTRIG_PLAYER_WEAK:
-                if (g->u.hp_percentage() <= 70) {
-                    ret += 10 - int(g->u.hp_percentage() / 10);
-                }
                 break;
 
             default:

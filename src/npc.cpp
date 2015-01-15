@@ -1871,9 +1871,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, line++, column, c_white, _("NPC: %s"), name.c_str());
-    if (weapon.type->id == "null") {
-        mvwprintz(w, line++, column, c_red, _("Wielding %s"), weapon.tname().c_str());
-    } else {
+    if( !weapon.is_null() ) {
         mvwprintz(w, line++, column, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
     std::string wearing;
@@ -1908,7 +1906,10 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 std::string npc::short_description() const
 {
     std::stringstream ret;
-    ret << _("Wielding: ") << weapon.tname() << ";   " << _("Wearing: ");
+    if( !weapon.is_null() ) {
+        ret << _("Wielding: ") << weapon.tname() << ";   ";
+    }
+    ret << _("Wearing: ");
     bool first = true;
     for (auto &i : worn) {
         if (!first) {

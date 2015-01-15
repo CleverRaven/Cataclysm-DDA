@@ -181,14 +181,18 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
         // the player will see them always.
         return is_player();
     }
+
     const auto p = dynamic_cast< const player* >( &critter );
     if( p != nullptr && p->is_invisible() ) {
         return false;
     }
+
     int cx = critter.xpos();
     int cy = critter.ypos();
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    if( ( wanted_range > 1 && critter.digging() ) ||
+    if( wanted_range <= 1 ) {
+        return true;
+    } else if( ( wanted_range > 1 && critter.digging() ) ||
         ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
         return false;
     }

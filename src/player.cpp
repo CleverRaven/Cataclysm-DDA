@@ -5318,7 +5318,7 @@ void player::hp_convert(hp_part hpart, body_part &bp)
     }
 }
 
-int player::hp_percentage()
+int player::hp_percentage() const
 {
  int total_cur = 0, total_max = 0;
 // Head and torso HP are weighted 3x and 2x, respectively
