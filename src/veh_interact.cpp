@@ -1606,19 +1606,21 @@ void veh_interact::display_details(const vpart_info &part)
 
     if (w_details == NULL) { // create details window first if required
 
-        if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
-            for( int i = 0; i < stats_h; i++) {
-                mvwhline(w_stats, i, 34, ' ', stats_w - 34);
-            }
-            wrefresh(w_stats);
-        }
-
         // covers right part of w_name and w_stats in vertical/hybrid, lower block of w_stats in horizontal mode
-        const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + 7;
+        const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + stats_h - 7;
         const int details_x = vertical_menu ? getbegx(w_list) : getbegx(w_stats);
 
         const int details_h = vertical_menu ? 6 : 7; // 6 lines in vertical/hybrid, 7 lines in horizontal mode
         const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
+
+        if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
+            for( int i = 0; i < stats_h; i++) {
+                mvwhline(w_stats, i, 34, ' ', stats_w - 34);
+            }
+        } else { // clear one line above w_details in horizontal mode to make sure it's separated from stats text
+            mvwhline(w_stats, details_y - getbegy(w_stats) - 1, 0, ' ', stats_w);
+        }
+        wrefresh(w_stats);
 
         w_details = newwin(details_h, details_w, details_y, details_x);
     }
@@ -1664,17 +1666,25 @@ void veh_interact::display_details(const vpart_info &part)
 
     // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
     if ( part.size > 0 ) {
-        bool part_is_light_source = part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) || part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
-                                    part.has_flag(VPFLAG_DOME_LIGHT) || part.has_flag(VPFLAG_AISLE_LIGHT) ||
-                                    part.has_flag(VPFLAG_EVENTURN) || part.has_flag(VPFLAG_ODDTURN);
-        std::string label = small_mode ? _("Vol") : part.has_flag(VPFLAG_CARGO) ? _("Cargo Volume") :
-                            part.has_flag(VPFLAG_FUEL_TANK) ? _("Volume") :
-                            part.has_flag(VPFLAG_WHEEL) ? _("Wheel Size") :
-                            part.has_flag(VPFLAG_SEATBELT) ? _("Seatbelt Str") :
-                            part.has_flag("MUFFLER") ? _("Muffler Str") :
-                            part.has_flag("HORN") ? _("Noise") :
-                            part_is_light_source ? _("Light Str") :
-                            _("Size");
+
+        std::string label;
+        if ( part.has_flag(VPFLAG_CARGO) || part.has_flag(VPFLAG_FUEL_TANK) ) {
+            label = small_mode ? _("Cap") : _("Capacity");
+        } else if ( part.has_flag(VPFLAG_WHEEL) ){
+            label = small_mode ? _("Size") : _("Wheel Size");
+        } else if ( part.has_flag(VPFLAG_SEATBELT) || part.has_flag("MUFFLER") ) {
+            label = small_mode ? _("Str") : _("Strength");
+        } else if ( part.has_flag("HORN") ) {
+            label = _("Noise");
+        } else if ( part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||
+                    part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
+                    part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||
+                    part.has_flag(VPFLAG_ODDTURN)) {
+            label = _("Light");
+        } else {
+            label = small_mode ? _("Cap") : _("Capacity");
+        }
+
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
                        (label + ": <color_ltgray>%d</color>").c_str(),
                        part.size);
