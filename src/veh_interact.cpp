@@ -614,16 +614,19 @@ void veh_interact::do_install()
         display_list(pos, tab_vparts);
 
         // draw tab menu
+        int tab_x = 0;
         for( size_t i=0; i < tab_list.size(); i++ ){
-            draw_subtab(w_list, 1+i*2, tab_list[i].substr(0,1), tab == i, false); // only display first letter for each tab
+            std::string tab_name = (tab == i) ? tab_list[i] : tab_list[i].substr(0,1); // full name for selected tab
+            tab_x += (tab == i); // add a space before selected tab
+            draw_subtab(w_list, tab_x, tab_name, tab == i, false);
+            tab_x += ( 1 + tab_name.length() + (tab == i) ); // one space padding and add a space after selected tab
         }
-        mvwprintz(w_list, 0, list_w - tab_list[tab].length(), c_white, tab_list[tab].c_str()); // show full name of tab
         wrefresh(w_list);
 
         sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
 
         if (sel_vpart_info != NULL ) {
-        	display_details(*sel_vpart_info);
+            display_details(*sel_vpart_info);
         }
         bool can_install = can_install_part(msg_width);
 

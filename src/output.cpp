@@ -1293,11 +1293,11 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
 
     mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
-    if (bSelected && bDecorate) {
-        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
-        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+    if (bSelected) {
+        mvwputch(w, 0, iOffsetX - bDecorate,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + bDecorate, h_ltgray, '>');
 
-        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+        for (int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++) {
             mvwputch(w, 1, i, c_black, ' ');
         }
     }
