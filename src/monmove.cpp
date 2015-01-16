@@ -958,7 +958,8 @@ void monster::stumble(bool moved)
            && g->m.has_flag("SWIMMABLE", nx, ny)
            && !g->m.has_flag("SWIMMABLE", posx(), posy())) &&
        (g->u.posx != nx || g->u.posy != ny) &&
-       (g->mon_at(nx, ny) == -1)) {
+       (g->mon_at(nx, ny) == -1) &&
+       (g->npc_at(nx, ny) == -1) ) {
     point tmp(nx, ny);
     valid_stumbles.push_back(tmp);
    }

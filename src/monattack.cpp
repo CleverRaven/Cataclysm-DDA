@@ -159,7 +159,7 @@ void mattack::rattle(monster *z, int index)
 {
     // TODO: Let it rattle at non-player friendlies
     const int min_dist = z->friendly != 0 ? 1 : 4;
-    Creature *target = z->attack_target();
+    Creature *target = &g->u; // Can't use attack_target - the snake has no target
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > min_dist || 
         !z->sees( *target ) ) {
