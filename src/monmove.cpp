@@ -215,7 +215,8 @@ void monster::plan(const mfactions &factions)
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    auto myfaction = factions.find( faction->id )->second;
+    int myfactionid = friendly == 0 ? faction->id : -1;
+    auto myfaction = factions.find( myfactionid )->second;
     swarms = swarms && closest == -1; // Only swarm if we have no target
     if( group_morale || swarms ) {
         for( int i : myfaction ) {
