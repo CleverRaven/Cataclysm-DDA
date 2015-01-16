@@ -781,6 +781,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
             }
         }
     }
+    target.check_dead_state();
 
     if (is_hallucination()) {
         if(one_in(7)) {

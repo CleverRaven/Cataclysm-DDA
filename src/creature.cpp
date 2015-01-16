@@ -405,7 +405,6 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     on_gethit(source, bp_hit, d); // trigger on-gethit events
     dealt_dam = deal_damage(source, bp_hit, d);
     dealt_dam.bp_hit = bp_hit;
-    check_dead_state();
 }
 
 // TODO: check this over, see if it's right
