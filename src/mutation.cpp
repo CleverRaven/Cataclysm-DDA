@@ -701,7 +701,6 @@ void player::mutate_towards(std::string mut)
             remove_mutation(removed);
             cancel.erase(cancel.begin() + i);
             i--;
-            return;
         }
     }
 
