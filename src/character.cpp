@@ -4,11 +4,11 @@
 Character::Character()
 {
     Creature::set_speed_base(100);
-};
+}
 
 Character::~Character()
 {
-};
+}
 
 field_id Character::bloodType() const
 {
@@ -95,7 +95,7 @@ bool Character::move_effects()
     if (has_effect("beartrap")) {
         /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
            allow normal players two options: removal of the limb or removal of the trap from the ground
-           (at which point the player could later remove it from the leg with the right tools). 
+           (at which point the player could later remove it from the leg with the right tools).
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
         if(x_in_y(get_str(), 100)) {
@@ -142,7 +142,7 @@ bool Character::move_effects()
         }
     }
     // Below this point are things that allow for movement if they succeed
-    
+
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {

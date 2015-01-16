@@ -55,7 +55,7 @@ trap_id trapfind(const std::string id)
         return 0;
     }
     return traplist[trapmap[id]]->loadid;
-};
+}
 
 bool trap::detect_trap(const player &p, int x, int y) const
 {

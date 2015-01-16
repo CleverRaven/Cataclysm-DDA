@@ -306,7 +306,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     return 1;
 }
 
-consume_drug_iuse::~consume_drug_iuse() {};
+consume_drug_iuse::~consume_drug_iuse() {}
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -390,7 +390,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     return it->type->charges_to_use();
 }
 
-delayed_transform_iuse::~delayed_transform_iuse() {};
+delayed_transform_iuse::~delayed_transform_iuse() {}
 
 iuse_actor *delayed_transform_iuse::clone() const
 {
@@ -418,7 +418,7 @@ long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
     return iuse_transform::use( p, it, t, pos );
 }
 
-place_monster_iuse::~place_monster_iuse() {};
+place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
@@ -516,7 +516,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {};
+ups_based_armor_actor::~ups_based_armor_actor() {}
 
 iuse_actor *ups_based_armor_actor::clone() const
 {
@@ -580,7 +580,7 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
 }
 
 
-pick_lock_actor::~pick_lock_actor() {};
+pick_lock_actor::~pick_lock_actor() {}
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -674,7 +674,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
 }
 
 
-reveal_map_actor::~reveal_map_actor() {};
+reveal_map_actor::~reveal_map_actor() {}
 
 iuse_actor *reveal_map_actor::clone() const
 {

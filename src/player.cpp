@@ -12117,7 +12117,7 @@ int player::warmth(body_part bp) const
     int ret = 0, warmth = 0;
 
     // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 && 
+    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 &&
         ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
         ret += bestwarmth( worn, "POCKETS" );
     }
@@ -13257,7 +13257,7 @@ bool player::uncanny_dodge()
             add_msg( _("Time seems to slow down and you instinctively dodge!") );
         } else if( seen ) {
             add_msg( _("%s dodges... so fast!"), this->disp_name().c_str() );
-            
+
         }
         return true;
     }
@@ -13637,28 +13637,28 @@ void player::add_msg_if_player(const char* msg, ...) const
     va_start(ap, msg);
     Messages::vadd_msg(msg, ap);
     va_end(ap);
-};
+}
 void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
     Messages::vadd_msg(player_str, ap);
     va_end(ap);
-};
+}
 void player::add_msg_if_player(game_message_type type, const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(type, msg, ap);
     va_end(ap);
-};
+}
 void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
     Messages::vadd_msg(type, player_str, ap);
     va_end(ap);
-};
+}
 
 bool player::knows_trap(int x, int y) const
 {
