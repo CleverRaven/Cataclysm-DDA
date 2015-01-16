@@ -3543,7 +3543,9 @@ void mattack::flesh_golem(monster *z, int index)
         return;
     }
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s swings a massive claw at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( g->u.sees( *z ) ) {
+        add_msg(_("The %s swings a massive claw at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge() ) {
@@ -3588,6 +3590,7 @@ void mattack::lunge(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
     if( dist > 1 ) {
         if (one_in(5)) {
             if( dist > 4 || !z->sees( *target ) ) {
@@ -3595,12 +3598,16 @@ void mattack::lunge(monster *z, int index)
             }
             z->moves += 200;
             z->reset_special(index); // Reset timer
-            add_msg(_("The %s lunges for %s!"), z->name().c_str(), target->disp_name().c_str() );
+            if( seen ) {
+                add_msg(_("The %s lunges for %s!"), z->name().c_str(), target->disp_name().c_str() );
+            }
         }
         return;
     }
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s lunges straight into %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( seen ) {
+        add_msg(_("The %s lunges straight into %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge()) {
@@ -4053,9 +4060,6 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
@@ -4063,9 +4067,12 @@ void mattack::bio_op_takedown(monster *z, int index)
         return;
     }
 
+    bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player* >( target );
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s mechanically grabs at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( seen ) {
+        add_msg(_("The %s mechanically grabs at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge() ) {
@@ -4090,7 +4097,9 @@ void mattack::bio_op_takedown(monster *z, int index)
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) ); // Two hits - "leg" and torso
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
         target->add_effect("downed", 3);
-        add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+        if( seen ) {
+            add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+        }
         return;
     }
     // Yes, it has the CQC bionic.

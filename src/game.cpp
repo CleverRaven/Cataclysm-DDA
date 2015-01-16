@@ -13371,6 +13371,11 @@ void game::plswim(int x, int y)
 
 void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)
 {
+    if( c == nullptr ) {
+        debugmsg( "game::fling_creature invoked on null target" );
+        return;
+    }
+
     int steps = 0;
     const bool is_u = (c == &u);
     int dam1, dam2;
@@ -13383,6 +13388,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     int x = c->xpos();
     int y = c->ypos();
     while (range > 0) {
+        bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
         x = c->xpos() + tdir.dx();
         y = c->ypos() + tdir.dy();
@@ -13427,19 +13433,13 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             float velocity_difference = previous_velocity - flvel;
             dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
             if( thru ) {
-                if( is_u ) {
-                    add_msg(_("You are slammed through the %s for %d damage!"), dname.c_str(), dam1);
-                } else {
-                    //~ first %s is the monster name ("the zombie") or a npc name.
-                    add_msg(_("%s is slammed through the %s!"), c->disp_name().c_str(), dname.c_str());
-                }
+                c->add_msg_player_or_npc( _("You are slammed through the %s for %d damage!"),
+                                          _("The <npcname> is slammed through the %s!"),
+                                          dname.c_str(), dam1 );
             } else {
-                if( is_u ) {
-                    add_msg(_("You are slammed against the %s for %d damage!"), dname.c_str(), dam1);
-                } else {
-                    //~ first %s is the monster name ("the zombie") or a npc name.
-                    add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
-                }
+                c->add_msg_player_or_npc( _("You are slammed against the %s for %d damage!"),
+                                          _("The <npcname> is slammed against the %s!"),
+                                          dname.c_str(), dam1 );
             }
             if( p != nullptr ) {
                 p->hitall(dam1, 40);
@@ -13467,7 +13467,9 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
-        draw();
+        if( seen || u.sees( *c ) ) {
+            draw();
+        }
     }
 
     if (!m.has_flag("SWIMMABLE", x, y)) {
