@@ -41,6 +41,7 @@
 #include "start_location.h"
 #include "debug.h"
 #include "catalua.h"
+#include "platform_win.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -55,7 +56,7 @@
 //TODO replace these includes with filesystem.h
 #include <sys/stat.h>
 
-#ifdef _MSC_VER
+#ifdef CATA_COMPILER_MSVC
 #include "wdirent.h"
 #include <direct.h>
 #else
@@ -63,12 +64,9 @@
 #include <dirent.h>
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
+#if (defined CATA_OS_WINDOWS)
 #include <windows.h>
-#include <tchar.h>
+#include <tchar.h> //maybe not needed
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -281,7 +279,7 @@ void game::init_ui()
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     // First get TERMX, TERMY
-#if (defined TILES || defined _WIN32 || defined __WIN32__)
+#if (defined TILES || defined CATA_OS_WINDOWS)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 #else
@@ -4583,7 +4581,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
         }
     }
 
-#if (defined _WIN32 || defined __WIN32__)
+#if (defined CATA_OS_WINDOWS)
     for (std::vector<std::string>::iterator file = file_paths.begin();
          file != file_paths.end(); ++file) {
         DeleteFile(file->c_str());
@@ -4633,7 +4631,7 @@ void game::write_memorial_file(std::string sLastWords)
     //Open the file first
     DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
     if (!dir) {
-#if (defined _WIN32 || defined __WIN32__)
+#if (defined CATA_OS_WINDOWS)
         mkdir(FILENAMES["memorialdir"].c_str());
 #else
         mkdir(FILENAMES["memorialdir"].c_str(), 0777);

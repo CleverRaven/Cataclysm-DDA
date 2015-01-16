@@ -1,18 +1,13 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#if (defined _WIN32 || defined WINDOWS)
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500
+#include "platform_win.h"
+
+#if defined(CATA_OS_WINDOWS)
+#   include "windows.h"
+#   include "mmsystem.h"
 #endif
-#define WIN32_LEAN_AND_MEAN
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-//#define VC_EXTRALEAN
-#include "windows.h"
-#include "mmsystem.h"
-#endif
+
 #include <stdio.h>
 #include <map>
 #include <vector>

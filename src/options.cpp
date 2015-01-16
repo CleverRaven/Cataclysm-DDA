@@ -7,6 +7,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "platform_win.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -181,7 +182,7 @@ bool cOpt::is_hidden()
 
     case COPT_POSIX_CURSES_HIDE:
         // Check if we on windows and using wincuses.
-#if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
+#if ((defined TILES && defined SDLTILES) || defined CATA_OS_WINDOWS)
         return false;
 #else
         return true;
@@ -1143,7 +1144,7 @@ void show_options(bool ingame)
 
         wrefresh(w_options_header);
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined SDLTILES || defined CATA_OS_WINDOWS)
         if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
             int new_terminal_x, new_window_width;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());

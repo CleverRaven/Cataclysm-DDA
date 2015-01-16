@@ -2,6 +2,7 @@
 #include "path_info.h"
 #include "output.h"
 #include "filesystem.h"
+#include "platform_win.h"
 #include <time.h>
 #include <cstdlib>
 #include <cstdarg>
@@ -10,11 +11,11 @@
 #include <streambuf>
 #include <sys/stat.h>
 
-#ifndef _MSC_VER
+#ifndef CATA_COMPILER_MSVC
 #include <sys/time.h>
 #endif
 
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined CATA_OS_WINDOWS || defined __CYGWIN__)
 #include <execinfo.h>
 #include <stdlib.h>
 #endif
@@ -309,7 +310,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         debugFile.file << ": ";
 
         // Backtrace on error.
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined CATA_OS_WINDOWS || defined __CYGWIN__)
         if( lev == D_ERROR ) {
             int count = backtrace( tracePtrs, TRACE_SIZE );
             char **funcNames = backtrace_symbols( tracePtrs, count );

@@ -1,6 +1,7 @@
 #include "path_info.h"
 #include "options.h"
 #include "filesystem.h"
+#include "platform_win.h"
 #include <cstdlib>
 #include <locale.h>
 
@@ -27,7 +28,7 @@ void PATH_INFO::init_user_dir(const char *ud)
 
     if (dir.empty()) {
         const char *user_dir;
-#if (defined _WIN32 || defined WINDOW)
+#if (defined CATA_OS_WINDOWS)
         user_dir = getenv("LOCALAPPDATA");
         // On Windows userdir without dot
         dir = std::string(user_dir) + "/cataclysm-dda/";

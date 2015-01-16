@@ -1,4 +1,5 @@
-#if (defined _WIN32 || defined WINDOWS || defined MINGW) && ! defined CROSS_LINUX && !defined _MSC_VER
+#include "platform_win.h"
+#if (defined CATA_OS_WINDOWS || defined MINGW) && ! defined CROSS_LINUX && !defined CATA_COMPILER_MSVC
 
 #ifndef VERSION
 #define VERSION "0.B" // FIXME: automatically generate VERSION based on git

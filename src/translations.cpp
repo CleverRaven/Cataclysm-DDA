@@ -1,4 +1,5 @@
 #include "translations.h"
+#include "platform_win.h"
 
 #include <string>
 #ifdef LOCALIZE
@@ -39,7 +40,7 @@ void set_language(bool reload_options)
     std::string lang_opt = OPTIONS["USE_LANG"].getValue();
     if (lang_opt != "") { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if (defined _WIN32 || defined WINDOWS)
+#if (defined CATA_OS_WINDOWS)
         std::string lang_env = "LANGUAGE=" + lang_opt;
         if (_putenv(lang_env.c_str()) != 0) {
             DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
@@ -59,7 +60,7 @@ void set_language(bool reload_options)
         }
     }
 
-#if (defined _WIN32 || defined WINDOWS)
+#if (defined CATA_OS_WINDOWS)
     // Use the ANSI code page 1252 to work around some language output bugs.
     if (setlocale(LC_ALL, ".1252") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";

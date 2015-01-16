@@ -1,8 +1,10 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include "platform_win.h"
+
 // make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
-#if !(defined _WIN32 || defined WINDOWS)
+#if !defined(CATA_OS_WINDOWS)
 #include <wordexp.h>
 #endif
 
