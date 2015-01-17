@@ -643,7 +643,11 @@ void veh_interact::do_repair()
             int xOffset = veh->parts[p].mount.y + ddy;
             int yOffset = -(veh->parts[p].mount.x + ddx);
 
-            move_cursor(xOffset, yOffset);
+            if (vertical_menu) {
+                move_cursor(xOffset, yOffset);
+            } else {
+                move_cursor(-yOffset, xOffset);
+            }
         } else {
             mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts on this vehicle."));
             wrefresh (w_msg);
