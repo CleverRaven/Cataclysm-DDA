@@ -648,7 +648,7 @@ void veh_interact::do_install()
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
-                 if( 0 <= selected_shape && selected_shape < shapes.size() ) {
+                 if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
                     sel_vpart_info = shapes[selected_shape];
                     sel_cmd = 'i';
                     return;
