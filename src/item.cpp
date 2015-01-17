@@ -1038,7 +1038,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         if ((tool->max_charges)!=0) {
             std::string charges_line = _("Charges"); //;
-            dump->push_back(iteminfo("TOOL",charges_line+ ": " + std::to_string(charges)));
+            dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?

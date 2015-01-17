@@ -1242,7 +1242,7 @@ int editmap::edit_itm()
                             break;
                     }
                     int retval = std::stoi (
-                                     string_input_popup( "set: ", 20, std::to_string(  intval ) )
+                                     string_input_popup( "set: ", 20, to_string(  intval ) )
                                  );
                     if ( intval != retval ) {
                         if (imenu.ret == imenu_bday ) {

@@ -465,7 +465,7 @@ void game::wishitem( player *p, int x, int y)
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = std::stoi(
-                             string_input_popup(_("How many?"), 20, std::to_string( amount ),
+                             string_input_popup(_("How many?"), 20, to_string( amount ),
                                                 granted.tname()));
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {

@@ -155,10 +155,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     if( pane.area == AIM_INVENTORY ) {
         //right align
         int hrightcol = columns -
-                        std::to_string( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
-                        std::to_string( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        std::to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        std::to_string( g->u.volume_capacity() - 2 ).length() - 1; //"xxx|"
+                        to_string( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
+                        to_string( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
+                        to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
+                        to_string( g->u.volume_capacity() - 2 ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
@@ -1632,7 +1632,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         }
         const long possible_max = std::min( input_amount, amount );
         amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 std::to_string( possible_max ),
+                                 to_string( possible_max ),
                                  "", "", -1, true ) );
         if( amount <= 0 ) {
             return false;

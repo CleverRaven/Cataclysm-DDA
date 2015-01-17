@@ -140,7 +140,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                           max),
                                  max);
         amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 std::to_string(max), "", "", -1, true)
+                                 to_string(max), "", "", -1, true)
                                );
         if (amount <= 0) {
             return;
@@ -175,7 +175,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                              max),
                                              max);
         amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 std::to_string(max), "", "", -1, true)
+                                 to_string(max), "", "", -1, true)
                                );
         if (amount <= 0) {
             return;
@@ -229,7 +229,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                              max),
                                              max);
         amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 std::to_string(max), "", "", -1, true)
+                                 to_string(max), "", "", -1, true)
                                );
         if (amount <= 0) {
             return;
@@ -2352,7 +2352,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
     long amount = std::stoi( string_input_popup( popupmsg, 20,
-                                  std::to_string(max_amount),
+                                  to_string(max_amount),
                                   "", "", -1, true) );
     if (amount <= 0 || amount > max_amount) {
         return;
@@ -2737,7 +2737,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     amenu.addentry(refund, true, 'r', str_to_illiterate_str(_("Refund cash.")));
 
     std::string gaspumpselected = str_to_illiterate_str(_("Current gas pump: ")) +
-                                  std::to_string( uistate.ags_pay_gas_selected_pump + 1 );
+                                  to_string( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry(0, false, -1, gaspumpselected);
     amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str(_("Choose a gas pump.")));
 
@@ -2763,7 +2763,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
         for (int i = 0; i < pumpCount; i++) {
             amenu.addentry( i + 1, true, -1,
-                            str_to_illiterate_str(_("Pump ")) + std::to_string(i + 1) );
+                            str_to_illiterate_str(_("Pump ")) + to_string(i + 1) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -2810,7 +2810,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                                             "How many gas units to buy? Max:%d units. (0 to cancel) ",
                                             max), max);
         long amount = std::stoi(string_input_popup(popupmsg, 20,
-                                     std::to_string(max), "", "", -1, true)
+                                     to_string(max), "", "", -1, true)
                                     );
         if (amount <= 0) {
             return;

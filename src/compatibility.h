@@ -22,7 +22,6 @@
 #include <cstdio>
 #include <limits>
 
-namespace std {
 inline std::string to_string(long const n)
 {
     //- and \0
@@ -40,8 +39,8 @@ inline std::string to_string(double const n)
     std::snprintf(buffer, size, "%f");
     return buffer;
 }
-
-} //namespace std
+#else //all other platforms
+using std::to_string;
 #endif //CATA_NO_CPP11_STRING_CONVERSIONS
 
 #endif //CATA_COMPATIBILITY_H
