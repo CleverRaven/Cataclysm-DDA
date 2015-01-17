@@ -3,6 +3,7 @@
 #include "item_factory.h"
 #include "uistate.h"
 #include "monstergenerator.h"
+#include "compatibility.h"
 
 #include <sstream>
 
