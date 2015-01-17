@@ -141,6 +141,9 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<vpart_info> can_mount;
 
+        // Maps part names to vparts representing shapes
+        std::map< std::string, std::vector<vpart_info*> > vpart_shapes;
+
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
         std::vector<vpart_info> wheel_types;

@@ -633,8 +633,26 @@ void veh_interact::do_install()
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
-                sel_cmd = 'i';
-                return;
+                std::vector< vpart_info* > shapes = vpart_shapes[sel_vpart_info->name];
+                int selected_shape = -1;
+                if ( shapes.size() > 1 ) { // more than one shape available, display selection
+                    std::vector<uimenu_entry> shape_ui_entries;
+                    for ( size_t i = 0; i < shapes.size(); i++ ) {
+                        std::string shape_symbol = std::string( 1, special_symbol_c(shapes[i]->sym) );
+                        shape_ui_entries.push_back(
+                            uimenu_entry( i, true, (char)i, shape_symbol + " " + shapes[i]->name )
+                        );
+                    }
+                    selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
+                                             "Choose shape:", shape_ui_entries ).ret;
+                } else { // only one shape available, default to first one
+                    selected_shape = 0;
+                }
+                 if( 0 <= selected_shape && selected_shape < shapes.size() ) {
+                    sel_vpart_info = shapes[selected_shape];
+                    sel_cmd = 'i';
+                    return;
+                }
             }
         } else if (action == "QUIT") {
             werase (w_list);
@@ -1218,12 +1236,21 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
     wrefresh (w_parts);
 
+    //Only build the shapes map once
+    if (vpart_shapes.empty()) {
+        for( auto &vpart_type : vehicle_part_types ) {
+                vpart_shapes[vpart_type.second.name].push_back(&vpart_type.second);
+        }
+    }
+
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
         for( auto &vehicle_part_type : vehicle_part_types ) {
             if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
                 vpart_info *vpi = &vehicle_part_type.second;
+                if ( vpi->id != vpart_shapes[vpi->name][0]->id )
+                    continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, *vpi );
                 } else {
