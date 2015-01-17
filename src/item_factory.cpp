@@ -596,6 +596,7 @@ void Item_factory::load_ammo(JsonObject &jo)
     load_slot( new_item_template->ammo, jo );
     new_item_template->stack_size = jo.get_int( "stack_size", new_item_template->ammo->def_charges );
     load_basic_info( jo, new_item_template );
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
