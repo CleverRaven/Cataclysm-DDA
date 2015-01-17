@@ -7139,7 +7139,8 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    if(!g->sound(posx(), posy(), 12, _("beep-beep-beep!"))) {
+                    g->sound(posx(), posy(), 12, _("beep-beep-beep!"));
+                    if( !can_hear( pos(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -13231,6 +13232,49 @@ void player::add_known_trap(int x, int y, const std::string &t)
 bool player::is_deaf() const
 {
     return has_effect("deaf") || worn_with_flag("DEAF");
+}
+
+bool player::can_hear( point source, int volume ) const
+{
+    if( is_deaf() ) {
+        return false;
+    }
+    const int dist = rl_dist( source, pos() );
+    const float volume_multiplier = hearing_ability();
+    return volume * volume_multiplier < dist;
+}
+
+// This method intentionally does not factor in deafness.
+float player::hearing_ability() const
+{
+    float volume_multiplier = 1.0;
+
+    // Mutation/Bionic volume modifiers
+    if( has_bionic("bio_ears") ) {
+        volume_multiplier *= 3.5;
+    }
+    if( has_trait("PER_SLIME") ) {
+        // Random hearing :-/
+        // (when it's working at all, see player.cpp)
+        // changed from 0.5 to fix Mac compiling error
+        volume_multiplier *= (rng(1, 2));
+    }
+    if( has_trait("BADHEARING") ) {
+        volume_multiplier *= .5;
+    }
+    if( has_trait("GOODHEARING") ) {
+        volume_multiplier *= 1.25;
+    }
+    if( has_trait("CANINE_EARS") ) {
+        volume_multiplier *= 1.5;
+    }
+    if( has_trait("URSINE_EARS") || has_trait("FELINE_EARS") ) {
+        volume_multiplier *= 1.25;
+    }
+    if( has_trait("LUPINE_EARS") ) {
+        volume_multiplier *= 1.75;
+    }
+    return volume_multiplier;
 }
 
 int player::print_info(WINDOW* w, int vStart, int, int column) const

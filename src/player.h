@@ -993,6 +993,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool is_invisible() const;
         bool is_deaf() const;
+        // Checks whether a player can hear a sound at a given volume and location.
+        bool can_hear( const point source, const int volume ) const;
+        // Returns a multiplier indicating the keeness of a player's hearing.
+        float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
 

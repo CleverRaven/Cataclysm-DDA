@@ -5212,7 +5212,8 @@ int iuse::geiger(player *p, item *it, bool t, point pos)
         if (rads == 0) {
             return it->type->charges_to_use();
         }
-        if( !g->sound( pos.x, pos.y, 6, "" ) ) {
+        g->sound( pos.x, pos.y, 6, "" );
+        if( p->is_deaf() || !p->can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return it->type->charges_to_use();
         }
@@ -6138,8 +6139,8 @@ void iuse::play_music( player *p, point source, int volume )
             sound = string_format( _("You listen to %s"), description.c_str() );
         }
     }
-
-    if( g->ambient_sound( source.x, source.y, volume, sound ) && !p->has_effect("music") ){
+    g->ambient_sound( source.x, source.y, volume, sound );
+    if( !p->is_deaf() && !p->has_effect("music") && !p->can_hear( source, volume ) ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
     }
@@ -8799,7 +8800,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
 
             //if user can hear this music and not already hear music
-            if (g->sound(pos.x, pos.y, 8, "") && !p->has_effect("music")) {
+            if( p->can_hear( pos, 8 ) && !p->has_effect("music")) {
 
                 p->add_effect("music", 1);
                 p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
