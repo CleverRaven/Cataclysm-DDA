@@ -609,7 +609,7 @@ void npc_personality::serialize(JsonOut &json) const
     json.member( "collector", (int)collector );
     json.member( "altruism", (int)altruism );
     json.end_object();
-};
+}
 
 void npc_opinion::deserialize(JsonIn &jsin)
 {
@@ -1545,7 +1545,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
-    
+
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
     for (auto maps : effects) {
@@ -1556,8 +1556,8 @@ void Creature::store( JsonOut &jsout ) const
         }
     }
     jsout.member( "effects", tmp_map );
-    
-    
+
+
     jsout.member( "values", values );
 
     jsout.member( "str_bonus", str_bonus );
@@ -1610,7 +1610,7 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "pain", pain );
 
     killer = nullptr; // see Creature::load
-    
+
     // Just too many changes here to maintain compatibility, so older characters get a free
     // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
     if(savegame_loading_version >= 23) {

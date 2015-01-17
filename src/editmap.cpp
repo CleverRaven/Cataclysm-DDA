@@ -67,7 +67,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
     }
     lines.push_back( str.substr( linestart ) );
     return lines;
-};
+}
 
 
 template<class SAVEOBJ>

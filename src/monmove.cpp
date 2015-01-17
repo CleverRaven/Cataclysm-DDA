@@ -215,7 +215,8 @@ void monster::plan(const mfactions &factions)
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    auto myfaction = factions.find( faction->id )->second;
+    int myfactionid = friendly == 0 ? faction->id : -1;
+    auto myfaction = factions.find( myfactionid )->second;
     swarms = swarms && closest == -1; // Only swarm if we have no target
     if( group_morale || swarms ) {
         for( int i : myfaction ) {
@@ -958,7 +959,8 @@ void monster::stumble(bool moved)
            && g->m.has_flag("SWIMMABLE", nx, ny)
            && !g->m.has_flag("SWIMMABLE", posx(), posy())) &&
        (g->u.posx != nx || g->u.posy != ny) &&
-       (g->mon_at(nx, ny) == -1)) {
+       (g->mon_at(nx, ny) == -1) &&
+       (g->npc_at(nx, ny) == -1) ) {
     point tmp(nx, ny);
     valid_stumbles.push_back(tmp);
    }

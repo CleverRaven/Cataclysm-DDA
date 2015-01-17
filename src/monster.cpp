@@ -434,7 +434,7 @@ Creature *monster::attack_target()
     point target_point = move_target();
     Creature *target = g->critter_at( target_point.x, target_point.y );
 
-    if( attitude_to( *target ) != Creature::A_HOSTILE ) {
+    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ) {
         return nullptr;
     }
     return target;
@@ -455,11 +455,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
         if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( faction == m->faction ) ) {
-            // Currently friendly means "friendly to the player" (on same side as player),
-            // so if both monsters are friendly (towards the player), they are friendly towards
-            // each other.
-            // Monsters are also friendly to own species
+            ( friendly == 0 && m->friendly == 0 && faction == m->faction ) ) {
+            // Friendly (to player) monsters are friendly to each other
+            // Unfriendly monsters are friendly to other unfriendly monsters of the same faction
             return A_FRIENDLY;
         } else if( morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything

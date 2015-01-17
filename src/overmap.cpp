@@ -448,7 +448,7 @@ void finalize_overmap_terrain( )
     for( auto &elem : region_settings_map ) {
         elem.second.setup();
     }
-};
+}
 
 
 
@@ -593,7 +593,7 @@ void load_region_settings( JsonObject &jo )
         }
     }
     region_settings_map[new_region.id] = new_region;
-};
+}
 
 void reset_region_settings()
 {
@@ -3651,7 +3651,7 @@ oter_iid oterfind(const std::string id)
         return 0;
     }
     return otermap[id].loadid;
-};
+}
 
 void set_oter_ids()   // fixme constify
 {
@@ -3663,7 +3663,7 @@ void set_oter_ids()   // fixme constify
     ot_forest_thick = oterfind("forest_thick");
     ot_forest_water = oterfind("forest_water");
     ot_river_center = oterfind("river_center");
-};
+}
 
 
 //////////////////////////

@@ -185,7 +185,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         }
     }
     return textformatted.size();
-};
+}
 
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
 {
