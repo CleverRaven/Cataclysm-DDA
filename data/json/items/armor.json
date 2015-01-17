@@ -10613,7 +10613,7 @@
         "type" : "ARMOR",
         "id" : "kilt",
         "name" : "kilt",
-        "weight" : 74,
+        "weight" : 1814,
         "color" : "dark_gray",
         "covers" : ["LEGS"],
         "to_hit" : 0,
@@ -10622,7 +10622,7 @@
         "description" : "No true Scotsman would leave home without his kilt.",
         "price" : 6500,
         "material" : ["wool", "null"],
-        "volume" : 1,
+        "volume" : 6,
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -10631,7 +10631,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 50,
-        "material_thickness" : 1
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
