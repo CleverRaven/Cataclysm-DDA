@@ -15,6 +15,7 @@
 #include "mapsharing.h"
 
 #include <ctime>
+#include <map>
 #include <signal.h>
 #ifdef LOCALIZE
 #include <libintl.h>
@@ -27,6 +28,26 @@
 #endif
 
 void exit_handler(int s);
+
+namespace {
+
+struct ArgHandler {
+  //! Handler function to be invoked when this argument is encountered. The handler will be
+  //! called with the number of parameters after the flag was encountered, along with the array
+  //! of following parameters. It must return an integer indicating how many parameters were
+  //! consumed by the call or -1 to indicate that a required argument was missing.
+  typedef std::function<int(int, const char **)> arg_handler;
+
+  const char *flag;  //!< The commandline parameter to handle (e.g., "--seed").
+  const char *param_documentation;  //!< Human readable description of this arguments parameter.
+  const char *documentation;  //!< Human readable documentation for this argument.
+  const char *help_group; //!< Section of the help message in which to include this argument.
+  arg_handler handler;  //!< The callback to be invoked when this argument is encountered.
+};
+
+void printHelpMessage(const ArgHandler *first_pass_arguments, size_t num_first_pass_arguments,
+    const ArgHandler *second_pass_arguments, size_t num_second_pass_arguments);
+}  // namespace
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -58,153 +79,263 @@ int main(int argc, char *argv[])
     PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
+    {
+        const char *section_default = nullptr;
+        const char *section_map_sharing = "Map sharing";
+        const char *section_user_directory = "User directories";
+        const ArgHandler first_pass_arguments[] = {
+            {
+                "--seed", "<string of letters and or numbers>",
+                "Sets the random number generator's seed value",
+                section_default,
+                [&seed](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    const unsigned char *hash_input = (const unsigned char *) params[0];
+                    seed = djb2_hash(hash_input);
+                    return 1;
+                }
+            },
+            {
+                "--jsonverify", nullptr,
+                "Checks the cdda json files",
+                section_default,
+                [&verifyexit](int, const char **) -> int {
+                    verifyexit = true;
+                    return 0;
+                }
+            },
+            {
+                "--check-mods", nullptr,
+                "Checks the json files belonging to cdda mods",
+                section_default,
+                [&check_all_mods](int, const char **) -> int {
+                    check_all_mods = true;
+                    return 0;
+                }
+            },
+            {
+                "--basepath", "<path>",
+                "Base path for all game data subdirectories",
+                section_default,
+                [](int num_args, const char **params) {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::init_base_path(params[0]);
+                    PATH_INFO::set_standard_filenames();
+                    return 1;
+                }
+            },
+            {
+                "--shared", nullptr,
+                "Activates the map-sharing mode",
+                section_map_sharing,
+                [](int, const char **) -> int {
+                    MAP_SHARING::setSharing(true);
+                    MAP_SHARING::setCompetitive(true);
+                    MAP_SHARING::setWorldmenu(false);
+                    return 0;
+                }
+            },
+            {
+                "--username", "<name>",
+                "Instructs map-sharing code to use this name for your character.",
+                section_map_sharing,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    MAP_SHARING::setUsername(params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--addadmin", "<username>",
+                "Instructs map-sharing code to use this name for your character and give you "
+                    "access to the cheat functions.",
+                section_map_sharing,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    MAP_SHARING::addAdmin(params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--adddebugger", "<username>",
+                "Informs map-sharing code that you're running inside a debugger",
+                section_map_sharing,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    MAP_SHARING::addDebugger(params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--competitive", nullptr,
+                "Instructs map-sharing code to disable access to the in-game cheat functions",
+                section_map_sharing,
+                [](int, const char **) -> int {
+                    MAP_SHARING::setCompetitive(true);
+                    return 0;
+                }
+            },
+            {
+                "--userdir", "<path>",
+                "Base path for user-overrides to files from the ./data directory and named below",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::init_user_dir(params[0]);
+                    PATH_INFO::set_standard_filenames();
+                    return 1;
+                }
+            }
+        };
 
-    // Process CLI arguments
-    int saved_argc = --argc; // skip program name
-    char **saved_argv = ++argv;
+        // The following arguments are dependent on one or more of the previous flags and are run
+        // in a second pass.
+        const ArgHandler second_pass_arguments[] = {
+            {
+                "--worldmenu", nullptr,
+                "Enables the world menu in the map-sharing code",
+                section_map_sharing,
+                [](int, const char **) -> int {
+                    MAP_SHARING::setWorldmenu(true);
+                    return true;
+                }
+            },
+            {
+                "--datadir", "<directory name>",
+                "Sub directory from which game data is loaded",
+                nullptr,
+                [](int num_args, const char **params) -> int {
+                      if (num_args < 1) return -1;
+                      PATH_INFO::update_pathname("datadir", params[0]);
+                      PATH_INFO::update_datadir();
+                      return 1;
+                }
+            },
+            {
+                "--savedir", "<directory name>",
+                "Subdirectory for game saves",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("savedir", params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--configdir", "<directory name>",
+                "Subdirectory for game configuration",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("config_dir", params[0]);
+                    PATH_INFO::update_config_dir();
+                    return 1;
+                }
+            },
+            {
+                "--memorialdir", "<directory name>",
+                "Subdirectory for memorials",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("memorialdir", params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--optionfile", "<filename>",
+                "Name of the options file within the configdir",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("options", params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--keymapfile", "<filename>",
+                "Name of the keymap file within the configdir",
+                section_user_directory,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("keymap", params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--autopickupfile", "<filename>",
+                "Name of the autopickup options file within the configdir",
+                nullptr,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("autopickup", params[0]);
+                    return 1;
+                }
+            },
+            {
+                "--motdfile", "<filename>",
+                "Name of the message of the day file within the motd directory",
+                nullptr,
+                [](int num_args, const char **params) -> int {
+                    if (num_args < 1) return -1;
+                    PATH_INFO::update_pathname("motd", params[0]);
+                    return 1;
+                }
+            },
+        };
 
-    while (argc) {
-        if(std::string(argv[0]) == "--seed") {
-            argc--;
-            argv++;
-            if(argc) {
-                seed = djb2_hash((unsigned char *)argv[0]);
-                argc--;
-                argv++;
+        // Process CLI arguments.
+        const size_t num_first_pass_arguments =
+            sizeof(first_pass_arguments) / sizeof(first_pass_arguments[0]);
+        const size_t num_second_pass_arguments =
+            sizeof(second_pass_arguments) / sizeof(second_pass_arguments[0]);
+        int saved_argc = --argc; // skip program name
+        const char **saved_argv = (const char **)++argv;
+        while (argc) {
+            if(!strcmp(argv[0], "--help")) {
+                printHelpMessage(first_pass_arguments, num_first_pass_arguments,
+                    second_pass_arguments, num_second_pass_arguments);
+                return 0;
+            } else {
+                bool arg_handled = false;
+                for (size_t i = 0; i < num_first_pass_arguments; ++i) {
+                    auto &arg_handler = first_pass_arguments[i];
+                    if (!strcmp(argv[0], arg_handler.flag)) {
+                        argc--;
+                        argv++;
+                        int args_consumed = arg_handler.handler(argc, (const char **) argv);
+                        argc -= args_consumed;
+                        argv += args_consumed;
+                        arg_handled = true;
+                        break;
+                    }
+                }
+                // Skip other options.
+                if (!arg_handled) {
+                    --argc;
+                    ++argv;
+                }
             }
-        } else if(std::string(argv[0]) == "--jsonverify") {
-            argc--;
-            argv++;
-            verifyexit = true;
-        } else if(std::string(argv[0]) == "--check-mods") {
-            argc--;
-            argv++;
-            check_all_mods = true;
-        } else if(std::string(argv[0]) == "--basepath") {
-            argc--;
-            argv++;
-            if(argc) {
-                PATH_INFO::init_base_path(std::string(argv[0]));
-                PATH_INFO::set_standard_filenames();
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--userdir") {
-            argc--;
-            argv++;
-            if (argc) {
-                PATH_INFO::init_user_dir( argv[0] );
-                PATH_INFO::set_standard_filenames();
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--username") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::setUsername(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--addadmin") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::addAdmin(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--adddebugger") {
-            argc--;
-            argv++;
-            if (argc) {
-                MAP_SHARING::addDebugger(std::string(argv[0]));
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--shared") {
-            argc--;
-            argv++;
-            MAP_SHARING::setSharing(true);
-            MAP_SHARING::setCompetitive(true);
-            MAP_SHARING::setWorldmenu(false);
-        } else if(std::string(argv[0]) == "--competitive") {
-            argc--;
-            argv++;
-            MAP_SHARING::setCompetitive(true);
-        } else { // Skipping other options.
-            argc--;
-            argv++;
         }
-    }
-    while (saved_argc) {
-        // All paths will decrement saved_argc and do not depend on it before this operation, so it is safe to do it in
-        // just one place, avoiding repeated code.
-        saved_argc--;
-        if(std::string(saved_argv[0]) == "--worldmenu") {
-            saved_argv++;
-            MAP_SHARING::setWorldmenu(true);
-        } else if(std::string(saved_argv[0]) == "--datadir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
-                PATH_INFO::update_datadir();
-                saved_argc--;
-                saved_argv++;
+        while (saved_argc) {
+            bool arg_handled = false;
+            for (size_t i = 0; i < num_second_pass_arguments; ++i) {
+                auto &arg_handler = second_pass_arguments[i];
+                if (!strcmp(saved_argv[0], arg_handler.flag)) {
+                    --saved_argc;
+                    ++saved_argv;
+                    int args_consumed = arg_handler.handler(saved_argc, saved_argv);
+                    saved_argc -= args_consumed;
+                    saved_argv += args_consumed;
+                    arg_handled = true;
+                    break;
+                }
             }
-        } else if(std::string(saved_argv[0]) == "--savedir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
+            // Ingore unknown options.
+            if (!arg_handled) {
+              --saved_argc;
+              ++saved_argv;
             }
-        } else if(std::string(saved_argv[0]) == "--configdir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
-                PATH_INFO::update_config_dir();
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--memorialdir") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("memorialdir", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--optionfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--keymapfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--motdfile") {
-            saved_argv++;
-            if(saved_argc) {
-                PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
-                saved_argc--;
-                saved_argv++;
-            }
-        } else {
-            // Unknown arguments are ignored.
-            saved_argv++;
         }
     }
 
@@ -303,6 +434,44 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+namespace {
+void printHelpMessage(const ArgHandler *first_pass_arguments,
+    size_t num_first_pass_arguments,
+    const ArgHandler *second_pass_arguments,
+    size_t num_second_pass_arguments) {
+
+    // Group all arguments by help_group.
+    std::multimap<std::string, const ArgHandler *> help_map;
+    for (size_t i = 0; i < num_first_pass_arguments; ++i) {
+        help_map.emplace(first_pass_arguments[i].help_group, &first_pass_arguments[i]);
+    }
+    for (size_t i = 0; i < num_second_pass_arguments; ++i) {
+        help_map.emplace(second_pass_arguments[i].help_group, &second_pass_arguments[i]);
+    }
+
+    printf("Command line paramters:\n");
+    std::string current_help_group;
+    auto it = help_map.begin();
+    auto it_end = help_map.end();
+    for (; it != it_end; ++it) {
+        if (it->first != current_help_group) {
+            current_help_group = it->first;
+            printf("%s\n", current_help_group.c_str());
+        }
+
+        const ArgHandler *handler = it->second;
+        printf("%s", handler->flag);
+        if (handler->param_documentation) {
+            printf(" %s", handler->param_documentation);
+        }
+        printf("\n");
+        if (handler->documentation) {
+            printf("\t%s\n", handler->documentation);
+        }
+    }
+}
+}  // namespace
 
 void exit_handler(int s)
 {
