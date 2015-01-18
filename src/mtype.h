@@ -32,8 +32,8 @@ enum monster_trigger {
     MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
-    MTRIG_PLAYER_WEAK, // The player is hurt
-    MTRIG_PLAYER_CLOSE, // The player gets within a few tiles
+    MTRIG_HOSTILE_WEAK, // Hurt hostile player/npc/monster seen
+    MTRIG_HOSTILE_CLOSE, // Hostile creature within a few tiles
     MTRIG_HURT,  // We are hurt
     MTRIG_FIRE,  // Fire nearby
     MTRIG_FRIEND_DIED, // A monster of the same type died
@@ -125,7 +125,14 @@ enum m_flag {
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_FISHABLE,            // Its fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
+    MF_SWARMS,              // Monsters that like to group together and form loose packs
+    MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
+};
+
+struct monfaction {
+    int id;
+    std::string name;
 };
 
 /** Used to store monster effects placed on attack */
@@ -146,11 +153,13 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string faction_name;
     public:
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
+        const monfaction *default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;

@@ -780,7 +780,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
             ch = (int)getch();
 
-        } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+        } while (ch != ' ' && ch != '\n' && ch != KEY_ENTER && ch != KEY_ESCAPE);
 
         bool item_selected = false;
         // Check if we have selected an item.
@@ -789,7 +789,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 item_selected = true;
             }
         }
-        if( ch != '\n' || !item_selected ) {
+        if( (ch != '\n' && ch != KEY_ENTER) || !item_selected ) {
             w_pickupptr.reset();
             w_item_infoptr.reset();
             add_msg(_("Never mind."));

@@ -1128,7 +1128,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_fence_h"
+        "post_terrain" : "t_fencegate_c"
     },{
         "type" : "construction",
         "description" : "Realign Fence", "//": "vertical to horizontal",

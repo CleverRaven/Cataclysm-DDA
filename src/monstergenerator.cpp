@@ -19,6 +19,7 @@ MonsterGenerator::MonsterGenerator()
     init_flags();
     init_trigger();
     init_sizes();
+    init_hardcoded_factions();
 }
 
 MonsterGenerator::~MonsterGenerator()
@@ -47,6 +48,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes(mon);
         set_mtype_flags(mon);
         set_species_ids( mon );
+        set_default_faction( mon );
     }
 }
 
@@ -237,8 +239,8 @@ void MonsterGenerator::init_trigger()
     trigger_map["NULL"] = MTRIG_NULL;// = 0,
     trigger_map["STALK"] = MTRIG_STALK;//  // Increases when following the player
     trigger_map["MEAT"] = MTRIG_MEAT;//  // Meat or a corpse nearby
-    trigger_map["PLAYER_WEAK"] = MTRIG_PLAYER_WEAK;// // The player is hurt
-    trigger_map["PLAYER_CLOSE"] = MTRIG_PLAYER_CLOSE;// // The player gets within a few tiles
+    trigger_map["PLAYER_WEAK"] = MTRIG_HOSTILE_WEAK;// // Hurt hostile player/npc/monster seen
+    trigger_map["PLAYER_CLOSE"] = MTRIG_HOSTILE_CLOSE;// // Hostile creature within a few tiles
     trigger_map["HURT"] = MTRIG_HURT;//  // We are hurt
     trigger_map["FIRE"] = MTRIG_FIRE;//  // Fire nearby
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
@@ -325,6 +327,20 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["SWARMS"] = MF_SWARMS;
+    flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
+}
+
+void MonsterGenerator::init_hardcoded_factions()
+{
+    monfaction mfact;
+    mfact.id = -1;
+    mfact.name = "Player";
+    faction_map[mfact.name] = mfact;
+
+    mfact.id = 0;
+    mfact.name = "";
+    faction_map[mfact.name] = mfact;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -338,6 +354,15 @@ void MonsterGenerator::set_species_ids( mtype *mon )
         } else {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
         }
+    }
+}
+
+void MonsterGenerator::set_default_faction( mtype *mon )
+{
+    if( mon->faction_name.empty() && !mon->species.empty() ) {
+        mon->faction_name = *( mon->species.begin() );
+        add_faction( mon->faction_name );
+        mon->default_faction = faction_by_name( mon->faction_name );
     }
 }
 
@@ -367,6 +392,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
+
+        newmon->faction_name = jo.get_string("default_faction", "");
+        add_faction( newmon->faction_name );
 
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
@@ -527,6 +555,31 @@ mtype *MonsterGenerator::get_valid_hallucination()
 
     return potentials[rng(0, potentials.size() - 1)];
 }
+
+const monfaction *MonsterGenerator::faction_by_name( const std::string &name ) const
+{
+    auto found = faction_map.find( name );
+    if( found == faction_map.end() ) {
+        debugmsg( "Couldn't find monster faction with name %s", name.c_str() );
+        return &faction_map.find( "" )->second;
+    }
+    return &found->second;
+}
+
+bool MonsterGenerator::add_faction( const std::string &name )
+{
+    auto found = faction_map.find( name );
+    if( found == faction_map.end() ) {
+        monfaction mfact;
+        mfact.name = name;
+        mfact.id = faction_map.size();
+        faction_map[mfact.name] = mfact;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
 {

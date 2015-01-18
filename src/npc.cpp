@@ -2248,7 +2248,7 @@ void npc::add_msg_if_npc(const char *msg, ...) const
     add_msg(processed_npc_string.c_str());
 
     va_end(ap);
-};
+}
 void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
 {
     va_list ap;
@@ -2262,7 +2262,7 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
     }
 
     va_end(ap);
-};
+}
 void npc::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
@@ -2272,7 +2272,7 @@ void npc::add_msg_if_npc(game_message_type type, const char *msg, ...) const
     add_msg(type, processed_npc_string.c_str());
 
     va_end(ap);
-};
+}
 void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...) const
 {
     va_list ap;
@@ -2286,7 +2286,7 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
     }
 
     va_end(ap);
-};
+}
 
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

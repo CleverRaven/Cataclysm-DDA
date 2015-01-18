@@ -238,7 +238,7 @@ bool InitSDL()
     atexit(SDL_Quit);
 
     return true;
-};
+}
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
@@ -361,7 +361,7 @@ bool WinCreate()
 #endif
 
     return true;
-};
+}
 
 void WinDestroy()
 {
@@ -386,7 +386,7 @@ void WinDestroy()
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
-};
+}
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
     if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
@@ -407,7 +407,7 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
     rect.w = thickness;
     rect.h = y2-y;
     FillRectDIB(rect, color);
-};
+}
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
     SDL_Rect rect;
@@ -416,7 +416,7 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
     rect.w = x2-x;
     rect.h = thickness;
     FillRectDIB(rect, color);
-};
+}
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
     SDL_Rect rect;
@@ -425,7 +425,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     rect.w = width;
     rect.h = height;
     FillRectDIB(rect, color);
-};
+}
 
 
 SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)

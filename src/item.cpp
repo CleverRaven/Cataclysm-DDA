@@ -324,6 +324,9 @@ bool item::stacks_with( const item &rhs ) const
     if( damage != rhs.damage ) {
         return false;
     }
+    if( burnt != rhs.burnt ) {
+        return false;
+    }
     if( active != rhs.active ) {
         return false;
     }

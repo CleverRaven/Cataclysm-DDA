@@ -4778,18 +4778,19 @@ void map::grow_plant( const point pnt )
         furn_set( pnt.x, pnt.y, f_null );
         return;
     }
-    
+
     // Erase fertilizer tokens, but keep the seed item
     i_rem( pnt.x, pnt.y, 1 );
     auto seed = items.front();
     it_comest* seed_comest = dynamic_cast<it_comest*>(seed.type);
-    
+
     // plantEpoch is the time it takes to grow from one stage to another
     // 91 days is the approximate length of a real world season
     // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
     // Note that it is converted based on the season_length option!
+
     const int plantEpoch = DAYS(seed_comest->grow * calendar::season_length() / ( 91 * 3 ));
-    
+
     if ( calendar::turn >= seed.bday + plantEpoch ) {
 		if (calendar::turn < seed.bday + plantEpoch * 2 ) {
 				furn_set(pnt.x, pnt.y, "f_plant_seedling");
@@ -4962,7 +4963,6 @@ void map::spawn_monsters(bool ignore_sight)
                     int tries = 0;
                     int mx = i.posx, my = i.posy;
                     monster tmp(GetMType(i.type));
-                    tmp.faction_id = i.faction_id;
                     tmp.mission_id = i.mission_id;
                     if (i.name != "NONE") {
                         tmp.unique_name = i.name;
@@ -5391,7 +5391,7 @@ ter_id find_ter_id(const std::string id, bool complain=true) {
          return 0;
     }
     return termap[id].loadid;
-};
+}
 
 ter_id find_furn_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
@@ -5400,7 +5400,7 @@ ter_id find_furn_id(const std::string id, bool complain=true) {
          return 0;
     }
     return furnmap[id].loadid;
-};
+}
 void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
 {
     std::vector<point> line = line_to(x1, y1, x2, y2, 0);

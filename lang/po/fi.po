@@ -80263,11 +80263,11 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "You turn the engine off and let go of the controls."
-msgstr ""
+msgstr "Kytket moottorin pois päältä ja hellität otteesi ohjaimista."
 
 #: src/vehicle.cpp
 msgid "You turn the engine off."
-msgstr ""
+msgstr "Kytket moottorin pois päältä."
 
 #: src/vehicle.cpp
 #, c-format
@@ -80286,28 +80286,28 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Your engine emits a high pitched whine."
-msgstr ""
+msgstr "Moottorisi päästää kimeän ujelluksen."
 
 #: src/vehicle.cpp
 msgid "Your engine emits a loud grinding sound."
-msgstr ""
+msgstr "Moottorisi pitää kovaa ja painostavaa ääntä."
 
 #: src/vehicle.cpp
 #, c-format
 msgid "folded %s"
-msgstr ""
+msgstr "%s taitettu"
 
 #: src/vehicle.cpp
 msgid "tracking device disabled"
-msgstr ""
+msgstr "paikannuslaite kytketty pois päältä"
 
 #: src/vehicle.cpp
 msgid "tracking device enabled"
-msgstr ""
+msgstr "paikannuslaite on päällä"
 
 #: src/vehicle.cpp
 msgid "tracking device won't turn on"
-msgstr ""
+msgstr "paikannuslaite ei kytkeydy päälle"
 
 #. ~ the sound of a charge-rifle firing a massive ball of plasma
 #: src/vehicle.cpp
@@ -80344,7 +80344,7 @@ msgstr "Happosade polttaa!"
 
 #: src/weather.cpp
 msgid "The acid rain stings, but is mostly harmless for now..."
-msgstr ""
+msgstr "Happosade pistää, mutta tällä hetkellä se on lähinnä harmitonta..."
 
 #: src/weather.cpp
 #, c-format
@@ -80359,7 +80359,7 @@ msgstr "Tänään"
 
 #: src/weather.cpp
 msgid "Tonight"
-msgstr "Tänäyönä"
+msgstr "Tänä yönä"
 
 #: src/weather.cpp
 msgid "You hear a distant rumble of thunder."
@@ -80376,11 +80376,11 @@ msgstr ""
 
 #: src/weather.cpp
 msgid "Your clothing protects you from the acid rain."
-msgstr ""
+msgstr "Vaatetuksesi suojelee sinua happosateelta."
 
 #: src/weather.cpp
 msgid "Your clothing protects you from the acidic drizzle."
-msgstr ""
+msgstr "Vaatetuksesi suojelee sinua happotihkulta."
 
 #: src/weather.cpp
 msgid "Your power armor protects you from the acid rain."
@@ -80388,11 +80388,11 @@ msgstr "Sinun voimasuojuksesi suojaa sinua happosateelta."
 
 #: src/weather.cpp
 msgid "Your power armor protects you from the acidic drizzle."
-msgstr ""
+msgstr "Voimasuojuksesi suojelee sinua happotihkulta."
 
 #: src/weather.cpp
 msgid "Your umbrella protects you from the acid rain."
-msgstr ""
+msgstr "Sateenvarjosi suojelee sinua happosateelta."
 
 #: src/weather_data.cpp
 msgid "Acid Rain"
@@ -80491,7 +80491,7 @@ msgstr "Tulee:"
 
 #: src/wish.cpp
 msgid "Cancels:"
-msgstr "keskeyttää:"
+msgstr "Keskeyttää:"
 
 #: src/wish.cpp
 msgid "Category:"
@@ -80511,11 +80511,11 @@ msgstr "Epäkelpo"
 
 #: src/wish.cpp
 msgid "Prereqs, 2d:"
-msgstr ""
+msgstr "Edellytykset, 2d:"
 
 #: src/wish.cpp
 msgid "Prereqs:"
-msgstr ""
+msgstr "Edellytykset:"
 
 #: src/wish.cpp
 msgid "Select a skill to modify"
@@ -80548,7 +80548,7 @@ msgstr "Vähennä 3"
 
 #: src/wish.cpp
 msgid "Thresholds required:"
-msgstr ""
+msgstr "Tarvitaan kynnysarvot:"
 
 #: src/wish.cpp
 msgid "Valid"

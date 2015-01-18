@@ -103,6 +103,7 @@ void mattack::antqueen(monster *z, int index)
                 if (g->m.i_at(i.x, i.y)[j].type->id == "ant_egg") {
                     g->m.i_rem(i.x, i.y, j);
                     monster tmp(GetMType("mon_ant_larva"), i.x, i.y);
+                    tmp.faction = z->faction;
                     g->add_zombie(tmp);
                     break; // Max one hatch per tile
                 }
@@ -158,7 +159,7 @@ void mattack::rattle(monster *z, int index)
 {
     // TODO: Let it rattle at non-player friendlies
     const int min_dist = z->friendly != 0 ? 1 : 4;
-    Creature *target = z->attack_target();
+    Creature *target = &g->u; // Can't use attack_target - the snake has no target
     if( target == nullptr || 
         rl_dist( z->posx(), z->posy(), target->xpos(), target->ypos() ) > min_dist || 
         !z->sees( *target ) ) {
@@ -636,7 +637,8 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         monster manhack {GetMType("mon_manhack")};
         manhack.spawn(where.x, where.y);
-        manhack.friendly = z->friendly; // TODO: Factions
+        manhack.friendly = z->friendly;
+        manhack.faction = z->faction;
         g->add_zombie(manhack);
       } break;
     case att_acid_pool :
@@ -850,6 +852,7 @@ void mattack::grow_vine(monster *z, int index)
                 monster vine(GetMType("mon_creeper_vine"));
                 vine.reset_special(0);
                 vine.spawn(xvine, yvine);
+                vine.faction = z->faction;
                 g->add_zombie(vine);
             }
         }
@@ -919,6 +922,7 @@ void mattack::vine(monster *z, int index)
     monster vine(GetMType("mon_creeper_vine"));
     vine.reset_special(0);
     vine.spawn(grow[free_index].x, grow[free_index].y);
+    vine.faction = z->faction;
     g->add_zombie(vine);
 }
 
@@ -1035,6 +1039,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
                 }
                 monster plant(GetMType(montype));
                 plant.spawn(x, y);
+                plant.faction = z->faction;
                 g->add_zombie(plant);
             }
         }
@@ -1046,6 +1051,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
                 if (g->is_empty(x, y) && one_in(2)) {
                     triffid.spawn(x, y);
+                    triffid.faction = z->faction;
                     g->add_zombie(triffid);
                 }
             }
@@ -1124,6 +1130,7 @@ void mattack::fungus(monster *z, int index)
                     }
                 } else if (one_in(4) && g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(sporex, sporey);
+                    spore.faction = z->faction;
                     g->add_zombie(spore);
                 }
             }
@@ -1340,6 +1347,7 @@ void mattack::fungus_sprout(monster *z, int index)
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_wall"));
                 wall.spawn(x, y);
+                wall.faction = z->faction;
                 g->add_zombie(wall);
             }
         }
@@ -1397,6 +1405,7 @@ void mattack::fungus_fortify(monster *z, int index)
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_hedgerow"));
                 wall.spawn(x, y);
+                wall.faction = z->faction;
                 g->add_zombie(wall);
                 fortified = true;
             }
@@ -1438,6 +1447,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 }
                 monster tendril(GetMType("mon_fungal_tendril"));
                 tendril.spawn(g->u.posx + i, g->u.posy + j);
+                tendril.faction = z->faction;
                 g->add_zombie(tendril);
                 return;
             }
@@ -1703,6 +1713,7 @@ void mattack::formblob(monster *z, int index)
                 blob.spawn(z->posx() + i, z->posy() + j);
                 blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
                 blob.hp = blob.get_speed_base();
+                blob.faction = z->faction;
                 g->add_zombie(blob);
             }
         }
@@ -2191,7 +2202,7 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
+    if( within_visual_range(z, 6) < 0 ) {
         return;
     }
 
@@ -2286,7 +2297,7 @@ void mattack::photograph(monster *z, int index)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), z->faction_id,
+    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
                  g->get_abs_levx(), g->get_abs_levy());
 }
 
@@ -3420,6 +3431,7 @@ void mattack::breathe(monster *z, int index)
         monster spawned(GetMType("mon_breather"));
         spawned.reset_special(0);
         spawned.spawn(place.x, place.y);
+        spawned.faction = z->faction;
         g->add_zombie(spawned);
     }
 }
@@ -3531,7 +3543,9 @@ void mattack::flesh_golem(monster *z, int index)
         return;
     }
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s swings a massive claw at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( g->u.sees( *z ) ) {
+        add_msg(_("The %s swings a massive claw at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge() ) {
@@ -3576,6 +3590,7 @@ void mattack::lunge(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
     if( dist > 1 ) {
         if (one_in(5)) {
             if( dist > 4 || !z->sees( *target ) ) {
@@ -3583,12 +3598,16 @@ void mattack::lunge(monster *z, int index)
             }
             z->moves += 200;
             z->reset_special(index); // Reset timer
-            add_msg(_("The %s lunges for %s!"), z->name().c_str(), target->disp_name().c_str() );
+            if( seen ) {
+                add_msg(_("The %s lunges for %s!"), z->name().c_str(), target->disp_name().c_str() );
+            }
         }
         return;
     }
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s lunges straight into %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( seen ) {
+        add_msg(_("The %s lunges straight into %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge()) {
@@ -3714,6 +3733,7 @@ void mattack::darkman(monster *z, int index)
     monster tmp( GetMType("mon_shadow") );
     z->moves -= 10;
     tmp.spawn( free[free_index].x, free[free_index].y );
+    tmp.faction = z->faction;
     g->add_zombie( tmp );
     if( g->u.sees( *z ) ) {
         add_msg(m_warning, _("A shadow splits from the %s!"),
@@ -4040,9 +4060,6 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
-    if( z->friendly ) {
-        return; // TODO: handle friendly monsters
-    }
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
@@ -4050,9 +4067,12 @@ void mattack::bio_op_takedown(monster *z, int index)
         return;
     }
 
+    bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player* >( target );
     z->reset_special(index); // Reset timer
-    add_msg(_("The %s mechanically grabs at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    if( seen ) {
+        add_msg(_("The %s mechanically grabs at %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
     z->moves -= 100;
 
     if( target->uncanny_dodge() ) {
@@ -4077,7 +4097,9 @@ void mattack::bio_op_takedown(monster *z, int index)
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) ); // Two hits - "leg" and torso
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
         target->add_effect("downed", 3);
-        add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+        if( seen ) {
+            add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+        }
         return;
     }
     // Yes, it has the CQC bionic.

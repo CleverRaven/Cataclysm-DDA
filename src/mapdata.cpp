@@ -165,7 +165,7 @@ furn_t null_furniture_t() {
   new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
-};
+}
 
 ter_t null_terrain_t() {
   ter_t new_terrain;
@@ -189,7 +189,7 @@ ter_t null_terrain_t() {
   new_terrain.close = "";
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_terrain;
-};
+}
 
 void load_furniture(JsonObject &jsobj)
 {
@@ -339,7 +339,7 @@ ter_id terfind(const std::string & id) {
          return 0;
     }
     return termap[id].loadid;
-};
+}
 
 ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
@@ -677,7 +677,7 @@ void set_ter_ids() {
     t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
-};
+}
 
 furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
@@ -685,7 +685,7 @@ furn_id furnfind(const std::string & id) {
          return 0;
     }
     return furnmap[id].loadid;
-};
+}
 
 furn_id f_null,
     f_hay,

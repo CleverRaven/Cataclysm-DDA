@@ -197,7 +197,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
     } else {
         debugmsg("No such mapgen function: %s ", sptr.c_str() );
     }
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
@@ -722,7 +722,7 @@ bool mapgen_function_json::setup() {
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
                         format[ wtf_mean_nonant(c, i) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in either 'terrain' or 'furniture'",c+1,i+1, (char)tmpkey ));
+                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
                         format[ wtf_mean_nonant(c, i) ].furn = format_furniture[ tmpkey ];
@@ -826,7 +826,7 @@ bool mapgen_function_json::setup() {
     jdata.clear(); // ssh, we're not -really- a json function <.<
     is_ready = true; // skip setup attempts from any additional pointers
     return true;
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)

@@ -1143,7 +1143,6 @@
       "id" : "niten_water_cut",
       "name" : "Flowing Water Cut",
       "min_melee" : 4,
-      "melee_allowed" : true,
       "messages" : [
           "You strike %s with the slow power of flowing water",
           "<npcname> strikes %s with the slow power of flowing water"
@@ -1156,7 +1155,6 @@
       "id" : "niten_red_leaf",
       "name" : "Red Leaf's Cut",
       "min_melee" : 5,
-      "melee_allowed" : true,
       "down_dur" : 2,
         "messages" : [
           "Your strike knocks %s off balance",
@@ -1167,7 +1165,6 @@
       "id" : "niten_stone_cut",
       "name" : "Fire and Stone's Cut",
       "min_melee" : 6,
-      "melee_allowed" : true,
       "crit_tec" : true,
       "messages" : [
           "You stun %s with the force of the blow!",
@@ -1181,7 +1178,6 @@
       "id" : "niten_timing_attack",
       "name" : "In-One Timing",
       "min_melee" : 5,
-      "melee_allowed" : true,
       "req_buffs" : [
           "niten_set-up"
       ],
