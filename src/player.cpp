@@ -5046,59 +5046,43 @@ void player::knock_back_from(int x, int y)
     }
 }
 
-void player::bp_convert(hp_part &hpart, body_part bp)
+hp_part player::bp_to_hp( const body_part bp )
 {
-    hpart =  num_hp_parts;
     switch(bp) {
         case bp_head:
-            hpart = hp_head;
-            break;
+            return hp_head;
         case bp_torso:
-            hpart = hp_torso;
-            break;
+            return hp_torso;
         case bp_arm_l:
-            hpart = hp_arm_l;
-            break;
+            return hp_arm_l;
         case bp_arm_r:
-            hpart = hp_arm_r;
-            break;
+            return hp_arm_r;
         case bp_leg_l:
-            hpart = hp_leg_l;
-            break;
+            return hp_leg_l;
         case bp_leg_r:
-            hpart = hp_leg_r;
-            break;
+            return hp_leg_r;
         default:
-            //Silence warnings
-            break;
+            return num_hp_parts;
     }
 }
 
-void player::hp_convert(hp_part hpart, body_part &bp)
+body_part player::hp_to_bp( const hp_part hpart )
 {
-    bp =  num_bp;
     switch(hpart) {
         case hp_head:
-            bp = bp_head;
-            break;
+            return bp_head;
         case hp_torso:
-            bp = bp_torso;
-            break;
+            return bp_torso;
         case hp_arm_l:
-            bp = bp_arm_l;
-            break;
+            return bp_arm_l;
         case hp_arm_r:
-            bp = bp_arm_r;
-            break;
+            return bp_arm_r;
         case hp_leg_l:
-            bp = bp_leg_l;
-            break;
+            return bp_leg_l;
         case hp_leg_r:
-            bp = bp_leg_r;
-            break;
+            return bp_leg_r;
         default:
-            // Silence warnings
-            break;
+            return num_bp;
     }
 }
 

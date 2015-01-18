@@ -532,13 +532,11 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
-        body_part bp;
-        p->hp_convert( healed, bp );
+        const body_part bp = player::hp_to_bp( healed );
         p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    body_part bp_healed = bp_torso;
-    p->hp_convert(healed, bp_healed);
+    const body_part bp_healed = player::hp_to_bp( healed );
 
     if (p->has_effect("bleed", bp_healed)) {
         if (x_in_y(bleed, 100)) {
@@ -3398,8 +3396,7 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
         } else {
             p->add_msg_if_player(m_neutral, _("It itches a little."));
         }
-        body_part bp = num_bp;
-        p->hp_convert(hpart, bp);
+        const body_part bp = player::hp_to_bp( hpart );
         if (p->has_effect("bite", bp)) {
             p->add_effect("bite", 2600, bp, true);
         }

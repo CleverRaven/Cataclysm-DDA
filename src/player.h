@@ -541,9 +541,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void knock_back_from(int x, int y);
 
         /** Converts a body_part to an hp_part */
-        static void bp_convert(hp_part &hpart, body_part bp);
+        static hp_part bp_to_hp(body_part bp);
         /** Converts an hp_part to a body_part */
-        static void hp_convert(hp_part hpart, body_part &bp);
+        static body_part hp_to_bp(hp_part hpart);
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const;
