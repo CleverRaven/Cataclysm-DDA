@@ -28,8 +28,9 @@ void mdefense::zapback(monster *m, Creature *source, const projectile *proj)
         shock.add_damage(DT_ELECTRIC, rng(1, 5));
         source->deal_damage(m, bp_arm_l, shock);
         source->deal_damage(m, bp_arm_r, shock);
-        auto msg_type = source == &g->u ? m_bad : m_info;
-        add_msg( msg_type, _("Striking the %s shocks %s!"), m->name().c_str(), source->disp_name().c_str() );
+        if (g->u.sees(source->pos())) {
+        add_msg(_("Striking the %s shocks %s!"), m->name().c_str(), source->disp_name().c_str() );
+        }
     }
     return;
 }
