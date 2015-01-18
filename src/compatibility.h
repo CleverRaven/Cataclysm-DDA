@@ -27,7 +27,7 @@ inline std::string to_string(long const n)
     //- and \0
     constexpr int size = std::numeric_limits<long>::digits10 + 2;
     char buffer[size];
-    std::snprintf(buffer, size, "%ld");
+    snprintf(buffer, size, "%ld");
     return buffer;
 }
 
@@ -36,7 +36,7 @@ inline std::string to_string(double const n)
     //- . \0 + snprintf default precision.
     constexpr int size = std::numeric_limits<double>::max_exponent10 + 6 + 3;
     char buffer[size];
-    std::snprintf(buffer, size, "%f");
+    snprintf(buffer, size, "%f");
     return buffer;
 }
 #else //all other platforms
