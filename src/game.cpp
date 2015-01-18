@@ -4909,33 +4909,11 @@ void game::debug()
     case 12:
         add_msg(m_info, _("Martial arts debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        u.add_martialart("style_brawling");
-        u.add_martialart("style_karate");
-        u.add_martialart("style_judo");
-        u.add_martialart("style_aikido");
-        u.add_martialart("style_tai_chi");
-        u.add_martialart("style_taekwondo");
-        u.add_martialart("style_krav_maga");
-        u.add_martialart("style_muay_thai");
-        u.add_martialart("style_ninjutsu");
-        u.add_martialart("style_capoeira");
-        u.add_martialart("style_zui_quan");
-        u.add_martialart("style_tiger");
-        u.add_martialart("style_crane");
-        u.add_martialart("style_leopard");
-        u.add_martialart("style_snake");
-        u.add_martialart("style_dragon");
-        u.add_martialart("style_centipede");
-        u.add_martialart("style_venom_snake");
-        u.add_martialart("style_scorpion");
-        u.add_martialart("style_lizard");
-        u.add_martialart("style_toad");
-        u.add_martialart("style_boxing");
-        u.add_martialart("style_eskrima");
-        u.add_martialart("style_fencing");
-        u.add_martialart("style_niten");
-        u.add_martialart("style_biojutsu");
-        u.add_martialart("style_silat");
+        for( auto &style : martialarts ) {
+            if (style.first != "style_none") {
+                u.add_martialart(style.first);
+            }
+        }
         add_msg(m_good, _("You now know a lot more than just 10 styles of kung fu."));
         break;
 
