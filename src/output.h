@@ -199,7 +199,6 @@ int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeigh
 
 char rand_char();
 long special_symbol (long sym);
-char special_symbol_c (long sym);
 
 // TODO: move these elsewhere
 // string manipulations.

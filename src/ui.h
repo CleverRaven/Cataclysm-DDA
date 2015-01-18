@@ -25,6 +25,7 @@ struct mvwzstr {
     int left;
     nc_color color;
     std::string txt;
+    long sym;
 };
 
 /*

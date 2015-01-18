@@ -585,7 +585,22 @@ void veh_interact::do_install()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
 
-    std::array<std::string,7> tab_list = { {_("All"),_("Cargo"),_("Light"),_("Util"),_("Hull"),_("Armor"),_("Other")} };
+    std::array<std::string,7> tab_list = { { pgettext("Vehicle Parts|","All"),
+                                             pgettext("Vehicle Parts|","Cargo"),
+                                             pgettext("Vehicle Parts|","Light"),
+                                             pgettext("Vehicle Parts|","Util"),
+                                             pgettext("Vehicle Parts|","Hull"),
+                                             pgettext("Vehicle Parts|","Internal"),
+                                             pgettext("Vehicle Parts|","Other") } };
+
+    std::array<std::string,7> tab_list_short = { { pgettext("Vehicle Parts|","A"),
+                                                   pgettext("Vehicle Parts|","C"),
+                                                   pgettext("Vehicle Parts|","L"),
+                                                   pgettext("Vehicle Parts|","U"),
+                                                   pgettext("Vehicle Parts|","H"),
+                                                   pgettext("Vehicle Parts|","I"),
+                                                   pgettext("Vehicle Parts|","O") } };
+
     std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
     tab_filters[0] = [&](vpart_info) { return true; }; // All
     tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO); }; // Cargo
@@ -599,7 +614,9 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_RECHARGE) || part.has_flag(VPFLAG_EXTENDS_VISION) ||
                                                    part.has_flag("POWER_TRANSFER"); };
     tab_filters[4] = [&](vpart_info part) { return part.has_flag(VPFLAG_OBSTACLE); }; // Hull
-    tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ARMOR); }; // Armor
+    tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ENGINE) || // Internals
+                                                   part.has_flag(VPFLAG_ALTERNATOR) ||
+                                                   part.has_flag(VPFLAG_CONTROLS); };
     tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
         for (size_t i=1; i < tab_filters.size()-1; i++ ) {
             if( tab_filters[i](part) ) return false;
@@ -638,10 +655,12 @@ void veh_interact::do_install()
                 if ( shapes.size() > 1 ) { // more than one shape available, display selection
                     std::vector<uimenu_entry> shape_ui_entries;
                     for ( size_t i = 0; i < shapes.size(); i++ ) {
-                        std::string shape_symbol = std::string( 1, special_symbol_c(shapes[i]->sym) );
-                        shape_ui_entries.push_back(
-                            uimenu_entry( i, true, (char)i, shape_symbol + " " + shapes[i]->name )
-                        );
+                        uimenu_entry entry = uimenu_entry( i, true, UIMENU_INVALID,
+                                                           shapes[i]->name );
+                        entry.extratxt.left = 1;
+                        entry.extratxt.sym = special_symbol( shapes[i]->sym );
+                        entry.extratxt.color = shapes[i]->color;
+                        shape_ui_entries.push_back( entry );
                     }
                     selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
                                              "Choose shape:", shape_ui_entries ).ret;

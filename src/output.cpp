@@ -1174,28 +1174,6 @@ long special_symbol (long sym)
     }
 }
 
-char special_symbol_c (long sym)
-{
-    switch (sym) {
-    case 'j':
-        return LINE_XOXO_C;
-    case 'h':
-        return LINE_OXOX_C;
-    case 'c':
-        return LINE_XXXX_C;
-    case 'y':
-        return LINE_OXXO_C;
-    case 'u':
-        return LINE_OOXX_C;
-    case 'n':
-        return LINE_XOOX_C;
-    case 'b':
-        return LINE_XXOO_C;
-    default:
-        return sym;
-    }
-}
-
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions(const std::string &s)
 {

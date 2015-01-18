@@ -561,6 +561,10 @@ void uimenu::show()
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
+            if ( entries[ei].extratxt.sym != 0 ) {
+                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
+            }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
             }
