@@ -633,10 +633,10 @@ void veh_interact::do_install()
         // draw tab menu
         int tab_x = 0;
         for( size_t i=0; i < tab_list.size(); i++ ){
-            std::string tab_name = (tab == i) ? tab_list[i] : tab_list[i].substr(0,1); // full name for selected tab
+            std::string tab_name = (tab == i) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
             tab_x += (tab == i); // add a space before selected tab
             draw_subtab(w_list, tab_x, tab_name, tab == i, false);
-            tab_x += ( 1 + tab_name.length() + (tab == i) ); // one space padding and add a space after selected tab
+            tab_x += ( 1 + utf8_width(tab_name.c_str()) + (tab == i) ); // one space padding and add a space after selected tab
         }
         wrefresh(w_list);
 
