@@ -31,8 +31,8 @@ class Creature_tracker
     private:
         std::vector<monster *> _old_monsters_list;
         std::unordered_map<point, int> _old_monsters_by_location;
-        /** Returns the monster index of the dead monster at the given point. */
-        int dead_mon_at(point coords) const;
+        /** Remove the monsters entry in @ref _old_monsters_by_location */
+        void remove_from_location_map( const monster &critter );
 };
 
 #endif

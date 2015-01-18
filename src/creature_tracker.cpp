@@ -29,18 +29,6 @@ int Creature_tracker::mon_at(point coords) const
     return -1;
 }
 
-int Creature_tracker::dead_mon_at(point coords) const
-{
-    const auto iter = _old_monsters_by_location.find(coords);
-    if (iter != _old_monsters_by_location.end()) {
-        const int critter_id = iter->second;
-        if (_old_monsters_list[critter_id]->is_dead()) {
-            return critter_id;
-        }
-    }
-    return -1;
-}
-
 bool Creature_tracker::add(monster &critter)
 {
     if (critter.type->id == "mon_null") { // Don't wanna spawn null monsters o.O
@@ -68,12 +56,16 @@ bool Creature_tracker::update_pos(const monster &critter, const point new_pos)
     if (old_pos == new_pos) {
         return true; // success?
     }
+    if( critter.is_dead() ) {
+        // mon_at ignores dead critters anyway, changing their position in the
+        // _old_monsters_by_location map is useless.
+        remove_from_location_map( critter );
+        return true;
+    }
     bool success = false;
-    const int dead_critter_id = dead_mon_at( old_pos );
-    const int live_critter_id = mon_at( old_pos );
-    const int critter_id = critter.is_dead() ? dead_critter_id : live_critter_id;
+    const int critter_id = mon_at( old_pos );
     const int new_critter_id = mon_at( new_pos );
-    if (new_critter_id >= 0 && !_old_monsters_list[new_critter_id]->is_dead()) {
+    if (new_critter_id >= 0) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                  new_pos.x, new_pos.y, new_critter_id);
     } else if (critter_id >= 0) {
@@ -94,16 +86,21 @@ bool Creature_tracker::update_pos(const monster &critter, const point new_pos)
     return success;
 }
 
+void Creature_tracker::remove_from_location_map( const monster &critter )
+{
+    const auto old_pos_iter = _old_monsters_by_location.find( critter.pos() );
+    if( old_pos_iter != _old_monsters_by_location.end() ) {
+        const auto &other = find( old_pos_iter->second );
+        if( &other == &critter ) {
+            _old_monsters_by_location.erase( old_pos_iter );
+        }
+    }
+}
+
 void Creature_tracker::remove(const int idx)
 {
     monster &m = *_old_monsters_list[idx];
-    const point oldloc(m.pos());
-    const auto i = _old_monsters_by_location.find(oldloc);
-    const int prev = (i == _old_monsters_by_location.end() ? -1 : i->second);
-
-    if (prev == idx) {
-        _old_monsters_by_location.erase(oldloc);
-    }
+    remove_from_location_map( m );
 
     delete _old_monsters_list[idx];
     _old_monsters_list.erase(_old_monsters_list.begin() + idx);
