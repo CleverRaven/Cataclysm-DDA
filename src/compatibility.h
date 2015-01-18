@@ -31,6 +31,15 @@ inline std::string to_string(long const n)
     return buffer;
 }
 
+inline std::string to_string(int const n)
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<int>::digits10 + 2;
+    char buffer[size];
+    snprintf(buffer, size, "%d", n);
+    return buffer;
+}
+
 inline std::string to_string(double const n)
 {
     //- . \0 + snprintf default precision.
