@@ -4933,6 +4933,7 @@ void game::debug()
         u.add_martialart("style_boxing");
         u.add_martialart("style_eskrima");
         u.add_martialart("style_fencing");
+        u.add_martialart("style_niten");
         u.add_martialart("style_biojutsu");
         u.add_martialart("style_silat");
         add_msg(m_good, _("You now know a lot more than just 10 styles of kung fu."));
