@@ -31,22 +31,22 @@ void exit_handler(int s);
 
 namespace {
 
-struct ArgHandler {
+struct arg_handler {
   //! Handler function to be invoked when this argument is encountered. The handler will be
   //! called with the number of parameters after the flag was encountered, along with the array
   //! of following parameters. It must return an integer indicating how many parameters were
   //! consumed by the call or -1 to indicate that a required argument was missing.
-  typedef std::function<int(int, const char **)> arg_handler;
+  typedef std::function<int(int, const char **)> handler_method;
 
   const char *flag;  //!< The commandline parameter to handle (e.g., "--seed").
   const char *param_documentation;  //!< Human readable description of this arguments parameter.
   const char *documentation;  //!< Human readable documentation for this argument.
   const char *help_group; //!< Section of the help message in which to include this argument.
-  arg_handler handler;  //!< The callback to be invoked when this argument is encountered.
+  handler_method handler;  //!< The callback to be invoked when this argument is encountered.
 };
 
-void printHelpMessage(const ArgHandler *first_pass_arguments, size_t num_first_pass_arguments,
-    const ArgHandler *second_pass_arguments, size_t num_second_pass_arguments);
+void printHelpMessage(const arg_handler *first_pass_arguments, size_t num_first_pass_arguments,
+    const arg_handler *second_pass_arguments, size_t num_second_pass_arguments);
 }  // namespace
 
 #ifdef USE_WINMAIN
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
-        const ArgHandler first_pass_arguments[] = {
+        const arg_handler first_pass_arguments[] = {
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 
         // The following arguments are dependent on one or more of the previous flags and are run
         // in a second pass.
-        const ArgHandler second_pass_arguments[] = {
+        const arg_handler second_pass_arguments[] = {
             {
                 "--worldmenu", nullptr,
                 "Enables the world menu in the map-sharing code",
@@ -436,18 +436,22 @@ int main(int argc, char *argv[])
 }
 
 namespace {
-void printHelpMessage(const ArgHandler *first_pass_arguments,
+void printHelpMessage(const arg_handler *first_pass_arguments,
     size_t num_first_pass_arguments,
-    const ArgHandler *second_pass_arguments,
+    const arg_handler *second_pass_arguments,
     size_t num_second_pass_arguments) {
 
     // Group all arguments by help_group.
-    std::multimap<std::string, const ArgHandler *> help_map;
+    std::multimap<std::string, const arg_handler *> help_map;
     for (size_t i = 0; i < num_first_pass_arguments; ++i) {
-        help_map.emplace(first_pass_arguments[i].help_group, &first_pass_arguments[i]);
+        std::string help_group;
+        if (first_pass_arguments[i].help_group) help_group = first_pass_arguments[i].help_group;
+        help_map.emplace(help_group, &first_pass_arguments[i]);
     }
     for (size_t i = 0; i < num_second_pass_arguments; ++i) {
-        help_map.emplace(second_pass_arguments[i].help_group, &second_pass_arguments[i]);
+        std::string help_group;
+        if (second_pass_arguments[i].help_group) help_group = second_pass_arguments[i].help_group;
+        help_map.emplace(help_group, &second_pass_arguments[i]);
     }
 
     printf("Command line paramters:\n");
@@ -460,7 +464,7 @@ void printHelpMessage(const ArgHandler *first_pass_arguments,
             printf("%s\n", current_help_group.c_str());
         }
 
-        const ArgHandler *handler = it->second;
+        const arg_handler *handler = it->second;
         printf("%s", handler->flag);
         if (handler->param_documentation) {
             printf(" %s", handler->param_documentation);
