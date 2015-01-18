@@ -4951,25 +4951,14 @@ void player::hurtall(int dam, Creature *source)
     }
 }
 
-void player::hitall(int dam, int vary)
+void player::hitall(int dam, int vary, Creature *source)
 {
-    if (in_sleep_state()) {
-        wake_up();
-    }
-
     for (int i = 0; i < num_hp_parts; i++) {
-        int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int ddam = vary ? dam * rng (100 - vary, 100) / 100 : dam;
         int cut = 0;
-        absorb((body_part) i, ddam, cut);
-        hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0) {
-            lifetime_stats()->damage_taken += hp_cur[i];
-            hp_cur[i] = 0;
-        }
-
-        // Average of pre and post armor damage levels, divided by 8.
-        mod_pain( (dam + ddam) / 16 );
-        lifetime_stats()->damage_taken += ddam;
+        absorb(bp, ddam, cut);
+        apply_damage( source, bp, ddam );
     }
 }
 

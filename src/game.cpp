@@ -7412,7 +7412,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
         }
         // TODO: make the npc angry?
-        npc_or_player->hitall(bash_dmg);
+        npc_or_player->hitall(bash_dmg, 0, nullptr);
         knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
@@ -12221,7 +12221,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                                           dname.c_str(), dam1 );
             }
             if( p != nullptr ) {
-                p->hitall(dam1, 40);
+                p->hitall(dam1, 40, critter);
             } else {
                 zz->apply_damage( critter, bp_torso, dam1 );
             }
@@ -12264,7 +12264,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 dam1 /= 2;
             }
             if (dam1 > 0) {
-                p->hitall(dam1, 40);
+                p->hitall(dam1, 40, nullptr);
             }
         } else {
             zz->apply_damage( nullptr, bp_torso, dam1 );
