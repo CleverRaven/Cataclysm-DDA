@@ -40,7 +40,18 @@ inline std::string to_string(double const n)
     return buffer;
 }
 #else //all other platforms
-using std::to_string;
+#include <type_traits>
+
+//mirrors the valid overloads of std::to_string
+template <typename T, typename std::enable_if<std::is_arithmetic<T>::value &&
+    !std::is_same<T, bool>::value && !std::is_same<T, wchar_t>::value &&
+    !std::is_same<T, char>::value && !std::is_same<T, char16_t>::value &&
+    !std::is_same<T, char32_t>::value>::type* = nullptr>
+std::string to_string(T const n)
+{
+    return std::to_string(n);
+}
+
 #endif //CATA_NO_CPP11_STRING_CONVERSIONS
 
 #endif //CATA_COMPATIBILITY_H
