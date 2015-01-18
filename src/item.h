@@ -181,7 +181,23 @@ public:
          * items that stack together (@ref stacks_with).
          */
         bool merge_charges( const item &rhs );
- void put_in(item payload);
+        // places item in contents[]; returns true if item has been placed, otherwise false
+        bool put_in(item payload);
+        // take an item out of contents[]
+        item take_out(unsigned int index);
+        // determines if the item will fit in the space left
+        inline bool has_space_for(item it)
+        {
+            return (it.volume() < storage_left());
+        }
+        /**
+         * Get the index of the item in the contents[] vector with a matching id.
+         * Use the `pos` argument to specify the last index used to continue a search
+         * to return more indices. Without pos, will return the first name only.
+         * @returns -1 if unable to find, >=0 otherwise
+         */
+        int index_of(itype_id id, int pos=-1);
+
  void add_rain_to_container(bool acid, int charges = 1);
 
  int weight() const;
@@ -449,6 +465,7 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
+ bool is_item_container() const;
  bool is_salvageable() const;
  bool is_disassemblable() const;
  bool is_container_empty() const;
@@ -492,6 +509,23 @@ public:
  itype* type;
  mtype*   corpse;
  std::vector<item> contents;
+
+protected:
+        // amount of storage used by bag
+        int storage_occupied;
+public:
+        // amount of storage available in bag
+        inline int storage_left() const
+        {
+            return (get_storage() - storage_occupied);
+        }
+        // amount of storage used in the bag
+        inline int storage_used() const
+        {
+            return (get_storage() - storage_left());
+        }
+        // whether the mysteries of a bag have been explored.
+        bool has_been_opened;
 
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
@@ -849,7 +883,7 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never retruns null.
+         * Returns the item type of the given identifier. Never returns null.
          */
         static itype *find_type( const itype_id &id );
         /**

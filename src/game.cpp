@@ -2656,6 +2656,11 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
             max_text_length = length;
         }
         vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
+        length = utf8_width(_("<o>pen"));
+        if (length > max_text_length) {
+            max_text_length = length;
+        }
+        vMenu.push_back(iteminfo("MENU", "o", _("<o>pen"), u.rate_action_open_bag(&oThisItem)));
         length = utf8_width(_("<w>ield"));
         if (length > max_text_length) {
             max_text_length = length;
@@ -2763,6 +2768,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 break;
             case 'W':
                 wear(pos);
+                break;
+            case 'o':
+                open_bag(pos);
                 break;
             case 'w':
                 wield(pos);
@@ -12300,6 +12308,66 @@ void game::wield(int pos)
     }
 }
 
+void game::open_bag(int pos)
+{
+    item &bag = u.i_at(pos);
+    if(u.rate_action_open_bag(&bag) != HINT_GOOD) { return; }
+    //[davek] TODO: make appropriate overload for 'key' in uimenu_cb for handling
+    uimenu bmenu;
+    //[davek] FIXME: make this return to inv instead of menu
+    bmenu.return_invalid = true;
+    bmenu.text = string_format(_("You stare at the %s"), bag.tname(1, false).c_str());
+    bmenu.addentry(1,  !bag.is_container_full(),  's', _("Store an item"));
+    bmenu.addentry(2,  !bag.is_container_empty(), 't', _("Take an item"));
+    bmenu.query();
+    int decision = bmenu.ret;
+
+dos_decision:
+    bmenu.reset();
+    bmenu.return_invalid = true;
+
+    switch(decision) {
+/*** Storing an item ***/
+    case 1: {
+        bmenu.text = string_format(_("You ponder what to put in the %s..."), bag.tname(1, false).c_str());
+        int i = 0;
+        // used for getting an index back to move around the item in a sensible way
+        std::map<int, item *> ur_junk;
+        auto const &pizza = u.inv.slice();
+        for(auto &elem : pizza) {
+            item &it = elem->front();
+            ur_junk[i] = &it;
+            bmenu.addentry(++i, true, -1, elem->front().tname());
+        }
+        bmenu.query();
+        // invalid return value, requery!
+        if(!helper::between(1, bmenu.ret, i)) {
+//            popup(_("I don't know that that item is!"));
+            decision = 1;
+            goto dos_decision;
+        }
+        //[davek] TODO: explain volume_factor
+        u.store(&bag, ur_junk[bmenu.ret-1], "null", bag.storage_used());
+        break; } // end of case 1
+
+/*** Taking an item ***/
+    case 2: {
+        bmenu.text = string_format(_("You open the %s, and see..."), bag.tname(1, false).c_str());
+        for(unsigned int i = 0; i < bag.contents.size(); ++i) {
+            bmenu.addentry((i + 1), true, -1, bag.contents[i].tname());
+        }
+        bmenu.query();
+        bag.has_been_opened = true;
+        int index = helper::clamp(0, (bmenu.ret - 1), bag.contents.size());
+        //[davek] TODO: explain volume_factor
+        u.unload_bag(&bag, index, "null", bag.storage_used());
+        break; } // end of case 0
+    default:
+        break;
+
+    } // end of switch
+}
+
 void game::read()
 {
     int pos = inv_type(_("Read:"), IC_BOOK);
@@ -12312,6 +12380,7 @@ void game::read()
     u.read(pos);
 }
 
+//[davek] FIXME: NPC can still chat with you when you are dead.
 void game::chat()
 {
     if (u.is_deaf()) {
