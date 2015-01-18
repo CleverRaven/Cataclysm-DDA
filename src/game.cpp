@@ -554,8 +554,9 @@ void game::setup()
     safemodeveh =
         OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check, in practice didn't trigger when needed
 
-    footsteps.clear();
-    footsteps_source.clear();
+    recent_sounds.clear();
+    sounds_since_last_turn.clear();
+    sound_markers.clear();
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
@@ -1414,10 +1415,15 @@ bool game::do_turn()
 
     process_activity();
 
+    // Process sound events into sound markers for display to the player.
+    process_sound_markers();
+
     if (!u.in_sleep_state()) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
             while (u.moves > 0 || uquit == QUIT_WATCH) {
                 cleanup_dead();
+                // Process any new sounds the player caused during their turn.
+                process_sound_markers();
                 if (u.activity.type == ACT_NULL) {
                     draw();
                 }
@@ -1438,6 +1444,9 @@ bool game::do_turn()
                     process_activity();
                 }
             }
+            // Clear displayed sound markers now that the turn is over.
+            // We only want this to happen if the player had a chance to examine the sounds.
+            sound_markers.clear();
         } else {
             handle_key_blocking_activity();
         }
@@ -1458,6 +1467,7 @@ bool game::do_turn()
     update_scent();
 
     m.vehmove();
+
     // Process power and fuel consumption for all vehicles, including off-map ones.
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
@@ -1478,6 +1488,8 @@ bool game::do_turn()
     m.process_active_items();
     m.creature_in_field( u );
 
+    // Apply sounds from previous turn to monster and NPC AI.
+    process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache();
@@ -4853,38 +4865,16 @@ void game::list_missions()
     refresh_all();
 }
 
-void game::calculate_footstep_markers(std::vector<point> &result)
-{
-    result.reserve(footsteps.size());
-    for (size_t i = 0; i < footsteps.size(); i++) {
-        if( !u.sees( footsteps_source[i] ) ) {
-            std::vector<point> unseen_points;
-            for( auto &elem : footsteps[i] ) {
-                if( !u.sees( elem ) ) {
-                    unseen_points.push_back( elem );
-                }
-            }
-            if (unseen_points.size() > 0) {
-                result.push_back(unseen_points[rng(0, unseen_points.size() - 1)]);
-            }
-        }
-    }
-    footsteps.clear();
-    footsteps_source.clear();
-}
-
 // draws footsteps that have been created by monsters moving about
 void game::draw_footsteps()
 {
     if (is_draw_tiles_mode()) {
         return; // already done by cata_tiles
     }
-    std::vector<point> markers;
-    calculate_footstep_markers(markers);
     const int offset_y = POSY - (u.posy() + u.view_offset_y);
     const int offset_x = POSX - (u.posx() + u.view_offset_x);
-    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
-        mvwputch(w_terrain, offset_y + a->y, offset_x + a->x, c_yellow, '?');
+    for( const auto &sound : sound_markers ) {
+        mvwputch(w_terrain, offset_y + sound.first.y, offset_x + sound.first.x, c_yellow, '?');
     }
     wrefresh(w_terrain);
 }
@@ -5965,193 +5955,198 @@ void game::monmove()
     cleanup_dead();
 }
 
-bool game::ambient_sound(int x, int y, int vol, std::string description)
+void game::ambient_sound(int x, int y, int vol, std::string description)
 {
-    return sound( x, y, vol, description, true );
+    sound( x, y, vol, description, true );
 }
 
-bool game::sound(int x, int y, int vol, std::string description, bool ambient)
+void game::sound(int x, int y, int vol, std::string description, bool ambient)
 {
-    // --- Monster sound handling here ---
-    // Alert all hordes
-    if (vol > 20 && levz == 0) {
-        int sig_power = ((vol > 140) ? 140 : vol) - 20;
-        cur_om->signal_hordes(levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power);
-    }
-    // Alert all monsters (that can hear) to the sound.
-    for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &critter = critter_tracker.find(i);
-        // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
-        int dist = rl_dist(x, y, critter.posx(), critter.posy());
-        int vol_goodhearing = vol * 2 - dist;
-        if (vol_goodhearing > 0 && critter.can_hear()) {
-            const bool goodhearing = critter.has_flag(MF_GOODHEARING);
-            int volume = goodhearing ? vol_goodhearing : (vol - dist);
-            // Error is based on volume, louder sound = less error
-            if (volume > 0) {
-                int max_error = 0;
-                if (volume < 2) {
-                    max_error = 10;
-                } else if (volume < 5) {
-                    max_error = 5;
-                } else if (volume < 10) {
-                    max_error = 3;
-                } else if (volume < 20) {
-                    max_error = 1;
+    recent_sounds.emplace(
+        std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
+    sounds_since_last_turn.emplace(
+        std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
+}
+
+void game::add_footstep(int x, int y, int volume, int, monster *)
+{
+    sounds_since_last_turn.emplace(
+        std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
+}
+
+void game::process_sounds()
+{
+    for( const auto &sound_event_pair : recent_sounds ) {
+        const int vol = sound_event_pair.second.volume;
+        const point &source = sound_event_pair.first;
+        // Ignore footsteps for now!
+        if( sound_event_pair.second.footstep ) {
+            continue;
+        }
+        // --- Monster sound handling here ---
+        // Alert all hordes
+        if( vol > 20 && levz == 0 ) {
+            int sig_power = ((vol > 140) ? 140 : vol) - 20;
+            cur_om->signal_hordes(levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power);
+        }
+        // Alert all monsters (that can hear) to the sound.
+        for (int i = 0, numz = num_zombies(); i < numz; i++) {
+            monster &critter = critter_tracker.find(i);
+            // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
+            int dist = rl_dist( source, critter.pos() );
+            int vol_goodhearing = vol * 2 - dist;
+            if (vol_goodhearing > 0 && critter.can_hear()) {
+                const bool goodhearing = critter.has_flag(MF_GOODHEARING);
+                int volume = goodhearing ? vol_goodhearing : (vol - dist);
+                // Error is based on volume, louder sound = less error
+                if (volume > 0) {
+                    int max_error = 0;
+                    if (volume < 2) {
+                        max_error = 10;
+                    } else if (volume < 5) {
+                        max_error = 5;
+                    } else if (volume < 10) {
+                        max_error = 3;
+                    } else if (volume < 20) {
+                        max_error = 1;
+                    }
+
+                    int target_x = source.x + rng(-max_error, max_error);
+                    int target_y = source.y + rng(-max_error, max_error);
+
+                    int wander_turns = volume * (goodhearing ? 6 : 1);
+                    critter.wander_to(target_x, target_y, wander_turns);
+                    critter.process_trigger(MTRIG_SOUND, volume);
                 }
-
-                int target_x = x + rng(-max_error, max_error);
-                int target_y = y + rng(-max_error, max_error);
-
-                int wander_turns = volume * (goodhearing ? 6 : 1);
-                critter.wander_to(target_x, target_y, wander_turns);
-                critter.process_trigger(MTRIG_SOUND, volume);
             }
         }
     }
+    recent_sounds.clear();
+}
 
-    // --- Player stuff below this point ---
-    int dist = rl_dist(x, y, u.posx(), u.posy());
+void game::process_sound_markers()
+{
+    bool is_deaf = u.is_deaf();
+    const float volume_multiplier = u.hearing_ability();
 
-    // Mutation/Bionic volume modifiers
-    if (u.has_bionic("bio_ears")) {
-        vol *= 3.5;
-    }
-    if (u.has_trait("PER_SLIME")) {
-        // Random hearing :-/
-        // (when it's working at all, see player.cpp)
-        vol *= (rng(1, 2)); // changed from 0.5 to fix Mac compiling error
-    }
-    if (u.has_trait("BADHEARING")) {
-        vol *= .5;
-    }
-    if (u.has_trait("GOODHEARING")) {
-        vol *= 1.25;
-    }
-    if (u.has_trait("CANINE_EARS")) {
-        vol *= 1.5;
-    }
-    if (u.has_trait("URSINE_EARS") || u.has_trait("FELINE_EARS")) {
-        vol *= 1.25;
-    }
-    if (u.has_trait("LUPINE_EARS")) {
-        vol *= 1.75;
-    }
+    for( const auto &sound_event_pair : sounds_since_last_turn ) {
+        int volume = sound_event_pair.second.volume * volume_multiplier;
+        int dist = rl_dist( u.pos(), sound_event_pair.first );
+        bool ambient = sound_event_pair.second.ambient;
 
-    // Too far away, we didn't hear it!
-    if (dist > vol) {
-        return false;
-    }
+        // Too far away, we didn't hear it!
+        if( dist > volume ) {
+            continue;
+        }
 
-    if (u.is_deaf()) {
-        // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
-            rng((vol - dist) / 2, (vol - dist)) >= 150) {
-            int duration = std::min(40, (vol - dist - 130) / 4);
+        if( is_deaf ) {
+            // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
+            if( !(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") ||
+                  u.is_wearing("rm13_armor_on")) && rng((volume - dist) / 2, (volume - dist)) >= 150) {
+                int duration = std::min(40, (volume - dist - 130) / 4);
+                u.add_effect("deaf", duration);
+            }
+            // We're deaf, skip rest of processing.
+            continue;
+        }
+
+        // Player volume meter includes all sounds from their tile and adjacent tiles
+        // TODO: Add noises from vehicle player is in.
+        if (dist <= 1) {
+            u.volume = std::max( u.volume, volume );
+        }
+
+        // Check for deafness
+        if( !u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
+            rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
+            int duration = (volume - dist - 130) / 4;
             u.add_effect("deaf", duration);
+            is_deaf = true;
+            continue;
         }
-        // We're deaf, can't hear it
-        return false;
-    }
 
-    // Player volume meter includes all sounds from their tile and adjacent tiles
-    if (dist <= 1) {
-        u.volume = std::max( u.volume, vol );
-    }
-
-    // Check for deafness
-    if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
-        rng((vol - dist) / 2, (vol - dist)) >= 150) {
-        int duration = (vol - dist - 130) / 4;
-        u.add_effect("deaf", duration);
-    }
-
-    // See if we need to wake someone up
-    if (u.has_effect("sleep")) {
-        if ((!(u.has_trait("HEAVYSLEEPER") ||
-               u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
-            (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
-            (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
-            //Not kidding about sleep-thru-firefight
-            u.wake_up();
-            add_msg(m_warning, _("Something is making noise."));
-        } else {
-            return false;
-        }
-    }
-
-    if (!ambient && (x != u.posx() || y != u.posy()) && !m.pl_sees( x, y, dist )) {
-        if (u.activity.ignore_trivial != true) {
-            std::string query;
-            if (description != "") {
-                query = string_format(_("Heard %s!"), description.c_str());
+        // See if we need to wake someone up
+        if( u.has_effect("sleep")) {
+            if( (!(u.has_trait("HEAVYSLEEPER") ||
+                   u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume - dist) ||
+                (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume - dist) ||
+                (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume - dist) ) {
+                //Not kidding about sleep-thru-firefight
+                u.wake_up();
+                add_msg(m_warning, _("Something is making noise."));
             } else {
-                query = _("Heard a noise!");
+                continue;
             }
+        }
 
-            if (cancel_activity_or_ignore_query(query.c_str())) {
-                u.activity.ignore_trivial = true;
-                for( auto activity : u.backlog ) {
-                    activity.ignore_trivial = true;
+        const int x = sound_event_pair.first.x;
+        const int y = sound_event_pair.first.y;
+        const std::string &description = sound_event_pair.second.description;
+        if( !ambient && (x != u.posx() || y != u.posy()) && !m.pl_sees( x, y, dist ) ) {
+            if( u.activity.ignore_trivial != true ) {
+                std::string query;
+                if( description.empty() ) {
+                    query = _("Heard a noise!");
+                } else {
+                    query = string_format(_("Heard %s!"),
+                                          sound_event_pair.second.description.c_str());
+                }
+
+                if( cancel_activity_or_ignore_query(query.c_str()) ) {
+                    u.activity.ignore_trivial = true;
+                    for( auto activity : u.backlog ) {
+                        activity.ignore_trivial = true;
+                    }
                 }
             }
         }
-    }
 
-    // Only print a description if it exists
-    if (description != "") {
-        // If it came from us, don't print a direction
-        if (x == u.posx() && y == u.posy()) {
-            capitalize_letter(description, 0);
-            add_msg("%s", description.c_str());
+        // Only print a description if it exists
+        if( !description.empty() ) {
+            // If it came from us, don't print a direction
+            if( x == u.posx() && y == u.posy() ) {
+                std::string uppercased = description;
+                capitalize_letter(uppercased, 0);
+                add_msg("%s", uppercased.c_str());
+            } else {
+                // Else print a direction as well
+                std::string direction = direction_name(direction_from(u.posx(), u.posy(), x, y));
+                add_msg(m_warning, _("From the %s you hear %s"), direction.c_str(), description.c_str());
+            }
+        }
+
+        // Place footstep markers.
+        if( (x == u.posx() && y == u.posy()) || u.sees(x, y) ) {
+            // If we are or can see the source, don't draw a marker.
+            continue;
+        }
+
+        int err_offset;
+        if( volume / dist < 2 ) {
+            err_offset = 3;
+        } else if( volume / dist < 3 ) {
+            err_offset = 2;
         } else {
-            // Else print a direction as well
-            std::string direction = direction_name(direction_from(u.posx(), u.posy(), x, y));
-            add_msg(m_warning, _("From the %s you hear %s"), direction.c_str(), description.c_str());
+            err_offset = 1;
+        }
+
+        // Enumerate the valid points the player *cannot* see.
+        std::vector<point> unseen_points;
+        for( int newx = x - err_offset; newx <= x + err_offset; newx++) {
+            for ( int newy = y - err_offset; newy <= y + err_offset; newy++) {
+                if( !u.sees( newx, newy) ) {
+                    unseen_points.emplace_back( newx, newy );
+                }
+            }
+        }
+        // Then place the sound marker in a random one.
+        if( !unseen_points.empty() ) {
+            sound_markers.emplace(
+                std::make_pair( unseen_points[rng(0, unseen_points.size() - 1)],
+                                sound_event_pair.second ) );
         }
     }
-    return true;
-}
-
-// add_footstep will create a list of locations to draw monster
-// footsteps. these will be more or less accurate depending on the
-// characters hearing and how close they are
-void game::add_footstep(int x, int y, int volume, int distance, monster *source)
-{
-    if (u.is_deaf()) {
-        return;
-    } else if (x == u.posx() && y == u.posy()) {
-        return;
-    } else if (u.sees(x, y)) {
-        return;
-    }
-    int err_offset;
-    if (volume / distance < 2) {
-        err_offset = 3;
-    } else if (volume / distance < 3) {
-        err_offset = 2;
-    } else {
-        err_offset = 1;
-    }
-    if (u.has_bionic("bio_ears")) {
-        err_offset--;
-    }
-    if (u.has_trait("BADHEARING")) {
-        err_offset++;
-    }
-    if (u.has_trait("GOODHEARING") || u.has_trait("FELINE_EARS")) {
-        err_offset--;
-    }
-
-    int origx = x, origy = y;
-    std::vector<point> point_vector;
-    for (x = origx - err_offset; x <= origx + err_offset; x++) {
-        for (y = origy - err_offset; y <= origy + err_offset; y++) {
-            point_vector.push_back(point(x, y));
-        }
-    }
-    footsteps.push_back(point_vector);
-    footsteps_source.push_back(source->pos());
+    sounds_since_last_turn.clear();
 }
 
 void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)
@@ -6674,8 +6669,8 @@ void game::use_computer(int x, int y)
     computer *used = m.computer_at(x, y);
 
     if (used == NULL) {
-        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" << x
-                     << ", " << y << ") - none there";
+        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
+            x << ", " << y << ") - none there";
         debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
         return;
     }

@@ -1429,10 +1429,8 @@ void cata_tiles::draw_zones_frame()
 void cata_tiles::draw_footsteps_frame()
 {
     static const std::string footstep_tilestring = "footstep";
-    std::vector<point> markers;
-    g->calculate_footstep_markers(markers);
-    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
-        draw_from_id_string(footstep_tilestring, a->x, a->y, 0, 0);
+    for( const auto &sound : g->sound_markers ) {
+        draw_from_id_string(footstep_tilestring, sound.first.x, sound.first.y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
