@@ -7545,7 +7545,7 @@ monster &game::zombie(const int idx)
 
 bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
-    return critter_tracker.update_pos(critter, newx, newy);
+    return critter_tracker.update_pos(critter, point( newx, newy ) );
 }
 
 void game::remove_zombie(const int idx)
@@ -7585,7 +7585,7 @@ bool game::spawn_hallucination()
 
 int game::mon_at(const int x, const int y) const
 {
-    return critter_tracker.mon_at(x, y);
+    return critter_tracker.mon_at( point( x, y ) );
 }
 
 int game::mon_at(point p) const

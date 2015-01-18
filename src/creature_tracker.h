@@ -16,14 +16,12 @@ class Creature_tracker
         monster &find(int index);
         /** Returns the monster index of the monster at the given point. */
         int mon_at(point coords) const;
-        /** Returns the monster index of the monster at the given x and y values. */
-        int mon_at(int x_pos, int y_pos) const;
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
         bool add(monster &critter);
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation 
          *  was successful. */
-        bool update_pos(const monster &critter, const int new_x_pos, const int new_y_pos);
+        bool update_pos(const monster &critter, const point new_pos);
         /** Removes the given monster index from the Creature tracker, adjusting other entries as needed. */
         void remove(const int idx);
         void clear();
