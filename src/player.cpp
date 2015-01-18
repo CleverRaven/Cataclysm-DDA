@@ -4943,16 +4943,11 @@ void player::healall(int dam)
     }
 }
 
-void player::hurtall(int dam)
+void player::hurtall(int dam, Creature *source)
 {
     for (int i = 0; i < num_hp_parts; i++) {
-        hp_cur[i] -= dam;
-        if (hp_cur[i] < 0) {
-            lifetime_stats()->damage_taken += hp_cur[i];
-            hp_cur[i] = 0;
-        }
-        mod_pain( dam / 2 );
-        lifetime_stats()->damage_taken += dam;
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        apply_damage( source, bp, dam );
     }
 }
 
@@ -5763,7 +5758,7 @@ void player::hardcoded_effects(effect &it)
     if (id == "onfire") {
         // TODO: this should be determined by material properties
         if (!has_trait("M_SKIN2")) {
-            hurtall(3);
+            hurtall(3, nullptr);
         }
         for (size_t i = 0; i < worn.size(); i++) {
             item tmp = worn[i];
@@ -6571,7 +6566,7 @@ void player::hardcoded_effects(effect &it)
                 add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
                                   pgettext("memorial_female", "Succumbed to an asthma attack."));
             }
-            hurtall(500);
+            hurtall(500, nullptr);
         } else if (dur > 700) {
             if (one_in(20)) {
                 add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
@@ -6762,7 +6757,7 @@ void player::hardcoded_effects(effect &it)
                 add_msg(m_bad, _("You succumb to the infection."));
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
-                hurtall(500);
+                hurtall(500, nullptr);
             }
             it.mod_duration(1);
         }
@@ -7504,7 +7499,7 @@ void player::suffer()
             wake_up();
         }
         mod_pain(1);
-        hurtall(1);
+        hurtall(1, nullptr);
         }
     }
 
@@ -7699,7 +7694,7 @@ void player::suffer()
     }
 
     if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
-        hurtall(radiation / 100);
+        hurtall(radiation / 100, nullptr);
     }
 
     // Negative bionics effects
@@ -7716,7 +7711,7 @@ void player::suffer()
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg(m_bad, _("You suffer a burning acidic discharge!"));
-        hurtall(1);
+        hurtall(1, nullptr);
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg(m_bad, _("Your batteries discharge slightly."));

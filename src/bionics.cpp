@@ -941,7 +941,7 @@ void bionics_uninstall_failure(player *u)
         break;
     }
     add_msg(m_bad, _("Your body is severely damaged!"));
-    u->hurtall(rng(30, 80));
+    u->hurtall(rng(30, 80), u); // stop hurting yourself!
 }
 
 // bionic manipulation chance of success
@@ -1177,7 +1177,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     case 2:
         add_msg(m_bad, _("Your body is damaged!"));
-        u->hurtall(rng(failure_level, failure_level * 2));
+        u->hurtall(rng(failure_level, failure_level * 2), u); // you hurt yourself
         break;
 
     case 3:

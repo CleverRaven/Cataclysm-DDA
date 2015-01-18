@@ -1355,10 +1355,10 @@ bool game::do_turn()
             u.healall(1);
         }
         if (u.has_trait("ROT2") && one_in(5)) {
-            u.hurtall(1);
+            u.hurtall(1, nullptr);
         }
         if (u.has_trait("ROT3") && one_in(2)) {
-            u.hurtall(1);
+            u.hurtall(1, nullptr);
         }
 
         if (u.radiation > 0 && one_in(3)) {
@@ -12565,7 +12565,7 @@ void game::vertical_move(int movez, bool force)
                 add_msg(_("You fall expertly and take no damage."));
             } else {
                 add_msg(m_bad, _("You fall heavily, taking %d damage."), dam);
-                u.hurtall(dam);
+                u.hurtall(dam, nullptr);
             }
         }
     }
@@ -13586,7 +13586,7 @@ void game::process_artifact(item *it, player *p)
             case ARTC_HP:
                 if (calendar::turn.seconds() == 0) {
                     add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1);
+                    p->hurtall(1, nullptr);
                     it->charges++;
                 }
                 break;

@@ -866,7 +866,7 @@ bool map::vehproceed()
             //damage passengers if d_vel is too high
             if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) {
                 int dmg = d_vel/4*rng(70,100)/100;
-                psg->hurtall(dmg);
+                psg->hurtall(dmg, nullptr);
                 if (psg == &g->u) {
                     add_msg(m_bad, _("You take %d damage by the power of the impact!"), dmg);
                 } else if (psg->name.length()) {

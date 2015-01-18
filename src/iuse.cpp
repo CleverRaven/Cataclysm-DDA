@@ -1529,7 +1529,7 @@ static int marloss_reject_mutagen( player *p, item *it )
         p->vomit();
         p->mod_pain(35);
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(20, 35));
+        p->hurtall(rng(20, 35), nullptr);
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((3000 - p->int_cur * 10));
         // Marloss is too thoroughly into your body to be dislodged by orals.
@@ -1568,7 +1568,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
         p->vomit();
         p->mod_pain(55);
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(30, 45));
+        p->hurtall(rng(30, 45), nullptr);
          // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((4000 - p->int_cur * 10));
         // Injection does the trick.  Burn the fungus out.
@@ -2345,7 +2345,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -2470,7 +2470,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -2591,7 +2591,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -5774,7 +5774,7 @@ int iuse::tazer(player *p, item *it, bool, point)
         p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
         int shock = rng(5, 20);
         foe->moves -= shock * 100;
-        foe->hurtall(shock);
+        foe->hurtall( shock, p );
         foe->check_dead_state();
     }
     return it->type->charges_to_use();
@@ -5866,7 +5866,7 @@ int iuse::tazer2(player *p, item *it, bool, point)
             p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
             int shock = rng(5, 20);
             foe->moves -= shock * 100;
-            foe->hurtall(shock);
+            foe->hurtall( shock, p );
             foe->check_dead_state();
         }
 

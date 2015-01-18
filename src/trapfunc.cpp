@@ -180,7 +180,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             }
             n->moves -= 150;
             if (rng(5, 20) > n->dex_cur) {
-                n->hurtall(rng(1, 4));
+                n->hurtall(rng(1, 4), nullptr);
             }
             if (c == &g->u) {
                 g->update_map(&g->u);
@@ -623,7 +623,7 @@ void trapfunc::pit(Creature *c, int x, int y)
                 int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
                 if (damage > 0) {
                     n->add_msg_if_player(m_bad, _("You hurt yourself!"));
-                    n->hurtall(rng(int(damage / 2), damage));
+                    n->hurtall(rng(int(damage / 2), damage), n); // like the message says \-:
                     n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                     n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
                 } else {
@@ -1130,7 +1130,7 @@ void trapfunc::drain(Creature *c, int, int)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hurtall(1);
+            n->hurtall(1, nullptr);
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, 1 );
         }

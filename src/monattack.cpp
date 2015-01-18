@@ -1432,7 +1432,7 @@ void mattack::fungus_fortify(monster *z, int index)
         if (rl_dist( z->pos(), g->u.pos() ) < 3) {
             if (query_yn(_("The tower extends and aims several tendrils from its depths.  Hold still?"))) {
                 add_msg(m_warning, _("The %s works several tendrils into your arms, legs, torso, and even neck..."), z->name().c_str());
-                g->u.hurtall(1);
+                g->u.hurtall(1, z);
                 add_msg(m_warning, _("You see a clear golden liquid pump through the tendrils--and then lose consciousness."));
                 g->u.toggle_mutation("MARLOSS");
                 g->u.toggle_mutation("MARLOSS_BLUE");
