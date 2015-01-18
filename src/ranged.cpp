@@ -743,7 +743,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                             _("%s <npcname> hits the %s for %d damage."),
                                             message.c_str(), z->name().c_str(), dam);
                 } else if (npcID != -1) {
-                    get_HP_Bar(dam, guy->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar, true);
+                    get_HP_Bar(dam, guy->get_hp_max(player::bp_to_hp(bp)), color, health_bar, true);
                     SCT.add(guy->posx(),
                             guy->posy(),
                             direction_from(0, 0, guy->posx() - p.posx(), guy->posy() - p.posy()),

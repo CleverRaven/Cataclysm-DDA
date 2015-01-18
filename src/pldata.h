@@ -239,41 +239,4 @@ enum hp_part {
     num_hp_parts
 };
 
-inline hp_part bodypart_to_hp_part(body_part p_bp)
-{
-    switch(p_bp) {
-    case bp_torso:
-        return hp_torso;
-
-    case bp_head:
-    case bp_eyes:
-    case bp_mouth:
-        return hp_torso;
-
-    case bp_arm_l:
-    case bp_hand_l:
-        return hp_arm_l;
-
-    case bp_arm_r:
-    case bp_hand_r:
-        return hp_arm_r;
-
-    case bp_leg_l:
-    case bp_foot_l:
-        return hp_leg_l;
-
-    case bp_leg_r:
-    case bp_foot_r:
-        return hp_leg_r;
-
-    case num_bp:
-        return num_hp_parts;
-
-    default:
-        break;
-    }
-
-    return hp_torso;
-}
-
 #endif

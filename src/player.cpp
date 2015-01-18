@@ -4616,7 +4616,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             //monster hits player melee
             nc_color color;
             std::string health_bar = "";
-            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar);
+            get_HP_Bar(dam, this->get_hp_max(player::bp_to_hp(bp)), color, health_bar);
 
             SCT.add(this->posx(),
                     this->posy(),
@@ -5050,16 +5050,22 @@ hp_part player::bp_to_hp( const body_part bp )
 {
     switch(bp) {
         case bp_head:
+        case bp_eyes:
+        case bp_mouth:
             return hp_head;
         case bp_torso:
             return hp_torso;
         case bp_arm_l:
+        case bp_hand_l:
             return hp_arm_l;
         case bp_arm_r:
+        case bp_hand_r:
             return hp_arm_r;
         case bp_leg_l:
+        case bp_foot_l:
             return hp_leg_l;
         case bp_leg_r:
+        case bp_foot_r:
             return hp_leg_r;
         default:
             return num_hp_parts;
@@ -5153,7 +5159,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         return;
     }
 
-    if (part != num_bp && hp_cur[bodypart_to_hp_part(part)] == 0) {
+    if (part != num_bp && hp_cur[player::bp_to_hp(part)] == 0) {
         return;
     }
 
