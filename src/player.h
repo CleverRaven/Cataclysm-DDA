@@ -712,7 +712,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_takeoff(item *it);
         hint_rating rate_action_reload(item *it);
         hint_rating rate_action_unload( const item &it ) const;
-        hint_rating rate_action_disassemble(item *it);
+        hint_rating rate_action_disassemble(item const &it) const;
 
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;

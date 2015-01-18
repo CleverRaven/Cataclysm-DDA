@@ -115,7 +115,54 @@ void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);
 const recipe *recipe_by_name(const std::string &name);
-const recipe *get_disassemble_recipe(const itype_id &type);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns a vector of all possible recipes which can be used to disassemble an item.
+ */
+std::vector<recipe const*> get_disassemble_recipes(const itype_id &type, recipe_map const &recipes);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether an item can be disassembled using a given recipe.
+ */
+bool can_disassemble_recipe(itype_id const &type, recipe const &r);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether a tool needed to disassemble an item can be satisfied.
+ *
+ * @param type The item type to disassemble.
+ * @param required_tool A tool required by some recipe.
+ * @param crafting_inv The crafting items to consider.
+ */
+bool have_req_disassemble_tool(
+    itype_id  const &type,
+    tool_comp const &required_tool,
+    inventory const &crafting_inv);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether a recipe's required tools can be satisfied.
+ *
+ * @param type The item type to disassemble.
+ * @param required_tools The tools required by some recipe.
+ * @param crafting_inv The crafting items to consider.
+ */
+bool have_req_disassemble_tools(
+    itype_id const &type,
+    requirement_data::alter_tool_comp_vector const &required_tools,
+    inventory const &crafting_inv,
+    bool print_msg = false);
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * Returns whether an item has enough charges to be disassembled using a recipe.
+ *
+ * @return 0 if no charges are needed, otherwise returns the number needed.
+ */
+int req_disassemble_charges(item const &it, recipe const &r);
+
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.

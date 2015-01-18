@@ -12,6 +12,8 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "itype.h"
+#include "algorithm.h"
+
 #include <queue>
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -1796,90 +1798,129 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
     }
 }
 
-const recipe *get_disassemble_recipe(const itype_id &type)
+bool can_disassemble_recipe(itype_id const &type, recipe const &r)
 {
-    for( auto &recipes_cat_iter : recipes ) {
-        for( auto cur_recipe : recipes_cat_iter.second ) {
+    return r.reversible && type == r.result;
+}
 
-            if (type == cur_recipe->result && cur_recipe->reversible) {
-                return cur_recipe;
-            }
+std::vector<recipe const*> get_disassemble_recipes(itype_id const &type, recipe_map const &recipes)
+{
+    std::vector<recipe const*> candidates;
+
+    // For all categories, copy matching recipes to candidates
+    for (auto const &p : recipes) {
+        copy_if(p.second, std::back_inserter(candidates), [&](recipe const* r) {
+            return can_disassemble_recipe(type, *r);
+        });
+    }
+
+    return candidates;
+}
+
+bool have_req_disassemble_tool(
+    itype_id  const &result_id,
+    tool_comp const &required_tool,
+    inventory const &crafting_inv)
+{
+    itype_id const type = required_tool.type;
+    int      const req  = required_tool.count; // -1 => 1
+
+    // matching tool.
+    bool const have_tool = (req <= 0 && crafting_inv.has_tools(type, 1));
+    // don't need goggles for disassembly .
+    bool const uses_goggles = (req <= 0 && type == "goggles_welding");
+    // don't need crucible for disassembing anvil.
+    bool const uses_cruible = (req <= 0 && type == "crucible" && result_id != "anvil");
+    // don't need a mold for disassembly.
+    bool const uses_mold = (req <= 0 && type == "mold_plastic");
+    // have enough charges
+    bool const has_charges = (req >  0 && crafting_inv.has_charges(type, req));
+
+    // If crafting recipe required a welder, disassembly requires a hacksaw or super toolkit.
+    bool const has_hacksaw = (type == "welder" &&
+        crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ));
+
+    return have_tool || uses_goggles || uses_cruible || uses_mold || has_charges || has_hacksaw;
+}
+
+void print_missing_tool(std::vector<tool_comp> const &require_one_of) {
+    bool first_tool = true;
+    for (auto const &tool : require_one_of) {
+        int const req = tool.count;
+
+        if (!first_tool) {
+            add_msg(m_info, _("Or..."));
+            first_tool = false;
+        }
+
+        if (tool.type == "welder") {
+            add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."),
+                quality::get_name( "SAW_M_FINE" ).c_str() );
+        } else if (req <= 0) {
+            add_msg(m_info, _("You need a %s to disassemble this."),
+                item::nname(tool.type).c_str());
+        } else {
+            add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
+                                     "You need a %s with %d charges to disassemble this.",
+                                      req),
+                    item::nname(tool.type).c_str(), req);
         }
     }
-    // no matching disassemble recipe found.
-    return NULL;
+}
+
+bool have_req_disassemble_tools(
+    itype_id const &type,
+    requirement_data::alter_tool_comp_vector const &required_tools,
+    inventory const &crafting_inv,
+    bool const print_msg)
+{
+    return all_of(required_tools, [&](std::vector<tool_comp> const &required) {
+        bool const ok = any_of(required, [&](tool_comp const &optional) {
+            return have_req_disassemble_tool(type, optional, crafting_inv);
+        });
+
+        if (!ok && print_msg) {
+            print_missing_tool(required);
+        }
+
+        //TODO could extend this to print the other options too.
+        return ok;
+    });
+}
+
+int req_disassemble_charges(item const &it, recipe const &r)
+{
+    if (!it.count_by_charges()) {
+        return 0;
+    }
+
+    // Create a new item to get the default charges
+    // TODO: seems a bit wasteful
+    auto const default_charges = r.create_result().charges;
+    if (it.charges < default_charges) {
+        return default_charges;
+    }
+
+    return 0;
 }
 
 bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {
-    if (dis_item->count_by_charges()) {
-        // Create a new item to get the default charges
-        const item tmp = cur_recipe->create_result();
-        if (dis_item->charges < tmp.charges) {
-            if (print_msg) {
-                popup(ngettext("You need at least %d charge of that item to disassemble it.",
-                               "You need at least %d charges of that item to disassemble it.",
-                               tmp.charges),
-                      tmp.charges);
-            }
-            return false;
+    int const req_charges = req_disassemble_charges(*dis_item, *cur_recipe);
+    if (req_charges) {
+        if (print_msg) {
+            popup(ngettext("You need at least %d charge of that item to disassemble it.",
+                           "You need at least %d charges of that item to disassemble it.",
+                           req_charges),
+                  req_charges);
         }
+
+        return false;
     }
-    // ok, a valid recipe exists for the item, and it is reversible
-    // assign the activity
-    // check tools are available
-    // loop over the tools and see what's required...again
-    bool have_all_tools = true;
-    for( const auto &it : cur_recipe->requirements.tools ) {
-        bool have_this_tool = false;
-        for( const auto &tool : it ) {
-            itype_id type = tool.type;
-            int req = tool.count; // -1 => 1
 
-            if ((req <= 0 && crafting_inv.has_tools (type, 1)) ||
-                // No welding, no goggles needed.
-                (req <= 0 && type == "goggles_welding") ||
-                (req <= 0 && type == "crucible" &&
-                 cur_recipe->result != "anvil") ||
-                // No mold needed for disassembly.
-                (req <= 0 && type == "mold_plastic") ||
-                (req >  0 && crafting_inv.has_charges(type, req))) {
-                have_this_tool = true;
-            }
-
-            // If crafting recipe required a welder,
-            // disassembly requires a hacksaw or super toolkit.
-            if (type == "welder") {
-                have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
-            }
-
-            if( have_this_tool ) {
-                break;
-            }
-        }
-        if (!have_this_tool) {
-            have_all_tools = false;
-            if (print_msg) {
-                int req = it[0].count;
-                if (it[0].type == "welder") {
-                    add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SAW_M_FINE" ).c_str() );
-                } else {
-                    if (req <= 0) {
-                        add_msg(m_info, _("You need a %s to disassemble this."),
-                                item::nname(it[0].type).c_str());
-                    } else {
-                        add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
-                                                 "You need a %s with %d charges to disassemble this.",
-                                                 req),
-                                item::nname(it[0].type).c_str(), req);
-                    }
-                }
-            }
-        }
-    }
-    // all tools present, so assign the activity
-    return have_all_tools;
+    return have_req_disassemble_tools(dis_item->type->id,
+        cur_recipe->requirements.tools, crafting_inv, true);
 }
 
 bool query_dissamble(const item &dis_item)
@@ -1900,7 +1941,6 @@ void player::disassemble(int dis_pos)
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return;
     }
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
 
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
@@ -1913,7 +1953,7 @@ void player::disassemble(int dis_pos)
         }
     }
 
-    if (cur_recipe != NULL) {
+    for (auto const &cur_recipe : get_disassemble_recipes(dis_item->type->id, recipes)) {
         const inventory &crafting_inv = crafting_inventory();
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
             if( !query_dissamble( *dis_item ) ) {
@@ -1921,8 +1961,9 @@ void player::disassemble(int dis_pos)
             }
             assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
             activity.values.push_back(dis_pos);
+
+            return;
         }
-        return; // recipe exists, but no tools, so do not start disassembly
     }
     //if we're trying to disassemble a book or magazine
     if( dis_item->is_book() ) {
