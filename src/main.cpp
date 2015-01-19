@@ -303,7 +303,11 @@ int main(int argc, char *argv[])
                     if (!strcmp(argv[0], arg_handler.flag)) {
                         argc--;
                         argv++;
-                        int args_consumed = arg_handler.handler(argc, (const char **) argv);
+                        int args_consumed = arg_handler.handler(argc, (const char **)argv);
+                        if (args_consumed < 0) {
+                            printf("Failed parsing parameter '%s'\n", *(argv - 1));
+                            exit(1);
+                        }
                         argc -= args_consumed;
                         argv += args_consumed;
                         arg_handled = true;
@@ -325,6 +329,10 @@ int main(int argc, char *argv[])
                     --saved_argc;
                     ++saved_argv;
                     int args_consumed = arg_handler.handler(saved_argc, saved_argv);
+                    if (args_consumed < 0) {
+                        printf("Failed parsing parameter '%s'\n", *(argv - 1));
+                        exit(1);
+                    }
                     saved_argc -= args_consumed;
                     saved_argv += args_consumed;
                     arg_handled = true;
@@ -461,7 +469,7 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
     for (; it != it_end; ++it) {
         if (it->first != current_help_group) {
             current_help_group = it->first;
-            printf("%s\n", current_help_group.c_str());
+            printf("\n%s\n", current_help_group.c_str());
         }
 
         const arg_handler *handler = it->second;
