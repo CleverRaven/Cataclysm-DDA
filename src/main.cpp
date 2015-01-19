@@ -341,8 +341,8 @@ int main(int argc, char *argv[])
             }
             // Ingore unknown options.
             if (!arg_handled) {
-              --saved_argc;
-              ++saved_argv;
+                --saved_argc;
+                ++saved_argv;
             }
         }
     }
