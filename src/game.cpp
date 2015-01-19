@@ -3194,7 +3194,7 @@ vehicle *game::remoteveh()
     }
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" ||
+    if( remote_veh_string.str() == "" || 
         ( !u.has_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
@@ -11050,11 +11050,10 @@ void game::plthrow(int pos)
     move_cost += skill_cost;
     move_cost += 20 * u.encumb(bp_torso);
     move_cost -= dexbonus;
-
-    if(u.weapon.type_name() == "atlatl" && pos != -1 && thrown.volume() < 2) {
-        move_cost *= 1.25; //extra time spent swinging
-        sound(u.xpos(), u.ypos(), 4, _("zip."));
-    }
+	if(u.weapon.type_name() == "atlatl" && pos != -1 && thrown.volume() < 2) {
+		move_cost *= 1.25; //extra time spent swinging
+		sound(u.xpos(), u.ypos(), 4, _("zip."));
+	}
 
     if (u.has_trait("LIGHT_BONES")) {
         move_cost *= .9;
