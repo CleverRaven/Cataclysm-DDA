@@ -55,19 +55,16 @@
 #include <sys/stat.h>
 
 #ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <unistd.h>
-#include <dirent.h>
+#   include <unistd.h>
+#   include <dirent.h>
 #endif
 
 #if (defined _WIN32 || defined __WIN32__)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <tchar.h>
+#   include "platform_win.h"
+#   include <tchar.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

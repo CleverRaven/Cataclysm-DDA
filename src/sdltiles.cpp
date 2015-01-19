@@ -20,23 +20,20 @@
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <shlwapi.h>
-#ifndef strcasecmp
-#define strcasecmp StrCmpI
-#endif
+#   include "platform_win.h"
+#   include <shlwapi.h>
+#   ifndef strcasecmp
+#       define strcasecmp StrCmpI
+#   endif
 #else
-#include <wordexp.h>
+#   include <wordexp.h>
 #endif
 
 #include "SDL2/SDL.h"

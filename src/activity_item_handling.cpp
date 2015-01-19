@@ -330,7 +330,7 @@ static void move_items( point source, point destination,
         if( temp_item == nullptr ) {
             continue; // No such item.
         }
-        item leftovers = temp_item->clone();
+        item leftovers = *temp_item;
 
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.

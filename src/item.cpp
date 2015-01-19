@@ -3713,10 +3713,6 @@ itype_id item::typeId() const
     return type->id;
 }
 
-item item::clone(bool rand) {
-    return item(type->id, bday, rand);
-}
-
 bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
     luminance = 0;
     width = 0;
@@ -4156,7 +4152,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                     worn->contents[0].charges += charges;
                 } else { // quiver empty, putting in new arrows
                     //add a clone so we can zero out charges on base item
-                    item clone = this->clone();
+                    item clone = *this;
                     clone.charges = charges;
                     worn->put_in(clone);
                 }
@@ -4185,7 +4181,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         // handle overflow after filling all quivers
         if(isAutoPickup && charges > 0 && u->can_pickVolume(volume())) {
             //add any extra ammo to inventory
-            item clone = this->clone();
+            item clone = *this;
             clone.charges = charges;
             u->i_add(clone);
 
