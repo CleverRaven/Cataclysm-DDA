@@ -621,7 +621,7 @@ void veh_interact::do_install()
                                                    part.has_flag("FORGE") ||
                                                    part.has_flag("HORN") ||
                                                    part.has_flag(VPFLAG_RECHARGE) ||
-                                                   part.has_flag(VPFLAG_EXTENDS_VISION) ||
+                                                   part.has_flag("VISION") ||
                                                    part.has_flag("POWER_TRANSFER") ||
                                                    part.has_flag("FAUCET") ||
                                                    part.has_flag("STEREO") ||
