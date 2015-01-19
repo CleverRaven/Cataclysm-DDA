@@ -555,7 +555,7 @@ int player::get_dodge() const
     if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
-    
+
     // Chop in half if we are unable to move
     if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
         ret /= 2;
@@ -808,11 +808,11 @@ int player::roll_stab_damage(bool crit)
     if (has_active_bionic("bio_cqb")) {
         stabbing_skill = 5;
     }
-    
+
     if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
         ret = weapon.damage_cut();
     }
-    
+
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
@@ -1282,6 +1282,28 @@ bool player::can_weapon_block()
             weapon.has_technique("WBLOCK_2") ||
             weapon.has_technique("WBLOCK_3"));
 }
+//TODO: don't hardcode these values! :(
+int player::get_shield_armor()
+{
+    int shieldmod = 0;
+    //TODO: prevent player from equipping multiple shields at once. for now, just combine the values.
+    if(is_wearing("shield_kevlar")) shieldmod += 10;
+    if(is_wearing("shield_scutum")) shieldmod += 8;
+    if(is_wearing("shield_plastic")) shieldmod += 5;
+    if(is_wearing("shield_leather")) shieldmod += 2;
+    if(is_wearing("shield_wood")) shieldmod += 1;
+    if(shieldmod == 0) return 0;
+    //if(shieldStance) return shieldmod; TODO: add shieldStance
+    else return std::max(shieldmod/2, 1);
+}
+std::string player::get_shield_name() {
+    if(is_wearing("shield_kevlar")) return "ballistic shield";
+    if(is_wearing("shield_scutum")) return "scutum";
+    if(is_wearing("shield_plastic")) return "riot shield";
+    if(is_wearing("shield_leather")) return "leather";
+    if(is_wearing("shield_wood")) return "2-by-shield";
+    return "NONE";
+}
 
 void player::dodge_hit(Creature *source, int) {
     if( dodges_left < 1 ) {
@@ -1322,20 +1344,22 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // This gets us a number between:
     // str ~0 + skill 0 = 0
     // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
+    // Best possible shield boosts this to 50, but anything above 40 is sent back down to 40
     int block_score = 1;
     if (can_weapon_block()) {
-        int block_bonus = 2;
+        int block_bonus = get_shield_armor();
         if (weapon.has_technique("WBLOCK_3")) {
-            block_bonus = 10;
+            block_bonus += 10;
         } else if (weapon.has_technique("WBLOCK_2")) {
-            block_bonus = 6;
+            block_bonus += 6;
         } else if (weapon.has_technique("WBLOCK_1")) {
-            block_bonus = 4;
+            block_bonus += 4;
         }
         block_score = str_cur + block_bonus + (int)get_skill_level("melee");
     } else if (can_limb_block()) {
-        block_score = str_cur + (int)get_skill_level("melee") + (int)get_skill_level("unarmed");
+        block_score = str_cur + (int)get_skill_level("melee") + (int)get_skill_level("unarmed") + get_shield_armor();
     }
+    block_score = std::min(block_score, 40);
 
     // Map block_score to the logistic curve for a number between 1 and 0.
     // Basic beginner character (str 8, skill 0, basic weapon)
@@ -1443,6 +1467,11 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("none");
     }
+    if(get_shield_armor() > 0)
+    add_msg_player_or_npc( _("You block %s of the damage with your %s and %s!"),
+                           _("<npcname> blocks %s of the damage with their %s and %s!"),
+                           damage_blocked_description.c_str(), thing_blocked_with.c_str(), get_shield_name().c_str() );
+    else
     add_msg_player_or_npc( _("You block %s of the damage with your %s!"),
                            _("<npcname> blocks %s of the damage with their %s!"),
                            damage_blocked_description.c_str(), thing_blocked_with.c_str() );
@@ -1601,9 +1630,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
-    
+
     int stabbing_skill = get_skill_level("stabbing");
-    
+
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
@@ -1812,7 +1841,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
-    
+
     if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth)) ) {
         special_attack tmp;

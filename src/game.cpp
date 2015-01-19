@@ -16,7 +16,6 @@
 #include "map.h"
 #include "uistate.h"
 #include "item_group.h"
-#include "helper.h"
 #include "json.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
@@ -3195,7 +3194,7 @@ vehicle *game::remoteveh()
     }
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" || 
+    if( remote_veh_string.str() == "" ||
         ( !u.has_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
@@ -4909,32 +4908,11 @@ void game::debug()
     case 12:
         add_msg(m_info, _("Martial arts debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        u.add_martialart("style_brawling");
-        u.add_martialart("style_karate");
-        u.add_martialart("style_judo");
-        u.add_martialart("style_aikido");
-        u.add_martialart("style_tai_chi");
-        u.add_martialart("style_taekwondo");
-        u.add_martialart("style_krav_maga");
-        u.add_martialart("style_muay_thai");
-        u.add_martialart("style_ninjutsu");
-        u.add_martialart("style_capoeira");
-        u.add_martialart("style_zui_quan");
-        u.add_martialart("style_tiger");
-        u.add_martialart("style_crane");
-        u.add_martialart("style_leopard");
-        u.add_martialart("style_snake");
-        u.add_martialart("style_dragon");
-        u.add_martialart("style_centipede");
-        u.add_martialart("style_venom_snake");
-        u.add_martialart("style_scorpion");
-        u.add_martialart("style_lizard");
-        u.add_martialart("style_toad");
-        u.add_martialart("style_boxing");
-        u.add_martialart("style_eskrima");
-        u.add_martialart("style_fencing");
-        u.add_martialart("style_biojutsu");
-        u.add_martialart("style_silat");
+        for( auto &style : martialarts ) {
+            if (style.first != "style_none") {
+                u.add_martialart(style.first);
+            }
+        }
         add_msg(m_good, _("You now know a lot more than just 10 styles of kung fu."));
         break;
 
@@ -7544,7 +7522,7 @@ monster &game::zombie(const int idx)
 
 bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
-    return critter_tracker.update_pos(critter, newx, newy);
+    return critter_tracker.update_pos(critter, point( newx, newy ) );
 }
 
 void game::remove_zombie(const int idx)
@@ -7584,7 +7562,7 @@ bool game::spawn_hallucination()
 
 int game::mon_at(const int x, const int y) const
 {
-    return critter_tracker.mon_at(x, y);
+    return critter_tracker.mon_at( point( x, y ) );
 }
 
 int game::mon_at(point p) const
@@ -11072,6 +11050,11 @@ void game::plthrow(int pos)
     move_cost += skill_cost;
     move_cost += 20 * u.encumb(bp_torso);
     move_cost -= dexbonus;
+
+    if(u.weapon.type_name() == "atlatl" && pos != -1 && thrown.volume() < 2) {
+        move_cost *= 1.25; //extra time spent swinging
+        sound(u.xpos(), u.ypos(), 4, _("zip."));
+    }
 
     if (u.has_trait("LIGHT_BONES")) {
         move_cost *= .9;
