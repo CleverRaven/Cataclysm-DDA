@@ -603,20 +603,45 @@ void veh_interact::do_install()
 
     std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
     tab_filters[0] = [&](vpart_info) { return true; }; // All
-    tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO); }; // Cargo
-    tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||  // Light
-                                                   part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
-                                                   part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||
+    tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO) && // Cargo
+                                                   !part.has_flag("TURRET"); };
+    tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || // Light
+                                                   part.has_flag(VPFLAG_CONE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_DOME_LIGHT) ||
+                                                   part.has_flag(VPFLAG_AISLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_EVENTURN) ||
                                                    part.has_flag(VPFLAG_ODDTURN); };
-    tab_filters[3] = [&](vpart_info part) { return part.has_flag(VPFLAG_TRACK) || part.has_flag(VPFLAG_FRIDGE) || //Util
-                                                   part.has_flag("KITCHEN") || part.has_flag("WELDRIG") || part.has_flag("CRAFTRIG") ||
-                                                   part.has_flag("CHEMLAB") || part.has_flag("FORGE") || part.has_flag("HORN") ||
-                                                   part.has_flag(VPFLAG_RECHARGE) || part.has_flag(VPFLAG_EXTENDS_VISION) ||
-                                                   part.has_flag("POWER_TRANSFER"); };
-    tab_filters[4] = [&](vpart_info part) { return part.has_flag(VPFLAG_OBSTACLE); }; // Hull
+    tab_filters[3] = [&](vpart_info part) { return part.has_flag("TRACK") || //Util
+                                                   part.has_flag(VPFLAG_FRIDGE) ||
+                                                   part.has_flag("KITCHEN") ||
+                                                   part.has_flag("WELDRIG") ||
+                                                   part.has_flag("CRAFTRIG") ||
+                                                   part.has_flag("CHEMLAB") ||
+                                                   part.has_flag("FORGE") ||
+                                                   part.has_flag("HORN") ||
+                                                   part.has_flag(VPFLAG_RECHARGE) ||
+                                                   part.has_flag(VPFLAG_EXTENDS_VISION) ||
+                                                   part.has_flag("POWER_TRANSFER") ||
+                                                   part.has_flag("FAUCET") ||
+                                                   part.has_flag("STEREO") ||
+                                                   part.has_flag("MUFFLER") ||
+                                                   part.has_flag("REMOTE_CONTROLS") ||
+                                                   part.has_flag("CURTAIN") ||
+                                                   part.has_flag("SEATBELT") ||
+                                                   part.has_flag("SECURITY") ||
+                                                   part.has_flag("DOOR_MOTOR"); };
+    tab_filters[4] = [&](vpart_info part) { return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
+                                                   part.has_flag("ROOF") ||
+                                                   part.has_flag(VPFLAG_ARMOR)) &&
+                                                   !part.has_flag("WHEEL") &&
+                                                   !tab_filters[3](part); };
     tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ENGINE) || // Internals
                                                    part.has_flag(VPFLAG_ALTERNATOR) ||
-                                                   part.has_flag(VPFLAG_CONTROLS); };
+                                                   part.has_flag(VPFLAG_CONTROLS) ||
+                                                   part.location == "fuel_source" ||
+                                                   part.location == "on_battery_mount" ||
+                                                   (part.location.empty() && part.has_flag("FUEL_TANK")); };
     tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
         for (size_t i=1; i < tab_filters.size()-1; i++ ) {
             if( tab_filters[i](part) ) return false;
@@ -674,6 +699,7 @@ void veh_interact::do_install()
                 }
             }
         } else if (action == "QUIT") {
+            sel_vpart_info = NULL;
             werase (w_list);
             wrefresh (w_list);
             werase (w_msg);
@@ -1722,6 +1748,8 @@ void veh_interact::display_details(const vpart_info &part)
             label = small_mode ? _("Str") : _("Strength");
         } else if ( part.has_flag("HORN") ) {
             label = _("Noise");
+        } else if ( part.has_flag(VPFLAG_EXTENDS_VISION) ) {
+            label = _("Range");
         } else if ( part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||
                     part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
                     part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||

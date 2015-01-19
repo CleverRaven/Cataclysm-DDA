@@ -141,7 +141,8 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<vpart_info> can_mount;
 
-        // Maps part names to vparts representing shapes
+        /* Maps part names to vparts representing different shapes of a part.
+         * Used to slim down installable parts list. Only built once. */
         std::map< std::string, std::vector<vpart_info*> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
