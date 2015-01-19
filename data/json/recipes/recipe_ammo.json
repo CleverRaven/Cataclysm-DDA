@@ -2458,7 +2458,7 @@
     [ [ "shot_hull", 10 ] ],
     [ [ "shotgun_primer", 10 ] ],
     [ [ "gunpowder", 120 ] ],
-    [ [ "nail", 160 ] ]
+    [ [ "nail", 160 ], [ "combatnail", 160 ] ]
    ]
 },{
   "type" : "recipe",
@@ -2652,7 +2652,7 @@
     ],
     [
       [ "glass_shard", 1],
-      [ "nail", 8]
+      [ "nail", 8], [ "combatnail", 8 ]
     ]
   ]
 },{
@@ -2983,7 +2983,7 @@
       [ "incendiary", 120 ]
     ],
     [
-      [ "nail", 240 ]
+      [ "nail", 240 ], [ "combatnail", 240 ]
     ]
   ]
 },{
@@ -3669,7 +3669,7 @@
      [ "gunpowder", 160 ]
     ],
     [
-     [ "nail", 120 ]
+     [ "nail", 120 ], [ "combatnail", 120 ]
     ]
   ]
 },{
