@@ -1,13 +1,11 @@
 #ifndef PATH_INFO_H
 #define PATH_INFO_H
 
-#include "platform_win.h"
-
 #include <string>
 #include <map>
 
 #ifndef FILE_SEP
-#if (defined CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined WINDOW)
 #define FILE_SEP '\\'
 #else
 #define FILE_SEP '/'

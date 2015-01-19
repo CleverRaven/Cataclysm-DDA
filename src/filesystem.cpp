@@ -1,5 +1,4 @@
 #include "filesystem.h"
-#include "platform_win.h"
 #include "debug.h"
 
 #include <string.h> // for strnlen
@@ -14,7 +13,7 @@
 // FILE I/O
 #include <sys/stat.h>
 
-#ifdef CATA_COMPILER_MSVC
+#ifdef _MSC_VER
 #   include "wdirent.h"
 #   include <direct.h>
 #else
@@ -22,7 +21,13 @@
 #   include <unistd.h>
 #endif
 
-#if defined(CATA_OS_WINDOWS)
+#if defined(_WIN32) || defined (__WIN32__)
+#   ifndef NOMINMAX
+#       define NOMINMAX
+#   endif
+#   ifndef WIN32_LEAN_AND_MEAN
+#       define WIN32_LEAN_AND_MEAN
+#   endif
 #   include <windows.h>
 #endif
 
@@ -40,7 +45,7 @@ size_t strnlen(const char *const start, size_t const maxlen)
 
 namespace {
 
-#if (defined CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined __WIN32__)
 bool do_mkdir(std::string const& path, int const mode)
 {
     (void)mode; //not used on windows
@@ -67,7 +72,7 @@ bool file_exist(const std::string &path)
     return ( stat( path.c_str(), &buffer ) == 0 );
 }
 
-#if (defined CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined __WIN32__)
 bool remove_file(const std::string &path)
 {
     return DeleteFile(path.c_str()) != 0;
@@ -79,7 +84,7 @@ bool remove_file(const std::string &path)
 }
 #endif
 
-#if (defined CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined __WIN32__)
 bool rename_file(const std::string &old_path, const std::string &new_path)
 {
     // Windows rename function does not override existing targets, so we

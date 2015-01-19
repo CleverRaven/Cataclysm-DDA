@@ -7,7 +7,6 @@
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
-#include "platform_win.h"
 
 #include <algorithm>
 #include <fstream>
@@ -842,7 +841,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
             SDL_Texture *fg_tex = tile_values[fg];
 
             if(rota == 1) {
-#if defined(CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
 #endif
                 ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
@@ -852,7 +851,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
                 ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
                     0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
             } else { //rota == 3
-#if defined(CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined WINDOWS)
                 destination.x -= 1;
 #endif
                 ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,

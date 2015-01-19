@@ -1,6 +1,4 @@
-#include "platform_win.h"
-
-#if (defined TILES || defined CATA_OS_WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "output.h"
 #include "color.h"

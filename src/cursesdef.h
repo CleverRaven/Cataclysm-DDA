@@ -1,9 +1,7 @@
 #ifndef CURSESDEF_H
 #define CURSESDEF_H
 
-#include "platform_win.h"
-
-#if (defined TILES || defined SDLTILES || defined CATA_OS_WINDOWS)
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #elif (defined __CYGWIN__)
 #include "ncurses/curses.h"

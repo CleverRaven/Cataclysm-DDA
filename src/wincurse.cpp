@@ -1,5 +1,4 @@
-#include "platform_win.h"
-#if ((!defined TILES) && (!defined SDLTILES) && (defined CATA_OS_WINDOWS))
+#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
 #define UNICODE 1
 #define _UNICODE 1
 
@@ -9,14 +8,13 @@
 #include "color.h"
 #include "catacharset.h"
 #include "get_version.h"
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
 #include "init.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
-
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
 
 //***********************************
 //Globals                           *

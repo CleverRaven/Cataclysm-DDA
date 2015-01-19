@@ -7,35 +7,36 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "cata_tiles.h"
-#include "get_version.h"
-#include "init.h"
-#include "path_info.h"
-#include "filesystem.h"
-#include "platform_win.h"
-
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
 #include <stdexcept>
+#include "cata_tiles.h"
+#include "get_version.h"
+#include "init.h"
+#include "path_info.h"
+#include "filesystem.h"
 
 //TODO replace these includes with filesystem.h
-#ifdef CATA_COMPILER_MSVC
-#   include "wdirent.h"
-#   include <direct.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
 #else
-#   include <dirent.h>
+#include <dirent.h>
 #endif
 
-#if (defined CATA_OS_WINDOWS)
-#   include <windows.h>
-#   include <shlwapi.h>
-#   ifndef strcasecmp
-#       define strcasecmp StrCmpI
-#   endif
+#if (defined _WIN32 || defined WINDOWS)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <shlwapi.h>
+#ifndef strcasecmp
+#define strcasecmp StrCmpI
+#endif
 #else
-#   include <wordexp.h>
+#include <wordexp.h>
 #endif
 
 #include "SDL2/SDL.h"
@@ -1200,7 +1201,7 @@ static void save_font_list()
 
     font_folder_list(fout, FILENAMES["fontdir"]);
 
-#if (defined CATA_OS_WINDOWS)
+#if (defined _WIN32 || defined WINDOWS)
     char buf[256];
     GetSystemWindowsDirectory(buf, 256);
     strcat(buf, "\\fonts");
