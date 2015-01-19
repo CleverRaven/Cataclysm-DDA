@@ -7805,7 +7805,7 @@ int iuse::quiver(player *p, item *it, bool, point)
         if (it->contents[0].charges > maxArrows) {
             int toomany = it->contents[0].charges - maxArrows;
             it->contents[0].charges -= toomany;
-            item clone = it->contents[0].clone();
+            item clone = it->contents[0];
             clone.charges = toomany;
             p->i_add(clone);
         }
