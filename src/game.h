@@ -190,7 +190,7 @@ class game
         // and writes them to a map for display.
         void process_sound_markers();
         // The sound events since the last monster turn.
-        std::unordered_map<point, sound_event> recent_sounds;
+        std::vector<std::pair<point, int>> recent_sounds;
         // The sound events since the last interactive player turn. (doesn't count sleep etc)
         std::unordered_map<point, sound_event> sounds_since_last_turn;
         // The sound events currently displayed to the player.

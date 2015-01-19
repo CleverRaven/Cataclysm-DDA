@@ -4148,6 +4148,15 @@ bool game::event_queued(event_type type)
     return false;
 }
 
+struct centroid
+{
+    // Values have to be floats to prevent rounding errors.
+    float x;
+    float y;
+    float volume;
+    float weight;
+};
+
 #include "savegame.h"
 void game::debug()
 {
@@ -5962,8 +5971,12 @@ void game::ambient_sound(int x, int y, int vol, std::string description)
 
 void game::sound(int x, int y, int vol, std::string description, bool ambient)
 {
-    recent_sounds.emplace(
-        std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
+    if( vol == 0 ) {
+        // Bail out if no volume.
+        // TODO: log an error, this shouldn't happen?
+        return;
+    }
+    recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );
     sounds_since_last_turn.emplace(
         std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
 }
@@ -5974,15 +5987,74 @@ void game::add_footstep(int x, int y, int volume, int, monster *)
         std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
 }
 
+template <typename C>
+static void vector_quick_remove( std::vector<C> &source, int index )
+{
+    if( source.size() != 1 ) {
+        // Swap the target and the last element of the vector.
+        // This scrambles the vector, but makes removal O(1).
+        std::iter_swap( source.begin() + index, source.end() - 1 );
+    }
+    source.pop_back();
+}
+
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> recent_sounds )
+{
+    // If there are too many monsters and too many noise sources (which can be monsters, go figure),
+    // applying sound events to monsters can dominate processing time for the whole game,
+    // so we cluster sounds and apply the centroids of the sounds to the monster AI
+    // to fight the combanatorial explosion.
+    std::vector<centroid> sound_clusters;
+    const int num_seed_clusters = std::max( std::min(recent_sounds.size(), (size_t)10),
+                                            (size_t)log(recent_sounds.size()) );
+    const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
+    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY);
+    // Randomly choose cluster seeds.
+    for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
+        size_t index = rng(0, i - 1);
+        // The volume and cluster weight are the same for the first element.
+        sound_clusters.push_back(
+           // Assure the compiler that these int->float conversions are safe.
+            { (float)recent_sounds[index].first.x, (float)recent_sounds[index].first.y,
+              (float)recent_sounds[index].second, (float)recent_sounds[index].second } );
+        vector_quick_remove( recent_sounds, index );
+    }
+
+    for( const auto &sound_event_pair : recent_sounds ) {
+        auto found_centroid = sound_clusters.begin();
+        float dist_factor = max_map_distance;
+        const auto cluster_end = sound_clusters.end();
+        for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
+             ++centroid_iter ) {
+            // Scale the distance between the two by the max possible distance.
+            const int dist = rl_dist( sound_event_pair.first.x, sound_event_pair.first.y,
+                                      centroid_iter->x, centroid_iter->y );
+            if( dist * dist < dist_factor ) {
+                found_centroid = centroid_iter;
+                dist_factor = dist * dist;
+            }
+        }
+        const float volume_sum = (float)sound_event_pair.second + found_centroid->weight;
+        // Set the centroid location to the average of the two locations, weighted by volume.
+        found_centroid->x = (float)( (sound_event_pair.first.x * sound_event_pair.second) +
+                                     (found_centroid->x * found_centroid->weight) ) / volume_sum;
+        found_centroid->y = (float)( (sound_event_pair.first.y * sound_event_pair.second) +
+                                     (found_centroid->y * found_centroid->weight) ) / volume_sum;
+        // Set the centroid volume to the larger of the volumes.
+        found_centroid->volume = std::max( found_centroid->volume, (float)sound_event_pair.second );
+        // Set the centroid weight to the sum of the weights.
+        found_centroid->weight = volume_sum;
+    }
+    return sound_clusters;
+}
+
 void game::process_sounds()
 {
-    for( const auto &sound_event_pair : recent_sounds ) {
-        const int vol = sound_event_pair.second.volume;
-        const point &source = sound_event_pair.first;
-        // Ignore footsteps for now!
-        if( sound_event_pair.second.footstep ) {
-            continue;
-        }
+    std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
+
+    for( const auto &this_centroid : sound_clusters ) {
+        const int vol = this_centroid.volume;
+        const point source = point(this_centroid.x, this_centroid.y);
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && levz == 0 ) {
