@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 12:51+0300\n"
+"POT-Creation-Date: 2015-01-19 10:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2033,6 +2033,12 @@ msgid ""
 "a pipe, filled with improvised rocket fuel. Not very powerful, but can be "
 "made from scratch."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "incendiary home-made rocket"
+msgid_plural "incendiary home-made rockets"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -20793,7 +20799,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A somewhat sharpened piece of rebar, it is still better at bashing than "
-"stabbing but the added flexibility is nice"
+"stabbing but the added flexibility is nice."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -25012,7 +25018,31 @@ msgstr[1] ""
 msgid ""
 "A visible-light laser that mounts under a firearm's barrel to enhance ease "
 "and speed of target acquisition.  Aside from increased bulk, there are no "
-"drawbacks.  This is the only mod that can be used on a bow."
+"drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "bow sight"
+msgid_plural "bow sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A set of tritium aiming pins for a bow.  Improves ease of aiming and target "
+"acquisition with no drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "bow stabilizer"
+msgid_plural "bow stabilizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A counterweight placed forward of the bow's grip allows for greater "
+"accuracy.  Aside from increased weight and size, there are no drawbacks."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -25315,6 +25345,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "underbarrel"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "sights"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "accessories"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "compound bow"
 msgid_plural "compound bows"
 msgstr[0] ""
@@ -25325,10 +25367,6 @@ msgid ""
 "A bow with cams for high velocity shots that can be used effectively by "
 "average archers.  Arrows fired from this weapon have a good chance of "
 "remaining intact for re-use."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "underbarrel"
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -25411,10 +25449,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "accessories"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
 msgid "grip"
 msgstr ""
 
@@ -25424,10 +25458,6 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "rail"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "sights"
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -28337,7 +28367,7 @@ msgid "Halves zombie speed."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Zombie Nighvision"
+msgid "Zombie Nightvision"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -33865,7 +33895,7 @@ msgid ""
 "before it explodes."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py src/npctalk.cpp
+#: lang/json/TOOL_from_json.py
 msgid "mininuke"
 msgid_plural "mininukes"
 msgstr[0] ""
@@ -42941,10 +42971,6 @@ msgid "You forgo dodging on the offensive, but gain more blocks."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-msgid "Niten Ryuu"
-msgstr ""
-
-#: lang/json/martial_art_from_json.py
 msgid "Perception increases dodging and damage."
 msgstr ""
 
@@ -47336,9 +47362,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are a cybernetically-resurrected cop, with jurisdiction throughout the "
-"New England region thanks to interstate agreements.  Whether you can do for "
-"the law what the law did for you is another question."
+"You are a cybernetically-resurrected law enforcer, with jurisdiction "
+"throughout the New England region thanks to interstate agreements.  Whether "
+"you can do for the law what the law did for you is another question."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -66691,10 +66717,9 @@ msgstr ""
 msgid "You are slammed through the %s for %d damage!"
 msgstr ""
 
-#. ~ first %s is the monster name ("the zombie") or a npc name.
 #: src/game.cpp
 #, c-format
-msgid "%s is slammed through the %s!"
+msgid "The <npcname> is slammed through the %s!"
 msgstr ""
 
 #: src/game.cpp
@@ -66702,10 +66727,9 @@ msgstr ""
 msgid "You are slammed against the %s for %d damage!"
 msgstr ""
 
-#. ~ first %s is the monster name ("the zombie") or a npc name.
 #: src/game.cpp
 #, c-format
-msgid "%s is slammed against the %s!"
+msgid "The <npcname> is slammed against the %s!"
 msgstr ""
 
 #: src/game.cpp
@@ -74332,6 +74356,11 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
+msgid "You need to unwield the %s before using it."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "You clumsily draw your %s from the %s."
 msgstr ""
 
@@ -79372,6 +79401,26 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s gesticulates wildly!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s coughs up a strange dust."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s moans softly."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's skin crackles with electricity."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s opens its mouth and a beam shoots towards %s!"
 msgstr ""
 
@@ -79395,26 +79444,6 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s drops a flask of acid!"
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s gesticulates wildly!"
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s coughs up a strange dust."
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s moans softly."
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s's skin crackles with electricity."
 msgstr ""
 
 #: src/monattack.cpp
@@ -81566,11 +81595,6 @@ msgstr ""
 #: src/npc.cpp
 #, c-format
 msgid "NPC: %s"
-msgstr ""
-
-#: src/npc.cpp
-#, c-format
-msgid "Wielding %s"
 msgstr ""
 
 #: src/npc.cpp
