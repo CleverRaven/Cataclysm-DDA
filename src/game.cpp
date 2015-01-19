@@ -4866,13 +4866,13 @@ void game::list_missions()
 }
 
 // draws footsteps that have been created by monsters moving about
-void game::draw_footsteps()
+void game::draw_footsteps( int lx, int ly )
 {
     if (is_draw_tiles_mode()) {
         return; // already done by cata_tiles
     }
-    const int offset_y = POSY - (u.posy() + u.view_offset_y);
-    const int offset_x = POSX - (u.posx() + u.view_offset_x);
+    const int offset_y = POSY - ( (ly == -999) ? (u.posy() + u.view_offset_y) : ly );
+    const int offset_x = POSX - ( (lx == -999) ? (u.posx() + u.view_offset_x) : lx );
     for( const auto &sound : sound_markers ) {
         mvwputch(w_terrain, offset_y + sound.first.y, offset_x + sound.first.x, c_yellow, '?');
     }
@@ -8756,6 +8756,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     }
 
     draw_ter(lx, ly);
+    draw_footsteps();
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8882,6 +8883,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
             }
 
+            auto this_sound = sound_markers.find( point(lx, ly) );
+            if( this_sound != sound_markers.end() ) {
+                mvwprintw( w_info, ++off, 1, _("You heard %s from here."),
+                           this_sound->second.description.c_str() );
+            }
+
             wrefresh(w_info);
         }
 
@@ -8929,6 +8936,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 draw_ter(lx, ly, true);
+                draw_footsteps(lx, ly);
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");

@@ -177,26 +177,30 @@ class game
          * @param ambient If false, the sound interrupts player activities.
          * If true, activities continue.
          * @returns true if the player could hear the sound.
-         * Sounds are stored in a map for later processing,
-         * this map is cleared after the player acts and before monsters act.
-         * Immediately before the map is cleared, it is applied to monster AI.
          */
         void sound(int x, int y, int vol, std::string description, bool ambient = false);
         /** Functions identical to sound(..., true). */
         void ambient_sound(int x, int y, int vol, std::string description);
         /** Creates a list of coordinates at which to draw footsteps. */
         void add_footstep(int x, int y, int volume, int distance, monster *source);
+        // process_sounds() applies the sounds since the last turn to monster AI,
+        // then clears the sound events.
         void process_sounds();
+        // process_sound_markers reads the sound events since the last time the player UI was drawn
+        // and writes them to a map for display.
         void process_sound_markers();
+        // The sound events since the last monster turn.
         std::unordered_map<point, sound_event> recent_sounds;
+        // The sound events since the last interactive player turn. (doesn't count sleep etc)
         std::unordered_map<point, sound_event> sounds_since_last_turn;
+        // The sound events currently displayed to the player.
         std::unordered_map<point, sound_event> sound_markers;
 
         /** Calculates where footstep marker should appear and puts those points into the result.
          *  It also clears @ref footsteps_source and @ref footsteps. */
         void calculate_footstep_markers(std::vector<point> &result);
         /** Draws visual footstep cues to monsters moving out of the players sight. */
-        void draw_footsteps();
+        void draw_footsteps(int lx = -999, int ly = -999);
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
         /** Triggers a flashbang explosion at (x, y). */
