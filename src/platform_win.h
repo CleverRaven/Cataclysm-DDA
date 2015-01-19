@@ -2,8 +2,6 @@
 #define CATA_PLATFORM_WIN_H
 
 #if defined(_WIN32) || defined(_WIN64)
-#   define CATA_OS_WINDOWS
-#
 #   if !defined(WIN32_LEAN_AND_MEAN)
 #       define WIN32_LEAN_AND_MEAN
 #   endif
