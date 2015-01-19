@@ -40,6 +40,8 @@
 #include "start_location.h"
 #include "debug.h"
 #include "catalua.h"
+#include "helper.h"
+
 #include <map>
 #include <set>
 #include <algorithm>
@@ -12339,7 +12341,7 @@ void game::open_bag(int pos)
         }
         bmenu.query();
         // invalid return value, requery!
-        if(!helper::between(1, bmenu.ret, i)) { return; }
+        if(!is_between(1, bmenu.ret, i, true)) { return; }
         bag.has_been_opened = true;
         //[davek] TODO: explain volume_factor
         u.store(&bag, ur_junk[bmenu.ret-1], "null", bag.storage_used());
@@ -12352,7 +12354,7 @@ void game::open_bag(int pos)
             bmenu.addentry((i + 1), true, -1, bag.contents[i].tname());
         }
         bmenu.query();
-        int index = helper::clamp(0, (bmenu.ret - 1), bag.contents.size());
+        int index = clamp_value(0, (bmenu.ret - 1), bag.contents.size());
         bag.has_been_opened = true;
         //[davek] TODO: explain volume_factor
         u.unload_bag(&bag, index, "null", bag.storage_used());

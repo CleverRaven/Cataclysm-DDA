@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
+#include "helper.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1502,7 +1503,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                     pizza = true;       // yum!
                     nc_color c = elem.color_in_inventory();
                     bool did_coloring = (c == c_ltgray) ? false : true;
-                    if(did_coloring) { temp1 << "<" << string_from_color(c) << ">"; }
+                    if(did_coloring) { temp1 << "<color_" << string_from_color(c) << ">"; }
                     temp1 << item::nname(elem.type->id);
                     if(did_coloring) { temp1 << "</color>"; }
                 }
@@ -1781,9 +1782,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         float perc_used = ((amt_used / amt_total) * 100);
         // varying stages of bag "perceived weight" by thirds
         bool bag_is_empty  = is_container_empty();
-        bool bag_is_light  = helper::between(1,  (int)perc_used, 33);
-        bool bag_is_medium = helper::between(34, (int)perc_used, 66);
-        bool bag_is_heavy  = helper::between(67, (int)perc_used, 99);
+        bool bag_is_light  = is_between(1,  (int)perc_used, 33, true);
+        bool bag_is_medium = is_between(34, (int)perc_used, 66, true);
+        bool bag_is_heavy  = is_between(67, (int)perc_used, 99, true);
         bool bag_is_full   = is_container_full();
 
         if(bag_is_empty) {
