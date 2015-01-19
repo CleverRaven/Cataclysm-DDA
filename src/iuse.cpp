@@ -18,7 +18,7 @@
 #include "json.h"
 #include "messages.h"
 #include "crafting.h"
-#include "helper.h"
+
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -7842,7 +7842,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         auto gun = put->type->gun.get();
         int maxvol = 0;
         if(it->type->properties["holster_size"] != "0") {
-          maxvol = helper::to_int(it->type->properties["holster_size"]);
+          maxvol = std::stoi(it->type->properties["holster_size"]);
         }
         // only allow guns smaller than a certain size
         if (put->volume() > maxvol) {
