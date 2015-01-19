@@ -630,6 +630,8 @@ void veh_interact::do_install()
                                                    part.has_flag("CURTAIN") ||
                                                    part.has_flag("SEATBELT") ||
                                                    part.has_flag("SECURITY") ||
+                                                   part.has_flag("SEAT") ||
+                                                   part.has_flag("BED") ||
                                                    part.has_flag("DOOR_MOTOR"); };
     tab_filters[4] = [&](vpart_info part) { return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
                                                    part.has_flag("ROOF") ||
@@ -1773,6 +1775,7 @@ void veh_interact::display_details(const vpart_info &part)
 
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
+    // line 5 [horizontal]: power (if applicable)
     if ( part.fuel_type != "NULL" ) {
         fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ), c_white,
                        _("Charge: <color_ltgray>%s</color>"),
@@ -1780,10 +1783,22 @@ void veh_interact::display_details(const vpart_info &part)
                        part.fuel_type.c_str());
     }
     if ( part.power != 0 ) {
-        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ), ( vertical_menu ? column_width : details_w ), c_white,
-                       _("Power: <color_ltgray>%d</color>"), //Battery
+        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
+                       ( vertical_menu ? column_width : details_w ), c_white,
+                       _("Power: <color_ltgray>%d</color>"),
                        part.power);
     }
+
+    // line 5 [vertical/hybrid] 6 [horizontal]: flags
+    std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE" } };
+    std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
+    std::string label;
+    for ( size_t i = 0; i < flags.size(); i++ ) {
+        if ( part.has_flag(flags[i]) ) {
+            label += ( label.empty() ? "" : " " ) + flag_labels[i];
+        }
+    }
+    fold_and_print(w_details, ( vertical_menu ? line+5 : line+6 ), col_1, details_w, c_yellow, label);
 
     wrefresh(w_details);
 }
