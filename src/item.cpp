@@ -1502,11 +1502,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                     pizza = true;       // yum!
                     nc_color c = elem.color_in_inventory();
                     bool did_coloring = (c == c_ltgray) ? false : true;
-                    if(did_coloring) { temp1 << string_from_color(c); }
-                    temp1 << elem.tname();
+                    if(did_coloring) { temp1 << "<" << string_from_color(c) << ">"; }
+                    temp1 << item::nname(elem.type->id);
                     if(did_coloring) { temp1 << "</color>"; }
                 }
-                dump->push_back(iteminfo("DESCRIPTION", _("Contents: %s"), temp1.str().c_str()));
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Contents: %s"), temp1.str().c_str())));
             }
         }
     }

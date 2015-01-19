@@ -12321,8 +12321,6 @@ void game::open_bag(int pos)
     bmenu.addentry(2,  !bag.is_container_empty(), 't', _("Take an item"));
     bmenu.query();
     int decision = bmenu.ret;
-
-dos_decision:
     bmenu.reset();
     bmenu.return_invalid = true;
 
@@ -12341,11 +12339,8 @@ dos_decision:
         }
         bmenu.query();
         // invalid return value, requery!
-        if(!helper::between(1, bmenu.ret, i)) {
-//            popup(_("I don't know that that item is!"));
-            decision = 1;
-            goto dos_decision;
-        }
+        if(!helper::between(1, bmenu.ret, i)) { return; }
+        bag.has_been_opened = true;
         //[davek] TODO: explain volume_factor
         u.store(&bag, ur_junk[bmenu.ret-1], "null", bag.storage_used());
         break; } // end of case 1
@@ -12357,8 +12352,8 @@ dos_decision:
             bmenu.addentry((i + 1), true, -1, bag.contents[i].tname());
         }
         bmenu.query();
-        bag.has_been_opened = true;
         int index = helper::clamp(0, (bmenu.ret - 1), bag.contents.size());
+        bag.has_been_opened = true;
         //[davek] TODO: explain volume_factor
         u.unload_bag(&bag, index, "null", bag.storage_used());
         break; } // end of case 0
