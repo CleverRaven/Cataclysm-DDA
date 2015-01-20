@@ -1412,71 +1412,135 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-std::string vstring_format(const char *pattern, va_list argptr)
-{
-    // If we have no C++11 support, define a hackish way to do va_copy
-    // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
-    // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
-#if __cplusplus < 201103L && !defined(va_copy)
-#define va_copy(dest, source) dest = source
-#endif
+//--------------------------------------------------------------------------------------------------
+// Wrap up the details of (v)s(n)printf.
+// First try to use a stack-based buffer (std::array), and then fallback to a
+// heap-based (std::string) buffer, which in C++11 is guaranteed to be backed by a contiguous buffer
+//--------------------------------------------------------------------------------------------------
+struct vsprintf_buffer {
+    enum : size_t { buffer_size = 512 };
 
-    int buffer_size = 1024; // Any number is good
-    int returned_length = 0;
-    std::vector<char> buffer(buffer_size, '\0');
-    // Call of vsnprintf() makes va_list unusable, so we need a copy.
-    va_list cur_argptr;
-#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
-    // Microsofts vsnprintf does return -1 on buffer overflow, not
-    // the required size of the buffer. So we have to increase the buffer
-    // until we succeed.
-    while(true) {
-        buffer.resize(buffer_size, '\0');
-        va_copy(cur_argptr, argptr);
-        returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        if( returned_length >= 0 && returned_length <= buffer_size ) {
-            // Buffer size was sufficient, string has been printed, all is well
-            break;
-        } else if( returned_length > 0 ) {
-            // For some reason (is this a mingw build with mingws own vsnprintf?)
-            // vsnprintf seems to be POSIX compatible and returns the required
-            // size of the buffer instead of -1
-            // Note that buffer_size is always > 0 and therefor the case returned_length==0
-            // is handled above.
-            buffer_size = returned_length + 1;
-        } else {
-            buffer_size *= 2;
+    vsprintf_buffer()
+      : len {buffer_size}
+    {
+        new (&arr) std::array<char, buffer_size>;
+    }
+
+#if defined(_WIN32) && defined(_MSC_VER)
+    // MSVC only implementation; TODO: could possible work on mingw via GetProcAddress.
+    vsprintf_buffer(char const* const format, va_list args)
+      : vsprintf_buffer()
+    {
+        int const result = _vscprintf_p(format, args);
+        if (result == -1) {
+            set_error_string(format, errno);
+            return;
         }
+        
+        auto const required_size = static_cast<size_t>(result + 1);
+        if (required_size > len) {
+            new (&str) std::string(required_size, '\0');
+        }
+
+        len = required_size;
+        auto const buffer = use_array() ? arr.data() : &str[0];
+        _vsprintf_p(buffer, len, format, args);
     }
 #else
-    va_copy(cur_argptr, argptr);
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-    va_end(cur_argptr);
-    if (required < 0) {
-        return std::string("invalid input to string_format function!");
-    } else if (required >= buffer_size) {
-        // Did not fit the buffer, retry with better buffer size.
-        buffer_size = required + 1;
-        buffer.resize(buffer_size, '\0');
-        // Try again one time, this should be save as we know the required
-        // buffer size and have allocated that much.
-        va_copy(cur_argptr, argptr);
-        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        // ignore the result of vsnprintf, because it returns different
-        // things on windows, see above.
-        returned_length = required;
-    } else {
-        returned_length = required;
+    // Generic implementation; should work on all platforms.
+    vsprintf_buffer(char const *format, va_list args)
+      : vsprintf_buffer()
+    {
+        // Attempt to print; return a pair {error, grow}; if grow = -1, try doubling the size.
+        auto const try_print = [&] {
+            errno = 0;
+
+            va_list args_copy;
+            va_copy(args_copy, args);
+            auto const result = vsnprintf(get_buffer(), len, format, args_copy);
+            va_end(args_copy);
+
+            if (result == -1 && errno) {                  // Some error occured
+                return std::make_pair(true, 0);
+            } else if (result == -1) {                    // We need to grow the buffer;
+                return std::make_pair(false, result);     // Non-standard (old msvc and mingw32).
+            } else if (result >= len) {                   // We need to grow the buffer;
+                return std::make_pair(false, result + 1); // Stadard behaviour. Need +1 for '\0'.
+            } else {
+                return std::make_pair(false, 0);          // Ok. Big enough.
+            }
+        };
+
+        bool has_error   = false;
+        int  grow_buffer = 0;
+
+        // Try once with the array
+        std::tie(has_error, grow_buffer) = try_print();
+        if (grow_buffer) {
+            new (&vec) std::string();
+        }
+
+        // Keep trying, this time with an ever growing vector
+        while (grow_buffer && !has_error) {
+            len = (grow_buffer > 0) ? (grow_buffer) : (len * 2);
+            str.resize(len, '\0');
+
+            std::tie(has_error, grow_buffer) = try_print();
+        }
+
+        if (has_error) {
+            set_error_string(format, errno);
+        }
     }
 #endif
-    //drop contents behind \003, this trick is there to skip certain arguments
-    std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
-    if (a != buffer.end()) {
-        return std::string(&buffer[0], a - buffer.begin());
+    bool use_array() const noexcept {
+        return len <= buffer_size;
     }
-    return std::string(&buffer[0], returned_length);
+
+    ~vsprintf_buffer() {
+        if (!use_array()) {
+            str.~basic_string();
+        }
+    }
+
+    operator std::string() {
+        if (use_array()) {
+            return std::string(arr.data(), len);
+        } else {
+            return std::move(str);
+        }
+    }
+
+    void set_error_string(char const* const format, int const e_code) {
+        // Cleanup the dynamic buffer if it was in use.
+        if (!use_array()) {
+            str.~basic_string();
+            len = 0;
+            new (&arr) std::array<char, buffer_size>;
+        }
+
+        strncpy(arr.data(), "Error when formatting string.", buffer_size);
+
+        DebugLog(D_WARNING, D_GAME) << "Error '" << strerror(e_code) <<
+            "' when formatting string '" << format << "'.";
+    }
+
+    union {
+        std::array<char, buffer_size> arr;
+        std::string                   str;
+    };
+
+    size_t len = 0;
+};
+
+
+std::string vstring_format(const char *pattern, va_list argptr)
+{
+    std::string result(vsprintf_buffer {pattern, argptr});
+
+    //drop contents behind \003, this trick is there to skip certain arguments
+    result.erase(std::find(std::begin(result), std::end(result), '\003'), std::end(result));
+    return result;
 }
 
 std::string string_format(const char *pattern, ...)
