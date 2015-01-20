@@ -309,6 +309,7 @@ void veh_interact::cache_tool_availability()
     int charges_crude = charges_per_use( "welder_crude" );
     has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
     has_hammer = crafting_inv.has_items_with_quality( "HAMMER", 1, 1 );
+    has_nailgun = crafting_inv.has_tools("nailgun", 1);
     has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
@@ -488,7 +489,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-    bool has_tools2 = has_hammer && has_nails;
+    bool has_tools2 = (has_hammer || has_nailgun) && has_nails;
     bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
@@ -504,10 +505,11 @@ bool veh_interact::can_install_part(int msg_width){
         if (is_wood) {
             werase (w_msg);
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> and <color_%4$s>nails</color> and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
+                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_%4$s>nailgun</color> and <color_%5$s>nails</color> and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                            has_comps ? "ltgreen" : "red",
                            item::nname( itm ).c_str(),
                            has_hammer ? "ltgreen" : "red",
+                           has_nailgun ? "ltgreen" : "red",
                            has_nails ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            sel_vpart_info->difficulty,
@@ -550,7 +552,7 @@ bool veh_interact::can_install_part(int msg_width){
                            engine_string.c_str());
             wrefresh (w_msg);
         }
-        if (has_comps && (has_tools || (is_wood && has_hammer && has_nails) || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
+        if (has_comps && (has_tools || (is_wood && (has_hammer || has_nailgun) && has_nails) || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
             return true;
         }
     }

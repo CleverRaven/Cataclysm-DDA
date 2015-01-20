@@ -70,6 +70,7 @@ class veh_interact
         vehicle *veh;
         bool has_wrench;
         bool has_hammer;
+        bool has_nailgun;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
