@@ -896,8 +896,6 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- item clone(bool rand = true);
-
  int add_ammo_to_quiver(player *u, bool isAutoPickup);
  int max_charges_from_flag(std::string flagName);
 };

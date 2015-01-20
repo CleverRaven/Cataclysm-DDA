@@ -380,6 +380,7 @@
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
+		<Unit filename="src/platform_win.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />
