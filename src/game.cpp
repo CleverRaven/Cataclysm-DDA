@@ -1710,8 +1710,8 @@ int game::get_radiant_temperature(int posx, int posy)
     int tile_distance = 1;
     int t;
     
-    int fire_temperature_level[4] = {1000, 2000, 4000, 8000};
-    int lava_temperature = fire_temperature_level[3];
+    int fire_temperature_level[3] = {1000, 2000, 4000};
+    int lava_temperature = fire_temperature_level[2];
     
     for (int j = -6 ; j <= 6 ; j++) {
         for (int k = -6 ; k <= 6 ; k++) {
@@ -1734,11 +1734,9 @@ int game::get_radiant_temperature(int posx, int posy)
                     case 1:
                         tile_radiant_temperature += fire_temperature_level[0]; break;
                     case 2:
-                        tile_radiant_temperature += fire_temperature_level[0]; break;
+                        tile_radiant_temperature += fire_temperature_level[1]; break;
                     case 3:
-                        tile_radiant_temperature += fire_temperature_level[0]; break;
-                    case 4:
-                        tile_radiant_temperature += fire_temperature_level[0]; break;
+                        tile_radiant_temperature += fire_temperature_level[2]; break;
                 }
             }
             
@@ -1768,7 +1766,7 @@ int game::get_radiant_temperature(int posx, int posy)
             *   Total felt temperature
             **/
         
-            felt_radiant_temperature += exp(0.004) * (tile_radiant_temperature / (tile_distance * tile_distance));
+            felt_radiant_temperature += tile_radiant_temperature / (tile_distance * tile_distance);
         }
     }
     return felt_radiant_temperature;      
