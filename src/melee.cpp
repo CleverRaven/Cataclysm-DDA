@@ -12,7 +12,7 @@
 
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit);
-void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
+void melee_practice( player &u, Creature &t, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u);
 int  stumble(player &u);
 std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
@@ -336,7 +336,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 add_msg(_("%s misses."),name.c_str());
         }
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
-            melee_practice( *this, false, unarmed_attack(),
+            melee_practice( *this, t, false, unarmed_attack(),
                             weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                             (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
         move_cost += stumble_pen;
@@ -411,7 +411,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
 
         if (!has_active_bionic("bio_cqb")) {
             //no practice if you're relying on bio_cqb to fight for you
-            melee_practice( *this, true, unarmed_attack(), bashing, cutting, stabbing );
+            melee_practice( *this, t, true, unarmed_attack(), bashing, cutting, stabbing );
         }
 
         if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE)) {
@@ -2250,11 +2250,12 @@ void player_hit_message(player* attacker, std::string message,
                                     t.disp_name().c_str());
 }
 
-void melee_practice( player &u, bool hit, bool unarmed,
+void melee_practice( player &u, Creature &t, bool hit, bool unarmed,
                      bool bashing, bool cutting, bool stabbing )
 {
     int min = 2;
     int max = 2;
+    int cap = t.get_melee();
     std::string first = "";
     std::string second = "";
     std::string third = "";
@@ -2262,9 +2263,9 @@ void melee_practice( player &u, bool hit, bool unarmed,
     if (hit) {
         min = 5;
         max = 10;
-        u.practice( "melee", rng(5, 10) );
+        u.practice( "melee", rng(5, 10), cap );
     } else {
-        u.practice( "melee", rng(2, 5) );
+        u.practice( "melee", rng(2, 5), cap );
     }
 
     // type of weapon used determines order of practice
@@ -2293,10 +2294,10 @@ void melee_practice( player &u, bool hit, bool unarmed,
         if (stabbing) third  = "stabbing";
     }
 
-    if (unarmed) u.practice( "unarmed", rng(min, max) );
-    if (!first.empty())  u.practice( first, rng(min, max) );
-    if (!second.empty()) u.practice( second, rng(min, max) );
-    if (!third.empty())  u.practice( third, rng(min, max) );
+    if (unarmed) u.practice( "unarmed", rng(min, max), cap );
+    if (!first.empty())  u.practice( first, rng(min, max), cap );
+    if (!second.empty()) u.practice( second, rng(min, max), cap );
+    if (!third.empty())  u.practice( third, rng(min, max), cap );
 }
 
 int attack_speed(player &u)
