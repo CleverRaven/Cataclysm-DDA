@@ -555,7 +555,7 @@ int player::get_dodge() const
     if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
-
+    
     // Chop in half if we are unable to move
     if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
         ret /= 2;
@@ -808,11 +808,11 @@ int player::roll_stab_damage(bool crit)
     if (has_active_bionic("bio_cqb")) {
         stabbing_skill = 5;
     }
-
+    
     if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
         ret = weapon.damage_cut();
     }
-
+    
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
@@ -1630,9 +1630,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
-
+    
     int stabbing_skill = get_skill_level("stabbing");
-
+    
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
@@ -1841,7 +1841,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
-
+    
     if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth)) ) {
         special_attack tmp;
