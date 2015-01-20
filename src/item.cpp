@@ -984,8 +984,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                      book->time, true, "", true, true));
             if( book->chapters > 0 ) {
                 const int unread = get_remaining_chapters( g->u );
-                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapters.",
-                                                                 "This book has <num> unread chapter.",
+                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapter.",
+                                                                 "This book has <num> unread chapters.",
                                                                  unread ),
                                            unread ) );
             }
