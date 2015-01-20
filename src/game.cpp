@@ -2134,7 +2134,7 @@ void game::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catch
             item fish;
             std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-            fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
+            fish.make_corpse( fish_mon, calendar::turn );
             m.add_item_or_charges(u.posx, u.posy, fish);
             u.add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
             } else {
@@ -2154,7 +2154,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
-    fish.make_corpse("corpse", catchables[index]->type, calendar::turn + int(rng(0, catch_duration)));
+    fish.make_corpse( catchables[index]->type, calendar::turn + int(rng(0, catch_duration)) );
     m.add_item_or_charges(posx, posy, fish);
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched

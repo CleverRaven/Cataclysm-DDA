@@ -89,8 +89,29 @@ class item : public JsonSerializer, public JsonDeserializer
 public:
  item();
  item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
+
+        /**
+         * Make this a corpse of the given monster type.
+         * The monster type must not be null, alternatively the monster type id must be a valid
+         * monster type (see @ref MonsterGenerator::get_mtype).
+         *
+         * The turn parameter sets the birthday of the corpse, in other words: the turn when the
+         * monster died. Because corpses are removed from the map when they reach a certain age,
+         * one has to be careful when placing corpses with a birthday of 0. They might be
+         * removed immediately when the map is loaded without been seen by the player.
+         *
+         * The name parameter can be used to give the corpse item a name. This is
+         * used instead of the monster type name ("corpse of X" instead of "corpse of bear").
+         *
+         * Without any parameters it makes a human corpse, created at the current turn.
+         */
+        /*@{*/
+        void make_corpse( mtype* mt, unsigned int turn );
+        void make_corpse( mtype* mt, unsigned int turn, const std::string &name );
+        void make_corpse( const std::string &mtype_id, unsigned int turn );
+        void make_corpse();
+        /*@}*/
+
  item(std::string itemdata);
  item(JsonObject &jo);
         item(item &&) = default;
