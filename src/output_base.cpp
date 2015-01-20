@@ -101,7 +101,6 @@ std::string vstring_format(char const *pattern, va_list argptr)
     return sprintf_string_backed {pattern, argptr}.to_string();
 }
 
-
 //--------------------------------------------------------------------------------------------------
 sprintf_array_backed buffer_format(char const *pattern, ...)
 {

@@ -203,16 +203,16 @@ void player::power_bionics()
                     std::stringstream power_desc;
                     power_desc << bionics[active[i]->id]->name;
                     if (bionics[active[i]->id]->power_over_time > 0 && bionics[active[i]->id]->charge_time > 0) {
-                        power_desc << string_format(_(", %d PU / %d turns"),
+                        power_desc << buffer_format(_(", %d PU / %d turns"),
                                         bionics[active[i]->id]->power_over_time,
                                         bionics[active[i]->id]->charge_time);
                     }
                     if (bionics[active[i]->id]->power_activate > 0) {
-                        power_desc << string_format(_(", %d PU act"),
+                        power_desc << buffer_format(_(", %d PU act"),
                                         bionics[active[i]->id]->power_activate);
                     }
                     if (bionics[active[i]->id]->power_deactivate > 0) {
-                        power_desc << string_format(_(", %d PU deact"),
+                        power_desc << buffer_format(_(", %d PU deact"),
                                         bionics[active[i]->id]->power_deactivate);
                     }
                     if (active[i]->powered) {

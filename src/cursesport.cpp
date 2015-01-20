@@ -327,9 +327,9 @@ int getnstr(char *str, int size)
 
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
-inline int fill(char *&fmt, int &len, std::string &target)
+inline int fill(char const* &fmt, int &len, std::string &target)
 {
-    char *const start = fmt;
+    char const* const start = fmt;
     int dlen = 0; // display width
     const char *tmpptr = fmt; // pointer for UTF8_getch, which increments it
     int tmplen = len;
@@ -374,10 +374,8 @@ inline cursecell *cur_cell(WINDOW *win)
 }
 
 //The core printing function, prints characters to the array, and sets colors
-inline int printstring(WINDOW *win, char *fmtt)
+inline int printstring(WINDOW *win, char const *fmt)
 {
-    char const* fmt = fmtt;
-
     win->draw = true;
     int len = strlen(fmt);
     if( len == 0 ) {

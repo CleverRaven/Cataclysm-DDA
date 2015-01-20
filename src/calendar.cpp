@@ -246,19 +246,19 @@ int calendar::sunlight() const
 
 std::string calendar::print_time(bool just_hour) const
 {
-    std::stringstream time_string;
+    std::ostringstream time_string;
     int hour_param;
 
     if (OPTIONS["24_HOUR"] == "military") {
         hour_param = hour % 24;
-        time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
+        time_string << buffer_format("%02d%02d.%02d", hour_param, minute, second);
     } else if (OPTIONS["24_HOUR"] == "24h") {
         hour_param = hour % 24;
         if (just_hour) {
             time_string << hour_param;
         } else {
             //~ hour:minute (24hr time display)
-            time_string << string_format(_("%02d:%02d:%02d"), hour_param, minute, second);
+            time_string << buffer_format(_("%02d:%02d:%02d"), hour_param, minute, second);
         }
     } else {
         hour_param = hour % 12;
@@ -268,13 +268,13 @@ std::string calendar::print_time(bool just_hour) const
         // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
         std::string padding = hour_param < 10 ? " " : "";
         if (just_hour && hour < 12) {
-            time_string << string_format(_("%d AM"), hour_param);
+            time_string << buffer_format(_("%d AM"), hour_param);
         } else if (just_hour) {
-            time_string << string_format(_("%d PM"), hour_param);
+            time_string << buffer_format(_("%d PM"), hour_param);
         } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
+            time_string << buffer_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
         } else {
-            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
+            time_string << buffer_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
         }
     }
 

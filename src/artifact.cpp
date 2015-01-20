@@ -802,7 +802,7 @@ std::string new_artifact()
         art->armor->warmth = info->warmth;
         art->armor->storage = info->storage;
         std::stringstream description;
-        description << string_format(info->plural ?
+        description << buffer_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),
                                      art->nname(1).c_str());
@@ -852,7 +852,7 @@ std::string new_artifact()
                     art->armor->storage = 0;
                 }
 
-                description << string_format(info->plural ?
+                description << buffer_format(info->plural ?
                                              _("\nThey are %s") :
                                              _("\nIt is %s"),
                                              modinfo->name.c_str());

@@ -1413,38 +1413,6 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-//std::string vstring_format(const char *pattern, va_list argptr)
-//{
-//    std::string result(sprintf_string_backed {pattern, argptr}.to_string());
-//
-//    //drop contents behind \003, this trick is there to skip certain arguments
-//    result.erase(std::find(std::begin(result), std::end(result), '\003'), std::end(result));
-//    return result;
-//}
-//
-//std::string string_format(const char *pattern, ...)
-//{
-//    va_list ap;
-//    va_start(ap, pattern);
-//    const std::string result = vstring_format(pattern, ap);
-//    va_end(ap);
-//    return result;
-//}
-//
-//std::string vstring_format(const std::string pattern, va_list argptr)
-//{
-//    return vstring_format(pattern.c_str(), argptr);
-//}
-//
-//std::string string_format(const std::string pattern, ...)
-//{
-//    va_list ap;
-//    va_start(ap, pattern);
-//    const std::string result = vstring_format(pattern.c_str(), ap);
-//    va_end(ap);
-//    return result;
-//}
-
 //wrap if for i18n
 std::string &capitalize_letter(std::string &str, size_t n)
 {
