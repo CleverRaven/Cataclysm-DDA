@@ -7635,7 +7635,7 @@ bool game::revive_corpse(int x, int y, int n)
 
 bool game::revive_corpse(int x, int y, item *it)
 {
-    if (it == NULL || it->typeId() != "corpse" || it->corpse == NULL) {
+    if (it == NULL || !it->is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
         return false;
     }
@@ -7644,7 +7644,7 @@ bool game::revive_corpse(int x, int y, item *it)
         return false;
     }
     int burnt_penalty = it->burnt;
-    monster critter(it->corpse, x, y);
+    monster critter(it->get_mtype(), x, y);
     critter.set_speed_base( int(critter.get_speed_base() * 0.8) - (burnt_penalty / 2) );
     critter.hp = int(critter.hp * 0.7) - burnt_penalty;
     if (it->damage > 0) {
@@ -7851,7 +7851,7 @@ void game::smash()
     }
     static const int full_pulp_threshold = 4;
     for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
-        if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
+        if (it->is_corpse() && it->damage < full_pulp_threshold) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
             u.activity.placement = point(smashx, smashy);
@@ -7917,12 +7917,12 @@ void game::activity_on_turn_pulp()
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
     auto corpse_pile = m.i_at(smashx, smashy);
     for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if (!(corpse->type->id == "corpse" && corpse->damage < full_pulp_threshold)) {
+        if (!(corpse->is_corpse() && corpse->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
         int damage = pulp_power / corpse->volume();
         //Determine corpse's blood type.
-        field_id type_blood = corpse->corpse->bloodType();
+        field_id type_blood = corpse->get_mtype()->bloodType();
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
@@ -11389,7 +11389,7 @@ void game::butcher()
     if( factor > INT_MIN ) {
         // get corpses
         for (size_t i = 0; i < items.size(); i++) {
-            if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+            if( items[i].is_corpse() ) {
                 corpses.push_back(i);
                 has_corpse = true;
             }
@@ -11397,7 +11397,7 @@ void game::butcher()
     }
     // then get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+        if( !items[i].is_corpse() ) {
             const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
             if (cur_recipe != NULL && u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
@@ -11409,7 +11409,7 @@ void game::butcher()
     size_t salvage_index = corpses.size();
     if( has_salvage_tool ) {
         for( size_t i = 0; i < items.size(); i++ ) {
-            if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+            if( !items[i].is_corpse() ) {
                 if( iuse::valid_to_cut_up( &items[i] ) ) {
                     corpses.push_back(i);
                     has_item = true;
@@ -11449,7 +11449,6 @@ void game::butcher()
         kmenu.selected = 0;
         for (size_t i = 0; i < corpses.size(); i++) {
             const item &it = items[corpses[i]];
-            const mtype *corpse = it.corpse;
             int hotkey = -1;
             // First entry gets a hotkey matching the butcher command.
             if (i == 0) {
@@ -11458,8 +11457,8 @@ void game::butcher()
                     hotkey = butcher_key;
                 }
             }
-            if (it.corpse != NULL) {
-                kmenu.addentry(i, true, hotkey, corpse->nname());
+            if (it.is_corpse()) {
+                kmenu.addentry(i, true, hotkey, it.get_mtype()->nname());
             } else if( i < salvage_index ) {
                 kmenu.addentry(i, true, hotkey, it.tname());
             } else {
@@ -11484,7 +11483,7 @@ void game::butcher()
         return;
     }
     const item &dis_item = items[corpses[butcher_corpse_index]];
-    if( dis_item.corpse == NULL && butcher_corpse_index < (int)salvage_index) {
+    if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
         const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
@@ -11494,12 +11493,12 @@ void game::butcher()
         u.activity.values.push_back(corpses[butcher_corpse_index]);
         u.activity.values.push_back(1);
         return;
-    } else if( dis_item.corpse == NULL ) {
+    } else if( !dis_item.is_corpse() ) {
         item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
         iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );
         return;
     }
-    mtype *corpse = dis_item.corpse;
+    mtype *corpse = dis_item.get_mtype();
     int time_to_cut = 0;
     switch (corpse->size) { // Time in turns to cut up te corpse
     case MS_TINY:
@@ -11529,12 +11528,12 @@ void game::butcher()
 void game::complete_butcher(int index)
 {
     // corpses can disappear (rezzing!), so check for that
-    if ((int)m.i_at(u.posx, u.posy).size() <= index || m.i_at(u.posx, u.posy)[index].corpse == NULL ||
-        m.i_at(u.posx, u.posy)[index].typeId() != "corpse") {
+    if ((int)m.i_at(u.posx, u.posy).size() <= index ||
+        !m.i_at(u.posx, u.posy)[index].is_corpse()) {
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    mtype *corpse = m.i_at(u.posx, u.posy)[index].corpse;
+    mtype *corpse = m.i_at(u.posx, u.posy)[index].get_mtype();
     std::vector<item> contents = m.i_at(u.posx, u.posy)[index].contents;
     int age = m.i_at(u.posx, u.posy)[index].bday;
     m.i_rem(u.posx, u.posy, index);
@@ -11843,7 +11842,7 @@ void game::complete_butcher(int index)
             return;
         }
         item tmpitem(meat, age);
-        tmpitem.corpse = corpse;
+        tmpitem.set_mtype( corpse );
         while ( pieces > 0 ) {
             pieces--;
             m.add_item_or_charges(u.posx, u.posy, tmpitem);

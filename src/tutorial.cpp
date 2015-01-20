@@ -93,7 +93,7 @@ void tutorial_game::per_turn()
 
  if (!tutorials_seen[LESSON_BUTCHER]) {
   for (size_t i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++) {
-   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == "corpse") {
+   if (g->m.i_at(g->u.posx, g->u.posy)[i].is_corpse()) {
     add_message(LESSON_BUTCHER);
     i = g->m.i_at(g->u.posx, g->u.posy).size();
    }

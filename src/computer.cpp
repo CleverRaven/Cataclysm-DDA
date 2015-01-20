@@ -746,10 +746,11 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
-                        if (blood.corpse == NULL || blood.corpse->id == "mon_null") {
+                        auto const mt = blood.get_mtype();
+                        if( mt == nullptr || mt->id == "mon_null" ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( blood.corpse->in_species( "ZOMBIE" ) ) {
-                            if( blood.corpse->sym == "Z" ) {
+                        } else if( mt->in_species( "ZOMBIE" ) ) {
+                            if( mt->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
                                 print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));

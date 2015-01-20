@@ -111,6 +111,24 @@ public:
         void make_corpse( const std::string &mtype_id, unsigned int turn );
         void make_corpse();
         /*@}*/
+        /**
+         * @return The monster type associated with this item (@ref corpse). It is usually the
+         * type that this item is made of (e.g. corpse, meat or blood of the monster).
+         * May return a null-pointer.
+         */
+        mtype *get_mtype() const;
+        /**
+         * Sets the monster type associated with this item (@ref corpse). You must not pass a
+         * null pointer.
+         * TODO: change this to take a reference instead.
+         */
+        void set_mtype( mtype *corpse );
+        /**
+         * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
+         * associated (@ref get_mtype return a non-null pointer) and have been created
+         * with @ref make_corpse.
+         */
+        bool is_corpse() const;
 
  item(std::string itemdata);
  item(JsonObject &jo);
@@ -455,7 +473,6 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
- bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -511,7 +528,6 @@ public:
 
  itype_id typeId() const;
  itype* type;
- mtype*   corpse;
  std::vector<item> contents;
 
         /**
@@ -895,6 +911,8 @@ public:
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
         std::map<std::string, std::string> item_vars;
+        // TODO: make a pointer to const
+        mtype* corpse;
 public:
  char invlet;             // Inventory letter
  long charges;

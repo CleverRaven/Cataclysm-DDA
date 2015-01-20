@@ -1814,7 +1814,7 @@ nc_color item::color() const
 {
     if( is_null() )
         return c_black;
-    if ( corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         return corpse->color;
     }
     return type->color;
@@ -1869,7 +1869,7 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
@@ -1949,7 +1949,7 @@ int item::precise_unit_volume() const
 int item::volume(bool unit_value, bool precise_value ) const
 {
     int ret = 0;
-    if (corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         switch (corpse->size) {
             case MS_TINY:
                 ret = 3;
@@ -2719,14 +2719,22 @@ bool item::is_food_container() const
 
 bool item::is_corpse() const
 {
-    if( is_null() ) {
-        return false;
-    }
+    return typeId() == "corpse" && corpse != nullptr;
+}
 
-    if (type->id == "corpse") {
-        return true;
+mtype *item::get_mtype() const
+{
+    return corpse;
+}
+
+void item::set_mtype( mtype * const m )
+{
+    // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
+    if( m == nullptr ) {
+        debugmsg( "setting item::corpse of %s to NULL", tname().c_str() );
+        return;
     }
-    return false;
+    corpse = m;
 }
 
 bool item::is_ammo_container() const
