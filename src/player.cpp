@@ -4556,34 +4556,28 @@ void player::search_surroundings()
 
 int player::throw_range(int pos)
 {
- item tmp;
- if (pos == -1)
-  tmp = weapon;
- else if (pos == INT_MIN)
-  return -1;
- else
-  tmp = inv.find_item(pos);
-
- if (tmp.count_by_charges() && tmp.charges > 1)
-  tmp.charges = 1;
-
- if ((tmp.weight() / 113) > int(str_cur * 15))
-  return 0;
- // Increases as weight decreases until 150 g, then decreases again
- int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
- ret -= int(tmp.volume() / 4);
- bool is_using_atlatl = weapon.type_name() == "atlatl";
- if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
-    ret *= 2;
- else if (is_using_atlatl && pos != -1 && tmp.volume() < 2)
-    ret *= 3; //almost definitely not balanced
- if (ret < 1)
-  return 1;
+item tmp;
+if (pos == -1)
+tmp = weapon;
+else if (pos == INT_MIN)
+return -1;
+else
+tmp = inv.find_item(pos);
+if (tmp.count_by_charges() && tmp.charges > 1)
+tmp.charges = 1;
+if ((tmp.weight() / 113) > int(str_cur * 15))
+return 0;
+// Increases as weight decreases until 150 g, then decreases again
+int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ret -= int(tmp.volume() / 4);
+if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
+ret *= 2;
+if (ret < 1)
+return 1;
 // Cap at double our strength + skill
-  int cap = str_cur * (is_using_atlatl ? 2 : 1.5) + skillLevel("throw");
- if (ret > cap)
-   return cap;
- return ret;
+if (ret > str_cur * 1.5 + skillLevel("throw"))
+return str_cur * 1.5 + skillLevel("throw");
+return ret;
 }
 
 int player::ranged_dex_mod() const
