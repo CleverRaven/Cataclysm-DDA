@@ -680,7 +680,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -697,7 +697,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -714,7 +714,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -731,7 +731,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -748,7 +748,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -765,7 +765,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -782,7 +782,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -799,7 +799,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -816,7 +816,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -833,7 +833,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -850,7 +850,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -867,7 +867,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -884,7 +884,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -901,7 +901,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -918,7 +918,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -935,7 +935,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -952,7 +952,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -969,7 +969,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -986,7 +986,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -1003,7 +1003,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -1020,7 +1020,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -1253,7 +1253,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1269,7 +1269,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1285,7 +1285,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1301,7 +1301,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1317,7 +1317,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1333,7 +1333,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1639,7 +1639,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1655,7 +1655,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1671,7 +1671,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1687,7 +1687,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1703,7 +1703,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1719,7 +1719,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1735,7 +1735,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1751,7 +1751,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1873,7 +1873,7 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE"],
+        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -2291,7 +2291,7 @@
         "item" : "wheel_wood",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH", "NAILABLE"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15}]
@@ -2309,7 +2309,7 @@
         "item" : "wheel_wood_b",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH", "NAILABLE"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15},
@@ -2609,7 +2609,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2630,7 +2630,7 @@
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -3030,7 +3030,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -3594,7 +3594,7 @@
         "item" : "wood_plate",
         "difficulty" : 3,
         "location" : "armor",
-        "flags" : ["ARMOR"],
+        "flags" : ["ARMOR", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4219,7 +4219,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
+        "flags" : ["SEAT", "BOARDABLE", "BELTABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4237,7 +4237,7 @@
         "item" : "pointy_stick",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "NAILABLE"],
         "breaks_into" : []
     },
     {
@@ -4253,7 +4253,7 @@
         "item" : "frame_wood",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4270,7 +4270,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF"],
+        "flags" : ["ROOF", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
