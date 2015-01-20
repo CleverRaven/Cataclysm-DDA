@@ -1473,7 +1473,7 @@ void npc::say(std::string line, ...) const
 {
  va_list ap;
  va_start(ap, line);
- line = vstring_format(line, ap);
+ line = vstring_format(line.c_str(), ap);
  va_end(ap);
  parse_tags(line, &(g->u), this);
  if (g->u.sees( *this )) {

@@ -2119,7 +2119,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
     const int norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
     // Get format for printing weights, convert weight to that format,
-    const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
+    auto const format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
                                _("%.3f kg");
     const std::string weight_str = string_format(format, p->convert_weight(steel_weight));
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());

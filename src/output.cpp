@@ -19,6 +19,7 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+#include "output_base.h"
 
 // Display data
 int TERMX;
@@ -343,7 +344,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     attron(FG);
     mvprintw(y, x, "%s", text.c_str());
@@ -354,7 +355,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
     mvwprintw(w, y, x, "%s", text.c_str());
@@ -365,7 +366,7 @@ void printz(nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     attron(FG);
     printw("%s", text.c_str());
@@ -376,7 +377,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
     wprintw(w, "%s", text.c_str());
@@ -1085,9 +1086,9 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
                 if (vItemDisplay[i].is_int == true) {
-                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
+                    buffer << buffer_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
+                    buffer << buffer_format( "%.1f", vItemDisplay[i].dValue );
                 }
                 buffer << "</color>";
             }
@@ -1412,159 +1413,37 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-//--------------------------------------------------------------------------------------------------
-// Wrap up the details of (v)s(n)printf.
-// First try to use a stack-based buffer (std::array), and then fallback to a
-// heap-based (std::string) buffer, which in C++11 is guaranteed to be backed by a contiguous buffer
-//--------------------------------------------------------------------------------------------------
-struct vsprintf_buffer {
-    enum : size_t { buffer_size = 512 };
-
-    vsprintf_buffer()
-      : len {buffer_size}
-    {
-        new (&arr) std::array<char, buffer_size>;
-    }
-
-#if defined(_WIN32) && defined(_MSC_VER)
-    // MSVC only implementation; TODO: could possible work on mingw via GetProcAddress.
-    vsprintf_buffer(char const* const format, va_list args)
-      : vsprintf_buffer()
-    {
-        int const result = _vscprintf_p(format, args);
-        if (result == -1) {
-            set_error_string(format, errno);
-            return;
-        }
-        
-        auto const required_size = static_cast<size_t>(result + 1);
-        if (required_size > len) {
-            new (&str) std::string(required_size, '\0');
-        }
-
-        len = required_size;
-        auto const buffer = use_array() ? arr.data() : &str[0];
-        _vsprintf_p(buffer, len, format, args);
-    }
-#else
-    // Generic implementation; should work on all platforms.
-    vsprintf_buffer(char const *format, va_list args)
-      : vsprintf_buffer()
-    {
-        // Attempt to print; return a pair {error, grow}; if grow = -1, try doubling the size.
-        auto const try_print = [&] {
-            errno = 0;
-
-            va_list args_copy;
-            va_copy(args_copy, args);
-            auto const result = vsnprintf(get_buffer(), len, format, args_copy);
-            va_end(args_copy);
-
-            if (result == -1 && errno) {                  // Some error occured
-                return std::make_pair(true, 0);
-            } else if (result == -1) {                    // We need to grow the buffer;
-                return std::make_pair(false, result);     // Non-standard (old msvc and mingw32).
-            } else if (result >= len) {                   // We need to grow the buffer;
-                return std::make_pair(false, result + 1); // Stadard behaviour. Need +1 for '\0'.
-            } else {
-                return std::make_pair(false, 0);          // Ok. Big enough.
-            }
-        };
-
-        bool has_error   = false;
-        int  grow_buffer = 0;
-
-        // Try once with the array
-        std::tie(has_error, grow_buffer) = try_print();
-        if (grow_buffer) {
-            new (&vec) std::string();
-        }
-
-        // Keep trying, this time with an ever growing vector
-        while (grow_buffer && !has_error) {
-            len = (grow_buffer > 0) ? (grow_buffer) : (len * 2);
-            str.resize(len, '\0');
-
-            std::tie(has_error, grow_buffer) = try_print();
-        }
-
-        if (has_error) {
-            set_error_string(format, errno);
-        }
-    }
-#endif
-    bool use_array() const noexcept {
-        return len <= buffer_size;
-    }
-
-    ~vsprintf_buffer() {
-        if (!use_array()) {
-            str.~basic_string();
-        }
-    }
-
-    operator std::string() {
-        if (use_array()) {
-            return std::string(arr.data(), len);
-        } else {
-            return std::move(str);
-        }
-    }
-
-    void set_error_string(char const* const format, int const e_code) {
-        // Cleanup the dynamic buffer if it was in use.
-        if (!use_array()) {
-            str.~basic_string();
-            len = 0;
-            new (&arr) std::array<char, buffer_size>;
-        }
-
-        strncpy(arr.data(), "Error when formatting string.", buffer_size);
-
-        DebugLog(D_WARNING, D_GAME) << "Error '" << strerror(e_code) <<
-            "' when formatting string '" << format << "'.";
-    }
-
-    union {
-        std::array<char, buffer_size> arr;
-        std::string                   str;
-    };
-
-    size_t len = 0;
-};
-
-
-std::string vstring_format(const char *pattern, va_list argptr)
-{
-    std::string result(vsprintf_buffer {pattern, argptr});
-
-    //drop contents behind \003, this trick is there to skip certain arguments
-    result.erase(std::find(std::begin(result), std::end(result), '\003'), std::end(result));
-    return result;
-}
-
-std::string string_format(const char *pattern, ...)
-{
-    va_list ap;
-    va_start(ap, pattern);
-    const std::string result = vstring_format(pattern, ap);
-    va_end(ap);
-    return result;
-}
-
-std::string vstring_format(const std::string pattern, va_list argptr)
-{
-    return vstring_format(pattern.c_str(), argptr);
-}
-
-std::string string_format(const std::string pattern, ...)
-{
-    va_list ap;
-    va_start(ap, pattern);
-    const std::string result = vstring_format(pattern.c_str(), ap);
-    va_end(ap);
-    return result;
-}
+//std::string vstring_format(const char *pattern, va_list argptr)
+//{
+//    std::string result(sprintf_string_backed {pattern, argptr}.to_string());
+//
+//    //drop contents behind \003, this trick is there to skip certain arguments
+//    result.erase(std::find(std::begin(result), std::end(result), '\003'), std::end(result));
+//    return result;
+//}
+//
+//std::string string_format(const char *pattern, ...)
+//{
+//    va_list ap;
+//    va_start(ap, pattern);
+//    const std::string result = vstring_format(pattern, ap);
+//    va_end(ap);
+//    return result;
+//}
+//
+//std::string vstring_format(const std::string pattern, va_list argptr)
+//{
+//    return vstring_format(pattern.c_str(), argptr);
+//}
+//
+//std::string string_format(const std::string pattern, ...)
+//{
+//    va_list ap;
+//    va_start(ap, pattern);
+//    const std::string result = vstring_format(pattern.c_str(), ap);
+//    va_end(ap);
+//    return result;
+//}
 
 //wrap if for i18n
 std::string &capitalize_letter(std::string &str, size_t n)

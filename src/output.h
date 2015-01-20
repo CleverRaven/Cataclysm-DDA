@@ -3,13 +3,14 @@
 
 #include "color.h"
 #include "line.h"
+#include "item.h"
+#include "ui.h"
+#include "output_base.h"
+
 #include <cstdarg>
 #include <string>
 #include <vector>
 #include <memory>
-
-#include "item.h"
-#include "ui.h"
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -203,11 +204,6 @@ long special_symbol (long sym);
 // TODO: move these elsewhere
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
-
-std::string string_format(const char *pattern, ...);
-std::string vstring_format(const char *pattern, va_list argptr);
-std::string string_format(const std::string pattern, ...);
-std::string vstring_format(const std::string pattern, va_list argptr);
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');

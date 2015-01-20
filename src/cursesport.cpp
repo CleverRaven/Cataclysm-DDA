@@ -374,8 +374,10 @@ inline cursecell *cur_cell(WINDOW *win)
 }
 
 //The core printing function, prints characters to the array, and sets colors
-inline int printstring(WINDOW *win, char *fmt)
+inline int printstring(WINDOW *win, char *fmtt)
 {
+    char const* fmt = fmtt;
+
     win->draw = true;
     int len = strlen(fmt);
     if( len == 0 ) {
@@ -455,38 +457,37 @@ int wprintw(WINDOW *win, const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
+    auto const printbuf = vbuffer_format(fmt, args);
     va_end(args);
-    return printstring(win, printbuf);
+    return printstring(win, printbuf.c_str());
 }
 
 //Prints a formatted string to a window, moves the cursor
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
 {
-    va_list args;
-    va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
-    va_end(args);
     if (wmove(win, y, x) == 0) {
         return 0;
     }
-    return printstring(win, printbuf);
+
+    va_list args;
+    va_start(args, fmt);
+    auto const printbuf = vbuffer_format(fmt, args);
+    va_end(args);
+    return printstring(win, printbuf.c_str());
 }
 
 //Prints a formatted string to the main window, moves the cursor
 int mvprintw(int y, int x, const char *fmt, ...)
 {
-    va_list args;
-    va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
-    va_end(args);
     if (move(y, x) == 0) {
         return 0;
     }
-    return printstring(mainwin, printbuf);
+
+    va_list args;
+    va_start(args, fmt);
+    auto const printbuf = vbuffer_format(fmt, args);
+    va_end(args);
+    return printstring(mainwin, printbuf.c_str());
 }
 
 //Prints a formatted string to the main window at the current cursor
@@ -494,10 +495,9 @@ int printw(const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2078];
-    vsnprintf(printbuf, 2047, fmt, args);
+    auto const printbuf = vbuffer_format(fmt, args);
     va_end(args);
-    return printstring(mainwin, printbuf);
+    return printstring(mainwin, printbuf.c_str());
 }
 
 //erases a window of all text and attributes
