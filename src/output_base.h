@@ -4,20 +4,18 @@
 #include <array>
 #include <string>
 #include <cstdarg>
+#include <cassert>
 
 namespace detail {
 
 //--------------------------------------------------------------------------------------------------
 //! A buffer optimised for making into a std::string.
+//! Use a string's internal buffer.
 //--------------------------------------------------------------------------------------------------
 struct sprintf_string_buffer {
-    enum : size_t { buffer_size = 16 }; //size of the small string on MSVC
+    enum : size_t { buffer_size = 15 }; // size of the small string optimization on MSVC.
 
-    void resize(size_t const new_size) {
-        if (new_size <= str.size()) {
-            return;
-        }
-        
+    void resize(size_t const new_size) {        
         str.resize(new_size, '\0');
     }
     
@@ -46,8 +44,9 @@ struct sprintf_string_buffer {
 };
 
 //--------------------------------------------------------------------------------------------------
-//! A buffer optimised for use as a C string.
-//! Relies on RVO to be most efficient.
+//! A buffer optimised for use as a C string. Relies on RVO to be most efficient.
+//! First creates a std::array on the stack which, once full, is "swapped" out for a std::string's
+//! internal buffer. Implemented as a discriminated union.
 //--------------------------------------------------------------------------------------------------
 struct sprintf_array_buffer {
     enum : size_t { buffer_size = 512 };
@@ -55,25 +54,25 @@ struct sprintf_array_buffer {
     using array_t = std::array<char, buffer_size>;
 
     void resize(size_t const new_size) {
-        if (new_size <= cur_size) {
-            return;
-        }
+        assert(new_size >= cur_size);
 
         if (cur_size > buffer_size) {
             str.resize(new_size, '\0');
+            data_ptr = &str[0];
         } else if (new_size > buffer_size) {
             new (&str) std::string(new_size, '\0');
+            data_ptr = &str[0];
         }
 
         cur_size = new_size;
     }
     
     char* data() noexcept {
-        return (cur_size > buffer_size) ? &str[0] : &arr[0];
+        return data_ptr;
     }
 
     char const* data() const noexcept {
-        return (cur_size > buffer_size) ? &str[0] : &arr[0];
+        return data_ptr;
     }
 
     size_t size() const noexcept {
@@ -82,42 +81,45 @@ struct sprintf_array_buffer {
 
     std::string to_string() {
         if (cur_size <= buffer_size) {
-            return std::string(data(), size());
+            return std::string(&arr[0], cur_size);
         } else {
             return std::move(str);
         }
     }
 
-    explicit sprintf_array_buffer(size_t const new_size = buffer_size)
+    explicit sprintf_array_buffer(size_t const new_size = buffer_size) noexcept
       : cur_size {new_size}
     {
-        new (&arr) array_t;
+        new (&arr) array_t; // uninitialized memory;
+        arr[0] = '\0';      // make sure to null terminate it.
+        data_ptr = &arr[0];
     }
 
-    sprintf_array_buffer(sprintf_array_buffer &&other)
-      : cur_size {other.cur_size}
-    {
+    // Not meant to be used outside the implementation
+    void construct(sprintf_array_buffer &&other) noexcept {
         if (other.cur_size > buffer_size) {
             new (&str) std::string(std::move(other.str));
+            data_ptr = &str[0];
         } else {
             new (&arr) array_t(std::move(other.arr));
+            data_ptr = &arr[0];
         }
+
+        cur_size = other.cur_size;
     }
 
-    sprintf_array_buffer& operator=(sprintf_array_buffer &&rhs) {
-        if (this == &rhs) {
-            return *this;
-        }
-        
+    sprintf_array_buffer(sprintf_array_buffer &&other) noexcept {
+        construct(std::move(other));
+    }
+
+    // Very likely to be dead code in an optimized build; needed anyway to compile.
+    sprintf_array_buffer& operator=(sprintf_array_buffer &&rhs) noexcept {
+        assert(this != &rhs);
+               
         this->~sprintf_array_buffer();
+        construct(std::move(rhs));
 
-        if (rhs.cur_size > buffer_size) {
-            new (&str) std::string(std::move(rhs.str));
-        } else {
-            new (&arr) array_t(std::move(rhs.arr));
-        }
-
-        cur_size = rhs.cur_size;
+        return *this;
     }
 
     sprintf_array_buffer(sprintf_array_buffer const&) = delete;
@@ -129,12 +131,20 @@ struct sprintf_array_buffer {
         }
     }
 
-    size_t cur_size;
+    size_t cur_size; // cur_size <= buffer_size indicated arr is in use; otherwise str.
+    char*  data_ptr; // just to avoid a branch on every call to data().
 
+#if defined(_MSC_VER)
+#   pragma warning(push)
+#   pragma warning(disable:4624) //destructor implicitly deleted
+#endif
     union {
         array_t     arr;
         std::string str;
     };
+#if defined(_MSC_VER)
+#   pragma warning(pop)
+#endif
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -178,7 +188,7 @@ struct sprintf_result {
     }
 
     template <typename Stream>
-    friend Stream& operator<<(Stream& lhs, sprintf_result const &rhs) {
+    friend Stream& operator<<(Stream &lhs, sprintf_result const &rhs) {
         //TODO: could restrict this with a static_cast, but would need another include...
         lhs << rhs.c_str();
         return lhs;

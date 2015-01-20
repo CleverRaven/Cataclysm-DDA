@@ -372,6 +372,8 @@
 		<Unit filename="src/options.h" />
 		<Unit filename="src/output.cpp" />
 		<Unit filename="src/output.h" />
+		<Unit filename="src/output_base.h" />
+		<Unit filename="src/output_base.cpp" />
 		<Unit filename="src/overmap.cpp" />
 		<Unit filename="src/overmap.h" />
 		<Unit filename="src/overmapbuffer.cpp" />
