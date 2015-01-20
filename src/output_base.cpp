@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include <cstdio>
+#include <cerrno>
 
 //--------------------------------------------------------------------------------------------------
 namespace {
@@ -67,8 +68,8 @@ size_t detail::sprintf_result_base::try_format(char *const buffer, size_t const 
     va_end(args_copy);
 
     if (result < 0) {
-        if (errno) {
-            set_error_string(buffer, buffer_size, format, errno);
+        if (auto const e_code = errno) {
+            set_error_string(buffer, buffer_size, format, e_code);
             return 0;
         } else {
             return buffer_size * 2;
