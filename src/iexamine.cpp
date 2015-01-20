@@ -12,6 +12,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <cstdlib>
 
 void iexamine::none(player *p, map *m, int examx, int examy)
 {
@@ -139,8 +140,8 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                           "Deposit how much? Max:%d cents. (0 to cancel) ",
                                           max),
                                  max);
-        amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true)
+        amount = std::atoi( string_input_popup( popupmsg, 20,
+                                 to_string(max), "", "", -1, true).c_str()
                                );
         if (amount <= 0) {
             return;
@@ -174,8 +175,8 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                              "Withdraw how much? Max:%d cents. (0 to cancel) ",
                                              max),
                                              max);
-        amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true)
+        amount = std::atoi( string_input_popup( popupmsg, 20,
+                                 to_string(max), "", "", -1, true).c_str()
                                );
         if (amount <= 0) {
             return;
@@ -228,8 +229,8 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                                              "Transfer how much? Max:%d cents. (0 to cancel) ",
                                              max),
                                              max);
-        amount = std::stoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true)
+        amount = std::atoi( string_input_popup( popupmsg, 20,
+                                 to_string(max), "", "", -1, true).c_str()
                                );
         if (amount <= 0) {
             return;
@@ -2351,9 +2352,9 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
-    long amount = std::stoi( string_input_popup( popupmsg, 20,
+    long amount = std::atoi( string_input_popup( popupmsg, 20,
                                   to_string(max_amount),
-                                  "", "", -1, true) );
+                                  "", "", -1, true).c_str() );
     if (amount <= 0 || amount > max_amount) {
         return;
     }
@@ -2809,8 +2810,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                                    ngettext("How many gas units to buy? Max:%d unit. (0 to cancel) ",
                                             "How many gas units to buy? Max:%d units. (0 to cancel) ",
                                             max), max);
-        long amount = std::stoi(string_input_popup(popupmsg, 20,
-                                     to_string(max), "", "", -1, true)
+        long amount = std::atoi(string_input_popup(popupmsg, 20,
+                                     to_string(max), "", "", -1, true).c_str()
                                     );
         if (amount <= 0) {
             return;

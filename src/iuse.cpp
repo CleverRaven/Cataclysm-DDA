@@ -25,6 +25,7 @@
 #include <cmath>
 #include <unordered_set>
 #include <set>
+#include <cstdlib>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -7842,7 +7843,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         auto gun = put->type->gun.get();
         int maxvol = 0;
         if(it->type->properties["holster_size"] != "0") {
-          maxvol = std::stoi(it->type->properties["holster_size"]);
+          maxvol = std::atoi(it->type->properties["holster_size"].c_str());
         }
         // only allow guns smaller than a certain size
         if (put->volume() > maxvol) {

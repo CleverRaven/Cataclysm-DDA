@@ -25,6 +25,7 @@
 #include <string>
 #include <math.h>
 #include <vector>
+#include <cstdlib>
 #include "debug.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -1241,8 +1242,8 @@ int editmap::edit_itm()
                             intval = (int)it->light.width;
                             break;
                     }
-                    int retval = std::stoi (
-                                     string_input_popup( "set: ", 20, to_string(  intval ) )
+                    int retval = std::atoi (
+                                     string_input_popup( "set: ", 20, to_string(  intval ) ).c_str()
                                  );
                     if ( intval != retval ) {
                         if (imenu.ret == imenu_bday ) {
