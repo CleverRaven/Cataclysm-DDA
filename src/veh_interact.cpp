@@ -690,7 +690,7 @@ void veh_interact::do_install()
                         shape_ui_entries.push_back( entry );
                     }
                     selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
-                                             "Choose shape:", shape_ui_entries ).ret;
+                                             _("Choose shape:"), shape_ui_entries ).ret;
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
