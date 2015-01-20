@@ -7,6 +7,7 @@
 #include "input.h"
 
 #define DUCT_TAPE_USED 100
+#define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
@@ -68,9 +69,11 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
+        bool has_hammer;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
+        bool has_nails;
         bool has_hacksaw;
         bool has_jack;
         bool has_siphon;
@@ -121,7 +124,7 @@ class veh_interact
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart;
-        
+
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
         //do install support, writes requirements to ui
