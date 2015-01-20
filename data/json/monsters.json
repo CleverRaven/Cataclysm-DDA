@@ -4630,7 +4630,7 @@
     "death_function":"MELT",
     "special_attacks":[["DISAPPEAR", 20]],
     "special_when_hit":["ZAPBACK", 100],
-    "description":"A strange moving darkness, bringing with it the softest of whispers.",
+    "description":"A strange moving darkness, bringing with it the softest of whispers and a chilling cold.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "NOGIB", "COLDAURA"]
     },{
     "type" : "MONSTER",

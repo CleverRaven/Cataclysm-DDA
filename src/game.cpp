@@ -1710,8 +1710,7 @@ int game::get_radiant_temperature(int posx, int posy)
     int tile_distance = 1;
     int t;
     
-    // Fire temperatures taken from wikipedia, converted to DDA units and divided by 4
-    int fire_temperature_level[4] = {13500, 20500, 27500, 35000} 
+    int fire_temperature_level[4] = {1000, 2000, 4000, 8000};
     int lava_temperature = fire_temperature_level[3];
     
     for (int j = -6 ; j <= 6 ; j++) {
@@ -1722,16 +1721,16 @@ int game::get_radiant_temperature(int posx, int posy)
                 continue;
             }
         
-            field &tile_field = m.field_at(posx + j, posy + k);
+            auto &tile_field = m.field_at(posx + j, posy + k);
             tile_distance = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
             int tile_radiant_temperature = 0;
         
             /**
             *   Fire energy
-            **/
+            **/                  
         
-            if (tile_field.findFIeld(fd_fire)) {
-                switch (tile_field.findFIeld(fd_fire)->getFieldDensity()) {
+            if (tile_field.findField(fd_fire)) {
+                switch (tile_field.findField(fd_fire)->getFieldDensity()) {
                     case 1:
                         tile_radiant_temperature += fire_temperature_level[0]; break;
                     case 2:
@@ -1756,11 +1755,11 @@ int game::get_radiant_temperature(int posx, int posy)
             **/
         
             if (mon_at(posx + j, posy + k) != -1) {
-                monster &z = _active_monsters[mon_at(posx + j, posy + k)];
-                if (z.has_flag(MF_COLDAURA) {
+                monster &z = critter_tracker.find(mon_at(posx + j, posy + k));
+                if (z.has_flag(MF_COLDAURA)) {
                     tile_radiant_temperature -= 20000;
                 }
-                if (z.has_flag(MF_HOTAURA) {
+                if (z.has_flag(MF_HOTAURA)) {
                     tile_radiant_temperature += 20000;
                 }
             }
@@ -9002,7 +9001,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
                 lx += dx;
                 ly += dy;
-
                 //Keep cursor inside the reality bubble
                 if (lx < 0) {
                     lx = 0;
