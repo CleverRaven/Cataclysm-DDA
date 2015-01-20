@@ -1756,10 +1756,10 @@ int game::get_radiant_temperature(int posx, int posy)
         
             if (mon_at(posx + j, posy + k) != -1) {
                 monster &z = critter_tracker.find(mon_at(posx + j, posy + k));
-                if (z.has_flag(MF_COLDAURA)) {
+                if (z.has_flag(MF_COLDAURA) && !z.is_hallucination()) {
                     tile_radiant_temperature -= 20000;
                 }
-                if (z.has_flag(MF_HOTAURA)) {
+                if (z.has_flag(MF_HOTAURA) && !z.is_hallucination()) {
                     tile_radiant_temperature += 20000;
                 }
             }
