@@ -290,14 +290,11 @@ void event::per_turn()
   case EVENT_WANTED: {
    // About once every 5 minutes. Suppress in classic zombie mode.
    if (g->levz >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
-    monster eyebot(GetMType("mon_eyebot"));
-    point place = g->m.random_outdoor_tile();
-    if (place.x == -1 && place.y == -1)
-     return; // We're safely indoors!
-    eyebot.spawn(place.x, place.y);
-    g->add_zombie(eyebot);
-    if (g->u.sees( place ))
-     add_msg(m_warning, _("An eyebot swoops down nearby!"));
+    add_msg("!!! EYBOT SPAWN ADDED !!!");
+    tinymap crime_scene;
+    crime_scene.load_abs(map_point.x, map_point.y, 0, false);
+    crime_scene.add_spawn("mon_eyebot", 1, SEEX/2, SEEY/2, false, -1, -1, "NONE");
+    crime_scene.save();
     // One eyebot per trigger is enough, really
     turn = int(calendar::turn);
    }
