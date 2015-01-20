@@ -44,7 +44,7 @@ struct sprintf_string_buffer {
 };
 
 //--------------------------------------------------------------------------------------------------
-//! A buffer optimised for use as a C string. Relies on RVO to be most efficient.
+//! A buffer optimised for use as a C string. Relies on RVO being used to be most efficient.
 //! First creates a std::array on the stack which, once full, is "swapped" out for a std::string's
 //! internal buffer. Implemented as a discriminated union.
 //--------------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ struct sprintf_array_buffer {
         }
     }
 
-    size_t cur_size; // cur_size <= buffer_size indicated arr is in use; otherwise str.
+    size_t cur_size; // cur_size <= buffer_size indicates arr is in use; otherwise str.
     char*  data_ptr; // just to avoid a branch on every call to data().
 
 #if defined(_MSC_VER)
@@ -152,7 +152,7 @@ struct sprintf_array_buffer {
 //--------------------------------------------------------------------------------------------------
 struct sprintf_result_base {
     // Tries to format using buffer.
-    // Returns 0 on error or success, otherwise, returns a bigger buffer size to attempt.
+    // Returns 0 on both error or success, otherwise, returns a bigger buffer size to attempt.
     static size_t try_format(char *buffer, size_t buffer_size, char const *format, va_list args);
 };
 
@@ -189,7 +189,7 @@ struct sprintf_result {
 
     template <typename Stream>
     friend Stream& operator<<(Stream &lhs, sprintf_result const &rhs) {
-        //TODO: could restrict this with a static_cast, but would need another include...
+        //TODO: could restrict this with a static_assert, but would need <iosfwd>
         lhs << rhs.c_str();
         return lhs;
     }
