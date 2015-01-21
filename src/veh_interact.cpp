@@ -2078,7 +2078,7 @@ void complete_vehicle ()
                  vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + is_wood ? 10 : 20 );
+            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + (is_wood ? 10 : 20) );
         }
         break;
     case 'r':
