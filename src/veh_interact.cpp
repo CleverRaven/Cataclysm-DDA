@@ -851,6 +851,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         if (has_skill && ((is_wheel && has_wrench && has_jack) ||
                             (is_wrenchable && has_wrench) ||
                             (is_hand_remove) ||
+                            (is_wood && has_hammer) ||
                             ((!is_wheel) && has_wrench && has_hacksaw) )) {
             return true;
         }
@@ -1730,6 +1731,7 @@ void complete_vehicle ()
     vehicle *fillv = NULL;
 
     bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
+    bool is_wood = vehicle_part_types[part_id].has_flag("NAILABLE");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
@@ -1748,6 +1750,8 @@ void complete_vehicle ()
             }
             tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
             tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
+            if(is_wood)
+                tools.push_back(tool_comp("nail", NAILS_USED));
             g->u.consume_tools(tools);
         }
 
@@ -1832,12 +1836,18 @@ void complete_vehicle ()
     case 'o':
         // Only parts that use charges
         if (!is_wrenchable && !is_hand_remove && !is_wheel){
-            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
+            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) && (is_wood && !crafting_inv.has_items_with_quality("HAMMER", 1, 1))) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
                 g->u.consume_tools(tools);
             }
         }
+        // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
+        /*if(is_wood && crafting_inv.has_items_with_quality("HAMMER", 1, 1)) {
+            item return_nails("nail");
+            return_nails.charges = 10;
+            g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
+        }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
             g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
@@ -1857,7 +1867,7 @@ void complete_vehicle ()
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
-                g->u.practice ( "mechanics", 2 * 5 + 20 );
+                g->u.practice ("mechanics", is_wood ? 15 : 30);
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
