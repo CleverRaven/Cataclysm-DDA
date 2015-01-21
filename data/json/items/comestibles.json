@@ -17768,7 +17768,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "inhaler_stimgas",
-        "name" : "stimgas inhalers",
+        "name" : "stimgas inhaler",
         "weight" : 10,
         "color" : "light_blue",
         "addiction_type" : "none",
