@@ -49,6 +49,7 @@ class veh_interact
         WINDOW *w_parts;
         WINDOW *w_stats;
         WINDOW *w_list;
+        WINDOW *w_details;
         WINDOW *w_name;
 
         int mode_h;
@@ -107,6 +108,7 @@ class veh_interact
         void display_name();
         void display_mode(char mode);
         void display_list(size_t pos, std::vector<vpart_info> list);
+        void display_details(const vpart_info &part);
         size_t display_esc (WINDOW *w);
 
         void countDurability();
@@ -121,7 +123,7 @@ class veh_interact
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart;
-        
+
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
         //do install support, writes requirements to ui
@@ -138,6 +140,10 @@ class veh_interact
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
         std::vector<vpart_info> can_mount;
+
+        /* Maps part names to vparts representing different shapes of a part.
+         * Used to slim down installable parts list. Only built once. */
+        std::map< std::string, std::vector<vpart_info*> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
