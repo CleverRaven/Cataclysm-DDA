@@ -19,6 +19,7 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+#include "output_base.h"
 
 // Display data
 int TERMX;
@@ -343,7 +344,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     attron(FG);
     mvprintw(y, x, "%s", text.c_str());
@@ -354,7 +355,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
     mvwprintw(w, y, x, "%s", text.c_str());
@@ -365,7 +366,7 @@ void printz(nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     attron(FG);
     printw("%s", text.c_str());
@@ -376,7 +377,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    auto const text = vbuffer_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
     wprintw(w, "%s", text.c_str());
@@ -1085,9 +1086,9 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
                 if (vItemDisplay[i].is_int == true) {
-                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
+                    buffer << buffer_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
+                    buffer << buffer_format( "%.1f", vItemDisplay[i].dValue );
                 }
                 buffer << "</color>";
             }
@@ -1410,96 +1411,6 @@ std::string from_sentence_case (const std::string &kingston)
         }
     }
     return "";
-}
-
-std::string vstring_format(const char *pattern, va_list argptr)
-{
-    // If we have no C++11 support, define a hackish way to do va_copy
-    // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
-    // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
-#if __cplusplus < 201103L && !defined(va_copy)
-#define va_copy(dest, source) dest = source
-#endif
-
-    int buffer_size = 1024; // Any number is good
-    int returned_length = 0;
-    std::vector<char> buffer(buffer_size, '\0');
-    // Call of vsnprintf() makes va_list unusable, so we need a copy.
-    va_list cur_argptr;
-#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
-    // Microsofts vsnprintf does return -1 on buffer overflow, not
-    // the required size of the buffer. So we have to increase the buffer
-    // until we succeed.
-    while(true) {
-        buffer.resize(buffer_size, '\0');
-        va_copy(cur_argptr, argptr);
-        returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        if( returned_length >= 0 && returned_length <= buffer_size ) {
-            // Buffer size was sufficient, string has been printed, all is well
-            break;
-        } else if( returned_length > 0 ) {
-            // For some reason (is this a mingw build with mingws own vsnprintf?)
-            // vsnprintf seems to be POSIX compatible and returns the required
-            // size of the buffer instead of -1
-            // Note that buffer_size is always > 0 and therefor the case returned_length==0
-            // is handled above.
-            buffer_size = returned_length + 1;
-        } else {
-            buffer_size *= 2;
-        }
-    }
-#else
-    va_copy(cur_argptr, argptr);
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-    va_end(cur_argptr);
-    if (required < 0) {
-        return std::string("invalid input to string_format function!");
-    } else if (required >= buffer_size) {
-        // Did not fit the buffer, retry with better buffer size.
-        buffer_size = required + 1;
-        buffer.resize(buffer_size, '\0');
-        // Try again one time, this should be save as we know the required
-        // buffer size and have allocated that much.
-        va_copy(cur_argptr, argptr);
-        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        // ignore the result of vsnprintf, because it returns different
-        // things on windows, see above.
-        returned_length = required;
-    } else {
-        returned_length = required;
-    }
-#endif
-    //drop contents behind \003, this trick is there to skip certain arguments
-    std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
-    if (a != buffer.end()) {
-        return std::string(&buffer[0], a - buffer.begin());
-    }
-    return std::string(&buffer[0], returned_length);
-}
-
-std::string string_format(const char *pattern, ...)
-{
-    va_list ap;
-    va_start(ap, pattern);
-    const std::string result = vstring_format(pattern, ap);
-    va_end(ap);
-    return result;
-}
-
-std::string vstring_format(const std::string pattern, va_list argptr)
-{
-    return vstring_format(pattern.c_str(), argptr);
-}
-
-std::string string_format(const std::string pattern, ...)
-{
-    va_list ap;
-    va_start(ap, pattern);
-    const std::string result = vstring_format(pattern.c_str(), ap);
-    va_end(ap);
-    return result;
 }
 
 //wrap if for i18n

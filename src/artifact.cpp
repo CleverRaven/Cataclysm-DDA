@@ -802,7 +802,7 @@ std::string new_artifact()
         art->armor->warmth = info->warmth;
         art->armor->storage = info->storage;
         std::stringstream description;
-        description << string_format(info->plural ?
+        description << buffer_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),
                                      art->nname(1).c_str());
@@ -852,7 +852,7 @@ std::string new_artifact()
                     art->armor->storage = 0;
                 }
 
-                description << string_format(info->plural ?
+                description << buffer_format(info->plural ?
                                              _("\nThey are %s") :
                                              _("\nIt is %s"),
                                              modinfo->name.c_str());
@@ -1066,7 +1066,7 @@ std::string artifact_name(std::string type)
     const char *fmtstr = _("<artifact_name>%1$s of %2$s");
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
     std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
-    ret = string_format(noun, adj.c_str());
+    ret = string_format(noun.c_str(), adj.c_str());
     ret = rmp_format(fmtstr, type.c_str(), ret.c_str());
     return ret;
 }

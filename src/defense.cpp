@@ -1428,8 +1428,8 @@ void defense_game::spawn_wave_monster(mtype *type)
 
 std::string defense_game::special_wave_message(std::string name)
 {
-    std::stringstream ret;
-    ret << string_format(_("Wave %d: "), current_wave);
+    std::ostringstream ret;
+    ret << buffer_format(_("Wave %d: "), current_wave);
 
     // Capitalize
     capitalize_letter(name);
@@ -1441,28 +1441,28 @@ std::string defense_game::special_wave_message(std::string name)
 
     switch (rng(1, 8)) {
     case 1:
-        ret << string_format(_("Invasion of the %s!"), name.c_str());
+        ret << buffer_format(_("Invasion of the %s!"), name.c_str());
         break;
     case 2:
-        ret << string_format(_("Attack of the %s!"), name.c_str());
+        ret << buffer_format(_("Attack of the %s!"), name.c_str());
         break;
     case 3:
-        ret << string_format(_("%s Attack!"), name.c_str());
+        ret << buffer_format(_("%s Attack!"), name.c_str());
         break;
     case 4:
-        ret << string_format(_("%s from Hell!"), name.c_str());
+        ret << buffer_format(_("%s from Hell!"), name.c_str());
         break;
     case 5:
-        ret << string_format(_("Beware! %s!"), name.c_str());
+        ret << buffer_format(_("Beware! %s!"), name.c_str());
         break;
     case 6:
-        ret << string_format(_("The Day of the %s!"), name.c_str());
+        ret << buffer_format(_("The Day of the %s!"), name.c_str());
         break;
     case 7:
-        ret << string_format(_("Revenge of the %s!"), name.c_str());
+        ret << buffer_format(_("Revenge of the %s!"), name.c_str());
         break;
     case 8:
-        ret << string_format(_("Rise of the %s!"), name.c_str());
+        ret << buffer_format(_("Rise of the %s!"), name.c_str());
         break;
     }
 

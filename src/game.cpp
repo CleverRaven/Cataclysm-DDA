@@ -13161,9 +13161,8 @@ bool game::plmove(int dx, int dy)
                 }
                 int and_the_rest = 0;
                 for (size_t i = 0; i < names.size(); ++i) {
-                    std::string fmt;
                     //~ number of items: "<number> <item>"
-                    fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
+                    auto const fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
                     names[i] = string_format(fmt, counts[i], names[i].c_str());
                     // Skip the first two.
                     if( i > 1 ) {
