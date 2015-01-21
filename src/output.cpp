@@ -1431,10 +1431,10 @@ std::string vstring_format(char const *const format, va_list args)
     errno = 0; // Clear errno before trying
     std::vector<char> buffer(1024, '\0');
 
-    while (auto const buf_size = buffer.size()) { // aka while (true)
+    while (size_t const buf_size = buffer.size()) { // aka while (true)
         va_list args_copy;
         va_copy(args_copy, args);
-        auto const result = vsnprintf(&buffer[0], buf_size, format, args_copy);
+        int const result = vsnprintf(&buffer[0], buf_size, format, args_copy);
         va_end(args_copy);
 
         // All is well.
@@ -1442,7 +1442,7 @@ std::string vstring_format(char const *const format, va_list args)
             break;
         }
 
-        // Standard conformant versions return -1 on error only.
+        // Standards conformant versions return -1 on error only.
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
         if (result < 0 && errno) {
             return std::string("Bad format string for printf.");
