@@ -1738,8 +1738,12 @@ void complete_vehicle ()
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
     case 'i':
+        if(is_wood) {
+            tools.push_back(tool_comp("nail", NAILS_USED));
+            g->u.consume_tools(tools);
+        }
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove){
+        else if (!is_wrenchable && !is_hand_remove){
             if (has_goggles) {
                 // Need welding goggles to use any of these tools,
                 // without the goggles one _must_ use the duct tape
@@ -1750,8 +1754,6 @@ void complete_vehicle ()
             }
             tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
             tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
-            if(is_wood)
-                tools.push_back(tool_comp("nail", NAILS_USED));
             g->u.consume_tools(tools);
         }
 
@@ -1797,7 +1799,7 @@ void complete_vehicle ()
                  vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
+            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + is_wood ? 10 : 20 );
         }
         break;
     case 'r':
