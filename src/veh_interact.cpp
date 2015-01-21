@@ -332,7 +332,7 @@ void veh_interact::cache_tool_availability()
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
-    has_nails = crafting_inv.has_components("nails", NAILS_USED);
+    has_nails = crafting_inv.has_charges("nail", NAILS_USED);
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
