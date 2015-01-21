@@ -99,7 +99,6 @@ class veh_interact
         void do_rename();
         void do_siphon();
         void do_tirechange();
-        void do_drain();
         void do_relabel();
 
         void display_grid();
@@ -162,7 +161,7 @@ class veh_interact
         std::vector<int> parts_here;
 
         /* Refers to the fuel tanks (if any) in the currently selected square. */
-        std::vector<vehicle_part *> ptanks;
+        std::vector<int> ptanks;
 
         /* Refers to the wheel (if any) in the currently selected square. */
         struct vehicle_part *wheel;

@@ -3198,7 +3198,7 @@ vehicle *game::remoteveh()
         int vx, vy;
         remote_veh_string >> vx >> vy;
         vehicle *veh = m.veh_at( vx, vy );
-        if( veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh->fuel_left_recursive( "battery" ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -7992,47 +7992,60 @@ bool game::vehicle_near()
     return false;
 }
 
-bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
+bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 {
-    vpart_info part_info = vehicle_part_types[part->id];
-    if (!part_info.has_flag("FUEL_TANK")) {
+    (void)test; // TODO: remove unused variable
+    
+    if( !veh.part_info( part ).has_flag("FUEL_TANK") ) {
         return false;
     }
-    item *it = nullptr; // the container or the fuel item,
-    item *p_itm = nullptr; // always the actual fuel item
-    long min_charges = -1;
-    bool in_container = false;
+    vpart_info part_info = veh.part_info( part );
 
     std::string ftype = part_info.fuel_type;
-    itype_id itid = default_ammo(ftype);
-    if (u.weapon.is_container() && !u.weapon.contents.empty() &&
-        u.weapon.contents[0].type->id == itid) {
-        it = &u.weapon;
-        p_itm = &u.weapon.contents[0];
-        min_charges = u.weapon.contents[0].charges;
-        in_container = true;
-    } else if (u.weapon.type->id == itid) {
-        it = &u.weapon;
-        p_itm = it;
-        min_charges = u.weapon.charges;
-    } else {
-        it = &u.inv.item_or_container(itid);
-        if (!it->is_null()) {
-            if (it->type->id == itid) {
-                p_itm = it;
-            } else {
-                //ah, must be a container of the thing
-                p_itm = &(it->contents[0]);
-                in_container = true;
-            }
-            min_charges = p_itm->charges;
-        }
+    auto part_items = veh.get_items( part );
+    if( ftype.empty() && !part_items.empty() ) {
+        ftype = part_items.front().typeId();
     }
-    // Check for p_itm->type->id == itid is already done above
-    if( p_itm == nullptr || it->is_null()) {
+    indexed_invslice reduced_inv;
+    if( ftype.empty() ) {
+        reduced_inv = u.inv.slice_filter_by( [ ftype ]( const item &itm ) {
+                return !itm.contents.empty() &&
+                       itm.contents.front().made_of( LIQUID );
+            } );
+    } else {
+        // Specifically handling containers made of liquid
+        // in case someone gets a really bad idea and makes it into a json
+        reduced_inv = u.inv.slice_filter_by( [ ftype ]( const item &itm ) {
+                if( !itm.contents.empty() ) {
+                    return itm.contents.front().typeId() == ftype;
+                } else {
+                    return itm.typeId() == ftype;
+                }
+            } );
+    }
+
+    if( test ) {
+        return !reduced_inv.empty();
+    }
+    int item_pos = display_slice(reduced_inv, _("Select item to refill with") );
+    
+    item *it = &( u.i_at( item_pos ) ); // Item or container
+    if( it == nullptr || it->is_null() ) {
         return false;
-    } else if (test) {
-        return true;
+    }
+    item *p_itm; // Item used as fuel
+    if( it->contents.empty() ) {
+        p_itm = it;
+    } else {
+        p_itm = &it->contents.front();
+    }
+
+    if( p_itm->typeId() != ftype && 
+        ( ftype.empty() && !p_itm->made_of( LIQUID ) ) ) {
+        return false;
+    }
+    if( ftype.empty() ) {
+        ftype = p_itm->typeId();
     }
 
     int fuel_per_charge = 1; //default for gasoline
@@ -8041,51 +8054,30 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     } else if (ftype == "plasma") {
         fuel_per_charge = 100;
     }
-    int max_fuel = part_info.size;
-    int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
-    if (charge_difference < 1) {
-        charge_difference = 1;
-    }
-    bool rem_itm = min_charges <= charge_difference;
-    long used_charges = rem_itm ? min_charges : charge_difference;
-    part->amount += used_charges * fuel_per_charge;
-    if (part->amount > max_fuel) {
-        part->amount = max_fuel;
-    }
+
+    long used_charges = veh.tank_fill( part, ftype, p_itm->charges * fuel_per_charge );
 
     if (ftype == "battery") {
         add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if (part->amount == max_fuel) {
+        if( veh.capacity_left( part, ftype ) <= 0 ) {
             add_msg(m_good, _("The battery is fully charged."));
         }
-    } else if (ftype == "gasoline" || ftype == "diesel") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if (part->amount == max_fuel) {
-            add_msg(m_good, _("The tank is full."));
-        }
-    } else if (ftype == "plutonium") {
-        add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if (part->amount == max_fuel) {
-            add_msg(m_good, _("The reactor is full."));
+    } else {
+        add_msg(_("You fill %s's %s with %d units of %s."), 
+            veh.name.c_str(), veh.part_info( part ).name.c_str(), 
+            used_charges, item::nname( ftype, 1 ).c_str() );
+        if( veh.capacity_left( part, ftype ) <= 0 ) {
+            add_msg( m_good, _("The %s is full."), veh.part_info( part ).name.c_str() );
         }
     }
 
+    used_charges = used_charges / fuel_per_charge + 
+        ( used_charges % fuel_per_charge > 0 ? 1 : 0 );
     p_itm->charges -= used_charges;
-    if (rem_itm) {
-        if (in_container) {
-            it->contents.erase(it->contents.begin());
-        } else if (&u.weapon == it) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item(u.get_item_position(it));
-        }
+    if( p_itm->charges <= 0 ) {
+        u.i_rem( p_itm );
     }
     return true;
-}
-
-bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
-{
-    return refill_vehicle_part(veh, &veh.parts[part], test);
 }
 
 void game::handbrake()
@@ -8134,7 +8126,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
             dmg = 1000 - vehint.sel_vehicle_part->hp * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
-        // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
+        // sel_cmd = Install Repair reFill remOve Siphon Changetire reName
         // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {

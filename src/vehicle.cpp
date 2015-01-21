@@ -25,9 +25,9 @@
 static const std::string fuel_type_gasoline("gasoline");
 static const std::string fuel_type_diesel("diesel");
 static const std::string fuel_type_battery("battery");
-static const std::string fuel_type_plutonium("plutonium");
+static const std::string fuel_type_plutonium("plut_cell");
 static const std::string fuel_type_plasma("plasma");
-static const std::string fuel_type_water("water");
+static const std::string fuel_type_water("water_clean");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
@@ -200,7 +200,7 @@ vehicle::~vehicle()
 {
 }
 
-bool vehicle::player_in_control (player *p)
+bool vehicle::player_in_control (player *p) const
 {
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
@@ -213,7 +213,7 @@ bool vehicle::player_in_control (player *p)
     return remote_controlled( p );
 }
 
-bool vehicle::remote_controlled (player *p)
+bool vehicle::remote_controlled (player *p) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
@@ -248,8 +248,22 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
+
     refresh(); // part index lists are lost on save??
     shift_if_needed();
+    update_tanks(); // to generic liquid
+}
+
+void vehicle::update_tanks()
+{
+    for( auto &p : fuel ) {
+        if( parts[p].items.empty() && parts[p].amount > 0 ) {
+            item fuel( part_info(p).fuel_type, calendar::turn );
+            fuel.charges = parts[p].amount;
+            parts[p].items.push_front( fuel );
+            parts[p].amount = 0;
+        }
+    }
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -424,8 +438,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
         }
-        if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
-            parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
+        if( part_flag(p, "FUEL_TANK") && !part_info( p ).is_generic_tank() ) {   // set fuel status
+            tank_set_charges( p, part_info( p ).fuel_type, 
+                              capacity_left( p, part_info( p ).fuel_type ) * veh_fuel_mult / 100 );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -450,7 +465,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             if(roll < unhurt){
                 if (roll <= broken) {
                     parts[p].hp = 0;
-                    parts[p].amount = 0; //empty broken batteries and fuel tanks
+                    parts[p].items.clear(); //empty broken batteries and fuel tanks
                 } else {
                     parts[p].hp = ((float)(roll - broken) /
                                    (unhurt - broken)) * part_info(p).durability;
@@ -469,7 +484,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             // Fuel tanks should be emptied as well
             if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
                 parts[p].hp = 0;
-                parts[p].amount = 0;
+                parts[p].items.clear();
             }
 
             //Solar panels have 25% of being destroyed
@@ -550,7 +565,7 @@ void vehicle::smash() {
         parts[part_index].hp -= damage;
         if (parts[part_index].hp <= 0) {
             parts[part_index].hp = 0;
-            parts[part_index].amount = 0;
+            parts[part_index].items.clear();
         }
     }
 }
@@ -1049,7 +1064,7 @@ void vehicle::use_controls()
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_aisle_lights:
-        if(aisle_lights_on || fuel_left(fuel_type_battery, true)) {
+        if(aisle_lights_on || fuel_left_recursive( fuel_type_battery ) ) {
             aisle_lights_on = !aisle_lights_on;
             add_msg((aisle_lights_on) ? _("Aisle lights turned on") : _("Aisle lights turned off"));
         } else {
@@ -1057,7 +1072,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_dome_lights:
-        if(dome_lights_on || fuel_left(fuel_type_battery, true)) {
+        if(dome_lights_on || fuel_left_recursive( fuel_type_battery ) ) {
             dome_lights_on = !dome_lights_on;
             add_msg((dome_lights_on) ? _("Dome lights turned on") : _("Dome lights turned off"));
         } else {
@@ -1065,7 +1080,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_lights:
-        if(lights_on || fuel_left(fuel_type_battery, true) ) {
+        if(lights_on || fuel_left_recursive( fuel_type_battery ) ) {
             lights_on = !lights_on;
             add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
@@ -1073,7 +1088,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_stereo:
-        if((stereo_on || fuel_left(fuel_type_battery, true))) {
+        if((stereo_on || fuel_left_recursive( fuel_type_battery ) )) {
             stereo_on = !stereo_on;
             int music_index = 0;
             std::vector<const item*> cd_inv = g->u.all_items_with_flag( "CD" );
@@ -1122,7 +1137,7 @@ void vehicle::use_controls()
         if( overhead_lights_on ) {
             overhead_lights_on = false;
             add_msg(_("Overhead lights turned off"));
-        } else if( fuel_left(fuel_type_battery, true) ) {
+        } else if( fuel_left_recursive( fuel_type_battery ) ) {
             overhead_lights_on = true;
             add_msg(_("Overhead lights turned on"));
         } else {
@@ -1139,7 +1154,7 @@ void vehicle::use_controls()
         if( fridge_on ) {
             fridge_on = false;
             add_msg(_("Fridge turned off"));
-        } else if (fuel_left(fuel_type_battery, true)) {
+        } else if( fuel_left_recursive( fuel_type_battery ) ) {
             fridge_on = true;
             add_msg(_("Fridge turned on"));
         } else {
@@ -1150,7 +1165,7 @@ void vehicle::use_controls()
         if( recharger_on ) {
             recharger_on = false;
             add_msg(_("Recharger turned off"));
-        } else if (fuel_left(fuel_type_battery, true)) {
+        } else if( fuel_left_recursive( fuel_type_battery ) ) {
             recharger_on = true;
             add_msg(_("Recharger turned on"));
         } else {
@@ -1270,7 +1285,7 @@ void vehicle::use_controls()
             overmap_buffer.remove_vehicle( this );
             tracking_on = false;
             add_msg(_("tracking device disabled"));
-        } else if (fuel_left(fuel_type_battery, true))
+        } else if( fuel_left_recursive( fuel_type_battery ) )
         {
             overmap_buffer.add_vehicle( this );
             tracking_on = true;
@@ -1292,7 +1307,7 @@ void vehicle::use_controls()
         if( camera_on ) {
             camera_on = false;
             add_msg( _("Camera system disabled") );
-        } else if( fuel_left(fuel_type_battery, true) ) {
+        } else if( fuel_left_recursive( fuel_type_battery ) ) {
             camera_on = true;
             add_msg( _("Camera system enabled") );
         } else {
@@ -1341,7 +1356,7 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
-    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    const bool no_power = !fuel_left_recursive( fuel_type_battery );
     bool honked = false;
 
     for( size_t p = 0; p < parts.size(); ++p ) {
@@ -1402,7 +1417,8 @@ vpart_info& vehicle::part_info (int index, bool include_removed) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_power( int index, bool at_full_hp ) {
+int vehicle::part_power( int index, bool at_full_hp ) const
+{
     if( !part_flag(index, VPFLAG_ENGINE) &&
         !part_flag(index, VPFLAG_ALTERNATOR) ) {
        return 0; // not an engine.
@@ -1425,7 +1441,8 @@ int vehicle::part_power( int index, bool at_full_hp ) {
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
-int vehicle::part_epower( int index ) {
+int vehicle::part_epower( int index ) const
+{
     int e = part_info(index).epower;
     if( e < 0 ) {
         return e; // Consumers always draw full power, even if broken
@@ -1433,7 +1450,8 @@ int vehicle::part_epower( int index ) {
     return e * parts[index].hp / part_info(index).durability;
 }
 
-int vehicle::epower_to_power (int epower) {
+int vehicle::epower_to_power (int epower) const
+{
     // Convert epower units (watts) to power units
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
@@ -1446,7 +1464,8 @@ int vehicle::epower_to_power (int epower) {
     return power;
 }
 
-int vehicle::power_to_epower (int power) {
+int vehicle::power_to_epower (int power) const
+{
     // Convert power units to epower units (watts)
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
@@ -1938,8 +1957,10 @@ bool vehicle::remove_part (int p)
     }
 
     const auto pos = global_pos() + parts[p].precalc[0];
-    for( auto &i : get_items(p) ) {
-        g->m.add_item_or_charges(pos.x + rng(-3, +3), pos.y + rng(-3, +3), i);
+    if( part_flag( p, "CARGO" ) ) {
+        for( auto &i : get_items(p) ) {
+            g->m.add_item_or_charges(pos.x + rng(-3, +3), pos.y + rng(-3, +3), i);
+        }
     }
     g->m.dirty_vehicle_list.insert(this);
     refresh();
@@ -1995,7 +2016,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     }
 }
 
-const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
+const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache) const
 {
     if ( use_cache == false ) {
         std::vector<int> res;
@@ -2006,8 +2027,9 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
         }
         return res;
     } else {
-        if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
-            return relative_parts[ point(dx, dy) ];
+        auto iter = relative_parts.find( point(dx, dy) );
+        if ( iter != relative_parts.end() ) {
+            return iter->second;
         } else {
             std::vector<int> res;
             return res;
@@ -2015,7 +2037,8 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
     }
 }
 
-int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) {
+int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) const
+{
     if (part_flag(part, flag)) {
         return part;
     }
@@ -2031,7 +2054,7 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     return -1;
 }
 
-int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[part].mount.x, parts[part].mount.y);
     for( auto &elem : parts_here ) {
@@ -2109,7 +2132,7 @@ int vehicle::next_part_to_open(int p, bool outside)
  *        return all matching parts.
  * @return A list of indices to all the parts with the specified feature.
  */
-std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, bool unbroken)
+std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, bool unbroken) const
 {
     std::vector<int> parts_found;
     for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
@@ -2121,7 +2144,7 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
     return parts_found;
 }
 
-std::vector<int> vehicle::all_parts_with_feature(const vpart_bitflags & feature, bool unbroken)
+std::vector<int> vehicle::all_parts_with_feature(const vpart_bitflags & feature, bool unbroken) const
 {
     std::vector<int> parts_found;
     for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
@@ -2426,6 +2449,44 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
+std::map< ammotype, long > vehicle::all_liquids() const
+{
+    std::map< ammotype, long > fuels;
+    for( int p : fuel ) {
+        ammotype ft;
+        if( parts[p].items.empty() ) {
+            ft = part_info( p ).fuel_type;
+        } else {
+            ft = tank_stored_type( p );
+        }
+        if( fuels.find( ft ) == fuels.end() ) {
+            long total = !ft.empty() ? fuel_left( ft ) : 0;
+            fuels[ft] = total;
+        }
+    }
+    return fuels;
+}
+
+typedef std::pair< ammotype, long > fuel_val;
+struct fuel_sort
+{
+    // Hardcoded types listed first, then highest charge, then alphabetically
+    bool operator()( const fuel_val &left, const fuel_val &right ) const
+    {
+        auto left_iter = std::find( &fuel_types[0], &fuel_types[num_fuel_types], left.first );
+        auto right_iter = std::find( &fuel_types[0], &fuel_types[num_fuel_types], right.first );
+        int ldist = std::distance( &fuel_types[0], left_iter );
+        int rdist = std::distance( &fuel_types[0], right_iter );
+        if( ldist != rdist ) {
+            return ldist < rdist;
+        }
+        if( left.second != right.second ) {
+            return left.second > right.second; // Bigger charges earlier
+        }
+        return left.first < right.first;
+    }
+};
+
 void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc, bool isHorizontal)
 {
     WINDOW *win = (WINDOW *) w;
@@ -2435,30 +2496,33 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int yofs = 0;
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
-    std::vector< ammotype > fuels( &fuel_types[0], &fuel_types[num_fuel_types] );
-    // Find non-hardcoded fuel types, add them after the hardcoded
-    for( int p : fuel ) {
-        const ammotype ft = part_info( p ).fuel_type;
-        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
-            fuels.push_back( ft );
-        }
-    }
+    const auto &fuels = all_liquids();
+    // Sort for better display
+    std::vector< fuel_val > fuels_sorted( fuels.begin(), fuels.end() );
+    std::sort( fuels_sorted.begin(), fuels_sorted.end(), fuel_sort() );
 
-    for( int i = 0; i < (int)fuels.size(); i++ ) {
-        const ammotype &f = fuels[i];
+    for( auto liquid : fuels_sorted ) {
+        const ammotype &f = liquid.first;
         int cap = fuel_capacity( f );
-        int f_left = fuel_left( f );
-        nc_color f_color;
-        if( i < num_fuel_types ) {
-            f_color = fuel_colors[i];
-        } else {
-            // Get color of the default item of this type
-            f_color = item::find_type( default_ammo( f ) )->color;
+        long f_left = liquid.second;
+        nc_color f_color = c_white;
+        auto left_iter = std::find( &fuel_types[0], (&fuel_types[num_fuel_types]) + 1, f );
+        int index = std::distance( &fuel_types[0], left_iter );
+        if( index < num_fuel_types ) {
+            f_color = fuel_colors[index];
+        } else if( !f.empty() ) {
+            f_color = item::find_type( f )->color;
         }
-        
+
         if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
+            std::string fuel_name;
+            if( !f.empty() ) {
+                fuel_name = item::nname( f, 1 );
+            } else {
+                fuel_name = _("Any liquid");
+            }
             if( cur_gauge++ >= max_gauge ) {
-                wprintz(win, c_ltgray, "...", ammo_name( f ).c_str() );
+                wprintz(win, c_ltgray, "...", fuel_name.c_str() );
                 break;
             }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
@@ -2474,7 +2538,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
                 }
             }
             if (desc) {
-                wprintz(win, c_ltgray, " - %s", ammo_name( f ).c_str() );
+                wprintz(win, c_ltgray, " - %s", fuel_name.c_str() );
             }
             if (fullsize) {
                 yofs++;
@@ -2595,8 +2659,10 @@ int vehicle::total_mass()
           continue;
         }
         m += item::find_type( part_info(i).item )->weight;
-        for( auto &j : get_items(i) ) {
-            m += j.type->weight;
+        if( part_flag( i, "CARGO" ) ) {
+            for( auto &j : get_items(i) ) {
+                m += j.type->weight;
+            }
         }
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m += 81500; // TODO: get real weight
@@ -2628,8 +2694,10 @@ void vehicle::center_of_mass(int &x, int &y)
         }
         int m_part = 0;
         m_part += item::find_type( part_info(i).item )->weight;
-        for( auto &j : get_items(i) ) {
-            m_part += j.type->weight;
+        if( part_flag( i, "CARGO" ) ) {
+            for( auto &j : get_items(i) ) {
+                m_part += j.type->weight;
+            }
         }
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
@@ -2643,24 +2711,149 @@ void vehicle::center_of_mass(int &x, int &y)
     y = int(yf + 0.5);
 }
 
-int vehicle::fuel_left (const ammotype & ftype, bool recurse)
+const std::string vehicle::tank_stored_type( int p ) const
+{
+    if( parts[p].items.empty() ) {
+        return "";
+    }
+    return parts[p].items.front().typeId();
+}
+
+// Returns stored liquid or null
+item *vehicle::tank_stored_liquid( int p )
+{
+    if( parts[p].items.empty() ) {
+        return nullptr;
+    }
+    return &parts[p].items.front();
+}
+
+const item *vehicle::tank_stored_liquid( int p ) const
+{
+    if( parts[p].items.empty() ) {
+        return nullptr;
+    }
+    return &parts[p].items.front();
+}
+
+bool vehicle::can_hold_type( int p, const ammotype &ftype ) const
+{
+    const vehicle_part &tank = parts[p];
+    const vpart_info &tank_info = part_info( p );
+    return tank_info.fuel_type == ftype ||
+        ( tank_info.is_generic_tank() &&
+            ( tank.items.empty() ||
+              tank.items.front().typeId() == ftype ) );
+}
+
+int vehicle::tank_charges( int p ) const
+{
+    if( parts[p].items.empty() ) {
+        return 0;
+    }
+    return parts[p].items.front().charges;
+}
+
+int vehicle::capacity_left( int p, const ammotype &ftype ) const
+{
+    const vehicle_part &tank = parts[p];
+    const vpart_info &tank_info = part_info( p );
+    int volume = parts[p].items.empty() ? 0 : parts[p].items.front().volume();
+    if( ftype.empty() ) {
+        return tank_info.size - volume;
+    }
+    // Incompatible fuel types
+    if( ( !tank_info.is_generic_tank() && tank_info.fuel_type != ftype ) ||
+        ( !tank.items.empty() && tank_stored_type( p ) != ftype ) ) {
+        return 0;
+    }
+    const itype *type = item::find_type( ftype );
+    const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
+    if( tank.items.empty() ) {
+        return tank_info.size * mul;
+    }
+    return ( tank_info.size - volume ) * mul;
+}
+
+void vehicle::tank_set_charges( int p, const ammotype &ftype, int charges )
+{
+    vehicle_part &tank = parts[p];
+    const vpart_info &tank_info = part_info( p );
+    if( !tank_info.is_generic_tank() && tank_info.fuel_type != ftype && charges > 0 ) {
+        debugmsg( "vehicle::tank_set_charges tried to fill %s tank with %s", part_info( p ).fuel_type.c_str(), ftype.c_str() );
+        return;
+    }
+    tank.items.clear();
+    if( charges > 0 ) {
+        item fuel( ftype, calendar::turn );
+        fuel.charges = charges;
+        tank.items.push_front( fuel );
+    }
+}
+
+// Returns charges actually drained
+int vehicle::tank_drain( int p, int charges )
+{
+    vehicle_part &tank = parts[p];
+    if( !tank.items.empty() ) {
+        auto &liquid = tank.items.front();
+        if( liquid.charges > charges ) {
+            liquid.charges -= charges;
+            return charges;
+        }
+
+        charges = liquid.charges;
+        tank.items.pop_front();
+        return charges;
+    }
+
+    return 0;
+}
+
+// Returns charge used
+int vehicle::tank_fill( int p, const ammotype &ftype, int charges )
+{
+    vehicle_part &tank = parts[p];
+    const vpart_info &tank_info = part_info( p );
+    if( charges < 0 ) {
+        debugmsg( "vehicle::tank_fill got negative charges" );
+        return INT_MIN;
+    } else if( charges == 0 ) {
+        return 0;
+    }
+    if( !tank_info.is_generic_tank() && tank_info.fuel_type != ftype && charges > 0 ) {
+        debugmsg( "vehicle::tank_fill tried to fill %s tank with %s", tank_info.fuel_type.c_str(), ftype.c_str() );
+        return INT_MIN;
+    }
+
+    if( tank.items.empty() ) {
+        item fuel( ftype, calendar::turn );
+        fuel.charges = std::min( charges, capacity_left( p, ftype ) );
+        tank.items.push_front( fuel );
+        return fuel.charges;
+    } else {
+        ammotype fuel_id = tank_stored_type( p );
+        if( fuel_id != ftype ) {
+            debugmsg( "vehicle::tank_fill tried to mix %s with %s", fuel_id.c_str(), ftype.c_str() );
+            return INT_MIN;
+        }
+        auto &liquid = tank.items.front();
+        int oldcharges = liquid.charges;
+        liquid.charges += charges;
+        if( liquid.charges > capacity_left( p, ftype ) ) {
+            liquid.charges = capacity_left( p, ftype );
+        }
+        return liquid.charges - oldcharges;
+    }
+}
+
+int vehicle::fuel_left (const ammotype & ftype) const
 {
     int fl = 0;
     for(auto &p : fuel) {
-        if(ftype == part_info(p).fuel_type) {
-            fl += parts[p].amount;
+        if( can_hold_type( p, ftype ) && tank_stored_liquid( p ) != nullptr ) {
+            fl += tank_stored_liquid( p )->charges;
         }
-    }
-
-    if(recurse && ftype == fuel_type_battery) {
-        auto fuel_counting_visitor = [&] (vehicle* veh, int amount, int) {
-            return amount + veh->fuel_left(ftype, false);
-        };
-
-        // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
-        // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
-        // after traversal.
-        fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
     }
 
     //muscle engines have infinite fuel
@@ -2681,12 +2874,36 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     return fl;
 }
 
-int vehicle::fuel_capacity (const ammotype & ftype)
+int vehicle::fuel_left_recursive(const ammotype & ftype)
+{
+    int fl = 0;
+    for(auto &p : fuel) {
+        if( can_hold_type( p, ftype ) && tank_stored_liquid( p ) != nullptr ) {
+            fl += tank_stored_liquid( p )->charges;
+        }
+    }
+
+    auto fuel_counting_visitor = [&] (vehicle* veh, int amount, int) {
+        return amount + veh->fuel_left( ftype );
+    };
+
+    // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
+    // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
+    // after traversal.
+    fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
+
+    return fl;
+}
+
+int vehicle::fuel_capacity (const ammotype & ftype) const
 {
     int cap = 0;
+    const itype *type = item::find_type( ftype );
+    const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     for(auto &p : fuel) {
-        if(ftype == part_info(p).fuel_type) {
-            cap += part_info(p).size;
+        if( part_info( p ).fuel_type == ftype ||
+            ( tank_stored_liquid( p ) != nullptr && tank_stored_type( p ) == ftype ) ) {
+            cap += part_info(p).size * mul;
         }
     }
     return cap;
@@ -2694,23 +2911,29 @@ int vehicle::fuel_capacity (const ammotype & ftype)
 
 int vehicle::refill (const ammotype & ftype, int amount)
 {
+    const itype *type = item::find_type( ftype );
+    const int mul = type->ammo.get() == nullptr ? 1 : type->ammo->def_charges;
     for (size_t p = 0; p < parts.size(); p++)
     {
+        item *liquid = tank_stored_liquid( p );
         if (part_flag(p, VPFLAG_FUEL_TANK) &&
-            part_info(p).fuel_type == ftype &&
-            parts[p].amount < part_info(p).size &&
-            parts[p].hp > 0)
+            parts[p].hp > 0 &&
+            can_hold_type( p, ftype ) &&
+            ( liquid == nullptr ||
+                liquid->volume() < part_info(p).size )
+            )
         {
-            int need = part_info(p).size - parts[p].amount;
-            if (amount < need)
-            {
-                parts[p].amount += amount;
-                return 0;
+            int has = liquid == nullptr ? 0 : liquid->volume();
+            int need = ( part_info(p).size - has ) * mul;
+            int to_add = need > amount ? amount : need;
+            if( liquid == nullptr ) {
+                tank_set_charges( p, ftype, to_add );
+            } else {
+                liquid->charges += to_add;
             }
-            else
-            {
-                parts[p].amount += need;
-                amount -= need;
+            amount -= to_add;
+            if( amount == 0 ) {
+                return 0;
             }
         }
     }
@@ -2719,17 +2942,12 @@ int vehicle::refill (const ammotype & ftype, int amount)
 
 int vehicle::drain (const ammotype & ftype, int amount) {
     int drained = 0;
-
     for (auto &p : fuel) {
-        vehicle_part &tank = parts[p];
-        if (part_info(p).fuel_type == ftype && tank.amount > 0) {
-            if (tank.amount > (amount - drained)) {
-                tank.amount -= (amount - drained);
-                drained = amount;
-                break;
-            } else {
-                drained += tank.amount;
-                tank.amount = 0;
+        if( !parts[p].items.empty() && 
+                tank_stored_type( p ) == ftype ) {
+            drained += tank_drain( p, amount - drained );
+            if( drained >= amount ) {
+                return amount;
             }
         }
     }
@@ -2854,9 +3072,9 @@ bool vehicle::do_environmental_effects()
                 parts[p].blood--;
             }
         }
-        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
+        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && tank_charges( p ) > 0 ) {
             needed = true;
-            parts[p].amount--;
+            tank_drain( p, 1 );
             for( int ix = -1; ix <= 1; ix++ ) {
                 for( int iy = -1; iy <= 1; iy++ ) {
                     if( !rng(0, 2) ) {
@@ -3174,14 +3392,18 @@ void vehicle::consume_fuel( double load = 1.0 )
             amnt += 1;
         }
         for( auto &elem : fuel ) {
-            if( part_info( elem ).fuel_type == fuel_types[ft] ) {
-                if( parts[elem].amount >= amnt ) {
+            auto &tank_content = parts[elem].items;
+            if( !tank_content.empty() && tank_content.front().typeId() == fuel_types[ft] ) {
+                if( tank_content.front().charges > amnt ) {
                     // enough fuel located in this part
-                    parts[elem].amount -= amnt;
+                    tank_content.front().charges -= amnt;
                     break;
                 } else {
-                    amnt -= parts[elem].amount;
-                    parts[elem].amount = 0;
+                    amnt -= tank_content.front().charges;
+                    tank_content.pop_front();
+                    if( amnt == 0 ) {
+                        break;
+                    }
                 }
             }
         }
@@ -3271,7 +3493,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         for( auto &elem : reactors ) {
             if( parts[elem].hp > 0 ) {
                 reactors_epower += part_info( elem ).epower;
-                reactors_fuel_epower += power_to_epower( parts[elem].amount );
+                reactors_fuel_epower += power_to_epower( tank_charges( elem ) );
             }
         }
         // check if enough fuel for full reactor output
@@ -3296,16 +3518,16 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
                 plutonium_consumed += 1;
             }
             for(auto &p : reactors) {
-                int avail_plutonium = parts[p].amount;
+                int avail_plutonium = tank_charges( p );
                 if(avail_plutonium < plutonium_consumed) {
                     plutonium_consumed -= avail_plutonium;
-                    parts[p].amount = 0;
+                    parts[p].items.clear();
                     if (avail_plutonium <= 0) {
                         break;
                     }
                 }
                 else {
-                    parts[p].amount -= plutonium_consumed;
+                    tank_drain( p, plutonium_consumed );
                     plutonium_consumed = 0;
                     break;
                 }
@@ -3443,19 +3665,20 @@ int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
 
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
-    for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery) {
-            int empty = part_info(f).size - parts[f].amount;
-            if(empty < amount) {
-                amount -= empty;
-                parts[f].amount = part_info(f).size;
-                if (amount <= 0) {
-                    break;
-                }
+    for(auto &p : fuel) {
+        if(part_info(p).fuel_type == fuel_type_battery) {
+            item *liquid = tank_stored_liquid( p );
+            int has = liquid == nullptr ? 0 : liquid->volume();
+            int need = ( part_info(p).size - has ) * 100;
+            int to_add = need > amount ? amount : need;
+            if( liquid == nullptr ) {
+                tank_set_charges( p, fuel_type_battery, to_add );
             } else {
-                parts[f].amount += amount;
-                amount = 0;
-                break;
+                liquid->charges += to_add;
+            }
+            amount -= to_add;
+            if( amount == 0 ) {
+                return 0;
             }
         }
     }
@@ -3474,23 +3697,9 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
 
 int vehicle::discharge_battery (int amount, bool recurse)
 {
-    int avail_charge;
-
     for(auto &f : fuel) {
         if(part_info(f).fuel_type == fuel_type_battery) {
-            avail_charge = parts[f].amount;
-            if(avail_charge < amount) {
-                amount -= avail_charge;
-                parts[f].amount = 0;
-                if (amount <= 0) {
-                    break;
-                }
-            }
-            else {
-                parts[f].amount -= amount;
-                amount = 0;
-                break;
-            }
+            amount -= tank_drain( f, amount );
         }
     }
 
@@ -3585,22 +3794,23 @@ void vehicle::slow_leak()
             continue;
         }
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
-        if( part.amount > 0 && damage_ratio < 0.5f ) {
-            int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 10;
+        item *liquid = tank_stored_liquid( elem );
+        if( liquid != nullptr && damage_ratio < 0.5f ) {
+            int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * tank_charges( elem ) / 10;
             int gx, gy;
             if( leak_amount < 1 ) {
                 leak_amount = 1;
             }
             // Don't leak batteries from a damaged battery
-            if( pinfo.fuel_type != fuel_type_battery ) {
+            if( liquid->typeId() != fuel_type_battery ) {
                 coord_translate( part.mount.x, part.mount.y, gx, gy );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
-                item leak( pinfo.fuel_type, calendar::turn );
+                item leak( liquid->typeId(), liquid->bday );
                 leak.charges = leak_amount;
                 g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
             }
-            part.amount -= leak_amount;
+            tank_drain( elem, leak_amount );
         }
     }
 }
@@ -4227,8 +4437,10 @@ int vehicle::stored_volume(int part) {
         return 0;
     }
     int cur_volume = 0;
-    for( auto &i : get_items(part) ) {
-       cur_volume += i.volume();
+    if( part_flag( part, "CARGO" ) ) {
+        for( auto &i : get_items(part) ) {
+           cur_volume += i.volume();
+        }
     }
     return cur_volume;
 }
@@ -4839,9 +5051,12 @@ int vehicle::damage_direct (int p, int dmg, int type)
         if (part_flag(p, "FUEL_TANK"))
         {
             ammotype ft = part_info(p).fuel_type;
+            if( ft.empty() && !parts[p].items.empty() ) {
+                ft = parts[p].items.front().typeId();
+            }
             if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
             {
-                int pow = parts[p].amount / 40;
+                int pow = parts[p].items.empty() ? 0 : parts[p].items.front().charges / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
@@ -4873,10 +5088,16 @@ int vehicle::damage_direct (int p, int dmg, int type)
 
 void vehicle::leak_fuel (int p)
 {
-    if (!part_flag(p, "FUEL_TANK"))
+    if( !part_flag(p, "FUEL_TANK") ) {
         return;
-    ammotype ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
+    }
+    item *liquid = tank_stored_liquid( p );
+    if( liquid == nullptr ) {
+        return;
+    }
+
+    ammotype ft = liquid->typeId();
+    if( liquid->made_of( LIQUID ) )
     {
         int x = global_x();
         int y = global_y();
@@ -4884,17 +5105,15 @@ void vehicle::leak_fuel (int p)
             for (int j = y - 2; j <= y + 2; j++)
                 if (g->m.move_cost(i, j) > 0 && one_in(2))
                 {
-                    if (parts[p].amount < 100)
+                    if( tank_drain( p, 100 ) < 100 )
                     {
-                        parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, ft);
-                    g->m.spawn_item(i, j, ft);
-                    parts[p].amount -= 100;
+                    g->m.spawn_item( i, j, liquid->typeId() );
+                    g->m.spawn_item( i, j, liquid->typeId() );
                 }
     }
-    parts[p].amount = 0;
+    tank_set_charges( p, "", 0 );
 }
 
 std::string aim_type( const vehicle_part &part )
@@ -5178,7 +5397,7 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         if( liquid_fuel < 1 || charges < 1 ) {
             return false;
         }
-        itype *am_type = item::find_type( default_ammo( amt ) );
+        itype *am_type = item::find_type( amt );
         if( !am_type->ammo ) {
             debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
                       am_type->nname(1).c_str(), gun.type->nname(1).c_str() );
@@ -5513,11 +5732,16 @@ void vehicle_part::properties_from_item( const item &used_item )
     // Transfer fuel from item to tank
     const ammotype &desired_liquid = vpinfo.fuel_type;
     if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
-        amount = std::min<int>( used_item.charges, vpinfo.size );
+        item bat( fuel_type_battery, calendar::turn );
+        bat.charges = std::min<int>( used_item.charges, vpinfo.size * 100 );
+        items.push_front( bat );
     } else if( !used_item.contents.empty() ) {
-        const item &liquid = used_item.contents[0];
-        if( liquid.type->id == default_ammo( desired_liquid ) ) {
-            amount = std::min<int>( liquid.charges, vpinfo.size );
+        const item &liquid = used_item.contents.front();
+        if( desired_liquid.empty() || liquid.type->id == desired_liquid ) {
+            int mul = liquid.type->ammo.get() == nullptr ? 1 : liquid.type->ammo->def_charges;
+            int amount = std::min<int>( liquid.charges, vpinfo.size * mul );
+            items.push_front( liquid );
+            items.front().charges = amount;
         }
     }
 }
@@ -5553,15 +5777,13 @@ item vehicle_part::properties_to_item() const
     // this is very lossy.
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
-    // Transfer fuel back to tank, but not to gun or it'll crash
-    if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
+    // Transfer fuel back to tank
+    if( !vpinfo.has_flag(VPFLAG_CARGO) && !items.empty() ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
-            tmp.charges = amount;
+            tmp.charges = items.front().charges;
         } else {
-            item liquid( default_ammo( desired_liquid ), calendar::turn );
-            liquid.charges = amount;
-            tmp.put_in( liquid );
+            tmp.put_in( items.front() );
         }
     }
     return tmp;
