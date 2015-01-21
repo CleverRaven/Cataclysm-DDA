@@ -89,8 +89,47 @@ class item : public JsonSerializer, public JsonDeserializer
 public:
  item();
  item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
+
+        /**
+         * Make this a corpse of the given monster type.
+         * The monster type must not be null, alternatively the monster type id must be a valid
+         * monster type (see @ref MonsterGenerator::get_mtype).
+         *
+         * The turn parameter sets the birthday of the corpse, in other words: the turn when the
+         * monster died. Because corpses are removed from the map when they reach a certain age,
+         * one has to be careful when placing corpses with a birthday of 0. They might be
+         * removed immediately when the map is loaded without been seen by the player.
+         *
+         * The name parameter can be used to give the corpse item a name. This is
+         * used instead of the monster type name ("corpse of X" instead of "corpse of bear").
+         *
+         * Without any parameters it makes a human corpse, created at the current turn.
+         */
+        /*@{*/
+        void make_corpse( mtype* mt, unsigned int turn );
+        void make_corpse( mtype* mt, unsigned int turn, const std::string &name );
+        void make_corpse( const std::string &mtype_id, unsigned int turn );
+        void make_corpse();
+        /*@}*/
+        /**
+         * @return The monster type associated with this item (@ref corpse). It is usually the
+         * type that this item is made of (e.g. corpse, meat or blood of the monster).
+         * May return a null-pointer.
+         */
+        mtype *get_mtype() const;
+        /**
+         * Sets the monster type associated with this item (@ref corpse). You must not pass a
+         * null pointer.
+         * TODO: change this to take a reference instead.
+         */
+        void set_mtype( mtype *corpse );
+        /**
+         * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
+         * associated (@ref get_mtype return a non-null pointer) and have been created
+         * with @ref make_corpse.
+         */
+        bool is_corpse() const;
+
  item(std::string itemdata);
  item(JsonObject &jo);
         item(item &&) = default;
@@ -434,7 +473,6 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
- bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -490,7 +528,6 @@ public:
 
  itype_id typeId() const;
  itype* type;
- mtype*   corpse;
  std::vector<item> contents;
 
         /**
@@ -874,6 +911,8 @@ public:
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
         std::map<std::string, std::string> item_vars;
+        // TODO: make a pointer to const
+        mtype* corpse;
 public:
  char invlet;             // Inventory letter
  long charges;

@@ -3382,7 +3382,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
                         item fish;
                         std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
                         std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                        fish.make_corpse("corpse", GetMType(fish_mon), it->bday + rng(0, 1800)); //we don't know when it was caught. its random
+                        fish.make_corpse( fish_mon, it->bday + rng(0, 1800)); //we don't know when it was caught. its random
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
@@ -6424,9 +6424,9 @@ int iuse::vacutainer(player *p, item *it, bool, point)
     item blood("blood", calendar::turn);
     bool drew_blood = false;
     for( auto &map_it : g->m.i_at(p->posx, p->posy) ) {
-        if( map_it.corpse != NULL && map_it.type->id == "corpse" &&
+        if( map_it.is_corpse() &&
             query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
-            blood.corpse = map_it.corpse;
+            blood.set_mtype( map_it.get_mtype() );
             drew_blood = true;
         }
     }
@@ -6451,8 +6451,9 @@ void make_zlave(player *p)
     const int cancel = 0;
 
     for( auto &it : items ) {
-        if( it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
+        const auto mt = it.get_mtype();
+        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->mat == "flesh" &&
+            mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
     }
@@ -6521,7 +6522,7 @@ void make_zlave(player *p)
     const int selected_corpse = amenu.ret - 1;
 
     const item *body = corpses[selected_corpse];
-    const mtype *mt = body->corpse;
+    const mtype *mt = body->get_mtype();
 
     // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)

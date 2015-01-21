@@ -9,7 +9,7 @@ float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( x, y ) ) {
-        if( pit_content.type->id == "corpse") {
+        if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }
     }

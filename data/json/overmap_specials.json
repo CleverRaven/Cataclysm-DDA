@@ -899,7 +899,7 @@
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+        "flags" : [ "ROTATE", "UNIQUE", "CLASSIC", "REQUIRED" ]
 },{
         "type" : "overmap_special",
         "id" : "Necropolis",

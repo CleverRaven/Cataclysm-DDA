@@ -640,7 +640,7 @@ void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse("corpse", z->type, calendar::turn);
+    corpse.make_corpse(z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

@@ -5512,9 +5512,9 @@ void map::add_corpse(int x, int y) {
     const bool isReviveSpecial = one_in(10);
 
     if (!isReviveSpecial){
-        body.make_corpse("corpse", GetMType("mon_null"), 0);
+        body.make_corpse();
     } else {
-        body.make_corpse("corpse", GetMType("mon_zombie"), 0);
+        body.make_corpse( "mon_zombie", calendar::turn );
         body.item_tags.insert("REVIVE_SPECIAL");
         body.active = true;
     }

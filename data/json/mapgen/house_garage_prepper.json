@@ -35,7 +35,7 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "@": "t_concrete",
+                "@": "t_thconc_floor",
                 "!": "t_linoleum_white",
                 "-": "t_wall_h",
                 "2": "t_window_boarded",
