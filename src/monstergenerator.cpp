@@ -164,6 +164,7 @@ void MonsterGenerator::init_attack()
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
+    attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;

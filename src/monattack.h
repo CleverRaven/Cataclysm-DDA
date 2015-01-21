@@ -14,6 +14,7 @@ class mattack
         void rattle             (monster *z, int index);
         void acid               (monster *z, int index);
         void shockstorm         (monster *z, int index);
+        void pull_metal_weapon  (monster *z, int index);
         void smokecloud         (monster *z, int index);
         void boomer             (monster *z, int index);
         void resurrect          (monster *z, int index);
