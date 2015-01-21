@@ -2893,16 +2893,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         line++;
     }
 
+    int quick_bonus = int(newmoves - (newmoves / 1.1));
+    int bio_speed_bonus = quick_bonus;
+    if (has_trait("QUICK") && has_bionic("bio_speed")) {
+        bio_speed_bonus = int(newmoves/1.1 - (newmoves / 1.1 / 1.1));
+        std::swap(quick_bonus, bio_speed_bonus);
+    }
     if (has_trait("QUICK")) {
-        pen = int(newmoves * .1);
         mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
-                  (pen < 10 ? " " : ""), pen);
+                  (quick_bonus < 10 ? " " : ""), quick_bonus);
+        line++;
     }
     if (has_bionic("bio_speed")) {
-        pen = int(newmoves * .1);
         mvwprintz(w_speed, line, 1, c_green, _("Bionic Speed        +%s%d%%"),
-                  (pen < 10 ? " " : ""), pen);
+                  (bio_speed_bonus < 10 ? " " : ""), bio_speed_bonus);
     }
+
     int runcost = run_cost(100);
     nc_color col = (runcost <= 100 ? c_green : c_red);
     mvwprintz(w_speed, 1, (runcost  >= 100 ? 21 : (runcost  < 10 ? 23 : 22)), col,
