@@ -332,7 +332,7 @@ void veh_interact::cache_tool_availability()
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
-    has_nails = crafting_inv.has_charges("nails", NAILS_USED);
+    has_nails = crafting_inv.has_components("nails", NAILS_USED);
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
@@ -504,7 +504,7 @@ bool veh_interact::can_install_part(int msg_width){
         if (is_wood) {
             werase (w_msg);
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_%4$s>nailgun</color> and <color_%5$s>nails</color> and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                            has_comps ? "ltgreen" : "red",
                            item::nname( itm ).c_str(),
                            has_hammer ? "ltgreen" : "red",
