@@ -644,7 +644,7 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
         for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
-            if (it->type->id == "corpse" ) {
+            if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);

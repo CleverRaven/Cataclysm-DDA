@@ -412,7 +412,7 @@ bool can_butcher_at(int x, int y)
     bool has_corpse, has_item = false;
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
-        if( items_it.type->id == "corpse" && items_it.corpse != NULL ) {
+        if( items_it.is_corpse() ) {
             if (factor != INT_MIN) {
                 has_corpse = true;
             }

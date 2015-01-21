@@ -13724,7 +13724,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( "corpse", GetMType( "mon_null" ), calendar::turn, name );
+    body.make_corpse( GetMType( "mon_null" ), calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( posx, posy, *itm );
     }

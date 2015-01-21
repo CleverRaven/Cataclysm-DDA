@@ -338,8 +338,8 @@ void mattack::resurrect(monster *z, int index)
         for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
             if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
                 for (auto &i : g->m.i_at(x, y)) {
-                    if (i.type->id == "corpse" && i.corpse->has_flag(MF_REVIVES) &&
-                          i.corpse->in_species("ZOMBIE")) {
+                    if (i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
+                          i.get_mtype()->in_species("ZOMBIE")) {
                         corpses.push_back(point(x, y));
                         break;
                     }
@@ -361,7 +361,7 @@ void mattack::resurrect(monster *z, int index)
     for (auto &i : corpses) {
         int x = i.x, y = i.y;
         for (size_t n = 0; n < g->m.i_at(x, y).size(); n++) {
-            if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
+            if (g->m.i_at(x, y)[n].is_corpse() && one_in(2)) {
                 if (!g->revive_corpse(x, y, n)) {
                     continue;
                 }
