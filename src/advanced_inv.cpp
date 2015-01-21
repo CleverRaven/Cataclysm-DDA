@@ -1836,7 +1836,8 @@ void advanced_inv_area::set_container_position()
     }
 }
 
-void game::advanced_inv()
+
+void advanced_inv()
 {
     advanced_inventory advinv;
     advinv.display();
