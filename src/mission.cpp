@@ -253,6 +253,11 @@ bool mission::is_complete( const int _npc_id ) const
     return false;
 }
 
+bool mission::has_failed() const
+{
+    return failed;
+}
+
 std::string mission::name()
 {
     if (type == NULL) {

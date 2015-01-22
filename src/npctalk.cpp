@@ -1439,7 +1439,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
         case TALK_MISSION_INQUIRE: {
             int id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
             const auto mission = mission::find( id );
-            if (g->mission_failed(id)) {
+            if( mission->has_failed() ) {
                 RESPONSE(_("I'm sorry... I failed."));
                     SUCCESS(TALK_MISSION_FAILURE);
                         SUCCESS_OPINION(-1, 0, -1, 1, 0);

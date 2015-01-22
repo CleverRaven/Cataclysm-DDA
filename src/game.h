@@ -246,8 +246,6 @@ class game
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        /** Checks if the player has failed the matching mission and returns true if they have. */
-        bool mission_failed(int id);
         /** Handles mission completion tasks (remove given item, etc.). */
         void wrap_up_mission(int id);
 

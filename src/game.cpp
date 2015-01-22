@@ -1726,15 +1726,6 @@ void game::increase_kill_count(const std::string &mtype_id)
     kills[mtype_id]++;
 }
 
-bool game::mission_failed(int id)
-{
-    mission *miss = mission::find(id);
-    if (miss == NULL) {
-        return true;    //If the mission is null it is failed.
-    }
-    return (miss->failed);
-}
-
 void game::wrap_up_mission(int id)
 {
     mission *miss = mission::find(id);
