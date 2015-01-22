@@ -275,6 +275,8 @@ class mission : public JsonSerializer, public JsonDeserializer
     void fail();
     /** Handles partial mission completion (kill complete, now report back!). */
     void step_complete( int step );
+    /** Checks if the player has completed the matching mission and returns true if they have. */
+    bool is_complete( int npc_id ) const;
 
     /**
      * Create a new mission of the given type and assign it to the given npc.

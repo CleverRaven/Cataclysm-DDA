@@ -1,6 +1,7 @@
 #include "mission.h"
 #include "game.h"
 #include "debug.h"
+#include "overmapbuffer.h"
 
 #include <fstream>
 #include <sstream>
@@ -166,6 +167,90 @@ void mission::step_complete( const int _step )
             //Suppress warnings
             break;
     }
+}
+
+bool mission::is_complete( const int _npc_id ) const
+{
+    // TODO: maybe not g->u, but more generalized?
+    auto &u = g->u;
+    switch( type->goal ) {
+        case MGOAL_GO_TO:
+            {
+                // TODO: target does not contain a z-component, targets are assume to be on z=0
+                const tripoint cur_pos = g->om_global_location();
+                return ( rl_dist( cur_pos.x, cur_pos.y, target.x, target.y ) <= 1 );
+            }
+            break;
+
+        case MGOAL_GO_TO_TYPE:
+            {
+                const auto cur_ter = overmap_buffer.ter( g->om_global_location() );
+                return cur_ter == type->target_id;
+            }
+            break;
+
+        case MGOAL_FIND_ITEM:
+            // TODO: check for count_by_charges and use appropriate player::has_* function
+            if( !u.has_amount( type->item_id, item_count ) ) {
+                return u.has_amount( type->item_id, 1 ) && u.has_charges( type->item_id, item_count );
+            }
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
+            return true;
+
+        case MGOAL_FIND_ANY_ITEM:
+            return u.has_mission_item( uid ) && ( npc_id == -1 || npc_id == _npc_id );
+
+        case MGOAL_FIND_MONSTER:
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
+            for( size_t i = 0; i < g->num_zombies(); i++ ) {
+                if( g->zombie( i ).mission_id == uid ) {
+                    return true;
+                }
+            }
+            return false;
+
+        case MGOAL_RECRUIT_NPC:
+            {
+                npc *p = g->find_npc( target_npc_id );
+                return p != nullptr && p->attitude == NPCATT_FOLLOW;
+            }
+
+        case MGOAL_RECRUIT_NPC_CLASS:
+            {
+                const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
+                for( auto & npc : npcs ) {
+                    if( npc->myclass == recruit_class && npc->attitude == NPCATT_FOLLOW ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        case MGOAL_FIND_NPC:
+            return npc_id == _npc_id;
+
+        case MGOAL_ASSASSINATE:
+            return step >= 1;
+
+        case MGOAL_KILL_MONSTER:
+            return step >= 1;
+
+        case MGOAL_KILL_MONSTER_TYPE:
+            debugmsg( "%d kill count", g->kill_count( monster_type ) );
+            debugmsg( "%d goal", monster_kill_goal );
+            return g->kill_count( monster_type ) >= monster_kill_goal;
+
+        case MGOAL_COMPUTER_TOGGLE:
+            return step >= 1;
+
+        default:
+            return false;
+    }
+    return false;
 }
 
 std::string mission::name()
