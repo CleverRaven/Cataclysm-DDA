@@ -4727,7 +4727,7 @@
     "dispersion": 360,
     "sight_dispersion": 150,
     "aim_speed" : 0,
-    "recoil": 210,
+    "recoil": 195,
     "durability": 9,
     "burst": 30,
     "clip_size": 600,
