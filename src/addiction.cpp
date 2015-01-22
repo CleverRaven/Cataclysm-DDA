@@ -198,25 +198,31 @@ void addict_effect(addiction &add)
         }
         break;
     case ADD_MARLOSS_R:
-        add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
-        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
     case ADD_MARLOSS_B:
-       add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
-       g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
     case ADD_MARLOSS_Y:
-        add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
-        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
 
     //for any other unhandled cases
