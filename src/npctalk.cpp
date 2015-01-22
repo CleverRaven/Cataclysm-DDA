@@ -3059,7 +3059,7 @@ void talk_function::mission_failure(npc *p)
     }
     npc_opinion tmp( -1, 0, -1, 1, 0);
     p->op_of_u += tmp;
-    g->mission_failed(p->chatbin.missions_assigned[selected]);
+    g->fail_mission(p->chatbin.missions_assigned[selected]);
 }
 
 void talk_function::clear_mission(npc *p)
