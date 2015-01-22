@@ -720,7 +720,7 @@ of pureed bone & LSD."));
             if (miss->name() == options[ch].name){
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
-                g->mission_step_complete( miss->uid, 1 );
+                miss->step_complete( 1 );
                 getch();
                 return;
                 //break;
@@ -735,7 +735,7 @@ of pureed bone & LSD."));
             for( auto i : g->u.get_active_missions() ) {
                 mission *miss = mission::find( i );
                 if (miss->name() == "Install Repeater Mod"){
-                    g->mission_step_complete( miss->uid, 1);
+                    miss->step_complete( 1 );
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
                     g->u.use_amount("radio_repeater_mod", 1);

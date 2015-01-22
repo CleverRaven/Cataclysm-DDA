@@ -78,7 +78,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             mission->fail();
         }
         if( type->goal == MGOAL_KILL_MONSTER ) {
-            g->mission_step_complete( mission_id, 1 );
+            mission->step_complete( 1 );
         }
         return;
     }
@@ -92,7 +92,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     for( auto & i : active_missions ) {
         //complete the mission if you needed killing
         if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
-            g->mission_step_complete( i.uid, 1 );
+            i.step_complete( 1 );
         }
         //fail the mission if the mission giver dies
         if( i.npc_id == dead_guys_id ) {
@@ -137,6 +137,35 @@ void mission::fail()
     g->u.on_mission_finished( *this );
     mission_fail failfunc;
     (failfunc.*type->fail)( this );
+}
+
+void mission::set_target_to_mission_giver()
+{
+    const auto giver = g->find_npc( npc_id );
+    if( giver != nullptr ) {
+        tripoint t = giver->global_omt_location();
+        target.x = t.x;
+        target.y = t.y;
+    } else {
+        target = overmap::invalid_point;
+    }
+}
+
+void mission::step_complete( const int _step )
+{
+    step = _step;
+    switch( type->goal ) {
+        case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_MONSTER:
+        case MGOAL_ASSASSINATE:
+        case MGOAL_KILL_MONSTER:
+            // Go back and report.
+            set_target_to_mission_giver();
+            break;
+        default:
+            //Suppress warnings
+            break;
+    }
 }
 
 std::string mission::name()

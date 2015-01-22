@@ -273,6 +273,8 @@ class mission : public JsonSerializer, public JsonDeserializer
 
     /** Called when the mission has failed, calls the mission fail callback. */
     void fail();
+    /** Handles partial mission completion (kill complete, now report back!). */
+    void step_complete( int step );
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
@@ -317,6 +319,8 @@ private:
 
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
+
+    void set_target_to_mission_giver();
 };
 
 #endif

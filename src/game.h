@@ -252,8 +252,6 @@ class game
         bool mission_failed(int id);
         /** Handles mission completion tasks (remove given item, etc.). */
         void wrap_up_mission(int id);
-        /** Handles partial mission completion (kill complete, now report back!). */
-        void mission_step_complete(int id, int step);
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);

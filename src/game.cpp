@@ -1855,34 +1855,6 @@ void game::wrap_up_mission(int id)
     (endfunc.*miss->type->end)(miss);
 }
 
-void game::mission_step_complete(int id, int step)
-{
-    mission *miss = mission::find(id);
-    if (miss == NULL) {
-        return;
-    }
-    miss->step = step;
-    switch (miss->type->goal) {
-    case MGOAL_FIND_ITEM:
-    case MGOAL_FIND_MONSTER:
-    case MGOAL_ASSASSINATE:
-    case MGOAL_KILL_MONSTER: {
-        npc *p = find_npc(miss->npc_id);
-        if (p != NULL) {
-            tripoint t = p->global_omt_location();
-            miss->target.x = t.x;
-            miss->target.y = t.y;
-        } else {
-            miss->target = overmap::invalid_point;
-        }
-        break;
-    }
-    default:
-        //Suppress warnings
-        break;
-    }
-}
-
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
