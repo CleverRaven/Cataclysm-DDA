@@ -23,7 +23,6 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
-#include "mission.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -1352,13 +1351,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
 
     // Target of current mission
-    point target;
-    bool has_target = false;
-    const auto active_mission = g->u.get_active_mission();
-    if( active_mission != nullptr ) {
-        target = active_mission->target;
-        has_target = target != overmap::invalid_point;
-    }
+    const point target = g->u.get_active_mission_target();
+    const bool has_target = target != overmap::invalid_point;
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";

@@ -5000,17 +5000,8 @@ void game::draw_minimap()
     const tripoint curs = om_global_location();
     const int cursx = curs.x;
     const int cursy = curs.y;
-    bool drew_mission = false;
-    point targ;
-    const auto active_mission = u.get_active_mission();
-    if( active_mission != nullptr ) {
-        targ = active_mission->target;
-        if (targ == overmap::invalid_point) {
-            drew_mission = true;
-        }
-    } else {
-        drew_mission = true;
-    }
+    const point targ = u.get_active_mission_target();
+    bool drew_mission = targ == overmap::invalid_point;
 
     for (int i = -2; i <= 2; i++) {
         for (int j = -2; j <= 2; j++) {

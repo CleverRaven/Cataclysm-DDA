@@ -13382,3 +13382,12 @@ mission *player::get_active_mission() const
     }
     return nullptr;
 }
+
+point player::get_active_mission_target() const
+{
+    const auto active_mission = get_active_mission();
+    if( active_mission == nullptr ) {
+        return overmap::invalid_point;
+    }
+    return active_mission->target;
+}
