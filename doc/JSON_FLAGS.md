@@ -250,6 +250,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
+- ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
 - ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```BOOMER``` Spit bile.
 - ```RESURRECT``` Revives the dead--again.

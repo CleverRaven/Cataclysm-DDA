@@ -247,6 +247,39 @@ void mattack::shockstorm(monster *z, int index)
     }
 }
 
+void mattack::pull_metal_weapon(monster *z, int index)
+{
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constants and Configuration
+
+    // max distance that "pull_metal_weapon" can be applied to the target.
+    constexpr auto max_distance = 12;
+
+    // attack movement costs
+    constexpr int att_cost_pull = 150;
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
+    int junk = 0;
+    if( !z->sees( *target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->xpos(), target->ypos(), max_distance, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
+    }
+    player *foe = dynamic_cast< player* >( target );
+    if( foe != nullptr ) {
+        if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
+            auto m_type = foe == &g->u ? m_bad : m_neutral;
+            target->add_msg_player_or_npc( m_type, _("%s is pulled away from your hands!"),
+                                                   _("%s is pulled away from <npcname>'s hands!"), foe->weapon.tname().c_str() );
+            z->add_item(foe->remove_weapon());
+            z->moves -= att_cost_pull;   // It takes a while
+            z->reset_special(index); // Reset timer
+        }
+    }
+}
 
 void mattack::smokecloud(monster *z, int index)
 {
