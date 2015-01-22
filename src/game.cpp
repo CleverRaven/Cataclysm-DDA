@@ -1855,18 +1855,6 @@ void game::wrap_up_mission(int id)
     (endfunc.*miss->type->end)(miss);
 }
 
-void game::fail_mission(int id)
-{
-    mission *miss = mission::find(id);
-    if (miss == NULL) {
-        return;
-    }
-    miss->failed = true;
-    u.on_mission_finished( *miss );
-    mission_fail failfunc;
-    (failfunc.*miss->type->fail)(miss);
-}
-
 void game::mission_step_complete(int id, int step)
 {
     mission *miss = mission::find(id);

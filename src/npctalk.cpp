@@ -3058,7 +3058,8 @@ void talk_function::mission_failure(npc *p)
     }
     npc_opinion tmp( -1, 0, -1, 1, 0);
     p->op_of_u += tmp;
-    g->fail_mission(p->chatbin.missions_assigned[selected]);
+    const auto mission = mission::find( p->chatbin.missions_assigned[selected] );
+    mission->fail();
 }
 
 void talk_function::clear_mission(npc *p)

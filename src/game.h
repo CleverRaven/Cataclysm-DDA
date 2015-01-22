@@ -252,8 +252,6 @@ class game
         bool mission_failed(int id);
         /** Handles mission completion tasks (remove given item, etc.). */
         void wrap_up_mission(int id);
-        /** Handles mission failure tasks (remove mission items, etc.). */
-        void fail_mission(int id);
         /** Handles partial mission completion (kill complete, now report back!). */
         void mission_step_complete(int id, int step);
 

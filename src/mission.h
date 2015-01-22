@@ -271,6 +271,9 @@ class mission : public JsonSerializer, public JsonDeserializer
     /** Assigns the mission to the player. */
     void assign( player &u );
 
+    /** Called when the mission has failed, calls the mission fail callback. */
+    void fail();
+
     /**
      * Create a new mission of the given type and assign it to the given npc.
      * Returns the id (@ref uid) of the new mission. The mission object can be retrieved by

@@ -52,7 +52,7 @@ void mission::process_all()
 {
     for( auto & m : active_missions ) {
         if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
-            g->fail_mission( m.uid );
+            m.fail();
         }
     }
 }
@@ -72,11 +72,12 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         if( mon->mission_id == -1 ) {
             return;
         }
-        const auto misstype = mission::find( mon->mission_id )->type;
-        if( misstype->goal == MGOAL_FIND_MONSTER ) {
-            g->fail_mission( mission_id );
+        const auto mission = mission::find( mon->mission_id );
+        const auto type = mission->type;
+        if( type->goal == MGOAL_FIND_MONSTER ) {
+            mission->fail();
         }
-        if( misstype->goal == MGOAL_KILL_MONSTER ) {
+        if( type->goal == MGOAL_KILL_MONSTER ) {
             g->mission_step_complete( mission_id, 1 );
         }
         return;
@@ -95,11 +96,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         }
         //fail the mission if the mission giver dies
         if( i.npc_id == dead_guys_id ) {
-            g->fail_mission( i.uid );
+            i.fail();
         }
         //fail the mission if recruit target dies
         if( i.type->goal == MGOAL_RECRUIT_NPC && i.target_npc_id == dead_guys_id ) {
-            g->fail_mission( i.uid );
+            i.fail();
         }
     }
 }
@@ -127,6 +128,15 @@ void mission::assign( player &u )
     u.on_mission_assignment( *this );
     mission_start m_s;
     (m_s.*type->start)(this);
+}
+
+void mission::fail()
+{
+    failed = true;
+    // TODO: check that the mission is actually done by this player.
+    g->u.on_mission_finished( *this );
+    mission_fail failfunc;
+    (failfunc.*type->fail)( this );
 }
 
 std::string mission::name()
