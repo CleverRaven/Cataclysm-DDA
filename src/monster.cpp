@@ -1372,17 +1372,7 @@ void monster::die(Creature* nkiller) {
             }
         }
     }
-    // If we're a mission monster, update the mission
-    if (!is_hallucination() && mission_id != -1) {
-        const auto misstype = mission::find(mission_id)->type;
-        if (misstype->goal == MGOAL_FIND_MONSTER) {
-            g->fail_mission(mission_id);
-        }
-        if (misstype->goal == MGOAL_KILL_MONSTER) {
-            g->mission_step_complete(mission_id, 1);
-        }
-    }
-
+    mission::on_creature_death( *this );
     // Also, perform our death function
     if(is_hallucination()) {
         //Hallucinations always just disappear

@@ -62,9 +62,32 @@ void mission::clear_all()
     active_missions.clear();
 }
 
-void mission::on_npc_death( npc &poor_dead_dude )
+void mission::on_creature_death( Creature &poor_dead_dude )
 {
-    const auto dead_guys_id = poor_dead_dude.getID();
+    if( poor_dead_dude.is_hallucination() ) {
+        return;
+    }
+    monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
+    if( mon != nullptr ) {
+        if( mon->mission_id == -1 ) {
+            return;
+        }
+        const auto misstype = mission::find( mon->mission_id )->type;
+        if( misstype->goal == MGOAL_FIND_MONSTER ) {
+            g->fail_mission( mission_id );
+        }
+        if( misstype->goal == MGOAL_KILL_MONSTER ) {
+            g->mission_step_complete( mission_id, 1 );
+        }
+        return;
+    }
+    npc *p = dynamic_cast<npc *>( &poor_dead_dude );
+    if( p == nullptr ) {
+        // Must be the player
+        // TODO: mark mission as failed or mark it as unused (free to be given again)
+        return;
+    }
+    const auto dead_guys_id = p->getID();
     for( auto & i : active_missions ) {
         //complete the mission if you needed killing
         if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {

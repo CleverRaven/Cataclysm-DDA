@@ -292,8 +292,12 @@ class mission : public JsonSerializer, public JsonDeserializer
      */
     static void process_all();
 
-    // various callbacks from events that may affect all missions
-    static void on_npc_death( npc &poor_dead_dude );
+    /**
+     * various callbacks from events that may affect all missions
+     */
+    /*@{*/
+    static void on_creature_death( Creature &poor_dead_dude );
+    /*@}*/
 
     // Don't use this, it's only for loading legacy saves.
     static void unserialize_legacy( std::istream &fin );

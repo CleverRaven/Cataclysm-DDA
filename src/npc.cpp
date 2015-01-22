@@ -2145,8 +2145,6 @@ void npc::die(Creature* nkiller) {
     }
 
     place_corpse();
-
-    mission::on_npc_death( *this );
 }
 
 std::string npc_attitude_name(npc_attitude att)
