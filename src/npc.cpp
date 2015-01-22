@@ -1855,6 +1855,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
+    } else if( attitude == NPCATT_FLEE ) {
+        return c_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
