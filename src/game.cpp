@@ -4247,9 +4247,9 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    auto const& save_dir      = world_generator->active_world->world_path;
-    auto const& graveyard_dir = FILENAMES["graveyarddir"];
-    auto const& prefix        = base64_encode(u.name) + ".";
+    auto const &save_dir      = world_generator->active_world->world_path;
+    auto const &graveyard_dir = FILENAMES["graveyarddir"];
+    auto const &prefix        = base64_encode(u.name) + ".";
     
     if (!assure_dir_exist(graveyard_dir)) {
         debugmsg("could not create graveyard path '%s'", graveyard_dir.c_str());
