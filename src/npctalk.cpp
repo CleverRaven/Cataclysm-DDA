@@ -407,6 +407,15 @@ void npc::talk_to_u()
     d.alpha = &g->u;
     d.beta = this;
 
+    d.missions_assigned = mission::to_ptr_vector( chatbin.missions_assigned );
+    for( auto it = d.missions_assigned.begin(); it != d.missions_assigned.end(); ) {
+        if( ( *it )->player_id != g->u.getID() ) {
+            it = d.missions_assigned.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
     d.topic_stack.push_back(chatbin.first_topic);
 
     if (is_leader()) {
@@ -427,13 +436,25 @@ void npc::talk_to_u()
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for (size_t i = 0; i < chatbin.missions_assigned.size(); i++) {
-        const auto type = mission::find(chatbin.missions_assigned[i])->type;
+        const auto miss = mission::find( chatbin.missions_assigned[i] );
+        if( miss->player_id != g->u.getID() ) {
+            // Not assigned to the player that is currently talking to the npc
+            continue;
+        }
+        const auto type = miss->type;
         if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
               (type->urgent || !chosen_urgent))) {
             chosen_urgent = type->urgent;
             d.topic_stack.push_back(TALK_MISSION_INQUIRE);
             chatbin.mission_selected = i;
             most_difficult_mission = type->difficulty;
+        }
+    }
+    if( chatbin.mission_selected != -1 && chatbin.mission_selected < (int) chatbin.missions_assigned.size() ) {
+        const int id = chatbin.missions_assigned[chatbin.mission_selected];
+        if( mission::find( id )->player_id != g->u.getID() ) {
+            // Don't talk about a mission that is assigned to someone else.
+            chatbin.mission_selected = -1;
         }
     }
 
@@ -569,27 +590,27 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
 
         case TALK_MISSION_LIST:
             if (p->chatbin.missions.empty()) {
-                if (p->chatbin.missions_assigned.empty()) {
+                if( missions_assigned.empty() ) {
                     return _("I don't have any jobs for you.");
                 } else {
                     return _("I don't have any more jobs for you.");
                 }
             } else if (p->chatbin.missions.size() == 1) {
-                if (p->chatbin.missions_assigned.empty()) {
+                if( missions_assigned.empty() ) {
                     return _("I just have one job for you.  Want to hear about it?");
                 } else {
                     return _("I have another job for you.  Want to hear about it?");
                 }
-            } else if (p->chatbin.missions_assigned.empty()) {
+            } else if( missions_assigned.empty() ) {
                 return _("I have several jobs for you.  Which should I describe?");
             } else {
                 return _("I have several more jobs for you.  Which should I describe?");
             }
 
         case TALK_MISSION_LIST_ASSIGNED:
-            if (p->chatbin.missions_assigned.empty()) {
+            if( missions_assigned.empty() ) {
                 return _("You're not working on anything for me right now.");
-            } else if (p->chatbin.missions_assigned.size() == 1) {
+            } else if( missions_assigned.size() == 1 ) {
                 return _("What about it?");
             } else {
                 return _("Which job?");
@@ -1378,17 +1399,21 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
             break;
 
         case TALK_MISSION_LIST_ASSIGNED:
-            if (p->chatbin.missions_assigned.empty()) {
+            if( missions_assigned.empty() ) {
                 RESPONSE(_("Never mind then."));
                     SUCCESS(TALK_NONE);
-            } else if (p->chatbin.missions_assigned.size() == 1) {
+            } else if( missions_assigned.size() == 1 ) {
                 SELECT_MISS(_("I have news."), 0);
                     SUCCESS(TALK_MISSION_INQUIRE);
                 RESPONSE(_("Never mind."));
                     SUCCESS(TALK_NONE);
             } else {
-                for (size_t i = 0; i < p->chatbin.missions_assigned.size(); i++) {
-                    SELECT_MISS(mission::find( p->chatbin.missions_assigned[i] )->type->name, i);
+                for( auto &miss : missions_assigned ) {
+                    // We need the index into p->chatbin.missions_assigned of the mission,
+                    // TODO: make missions_assigned a vector of mission pointers and store the mission pointer here.
+                    auto &ma = p->chatbin.missions_assigned;
+                    const auto index = std::find( ma.begin(), ma.end(), miss->uid ) - ma.begin();
+                    SELECT_MISS(miss->type->name, index);
                         SUCCESS(TALK_MISSION_INQUIRE);
                 }
                 RESPONSE(_("Never mind."));
@@ -1575,10 +1600,10 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
             RESPONSE(_("Can I do anything for the center?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -1741,10 +1766,10 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 SUCCESS(TALK_EVAC_GUARD2_TRADE);
             RESPONSE(_("Is there anything I can do to help?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -1910,10 +1935,10 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 SUCCESS( TALK_OLD_GUARD_REP_ASK_JOIN);
             RESPONSE(_("Does the Old Guard need anything?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -2047,10 +2072,10 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 SUCCESS(TALK_ARSONIST_MUTATION);
             RESPONSE(_("Anything I can help with?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -2256,10 +2281,10 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }

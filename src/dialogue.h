@@ -17,6 +17,9 @@ struct dialogue {
     std::vector<std::string> history;
     std::vector<talk_topic> topic_stack;
 
+    /** Missions that have been assigned by this npc to the player they currently speak to. */
+    std::vector<mission*> missions_assigned;
+
     int opt(std::string challenge, ...);
     talk_topic opt(talk_topic topic);
 
