@@ -715,7 +715,7 @@ void mission::unserialize_all( JsonIn &jsin )
     while( !jsin.end_array() ) {
         mission mis;
         mis.deserialize( jsin );
-        active_missions.push_back( mis );
+        active_missions[mis.uid] = mis;
     }
 }
 
@@ -763,8 +763,8 @@ void game::unserialize_master(std::ifstream &fin) {
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
-    for( auto & m : active_missions ) {
-        m.serialize( json );
+    for( auto & e : active_missions ) {
+        e.second.serialize( json );
     }
     json.end_array();
 }

@@ -28,21 +28,21 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::vector<mission> mission::active_missions;
+std::unordered_map<int, mission> mission::active_missions;
 
 mission* mission::reserve_new( const mission_type_id type, const int npc_id )
 {
     const mission tmp = mission_type::get( type )->create( npc_id );
-    active_missions.push_back( tmp );
-    return &active_missions.back();
+    auto &result = active_missions[tmp.uid];
+    result = tmp;
+    return &result;
 }
 
 mission *mission::find( int id )
 {
-    for( auto & m : active_missions ) {
-        if( m.uid == id ) {
-            return &m;
-        }
+    const auto iter = active_missions.find( id );
+    if( iter != active_missions.end() ) {
+        return &iter->second;
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
@@ -51,7 +51,8 @@ mission *mission::find( int id )
 
 void mission::process_all()
 {
-    for( auto & m : active_missions ) {
+    for( auto & e : active_missions ) {
+        auto &m = e.second;
         if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
             m.fail();
         }
@@ -117,7 +118,8 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         return;
     }
     const auto dead_guys_id = p->getID();
-    for( auto & i : active_missions ) {
+    for( auto & e : active_missions ) {
+        auto &i = e.second;
         //complete the mission if you needed killing
         if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
             i.step_complete( 1 );

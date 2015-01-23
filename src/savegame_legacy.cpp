@@ -2071,7 +2071,7 @@ void mission::unserialize_legacy( std::istream &fin )
     for( int i = 0; i < num_missions; i++ ) {
         mission tmpmiss;
         tmpmiss.load_info( fin );
-        active_missions.push_back( tmpmiss );
+        active_missions[tmpmiss.uid] = tmpmiss;
     }
 }
 

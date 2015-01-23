@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "omdata.h"
 #include "itype.h"
 #include "npc.h"
@@ -322,8 +323,9 @@ private:
     /**
      * Missions which have been created, they might have been assigned or can be assigned or
      * are already done. They are stored with the main save.
+     * Key is the mission id (@ref uid).
      */
-    static std::vector<mission> active_missions;
+    static std::unordered_map<int, mission> active_missions;
 
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
