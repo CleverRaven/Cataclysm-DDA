@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 
+struct talk_response;
 struct dialogue {
     player *alpha;
     npc *beta;
@@ -26,6 +27,9 @@ struct dialogue {
         win = NULL;
         done = false;
     }
+
+    std::string dynamic_line( talk_topic topic ) const;
+    std::vector<talk_response> gen_responses( talk_topic topic ) const;
 };
 
 struct talk_function {

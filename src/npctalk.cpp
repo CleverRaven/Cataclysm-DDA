@@ -114,8 +114,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-std::string dynamic_line(talk_topic topic, npc *p);
-std::vector<talk_response> gen_responses(talk_topic topic, npc *p);
 int topic_category(talk_topic topic);
 
 talk_topic special_talk(char ch);
@@ -485,8 +483,9 @@ void npc::talk_to_u()
     g->refresh_all();
 }
 
-std::string dynamic_line(talk_topic topic, npc *p)
+std::string dialogue::dynamic_line( const talk_topic topic ) const
 {
+    const auto p = beta; // for compatibility, later replace it in the code below
     talk_function effect;
     // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
@@ -1342,8 +1341,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
-std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
+std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) const
 {
+    const auto p = beta; // for compatibility, later replace it in the code below
     std::vector<talk_response> ret;
     int selected = p->chatbin.mission_selected;
     mission *miss = NULL;
@@ -3446,8 +3446,8 @@ talk_topic dialogue::opt(talk_topic topic)
  const char* talk_trial_text[NUM_TALK_TRIALS] = {
   "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
  };
- std::string challenge = dynamic_line(topic, beta);
- std::vector<talk_response> responses = gen_responses(topic, beta);
+ std::string challenge = dynamic_line( topic );
+ std::vector<talk_response> responses = gen_responses( topic );
 // Put quotes around challenge (unless it's an action)
  if (challenge[0] != '*' && challenge[0] != '&') {
   std::stringstream tmp;
