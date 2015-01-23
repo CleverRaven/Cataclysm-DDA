@@ -412,7 +412,7 @@ void npc::talk_to_u()
     // TODO: or simply fail them? Some missions might only need to be reported.
     for( auto it = chatbin.missions_assigned.begin(); it != chatbin.missions_assigned.end(); ) {
         if( ( *it )->player_id == -1 ) {
-            chatbin.missions.push_back( ( *it )->uid );
+            chatbin.missions.push_back( *it );
             it = chatbin.missions_assigned.erase( it );
         } else {
             ++it;
@@ -434,12 +434,11 @@ void npc::talk_to_u()
     }
 
     int most_difficult_mission = 0;
-    for (size_t i = 0; i < chatbin.missions.size(); i++) {
-        const auto miss = mission::find( chatbin.missions[i] );
-        const auto type = miss->type;
+    for( auto &mission : chatbin.missions ) {
+        const auto type = mission->type;
         if (type->urgent && type->difficulty > most_difficult_mission) {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
-            chatbin.mission_selected = miss;
+            chatbin.mission_selected = mission;
             most_difficult_mission = type->difficulty;
         }
     }
@@ -468,7 +467,7 @@ void npc::talk_to_u()
     if( chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !chatbin.missions.empty() ) {
-            chatbin.mission_selected = mission::find( chatbin.missions.front() );
+            chatbin.mission_selected = chatbin.missions.front();
         } else if( !d.missions_assigned.empty() ) {
             chatbin.mission_selected = d.missions_assigned.front();
         }
@@ -1381,14 +1380,13 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 RESPONSE(_("Oh, okay."));
                     SUCCESS(TALK_NONE);
             } else if (p->chatbin.missions.size() == 1) {
-                SELECT_MISS(_("Tell me about it."), mission::find( p->chatbin.missions.front() ) );
+                SELECT_MISS(_("Tell me about it."), p->chatbin.missions.front() );
                     SUCCESS(TALK_MISSION_OFFER);
                 RESPONSE(_("Never mind, I'm not interested."));
                     SUCCESS(TALK_NONE);
             } else {
-                for (size_t i = 0; i < p->chatbin.missions.size(); i++) {
-                    const auto miss = mission::find( p->chatbin.missions[i] );
-                    SELECT_MISS( miss->type->name, miss );
+                for( auto &mission : p->chatbin.missions ) {
+                    SELECT_MISS( mission->type->name, mission );
                         SUCCESS(TALK_MISSION_OFFER);
                 }
                 RESPONSE(_("Never mind, I'm not interested."));
@@ -3041,7 +3039,7 @@ void talk_function::assign_mission(npc *p)
     miss->assign( g->u );
     miss->npc_id = p->getID();
     p->chatbin.missions_assigned.push_back( miss );
-    const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss->uid );
+    const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss );
     p->chatbin.missions.erase( it );
 }
 
@@ -3083,7 +3081,8 @@ void talk_function::clear_mission(npc *p)
     const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
     p->chatbin.missions_assigned.erase( it );
     if (miss->follow_up != MISSION_NULL) {
-        p->chatbin.missions.push_back( mission::reserve_new(miss->follow_up, p->getID()) );
+        const auto missid = mission::reserve_new( miss->follow_up, p->getID() );
+        p->chatbin.missions.push_back( mission::find( missid ) );
     }
 }
 

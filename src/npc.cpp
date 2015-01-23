@@ -131,8 +131,9 @@ void npc::load_npc_template(std::string ident)
         chatbin.first_topic = found->second.chatbin.first_topic;
         if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
             int mission_index = mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID());
-            if (mission_index != -1)
-                chatbin.missions.push_back(mission_index);
+            if( mission_index != -1 ) {
+                chatbin.missions.push_back( mission::find( mission_index ) );
+            }
         }
         return;
     } else {

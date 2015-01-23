@@ -1855,7 +1855,10 @@ void npc::load_legacy(std::stringstream & dump) {
   for (int i = 0; i < tmpsize_miss; i++) {
    int tmpmiss;
    info >> tmpmiss;
-   missions.push_back(tmpmiss);
+        const auto miss = mission::find( tmpmiss );
+        if( miss != nullptr ) {
+            missions.push_back( miss );
+        }
   }
   for (int i = 0; i < tmpsize_assigned; i++) {
    int tmpmiss;

@@ -728,8 +728,8 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
-    tmp->chatbin.missions.push_back(
-        mission::reserve_random(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
+    tmp->chatbin.missions.push_back(mission::find(
+        mission::reserve_random(ORIGIN_OPENER_NPC, om_location(), tmp->getID())));
 }
 
 bool game::cleanup_at_end()
@@ -3971,7 +3971,7 @@ void game::debug()
         temp->mission = NPC_MISSION_NULL;
         int mission_index = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), temp->getID());
         if (mission_index != -1) {
-            temp->chatbin.missions.push_back(mission_index);
+            temp->chatbin.missions.push_back(mission::find(mission_index));
         }
         load_npcs();
     }
@@ -13063,7 +13063,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         tmp->mission = NPC_MISSION_NULL;
         int mission_index = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), tmp->getID());
         if (mission_index != -1) {
-            tmp->chatbin.missions.push_back(mission_index);
+            tmp->chatbin.missions.push_back(mission::find(mission_index));
         }
         // This will make the new NPC active
         load_npcs();
