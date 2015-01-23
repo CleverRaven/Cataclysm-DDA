@@ -2253,9 +2253,21 @@
   "book_learn": [[ "advanced_electronics", 4 ] , [ "mag_electronics", 6 ] , [ "manual_electronics", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
   ], "components": [
     [
       [ "scrap", 4 ]
+    ],
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "superglue", 2 ]
     ],
     [
       [ "element", 2 ]
