@@ -1383,8 +1383,8 @@ bool npc::wants_to_travel_with(player *p) const
 int npc::assigned_missions_value()
 {
     int ret = 0;
-    for (auto &i : chatbin.missions_assigned) {
-        ret += mission::find(i)->value;
+    for( auto &m : chatbin.missions_assigned ) {
+        ret += m->value;
     }
     return ret;
 }

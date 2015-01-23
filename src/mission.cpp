@@ -70,6 +70,15 @@ std::vector<mission*> mission::to_ptr_vector( const std::vector<int> &vec )
     return result;
 }
 
+std::vector<int> mission::to_uid_vector( const std::vector<mission*> &vec )
+{
+    std::vector<int> result;
+    for( auto &miss : vec ) {
+        result.push_back( miss->uid );
+    }
+    return result;
+}
+
 void mission::clear_all()
 {
     active_missions.clear();

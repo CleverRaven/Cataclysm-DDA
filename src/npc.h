@@ -441,7 +441,7 @@ enum talk_topic {
 struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 {
  std::vector<int> missions;
- std::vector<int> missions_assigned;
+ std::vector<mission*> missions_assigned;
  mission *mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  const Skill* skill;

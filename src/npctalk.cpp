@@ -411,21 +411,17 @@ void npc::talk_to_u()
     // move them back into the available mission vector.
     // TODO: or simply fail them? Some missions might only need to be reported.
     for( auto it = chatbin.missions_assigned.begin(); it != chatbin.missions_assigned.end(); ) {
-        const auto miss = mission::find( *it );
-        if( miss->player_id == -1 ) {
-            chatbin.missions.push_back( *it );
+        if( ( *it )->player_id == -1 ) {
+            chatbin.missions.push_back( ( *it )->uid );
             it = chatbin.missions_assigned.erase( it );
         } else {
             ++it;
         }
     }
 
-    d.missions_assigned = mission::to_ptr_vector( chatbin.missions_assigned );
-    for( auto it = d.missions_assigned.begin(); it != d.missions_assigned.end(); ) {
-        if( ( *it )->player_id != g->u.getID() ) {
-            it = d.missions_assigned.erase( it );
-        } else {
-            ++it;
+    for( auto &mission : chatbin.missions_assigned ) {
+        if( mission->player_id == g->u.getID() ) {
+            d.missions_assigned.push_back( mission );
         }
     }
 
@@ -449,18 +445,17 @@ void npc::talk_to_u()
     }
     most_difficult_mission = 0;
     bool chosen_urgent = false;
-    for (size_t i = 0; i < chatbin.missions_assigned.size(); i++) {
-        const auto miss = mission::find( chatbin.missions_assigned[i] );
-        if( miss->player_id != g->u.getID() ) {
+    for( auto &mission : chatbin.missions_assigned ) {
+        if( mission->player_id != g->u.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
-        const auto type = miss->type;
+        const auto type = mission->type;
         if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
               (type->urgent || !chosen_urgent))) {
             chosen_urgent = type->urgent;
             d.topic_stack.push_back(TALK_MISSION_INQUIRE);
-            chatbin.mission_selected = miss;
+            chatbin.mission_selected = mission;
             most_difficult_mission = type->difficulty;
         }
     }
@@ -3045,7 +3040,7 @@ void talk_function::assign_mission(npc *p)
     }
     miss->assign( g->u );
     miss->npc_id = p->getID();
-    p->chatbin.missions_assigned.push_back( miss->uid );
+    p->chatbin.missions_assigned.push_back( miss );
     const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss->uid );
     p->chatbin.missions.erase( it );
 }
@@ -3085,7 +3080,7 @@ void talk_function::clear_mission(npc *p)
         debugmsg( "clear_mission: mission_selected == nullptr" );
         return;
     }
-    const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss->uid );
+    const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
     p->chatbin.missions_assigned.erase( it );
     if (miss->follow_up != MISSION_NULL) {
         p->chatbin.missions.push_back( mission::reserve_new(miss->follow_up, p->getID()) );

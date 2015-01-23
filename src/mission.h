@@ -317,6 +317,7 @@ class mission : public JsonSerializer, public JsonDeserializer
     static void unserialize_all( JsonIn &jsin );
     /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
     static std::vector<mission*> to_ptr_vector( const std::vector<int> &vec );
+    static std::vector<int> to_uid_vector( const std::vector<mission*> &vec );
 
 private:
     /**
