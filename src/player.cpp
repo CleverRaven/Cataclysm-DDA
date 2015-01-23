@@ -12932,11 +12932,11 @@ void player::practice( const Skill* s, int amount, int cap )
         int newLevel = skillLevel(s);
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
-        }
-        if(is_player() && newLevel > cap) {
-            //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
+            if(newLevel > cap) {
+                //inform player immediately that diminishing returns are now in effect
+                add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     s->name().c_str());
+            }
         }
 
         int chance_to_drop = focus_pool;
