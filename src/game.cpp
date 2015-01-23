@@ -4268,7 +4268,7 @@ void game::move_save_to_graveyard()
             continue;
         }
 
-        debugmsg("could not rename file '%s' to '%s'", src_path.c_str(), dst_path.substr());
+        debugmsg("could not rename file '%s' to '%s'", src_path.c_str(), dst_path.c_str());
 
         if (remove_file(src_path)) {
             continue;
