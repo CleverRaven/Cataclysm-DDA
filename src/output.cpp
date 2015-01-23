@@ -1431,14 +1431,16 @@ std::string vstring_format(char const *const format, va_list args)
     errno = 0; // Clear errno before trying
     std::vector<char> buffer(1024, '\0');
 
-    while (size_t const buf_size = buffer.size()) { // aka while (true)
+    for (;;) {
+        size_t const buffer_size = buffer.size();
+
         va_list args_copy;
         va_copy(args_copy, args);
-        int const result = vsnprintf(&buffer[0], buf_size, format, args_copy);
+        int const result = vsnprintf(&buffer[0], buffer_size, format, args_copy);
         va_end(args_copy);
 
-        // All is well.
-        if (result >= 0 && static_cast<size_t>(result) < buf_size) {
+        // No error, and the buffer is big enough; we're done.
+        if (result >= 0 && static_cast<size_t>(result) < buffer_size) {
             break;
         }
 
@@ -1449,12 +1451,10 @@ std::string vstring_format(char const *const format, va_list args)
         }
 
         // Looks like we need to grow... bigger, definitely bigger.
-        buffer.resize(buf_size * 2);
+        buffer.resize(buffer_size * 2);
     }
 
-    // Drop contents behind \003, this trick is there to skip certain arguments. (???)
-    return std::string(std::begin(buffer), std::find_if(
-        std::begin(buffer), std::end(buffer), [](char const c) { return !c || c == '\003'; }));
+    return std::string(&buffer[0]);
 }
 #endif
 
