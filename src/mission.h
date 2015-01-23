@@ -284,11 +284,10 @@ class mission : public JsonSerializer, public JsonDeserializer
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
-     * Returns the id (@ref uid) of the new mission. The mission object can be retrieved by
-     * @ref find.
+     * Returns the new mission.
      */
-    static int reserve_new( mission_type_id type, int npc_id );
-    static int reserve_random( mission_origin origin, point p, int npc_id );
+    static mission* reserve_new( mission_type_id type, int npc_id );
+    static mission* reserve_random( mission_origin origin, point p, int npc_id );
     /**
      * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
      * id exists.

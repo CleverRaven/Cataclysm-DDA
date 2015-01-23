@@ -3081,8 +3081,8 @@ void talk_function::clear_mission(npc *p)
     const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
     p->chatbin.missions_assigned.erase( it );
     if (miss->follow_up != MISSION_NULL) {
-        const auto missid = mission::reserve_new( miss->follow_up, p->getID() );
-        p->chatbin.missions.push_back( mission::find( missid ) );
+        const auto mission = mission::reserve_new( miss->follow_up, p->getID() );
+        p->chatbin.missions.push_back( mission );
     }
 }
 
@@ -3314,10 +3314,9 @@ void talk_function::player_weapon_drop(npc *p)
 
 void talk_function::lead_to_safety(npc *p)
 {
-    const auto mission_id = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
-    const auto miss = mission::find( mission_id );
-    miss->assign( g->u );
-    const point target = miss->target;
+    const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
+    mission->assign( g->u );
+    const point target = mission->target;
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;

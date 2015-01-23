@@ -30,11 +30,11 @@ mission mission_type::create( const int npc_id ) const
 
 std::vector<mission> mission::active_missions;
 
-int mission::reserve_new( const mission_type_id type, const int npc_id )
+mission* mission::reserve_new( const mission_type_id type, const int npc_id )
 {
     const mission tmp = mission_type::get( type )->create( npc_id );
     active_missions.push_back( tmp );
-    return tmp.uid;
+    return &active_missions.back();
 }
 
 mission *mission::find( int id )
@@ -133,11 +133,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-int mission::reserve_random( const mission_origin origin, const point p, const int npc_id )
+mission* mission::reserve_random( const mission_origin origin, const point p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
     if( type == MISSION_NULL ) {
-        return -1;
+        return nullptr;
     }
     return mission::reserve_new( type, npc_id );
 }
