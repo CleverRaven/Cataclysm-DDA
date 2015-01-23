@@ -258,6 +258,9 @@ void mattack::pull_metal_weapon(monster *z, int index)
     // attack movement costs
     constexpr int att_cost_pull = 150;
 
+    // minimum str to resist "pull_metal_weapon"
+    constexpr int min_str = 4;
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return;
@@ -271,12 +274,29 @@ void mattack::pull_metal_weapon(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
-            auto m_type = foe == &g->u ? m_bad : m_neutral;
-            target->add_msg_player_or_npc( m_type, _("%s is pulled away from your hands!"),
-                                                   _("%s is pulled away from <npcname>'s hands!"), foe->weapon.tname().c_str() );
-            z->add_item(foe->remove_weapon());
+            int wp_skill = 0;
+            if ( foe->weapon.is_gun() ) {
+                wp_skill = foe->skillLevel("gun");
+            } else if ( foe->weapon.is_cutting_weapon() ) {
+                wp_skill = foe->skillLevel("cutting");
+            } else if ( foe->weapon.is_bashing_weapon() ) {
+                wp_skill = foe->skillLevel("bashing");
+            }
             z->moves -= att_cost_pull;   // It takes a while
             z->reset_special(index); // Reset timer
+            int success = 100;
+            if ( foe->str_cur > min_str ) {
+                success = std::max(100 - (6 * (foe->str_cur - 6)) - (6 * wp_skill), 0);
+            }
+            auto m_type = foe == &g->u ? m_bad : m_neutral;
+            if ( rng(1, 100) <= success ) {
+                target->add_msg_player_or_npc( m_type, _("%s is pulled away from your hands!"),
+                                                       _("%s is pulled away from <npcname>'s hands!"), foe->weapon.tname().c_str() );
+                z->add_item(foe->remove_weapon());
+            } else {
+                target->add_msg_player_or_npc( m_type, _("The %s unsuccessfully attempts to pull your weapon away."),
+                                                       _("The %s unsuccessfully attempts to pull <npcname>'s weapon away."), z->name().c_str() );
+            }
         }
     }
 }
