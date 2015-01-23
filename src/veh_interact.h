@@ -7,6 +7,7 @@
 #include "input.h"
 
 #define DUCT_TAPE_USED 100
+#define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
@@ -69,9 +70,12 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
+        bool has_hammer;
+        bool has_nailgun;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
+        bool has_nails;
         bool has_hacksaw;
         bool has_jack;
         bool has_siphon;

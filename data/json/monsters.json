@@ -5815,7 +5815,7 @@
     "luminance":0,
     "hp":85,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 20]],
+    "special_attacks":[["PULL_METAL_WEAPON", 25], ["BITE", 20]],
     "description":"Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES"]
     },{

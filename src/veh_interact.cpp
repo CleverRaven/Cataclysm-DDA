@@ -314,6 +314,8 @@ void veh_interact::cache_tool_availability()
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
     has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
+    has_hammer = crafting_inv.has_items_with_quality( "HAMMER", 1, 1 );
+    has_nailgun = crafting_inv.has_tools("nailgun", 1);
     has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
@@ -336,6 +338,7 @@ void veh_interact::cache_tool_availability()
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
+    has_nails = crafting_inv.has_charges("nail", NAILS_USED);
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
@@ -500,6 +503,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
+    bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     std::string engine_string = "";
     if (!drive_conflict){
@@ -509,7 +513,20 @@ bool veh_interact::can_install_part(int msg_width){
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
-        if (is_wrenchable){
+        if (is_wood) {
+            werase (w_msg);
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                           has_comps ? "ltgreen" : "red",
+                           item::nname( itm ).c_str(),
+                           has_hammer ? "ltgreen" : "red",
+                           has_nailgun ? "ltgreen" : "red",
+                           has_nails ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red",
+                           sel_vpart_info->difficulty,
+                           engine_string.c_str());
+            wrefresh (w_msg);
+        } else if (is_wrenchable){
             werase (w_msg);
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
@@ -546,7 +563,7 @@ bool veh_interact::can_install_part(int msg_width){
                            engine_string.c_str());
             wrefresh (w_msg);
         }
-        if (has_comps && (has_tools || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
+        if (has_comps && (has_tools || (is_wood && (has_hammer || has_nailgun) && has_nails) || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
             return true;
         }
     }
@@ -916,6 +933,7 @@ void veh_interact::do_refill()
 bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_width){
     werase (w_msg);
     if (veh->can_unmount(veh_part_index)) {
+        bool is_wood = veh->part_flag(veh_part_index, "NAILABLE");
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") ||
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
@@ -924,7 +942,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
             skill_req = veh->part_info(veh_part_index).difficulty;
-        } else if (is_wrenchable ||is_hand_remove) {
+        } else if (is_wrenchable || is_hand_remove || is_wood) {
             skill_req = 1;
         } else {
             skill_req = 2;
@@ -934,7 +952,13 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         if (mech_skill >= skill_req) has_skill = true;
 
         //print necessary materials
-        if (is_wrenchable) {
+        if(is_wood) {
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>hammer</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
+                           has_hammer ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
+        } else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
@@ -965,6 +989,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         if (has_skill && ((is_wheel && has_wrench && has_jack) ||
                             (is_wrenchable && has_wrench) ||
                             (is_hand_remove) ||
+                            (is_wood && has_hammer) ||
                             ((!is_wheel) && has_wrench && has_hacksaw) )) {
             return true;
         }
@@ -1985,14 +2010,19 @@ void complete_vehicle ()
     vehicle *fillv = NULL;
 
     bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
+    bool is_wood = vehicle_part_types[part_id].has_flag("NAILABLE");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
     case 'i':
+        if(is_wood) {
+            tools.push_back(tool_comp("nail", NAILS_USED));
+            g->u.consume_tools(tools);
+        }
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove){
+        else if (!is_wrenchable && !is_hand_remove){
             if (has_goggles) {
                 // Need welding goggles to use any of these tools,
                 // without the goggles one _must_ use the duct tape
@@ -2048,7 +2078,7 @@ void complete_vehicle ()
                  vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
+            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + (is_wood ? 10 : 20) );
         }
         break;
     case 'r':
@@ -2087,12 +2117,18 @@ void complete_vehicle ()
     case 'o':
         // Only parts that use charges
         if (!is_wrenchable && !is_hand_remove && !is_wheel){
-            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
+            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) && (is_wood && !crafting_inv.has_items_with_quality("HAMMER", 1, 1))) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
                 g->u.consume_tools(tools);
             }
         }
+        // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
+        /*if(is_wood && crafting_inv.has_items_with_quality("HAMMER", 1, 1)) {
+            item return_nails("nail");
+            return_nails.charges = 10;
+            g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
+        }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
             g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
@@ -2112,7 +2148,7 @@ void complete_vehicle ()
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
-                g->u.practice ( "mechanics", 2 * 5 + 20 );
+                g->u.practice ("mechanics", is_wood ? 15 : 30);
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
