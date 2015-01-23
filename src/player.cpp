@@ -943,6 +943,7 @@ void player::update_bodytemp()
         // Produces a smooth curve between 30.0 and 60.0.
         float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
+        int clothing_warmth_adjusted_bonus = homeostasis_adjustement * bonus_warmth(body_part(i));
         // WINDCHILL
 
         bp_windpower = (float)bp_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
@@ -1296,8 +1297,8 @@ void player::update_bodytemp()
             }
         }
 
-        int temp_before = temp_cur[i];
-        int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
+        int temp_before = temp_cur[i];        
+        int temp_difference = temp_before - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
         int rounding_error = 0;
@@ -1307,6 +1308,20 @@ void player::update_bodytemp()
         }
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+        }
+        // This statement checks if we should be wearing our bonus warmth. 
+        // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
+        if (clothing_warmth_adjusted_bonus != 0 && 
+            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {            
+            temp_conv[i] += clothing_warmth_adjusted_bonus;
+            rounding_error = 0;            
+            if( temp_difference < 0 && temp_difference > -600 ) {
+                rounding_error = 1;
+            }
+            if( temp_before != temp_conv[i] ) {
+                temp_difference = temp_before - temp_conv[i];
+                temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+            }
         }
         int temp_after = temp_cur[i];
         // PENALTIES
@@ -12107,38 +12122,9 @@ int player::get_wind_resistance(body_part bp) const
     return totalCoverage;
 }
 
-int bestwarmth( const std::vector< item > &its, const std::string &flag )
-{
-    int best = 0;
-    for( auto &w : its ) {
-        if( w.has_flag( flag ) && w.get_warmth() > best ) {
-            best = w.get_warmth();
-        }
-    }
-    return best;
-}
-
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
-
-    // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 &&
-        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
-        ret += bestwarmth( worn, "POCKETS" );
-    }
-
-    // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bp_head && encumb( bp_head ) < 1 &&
-        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
-        ret += bestwarmth( worn, "HOOD" );
-    }
-
-    // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bp_mouth && encumb( bp_mouth ) < 1 &&
-        ( temp_conv[bp] <= BODYTEMP_NORM || temp_cur[bp] <= BODYTEMP_COLD ) ) {
-        ret += bestwarmth( worn, "COLLAR" );
-    }
 
     for (auto &i : worn) {
         if( i.covers( bp ) ) {
@@ -12152,6 +12138,39 @@ int player::warmth(body_part bp) const
             ret += warmth;
         }
     }
+    return ret;
+}
+
+int bestwarmth( const std::vector< item > &its, const std::string &flag )
+{
+    int best = 0;
+    for( auto &w : its ) {
+        if( w.has_flag( flag ) && w.get_warmth() > best ) {
+            best = w.get_warmth();
+        }
+    }
+    return best;
+}
+
+int player::bonus_warmth(body_part bp) const
+{
+    int ret = 0;
+
+    // If the player is not wielding anything big, check if hands can be put in pockets
+    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 ) {
+        ret += bestwarmth( worn, "POCKETS" );
+    }
+
+    // If the player's head is not encumbered, check if hood can be put up
+    if( bp == bp_head && encumb( bp_head ) < 1 ) {
+        ret += bestwarmth( worn, "HOOD" );
+    }
+
+    // If the player's mouth is not encumbered, check if collar can be put up
+    if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
+        ret += bestwarmth( worn, "COLLAR" );
+    }
+    
     return ret;
 }
 

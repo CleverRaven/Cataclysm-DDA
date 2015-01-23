@@ -716,6 +716,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;
+        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
+        int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
         /** Returns warmth provided by armor, etc., factoring in layering */
