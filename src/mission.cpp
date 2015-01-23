@@ -98,7 +98,13 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     npc *p = dynamic_cast<npc *>( &poor_dead_dude );
     if( p == nullptr ) {
         // Must be the player
-        // TODO: mark mission as failed or mark it as unused (free to be given again)
+        for( auto &miss : g->u.get_active_missions() ) {
+            // mission is free and can be reused
+            miss->player_id = -1;
+        }
+        // The missions remains assigned to the (dead) character. This should not cause any problems
+        // as the character is dismissed anyway.
+        // Technically, the active missions could be moved to the failed mission section.
         return;
     }
     const auto dead_guys_id = p->getID();

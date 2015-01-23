@@ -407,6 +407,19 @@ void npc::talk_to_u()
     d.alpha = &g->u;
     d.beta = this;
 
+    // Look for missions that were assigned, but have been de-assigned (player character died),
+    // move them back into the available mission vector.
+    // TODO: or simply fail them? Some missions might only need to be reported.
+    for( auto it = chatbin.missions_assigned.begin(); it != chatbin.missions_assigned.end(); ) {
+        const auto miss = mission::find( *it );
+        if( miss->player_id == -1 ) {
+            chatbin.missions.push_back( *it );
+            it = chatbin.missions_assigned.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
     d.missions_assigned = mission::to_ptr_vector( chatbin.missions_assigned );
     for( auto it = d.missions_assigned.begin(); it != d.missions_assigned.end(); ) {
         if( ( *it )->player_id != g->u.getID() ) {
