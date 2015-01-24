@@ -174,15 +174,15 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             }
             if (!valid.empty()) {
                 jk = valid[rng(0, valid.size() - 1)];
-                n->posx = jk.x;
-                n->posy = jk.y;
+                n->setx( jk.x );
+                n->sety( jk.y );
             }
             n->moves -= 150;
             if (rng(5, 20) > n->dex_cur) {
                 n->hurtall(rng(1, 4));
             }
             if (c == &g->u) {
-                g->update_map(g->u.posx, g->u.posy);
+                g->update_map(&g->u);
             }
         }
     }
@@ -845,8 +845,8 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                     g->u.skillLevel("unarmed") + g->u.str_cur) > 4) {
                 // Determine safe places for the character to get pulled to
                 std::vector<point> safe;
-                for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                    for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
+                for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                    for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
                         if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
                             safe.push_back(point(i, j));
                         }
@@ -855,32 +855,32 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                 if (safe.empty()) {
                     add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                     g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                     int index = rng(0, safe.size() - 1);
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                    g->u.posx = safe[index].x;
-                    g->u.posy = safe[index].y;
-                    g->update_map(g->u.posx, g->u.posy);
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                    g->u.setx( safe[index].x );
+                    g->u.sety( safe[index].y );
+                    g->update_map(&g->u);
                 }
             } else {
                 add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                 g->u.moves -= 100;
                 g->u.use_amount("grapnel", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             }
         } else {
             add_msg(m_bad, _("Your throw misses completely, and you sink!"));
             if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                 g->u.use_amount("grapnel", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
             }
-            g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+            g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
             g->vertical_move(-1, true);
         }
     } else if(g->u.has_amount("bullwhip", 1) &&
@@ -890,7 +890,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
 
             if(whiproll < 8) {
                 add_msg(m_bad, _("Your whip flails uselessly through the air!"));
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             } else {
                 add_msg(m_good, _("Your whip wraps around something!"));
@@ -898,14 +898,14 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                     add_msg(m_bad, _("But you're too weak to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("bullwhip", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "bullwhip");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     // Determine safe places for the character to get pulled to
                     std::vector<point> safe;
-                    for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                        for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
+                    for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                        for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
                             if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
                                 safe.push_back(point(i, j));
                             }
@@ -914,16 +914,16 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                     if (safe.empty()) {
                         add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                         g->u.use_amount("bullwhip", 1);
-                        g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
-                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                        g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "bullwhip");
+                        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                         g->vertical_move(-1, true);
                     } else {
                         add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                         int index = rng(0, safe.size() - 1);
-                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                        g->u.posx = safe[index].x;
-                        g->u.posy = safe[index].y;
-                        g->update_map(g->u.posx, g->u.posy);
+                        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                        g->u.setx( safe[index].x );
+                        g->u.sety( safe[index].y );
+                        g->update_map(&(g->u));
                     }
                 }
             }
@@ -937,8 +937,8 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                     g->u.skillLevel("unarmed") + g->u.str_cur) > 6) {
                 // Determine safe places for the character to get pulled to
                 std::vector<point> safe;
-                for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                    for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
+                for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                    for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
                         if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
                             safe.push_back(point(i, j));
                         }
@@ -947,37 +947,37 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                 if (safe.empty()) {
                     add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                     g->u.use_amount("rope_30", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                     int index = rng(0, safe.size() - 1);
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                    g->u.posx = safe[index].x;
-                    g->u.posy = safe[index].y;
-                    g->update_map(g->u.posx, g->u.posy);
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                    g->u.setx( safe[index].x );
+                    g->u.sety( safe[index].y );
+                    g->update_map(&(g->u));
                 }
             } else {
                 add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                 g->u.moves -= 100;
                 g->u.use_amount("rope_30", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             }
         } else {
             add_msg(m_bad, _("Your throw misses completely, and you sink!"));
             if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                 g->u.use_amount("rope_30", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
             }
-            g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+            g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
             g->vertical_move(-1, true);
         }
     } else {
         add_msg(m_bad, _("You sink into the sinkhole!"));
-        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
         g->vertical_move(-1, true);
     }
 }
@@ -1102,14 +1102,14 @@ void trapfunc::shadow(Creature *c, int x, int y)
     int tries = 0, monx, mony, junk;
     do {
         if (one_in(2)) {
-            monx = rng(g->u.posx - 5, g->u.posx + 5);
-            mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+            monx = rng(g->u.posx() - 5, g->u.posx() + 5);
+            mony = (one_in(2) ? g->u.posy() - 5 : g->u.posy() + 5);
         } else {
-            monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
-            mony = rng(g->u.posy - 5, g->u.posy + 5);
+            monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
+            mony = rng(g->u.posy() - 5, g->u.posy() + 5);
         }
     } while (tries < 5 && !g->is_empty(monx, mony) &&
-             !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+             !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
     if (tries < 5) {
         add_msg(m_warning, _("A shadow forms nearby."));
@@ -1153,14 +1153,14 @@ void trapfunc::snake(Creature *c, int x, int y)
         // This spawns snakes only when the player can see them, why?
         do {
             if (one_in(2)) {
-                monx = rng(g->u.posx - 5, g->u.posx + 5);
-                mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+                monx = rng(g->u.posx() - 5, g->u.posx() + 5);
+                mony = (one_in(2) ? g->u.posy() - 5 : g->u.posy() + 5);
             } else {
-                monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
-                mony = rng(g->u.posy - 5, g->u.posy + 5);
+                monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
+                mony = rng(g->u.posy() - 5, g->u.posy() + 5);
             }
         } while (tries < 5 && !g->is_empty(monx, mony) &&
-                 !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+                 !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
         if (tries < 5) {
             add_msg(m_warning, _("A shadowy snake forms nearby."));

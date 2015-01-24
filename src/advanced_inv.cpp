@@ -57,8 +57,8 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
 
-    uistate.adv_inv_last_coords.x = g->u.posx;
-    uistate.adv_inv_last_coords.y = g->u.posy;
+    uistate.adv_inv_last_coords.x = g->u.posx();
+    uistate.adv_inv_last_coords.y = g->u.posy();
     uistate.adv_inv_leftarea = panes[left].area;
     uistate.adv_inv_rightarea = panes[right].area;
     uistate.adv_inv_leftindex = panes[left].index;
@@ -461,14 +461,14 @@ int advanced_inv_area::get_item_count() const
     } else if( veh != nullptr ) {
         return veh->get_items(vstor).size();
     } else {
-        return g->m.i_at( g->u.posx + offx, g->u.posy + offy ).size();
+        return g->m.i_at( g->u.posx() + offx, g->u.posy() + offy ).size();
     }
 }
 
 void advanced_inv_area::init()
 {
-    x = g->u.posx + offx;
-    y = g->u.posy + offy;
+    x = g->u.posx() + offx;
+    y = g->u.posy() + offy;
     veh = nullptr;
     vstor = -1;
     volume = 0; // must update in main function
@@ -483,8 +483,8 @@ void advanced_inv_area::init()
                 desc = _( "Not dragging any vehicle" );
                 break;
             }
-            x = g->u.posx + g->u.grab_point.x;
-            y = g->u.posy + g->u.grab_point.y;
+            x = g->u.posx() + g->u.grab_point.x;
+            y = g->u.posy() + g->u.grab_point.y;
             veh = g->m.veh_at( x, y, vstor );
             if( veh ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
@@ -523,7 +523,7 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            veh = g->m.veh_at( g->u.posx + offx, g->u.posy + offy, vstor );
+            veh = g->m.veh_at( g->u.posx() + offx, g->u.posy() + offy, vstor );
             if( veh ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
             }
@@ -534,11 +534,11 @@ void advanced_inv_area::init()
                 max_volume = veh->max_volume( vstor );
             } else {
                 veh = nullptr;
-                canputitemsloc = g->m.can_put_items( g->u.posx + offx, g->u.posy + offy );
+                canputitemsloc = g->m.can_put_items( g->u.posx() + offx, g->u.posy() + offy );
                 max_size = MAX_ITEM_IN_SQUARE;
-                max_volume = g->m.max_volume( g->u.posx + offx, g->u.posy + offy );
-                if( g->m.has_graffiti_at( g->u.posx + offx, g->u.posy + offy ) ) {
-                    desc = g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy );
+                max_volume = g->m.max_volume( g->u.posx() + offx, g->u.posy() + offy );
+                if( g->m.has_graffiti_at( g->u.posx() + offx, g->u.posy() + offy ) ) {
+                    desc = g->m.graffiti_at( g->u.posx() + offx, g->u.posy() + offy );
                 }
             }
             break;
@@ -568,8 +568,8 @@ void advanced_inventory::init()
     panes[right].sortby = ( advanced_inv_sortby ) uistate.adv_inv_rightsort;
     panes[left].area = ( aim_location ) uistate.adv_inv_leftarea;
     panes[right].area = ( aim_location ) uistate.adv_inv_rightarea;
-    bool moved = ( uistate.adv_inv_last_coords.x != g->u.posx ||
-                   uistate.adv_inv_last_coords.y != g->u.posy );
+    bool moved = ( uistate.adv_inv_last_coords.x != g->u.posx() ||
+                   uistate.adv_inv_last_coords.y != g->u.posy() );
     if( !moved ) {
         src = ( side ) uistate.adv_inv_src;
         dest = ( side ) uistate.adv_inv_dest;
@@ -974,7 +974,7 @@ bool advanced_inventory::move_all_items()
 
     if( spane.area == AIM_INVENTORY ) {
         g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = point( darea.x - g->u.xpos(), darea.y - g->u.ypos() );
+        g->u.activity.placement = point( darea.x - g->u.posx(), darea.y - g->u.posy() );
 
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
             const auto &stack = g->u.inv.const_stack( index );
@@ -995,10 +995,10 @@ bool advanced_inventory::move_all_items()
         } else { // Vehicle and map destinations are handled the same.
             g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
             // Stash the destination at the start of the values vector.
-            g->u.activity.values.push_back( darea.x - g->u.xpos() );
-            g->u.activity.values.push_back( darea.y - g->u.ypos() );
+            g->u.activity.values.push_back( darea.x - g->u.posx() );
+            g->u.activity.values.push_back( darea.y - g->u.posy() );
         }
-        g->u.activity.placement = point( sarea.x - g->u.xpos(), sarea.y - g->u.ypos() );
+        g->u.activity.placement = point( sarea.x - g->u.posx(), sarea.y - g->u.posy() );
 
         std::list<item>::iterator begin;
         std::list<item>::iterator end;
@@ -1486,7 +1486,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
     } else if( s.veh != nullptr ) {
         s.veh->remove_item( s.vstor, sitem.it );
     } else {
-        g->m.i_rem( g->u.posx + s.offx, g->u.posy + s.offy, sitem.it );
+        g->m.i_rem( g->u.posx() + s.offx, g->u.posy() + s.offy, sitem.it );
     }
 }
 
@@ -1824,8 +1824,8 @@ void advanced_inv_area::set_container_position()
             break;
     }
 
-    x = g->u.posx + offx;
-    y = g->u.posy + offy;
+    x = g->u.posx() + offx;
+    y = g->u.posy() + offy;
 
     veh = g->m.veh_at( x, y, vstor );
     if( veh ) {

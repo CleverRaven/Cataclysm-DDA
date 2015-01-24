@@ -293,8 +293,8 @@ void map::board_vehicle(int x, int y, player *p)
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
 
-    p->posx = x;
-    p->posy = y;
+    p->setx( x );
+    p->sety( y );
     p->in_vehicle = true;
     if (p == &g->u &&
         (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
@@ -312,7 +312,7 @@ void map::unboard_vehicle(const int x, const int y)
     if (!veh) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.xpos() == x && g->u.ypos() == y ) {
+        if( g->u.posx() == x && g->u.posy() == y ) {
             passenger = &(g->u);
         } else {
             int npcdex = g->npc_at( x, y );
@@ -441,7 +441,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
             debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
                          veh->global_x() + veh->parts[p].precalc[0].x,
                          veh->global_y() + veh->parts[p].precalc[0].y,
-                                  g->u.posx, g->u.posy);
+                                  g->u.posx(), g->u.posy());
             veh->parts[p].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
@@ -450,12 +450,12 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         // displace passenger taking in account vehicle movement (dx, dy)
         // and turning: precalc[0] contains previous frame direction,
         // and precalc[1] should contain next direction
-        psg->posx += dx + veh->parts[p].precalc[1].x - veh->parts[p].precalc[0].x;
-        psg->posy += dy + veh->parts[p].precalc[1].y - veh->parts[p].precalc[0].y;
+        psg->setx( psg->posx() + dx + veh->parts[p].precalc[1].x - veh->parts[p].precalc[0].x );
+        psg->sety( psg->posy() + dy + veh->parts[p].precalc[1].y - veh->parts[p].precalc[0].y );
         if (psg == &g->u) { // if passenger is you, we need to update the map
             need_update = true;
-            upd_x = psg->posx;
-            upd_y = psg->posy;
+            upd_x = psg->posx();
+            upd_y = psg->posy();
         }
     }
 
@@ -972,7 +972,7 @@ bool map::vehproceed()
     }
     // If the PC is in the currently moved vehicle, adjust the
     // view offset.
-    if (g->u.controlling_vehicle && veh_at(g->u.posx, g->u.posy) == veh) {
+    if (g->u.controlling_vehicle && veh_at(g->u.posx(), g->u.posy()) == veh) {
         g->calc_driving_offset(veh);
     }
     // redraw scene
@@ -1737,7 +1737,7 @@ void map::create_spores(const int x, const int y, Creature* source)
                     if( !critter.make_fungus() ) {
                         critter.die( source ); // counts as kill by player
                     }
-                } else if (g->u.posx == i && g->u.posy == j) {
+                } else if (g->u.posx() == i && g->u.posy() == j) {
                     // Spores hit the player
                     bool hit = false;
                     if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
@@ -1874,10 +1874,11 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
         if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED)) {
             g->sound(x, y, 40, _("an alarm go off!"));
             // if the player is nearby blame him/her
-            if (rl_dist(g->u.posx, g->u.posy, x, y) <= 3) {
+            if( rl_dist( g->u.posx(), g->u.posy(), x, y ) <= 3 ) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0,
+                             g->get_abs_levx(), g->get_abs_levy());
             }
         }
 
@@ -2143,7 +2144,7 @@ void map::crush(const int x, const int y)
     player *crushed_player = nullptr;
     //The index of the NPC at (x,y), or -1 if there isn't one
     int npc_index = g->npc_at(x, y);
-    if( g->u.posx == x && g->u.posy == y ) {
+    if( g->u.posx() == x && g->u.posy() == y ) {
         crushed_player = &(g->u);
     } else if( npc_index != -1 ) {
         crushed_player = static_cast<player *>(g->active_npc[npc_index]);
@@ -2736,7 +2737,7 @@ bool map::could_see_items(int x, int y, const player &u)
     if (container) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return (abs(x - u.posx) <= 1 && abs(y - u.posy) <= 1);
+        return (abs(x - u.posx()) <= 1 && abs(y - u.posy()) <= 1);
     }
     return true;
 }
@@ -3808,7 +3809,7 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
         // This is the spirit of "fd_null" that it used to be.
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
-    if(g != NULL && this == &g->m && p.x == g->u.posx && p.y == g->u.posy) {
+    if(g != NULL && this == &g->m && p.x == g->u.posx() && p.y == g->u.posy()) {
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
     return true;
@@ -3923,7 +3924,7 @@ void map::draw(WINDOW* w, const point center)
 
  for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
-   const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
+   const int dist = rl_dist(g->u.posx(), g->u.posy(), realx, realy);
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
    // While viewing indoor areas use lightmap model
@@ -4006,9 +4007,9 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     if (!INBOUNDS(x, y))
         return; // Out of bounds
     if (cx == -1)
-        cx = u.posx;
+        cx = u.posx();
     if (cy == -1)
-        cy = u.posy;
+        cy = u.posy();
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
@@ -4537,8 +4538,8 @@ void map::shift(const int sx, const int sy)
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {
-        g->u.posx -= sx * SEEX;
-        g->u.posy -= sy * SEEY;
+        g->u.setx( g->u.posx() - sx * SEEX );
+        g->u.sety( g->u.posy() - sy * SEEY );
     }
 
     // Forget about traps in submaps that are being unloaded.
@@ -4912,7 +4913,7 @@ void map::spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight )
                 continue; // solid area, impassable
             }
             int t;
-            if( !ignore_sight && sees( g->u.posx, g->u.posy, fx, fy, s_range, t ) ) {
+            if( !ignore_sight && sees( g->u.posx(), g->u.posy(), fx, fy, s_range, t ) ) {
                 continue; // monster must spawn outside the viewing range of the player
             }
             if( has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) ) {

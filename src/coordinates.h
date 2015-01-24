@@ -11,7 +11,7 @@
  * 'absolute' is defined as the -actual- submap x,y * 12 + position in submap, and
  * can be obtained from map.getabs(x, y);
  *   usage:
- *    real_coords rc( g->m.getabs(g->u.posx, g->u.posy ) );
+ *    real_coords rc( g->m.getabs(g->u.posx(), g->u.posy() ) );
  */
 struct real_coords {
     static const int tiles_in_sub = SEEX;

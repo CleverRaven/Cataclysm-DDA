@@ -48,7 +48,7 @@ void player::activate_mutation( std::string mut )
     }
 
     if( traits[mut].id == "WEB_WEAVER" ) {
-        g->m.add_field(posx, posy, fd_web, 1);
+        g->m.add_field(posx(), posy(), fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
     } else if (traits[mut].id == "BURROW"){
         if (g->u.is_underwater()) {
@@ -62,7 +62,7 @@ void player::activate_mutation( std::string mut )
             return;
         }
 
-        if (dirx == g->u.posx && diry == g->u.posy) {
+        if (dirx == g->u.posx() && diry == g->u.posy()) {
             add_msg_if_player(_("You've got places to go and critters to beat."));
             add_msg_if_player(_("Let the lesser folks eat their hearts out."));
             traits[mut].powered = false;
@@ -90,8 +90,8 @@ void player::activate_mutation( std::string mut )
         return; // handled when the activity finishes
     } else if (traits[mut].id == "SLIMESPAWNER") {
         std::vector<point> valid;
-        for (int x = posx - 1; x <= posx + 1; x++) {
-            for (int y = posy - 1; y <= posy + 1; y++) {
+        for (int x = posx() - 1; x <= posx() + 1; x++) {
+            for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
                     valid.push_back( point(x, y) );
                 }
@@ -125,15 +125,15 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT1") {
-        g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
+        g->sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT2"){
-        g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
+        g->sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT3"){
-        g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        g->sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         traits[mut].powered = false;
         return;
     } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
@@ -152,10 +152,10 @@ void player::activate_mutation( std::string mut )
         item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(posx, posy, newit);
+            g->m.add_item_or_charges(posx(), posy(), newit);
         } else if (!can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(posx, posy, newit);
+            g->m.add_item_or_charges(posx(), posy(), newit);
         } else {
             inv.assign_empty_invlet(newit);
             newit = i_add(newit);
@@ -1284,7 +1284,7 @@ void mutation_effect(player &p, std::string mut)
                     }
 
                     int pos = player::worn_position_to_index(i);
-                    g->m.add_item_or_charges(p.posx, p.posy, p.worn[i]);
+                    g->m.add_item_or_charges(p.posx(), p.posy(), p.worn[i]);
                     p.i_rem(pos);
                 }
                 // Reset to the start of the vector
