@@ -1068,7 +1068,7 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("name")) {
         JsonArray jsarr = jo.get_array("name");
         while (jsarr.has_more()) {
-            new_etype.name.push_back(jsarr.next_string().c_str());
+            new_etype.name.push_back(jsarr.next_string());
         }
     } else {
         new_etype.name.push_back("");
@@ -1078,7 +1078,7 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("desc")) {
         JsonArray jsarr = jo.get_array("desc");
         while (jsarr.has_more()) {
-            new_etype.desc.push_back(jsarr.next_string().c_str());
+            new_etype.desc.push_back(jsarr.next_string());
         }
     } else {
         new_etype.desc.push_back("");
@@ -1086,12 +1086,12 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("reduced_desc")) {
         JsonArray jsarr = jo.get_array("reduced_desc");
         while (jsarr.has_more()) {
-            new_etype.reduced_desc.push_back(jsarr.next_string().c_str());
+            new_etype.reduced_desc.push_back(jsarr.next_string());
         }
     } else if (jo.has_member("desc")) {
         JsonArray jsarr = jo.get_array("desc");
         while (jsarr.has_more()) {
-            new_etype.reduced_desc.push_back(jsarr.next_string().c_str());
+            new_etype.reduced_desc.push_back(jsarr.next_string());
         }
     } else {
         new_etype.reduced_desc.push_back("");
