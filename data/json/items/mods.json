@@ -851,7 +851,7 @@
         "volume" : 1,
         "bashing" : 0,
         "cutting" : 0,
-        "price" : 68000
+        "price" : 5000
     },
     {
         "type" : "GUNMOD",
@@ -869,7 +869,26 @@
         "volume" : 2,
         "bashing" : 0,
         "cutting" : 0,
-        "price" : 28000,
+        "price" : 4000,
+        "skill_required": 1
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "arrowrest",
+        "name" : "arrow rest",
+        "dispersion_modifier" : -20,
+        "description" : "A small extension above the grip which an arrow rests upon while being aimed.  Improves accuracy with no drawbacks.",
+        "location": "accessories",
+        "weight" : 16,
+        "to_hit" : -1,
+        "color" : "dark_gray",
+        "symbol" : ":",
+        "material" : ["plastic", "aluminum"],
+        "mod_targets" : ["bow"],
+        "volume" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 4000,
         "skill_required": 1
     },
     {
