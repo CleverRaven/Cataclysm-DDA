@@ -536,7 +536,60 @@ int player::create(character_type type, std::string tempname)
          iter != prof_traits.end(); ++iter) {
          g->u.toggle_trait(*iter);
     }
-
+    // These go here so it actually checks for your trait before asking you to pick
+    if (has_trait("PROF_MA_ORANGE")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Muay Thai"),
+                              _("Tai Chi"), _("Taekwondo"), NULL);
+            if (choice == 1) {
+                ma_type = "style_karate";
+            } else if (choice == 2) {
+                ma_type = "style_judo";
+            } else if (choice == 3) {
+                ma_type = "style_muay_thai";
+            } else if (choice == 4) {
+                ma_type = "style_tai_chi";
+            } else { // choice == 5
+                ma_type = "style_taekwondo";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description, PF_NONE);
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
+    if (has_trait("PROF_MA_BLACK")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
+                              _("Tai Chi"), _("Taekwondo"), _("Zui Quan"), _("Muay Thai"), NULL);
+            if (choice == 1) {
+                ma_type = "style_karate";
+            } else if (choice == 2) {
+                ma_type = "style_judo";
+            } else if (choice == 3) {
+                ma_type = "style_aikido";
+            } else if (choice == 4) {
+                ma_type = "style_tai_chi";
+            } else if (choice == 5) {
+                ma_type = "style_taekwondo";
+            } else if (choice == 6) {
+                ma_type = "style_zui_quan";
+            } else if (choice == 7) {
+                ma_type = "style_muay_thai";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description, PF_NONE);
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
+    
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);

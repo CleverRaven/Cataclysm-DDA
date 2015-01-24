@@ -4320,6 +4320,24 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_MA_ORANGE",
+        "name" : "Martial Artist",
+        "points" : 0,
+        "description" : "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really were.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MA_BLACK",
+        "name" : "Black Belt",
+        "points" : 0,
+        "description" : "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,
