@@ -64,12 +64,12 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     return ret;
 }
 
-std::vector<point> line_to( const point p1, const point p2, const int t )
+std::vector<point> line_to( const point &p1, const point &p2, const int t )
 {
     return line_to( p1.x, p1.y, p2.x, p2.y, t );
 }
 
-std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2)
+std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2)
 {
     std::vector<tripoint> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -189,7 +189,7 @@ int trig_dist(const int x1, const int y1, const int x2, const int y2)
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-int trig_dist(const tripoint loc1, const tripoint loc2)
+int trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
     return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
                      ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
@@ -201,7 +201,7 @@ int square_dist(const int x1, const int y1, const int x2, const int y2)
     return square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-int square_dist(const tripoint loc1, const tripoint loc2)
+int square_dist(const tripoint &loc1, const tripoint &loc2)
 {
     const int dx = abs(loc1.x - loc2.x);
     const int dy = abs(loc1.y - loc2.y);
@@ -215,12 +215,12 @@ int rl_dist(const int x1, const int y1, const int x2, const int y2)
     return rl_dist(tripoint(x1, y1, 0), tripoint (x2, y2, 0));
 }
 
-int rl_dist(const point a, const point b)
+int rl_dist(const point &a, const point &b)
 {
     return rl_dist(tripoint(a.x, a.y, 0), tripoint(b.x, b.y, 0));
 }
 
-int rl_dist(const tripoint loc1, const tripoint loc2)
+int rl_dist(const tripoint &loc1, const tripoint &loc2)
 {
     if(trigdist) {
         return trig_dist(loc1, loc2);
@@ -284,7 +284,7 @@ direction direction_from(int x1, int y1, int x2, int y2)
     return direction_from(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-direction direction_from(const tripoint loc1, const tripoint loc2)
+direction direction_from(const tripoint &loc1, const tripoint &loc2)
 {
     int dx = loc2.x - loc1.x;
     int dy = loc2.y - loc1.y;
