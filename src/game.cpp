@@ -4157,6 +4157,9 @@ struct centroid
     float weight;
 };
 
+// Predeclare clustering function so debug can use it.
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> recent_sounds );
+
 #include "savegame.h"
 void game::debug()
 {
@@ -4184,8 +4187,11 @@ void game::debug()
                       _("Display hordes"), // 20
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
+#ifndef TILES
+                      _("Show Sound Clustering"), //23
+#endif
 #ifdef LUA
-                      _("Lua Command"), // 23
+                      _("Lua Command"), // 24
 #endif
                       _("Cancel"),
                       NULL);
@@ -4573,8 +4579,26 @@ void game::debug()
     }
     break;
 
-#ifdef LUA
+#ifndef TILES
     case 23: {
+        auto sound_clusters = cluster_sounds( recent_sounds );
+        const int offset_y = POSY - u.posy() + u.view_offset_y;
+        const int offset_x = POSX - u.posx() + u.view_offset_x;
+        draw_ter();
+        for( const auto &sound : recent_sounds ) {
+            mvwputch(w_terrain, offset_y + sound.first.y, offset_x + sound.first.x, c_yellow, '?');
+        }
+        for( const auto &sound : sound_clusters ) {
+            mvwputch(w_terrain, offset_y + sound.y, offset_x + sound.x, c_red, '?');
+        }
+        wrefresh(w_terrain);
+        getch();
+    }
+    break;
+#endif
+
+#ifdef LUA
+    case 24: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
