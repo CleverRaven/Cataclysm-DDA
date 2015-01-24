@@ -6373,6 +6373,28 @@
   },
 
   {
+    "id": "makeshift_sealer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "makeshift vacuum sealer",
+    "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
+    "price": 1000,
+    "material": ["aluminum", "plastic"],
+    "weight": 3218,
+    "volume": 8,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null"
+  },
+
+  {
     "id": "bag_meat_vac",
     "type": "GENERIC",
     "symbol": "%",
