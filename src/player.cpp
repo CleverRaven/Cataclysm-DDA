@@ -4498,7 +4498,7 @@ bool player::has_pda()
     static bool pda = false;
     if ( !pda_cached ) {
       pda_cached = true;
-      pda = has_amount("pda", 1);
+      pda = has_amount("pda", 1)  + has_amount("pda_flashlight", 1);
     }
 
     return pda;
