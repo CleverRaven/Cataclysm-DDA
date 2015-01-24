@@ -596,7 +596,12 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
 
     std::set<std::string>::iterator it = death_flags.begin();
     for (; it != death_flags.end(); ++it) {
-        deaths.push_back(death_map[*it]);
+        if ( death_map.find(*it) != death_map.end() ) {
+            deaths.push_back(death_map[*it]);
+        } else {
+            debugmsg("death_map[\"%s\"] isn't defined in MonsterGenerator::init_death()",
+                     it->c_str());
+        }
     }
 
     if (deaths.empty()) {
@@ -613,8 +618,13 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-            m->sp_freq.push_back(inner.get_int(1));
+            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
+                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+                m->sp_freq.push_back(inner.get_int(1));
+            } else {
+                debugmsg("attack_map[\"%s\"] isn't defined in MonsterGenerator::init_attack()",
+                         inner.get_string(0).c_str());
+            }
         }
     }
 
@@ -627,8 +637,13 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
 void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
     if (jo.has_array(member)) {
         JsonArray jsarr = jo.get_array(member);
-        m->sp_defense = defense_map[jsarr.get_string(0)];
-        m->def_chance = jsarr.get_int(1);
+        if ( defense_map.find(jsarr.get_string(0)) != defense_map.end() ) {
+            m->sp_defense = defense_map[jsarr.get_string(0)];
+            m->def_chance = jsarr.get_int(1);
+        } else {
+            debugmsg("defense_map[\"%s\"] isn't defined in MonsterGenerator::init_defense",
+                     jsarr.get_string(0).c_str());
+        }
     }
 
     if (m->sp_defense == NULL) {
