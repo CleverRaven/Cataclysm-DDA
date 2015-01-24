@@ -399,8 +399,14 @@ std::string effect::disp_name() const
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
+        if(eff_type->name[intensity - 1] == "") {
+            return "";
+        }
         ret << _(eff_type->name[intensity - 1].c_str());
     } else {
+        if(eff_type->name[0] == "") {
+            return "";
+        }
         ret << _(eff_type->name[0].c_str());
         if (intensity > 1) {
             ret << " [" << intensity << "]";
@@ -591,7 +597,9 @@ std::string effect::disp_desc(bool reduced) const
             tmp_str = eff_type->desc[0];
         }
     }
-    ret << _(tmp_str.c_str());
+    if(tmp_str != "") {
+        ret << _(tmp_str.c_str());
+    }
 
     return ret.str();
 }
@@ -1060,7 +1068,7 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("name")) {
         JsonArray jsarr = jo.get_array("name");
         while (jsarr.has_more()) {
-            new_etype.name.push_back(_(jsarr.next_string().c_str()));
+            new_etype.name.push_back(jsarr.next_string().c_str());
         }
     } else {
         new_etype.name.push_back("");
@@ -1070,7 +1078,7 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("desc")) {
         JsonArray jsarr = jo.get_array("desc");
         while (jsarr.has_more()) {
-            new_etype.desc.push_back(_(jsarr.next_string().c_str()));
+            new_etype.desc.push_back(jsarr.next_string().c_str());
         }
     } else {
         new_etype.desc.push_back("");
@@ -1078,12 +1086,12 @@ void load_effect_type(JsonObject &jo)
     if(jo.has_member("reduced_desc")) {
         JsonArray jsarr = jo.get_array("reduced_desc");
         while (jsarr.has_more()) {
-            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+            new_etype.reduced_desc.push_back(jsarr.next_string().c_str());
         }
     } else if (jo.has_member("desc")) {
         JsonArray jsarr = jo.get_array("desc");
         while (jsarr.has_more()) {
-            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+            new_etype.reduced_desc.push_back(jsarr.next_string().c_str());
         }
     } else {
         new_etype.reduced_desc.push_back("");
