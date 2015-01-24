@@ -2263,6 +2263,9 @@
     [
       [ "scrap", 4 ]
     ],
+    [ 
+      [ "plastic_chunk", 2 ]
+    ],
     [
       [ "motor_small", 1 ]
     ],
