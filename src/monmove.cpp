@@ -125,7 +125,18 @@ void monster::plan(const mfactions &factions)
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
 
-    if( friendly != 0 && !docile ) { // Target unfriendly monsters
+    // If we can see the player, move toward them or flee.
+    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
+        dist = rate_target( g->u, bresenham_slope, electronic );
+        fleeing = fleeing || is_fleeing( g->u );
+        target = &g->u;
+        selected_slope = bresenham_slope;
+        if( dist <= 5 ) {
+            anger += angers_hostile_near;
+            morale -= fears_hostile_near;
+        }
+    } else if( friendly != 0 && !docile ) {
+        // Target unfriendly monsters, only if we aren't interacting with the player.
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
@@ -136,18 +147,6 @@ void monster::plan(const mfactions &factions)
                     selected_slope = bresenham_slope;
                 }
             }
-        }
-    }
-
-    // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
-        dist = rate_target( g->u, bresenham_slope, electronic );
-        fleeing = fleeing || is_fleeing( g->u );
-        target = &g->u;
-        selected_slope = bresenham_slope;
-        if( dist <= 5 ) {
-            anger += angers_hostile_near;
-            morale -= fears_hostile_near;
         }
     }
 
