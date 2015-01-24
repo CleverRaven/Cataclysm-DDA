@@ -5213,7 +5213,7 @@ int iuse::geiger(player *p, item *it, bool t, point pos)
             return it->type->charges_to_use();
         }
         g->sound( pos.x, pos.y, 6, "" );
-        if( p->is_deaf() || !p->can_hear( pos, 6 ) ) {
+        if( !p->can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return it->type->charges_to_use();
         }
@@ -6140,7 +6140,7 @@ void iuse::play_music( player *p, point source, int volume )
         }
     }
     g->ambient_sound( source.x, source.y, volume, sound );
-    if( !p->is_deaf() && !p->has_effect("music") && !p->can_hear( source, volume ) ) {
+    if( !p->has_effect("music") && !p->can_hear( source, volume ) ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
     }
