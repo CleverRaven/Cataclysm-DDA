@@ -2279,5 +2279,31 @@
         [ [ "RAM", 2 ] ],
         [ [ "plastic_chunk", 2 ] ]
     ]
+},{
+  "type" : "recipe",
+  "result": "vac_sealer",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "hose", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ]
+  ]
 }
 ]

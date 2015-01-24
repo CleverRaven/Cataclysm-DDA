@@ -1570,7 +1570,7 @@
   ],
   "components": [
     [ [ "frame", 1 ] ],
-    [ ["vac_sealer", 1] ],
+    [ ["vac_sealer", 1], ["makeshift_sealer", 1] ],
     [ [ "dehydrator", 1 ] ],
     [ [ "water_purifier", 1 ] ],
     [ [ "press", 1 ] ],
@@ -2241,7 +2241,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "vac_sealer",
+  "result": "makeshift_sealer",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
   "skill_used": "electronics",
