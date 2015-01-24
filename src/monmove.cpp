@@ -199,7 +199,7 @@ void monster::plan(const mfactions &factions)
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
     const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
-    auto myfaction = factions.find( actual_faction )->second;
+    auto const &myfaction = factions.find( actual_faction )->second;
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
         for( int i : myfaction ) {
