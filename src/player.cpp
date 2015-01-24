@@ -13234,7 +13234,7 @@ bool player::is_deaf() const
     return has_effect("deaf") || worn_with_flag("DEAF");
 }
 
-bool player::can_hear( point source, int volume ) const
+bool player::can_hear( const point source, const int volume ) const
 {
     if( is_deaf() ) {
         return false;
