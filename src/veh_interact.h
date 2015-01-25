@@ -92,9 +92,10 @@ class veh_interact
          * @param pos index to change.
          * @param action input action (taken from input_context::handle_input)
          * @param size size of the list to scroll, used to wrap the cursor around.
+         * @param header number of lines reserved for list header.
          * @return false if the action is not a move action, the index is not changed in this case.
          */
-        bool move_in_list(int &pos, const std::string &action, const int size) const;
+        bool move_in_list(int &pos, const std::string &action, const int size, const int header = 0) const;
 
         void do_install();
         void do_repair();
@@ -111,7 +112,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode(char mode);
-        void display_list(size_t pos, std::vector<vpart_info> list);
+        void display_list(size_t pos, std::vector<vpart_info> list, const int header = 0);
         void display_details(const vpart_info &part);
         size_t display_esc (WINDOW *w);
 

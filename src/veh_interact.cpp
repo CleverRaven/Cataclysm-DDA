@@ -223,7 +223,7 @@ void veh_interact::allocate_windows()
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
-    page_size = list_h - 2; // reserve two rows for tab menu
+    page_size = list_h;
 
     wrefresh(w_border);
     delwin( w_border );
@@ -672,7 +672,7 @@ void veh_interact::do_install()
     int pos = 0;
     size_t tab = 0;
     while (true) {
-        display_list(pos, tab_vparts);
+        display_list(pos, tab_vparts, 2);
 
         // draw tab menu
         int tab_x = 0;
@@ -737,7 +737,7 @@ void veh_interact::do_install()
             copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
         }
         else {
-            move_in_list(pos, action, tab_vparts.size());
+            move_in_list(pos, action, tab_vparts.size(), 2);
         }
     }
 
@@ -752,12 +752,13 @@ void veh_interact::do_install()
     display_name();
 }
 
-bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
+bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
 {
+    int lines_per_page = page_size - header;
     if (action == "PREV_TAB" || action == "LEFT") {
-        pos -= page_size;
+        pos -= lines_per_page;
     } else if (action == "NEXT_TAB" || action == "RIGHT") {
-        pos += page_size;
+        pos += lines_per_page;
     } else if (action == "UP") {
         pos--;
     } else if (action == "DOWN") {
@@ -1683,12 +1684,13 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
+void veh_interact::display_list(size_t pos, std::vector<vpart_info> list, const int header)
 {
     werase (w_list);
-    size_t page = pos / page_size;
-    for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
-        int y = i - page * page_size + 2;  // first two lines are reserved for tab menu
+    int lines_per_page = page_size - header;
+    size_t page = pos / lines_per_page;
+    for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
+        int y = i - page * lines_per_page + header;
         nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
