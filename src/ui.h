@@ -22,10 +22,10 @@ const int MENU_AUTOASSIGN = -1;
  */
 
 struct mvwzstr {
-    int left = 0;
-    nc_color color = c_unset;
+    int left;
+    nc_color color;
     std::string txt;
-    long sym = 0;
+    long sym;
 };
 
 /*
@@ -38,7 +38,7 @@ struct uimenu_entry {
     std::string txt;      // what it says on the tin
     nc_color hotkey_color;
     nc_color text_color;
-    mvwzstr extratxt;
+    mvwzstr extratxt = { 0, c_unset, "", 0};
     //std::string filtertxt; // possibly useful
     uimenu_entry(std::string T) : retval(-1), enabled(true), hotkey(-1), txt(T)
     {
