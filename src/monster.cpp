@@ -454,6 +454,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
+        if( m == this ) {
+            return A_FRIENDLY;
+        }
         auto faction_att = faction->attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
