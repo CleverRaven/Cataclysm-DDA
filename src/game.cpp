@@ -40,6 +40,8 @@
 #include "start_location.h"
 #include "debug.h"
 #include "catalua.h"
+#include "sounds.h"
+
 #include <map>
 #include <set>
 #include <algorithm>
@@ -554,9 +556,7 @@ void game::setup()
     safemodeveh =
         OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check, in practice didn't trigger when needed
 
-    recent_sounds.clear();
-    sounds_since_last_turn.clear();
-    sound_markers.clear();
+    sounds::reset_sounds();
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
@@ -1416,14 +1416,14 @@ bool game::do_turn()
     process_activity();
 
     // Process sound events into sound markers for display to the player.
-    process_sound_markers();
+    sounds::process_sound_markers( &u );
 
     if (!u.in_sleep_state()) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
             while (u.moves > 0 || uquit == QUIT_WATCH) {
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
-                process_sound_markers();
+                sounds::process_sound_markers( &u );
                 if (u.activity.type == ACT_NULL) {
                     draw();
                 }
@@ -1444,9 +1444,9 @@ bool game::do_turn()
                     process_activity();
                 }
             }
-            // Clear displayed sound markers now that the turn is over.
+            // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.
-            sound_markers.clear();
+            sounds::reset_markers();
         } else {
             handle_key_blocking_activity();
         }
@@ -1489,7 +1489,7 @@ bool game::do_turn()
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
-    process_sounds();
+    sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache();
@@ -2593,11 +2593,11 @@ void game::rcdrive(int dx, int dy)
 
     if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
         m.has_furn(cx + dx, cy + dy) ) {
-        sound(cx + dx, cy + dy, 7, _("sound of a collision with an obstacle."));
+        sounds::sound(cx + dx, cy + dy, 7, _("sound of a collision with an obstacle."));
         return;
     } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
         //~ Sound of moving a remote controlled car
-        sound(cx, cy, 6, _("zzz..."));
+        sounds::sound(cx, cy, 6, _("zzz..."));
         u.moves -= 50;
         m.i_rem( cx, cy, rc_car );
         car_location_string.clear();
@@ -4148,18 +4148,6 @@ bool game::event_queued(event_type type)
     return false;
 }
 
-struct centroid
-{
-    // Values have to be floats to prevent rounding errors.
-    float x;
-    float y;
-    float volume;
-    float weight;
-};
-
-// Predeclare clustering function so debug can use it.
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> recent_sounds );
-
 #include "savegame.h"
 void game::debug()
 {
@@ -4581,16 +4569,9 @@ void game::debug()
 
 #ifndef TILES
     case 23: {
-        auto sound_clusters = cluster_sounds( recent_sounds );
-        const int offset_y = POSY - u.posy() + u.view_offset_y;
-        const int offset_x = POSX - u.posx() + u.view_offset_x;
+        const point offset{ POSX - u.posx() + u.view_offset_x, POSY - u.posy() + u.view_offset_y };
         draw_ter();
-        for( const auto &sound : recent_sounds ) {
-            mvwputch(w_terrain, offset_y + sound.first.y, offset_x + sound.first.x, c_yellow, '?');
-        }
-        for( const auto &sound : sound_clusters ) {
-            mvwputch(w_terrain, offset_y + sound.y, offset_x + sound.x, c_red, '?');
-        }
+        sounds::draw_monster_sounds( offset, w_terrain );
         wrefresh(w_terrain);
         getch();
     }
@@ -4898,26 +4879,16 @@ void game::list_missions()
     refresh_all();
 }
 
-// draws footsteps that have been created by monsters moving about
-void game::draw_footsteps( int lx, int ly )
-{
-    if (is_draw_tiles_mode()) {
-        return; // already done by cata_tiles
-    }
-    const int offset_y = POSY - ( (ly == -999) ? (u.posy() + u.view_offset_y) : ly );
-    const int offset_x = POSX - ( (lx == -999) ? (u.posx() + u.view_offset_x) : lx );
-    for( const auto &sound : sound_markers ) {
-        mvwputch(w_terrain, offset_y + sound.first.y, offset_x + sound.first.x, c_yellow, '?');
-    }
-    wrefresh(w_terrain);
-}
-
 void game::draw()
 {
     // Draw map
     werase(w_terrain);
     draw_ter();
-    draw_footsteps();
+    if( !is_draw_tiles_mode() ) {
+        sounds::draw_footsteps( { POSX - (u.posx() + u.view_offset_x),
+                    POSY - (u.posy() + u.view_offset_y) }, w_terrain );
+        wrefresh(w_terrain);
+    }
     draw_sidebar();
 }
 
@@ -5988,263 +5959,6 @@ void game::monmove()
     cleanup_dead();
 }
 
-void game::ambient_sound(int x, int y, int vol, std::string description)
-{
-    sound( x, y, vol, description, true );
-}
-
-void game::sound(int x, int y, int vol, std::string description, bool ambient)
-{
-    if( vol == 0 ) {
-        // Bail out if no volume.
-        // TODO: log an error, this shouldn't happen?
-        return;
-    }
-    recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );
-    sounds_since_last_turn.emplace(
-        std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
-}
-
-void game::add_footstep(int x, int y, int volume, int, monster *)
-{
-    sounds_since_last_turn.emplace(
-        std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
-}
-
-template <typename C>
-static void vector_quick_remove( std::vector<C> &source, int index )
-{
-    if( source.size() != 1 ) {
-        // Swap the target and the last element of the vector.
-        // This scrambles the vector, but makes removal O(1).
-        std::iter_swap( source.begin() + index, source.end() - 1 );
-    }
-    source.pop_back();
-}
-
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> recent_sounds )
-{
-    // If there are too many monsters and too many noise sources (which can be monsters, go figure),
-    // applying sound events to monsters can dominate processing time for the whole game,
-    // so we cluster sounds and apply the centroids of the sounds to the monster AI
-    // to fight the combanatorial explosion.
-    std::vector<centroid> sound_clusters;
-    const int num_seed_clusters = std::max( std::min(recent_sounds.size(), (size_t)10),
-                                            (size_t)log(recent_sounds.size()) );
-    const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY);
-    // Randomly choose cluster seeds.
-    for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
-        size_t index = rng(0, i - 1);
-        // The volume and cluster weight are the same for the first element.
-        sound_clusters.push_back(
-           // Assure the compiler that these int->float conversions are safe.
-            { (float)recent_sounds[index].first.x, (float)recent_sounds[index].first.y,
-              (float)recent_sounds[index].second, (float)recent_sounds[index].second } );
-        vector_quick_remove( recent_sounds, index );
-    }
-
-    for( const auto &sound_event_pair : recent_sounds ) {
-        auto found_centroid = sound_clusters.begin();
-        float dist_factor = max_map_distance;
-        const auto cluster_end = sound_clusters.end();
-        for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
-             ++centroid_iter ) {
-            // Scale the distance between the two by the max possible distance.
-            const int dist = rl_dist( sound_event_pair.first.x, sound_event_pair.first.y,
-                                      centroid_iter->x, centroid_iter->y );
-            if( dist * dist < dist_factor ) {
-                found_centroid = centroid_iter;
-                dist_factor = dist * dist;
-            }
-        }
-        const float volume_sum = (float)sound_event_pair.second + found_centroid->weight;
-        // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = (float)( (sound_event_pair.first.x * sound_event_pair.second) +
-                                     (found_centroid->x * found_centroid->weight) ) / volume_sum;
-        found_centroid->y = (float)( (sound_event_pair.first.y * sound_event_pair.second) +
-                                     (found_centroid->y * found_centroid->weight) ) / volume_sum;
-        // Set the centroid volume to the larger of the volumes.
-        found_centroid->volume = std::max( found_centroid->volume, (float)sound_event_pair.second );
-        // Set the centroid weight to the sum of the weights.
-        found_centroid->weight = volume_sum;
-    }
-    return sound_clusters;
-}
-
-void game::process_sounds()
-{
-    std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-
-    for( const auto &this_centroid : sound_clusters ) {
-        const int vol = this_centroid.volume;
-        const point source = point(this_centroid.x, this_centroid.y);
-        // --- Monster sound handling here ---
-        // Alert all hordes
-        if( vol > 20 && levz == 0 ) {
-            int sig_power = ((vol > 140) ? 140 : vol) - 20;
-            cur_om->signal_hordes(levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power);
-        }
-        // Alert all monsters (that can hear) to the sound.
-        for (int i = 0, numz = num_zombies(); i < numz; i++) {
-            monster &critter = critter_tracker.find(i);
-            // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
-            int dist = rl_dist( source, critter.pos() );
-            int vol_goodhearing = vol * 2 - dist;
-            if (vol_goodhearing > 0 && critter.can_hear()) {
-                const bool goodhearing = critter.has_flag(MF_GOODHEARING);
-                int volume = goodhearing ? vol_goodhearing : (vol - dist);
-                // Error is based on volume, louder sound = less error
-                if (volume > 0) {
-                    int max_error = 0;
-                    if (volume < 2) {
-                        max_error = 10;
-                    } else if (volume < 5) {
-                        max_error = 5;
-                    } else if (volume < 10) {
-                        max_error = 3;
-                    } else if (volume < 20) {
-                        max_error = 1;
-                    }
-
-                    int target_x = source.x + rng(-max_error, max_error);
-                    int target_y = source.y + rng(-max_error, max_error);
-
-                    int wander_turns = volume * (goodhearing ? 6 : 1);
-                    critter.wander_to(target_x, target_y, wander_turns);
-                    critter.process_trigger(MTRIG_SOUND, volume);
-                }
-            }
-        }
-    }
-    recent_sounds.clear();
-}
-
-void game::process_sound_markers()
-{
-    bool is_deaf = u.is_deaf();
-    const float volume_multiplier = u.hearing_ability();
-
-    for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        int volume = sound_event_pair.second.volume * volume_multiplier;
-        int dist = rl_dist( u.pos(), sound_event_pair.first );
-        bool ambient = sound_event_pair.second.ambient;
-
-        // Too far away, we didn't hear it!
-        if( dist > volume ) {
-            continue;
-        }
-
-        if( is_deaf ) {
-            // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") ||
-                  u.is_wearing("rm13_armor_on")) && rng((volume - dist) / 2, (volume - dist)) >= 150) {
-                int duration = std::min(40, (volume - dist - 130) / 4);
-                u.add_effect("deaf", duration);
-            }
-            // We're deaf, skip rest of processing.
-            continue;
-        }
-
-        // Player volume meter includes all sounds from their tile and adjacent tiles
-        // TODO: Add noises from vehicle player is in.
-        if (dist <= 1) {
-            u.volume = std::max( u.volume, volume );
-        }
-
-        // Check for deafness
-        if( !u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
-            rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
-            int duration = (volume - dist - 130) / 4;
-            u.add_effect("deaf", duration);
-            is_deaf = true;
-            continue;
-        }
-
-        // See if we need to wake someone up
-        if( u.has_effect("sleep")) {
-            if( (!(u.has_trait("HEAVYSLEEPER") ||
-                   u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume - dist) ||
-                (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume - dist) ||
-                (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume - dist) ) {
-                //Not kidding about sleep-thru-firefight
-                u.wake_up();
-                add_msg(m_warning, _("Something is making noise."));
-            } else {
-                continue;
-            }
-        }
-
-        const int x = sound_event_pair.first.x;
-        const int y = sound_event_pair.first.y;
-        const std::string &description = sound_event_pair.second.description;
-        if( !ambient && (x != u.posx() || y != u.posy()) && !m.pl_sees( x, y, dist ) ) {
-            if( u.activity.ignore_trivial != true ) {
-                std::string query;
-                if( description.empty() ) {
-                    query = _("Heard a noise!");
-                } else {
-                    query = string_format(_("Heard %s!"),
-                                          sound_event_pair.second.description.c_str());
-                }
-
-                if( cancel_activity_or_ignore_query(query.c_str()) ) {
-                    u.activity.ignore_trivial = true;
-                    for( auto activity : u.backlog ) {
-                        activity.ignore_trivial = true;
-                    }
-                }
-            }
-        }
-
-        // Only print a description if it exists
-        if( !description.empty() ) {
-            // If it came from us, don't print a direction
-            if( x == u.posx() && y == u.posy() ) {
-                std::string uppercased = description;
-                capitalize_letter(uppercased, 0);
-                add_msg("%s", uppercased.c_str());
-            } else {
-                // Else print a direction as well
-                std::string direction = direction_name(direction_from(u.posx(), u.posy(), x, y));
-                add_msg(m_warning, _("From the %s you hear %s"), direction.c_str(), description.c_str());
-            }
-        }
-
-        // Place footstep markers.
-        if( (x == u.posx() && y == u.posy()) || u.sees(x, y) ) {
-            // If we are or can see the source, don't draw a marker.
-            continue;
-        }
-
-        int err_offset;
-        if( volume / dist < 2 ) {
-            err_offset = 3;
-        } else if( volume / dist < 3 ) {
-            err_offset = 2;
-        } else {
-            err_offset = 1;
-        }
-
-        // Enumerate the valid points the player *cannot* see.
-        std::vector<point> unseen_points;
-        for( int newx = x - err_offset; newx <= x + err_offset; newx++) {
-            for ( int newy = y - err_offset; newy <= y + err_offset; newy++) {
-                if( !u.sees( newx, newy) ) {
-                    unseen_points.emplace_back( newx, newy );
-                }
-            }
-        }
-        // Then place the sound marker in a random one.
-        if( !unseen_points.empty() ) {
-            sound_markers.emplace(
-                std::make_pair( unseen_points[rng(0, unseen_points.size() - 1)],
-                                sound_event_pair.second ) );
-        }
-    }
-    sounds_since_last_turn.clear();
-}
-
 void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)
 {
     int dam;
@@ -6299,11 +6013,11 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     int noise = power * (fire ? 2 : 10);
 
     if (power >= 30) {
-        sound(x, y, noise, _("a huge explosion!"));
+        sounds::sound(x, y, noise, _("a huge explosion!"));
     } else if (power >= 4) {
-        sound(x, y, noise, _("an explosion!"));
+        sounds::sound(x, y, noise, _("an explosion!"));
     } else {
-        sound(x, y, 3, _("a loud pop!"));
+        sounds::sound(x, y, 3, _("a loud pop!"));
     }
     if (blast) {
         do_blast(x, y, power, radius, fire);
@@ -6402,7 +6116,7 @@ void game::flashbang(int x, int y, bool player_immune)
             }
         }
     }
-    sound(x, y, 12, _("a huge boom!"));
+    sounds::sound(x, y, 12, _("a huge boom!"));
     // TODO: Blind/deafen NPC
 }
 
@@ -6411,7 +6125,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
 {
     draw_explosion(x, y, radius, c_blue);
 
-    sound(x, y, force * force * dam_mult / 2, _("Crack!"));
+    sounds::sound(x, y, force * force * dam_mult / 2, _("Crack!"));
     for (size_t i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
         if (rl_dist(critter.posx(), critter.posy(), x, y) <= radius) {
@@ -7344,7 +7058,7 @@ void game::smash()
 
     if( m.get_field( point( smashx, smashy ), fd_web ) != nullptr ) {
         m.remove_field( smashx, smashy, fd_web );
-        sound( smashx, smashy, 2, "" );
+        sounds::sound( smashx, smashy, 2, "" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -7371,7 +7085,7 @@ void game::smash()
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.posx(), u.posy(), elem );
             }
-            sound(u.posx(), u.posy(), 24, "");
+            sounds::sound(u.posx(), u.posy(), 24, "");
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
             if (u.weapon.volume() > 20) {
                 // Hurt left arm too, if it was big
@@ -8852,7 +8566,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     }
 
     draw_ter(lx, ly);
-    draw_footsteps();
+    sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8979,10 +8693,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
             }
 
-            auto this_sound = sound_markers.find( point(lx, ly) );
-            if( this_sound != sound_markers.end() ) {
-                mvwprintw( w_info, ++off, 1, _("You heard %s from here."),
-                           this_sound->second.description.c_str() );
+            auto this_sound = sounds::sound_at( {lx, ly} );
+            if( !this_sound.empty() ) {
+                mvwprintw( w_info, ++off, 1, _("You heard %s from here."), this_sound.c_str() );
             }
 
             wrefresh(w_info);
@@ -9032,7 +8745,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 draw_ter(lx, ly, true);
-                draw_footsteps(lx, ly);
+                sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
@@ -11936,7 +11649,7 @@ bool game::plmove(int dx, int dy)
                             }
                         }
                     }
-                    sound(x, y, furntype.move_str_req * 2, _("a scraping noise."));
+                    sounds::sound(x, y, furntype.move_str_req * 2, _("a scraping noise."));
 
                     m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
                     m.furn_set(fpos.x, fpos.y, f_null);
@@ -12068,17 +11781,17 @@ bool game::plmove(int dx, int dy)
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
             !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-                sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
+                sounds::sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
-                sound(x, y, 10, "");
+                sounds::sound(x, y, 10, "");
             } else if (u.has_bionic("bio_ankles")) {
-                sound(x, y, 12, "");
+                sounds::sound(x, y, 12, "");
             } else {
-                sound(x, y, 6, "");
+                sounds::sound(x, y, 6, "");
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
-            sound(u.posx(), u.posy(), 40, _("You emit a rattling sound."));
+            sounds::sound(u.posx(), u.posy(), 40, _("You emit a rattling sound."));
         }
         // If we moved out of the nonant, we need update our map data
         if (m.has_flag("SWIMMABLE", x, y) && u.has_effect("onfire")) {
@@ -13029,7 +12742,7 @@ void game::update_stair_monsters()
                         add_msg(m_warning, dump.str().c_str());
                     }
                 } else {
-                    sound(mposx, mposy, 5, _("a sound nearby from the stairs!"));
+                    sounds::sound(mposx, mposy, 5, _("a sound nearby from the stairs!"));
                 }
 
                 if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {

@@ -7,6 +7,8 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "sounds.h"
+
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -305,7 +307,7 @@ void computer::activate_function(computer_action action)
     //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
-        g->sound(g->u.posx(), g->u.posy(), 120, _("Bohm... Bohm... Bohm..."));
+        sounds::sound(g->u.posx(), g->u.posy(), 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
@@ -350,14 +352,14 @@ void computer::activate_function(computer_action action)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        g->sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx(), g->u.posy());
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        g->sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx(), g->u.posy());
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
@@ -1129,7 +1131,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        g->sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
+        sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }

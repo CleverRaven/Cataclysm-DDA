@@ -7,9 +7,10 @@
 #include "rng.h"
 #include "pldata.h"
 #include "messages.h"
-#include <stdlib.h>
 #include "cursesdef.h"
+#include "sounds.h"
 
+#include <stdlib.h>
 //Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
@@ -440,7 +441,7 @@ void monster::footsteps(int x, int y)
   default: break;
  }
  int dist = rl_dist(x, y, g->u.posx(), g->u.posy());
- g->add_footstep(x, y, volume, dist, this);
+ sounds::add_footstep(x, y, volume, dist, this);
  return;
 }
 

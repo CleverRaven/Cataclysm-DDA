@@ -6,6 +6,8 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
+#include "sounds.h"
+
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -589,15 +591,15 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT1") {
-        g->sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+        sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT2"){
-        g->sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+        sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT3"){
-        g->sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         traits[mut].powered = false;
         return;
     } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){

@@ -5,6 +5,8 @@
 #include "line.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include "sounds.h"
+
 #include <math.h>  // rounding
 #include <sstream>
 
@@ -72,7 +74,7 @@ void mdeath::acid(monster *z)
 void mdeath::boomer(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    g->sound(z->posx(), z->posy(), 24, explode);
+    sounds::sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.bash( z->posx() + i, z->posy() + j, 10 );
@@ -172,7 +174,7 @@ void mdeath::fungus(monster *z)
     int mondex = -1;
     int sporex, sporey;
     //~ the sound of a fungus dying
-    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    sounds::sound(z->posx(), z->posy(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             sporex = z->posx() + i;
@@ -558,7 +560,7 @@ void mdeath::darkman(monster *z)
 void mdeath::gas(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    g->sound(z->posx(), z->posy(), 24, explode);
+    sounds::sound(z->posx(), z->posy(), 24, explode);
     for (int i = -2; i <= 2; i++) {
         for (int j = -2; j <= 2; j++) {
             g->m.add_field(z->posx() + i, z->posy() + j, fd_toxic_gas, 3);
@@ -574,7 +576,7 @@ void mdeath::gas(monster *z)
 void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    g->sound(z->posx(), z->posy(), 24, explode);
+    sounds::sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.add_field(z->posx() + i, z->posy() + j, fd_smoke, 3);

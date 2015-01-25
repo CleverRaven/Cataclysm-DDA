@@ -25,6 +25,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "sounds.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -5469,9 +5470,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 void player::cough(bool harmful, int loudness) {
     if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
-        g->sound(posx(), posy(), loudness, "");
+        sounds::sound(posx(), posy(), loudness, "");
     } else {
-        g->sound(posx(), posy(), loudness, _("a hacking cough."));
+        sounds::sound(posx(), posy(), loudness, _("a hacking cough."));
     }
     moves -= 80;
     if (harmful && !one_in(4)) {
@@ -6037,7 +6038,7 @@ void player::hardcoded_effects(effect &it)
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                g->sound(posx(), posy(), loudness, _(npcText.c_str()));
+                sounds::sound(posx(), posy(), loudness, _(npcText.c_str()));
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -7139,7 +7140,7 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    g->sound(posx(), posy(), 12, _("beep-beep-beep!"));
+                    sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
                     if( !can_hear( pos(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
@@ -7243,7 +7244,7 @@ void player::suffer()
 
     if(has_active_mutation("WINGS_INSECT")){
         //~Sound of buzzing Insect Wings
-        g->sound(posx(), posy(), 10, "BZZZZZ");
+        sounds::sound(posx(), posy(), 10, "BZZZZZ");
     }
 
     double shoe_factor = footwear_factor();
@@ -7460,7 +7461,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    g->sound(posx(), posy(), 10 + 2 * str_cur, "AHHHHHHH!");
+                    sounds::sound(posx(), posy(), 10 + 2 * str_cur, "AHHHHHHH!");
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7493,13 +7494,13 @@ void player::suffer()
             vomit();
         }
         if (has_trait("SHOUT1") && one_in(3600)) {
-            g->sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+            sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            g->sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+            sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            g->sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+            sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();
@@ -7801,11 +7802,12 @@ void player::suffer()
         power_level -= 25;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        if(!is_deaf())
+        if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
-        else
+        } else {
             add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
-        g->sound(posx(), posy(), 60, "");
+        }
+        sounds::sound(posx(), posy(), 60, "");
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
@@ -13376,7 +13378,7 @@ std::vector<std::string> player::get_overlay_ids() const {
 
 void player::spores()
 {
-    g->sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
+    sounds::sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
     monster spore(GetMType("mon_spore"));
     int sporex, sporey;
     int mondex;
@@ -13412,10 +13414,10 @@ void player::spores()
 void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-     g->sound(posx(), posy(), 10, _("Pouf!"));
+    sounds::sound(posx(), posy(), 10, _("Pouf!"));
      for (int i = posx() - 2; i <= posx() + 2; i++) {
         for (int j = posy() - 2; j <= posy() + 2; j++) {
-                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+            g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
 }
