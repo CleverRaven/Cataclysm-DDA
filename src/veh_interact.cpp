@@ -1714,8 +1714,11 @@ void veh_interact::display_details( const vpart_info *part )
         const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
 
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
+            int stats_col_2 = 34;
+            int stats_col_3 = 63 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
+            int clear_x = stats_w - details_w >= stats_col_3 ? stats_col_3 : stats_col_2;
             for( int i = 0; i < stats_h; i++) {
-                mvwhline(w_stats, i, 34, ' ', stats_w - 34);
+                mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
             }
         } else { // clear one line above w_details in horizontal mode to make sure it's separated from stats text
             mvwhline(w_stats, details_y - getbegy(w_stats) - 1, 0, ' ', stats_w);
