@@ -6,6 +6,7 @@
 #include "item_group.h"
 #include "catacharset.h"
 #include "item.h"
+#include "output.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -599,8 +600,7 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
         if ( death_map.find(*it) != death_map.end() ) {
             deaths.push_back(death_map[*it]);
         } else {
-            debugmsg("death_map[\"%s\"] isn't defined in MonsterGenerator::init_death()",
-                     it->c_str());
+            jo.throw_error("Invalid death_function");
         }
     }
 
@@ -622,8 +622,7 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
                 m->sp_attack.push_back(attack_map[inner.get_string(0)]);
                 m->sp_freq.push_back(inner.get_int(1));
             } else {
-                debugmsg("attack_map[\"%s\"] isn't defined in MonsterGenerator::init_attack()",
-                         inner.get_string(0).c_str());
+                inner.throw_error("Invalid special_attacks");
             }
         }
     }
@@ -641,8 +640,7 @@ void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::strin
             m->sp_defense = defense_map[jsarr.get_string(0)];
             m->def_chance = jsarr.get_int(1);
         } else {
-            debugmsg("defense_map[\"%s\"] isn't defined in MonsterGenerator::init_defense",
-                     jsarr.get_string(0).c_str());
+            jsarr.throw_error("Invalid special_when_hit");
         }
     }
 
