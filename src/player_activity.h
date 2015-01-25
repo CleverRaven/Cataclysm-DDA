@@ -43,29 +43,11 @@ enum activity_type {    // expanded this enum for readability
     NUM_ACTIVITIES
 };
 
+class player;
+
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
-        void burrow_do_turn(player *p);
-        void burrow_finish(player *p);
-        void butcher_finish( player *p );
-        void fill_liquid_do_turn( player *p );
-        void firstaid_finish( player *p );
-        void fish_finish( player *p );
-        void forage_finish( player *p );
-        void game_do_turn( player *p );
-        void hotwire_finish( player *p );
-        void longsalvage_finish( player *p );
-        void make_zlave_finish( player *p );
-        void pickaxe_do_turn(player *p);
-        void pickaxe_finish(player *p);
-        void pulp_do_turn( player *p );
-        void refill_vehicle_do_turn( player *p );
-        void reload_finish( player *p );
-        void start_fire_finish( player *p );
-        void start_fire_lens_do_turn( player *p );
-        void train_finish( player *p );
-        void vehicle_finish( player *p );
-        void vibe_do_turn( player *p );
+    private:
         void finish( player *p );
     public:
         /** The type of this activity. */
