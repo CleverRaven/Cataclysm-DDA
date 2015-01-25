@@ -3,6 +3,7 @@
 
 #include <string.h> // for strnlen
 #include <cstring>
+#include <cerrno>
 #include <cstddef>
 #include <string>
 #include <vector>
