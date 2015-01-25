@@ -372,16 +372,16 @@ void player_activity::burrow_finish(player *p)
 void player_activity::butcher_finish()
 {
     // corpses can disappear (rezzing!), so check for that
-    if (static_cast<int>(g->m.i_at(g->u.posx, g->u.posy).size()) <= index ||
-        g->m.i_at(g->u.posx, g->u.posy)[index].corpse == NULL ||
-        g->m.i_at(g->u.posx, g->u.posy)[index].typeId() != "corpse") {
+    if (static_cast<int>(g->m.i_at(g->u.posx(), g->u.posy()).size()) <= index ||
+        g->m.i_at(g->u.posx(), !g->u.posy())[index].is_corpse() ||
+        g->m.i_at(g->u.posx(), g->u.posy())[index].typeId() != "corpse") {
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    mtype *corpse = g->m.i_at(g->u.posx, g->u.posy)[index].corpse;
-    std::vector<item> contents = g->m.i_at(g->u.posx, g->u.posy)[index].contents;
-    int age = g->m.i_at(g->u.posx, g->u.posy)[index].bday;
-    g->m.i_rem(g->u.posx, g->u.posy, index);
+    mtype *corpse = g->m.i_at(g->u.posx(), g->u.posy())[index].get_mtype();
+    std::vector<item> contents = g->m.i_at(g->u.posx(), g->u.posy())[index].contents;
+    int age = g->m.i_at(g->u.posx(), g->u.posy())[index].bday;
+    g->m.i_rem(g->u.posx(), g->u.posy(), index);
     int factor = g->u.butcher_factor();
     int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
     double skill_shift = 0.;
@@ -457,26 +457,26 @@ void player_activity::butcher_finish()
 
     if (bones > 0) {
         if (corpse->mat == "veggy") {
-            g->m.spawn_item(g->u.posx, g->u.posy, "plant_sac", bones, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "plant_sac", bones, 0, age);
             add_msg(m_good, _("You harvest some fluid bladders!"));
         } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "bone_tainted", bones / 2, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "bone_tainted", bones / 2, 0, age);
             add_msg(m_good, _("You harvest some salvageable bones!"));
         } else if (corpse->has_flag(MF_BONES) && corpse->has_flag(MF_HUMAN)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "bone_human", bones, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "bone_human", bones, 0, age);
             add_msg(m_good, _("You harvest some salvageable bones!"));
         } else if (corpse->has_flag(MF_BONES)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "bone", bones, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "bone", bones, 0, age);
             add_msg(m_good, _("You harvest some usable bones!"));
         }
     }
 
     if (sinews > 0) {
         if (corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "sinew", sinews, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "sinew", sinews, 0, age);
             add_msg(m_good, _("You harvest some usable sinews!"));
         } else if (corpse->mat == "veggy") {
-            g->m.spawn_item(g->u.posx, g->u.posy, "plant_fibre", sinews, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "plant_fibre", sinews, 0, age);
             add_msg(m_good, _("You harvest some plant fibers!"));
         }
     }
@@ -507,29 +507,29 @@ void player_activity::butcher_finish()
         }
 
         if (chitin) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "chitin_piece", chitin, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "chitin_piece", chitin, 0, age);
         }
         if (fur) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "raw_fur", fur, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "raw_fur", fur, 0, age);
         }
         if (leather) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "raw_leather", leather, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "raw_leather", leather, 0, age);
         }
     }
 
     if (feathers > 0) {
         if (corpse->has_flag(MF_FEATHER)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "feather", feathers, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "feather", feathers, 0, age);
             add_msg(m_good, _("You harvest some feathers!"));
         }
     }
 
     if (fats > 0) {
         if (corpse->has_flag(MF_FAT) && corpse->has_flag(MF_POISON)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "fat_tainted", fats, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "fat_tainted", fats, 0, age);
             add_msg(m_good, _("You harvest some gooey fat!"));
         } else if (corpse->has_flag(MF_FAT)) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "fat", fats, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "fat", fats, 0, age);
             add_msg(m_good, _("You harvest some fat!"));
         }
     }
@@ -541,17 +541,17 @@ void player_activity::butcher_finish()
             add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if (rng(0, 1) == 1) { //The battery works
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_common", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_common", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -563,17 +563,17 @@ void player_activity::butcher_finish()
             add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if (rng(0, 1) == 1) { //The battery works
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_sci", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_sci", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -584,17 +584,17 @@ void player_activity::butcher_finish()
             add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if (rng(0, 1) == 1) { //The battery works
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_tech", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_tech", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -605,25 +605,25 @@ void player_activity::butcher_finish()
             add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if (rng(0, 1) == 1) { //The battery works
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_subs", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_subs", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_subs", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_subs", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -635,17 +635,17 @@ void player_activity::butcher_finish()
             add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if (rng(0, 1) == 1) { //The battery works
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage_mkII", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage_mkII", 1, 0, age);
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                g->m.put_items_from_loc( "bionics_op", g->u.posx, g->u.posy, age );
+                g->m.put_items_from_loc( "bionics_op", g->u.posx(), g->u.posy(), age );
             } else { //There is a burnt out CBM
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -657,11 +657,11 @@ void player_activity::butcher_finish()
             //To see if it spawns a battery
             if (one_in(3)) { //The battery works 33% of the time.
                 add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
-                g->m.spawn_item(g->u.posx, g->u.posy, "bio_power_storage", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
                 add_msg(m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
                         corpse->nname().c_str());
-                g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -672,9 +672,9 @@ void player_activity::butcher_finish()
         if ((skill_shift + 10) * 5 > rng(0, 100)) {
             add_msg( m_good, _( "You discover a %s in the %s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, content );
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), content );
         } else if( content.is_bionic() ) {
-            g->m.spawn_item(g->u.posx, g->u.posy, "burnt_out_bionic", 1, 0, age);
+            g->m.spawn_item(g->u.posx(), g->u.posy(), "burnt_out_bionic", 1, 0, age);
         }
     }
 
@@ -687,10 +687,10 @@ void player_activity::butcher_finish()
             return;
         }
         item tmpitem(meat, age);
-        tmpitem.corpse = corpse;
+        tmpitem.set_mtype( corpse );
         while ( pieces > 0 ) {
             pieces--;
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, tmpitem);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), tmpitem);
         }
     }
 }
@@ -728,29 +728,7 @@ void player_activity::firstaid_finish()
 }
 
 
-void player_activity::fish_finish()
-{
-    item &it = g->u.i_at(position);
-    int sSkillLevel =
-        0; //given values to avoid possible null errors if the item used has not any of the flags.
-    int fishChance = 20;
-    if (it.has_flag("FISH_POOR")) {
-        sSkillLevel = g->u.skillLevel("survival") + dice(1, 6);
-        fishChance = dice(1, 20);
-    } else if (it.has_flag("FISH_GOOD")) {
-        sSkillLevel = g->u.skillLevel("survival") * 1.5 + dice(1,
-                      6) + 3; //much better chances with a good fishing implement
-        fishChance = dice(1, 20);
-    }
-    rod_fish(sSkillLevel, fishChance);
-    g->u.practice("survival", rng(5, 15));
-    type = ACT_NULL;
-}
-
-
-// Helper function for fish_finish()
-void player_activity::rod_fish(int sSkillLevel,
-                               int fishChance) // fish-with-rod fish catching function
+static void rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catching function
 {
     if (sSkillLevel > fishChance) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
@@ -760,14 +738,14 @@ void player_activity::rod_fish(int sSkillLevel,
                 item fish;
                 std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
                 std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
-                g->m.add_item_or_charges(g->u.posx, g->u.posy, fish);
+                fish.make_corpse(GetMType(fish_mon), calendar::turn);
+                g->m.add_item_or_charges(g->u.posx(), g->u.posy(), fish);
                 g->u.add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
             } else {
                 g->u.add_msg_if_player(_("You didn't catch anything."));
             }
         } else {
-            g->catch_a_monster(fishables, g->u.posx, g->u.posy, &g->u, 30000);
+            g->catch_a_monster(fishables, g->u.posx(), g->u.posy(), &g->u, 30000);
         }
 
     } else {
@@ -775,6 +753,23 @@ void player_activity::rod_fish(int sSkillLevel,
     }
 }
 
+void player_activity::fish_finish()
+{
+    item &it = g->u.i_at(g->u.activity.position);
+    int sSkillLevel = 0;
+    int fishChance = 20;
+    if (it.has_flag("FISH_POOR")) {
+        sSkillLevel = g->u.skillLevel("survival") + dice(1, 6);
+        fishChance = dice(1, 20);
+    } else if (it.has_flag("FISH_GOOD")) {
+        // Much better chances with a good fishing implement.
+        sSkillLevel = g->u.skillLevel("survival")*1.5 + dice(1, 6) + 3;
+        fishChance = dice(1, 20);
+    }
+    rod_fish(sSkillLevel,fishChance);
+    g->u.practice("survival", rng(5, 15));
+    g->u.activity.type = ACT_NULL;
+}
 
 void player_activity::forage_finish()
 {
@@ -783,7 +778,7 @@ void player_activity::forage_finish()
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
-        g->m.put_items_from_loc( "trash_forest", g->u.posx, g->u.posy, calendar::turn );
+        g->m.put_items_from_loc( "trash_forest", g->u.posx(), g->u.posy(), calendar::turn );
         found_something = true;
     }
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
@@ -803,7 +798,7 @@ void player_activity::forage_finish()
                 loc = "forage_winter";
                 break;
         }
-        int cnt = g->m.put_items_from_loc(loc, g->u.posx, g->u.posy,
+        int cnt = g->m.put_items_from_loc(loc, g->u.posx(), g->u.posy(),
                                           calendar::turn); // returns zero if location has no defined items
         if (cnt > 0) {
             add_msg(m_good, _("You found something!"));
@@ -905,7 +900,7 @@ void player_activity::longsalvage_finish()
         add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
     }
 
-    auto items = g->m.i_at(g->u.posx, g->u.posy);
+    auto items = g->m.i_at(g->u.posx(), g->u.posy());
     item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( iuse::valid_to_cut_up( &*it ) ) {
@@ -924,7 +919,7 @@ void player_activity::make_zlave_finish()
 {
     static const int full_pulp_threshold = 4;
 
-    auto items = g->m.i_at(g->u.posx, g->u.posy);
+    auto items = g->m.i_at(g->u.posx(), g->u.posy());
     std::string corpse_name = str_values[0];
     item *body = NULL;
 
@@ -1084,7 +1079,7 @@ void player_activity::pulp_do_turn()
         }
         int damage = pulp_power / corpse->volume();
         //Determine corpse's blood type.
-        field_id type_blood = corpse->corpse->bloodType();
+        field_id type_blood = corpse->get_mtype()->bloodType();
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
@@ -1134,10 +1129,10 @@ void player_activity::refill_vehicle_do_turn()
     bool fuel_pumped = false;
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
-            if( g->m.ter(g->u.posx + i, g->u.posy + j) == t_gas_pump ||
-                g->m.ter_at(g->u.posx + i, g->u.posy + j).id == "t_gas_pump_a" ||
-                g->m.ter(g->u.posx + i, g->u.posy + j) == t_diesel_pump ) {
-                auto maybe_gas = g->m.i_at(g->u.posx + i, g->u.posy + j);
+            if( g->m.ter(g->u.posx() + i, g->u.posy() + j) == t_gas_pump ||
+                g->m.ter_at(g->u.posx() + i, g->u.posy() + j).id == "t_gas_pump_a" ||
+                g->m.ter(g->u.posx() + i, g->u.posy() + j) == t_diesel_pump ) {
+                auto maybe_gas = g->m.i_at(g->u.posx() + i, g->u.posy() + j);
                 for( auto gas = maybe_gas.begin(); gas != maybe_gas.end(); ) {
                     if( gas->type->id == "gasoline" || gas->type->id == "diesel" ) {
                         fuel_pumped = true;

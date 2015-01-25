@@ -61,8 +61,6 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         void pulp_do_turn();
         void refill_vehicle_do_turn();
         void reload_finish();
-        /** Handles fishing with a fishing rod. */
-        void rod_fish(int, int);
         void start_fire_finish();
         void start_fire_lens_do_turn();
         void train_finish();
