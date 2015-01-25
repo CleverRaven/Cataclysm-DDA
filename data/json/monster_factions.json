@@ -35,6 +35,10 @@
         "base_faction" : "zombie"
     },{
         "type" : "MONSTER_FACTION",
+        "name" : "jabberwock",
+        "by_mood" : ["jabberwock"]
+    },{
+        "type" : "MONSTER_FACTION",
         "name" : "bot",
         "neutral" : ["cop_bot", "defense_bot", "utility_bot", "small_animal"]
     },{
@@ -61,5 +65,9 @@
         "name" : "herbivore",
         "base_faction" : "animal",
         "neutral" : ["small_animal"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "fish",
+        "base_faction" : "animal"
     }
 ]
