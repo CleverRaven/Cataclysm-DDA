@@ -9,7 +9,7 @@
 class map;
 class game;
 class item;
-struct monfaction;
+class monfaction;
 
 typedef std::map< const monfaction*, std::set< int > > mfactions;
 
