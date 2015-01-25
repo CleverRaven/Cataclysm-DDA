@@ -1576,14 +1576,17 @@ void game::process_events()
 
 void game::process_activity()
 {
-    if (u.activity.type == ACT_NULL)
+    if( u.activity.type == ACT_NULL ) {
         return;
+    }
 
-    if (int(calendar::turn) % 50 == 0)
+    if( int(calendar::turn) % 50 == 0 ) {
         draw();
+    }
 
-    while( u.moves > 0 && u.activity.type != ACT_NULL )
-        u.activity.do_turn();
+    while( u.moves > 0 && u.activity.type != ACT_NULL ) {
+        u.activity.do_turn( &u );
+    }
 }
 
 void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration) // catching function

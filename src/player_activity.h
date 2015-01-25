@@ -45,28 +45,28 @@ enum activity_type {    // expanded this enum for readability
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
-        void burrow_do_turn(player *);
-        void burrow_finish(player *);
-        void butcher_finish();
-        void fill_liquid_do_turn();
-        void firstaid_finish();
-        void fish_finish();
-        void forage_finish();
-        void game_do_turn();
-        void hotwire_finish();
-        void longsalvage_finish();
-        void make_zlave_finish();
-        void pickaxe_do_turn(player *);
-        void pickaxe_finish(player *);
-        void pulp_do_turn();
-        void refill_vehicle_do_turn();
-        void reload_finish();
-        void start_fire_finish();
-        void start_fire_lens_do_turn();
-        void train_finish();
-        void vehicle_finish();
-        void vibe_do_turn();
-        void finish();
+        void burrow_do_turn(player *p);
+        void burrow_finish(player *p);
+        void butcher_finish( player *p );
+        void fill_liquid_do_turn( player *p );
+        void firstaid_finish( player *p );
+        void fish_finish( player *p );
+        void forage_finish( player *p );
+        void game_do_turn( player *p );
+        void hotwire_finish( player *p );
+        void longsalvage_finish( player *p );
+        void make_zlave_finish( player *p );
+        void pickaxe_do_turn(player *p);
+        void pickaxe_finish(player *p);
+        void pulp_do_turn( player *p );
+        void refill_vehicle_do_turn( player *p );
+        void reload_finish( player *p );
+        void start_fire_finish( player *p );
+        void start_fire_lens_do_turn( player *p );
+        void train_finish( player *p );
+        void vehicle_finish( player *p );
+        void vibe_do_turn( player *p );
+        void finish( player *p );
     public:
         /** The type of this activity. */
         activity_type type;
@@ -128,7 +128,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn();
+        void do_turn( player *p );
 
         /**
          * Returns true if the activity is complete.
