@@ -113,7 +113,7 @@ class veh_interact
         void display_name();
         void display_mode(char mode);
         void display_list(size_t pos, std::vector<vpart_info> list, const int header = 0);
-        void display_details(const vpart_info &part);
+        void display_details(const vpart_info *part);
         size_t display_esc (WINDOW *w);
 
         void countDurability();

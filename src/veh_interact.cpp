@@ -686,9 +686,8 @@ void veh_interact::do_install()
 
         sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
 
-        if (sel_vpart_info != NULL ) {
-            display_details(*sel_vpart_info);
-        }
+        display_details( sel_vpart_info );
+
         bool can_install = can_install_part(msg_width);
 
         const std::string action = main_context.handle_input();
@@ -1702,7 +1701,7 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list, const 
  * Used when installing parts.
  * Opens up w_details containing info for part currently selected in w_list.
  */
-void veh_interact::display_details(const vpart_info &part)
+void veh_interact::display_details( const vpart_info *part )
 {
 
     if (w_details == NULL) { // create details window first if required
@@ -1731,6 +1730,10 @@ void veh_interact::display_details(const vpart_info &part)
 
     wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
+    if ( part == NULL ) {
+        wrefresh(w_details);
+        return;
+    }
     int details_w = getmaxx(w_details);
     int column_width = details_w / 2; // displays data in two columns
     int col_1 = vertical_menu ? 2 : 1;
@@ -1740,49 +1743,49 @@ void veh_interact::display_details(const vpart_info &part)
 
     // line 0: part name
     fold_and_print(w_details, line, col_1, details_w, c_ltgreen,
-                   part.name);
+                   part->name);
 
     // line 1: (column 1) durability   (column 2) damage mod
     fold_and_print(w_details, line+1, col_1, column_width, c_white,
                    "%s: <color_ltgray>%d</color>",
                    small_mode ? _("Dur") : _("Durability"),
-                   part.durability);
+                   part->durability);
     fold_and_print(w_details, line+1, col_2, column_width, c_white,
                    "%s: <color_ltgray>%d%%</color>",
                    small_mode ? _("Dmg") : _("Damage"),
-                   part.dmg_mod);
+                   part->dmg_mod);
 
     // line 2: (column 1) weight   (column 2) folded volume (if applicable)
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
-                   g->u.convert_weight(item::find_type( part.item )->weight),
+                   g->u.convert_weight(item::find_type( part->item )->weight),
                    OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
-    if ( part.folded_volume != 0 ) {
+    if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_ltgray>%d</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       part.folded_volume);
+                       part->folded_volume);
     }
 
     // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part.size > 0 ) {
+    if ( part->size > 0 ) {
 
         std::string label;
-        if ( part.has_flag(VPFLAG_CARGO) || part.has_flag(VPFLAG_FUEL_TANK) ) {
+        if ( part->has_flag(VPFLAG_CARGO) || part->has_flag(VPFLAG_FUEL_TANK) ) {
             label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part.has_flag(VPFLAG_WHEEL) ){
+        } else if ( part->has_flag(VPFLAG_WHEEL) ){
             label = small_mode ? _("Size") : _("Wheel Size");
-        } else if ( part.has_flag(VPFLAG_SEATBELT) || part.has_flag("MUFFLER") ) {
+        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
             label = small_mode ? _("Str") : _("Strength");
-        } else if ( part.has_flag("HORN") ) {
+        } else if ( part->has_flag("HORN") ) {
             label = _("Noise");
-        } else if ( part.has_flag(VPFLAG_EXTENDS_VISION) ) {
+        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
             label = _("Range");
-        } else if ( part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||
-                    part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
-                    part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||
-                    part.has_flag(VPFLAG_ODDTURN)) {
+        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
+                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
+                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
+                    part->has_flag(VPFLAG_ODDTURN)) {
             label = _("Light");
         } else {
             label = small_mode ? _("Cap") : _("Capacity");
@@ -1790,30 +1793,29 @@ void veh_interact::display_details(const vpart_info &part)
 
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
                        (label + ": <color_ltgray>%d</color>").c_str(),
-                       part.size);
+                       part->size);
     }
-    if ( part.epower != 0 ) {
+    if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
                        "%s: %c<color_ltgray>%d</color>",
                        small_mode ? _("Bat") : _("Battery"),
-                       part.epower < 0 ? '-' : '+',
-                       abs(part.epower));
+                       part->epower < 0 ? '-' : '+',
+                       abs(part->epower));
     }
 
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
-    if ( part.fuel_type != "NULL" ) {
+    if ( part->fuel_type != "NULL" ) {
         fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ), c_white,
                        _("Charge: <color_ltgray>%s</color>"),
-                      //part.has_flag("TURRET") ? _("Ammo") : _("Type"), part.fuel_type.c_str());
-                       part.fuel_type.c_str());
+                       part->fuel_type.c_str());
     }
-    if ( part.power != 0 ) {
+    if ( part->power != 0 ) {
         fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
                        ( vertical_menu ? column_width : details_w ), c_white,
                        _("Power: <color_ltgray>%d</color>"),
-                       part.power);
+                       part->power);
     }
 
     // line 5 [vertical/hybrid] 6 [horizontal]: flags
@@ -1821,7 +1823,7 @@ void veh_interact::display_details(const vpart_info &part)
     std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
     std::string label;
     for ( size_t i = 0; i < flags.size(); i++ ) {
-        if ( part.has_flag(flags[i]) ) {
+        if ( part->has_flag(flags[i]) ) {
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
