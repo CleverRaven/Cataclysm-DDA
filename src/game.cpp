@@ -4625,77 +4625,49 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-
-    //Open the file first
-    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
-    if (!dir) {
-#if (defined _WIN32 || defined __WIN32__)
-        mkdir(FILENAMES["memorialdir"].c_str());
-#else
-        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
-#endif
-        dir = opendir(FILENAMES["memorialdir"].c_str());
-        if (!dir) {
-            dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
-            return;
-        }
+    auto const &memorial_dir = FILENAMES["memorialdir"];
+    if (!assure_dir_exist(memorial_dir)) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
+        debugmsg("Could not make '%s' directory", memorial_dir.c_str());
+        return;
     }
 
-    //To ensure unique filenames and to sort files, append a timestamp
-    time_t rawtime;
-    time(&rawtime);
-    std::string timestamp = ctime(&rawtime);
+    // <name>-YYYY-MM-DD-HH-MM-SS.txt
+    //       123456789012345678901234 ~> 24 chars + a null
+    constexpr size_t suffix_len   = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
 
-    //Fun fact: ctime puts a \n at the end of the timestamp. Get rid of it.
-    size_t end = timestamp.find_last_of('\n');
-    timestamp = timestamp.substr(0, end);
+    size_t const name_len = u.name.size();    
+    // Here -1 leaves space for the ~
+    size_t const truncated_name_len = (name_len >= max_name_len) ? (max_name_len - 1) : name_len;
 
-    //Colons are not usable in paths, so get rid of them
-    for( auto &elem : timestamp ) {
-        if( elem == ':' ) {
-            elem = '-';
-        }
+    std::ostringstream memorial_file_path;    
+    memorial_file_path << memorial_dir;
+    
+    // Use the default locale to replace non-printable characters with _ in the player name.
+    std::locale locale {"C"};
+    std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
+        std::ostream_iterator<char>(memorial_file_path),
+        [&](char const c) { return !std::isgraph(c, locale); }, '_');
+
+    // Add a ~ if the player name was actually truncated.
+    memorial_file_path << ((truncated_name_len != name_len) ? "~-" : "-");
+
+    // Add a timestamp for uniqueness.
+    std::time_t t = std::time(nullptr);
+    memorial_file_path << std::put_time(std::localtime(&t), "%Y-%m-%d-%H-%M-%S");
+
+    memorial_file_path << ".txt";
+
+    auto const path_string = memorial_file_path.str();
+    std::ofstream memorial_file {path_string};
+    if (!memorial_file) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << path_string;
+        debugmsg("Could not open memorial file '%s'", path_string.c_str());
+        return;
     }
-
-    // Use "C" locale to determine printable characters, and replace with '_'
-    // note that spaces will also be translated to '_' as well
-    std::locale locl("C");
-    std::string player_name;
-    for( auto character : u.name ) {
-        // Any printable, except space, as we want to convert those to '_'
-        if( std::isgraph( character, locl ) ) {
-            player_name.push_back( character );
-        } else {
-            player_name.push_back('_');
-        }
-        // Constant '5' takes into account '-' and '.txt'
-        unsigned int max_fn_len = (FILENAME_MAX - timestamp.length() - 5);
-        if( player_name.size() >= max_fn_len ) {
-            // Shorten string to appropriate length - 1, so can add '~'
-            player_name.resize(max_fn_len - 1);
-            // Add '~' if player's name is shortened
-            player_name.push_back('~');
-            break;
-        }
-    }
-
-    std::string memorial_file_path = FILENAMES["memorialdir"] +
-        player_name + "-" + timestamp + ".txt";
-
-    std::ofstream memorial_file;
-    memorial_file.open(memorial_file_path.c_str());
 
     u.memorial(memorial_file, sLastWords);
-
-    if (!memorial_file.is_open()) {
-        dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
-        debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
-    }
-
-    //Cleanup
-    memorial_file.close();
-    closedir(dir);
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
