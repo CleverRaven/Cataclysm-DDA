@@ -403,6 +403,7 @@ class Creature
             str_cur, dex_cur, per_cur, int_cur;
 
         int moves, pain;
+        bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
         /**
@@ -477,7 +478,6 @@ class Creature
         int throw_resist;
 
         bool fake;
-        bool underwater;
 
         Creature();
         Creature(const Creature &) = default;

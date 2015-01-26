@@ -88,7 +88,7 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    if( !sees( c.pos(), bresenham_slope ) ) {
+    if( !sees( c, bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
@@ -983,8 +983,7 @@ void monster::stumble(bool moved)
  int cx = valid_stumbles[choice].x;
  int cy = valid_stumbles[choice].y;
 
- moves -= calc_movecost(posx(), posy(), cx, cy);
- setpos(cx, cy);
+ move_to( cx, cy, false );
 
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
