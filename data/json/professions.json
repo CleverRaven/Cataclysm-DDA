@@ -2667,6 +2667,37 @@
             ]
         }
     },
+	{
+        "type": "profession",
+        "ident": "priest",
+        "name": "Priest",
+        "description": "When the apocalypse struck, you did everything you could to protect your parish faithful, but it appears that prayers were not enough. Now that they are all dead, you should probably find something more tangible to protect you.",
+        "points": 0,
+		"skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "longshirt",
+                "socks",
+                "cassock",
+                "dress_shoes",
+                "holybook_bible1",
+                "holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
     {
         "type": "profession",
         "ident": "blackbelt_novice",

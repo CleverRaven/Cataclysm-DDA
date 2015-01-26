@@ -4579,7 +4579,8 @@
       ["pocketwatch", 10],
       ["knitting_needles", 10],
       ["survnote", 1],
-      ["holy_symbol", 80]
+      ["holy_symbol", 80],
+      ["cassock", 40]
     ]
   },{
     "type":"item_group",
