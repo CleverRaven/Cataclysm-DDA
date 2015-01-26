@@ -50,8 +50,7 @@
         "type" : "MONSTER_FACTION",
         "name" : "cop_bot",
         "base_faction" : "bot",
-        "neutral" : ["military", "defense_bot", "utility_bot", "small_animal"],
-        "friendly" : ["cop_zombie"]
+        "neutral" : ["military", "defense_bot", "utility_bot", "small_animal"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "animal",
