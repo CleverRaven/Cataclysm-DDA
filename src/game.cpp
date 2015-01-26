@@ -50,6 +50,8 @@
 #include <vector>
 #include <locale>
 #include <cassert>
+#include <interator> //ostream_iterator
+#include <io_manip> // put_time
 
 //TODO replace these includes with filesystem.h
 #include <sys/stat.h>
