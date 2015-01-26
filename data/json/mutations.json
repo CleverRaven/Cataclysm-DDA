@@ -3222,7 +3222,7 @@
         "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR", "MANDIBLES", "MOUTH_TENTACLES"],
         "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["MUTCAT_INSECT"]
@@ -3463,7 +3463,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "You have a beak for a mouth. You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouthgear. Slightly reduces wet effects.",
-        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH"],
+        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH", "PROBOSCIS"],
         "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
