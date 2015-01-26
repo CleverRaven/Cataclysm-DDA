@@ -73,9 +73,15 @@ void MonsterGenerator::finalize_monfactions()
     std::set< monfaction* > unloaded; // To check if cycles exist
     std::queue< monfaction* > queue;
     for( auto &pair : faction_map ) {
-        unloaded.insert( &pair.second );
+        auto faction = &pair.second;
+        unloaded.insert( faction );
         // Point parent to children
-        child_map.emplace( pair.second.base_faction, &pair.second ); 
+        child_map.emplace( faction->base_faction, faction );
+
+        // Set faction as friendly to itself if not explicitly set to anything
+        if( faction->attitude_map.count( faction ) == 0 ) {
+            faction->attitude_map[faction] = MFA_FRIENDLY;
+        }
     }
 
     child_map.erase( nullptr ); // "" faction's inexistent parent
@@ -572,8 +578,6 @@ void MonsterGenerator::load_monster_faction(JsonObject &jo)
     monfaction *faction = get_or_add_faction( name );
     std::string base_faction = jo.get_string( "base_faction", "" );
     faction->base_faction = get_or_add_faction( base_faction );
-    // Set faction as friendly to itself by default. Can be overriden in the json
-    faction->attitude_map[faction] = MFA_FRIENDLY;
     std::set< std::string > by_mood, neutral, friendly;
     by_mood = jo.get_tags( "by_mood" );
     neutral = jo.get_tags( "neutral" );
