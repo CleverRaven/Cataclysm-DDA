@@ -203,7 +203,7 @@ vehicle::~vehicle()
 bool vehicle::player_in_control (player *p)
 {
     int veh_part;
-    vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
+    vehicle *veh = g->m.veh_at( p->posx(), p->posy(), veh_part );
 
     if( veh != nullptr && veh == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle ) {
@@ -806,7 +806,7 @@ void vehicle::use_controls()
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        g->m.veh_at(g->u.posx(), g->u.posy(), vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
     } else if( remotely_controlled ) {
@@ -1226,7 +1226,7 @@ void vehicle::use_controls()
         for (size_t p = 0; p < parts.size(); p++) {
             if( part_flag( p, "CARGO" ) ) {
                 for( auto &elem : get_items(p) ) {
-                    g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
                 }
                 while( !get_items(p).empty() ) {
                     get_items(p).erase( get_items(p).begin() );
@@ -1258,7 +1258,7 @@ void vehicle::use_controls()
             bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
         }
 
-        g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
+        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
         g->m.destroy_vehicle(this);
 
         g->u.moves -= 500;
@@ -2666,7 +2666,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        vehicle *veh = g->m.veh_at(g->u.posx(), g->u.posy(), part_under_player);
         bool player_controlling = player_in_control(&(g->u));
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
@@ -3824,7 +3824,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
-    bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
+    bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
@@ -5252,8 +5252,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     tmp.skillLevel(gun.gun->skill_used).level(8);
     tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
-    tmp.posx = x;
-    tmp.posy = y;
+    tmp.setx( x );
+    tmp.sety( y );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
@@ -5286,8 +5286,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
             }
             return false;
         }
-        xtarg = auto_target->xpos();
-        ytarg = auto_target->ypos();
+        xtarg = auto_target->posx();
+        ytarg = auto_target->posy();
     } else {
         // Target set manually
         // Second value of 'target' is last position

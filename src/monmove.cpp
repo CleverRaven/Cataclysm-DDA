@@ -73,7 +73,7 @@ void monster::set_dest(int x, int y, int &t)
 {
  plans.clear();
 // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
- plans = line_to(_posx, _posy, x, y, t);
+ plans = line_to(position, point(x, y), t);
 }
 
 // Move towards (x,y) for f more turns--generally if we hear a sound there
@@ -244,7 +244,7 @@ void monster::plan(const mfactions &factions)
             friendly--;
     } else if( friendly < 0 && sees( g->u, bresenham_slope ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
-            set_dest(g->u.posx, g->u.posy, bresenham_slope);
+            set_dest(g->u.posx(), g->u.posy(), bresenham_slope);
         } else {
             plans.clear();
         }
@@ -332,11 +332,11 @@ void monster::move()
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !plans.empty() ) {
-        if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
+        if (plans.back().x == g->u.posx() && plans.back().y == g->u.posy()) {
             current_attitude = attitude( &(g->u) );
         } else {
             for( auto &i : g->active_npc ) {
-                if( plans.back().x == i->posx && plans.back().y == i->posy ) {
+                if( plans.back().x == i->posx() && plans.back().y == i->posy() ) {
                     current_attitude = attitude( i );
                 }
             }
@@ -356,7 +356,7 @@ void monster::move()
     if( !plans.empty() &&
         ( mon_att == A_HOSTILE || has_flag(MF_ATTACKMON) ) &&
         ( can_move_to( plans[0].x, plans[0].y ) ||
-          ( plans[0].x == g->u.posx && plans[0].y == g->u.posy ) ||
+          ( plans[0].x == g->u.posx() && plans[0].y == g->u.posy() ) ||
           ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
           g->m.bash_rating( bash_estimate(), plans[0].x, plans[0].y) >= 0 ) ) ) {
         // CONCRETE PLANS - Most likely based on sight
@@ -429,7 +429,7 @@ void monster::footsteps(int x, int y)
    break;
   default: break;
  }
- int dist = rl_dist(x, y, g->u.posx, g->u.posy);
+ int dist = rl_dist(x, y, g->u.posx(), g->u.posy());
  g->add_footstep(x, y, volume, dist, this);
  return;
 }
@@ -443,7 +443,7 @@ void monster::friendly_move()
     point next;
     bool moved = false;
     //If we successfully calculated a plan in the generic monster movement function, begin executing it.
-    if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
+    if (!plans.empty() && (plans[0].x != g->u.posx() || plans[0].y != g->u.posy()) &&
         (can_move_to(plans[0].x, plans[0].y) ||
          ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
           g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0))) {
@@ -491,7 +491,7 @@ point monster::scent_move()
             smell = g->scent(nx, ny);
             int mon = g->mon_at(nx, ny);
             if( (mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-                (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
+                (can_move_to(nx, ny) || (nx == g->u.posx() && ny == g->u.posy()) ||
                  ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                  g->m.bash_rating(bash_estimate(), nx, ny) >= 0))) {
                 if ((!fleeing && smell > maxsmell) || (fleeing && smell < minsmell)) {
@@ -541,54 +541,54 @@ point monster::wander_next()
     }
 
     if (xbest) {
-        if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
+        if (can_move_to(x, y) || (x == g->u.posx() && y == g->u.posy()) ||
             ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
              g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
-        } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x, y2) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
-        } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x2, y) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
-        } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x, y3) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
             next.y = y3;
-        } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x3, y) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
         }
     } else {
-        if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
+        if (can_move_to(x, y) || (x == g->u.posx() && y == g->u.posy()) ||
             ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
              g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
-        } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x2, y) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
-        } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x, y2) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
-        } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x3, y) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
-        } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
+        } else if (can_move_to(x, y3) || (x == g->u.posx() && y == g->u.posy()) ||
                    ((has_flag(MF_BASHES) || has_flag(MF_BORES)) &&
                     g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
@@ -758,7 +758,7 @@ int monster::attack_at(int x, int y) {
     int mondex = g->mon_at(x, y);
     int npcdex = g->npc_at(x, y);
 
-    if(x == g->u.posx && y == g->u.posy) {
+    if(x == g->u.posx() && y == g->u.posy()) {
         melee_attack(g->u);
         return 1;
     }
@@ -935,7 +935,7 @@ void monster::stumble(bool moved)
        !(has_flag(MF_NO_BREATHE) && !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
            && g->m.has_flag("SWIMMABLE", nx, ny)
            && !g->m.has_flag("SWIMMABLE", posx(), posy())) &&
-       (g->u.posx != nx || g->u.posy != ny) &&
+       (g->u.posx() != nx || g->u.posy() != ny) &&
        (g->mon_at(nx, ny) == -1) &&
        (g->npc_at(nx, ny) == -1) ) {
     point tmp(nx, ny);
@@ -963,7 +963,7 @@ void monster::stumble(bool moved)
   if (g->m.sees( pos(), plans.back(), -1, bresenham_slope))
    set_dest(plans.back().x, plans.back().y, bresenham_slope);
   else if (sees( g->u, bresenham_slope ))
-   set_dest(g->u.posx, g->u.posy, bresenham_slope);
+   set_dest(g->u.posx(), g->u.posy(), bresenham_slope);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();
  }

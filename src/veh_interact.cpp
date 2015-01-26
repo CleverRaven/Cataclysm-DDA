@@ -1921,7 +1921,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
+    map_inv.form_from_map( point(g->u.posx(), g->u.posy()), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1960,7 +1960,7 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx, g->u.posy), PICKUP_RANGE, itid, 1 );
+        item_used = g->m.use_amount( point(g->u.posx(), g->u.posy()), PICKUP_RANGE, itid, 1 );
     }
 
     return item_used.front();
@@ -2050,8 +2050,8 @@ void complete_vehicle ()
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset_x;
             int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
+            g->u.view_offset_x = veh->global_x() + gx - g->u.posx();
+            g->u.view_offset_y = veh->global_y() + gy - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
@@ -2084,7 +2084,7 @@ void complete_vehicle ()
     case 'r':
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             dd = 0;
@@ -2131,7 +2131,7 @@ void complete_vehicle ()
         }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
         }
         while( !veh->get_items(vehicle_part).empty() ) {
             veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
@@ -2145,13 +2145,13 @@ void complete_vehicle ()
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->parts[vehicle_part].properties_to_item();
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
                 g->u.practice ("mechanics", is_wood ? 15 : 30);
             }
         } else {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
         }
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
@@ -2172,8 +2172,8 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
+        for (int x = g->u.posx() - 1; x < g->u.posx() + 2; x++) {
+            for (int y = g->u.posy() - 1; y < g->u.posy() + 2; y++) {
                 fillv = g->m.veh_at(x, y);
                 if ( fillv != NULL &&
                      fillv != veh &&
@@ -2303,7 +2303,7 @@ void complete_vehicle ()
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
-                g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
+                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
             }
         }
         break;

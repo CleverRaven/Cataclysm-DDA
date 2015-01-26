@@ -315,7 +315,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag(std::string mut);
 
-        point pos() const;
+        const point &pos() const;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Modifies the player's sight values
@@ -1032,14 +1032,21 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void calculate_portions(int &x, int &y, int &z, int maximum);
 
         // ---------------VALUES-----------------
-        int posx, posy;
-        inline int xpos() const
+        inline int posx() const
         {
-            return posx;
+            return position.x;
         }
-        inline int ypos() const
+        inline int posy() const
         {
-            return posy;
+            return position.y;
+        }
+        inline void setx( int x )
+        {
+            position.x = x;
+        }
+        inline void sety( int y )
+        {
+            position.y = y;
         }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -1216,6 +1223,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::map<std::string, char> trait_keys;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
+        // The player's position on the local map.
+        point position;
+
         bool underwater;
         trap_map known_traps;
 

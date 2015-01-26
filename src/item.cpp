@@ -3533,7 +3533,7 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
             casing.charges = 1;
             // Drop all the casings on the ground under the player.
             for( int i = 0; i < num_casings; ++i ) {
-                g->m.add_item_or_charges(p.posx, p.posy, casing);
+                g->m.add_item_or_charges(p.posx(), p.posy(), casing);
             }
             reload_target->erase_var( "CASINGS" );
         }

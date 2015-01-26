@@ -832,7 +832,7 @@ int game::inv_for_salvage(const std::string title)
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string title)
 {
-    auto here = m.i_at(g->u.posx, g->u.posy);
+    auto here = m.i_at(g->u.posx(), g->u.posy());
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
@@ -997,8 +997,8 @@ void game::compare(int iCompareX, int iCompareY)
     int examx, examy;
 
     if (iCompareX != -999 && iCompareY != -999) {
-        examx = u.posx + iCompareX;
-        examy = u.posy + iCompareY;
+        examx = u.posx() + iCompareX;
+        examy = u.posy() + iCompareY;
     } else if (!choose_adjacent(_("Compare where?"), examx, examy)) {
         return;
     }

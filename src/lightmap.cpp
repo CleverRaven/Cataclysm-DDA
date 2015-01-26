@@ -57,7 +57,7 @@ void map::generate_lightmap()
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
-                } else if (g->u.posx == sx && g->u.posy == sy ) {
+                } else if (g->u.posx() == sx && g->u.posy() == sy ) {
                     //Only apply daylight on square where player is standing to avoid flooding
                     // the lightmap  when in less than total sunlight.
                     lm[sx][sy] = natural_light;
@@ -68,7 +68,7 @@ void map::generate_lightmap()
 
     // Apply player light sources
     if (held_luminance > LIGHT_AMBIENT_LOW) {
-        apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
+        apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
@@ -78,7 +78,7 @@ void map::generate_lightmap()
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx(), g->u.posy()) ) {
                 if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
@@ -272,7 +272,7 @@ void map::generate_lightmap()
     if (g->u.has_active_bionic("bio_night") ) {
         for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
             for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-                if (rl_dist(sx, sy, g->u.posx, g->u.posy) < 15) {
+                if (rl_dist(sx, sy, g->u.posx(), g->u.posy()) < 15) {
                     lm[sx][sy] = 0;
                 }
             }
@@ -321,7 +321,7 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;
     }
 
-    if( max_range >= 0 && square_dist( tx, ty, g->u.posx, g->u.posy ) > max_range ) {
+    if( max_range >= 0 && square_dist( tx, ty, g->u.posx(), g->u.posy() ) > max_range ) {
         return false;    // Out of range!
     }
 
@@ -344,10 +344,10 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
 void map::build_seen_cache()
 {
     memset(seen_cache, false, sizeof(seen_cache));
-    seen_cache[g->u.posx][g->u.posy] = true;
+    seen_cache[g->u.posx()][g->u.posy()] = true;
 
-    const int offsetX = g->u.posx;
-    const int offsetY = g->u.posy;
+    const int offsetX = g->u.posx();
+    const int offsetY = g->u.posy();
 
     castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );

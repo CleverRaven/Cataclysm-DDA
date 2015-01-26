@@ -76,7 +76,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
            // ...malus if we are tired...
            (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
-           rl_dist(p.posx, p.posy, x, y) +
+           rl_dist(p.pos(), point(x, y)) +
            // Police are trained to notice Something Wrong.
            (p.has_trait("PROF_POLICE") ? 1 : 0) +
            (p.has_trait("PROF_PD_DET") ? 2 : 0) >
