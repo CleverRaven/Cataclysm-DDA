@@ -863,6 +863,7 @@ int monster::move_to(int x, int y, bool force)
 
     setpos(x, y);
     footsteps(x, y);
+    underwater = will_be_water;
     if(is_hallucination()) {
         //Hallucinations don't do any of the stuff after this point
         return 1;
@@ -884,6 +885,9 @@ int monster::move_to(int x, int y, bool force)
         if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
             tr->trigger(this, posx(), posy());
         }
+    }
+    if( !will_be_water && ( has_flag(MF_DIGS) || has_flag(MF_CAN_DIG) ) ) {
+        underwater = g->m.has_flag("DIGGABLE", posx(), posy() );
     }
     // Diggers turn the dirt into dirtmound
     if (digging()){

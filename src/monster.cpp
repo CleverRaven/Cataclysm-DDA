@@ -112,14 +112,7 @@ bool monster::setpos(const int x, const int y, const bool level_change)
     bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     position.x = x;
     position.y = y;
-    if( can_submerge() && g->m.has_flag( "SWIMMABLE", posx(), posy() ) ) {
-        underwater = true;
-    } else if( ( has_flag(MF_DIGS) || has_flag(MF_CAN_DIG) ) && 
-                 g->m.has_flag("DIGGABLE", posx(), posy()) ) {
-        // Let's reuse the variable
-        // Rename to "submerged"?
-        underwater = true;
-    }
+
     return ret;
 }
 
