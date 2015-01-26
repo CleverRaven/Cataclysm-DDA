@@ -3418,7 +3418,7 @@
             ]
         }
     },
-	{
+    {
 
             "type": "profession",
             "ident": "elementary_student",
@@ -3430,13 +3430,13 @@
                     "tshirt",
                     "socks",
                     "backpack",
-					"sneakers",
-					"jeans",
-					"jacket_light",
-					"knit_scarf",
-					"juice",
-					"sandwich_pbj",
-					"fairy_tales"
+                    "sneakers",
+                    "jeans",
+                    "jacket_light",
+                    "knit_scarf",
+                    "juice",
+                    "sandwich_pbj",
+                    "fairy_tales"
                 ],
                 "male": [
                     "briefs"
@@ -3446,7 +3446,7 @@
                 ]
             }
     },
-	{
+    {
         "type": "profession",
         "ident": "skaterkid",
         "name": {
@@ -3467,15 +3467,15 @@
         "items": {
             "both": [
                 "tshirt",
-				"hoodie",
-				"jeans",
+                "hoodie",
+                "jeans",
                 "socks",
                 "elbow_pads",
                 "knee_pads",
                 "gloves_fingerless",
                 "helmet_skid",
                 "roller_blades",
-				"sports_drink"
+                "sports_drink"
             ],
             "male": [
                 "briefs"
@@ -3485,7 +3485,7 @@
             ]
         }
     },
-	{
+    {
 
             "type": "profession",
             "ident": "churchkid",
@@ -3497,13 +3497,13 @@
                     "dress_shirt",
                     "socks",
                     "backpack",
-					"sneakers",
-					"jeans",
-					"jacket_light",
-					"knit_scarf",
-					"juice",
-					"sandwich_pbj",
-					"holy_symbol"
+                    "sneakers",
+                    "jeans",
+                    "jacket_light",
+                    "knit_scarf",
+                    "juice",
+                    "sandwich_pbj",
+                    "holy_symbol"
                 ],
                 "male": [
                     "briefs"
@@ -3513,7 +3513,7 @@
                 ]
             }
     },
-	{
+    {
         "type": "profession",
         "ident": "jdelinquent",
         "name": "Juvenile Delinquent",
@@ -3536,18 +3536,18 @@
         "items": {
             "both": [
                 "tshirt",
-				"hoodie",
-				"jeans",
+                "hoodie",
+                "jeans",
                 "socks",
-				"sneakers",
-				"gloves_fingerless",
-				"matches",
-				"hairpin",
-				"hairpin",
-				"mag_comic",
-				"marble",
-				"marble",
-				"slingshot"
+                "sneakers",
+                "gloves_fingerless",
+                "matches",
+                "hairpin",
+                "hairpin",
+                "mag_comic",
+                "marble",
+                "marble",
+                "slingshot"
             ],
             "male": [
                 "briefs"
@@ -3557,7 +3557,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "prep_student",
         "name": "Preppy Student",
@@ -3572,22 +3572,22 @@
         "items": {
             "both": [
                 "dress_shirt",
-				"jacket_light",
-				"pants",
-				"socks",
-				"dress_shoes",
-				"skinny_tie",
-				"tieclip",
-				"fancy_sunglasses",
-				"knit_scarf",
-				"wristwatch",
-				"mbag",
-				"water_mineral",
-				"pda",
-				"cell_phone",
-				"money_bundle",
-				"adderall",
-				"manual_business"				
+                "jacket_light",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "skinny_tie",
+                "tieclip",
+                "fancy_sunglasses",
+                "knit_scarf",
+                "wristwatch",
+                "mbag",
+                "water_mineral",
+                "pda",
+                "cell_phone",
+                "money_bundle",
+                "adderall",
+                "manual_business"               
             ],
             "male": [
                 "briefs"
@@ -3597,7 +3597,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "jr_survivalist",
         "name": "Survivalist Jr.",
@@ -3620,18 +3620,18 @@
         "items": {
             "both": [
                 "tshirt",
-				"jacket_light",
-				"pants_cargo",
-				"socks",
-				"boots",
-				"knit_scarf",
-				"backpack",
-				"granola",
-				"water_clean",
-				"scissors",
-				"magnifying_glass",
-				"flashlight",
-				"1st_aid"
+                "jacket_light",
+                "pants_cargo",
+                "socks",
+                "boots",
+                "knit_scarf",
+                "backpack",
+                "granola",
+                "water_clean",
+                "scissors",
+                "magnifying_glass",
+                "flashlight",
+                "1st_aid"
             ],
             "male": [
                 "briefs"
@@ -3641,7 +3641,7 @@
             ]
         }
     },
-	{
+    {
 
             "type": "profession",
             "ident": "bionic_student",
@@ -3657,20 +3657,20 @@
             "items": {
                 "both": [
                     "dress_shirt",
-					"jacket_light",
-					"pants",
-					"socks",
-					"dress_shoes",
-					"skinny_tie",
-					"tieclip",
-					"fancy_sunglasses",
-					"knit_scarf",
-					"wristwatch",
-					"mbag",
-					"water_mineral",
-					"pda",
-					"cell_phone",
-					"money_bundle"
+                    "jacket_light",
+                    "pants",
+                    "socks",
+                    "dress_shoes",
+                    "skinny_tie",
+                    "tieclip",
+                    "fancy_sunglasses",
+                    "knit_scarf",
+                    "wristwatch",
+                    "mbag",
+                    "water_mineral",
+                    "pda",
+                    "cell_phone",
+                    "money_bundle"
                 ],
                 "male": [
                     "briefs"
@@ -3680,7 +3680,7 @@
                 ]
             }
     },
-	{
+    {
         "type": "profession",
         "ident": "dodgeball_player",
         "name": "Dodgeball Player",
@@ -3699,12 +3699,12 @@
         "items": {
             "both": [
                 "tshirt",
-				"jacket_light",
-				"jeans",
-				"socks",
-				"lowtops",
-				"runner_bag",
-				"juice"
+                "jacket_light",
+                "jeans",
+                "socks",
+                "lowtops",
+                "runner_bag",
+                "juice"
             ],
             "male": [
                 "briefs"
@@ -3714,7 +3714,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "science_club_mem",
         "name": "Science Club Member",
@@ -3729,14 +3729,14 @@
         "items": {
             "both": [
                 "tshirt",
-				"jacket_light",
-				"jeans",
-				"socks",
-				"sneakers",
-				"knit_scarf",
-				"glasses_safety",
-				"chemistry_set",
-				"textbook_chemistry"
+                "jacket_light",
+                "jeans",
+                "socks",
+                "sneakers",
+                "knit_scarf",
+                "glasses_safety",
+                "chemistry_set",
+                "textbook_chemistry"
             ],
             "male": [
                 "briefs"
@@ -3746,18 +3746,18 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "av_club_mem",
         "name": "A/V Club Member",
-        "description": "You were a member of the school A/V club. Are those even a thing in 2042? You're sure there's some way you can use your technical skills to help stay alive. You just haven't figured out how to make an awesome death ray yet.",
+        "description": "You were a member of the school A/V club. You're sure there's some way you can use your technical skills to help stay alive. You just haven't figured out how to make an awesome death ray yet.",
         "points": 0,
         "skills": [
             {
                 "level": 1,
                 "name": "electronics"
             },
-			{
+            {
                 "level": 1,
                 "name": "computer"
             }
@@ -3765,13 +3765,13 @@
         "items": {
             "both": [
                 "linuxtshirt",
-				"jacket_light",
-				"jeans",
-				"socks",
-				"sneakers",
-				"knit_scarf",
-				"backpack",
-				"mag_electronics"
+                "jacket_light",
+                "jeans",
+                "socks",
+                "sneakers",
+                "knit_scarf",
+                "backpack",
+                "mag_electronics"
             ],
             "male": [
                 "briefs"
