@@ -1716,7 +1716,7 @@ void veh_interact::display_details( const vpart_info *part )
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
             int stats_col_2 = 34;
             int stats_col_3 = 63 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
-            int clear_x = stats_w - details_w >= stats_col_3 ? stats_col_3 : stats_col_2;
+            int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
             for( int i = 0; i < stats_h; i++) {
                 mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
             }
