@@ -88,7 +88,8 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    if( !sees( c.pos(), bresenham_slope ) ) {
+    // No targetting own tile. Creatures sharing tiles can happen.
+    if( d <= 0 || !sees( c, bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
