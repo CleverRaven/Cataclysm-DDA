@@ -3756,7 +3756,7 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(17, 15, body);
                         add_item(8, 3, body);
                         add_item(10, 3, body);
-                        spawn_item(18, 15, "ax");
+                        spawn_item(18, 15, "fire_ax");
                         lw = 0; // no wall on the left
                     }
                     else { //analyzer
