@@ -477,6 +477,7 @@ class Creature
         int throw_resist;
 
         bool fake;
+        bool underwater;
 
         Creature();
         Creature(const Creature &) = default;

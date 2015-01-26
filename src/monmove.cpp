@@ -135,8 +135,9 @@ void monster::plan(const mfactions &factions)
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
-    bool angers_hostile_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
+    int angers_hostile_near = ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
+    int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
 
@@ -166,8 +167,9 @@ void monster::plan(const mfactions &factions)
             closest = -2;
             selected_slope = bresenham_slope;
         }
-        if( angers_hostile_near && dist <= 5 ) {
-            anger += 5;
+        if( dist <= 5 ) {
+            anger += angers_hostile_near;
+            morale -= fears_hostile_near;
         }
     }
 
@@ -185,8 +187,9 @@ void monster::plan(const mfactions &factions)
                     selected_slope = bresenham_slope;
             }
             fleeing = fleeing || fleeing_from;
-            if( angers_hostile_near && rating <= 5 ) {
-                anger += 5;
+            if( rating <= 5 ) {
+                anger += angers_hostile_near;
+                morale -= fears_hostile_near;
             }
         }
     }
@@ -206,8 +209,9 @@ void monster::plan(const mfactions &factions)
                     closest = -3 - i;
                     selected_slope = bresenham_slope;
                 }
-                if( angers_hostile_near && rating <= 5 ) {
-                    anger += 5;
+                if( rating <= 5 ) {
+                    anger += angers_hostile_near;
+                    morale -= fears_hostile_near;
                 }
             }
         }
