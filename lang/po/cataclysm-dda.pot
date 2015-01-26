@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-19 10:11+0300\n"
+"POT-Creation-Date: 2015-01-26 09:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9293,7 +9293,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "bag gloves"
-msgid_plural "bag glovess"
+msgid_plural "pairs of bag gloves"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -9303,7 +9303,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "bag socks"
-msgid_plural "bag sockss"
+msgid_plural "pairs of bag socks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -9313,7 +9313,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "paper arm guards"
-msgid_plural "paper arm guardss"
+msgid_plural "pairs of paper arm guards"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -9323,7 +9323,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "paper leg guards"
-msgid_plural "paper leg guardss"
+msgid_plural "pairs of paper leg guards"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -9522,7 +9522,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle pants"
-msgid_plural "motorcycle pantss"
+msgid_plural "pairs of motorcycle pants"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -9532,7 +9532,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle boots"
-msgid_plural "motorcycle bootss"
+msgid_plural "pairs of motorcycle boots"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19439,8 +19439,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sewagas"
-msgid_plural "sewagass"
+msgid "sewagas inhaler"
+msgid_plural "sewagas inhalers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19453,8 +19453,8 @@ msgid "A powerful hallucinogen with low risk of addiction."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "stimgas"
-msgid_plural "stimgass"
+msgid "stimgas inhaler"
+msgid_plural "stimgas inhalers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -22087,7 +22087,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "spike"
 msgid_plural "spikes"
 msgstr[0] ""
@@ -23669,7 +23668,6 @@ msgid "A leather-covered seat designed to be straddled."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "muffler"
 msgid_plural "mufflers"
 msgstr[0] ""
@@ -23692,7 +23690,6 @@ msgid "A set of various vehicle controls.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "electric motor"
 msgid_plural "electric motors"
 msgstr[0] ""
@@ -23703,7 +23700,6 @@ msgid "A powerful electric motor.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "large electric motor"
 msgid_plural "large electric motors"
 msgstr[0] ""
@@ -23714,7 +23710,6 @@ msgid "A large and very powerful electric motor.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "small electric motor"
 msgid_plural "small electric motors"
 msgstr[0] ""
@@ -23725,7 +23720,6 @@ msgid "A small electric motor.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "plasma engine"
 msgid_plural "plasma engines"
 msgstr[0] ""
@@ -23756,7 +23750,6 @@ msgid "Hand rims for use on a wheelchair."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "small storage battery"
 msgid_plural "small storage batteries"
 msgstr[0] ""
@@ -23767,7 +23760,6 @@ msgid "A small storage battery.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "medium storage battery"
 msgid_plural "medium storage batteries"
 msgstr[0] ""
@@ -23778,7 +23770,6 @@ msgid "A medium storage battery."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "motorbike battery"
 msgid_plural "motorbike batteries"
 msgstr[0] ""
@@ -23790,7 +23781,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "car battery"
 msgid_plural "car batteries"
 msgstr[0] ""
@@ -23801,7 +23791,6 @@ msgid "A 12v lead-acid battery used to power car electrical systems."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "truck battery"
 msgid_plural "truck batteries"
 msgstr[0] ""
@@ -23812,7 +23801,6 @@ msgid "A large 12v lead-acid battery used to power truck electrical systems."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "reinforced head light"
 msgid_plural "reinforced head lights"
 msgstr[0] ""
@@ -23825,7 +23813,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "motorbike alternator"
 msgid_plural "motorbike alternators"
 msgstr[0] ""
@@ -23836,7 +23823,6 @@ msgid "A small alternator used to power small vehicle electrical systems."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "car alternator"
 msgid_plural "car alternators"
 msgstr[0] ""
@@ -23847,7 +23833,6 @@ msgid "An alternator used to power car electrical systems."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "truck alternator"
 msgid_plural "truck alternators"
 msgstr[0] ""
@@ -23858,7 +23843,6 @@ msgid "A large alternator used to power truck electrical systems."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "storage battery"
 msgid_plural "storage batteries"
 msgstr[0] ""
@@ -23884,7 +23868,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "minireactor"
 msgid_plural "minireactors"
 msgstr[0] ""
@@ -23895,7 +23878,6 @@ msgid "A small portable plutonium reactor.  Handle with great care!"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "solar panel"
 msgid_plural "solar panels"
 msgstr[0] ""
@@ -23908,7 +23890,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "reinforced solar panel"
 msgid_plural "reinforced solar panels"
 msgstr[0] ""
@@ -23923,7 +23904,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "upgraded solar panel"
 msgid_plural "upgraded solar panels"
 msgstr[0] ""
@@ -23937,7 +23917,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "upgraded reinforced solar panel"
 msgid_plural "upgraded reinforced solar panels"
 msgstr[0] ""
@@ -23952,7 +23931,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "quantum solar panel"
 msgid_plural "quantum solar panels"
 msgstr[0] ""
@@ -23967,7 +23945,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "minifridge"
 msgid_plural "minifridges"
 msgstr[0] ""
@@ -24020,7 +23997,6 @@ msgid "A bundle of two by fours prepared to be used as vehicle armor."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "steel plating"
 msgid_plural "steel platings"
 msgstr[0] ""
@@ -24031,7 +24007,6 @@ msgid "A piece of armor plating made of steel."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "superalloy plating"
 msgid_plural "superalloy platings"
 msgstr[0] ""
@@ -24052,7 +24027,6 @@ msgid "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "spiked plating"
 msgid_plural "spiked platings"
 msgstr[0] ""
@@ -24064,7 +24038,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "hard plating"
 msgid_plural "hard platings"
 msgstr[0] ""
@@ -24087,7 +24060,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "water faucet"
 msgid_plural "water faucets"
 msgstr[0] ""
@@ -24135,7 +24107,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "FOODCO kitchen buddy"
 msgid_plural "FOODCO kitchen buddies"
 msgstr[0] ""
@@ -24156,7 +24127,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "onboard chemistry lab"
 msgid_plural "onboard chemistry labs"
 msgstr[0] ""
@@ -25043,6 +25013,18 @@ msgstr[1] ""
 msgid ""
 "A counterweight placed forward of the bow's grip allows for greater "
 "accuracy.  Aside from increased weight and size, there are no drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "arrow rest"
+msgid_plural "arrow rests"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A small extension above the grip which an arrow rests upon while being "
+"aimed.  Improves accuracy with no drawbacks."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -27918,7 +27900,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Quad Nail Turret"
-msgid_plural "Quad Nail Turret"
+msgid_plural "Quad Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27931,7 +27913,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turret"
+msgid_plural "Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27943,7 +27925,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Dual SMG Turret"
-msgid_plural "Dual SMG Turret"
+msgid_plural "Dual SMG Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27957,7 +27939,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Quad SMG Turret"
-msgid_plural "Quad SMG Turret"
+msgid_plural "Quad SMG Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27971,7 +27953,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Scorpion Turret"
-msgid_plural "Scorpion Turret"
+msgid_plural "Scorpion Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27983,7 +27965,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Rotary Spear Turret"
-msgid_plural "Rotary Spear Turret"
+msgid_plural "Rotary Spear Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27997,7 +27979,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Spear Turret"
-msgid_plural "Spear Turret"
+msgid_plural "Spear Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28009,7 +27991,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Slingshot Cannon"
-msgid_plural "Slingshot Cannon"
+msgid_plural "Slingshot Cannons"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28023,7 +28005,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Avalanche Turret"
-msgid_plural "Avalanche Turret"
+msgid_plural "Avalanche Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28036,7 +28018,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Gatling Cannon Turret"
-msgid_plural "Gatling Cannon Turret"
+msgid_plural "Gatling Cannon Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28049,7 +28031,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Machine Gun Turret"
-msgid_plural "Machine Gun Turret"
+msgid_plural "Machine Gun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28062,7 +28044,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Automated Machine Gun Turret"
-msgid_plural "Machine Gun Turret"
+msgid_plural "Machine Gun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28099,7 +28081,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Splintergun Turret"
-msgid_plural "Splintergun Turret"
+msgid_plural "Splintergun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28153,7 +28135,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Ripper"
-msgid_plural "Ripper"
+msgid_plural "Rippers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -32177,7 +32159,7 @@ msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "ski mask (open)"
-msgid_plural "ski mask (open)s"
+msgid_plural "ski masks (open)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -35307,6 +35289,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "makeshift vacuum sealer"
+msgid_plural "makeshift vacuum sealers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a homemade heat sealer unit with an air pump.  It's used for vacuum "
+"packing food to preserve it."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "medical gauze"
 msgid_plural "medical gauzes"
 msgstr[0] ""
@@ -35646,7 +35640,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "bicycle horn"
 msgid_plural "bicycle horns"
 msgstr[0] ""
@@ -35658,7 +35651,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "car horn"
 msgid_plural "car horns"
 msgstr[0] ""
@@ -35669,7 +35661,6 @@ msgid "This is a car horn meant to be attached to a car's electrical system."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "truck horn"
 msgid_plural "truck horns"
 msgstr[0] ""
@@ -42705,6 +42696,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/martial_art_from_json.py src/newcharacter.cpp
+#: src/newcharacter.cpp
 msgid "Karate"
 msgstr ""
 
@@ -47407,6 +47399,26 @@ msgstr ""
 msgid ""
 "You spent a lot of time actively maneuvering on skates before the cataclysm, "
 "and are better at staying on your feet when checked or blocked."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Martial Artist"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You were shaping up to be a pretty decent student of the martial arts before "
+"the Cataclysm struck.  Time to see just how good you really were."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Black Belt"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You were competitive at national levels, and had considered teaching your "
+"art.  Defending against the entire town may still be a challenge, though."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -70016,8 +70028,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
-msgid "This book has <num> unread chapters."
-msgid_plural "This book has <num> unread chapter."
+msgid "This book has <num> unread chapter."
+msgid_plural "This book has <num> unread chapters."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -76833,6 +76845,10 @@ msgid "glass shattering"
 msgstr ""
 
 #: src/map.cpp
+msgid "an alarm go off!"
+msgstr ""
+
+#: src/map.cpp
 msgid "You are crushed by the falling debris!"
 msgstr ""
 
@@ -79343,6 +79359,26 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "A bolt of electricity arcs towards %s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "%s is pulled away from your hands!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "%s is pulled away from <npcname>'s hands!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s unsuccessfully attempts to pull your weapon away."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s unsuccessfully attempts to pull <npcname>'s weapon away."
 msgstr ""
 
 #: src/monattack.cpp
@@ -87121,7 +87157,7 @@ msgstr ""
 msgid "Dexterity"
 msgstr ""
 
-#: src/player.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "Strength"
 msgstr ""
 
@@ -90705,6 +90741,14 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
+"Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_"
+"%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</"
+"color> skill in mechanics.%8$s"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level "
 "<color_%4$s>%5$d</color> skill in mechanics.%6$s"
 msgstr ""
@@ -90738,6 +90782,80 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Choose new part to install here:"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "All"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Cargo"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Light"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Util"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Hull"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Internal"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Other"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "A"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "C"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "L"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "U"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "H"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "I"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "O"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Choose shape:"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -90789,6 +90907,13 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "What to refill:"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"You need a <color_%1$s>hammer</color> and <color_%2$s>level %3$d</color> "
+"mechanics skill to remove this part."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -90990,6 +91115,100 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<ESC>-back"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Dur"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Durability"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Damage"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Dmg"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Weight"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wgt"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "FoldVol"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Folded Volume"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Cap"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Capacity"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Size"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheel Size"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Str"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Noise"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Range"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Light"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Bat"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Battery"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Charge: <color_ltgray>%s</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Power: <color_ltgray>%d</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "boardable"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "opaque"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "openable"
 msgstr ""
 
 #: src/veh_interact.cpp
