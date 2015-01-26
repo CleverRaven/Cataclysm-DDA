@@ -6,6 +6,7 @@
 #include "item_group.h"
 #include "catacharset.h"
 #include "item.h"
+#include "output.h"
 #include <queue>
 
 MonsterGenerator::MonsterGenerator()
@@ -684,7 +685,11 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
 
     std::set<std::string>::iterator it = death_flags.begin();
     for (; it != death_flags.end(); ++it) {
-        deaths.push_back(death_map[*it]);
+        if ( death_map.find(*it) != death_map.end() ) {
+            deaths.push_back(death_map[*it]);
+        } else {
+            jo.throw_error("Invalid death_function");
+        }
     }
 
     if (deaths.empty()) {
@@ -701,8 +706,12 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-            m->sp_freq.push_back(inner.get_int(1));
+            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
+                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+                m->sp_freq.push_back(inner.get_int(1));
+            } else {
+                inner.throw_error("Invalid special_attacks");
+            }
         }
     }
 
@@ -715,8 +724,12 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
 void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
     if (jo.has_array(member)) {
         JsonArray jsarr = jo.get_array(member);
-        m->sp_defense = defense_map[jsarr.get_string(0)];
-        m->def_chance = jsarr.get_int(1);
+        if ( defense_map.find(jsarr.get_string(0)) != defense_map.end() ) {
+            m->sp_defense = defense_map[jsarr.get_string(0)];
+            m->def_chance = jsarr.get_int(1);
+        } else {
+            jsarr.throw_error("Invalid special_when_hit");
+        }
     }
 
     if (m->sp_defense == NULL) {
