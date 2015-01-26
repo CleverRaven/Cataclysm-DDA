@@ -21,7 +21,7 @@ void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 double Creature::projectile_attack(const projectile &proj, int targetx, int targety,
                                    double shot_dispersion)
 {
-    return projectile_attack(proj, xpos(), ypos(), targetx, targety, shot_dispersion);
+    return projectile_attack(proj, posx(), posy(), targetx, targety, shot_dispersion);
 }
 
 /* Adjust dispersion cutoff thresholds per skill type.
@@ -100,7 +100,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     int py = sourcey;
 
     // if this is a vehicle mounted turret, which vehicle is it mounted on?
-    const vehicle *in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
+    const vehicle *in_veh = is_fake() ? g->m.veh_at(posx(), posy()) : NULL;
 
     //Start this now in case we hit something early
     std::vector<point> blood_traj = std::vector<point>();
@@ -134,7 +134,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
         if (mon != NULL && mon->digging() &&
-            rl_dist(xpos(), ypos(), tx, ty) > 1) {
+            rl_dist(posx(), posy(), tx, ty) > 1) {
             critter = mon = NULL;
         }
         // If we shot us a monster...
@@ -322,7 +322,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                   proj.proj_effects.count("RECOVER_15") ||
                   proj.proj_effects.count("RECOVER_25") );
 
-    //int x = xpos(), y = ypos();
+    //int x = posx(), y = posy();
     if (has_trait("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
     }
@@ -414,7 +414,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                     }
                 }
                 // search for monsters in radius
-                if( rl_dist( z.xpos(), z.ypos(), tarx, tary) <= near_range ) {
+                if( rl_dist( z.posx(), z.posy(), tarx, tary) <= near_range ) {
                     // oh you're not dead and I don't like you. Hello!
                     ++it;
                 } else {
@@ -425,8 +425,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
                 int target_picked = rng(0, new_targets.size() - 1);
-                tarx = new_targets[target_picked]->xpos();
-                tary = new_targets[target_picked]->ypos();
+                tarx = new_targets[target_picked]->posx();
+                tary = new_targets[target_picked]->posy();
             } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
@@ -453,8 +453,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
                     int y = 0;
                     int count = 0;
                     do {
-                        x = xpos() - 1 + rng(0, 2);
-                        y = ypos() - 1 + rng(0, 2);
+                        x = posx() - 1 + rng(0, 2);
+                        y = posy() - 1 + rng(0, 2);
                         count++;
                         // Try not to drop the casing on a wall if at all possible.
                     } while( g->m.move_cost( x, y ) == 0 && count < 10 );
@@ -500,7 +500,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
-        int range = rl_dist(xpos(), ypos(), tarx, tary);
+        int range = rl_dist(posx(), posy(), tarx, tary);
         // penalties for point-blank
         // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
         if (range < int(weapon.type->volume / 3) && curammo->ammo->type != "shot") {
@@ -564,7 +564,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                       std::vector<point> &trajectory)
 {
     int deviation = 0;
-    int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
+    int trange = 1.5 * rl_dist(p.posx(), p.posy(), tarx, tary);
     std::set<std::string> no_effects;
 
     // Throwing attempts below "Basic Competency" level are extra-bad
@@ -613,10 +613,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
         tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
         tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
-        if (m.sees(p.posx, p.posy, tarx, tary, -1, tart)) {
-            trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
+        if (m.sees(p.posx(), p.posy(), tarx, tary, -1, tart)) {
+            trajectory = line_to(p.posx(), p.posy(), tarx, tary, tart);
         } else {
-            trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+            trajectory = line_to(p.posx(), p.posy(), tarx, tary, 0);
         }
         missed = true;
         p.add_msg_if_player(_("You miss!"));
@@ -733,9 +733,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 std::string health_bar = "";
                 if (zid != -1) {
                     get_HP_Bar(dam, z->get_hp_max(), color, health_bar, true);
-                    SCT.add(z->xpos(),
-                            z->ypos(),
-                            direction_from(0, 0, z->xpos() - p.posx, z->ypos() - p.posy),
+                    SCT.add(z->posx(),
+                            z->posy(),
+                            direction_from(0, 0, z->posx() - p.posx(), z->posy() - p.posy()),
                             health_bar.c_str(), m_good,
                             message, gmtSCTcolor);
                     p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
@@ -743,9 +743,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                             message.c_str(), z->name().c_str(), dam);
                 } else if (npcID != -1) {
                     get_HP_Bar(dam, guy->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar, true);
-                    SCT.add(guy->xpos(),
-                            guy->ypos(),
-                            direction_from(0, 0, guy->xpos() - p.posx, guy->ypos() - p.posy),
+                    SCT.add(guy->posx(),
+                            guy->posy(),
+                            direction_from(0, 0, guy->posx() - p.posx(), guy->posy() - p.posy()),
                             health_bar.c_str(), m_good,
                             message, gmtSCTcolor);
                     p.add_msg_player_or_npc(m_good, _("%s You hit %s for %d damage."),
@@ -775,8 +775,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 tx = trajectory[i - 1].x;
                 ty = trajectory[i - 1].y;
             } else {
-                tx = u.posx;
-                ty = u.posy;
+                tx = u.posx();
+                ty = u.posy();
             }
             break;
         }
@@ -896,7 +896,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
 static int find_target( std::vector <Creature *> &t, int x, int y ) {
     int target = -1;
     for( int i = 0; i < (int)t.size(); i++ ) {
-        if( t[i]->xpos() == x && t[i]->ypos() == y ) {
+        if( t[i]->posx() == x && t[i]->posy() == y ) {
             target = i;
             break;
         }
@@ -908,7 +908,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
                     item *relevant, const int x, const int y )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->xpos() != x || t[target]->ypos() != y ) {
+    if( t[target]->posx() != x || t[target]->posy() != y ) {
         target = find_target( t, x, y );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
@@ -942,8 +942,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         if( static_cast<size_t>( target ) >= t.size() ) {
             target = 0;
         }
-        x = t[target]->xpos();
-        y = t[target]->ypos();
+        x = t[target]->posx();
+        y = t[target]->posy();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
@@ -1024,7 +1024,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         if (snap_to_target) {
             center = point(x, y);
         } else {
-            center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+            center = point(u.posx() + u.view_offset_x, u.posy() + u.view_offset_y);
         }
         // Clear the target window.
         for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {
@@ -1143,7 +1143,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             const Creature *critter = critter_at( x, y );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
-            } else if (m.sees(u.posx, u.posy, x, y, -1, junk)) {
+            } else if (m.sees(u.posx(), u.posy(), x, y, -1, junk)) {
                 m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');
@@ -1165,15 +1165,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             if( newtarget == -1 ) {
                 newtarget = t.size() - 1;
             }
-            x = t[newtarget]->xpos();
-            y = t[newtarget]->ypos();
+            x = t[newtarget]->posx();
+            y = t[newtarget]->posy();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
             int newtarget = find_target( t, x, y ) + 1;
             if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
-            x = t[newtarget]->xpos();
-            y = t[newtarget]->ypos();
+            x = t[newtarget]->posx();
+            y = t[newtarget]->posy();
         } else if ((action == "AIM") && target != -1) {
             do_aim( &u, t, target, relevant, x, y );
             if(u.moves <= 0) {
@@ -1362,15 +1362,15 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 
     if( ammo_used == "40mm") {
-        g->sound(p.posx, p.posy, 8, _("Thunk!"));
+        g->sound(p.posx(), p.posy(), 8, _("Thunk!"));
     } else if( weapon_id == "hk_g80") {
-        g->sound(p.posx, p.posy, 24, _("tz-CRACKck!"));
+        g->sound(p.posx(), p.posy(), 24, _("tz-CRACKck!"));
     } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
                ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
+        g->sound(p.posx(), p.posy(), 4, _("Fwoosh!"));
     } else if( ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
                ammo_used != "fishspear" && ammo_used != "dart" ) {
-        g->sound(p.posx, p.posy, noise, gunsound);
+        g->sound(p.posx(), p.posy(), noise, gunsound);
     }
 }
 

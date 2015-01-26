@@ -690,7 +690,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     // Setting the position to -1 ensures that the INBOUNDS check in
     // map.cpp is triggered. This check prevents access to invalid position
     // on the map (like -1,0) and instead returns a dummy default value.
-    u->posx = -1;
+    u->setx( -1 );
     u->reset();
 
     const char clear[] = "                                                ";

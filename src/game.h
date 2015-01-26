@@ -332,7 +332,10 @@ class game
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
-        void update_map(int &x, int &y);  // Called by plmove when the map updates
+        // Handles shifting coordinates transparently when moving between submaps.
+        // Helper to make calling with a player pointer less verbose.
+        void update_map(player *p);
+        void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
         // Position of the player in overmap terrain coordinates, relative
         // to the current overmap (@ref cur_om).

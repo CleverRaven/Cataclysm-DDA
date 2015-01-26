@@ -210,8 +210,8 @@ bool editmap::eget_direction(int &x, int &y, const std::string &action) const
     x = 0;
     y = 0;
     if ( action == "CENTER" ) {
-        x = ( g->u.posx - ( target.x ) );
-        y = ( g->u.posy - ( target.y ) );
+        x = ( g->u.posx() - ( target.x ) );
+        y = ( g->u.posy() - ( target.y ) );
     } else if ( action == "LEFT_WIDE" ) {
         x = 0 - (tmaxx / 2);
     } else if ( action == "DOWN_WIDE" ) {
@@ -261,8 +261,8 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
 
 point editmap::edit()
 {
-    target.x = g->u.posx + g->u.view_offset_x;
-    target.y = g->u.posy + g->u.view_offset_y;
+    target.x = g->u.posx() + g->u.view_offset_x;
+    target.y = g->u.posy() + g->u.view_offset_y;
     input_context ctxt("EDITMAP");
     ctxt.register_directions();
     ctxt.register_action("LEFT_WIDE");

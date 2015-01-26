@@ -557,8 +557,8 @@ void mission_start::recruit_tracker(mission *miss)
  temp->randomize(NC_COWBOY);
  // NPCs spawn with submap coordinates, site is in overmap terrain coords
  temp->spawn_at( site.x * 2, site.y * 2, g->levz );
- temp->posx = 11;
- temp->posy = 11;
+ temp->setx( 11 );
+ temp->sety( 11 );
  temp->attitude = NPCATT_TALK;
  temp->mission = NPC_MISSION_SHOPKEEP;
  temp->personality.aggression -= 1;
