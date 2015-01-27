@@ -570,7 +570,7 @@ void Character::mutation_effect(std::string mut)
                     }
 
                     int pos = player::worn_position_to_index(i);
-                    g->m.add_item_or_charges(xpos(), ypos(), worn[i]);
+                    g->m.add_item_or_charges(posx(), posy(), worn[i]);
                     i_rem(pos);
                 }
                 // Reset to the start of the vector
@@ -829,7 +829,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
             drop = true;
         }
         if (drop) {
-            retval &= g->m.add_item_or_charges(xpos(), ypos(), it);
+            retval &= g->m.add_item_or_charges(posx(), posy(), it);
         } else {
             i_add(it);
         }
