@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cerrno>
 #include <cstddef>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <deque>
