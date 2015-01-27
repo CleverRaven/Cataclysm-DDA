@@ -3112,6 +3112,8 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 250,
+        "bonus": 5,
+        "epower": -25,
         "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 3,
