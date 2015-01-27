@@ -68,6 +68,7 @@ Creature::Creature()
     pain = 0;
     killer = NULL;
     speed_base = 100;
+    underwater = false;
 
     reset_bonuses();
 

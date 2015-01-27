@@ -1,5 +1,5 @@
 # Platforms:
-# Linux native
+# Linux/Cygwin native
 #   (don't need to do anything)
 # Linux 64-bit
 #   make NATIVE=linux64
@@ -10,7 +10,7 @@
 #   or make CROSS=i586-mingw32msvc-
 #   or whichever prefix your crosscompiler uses
 #      as long as its name contains mingw32
-# Win32
+# Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx
@@ -152,7 +152,12 @@ W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DI
 # Check if called without a special build target
 ifeq ($(NATIVE),)
   ifeq ($(CROSS),)
-    TARGETSYSTEM=LINUX
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+      DEFINES += -DCATA_NO_CPP11_STRING_CONVERSIONS
+      TARGETSYSTEM=CYGWIN
+    else
+      TARGETSYSTEM=LINUX
+    endif
   endif
 endif
 
@@ -199,6 +204,11 @@ else
     LDFLAGS += -m64
     TARGETSYSTEM=WINDOWS
   endif
+endif
+
+# Cygwin
+ifeq ($(NATIVE), cygwin)
+  TARGETSYSTEM=CYGWIN
 endif
 
 # MXE cross-compile to win32
@@ -330,12 +340,18 @@ else
             CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
-      # Work around Cygwin not including gettext support in glibc
-      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-        LDFLAGS += -lintl -liconv
-      endif
     else
       LDFLAGS += -lncurses
+    endif
+  endif
+  
+  ifeq ($(TARGETSYSTEM),CYGWIN)
+    ifeq ($(LOCALIZE),1)
+      LDFLAGS += $(shell ncursesw5-config --libs)
+      CXXFLAGS += $(shell ncursesw5-config --cflags)
+      
+      # Work around Cygwin not including gettext support in glibc
+      LDFLAGS += -lintl -liconv
     endif
   endif
 endif
@@ -353,6 +369,10 @@ ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
 endif
 
+ifeq ($(TARGETSYSTEM),CYGWIN)
+  BINDIST_EXTRAS += cataclysm-launcher
+endif
+
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
@@ -367,6 +387,12 @@ ifdef LANGUAGES
 endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
+  ifneq ($(PREFIX),)
+    DEFINES += -DPREFIX="$(PREFIX)"
+  endif
+endif
+
+ifeq ($(TARGETSYSTEM), CYGWIN)
   ifneq ($(PREFIX),)
     DEFINES += -DPREFIX="$(PREFIX)"
   endif
@@ -440,6 +466,37 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(PREFIX)/bin
+LOCALE_DIR=$(PREFIX)/share/locale
+install: version $(TARGET)
+	mkdir -p $(DATA_PREFIX)
+	mkdir -p $(BIN_PREFIX)
+	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+ifdef TILES
+	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef LUA
+	mkdir -p $(DATA_PREFIX)/lua
+	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+endif
+	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
+                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+	mkdir -p $(LOCALE_DIR)
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+endif
+
+ifeq ($(TARGETSYSTEM), CYGWIN)
 DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(PREFIX)/bin
 LOCALE_DIR=$(PREFIX)/share/locale

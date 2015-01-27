@@ -112,6 +112,7 @@ bool monster::setpos(const int x, const int y, const bool level_change)
     bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     position.x = x;
     position.y = y;
+
     return ret;
 }
 
@@ -352,12 +353,13 @@ bool monster::can_drown() const
 
 bool monster::digging() const
 {
-    return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
+    return has_flag(MF_DIGS) || ( has_flag(MF_CAN_DIG) && underwater );
 }
 
 int monster::sight_range( const int light_level ) const
 {
-    if( !can_see() ) {
+    // Non-aquatic monsters can't see much when submerged
+    if( !can_see() || ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
 
@@ -454,12 +456,17 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
-        if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( friendly == 0 && m->friendly == 0 && faction == m->faction ) ) {
-            // Friendly (to player) monsters are friendly to each other
-            // Unfriendly monsters are friendly to other unfriendly monsters of the same faction
+        if( m == this ) {
             return A_FRIENDLY;
-        } else if( morale < 0 || anger < 10 ) {
+        }
+        auto faction_att = faction->attitude( m->faction );
+        if( ( friendly != 0 && m->friendly != 0 ) ||
+            ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
+            // Friendly (to player) monsters are friendly to each other
+            // Unfriendly monsters go by faction attitude
+            return A_FRIENDLY;
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) || 
+                     morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
         } else {
@@ -649,7 +656,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 }
 
 bool monster::is_underwater() const {
-    return can_submerge();
+    return can_submerge() && underwater;
 }
 
 bool monster::is_on_ground() const {

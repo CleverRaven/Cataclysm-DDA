@@ -6,6 +6,7 @@
 * item_groups.json   - item spawn groups
 * materials.json     - material types
 * monstergroups.json - monster spawn groups
+* monster_factions.json - monster factions
 * names.json         - names used for NPC/player name generation
 * professions.json   - profession definitions
 * recipes.json       - crafting/disassembly recipes
@@ -106,6 +107,13 @@ The syntax listed here is still valid.
     "conditions" : ["DUSK","DAWN","SUMMER"]
   }
 ```
+###MONSTER FACTIONS
+```C++
+"name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
+"base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
+"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions    
+"neutral" : ["nether"],     // Always be neutral towards this faction
+"friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
 ###MONSTERS
 ```C++
 "type" : "MONSTER",					// Should always be "MONSTER"

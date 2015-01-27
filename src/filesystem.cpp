@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cerrno>
 #include <cstddef>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <deque>
@@ -30,7 +31,7 @@
 // HACK: mingw only issue as of 14/01/2015
 // TODO: move elsewhere
 //--------------------------------------------------------------------------------------------------
-#ifdef __MINGW32__
+#if (defined __MINGW32__ || defined __CYGWIN__)
 size_t strnlen(const char *const start, size_t const maxlen)
 {
     auto const end = reinterpret_cast<const char*>(memchr(start, '\0', maxlen));

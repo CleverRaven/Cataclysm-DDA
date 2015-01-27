@@ -3581,7 +3581,7 @@ void mattack::flesh_golem(monster *z, int index)
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
-        ( dist = rl_dist( z->posy(), target->pos() ) ) > 20 || 
+        ( dist = rl_dist( z->pos(), target->pos() ) ) > 20 || 
         !z->sees( *target ) ) {
         return;
     }

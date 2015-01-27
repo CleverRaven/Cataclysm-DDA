@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "item.h"
 #include "output.h"
+#include <queue>
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -50,6 +51,72 @@ void MonsterGenerator::finalize_mtypes()
         set_mtype_flags(mon);
         set_species_ids( mon );
         set_default_faction( mon );
+    }
+}
+
+void MonsterGenerator::apply_base_faction( const monfaction *base, monfaction *faction )
+{
+    for( const auto &pair : base->attitude_map ) {
+        // Fill in values set in base faction, but not in derived one
+        if( faction->attitude_map.count( pair.first ) == 0 ) {
+            faction->attitude_map.insert( pair );
+        }
+    }
+}
+
+void MonsterGenerator::finalize_monfactions()
+{
+    monfaction *nullfaction = get_or_add_faction( "" );
+    nullfaction->base_faction = nullptr;
+    // Create a tree of faction dependence
+    std::multimap< const monfaction*, monfaction* > child_map;
+    std::set< monfaction* > unloaded; // To check if cycles exist
+    std::queue< monfaction* > queue;
+    for( auto &pair : faction_map ) {
+        auto faction = &pair.second;
+        unloaded.insert( faction );
+        // Point parent to children
+        std::pair< const monfaction*, monfaction* > kv;
+        kv.first = faction->base_faction;
+        kv.second = faction;
+        child_map.insert( kv );
+
+        // Set faction as friendly to itself if not explicitly set to anything
+        if( faction->attitude_map.count( faction ) == 0 ) {
+            faction->attitude_map[faction] = MFA_FRIENDLY;
+        }
+    }
+
+    child_map.erase( nullptr ); // "" faction's inexistent parent
+    queue.push( nullfaction );
+
+    // Traverse the tree (breadth-first), starting from root
+    while( !queue.empty() ) {
+        monfaction *cur = queue.front();
+        queue.pop();
+        if( unloaded.count( cur ) != 0 ) {
+            unloaded.erase( cur );
+        } else {
+            debugmsg( "Tried to load monster faction %s more than once", cur->name.c_str() );
+            continue;
+        }
+        auto children = child_map.equal_range( cur );
+        for( auto it = children.first; it != children.second; ++it ) {
+            // Copy attributes to child
+            apply_base_faction( cur, it->second );
+            queue.push( it->second );
+        }
+    }
+
+    // Bad json
+    if( !unloaded.empty() ) {
+        std::string names;
+        for( auto &fac : unloaded ) {
+            names.append( fac->name );
+            names.append( " " );
+            fac->base_faction = nullfaction;
+        }
+        debugmsg( "Cycle encountered when processing monster faction tree. Bad factions:\n %s", names.c_str() );
     }
 }
 
@@ -335,14 +402,15 @@ void MonsterGenerator::init_flags()
 
 void MonsterGenerator::init_hardcoded_factions()
 {
-    monfaction mfact;
-    mfact.id = -1;
-    mfact.name = "Player";
-    faction_map[mfact.name] = mfact;
+    monfaction playerfact;
+    playerfact.id = -1;
+    playerfact.name = "player";
+    faction_map[playerfact.name] = playerfact;
 
-    mfact.id = 0;
-    mfact.name = "";
-    faction_map[mfact.name] = mfact;
+    monfaction nullfact;
+    nullfact.id = 0;
+    nullfact.name = "";
+    faction_map[nullfact.name] = nullfact;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -361,11 +429,7 @@ void MonsterGenerator::set_species_ids( mtype *mon )
 
 void MonsterGenerator::set_default_faction( mtype *mon )
 {
-    if( mon->faction_name.empty() && !mon->species.empty() ) {
-        mon->faction_name = *( mon->species.begin() );
-        add_faction( mon->faction_name );
-        mon->default_faction = faction_by_name( mon->faction_name );
-    }
+    mon->default_faction = faction_by_name( mon->faction_name );
 }
 
 void MonsterGenerator::load_monster(JsonObject &jo)
@@ -396,7 +460,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->categories = jo.get_tags("categories");
 
         newmon->faction_name = jo.get_string("default_faction", "");
-        add_faction( newmon->faction_name );
+        get_or_add_faction( newmon->faction_name );
 
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
@@ -496,6 +560,36 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
+// Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
+void MonsterGenerator::add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map, 
+                                            mf_attitude value )
+{
+    for( const auto &k : keys ) {
+        monfaction *faction = get_or_add_faction( k );
+        map[faction] = value;
+    }
+}
+
+void MonsterGenerator::load_monster_faction(JsonObject &jo)
+{
+    // Factions inherit values from their parent factions - this is set during finalization
+    if( !jo.has_member( "name" ) ) {
+        debugmsg( "Invalid faction: no name\n%s", jo.str().c_str() );
+    }
+
+    std::string name = jo.get_string( "name" );
+    monfaction *faction = get_or_add_faction( name );
+    std::string base_faction = jo.get_string( "base_faction", "" );
+    faction->base_faction = get_or_add_faction( base_faction );
+    std::set< std::string > by_mood, neutral, friendly;
+    by_mood = jo.get_tags( "by_mood" );
+    neutral = jo.get_tags( "neutral" );
+    friendly = jo.get_tags( "friendly" );
+    add_to_attitude_map( by_mood, faction->attitude_map, MFA_BY_MOOD );
+    add_to_attitude_map( neutral, faction->attitude_map, MFA_NEUTRAL );
+    add_to_attitude_map( friendly, faction->attitude_map, MFA_FRIENDLY );
+}
+
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     mtype *default_montype = mon_templates["mon_null"];
@@ -562,24 +656,25 @@ const monfaction *MonsterGenerator::faction_by_name( const std::string &name ) c
 {
     auto found = faction_map.find( name );
     if( found == faction_map.end() ) {
-        debugmsg( "Couldn't find monster faction with name %s", name.c_str() );
         return &faction_map.find( "" )->second;
     }
     return &found->second;
 }
 
-bool MonsterGenerator::add_faction( const std::string &name )
+monfaction *MonsterGenerator::get_or_add_faction( const std::string &name )
 {
     auto found = faction_map.find( name );
     if( found == faction_map.end() ) {
+        const monfaction *nullfaction = GetMFact( "" );
         monfaction mfact;
         mfact.name = name;
         mfact.id = faction_map.size();
+        mfact.base_faction = nullfaction;
         faction_map[mfact.name] = mfact;
-        return true;
-    } else {
-        return false;
+        found = faction_map.find( mfact.name );
     }
+
+    return &found->second;
 }
 
 

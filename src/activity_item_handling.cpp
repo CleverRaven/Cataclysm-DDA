@@ -246,17 +246,17 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
                         selected_worn_items, worn_item_quantities, ignoring_interruptions );
 }
 
-void game::activity_on_turn_drop()
+void activity_on_turn_drop()
 {
     activity_on_turn_drop_or_stash( ACT_DROP );
 }
 
-void game::activity_on_turn_stash()
+void activity_on_turn_stash()
 {
     activity_on_turn_drop_or_stash( ACT_STASH );
 }
 
-void game::activity_on_turn_pickup()
+void activity_on_turn_pickup()
 {
     // Pickup activity has source square, bool indicating source type,
     // indices of items on map, and quantities of same.
@@ -268,7 +268,7 @@ void game::activity_on_turn_pickup()
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.posx(), pickup_target.y + u.posy()).size() <= 0 ) {
+        g->m.i_at(pickup_target.x + g->u.posx(), pickup_target.y + g->u.posy()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -283,14 +283,14 @@ void game::activity_on_turn_pickup()
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
-        u.assign_activity( ACT_PICKUP, 0 );
-        u.activity.placement = pickup_target;
-        u.activity.auto_resume = autopickup;
-        u.activity.values.push_back( from_vehicle );
+        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.activity.placement = pickup_target;
+        g->u.activity.auto_resume = autopickup;
+        g->u.activity.values.push_back( from_vehicle );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }
@@ -385,33 +385,33 @@ static void move_items( point source, point destination,
     }
 }
 
-void game::activity_on_turn_move_items()
+void activity_on_turn_move_items()
 {
     // Move activity has source square, target square,
     // indices of items on map, and quantities of same.
-    point source = u.activity.placement;
-    point destination = point( u.activity.values[0], u.activity.values[1] );
+    point source = g->u.activity.placement;
+    point destination = point( g->u.activity.values[0], g->u.activity.values[1] );
     std::list<int> indices;
     std::list<int> quantities;
     // Note i = 2, skipping first few elements.
-    for( size_t i = 2; i < u.activity.values.size(); i += 2 ) {
-        indices.push_back( u.activity.values[i] );
-        quantities.push_back( u.activity.values[ i + 1 ] );
+    for( size_t i = 2; i < g->u.activity.values.size(); i += 2 ) {
+        indices.push_back( g->u.activity.values[i] );
+        quantities.push_back( g->u.activity.values[ i + 1 ] );
     }
     // Nuke the current activity, leaving the backlog alone.
-    u.activity = player_activity();
+    g->u.activity = player_activity();
 
     move_items( source, destination, indices, quantities );
 
     if( !indices.empty() ) {
-        u.assign_activity( ACT_MOVE_ITEMS, 0 );
-        u.activity.placement = source;
-        u.activity.values.push_back( destination.x );
-        u.activity.values.push_back( destination.y );
+        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.activity.placement = source;
+        g->u.activity.values.push_back( destination.x );
+        g->u.activity.values.push_back( destination.y );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }
