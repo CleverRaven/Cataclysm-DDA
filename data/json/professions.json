@@ -3780,5 +3780,97 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "janitor",
+        "name": "Janitor",
+        "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables. Now the only thing you'll be sweeping are the brains of the dead.",
+        "points": -1,
+        "items": {
+            "both": [
+                "tshirt",
+                "jacket_light",
+                "pants",
+                "socks",
+                "boots",
+                "mop"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "teacher",
+        "name": "Teacher",
+        "description": "You've been teaching kids for the whole of your life, and they've mostly listened to your teachings. However, the dead won't write out lines for eating you alive.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "blazer",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "skinny_tie",
+                "tieclip",
+                "poetry_book",
+                "permanent_marker"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "gym_teacher",
+        "name": "Gym Teacher",
+        "description": "After a career of teaching kids the art of sports they mostly hate, the zombies around you refuse to do laps, even at the blow of your whistle.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 2,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "baseball",
+                "bat",
+                "tank_top",
+                "shorts",
+                "socks",
+                "sneakers",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
     }
 ]
