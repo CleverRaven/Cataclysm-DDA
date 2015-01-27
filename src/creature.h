@@ -200,11 +200,9 @@ class Creature
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
-        // xpos and ypos, because posx/posy are used as public variables in
-        // player.cpp and therefore referenced everywhere
-        virtual int xpos() const = 0;
-        virtual int ypos() const = 0;
-        virtual point pos() const = 0;
+        virtual int posx() const = 0;
+        virtual int posy() const = 0;
+        virtual const point &pos() const = 0;
 
         struct compare_by_dist_to_point {
             point center;
@@ -405,6 +403,7 @@ class Creature
             str_cur, dex_cur, per_cur, int_cur;
 
         int moves, pain;
+        bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
         /**

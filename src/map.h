@@ -131,10 +131,10 @@ class map
 
  /** Draw a visible part of the map into `w`.
   *
-  * This method uses `g->u.posx/posy` for visibility calculations, so it can
+  * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
   * not be used for anything but the player's viewport. Likewise, only
   * `g->m` and maps with equivalent coordinates can be used, as other maps
-  * would have coordinate systems incompatible with `g->u.posx`
+  * would have coordinate systems incompatible with `g->u.posx()`
   *
   * @param center The coordinate of the center of the viewport, this can
   *               be different from the player coordinate.

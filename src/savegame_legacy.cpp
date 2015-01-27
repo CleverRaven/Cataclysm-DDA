@@ -1521,7 +1521,7 @@ void player::load_legacy(std::stringstream & dump)
  itype_id styletmp;
  std::string prof_ident;
 
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
+ dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
@@ -1708,7 +1708,7 @@ void npc::load_legacy(std::stringstream & dump) {
    name += tmpname + " ";
  } while (tmpname != "||");
  name = name.substr(0, name.size() - 1); // Strip off trailing " "
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
+ dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
          fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
          scent >> moves >> underwater >> dodges_left >> oxygen >> deathtmp >>
@@ -1871,7 +1871,7 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 void monster::load_legacy(std::stringstream & dump) {
     int idtmp, plansize, speed, faction_dummy;
-    dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
+    dump >> idtmp >> position.x >> position.y >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout[0] >> plansize >> friendly >> faction_dummy >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
 

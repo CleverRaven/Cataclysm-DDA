@@ -172,3 +172,18 @@ itype_id mtype::get_meat_itype() const
     }
     return "null";
 }
+
+mf_attitude monfaction::attitude( const monfaction *other ) const
+{
+    auto found = attitude_map.find( other );
+    if( found != attitude_map.end() ) {
+        return found->second;
+    }
+
+    if( other->base_faction != nullptr ) {
+        return attitude( other->base_faction );
+    }
+
+    // Shouldn't happen
+    return MFA_FRIENDLY;
+}

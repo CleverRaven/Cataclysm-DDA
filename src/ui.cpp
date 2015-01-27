@@ -795,7 +795,7 @@ void uimenu::settext(const char *format, ...)
 }
 
 pointmenu_cb::pointmenu_cb( std::vector< point > &pts ) : points( pts )
-{ 
+{
     last = INT_MIN;
     view_x = g->u.view_offset_x;
     view_y = g->u.view_offset_y;
@@ -822,8 +822,8 @@ void pointmenu_cb::refresh( uimenu *menu ) {
 
     last = menu->selected;
     const point &center = points[menu->selected];
-    g->u.view_offset_x = center.x - g->u.posx;
-    g->u.view_offset_y = center.y - g->u.posy;
+    g->u.view_offset_x = center.x - g->u.posx();
+    g->u.view_offset_y = center.y - g->u.posy();
     g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
     menu->redraw( false );
     menu->show();

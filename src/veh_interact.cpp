@@ -223,7 +223,7 @@ void veh_interact::allocate_windows()
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
-    page_size = list_h - 2; // reserve two rows for tab menu
+    page_size = list_h;
 
     wrefresh(w_border);
     delwin( w_border );
@@ -672,7 +672,7 @@ void veh_interact::do_install()
     int pos = 0;
     size_t tab = 0;
     while (true) {
-        display_list(pos, tab_vparts);
+        display_list(pos, tab_vparts, 2);
 
         // draw tab menu
         int tab_x = 0;
@@ -686,9 +686,8 @@ void veh_interact::do_install()
 
         sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
 
-        if (sel_vpart_info != NULL ) {
-            display_details(*sel_vpart_info);
-        }
+        display_details( sel_vpart_info );
+
         bool can_install = can_install_part(msg_width);
 
         const std::string action = main_context.handle_input();
@@ -737,7 +736,7 @@ void veh_interact::do_install()
             copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
         }
         else {
-            move_in_list(pos, action, tab_vparts.size());
+            move_in_list(pos, action, tab_vparts.size(), 2);
         }
     }
 
@@ -752,12 +751,13 @@ void veh_interact::do_install()
     display_name();
 }
 
-bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
+bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
 {
+    int lines_per_page = page_size - header;
     if (action == "PREV_TAB" || action == "LEFT") {
-        pos -= page_size;
+        pos -= lines_per_page;
     } else if (action == "NEXT_TAB" || action == "RIGHT") {
-        pos += page_size;
+        pos += lines_per_page;
     } else if (action == "UP") {
         pos--;
     } else if (action == "DOWN") {
@@ -1683,12 +1683,13 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
+void veh_interact::display_list(size_t pos, std::vector<vpart_info> list, const int header)
 {
     werase (w_list);
-    size_t page = pos / page_size;
-    for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
-        int y = i - page * page_size + 2;  // first two lines are reserved for tab menu
+    int lines_per_page = page_size - header;
+    size_t page = pos / lines_per_page;
+    for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
+        int y = i - page * lines_per_page + header;
         nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
@@ -1700,7 +1701,7 @@ void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
  * Used when installing parts.
  * Opens up w_details containing info for part currently selected in w_list.
  */
-void veh_interact::display_details(const vpart_info &part)
+void veh_interact::display_details( const vpart_info *part )
 {
 
     if (w_details == NULL) { // create details window first if required
@@ -1713,8 +1714,11 @@ void veh_interact::display_details(const vpart_info &part)
         const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
 
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
+            int stats_col_2 = 34;
+            int stats_col_3 = 63 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
+            int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
             for( int i = 0; i < stats_h; i++) {
-                mvwhline(w_stats, i, 34, ' ', stats_w - 34);
+                mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
             }
         } else { // clear one line above w_details in horizontal mode to make sure it's separated from stats text
             mvwhline(w_stats, details_y - getbegy(w_stats) - 1, 0, ' ', stats_w);
@@ -1729,6 +1733,10 @@ void veh_interact::display_details(const vpart_info &part)
 
     wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
+    if ( part == NULL ) {
+        wrefresh(w_details);
+        return;
+    }
     int details_w = getmaxx(w_details);
     int column_width = details_w / 2; // displays data in two columns
     int col_1 = vertical_menu ? 2 : 1;
@@ -1738,49 +1746,49 @@ void veh_interact::display_details(const vpart_info &part)
 
     // line 0: part name
     fold_and_print(w_details, line, col_1, details_w, c_ltgreen,
-                   part.name);
+                   part->name);
 
     // line 1: (column 1) durability   (column 2) damage mod
     fold_and_print(w_details, line+1, col_1, column_width, c_white,
                    "%s: <color_ltgray>%d</color>",
                    small_mode ? _("Dur") : _("Durability"),
-                   part.durability);
+                   part->durability);
     fold_and_print(w_details, line+1, col_2, column_width, c_white,
                    "%s: <color_ltgray>%d%%</color>",
                    small_mode ? _("Dmg") : _("Damage"),
-                   part.dmg_mod);
+                   part->dmg_mod);
 
     // line 2: (column 1) weight   (column 2) folded volume (if applicable)
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
-                   g->u.convert_weight(item::find_type( part.item )->weight),
+                   g->u.convert_weight(item::find_type( part->item )->weight),
                    OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
-    if ( part.folded_volume != 0 ) {
+    if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_ltgray>%d</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       part.folded_volume);
+                       part->folded_volume);
     }
 
     // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part.size > 0 ) {
+    if ( part->size > 0 ) {
 
         std::string label;
-        if ( part.has_flag(VPFLAG_CARGO) || part.has_flag(VPFLAG_FUEL_TANK) ) {
+        if ( part->has_flag(VPFLAG_CARGO) || part->has_flag(VPFLAG_FUEL_TANK) ) {
             label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part.has_flag(VPFLAG_WHEEL) ){
+        } else if ( part->has_flag(VPFLAG_WHEEL) ){
             label = small_mode ? _("Size") : _("Wheel Size");
-        } else if ( part.has_flag(VPFLAG_SEATBELT) || part.has_flag("MUFFLER") ) {
+        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
             label = small_mode ? _("Str") : _("Strength");
-        } else if ( part.has_flag("HORN") ) {
+        } else if ( part->has_flag("HORN") ) {
             label = _("Noise");
-        } else if ( part.has_flag(VPFLAG_EXTENDS_VISION) ) {
+        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
             label = _("Range");
-        } else if ( part.has_flag(VPFLAG_LIGHT) || part.has_flag(VPFLAG_CONE_LIGHT) ||
-                    part.has_flag(VPFLAG_CIRCLE_LIGHT) || part.has_flag(VPFLAG_DOME_LIGHT) ||
-                    part.has_flag(VPFLAG_AISLE_LIGHT) || part.has_flag(VPFLAG_EVENTURN) ||
-                    part.has_flag(VPFLAG_ODDTURN)) {
+        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
+                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
+                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
+                    part->has_flag(VPFLAG_ODDTURN)) {
             label = _("Light");
         } else {
             label = small_mode ? _("Cap") : _("Capacity");
@@ -1788,30 +1796,29 @@ void veh_interact::display_details(const vpart_info &part)
 
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
                        (label + ": <color_ltgray>%d</color>").c_str(),
-                       part.size);
+                       part->size);
     }
-    if ( part.epower != 0 ) {
+    if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
                        "%s: %c<color_ltgray>%d</color>",
                        small_mode ? _("Bat") : _("Battery"),
-                       part.epower < 0 ? '-' : '+',
-                       abs(part.epower));
+                       part->epower < 0 ? '-' : '+',
+                       abs(part->epower));
     }
 
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
-    if ( part.fuel_type != "NULL" ) {
+    if ( part->fuel_type != "NULL" ) {
         fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ), c_white,
                        _("Charge: <color_ltgray>%s</color>"),
-                      //part.has_flag("TURRET") ? _("Ammo") : _("Type"), part.fuel_type.c_str());
-                       part.fuel_type.c_str());
+                       part->fuel_type.c_str());
     }
-    if ( part.power != 0 ) {
+    if ( part->power != 0 ) {
         fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
                        ( vertical_menu ? column_width : details_w ), c_white,
                        _("Power: <color_ltgray>%d</color>"),
-                       part.power);
+                       part->power);
     }
 
     // line 5 [vertical/hybrid] 6 [horizontal]: flags
@@ -1819,7 +1826,7 @@ void veh_interact::display_details(const vpart_info &part)
     std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
     std::string label;
     for ( size_t i = 0; i < flags.size(); i++ ) {
-        if ( part.has_flag(flags[i]) ) {
+        if ( part->has_flag(flags[i]) ) {
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
@@ -1921,7 +1928,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
+    map_inv.form_from_map( point(g->u.posx(), g->u.posy()), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1960,7 +1967,7 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx, g->u.posy), PICKUP_RANGE, itid, 1 );
+        item_used = g->m.use_amount( point(g->u.posx(), g->u.posy()), PICKUP_RANGE, itid, 1 );
     }
 
     return item_used.front();
@@ -2050,8 +2057,8 @@ void complete_vehicle ()
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset_x;
             int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
+            g->u.view_offset_x = veh->global_x() + gx - g->u.posx();
+            g->u.view_offset_y = veh->global_y() + gy - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
@@ -2084,7 +2091,7 @@ void complete_vehicle ()
     case 'r':
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             dd = 0;
@@ -2131,7 +2138,7 @@ void complete_vehicle ()
         }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
         }
         while( !veh->get_items(vehicle_part).empty() ) {
             veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
@@ -2145,13 +2152,13 @@ void complete_vehicle ()
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->parts[vehicle_part].properties_to_item();
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
                 g->u.practice ("mechanics", is_wood ? 15 : 30);
             }
         } else {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
         }
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
@@ -2172,8 +2179,8 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
+        for (int x = g->u.posx() - 1; x < g->u.posx() + 2; x++) {
+            for (int y = g->u.posy() - 1; y < g->u.posy() + 2; y++) {
                 fillv = g->m.veh_at(x, y);
                 if ( fillv != NULL &&
                      fillv != veh &&
@@ -2303,7 +2310,7 @@ void complete_vehicle ()
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
-                g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
+                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
             }
         }
         break;

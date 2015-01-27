@@ -3756,7 +3756,7 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(17, 15, body);
                         add_item(8, 3, body);
                         add_item(10, 3, body);
-                        spawn_item(18, 15, "ax");
+                        spawn_item(18, 15, "fire_ax");
                         lw = 0; // no wall on the left
                     }
                     else { //analyzer
@@ -11126,8 +11126,8 @@ int map::place_npc(int x, int y, std::string type)
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->posx = x;
-    temp->posy = y;
+    temp->setx( x );
+    temp->sety( y );
     g->load_npcs();
     return temp->getID();
 }
@@ -11421,8 +11421,8 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                i->posx += (new_x-old_x);
-                i->posy += (new_y-old_y);
+                i->setx( i->posx() + new_x - old_x );
+                i->sety( i->posy() + new_y - old_y );
             }
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
