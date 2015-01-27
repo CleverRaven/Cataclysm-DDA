@@ -341,10 +341,19 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         }
         jsout.end_array();
 
-        // Output the computer
-        if (sm->comp.name != "") {
-            jsout.member( "computers", sm->comp.save_data() );
+        // Output the computers
+        jsout.member( "computers" );
+        jsout.start_array();
+        for(int j = 0; j < SEEY; j++) {
+            for(int i = 0; i < SEEX; i++) {
+                jsout.start_array();
+                jsout.write(i);
+                jsout.write(j);
+                jsout.write(sm->comp[i][j].save_data());
+                jsout.end_array();
+            }
         }
+        jsout.end_array();
 
         // Output base camp if any
         if (sm->camp.is_valid()) {
@@ -550,8 +559,10 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     sm->vehicles.push_back( tmp );
                 }
             } else if( submap_member_name == "computers" ) {
+                int i = jsin.get_int();
+                int j = jsin.get_int();
                 std::string computer_data = jsin.get_string();
-                sm->comp.load_data( computer_data );
+                sm->comp[i][j].load_data( computer_data );
             } else if( submap_member_name == "camp" ) {
                 std::string camp_data = jsin.get_string();
                 sm->camp.load_data( camp_data );

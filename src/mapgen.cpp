@@ -11369,9 +11369,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 computer *map::add_computer(int x, int y, std::string name, int security)
 {
     ter_set(x, y, t_console); // TODO: Turn this off?
-    submap *place_on_submap = get_submap_at(x, y);
-    place_on_submap->comp = computer(name, security);
-    return &(place_on_submap->comp);
+    int lx, ly;
+    submap *place_on_submap = get_submap_at(x, y, lx, ly);
+    place_on_submap->comp[lx][ly] = computer(name, security);
+    return &(place_on_submap->comp[lx][ly]);
 }
 
 /**
@@ -11432,10 +11433,11 @@ void map::rotate(int turns)
     std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
     field fldrot [SEEX * 2][SEEY * 2];
     int radrot [SEEX * 2][SEEY * 2];
+    computer comprot [SEEX * 2][SEEY * 2];
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    computer tmpcomp[MAPSIZE * MAPSIZE];
+    //computer tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 
@@ -11466,6 +11468,7 @@ void map::rotate(int turns)
             std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
             std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
             std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
+            std::swap( comprot[old_x][old_y], new_sm->comp[new_lx][new_ly] );
             auto items = i_at(new_x, new_y);
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -11517,7 +11520,7 @@ void map::rotate(int turns)
             }
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
-            tmpcomp[gridto] = from->comp;
+            //tmpcomp[gridto] = from->comp;
             field_count[gridto] = from->field_count;
             temperature[gridto] = from->temperature;
         }
@@ -11576,7 +11579,6 @@ void map::rotate(int turns)
         // move back to the actuall submap object, vehrot is only temporary
         vehrot[i].swap(to->vehicles);
         sprot[i].swap(to->spawns);
-        to->comp = tmpcomp[i];
         to->field_count = field_count[i];
         to->temperature = temperature[i];
     }
@@ -11591,6 +11593,7 @@ void map::rotate(int turns)
             std::swap( fldrot[i][j], sm->fld[lx][ly] );
             std::swap( radrot[i][j], sm->rad[lx][ly] );
             std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
+            std::swap( comprot[i][j], sm->comp[lx][ly]);
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }

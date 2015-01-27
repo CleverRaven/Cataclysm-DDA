@@ -1032,7 +1032,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
         // string ID. legacy_ter_id translates the saved ints to a string, and like the
         // current loader, instead of doing string lookups while parsing a potentially huge
         // amount of tiles, we do so beforehand.
-        
+
         // Ditto for furniture
         std::map<int, int> furn_key;
         std::string fstr;
@@ -1101,11 +1101,18 @@ static bool unserialize_legacy(std::ifstream & fin ) {
           if (turndif < 0)
            turndif = 0;
         // Load terrain
+        // Legacy submaps will only have 1 computer max, if we have a computer terrain, store this location to update to new system
+          int compx = -1;
+          int compy = -1;
           for( size_t j = 0; j < SEEY; j++) {
            for( size_t i = 0; i < SEEX; i++) {
             int tmpter;
             fin >> tmpter;
             tmpter = ter_key[tmpter];
+            if (ter_id(tmpter) == t_console){
+                compx = i;
+                compy = j;
+            }
             sm->ter[i][j] = ter_id(tmpter);
             sm->set_furn(i, j, f_null);
             sm->itm[i][j].clear();
@@ -1175,7 +1182,11 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             sm->vehicles.push_back(veh);
            } else if (string_identifier == "c") {
             getline(fin, databuff);
-            sm->comp.load_data(databuff);
+            if (compx == -1 || compy == -1){
+                debugmsg("Load Legacy Save: Encountered computer without console terrain in submap");
+            } else {
+                sm->comp[compx][compy].load_data(databuff);
+            }
            } else if (string_identifier == "B") {
             getline(fin, databuff);
             sm->camp.load_data(databuff);
@@ -1358,13 +1369,18 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
         }
 
         // Load terrain
+        int compx = -1;
+        int compy = -1;
         for( size_t j = 0; j < SEEY; j++) {
             for( size_t i = 0; i < SEEX; i++) {
                 int tmpter;
                 fin >> tmpter;
                 tmpter = ter_key[tmpter];
                 sm->ter[i][j] = ter_id(tmpter);
-
+                if (ter_id(tmpter) == t_console){
+                    compx = i;
+                    compy = j;
+                }
                 sm->set_furn(i, j, f_null);
                 sm->itm[i][j].clear();
                 sm->set_trap(i, j, tr_null);
@@ -1445,7 +1461,11 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 sm->vehicles.push_back(veh);
             } else if (string_identifier == "c") {
                 getline(fin, databuff);
-                sm->comp.load_data(databuff);
+                if (compx == -1 || compy == -1){
+                    debugmsg("Load Legacy Save: Encountered computer without console terrain in submap");
+                } else {
+                    sm->comp[compx][compy].load_data(databuff);
+                }
             } else if (string_identifier == "B") {
                 getline(fin, databuff);
                 sm->camp.load_data(databuff);
@@ -1895,7 +1915,7 @@ void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
-	int owned; // Ignoring an obsolete member. 
+	int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {

@@ -423,6 +423,8 @@ struct submap {
     int                rad[SEEX][SEEY];  // Irradiation of each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
+    computer           comp[SEEX][SEEY];
+
     active_item_cache active_items;
 
     int field_count;
@@ -435,7 +437,6 @@ struct submap {
      * deleted.
      */
     std::vector<vehicle*> vehicles;
-    computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();
