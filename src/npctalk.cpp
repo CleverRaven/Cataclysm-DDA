@@ -2092,6 +2092,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 RESPONSE(_("Want to travel with me?"));
                     SUCCESS(TALK_SUGGEST_FOLLOW);
             }
+            RESPONSE(_("Let's trade items."));
+                SUCCESS(TALK_NONE);
+                SUCCESS_ACTION(&talk_function::start_trade);
             if (p->chatbin.missions_assigned.size() == 1) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
