@@ -3418,5 +3418,454 @@
                 "panties"
             ]
         }
+    },
+    {
+
+            "type": "profession",
+            "ident": "elementary_student",
+            "name": "Elementary Student",
+            "description": "You're just a kid, and now the world has turned into something out of one of your bad dreams. The grown-ups you relied on are all dead--or undead--now. What are you going to do?",
+            "points": 0,
+            "items": {
+                "both": [                    
+                    "tshirt",
+                    "socks",
+                    "backpack",
+                    "sneakers",
+                    "jeans",
+                    "jacket_light",
+                    "knit_scarf",
+                    "juice",
+                    "sandwich_pbj",
+                    "fairy_tales"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
+    },
+    {
+        "type": "profession",
+        "ident": "skaterkid",
+        "name": {
+            "male": "Skater Boy",
+            "female": "Skater Girl"
+        },
+        "description": "You love to skate! At least now the grown-ups aren't telling you where you can't roll.",
+        "points": 1,
+                "skills": [
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "traits": [
+            "PROF_SKATER"
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "hoodie",
+                "jeans",
+                "socks",
+                "elbow_pads",
+                "knee_pads",
+                "gloves_fingerless",
+                "helmet_skid",
+                "roller_blades",
+                "sports_drink"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "jdelinquent",
+        "name": "Juvenile Delinquent",
+        "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office. Now, not needing grown-ups to tell you what to do is the only reason you're alive. Man, you really should've played hooky today.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "hoodie",
+                "jeans",
+                "socks",
+                "sneakers",
+                "gloves_fingerless",
+                "matches",
+                "hairpin",
+                "hairpin",
+                "mag_comic",
+                "marble",
+                "marble",
+                "slingshot"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "prep_student",
+        "name": "Preppy Student",
+        "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant. If only they'd ever let you experience childhood, or ever shown you their love. You're certainly not getting either one now.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "jacket_light",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "skinny_tie",
+                "tieclip",
+                "fancy_sunglasses",
+                "knit_scarf",
+                "wristwatch",
+                "mbag",
+                "water_mineral",
+                "pda",
+                "cell_phone",
+                "money_bundle",
+                "adderall",
+                "manual_business"               
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "jr_survivalist",
+        "name": "Survivalist Jr.",
+        "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it. Turns out they were right. You didn't get a chance to thank them. The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "jacket_light",
+                "pants_cargo",
+                "socks",
+                "boots",
+                "knit_scarf",
+                "backpack",
+                "granola",
+                "water_clean",
+                "scissors",
+                "magnifying_glass",
+                "flashlight",
+                "1st_aid"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+
+            "type": "profession",
+            "ident": "bionic_student",
+            "name": "Bionic Student",
+            "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything. And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
+            "points": 3,
+            "CBMs":[
+                "bio_batteries",
+                "bio_power_storage",
+                "bio_int_enhancer",
+                "bio_memory"
+            ],
+            "items": {
+                "both": [
+                    "dress_shirt",
+                    "jacket_light",
+                    "pants",
+                    "socks",
+                    "dress_shoes",
+                    "skinny_tie",
+                    "tieclip",
+                    "fancy_sunglasses",
+                    "knit_scarf",
+                    "wristwatch",
+                    "mbag",
+                    "water_mineral",
+                    "pda",
+                    "cell_phone",
+                    "money_bundle"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
+    },
+    {
+        "type": "profession",
+        "ident": "dodgeball_player",
+        "name": "Dodgeball Player",
+        "description": "You liked to play dodgeball, where failing to dodge the ball meant you were out. Now failing to dodge threatens your life. Don't slip up.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "jacket_light",
+                "jeans",
+                "socks",
+                "lowtops",
+                "fanny",
+                "juice"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "science_club_mem",
+        "name": "Science Club Member",
+        "description": "You were a member of the school science club, and right now you're as upset as you've ever been that the school wouldn't let you play with the really fun chemicals that make things go boom. At least now no one's around to tell you that you can't.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "jacket_light",
+                "jeans",
+                "socks",
+                "sneakers",
+                "knit_scarf",
+                "backpack",
+                "textbook_chemistry"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "av_club_mem",
+        "name": "A/V Club Member",
+        "description": "You were a member of the school A/V club. You're sure there's some way you can use your technical skills to help stay alive. You just haven't figured out how to make an awesome death ray yet.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            },
+            {
+                "level": 1,
+                "name": "computer"
+            }
+        ],
+        "items": {
+            "both": [
+                "linuxtshirt",
+                "jacket_light",
+                "jeans",
+                "socks",
+                "sneakers",
+                "knit_scarf",
+                "backpack",
+                "mag_electronics"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "janitor",
+        "name": "Janitor",
+        "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables. Now the only thing you'll be sweeping are the brains of the dead.",
+        "points": -1,
+        "items": {
+            "both": [
+                "jumpsuit",
+                "socks",
+                "boots",
+                "mop"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "teacher",
+        "name": "Teacher",
+        "description": "You've been teaching kids for the whole of your life, and they've mostly listened to your teachings. However, the dead won't write out lines for eating you alive.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "blazer",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "skinny_tie",
+                "tieclip",
+                "poetry_book",
+                "permanent_marker"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "gym_teacher",
+        "name": "Gym Teacher",
+        "description": "After a career of teaching kids the art of sports they mostly hate, the zombies around you refuse to do laps, even at the blow of your whistle.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 2,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "baseball",
+                "bat",
+                "tank_top",
+                "shorts",
+                "socks",
+                "sneakers",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+            "type": "profession",
+            "ident": "poor_student",
+            "name": "Poor Student",
+            "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria. Even worse, your ratty old backpack finally fell apart at the worst time. At least no one's mocking you now.",
+            "points": -1,
+            "items": {
+                "both": [                    
+                    "tshirt",
+                    "socks",
+                    "lowtops",
+                    "shorts"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
     }
 ]
