@@ -6373,6 +6373,28 @@
   },
 
   {
+    "id": "makeshift_sealer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "makeshift vacuum sealer",
+    "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
+    "price": 1000,
+    "material": ["aluminum", "plastic"],
+    "weight": 3218,
+    "volume": 8,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null"
+  },
+
+  {
     "id": "bag_meat_vac",
     "type": "GENERIC",
     "symbol": "%",
@@ -8592,7 +8614,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "Doppler Radar Turbo 2000",
-    "description": "A briefcase with built-in laptop that looks like it's from the 80s. It's vintage monochrome monitor displays a plethora of meteorological data. No sign of the FLDSMDFR, however.",
+    "description": "A briefcase with built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
     "price": 200,
     "material": ["plastic", "aluminum"],
     "weight": 10,
@@ -8755,7 +8777,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "lobotomizer",
-    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end. It can be used as a shovel, or you could chop some zombies with it instead.",
+    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
     "price": 25000,
     "material": ["steel"],
     "weight": 2722,
@@ -8834,7 +8856,7 @@
     "symbol": "/",
     "color": "cyan",
     "name": "diamond broadsword",
-    "description": "This broadsword's edge has been coated with razor-sharp diamond-like carbon, making you the deadliest knight in the realm. Your blademaster would be proud.",
+    "description": "This broadsword's edge has been coated with razor-sharp diamond-like carbon, making you the deadliest knight in the realm.  Your blademaster would be proud.",
     "price": 185000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
@@ -8940,7 +8962,7 @@
     "symbol": "#",
     "color": "yellow",
     "name": "remote vehicle controller",
-    "description": "A remote controller for real cars. Can turn onboard devices on and off. Some cars can be driven remotely.",
+    "description": "A remote controller for real cars.  Can turn onboard devices on and off.  Some cars can be driven remotely.",
     "price": 2000,
     "material": "plastic",
     "weight": 907,
@@ -8961,7 +8983,7 @@
 	"symbol": ";",
 	"color": "dark_gray",
 	"name": "brick kiln",
-	"description": "This is a portable charcoal-fired kiln. You could use it to fire your own bricks, for use in construction projects.",
+	"description": "This is a portable charcoal-fired kiln.  You could use it to fire your own bricks, for use in construction projects.",
 	"price": 25000,
 	"material": "steel",
 	"weight": 9600,
@@ -8982,7 +9004,7 @@
 "symbol": "*",
 "color": "red",
 "name": "ANFO charge",
-"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. Use this item to light the fuse. You will then have twenty turns before it explodes and creates a large fireball",
+"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
 "price": 75000,
 "material": ["steel", "plastic"],
 "weight": 25000,
@@ -9002,7 +9024,7 @@
 "target": "tool_anfo_charge_act",
 "target_charges": 20,
 "active": true,
-"msg": "You light the fuse on the ANFO charge. Run survivor, run!"
+"msg": "You light the fuse on the ANFO charge.  Run survivor, run!"
 }
 },
 {
@@ -9011,7 +9033,7 @@
 "symbol": "*",
 "color": "light_red",
 "name": "active ANFO charge",
-"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer. The fuse has been lit - better run like hell!",
+"description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
 "price": 0,
 "material": ["steel", "plastic"],
 "weight": 25000,
@@ -9061,7 +9083,7 @@
 "target": "tool_black_powder_bomb_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the fuse on the black gunpowder bomb. Throw it before it blows in your face!"
+"msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!"
 }
 },
 {
@@ -9100,7 +9122,7 @@
 "symbol": "*",
 "color": "red",
 "name": "black gunpowder charge",
-"description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse. Use this item to light the fuse. Should explode in no more than five turns...",
+"description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in no more than five turns...",
 "price": 20000,
 "material": ["steel", "plastic"],
 "weight": 5000,
@@ -9120,7 +9142,7 @@
 "target": "tool_black_powder_charge_act",
 "target_charges": 5,
 "active": true,
-"msg": "You light the fuse on the black gunpowder charge. Get rid of it quickly!"
+"msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!"
 }
 },
 {
@@ -9159,7 +9181,7 @@
 "symbol": ";",
 "color": "red",
 "name": "RDX sand bomb",
-"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. Use this item to light the fuse.",
+"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  Use this item to light the fuse.",
 "price": 1000,
 "material": ["steel", "plastic"],
 "weight": 2000,
@@ -9179,7 +9201,7 @@
 "target": "tool_rdx_sand_bomb_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the fuse on the sand bomb. Throw it!"
+"msg": "You light the fuse on the sand bomb.  Throw it!"
 }
 },
 {
@@ -9188,7 +9210,7 @@
 "symbol": ";",
 "color": "light_red",
 "name": "active RDX sand bomb",
-"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel. The fuse has been lit, so why are you still holding it?",
+"description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  The fuse has been lit, so why are you still holding it?",
 "price": 0,
 "material": ["steel", "plastic"],
 "weight": 2000,
@@ -9218,7 +9240,7 @@
 "symbol": "(",
 "color": "red",
 "name": "RDX charge",
-"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
 "price": 90000,
 "material": ["steel", "plastic"],
 "weight": 130000,
@@ -9238,7 +9260,7 @@
 "target": "tool_rdx_charge_act",
 "target_charges": 30,
 "active": true,
-"msg": "You light the fuse on the explosive charge. Clear the area!"
+"msg": "You light the fuse on the explosive charge.  Clear the area!"
 }
 },
 {
@@ -9247,7 +9269,7 @@
 "symbol": "(",
 "color": "light_red",
 "name": "active RDX charge",
-"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal. The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+"description": "This is an aluminium keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
 "price": 0,
 "material": ["steel", "plastic"],
 "weight": 130000,
@@ -9277,7 +9299,7 @@
 "symbol": "*",
 "color": "green",
 "name": "rocket candy",
-"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid. Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
 "price": 100,
 "material": ["steel", "plastic"],
 "weight": 250,
@@ -9297,7 +9319,7 @@
 "target": "tool_rocket_candy_act",
 "target_charges": 2,
 "active": true,
-"msg": "You light the rocket candy on fire. Throw it!"
+"msg": "You light the rocket candy on fire.  Throw it!"
 }
 },
 {

@@ -1010,6 +1010,8 @@
         "name" : "Dragon Snatch",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
+        "stun_dur" : 2,
+        "bash_mult" : 1.2,
         "messages" : [
             "You grab and knee %s!",
             "<npcname> grabs and knees %s!"

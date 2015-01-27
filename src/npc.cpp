@@ -26,8 +26,8 @@ npc::npc()
  mapx = 0;
  mapy = 0;
  mapz = 0;
- posx = -1;
- posy = -1;
+ position.x = -1;
+ position.y = -1;
  wandx = 0;
  wandy = 0;
  wandf = 0;
@@ -860,8 +860,8 @@ void npc::spawn_at(int x, int y, int z)
     mapx = x;
     mapy = y;
     mapz = z;
-    posx = rng(0, SEEX - 1);
-    posy = rng(0, SEEY - 1);
+    position.x = rng(0, SEEX - 1);
+    position.y = rng(0, SEEY - 1);
     const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
@@ -900,13 +900,13 @@ tripoint npc::global_omt_location() const
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx, mapy * SEEY + posy, mapz );
+    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
 }
 
 void npc::place_on_map()
 {
     // The global absolute position (in map squares) of the npc is *always*
-    // "mapx * SEEX + posx" (analog for y).
+    // "mapx * SEEX + posx()" (analog for y).
     // The main map assumes that pos[xy] is in its own (local to the main map)
     // coordinate system. We have to change pos[xy] to match that assumption,
     // but also have to change map[xy] to keep the global position of the npc
@@ -915,13 +915,14 @@ void npc::place_on_map()
     const int dmy = mapy - g->get_abs_levy();
     mapx -= dmx; // == g->get_abs_levx()
     mapy -= dmy;
-    posx += dmx * SEEX; // value of "mapx * SEEX + posx" is unchanged
-    posy += dmy * SEEY;
+    position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
+    position.y += dmy * SEEY;
 
-    //places the npc at the nearest empty spot near (posx, posy). Searches in a spiral pattern for a suitable location.
+    // Places the npc at the nearest empty spot near (posx(), posy()).
+    // Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(posx + x, posy + y))
+    while(!g->is_empty(posx() + x, posy() + y))
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction
@@ -931,10 +932,10 @@ void npc::place_on_map()
         }
         x += dx;
         y += dy;
-    }//end search, posx + x , posy + y contains a free spot.
+    }//end search, posx() + x , posy() + y contains a free spot.
     //place the npc at the free spot.
-    posx += x;
-    posy += y;
+    position.x += x;
+    position.y += y;
 }
 
 const Skill* npc::best_skill()
@@ -1049,7 +1050,7 @@ bool npc::wield(item* it)
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
-            g->m.add_item_or_charges( posx, posy, remove_weapon() );
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
         }
     }
     moves -= 15;
@@ -1271,7 +1272,8 @@ int npc::player_danger(player *u) const
 
 int npc::vehicle_danger(int radius) const
 {
-    VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
+    VehicleList vehicles = g->m.get_vehicles(posx() - radius, posy() - radius,
+                                             posx() + radius, posy() + radius);
 
  int danger = 0;
 
@@ -1294,7 +1296,7 @@ int npc::vehicle_danger(int radius) const
    int size = std::max(last_part.mount.x, last_part.mount.y);
 
    float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
-   int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
+   int closest = abs((posx() - ax) * (by - ay) - (posy() - ay) * (bx - ax)) / normal;
 
    if (size > closest)
     danger = i;
@@ -1478,10 +1480,10 @@ void npc::say(std::string line, ...) const
  parse_tags(line, &(g->u), this);
  if (g->u.sees( *this )) {
   add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx, posy, 16, "");
+  g->sound(posx(), posy(), 16, "");
  } else {
   std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx, posy, 16, sound);
+  g->sound(posx(), posy(), 16, sound);
  }
 }
 
@@ -1855,6 +1857,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
+    } else if( attitude == NPCATT_FLEE ) {
+        return c_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
@@ -1999,8 +2003,8 @@ std::string npc::opinion_text() const
 
 void npc::shift(int sx, int sy)
 {
-    posx -= sx * SEEX;
-    posy -= sy * SEEY;
+    position.x -= sx * SEEX;
+    position.y -= sy * SEEY;
     const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
@@ -2041,7 +2045,7 @@ void npc::die(Creature* nkiller) {
         killer = nkiller;
     }
     if (in_vehicle) {
-        g->m.unboard_vehicle(posx, posy);
+        g->m.unboard_vehicle(posx(), posy());
     }
 
     if (g->u.sees( *this )) {

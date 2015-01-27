@@ -253,7 +253,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         }
     }
 
-    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
+    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx(), p->posy(), 0, 0, 0, false);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
@@ -375,7 +375,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fid, field->second);
+            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fid, field->second);
         }
     }
     // Output message.
@@ -443,8 +443,8 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     point target;
     if( place_randomly ) {
         std::vector<point> valid;
-        for( int x = p->posx - 1; x <= p->posx + 1; x++ ) {
-            for( int y = p->posy - 1; y <= p->posy + 1; y++ ) {
+        for( int x = p->posx() - 1; x <= p->posx() + 1; x++ ) {
+            for( int y = p->posy() - 1; y <= p->posy() + 1; y++ ) {
                 if( g->is_empty( x, y ) ) {
                     valid.push_back( point( x, y ) );
                 }
@@ -601,7 +601,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
         return 0;
     }
-    if( dirx == p->posx && diry == p->posy ) {
+    if( dirx == p->posx() && diry == p->posy() ) {
         p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         return 0;
     }
@@ -660,7 +660,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
         it->damage < 100 ) {
-        g->sound( p->posx, p->posy, 40, _( "An alarm sounds!" ) );
+        g->sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
         }

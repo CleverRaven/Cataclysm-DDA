@@ -167,6 +167,8 @@ void DynamicDataLoader::initialize()
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+    type_function_map["MONSTER_FACTION"] = new ClassFunctionAccessor<MonsterGenerator>
+    (&MonsterGenerator::generator(), &MonsterGenerator::load_monster_faction);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
@@ -362,6 +364,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_overmap_terrain();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
+    MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
     g->finalize_vehicles();
     item_controller->finialize_item_blacklist();

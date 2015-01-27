@@ -442,7 +442,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for( auto &i : g->m.i_at(posx, posy) ) {
+    for( auto &i : g->m.i_at(posx(), posy()) ) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -1584,11 +1584,11 @@ void set_item_inventory(item &newit)
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
         } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("The %s is too heavy to carry, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
         } else {
             newit = g->u.i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
@@ -1611,7 +1611,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     } use_from;
     item_comp selected_comp("", 0);
     inventory map_inv;
-    map_inv.form_from_map(point(posx, posy), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -1697,7 +1697,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         }
     }
 
-    const point loc(posx, posy);
+    const point &loc = pos();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
@@ -1741,7 +1741,7 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
 {
     bool found_nocharge = false;
     inventory map_inv;
-    map_inv.form_from_map(point(posx, posy), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
@@ -1932,7 +1932,7 @@ void player::disassemble(int dis_pos)
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item->volume() * 2) * 10;
-            g->m.spawn_item(posx, posy, "paper", 0, num_pages);
+            g->m.spawn_item(posx(), posy(), "paper", 0, num_pages);
             i_rem(dis_pos);
         }
         return;
@@ -1968,7 +1968,7 @@ void player::complete_disassemble()
         return;
     }
     item *org_item;
-    auto items_on_ground = g->m.i_at(posx, posy);
+    auto items_on_ground = g->m.i_at(posx(), posy());
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
@@ -1989,7 +1989,7 @@ void player::complete_disassemble()
     float component_success_chance = std::min(std::pow(0.8f, dis_item.damage), 1.0);
 
     int veh_part = -1;
-    vehicle *veh = g->m.veh_at(posx, posy, veh_part);
+    vehicle *veh = g->m.veh_at(posx(), posy(), veh_part);
     if(veh != 0) {
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
@@ -2005,7 +2005,7 @@ void player::complete_disassemble()
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
-            g->m.i_rem( posx, posy, item_pos );
+            g->m.i_rem( posx(), posy(), item_pos );
         } else {
             i_rem(item_pos);
         }
@@ -2083,7 +2083,7 @@ void player::complete_disassemble()
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
-                g->m.add_item_or_charges(posx, posy, act_item);
+                g->m.add_item_or_charges(posx(), posy(), act_item);
             }
         }
     }

@@ -130,9 +130,26 @@ enum m_flag {
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
-struct monfaction {
-    int id;
-    std::string name;
+enum mf_attitude {
+    MFA_BY_MOOD = 0,    // Hostile if angry
+    MFA_NEUTRAL,        // Neutral even when angry
+    MFA_FRIENDLY        // Friendly
+};
+
+class monfaction;
+
+typedef std::map< const monfaction*, mf_attitude > mfaction_att_map;
+
+class monfaction {
+    public:
+        int id;
+        std::string name;
+        const monfaction *base_faction;
+
+        mf_attitude attitude( const monfaction *other ) const;
+        friend class MonsterGenerator;
+    private:
+        mfaction_att_map attitude_map;
 };
 
 /** Used to store monster effects placed on attack */

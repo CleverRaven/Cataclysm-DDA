@@ -4,6 +4,7 @@
 //--------------------------------------------------------------------------------------------------
 // HACK:
 // std::to_string is broken on MinGW (as of 13/01/2015), but is fixed in MinGW-w64 gcc 4.8.
+// It is also broken in Cygwin with no fix at this time.
 // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52015
 // This is a minimal workaround pending the issue begin solved (if ever).
 // For proper linking these must be declared inline here, or moved to a cpp file.
@@ -17,6 +18,7 @@
 #elif defined(__MINGW64__) && (CATA_GCC_VER < 40800)
 #   define CATA_NO_CPP11_STRING_CONVERSIONS
 #endif
+// CATA_NO_CPP11_STRING_CONVERSIONS is also defined in Makefile for TARGETSYSTEM=CYGWIN
 
 #if defined(CATA_NO_CPP11_STRING_CONVERSIONS)
 #include <cstdio>

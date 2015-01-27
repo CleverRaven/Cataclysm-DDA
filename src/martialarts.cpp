@@ -195,8 +195,8 @@ void load_martial_art(JsonObject &jo)
     ma.techniques = jo.get_tags("techniques");
     ma.weapons = jo.get_tags("weapons");
 
-    ma.leg_block = jo.get_int("leg_block", -1);
-    ma.arm_block = jo.get_int("arm_block", -1);
+    ma.leg_block = jo.get_int("leg_block", 99);
+    ma.arm_block = jo.get_int("arm_block", 99);
 
     ma.arm_block_with_bio_armor_arms = jo.get_bool("arm_block_with_bio_armor_arms", false);
     ma.leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
