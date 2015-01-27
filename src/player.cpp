@@ -13345,20 +13345,20 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
 
 void player::on_mission_assignment( const mission &new_mission )
 {
-    active_missions.push_back( new_mission.uid );
+    active_missions.push_back( new_mission.get_id() );
     set_active_mission( new_mission );
 }
 
 void player::on_mission_finished( const mission &mission )
 {
-    if( mission.failed ) {
-        completed_missions.push_back( mission.uid );
+    if( mission.has_failed() ) {
+        completed_missions.push_back( mission.get_id() );
     } else {
-        failed_missions.push_back( mission.uid );
+        failed_missions.push_back( mission.get_id() );
     }
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.uid );
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.get_id() );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", mission.uid );
+        debugmsg( "completed mission %d was not in the active_missions list", mission.get_id() );
     } else {
         active_missions.erase( iter );
     }
@@ -13366,9 +13366,9 @@ void player::on_mission_finished( const mission &mission )
 
 void player::set_active_mission( const mission &mission )
 {
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.uid );
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), mission.get_id() );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", mission.uid );
+        debugmsg( "new active mission %d is not in the active_missions list", mission.get_id() );
     } else {
         active_mission = iter - active_missions.begin();
     }
@@ -13389,7 +13389,7 @@ point player::get_active_mission_target() const
     if( active_mission == nullptr ) {
         return overmap::invalid_point;
     }
-    return active_mission->target;
+    return active_mission->get_target();
 }
 
 std::vector<mission*> player::get_active_missions() const

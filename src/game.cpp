@@ -4553,15 +4553,17 @@ void game::list_missions()
 
         if (selection < umissions.size()) {
             const auto miss = umissions[selection];
-            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
-            if (miss->deadline != 0)
+            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->get_description().c_str());
+            if( miss->has_deadline() ) {
+                // TODO: proper fomrating of turns, see calendar class, it has some nice functions
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
-                          miss->deadline, int(calendar::turn));
-            if (miss->target != overmap::invalid_point) {
+                          int(miss->get_deadline()), int(calendar::turn));
+            }
+            if( miss->has_target() ) {
                 const tripoint pos = om_global_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
                 mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-                          miss->target.x, miss->target.y, pos.x, pos.y);
+                          miss->get_target().x, miss->get_target().y, pos.x, pos.y);
             }
         } else {
             std::string nope;

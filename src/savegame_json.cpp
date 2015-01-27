@@ -580,6 +580,25 @@ void player::deserialize(JsonIn &jsin)
     data.read( "failed_missions", failed_missions );
     data.read( "completed_missions", completed_missions );
 
+    // Normally there is only one player character loaded, so if a mission that is assigned to
+    // another character (not the current one) fails, the other character(s) are not informed.
+    // We must inform them when they get loaded the next time.
+    // Only active missions need checking, failed/complete will not change anymore.
+    for( size_t i = 0; i < active_missions.size(); ) {
+        const auto mission = mission::find( active_missions[i] );
+        if( mission->has_failed() ) {
+            failed_missions.push_back( mission->get_id() );
+            if( active_mission == static_cast<int>( i ) ) {
+                active_mission = -1;
+            } else if( active_mission > static_cast<int>( i ) ) {
+                active_mission--;
+            }
+            active_missions.erase( active_missions.begin() + i );
+        } else {
+            ++i;
+        }
+    }
+
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
 
@@ -625,7 +644,7 @@ void npc_chatbin::serialize(JsonOut &json) const
     json.start_object();
     json.member( "first_topic", (int)first_topic );
     if( mission_selected != nullptr ) {
-        json.member( "mission_selected", mission_selected->uid );
+        json.member( "mission_selected", mission_selected->get_id() );
     }
     json.member( "tempvalue",
                  tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.

@@ -760,7 +760,7 @@ of pureed bone & LSD."));
                 return;
             }
             g->u.moves -= 30;
-            item software(miss->item_id, 0);
+            item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();

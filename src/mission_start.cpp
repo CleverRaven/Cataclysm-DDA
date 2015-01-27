@@ -23,7 +23,7 @@ point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, boo
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->levz);
     }
-    miss->target = place;
+    miss->set_target( place );
     return place;
 }
 
@@ -45,7 +45,7 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->levz);
     }
-    miss->target = place;
+    miss->set_target( place );
     return place;
 }
 

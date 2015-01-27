@@ -1385,7 +1385,7 @@ int npc::assigned_missions_value()
 {
     int ret = 0;
     for( auto &m : chatbin.missions_assigned ) {
-        ret += m->value;
+        ret += m->get_value();
     }
     return ret;
 }

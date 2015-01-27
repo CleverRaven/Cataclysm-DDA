@@ -411,7 +411,7 @@ void npc::talk_to_u()
     // move them back into the available mission vector.
     // TODO: or simply fail them? Some missions might only need to be reported.
     for( auto it = chatbin.missions_assigned.begin(); it != chatbin.missions_assigned.end(); ) {
-        if( ( *it )->player_id == -1 ) {
+        if( !( *it )->is_assigned() ) {
             chatbin.missions.push_back( *it );
             it = chatbin.missions_assigned.erase( it );
         } else {
@@ -420,7 +420,7 @@ void npc::talk_to_u()
     }
 
     for( auto &mission : chatbin.missions_assigned ) {
-        if( mission->player_id == g->u.getID() ) {
+        if( mission->get_assigned_player_id() == g->u.getID() ) {
             d.missions_assigned.push_back( mission );
         }
     }
@@ -435,31 +435,31 @@ void npc::talk_to_u()
 
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
-        const auto type = mission->type;
-        if (type->urgent && type->difficulty > most_difficult_mission) {
+        const auto &type = mission->get_type();
+        if (type.urgent && type.difficulty > most_difficult_mission) {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
             chatbin.mission_selected = mission;
-            most_difficult_mission = type->difficulty;
+            most_difficult_mission = type.difficulty;
         }
     }
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for( auto &mission : chatbin.missions_assigned ) {
-        if( mission->player_id != g->u.getID() ) {
+        if( mission->get_assigned_player_id() != g->u.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
-        const auto type = mission->type;
-        if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
-              (type->urgent || !chosen_urgent))) {
-            chosen_urgent = type->urgent;
+        const auto &type = mission->get_type();
+        if ((type.urgent && !chosen_urgent) || (type.difficulty > most_difficult_mission &&
+              (type.urgent || !chosen_urgent))) {
+            chosen_urgent = type.urgent;
             d.topic_stack.push_back(TALK_MISSION_INQUIRE);
             chatbin.mission_selected = mission;
-            most_difficult_mission = type->difficulty;
+            most_difficult_mission = type.difficulty;
         }
     }
     if( chatbin.mission_selected != nullptr ) {
-        if( chatbin.mission_selected->player_id != g->u.getID() ) {
+        if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
             // Don't talk about a mission that is assigned to someone else.
             chatbin.mission_selected = nullptr;
         }
@@ -538,15 +538,15 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
 
         // Mission stuff is a special case, so we'll handle it up here
         mission *miss = p->chatbin.mission_selected;
-        auto type = miss->type;
-        std::string ret = mission_dialogue( type->id, topic);
+        const auto &type = miss->get_type();
+        std::string ret = mission_dialogue( type.id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%d)",
-                     type->id, topic);
+                     type.id, topic);
             return "";
         }
 
-        if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL) {
+        if (topic == TALK_MISSION_SUCCESS && miss->has_follow_up() ) {
             switch (rng(1,3)){
                 case 1:
                     return ret + _("  And I have more I'd like you to do.");
@@ -1386,7 +1386,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                     SUCCESS(TALK_NONE);
             } else {
                 for( auto &mission : p->chatbin.missions ) {
-                    SELECT_MISS( mission->type->name, mission );
+                    SELECT_MISS( mission->get_type().name, mission );
                         SUCCESS(TALK_MISSION_OFFER);
                 }
                 RESPONSE(_("Never mind, I'm not interested."));
@@ -1405,7 +1405,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                     SUCCESS(TALK_NONE);
             } else {
                 for( auto &miss : missions_assigned ) {
-                    SELECT_MISS( miss->type->name, miss );
+                    SELECT_MISS( miss->get_type().name, miss );
                         SUCCESS(TALK_MISSION_INQUIRE);
                 }
                 RESPONSE(_("Never mind."));
@@ -1467,7 +1467,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
             } else if( !mission->is_complete( p->getID() ) ) {
                 RESPONSE(_("Not yet."));
                     SUCCESS(TALK_NONE);
-                if( mission->type->goal == MGOAL_KILL_MONSTER ) {
+                if( mission->get_type().goal == MGOAL_KILL_MONSTER ) {
                     RESPONSE(_("Yup, I killed it."));
                     TRIAL(TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5);
                         SUCCESS(TALK_MISSION_SUCCESS);
@@ -1480,7 +1480,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                     SUCCESS(TALK_DONE);
             } else {
                 // TODO: Lie about mission
-                switch( mission->type->goal ) {
+                switch( mission->get_type().goal ) {
                     case MGOAL_FIND_ITEM:
                     case MGOAL_FIND_ANY_ITEM:
                         RESPONSE(_("Yup!  Here it is!"));
@@ -1537,8 +1537,8 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
         case TALK_MISSION_SUCCESS:
             RESPONSE(_("Glad to help.  I need no payment."));
                 SUCCESS(TALK_NONE);
-                    SUCCESS_OPINION(miss->value / (OWED_VAL * 4), -1,
-                                    miss->value / (OWED_VAL * 2), -1, 0 - miss->value);
+                    SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
+                                    miss->get_value() / (OWED_VAL * 2), -1, 0 - miss->get_value());
                     SUCCESS_ACTION(&talk_function::clear_mission);
             RESPONSE(_("How about some items as payment?"));
                 SUCCESS(TALK_MISSION_REWARD);
@@ -1556,7 +1556,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
                 SUCCESS(TALK_DONE);
                     SUCCESS_ACTION(&talk_function::clear_mission);
                     SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                    p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->value);
+                                    p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->get_value());
             break;
 
         case TALK_MISSION_SUCCESS_LIE:
@@ -3037,7 +3037,6 @@ void talk_function::assign_mission(npc *p)
         return;
     }
     miss->assign( g->u );
-    miss->npc_id = p->getID();
     p->chatbin.missions_assigned.push_back( miss );
     const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss );
     p->chatbin.missions.erase( it );
@@ -3050,7 +3049,7 @@ void talk_function::mission_success(npc *p)
         debugmsg( "mission_success: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( 0, 0, 1 + (miss->value / 1000), -1, miss->value);
+    npc_opinion tmp( 0, 0, 1 + (miss->get_value() / 1000), -1, miss->get_value());
     p->op_of_u += tmp;
     if (p->my_fac != NULL){
         p->my_fac->likes_u += 10;
@@ -3080,8 +3079,8 @@ void talk_function::clear_mission(npc *p)
     }
     const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
     p->chatbin.missions_assigned.erase( it );
-    if (miss->follow_up != MISSION_NULL) {
-        const auto mission = mission::reserve_new( miss->follow_up, p->getID() );
+    if( miss->has_follow_up() ) {
+        const auto mission = mission::reserve_new( miss->get_follow_up(), p->getID() );
         p->chatbin.missions.push_back( mission );
     }
 }
@@ -3316,7 +3315,7 @@ void talk_function::lead_to_safety(npc *p)
 {
     const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
     mission->assign( g->u );
-    const point target = mission->target;
+    const point target = mission->get_target();
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;

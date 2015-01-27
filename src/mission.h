@@ -216,10 +216,16 @@ private:
 
 class mission : public JsonSerializer, public JsonDeserializer
 {
-    public:
+private:
+    friend struct mission_type; // so mission_type::create is simpler
+    friend struct mission_start; // so it can initialize some properties
         const mission_type *type;
         std::string description;// Basic descriptive text
-        bool failed;            // True if we've failed it!
+        /**
+         * True if the mission is failed. Failed missions are completed per definition
+         * and should not be reused. Failed mission should not be changed further.
+         */
+        bool failed;
         unsigned long value;    // Cash/Favor value of completing this
         npc_favor reward;       // If there's a special reward for completing it
         int uid;                // Unique ID number, used for referencing elsewhere
@@ -239,6 +245,7 @@ class mission : public JsonSerializer, public JsonDeserializer
         int step;               // How much have we completed?
         mission_type_id follow_up;   // What mission do we get after this succeeds?
         int player_id; // The id of the player that has accepted this mission.
+public:
 
         std::string name();
         using JsonSerializer::serialize;
@@ -268,6 +275,39 @@ class mission : public JsonSerializer, public JsonDeserializer
             step = 0;
             player_id = -1;
         }
+
+    /** Getters, they mostly return the member directly, mostly. */ 
+    /*@{*/
+    bool has_deadline() const;
+    calendar get_deadline() const;
+    std::string get_description() const;
+    bool has_target() const;
+    point get_target() const;
+    const mission_type &get_type() const;
+    bool has_follow_up() const;
+    mission_type_id get_follow_up() const;
+    long get_value() const;
+    int get_id() const;
+    const std::string &get_item_id() const;
+    int get_npc_id() const;
+    /**
+     * Whether the mission is assigned to a player character. If not, the mission is free and
+     * can be assigned.
+     */
+    bool is_assigned() const;
+    /**
+     * To which player the mission is assigned. It returns the id (@ref player::getID) of the
+     * player.
+     */
+    int get_assigned_player_id() const;
+    /*@}*/
+
+    /**
+     * Simple setters, no checking if the values is performed. */
+    /*@{*/
+    void set_target( point target );
+    /*@}*/
+
 
     /** Assigns the mission to the player. */
     void assign( player &u );

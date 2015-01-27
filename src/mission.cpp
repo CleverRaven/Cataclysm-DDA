@@ -163,8 +163,9 @@ void mission::assign( player &u )
 void mission::fail()
 {
     failed = true;
-    // TODO: check that the mission is actually done by this player.
-    g->u.on_mission_finished( *this );
+    if( g->u.getID() == player_id ) {
+        g->u.on_mission_finished( *this );
+    }
     mission_fail failfunc;
     (failfunc.*type->fail)( this );
 }
@@ -310,9 +311,84 @@ bool mission::is_complete( const int _npc_id ) const
     return false;
 }
 
+bool mission::has_deadline() const
+{
+    return deadline != 0;
+}
+
+calendar mission::get_deadline() const
+{
+    return deadline;
+}
+
+std::string mission::get_description() const
+{
+    return description;
+}
+
+bool mission::has_target() const
+{
+    return target != overmap::invalid_point;
+}
+
+point mission::get_target() const
+{
+    return target;
+}
+
+const mission_type &mission::get_type() const
+{
+    return *type;
+}
+
+bool mission::has_follow_up() const
+{
+    return follow_up != MISSION_NULL;
+}
+
+mission_type_id mission::get_follow_up() const
+{
+    return follow_up;
+}
+
+long mission::get_value() const
+{
+    return value;
+}
+
+int mission::get_id() const
+{
+    return uid;
+}
+
+const std::string &mission::get_item_id() const
+{
+    return item_id;
+}
+
 bool mission::has_failed() const
 {
     return failed;
+}
+
+int mission::get_npc_id() const
+{
+    return npc_id;
+}
+
+void mission::set_target( const point new_target )
+{
+    target = new_target;
+}
+
+bool mission::is_assigned() const
+{
+    return player_id != -1;
+}
+
+int mission::get_assigned_player_id() const
+{
+    return player_id;
 }
 
 std::string mission::name()
