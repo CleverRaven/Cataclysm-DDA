@@ -85,14 +85,20 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
 }
 
-float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
+float monster::rate_target( Creature &c, int &bresenham_slope, float best, bool smart ) const
 {
-    int d = rl_dist( pos(), c.pos() );
-    // No targetting own tile. Creatures sharing tiles can happen.
+    const int d = rl_dist( pos(), c.pos() );
     if( d <= 0 || !sees( c, bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
+        // Do the range comparison first, it's cheaper.
+        if( d >= best ) {
+            return INT_MAX;
+        }
+        if( !sees( c.pos(), bresenham_slope ) ) {
+            return INT_MAX;
+        }
         return d;
     }
     float power = c.power_rating();
@@ -101,7 +107,7 @@ float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) cons
     if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
         power += 2;
     }
-    if( power > 0 ) {
+    if( power > 0 && sees( c.pos(), bresenham_slope ) ) {
         return d / power;
     }
     return INT_MAX;
@@ -127,7 +133,7 @@ void monster::plan(const mfactions &factions)
 
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
-        dist = rate_target( g->u, bresenham_slope, electronic );
+        dist = rate_target( g->u, bresenham_slope, dist, electronic );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
         selected_slope = bresenham_slope;
@@ -140,7 +146,7 @@ void monster::plan(const mfactions &factions)
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, bresenham_slope, electronic );
+                float rating = rate_target( tmp, bresenham_slope, dist, electronic );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -153,7 +159,7 @@ void monster::plan(const mfactions &factions)
     if( !docile ) {
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = g->active_npc[i];
-            float rating = rate_target( *me, bresenham_slope, electronic );
+            float rating = rate_target( *me, bresenham_slope, dist, electronic );
             bool fleeing_from = is_fleeing( *me );
             // Switch targets if closer and hostile or scarier than current target
             if( ( rating < dist && fleeing ) ||
@@ -181,7 +187,7 @@ void monster::plan(const mfactions &factions)
 
             for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
-                float rating = rate_target( mon, bresenham_slope, electronic );
+                float rating = rate_target( mon, bresenham_slope, dist, electronic );
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
@@ -203,7 +209,7 @@ void monster::plan(const mfactions &factions)
     if( group_morale || swarms ) {
         for( int i : myfaction ) {
             monster &mon = g->zombie( i );
-            float rating = rate_target( mon, bresenham_slope, electronic );
+            float rating = rate_target( mon, bresenham_slope, dist, electronic );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
