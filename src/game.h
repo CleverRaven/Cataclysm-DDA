@@ -308,8 +308,6 @@ class game
         void teleport(player *p = NULL, bool add_teleglow = true);
         /** Handles swimming by the player. Called by plmove(). */
         void plswim(int x, int y);
-        /** Handles fishing with a fishing rod. */
-        void rod_fish(int sSkillLevel, int fishChance);
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0);
         /** Returns the list of currently fishable monsters within distance of the player. */
@@ -624,7 +622,6 @@ class game
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
-        void advanced_inv();
 
         // Establish a grab on something.
         void grab();
@@ -640,8 +637,6 @@ class game
                                 int freed_volume_capacity) const;
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
-        void complete_butcher(int index); // Finish the butchering process
-        void forage(); // Foraging ('a' on underbrush)
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
@@ -790,27 +785,7 @@ class game
         std::vector<point> destination_preview;
 
         Creature *is_hostile_within(int distance);
-        void activity_on_turn();
-        void activity_on_turn_game();
-        void activity_on_turn_drop();
-        void activity_on_turn_stash();
-        void activity_on_turn_pickup();
-        void activity_on_turn_move_items();
-        void activity_on_turn_vibe();
-        void activity_on_turn_fill_liquid();
-        void activity_on_turn_refill_vehicle();
-        void activity_on_turn_pulp();
-        void activity_on_turn_start_fire_lens();
-        void activity_on_finish();
-        void activity_on_finish_reload();
-        void activity_on_finish_train();
-        void activity_on_finish_firstaid();
-        void activity_on_finish_fish();
-        void activity_on_finish_vehicle();
-        void activity_on_finish_make_zlave();
-        void activity_on_finish_start_fire();
-        void activity_on_finish_hotwire();
-        void longsalvage(); // Salvage everything activity
+
         void move_save_to_graveyard();
         bool save_player_data();
 };
