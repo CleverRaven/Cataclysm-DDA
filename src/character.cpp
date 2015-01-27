@@ -30,18 +30,6 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::store(JsonOut &jsout) const
-{
-    Creature::store( jsout );
-    // Add members of this class here:
-}
-
-void Character::load(JsonObject &jsin)
-{
-    Creature::load( jsin );
-    // Add members of this class here:
-}
-
 bool Character::move_effects()
 {
     if (has_effect("downed")) {
@@ -160,4 +148,409 @@ bool Character::move_effects()
 void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
     Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+}
+
+void Character::recalc_hp()
+{
+    int new_max_hp[num_hp_parts];
+    for( auto &elem : new_max_hp ) {
+        elem = 60 + str_max * 3;
+        if (has_trait("HUGE")) {
+            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
+            // so no HP bonus from the ST above/beyond that from Large
+            elem -= 6;
+        }
+        // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
+        // structure can help with that, a bit.
+        if (has_trait("BENDY2")) {
+            elem += 3;
+        }
+        if (has_trait("BENDY3")) {
+            elem += 6;
+        }
+        // Only the most extreme applies.
+        if (has_trait("TOUGH")) {
+            elem *= 1.2;
+        } else if (has_trait("TOUGH2")) {
+            elem *= 1.3;
+        } else if (has_trait("TOUGH3")) {
+            elem *= 1.4;
+        } else if (has_trait("FLIMSY")) {
+            elem *= .75;
+        } else if (has_trait("FLIMSY2")) {
+            elem *= .5;
+        } else if (has_trait("FLIMSY3")) {
+            elem *= .25;
+        }
+        // Mutated toughness stacks with starting, by design.
+        if (has_trait("MUT_TOUGH")) {
+            elem *= 1.2;
+        } else if (has_trait("MUT_TOUGH2")) {
+            elem *= 1.3;
+        } else if (has_trait("MUT_TOUGH3")) {
+            elem *= 1.4;
+        }
+    }
+    if (has_trait("GLASSJAW"))
+    {
+        new_max_hp[hp_head] *= 0.8;
+    }
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+        hp_max[i] = new_max_hp[i];
+    }
+}
+
+
+// This must be called when any of the following change:
+// - effects
+// - bionics
+// - traits
+// - underwater
+// - clothes
+// With the exception of clothes, all changes to these character attributes must
+// occur through a function in this class which calls this function. Clothes are
+// typically added/removed with wear() and takeoff(), but direct access to the
+// 'wears' vector is still allowed due to refactor exhaustion.
+void Character::recalc_sight_limits()
+{
+    sight_max = 9999;
+    sight_boost = 0;
+    sight_boost_cap = 0;
+
+    // Set sight_max.
+    if (has_effect("blind")) {
+        sight_max = 0;
+    } else if (has_effect("in_pit") ||
+            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+            (underwater && !has_bionic("bio_membrane") &&
+                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
+                !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
+        sight_max = 1;
+    } else if (has_active_mutation("SHELL2")) {
+        // You can kinda see out a bit.
+        sight_max = 2;
+    } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
+            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
+            !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
+        sight_max = 4;
+    } else if (has_trait("PER_SLIME")) {
+        sight_max = 6;
+    }
+
+    // Set sight_boost and sight_boost_cap, based on night vision.
+    // (A player will never have more than one night vision trait.)
+    sight_boost_cap = 12;
+    // Debug-only NV, by vache's request
+    if (has_trait("DEBUG_NIGHTVISION")) {
+        sight_boost = 59;
+        sight_boost_cap = 59;
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
+      (has_trait("CEPH_VISION")) ) {
+        // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
+        // BIRD_EYE represents excellent fine-detail vision so I think it works.
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 13;
+        }
+        else {
+        sight_boost = sight_boost_cap;
+        }
+    } else if (has_trait("ELFA_NV")) {
+        sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
+    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) {
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 5;
+        }
+         else {
+            sight_boost = 4;
+         }
+    } else if (has_trait("NIGHTVISION")) {
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 2;
+        }
+        else {
+            sight_boost = 1;
+        }
+    }
+}
+
+bool Character::has_bionic(const bionic_id & b) const
+{
+    for (auto &i : my_bionics) {
+        if (i.id == b) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_active_bionic(const bionic_id & b) const
+{
+    for (auto &i : my_bionics) {
+        if (i.id == b) {
+            return (i.powered);
+        }
+    }
+    return false;
+}
+
+item& Character::i_add(item it)
+{
+ itype_id item_type_id = "null";
+ if( it.type ) item_type_id = it.type->id;
+
+ last_item = item_type_id;
+
+ if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
+     it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
+  inv.unsort();
+
+    // if there's a desired invlet for this item type, try to use it
+    bool keep_invlet = false;
+    const std::set<char> cur_inv = allocated_invlets();
+    for (auto iter : assigned_invlet) {
+        if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
+            it.invlet = iter.first;
+            keep_invlet = true;
+            break;
+        }
+    }
+    auto &item_in_inv = inv.add_item(it, keep_invlet);
+    item_in_inv.on_pickup( *this );
+    return item_in_inv;
+}
+
+item Character::i_rem(int pos)
+{
+ item tmp;
+ if (pos == -1) {
+     tmp = weapon;
+     weapon = ret_null;
+     return tmp;
+ } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
+     tmp = worn[worn_position_to_index(pos)];
+     worn.erase(worn.begin() + worn_position_to_index(pos));
+     return tmp;
+ }
+ return inv.remove_item(pos);
+}
+
+item Character::i_rem(const item *it)
+{
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    if( tmp.empty() ) {
+        debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
+        return ret_null;
+    }
+    return tmp.front();
+}
+
+void Character::i_rem_keep_contents( const int pos )
+{
+    for( auto &content : i_rem( pos ).contents ) {
+        i_add_or_drop( content );
+    }
+}
+
+bool Character::i_add_or_drop(item& it, int qty) {
+    bool retval = true;
+    bool drop = false;
+    inv.assign_empty_invlet(it);
+    for (int i = 0; i < qty; ++i) {
+        if (!drop && (!can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
+                      || !can_pickVolume(it.volume()))) {
+            drop = true;
+        }
+        if (drop) {
+            retval &= g->m.add_item_or_charges(posx(), posy(), it);
+        } else {
+            i_add(it);
+        }
+    }
+    return retval;
+}
+
+std::set<char> Character::allocated_invlets() const {
+    std::set<char> invlets = inv.allocated_invlets();
+
+    if (weapon.invlet != 0) {
+        invlets.insert(weapon.invlet);
+    }
+    for( const auto &w : worn ) {
+        if( w.invlet != 0 ) {
+            invlets.insert( w.invlet );
+        }
+    }
+
+    return invlets;
+}
+
+bool Character::has_active_item(const itype_id & id) const
+{
+    return has_item_with( [id]( const item & it ) {
+        return it.active && it.typeId() == id;
+    } );
+}
+
+item Character::remove_weapon()
+{
+    if( weapon.active ) {
+        weapon.deactivate_charger_gun();
+    }
+ item tmp = weapon;
+ weapon = ret_null;
+ return tmp;
+}
+
+void Character::remove_mission_items( int mission_id )
+{
+    if( mission_id == -1 ) {
+        return;
+    }
+    remove_items_with( has_mission_item_filter { mission_id } );
+}
+
+int Character::weight_carried() const
+{
+    int ret = 0;
+    ret += weapon.weight();
+    for (auto &i : worn) {
+        ret += i.weight();
+    }
+    ret += inv.weight();
+    return ret;
+}
+
+int Character::volume_carried() const
+{
+    return inv.volume();
+}
+
+int Character::weight_capacity() const
+{
+    // Get base capacity from creature,
+    // then apply player-only mutation and trait effects.
+    int ret = Creature::weight_capacity();
+    if (has_trait("BADBACK")) {
+        ret = int(ret * .65);
+    }
+    if (has_trait("STRONGBACK")) {
+        ret = int(ret * 1.35);
+    }
+    if (has_trait("LIGHT_BONES")) {
+        ret = int(ret * .80);
+    }
+    if (has_trait("HOLLOW_BONES")) {
+        ret = int(ret * .60);
+    }
+    if (has_artifact_with(AEP_CARRY_MORE)) {
+        ret += 22500;
+    }
+    if (ret < 0) {
+        ret = 0;
+    }
+    return ret;
+}
+
+int Character::volume_capacity() const
+{
+    int ret = 2; // A small bonus (the overflow)
+    for (auto &i : worn) {
+        ret += i.get_storage();
+    }
+    if (has_bionic("bio_storage")) {
+        ret += 8;
+    }
+    if (has_trait("SHELL")) {
+        ret += 16;
+    }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
+        ret += 24;
+    }
+    if (has_trait("PACKMULE")) {
+        ret = int(ret * 1.4);
+    }
+    if (has_trait("DISORGANIZED")) {
+        ret = int(ret * 0.6);
+    }
+    if (ret < 2) {
+        ret = 2;
+    }
+    return ret;
+}
+
+bool Character::can_pickVolume(int volume) const
+{
+    return (volume_carried() + volume <= volume_capacity());
+}
+bool Character::can_pickWeight(int weight, bool safe) const
+{
+    if (!safe)
+    {
+        // Character can carry up to four times their maximum weight
+        return (weight_carried() + weight <= weight_capacity() * 4);
+    }
+    else
+    {
+        return (weight_carried() + weight <= weight_capacity());
+    }
+}
+
+bool Character::has_artifact_with(const art_effect_passive effect) const
+{
+    if( weapon.has_effect_when_wielded( effect ) ) {
+        return true;
+    }
+    for( auto & i : worn ) {
+        if( i.has_effect_when_worn( effect ) ) {
+            return true;
+        }
+    }
+    return has_item_with( [effect]( const item & it ) {
+        return it.has_effect_when_carried( effect );
+    } );
+}
+
+bool Character::is_wearing(const itype_id & it) const
+{
+    for (auto &i : worn) {
+        if (i.type->id == it) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
+{
+    for (auto &i : worn) {
+        if (i.type->id == it && i.covers(bp)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::worn_with_flag( std::string flag ) const
+{
+    for (auto &i : worn) {
+        if (i.has_flag( flag )) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_nv()
+{
+    static bool nv = false;
+
+    if( !nv_cached ) {
+        nv_cached = true;
+        nv = (worn_with_flag("GNV_EFFECT") ||
+              has_active_bionic("bio_night_vision"));
+    }
+
+    return nv;
 }
