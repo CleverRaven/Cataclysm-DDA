@@ -3486,34 +3486,6 @@
         }
     },
     {
-
-            "type": "profession",
-            "ident": "churchkid",
-            "name": "Student of Faith",
-            "description": "Your parents were deeply faithful, and tried to raise you with the same values. Will you lean on faith to make it through the dark days ahead, or is the Cataclysm proof that there can be no loving supreme being?",
-            "points": 0,
-            "items": {
-                "both": [                    
-                    "dress_shirt",
-                    "socks",
-                    "backpack",
-                    "sneakers",
-                    "jeans",
-                    "jacket_light",
-                    "knit_scarf",
-                    "juice",
-                    "sandwich_pbj",
-                    "holy_symbol"
-                ],
-                "male": [
-                    "briefs"
-                ],
-                "female": [
-                    "panties"
-                ]
-            }
-    },
-    {
         "type": "profession",
         "ident": "jdelinquent",
         "name": "Juvenile Delinquent",
@@ -3724,6 +3696,10 @@
             {
                 "level": 1,
                 "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
             }
         ],
         "items": {
@@ -3734,8 +3710,7 @@
                 "socks",
                 "sneakers",
                 "knit_scarf",
-                "glasses_safety",
-                "chemistry_set",
+                "backpack",
                 "textbook_chemistry"
             ],
             "male": [
@@ -3843,7 +3818,7 @@
         "ident": "gym_teacher",
         "name": "Gym Teacher",
         "description": "After a career of teaching kids the art of sports they mostly hate, the zombies around you refuse to do laps, even at the blow of your whistle.",
-        "points": 2,
+        "points": 3,
         "skills": [
             {
                 "level": 2,
