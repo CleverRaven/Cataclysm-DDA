@@ -3848,5 +3848,26 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+            "type": "profession",
+            "ident": "poor_student",
+            "name": "Poor Student",
+            "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria. Even worse, your ratty old backpack finally fell apart at the worst time. At least no one's mocking you now.",
+            "points": -1,
+            "items": {
+                "both": [                    
+                    "tshirt",
+                    "socks",
+                    "lowtops",
+                    "shorts"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
     }
 ]
