@@ -2686,8 +2686,164 @@
                 "socks",
                 "cassock",
                 "dress_shoes",
-                "holybook_bible1",
                 "holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "imam",
+        "name": {
+            "male": "Imam",
+            "female": "Mourchida"
+        },
+        "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the prophet and the Quran, and guiding your community in prayer. Back then they came from far and wide to listen to you, now they come to eat your brains.",
+        "points": 0,
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+			{
+			    "level": 1,
+			    "name": "barter"
+			}
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "tshirt",
+                "socks",
+                "kufi",
+                "thawb",
+                "lowtops",
+                "holybook_quran"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "rabbi",
+        "name": "Rabbi",
+        "description": "You were celebrating with your flock in the temple when the apocalypse struck. You sure could use a messiah right now!",
+        "points": 0,
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+			{
+			    "level": 1,
+			    "name": "firstaid"
+			}
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "leather_belt",
+                "dress_shirt",
+                "socks",
+                "kittel",
+                "kippah",
+                "dress_shoes",
+				"holy_symbol",
+                "holybook_talmud",
+				"holybook_tanakh"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "guru",
+        "name": "Guru",
+        "description": "You spent many years traveling through the world, becoming wise and learned. Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+        "points": 1,
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+			{
+			    "level": 1,
+			    "name": "survival"
+			}
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "robe",
+                "turban",
+				"waterskin",
+				"pockknife",
+				"bag_canvas",
+                "leathersandals",
+				"holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "preacher",
+        "name": "Preacher",
+        "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town. Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
+        "points": 1,
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+			{
+			    "level": 1,
+			    "name": "driving"
+			},
+			{
+			    "level": 1,
+			    "name": "computer"
+			}
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+				"pants",
+                "socks",
+                "dress_shoes",
+                "wristwatch",
+                "cell_phone",
+                "backpack",
+				"laptop",
+				"flyer",
+				"flyer",
+				"flyer",
+				"holy_symbol"
             ],
             "male": [
                 "briefs"
