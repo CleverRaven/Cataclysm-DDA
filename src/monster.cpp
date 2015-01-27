@@ -456,12 +456,17 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
-        if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( friendly == 0 && m->friendly == 0 && faction == m->faction ) ) {
-            // Friendly (to player) monsters are friendly to each other
-            // Unfriendly monsters are friendly to other unfriendly monsters of the same faction
+        if( m == this ) {
             return A_FRIENDLY;
-        } else if( morale < 0 || anger < 10 ) {
+        }
+        auto faction_att = faction->attitude( m->faction );
+        if( ( friendly != 0 && m->friendly != 0 ) ||
+            ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
+            // Friendly (to player) monsters are friendly to each other
+            // Unfriendly monsters go by faction attitude
+            return A_FRIENDLY;
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) || 
+                     morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
         } else {

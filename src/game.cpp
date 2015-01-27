@@ -5857,12 +5857,13 @@ void game::monmove()
 
     // monster::plan() needs to know about all monsters on the same team as the monster
     mfactions monster_factions; // A map - looks much cleaner than vector here
+    auto playerfaction = GetMFact( "player" );
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = zombie( i );
         if( critter.friendly == 0 ) {
-            monster_factions[ critter.faction->id ].insert( i ); // Only 1 faction per mon at the moment
+            monster_factions[ critter.faction ].insert( i ); // Only 1 faction per mon at the moment
         } else {
-            monster_factions[ -1 ].insert( i );
+            monster_factions[ playerfaction ].insert( i );
         }
     }
 

@@ -927,13 +927,13 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
-    std::string fac;
-    if( data.read( "faction", fac ) ) {
-        faction = GetMFact(fac);
+    std::string fac = data.get_string( "faction", "" );
+    const monfaction *monfac = GetMFact( fac );
+    if( monfac->id == 0 ) {
+        // Legacy saves
+        faction = type->default_faction;
     } else {
-        // Handle faction-less monsters (legacy)
-        fac = type->species.begin() == type->species.end() ? "" : *( type->species.begin() );
-        faction = GetMFact(fac);
+        faction = monfac;
     }
 }
 
