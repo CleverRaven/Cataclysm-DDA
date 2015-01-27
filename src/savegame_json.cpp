@@ -127,7 +127,6 @@ void player::load(JsonObject &data)
     data.read("pkill", pkill);
     data.read("radiation", radiation);
     data.read("scent", scent);
-    data.read("underwater", underwater);
     data.read("oxygen", oxygen);
     data.read("male", male);
     data.read("cash", cash);
@@ -225,7 +224,6 @@ void player::store(JsonOut &json) const
     json.member( "body_wetness", body_wetness );
 
     // breathing
-    json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
 
     // gender
@@ -950,6 +948,7 @@ void monster::store(JsonOut &json) const
     json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
+    json.member( "underwater", underwater );
 
     json.member( "inv", inv );
 }
@@ -1651,6 +1650,8 @@ void Creature::load( JsonObject &jsin )
 
     jsin.read( "grab_resist", grab_resist );
     jsin.read( "throw_resist", throw_resist );
+
+    jsin.read( "underwater", underwater );
 
     fake = false; // see Creature::load
 }
