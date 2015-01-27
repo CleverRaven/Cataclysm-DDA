@@ -60,8 +60,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
     // corpses can disappear (rezzing!), so check for that
     if( static_cast<int>(g->m.i_at(p->posx(), p->posy()).size()) <= act->index ||
-        g->m.i_at(p->posx(), p->posy())[act->index].is_corpse() ||
-        g->m.i_at(p->posx(), p->posy())[act->index].typeId() != "corpse" ) {
+        !(g->m.i_at(p->posx(), p->posy())[act->index].is_corpse() ) ) {
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
