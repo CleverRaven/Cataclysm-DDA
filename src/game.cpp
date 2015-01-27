@@ -4247,38 +4247,35 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    const std::string savedir = world_generator->active_world->world_path;
-    const std::string graveyarddir = FILENAMES["graveyarddir"];
-    const std::string prefix = base64_encode( u.name ) + ".";
-    if( !assure_dir_exist( graveyarddir ) ) {
-        debugmsg( "could not create graveyard path %s", graveyarddir.c_str() );
+    auto const &save_dir      = world_generator->active_world->world_path;
+    auto const &graveyard_dir = FILENAMES["graveyarddir"];
+    auto const &prefix        = base64_encode(u.name) + ".";
+    
+    if (!assure_dir_exist(graveyard_dir)) {
+        debugmsg("could not create graveyard path '%s'", graveyard_dir.c_str());
     }
-    struct dirent *save_dirent = NULL;
-    DIR *save_dir = opendir( savedir.c_str() );
-    if( save_dir == NULL ) {
-        debugmsg( "could not open savedir %s", savedir.c_str() );
-        return;
+
+    auto const save_files = get_files_from_path(prefix, save_dir);
+    if (save_files.empty()) {
+        debugmsg("could not find save files in '%s'", save_dir.c_str());
     }
-    while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
-        const std::string name = save_dirent->d_name;
-        // Player character specific files are formed as
-        // <base64(player-name)>.<extension>
-        // extensions is '.sav' for the main save, .log for the memorial, ...
-        if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
+
+    for (auto const &src_path : save_files) {
+        auto const dst_path = graveyard_dir +
+            src_path.substr(src_path.rfind('/'), std::string::npos);
+
+        if (rename_file(src_path, dst_path)) {
             continue;
         }
-        const std::string dstpath = graveyarddir + "/" + name;
-        const std::string srcpath = savedir + "/" + name;
-        // this might fail if the graveyard dir does not exist
-        if( !rename_file( srcpath, dstpath ) ) {
-            // Permadeath! The player file must be gone!
-            if( !remove_file( srcpath ) ) {
-                // AHHH, who or what prevents permadeath?
-                debugmsg( "could not remove file %s", srcpath.c_str() );
-            }
+
+        debugmsg("could not rename file '%s' to '%s'", src_path.c_str(), dst_path.c_str());
+
+        if (remove_file(src_path)) {
+            continue;
         }
+
+        debugmsg("could not remove file '%s'", src_path.c_str());
     }
-    closedir( save_dir );
 }
 
 bool game::load_master(std::string worldname)
@@ -13363,6 +13360,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     int x = c->posx();
     int y = c->posy();
     while (range > 0) {
+        c->underwater = false;
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
         x = c->posx() + tdir.dx();
@@ -13472,11 +13470,14 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 add_msg(_("You land on the ground."));
             }
         }
-    } else if (is_u) {
-        if (controlled) {
-            add_msg(_("You dive into water."));
-        } else {
-            add_msg(m_warning, _("You fall into water."));
+    } else {
+        c->underwater = true;
+        if (is_u) {
+            if (controlled) {
+                add_msg(_("You dive into water."));
+            } else {
+                add_msg(m_warning, _("You fall into water."));
+            }
         }
     }
 }
