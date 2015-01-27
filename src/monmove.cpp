@@ -88,7 +88,7 @@ void monster::wander_to(int x, int y, int f)
 float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
 {
     int d = rl_dist( pos(), c.pos() );
-    if( !sees( c.pos(), bresenham_slope ) ) {
+    if( !sees( c, bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
@@ -135,8 +135,9 @@ void monster::plan(const mfactions &factions)
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( "docile" );
-    bool angers_hostile_near = type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end();
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
+    int angers_hostile_near = ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
+    int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
 
@@ -166,8 +167,9 @@ void monster::plan(const mfactions &factions)
             closest = -2;
             selected_slope = bresenham_slope;
         }
-        if( angers_hostile_near && dist <= 5 ) {
-            anger += 5;
+        if( dist <= 5 ) {
+            anger += angers_hostile_near;
+            morale -= fears_hostile_near;
         }
     }
 
@@ -185,8 +187,9 @@ void monster::plan(const mfactions &factions)
                     selected_slope = bresenham_slope;
             }
             fleeing = fleeing || fleeing_from;
-            if( angers_hostile_near && rating <= 5 ) {
-                anger += 5;
+            if( rating <= 5 ) {
+                anger += angers_hostile_near;
+                morale -= fears_hostile_near;
             }
         }
     }
@@ -206,8 +209,9 @@ void monster::plan(const mfactions &factions)
                     closest = -3 - i;
                     selected_slope = bresenham_slope;
                 }
-                if( angers_hostile_near && rating <= 5 ) {
-                    anger += 5;
+                if( rating <= 5 ) {
+                    anger += angers_hostile_near;
+                    morale -= fears_hostile_near;
                 }
             }
         }
@@ -859,6 +863,7 @@ int monster::move_to(int x, int y, bool force)
 
     setpos(x, y);
     footsteps(x, y);
+    underwater = will_be_water;
     if(is_hallucination()) {
         //Hallucinations don't do any of the stuff after this point
         return 1;
@@ -880,6 +885,9 @@ int monster::move_to(int x, int y, bool force)
         if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
             tr->trigger(this, posx(), posy());
         }
+    }
+    if( !will_be_water && ( has_flag(MF_DIGS) || has_flag(MF_CAN_DIG) ) ) {
+        underwater = g->m.has_flag("DIGGABLE", posx(), posy() );
     }
     // Diggers turn the dirt into dirtmound
     if (digging()){
@@ -975,8 +983,7 @@ void monster::stumble(bool moved)
  int cx = valid_stumbles[choice].x;
  int cy = valid_stumbles[choice].y;
 
- moves -= calc_movecost(posx(), posy(), cx, cy);
- setpos(cx, cy);
+ move_to( cx, cy, false );
 
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.

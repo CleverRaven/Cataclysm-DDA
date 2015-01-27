@@ -1226,7 +1226,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // The player's position on the local map.
         point position;
 
-        bool underwater;
         trap_map known_traps;
 
         int sight_max;
