@@ -2711,10 +2711,10 @@
                 "level": 2,
                 "name": "speech"
             },
-			{
-			    "level": 1,
-			    "name": "barter"
-			}
+            {
+                "level": 1,
+                "name": "barter"
+            }
         ],
         "items": {
             "both": [
@@ -2746,10 +2746,10 @@
                 "level": 2,
                 "name": "speech"
             },
-			{
-			    "level": 1,
-			    "name": "firstaid"
-			}
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
         ],
         "items": {
             "both": [
@@ -2760,9 +2760,9 @@
                 "kittel",
                 "kippah",
                 "dress_shoes",
-				"holy_symbol",
+                "holy_symbol",
                 "holybook_talmud",
-				"holybook_tanakh"
+                "holybook_tanakh"
             ],
             "male": [
                 "briefs"
@@ -2784,10 +2784,10 @@
                 "level": 2,
                 "name": "speech"
             },
-			{
-			    "level": 1,
-			    "name": "survival"
-			}
+            {
+                "level": 1,
+                "name": "survival"
+            }
         ],
         "items": {
             "both": [
@@ -2796,11 +2796,11 @@
                 "socks",
                 "robe",
                 "turban",
-				"waterskin",
-				"pockknife",
-				"bag_canvas",
+                "waterskin",
+                "pockknife",
+                "bag_canvas",
                 "leathersandals",
-				"holy_symbol"
+                "holy_symbol"
             ],
             "male": [
                 "briefs"
@@ -2821,29 +2821,29 @@
                 "level": 2,
                 "name": "speech"
             },
-			{
-			    "level": 1,
-			    "name": "driving"
-			},
-			{
-			    "level": 1,
-			    "name": "computer"
-			}
+            {
+                "level": 1,
+                "name": "driving"
+            },
+            {
+                "level": 1,
+                "name": "computer"
+            }
         ],
         "items": {
             "both": [
                 "dress_shirt",
-				"pants",
+                "pants",
                 "socks",
                 "dress_shoes",
                 "wristwatch",
                 "cell_phone",
                 "backpack",
-				"laptop",
-				"flyer",
-				"flyer",
-				"flyer",
-				"holy_symbol"
+                "laptop",
+                "flyer",
+                "flyer",
+                "flyer",
+                "holy_symbol"
             ],
             "male": [
                 "briefs"

@@ -320,10 +320,10 @@
       ["radiocontrol", 5],
       ["magnifying_glass", 2],
       ["straw_hat", 5],
-	  ["kufi", 1],
-	  ["kippah", 1],
-	  ["robe", 3],
-	  ["thawb", 1]
+      ["kufi", 1],
+      ["kippah", 1],
+      ["robe", 3],
+      ["thawb", 1]
     ]
   },{
     "type" : "item_group",
@@ -1168,9 +1168,9 @@
       ["straw_hat", 5],
       ["straw_fedora", 5],
       ["holy_symbol", 20],
-	  ["kufi", 5],
-	  ["kippah", 5],
-	  ["robe", 10]
+      ["kufi", 5],
+      ["kippah", 5],
+      ["robe", 10]
     ]
   },{
     "type" : "item_group",
@@ -3310,12 +3310,12 @@
       ["fedora", 5],
       ["straw_hat", 5],
       ["straw_fedora", 5],
-	  ["kufi", 2],
-	  ["kippah", 2],
-	  ["thawb", 1],
-	  ["kittel", 1],
-	  ["cassock", 1],
-	  ["robe", 5]      
+      ["kufi", 2],
+      ["kippah", 2],
+      ["thawb", 1],
+      ["kittel", 1],
+      ["cassock", 1],
+      ["robe", 5]      
     ]
   },{
     "type" : "item_group",
@@ -4593,10 +4593,10 @@
       ["survnote", 1],
       ["holy_symbol", 80],
       ["cassock", 40],
-	  ["thawb", 10],
-	  ["kufi", 10],
-	  ["kittel", 10],
-	  ["kippah", 10]
+      ["thawb", 10],
+      ["kufi", 10],
+      ["kittel", 10],
+      ["kippah", 10]
     ]
   },{
     "type":"item_group",
@@ -5079,11 +5079,11 @@
       ["motorbike_armor", 2],
       ["motorbike_pants", 2],
 	  ["motorbike_boots", 2],
-	  ["kittel", 1],
-	  ["kippah", 3],
-	  ["thawb", 2],
-	  ["kufi", 2],
-	  ["cassock", 1]
+      ["kittel", 1],
+      ["kippah", 3],
+      ["thawb", 2],
+      ["kufi", 2],
+      ["cassock", 1]
     ]
   },{
     "type" : "item_group",
