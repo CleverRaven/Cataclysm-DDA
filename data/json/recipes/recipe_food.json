@@ -5969,7 +5969,8 @@
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [
@@ -6004,7 +6005,8 @@
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [
@@ -6040,7 +6042,8 @@
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [
@@ -6075,7 +6078,8 @@
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [
@@ -6111,7 +6115,8 @@
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [
@@ -6172,7 +6177,8 @@
       [ "fire", -1 ]
     ],
     [
-      [ "vac_sealer", 10 ]
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
     ]
   ],
   "components": [

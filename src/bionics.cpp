@@ -412,9 +412,9 @@ bool player::activate_bionic(int b, bool eff_only)
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
-        g->sound(posx, posy, 30, _("VRRRRMP!"));
-        for (int i = posx - 1; i <= posx + 1; i++) {
-            for (int j = posy - 1; j <= posy + 1; j++) {
+        g->sound(posx(), posy(), 30, _("VRRRRMP!"));
+        for (int i = posx() - 1; i <= posx() + 1; i++) {
+            for (int j = posy() - 1; j <= posy() + 1; j++) {
                 g->m.bash( i, j, 110 );
                 g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( i, j, 110 );
@@ -640,11 +640,12 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        g->sound(posx, posy, 19, _("HISISSS!"));
+        g->sound(posx(), posy(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for( auto it = g->m.i_at(posx, posy).begin(); it != g->m.i_at(posx, posy).end(); ++it) {
-            if (it->type->id == "corpse" ) {
+        for( auto it = g->m.i_at(posx(), posy()).begin();
+             it != g->m.i_at(posx(), posy()).end(); ++it) {
+            if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
@@ -666,14 +667,14 @@ bool player::activate_bionic(int b, bool eff_only)
             power_level += bionics["bio_water_extractor"]->power_activate;
         }
     } else if(bio.id == "bio_magnet") {
-        for (int i = posx - 10; i <= posx + 10; i++) {
-            for (int j = posy - 10; j <= posy + 10; j++) {
+        for (int i = posx() - 10; i <= posx() + 10; i++) {
+            for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
                     int t; //not sure why map:sees really needs this, but w/e
-                    if (g->m.sees(i, j, posx, posy, -1, t)) {
-                        traj = line_to(i, j, posx, posy, t);
+                    if (g->m.sees(i, j, posx(), posy(), -1, t)) {
+                        traj = line_to(i, j, posx(), posy(), t);
                     } else {
-                        traj = line_to(i, j, posx, posy, 0);
+                        traj = line_to(i, j, posx(), posy(), 0);
                     }
                 }
                 traj.insert(traj.begin(), point(i, j));
@@ -708,7 +709,7 @@ bool player::activate_bionic(int b, bool eff_only)
                             }
                         }
                         if (it == traj.end()) {
-                            g->m.add_item_or_charges(posx, posy, tmp_item);
+                            g->m.add_item_or_charges(posx(), posy(), tmp_item);
                         }
                     }
                 }
@@ -725,24 +726,24 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang(posx, posy, true);
+        g->flashbang(posx(), posy(), true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave(posx, posy, 3, 4, 2, 8, true);
+        g->shockwave(posx(), posy(), 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
         // Calculate local wind power
         int vpart = -1;
-        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
         int vehwindspeed = 0;
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx(), g->u.posy()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
@@ -756,7 +757,7 @@ bool player::activate_bionic(int b, bool eff_only)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
+            g->m.add_item_or_charges(posx(), posy(), weapon);
             weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -774,7 +775,7 @@ bool player::activate_bionic(int b, bool eff_only)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
+            g->m.add_item_or_charges(posx(), posy(), weapon);
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -793,7 +794,7 @@ bool player::activate_bionic(int b, bool eff_only)
                 ctr = item( "radiocontrol", 0 );
             }
             ctr.charges = power_level;
-            int power_use = ctr.type->invoke( &g->u, &ctr, false, point( posx, posy ) );
+            int power_use = ctr.type->invoke( &g->u, &ctr, false, pos() );
             power_level -= power_use;
             bio.powered = ctr.active;
         } else {
@@ -1026,7 +1027,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
-        g->m.spawn_item(posx, posy, "burnt_out_bionic", 1);
+        g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
                          pgettext("memorial_female", "Removed bionic: %s."),

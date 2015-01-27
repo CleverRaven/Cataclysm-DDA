@@ -246,7 +246,7 @@ it_artifact_tool::it_artifact_tool() : it_tool()
     turns_per_charge = 0;
     revert_to = "null";
     use_methods.push_back( &iuse::artifact );
-};
+}
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
 {
@@ -259,7 +259,7 @@ it_artifact_armor::it_artifact_armor() : itype()
     armor.reset( new islot_armor() );
     id = item_controller->create_artifact_id();
     price = 0;
-};
+}
 
 it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 {

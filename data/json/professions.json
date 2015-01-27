@@ -1360,7 +1360,7 @@
             "both": [
                 "socks",
                 "knit_scarf",
-                "dress_shoes"
+                "dance_shoes"
             ],
             "male": [
                 "briefs",
@@ -2695,7 +2695,10 @@
         "ident": "blackbelt_intermediate",
         "name": "Martial Artist",
         "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them! SHOW THEM ALL!",
-        "points": 2,
+        "points": 3,
+        "traits": [
+            "PROF_MA_ORANGE"
+        ],
         "skills": [
             {
                 "level": 2,
@@ -2733,6 +2736,9 @@
         "name": "Blackbelt",
         "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
         "points": 8,
+        "traits": [
+            "PROF_MA_BLACK"
+        ],
         "skills": [
             {
                 "level": 8,

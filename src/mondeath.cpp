@@ -190,7 +190,7 @@ void mdeath::fungus(monster *z)
                     if( !critter.make_fungus() ) {
                         critter.die( z ); // counts as kill by monster z
                     }
-                } else if (g->u.posx == sporex && g->u.posy == sporey) {
+                } else if (g->u.posx() == sporex && g->u.posy() == sporey) {
                     // Spores hit the player
                     if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
                         add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
@@ -257,7 +257,7 @@ void mdeath::worm(monster *z)
             wormx = z->posx() + i;
             wormy = z->posy() + j;
             if (g->m.has_flag("DIGGABLE", wormx, wormy) &&
-                !(g->u.posx == wormx && g->u.posy == wormy)) {
+                !(g->u.posx() == wormx && g->u.posy() == wormy)) {
                 wormspots.push_back(point(wormx, wormy));
             }
         }
@@ -377,7 +377,7 @@ void mdeath::blobsplit(monster *z)
         for (int j = -1; j <= 1; j++) {
             bool moveOK = (g->m.move_cost(z->posx() + i, z->posy() + j) > 0);
             bool monOK = g->mon_at(z->posx() + i, z->posy() + j) == -1;
-            bool posOK = (g->u.posx != z->posx() + i || g->u.posy != z->posy() + j);
+            bool posOK = (g->u.posx() != z->posx() + i || g->u.posy() != z->posy() + j);
             if (moveOK && monOK && posOK) {
                 valid.push_back(point(z->posx() + i, z->posy() + j));
             }
@@ -640,7 +640,7 @@ void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse("corpse", z->type, calendar::turn);
+    corpse.make_corpse(z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

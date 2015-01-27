@@ -21,8 +21,8 @@
 
 monster::monster()
 {
- _posx = 20;
- _posy = 10;
+ position.x = 20;
+ position.y = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -32,7 +32,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- faction_id = -1;
+ faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -44,8 +44,8 @@ monster::monster()
 
 monster::monster(mtype *t)
 {
- _posx = 20;
- _posy = 10;
+ position.x = 20;
+ position.y = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -60,7 +60,7 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
- faction_id = -1;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -73,8 +73,8 @@ monster::monster(mtype *t)
 
 monster::monster(mtype *t, int x, int y)
 {
- _posx = x;
- _posy = y;
+ position.x = x;
+ position.y = y;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -89,7 +89,7 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction_id = -1;
+    faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -106,12 +106,12 @@ monster::~monster()
 
 bool monster::setpos(const int x, const int y, const bool level_change)
 {
-    if (!level_change && x == _posx && y == _posy) {
+    if (!level_change && x == posx() && y == posy()) {
         return true;
     }
     bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
-    _posx = x;
-    _posy = y;
+    position.x = x;
+    position.y = y;
     return ret;
 }
 
@@ -120,9 +120,9 @@ bool monster::setpos(const point &p, const bool level_change)
     return setpos(p.x, p.y, level_change);
 }
 
-point monster::pos() const
+const point &monster::pos() const
 {
-    return point(_posx, _posy);
+    return position;
 }
 
 void monster::poly(mtype *t)
@@ -143,8 +143,8 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
-    _posx = x;
-    _posy = y;
+    position.x = x;
+    position.y = y;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -358,7 +358,7 @@ bool monster::digging() const
 int monster::sight_range( const int light_level ) const
 {
     if( !can_see() ) {
-        return 0;
+        return 1;
     }
 
     int range = ( light_level * type->vision_day ) + 
@@ -401,15 +401,15 @@ void monster::debug(player &u)
     debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, get_speed(), hp);
     for (size_t i = 0; i < plans.size(); i++) {
         const int digit = '0' + (i % 10);
-        mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
+        mvaddch(plans[i].y - SEEY + u.posy(), plans[i].x - SEEX + u.posx(), digit);
     }
     getch();
 }
 
 void monster::shift(int sx, int sy)
 {
-    _posx -= sx * SEEX;
-    _posy -= sy * SEEY;
+    position.x -= sx * SEEX;
+    position.y -= sy * SEEY;
     for (auto &i : plans) {
         i.x -= sx * SEEX;
         i.y -= sy * SEEY;
@@ -420,7 +420,7 @@ point monster::move_target()
 {
     if (plans.empty()) {
         // if we have no plans, pretend it's intentional
-        return point(_posx, _posy);
+        return pos();
     }
     return point(plans.back().x, plans.back().y);
 }
@@ -434,7 +434,7 @@ Creature *monster::attack_target()
     point target_point = move_target();
     Creature *target = g->critter_at( target_point.x, target_point.y );
 
-    if( attitude_to( *target ) != Creature::A_HOSTILE ) {
+    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ) {
         return nullptr;
     }
     return target;
@@ -455,12 +455,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
         if( ( friendly != 0 && m->friendly != 0 ) ||
-            ( monfaction() == m->monfaction() ) ) {
-            // Currently friendly means "friendly to the player" (on same side as player),
-            // so if both monsters are friendly (towards the player), they are friendly towards
-            // each other.
-            // Monsters are also friendly to own species
-            // Player-friendly monsters are a separate faction
+            ( friendly == 0 && m->friendly == 0 && faction == m->faction ) ) {
+            // Friendly (to player) monsters are friendly to each other
+            // Unfriendly monsters are friendly to other unfriendly monsters of the same faction
             return A_FRIENDLY;
         } else if( morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
@@ -565,15 +562,9 @@ monster_attitude monster::attitude(player *u) const
     return MATT_ATTACK;
 }
 
-int monster::monfaction() const
+int monster::hp_percentage() const
 {
-    if( friendly != 0 ) {
-        return -1;
-    } else if( !type->species_id.empty() ) {
-        return *type->species_id.begin();
-    } else {
-        return 0;
-    }
+    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -619,26 +610,9 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 check_meat = true;
                 break;
 
-            case MTRIG_PLAYER_CLOSE:
-                if (rl_dist( pos(), g->u.pos() ) <= 5) {
-                    ret += 5;
-                }
-                for (auto &i : g->active_npc) {
-                    if (rl_dist( pos(), i->pos() ) <= 5) {
-                        ret += 5;
-                    }
-                }
-                break;
-
             case MTRIG_FIRE:
                 check_terrain = true;
                 check_fire = true;
-                break;
-
-            case MTRIG_PLAYER_WEAK:
-                if (g->u.hp_percentage() <= 70) {
-                    ret += 10 - int(g->u.hp_percentage() / 10);
-                }
                 break;
 
             default:
@@ -647,12 +621,12 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
     }
 
     if (check_terrain) {
-        for (int x = _posx - 3; x <= _posx + 3; x++) {
-            for (int y = _posy - 3; y <= _posy + 3; y++) {
+        for (int x = posx() - 3; x <= posx() + 3; x++) {
+            for (int y = posy() - 3; y <= posy() + 3; y++) {
                 if (check_meat) {
                     auto items = g->m.i_at(x, y);
                     for( auto &item : items ) {
-                        if( item.type->id == "corpse" || item.type->id == "meat" ||
+                        if( item.is_corpse() || item.type->id == "meat" ||
                             item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
                             ret += 3;
                             check_meat = false;
@@ -985,8 +959,8 @@ bool monster::move_effects()
     if (has_effect("lightsnare")) {
         if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
             remove_effect("lightsnare");
-            g->m.spawn_item(xpos(), ypos(), "string_36");
-            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            g->m.spawn_item(posx(), posy(), "string_36");
+            g->m.spawn_item(posx(), posy(), "snare_trigger");
             if (u_see_me) {
                 add_msg(_("The %s escapes the light snare!"), name().c_str());
             }
@@ -997,8 +971,8 @@ bool monster::move_effects()
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
                 remove_effect("heavysnare");
-                g->m.spawn_item(xpos(), ypos(), "rope_6");
-                g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+                g->m.spawn_item(posx(), posy(), "rope_6");
+                g->m.spawn_item(posx(), posy(), "snare_trigger");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the heavy snare!"), name().c_str());
                 }
@@ -1010,7 +984,7 @@ bool monster::move_effects()
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
                 remove_effect("beartrap");
-                g->m.spawn_item(xpos(), ypos(), "beartrap");
+                g->m.spawn_item(posx(), posy(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
                 }
@@ -1233,8 +1207,8 @@ void monster::explode()
         }
 
         for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
-            std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
+            int tarx = posx() + rng( -3, 3 ), tary = posy() + rng( -3, 3 );
+            std::vector<point> traj = line_to( posx(), posy(), tarx, tary, 0 );
 
             for( size_t j = 0; j < traj.size(); j++ ) {
                 tarx = traj[j].x;
@@ -1310,7 +1284,7 @@ void monster::die(Creature* nkiller) {
     if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
             for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
@@ -1385,7 +1359,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    g->m.put_items_from_loc( type->death_drops, _posx, _posy, calendar::turn );
+    g->m.put_items_from_loc( type->death_drops, posx(), posy(), calendar::turn );
 }
 
 void monster::process_effects()

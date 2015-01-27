@@ -6,17 +6,17 @@
 #include "item.h"
 #include "item_group.h"
 #include "veh_interact.h"
-#include <fstream>
-#include <sstream>
-#include <stdlib.h>
-#include <set>
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
-#include "helper.h"
+
+#include <fstream>
+#include <sstream>
+#include <stdlib.h>
+#include <set>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -203,7 +203,7 @@ vehicle::~vehicle()
 bool vehicle::player_in_control (player *p)
 {
     int veh_part;
-    vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
+    vehicle *veh = g->m.veh_at( p->posx(), p->posy(), veh_part );
 
     if( veh != nullptr && veh == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle ) {
@@ -806,7 +806,7 @@ void vehicle::use_controls()
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        g->m.veh_at(g->u.posx(), g->u.posy(), vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
     } else if( remotely_controlled ) {
@@ -1016,7 +1016,7 @@ void vehicle::use_controls()
     if( camera_on || ( has_camera && has_camera_control ) ) {
         options_choice.push_back( toggle_camera );
         options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
-                                                             _("Turn on camera system"), 'm' ) );
+                                                             _("Turn on camera system"), 'M' ) );
     }
 
     options_choice.push_back(control_cancel);
@@ -1226,7 +1226,7 @@ void vehicle::use_controls()
         for (size_t p = 0; p < parts.size(); p++) {
             if( part_flag( p, "CARGO" ) ) {
                 for( auto &elem : get_items(p) ) {
-                    g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
                 }
                 while( !get_items(p).empty() ) {
                     get_items(p).erase( get_items(p).begin() );
@@ -1258,7 +1258,7 @@ void vehicle::use_controls()
             bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
         }
 
-        g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
+        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
         g->m.destroy_vehicle(this);
 
         g->u.moves -= 500;
@@ -2666,7 +2666,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        vehicle *veh = g->m.veh_at(g->u.posx(), g->u.posy(), part_under_player);
         bool player_controlling = player_in_control(&(g->u));
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
@@ -3187,7 +3187,9 @@ void vehicle::consume_fuel( double load = 1.0 )
         }
     }
     //do this with chance proportional to current load
-    if (one_in((int)(1/load)) && has_engine_type(fuel_type_muscle, true)) {
+    // But only if the player is actually there!
+    if( load > 0 && one_in( (int) (1 / load) ) && 
+        fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
         if (g->u.has_bionic("bio_torsionratchet")) {
             g->u.charge_power(1);
@@ -3822,7 +3824,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
-    bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
+    bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
@@ -4057,11 +4059,13 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!is_body_collision) {
         if (pl_ctrl) {
             if (snd.length() > 0) {
-                add_msg (m_warning, _("Your %s's %s rams into a %s with a %s"), name.c_str(),
-                            part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s with a %4$s"),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
             } else {
-                add_msg (m_warning, _("Your %s's %s rams into a %s."), name.c_str(),
-                            part_info(part).name.c_str(), obs_name.c_str());
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s."),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str());
             }
         } else if (snd.length() > 0) {
             add_msg (m_warning, _("You hear a %s"), snd.c_str());
@@ -4075,9 +4079,15 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             dname = ph->name;
         }
         if (pl_ctrl) {
-            add_msg (m_warning, _("Your %s's %s rams into %s%s!"),
-                        name.c_str(), part_info(part).name.c_str(), dname.c_str(),
-                        turns_stunned > 0 && z? _(" and stuns it") : "");
+            if (turns_stunned > 0 && z) {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
+                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+            } else {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
+                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+            }
         }
 
         if (part_flag(part, "SHARP")) {
@@ -4299,9 +4309,9 @@ bool vehicle::add_item (int part, item itm)
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
 {
-    parts[part].items.insert( index, itm );
+    const auto new_pos = parts[part].items.insert( index, itm );
     if( itm.needs_processing() ) {
-        active_items.add( std::prev(parts[part].items.end()), parts[part].mount );
+        active_items.add( new_pos, parts[part].mount );
     }
 
     return true;
@@ -4930,7 +4940,8 @@ void vehicle::aim_turrets()
     for( int p : turrets ) {
         std::string aimed;
         bool en;
-        if( get_items(p).front().charges < 1 && fuel_left( part_info( p ).fuel_type ) < 1 ) {
+        auto items = get_items( p );
+        if( fuel_left( part_info( p ).fuel_type ) < 1 && ( items.empty() || items.front().charges < 1 ) ) {
             aimed = _("No ammo");
             en = false;
         } else {
@@ -4968,19 +4979,17 @@ void vehicle::aim_turrets()
     turret_pos = global_pos() + parts[turret_index].precalc[0];
 
     itype *am_itype;
-    if( get_items( turret_index ).front().charges > 0 ) {
-        am_itype = get_items( turret_index ).front().type;
+    auto items = get_items( turret_index );
+    if( !items.empty() && items.front().charges > 0 ) {
+        am_itype = items.front().type;
     } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
         am_itype = item::find_type( part_info( turret_index ).fuel_type );
     } else {
         am_itype = item::find_type( "charge_shot" );
     }
-    if( !am_itype->ammo ) {
-        am_itype = item::find_type( "fake_ammo" );
-    }
     const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
-    int range = gun_data.range + ammo->range;
+    int range = gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
     int x = turret_pos.x;
     int y = turret_pos.y;
     int t;
@@ -5150,7 +5159,8 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             } else {
                 charges = rng(1,4);
             }
-            if( charges > abs( parts[p].mode ) ) {
+            // mode is INT_MIN when aimed manually, do not use abs(INT_MIN) for charges!
+            if( charges > abs( parts[p].mode ) && target.first == target.second ) {
                 charges = abs( parts[p].mode ); // Currently only limiting, not increasing
             }
             if( charges > 4 ) {
@@ -5182,25 +5192,26 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             drain( amt, (int)charges_consumed );
         }
     } else {
-        if( get_items(p).empty() ) {
+        auto items = get_items( p );
+        if( items.empty() ) {
             return false;
         }
-        itype *am_type = get_items(p).front().type;
-        if( !am_type->ammo || am_type->ammo->type != amt || get_items(p).front().charges < 1 ) {
+        itype *am_type = items.front().type;
+        if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
             return false;
         }
-        if( charges > get_items(p).front().charges ) {
-            charges = get_items(p).front().charges;
+        if( charges > items.front().charges ) {
+            charges = items.front().charges;
         }
         long charges_left = charges;
         if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
-            if( charges_consumed >= get_items(p).front().charges ) {
-                get_items(p).erase( get_items(p).begin() );
+            if( charges_consumed >= items.front().charges ) {
+                items.erase( items.begin() );
             } else {
-                get_items(p).front().charges -= charges_consumed;
+                items.front().charges -= charges_consumed;
             }
         }
     }
@@ -5241,8 +5252,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     tmp.skillLevel(gun.gun->skill_used).level(8);
     tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
-    tmp.posx = x;
-    tmp.posy = y;
+    tmp.setx( x );
+    tmp.sety( y );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
@@ -5275,8 +5286,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
             }
             return false;
         }
-        xtarg = auto_target->xpos();
-        ytarg = auto_target->ypos();
+        xtarg = auto_target->posx();
+        ytarg = auto_target->posy();
     } else {
         // Target set manually
         // Second value of 'target' is last position

@@ -1,10 +1,11 @@
 #include "game.h"
 #include "output.h"
 #include "item_factory.h"
-#include <sstream>
-#include "helper.h"
 #include "uistate.h"
 #include "monstergenerator.h"
+#include "compatibility.h"
+
+#include <sstream>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -464,9 +465,9 @@ void game::wishitem( player *p, int x, int y)
         if ( wmenu.ret >= 0 ) {
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
-                amount = helper::to_int(
-                             string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
-                                                granted.tname()));
+                amount = std::atoi(
+                             string_input_popup(_("How many?"), 20, to_string( amount ),
+                                                granted.tname()).c_str());
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
                 granted = granted.in_its_container();

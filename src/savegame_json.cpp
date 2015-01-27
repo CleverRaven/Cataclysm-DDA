@@ -174,21 +174,10 @@ void player::load(JsonObject &data)
     JsonArray parray;
     int tmpid = 0;
 
-    // todo/maybe:
-    // std::map<std::string, int*> strmap_common_variables;
-    // void player::init_strmap_common_variables() {
-    //     strmap_common_variables["posx"]=&posx; // + all this below and in save_common_variables
-    // }
-    // load:
-    // for(std::map<std::string, int*>::iterator it...
-    //     data.read(it->first,it->second);
-    // save:
-    // for(...
-    //     json.member( it->first, it->second );
-    if(!data.read("posx", posx) ) { // uh-oh.
+    if(!data.read("posx", position.x) ) { // uh-oh.
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
-    data.read("posy", posy);
+    data.read("posy", position.y);
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
@@ -254,8 +243,8 @@ void player::store(JsonOut &json) const
 
     // assumes already in player object
     // positional data
-    json.member( "posx", posx );
-    json.member( "posy", posy );
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -630,7 +619,7 @@ void npc_personality::serialize(JsonOut &json) const
     json.member( "collector", (int)collector );
     json.member( "altruism", (int)altruism );
     json.end_object();
-};
+}
 
 void npc_opinion::deserialize(JsonIn &jsin)
 {
@@ -898,8 +887,8 @@ void monster::load(JsonObject &data)
     }
     type = GetMType(sidtmp);
 
-    data.read("posx", _posx);
-    data.read("posy", _posy);
+    data.read("posx", position.x);
+    data.read("posy", position.y);
     data.read("wandx", wandx);
     data.read("wandy", wandy);
     data.read("wandf", wandf);
@@ -921,7 +910,6 @@ void monster::load(JsonObject &data)
     }
 
     data.read("friendly", friendly);
-    data.read("faction_id", faction_id);
     data.read("mission_id", mission_id);
     data.read("no_extra_death_drops", no_extra_death_drops);
     data.read("dead", dead);
@@ -938,6 +926,14 @@ void monster::load(JsonObject &data)
         normalize_ammo( data.get_int("ammo") );
     } else {
         data.read("ammo", ammo);
+    }
+    std::string fac;
+    if( data.read( "faction", fac ) ) {
+        faction = GetMFact(fac);
+    } else {
+        // Handle faction-less monsters (legacy)
+        fac = type->species.begin() == type->species.end() ? "" : *( type->species.begin() );
+        faction = GetMFact(fac);
     }
 }
 
@@ -957,15 +953,15 @@ void monster::store(JsonOut &json) const
 {
     Creature::store( json );
     json.member( "typeid", type->id );
-    json.member("posx", _posx);
-    json.member("posy", _posy);
+    json.member("posx", position.x);
+    json.member("posy", position.y);
     json.member("wandx", wandx);
     json.member("wandy", wandy);
     json.member("wandf", wandf);
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
-    json.member("faction_id", faction_id);
+    json.member("faction", faction->name);
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
     json.member("dead", dead);
@@ -1321,6 +1317,9 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
+    data.read("camera_on", camera_on);
+    data.read("dome_lights_on", dome_lights_on);
+    data.read("aisle_lights_on", aisle_lights_on);
 
     face.init (fdir);
     move.init (mdir);
@@ -1394,6 +1393,9 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "labels", labels );
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
+    json.member( "camera_on", camera_on );
+    json.member( "dome_lights_on", dome_lights_on );
+    json.member( "aisle_lights_on", aisle_lights_on );
     json.end_object();
 }
 
@@ -1553,7 +1555,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
-    
+
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
     for (auto maps : effects) {
@@ -1564,8 +1566,8 @@ void Creature::store( JsonOut &jsout ) const
         }
     }
     jsout.member( "effects", tmp_map );
-    
-    
+
+
     jsout.member( "values", values );
 
     jsout.member( "str_bonus", str_bonus );
@@ -1618,7 +1620,7 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "pain", pain );
 
     killer = nullptr; // see Creature::load
-    
+
     // Just too many changes here to maintain compatibility, so older characters get a free
     // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
     if(savegame_loading_version >= 23) {

@@ -283,7 +283,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx(), g->u.posy());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -293,19 +293,19 @@ void computer::activate_function(computer_action action)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx(), g->u.posy());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx(), g->u.posy());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
     //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
-        g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
+        g->sound(g->u.posx(), g->u.posy(), 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
@@ -350,16 +350,16 @@ void computer::activate_function(computer_action action)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -412,15 +412,15 @@ void computer::activate_function(computer_action action)
         g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
                               pgettext("memorial_female", "Caused a resonance cascade."));
         std::vector<point> cascade_points;
-        for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
-            for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++) {
+        for (int i = g->u.posx() - 10; i <= g->u.posx() + 10; i++) {
+            for (int j = g->u.posy() - 10; j <= g->u.posy() + 10; j++) {
                 if (g->m.ter(i, j) == t_radio_tower) {
                     cascade_points.push_back(point(i, j));
                 }
             }
         }
         if (cascade_points.empty()) {
-            g->resonance_cascade(g->u.posx, g->u.posy);
+            g->resonance_cascade(g->u.posx(), g->u.posy());
         } else {
             point p = cascade_points[rng(0, cascade_points.size() - 1)];
             g->resonance_cascade(p.x, p.y);
@@ -492,14 +492,14 @@ void computer::activate_function(computer_action action)
         g->refresh_all();
 
         //Put some smoke gas and explosions at the nuke location.
-        for(int i = g->u.posx + 8; i < g->u.posx + 15; i++) {
-            for(int j = g->u.posy + 3; j < g->u.posy + 12; j++)
+        for(int i = g->u.posx() + 8; i < g->u.posx() + 15; i++) {
+            for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
                     g->m.add_field(i + rng(-2, 2), j + rng(-2, 2), fd_smoke, rng(1, 9));
                 }
         }
 
-        g->explosion(g->u.posx + 10, g->u.posx + 21, 200, 0, true); //Only explode once. But make it large.
+        g->explosion(g->u.posx() + 10, g->u.posx() + 21, 200, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -731,8 +731,8 @@ of pureed bone & LSD."));
 
     case COMPACT_BLOOD_ANAL:
         g->u.moves -= 70;
-        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
+            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
                     if (g->m.i_at(x, y).empty()) {
                         print_error(_("ERROR: Please place sample in centrifuge."));
@@ -746,10 +746,11 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
-                        if (blood.corpse == NULL || blood.corpse->id == "mon_null") {
+                        auto const mt = blood.get_mtype();
+                        if( mt == nullptr || mt->id == "mon_null" ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( blood.corpse->in_species( "ZOMBIE" ) ) {
-                            if( blood.corpse->sym == "Z" ) {
+                        } else if( mt->in_species( "ZOMBIE" ) ) {
+                            if( mt->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
                                 print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
@@ -778,8 +779,8 @@ of pureed bone & LSD."));
 
     case COMPACT_DATA_ANAL:
         g->u.moves -= 30;
-        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
+            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
                     print_error(_("PROCESSING DATA"));
                     if (g->m.i_at(x, y).empty()) {
@@ -795,7 +796,7 @@ of pureed bone & LSD."));
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
-                            g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
+                            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
                         }
@@ -1103,8 +1104,8 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
-        for( int x = g->u.posx - 1; x <= g->u.posx + 1; x++ ) {
-            for( int y = g->u.posy - 1; y <= g->u.posy + 1; y++ ) {
+        for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
+            for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
                 if( g->m.has_flag("CONSOLE", x, y) ) {
                     g->m.ter_set(x, y, t_console_broken);
                     add_msg(m_bad, _("The console shuts down."));
@@ -1128,7 +1129,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
+        g->sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
@@ -1139,8 +1140,8 @@ void computer::activate_failure(computer_failure fail)
         for (int i = 0; i < num_robots; i++) {
             int mx, my, tries = 0;
             do {
-                mx = rng(g->u.posx - 3, g->u.posx + 3);
-                my = rng(g->u.posy - 3, g->u.posy + 3);
+                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
+                my = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
@@ -1158,8 +1159,8 @@ void computer::activate_failure(computer_failure fail)
         for (int i = 0; i < num_robots; i++) {
             int mx, my, tries = 0;
             do {
-                mx = rng(g->u.posx - 3, g->u.posx + 3);
-                my = rng(g->u.posy - 3, g->u.posy + 3);
+                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
+                my = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
@@ -1240,8 +1241,8 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DESTROY_BLOOD:
         print_error(_("ERROR: Disruptive Spin"));
-        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
+            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
                     if (g->m.i_at(x, y).empty()) {
                         print_error(_("ERROR: Please place sample in centrifuge."));

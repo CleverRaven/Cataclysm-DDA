@@ -99,7 +99,7 @@ bool player::handle_melee_wear()
                                     weapon.tname().c_str());
             // Dump its contents on the ground
             for( auto &elem : weapon.contents ) {
-                g->m.add_item_or_charges( posx, posy, elem );
+                g->m.add_item_or_charges( posx(), posy(), elem );
             }
             remove_weapon();
         }
@@ -383,8 +383,9 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         t.deal_melee_hit(this, hit_spread, critical_hit, d, dealt_dam);
 
         // Make a rather quiet sound, to alert any nearby monsters
-        if (!is_quiet()) // check martial arts silence
-            g->sound(posx, posy, 8, "");
+        if (!is_quiet()) { // check martial arts silence
+            g->sound(posx(), posy(), 8, "");
+        }
 
         int dam = dealt_dam.total_damage();
 
@@ -544,9 +545,9 @@ int player::get_dodge_base() const {
     return Creature::get_dodge_base() + get_skill_level("dodge");
 }
 
-int player::get_dodge() const
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
+int player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if (in_sleep_state()) {
@@ -1046,12 +1047,12 @@ bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
         int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
         int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
 
-        int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 
-        int left_x = posx + offset_a[lookup];
-        int left_y = posy + offset_b[lookup];
-        int right_x = posx + offset_b[lookup];
-        int right_y = posy - offset_a[lookup];
+        int left_x = posx() + offset_a[lookup];
+        int left_y = posy() + offset_b[lookup];
+        int right_x = posx() + offset_b[lookup];
+        int right_y = posy() - offset_a[lookup];
 
         int mondex_l = g->mon_at(left_x, left_y);
         int mondex_r = g->mon_at(right_x, right_y);
@@ -1083,14 +1084,14 @@ bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
         int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
         int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
 
-        int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 
-        int left_x = t.xpos() + offset_a[lookup];
-        int left_y = t.ypos() + offset_b[lookup];
-        int target_x = t.xpos() + (t.xpos() - posx);
-        int target_y = t.ypos() + (t.ypos() - posy);
-        int right_x = t.xpos() + offset_b[lookup];
-        int right_y = t.ypos() - offset_a[lookup];
+        int left_x = t.posx() + offset_a[lookup];
+        int left_y = t.posy() + offset_b[lookup];
+        int target_x = t.posx() + (t.posx() - posx());
+        int target_y = t.posy() + (t.posy() - posy());
+        int right_x = t.posx() + offset_b[lookup];
+        int right_y = t.posy() - offset_a[lookup];
 
         int mondex_l = g->mon_at(left_x, left_y);
         int mondex_t = g->mon_at(target_x, target_y);
@@ -1123,9 +1124,9 @@ bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
     }
 
     if( npc_targets.empty() && mon_targets.empty() && technique.aoe == "spin" ) {
-        for (int x = posx - 1; x <= posx + 1; x++) {
-            for (int y = posy - 1; y <= posy + 1; y++) {
-                if (x == t.xpos() && y == t.ypos()) {
+        for (int x = posx() - 1; x <= posx() + 1; x++) {
+            for (int y = posy() - 1; y <= posy() + 1; y++) {
+                if (x == t.posx() && y == t.posy()) {
                     continue;
                 }
                 int mondex = g->mon_at(x, y);
@@ -1170,7 +1171,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 
     move_cost *= technique.speed_mult;
 
-    int tarx = t.xpos(), tary = t.ypos();
+    int tarx = t.posx(), tary = t.posy();
 
     (void) tarx;
     (void) tary;
@@ -1191,7 +1192,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
                             -technique.knockback_spread,
                             technique.knockback_spread
                         );
-        t.knock_back_from(posx + kb_offset, posy + kb_offset);
+        t.knock_back_from(posx() + kb_offset, posy() + kb_offset);
     }
 
     if (technique.pain > 0) {
@@ -1201,7 +1202,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     /* TODO: put all this in when disease/effects merging is done
     std::string target = t.disp_name();
     if (technique.disarms) {
-        g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
+        g->m.add_item_or_charges(p->posx(), p->posy(), p->remove_weapon());
         if (you) {
             g->add_msg_if_npc(this, _("<npcname> disarms you!"));
         } else {
@@ -1502,7 +1503,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
 
     target = t.disp_name();
 
-    int tarposx = t.xpos(), tarposy = t.ypos();
+    int tarposx = t.posx(), tarposy = t.posy();
 
     (void)tarposx;
     (void)tarposy;
@@ -1580,10 +1581,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
                                      weapon.tname().c_str());
         }
 
-        g->sound(posx, posy, 16, "");
+        g->sound(posx(), posy(), 16, "");
         // Dump its contents on the ground
         for( auto &elem : weapon.contents ) {
-            g->m.add_item_or_charges( posx, posy, elem );
+            g->m.add_item_or_charges( posx(), posy(), elem );
         }
         // Take damage
         deal_damage(this, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
@@ -1601,9 +1602,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
-    
+
     int stabbing_skill = get_skill_level("stabbing");
-    
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
@@ -2223,18 +2223,18 @@ void player_hit_message(player* attacker, std::string message,
         std::string health_bar = "";
         get_HP_Bar(dam, t.get_hp_max(), color, health_bar, true);
 
-        SCT.add(t.xpos(),
-                t.ypos(),
-                direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+        SCT.add(t.posx(),
+                t.posy(),
+                direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
                 health_bar, m_good,
                 sSCTmod, gmtSCTcolor);
 
         if (t.get_hp() > 0) {
             get_HP_Bar(t.get_hp(), t.get_hp_max(), color, health_bar, true);
 
-            SCT.add(t.xpos(),
-                    t.ypos(),
-                    direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+            SCT.add(t.posx(),
+                    t.posy(),
+                    direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
                     health_bar, m_good,
                     //~ “hit points”, used in scrolling combat text
                     _("hp"), m_neutral,

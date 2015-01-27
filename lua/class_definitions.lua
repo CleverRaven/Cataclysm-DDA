@@ -3,17 +3,6 @@
 classes = {
     player = {
         attributes = {
-            posx = {
-                type = "int",
-                writable = false,
-                desc = "The x position of the player in the reality bubble."
-            },
-            posy = {
-                type = "int",
-                writable = false,
-                desc = "The y position of the player in the reality bubble."
-            },
-
             hunger = {
                 type = "int",
                 writable = true
@@ -77,6 +66,15 @@ classes = {
             }
         },
         functions = {
+            posx = {
+                args = {},
+                rval = "int"
+            },
+            posy = {
+                args = {},
+                rval = "int"
+            },
+
             has_disease = {
                 args = { "string" },
                 rval = "bool"
@@ -379,14 +377,14 @@ classes = {
                 args = {"string"},
                 rval = "bool"
             },
-	    has_flag = {
-	        args = {"string"},
-		rval = "bool"
-	    },
-	    set_flag = {
-	        args = {"string", "bool"},
-		rval = nil
-	    }
+            has_flag = {
+                args = {"string"},
+                rval = "bool"
+            },
+            set_flag = {
+                args = {"string", "bool"},
+                rval = nil
+            }
         }
     },
     mongroup = {

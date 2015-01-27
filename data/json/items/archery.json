@@ -747,7 +747,8 @@
       "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 60
+      "reload" : 60,
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "compbow",
@@ -784,7 +785,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "compositebow",
@@ -821,7 +822,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 110,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "recurbow",
@@ -858,7 +859,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "reflexbow",
@@ -895,7 +896,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "longbow",
@@ -932,7 +933,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "reflexrecurvebow",
@@ -969,7 +970,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
       "id" : "hand_crossbow",

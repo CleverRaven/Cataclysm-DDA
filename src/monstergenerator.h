@@ -12,6 +12,7 @@ typedef void (mattack::*MonAttackFunction)(monster *, int index);
 typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
+#define GetMFact(x) MonsterGenerator::generator().faction_by_name(x)
 
 struct species_type {
     int short_id;
@@ -70,6 +71,7 @@ class MonsterGenerator
         std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
+        const monfaction *faction_by_name(const std::string &name) const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -86,6 +88,8 @@ class MonsterGenerator
         void init_trigger();
         void init_flags();
 
+        void init_hardcoded_factions(); // Player faction only at the moment
+
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
@@ -95,11 +99,13 @@ class MonsterGenerator
                 std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
                                                 T fallback);
+        bool add_faction( const std::string &name );
 
         // finalization
         void apply_species_attributes(mtype *mon);
         void set_mtype_flags(mtype *mon);
         void set_species_ids(mtype *mon);
+        void set_default_faction(mtype *mon);
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
@@ -113,6 +119,8 @@ class MonsterGenerator
         std::map<std::string, MonDefenseFunction> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
+
+        std::map<std::string, monfaction> faction_map;
 };
 
 #endif

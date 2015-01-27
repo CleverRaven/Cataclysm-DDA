@@ -295,7 +295,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag(std::string mut);
 
-        point pos() const;
+        const point &pos() const;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -557,7 +557,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         static void hp_convert(hp_part hpart, body_part &bp);
 
         /** Returns overall % of HP remaining */
-        int hp_percentage();
+        int hp_percentage() const;
 
         /** Handles the chance to be infected by random diseases */
         void get_sick();
@@ -682,6 +682,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;
+        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
+        int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
         /** Returns warmth provided by armor, etc., factoring in layering */
@@ -873,14 +875,21 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void calculate_portions(int &x, int &y, int &z, int maximum);
 
         // ---------------VALUES-----------------
-        int posx, posy;
-        inline int xpos() const
+        inline int posx() const
         {
-            return posx;
+            return position.x;
         }
-        inline int ypos() const
+        inline int posy() const
         {
-            return posy;
+            return position.y;
+        }
+        inline void setx( int x )
+        {
+            position.x = x;
+        }
+        inline void sety( int y )
+        {
+            position.y = y;
         }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -1038,6 +1047,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     protected:
         std::list<disease> illness;
+        // The player's position on the local map.
+        point position;
+
         trap_map known_traps;
 
         void store(JsonOut &jsout) const;

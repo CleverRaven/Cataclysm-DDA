@@ -116,7 +116,7 @@ void npc::move()
 
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
-        if ((pl_danger > danger || rl_dist(posx, posy, g->u.posx, g->u.posy) <= 1) || target == -1) {
+        if ((pl_danger > danger || rl_dist(pos(), g->u.pos()) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger );
@@ -185,7 +185,7 @@ void npc::move()
     if (danger > 0 && (
             (action == npc_follow_embarked && in_vehicle) ||
             (action == npc_follow_player &&
-             rl_dist(posx, posy, g->u.posx, g->u.posy) <= follow_distance())
+             rl_dist(pos(), g->u.pos()) <= follow_distance())
         )) {
         action = method_of_attack(target, danger);
     }
@@ -198,10 +198,10 @@ void npc::move()
 void npc::execute_action(npc_action action, int target)
 {
     int oldmoves = moves;
-    int tarx = posx, tary = posy;
+    int tarx = posx(), tary = posy();
     if (target == -2) {
-        tarx = g->u.posx;
-        tary = g->u.posy;
+        tarx = g->u.posx();
+        tary = g->u.posy();
     } else if (target >= 0) {
         tarx = g->zombie(target).posx();
         tary = g->zombie(target).posy();
@@ -212,12 +212,12 @@ void npc::execute_action(npc_action action, int target)
     */
 
     std::vector<point> line;
-    if (tarx != posx || tary != posy) {
+    if (tarx != posx() || tary != posy()) {
         int linet, dist = sight_range(g->light_level());
-        if (g->m.sees(posx, posy, tarx, tary, dist, linet)) {
-            line = line_to(posx, posy, tarx, tary, linet);
+        if (g->m.sees(posx(), posy(), tarx, tary, dist, linet)) {
+            line = line_to(posx(), posy(), tarx, tary, linet);
         } else {
-            line = line_to(posx, posy, tarx, tary, 0);
+            line = line_to(posx(), posy(), tarx, tary, 0);
         }
     }
 
@@ -359,7 +359,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_heal_player:
-        update_path(g->u.posx, g->u.posy);
+        update_path(g->u.posx(), g->u.posy());
         if (path.size() == 1) { // We're adjacent to u, and thus can heal u
             heal_player(g->u);
         } else if (!path.empty()) {
@@ -370,7 +370,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_follow_player:
-        update_path(g->u.posx, g->u.posy);
+        update_path(g->u.posx(), g->u.posy());
         if ((int)path.size() <= follow_distance()) { // We're close enough to u.
             move_pause();
         } else if (!path.empty()) {
@@ -385,7 +385,7 @@ void npc::execute_action(npc_action action, int target)
             move_pause();
         } else {
             int p1;
-            vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, p1);
+            vehicle *veh = g->m.veh_at(g->u.posx(), g->u.posy(), p1);
 
             if (!veh) {
                 debugmsg("Following an embarked player with no vehicle at their location?");
@@ -405,7 +405,7 @@ void npc::execute_action(npc_action action, int target)
                     //       Hop in the last few squares is mostly to avoid player clash
                     if (path.size() <= 2) {
                         if( in_vehicle ) {
-                            g->m.unboard_vehicle( posx, posy );
+                            g->m.unboard_vehicle( posx(), posy() );
                         }
                         g->m.board_vehicle(px, py, this);
                         move_pause();
@@ -423,7 +423,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_mug_player:
-        update_path(g->u.posx, g->u.posy);
+        update_path(g->u.posx(), g->u.posy());
         if (path.size() == 1) { // We're adjacent to u, and thus can mug u
             mug_player(g->u);
         } else if (!path.empty()) {
@@ -467,7 +467,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
         if (this->sees(*mon)) {
-            int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
+            int distance = (100 * rl_dist(pos(), mon->pos())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
             int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
@@ -516,7 +516,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
                 enemy = i;
             } else if (okay_by_rules && defend_u) {
                 priority = mon->type->difficulty * (1 + hp_percent);
-                distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
+                distance = (100 * rl_dist(g->u.pos(), mon->pos())) /
                     mon->get_speed();
                 priority -= distance;
                 if( mon->get_speed() < get_speed() ) {
@@ -537,9 +537,9 @@ npc_action npc::method_of_fleeing(int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                  g->zombie(enemy).get_speed());
-    point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
+    point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx(), g->u.posy()) :
                        point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
-    int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
+    int distance = rl_dist(pos(), enemy_loc);
 
     if (choose_escape_item() != INT_MIN) { // We have an escape item!
         return npc_escape_item;
@@ -559,8 +559,8 @@ npc_action npc::method_of_attack(int target, int danger)
     bool use_silent = (is_following() && combat_rules.use_silent);
 
     if (target == TARGET_PLAYER) {
-        tarx = g->u.posx;
-        tary = g->u.posy;
+        tarx = g->u.posx();
+        tary = g->u.posy();
     } else if (target >= 0) {
         tarx = g->zombie(target).posx();
         tary = g->zombie(target).posy();
@@ -569,7 +569,7 @@ npc_action npc::method_of_attack(int target, int danger)
         return npc_pause;
     }
 
-    int dist = rl_dist(posx, posy, tarx, tary);
+    int dist = rl_dist(posx(), posy(), tarx, tary);
     int target_HP;
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
@@ -606,7 +606,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 }
             } else if (target == TARGET_PLAYER && !sees( g->u )) {
                 return npc_melee;//Can't see target
-            } else if (rl_dist(posx, posy, tarx, tary) > weapon.gun_range( this ) &&
+            } else if (rl_dist(posx(), posy(), tarx, tary) > weapon.gun_range( this ) &&
                        sees( tarx, tary )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
@@ -699,7 +699,7 @@ npc_action npc::address_player()
             // Leave sleeping characters alone.
             return npc_undecided;
         }
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 6) {
+        if (rl_dist(pos(), g->u.pos()) <= 6) {
             return npc_talk_to_player;    // Close enough to talk to you
         } else {
             if (one_in(10)) {
@@ -899,34 +899,34 @@ int npc::confident_range(int position)
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend(int tarx, int tary, int position)
+bool npc::wont_hit_friend(int tarx, int tary, int weapon_index)
 {
     int linet = 0, dist = sight_range(g->light_level());
-    int confident = confident_range(position);
-    if (rl_dist(posx, posy, tarx, tary) == 1) {
+    int confident = confident_range(weapon_index);
+    if (rl_dist(posx(), posy(), tarx, tary) == 1) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
     std::vector<point> traj;
-    if (g->m.sees(posx, posy, tarx, tary, dist, linet)) {
-        traj = line_to(posx, posy, tarx, tary, linet);
+    if (g->m.sees(posx(), posy(), tarx, tary, dist, linet)) {
+        traj = line_to(posx(), posy(), tarx, tary, linet);
     } else {
-        traj = line_to(posx, posy, tarx, tary, 0);
+        traj = line_to(posx(), posy(), tarx, tary, 0);
     }
 
     for (auto &i : traj) {
-        int dist = rl_dist(posx, posy, i.x, i.y);
+        int dist = rl_dist(pos(), i);
         int deviation = 1 + int(dist / confident);
         for (int x = i.x - deviation; x <= i.x + deviation; x++) {
             for (int y = i.y - deviation; y <= i.y + deviation; y++) {
                 // Hit the player?
-                if (is_friend() && g->u.posx == x && g->u.posy == y) {
+                if (is_friend() && g->u.posx() == x && g->u.posy() == y) {
                     return false;
                 }
                 // Hit a friendly monster?
                 /*
                     for (int n = 0; n < g->num_zombies(); n++) {
-                     if (g->zombie(n).friendly != 0 && g->zombie(n).posx == x && g->zombie(n).posy == y)
+                     if (g->zombie(n).friendly != 0 && g->zombie(n).posx == x && g->zombie(n).posyposition == y)
                       return false;
                     }
                 */
@@ -971,10 +971,10 @@ bool npc::enough_time_to_reload(int target, item &gun)
         if (sees( g->u ) && g->u.weapon.is_gun() && rltime > 200) {
             return false;    // Don't take longer than 2 turns if player has a gun
         }
-        dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+        dist = rl_dist(pos(), g->u.pos());
         speed = speed_estimate(g->u.get_speed());
     } else if (target >= 0) {
-        dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
+        dist = rl_dist(pos(), g->zombie(target).pos());
         speed = speed_estimate(g->zombie(target).get_speed());
     } else {
         return true;    // No target, plenty of time to reload
@@ -988,15 +988,15 @@ bool npc::enough_time_to_reload(int target, item &gun)
 void npc::update_path(int x, int y)
 {
     if (path.empty()) {
-        path = g->m.route(posx, posy, x, y);
+        path = g->m.route( posx(), posy(), x, y );
         return;
     }
     point last = path[path.size() - 1];
     if (last.x == x && last.y == y) {
         return;    // Our path already leads to that point, no need to recalculate
     }
-    path = g->m.route(posx, posy, x, y);
-    if (!path.empty() && path[0].x == posx && path[0].y == posy) {
+    path = g->m.route( posx(), posy(), x, y );
+    if (!path.empty() && path[0].x == posx() && path[0].y == posy()) {
         path.erase(path.begin());
     }
 }
@@ -1004,8 +1004,9 @@ void npc::update_path(int x, int y)
 bool npc::can_move_to(int x, int y) const
 {
     //Space is considered good with a 20% chance of bashing successfully
-    return ((g->m.move_cost(x, y) > 0 || g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
-            rl_dist(posx, posy, x, y) <= 1);
+    return( (g->m.move_cost(x, y) > 0 ||
+             g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
+            rl_dist(posx(), posy(), x, y) <= 1 );
 }
 
 void npc::move_to(int x, int y)
@@ -1022,23 +1023,23 @@ void npc::move_to(int x, int y)
     if( sees_dangerous_field( point( x, y ) ) ) {
         // move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        if( x != posx && y != posy ) {
-            if( could_move_onto( point( x, posy ) ) ) {
-                y = posy;
-            } else if( could_move_onto( point( posx, y ) ) ) {
-                x = posx;
+        if( x != posx() && y != posy() ) {
+            if( could_move_onto( point( x, posy() ) ) ) {
+                y = posy();
+            } else if( could_move_onto( point( posx(), y ) ) ) {
+                x = posx();
             }
-        } else if( x != posx && y == posy ) {
-            if( could_move_onto( point( x, posy + 1 ) ) ) {
-                y = posy + 1;
-            } else if( could_move_onto( point( x, posy - 1 ) ) ) {
-                y = posy - 1;
+        } else if( x != posx() && y == posy() ) {
+            if( could_move_onto( point( x, posy() + 1 ) ) ) {
+                y = posy() + 1;
+            } else if( could_move_onto( point( x, posy() - 1 ) ) ) {
+                y = posy() - 1;
             }
-        } else if( y != posy && x == posx ) {
-            if( could_move_onto( point( posx + 1, y ) ) ) {
-                x = posx + 1;
-            } else if( could_move_onto( point( posx - 1, y ) ) ) {
-                x = posx - 1;
+        } else if( y != posy() && x == posx() ) {
+            if( could_move_onto( point( posx() + 1, y ) ) ) {
+                x = posx() + 1;
+            } else if( could_move_onto( point( posx() - 1, y ) ) ) {
+                x = posx() - 1;
             }
         }
     }
@@ -1051,10 +1052,10 @@ void npc::move_to(int x, int y)
         }
     }
     if (has_effect("stunned")) {
-        x = rng(posx - 1, posx + 1);
-        y = rng(posy - 1, posy + 1);
+        x = rng(posx() - 1, posx() + 1);
+        y = rng(posy() - 1, posy() + 1);
     }
-    if (rl_dist(posx, posy, x, y) > 1) {
+    if (rl_dist(posx(), posy(), x, y) > 1) {
         /*
           debugmsg("Tried to move_to more than one space! (%d, %d) to (%d, %d)",
                    posx, posy, x, y);
@@ -1062,21 +1063,21 @@ void npc::move_to(int x, int y)
         */
         int linet;
         std::vector<point> newpath;
-        if (g->m.sees(posx, posy, x, y, -1, linet)) {
-            newpath = line_to(posx, posy, x, y, linet);
+        if (g->m.sees(posx(), posy(), x, y, -1, linet)) {
+            newpath = line_to(posx(), posy(), x, y, linet);
         } else {
-            newpath = line_to(posx, posy, x, y, 0);
+            newpath = line_to(posx(), posy(), x, y, 0);
         }
         x = newpath[0].x;
         y = newpath[0].y;
     }
-    if (x == posx && y == posy) { // We're just pausing!
+    if (x == posx() && y == posy()) { // We're just pausing!
         moves -= 100;
     } else if (g->mon_at(x, y) != -1) { // Shouldn't happen, but it might.
         //monster *m = &(g->zombie(g->mon_at(x, y)));
         //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
         melee_monster(g->mon_at(x, y));
-    } else if (g->u.posx == x && g->u.posy == y) {
+    } else if (g->u.posx() == x && g->u.posy() == y) {
         say("<let_me_pass>");
         moves -= 100;
     } else if (g->npc_at(x, y) != -1) {
@@ -1085,7 +1086,7 @@ void npc::move_to(int x, int y)
     } else {
         if (in_vehicle) {
             // TODO: handle this nicely - npcs should not jump from moving vehicles
-            g->m.unboard_vehicle(posx, posy);
+            g->m.unboard_vehicle(posx(), posy());
         } else {
             vehicle *tmp = g->m.veh_at(x, y);
             if(tmp != NULL) {
@@ -1096,10 +1097,10 @@ void npc::move_to(int x, int y)
             }
         }
         if (g->m.move_cost(x, y) > 0) {
-            posx = x;
-            posy = y;
-            bool diag = trigdist && posx != x && posy != y;
-            moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
+            position.x = x;
+            position.y = y;
+            bool diag = trigdist && posx() != x && posy() != y;
+            moves -= run_cost(g->m.combined_movecost(posx(), posy(), x, y), diag);
             if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
                 trap *tr = traplist[g->m.tr_at(x, y)];
                 if (!this->avoid_trap(tr, x, y)) {
@@ -1107,12 +1108,12 @@ void npc::move_to(int x, int y)
                 }
             }
             int part;
-            vehicle *veh = g->m.veh_at( posx, posy, part );
+            vehicle *veh = g->m.veh_at( posx(), posy(), part );
             if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
-                g->m.board_vehicle( posx, posy, this );
+                g->m.board_vehicle( posx(), posy(), this );
             }
             g->m.creature_in_field( *this );
-        } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
+        } else if (g->m.open_door(x, y, (g->m.ter(posx(), posy()) == t_floor))) {
             moves -= 100;
         } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
             moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
@@ -1131,11 +1132,11 @@ void npc::move_to_next()
         move_pause();
         return;
     }
-    while (posx == path[0].x && posy == path[0].y) {
+    while (posx() == path[0].x && posy() == path[0].y) {
         path.erase(path.begin());
     }
     move_to(path[0].x, path[0].y);
-    if (posx == path[0].x && posy == path[0].y) { // Move was successful
+    if (posx() == path[0].x && posy() == path[0].y) { // Move was successful
         path.erase(path.begin());
     }
 }
@@ -1145,8 +1146,8 @@ void npc::avoid_friendly_fire(int target)
 {
     int tarx, tary;
     if (target == TARGET_PLAYER) {
-        tarx = g->u.posx;
-        tary = g->u.posy;
+        tarx = g->u.posx();
+        tary = g->u.posy();
     } else if (target >= 0) {
         tarx = g->zombie(target).posx();
         tary = g->zombie(target).posy();
@@ -1159,8 +1160,8 @@ void npc::avoid_friendly_fire(int target)
         return;
     }
 
-    int xdir = (tarx > posx ? 1 : -1), ydir = (tary > posy ? 1 : -1);
-    direction dir_to_target = direction_from(posx, posy, tarx, tary);
+    int xdir = (tarx > posx() ? 1 : -1), ydir = (tary > posy() ? 1 : -1);
+    direction dir_to_target = direction_from(posx(), posy(), tarx, tary);
     std::vector<point> valid_moves;
     /* Ugh, big ugly switch.  This fills valid_moves with a list of moves from most
      * desirable to least; the only two moves excluded are those along the line of
@@ -1169,68 +1170,68 @@ void npc::avoid_friendly_fire(int target)
      */
     switch (dir_to_target) {
     case NORTH:
-        valid_moves.push_back(point(posx + xdir, posy));
-        valid_moves.push_back(point(posx - xdir, posy));
-        valid_moves.push_back(point(posx + xdir, posy + 1));
-        valid_moves.push_back(point(posx - xdir, posy + 1));
-        valid_moves.push_back(point(posx + xdir, posy - 1));
-        valid_moves.push_back(point(posx - xdir, posy - 1));
+        valid_moves.push_back(point(posx() + xdir, posy()));
+        valid_moves.push_back(point(posx() - xdir, posy()));
+        valid_moves.push_back(point(posx() + xdir, posy() + 1));
+        valid_moves.push_back(point(posx() - xdir, posy() + 1));
+        valid_moves.push_back(point(posx() + xdir, posy() - 1));
+        valid_moves.push_back(point(posx() - xdir, posy() - 1));
         break;
     case NORTHEAST:
-        valid_moves.push_back(point(posx + 1, posy + 1));
-        valid_moves.push_back(point(posx - 1, posy - 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
-        valid_moves.push_back(point(posx    , posy + 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
-        valid_moves.push_back(point(posx    , posy - 1));
+        valid_moves.push_back(point(posx() + 1, posy() + 1));
+        valid_moves.push_back(point(posx() - 1, posy() - 1));
+        valid_moves.push_back(point(posx() - 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() + 1));
+        valid_moves.push_back(point(posx() + 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() - 1));
         break;
     case EAST:
-        valid_moves.push_back(point(posx, posy - 1));
-        valid_moves.push_back(point(posx, posy + 1));
-        valid_moves.push_back(point(posx - 1, posy - 1));
-        valid_moves.push_back(point(posx - 1, posy + 1));
-        valid_moves.push_back(point(posx + 1, posy - 1));
-        valid_moves.push_back(point(posx + 1, posy + 1));
+        valid_moves.push_back(point(posx(), posy() - 1));
+        valid_moves.push_back(point(posx(), posy() + 1));
+        valid_moves.push_back(point(posx() - 1, posy() - 1));
+        valid_moves.push_back(point(posx() - 1, posy() + 1));
+        valid_moves.push_back(point(posx() + 1, posy() - 1));
+        valid_moves.push_back(point(posx() + 1, posy() + 1));
         break;
     case SOUTHEAST:
-        valid_moves.push_back(point(posx + 1, posy - 1));
-        valid_moves.push_back(point(posx - 1, posy + 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
-        valid_moves.push_back(point(posx    , posy + 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
-        valid_moves.push_back(point(posx    , posy - 1));
+        valid_moves.push_back(point(posx() + 1, posy() - 1));
+        valid_moves.push_back(point(posx() - 1, posy() + 1));
+        valid_moves.push_back(point(posx() + 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() + 1));
+        valid_moves.push_back(point(posx() - 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() - 1));
         break;
     case SOUTH:
-        valid_moves.push_back(point(posx + xdir, posy));
-        valid_moves.push_back(point(posx - xdir, posy));
-        valid_moves.push_back(point(posx + xdir, posy - 1));
-        valid_moves.push_back(point(posx - xdir, posy - 1));
-        valid_moves.push_back(point(posx + xdir, posy + 1));
-        valid_moves.push_back(point(posx - xdir, posy + 1));
+        valid_moves.push_back(point(posx() + xdir, posy()));
+        valid_moves.push_back(point(posx() - xdir, posy()));
+        valid_moves.push_back(point(posx() + xdir, posy() - 1));
+        valid_moves.push_back(point(posx() - xdir, posy() - 1));
+        valid_moves.push_back(point(posx() + xdir, posy() + 1));
+        valid_moves.push_back(point(posx() - xdir, posy() + 1));
         break;
     case SOUTHWEST:
-        valid_moves.push_back(point(posx + 1, posy + 1));
-        valid_moves.push_back(point(posx - 1, posy - 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
-        valid_moves.push_back(point(posx    , posy - 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
-        valid_moves.push_back(point(posx    , posy + 1));
+        valid_moves.push_back(point(posx() + 1, posy() + 1));
+        valid_moves.push_back(point(posx() - 1, posy() - 1));
+        valid_moves.push_back(point(posx() + 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() - 1));
+        valid_moves.push_back(point(posx() - 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() + 1));
         break;
     case WEST:
-        valid_moves.push_back(point(posx    , posy + ydir));
-        valid_moves.push_back(point(posx    , posy - ydir));
-        valid_moves.push_back(point(posx + 1, posy + ydir));
-        valid_moves.push_back(point(posx + 1, posy - ydir));
-        valid_moves.push_back(point(posx - 1, posy + ydir));
-        valid_moves.push_back(point(posx - 1, posy - ydir));
+        valid_moves.push_back(point(posx()    , posy() + ydir));
+        valid_moves.push_back(point(posx()    , posy() - ydir));
+        valid_moves.push_back(point(posx() + 1, posy() + ydir));
+        valid_moves.push_back(point(posx() + 1, posy() - ydir));
+        valid_moves.push_back(point(posx() - 1, posy() + ydir));
+        valid_moves.push_back(point(posx() - 1, posy() - ydir));
         break;
     case NORTHWEST:
-        valid_moves.push_back(point(posx + 1, posy - 1));
-        valid_moves.push_back(point(posx - 1, posy + 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
-        valid_moves.push_back(point(posx    , posy - 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
-        valid_moves.push_back(point(posx    , posy + 1));
+        valid_moves.push_back(point(posx() + 1, posy() - 1));
+        valid_moves.push_back(point(posx() - 1, posy() + 1));
+        valid_moves.push_back(point(posx() - 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() - 1));
+        valid_moves.push_back(point(posx() + 1, posy()    ));
+        valid_moves.push_back(point(posx()    , posy() + 1));
         break;
     default:
         // contains the case CENTER (pos==target, can not happen) and above/below (can not happen, function above is 2D only)
@@ -1261,26 +1262,26 @@ void npc::move_away_from(int x, int y)
 {
     std::vector<point> options;
     int dx = 0, dy = 0;
-    if (x < posx) {
+    if (x < posx()) {
         dx = 1;
-    } else if (x > posx) {
+    } else if (x > posx()) {
         dx = -1;
     }
-    if (y < posy) {
+    if (y < posy()) {
         dy = 1;
-    } else if (y > posy) {
+    } else if (y > posy()) {
         dy = -1;
     }
 
-    options.push_back( point(posx + dx, posy + dy) );
-    if (abs(x - posx) > abs(y - posy)) {
-        options.push_back( point(posx + dx, posy) );
-        options.push_back( point(posx, posy + dy) );
-        options.push_back( point(posx + dx, posy - dy) );
+    options.push_back( point(posx() + dx, posy() + dy) );
+    if (abs(x - posx()) > abs(y - posy())) {
+        options.push_back( point(posx() + dx, posy()) );
+        options.push_back( point(posx(), posy() + dy) );
+        options.push_back( point(posx() + dx, posy() - dy) );
     } else {
-        options.push_back( point(posx, posy + dy) );
-        options.push_back( point(posx + dx, posy) );
-        options.push_back( point(posx - dx, posy + dy) );
+        options.push_back( point(posx(), posy() + dy) );
+        options.push_back( point(posx() + dx, posy()) );
+        options.push_back( point(posx() - dx, posy() + dy) );
     }
 
     for (auto &i : options) {
@@ -1312,8 +1313,8 @@ void npc::find_item()
     if (range > 12) {
         range = 12;
     }
-    int minx = posx - range, maxx = posx + range,
-        miny = posy - range, maxy = posy + range;
+    int minx = posx() - range, maxx = posx() + range,
+        miny = posy() - range, maxy = posy() + range;
     const item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
@@ -1360,11 +1361,11 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    add_msg( m_debug, "%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx, posy, itx, ity );
+    add_msg( m_debug, "%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx(), posy(), itx, ity );
     update_path(itx, ity);
 
     if (path.size() > 1) {
-        add_msg( m_debug, "Moving; [%d, %d] => [%d, %d]", posx, posy, path[0].x, path[0].y );
+        add_msg( m_debug, "Moving; [%d, %d] => [%d, %d]", posx(), posy(), path[0].x, path[0].y );
         move_to_next();
         return;
     }
@@ -1524,7 +1525,7 @@ void npc::drop_items(int weight, int volume)
         } else if (num_items_dropped == 2) {
             item_name << _(" and ") << dropped.tname();
         }
-        g->m.add_item_or_charges(posx, posy, dropped);
+        g->m.add_item_or_charges(posx(), posy(), dropped);
     }
     // Finally, describe the action if u can see it
     std::string item_name_str = item_name.str();
@@ -1610,8 +1611,8 @@ void npc::alt_attack(int target)
     itype_id which = "null";
     int tarx, tary;
     if (target == TARGET_PLAYER) {
-        tarx = g->u.posx;
-        tary = g->u.posy;
+        tarx = g->u.posx();
+        tary = g->u.posy();
     } else if (target >= 0) {
         tarx = g->zombie(target).posx();
         tary = g->zombie(target).posy();
@@ -1620,7 +1621,7 @@ void npc::alt_attack(int target)
         move_pause();
         return;
     }
-    int dist = rl_dist(posx, posy, tarx, tary);
+    int dist = rl_dist(posx(), posy(), tarx, tary);
     /* ALT_ATTACK_ITEMS is an array which stores the itype_id of all alternate
      * items, from least to most important.
      * See npc.h for definition of ALT_ATTACK_ITEMS
@@ -1647,35 +1648,35 @@ void npc::alt_attack(int target)
         }
     }
 
-    int position = INT_MIN;
+    int weapon_index = INT_MIN;
     item *used = NULL;
     if (weapon.type->id == which) {
         used = &weapon;
-        position = -1;
+        weapon_index = -1;
     } else {
         invslice slice = inv.slice();
         for (size_t i = 0; i < inv.size(); i++) {
             if (slice[i]->front().type->id == which) {
                 used = &(slice[i]->front());
-                position = i;
+                weapon_index = i;
             }
         }
     }
 
     // Are we going to throw this item?
     if (!thrown_item(used)) {
-        activate_item(position);
+        activate_item(weapon_index);
     } else { // We are throwing it!
 
         std::vector<point> trajectory;
         int linet, light = g->light_level();
 
-        if (dist <= confident_range(position) && wont_hit_friend(tarx, tary, position)) {
+        if (dist <= confident_range(weapon_index) && wont_hit_friend(tarx, tary, weapon_index)) {
 
-            if (g->m.sees(posx, posy, tarx, tary, light, linet)) {
-                trajectory = line_to(posx, posy, tarx, tary, linet);
+            if (g->m.sees(posx(), posy(), tarx, tary, light, linet)) {
+                trajectory = line_to(posx(), posy(), tarx, tary, linet);
             } else {
-                trajectory = line_to(posx, posy, tarx, tary, 0);
+                trajectory = line_to(posx(), posy(), tarx, tary, 0);
             }
             moves -= 125;
             if (g->u.sees( *this )) {
@@ -1691,25 +1692,25 @@ void npc::alt_attack(int target)
             g->throw_item(*this, tarx, tary, *used, trajectory);
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
-                i_rem(position);
+                i_rem(weapon_index);
             } else {
                 used->charges = stack_size - 1;
             }
-        } else if (!wont_hit_friend(tarx, tary, position)) {// Danger of friendly fire
+        } else if (!wont_hit_friend(tarx, tary, weapon_index)) {// Danger of friendly fire
 
             if (!used->active || used->charges > 2) { // Safe to hold on to, for now
                 avoid_friendly_fire(target);    // Maneuver around player
             } else { // We need to throw this live (grenade, etc) NOW! Pick another target?
-                int conf = confident_range(position);
+                int conf = confident_range(weapon_index);
                 for (int dist = 2; dist <= conf; dist++) {
-                    for (int x = posx - dist; x <= posx + dist; x++) {
-                        for (int y = posy - dist; y <= posy + dist; y++) {
+                    for (int x = posx() - dist; x <= posx() + dist; x++) {
+                        for (int y = posy() - dist; y <= posy() + dist; y++) {
                             int newtarget = g->mon_at(x, y);
-                            int newdist = rl_dist(posx, posy, x, y);
+                            int newdist = rl_dist(posx(), posy(), x, y);
                             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
                             // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
                             if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
-                                wont_hit_friend(x, y, position)) { // Friendlyfire-safe!
+                                wont_hit_friend(x, y, weapon_index)) { // Friendlyfire-safe!
                                 alt_attack(newtarget);
                                 return;
                             }
@@ -1722,10 +1723,10 @@ void npc::alt_attack(int target)
                  */
                 int best_dist = 0;
                 for (int dist = 2; dist <= conf; dist++) {
-                    for (int x = posx - dist; x <= posx + dist; x++) {
-                        for (int y = posy - dist; y <= posy + dist; y++) {
-                            int new_dist = rl_dist(posx, posy, x, y);
-                            if (new_dist > best_dist && wont_hit_friend(x, y, position)) {
+                    for (int x = posx() - dist; x <= posx() + dist; x++) {
+                        for (int y = posy() - dist; y <= posy() + dist; y++) {
+                            int new_dist = rl_dist(posx(), posy(), x, y);
+                            if (new_dist > best_dist && wont_hit_friend(x, y, weapon_index)) {
                                 best_dist = new_dist;
                                 tarx = x;
                                 tary = y;
@@ -1737,10 +1738,10 @@ void npc::alt_attack(int target)
                  * should be equal to the original location of our target, and risking friendly
                  * fire is better than holding on to a live grenade / whatever.
                  */
-                if (g->m.sees(posx, posy, tarx, tary, light, linet)) {
-                    trajectory = line_to(posx, posy, tarx, tary, linet);
+                if (g->m.sees(posx(), posy(), tarx, tary, light, linet)) {
+                    trajectory = line_to(posx(), posy(), tarx, tary, linet);
                 } else {
-                    trajectory = line_to(posx, posy, tarx, tary, 0);
+                    trajectory = line_to(posx(), posy(), tarx, tary, 0);
                 }
                 moves -= 125;
                 if (g->u.sees( *this )) {
@@ -1757,12 +1758,12 @@ void npc::alt_attack(int target)
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {
-                    i_rem(position);
+                    i_rem(weapon_index);
                 } else {
                     used->charges = stack_size - 1;
                 }
 
-                i_rem(position);
+                i_rem(weapon_index);
             }
 
         } else { // Within this block, our chosen target is outside of our range
@@ -1772,9 +1773,9 @@ void npc::alt_attack(int target)
     } // Done with throwing-item block
 }
 
-void npc::activate_item(int position)
+void npc::activate_item(int item_index)
 {
-    item *it = &i_at(position);
+    item *it = &i_at(item_index);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
         tool->invoke(this, it, false, pos());
@@ -1796,10 +1797,10 @@ bool thrown_item(item *used)
 
 void npc::heal_player(player &patient)
 {
-    int dist = rl_dist(posx, posy, patient.posx, patient.posy);
+    int dist = rl_dist(pos(), patient.pos());
 
     if (dist > 1) { // We need to move to the player
-        update_path(patient.posx, patient.posy);
+        update_path(patient.posx(), patient.posy());
         move_to_next();
     } else { // Close enough to heal!
         int lowest_HP = 400;
@@ -1999,8 +2000,8 @@ void npc::pick_and_eat()
 
 void npc::mug_player(player &mark)
 {
-    if (rl_dist(posx, posy, mark.posx, mark.posy) > 1) { // We have to travel
-        update_path(mark.posx, mark.posy);
+    if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
+        update_path( mark.posx(), mark.posy() );
         move_to_next();
     } else {
         bool u_see_me   = g->u.sees( *this ),
@@ -2041,17 +2042,17 @@ void npc::mug_player(player &mark)
                 value_mod -= double((8 - op_of_u.value) * .07);
             }
             int best_value = minimum_item_value() * value_mod;
-            int position = INT_MIN;
+            int item_index = INT_MIN;
             invslice slice = mark.inv.slice();
             for (size_t i = 0; i < slice.size(); i++) {
                 if (value(slice[i]->front()) >= best_value &&
                     can_pickVolume(slice[i]->front().volume()) &&
                     can_pickWeight(slice[i]->front().weight())) {
                     best_value = value(slice[i]->front());
-                    position = i;
+                    item_index = i;
                 }
             }
-            if (position == INT_MIN) { // Didn't find anything worthwhile!
+            if (item_index == INT_MIN) { // Didn't find anything worthwhile!
                 attitude = NPCATT_FLEE;
                 if (!one_in(3)) {
                     say("<done_mugging>");
@@ -2060,7 +2061,7 @@ void npc::mug_player(player &mark)
             } else {
                 bool u_see_me   = g->u.sees( *this ),
                      u_see_mark = g->u.sees( mark );
-                item stolen = mark.i_rem(position);
+                item stolen = mark.i_rem(item_index);
                 if (mark.is_npc()) {
                     if (u_see_me) {
                         if (u_see_mark)
@@ -2258,7 +2259,7 @@ void npc::go_to_destination()
             sy = 0;
         }
         // sx and sy are now equal to the direction we need to move in
-        int x = posx + 8 * sx, y = posy + 8 * sy;
+        int x = posx() + 8 * sx, y = posy() + 8 * sy;
         // x and y are now equal to a local square that's close by
         for (int i = 0; i < 8; i++) {
             for (int dx = 0 - i; dx <= i; dx++) {
@@ -2268,7 +2269,7 @@ void npc::go_to_destination()
                          g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
                          g->m.ter(x + dx, y + dy) == t_door_c) &&
                         sees( x + dx, y + dy )) {
-                        path = g->m.route(posx, posy, x + dx, y + dy);
+                        path = g->m.route(posx(), posy(), x + dx, y + dy);
                         if (!path.empty() && can_move_to(path[0].x, path[0].y)) {
                             move_to_next();
                             return;

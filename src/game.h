@@ -177,7 +177,7 @@ class game
         /** Creates a list of coordinates at which to draw footsteps. */
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
-        std::vector<monster *> footsteps_source;
+        std::vector<point> footsteps_source;
         /** Calculates where footstep marker should appear and puts those points into the result.
          *  It also clears @ref footsteps_source and @ref footsteps. */
         void calculate_footstep_markers(std::vector<point> &result);
@@ -332,7 +332,10 @@ class game
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
-        void update_map(int &x, int &y);  // Called by plmove when the map updates
+        // Handles shifting coordinates transparently when moving between submaps.
+        // Helper to make calling with a player pointer less verbose.
+        void update_map(player *p);
+        void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
         // Position of the player in overmap terrain coordinates, relative
         // to the current overmap (@ref cur_om).

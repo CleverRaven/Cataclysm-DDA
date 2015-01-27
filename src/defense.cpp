@@ -125,29 +125,29 @@ void defense_game::pre_action(action_id &act)
     }
 
     // Big ugly block for movement
-    if ((act == ACTION_MOVE_N && g->u.posy == SEEX * int(MAPSIZE / 2) &&
+    if ((act == ACTION_MOVE_N && g->u.posy() == SEEX * int(MAPSIZE / 2) &&
          g->levy <= 93) ||
-        (act == ACTION_MOVE_NE && ((g->u.posy == SEEY * int(MAPSIZE / 2) &&
+        (act == ACTION_MOVE_NE && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
                                     g->levy <=  93) ||
-                                   (g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
+                                   (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
                                     g->levx >= 98))) ||
-        (act == ACTION_MOVE_E && g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
+        (act == ACTION_MOVE_E && g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
          g->levx >= 98) ||
-        (act == ACTION_MOVE_SE && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
+        (act == ACTION_MOVE_SE && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
                                     g->levy >= 98) ||
-                                   (g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
+                                   (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
                                     g->levx >= 98))) ||
-        (act == ACTION_MOVE_S && g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
+        (act == ACTION_MOVE_S && g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
          g->levy >= 98) ||
-        (act == ACTION_MOVE_SW && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
+        (act == ACTION_MOVE_SW && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
                                     g->levy >= 98) ||
-                                   (g->u.posx == SEEX * int(MAPSIZE / 2) &&
+                                   (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
                                     g->levx <=  93))) ||
-        (act == ACTION_MOVE_W && g->u.posx == SEEX * int(MAPSIZE / 2) &&
+        (act == ACTION_MOVE_W && g->u.posx() == SEEX * int(MAPSIZE / 2) &&
          g->levx <= 93) ||
-        (act == ACTION_MOVE_NW && ((g->u.posy == SEEY * int(MAPSIZE / 2) &&
+        (act == ACTION_MOVE_NW && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
                                     g->levy <=  93) ||
-                                   (g->u.posx == SEEX * int(MAPSIZE / 2) &&
+                                   (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
                                     g->levx <=  93)))) {
         add_msg(m_info, _("You cannot leave the %s behind!"),
                 defense_location_name(location).c_str());
@@ -216,8 +216,8 @@ void defense_game::init_map()
     g->levx = 100;
     g->levy = 100;
     g->levz = 0;
-    g->u.posx = SEEX;
-    g->u.posy = SEEY;
+    g->u.setx( SEEX );
+    g->u.sety( SEEY );
 
     switch (location) {
     case DEFLOC_NULL:
@@ -290,12 +290,16 @@ void defense_game::init_map()
 
     g->m.load(g->levx, g->levy, g->levz, true, g->cur_om);
 
-    g->update_map(g->u.posx, g->u.posy);
-    monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1);
+    int x = g->u.posx();
+    int y = g->u.posy();
+    g->update_map(x, y);
+    g->u.setx(x);
+    g->u.sety(y);
+    monster generator(GetMType("mon_generator"), g->u.posx() + 1, g->u.posy() + 1);
     // Find a valid spot to spawn the generator
     std::vector<point> valid;
-    for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-        for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
+    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
+        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
             if (generator.can_move_to(x, y) && g->is_empty(x, y)) {
                 valid.push_back( point(x, y) );
             }
@@ -1102,7 +1106,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges(g->u.posx, g->u.posy, tmp);
+                    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), tmp);
                 }
             }
         }
@@ -1417,8 +1421,8 @@ void defense_game::spawn_wave_monster(mtype *type)
         }
     }
     monster tmp( type, pnt.x, pnt.y );
-    tmp.wandx = g->u.posx;
-    tmp.wandy = g->u.posy;
+    tmp.wandx = g->u.posx();
+    tmp.wandy = g->u.posy();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

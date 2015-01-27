@@ -16,21 +16,27 @@
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
-std::vector<craft_cat> craft_cat_list;
-std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
-recipe_map recipes;
-std::map<itype_id, recipe_list> recipes_by_component;
+enum TAB_MODE {
+    NORMAL,
+    FILTERED,
+    BATCH
+};
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode = NORMAL);
-static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
+std::vector<std::string> craft_cat_list;
+std::map<std::string, std::vector<std::string> > craft_subcat_list;
+std::map<std::string, std::vector<recipe *>> recipes;
+std::map<itype_id, std::vector<recipe *>> recipes_by_component;
+
+static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
+static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab,
                                 TAB_MODE mode = NORMAL);
-static craft_cat first_craft_cat();
-static craft_cat next_craft_cat(const craft_cat cat);
-static craft_cat prev_craft_cat(const craft_cat cat);
-static craft_subcat first_craft_subcat(const craft_cat cat);
-static craft_subcat last_craft_subcat(const craft_cat cat);
-static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
-static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static std::string first_craft_cat();
+static std::string next_craft_cat(const std::string cat);
+static std::string prev_craft_cat(const std::string cat);
+static std::string first_craft_subcat(const std::string cat);
+static std::string last_craft_subcat(const std::string cat);
+static std::string next_craft_subcat(const std::string cat, const std::string subcat);
+static std::string prev_craft_subcat(const std::string cat, const std::string subcat);
 
 void remove_from_component_lookup(recipe* r);
 
@@ -46,8 +52,8 @@ recipe::recipe() :
 {
 }
 
-recipe::recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
-               craft_subcat psubcat, std::string &to_use,
+recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
+               std::string psubcat, std::string &to_use,
                std::map<std::string, int> &to_require,
                bool preversible, bool pautolearn, int plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
@@ -96,7 +102,7 @@ void add_to_component_lookup(recipe* r)
 void remove_from_component_lookup(recipe* r)
 {
     for (auto &map_item : recipes_by_component) {
-        recipe_list &rlist = map_item.second;
+        std::vector<recipe *> &rlist = map_item.second;
         rlist.erase(std::remove(rlist.begin(), rlist.end(), r), rlist.end());
     }
 }
@@ -111,7 +117,7 @@ void load_recipe_category(JsonObject &jsobj)
     if( category != "CC_NONCRAFT" ) {
         craft_cat_list.push_back( category );
     }
-    craft_subcat_list[category] = std::vector<craft_subcat>();
+    craft_subcat_list[category] = std::vector<std::string>();
     subcats = jsobj.get_array("recipe_subcategories");
     while (subcats.has_more()) {
         craft_subcat_list[category].push_back( subcats.next_string() );
@@ -133,8 +139,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
     const bool override_existing = jsobj.get_bool("override", false);
     int recipe_count = 0;
     for( auto &recipe : recipes ) {
-        for( recipe_list::iterator list_iter = recipe.second.begin();
-             list_iter != recipe.second.end(); ++list_iter ) {
+        for( auto list_iter = recipe.second.begin(); list_iter != recipe.second.end(); ++list_iter ) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
                     jsobj.throw_error(
@@ -437,7 +442,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for( auto &i : g->m.i_at(posx, posy) ) {
+    for( auto &i : g->m.i_at(posx(), posy()) ) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -460,14 +465,14 @@ bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) c
     return requirements.can_make_with_inventory(crafting_inv, batch);
 }
 
-static craft_cat first_craft_cat()
+static std::string first_craft_cat()
 {
     return craft_cat_list.front();
 }
 
-static craft_cat next_craft_cat(const craft_cat cat)
+static std::string next_craft_cat(const std::string cat)
 {
-    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+    for (std::vector<std::string>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( ++iter == craft_cat_list.end() ) {
@@ -479,9 +484,9 @@ static craft_cat next_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-static craft_cat prev_craft_cat(const craft_cat cat)
+static std::string prev_craft_cat(const std::string cat)
 {
-    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+    for (std::vector<std::string>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( iter == craft_cat_list.begin() ) {
@@ -493,19 +498,19 @@ static craft_cat prev_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-static craft_subcat first_craft_subcat(const craft_cat cat)
+static std::string first_craft_subcat(const std::string cat)
 {
     return craft_subcat_list[cat].front();
 }
 
-static craft_subcat last_craft_subcat(const craft_cat cat)
+static std::string last_craft_subcat(const std::string cat)
 {
     return craft_subcat_list[cat].back();
 }
 
-static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static std::string next_craft_subcat(const std::string cat, const std::string subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+    for (std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( ++iter == craft_subcat_list[cat].end() ) {
@@ -517,9 +522,9 @@ static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat su
     return NULL;
 }
 
-static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static std::string prev_craft_subcat(const std::string cat, const std::string subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+    for (std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( iter == craft_subcat_list[cat].begin() ) {
@@ -554,8 +559,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
     std::string item_info_text;
-    craft_cat tab = first_craft_cat();
-    craft_subcat subtab = first_craft_subcat( tab );
+    std::string tab = first_craft_cat();
+    std::string subtab = first_craft_subcat( tab );
     std::vector<const recipe *> current;
     std::vector<bool> available;
     item tmp;
@@ -848,7 +853,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
+static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -910,7 +915,7 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
     wrefresh(w);
 }
 
-static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, TAB_MODE mode)
+static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1167,8 +1172,8 @@ int recipe::batch_time(int batch) const
 
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
-                  std::vector<bool> &available, craft_cat tab,
-                  craft_subcat subtab, std::string filter)
+                  std::vector<bool> &available, std::string tab,
+                  std::string subtab, std::string filter)
 {
     bool search_name = true;
     bool search_tool = false;
@@ -1194,7 +1199,7 @@ void pick_recipes(const inventory &crafting_inv,
         }
         filter = filter.substr(pos + 1);
     }
-    recipe_list available_recipes;
+    std::vector<recipe *> available_recipes;
 
     if (filter == "") {
         available_recipes = recipes[tab];
@@ -1579,11 +1584,11 @@ void set_item_inventory(item &newit)
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
         } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("The %s is too heavy to carry, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
         } else {
             newit = g->u.i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
@@ -1606,7 +1611,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     } use_from;
     item_comp selected_comp("", 0);
     inventory map_inv;
-    map_inv.form_from_map(point(posx, posy), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -1692,7 +1697,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         }
     }
 
-    const point loc(posx, posy);
+    const point &loc = pos();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
@@ -1736,7 +1741,7 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
 {
     bool found_nocharge = false;
     inventory map_inv;
-    map_inv.form_from_map(point(posx, posy), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
@@ -1927,7 +1932,7 @@ void player::disassemble(int dis_pos)
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item->volume() * 2) * 10;
-            g->m.spawn_item(posx, posy, "paper", 0, num_pages);
+            g->m.spawn_item(posx(), posy(), "paper", 0, num_pages);
             i_rem(dis_pos);
         }
         return;
@@ -1963,7 +1968,7 @@ void player::complete_disassemble()
         return;
     }
     item *org_item;
-    auto items_on_ground = g->m.i_at(posx, posy);
+    auto items_on_ground = g->m.i_at(posx(), posy());
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
@@ -1984,7 +1989,7 @@ void player::complete_disassemble()
     float component_success_chance = std::min(std::pow(0.8f, dis_item.damage), 1.0);
 
     int veh_part = -1;
-    vehicle *veh = g->m.veh_at(posx, posy, veh_part);
+    vehicle *veh = g->m.veh_at(posx(), posy(), veh_part);
     if(veh != 0) {
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
@@ -2000,7 +2005,7 @@ void player::complete_disassemble()
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
-            g->m.i_rem( posx, posy, item_pos );
+            g->m.i_rem( posx(), posy(), item_pos );
         } else {
             i_rem(item_pos);
         }
@@ -2078,7 +2083,7 @@ void player::complete_disassemble()
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
-                g->m.add_item_or_charges(posx, posy, act_item);
+                g->m.add_item_or_charges(posx(), posy(), act_item);
             }
         }
     }

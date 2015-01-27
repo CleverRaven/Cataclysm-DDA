@@ -1179,7 +1179,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if (!valid.empty()) {
                                     point newp = valid[rng(0, valid.size() - 1)];
                                     add_item_or_charges(newp.x, newp.y, tmp);
-                                    if (g->u.posx == newp.x && g->u.posy == newp.y) {
+                                    if (g->u.posx() == newp.x && g->u.posy() == newp.y) {
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
@@ -1300,11 +1300,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Bees chase the player if in range, wander randomly otherwise.
                             int junk;
                             if( !g->u.is_underwater() &&
-                                rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 &&
-                                clear_path( x, y, g->u.xpos(), g->u.ypos(), 10, 0, 100, junk ) ) {
+                                rl_dist( x, y, g->u.posx(), g->u.posy() ) < 10 &&
+                                clear_path( x, y, g->u.posx(), g->u.posy(), 10, 0, 100, junk ) ) {
 
                                 std::vector<point> candidate_positions =
-                                    squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
+                                    squares_in_direction( x, y, g->u.posx(), g->u.posy() );
                                 for( auto &candidate_position : candidate_positions ) {
                                     field &target_field =
                                         get_field( candidate_position.x, candidate_position.y );
@@ -1404,7 +1404,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( player &u )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( u.xpos(), u.ypos() );
+    field &curfield = get_field( u.posx(), u.posy() );
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
@@ -1414,7 +1414,7 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        veh = veh_at( u.xpos(), u.ypos(), veh_part );
+        veh = veh_at( u.posx(), u.posy(), veh_part );
         inside = (veh && veh->is_inside(veh_part));
     }
 
@@ -1802,7 +1802,7 @@ void map::monster_in_field( monster &z )
     if (z.digging()) {
         return; // Digging monsters are immune to fields
     }
-    field &curfield = get_field( z.xpos(), z.ypos() );
+    field &curfield = get_field( z.posx(), z.posy() );
 
     int dam = 0;
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
@@ -2185,7 +2185,7 @@ bool field::addField(const field_id field_to_add, const int new_density, const i
     }
     field_list[field_to_add] = field_entry(field_to_add, new_density, new_age);
     return true;
-};
+}
 
 /*
 Function: removeField

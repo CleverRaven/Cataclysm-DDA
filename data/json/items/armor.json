@@ -8650,7 +8650,7 @@
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -9188,7 +9188,7 @@
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4,
+        "material_thickness" : 5,
         "use_action" : "BOOTS"
     },
     {
@@ -9269,7 +9269,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -9346,7 +9346,7 @@
         "bashing" : 10,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY", "OUTER"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10613,7 +10613,7 @@
         "type" : "ARMOR",
         "id" : "kilt",
         "name" : "kilt",
-        "weight" : 74,
+        "weight" : 1814,
         "color" : "dark_gray",
         "covers" : ["LEGS"],
         "to_hit" : 0,
@@ -10621,17 +10621,17 @@
         "symbol" : "[",
         "description" : "No true Scotsman would leave home without his kilt.",
         "price" : 6500,
-        "material" : ["cotton", "null"],
-        "volume" : 1,
+        "material" : ["wool", "null"],
+        "volume" : 6,
         "cutting" : 0,
-        "warmth" : 5,
+        "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 50,
-        "material_thickness" : 1
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -11574,6 +11574,7 @@
         "type" : "ARMOR",
         "id" : "gloves_bag",
         "name" : "bag gloves",
+        "name_plural" : "pairs of bag gloves",
         "weight" : 6,
         "color" : "light_blue",
         "covers" : ["HANDS"],
@@ -11598,6 +11599,7 @@
         "type" : "ARMOR",
         "id" : "socks_bag",
         "name" : "bag socks",
+        "name_plural" : "pairs of bag socks",
         "weight" : 6,
         "color" : "light_blue",
         "covers" : ["FEET"],
@@ -11622,6 +11624,7 @@
         "type" : "ARMOR",
         "id" : "armguard_paper",
         "name" : "paper arm guards",
+        "name_plural" : "pairs of paper arm guards",
         "weight" : 360,
         "color" : "blue",
         "covers" : ["ARMS"],
@@ -11645,6 +11648,7 @@
         "type" : "ARMOR",
         "id" : "legguard_paper",
         "name" : "paper leg guards",
+        "name_plural" : "pairs of paper leg guards",
         "weight" : 370,
         "color" : "blue",
         "covers" : ["LEGS"],
@@ -12051,6 +12055,7 @@
         "type" : "ARMOR",
         "id" : "motorbike_pants",
         "name" : "motorcycle pants",
+        "name_plural" : "pairs of motorcycle pants",
         "weight" : 1340,
         "color" : "dark_gray",
         "covers" : ["LEGS"],
@@ -12075,6 +12080,7 @@
         "type" : "ARMOR",
         "id" : "motorbike_boots",
         "name" : "motorcycle boots",
+        "name_plural" : "pairs of motorcycle boots",
         "weight" : 2125,
         "color" : "dark_gray",
         "covers" : ["FEET"],

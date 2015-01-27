@@ -353,8 +353,8 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
     bool offered_swap = false;
     // Convert from player-relative to map-relative.
-    pickup_target.x += g->u.xpos();
-    pickup_target.y += g->u.ypos();
+    pickup_target.x += g->u.posx();
+    pickup_target.y += g->u.posy();
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     PickupMap mapPickup;
@@ -470,7 +470,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
 
         // Recursively pick up adjacent items if that option is on.
-        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx == posx && g->u.posy == posy ) {
+        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx() == posx && g->u.posy() == posy ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for( auto &elem : adjacentDir ) {
@@ -493,7 +493,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // Not many items, just grab them
     if ((int)here.size() <= min && min != -1) {
         g->u.assign_activity( ACT_PICKUP, 0 );
-        g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
+        g->u.activity.placement = point( posx - g->u.posx(), posy - g->u.posy() );
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
@@ -780,7 +780,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
             ch = (int)getch();
 
-        } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+        } while (ch != ' ' && ch != '\n' && ch != KEY_ENTER && ch != KEY_ESCAPE);
 
         bool item_selected = false;
         // Check if we have selected an item.
@@ -789,7 +789,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 item_selected = true;
             }
         }
-        if( ch != '\n' || !item_selected ) {
+        if( (ch != '\n' && ch != KEY_ENTER) || !item_selected ) {
             w_pickupptr.reset();
             w_item_infoptr.reset();
             add_msg(_("Never mind."));
@@ -801,7 +801,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( ACT_PICKUP, 0 );
-    g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
+    g->u.activity.placement = point( posx - g->u.posx(), posy - g->u.posy() );
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

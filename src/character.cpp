@@ -4,11 +4,11 @@
 Character::Character()
 {
     Creature::set_speed_base(100);
-};
+}
 
 Character::~Character()
 {
-};
+}
 
 field_id Character::bloodType() const
 {
@@ -59,8 +59,8 @@ bool Character::move_effects()
                                     _("<npcname> frees themselves from the light snare!"));
             item string("string_36", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(xpos(), ypos(), string);
-            g->m.add_item_or_charges(xpos(), ypos(), snare);
+            g->m.add_item_or_charges(posx(), posy(), string);
+            g->m.add_item_or_charges(posx(), posy(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the light snare, but can't get loose!"));
         }
@@ -73,8 +73,8 @@ bool Character::move_effects()
                                     _("<npcname> frees themselves from the heavy snare!"));
             item rope("rope_6", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(xpos(), ypos(), rope);
-            g->m.add_item_or_charges(xpos(), ypos(), snare);
+            g->m.add_item_or_charges(posx(), posy(), rope);
+            g->m.add_item_or_charges(posx(), posy(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the heavy snare, but can't get loose!"));
         }
@@ -83,7 +83,7 @@ bool Character::move_effects()
     if (has_effect("beartrap")) {
         /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
            allow normal players two options: removal of the limb or removal of the trap from the ground
-           (at which point the player could later remove it from the leg with the right tools). 
+           (at which point the player could later remove it from the leg with the right tools).
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
         if(x_in_y(get_str(), 100)) {
@@ -91,7 +91,7 @@ bool Character::move_effects()
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
             item beartrap("beartrap", calendar::turn);
-            g->m.add_item_or_charges(xpos(), ypos(), beartrap);
+            g->m.add_item_or_charges(posx(), posy(), beartrap);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the bear trap, but can't get loose!"));
         }
@@ -113,11 +113,11 @@ bool Character::move_effects()
         for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
             for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
                 if (g->m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, xpos(), ypos());
+                    int dist = rl_dist(cx, cy, posx(), posy());
                     if (dist < curdist) {
                         curdist = dist;
                     }
-                    dist = rl_dist(cx, cy, xpos(), ypos());
+                    dist = rl_dist(cx, cy, posx(), posy());
                     if (dist < newdist) {
                         newdist = dist;
                     }
@@ -130,7 +130,7 @@ bool Character::move_effects()
         }
     }
     // Below this point are things that allow for movement if they succeed
-    
+
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {

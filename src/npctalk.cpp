@@ -2119,7 +2119,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                               p->personality.altruism * 2;
                 int missions_value = p->assigned_missions_value();
-                if (g->u.has_amount(_("mininuke"), 1)) {
+                if (g->u.has_amount("mininuke", 1)) {
                     RESPONSE(_("Because I'm holding a thermal detonator!"));
                         SUCCESS(TALK_GIVE_EQUIPMENT);
                             SUCCESS_ACTION(&talk_function::give_equipment);
@@ -2418,7 +2418,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->is_following() && g->m.camp_at(g->u.posx, g->u.posy)) {
+            if (p->is_following() && g->m.camp_at(g->u.posx(), g->u.posy())) {
                 RESPONSE(_("Wait at this base."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::assign_base);
@@ -2969,7 +2969,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
 void talk_function::assign_base(npc *p)
 {
     // TODO: decide what to do upon assign? maybe pathing required
-    basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
+    basecamp* camp = g->m.camp_at(g->u.posx(), g->u.posy());
     if(!camp) {
         dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
         return;
@@ -3127,7 +3127,7 @@ void talk_function::player_leaving(npc *p)
 
 void talk_function::drop_weapon(npc *p)
 {
- g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
+ g->m.add_item_or_charges(p->posx(), p->posy(), p->remove_weapon());
 }
 
 void talk_function::player_weapon_away(npc *p)
@@ -3139,7 +3139,7 @@ void talk_function::player_weapon_away(npc *p)
 void talk_function::player_weapon_drop(npc *p)
 {
     (void)p; // unused
-    g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.remove_weapon());
+    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), g->u.remove_weapon());
 }
 
 void talk_function::lead_to_safety(npc *p)

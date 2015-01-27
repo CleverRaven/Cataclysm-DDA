@@ -185,7 +185,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         }
     }
     return textformatted.size();
-};
+}
 
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
 {
@@ -1287,17 +1287,17 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
 {
     int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
 
     mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     if (bSelected) {
-        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
-        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+        mvwputch(w, 0, iOffsetX - bDecorate,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + bDecorate, h_ltgray, '>');
 
-        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+        for (int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++) {
             mvwputch(w, 1, i, c_black, ' ');
         }
     }

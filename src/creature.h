@@ -10,6 +10,8 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "cursesdef.h" // WINDOW
+
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
@@ -198,11 +200,9 @@ class Creature
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
-        // xpos and ypos, because posx/posy are used as public variables in
-        // player.cpp and therefore referenced everywhere
-        virtual int xpos() const = 0;
-        virtual int ypos() const = 0;
-        virtual point pos() const = 0;
+        virtual int posx() const = 0;
+        virtual int posy() const = 0;
+        virtual const point &pos() const = 0;
 
         struct compare_by_dist_to_point {
             point center;
@@ -309,6 +309,7 @@ class Creature
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
+        virtual int hp_percentage() const = 0;
         virtual std::string get_material() const
         {
             return "flesh";

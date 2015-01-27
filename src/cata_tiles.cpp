@@ -1,5 +1,4 @@
 #if (defined SDLTILES)
-#include <algorithm>
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
@@ -7,6 +6,9 @@
 #include "monstergenerator.h"
 #include "item.h"
 #include "veh_type.h"
+#include "filesystem.h"
+
+#include <algorithm>
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
@@ -104,8 +106,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
+    // search for the files (tileset.txt)
+    auto files = get_files_from_path(filename, dir_path, true);
 
     for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
         std::ifstream fin;
@@ -592,8 +594,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
-             g->u.posy + g->u.view_offset_y != g->ter_view_y) {
+    else if (g->u.posx() + g->u.view_offset_x != g->ter_view_x ||
+             g->u.posy() + g->u.view_offset_y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
@@ -1454,7 +1456,7 @@ void cata_tiles::init_light()
 LIGHTING cata_tiles::light_at(int x, int y)
 {
     /** Logic */
-    const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
+    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = DAYLIGHT_LEVEL;

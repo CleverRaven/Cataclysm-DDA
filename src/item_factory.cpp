@@ -28,11 +28,11 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
-std::unique_ptr<Item_factory> item_controller( new Item_factory() );
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
+
+std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
 {
@@ -596,6 +596,7 @@ void Item_factory::load_ammo(JsonObject &jo)
     load_slot( new_item_template->ammo, jo );
     new_item_template->stack_size = jo.get_int( "stack_size", new_item_template->ammo->def_charges );
     load_basic_info( jo, new_item_template );
+    load_slot( new_item_template->spawn, jo );
 }
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
@@ -759,10 +760,10 @@ void Item_factory::load_comestible(JsonObject &jo)
         comest_template->healthy = jo.get_int("healthy", 0);
     }
     comest_template->fun = jo.get_int("fun", 0);
-    
+
     //Default to 91 as an approximation of a real world season length.
     comest_template->grow = jo.get_int("grow", 91);
-    
+
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
     itype *new_item_template = comest_template;
@@ -1451,7 +1452,7 @@ phase_id Item_factory::phase_from_tag(Item_tag name)
     } else {
         return PNULL;
     }
-};
+}
 
 void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int max)
 {

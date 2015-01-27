@@ -9,6 +9,7 @@
 class map;
 class game;
 class item;
+struct monfaction;
 
 typedef std::map< int, std::set< int > > mfactions;
 
@@ -57,6 +58,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return type->mat;
         };
+        int hp_percentage() const;
 
         // Access
         std::string name(unsigned int quantity = 1) const; // Returns the monster's formal name
@@ -190,7 +192,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
-        int monfaction() const; // -1 if friendly, then first species id or 0 if none
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
@@ -275,7 +276,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        int faction_id; // If we belong to a faction
+        const monfaction *faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
@@ -287,26 +288,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool setpos(const int x, const int y, const bool level_change = false);
         bool setpos(const point &p, const bool level_change = false);
-        point pos() const;
-        // posx and posy are kept to retain backwards compatibility
+        const point &pos() const;
         inline int posx() const
         {
-            return _posx;
+            return position.x;
         }
         inline int posy() const
         {
-            return _posy;
-        }
-        // the creature base class uses xpos/ypos to prevent conflict with
-        // player.xpos and player.ypos which are public ints that are literally used
-        // in every single file.
-        int xpos() const
-        {
-            return _posx;
-        }
-        int ypos() const
-        {
-            return _posy;
+            return position.y;
         }
 
         short ignoring;
@@ -327,7 +316,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     private:
         std::vector<int> sp_timeout;
         std::vector <point> plans;
-        int _posx, _posy;
+        point position;
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

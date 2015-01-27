@@ -7,7 +7,6 @@
 #include "options.h"
 #include "auto_pickup.h"
 #include "debug.h"
-#include "helper.h"
 #include "editmap.h"
 #include "map.h"
 #include "output.h"
@@ -16,6 +15,7 @@
 #include "trap.h"
 #include "mapdata.h"
 #include "overmapbuffer.h"
+#include "compatibility.h"
 
 #include <fstream>
 #include <sstream>
@@ -25,6 +25,7 @@
 #include <string>
 #include <math.h>
 #include <vector>
+#include <cstdlib>
 #include "debug.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -67,7 +68,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
     }
     lines.push_back( str.substr( linestart ) );
     return lines;
-};
+}
 
 
 template<class SAVEOBJ>
@@ -209,8 +210,8 @@ bool editmap::eget_direction(int &x, int &y, const std::string &action) const
     x = 0;
     y = 0;
     if ( action == "CENTER" ) {
-        x = ( g->u.posx - ( target.x ) );
-        y = ( g->u.posy - ( target.y ) );
+        x = ( g->u.posx() - ( target.x ) );
+        y = ( g->u.posy() - ( target.y ) );
     } else if ( action == "LEFT_WIDE" ) {
         x = 0 - (tmaxx / 2);
     } else if ( action == "DOWN_WIDE" ) {
@@ -260,8 +261,8 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
 
 point editmap::edit()
 {
-    target.x = g->u.posx + g->u.view_offset_x;
-    target.y = g->u.posy + g->u.view_offset_y;
+    target.x = g->u.posx() + g->u.view_offset_x;
+    target.y = g->u.posy() + g->u.view_offset_y;
     input_context ctxt("EDITMAP");
     ctxt.register_directions();
     ctxt.register_action("LEFT_WIDE");
@@ -1241,8 +1242,8 @@ int editmap::edit_itm()
                             intval = (int)it->light.width;
                             break;
                     }
-                    int retval = helper::to_int (
-                                     string_input_popup( "set: ", 20, helper::to_string_int(  intval ) )
+                    int retval = std::atoi (
+                                     string_input_popup( "set: ", 20, to_string(  intval ) ).c_str()
                                  );
                     if ( intval != retval ) {
                         if (imenu.ret == imenu_bday ) {

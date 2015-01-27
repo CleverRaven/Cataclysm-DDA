@@ -14,7 +14,7 @@ bool game::make_drop_activity( enum activity_type act, point target )
         return false;
     }
     u.assign_activity( act, 0 );
-    u.activity.placement = point( target.x - u.xpos(), target.y - u.ypos() );
+    u.activity.placement = point( target.x - u.posx(), target.y - u.posy() );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -130,7 +130,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
     } else {
-        g->m.add_item_or_charges( pet->xpos(), pet->ypos(), *item_to_stash, 1);
+        g->m.add_item_or_charges( pet->posx(), pet->posy(), *item_to_stash, 1);
         if( too_big ) {
             g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
                                    item_to_stash->display_name().c_str());
@@ -171,8 +171,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
-    drop_target.x += g->u.xpos();
-    drop_target.y += g->u.ypos();
+    drop_target.x += g->u.posx();
+    drop_target.y += g->u.posy();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -268,7 +268,7 @@ void game::activity_on_turn_pickup()
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
+        g->m.i_at(pickup_target.x + u.posx(), pickup_target.y + u.posy()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -301,10 +301,10 @@ void game::activity_on_turn_pickup()
 static void move_items( point source, point destination,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    source.x += g->u.xpos();
-    source.y += g->u.ypos();
-    destination.x += g->u.xpos();
-    destination.y += g->u.ypos();
+    source.x += g->u.posx();
+    source.y += g->u.posy();
+    destination.x += g->u.posx();
+    destination.y += g->u.posy();
     int veh_root_part = -1;
     vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
     int cargo_part = -1;
@@ -330,7 +330,7 @@ static void move_items( point source, point destination,
         if( temp_item == nullptr ) {
             continue; // No such item.
         }
-        item leftovers = temp_item->clone();
+        item leftovers = *temp_item;
 
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.

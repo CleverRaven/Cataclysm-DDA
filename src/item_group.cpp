@@ -1,6 +1,5 @@
 #include "item_factory.h"
 #include "item_group.h"
-#include "monstergenerator.h"
 #include "rng.h"
 #include "item.h"
 #include "debug.h"
@@ -39,7 +38,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse("corpse", GetMType("mon_null"), birthday);
+            tmp.make_corpse( "mon_null", birthday );
         } else {
             tmp = item(id, birthday);
         }

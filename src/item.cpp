@@ -10,22 +10,45 @@
 #include "item_group.h"
 #include "options.h"
 #include "uistate.h"
-#include "helper.h" //to_string_int
 #include "messages.h"
 #include "disease.h"
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "compatibility.h"
 
 #include <cmath> // floor
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
 #include <set>
+#include <array>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
+
+std::string const& rad_badge_color(int const rad)
+{
+    using pair_t = std::pair<int const, std::string const>;
+    
+    static std::array<pair_t, 6> const values = {{
+        pair_t {  0, _("green") },
+        pair_t { 30, _("blue")  },
+        pair_t { 60, _("yellow")},
+        pair_t {120, _("orange")},
+        pair_t {240, _("red")   },
+        pair_t {500, _("black") },
+    }};
+
+    for (auto const &i : values) {
+        if (rad <= i.first) {
+            return i.second;
+        }
+    }
+
+    return values.back().second;
+}
 
 light_emission nolight = {0, 0, 0};
 
@@ -103,20 +126,35 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
+void item::make_corpse( mtype *mt, unsigned int turn )
 {
-    bool isReviveSpecial = one_in(20);
+    if( mt == nullptr ) {
+        debugmsg( "tried to make a corpse with a null mtype pointer" );
+    }
+    const bool isReviveSpecial = one_in( 20 );
     init();
-    active = mt->has_flag(MF_REVIVES)? true : false;
-    if (active && isReviveSpecial) item_tags.insert("REVIVE_SPECIAL");
-    type = find_type( new_type );
+    make( "corpse" );
+    active = mt->has_flag( MF_REVIVES );
+    if( active && isReviveSpecial ) {
+        item_tags.insert( "REVIVE_SPECIAL" );
+    }
     corpse = mt;
     bday = turn;
 }
 
-void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name)
+void item::make_corpse( const std::string &mtype_id, unsigned int turn )
 {
-    make_corpse(new_type, mt, turn);
+    make_corpse( MonsterGenerator::generator().get_mtype( mtype_id ), turn );
+}
+
+void item::make_corpse()
+{
+    make_corpse( "mon_null", calendar::turn );
+}
+
+void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
+{
+    make_corpse( mt, turn );
     this->name = name;
 }
 
@@ -299,6 +337,9 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( damage != rhs.damage ) {
+        return false;
+    }
+    if( burnt != rhs.burnt ) {
         return false;
     }
     if( active != rhs.active ) {
@@ -958,8 +999,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                      book->time, true, "", true, true));
             if( book->chapters > 0 ) {
                 const int unread = get_remaining_chapters( g->u );
-                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapters.",
-                                                                 "This book has <num> unread chapter.",
+                dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapter.",
+                                                                 "This book has <num> unread chapters.",
                                                                  unread ),
                                            unread ) );
             }
@@ -1015,7 +1056,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         if ((tool->max_charges)!=0) {
             std::string charges_line = _("Charges"); //;
-            dump->push_back(iteminfo("TOOL",charges_line+ ": " + helper::to_string_int(charges)));
+            dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
@@ -1246,15 +1287,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 _("This piece of clothing is very fancy.")));
         }
         if (is_armor() && type->id == "rad_badge") {
-            size_t i;
-            for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
-                if( irridation < rad_dosage_thresholds[i] ) {
-                    break;
-                }
-            }
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              _(rad_threshold_colors[i - 1].c_str()))));
+                              rad_badge_color(irridation).c_str())));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1382,12 +1417,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        recipe_list &rec = recipes_by_component[tid];
+        std::vector<recipe *> &rec = recipes_by_component[tid];
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
-            recipe_list known_recipes;
+            std::vector<recipe *> known_recipes;
             for (recipe *r : rec) {
                 if (g->u.knows_recipe(r)) {
                     known_recipes.push_back(r);
@@ -1779,7 +1814,7 @@ nc_color item::color() const
 {
     if( is_null() )
         return c_black;
-    if ( corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         return corpse->color;
     }
     return type->color;
@@ -1834,7 +1869,7 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
@@ -1914,7 +1949,7 @@ int item::precise_unit_volume() const
 int item::volume(bool unit_value, bool precise_value ) const
 {
     int ret = 0;
-    if (corpse != NULL && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         switch (corpse->size) {
             case MS_TINY:
                 ret = 3;
@@ -2684,14 +2719,22 @@ bool item::is_food_container() const
 
 bool item::is_corpse() const
 {
-    if( is_null() ) {
-        return false;
-    }
+    return typeId() == "corpse" && corpse != nullptr;
+}
 
-    if (type->id == "corpse") {
-        return true;
+mtype *item::get_mtype() const
+{
+    return corpse;
+}
+
+void item::set_mtype( mtype * const m )
+{
+    // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
+    if( m == nullptr ) {
+        debugmsg( "setting item::corpse of %s to NULL", tname().c_str() );
+        return;
     }
-    return false;
+    corpse = m;
 }
 
 bool item::is_ammo_container() const
@@ -3490,7 +3533,7 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
             casing.charges = 1;
             // Drop all the casings on the ground under the player.
             for( int i = 0; i < num_casings; ++i ) {
-                g->m.add_item_or_charges(p.posx, p.posy, casing);
+                g->m.add_item_or_charges(p.posx(), p.posy(), casing);
             }
             reload_target->erase_var( "CASINGS" );
         }
@@ -3691,10 +3734,6 @@ itype_id item::typeId() const
         return "null";
     }
     return type->id;
-}
-
-item item::clone(bool rand) {
-    return item(type->id, bday, rand);
 }
 
 bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
@@ -4136,7 +4175,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                     worn->contents[0].charges += charges;
                 } else { // quiver empty, putting in new arrows
                     //add a clone so we can zero out charges on base item
-                    item clone = this->clone();
+                    item clone = *this;
                     clone.charges = charges;
                     worn->put_in(clone);
                 }
@@ -4165,7 +4204,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         // handle overflow after filling all quivers
         if(isAutoPickup && charges > 0 && u->can_pickVolume(volume())) {
             //add any extra ammo to inventory
-            item clone = this->clone();
+            item clone = *this;
             clone.charges = charges;
             u->i_add(clone);
 

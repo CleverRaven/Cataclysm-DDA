@@ -220,6 +220,7 @@
 		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
+		<Unit filename="src/compatibility.h" />
 		<Unit filename="src/computer.cpp" />
 		<Unit filename="src/computer.h" />
 		<Unit filename="src/construction.cpp" />
@@ -254,10 +255,8 @@
 		<Unit filename="src/faction.h" />
 		<Unit filename="src/field.cpp" />
 		<Unit filename="src/field.h" />
-		<Unit filename="src/file_finder.cpp" />
-		<Unit filename="src/file_finder.h" />
-		<Unit filename="src/file_wrapper.cpp" />
-		<Unit filename="src/file_wrapper.h" />
+		<Unit filename="src/filesystem.cpp" />
+		<Unit filename="src/filesystem.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/game_constants.h" />
@@ -266,8 +265,6 @@
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />
-		<Unit filename="src/helper.cpp" />
-		<Unit filename="src/helper.h" />
 		<Unit filename="src/iexamine.cpp" />
 		<Unit filename="src/iexamine.h" />
 		<Unit filename="src/init.cpp" />
@@ -383,6 +380,7 @@
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
+		<Unit filename="src/platform_win.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />

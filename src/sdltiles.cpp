@@ -16,26 +16,24 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 
+//TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <shlwapi.h>
-#ifndef strcasecmp
-#define strcasecmp StrCmpI
-#endif
+#   include "platform_win.h"
+#   include <shlwapi.h>
+#   ifndef strcasecmp
+#       define strcasecmp StrCmpI
+#   endif
 #else
-#include <wordexp.h>
+#   include <wordexp.h>
 #endif
 
 #include "SDL2/SDL.h"
@@ -237,7 +235,7 @@ bool InitSDL()
     atexit(SDL_Quit);
 
     return true;
-};
+}
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
@@ -360,7 +358,7 @@ bool WinCreate()
 #endif
 
     return true;
-};
+}
 
 void WinDestroy()
 {
@@ -385,7 +383,7 @@ void WinDestroy()
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
-};
+}
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
     if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
@@ -406,7 +404,7 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
     rect.w = thickness;
     rect.h = y2-y;
     FillRectDIB(rect, color);
-};
+}
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
     SDL_Rect rect;
@@ -415,7 +413,7 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
     rect.w = x2-x;
     rect.h = thickness;
     FillRectDIB(rect, color);
-};
+}
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
     SDL_Rect rect;
@@ -424,7 +422,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     rect.w = width;
     rect.h = height;
     FillRectDIB(rect, color);
-};
+}
 
 
 SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)

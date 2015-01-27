@@ -2,7 +2,6 @@
 #include "output.h"
 #include "options.h"
 #include "path_info.h"
-#include "file_wrapper.h"
 #include "debug.h"
 #include "game.h"
 #include "options.h"
@@ -413,7 +412,7 @@ bool can_butcher_at(int x, int y)
     bool has_corpse, has_item = false;
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
-        if( items_it.type->id == "corpse" && items_it.corpse != NULL ) {
+        if( items_it.is_corpse() ) {
             if (factor != INT_MIN) {
                 has_corpse = true;
             }
@@ -479,10 +478,10 @@ bool can_interact_at(action_id action, int x, int y)
 {
     switch(action) {
     case ACTION_OPEN:
-        return g->m.open_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+        return g->m.open_door(x, y, !g->m.is_outside(g->u.posx(), g->u.posy()), true);
         break;
     case ACTION_CLOSE:
-        return g->m.close_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+        return g->m.close_door(x, y, !g->m.is_outside(g->u.posx(), g->u.posy()), true);
         break;
     case ACTION_BUTCHER:
         return can_butcher_at(x, y);
@@ -523,7 +522,7 @@ action_id handle_action_menu()
         int veh_part = 0;
         vehicle *veh = NULL;
 
-        veh = g->m.veh_at(g->u.posx, g->u.posy, veh_part);
+        veh = g->m.veh_at(g->u.posx(), g->u.posy(), veh_part);
         if (veh) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;
@@ -534,8 +533,8 @@ action_id handle_action_menu()
     // display that action at the top of the list.
     for(int dx = -1; dx <= 1; dx++) {
         for(int dy = -1; dy <= 1; dy++) {
-            int x = g->u.xpos() + dx;
-            int y = g->u.ypos() + dy;
+            int x = g->u.posx() + dx;
+            int y = g->u.posy() + dy;
             if(dx != 0 || dy != 0) {
                 // Check for actions that work on nearby tiles
                 if(can_interact_at(ACTION_OPEN, x, y)) {
@@ -772,8 +771,8 @@ bool choose_adjacent(std::string message, int &x, int &y)
     if (!choose_direction(message, x, y)) {
         return false;
     }
-    x += g->u.posx;
-    y += g->u.posy;
+    x += g->u.posx();
+    y += g->u.posy();
     return true;
 }
 
@@ -784,13 +783,13 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
     bool highlighted = false;
     for (int dx = -1; dx <= 1; dx++) {
         for (int dy = -1; dy <= 1; dy++) {
-            int x = g->u.xpos() + dx;
-            int y = g->u.ypos() + dy;
+            int x = g->u.posx() + dx;
+            int y = g->u.posy() + dy;
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x,
-                            g->u.ypos() + g->u.view_offset_y);
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.posx() + g->u.view_offset_x,
+                            g->u.posy() + g->u.view_offset_y);
             }
         }
     }

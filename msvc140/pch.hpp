@@ -80,15 +80,7 @@
 #include <ratio>
 //#include <thread>
 
-#if !defined(WIN32_LEAN_AND_MEAN)
-#   define WIN32_LEAN_AND_MEAN
-#endif
-
-#if !defined(NOMINMAX)
-#   define NOMINMAX
-#endif
-
-#include <Windows.h>
+#include "../src/platform_win.h"
 
 #if defined(TILES)
 #   include <SDL2/SDL.h>

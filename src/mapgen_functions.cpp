@@ -5,7 +5,6 @@
 #include "line.h"
 #include "mapgenformat.h"
 #include "overmap.h"
-#include "monstergenerator.h"
 #include "options.h"
 #include "game.h"
 #include <array>
@@ -351,7 +350,7 @@ bool mapgendata::is_groundcover(const int iid ) const {
 
 ter_id mapgendata::groundcover() {
     return (ter_id)this->default_groundcover.get();
-};
+}
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
@@ -6018,7 +6017,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i > 0; i--) {
-                    body.make_corpse("corpse", GetMType("mon_bat"), calendar::turn);
+                    body.make_corpse( "mon_bat", calendar::turn );
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -6036,7 +6035,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 for (auto &ii : bloodline) {
                     m->add_field(ii.x, ii.y, fd_blood, 2);
                 }
-                body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
+                body.make_corpse();
                 m->add_item_or_charges(hermx, hermy, body);
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);

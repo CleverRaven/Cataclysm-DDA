@@ -2087,6 +2087,7 @@
         "type" : "TOOL_ARMOR",
         "id" : "mask_ski_loose",
         "name" : "ski mask (open)",
+        "name_plural": "ski masks (open)",
         "category" : "clothing",
         "weight" : 86,
         "color" : "dark_gray",

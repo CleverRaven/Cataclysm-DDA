@@ -30,11 +30,7 @@ struct timespec
 }
 #   endif
 
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-# define WIN32_LEAN_AND_MEAN
-# include <windows.h>
+#include "platform_win.h"
 
 /* The Win32 function Sleep() has a resolution of about 15 ms and takes
    at least 5 ms to execute.  We use this function for longer time periods.

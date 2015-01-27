@@ -197,7 +197,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
     } else {
         debugmsg("No such mapgen function: %s ", sptr.c_str() );
     }
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
@@ -722,7 +722,7 @@ bool mapgen_function_json::setup() {
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
                         format[ wtf_mean_nonant(c, i) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in either 'terrain' or 'furniture'",c+1,i+1, (char)tmpkey ));
+                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
                         format[ wtf_mean_nonant(c, i) ].furn = format_furniture[ tmpkey ];
@@ -826,7 +826,7 @@ bool mapgen_function_json::setup() {
     jdata.clear(); // ssh, we're not -really- a json function <.<
     is_ready = true; // skip setup attempts from any additional pointers
     return true;
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
@@ -3314,7 +3314,7 @@ C..C..C...|hhh|#########\n\
                     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
                     add_trap(19, 19, tr_dissector);
                     item body;
-                    body.make_corpse("corpse", GetMType("mon_null"), 0);
+                    body.make_corpse();
                     if (one_in(2)) {
                         add_item(1, 1, body);
                     } else {
@@ -3619,7 +3619,7 @@ C..C..C...|hhh|#########\n\
                                     place_items("science", 60,  i,  j, i,  j, false, 0);
                                 }
                                 item body;
-                                body.make_corpse("corpse", GetMType("mon_null"), 0);
+                                body.make_corpse();
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
                                     add_item(i, j, body);
                                 }
@@ -3694,7 +3694,7 @@ A......D.........|dh...|\n\
                                     add_spawn("mon_zombie", 1, i, j);
                                 }
                                 item body;
-                                body.make_corpse("corpse", GetMType("mon_null"), 0);
+                                body.make_corpse();
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
                                     add_item(i, j, body);
                                 }
@@ -3752,7 +3752,7 @@ ff.......|....|WWWWWWWW|\n\
                             }
                         }
                         item body;
-                        body.make_corpse("corpse", GetMType("mon_null"), 0);
+                        body.make_corpse();
                         add_item(17, 15, body);
                         add_item(8, 3, body);
                         add_item(10, 3, body);
@@ -3803,7 +3803,7 @@ ff.......|....|WWWWWWWW|\n\
                                     add_spawn("mon_zombie", 1, i, j);
                                 }
                                 item body;
-                                body.make_corpse("corpse", GetMType("mon_null"), 0);
+                                body.make_corpse();
                                 if (one_in(400) && this->ter(i, j) == t_rock_floor) {
                                     add_item(i, j, body);
                                 }
@@ -4417,7 +4417,7 @@ ff.......|....|WWWWWWWW|\n\
                     add_spawn("mon_zombie_soldier", 1, rnx, rny);
                 } else if (one_in(2)) {
                     item body;
-                    body.make_corpse("corpse", GetMType("mon_null"), 0);
+                    body.make_corpse();
                     add_item(rnx, rny, body);
                     place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
                     place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
@@ -4699,9 +4699,13 @@ ff.......|....|WWWWWWWW|\n\
                                 }
                             }
                         }
-                        int index = rng(0, next.size() - 1);
-                        x = next[index].x;
-                        y = next[index].y;
+                        if(next.empty()) {
+                            break;
+                        } else {
+                            int index = rng(0, next.size() - 1);
+                            x = next[index].x;
+                            y = next[index].y;
+                        }
                     }
                 }
                 // Now go backwards through path (start to finish), toggling any tiles that need
@@ -5180,7 +5184,7 @@ ff.......|....|WWWWWWWW|\n\
                     } while (body.x == -1 && tries < 10);
                     if (tries < 10) {
                         item miner;
-                        miner.make_corpse("corpse", GetMType("mon_null"), 0);
+                        miner.make_corpse();
                         add_item(body.x, body.y, miner);
                         place_items("mine_equipment", 60, body.x, body.y, body.x, body.y,
                                     false, 0);
@@ -5243,7 +5247,7 @@ ff.......|....|WWWWWWWW|\n\
                 line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
                 ter_set(orx + 3, ory + 3, t_rock);
                 item miner;
-                miner.make_corpse("corpse", GetMType("mon_null"), 0);
+                miner.make_corpse();
                 add_item(orx + 2, ory + 3, miner);
                 place_items("mine_equipment", 60, orx + 2, ory + 3, orx + 2, ory + 3,
                             false, 0);
@@ -5433,7 +5437,7 @@ ff.......|....|WWWWWWWW|\n\
 
         case 2: { // The Thing dog
             item miner;
-            miner.make_corpse("corpse", GetMType("mon_null"), 0);
+            miner.make_corpse();
             int num_bodies = rng(4, 8);
             for (int i = 0; i < num_bodies; i++) {
                 int x = rng(4, SEEX * 2 - 5), y = rng(4, SEEX * 2 - 5);
@@ -8832,7 +8836,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                 if (this->ter(i, j) == t_rock_floor) {
                     if (one_in(250)) {
                         item body;
-                        body.make_corpse("corpse", GetMType("mon_null"), 0);
+                        body.make_corpse();
                         add_item(i, j, body);
                         place_items("science",  70, i, j, i, j, true, 0);
                     } else if (one_in(80)) {
@@ -8925,7 +8929,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
                             item body;
-                            body.make_corpse("corpse", GetMType("mon_null"), 0);
+                            body.make_corpse();
                             add_item(i, j, body);
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
@@ -9011,7 +9015,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
                             item body;
-                            body.make_corpse("corpse", GetMType("mon_null"), 0);
+                            body.make_corpse();
                             add_item(i, j, body);
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
@@ -9106,7 +9110,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
                             item body;
-                            body.make_corpse("corpse", GetMType("mon_null"), 0);
+                            body.make_corpse();
                             add_item(i, j, body);
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
@@ -9742,7 +9746,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
           rn = rng(10, 15);
           for (int i = 0; i < rn; i++) {
            item body;
-           body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
+           body.make_corpse();
            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
            if (ter(zx, zy) == t_bed || one_in(3))
             add_item(zx, zy, body);
@@ -10109,7 +10113,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         rn = rng(15, 20);
         for (int i = 0; i < rn; i++) {
             item body;
-            body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
+            body.make_corpse();
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
             if (move_cost(zx, zy) > 0) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
@@ -11122,8 +11126,8 @@ int map::place_npc(int x, int y, std::string type)
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->posx = x;
-    temp->posy = y;
+    temp->setx( x );
+    temp->sety( y );
     g->load_npcs();
     return temp->getID();
 }
@@ -11417,8 +11421,8 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                i->posx += (new_x-old_x);
-                i->posy += (new_y-old_y);
+                i->setx( i->posx() + new_x - old_x );
+                i->sety( i->posy() + new_y - old_y );
             }
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
@@ -12946,7 +12950,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
 void map::add_extra(map_extra type)
 {
     item body;
-    body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
+    body.make_corpse();
 
     switch (type) {
 
