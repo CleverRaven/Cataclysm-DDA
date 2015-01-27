@@ -3703,7 +3703,7 @@
                 "jeans",
                 "socks",
                 "lowtops",
-                "runner_bag",
+                "fanny",
                 "juice"
             ],
             "male": [
@@ -3751,7 +3751,7 @@
         "ident": "av_club_mem",
         "name": "A/V Club Member",
         "description": "You were a member of the school A/V club. You're sure there's some way you can use your technical skills to help stay alive. You just haven't figured out how to make an awesome death ray yet.",
-        "points": 0,
+        "points": 1,
         "skills": [
             {
                 "level": 1,
