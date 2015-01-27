@@ -76,7 +76,10 @@ void MonsterGenerator::finalize_monfactions()
         auto faction = &pair.second;
         unloaded.insert( faction );
         // Point parent to children
-        child_map.emplace( faction->base_faction, faction );
+        std::pair< const monfaction*, monfaction* > kv;
+        kv.first = faction->base_faction;
+        kv.second = faction;
+        child_map.insert( kv );
 
         // Set faction as friendly to itself if not explicitly set to anything
         if( faction->attitude_map.count( faction ) == 0 ) {
