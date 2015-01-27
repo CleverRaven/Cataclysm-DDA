@@ -971,6 +971,7 @@ void monster::store(JsonOut &json) const
     json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
+    json.member( "underwater", underwater );
 
     json.member( "inv", inv );
 }
@@ -1672,6 +1673,8 @@ void Creature::load( JsonObject &jsin )
 
     jsin.read( "grab_resist", grab_resist );
     jsin.read( "throw_resist", throw_resist );
+
+    jsin.read( "underwater", underwater );
 
     fake = false; // see Creature::load
 }

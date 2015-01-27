@@ -826,7 +826,7 @@ int monster::move_to(int x, int y, bool force)
 
     //Check for moving into/out of water
     bool was_water = g->m.is_divable(posx(), posy());
-    bool will_be_water = g->m.is_divable(x, y);
+    bool will_be_water = !has_flag( MF_FLIES ) && can_submerge() && g->m.is_divable(x, y);
 
     if(was_water && !will_be_water && g->u.sees(x, y)) {
         //Use more dramatic messages for swimming monsters
