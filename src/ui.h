@@ -39,6 +39,7 @@ struct uimenu_entry {
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;
+
     //std::string filtertxt; // possibly useful
     uimenu_entry(std::string T) : retval(-1), enabled(true), hotkey(-1), txt(T)
     {
