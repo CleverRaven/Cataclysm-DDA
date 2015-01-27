@@ -1193,8 +1193,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
             do {
                 do_aim( &u, t, target, relevant, x, y );
-            } while( u.moves > 0 && u.recoil > aim_threshold &&
+            } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
                      u.recoil - u.weapon.sight_dispersion( -1 ) > 0 );
+            if( target == -1 ) {
+                // Bail out if there's no target.
+                continue;
+            }
             if( u.recoil <= aim_threshold ||
                 u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
