@@ -8174,7 +8174,7 @@
         "id" : "power_armor_basic",
         "category" : "armor",
         "name" : "basic power armor",
-        "description" : "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS power supply compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+        "description" : "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 20339,
         "environmental_protection" : 10,
         "color" : "light_gray",
