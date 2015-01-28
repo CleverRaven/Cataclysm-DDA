@@ -619,7 +619,7 @@ extern furn_id f_null,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
-    f_kiln_empty, f_kiln_full;
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

@@ -2136,5 +2136,25 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_empty"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Charcoal Kiln",
+        "category" : "FURN",
+        "difficulty" : 3,
+        "time" : 60,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "SAW_W", "level": 1 }
+            ]
+            ],
+        "components" : [
+            [ [ "metal_tank", 4 ] ],
+            [ [ "pipe", 4 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_kiln_metal_empty"
     }
 ]

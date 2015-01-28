@@ -1520,6 +1520,17 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if( cur_kiln_type == f_kiln_empty ) {
+        next_kiln_type = f_kiln_full;
+    } else if( cur_kiln_type == f_kiln_metal_empty ) {
+        next_kiln_type = f_kiln_metal_full;
+    } else {
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     std::vector< std::string > kilnable{ "wood", "bone" };
     bool fuel_present = false;
     auto items = m->i_at( examx, examy );
@@ -1541,7 +1552,7 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
         return;
     }
 
-    SkillLevel &skill = p->skillLevel("carpentry");
+    SkillLevel &skill = p->skillLevel( "carpentry" );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1566,19 +1577,32 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 
     p->use_charges( "fire", 1 );
     g->m.i_clear( examx, examy );
-    m->furn_set(examx, examy, f_kiln_full);
+    m->furn_set( examx, examy, next_kiln_type );
     item result( "unfinished_charcoal", calendar::turn.get_turn() );
     result.charges = char_charges;
     m->add_item( examx, examy, result );
     add_msg( _("You fire the charcoal kiln.") );
+    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    p->practice( "carpentry", practice_amount );
 }
 
 void iexamine::kiln_full(player *, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if ( cur_kiln_type == f_kiln_full ) {
+        next_kiln_type = f_kiln_empty;
+    } else if( cur_kiln_type == f_kiln_metal_full ) {
+        next_kiln_type = f_kiln_metal_empty;
+    } else {
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     auto items = m->i_at( examx, examy );
     if( items.empty() ) {
         add_msg( _("This kiln is empty...") );
-        m->furn_set(examx, examy, f_kiln_empty);
+        m->furn_set(examx, examy, next_kiln_type);
         return;
     }
     int last_bday = items[0].bday;
@@ -1610,7 +1634,7 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
     item result( "charcoal", calendar::turn.get_turn() );
     result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
     m->add_item( examx, examy, result );
-    m->furn_set( examx, examy, f_kiln_empty);
+    m->furn_set( examx, examy, next_kiln_type);
 }
 
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
