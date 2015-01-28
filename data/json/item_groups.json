@@ -323,7 +323,8 @@
       ["kufi", 1],
       ["kippah", 1],
       ["robe", 3],
-      ["thawb", 1]
+      ["thawb", 1],
+      ["kimono", 1]
     ]
   },{
     "type" : "item_group",
@@ -1170,7 +1171,11 @@
       ["holy_symbol", 20],
       ["kufi", 5],
       ["kippah", 5],
-      ["robe", 10]
+      ["robe", 10],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 5],
+      ["hakama_miko", 1]
     ]
   },{
     "type" : "item_group",
@@ -3315,7 +3320,11 @@
       ["thawb", 1],
       ["kittel", 1],
       ["cassock", 1],
-      ["robe", 5]      
+      ["robe", 5],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 3],
+      ["hakama_miko", 1]
     ]
   },{
     "type" : "item_group",
@@ -5083,7 +5092,11 @@
       ["kippah", 3],
       ["thawb", 2],
       ["kufi", 2],
-      ["cassock", 1]
+      ["cassock", 1],
+      ["eboshi", 1],
+      ["kariginu", 2],
+      ["kimono", 3],
+      ["hakama_miko", 2]
     ]
   },{
     "type" : "item_group",

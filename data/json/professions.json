@@ -2699,6 +2699,46 @@
     },
 	{
         "type": "profession",
+        "ident": "shinto_priest",
+        "name": {
+            "male": "Kannushi",
+            "female": "Miko"
+        },
+        "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks. You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
+        "points": 0,
+		"skills": [
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "tailor"
+            },
+        ],
+        "items": {
+            "both": [
+                "tabi_dress",
+                "geta",
+                "holy_symbol",
+                "holybook_kojiki"
+            ],
+            "male": [
+			    "pants",
+                "kariginu",
+                "eboshi",
+                "briefs"
+            ],
+            "female": [
+                "kimono",
+                "hakama",
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
         "ident": "imam",
         "name": {
             "male": "Imam",
