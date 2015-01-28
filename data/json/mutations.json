@@ -996,8 +996,7 @@
         "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
-        "category" : ["MUTCAT_BIRD"],
-        "active" : true
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -4351,8 +4350,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "You can clearly see that this is for dev purposes only.",
-        "threshold" : true,
-        "active" : true
+        "threshold" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_CLOAK",
