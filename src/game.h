@@ -647,6 +647,7 @@ class game
         void unload(item &it); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
+        void open_bag(int pos); // open a bag for item storage 'o'
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow(int pos = INT_MIN); // Throw an item  't'

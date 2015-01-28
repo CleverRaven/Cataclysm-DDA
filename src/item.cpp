@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
+#include "helper.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -23,6 +24,7 @@
 #include <unordered_set>
 #include <set>
 #include <array>
+#include <iterator>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -192,6 +194,7 @@ void item::init() {
     fridge = 0;
     rot = 0;
     last_rot_check = 0;
+    storage_occupied = 0;
 }
 
 void item::make( const std::string new_type )
@@ -398,11 +401,53 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in(item payload)
+// note this now returns false if unable to place item in contents[]!
+bool item::put_in(item payload)
 {
-    contents.push_back(payload);
+    if(payload.type->id == "null") {
+        debugmsg("bad value [null] for payload in item::put_in()");
+    }
+    // for now, only deal with return values and storage_used if item container
+    if(is_item_container()) {
+        if(!has_space_for(payload)) {
+            return false;
+        }
+        contents.push_back(payload);
+        storage_occupied += payload.volume();
+    } else {
+        contents.push_back(payload);
+    }
+    return true;
 }
 const char ivaresc=001;
+
+item item::take_out(unsigned int index)
+{
+    item it;
+    if(is_container_empty()) {
+        it.type->id = "null";
+        return it;
+    }
+    if(index > contents.size()) {
+        debugmsg("bad item index for item::take_out() [%d / %d]", index, contents.size());
+    }
+    it = contents[index].clone();
+    contents.erase(contents.begin() + index);
+    return it;
+}
+
+int item::index_of(itype_id id, int pos)
+{
+    int index = pos + 1;
+    for(auto elem = (contents.begin() + index);
+            elem != contents.end();
+            ++elem, ++index) {
+        if(elem->type->id == id) {
+            return index;
+        }
+    }
+    return -1;
+}
 
 void item::set_var( const std::string &name, const int value )
 {
@@ -662,7 +707,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
                                  ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", false, false));
+        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", true, false));
     }
 
     if( is_gun() ) {
@@ -956,10 +1001,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
-        dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
-                                 get_env_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
-
+        dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "", get_env_resist(), true, "", true));
+        dump->push_back(iteminfo("ARMOR", string_format(_("Storage: %d / %d"), storage_used(), get_storage())));
     }
     if( is_book() ) {
 
@@ -1348,6 +1391,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             }
         }
 
+        if(is_item_container()) {
+            dump->push_back(iteminfo("DESCRIPTION", _("You can store other items in this.")));
+        }
+
         for( auto &u : type->use_methods ) {
             const auto tt = dynamic_cast<const delayed_transform_iuse*>( u.get_actor_ptr() );
             if( tt == nullptr ) {
@@ -1405,8 +1452,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
                 }
-            } else {
+            } else if(!is_item_container()) {
                 dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
+            } else {
             }
         }
 
@@ -1452,6 +1500,29 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 if (found_recipe) {
                     dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
                 }
+            }
+        }
+
+        // display the contents of what's inside the bag, if you have opened it before
+        if(is_item_container() && !is_container_empty()) {
+            // is it new to us?
+            if(!has_been_opened) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This feels like there might be more inside.")));
+            // nope? list contents
+            } else {
+                //[davek] TODO: categorize contents of items
+                temp1.str("");
+                bool pizza = false;     // emulate above for commas
+                for(auto &elem : contents) {
+                    if(pizza) { temp1 << _(", "); }
+                    pizza = true;       // yum!
+                    nc_color c = elem.color_in_inventory();
+                    bool did_coloring = (c == c_ltgray) ? false : true;
+                    if(did_coloring) { temp1 << "<color_" << string_from_color(c) << ">"; }
+                    temp1 << item::nname(elem.type->id);
+                    if(did_coloring) { temp1 << "</color>"; }
+                }
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Contents: %s"), temp1.str().c_str())));
             }
         }
     }
@@ -1526,6 +1597,12 @@ nc_color item::color(player *u) const
         ammotype amtype = ammo_type();
         if (u->has_ammo(amtype).size() > 0)
             ret = c_green;
+    } else if(is_item_container()) {    // something we can store items in
+        if(!has_been_opened || is_container_empty()) {
+            ret = c_ltgray;             // unknown contents or we know it's empty
+        } else if(has_been_opened && !is_container_empty()) {
+            ret = c_blue;               // we have seen inside it and know there are items
+        }
     } else if (is_food()) { // Rotten food shows up as a brown color
         if (rotten()) {
             ret = c_brown;
@@ -1706,11 +1783,36 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         } else {
             maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
         }
-    }
-    else if (!contents.empty()) {
+    } else if (!contents.empty()) {
         maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
         maintext = type_name(quantity);
+    }
+    // are we a container for items, and can we prevent divide-by-zero errors as well?
+    // (override 'maintext' for now)
+    if(is_item_container() && get_storage() > 0) {
+        /*** Bags and the like, make suffix based on rough percentage of space used  ***/
+        float amt_total = get_storage();
+        float amt_used  = storage_used();
+        float perc_used = ((amt_used / amt_total) * 100);
+        // varying stages of bag "perceived weight" by thirds
+        bool bag_is_empty  = is_container_empty();
+        bool bag_is_light  = is_between(1,  (int)perc_used, 33, true);
+        bool bag_is_medium = is_between(34, (int)perc_used, 66, true);
+        bool bag_is_heavy  = is_between(67, (int)perc_used, 99, true);
+        bool bag_is_full   = is_container_full();
+
+        if(bag_is_empty) {
+            maintext = rmp_format(_("<item_name>%s, empty"),  type_name(quantity).c_str());
+        } else if(bag_is_light) {
+            maintext = rmp_format(_("<item_name>%s, roomy"),  type_name(quantity).c_str());
+        } else if(bag_is_medium) {
+            maintext = rmp_format(_("<item_name>%s, hefty"),  type_name(quantity).c_str());
+        } else if(bag_is_heavy) {
+            maintext = rmp_format(_("<item_name>%s, packed"), type_name(quantity).c_str());
+        } else if(bag_is_full) {
+            maintext = rmp_format(_("<item_name>%s, full"),   type_name(quantity).c_str());
+        }
     }
 
     const it_comest* food_type = NULL;
@@ -2815,6 +2917,12 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
+bool item::is_item_container() const
+{
+    // only check for armour atm
+    return type->armor && (type->armor->storage > 0) && has_flag("HOLDS_ITEMS");
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -2824,6 +2932,9 @@ bool item::is_container_full() const
 {
     if( is_container_empty() ) {
         return false;
+    }
+    if(is_item_container()) {
+        return storage_left() == 0;
     }
     return get_remaining_capacity() == 0;
 }

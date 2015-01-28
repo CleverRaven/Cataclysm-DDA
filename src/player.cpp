@@ -12703,9 +12703,17 @@ void player::wield_contents(item *container, bool force_invlet,
 
 void player::store(item* container, item* put, std::string skill_used, int volume_factor)
 {
-    int lvl = skillLevel(skill_used);
+    int lvl = (skill_used == "null") ? 0 : (int)skillLevel(skill_used);
     moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
-    container->put_in(i_rem(put));
+    if(container->put_in(*put)) { i_rem(put); }
+}
+
+void player::unload_bag(item *container, int index, std::string skill_used, int volume_factor)
+{
+    int lvl = (skill_used == "null") ? 0 : (int)skillLevel(skill_used);
+    item get = container->take_out(index);
+    moves -= (lvl == 0) ? ((volume_factor + 1) * get.volume()) : (volume_factor * get.volume()) / lvl;
+    i_add(get);
 }
 
 nc_color encumb_color(int level)

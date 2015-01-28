@@ -6496,7 +6496,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 30,
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "HOLDS_ITEMS"],
         "material_thickness" : 2
     },
     {

@@ -640,6 +640,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);
+        /** Retrieves an item being stored, same params as above.
+         * Note: `index` is the index in item::contents[] to retrieve */
+        void unload_bag(item *container, int index, std::string skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
@@ -677,8 +680,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_read(item *it);
         hint_rating rate_action_takeoff(item *it);
         hint_rating rate_action_reload(item *it);
-        hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_unload(const item &it) const;
         hint_rating rate_action_disassemble(item *it);
+        hint_rating rate_action_open_bag(const item *it) const
+        {
+            return (it->is_item_container() == true) ? HINT_GOOD : HINT_CANT;
+        }
 
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;
@@ -768,6 +775,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * the weapon or worn items, If the item is a pointer to an item inside a
          * container, it wont work.
          */
+        // [davek] TODO: Extend this with item `pathname` extension to search nested containers.
         int get_item_position(const item *it);
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
