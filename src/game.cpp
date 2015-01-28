@@ -11968,15 +11968,32 @@ bool game::plmove(int dx, int dy)
         }
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
             !u.has_trait("DEBUG_SILENT")) {
-            if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-                sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
-            } else if (u.has_trait("CLUMSY")) {
-                sound(x, y, 10, "");
-            } else if (u.has_bionic("bio_ankles")) {
-                sound(x, y, 12, "");
-            } else {
-                sound(x, y, 6, "");
+            int move_noise = 6;
+            if (u.worn_with_flag("VERY_NOISY_MOVE")){
+	            move_noise += 4;
             }
+            if (u.worn_with_flag("NOISY_MOVE")){
+	            move_noise += 2;
+            }
+            if (u.worn_with_flag("QUIET_MOVE")){
+	            move_noise -= 2;
+            }
+            if (u.worn_with_flag("SILENT_MOVE")){
+	            move_noise -= 4;
+            }
+            if (u.has_trait("LIGHTSTEP")){
+	            move_noise *= 0.5;
+            }
+            else if (u.has_trait("CLUMSY")){
+	            move_noise *= 2;
+            }
+            if (u.has_bionic("bio_ankles")){
+	            move_noise += 6;
+            }
+            if (move_noise < 1){
+	            move_noise = 1;
+            }
+            sound(x, y, move_noise, "");
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
             sound(u.posx(), u.posy(), 40, _("You emit a rattling sound."));
