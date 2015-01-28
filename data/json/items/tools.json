@@ -7739,7 +7739,7 @@
     "flags" : ["DURABLE_MELEE"],
     "weight": 2351,
     "volume": 13,
-    "bashing": 30,
+    "bashing": 25,
     "cutting": 0,
     "to_hit": 3,
     "max_charges" : 500,
