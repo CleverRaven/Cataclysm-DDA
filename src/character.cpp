@@ -259,7 +259,7 @@ void Character::recalc_sight_limits()
     } else if (has_active_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
     } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
-        has_trait("URSINE_EYE")) {
+        has_active_mutation("URSINE_EYE")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 5;
         }

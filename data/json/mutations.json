@@ -984,7 +984,8 @@
         "points" : 1,
         "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",
