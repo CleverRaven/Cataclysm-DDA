@@ -1174,8 +1174,7 @@
       ["robe", 10],
       ["eboshi", 1],
       ["kariginu", 1],
-      ["kimono", 5],
-      ["hakama_miko", 1]
+      ["kimono", 5]
     ]
   },{
     "type" : "item_group",
@@ -3323,8 +3322,7 @@
       ["robe", 5],
       ["eboshi", 1],
       ["kariginu", 1],
-      ["kimono", 3],
-      ["hakama_miko", 1]
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",
@@ -5095,8 +5093,7 @@
       ["cassock", 1],
       ["eboshi", 1],
       ["kariginu", 2],
-      ["kimono", 3],
-      ["hakama_miko", 2]
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",
