@@ -15,6 +15,8 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "json.h"
+#include "sounds.h"
+
 #include <algorithm>
 #include <string>
 
@@ -1473,18 +1475,18 @@ void npc::decide_needs()
 
 void npc::say(std::string line, ...) const
 {
- va_list ap;
- va_start(ap, line);
- line = vstring_format(line, ap);
- va_end(ap);
- parse_tags(line, &(g->u), this);
- if (g->u.sees( *this )) {
-  add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx(), posy(), 16, "");
- } else {
-  std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx(), posy(), 16, sound);
- }
+    va_list ap;
+    va_start(ap, line);
+    line = vstring_format(line, ap);
+    va_end(ap);
+    parse_tags(line, &(g->u), this);
+    if (g->u.sees( *this )) {
+        add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
+        sounds::sound(posx(), posy(), 16, "");
+    } else {
+        std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
+        sounds::sound(posx(), posy(), 16, sound);
+    }
 }
 
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)

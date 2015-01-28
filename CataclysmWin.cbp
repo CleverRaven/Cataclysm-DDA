@@ -411,6 +411,8 @@
 		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
+		<Unit filename="src/sounds.cpp" />
+		<Unit filename="src/sounds.h" />
 		<Unit filename="src/speech.cpp" />
 		<Unit filename="src/speech.h" />
 		<Unit filename="src/start_location.cpp" />

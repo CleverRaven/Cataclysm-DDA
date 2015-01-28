@@ -160,29 +160,6 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1,
                        int x = INT_MIN, int y = INT_MIN);
         bool event_queued(event_type type);
-        /**
-         * Sound at (x, y) of intensity (vol)
-         * @param x x-position of sound.
-         * @param y y-position of sound.
-         * @param vol Volume of sound.
-         * @param description Description of the sound for the player,
-         * if non-empty string a message is generated.
-         * @param ambient If false, the sound interrupts player activities.
-         * If true, activities continue.
-         * @returns true if the player could hear the sound.
-         */
-        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
-        /** Functions identical to sound(..., true). */
-        bool ambient_sound(int x, int y, int vol, std::string description);
-        /** Creates a list of coordinates at which to draw footsteps. */
-        void add_footstep(int x, int y, int volume, int distance, monster *source);
-        std::vector<std::vector<point> > footsteps;
-        std::vector<point> footsteps_source;
-        /** Calculates where footstep marker should appear and puts those points into the result.
-         *  It also clears @ref footsteps_source and @ref footsteps. */
-        void calculate_footstep_markers(std::vector<point> &result);
-        /** Draws visual footstep cues to monsters moving out of the players sight. */
-        void draw_footsteps();
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
         /** Triggers a flashbang explosion at (x, y). */

@@ -4,6 +4,8 @@
 #include "game.h"
 #include "martialarts.h"
 #include "messages.h"
+#include "sounds.h"
+
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
@@ -384,7 +386,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
 
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) { // check martial arts silence
-            g->sound(posx(), posy(), 8, "");
+            sounds::sound(posx(), posy(), 8, "");
         }
 
         int dam = dealt_dam.total_damage();
@@ -1581,7 +1583,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
                                      weapon.tname().c_str());
         }
 
-        g->sound(posx(), posy(), 16, "");
+        sounds::sound(posx(), posy(), 16, "");
         // Dump its contents on the ground
         for( auto &elem : weapon.contents ) {
             g->m.add_item_or_charges( posx(), posy(), elem );

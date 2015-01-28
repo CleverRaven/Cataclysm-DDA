@@ -7,9 +7,10 @@
 #include "rng.h"
 #include "pldata.h"
 #include "messages.h"
-#include <stdlib.h>
 #include "cursesdef.h"
+#include "sounds.h"
 
+#include <stdlib.h>
 //Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
@@ -85,14 +86,20 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
 }
 
-float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) const
+float monster::rate_target( Creature &c, int &bresenham_slope, float best, bool smart ) const
 {
-    int d = rl_dist( pos(), c.pos() );
-    // No targetting own tile. Creatures sharing tiles can happen.
+    const int d = rl_dist( pos(), c.pos() );
     if( d <= 0 || !sees( c, bresenham_slope ) ) {
         return INT_MAX;
     }
     if( !smart ) {
+        // Do the range comparison first, it's cheaper.
+        if( d >= best ) {
+            return INT_MAX;
+        }
+        if( !sees( c.pos(), bresenham_slope ) ) {
+            return INT_MAX;
+        }
         return d;
     }
     float power = c.power_rating();
@@ -101,7 +108,7 @@ float monster::rate_target( Creature &c, int &bresenham_slope, bool smart ) cons
     if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
         power += 2;
     }
-    if( power > 0 ) {
+    if( power > 0 && sees( c.pos(), bresenham_slope ) ) {
         return d / power;
     }
     return INT_MAX;
@@ -125,11 +132,22 @@ void monster::plan(const mfactions &factions)
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
 
-    if( friendly != 0 && !docile ) { // Target unfriendly monsters
+    // If we can see the player, move toward them or flee.
+    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
+        dist = rate_target( g->u, bresenham_slope, dist, electronic );
+        fleeing = fleeing || is_fleeing( g->u );
+        target = &g->u;
+        selected_slope = bresenham_slope;
+        if( dist <= 5 ) {
+            anger += angers_hostile_near;
+            morale -= fears_hostile_near;
+        }
+    } else if( friendly != 0 && !docile ) {
+        // Target unfriendly monsters, only if we aren't interacting with the player.
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, bresenham_slope, electronic );
+                float rating = rate_target( tmp, bresenham_slope, dist, electronic );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -139,22 +157,10 @@ void monster::plan(const mfactions &factions)
         }
     }
 
-    // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
-        dist = rate_target( g->u, bresenham_slope, electronic );
-        fleeing = fleeing || is_fleeing( g->u );
-        target = &g->u;
-        selected_slope = bresenham_slope;
-        if( dist <= 5 ) {
-            anger += angers_hostile_near;
-            morale -= fears_hostile_near;
-        }
-    }
-
     if( !docile ) {
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = g->active_npc[i];
-            float rating = rate_target( *me, bresenham_slope, electronic );
+            float rating = rate_target( *me, bresenham_slope, dist, electronic );
             bool fleeing_from = is_fleeing( *me );
             // Switch targets if closer and hostile or scarier than current target
             if( ( rating < dist && fleeing ) ||
@@ -182,7 +188,7 @@ void monster::plan(const mfactions &factions)
 
             for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
-                float rating = rate_target( mon, bresenham_slope, electronic );
+                float rating = rate_target( mon, bresenham_slope, dist, electronic );
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
@@ -199,12 +205,12 @@ void monster::plan(const mfactions &factions)
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
     const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
-    auto myfaction = factions.find( actual_faction )->second;
+    auto const &myfaction = factions.find( actual_faction )->second;
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
         for( int i : myfaction ) {
             monster &mon = g->zombie( i );
-            float rating = rate_target( mon, bresenham_slope, electronic );
+            float rating = rate_target( mon, bresenham_slope, dist, electronic );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
@@ -435,7 +441,7 @@ void monster::footsteps(int x, int y)
   default: break;
  }
  int dist = rl_dist(x, y, g->u.posx(), g->u.posy());
- g->add_footstep(x, y, volume, dist, this);
+ sounds::add_footstep(x, y, volume, dist, this);
  return;
 }
 

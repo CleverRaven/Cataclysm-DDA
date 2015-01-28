@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
+#include "sounds.h"
 
 #include <fstream>
 #include <sstream>
@@ -1361,11 +1362,11 @@ void vehicle::honk_horn()
         const auto horn_pos = global_pos() + parts[p].precalc[0];
         //Determine sound
         if( horn_type.bonus >= 40 ) {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
         } else {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
         }
     }
 
@@ -2986,7 +2987,7 @@ void vehicle::noise_and_smoke( double load, double time )
            lvl++;
        }
     }
-    g->ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
+    sounds::ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *cnt)
@@ -3564,7 +3565,7 @@ void vehicle::alarm(){
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-            g->sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+            sounds::sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
             if (one_in(1000)) is_alarm_on = false;
         } else{
             is_alarm_on = false;
@@ -4070,7 +4071,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             add_msg (m_warning, _("You hear a %s"), snd.c_str());
         }
-        g->sound(x, y, smashed? 80 : 50, "");
+        sounds::sound(x, y, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -4093,7 +4094,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (part_flag(part, "SHARP")) {
             g->m.adjust_field_strength(point(x, y), fd_blood, 1 );
         } else {
-            g->sound(x, y, 20, "");
+            sounds::sound(x, y, 20, "");
         }
     }
 
@@ -4210,7 +4211,7 @@ void vehicle::handle_trap (int x, int y, int part)
         }
     }
     if (noise > 0) {
-        g->sound(x, y, noise, snd);
+        sounds::sound(x, y, noise, snd);
     }
     if( part_damage && chance >= rng (1, 100) ) {
         // Hit the wheel directly since it ran right over the trap.
@@ -5301,7 +5302,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
 
     // make a noise, if extra noise is to be made
     if (extra_sound != "") {
-        g->sound(x, y, 20, extra_sound);
+        sounds::sound(x, y, 20, extra_sound);
     }
     // notify player if player can see the shot
     if( g->u.sees(x, y) ) {

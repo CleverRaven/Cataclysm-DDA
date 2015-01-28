@@ -5,6 +5,7 @@
 #include "veh_interact.h"
 #include "debug.h"
 #include "translations.h"
+#include "sounds.h"
 
 #include <sstream>
 
@@ -14,7 +15,7 @@ void activity_handlers::burrow_do_turn(player_activity *act, player *p)
 {
     if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
         //~ Sound of a Rat mutant burrowing!
-        g->sound(act->placement.x, act->placement.y, 10, _("ScratchCrunchScrabbleScurry."));
+        sounds::sound(act->placement.x, act->placement.y, 10, _("ScratchCrunchScrabbleScurry."));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
             p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
         }
@@ -681,7 +682,7 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
     const int diry = act->placement.y;
     if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+        sounds::sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
             p->add_msg_if_player(m_info,
                                  _("Ugh.  You figure it'll take about an hour and a half at this rate."));
