@@ -107,7 +107,8 @@
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
@@ -890,7 +891,8 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -900,7 +902,8 @@
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "CEPH_EYES",
@@ -920,7 +923,8 @@
         "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
         "prereqs" : ["CEPH_EYES"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
-        "category" : ["MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -940,7 +944,8 @@
         "prereqs" : ["ELFAEYES"],
         "changes_to" : ["ELFA_FNV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFA_FNV",
@@ -949,7 +954,8 @@
         "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "FEL_EYE",
@@ -969,7 +975,8 @@
         "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.",
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "URSINE_EYE",
@@ -977,7 +984,8 @@
         "points" : 1,
         "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",
