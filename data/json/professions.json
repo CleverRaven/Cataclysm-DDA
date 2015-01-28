@@ -2741,6 +2741,7 @@
         },
         "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran, and guiding your community in prayer. Back then they came from far and wide to listen to you, now they come to eat your brains.",
         "points": 0,
+        "//" : "No knife, fire, or decent storage/armor.  Skill points are countered.",
 		"skills": [
             {
                 "level": 2,
@@ -2813,7 +2814,8 @@
         "ident": "guru",
         "name": "Guru",
         "description": "You spent many years traveling through the world, becoming wise and learned. Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-        "points": 1,
+        "points": 2,
+        "//" : "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
 		"skills": [
             {
                 "level": 2,
@@ -2850,7 +2852,8 @@
         "ident": "preacher",
         "name": "Preacher",
         "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town. Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
-        "points": 1,
+        "points": 2,
+        "//" : "Storage + 2 points in skills, - no knife or fire.",
 		"skills": [
             {
                 "level": 2,
