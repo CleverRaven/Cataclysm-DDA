@@ -1047,16 +1047,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
-        void set_active_mission( const mission &mission );
+        void set_active_mission( mission &mission );
         /**
          * Called when a mission has been assigned to the player.
          */
-        void on_mission_assignment( const mission &new_mission );
+        void on_mission_assignment( mission &new_mission );
         /**
          * Called when a mission has been completed or failed. Either way it's finished.
          * Check @ref mission::failed to see which case it is.
          */
-        void on_mission_finished( const mission &mission );
+        void on_mission_finished( mission &mission );
 
     protected:
         std::list<disease> illness;
@@ -1112,23 +1112,22 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
         /**
-         * Ids of missions that the player has accepted and that are not finished (one
+         * Missions that the player has accepted and that are not finished (one
          * way or the other).
          */
-        std::vector<int> active_missions;
+        std::vector<mission*> active_missions;
         /**
-         * Ids of missions that the player has successfully completed.
+         * Missions that the player has successfully completed.
          */
-        std::vector<int> completed_missions;
+        std::vector<mission*> completed_missions;
         /**
-         * Ids of missions that have failed while being assigned to the player.
+         * Missions that have failed while being assigned to the player.
          */
-        std::vector<int> failed_missions;
+        std::vector<mission*> failed_missions;
         /**
-         * The index in @ref active_missions of the currently active mission.
-         * Or -1 if no mission is currently in progress.
+         * The currently active mission, or null if no mission is currently in progress.
          */
-        int active_mission;
+        mission *active_mission;
 };
 
 #endif

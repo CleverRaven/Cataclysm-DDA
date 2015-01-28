@@ -446,11 +446,11 @@ void player::serialize(JsonOut &json) const
     json.member( "morale", morale );
 
     // mission stuff
-    json.member("active_mission", active_mission );
+    json.member("active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
 
-    json.member( "active_missions", active_missions );
-    json.member( "completed_missions", completed_missions );
-    json.member( "failed_missions", failed_missions );
+    json.member( "active_missions", mission::to_uid_vector( active_missions ) );
+    json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
+    json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
 
     json.member( "player_stats", get_stats() );
 
@@ -574,28 +574,40 @@ void player::deserialize(JsonIn &jsin)
 
     data.read("morale", morale);
 
-    data.read( "active_mission", active_mission );
+    int tmpactive_mission;
+    if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {
+        active_mission = mission::find( tmpactive_mission );
+    }
 
-    data.read( "active_missions", active_missions );
-    data.read( "failed_missions", failed_missions );
-    data.read( "completed_missions", completed_missions );
+    std::vector<int> tmpmissions;
+    if( data.read( "active_missions", tmpmissions ) ) {
+        active_missions = mission::to_ptr_vector( tmpmissions );
+    }
+    if( data.read( "failed_missions", tmpmissions ) ) {
+        failed_missions = mission::to_ptr_vector( tmpmissions );
+    }
+    if( data.read( "completed_missions", tmpmissions ) ) {
+        completed_missions = mission::to_ptr_vector( tmpmissions );
+    }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to
     // another character (not the current one) fails, the other character(s) are not informed.
     // We must inform them when they get loaded the next time.
     // Only active missions need checking, failed/complete will not change anymore.
-    for( size_t i = 0; i < active_missions.size(); ) {
-        const auto mission = mission::find( active_missions[i] );
+    for( auto it = active_missions.begin(); it != active_missions.end(); ) {
+        const auto mission = *it;
         if( mission->has_failed() ) {
-            failed_missions.push_back( mission->get_id() );
-            if( active_mission == static_cast<int>( i ) ) {
-                active_mission = -1;
-            } else if( active_mission > static_cast<int>( i ) ) {
-                active_mission--;
+            failed_missions.push_back( mission );
+            it = active_missions.erase( it );
+            if( active_mission == mission ) {
+                if( active_missions.empty() ) {
+                    active_mission = nullptr;
+                } else {
+                    active_mission = active_missions.front();
+                }
             }
-            active_missions.erase( active_missions.begin() + i );
         } else {
-            ++i;
+            ++it;
         }
     }
 

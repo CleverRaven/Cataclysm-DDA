@@ -1525,6 +1525,7 @@ void mapbuffer::load( std::string worldname )
 void player::load_legacy(std::stringstream & dump)
 {
  int inveh, vctrl;
+ int tmpactive_mission;
  itype_id styletmp;
  std::string prof_ident;
 
@@ -1533,7 +1534,7 @@ void player::load_legacy(std::stringstream & dump)
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
-         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> tmpactive_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
          // Bionic power scale has been changed.
@@ -1543,6 +1544,8 @@ void player::load_legacy(std::stringstream & dump)
  if (power_level < 0) {
      power_level = 0;
  }
+
+    active_mission = tmpactive_mission == -1 ? nullptr : mission::find( tmpactive_mission );
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1672,17 +1675,26 @@ void player::load_legacy(std::stringstream & dump)
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  active_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            active_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  completed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            completed_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  failed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            failed_missions.push_back( miss );
+        }
  }
 
  stats & pstats = *lifetime_stats();
