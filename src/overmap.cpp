@@ -1388,75 +1388,113 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_sym = '*';
             } else if (blink && overmap_buffer.has_note(omx, omy, z)) {
                 // Display notes in all situations, even when not seen
-                ter_color = c_yellow;
                 const std::string &note_text = overmap_buffer.note(omx, omy, z);
-                if (note_text.length() >= 2 && note_text[1] == ';') {
-                    if (note_text[0] == 'r') {
-                        ter_color = c_ltred;
+
+                ter_color = c_yellow;
+                ter_sym = 'N';
+
+                int symbolIndex = note_text.find(':');
+                int colorIndex = note_text.find(';');
+
+                bool symbolFirst = symbolIndex < colorIndex;
+
+                if (colorIndex > -1 && symbolIndex > -1) {
+                    if (symbolFirst) {
+                        if (colorIndex > 4) {
+                            colorIndex = -1;
+                        }
+                        if (symbolIndex > 1) {
+                            symbolIndex = -1;
+                            colorIndex = -1;
+                        }
+                    } else {
+                        if (symbolIndex > 4) {
+                            symbolIndex = -1;
+                        }
+                        if (colorIndex > 2) {
+                            colorIndex = -1;
+                        }
                     }
-                    if (note_text[0] == 'R') {
-                        ter_color = c_red;
-                    }
-                    if (note_text[0] == 'g') {
-                        ter_color = c_ltgreen;
-                    }
-                    if (note_text[0] == 'G') {
-                        ter_color = c_green;
-                    }
-                    if (note_text[0] == 'b') {
-                        ter_color = c_ltblue;
-                    }
-                    if (note_text[0] == 'B') {
-                        ter_color = c_blue;
-                    }
-                    if (note_text[0] == 'W') {
-                        ter_color = c_white;
-                    }
-                    if (note_text[0] == 'C') {
-                        ter_color = c_cyan;
-                    }
-                    if (note_text[0] == 'P') {
-                        ter_color = c_pink;
-                    }
-                } else if (note_text.length() >= 4 && note_text[3] == ';') {
-                    if (note_text[2] == 'r') {
-                        ter_color = c_ltred;
-                    }
-                    if (note_text[2] == 'R') {
-                        ter_color = c_red;
-                    }
-                    if (note_text[2] == 'g') {
-                        ter_color = c_ltgreen;
-                    }
-                    if (note_text[2] == 'G') {
-                        ter_color = c_green;
-                    }
-                    if (note_text[2] == 'b') {
-                        ter_color = c_ltblue;
-                    }
-                    if (note_text[2] == 'B') {
-                        ter_color = c_blue;
-                    }
-                    if (note_text[2] == 'W') {
-                        ter_color = c_white;
-                    }
-                    if (note_text[2] == 'C') {
-                        ter_color = c_cyan;
-                    }
-                    if (note_text[2] == 'P') {
-                        ter_color = c_pink;
-                    }
-                } else {
-                    ter_color = c_yellow;
+                } else if (colorIndex > 2) {
+                    colorIndex = -1;
+                } else if (symbolIndex > 1) {
+                    symbolIndex = -1;
                 }
 
-                if (note_text.length() >= 2 && note_text[1] == ':') {
-                    ter_sym = note_text[0];
-                } else if (note_text.length() >= 4 && note_text[3] == ':') {
-                    ter_sym = note_text[2];
-                } else {
-                    ter_sym = 'N';
+                if (symbolIndex > -1) {
+
+                    int symbolStart = 0;
+                    if (colorIndex > -1 && !symbolFirst) {
+                        symbolStart = colorIndex + 1;
+                    }
+
+                    ter_sym = note_text.substr(symbolStart, symbolIndex - symbolStart).c_str()[0];
+
                 }
+
+                if (colorIndex > -1) {
+
+                    int colorStart = 0;
+                    if (symbolIndex > -1 && symbolFirst) {
+                        colorStart = symbolIndex + 1;
+                    }
+
+                    std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
+
+                    if (sym.length() == 2) {
+
+                        if (sym.compare("br") == 0) {
+                            ter_color = c_brown;
+                        }
+                        if (sym.compare("lg") == 0) {
+                            ter_color = c_ltgray;
+                        }
+                        if (sym.compare("dg") == 0) {
+                            ter_color = c_dkgray;
+                        }
+
+                    } else {
+
+                        char colorID = sym.c_str()[0];
+
+                        if (colorID == 'r') {
+                            ter_color = c_ltred;
+                        }
+                        if (colorID == 'R') {
+                            ter_color = c_red;
+                        }
+                        if (colorID == 'g') {
+                            ter_color = c_ltgreen;
+                        }
+                        if (colorID == 'G') {
+                            ter_color = c_green;
+                        }
+                        if (colorID == 'b') {
+                            ter_color = c_ltblue;
+                        }
+                        if (colorID == 'B') {
+                            ter_color = c_blue;
+                        }
+                        if (colorID == 'W') {
+                            ter_color = c_white;
+                        }
+                        if (colorID == 'C') {
+                            ter_color = c_cyan;
+                        }
+                        if (colorID == 'c') {
+                            ter_color = c_ltcyan;
+                        }
+                        if (colorID == 'P') {
+                            ter_color = c_pink;
+                        }
+                        if (colorID == 'm') {
+                            ter_color = c_magenta;
+                        }
+
+                    }
+
+                }
+
             } else if (!see) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dkgray;
@@ -1575,13 +1613,56 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     std::string note_text = overmap_buffer.note(cursx, cursy, z);
-    if ((note_text.length() >= 4 && note_text[3] == ':') || (note_text.length() >= 4 &&
-            note_text[3] == ';')) {
-        note_text.erase(0, 4);
-    } else if ((note_text.length() >= 2 && note_text[1] == ':') || (note_text.length() >= 2 &&
-               note_text[1] == ';') ) {
-        note_text.erase(0, 2);
+
+    int symbolIndex = note_text.find(':');
+    int colorIndex = note_text.find(';');
+
+    bool symbolFirst = symbolIndex < colorIndex;
+
+    if (colorIndex > -1 && symbolIndex > -1) {
+        if (symbolFirst) {
+            if (colorIndex > 4) {
+                colorIndex = -1;
+            }
+            if (symbolIndex > 1) {
+                symbolIndex = -1;
+                colorIndex = -1;
+            }
+        } else {
+            if (symbolIndex > 4) {
+                symbolIndex = -1;
+            }
+            if (colorIndex > 2) {
+                colorIndex = -1;
+            }
+        }
+    } else if (colorIndex > 2) {
+        colorIndex = -1;
+    } else if (symbolIndex > 1) {
+        symbolIndex = -1;
     }
+
+    int erasureLength = 0;
+
+    if (symbolIndex > -1 && symbolIndex < 5) {
+        if (colorIndex > -1 && !symbolFirst) {
+            erasureLength = symbolIndex;
+        } else if (colorIndex == -1) {
+            erasureLength = symbolIndex;
+        }
+    }
+    if (colorIndex > -1 && colorIndex < 5) {
+        if (symbolIndex > -1 && symbolFirst) {
+            erasureLength = colorIndex;
+        } else if (symbolIndex == -1) {
+            erasureLength = colorIndex;
+        }
+    }
+
+    if (erasureLength > 0) {
+        note_text.erase(0, erasureLength + 1);
+    }
+
     std::vector<std::string> corner_text;
     if (!note_text.empty()) {
         corner_text.push_back( note_text );

@@ -2602,7 +2602,7 @@ vehicle *game::remoteveh()
     }
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" || 
+    if( remote_veh_string.str() == "" ||
         ( !u.has_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
@@ -3661,7 +3661,7 @@ void game::move_save_to_graveyard()
     auto const &save_dir      = world_generator->active_world->world_path;
     auto const &graveyard_dir = FILENAMES["graveyarddir"];
     auto const &prefix        = base64_encode(u.name) + ".";
-    
+
     if (!assure_dir_exist(graveyard_dir)) {
         debugmsg("could not create graveyard path '%s'", graveyard_dir.c_str());
     }
@@ -5284,74 +5284,114 @@ void game::draw_minimap()
             const bool seen = overmap_buffer.seen(omx, omy, levz);
             const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, levz);
             if (overmap_buffer.has_note(omx, omy, levz)) {
-                const std::string &note = overmap_buffer.note(omx, omy, levz);
+
+                const std::string &note_text = overmap_buffer.note(omx, omy, levz);
+
                 ter_color = c_yellow;
-                if (note.length() >= 2 && note[1] == ':') {
-                    ter_sym = note[0];
-                } else if (note.length() >= 4 && note[3] == ':') {
-                    ter_sym = note[2];
-                } else {
-                    ter_sym = 'N';
+                ter_sym = 'N';
+
+                int symbolIndex = note_text.find(':');
+                int colorIndex = note_text.find(';');
+
+                bool symbolFirst = symbolIndex < colorIndex;
+
+                if (colorIndex > -1 && symbolIndex > -1) {
+                    if (symbolFirst) {
+                        if (colorIndex > 4) {
+                            colorIndex = -1;
+                        }
+                        if (symbolIndex > 1) {
+                            symbolIndex = -1;
+                            colorIndex = -1;
+                        }
+                    } else {
+                        if (symbolIndex > 4) {
+                            symbolIndex = -1;
+                        }
+                        if (colorIndex > 2) {
+                            colorIndex = -1;
+                        }
+                    }
+                } else if (colorIndex > 2) {
+                    colorIndex = -1;
+                } else if (symbolIndex > 1) {
+                    symbolIndex = -1;
                 }
-                if (note.length() >= 2 && note[1] == ';') {
-                    if (note[0] == 'r') {
-                        ter_color = c_ltred;
+
+                if (symbolIndex > -1) {
+
+                    int symbolStart = 0;
+                    if (colorIndex > -1 && !symbolFirst) {
+                        symbolStart = colorIndex + 1;
                     }
-                    if (note[0] == 'R') {
-                        ter_color = c_red;
-                    }
-                    if (note[0] == 'g') {
-                        ter_color = c_ltgreen;
-                    }
-                    if (note[0] == 'G') {
-                        ter_color = c_green;
-                    }
-                    if (note[0] == 'b') {
-                        ter_color = c_ltblue;
-                    }
-                    if (note[0] == 'B') {
-                        ter_color = c_blue;
-                    }
-                    if (note[0] == 'W') {
-                        ter_color = c_white;
-                    }
-                    if (note[0] == 'C') {
-                        ter_color = c_cyan;
-                    }
-                    if (note[0] == 'P') {
-                        ter_color = c_pink;
-                    }
-                } else if (note.length() >= 4 && note[3] == ';') {
-                    if (note[2] == 'r') {
-                        ter_color = c_ltred;
-                    }
-                    if (note[2] == 'R') {
-                        ter_color = c_red;
-                    }
-                    if (note[2] == 'g') {
-                        ter_color = c_ltgreen;
-                    }
-                    if (note[2] == 'G') {
-                        ter_color = c_green;
-                    }
-                    if (note[2] == 'b') {
-                        ter_color = c_ltblue;
-                    }
-                    if (note[2] == 'B') {
-                        ter_color = c_blue;
-                    }
-                    if (note[2] == 'W') {
-                        ter_color = c_white;
-                    }
-                    if (note[2] == 'C') {
-                        ter_color = c_cyan;
-                    }
-                    if (note[2] == 'P') {
-                        ter_color = c_pink;
-                    }
-                } else {
-                    ter_color = c_yellow;
+
+                    ter_sym = note_text.substr(symbolStart, symbolIndex - symbolStart).c_str()[0];
+
                 }
+
+                if (colorIndex > -1) {
+
+                    int colorStart = 0;
+                    if (symbolIndex > -1 && symbolFirst) {
+                        colorStart = symbolIndex + 1;
+                    }
+
+                    std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
+
+                    if (sym.length() == 2) {
+
+                        if (sym.compare("br") == 0) {
+                            ter_color = c_brown;
+                        }
+                        if (sym.compare("lg") == 0) {
+                            ter_color = c_ltgray;
+                        }
+                        if (sym.compare("dg") == 0) {
+                            ter_color = c_dkgray;
+                        }
+
+                    } else {
+
+                        char colorID = sym.c_str()[0];
+
+                        if (colorID == 'r') {
+                            ter_color = c_ltred;
+                        }
+                        if (colorID == 'R') {
+                            ter_color = c_red;
+                        }
+                        if (colorID == 'g') {
+                            ter_color = c_ltgreen;
+                        }
+                        if (colorID == 'G') {
+                            ter_color = c_green;
+                        }
+                        if (colorID == 'b') {
+                            ter_color = c_ltblue;
+                        }
+                        if (colorID == 'B') {
+                            ter_color = c_blue;
+                        }
+                        if (colorID == 'W') {
+                            ter_color = c_white;
+                        }
+                        if (colorID == 'C') {
+                            ter_color = c_cyan;
+                        }
+                        if (colorID == 'c') {
+                            ter_color = c_ltcyan;
+                        }
+                        if (colorID == 'P') {
+                            ter_color = c_pink;
+                        }
+                        if (colorID == 'm') {
+                            ter_color = c_magenta;
+                        }
+
+                    }
+
+                }
+
             } else if (!seen) {
                 ter_sym = ' ';
                 ter_color = c_black;
