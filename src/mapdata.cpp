@@ -714,7 +714,7 @@ furn_id f_null,
     f_flower_marloss,
     f_floor_canvas,
     f_tatami,
-    f_kiln_empty, f_kiln_full;
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
@@ -805,6 +805,8 @@ void set_furn_ids() {
     f_floor_canvas=furnfind("f_floor_canvas");
     f_kiln_empty=furnfind("f_kiln_empty");
     f_kiln_full=furnfind("f_kiln_full");
+    f_kiln_metal_empty=furnfind("f_kiln_metal_empty");
+    f_kiln_metal_full=furnfind("f_kiln_metal_full");
 }
 
 /*
