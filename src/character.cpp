@@ -231,7 +231,7 @@ void Character::recalc_sight_limits()
     } else if (has_active_mutation("SHELL2")) {
         // You can kinda see out a bit.
         sight_max = 2;
-    } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
+    } else if ( (has_trait("MYOPIC") || has_active_mutation("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
             !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         sight_max = 4;
@@ -243,30 +243,31 @@ void Character::recalc_sight_limits()
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
     // Debug-only NV, by vache's request
-    if (has_trait("DEBUG_NIGHTVISION")) {
+    if (has_active_mutation("DEBUG_NIGHTVISION")) {
         sight_boost = 59;
         sight_boost_cap = 59;
-    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
-      (has_trait("CEPH_VISION")) ) {
+    } else if (has_nv() || is_wearing("rm13_armor_on") || has_active_mutation("NIGHTVISION3") ||
+        has_active_mutation("ELFA_FNV") || (has_active_mutation("CEPH_VISION")) ) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
-        if (has_trait("BIRD_EYE")) {
+        if (has_active_mutation("BIRD_EYE")) {
             sight_boost = 13;
         }
         else {
         sight_boost = sight_boost_cap;
         }
-    } else if (has_trait("ELFA_NV")) {
+    } else if (has_active_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
-    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) {
-        if (has_trait("BIRD_EYE")) {
+    } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
+        has_active_mutation("URSINE_EYE")) {
+        if (has_active_mutation("BIRD_EYE")) {
             sight_boost = 5;
         }
          else {
             sight_boost = 4;
          }
-    } else if (has_trait("NIGHTVISION")) {
-        if (has_trait("BIRD_EYE")) {
+    } else if (has_active_mutation("NIGHTVISION")) {
+        if (has_active_mutation("BIRD_EYE")) {
             sight_boost = 2;
         }
         else {
