@@ -782,11 +782,21 @@ void player::power_mutations()
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type,
                               trait_keys[traits[active[i]].id] );
-                    mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (traits[active[i]].powered ? _("%s - Active") : _("%s - %d RU / %d turns")),
-                              traits[active[i]].name.c_str(),
-                              traits[active[i]].cost,
-                              traits[active[i]].cooldown);
+                    std::stringstream mut_desc;
+                    mut_desc << traits[active[i]].name;
+                    if ( traits[active[i]].cost > 0 && traits[active[i]].cooldown > 0 ) {
+                        mut_desc << string_format( _(" - %d RU / %d turns"),
+                                      traits[active[i]].cost, traits[active[i]].cooldown );
+                    } else if ( traits[active[i]].cost > 0 ) {
+                        mut_desc << string_format( _(" - %d RU"), traits[active[i]].cost );
+                    } else if ( traits[active[i]].cooldown > 0 ) {
+                        mut_desc << string_format( _(" - %d turns"), traits[active[i]].cooldown );
+                    }
+                    if ( traits[active[i]].powered ) {
+                        mut_desc << _(" - Active");
+                    }
+                    mvwprintz( wBio, list_start_y + i, second_column + 2, type,
+                               mut_desc.str().c_str() );
                 }
             }
 
