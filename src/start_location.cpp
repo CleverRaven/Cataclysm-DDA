@@ -191,11 +191,11 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const
+tripoint start_location::setup() const
 {
     // We start in the (0,0,0) overmap.
-    cur_om = &overmap_buffer.get( 0, 0 );
-    tripoint omtstart = cur_om->find_random_omt( target() );
+    overmap &initial_overmap = overmap_buffer.get( 0, 0 );
+    tripoint omtstart = initial_overmap.find_random_omt( target() );
     if( omtstart == overmap::invalid_tripoint ) {
         // TODO (maybe): either regenerate the overmap (conflicts with existing characters there,
         // that has to be checked. Or look at the neighboring overmaps, but one has to stop
@@ -211,11 +211,6 @@ tripoint start_location::setup( overmap *&cur_om, int &levx, int &levy, int &lev
     prepare_map( player_start );
     player_start.save();
 
-    // Setup game::levx/levy/levz - those are in submap coordinates!
-    // And the player is centered in the map
-    levx = player_location.x - ( MAPSIZE / 2 );
-    levy = player_location.y - ( MAPSIZE / 2 );
-    levz = omtstart.z;
     return omtstart;
 }
 

@@ -614,7 +614,17 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    tripoint omtstart = start_loc.setup( cur_om, levx, levy, levz );
+    const tripoint omtstart = start_loc.setup();
+    tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
+    // The player is centered in the map, but lev[xyz] refers to the top left point of the map
+    lev.x -= MAPSIZE / 2;
+    lev.y -= MAPSIZE / 2;
+    // _remain because lev[xyz] are relative to the current overmap (cur_om)
+    const point om_pos = overmapbuffer::sm_to_om_remain( lev.x, lev.y );
+    cur_om = &overmap_buffer.get( om_pos.x, om_pos.y );
+    levx = lev.x;
+    levy = lev.y;
+    levz = lev.z;
 
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
