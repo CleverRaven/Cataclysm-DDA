@@ -242,10 +242,8 @@ player::~player()
 
 void player::normalize()
 {
-    Creature::normalize();
-
-    ret_null = item("null", 0);
-    weapon   = item("null", 0);
+    Character::normalize();
+    
     style_selected = "style_none";
 
     recalc_hp();

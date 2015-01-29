@@ -117,8 +117,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // newcharacter.cpp
         int create(character_type type, std::string tempname = "");
-        /** Calls Creature::normalize()
-         *  nulls out the player's weapon and normalizes HP and bodytemperature
+        /** Calls Character::normalize()
+         *  normalizes HP and bodytemperature
          */
         void normalize();
 

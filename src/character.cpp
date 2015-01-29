@@ -570,6 +570,16 @@ SkillLevel Character::get_skill_level(const std::string &ident) const
     return get_skill_level(sk);
 }
 
+void Character::normalize()
+{
+    Creature::normalize();
+
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
+
+    recalc_hp();
+}
+
 bool Character::has_nv()
 {
     static bool nv = false;

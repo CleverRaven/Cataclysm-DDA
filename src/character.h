@@ -225,9 +225,13 @@ class Character : public Creature
         SkillLevel get_skill_level(const std::string &ident) const;
         
         // --------------- Other Stuff ---------------
+        /** Calls Creature::normalize()
+         *  nulls out the player's weapon
+         */
+        virtual void normalize();
+        
         /** Returns true if the player has some form of night vision */
         bool has_nv();
-        
         
         // In newcharacter.cpp
         void empty_skills();
