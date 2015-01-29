@@ -140,7 +140,7 @@ std::string morale_point::name() const
     return ret;
 }
 
-player::player() : Character(), name("")
+player::player() : Character()
 {
  position.x = 0;
  position.y = 0;
@@ -253,11 +253,6 @@ void player::normalize()
     for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
     }
-}
-
-void player::pick_name()
-{
-    name = Name::generate(male);
 }
 
 std::string player::disp_name(bool possessive) const

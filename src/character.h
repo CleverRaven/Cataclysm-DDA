@@ -38,6 +38,8 @@ class Character : public Creature
         void recalc_sight_limits();
         
         // --------------- Mutation Stuff ---------------
+        
+        // In mutation.cpp
         /** Returns true if the player has the entered trait */
         virtual bool has_trait(const std::string &flag) const;
         /** Returns true if the player has the entered starting trait */
@@ -215,6 +217,8 @@ class Character : public Creature
         
         
         // In newcharacter.cpp
+        /** Returns a random name from NAMES_* */
+        void pick_name();
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
         /** Empties the trait list */
@@ -222,6 +226,9 @@ class Character : public Creature
         void add_traits();
         
         // --------------- Values ---------------
+        std::string name;
+        bool male;
+        
         std::vector<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max;
         bool nv_cached;

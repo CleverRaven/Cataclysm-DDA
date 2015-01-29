@@ -132,8 +132,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void die(Creature *nkiller);
         // </newcharacter.cpp>
 
-        /** Returns a random name from NAMES_* */
-        void pick_name();
         /** Returns either "you" or the player's name */
         std::string disp_name(bool possessive = false) const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
@@ -906,8 +904,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int active_mission;
         int volume;
 
-        std::string name;
-        bool male;
         profession *prof;
 
         std::string start_location;

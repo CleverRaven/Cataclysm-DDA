@@ -60,6 +60,11 @@ const Skill* random_skill();
 
 void save_template(player *u);
 
+void Character::pick_name()
+{
+    name = Name::generate(male);
+}
+
 int player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);

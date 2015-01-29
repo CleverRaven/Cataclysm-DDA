@@ -3,6 +3,7 @@
 
 Character::Character()
 {
+    name = "";
     Creature::set_speed_base(100);
 }
 
