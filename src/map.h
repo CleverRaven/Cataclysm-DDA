@@ -816,7 +816,7 @@ private:
         /**
          * Get the submap pointer with given index in @ref grid, the index must be valid!
          */
-        submap *getsubmap( int grididx ) const;
+        submap *getsubmap( size_t grididx ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
          * (x,y) must be a valid coordinate, check with @ref inbounds.
@@ -837,13 +837,13 @@ private:
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          */
-        int get_nonant( int gridx, int gridy ) const;
+        size_t get_nonant( int gridx, int gridy ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
          * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
          * The given submap pointer must not be null.
          */
-        void setsubmap( int grididx, submap *smap );
+        void setsubmap( size_t grididx, submap *smap );
 
     void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 
@@ -883,7 +883,12 @@ private:
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
- submap* grid[MAPSIZE * MAPSIZE];
+        /**
+         * The list of currently loaded submaps. The size of this should not be changed.
+         * After calling @ref load or @ref generate, it should only contain non-null pointers.
+         * Use @ref getsubmap or @ref setsubmap to access it.
+         */
+        std::vector<submap*> grid;
  std::map<trap_id, std::set<point> > traplocs;
 };
 

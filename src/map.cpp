@@ -116,14 +116,12 @@ map::map(int mapsize)
 {
     nulter = t_null;
     my_MAPSIZE = mapsize;
+    grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
-    for( auto &elem : grid ) {
-        elem = NULL;
-    }
 }
 
 map::~map()
@@ -4657,8 +4655,8 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<abs_sub.x<<"], worldy["<<abs_sub.y<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
  const int absx = abs_sub.x + gridx,
-           absy = abs_sub.y + gridy,
-           gridn = get_nonant( gridx, gridy );
+           absy = abs_sub.y + gridy;
+    const size_t gridn = get_nonant( gridx, gridy );
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
             << "  gridn: " << gridn;
@@ -5334,18 +5332,18 @@ tripoint map::get_abs_sub() const
    return abs_sub;
 }
 
-submap *map::getsubmap( const int grididx ) const
+submap *map::getsubmap( const size_t grididx ) const
 {
-    if( grididx < 0 || grididx >= my_MAPSIZE * my_MAPSIZE ) {
+    if( grididx >= grid.size() ) {
         debugmsg( "Tried to access invalid grid index %d", grididx );
         return nullptr;
     }
     return grid[grididx];
 }
 
-void map::setsubmap( const int grididx, submap * const smap )
+void map::setsubmap( const size_t grididx, submap * const smap )
 {
-    if( grididx < 0 || grididx >= my_MAPSIZE * my_MAPSIZE ) {
+    if( grididx >= grid.size() ) {
         debugmsg( "Tried to access invalid grid index %d", grididx );
         return;
     } else if( smap == nullptr ) {
@@ -5376,7 +5374,7 @@ submap *map::get_submap_at_grid( const int gridx, const int gridy ) const
     return getsubmap( get_nonant( gridx, gridy ) );
 }
 
-int map::get_nonant( const int gridx, const int gridy ) const
+size_t map::get_nonant( const int gridx, const int gridy ) const
 {
     if( gridx < 0 || gridx >= my_MAPSIZE || gridy < 0 || gridy >= my_MAPSIZE ) {
         debugmsg( "Tried to access invalid map position at grid (%d,%d)", gridx, gridy );
