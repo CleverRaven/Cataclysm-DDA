@@ -229,6 +229,7 @@ class Character : public Creature
          *  nulls out the player's weapon
          */
         virtual void normalize();
+        virtual void die(Creature *nkiller);
         
         /** Returns true if the player has some form of night vision */
         bool has_nv();

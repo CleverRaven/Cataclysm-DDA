@@ -120,10 +120,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
          */
+        
         void normalize();
-
-        virtual void die(Creature *nkiller);
-        // </newcharacter.cpp>
 
         /** Returns either "you" or the player's name */
         std::string disp_name(bool possessive = false) const;
