@@ -39,17 +39,17 @@ bool tutorial_game::init()
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
     int lx = 50, ly = 50; // overmap terrain coordinates
-    g->cur_om = &overmap_buffer.get(0, 0);
+    auto &starting_om = overmap_buffer.get(0, 0);
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-            g->cur_om->ter( i, j, -1 ) = "rock";
+            starting_om.ter( i, j, -1 ) = "rock";
             // Start with the overmap revealed
-            g->cur_om->seen( i, j, 0 ) = true;
+            starting_om.seen( i, j, 0 ) = true;
         }
     }
-    g->cur_om->ter(lx, ly, 0) = "tutorial";
-    g->cur_om->ter(lx, ly, -1) = "tutorial";
-    g->cur_om->clear_mon_groups();
+    starting_om.ter(lx, ly, 0) = "tutorial";
+    starting_om.ter(lx, ly, -1) = "tutorial";
+    starting_om.clear_mon_groups();
     // to submap coordinates as it is supposed to be
     g->levx = lx * 2;
     g->levy = ly * 2;
@@ -60,6 +60,7 @@ bool tutorial_game::init()
  g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
+ cur_om = &starting_om;
  g->m.load( g->get_abs_levx(), g->get_abs_levy(), 0, true );
  g->levz = 0;
  g->u.setx( 2 );

@@ -88,7 +88,6 @@ bool defense_game::init()
     g->u.cash = initial_cash;
     popup_nowait(_("Please wait as the map generates [ 0%%]"));
     // TODO: support multiple defence games? clean up old defence game
-    g->cur_om = &overmap_buffer.get(0, 0);
     init_map();
     caravan();
     return true;
@@ -205,19 +204,13 @@ void defense_game::init_recipes()
 
 void defense_game::init_map()
 {
+    auto &starting_om = overmap_buffer.get( 0, 0 );
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
-            g->cur_om->ter(x, y, 0) = "field";
-            g->cur_om->seen(x, y, 0) = true;
+            starting_om.ter(x, y, 0) = "field";
+            starting_om.seen(x, y, 0) = true;
         }
     }
-
-    g->cur_om->save();
-    g->levx = 100;
-    g->levy = 100;
-    g->levz = 0;
-    g->u.setx( SEEX );
-    g->u.sety( SEEY );
 
     switch (location) {
     case DEFLOC_NULL:
@@ -228,49 +221,50 @@ void defense_game::init_map()
     case DEFLOC_HOSPITAL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "hospital";
+                starting_om.ter(x, y, 0) = "hospital";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "hospital_entrance";
+        starting_om.ter(50, 49, 0) = "hospital_entrance";
         break;
 
     case DEFLOC_WORKS:
         for (int x = 49; x <= 50; x++) {
             for (int y = 49; y <= 50; y++) {
-                g->cur_om->ter(x, y, 0) = "public_works";
+                starting_om.ter(x, y, 0) = "public_works";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "public_works_entrance";
+        starting_om.ter(50, 49, 0) = "public_works_entrance";
         break;
 
     case DEFLOC_MALL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "megastore";
+                starting_om.ter(x, y, 0) = "megastore";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "megastore_entrance";
+        starting_om.ter(50, 49, 0) = "megastore_entrance";
         break;
 
     case DEFLOC_BAR:
-        g->cur_om->ter(50, 50, 0) = "bar_north";
+        starting_om.ter(50, 50, 0) = "bar_north";
         break;
 
     case DEFLOC_MANSION:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "mansion";
+                starting_om.ter(x, y, 0) = "mansion";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "mansion_entrance";
+        starting_om.ter(50, 49, 0) = "mansion_entrance";
         break;
     }
+    starting_om.save();
 
     // Init the map
     int old_percent = 0;
     for (int i = 0; i <= MAPSIZE * 2; i += 2) {
         for (int j = 0; j <= MAPSIZE * 2; j += 2) {
-            int mx = g->levx - MAPSIZE + i, my = g->levy - MAPSIZE + j;
+            int mx = 100 - MAPSIZE + i, my = 100 - MAPSIZE + j;
             int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
                           ((MAPSIZE) * (MAPSIZE + 1));
             if (percent >= old_percent + 1) {
@@ -288,7 +282,13 @@ void defense_game::init_map()
         }
     }
 
+    g->levx = 100;
+    g->levy = 100;
+    g->levz = 0;
+    g->cur_om = &starting_om;
     g->m.load( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz(), true );
+    g->u.setx( SEEX );
+    g->u.sety( SEEY );
 
     int x = g->u.posx();
     int y = g->u.posy();
