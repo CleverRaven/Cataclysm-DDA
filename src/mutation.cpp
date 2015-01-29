@@ -908,6 +908,7 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
+                        add_msg( m_neutral, _("You activate your %s."), mut_data.name.c_str() );
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
