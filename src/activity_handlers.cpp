@@ -56,10 +56,10 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
     g->m.destroy(dirx, diry, true);
 }
 
-bool butcher_cbm_item( const std::string item, const point &pos, int age )
+bool butcher_cbm_item( const std::string &item, const point &pos, const int age )
 {
     //To see if it spawns a random additional CBM
-    if( rng(0, 1) == 1 ) { //The CBM works
+    if( one_in( 2 ) ) { //The CBM works
         g->m.spawn_item( pos.x, pos.y, item, 1, 0, age );
         return true;
     }
@@ -68,10 +68,10 @@ bool butcher_cbm_item( const std::string item, const point &pos, int age )
     return false;
 }
 
-bool butcher_cbm_group( const std::string group, const point &pos, int age )
+bool butcher_cbm_group( const std::string &group, const point &pos, const int age )
 {
     //To see if it spawns a random additional CBM
-    if( rng(0, 1) == 1 ) { //The CBM works
+    if( one_in( 2 ) ) { //The CBM works
         g->m.put_items_from_loc( group, pos.x, pos.y, age );
         return true;
     }
