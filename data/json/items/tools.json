@@ -6292,6 +6292,181 @@
         "container": "jar_glass"
     }
   },
+  
+  {
+    "id": "jar_soup_woods",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of woods soup",
+    "name_plural": "sealed jars of woods soup",
+    "description": "This is a sealed glass jar containing woods soup.  Use to open and eat to enjoy.",
+    "price": 500,
+    "material": ["glass", "flesh", "veggy"],
+    "weight": 552,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_woods",
+		"target_charges": 4,
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_soup_meat",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of meat soup",
+    "name_plural": "sealed jars of meat soup",
+    "description": "This is a sealed glass jar containing meat soup.  Use to open and eat to enjoy.",
+    "price": 600,
+    "material": ["glass", "flesh"],
+    "weight": 553,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_meat",
+		"target_charges": 4,
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_soup_fish",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "light_gray",
+    "name": "sealed jar of fish soup",
+    "name_plural": "sealed jars of fish soup",
+    "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
+    "price": 600,
+    "material": ["glass", "flesh"],
+    "weight": 553,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_fish",
+		"target_charges": 4,
+        "container": "jar_glass"
+    }
+  },
+
+  {
+    "id": "jar_soup_veggy",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of vegetable soup",
+    "name_plural": "sealed jars of vegetable soup",
+    "description": "This is a sealed glass jar containing vegetable soup.  Use to open and eat to enjoy.",
+    "price": 600,
+    "material": ["glass", "veggy"],
+    "weight": 552,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_veggy",
+		"target_charges": 4,
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_soup_human",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of sap soup",
+    "name_plural": "sealed jars of sap soup",
+    "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
+    "price": 0,
+    "material": ["glass", "hflesh"],
+    "weight": 553,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_human",
+		"target_charges": 4,
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_broth",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "yellow",
+    "name": "sealed jar of broth",
+    "name_plural": "sealed jars of broth",
+    "description": "This is a sealed glass jar containing broth.  Use to open and eat to enjoy.",
+    "price": 350,
+    "material": ["glass", "veggy"],
+    "weight": 520,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "broth",
+		"target_charges": 1,
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_broth_bone",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "yellow",
+    "name": "sealed jar of bone broth",
+    "name_plural": "sealed jars of bone broth",
+    "description": "This is a sealed glass jar containing bone broth.  Use to open and eat to enjoy.",
+    "price": 350,
+    "material": ["glass", "bone"],
+    "weight": 518,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "broth_bone",
+		"target_charges": 1,
+        "container": "jar_glass"
+    }
+  },
 
   {
     "id": "flask_yeast",
