@@ -516,7 +516,6 @@ class game
                   int freed_volume_capacity, int dirx, int diry);
         bool make_drop_activity( enum activity_type act, point target );
     private:
-        int levx, levy, levz; // Placement inside the overmap
         overmap *cur_om;
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,

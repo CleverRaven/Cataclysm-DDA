@@ -593,9 +593,6 @@ void game::load_map( tripoint pos_sm )
     m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
     const point om_pos = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
     cur_om = &overmap_buffer.get( om_pos.x, om_pos.y );
-    levx = pos_sm.x;
-    levy = pos_sm.y;
-    levz = pos_sm.z;
 }
 
 // Set up all default values for a new game
@@ -8854,10 +8851,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 } else if( new_levz < -OVERMAP_DEPTH ) {
                     new_levz = -OVERMAP_DEPTH;
                 }
-                levz = new_levz;
 
-                add_msg("levx: %d, levy: %d, levz :%d", get_abs_levx(), get_abs_levy(), get_abs_levz());
-                m.vertical_shift( get_abs_levz() );
+                add_msg("levx: %d, levy: %d, levz :%d", get_abs_levx(), get_abs_levy(), new_levz);
+                m.vertical_shift( new_levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
 #else
@@ -8902,7 +8898,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 #ifdef ZLEVELS
     if( get_abs_levz() != old_levz ) {
         m.vertical_shift( old_levz );
-        levz = old_levz;
     }
 #endif
 
@@ -12844,7 +12839,6 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    levz += movez;
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
@@ -12925,14 +12919,9 @@ void game::update_map(int &x, int &y)
     }
 
     m.shift( shiftx, shifty );
-    levx += shiftx;
-    levy += shifty;
 
     real_coords rc( m.getabs( 0, 0 ) );
     if( get_cur_om().pos() != rc.abs_om ) {
-        // lev[xy] must stay relative to cur_om, if we change cur_om, we have to change lev[xy]
-        levx += ( get_cur_om().pos().x - rc.abs_om.x ) * OMAPX * 2;
-        levy += ( get_cur_om().pos().y - rc.abs_om.y ) * OMAPY * 2;
         cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
     }
 
@@ -14235,38 +14224,38 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
 int game::get_abs_levx() const
 {
-    if( cur_om == nullptr ) {
-        return INT_MIN;
-    }
-    return levx + get_cur_om().pos().x * OMAPX * 2;
+    return m.get_abs_sub().x;
 }
 
 int game::get_abs_levy() const
 {
-    if( cur_om == nullptr ) {
-        return INT_MIN;
-    }
-    return levy + get_cur_om().pos().y * OMAPY * 2;
+    return m.get_abs_sub().y;
 }
 
 int game::get_abs_levz() const
 {
-    return levz;
+    return m.get_abs_sub().z;
 }
 
 int game::get_levx() const
 {
-    return levx;
+    if( cur_om == nullptr ) {
+        return INT_MIN;
+    }
+    return get_abs_levx() - get_cur_om().pos().x * OMAPX * 2;
 }
 
 int game::get_levy() const
 {
-    return levy;
+    if( cur_om == nullptr ) {
+        return INT_MIN;
+    }
+    return get_abs_levy() - get_cur_om().pos().y * OMAPY * 2;
 }
 
 int game::get_levz() const
 {
-    return levz;
+    return m.get_abs_sub().z;
 }
 
 overmap &game::get_cur_om() const
