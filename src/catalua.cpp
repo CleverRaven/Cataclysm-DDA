@@ -192,7 +192,7 @@ ter_t *get_terrain_type(int id)
 
 overmap *get_current_overmap()
 {
-    return g->cur_om;
+    return &g->get_cur_om();
 }
 
 /** Create a new monster of the given type. */

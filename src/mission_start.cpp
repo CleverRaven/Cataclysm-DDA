@@ -74,7 +74,7 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
     }
     std::vector<point> places_om;
     for (auto &i : places) {
-        if (g->cur_om == overmap_buffer.get_existing_om_global(i))
+        if (&g->get_cur_om() == overmap_buffer.get_existing_om_global(i))
             places_om.push_back(i);
     }
     const point place = places_om[rng(0,places_om.size()-1)];

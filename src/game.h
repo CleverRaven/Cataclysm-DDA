@@ -381,7 +381,6 @@ class game
         bool lightning_active;
 
         std::map<int, weather_segment> weather_log;
-        overmap *cur_om;
         map m;
 
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */
@@ -397,6 +396,7 @@ class game
          * coordinates, also sets up @ref levx etc. and @ref cur_om.
          */
         void load_map( tripoint pos_sm );
+        overmap &get_cur_om() const;
         player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
@@ -517,6 +517,7 @@ class game
         bool make_drop_activity( enum activity_type act, point target );
     private:
         int levx, levy, levz; // Placement inside the overmap
+        overmap *cur_om;
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);

@@ -4225,7 +4225,7 @@ void game::debug()
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
-                    cur_om->seen(i, j, k) = true;
+                    get_cur_om().seen(i, j, k) = true;
                 }
             }
         }
@@ -12929,10 +12929,10 @@ void game::update_map(int &x, int &y)
     levy += shifty;
 
     real_coords rc( m.getabs( 0, 0 ) );
-    if( cur_om->pos() != rc.abs_om ) {
+    if( get_cur_om().pos() != rc.abs_om ) {
         // lev[xy] must stay relative to cur_om, if we change cur_om, we have to change lev[xy]
-        levx += ( cur_om->pos().x - rc.abs_om.x ) * OMAPX * 2;
-        levy += ( cur_om->pos().y - rc.abs_om.y ) * OMAPY * 2;
+        levx += ( get_cur_om().pos().x - rc.abs_om.x ) * OMAPX * 2;
+        levy += ( get_cur_om().pos().y - rc.abs_om.y ) * OMAPY * 2;
         cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
     }
 
@@ -13285,7 +13285,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
-    const int npc_num = cur_om->npcs.size();
+    const int npc_num = get_cur_om().npcs.size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
@@ -14235,12 +14235,18 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
 int game::get_abs_levx() const
 {
-    return levx + cur_om->pos().x * OMAPX * 2;
+    if( cur_om == nullptr ) {
+        return INT_MIN;
+    }
+    return levx + get_cur_om().pos().x * OMAPX * 2;
 }
 
 int game::get_abs_levy() const
 {
-    return levy + cur_om->pos().y * OMAPY * 2;
+    if( cur_om == nullptr ) {
+        return INT_MIN;
+    }
+    return levy + get_cur_om().pos().y * OMAPY * 2;
 }
 
 int game::get_abs_levz() const
@@ -14261,4 +14267,9 @@ int game::get_levy() const
 int game::get_levz() const
 {
     return levz;
+}
+
+overmap &game::get_cur_om() const
+{
+    return *cur_om;
 }
