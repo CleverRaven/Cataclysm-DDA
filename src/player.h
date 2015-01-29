@@ -1018,17 +1018,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
-        // return the calendar::turn the player expired
-        int get_turn_died() const
-        {
-            return turn_died;
-        }
-        // set the turn the turn the player died if not already done
-        void set_turn_died(int turn)
-        {
-            turn_died = (turn_died != -1) ? turn : turn_died;
-        }
-
     protected:
         std::list<disease> illness;
         // The player's position on the local map.
@@ -1080,9 +1069,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
-
-        // turn the player expired, if -1 it has not been set yet.
-        int turn_died = -1;
 };
 
 #endif

@@ -276,37 +276,21 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
+    Character::reset_stats();
+    
     clear_miss_reasons();
-
-    // Bionic buffs
-    if (has_active_bionic("bio_hydraulics"))
-        mod_str_bonus(20);
-    if (has_bionic("bio_eye_enhancer"))
-        mod_per_bonus(2);
-    if (has_bionic("bio_str_enhancer"))
-        mod_str_bonus(2);
-    if (has_bionic("bio_int_enhancer"))
-        mod_int_bonus(2);
-    if (has_bionic("bio_dex_enhancer"))
-        mod_dex_bonus(2);
 
     // Trait / mutation buffs
     if (has_trait("THICK_SCALES")) {
-        mod_dex_bonus(-2);
         add_miss_reason(_("Your thick scales get in the way."), 2);
     }
     if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        mod_dex_bonus(-1);
         add_miss_reason(_("Your chitin gets in the way."), 1);
     }
     if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
         mod_per_bonus(1);
     }
-    if (has_trait("BIRD_EYE")) {
-        mod_per_bonus(4);
-    }
     if (has_trait("INSECT_ARMS")) {
-        mod_dex_bonus(-2);
         add_miss_reason(_("Your insect limbs get in the way."), 2);
     }
     if (has_trait("INSECT_ARMS_OK")) {
@@ -319,11 +303,9 @@ void player::reset_stats()
         }
     }
     if (has_trait("WEBBED")) {
-        mod_dex_bonus(-1);
         add_miss_reason(_("Your webbed hands get in the way."), 1);
     }
     if (has_trait("ARACHNID_ARMS")) {
-        mod_dex_bonus(-4);
         add_miss_reason(_("Your arachnid limbs get in the way."), 4);
     }
     if (has_trait("ARACHNID_ARMS_OK")) {
@@ -334,10 +316,6 @@ void player::reset_stats()
             mod_dex_bonus(-2);
             add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
         }
-    }
-    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
-        mod_dex_bonus(1);
     }
 
     // Pain
@@ -394,24 +372,6 @@ void player::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
-    if (has_trait("TAIL_LONG")) {
-        mod_dodge_bonus(2);
-    }
-    if (has_trait("TAIL_CATTLE")) {
-        mod_dodge_bonus(1);
-    }
-    if (has_trait("TAIL_RAT")) {
-        mod_dodge_bonus(2);
-    }
-    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
-        mod_dodge_bonus(1);
-    }
-    if (has_trait("TAIL_RAPTOR")) {
-        mod_dodge_bonus(3);
-    }
-    if (has_trait("TAIL_FLUFFY")) {
-        mod_dodge_bonus(4);
-    }
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -432,15 +392,6 @@ void player::reset_stats()
             mod_dodge_bonus(4);
         }
     }
-    if (has_trait("WINGS_BAT")) {
-        mod_dodge_bonus(-3);
-    }
-    if (has_trait("WINGS_BUTTERFLY")) {
-        mod_dodge_bonus(-4);
-    }
-
-    if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
-    else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     // Hit-related effects
     mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
@@ -451,14 +402,10 @@ void player::reset_stats()
     if (int(calendar::turn) % 10 == 0) {
         update_mental_focus();
     }
-    nv_cached = false;
     pda_cached = false;
 
     recalc_sight_limits();
     recalc_speed_bonus();
-
-    Creature::reset_stats();
-
 }
 
 void player::process_turn()

@@ -225,11 +225,28 @@ class Character : public Creature
         SkillLevel get_skill_level(const std::string &ident) const;
         
         // --------------- Other Stuff ---------------
+        
+
+        /** return the calendar::turn the character expired */
+        int get_turn_died() const
+        {
+            return turn_died;
+        }
+        /** set the turn the turn the character died if not already done */
+        void set_turn_died(int turn)
+        {
+            turn_died = (turn_died != -1) ? turn : turn_died;
+        }
+        
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
+         *  Should only be called through player::normalize(), not on it's own!
          */
         virtual void normalize();
         virtual void die(Creature *nkiller);
+        
+        /** Resets stats, and applies effects in an idempotent manner */
+        virtual void reset_stats();
         
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -282,6 +299,9 @@ class Character : public Creature
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
+
+        // turn the character expired, if -1 it has not been set yet.
+        int turn_died = -1;
 };
 
 #endif
