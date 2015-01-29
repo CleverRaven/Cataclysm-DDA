@@ -12719,32 +12719,6 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-SkillLevel& player::skillLevel(std::string ident)
-{
-    return _skills[Skill::skill(ident)];
-}
-
-SkillLevel& player::skillLevel(const Skill* _skill)
-{
-    return _skills[_skill];
-}
-
-SkillLevel player::get_skill_level(const Skill* _skill) const
-{
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
-    }
-    return SkillLevel();
-}
-
-SkillLevel player::get_skill_level(const std::string &ident) const
-{
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
-}
-
 void player::copy_skill_levels(const player *rhs)
 {
     _skills = rhs->_skills;

@@ -38,6 +38,11 @@ class Character : public Creature
         void recalc_sight_limits();
         
         // --------------- Mutation Stuff ---------------
+        // In newcharacter.cpp
+        /** Returns the id of a random starting trait that costs >= 0 points */
+        std::string random_good_trait();
+        /** Returns the id of a random starting trait that costs < 0 points */
+        std::string random_bad_trait();
         
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
@@ -211,12 +216,21 @@ class Character : public Creature
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( std::string flag ) const;
         
+        // --------------- Skill Stuff ---------------
+        SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel &skillLevel(std::string ident);
+        
+        /** for serialization */
+        SkillLevel get_skill_level(const Skill* _skill) const;
+        SkillLevel get_skill_level(const std::string &ident) const;
+        
         // --------------- Other Stuff ---------------
         /** Returns true if the player has some form of night vision */
         bool has_nv();
         
         
         // In newcharacter.cpp
+        void empty_skills();
         /** Returns a random name from NAMES_* */
         void pick_name();
         /** Returns the set "my_traits" */
@@ -254,6 +268,8 @@ class Character : public Creature
         void load(JsonObject &jsin);
         
         // --------------- Values ---------------
+        std::map<const Skill*, SkillLevel> _skills;
+
         std::map<std::string, char> trait_keys;
         
         bool underwater;

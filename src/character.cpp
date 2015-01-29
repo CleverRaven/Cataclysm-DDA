@@ -544,6 +544,32 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
+SkillLevel& Character::skillLevel(std::string ident)
+{
+    return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& Character::skillLevel(const Skill* _skill)
+{
+    return _skills[_skill];
+}
+
+SkillLevel Character::get_skill_level(const Skill* _skill) const
+{
+    for( const auto &elem : _skills ) {
+        if( elem.first == _skill ) {
+            return elem.second;
+        }
+    }
+    return SkillLevel();
+}
+
+SkillLevel Character::get_skill_level(const std::string &ident) const
+{
+    const Skill* sk = Skill::skill(ident);
+    return get_skill_level(sk);
+}
+
 bool Character::has_nv()
 {
     static bool nv = false;

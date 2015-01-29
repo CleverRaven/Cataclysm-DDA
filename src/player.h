@@ -107,8 +107,6 @@ struct reason_weight_list {
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
-        std::map<const Skill*, SkillLevel> _skills;
-
     public:
         player();
         player(const player &) = default;
@@ -119,11 +117,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // newcharacter.cpp
         int create(character_type type, std::string tempname = "");
-        void empty_skills();
-        /** Returns the id of a random starting trait that costs >= 0 points */
-        std::string random_good_trait();
-        /** Returns the id of a random starting trait that costs < 0 points */
-        std::string random_bad_trait();
         /** Calls Creature::normalize()
          *  nulls out the player's weapon and normalizes HP and bodytemperature
          */
@@ -935,13 +928,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<morale_point> morale;
 
         int focus_pool;
-
-        SkillLevel &skillLevel(const Skill* _skill);
-        SkillLevel &skillLevel(std::string ident);
-
-        // for serialization
-        SkillLevel get_skill_level(const Skill* _skill) const;
-        SkillLevel get_skill_level(const std::string &ident) const;
 
         void set_skill_level(const Skill* _skill, int level);
         void set_skill_level(std::string ident, int level);
