@@ -3314,7 +3314,7 @@ void talk_function::lead_to_safety(npc *p)
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;
- p->goal.z = g->levz;
+ p->goal.z = g->get_levz();
  p->attitude = NPCATT_LEAD;
 }
 

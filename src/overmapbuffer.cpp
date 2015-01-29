@@ -716,7 +716,7 @@ void overmapbuffer::despawn_monster(const monster &critter)
     overmap &om = get( omp.x, omp.y );
     // Store the monster using coordinates local to the overmap.
     // TODO: with Z-levels this should probably be taken from the critter
-    om.monster_map.insert( std::make_pair( tripoint(sm.x, sm.y, g->levz), critter ) );
+    om.monster_map.insert( std::make_pair( tripoint(sm.x, sm.y, g->get_levz()), critter ) );
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);

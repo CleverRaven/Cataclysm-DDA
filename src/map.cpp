@@ -5495,7 +5495,7 @@ void map::build_outside_cache()
         return;
     }
 
-    if (g->levz < 0)
+    if (g->get_levz() < 0)
     {
         memset(outside_cache, false, sizeof(outside_cache));
         return;

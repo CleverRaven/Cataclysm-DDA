@@ -357,7 +357,7 @@ void player::activate_mutation( const std::string &mut )
             // Takes about 100 minutes (not quite two hours) base time.
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
             turns = (100000 - 5000 * g->u.skillLevel("carpentry"));
-        } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+        } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                    g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
             turns = 18000;
         } else {

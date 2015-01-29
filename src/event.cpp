@@ -84,7 +84,7 @@ void event::actualize()
   } break;
 
   case EVENT_SPAWN_WYRMS: {
-   if (g->levz >= 0)
+   if (g->get_levz() >= 0)
     return;
    g->u.add_memorial_log(pgettext("memorial_male", "Drew the attention of more dark wyrms!"),
                          pgettext("memorial_female", "Drew the attention of more dark wyrms!"));
@@ -281,7 +281,7 @@ void event::per_turn()
  switch (type) {
   case EVENT_WANTED: {
    // About once every 5 minutes. Suppress in classic zombie mode.
-   if (g->levz >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+   if (g->get_levz() >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
@@ -296,7 +296,7 @@ void event::per_turn()
   } break;
 
   case EVENT_SPAWN_WYRMS:
-   if (g->levz >= 0) {
+   if (g->get_levz() >= 0) {
     turn--;
     return;
    }

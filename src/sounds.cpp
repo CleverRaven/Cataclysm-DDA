@@ -121,7 +121,7 @@ void sounds::process_sounds()
         const point source = point(this_centroid.x, this_centroid.y);
         // --- Monster sound handling here ---
         // Alert all hordes
-        if( vol > 20 && g->levz == 0 ) {
+        if( vol > 20 && g->get_levz() == 0 ) {
             int sig_power = ((vol > 140) ? 140 : vol) - 20;
             overmap_buffer.signal_hordes( g->global_sm_location(), sig_power );
         }

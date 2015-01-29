@@ -81,9 +81,9 @@ void game::serialize(std::ofstream & fout) {
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
-        json.member( "levx", levx );
-        json.member( "levy", levy );
-        json.member( "levz", levz );
+        json.member( "levx", get_levx() );
+        json.member( "levy", get_levy() );
+        json.member( "levz", get_levz() );
         json.member( "om_x", cur_om->pos().x );
         json.member( "om_y", cur_om->pos().y );
 

@@ -142,7 +142,7 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
 #ifndef ZLEVELS
-        const bool zlev_del = om_addr.z != g->levz;
+        const bool zlev_del = om_addr.z != g->get_abs_levz();
 #else
         const bool zlev_del = false;
 #endif

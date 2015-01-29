@@ -1170,7 +1170,7 @@ void computer::activate_failure(computer_failure fail)
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
         sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
-        if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
+        if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }
         break;

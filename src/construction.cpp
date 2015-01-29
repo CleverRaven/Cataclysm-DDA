@@ -704,13 +704,13 @@ bool construct::check_deconstruct(point p)
 bool construct::check_up_OK(point)
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return (g->levz < OVERMAP_HEIGHT);
+    return (g->get_levz() < OVERMAP_HEIGHT);
 }
 
 bool construct::check_down_OK(point)
 {
     // You're not going below -OVERMAP_DEPTH.
-    return (g->levz > -OVERMAP_DEPTH);
+    return (g->get_levz() > -OVERMAP_DEPTH);
 }
 
 void construct::done_tree(point p)

@@ -14,7 +14,7 @@
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->levz >= 0)
+#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->get_levz() >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -351,11 +351,11 @@ void weather_effect::thunder()
 {
     very_wet();
     if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
-        if (g->levz >= 0) {
+        if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
+        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
+        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
         }
     }
@@ -373,7 +373,7 @@ void weather_effect::lightning()
 {
     thunder();
     if(one_in(LIGHTNING_CHANCE)) {
-        if(g->levz >= 0) {
+        if(g->get_levz() >= 0) {
             add_msg(_("A flash of lightning illuminates your surroundings!"));
             g->lightning_active = true;
         }

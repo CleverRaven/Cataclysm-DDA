@@ -1417,7 +1417,7 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type, tripoint( pnt, g->levz ) );
+    monster tmp( type, tripoint( pnt, g->get_abs_levz() ) );
     tmp.wandx = g->u.posx();
     tmp.wandy = g->u.posy();
     tmp.wandf = 150;

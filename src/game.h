@@ -384,11 +384,14 @@ class game
         overmap *cur_om;
         map m;
 
-        int levx, levy, levz; // Placement inside the overmap
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */
         int get_abs_levx() const;
         int get_abs_levy() const;
         int get_abs_levz() const;
+        /** Values of lev[xyz], they are relative to @ref cur_om */
+        int get_levx() const;
+        int get_levy() const;
+        int get_levz() const;
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates, also sets up @ref levx etc. and @ref cur_om.
@@ -513,6 +516,7 @@ class game
                   int freed_volume_capacity, int dirx, int diry);
         bool make_drop_activity( enum activity_type act, point target );
     private:
+        int levx, levy, levz; // Placement inside the overmap
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);

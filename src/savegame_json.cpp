@@ -951,7 +951,7 @@ void monster::load(JsonObject &data)
     data.read("posx", position.x);
     data.read("posy", position.y);
     if( !data.read("posz", zpos) ) {
-        zpos = g->levz;
+        zpos = g->get_abs_levz();
     }
 
     data.read("wandx", wandx);
