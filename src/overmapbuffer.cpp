@@ -303,6 +303,26 @@ void overmapbuffer::signal_hordes( const tripoint center, const int sig_power )
     }
 }
 
+void overmapbuffer::process_mongroups()
+{
+    // arbitrary radius to include nearby overmaps (aside from the current one)
+    const auto radius = MAPSIZE * 2;
+    const auto center = g->global_sm_location();
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        om->process_mongroups();
+    }
+}
+
+void overmapbuffer::move_hordes()
+{
+    // arbitrary radius to include nearby overmaps (aside from the current one)
+    const auto radius = MAPSIZE * 2;
+    const auto center = g->global_sm_location();
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        om->move_hordes();
+    }
+}
+
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,

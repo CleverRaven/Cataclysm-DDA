@@ -1126,14 +1126,14 @@ bool game::do_turn()
     process_missions();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
-        cur_om->process_mongroups();
+        overmap_buffer.process_mongroups();
 #ifdef LUA
         lua_callback(lua_state, "on_day_passed");
 #endif
     }
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+        overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );

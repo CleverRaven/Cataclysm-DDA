@@ -266,10 +266,6 @@ class overmap
      * Returns @ref invalid_tripoint if no suitable place has been found.
      */
     tripoint find_random_omt( const std::string &omt_base_type ) const;
-
-    void process_mongroups(); // Makes them die out, maybe more
-    void move_hordes();
-
     /**
      * Return a vector containing the absolute coordinates of
      * every matching terrain on the current z level of the current overmap.
@@ -393,6 +389,8 @@ public:
 
     int dist_from_city(point p);
     void signal_hordes( int x, int y, int sig_power );
+    void process_mongroups();
+    void move_hordes();
 
   /**
    * Draws the overmap terrain.

@@ -269,6 +269,15 @@ public:
      * @param sig_power The signal strength, higher values means it visible farther away.
      */
     void signal_hordes( tripoint center, int sig_power );
+    /**
+     * Process nearby monstergroups (dying mostly).
+     */
+    void process_mongroups();
+    /**
+     * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
+     * therefor you should probably call @ref map::spawn_monsters to spawn them.
+     */
+    void move_hordes();
     // hordes -- this uses overmap terrain coordinates!
     std::vector<mongroup*> monsters_at(int x, int y, int z);
     /**
