@@ -1245,33 +1245,6 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-point overmap::random_house_in_city(int city_id)
-{
-    if (city_id < 0 || size_t(city_id) >= cities.size()) {
-        debugmsg("overmap::random_house_in_city(%d) (max %d)", city_id,
-                 cities.size() - 1);
-        return point(-1, -1);
-    }
-
-    std::vector<point> valid;
-    int startx = cities[city_id].x - cities[city_id].s;
-    int endx   = cities[city_id].x + cities[city_id].s;
-    int starty = cities[city_id].y - cities[city_id].s;
-    int endy   = cities[city_id].y + cities[city_id].s;
-    for (int x = startx; x <= endx; x++) {
-        for (int y = starty; y <= endy; y++) {
-            if (check_ot_type("house", x, y, 0)) {
-                valid.push_back( point(x, y) );
-            }
-        }
-    }
-    if (valid.empty()) {
-        return point(-1, -1);
-    }
-
-    return valid[ rng(0, valid.size() - 1) ];
-}
-
 int overmap::dist_from_city(point p)
 {
     int distance = 999;

@@ -11,6 +11,43 @@
  */
 
 /**
+ * Given a (valid!) city reference, select a random house within the city borders.
+ * @return global overmap terrain coordinates of the house.
+ */
+point random_house_in_city( const city_reference &cref )
+{
+    const auto city_center_omt = overmapbuffer::sm_to_omt_copy( cref.abs_sm_pos );
+    const auto size = cref.city->s;
+    std::vector<point> valid;
+    int startx = city_center_omt.x - size;
+    int endx   = city_center_omt.x + size;
+    int starty = city_center_omt.y - size;
+    int endy   = city_center_omt.y + size;
+    for( int x = startx; x <= endx; x++ ) {
+        for( int y = starty; y <= endy; y++ ) {
+            if( overmap_buffer.check_ot_type( "house", x, y, 0 ) ) {
+                valid.push_back( point( x, y ) );
+            }
+        }
+    }
+    if( valid.empty() ) {
+        return city_center_omt; // center of the city is a good fallback
+    }
+    return valid[ rng( 0, valid.size() - 1 ) ];
+}
+
+point random_house_in_closest_city()
+{
+    const point center( g->get_abs_levx() + int( MAPSIZE / 2 ),
+                        g->get_abs_levy() + int( MAPSIZE / 2 ) );
+    const auto cref = overmap_buffer.closest_city( center );
+    if( !cref ) {
+        debugmsg( "could not find closest city" );
+        return point( -1, -1 );
+    }
+    return random_house_in_city( cref );
+}
+/**
  * Set target of mission to closest overmap terrain of that type,
  * reveal the area around it (uses overmapbuffer::reveal with reveal_rad),
  * and returns the mission target.
@@ -75,11 +112,7 @@ void mission_start::infect_npc(mission *miss)
 
 void mission_start::place_dog(mission *miss)
 {
- int city_id = g->cur_om->closest_city( g->om_location() );
- point house = g->cur_om->random_house_in_city(city_id);
- // make it global coordinates
- house.x += g->cur_om->pos().x * OMAPX;
- house.y += g->cur_om->pos().y * OMAPY;
+    const point house = random_house_in_closest_city();
  npc* dev = g->find_npc(miss->npc_id);
  if (dev == NULL) {
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
@@ -99,11 +132,7 @@ void mission_start::place_dog(mission *miss)
 
 void mission_start::place_zombie_mom(mission *miss)
 {
- int city_id = g->cur_om->closest_city( g->om_location() );
- point house = g->cur_om->random_house_in_city(city_id);
- // make it global coordinates
- house.x += g->cur_om->pos().x * OMAPX;
- house.y += g->cur_om->pos().y * OMAPY;
+    const point house = random_house_in_closest_city();
 
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
@@ -324,11 +353,7 @@ void mission_start::place_npc_software(mission *miss)
     int dist = 0;
     point place;
     if (type == "house") {
-        int city_id = g->cur_om->closest_city( g->om_location() );
-        place = g->cur_om->random_house_in_city(city_id);
-        // make it global coordinates
-        place.x += g->cur_om->pos().x * OMAPX;
-        place.y += g->cur_om->pos().y * OMAPY;
+        place = random_house_in_closest_city();
     } else {
         place = overmap_buffer.find_closest(g->om_global_location(), type, dist, false);
     }
@@ -385,12 +410,7 @@ void mission_start::place_npc_software(mission *miss)
 
 void mission_start::place_priest_diary(mission *miss)
 {
- point place;
- int city_id = g->cur_om->closest_city( g->om_location() );
- place = g->cur_om->random_house_in_city(city_id);
- // make it global coordinates
- place.x += g->cur_om->pos().x * OMAPX;
- place.y += g->cur_om->pos().y * OMAPY;
+    const point place = random_house_in_closest_city();
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap;

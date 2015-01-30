@@ -382,12 +382,14 @@ private:
      * If the pattern is NULL, every note matches.
      */
     t_notes_vector get_notes(int z, const std::string* pattern);
+public:
     /**
      * See overmap::check_ot_type, this uses global
      * overmap terrain coordinates.
-     * This function may greate a new overmap if needed.
+     * This function may create a new overmap if needed.
      */
     bool check_ot_type(const std::string& otype, int x, int y, int z);
+private:
     /**
      * Go thorough the monster groups of the overmap and move out-of-bounds
      * groups to the correct overmap (if it exists), also removes empty groups.

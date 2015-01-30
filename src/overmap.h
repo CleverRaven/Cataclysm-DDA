@@ -278,7 +278,6 @@ class overmap
      * coordinates), or empty vector if no matching terrain is found.
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
-    point random_house_in_city(int city_id);
     int dist_from_city(point p);
 
     oter_id& ter(const int x, const int y, const int z);
