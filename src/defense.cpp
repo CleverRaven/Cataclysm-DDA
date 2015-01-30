@@ -127,29 +127,29 @@ void defense_game::pre_action(action_id &act)
 
     // Big ugly block for movement
     if ((act == ACTION_MOVE_N && g->u.posy() == SEEX * int(MAPSIZE / 2) &&
-         g->get_abs_levy() <= 93) ||
+         g->get_levy() <= 93) ||
         (act == ACTION_MOVE_NE && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
-                                    g->get_abs_levy() <=  93) ||
+                                    g->get_levy() <=  93) ||
                                    (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->get_abs_levx() >= 98))) ||
+                                    g->get_levx() >= 98))) ||
         (act == ACTION_MOVE_E && g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-         g->get_abs_levx() >= 98) ||
+         g->get_levx() >= 98) ||
         (act == ACTION_MOVE_SE && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->get_abs_levy() >= 98) ||
+                                    g->get_levy() >= 98) ||
                                    (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->get_abs_levx() >= 98))) ||
+                                    g->get_levx() >= 98))) ||
         (act == ACTION_MOVE_S && g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-         g->get_abs_levy() >= 98) ||
+         g->get_levy() >= 98) ||
         (act == ACTION_MOVE_SW && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->get_abs_levy() >= 98) ||
+                                    g->get_levy() >= 98) ||
                                    (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-                                    g->get_abs_levx() <=  93))) ||
+                                    g->get_levx() <=  93))) ||
         (act == ACTION_MOVE_W && g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-         g->get_abs_levx() <= 93) ||
+         g->get_levx() <= 93) ||
         (act == ACTION_MOVE_NW && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
-                                    g->get_abs_levy() <=  93) ||
+                                    g->get_levy() <=  93) ||
                                    (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-                                    g->get_abs_levx() <=  93)))) {
+                                    g->get_levx() <=  93)))) {
         add_msg(m_info, _("You cannot leave the %s behind!"),
                 defense_location_name(location).c_str());
         act = ACTION_NULL;
@@ -1417,7 +1417,7 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type, tripoint( pnt, g->get_abs_levz() ) );
+    monster tmp( type, tripoint( pnt, g->get_levz() ) );
     tmp.wandx = g->u.posx();
     tmp.wandy = g->u.posy();
     tmp.wandf = 150;

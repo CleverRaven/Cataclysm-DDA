@@ -109,10 +109,10 @@ monster::~monster()
 
 bool monster::setpos(const int x, const int y)
 {
-    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_abs_levz() ) );
+    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
     position.x = x;
     position.y = y;
-    zpos = g->get_abs_levz();
+    zpos = g->get_levz();
     return ret;
 }
 
@@ -163,7 +163,7 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
-    spawn( x, y, g->get_abs_levz() );
+    spawn( x, y, g->get_levz() );
 }
 
 void monster::spawn(const int x, const int y, const int z)

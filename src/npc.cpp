@@ -920,9 +920,9 @@ void npc::place_on_map()
     // coordinate system. We have to change pos[xy] to match that assumption,
     // but also have to change map[xy] to keep the global position of the npc
     // unchanged.
-    const int dmx = mapx - g->get_abs_levx();
-    const int dmy = mapy - g->get_abs_levy();
-    mapx -= dmx; // == g->get_abs_levx()
+    const int dmx = mapx - g->get_levx();
+    const int dmy = mapy - g->get_levy();
+    mapx -= dmx; // == g->get_levx()
     mapy -= dmy;
     position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
     position.y += dmy * SEEY;
@@ -1092,13 +1092,13 @@ void npc::perform_mission()
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
   if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_abs_levx())
+   if (mapx > g->get_levx())
     mapx--;
-   else if (mapx < g->get_abs_levx())
+   else if (mapx < g->get_levx())
     mapx++;
-   if (mapy > g->get_abs_levy())
+   if (mapy > g->get_levy())
     mapy--;
-   else if (mapy < g->get_abs_levy())
+   else if (mapy < g->get_levy())
     mapy++;
    attitude = NPCATT_DEFEND;
   }
@@ -1415,7 +1415,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 int npc::minutes_to_u() const
 {
     // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_abs_levx(), g->get_abs_levy() );
+    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
     // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
  ret *= 24;
  ret /= 10;

@@ -2023,7 +2023,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
                 const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_abs_levz() ) );
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
             }
         }
 
@@ -2358,7 +2358,7 @@ void map::shoot(const int x, const int y, int &dam,
     {
         sounds::sound(x, y, 30, _("An alarm sounds!"));
         const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_abs_levz() ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
     }
 
     int vpart;

@@ -4055,7 +4055,7 @@ float player::active_light()
 tripoint player::global_square_location() const
 {
     const auto abs_pos = g->m.getabs( position.x, position.y );
-    return tripoint( abs_pos.x, abs_pos.y, g->get_abs_levz() ); // player is always at levz
+    return tripoint( abs_pos.x, abs_pos.y, g->get_levz() ); // player is always at levz
 }
 
 tripoint player::global_sm_location() const
@@ -13079,14 +13079,14 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
 bool player::knows_trap(int x, int y) const
 {
     const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
+    const tripoint p( a.x, a.y, g->get_levz() );
     return known_traps.count(p) > 0;
 }
 
 void player::add_known_trap(int x, int y, const std::string &t)
 {
     const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
+    const tripoint p( a.x, a.y, g->get_levz() );
     if (t == "tr_null") {
         known_traps.erase(p);
     } else {

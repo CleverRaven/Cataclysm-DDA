@@ -383,10 +383,12 @@ class game
         std::map<int, weather_segment> weather_log;
         map m;
 
-        /** Absolute values of lev[xyz] (includes the offset of cur_om) */
-        int get_abs_levx() const;
-        int get_abs_levy() const;
-        int get_abs_levz() const;
+        /**
+         * The top left corner of the reality bubble (in submaps coordinates). This is the same
+         * as @ref map::abs_sub of the @ref m map.
+         */
+        int get_levx() const;
+        int get_levy() const;
         int get_levz() const;
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap

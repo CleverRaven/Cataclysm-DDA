@@ -437,7 +437,7 @@ void computer::activate_function(computer_action action, char ch)
             log = _("No data found.");
         } else {
             g->u.moves -= 70;
-            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
+            log = lab_notes[(g->get_levx() + g->get_levy() + g->get_levz() + alerts) %
                             lab_notes.size()];
         }
 
@@ -507,9 +507,9 @@ void computer::activate_function(computer_action action, char ch)
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
-        for (int level = g->get_abs_levz(); level <= 0; level++) {
+        for (int level = g->get_levz(); level <= 0; level++) {
             map tmpmap;
-            tmpmap.load(g->get_abs_levx(), g->get_abs_levy(), level, false);
+            tmpmap.load(g->get_levx(), g->get_levy(), level, false);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
@@ -605,7 +605,7 @@ void computer::activate_function(computer_action action, char ch)
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 47:\n\
 Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
@@ -623,7 +623,7 @@ themselves.\n"));
         }
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 49:\n\
 We've stopped mining operations in this area, obviously, until archaeologists\n\
@@ -642,7 +642,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
         }
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 54:\n\
 I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
@@ -679,7 +679,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         print_line(_("\
 SITE %d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES"),
-                   g->get_abs_levx(), g->get_abs_levy(), abs(g->get_abs_levz()));
+                   g->get_levx(), g->get_levy(), abs(g->get_levz()));
         print_line(_("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\

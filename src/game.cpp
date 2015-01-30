@@ -697,7 +697,7 @@ void game::load_npcs()
         }
             const tripoint p = temp->global_sm_location();
             add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     get_abs_levx(), get_abs_levy(), p.x, p.y);
+                     get_levx(), get_levy(), p.x, p.y);
         temp->place_on_map();
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
@@ -726,7 +726,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
     // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at( get_abs_levx(), get_abs_levy(), get_abs_levz() );
+    tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
     tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
     tmp->form_opinion(&u);
@@ -1487,7 +1487,7 @@ bool game::do_turn()
             auto veh = _i;
 
             veh->power_parts( sm_loc );
-            veh->idle( sm_loc.z == get_abs_levz() && m.inbounds(in_reality.x, in_reality.y) );
+            veh->idle( sm_loc.z == get_levz() && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
     m.process_fields();
@@ -1504,7 +1504,7 @@ bool game::do_turn()
     u.process_turn();
     u.process_active_items();
 
-    if (get_abs_levz() >= 0 && !u.is_underwater()) {
+    if (get_levz() >= 0 && !u.is_underwater()) {
         weather_data(weather).effect();
     }
 
@@ -1692,7 +1692,7 @@ void game::update_weather()
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data(weather).dangerous &&
-            get_abs_levz() >= 0 && m.is_outside(u.posx(), u.posy())
+            get_levz() >= 0 && m.is_outside(u.posx(), u.posy())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
@@ -4233,7 +4233,7 @@ void game::debug()
         npc *temp = new npc();
         temp->normalize();
         temp->randomize();
-        temp->spawn_at( get_abs_levx(), get_abs_levy(), get_abs_levz() );
+        temp->spawn_at( get_levx(), get_levy(), get_levz() );
         temp->setx( u.posx() - 4 );
         temp->sety( u.posy() - 4 );
         temp->form_opinion(&u);
@@ -4260,7 +4260,7 @@ void game::debug()
         s += ngettext("%d event planned.", "%d events planned", events.size());
         popup_top(
             s.c_str(),
-            u.posx(), u.posy(), get_abs_levx(), get_abs_levy(),
+            u.posx(), u.posy(), get_levx(), get_levy(),
             otermap[overmap_buffer.ter(global_omt_location())].name.c_str(),
             int(calendar::turn), int(nextspawn),
             (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
@@ -4979,7 +4979,7 @@ void game::draw_sidebar()
     werase(w_location);
     mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
 
-    if (get_abs_levz() < 0) {
+    if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
@@ -5287,11 +5287,11 @@ void game::draw_minimap()
             const int omy = cursy + j;
             nc_color ter_color;
             long ter_sym;
-            const bool seen = overmap_buffer.seen(omx, omy, get_abs_levz());
-            const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, get_abs_levz());
-            if (overmap_buffer.has_note(omx, omy, get_abs_levz())) {
+            const bool seen = overmap_buffer.seen(omx, omy, get_levz());
+            const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, get_levz());
+            if (overmap_buffer.has_note(omx, omy, get_levz())) {
 
-                const std::string &note_text = overmap_buffer.note(omx, omy, get_abs_levz());
+                const std::string &note_text = overmap_buffer.note(omx, omy, get_levz());
 
                 ter_color = c_yellow;
                 ter_sym = 'N';
@@ -5405,9 +5405,9 @@ void game::draw_minimap()
                 ter_color = c_cyan;
                 ter_sym = 'c';
             } else {
-                const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_abs_levz());
+                const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
                 ter_sym = otermap[cur_ter].sym;
-                if (overmap_buffer.is_explored(omx, omy, get_abs_levz())) {
+                if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
                     ter_color = otermap[cur_ter].color;
@@ -5499,7 +5499,7 @@ float game::natural_light_level() const
 {
     float ret = 0;
 
-    if (get_abs_levz() >= 0) {
+    if (get_levz() >= 0) {
         ret = (float)calendar::turn.sunlight();
         ret += weather_data(weather).light_modifier;
     }
@@ -5515,7 +5515,7 @@ unsigned char game::light_level()
     }
 
     int ret;
-    if (get_abs_levz() < 0) { // Underground!
+    if (get_levz() < 0) { // Underground!
         ret = 1;
     } else {
         ret = calendar::turn.sunlight();
@@ -5910,15 +5910,15 @@ void game::monmove()
     cleanup_dead();
 
     // Make sure these don't match the first time around.
-    int cached_levx = get_abs_levx() + 1;
-    int cached_levy = get_abs_levy() + 1;
+    int cached_levx = get_levx() + 1;
+    int cached_levy = get_levy() + 1;
 
     mfactions monster_factions;
 
     for (size_t i = 0; i < num_zombies(); i++) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
-        if( cached_levx != get_abs_levx() || cached_levy != get_abs_levy() ) {
+        if( cached_levx != get_levx() || cached_levy != get_levy() ) {
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             auto playerfaction = GetMFact( "player" );
@@ -5931,8 +5931,8 @@ void game::monmove()
                     monster_factions[ playerfaction ].insert( i );
                 }
             }
-            cached_levx = get_abs_levx();
-            cached_levy = get_abs_levy();
+            cached_levx = get_levx();
+            cached_levy = get_levy();
         }
 
         monster &critter = critter_tracker.find(i);
@@ -6645,7 +6645,7 @@ void game::resonance_cascade(int x, int y)
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster( GetMType(spawn_details.name), tripoint( i, j, get_abs_levz() ) );
+                invader = monster( GetMType(spawn_details.name), tripoint( i, j, get_levz() ) );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6824,7 +6824,7 @@ monster &game::zombie(const int idx)
 
 bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
-    return critter_tracker.update_pos( critter, tripoint( newx, newy, get_abs_levz() ) );
+    return critter_tracker.update_pos( critter, tripoint( newx, newy, get_levz() ) );
 }
 
 bool game::update_zombie_pos(const monster &critter, const tripoint &pos )
@@ -6869,12 +6869,12 @@ bool game::spawn_hallucination()
 
 int game::mon_at(const int x, const int y) const
 {
-    return critter_tracker.mon_at( tripoint( x, y, get_abs_levz() ) );
+    return critter_tracker.mon_at( tripoint( x, y, get_levz() ) );
 }
 
 int game::mon_at(point p) const
 {
-    return critter_tracker.mon_at( tripoint( p, get_abs_levz() ) );
+    return critter_tracker.mon_at( tripoint( p, get_levz() ) );
 }
 
 int game::mon_at( const tripoint &p ) const
@@ -6910,7 +6910,7 @@ bool game::is_sheltered(int x, int y)
 
     if (!m.is_outside(x, y))
         is_inside = true;
-    if (get_abs_levz() < 0)
+    if (get_levz() < 0)
         is_underground = true;
     if (veh && veh->is_inside(vpart))
         is_in_vehicle = true;
@@ -6945,7 +6945,7 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-    monster critter(it->get_mtype(), tripoint( x, y, get_abs_levz() ) );
+    monster critter(it->get_mtype(), tripoint( x, y, get_levz() ) );
     critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
@@ -7966,7 +7966,7 @@ void game::examine(int examx, int examy)
 {
     int veh_part = 0;
     vehicle *veh = NULL;
-    const int curz = get_abs_levz();
+    const int curz = get_levz();
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the
@@ -8026,7 +8026,7 @@ void game::examine(int examx, int examy)
         return;
     }
 
-    if (curz != get_abs_levz()) {
+    if (curz != get_levz()) {
         // triggered an elevator
         return;
     }
@@ -8705,7 +8705,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
 
-    const int old_levz = get_abs_levz();
+    const int old_levz = get_levz();
 
     do {
         if (bNewWindow) {
@@ -8845,14 +8845,14 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
-                int new_levz = get_abs_levz() + ( action == "LEVEL_UP" ? 1 : -1 );
+                int new_levz = get_levz() + ( action == "LEVEL_UP" ? 1 : -1 );
                 if( new_levz > OVERMAP_HEIGHT ) {
                     new_levz = OVERMAP_HEIGHT;
                 } else if( new_levz < -OVERMAP_DEPTH ) {
                     new_levz = -OVERMAP_DEPTH;
                 }
 
-                add_msg("levx: %d, levy: %d, levz :%d", get_abs_levx(), get_abs_levy(), new_levz);
+                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
                 m.vertical_shift( new_levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
@@ -8896,7 +8896,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     } while (action != "QUIT" && action != "CONFIRM");
 
 #ifdef ZLEVELS
-    if( get_abs_levz() != old_levz ) {
+    if( get_levz() != old_levz ) {
         m.vertical_shift( old_levz );
     }
 #endif
@@ -12656,10 +12656,10 @@ void game::vertical_move(int movez, bool force)
     // Shift the map up or down
 #ifdef ZLEVELS
     map &maybetmp = m;
-    maybetmp.vertical_shift( get_abs_levz() + movez );
+    maybetmp.vertical_shift( get_levz() + movez );
 #else
     map maybetmp;
-    maybetmp.load(get_abs_levx(), get_abs_levy(), get_abs_levz() + movez, false);
+    maybetmp.load(get_levx(), get_levy(), get_levz() + movez, false);
 #endif
 
     // Find the corresponding staircase
@@ -12673,7 +12673,7 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
-    if( get_abs_levz() + movez < -OVERMAP_DEPTH || get_abs_levz() + movez > OVERMAP_HEIGHT ) {
+    if( get_levz() + movez < -OVERMAP_DEPTH || get_levz() + movez > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to move outside allowed range of z-levels" );
         return;
     }
@@ -12776,13 +12776,13 @@ void game::vertical_move(int movez, bool force)
     if( !actually_moved ) {
 #ifdef ZLEVELS
         // Have to undo the map shift
-        m.vertical_shift( get_abs_levz() );
+        m.vertical_shift( get_levz() );
 #endif
         return;
     }
 
     if( !force ) {
-        monstairz = get_abs_levz();
+        monstairz = get_levz();
     }
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
@@ -12812,19 +12812,19 @@ void game::vertical_move(int movez, bool force)
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
     const tripoint gpos = global_omt_location();
-    int z_coord = get_abs_levz() + movez;
+    int z_coord = get_levz() + movez;
     for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
         for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if (!overmap_buffer.seen(cursx, cursy, get_abs_levz())) {
+            if (!overmap_buffer.seen(cursx, cursy, get_levz())) {
                 continue;
             }
             if (overmap_buffer.has_note(cursx, cursy, z_coord)) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
-            const oter_id &ter = overmap_buffer.ter(cursx, cursy, get_abs_levz());
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, get_levz());
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
             if (!!OPTIONS["AUTO_NOTES"]) {
                 if (movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
@@ -12846,7 +12846,7 @@ void game::vertical_move(int movez, bool force)
     m.set_outside_cache_dirty();
 #ifndef ZLEVELS
     (void)actually_moved;
-    m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
+    m.load( get_levx(), get_levy(), get_levz(), true );
 #endif
     u.setx( stairx );
     u.sety( stairy );
@@ -12975,17 +12975,17 @@ void game::update_map(int &x, int &y)
 
 tripoint game::global_omt_location() const
 {
-    const int cursx = (get_abs_levx() + int(MAPSIZE / 2)) / 2;
-    const int cursy = (get_abs_levy() + int(MAPSIZE / 2)) / 2;
+    const int cursx = (get_levx() + int(MAPSIZE / 2)) / 2;
+    const int cursy = (get_levy() + int(MAPSIZE / 2)) / 2;
 
-    return tripoint(cursx, cursy, get_abs_levz());
+    return tripoint(cursx, cursy, get_levz());
 }
 
 tripoint game::global_sm_location() const
 {
-    return tripoint( get_abs_levx() + int( MAPSIZE / 2 ),
-                     get_abs_levy() + int( MAPSIZE / 2 ),
-                     get_abs_levz() );
+    return tripoint( get_levx() + int( MAPSIZE / 2 ),
+                     get_levy() + int( MAPSIZE / 2 ),
+                     get_levz() );
 }
 
 void game::update_overmap_seen()
@@ -13015,7 +13015,7 @@ void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
-        elem.spawn( elem.posx(), elem.posy(), get_abs_levz() );
+        elem.spawn( elem.posx(), elem.posy(), get_levz() );
         add_zombie( elem );
     }
 
@@ -13030,7 +13030,7 @@ void game::update_stair_monsters()
     std::vector<int> stairx, stairy;
     std::vector<int> stairdist;
 
-    const bool from_below = monstairz < get_abs_levz();
+    const bool from_below = monstairz < get_levz();
 
     if( coming_to_stairs.empty() ) {
         return;
@@ -13116,7 +13116,7 @@ void game::update_stair_monsters()
         }
 
         if( is_empty(mposx, mposy) ) {
-            critter.spawn( mposx, mposy, get_abs_levz() );
+            critter.spawn( mposx, mposy, get_levz() );
             critter.staircount = 0;
             add_zombie(critter);
             if (u.sees(mposx, mposy)) {
@@ -13143,7 +13143,7 @@ void game::update_stair_monsters()
             const int creature_push_attempts = 9;
             const int player_throw_resist_chance = 3;
 
-            critter.setpos( mposx, mposy, get_abs_levz(), true );
+            critter.setpos( mposx, mposy, get_levz(), true );
             while (tries < creature_push_attempts) {
                 tries++;
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
@@ -13191,7 +13191,7 @@ void game::update_stair_monsters()
         } else if( mon_at( mposx, mposy ) != -1) {
             // Monster attempts to displace a monster from the stairs
             monster &other = critter_tracker.find( mon_at(mposx, mposy) );
-            critter.setpos( mposx, mposy, get_abs_levz(), true );
+            critter.setpos( mposx, mposy, get_levz(), true );
 
             // the critter is now right on top of another and will push it
             // if it can find a square to push it into inside of his tries.
@@ -13211,7 +13211,7 @@ void game::update_stair_monsters()
                     continue;
                 }
                 if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
-                    other.setpos( iposx, iposy, get_abs_levz() );
+                    other.setpos( iposx, iposy, get_levz() );
                     other.moves -= 50;
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {
@@ -13290,8 +13290,8 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         // to prevent NPCs appearing out of thin air.
         // This can be changed to let the NPC spawn further away,
         // so it does not became active immediately.
-        int msx = get_abs_levx();
-        int msy = get_abs_levy();
+        int msx = get_levx();
+        int msy = get_levy();
         switch (rng(0, 4)) { // on which side of the map to spawn
         case 0:
             msy += rng(0, MAPSIZE - 1);
@@ -13309,7 +13309,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at( msx, msy, get_abs_levz() );
+        tmp->spawn_at( msx, msy, get_levz() );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, global_omt_location(), tmp->getID());
@@ -14222,19 +14222,14 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
     }
 }
 
-int game::get_abs_levx() const
+int game::get_levx() const
 {
     return m.get_abs_sub().x;
 }
 
-int game::get_abs_levy() const
+int game::get_levy() const
 {
     return m.get_abs_sub().y;
-}
-
-int game::get_abs_levz() const
-{
-    return m.get_abs_sub().z;
 }
 
 int game::get_levz() const

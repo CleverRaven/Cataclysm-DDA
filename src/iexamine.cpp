@@ -1048,7 +1048,7 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-            if (g->get_abs_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+            if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
         } else if (success < 6) {
@@ -3025,7 +3025,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
                 sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-                if (g->get_abs_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+                if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
                 }
             } else if (success < 6) {

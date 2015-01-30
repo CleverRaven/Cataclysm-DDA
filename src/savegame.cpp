@@ -81,7 +81,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
-        point pos_sm( get_abs_levx(), get_abs_levy() );
+        point pos_sm( get_levx(), get_levy() );
         point pos_om = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
         json.member( "levx", pos_sm.x );
         json.member( "levy", pos_sm.y );
