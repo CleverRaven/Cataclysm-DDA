@@ -4064,8 +4064,9 @@ void game::write_memorial_file(std::string sLastWords)
     memorial_file_path << ((truncated_name_len != name_len) ? "~-" : "-");
 
     // Add a timestamp for uniqueness.
-    std::time_t t = std::time(nullptr);
-    memorial_file_path << std::put_time(std::localtime(&t), "%Y-%m-%d-%H-%M-%S");
+    char buffer[suffix_len] {};
+    std::strftime(buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime(&t));
+    memorial_file_path << buffer;
 
     memorial_file_path << ".txt";
 
