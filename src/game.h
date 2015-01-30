@@ -299,11 +299,10 @@ class game
         void update_map(player *p);
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
-        // Position of the player in overmap terrain coordinates, relative
-        // to the current overmap (@ref cur_om).
-        point om_location() const;
-        // Position of the player in overmap terrain coordinates,
-        // in global overmap terrain coordinates.
+        /**
+         * Position of the player in global overmap terrain coordinates. This is specifically
+         * the center of the reality bubble.
+         */
         tripoint om_global_location() const;
 
         void process_artifact(item *it, player *p);

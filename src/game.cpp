@@ -13009,15 +13009,6 @@ void game::update_overmap_seen()
     }
 }
 
-point game::om_location() const
-{
-    point ret;
-    ret.x = int((levx + int(MAPSIZE / 2)) / 2);
-    ret.y = int((levy + int(MAPSIZE / 2)) / 2);
-
-    return ret;
-}
-
 void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
