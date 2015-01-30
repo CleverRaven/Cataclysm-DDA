@@ -2667,6 +2667,231 @@
             ]
         }
     },
+	{
+        "type": "profession",
+        "ident": "priest",
+        "name": "Priest",
+        "description": "When the apocalypse struck, you did everything you could to protect your parish faithful, but it appears that prayers were not enough. Now that they are all dead, you should probably find something more tangible to protect you.",
+        "points": 0,
+		"skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "longshirt",
+                "socks",
+                "cassock",
+                "dress_shoes",
+                "holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "shinto_priest",
+        "name": "Kannushi",
+        "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks. You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
+        "points": 0,
+		"skills": [
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "tailor"
+            }
+        ],
+        "items": {
+            "both": [
+                "kariginu",
+                "eboshi",
+                "pants",
+                "tabi_dress",
+                "geta",
+                "holy_symbol",
+                "holybook_kojiki"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "imam",
+        "name": {
+            "male": "Imam",
+            "female": "Mourchida"
+        },
+        "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran, and guiding your community in prayer. Back then they came from far and wide to listen to you, now they come to eat your brains.",
+        "points": 0,
+        "//" : "No knife, fire, or decent storage/armor.  Skill points are countered.",
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+            {
+                "level": 1,
+                "name": "barter"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "tshirt",
+                "socks",
+                "kufi",
+                "thawb",
+                "lowtops",
+                "holybook_quran"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "rabbi",
+        "name": "Rabbi",
+        "description": "You were celebrating with your flock in the temple when the cataclysm struck. You sure could use a messiah right now!",
+        "points": 0,
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "leather_belt",
+                "dress_shirt",
+                "socks",
+                "kittel",
+                "kippah",
+                "dress_shoes",
+                "holy_symbol",
+                "holybook_talmud",
+                "holybook_tanakh"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "guru",
+        "name": "Guru",
+        "description": "You spent many years traveling through the world, becoming wise and learned. Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+        "points": 2,
+        "//" : "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "robe",
+                "turban",
+                "waterskin",
+                "pockknife",
+                "mbag",
+                "leathersandals",
+                "holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "preacher",
+        "name": "Preacher",
+        "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town. Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
+        "points": 2,
+        "//" : "Storage + 2 points in skills, - no knife or fire.",
+		"skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+            {
+                "level": 1,
+                "name": "driving"
+            },
+            {
+                "level": 1,
+                "name": "computer"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "wristwatch",
+                "cell_phone",
+                "backpack",
+                "laptop",
+                "flyer",
+                "flyer",
+                "flyer",
+                "holy_symbol"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
     {
         "type": "profession",
         "ident": "blackbelt_novice",

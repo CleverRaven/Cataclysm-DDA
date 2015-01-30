@@ -103,11 +103,12 @@
         "id" : "NIGHTVISION",
         "name" : "Night Vision",
         "points" : 1,
-        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
+        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
@@ -886,21 +887,23 @@
         "id" : "NIGHTVISION2",
         "name" : "High Night Vision",
         "points" : 3,
-        "description" : "You can see incredibly well in the dark!",
+        "description" : "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
         "name" : "Full Night Vision",
         "points" : 5,
-        "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
+        "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "CEPH_EYES",
@@ -917,10 +920,11 @@
         "id" : "CEPH_VISION",
         "name" : "Cephalopod Vision",
         "points" : 3,
-        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
+        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["CEPH_EYES"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
-        "category" : ["MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -936,20 +940,22 @@
         "id" : "ELFA_NV",
         "name" : "Fey Vision",
         "points" : 3,
-        "description" : "The shadows don't seem as dark now.",
+        "description" : "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["ELFAEYES"],
         "changes_to" : ["ELFA_FNV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFA_FNV",
         "name" : "Fey Nightsight",
         "points" : 5,
-        "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
+        "description" : "You can see clearly, even in the darkest caves and under moonless skies.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "FEL_EYE",
@@ -966,18 +972,20 @@
         "id" : "FEL_NV",
         "name" : "Feline Vision",
         "points" : 4,
-        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.",
+        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "URSINE_EYE",
         "name" : "Ursine Vision",
         "points" : 1,
-        "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.",
+        "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",

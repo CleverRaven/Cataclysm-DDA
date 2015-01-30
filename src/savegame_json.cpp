@@ -141,6 +141,19 @@ void Character::load(JsonObject &data)
 
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
+    
+    if (data.has_object("skills")) {
+        JsonObject pmap = data.get_object("skills");
+        for( auto &skill : Skill::skills ) {
+            if( pmap.has_object( ( skill )->ident() ) ) {
+                pmap.read( ( skill )->ident(), skillLevel( skill ) );
+            } else {
+                debugmsg( "Load (%s) Missing skill %s", "", ( skill )->ident().c_str() );
+            }
+        }
+    } else {
+        debugmsg("Skills[] no bueno");
+    }
 }
 
 void Character::store(JsonOut &json) const
@@ -159,6 +172,15 @@ void Character::store(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
+    
+    // skills
+    json.member( "skills" );
+    json.start_object();
+    for( auto &skill : Skill::skills ) {
+        SkillLevel sk = get_skill_level( skill );
+        json.member( ( skill )->ident(), sk );
+    }
+    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,19 +222,6 @@ void player::load(JsonObject &data)
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
         max_power_level *= 25;
-    }
-
-    if (data.has_object("skills")) {
-        JsonObject pmap = data.get_object("skills");
-        for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( ( skill )->ident() ) ) {
-                pmap.read( ( skill )->ident(), skillLevel( skill ) );
-            } else {
-                debugmsg( "Load (%s) Missing skill %s", "", ( skill )->ident().c_str() );
-            }
-        }
-    } else {
-        debugmsg("Skills[] no bueno");
     }
 
     data.read("ma_styles", ma_styles);
@@ -278,15 +287,6 @@ void player::store(JsonOut &json) const
     // npc; unimplemented
     json.member( "power_level", power_level );
     json.member( "max_power_level", max_power_level );
-
-    // skills
-    json.member( "skills" );
-    json.start_object();
-    for( auto &skill : Skill::skills ) {
-        SkillLevel sk = get_skill_level( skill );
-        json.member( ( skill )->ident(), sk );
-    }
-    json.end_object();
 
     // martial arts
     /*for (int i = 0; i < ma_styles.size(); i++) {

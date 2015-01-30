@@ -5,6 +5,7 @@
 #include "veh_interact.h"
 #include "debug.h"
 #include "translations.h"
+#include "sounds.h"
 
 #include <sstream>
 
@@ -14,7 +15,7 @@ void activity_handlers::burrow_do_turn(player_activity *act, player *p)
 {
     if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
         //~ Sound of a Rat mutant burrowing!
-        g->sound(act->placement.x, act->placement.y, 10, _("ScratchCrunchScrabbleScurry."));
+        sounds::sound(act->placement.x, act->placement.y, 10, _("ScratchCrunchScrabbleScurry."));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
             p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
         }
@@ -55,6 +56,29 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
     g->m.destroy(dirx, diry, true);
 }
 
+bool butcher_cbm_item( const std::string &item, const point &pos, const int age )
+{
+    //To see if it spawns a random additional CBM
+    if( one_in( 2 ) ) { //The CBM works
+        g->m.spawn_item( pos.x, pos.y, item, 1, 0, age );
+        return true;
+    }
+    //There is a burnt out CBM
+    g->m.spawn_item( pos.x, pos.y, "burnt_out_bionic", 1, 0, age );
+    return false;
+}
+
+bool butcher_cbm_group( const std::string &group, const point &pos, const int age )
+{
+    //To see if it spawns a random additional CBM
+    if( one_in( 2 ) ) { //The CBM works
+        g->m.put_items_from_loc( group, pos.x, pos.y, age );
+        return true;
+    }
+    //There is a burnt out CBM
+    g->m.spawn_item( pos.x, pos.y, "burnt_out_bionic", 1, 0, age);
+    return false;
+}
 
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
@@ -221,119 +245,49 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
-    if( corpse->has_flag(MF_CBM_CIV) ) {
-        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
-            //To see if it spawns a battery
-            if( rng(0, 1) == 1 ) { //The battery works
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage", 1, 0, age);
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_common", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+    bool any_cbm = false;
+    bool cbm = false;
+    if( corpse->has_flag(MF_CBM_CIV) && skill_shift >= 0 ) {
+        any_cbm = true;
+        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_common", p->pos(), age );
     }
 
     // Zombie scientist bionics
-    if( corpse->has_flag(MF_CBM_SCI) ) {
-        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
-            //To see if it spawns a battery
-            if( rng(0, 1) == 1 ) { //The battery works
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage", 1, 0, age);
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_sci", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+    if( corpse->has_flag(MF_CBM_SCI) && skill_shift >= 0 ) {
+        any_cbm = true;
+        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_sci", p->pos(), age );
     }
 
     // Zombie technician bionics
-    if( corpse->has_flag(MF_CBM_TECH) ) {
-        if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
-            //To see if it spawns a battery
-            if( rng(0, 1) == 1 ) { //The battery works
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage", 1, 0, age);
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_tech", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+    if( corpse->has_flag(MF_CBM_TECH) && skill_shift >= 0 ) {
+        any_cbm = true;
+        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_tech", p->pos(), age );
     }
 
     // Substation mini-boss bionics
-    if( corpse->has_flag(MF_CBM_SUBS) ) {
-        if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
-            //To see if it spawns a battery
-            if( rng(0, 1) == 1 ) { //The battery works
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage", 1, 0, age);
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_subs", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_subs", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+    if( corpse->has_flag(MF_CBM_SUBS) && skill_shift >= 0 ) {
+        any_cbm = true;
+        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_subs", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_subs", p->pos(), age );
     }
 
     // Payoff for butchering the zombie bio-op
-    if( corpse->has_flag(MF_CBM_OP) ) {
-        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
-            //To see if it spawns a battery
-            if( rng(0, 1) == 1 ) { //The battery works
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage_mkII", 1, 0, age);
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
-        if( skill_shift >= 0 ) {
-            //To see if it spawns a random additional CBM
-            if( rng(0, 1) == 1 ) { //The CBM works
-                g->m.put_items_from_loc( "bionics_op", p->posx(), p->posy(), age );
-            } else { //There is a burnt out CBM
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+    if( corpse->has_flag(MF_CBM_OP) && skill_shift >= 0 ) {
+        any_cbm = true;
+        cbm = cbm || butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age );
+        cbm = cbm || butcher_cbm_group( "bionics_op", p->pos(), age );
+    }
+
+    if( cbm ) {
+        add_msg( m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str() );
+    } else if( any_cbm ) {
+        add_msg( m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
+                         corpse->nname().c_str() );
     }
 
     //Add a chance of CBM power storage recovery.
@@ -681,7 +635,7 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
     const int diry = act->placement.y;
     if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+        sounds::sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
             p->add_msg_if_player(m_info,
                                  _("Ugh.  You figure it'll take about an hour and a half at this rate."));

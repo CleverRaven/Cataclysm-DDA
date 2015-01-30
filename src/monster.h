@@ -135,7 +135,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // the route.  Give up after f steps.
 
         // How good of a target is given creature (checks for visibility)
-        float rate_target( Creature &c, int &bresenham_slope, bool smart = false ) const;
+        float rate_target( Creature &c, int &bresenham_slope, float best, bool smart = false ) const;
         // Pass all factions to mon, so that hordes of same-faction mons
         // do not iterate over each other
         void plan(const mfactions &factions);

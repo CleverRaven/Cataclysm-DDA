@@ -3,6 +3,7 @@
 #include "game.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "sounds.h"
 #include <sstream>
 #include <algorithm>
 
@@ -171,7 +172,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            g->sound(pos.x, pos.y, sound_volume, sound_msg);
+            sounds::sound(pos.x, pos.y, sound_volume, sound_msg);
         }
         return 0;
     }
@@ -660,7 +661,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
         it->damage < 100 ) {
-        g->sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
         }

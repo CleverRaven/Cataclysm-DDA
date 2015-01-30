@@ -6,6 +6,8 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
+#include "sounds.h"
+
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -589,15 +591,15 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT1") {
-        g->sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+        sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT2"){
-        g->sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+        sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "SHOUT3"){
-        g->sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         traits[mut].powered = false;
         return;
     } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
@@ -780,11 +782,21 @@ void player::power_mutations()
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type,
                               trait_keys[traits[active[i]].id] );
-                    mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (traits[active[i]].powered ? _("%s - Active") : _("%s - %d RU / %d turns")),
-                              traits[active[i]].name.c_str(),
-                              traits[active[i]].cost,
-                              traits[active[i]].cooldown);
+                    std::stringstream mut_desc;
+                    mut_desc << traits[active[i]].name;
+                    if ( traits[active[i]].cost > 0 && traits[active[i]].cooldown > 0 ) {
+                        mut_desc << string_format( _(" - %d RU / %d turns"),
+                                      traits[active[i]].cost, traits[active[i]].cooldown );
+                    } else if ( traits[active[i]].cost > 0 ) {
+                        mut_desc << string_format( _(" - %d RU"), traits[active[i]].cost );
+                    } else if ( traits[active[i]].cooldown > 0 ) {
+                        mut_desc << string_format( _(" - %d turns"), traits[active[i]].cooldown );
+                    }
+                    if ( traits[active[i]].powered ) {
+                        mut_desc << _(" - Active");
+                    }
+                    mvwprintz( wBio, list_start_y + i, second_column + 2, type,
+                               mut_desc.str().c_str() );
                 }
             }
 
@@ -896,6 +908,7 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
+                        add_msg( m_neutral, _("You activate your %s."), mut_data.name.c_str() );
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;

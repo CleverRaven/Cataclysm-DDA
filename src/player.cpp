@@ -25,6 +25,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "sounds.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -139,7 +140,7 @@ std::string morale_point::name() const
     return ret;
 }
 
-player::player() : Character(), name("")
+player::player() : Character()
 {
  position.x = 0;
  position.y = 0;
@@ -241,10 +242,8 @@ player::~player()
 
 void player::normalize()
 {
-    Creature::normalize();
-
-    ret_null = item("null", 0);
-    weapon   = item("null", 0);
+    Character::normalize();
+    
     style_selected = "style_none";
 
     recalc_hp();
@@ -252,11 +251,6 @@ void player::normalize()
     for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
     }
-}
-
-void player::pick_name()
-{
-    name = Name::generate(male);
 }
 
 std::string player::disp_name(bool possessive) const
@@ -280,48 +274,23 @@ std::string player::skin_name() const
     return _("armor");
 }
 
-// just a shim for now since actual player death is handled in game::is_game_over
-void player::die(Creature* nkiller)
-{
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
-    set_turn_died(int(calendar::turn));
-}
-
 void player::reset_stats()
 {
+    Character::reset_stats();
+    
     clear_miss_reasons();
-
-    // Bionic buffs
-    if (has_active_bionic("bio_hydraulics"))
-        mod_str_bonus(20);
-    if (has_bionic("bio_eye_enhancer"))
-        mod_per_bonus(2);
-    if (has_bionic("bio_str_enhancer"))
-        mod_str_bonus(2);
-    if (has_bionic("bio_int_enhancer"))
-        mod_int_bonus(2);
-    if (has_bionic("bio_dex_enhancer"))
-        mod_dex_bonus(2);
 
     // Trait / mutation buffs
     if (has_trait("THICK_SCALES")) {
-        mod_dex_bonus(-2);
         add_miss_reason(_("Your thick scales get in the way."), 2);
     }
     if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        mod_dex_bonus(-1);
         add_miss_reason(_("Your chitin gets in the way."), 1);
     }
     if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
         mod_per_bonus(1);
     }
-    if (has_trait("BIRD_EYE")) {
-        mod_per_bonus(4);
-    }
     if (has_trait("INSECT_ARMS")) {
-        mod_dex_bonus(-2);
         add_miss_reason(_("Your insect limbs get in the way."), 2);
     }
     if (has_trait("INSECT_ARMS_OK")) {
@@ -334,11 +303,9 @@ void player::reset_stats()
         }
     }
     if (has_trait("WEBBED")) {
-        mod_dex_bonus(-1);
         add_miss_reason(_("Your webbed hands get in the way."), 1);
     }
     if (has_trait("ARACHNID_ARMS")) {
-        mod_dex_bonus(-4);
         add_miss_reason(_("Your arachnid limbs get in the way."), 4);
     }
     if (has_trait("ARACHNID_ARMS_OK")) {
@@ -349,10 +316,6 @@ void player::reset_stats()
             mod_dex_bonus(-2);
             add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
         }
-    }
-    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
-        mod_dex_bonus(1);
     }
 
     // Pain
@@ -409,24 +372,6 @@ void player::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
-    if (has_trait("TAIL_LONG")) {
-        mod_dodge_bonus(2);
-    }
-    if (has_trait("TAIL_CATTLE")) {
-        mod_dodge_bonus(1);
-    }
-    if (has_trait("TAIL_RAT")) {
-        mod_dodge_bonus(2);
-    }
-    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
-        mod_dodge_bonus(1);
-    }
-    if (has_trait("TAIL_RAPTOR")) {
-        mod_dodge_bonus(3);
-    }
-    if (has_trait("TAIL_FLUFFY")) {
-        mod_dodge_bonus(4);
-    }
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -447,15 +392,6 @@ void player::reset_stats()
             mod_dodge_bonus(4);
         }
     }
-    if (has_trait("WINGS_BAT")) {
-        mod_dodge_bonus(-3);
-    }
-    if (has_trait("WINGS_BUTTERFLY")) {
-        mod_dodge_bonus(-4);
-    }
-
-    if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
-    else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     // Hit-related effects
     mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
@@ -466,14 +402,10 @@ void player::reset_stats()
     if (int(calendar::turn) % 10 == 0) {
         update_mental_focus();
     }
-    nv_cached = false;
     pda_cached = false;
 
     recalc_sight_limits();
     recalc_speed_bonus();
-
-    Creature::reset_stats();
-
 }
 
 void player::process_turn()
@@ -5469,9 +5401,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 void player::cough(bool harmful, int loudness) {
     if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
-        g->sound(posx(), posy(), loudness, "");
+        sounds::sound(posx(), posy(), loudness, "");
     } else {
-        g->sound(posx(), posy(), loudness, _("a hacking cough."));
+        sounds::sound(posx(), posy(), loudness, _("a hacking cough."));
     }
     moves -= 80;
     if (harmful && !one_in(4)) {
@@ -6037,7 +5969,7 @@ void player::hardcoded_effects(effect &it)
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                g->sound(posx(), posy(), loudness, _(npcText.c_str()));
+                sounds::sound(posx(), posy(), loudness, _(npcText.c_str()));
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -7139,7 +7071,8 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    if(!g->sound(posx(), posy(), 12, _("beep-beep-beep!"))) {
+                    sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
+                    if( !can_hear( pos(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -7242,7 +7175,7 @@ void player::suffer()
 
     if(has_active_mutation("WINGS_INSECT")){
         //~Sound of buzzing Insect Wings
-        g->sound(posx(), posy(), 10, "BZZZZZ");
+        sounds::sound(posx(), posy(), 10, "BZZZZZ");
     }
 
     double shoe_factor = footwear_factor();
@@ -7459,7 +7392,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    g->sound(posx(), posy(), 10 + 2 * str_cur, "AHHHHHHH!");
+                    sounds::sound(posx(), posy(), 10 + 2 * str_cur, "AHHHHHHH!");
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7492,13 +7425,13 @@ void player::suffer()
             vomit();
         }
         if (has_trait("SHOUT1") && one_in(3600)) {
-            g->sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+            sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            g->sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+            sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            g->sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+            sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();
@@ -7800,11 +7733,12 @@ void player::suffer()
         power_level -= 25;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        if(!is_deaf())
+        if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
-        else
+        } else {
             add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
-        g->sound(posx(), posy(), 60, "");
+        }
+        sounds::sound(posx(), posy(), 60, "");
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
@@ -12721,32 +12655,6 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-SkillLevel& player::skillLevel(std::string ident)
-{
-    return _skills[Skill::skill(ident)];
-}
-
-SkillLevel& player::skillLevel(const Skill* _skill)
-{
-    return _skills[_skill];
-}
-
-SkillLevel player::get_skill_level(const Skill* _skill) const
-{
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
-    }
-    return SkillLevel();
-}
-
-SkillLevel player::get_skill_level(const std::string &ident) const
-{
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
-}
-
 void player::copy_skill_levels(const player *rhs)
 {
     _skills = rhs->_skills;
@@ -13233,6 +13141,49 @@ bool player::is_deaf() const
     return has_effect("deaf") || worn_with_flag("DEAF");
 }
 
+bool player::can_hear( const point source, const int volume ) const
+{
+    if( is_deaf() ) {
+        return false;
+    }
+    const int dist = rl_dist( source, pos() );
+    const float volume_multiplier = hearing_ability();
+    return volume * volume_multiplier < dist;
+}
+
+// This method intentionally does not factor in deafness.
+float player::hearing_ability() const
+{
+    float volume_multiplier = 1.0;
+
+    // Mutation/Bionic volume modifiers
+    if( has_bionic("bio_ears") ) {
+        volume_multiplier *= 3.5;
+    }
+    if( has_trait("PER_SLIME") ) {
+        // Random hearing :-/
+        // (when it's working at all, see player.cpp)
+        // changed from 0.5 to fix Mac compiling error
+        volume_multiplier *= (rng(1, 2));
+    }
+    if( has_trait("BADHEARING") ) {
+        volume_multiplier *= .5;
+    }
+    if( has_trait("GOODHEARING") ) {
+        volume_multiplier *= 1.25;
+    }
+    if( has_trait("CANINE_EARS") ) {
+        volume_multiplier *= 1.5;
+    }
+    if( has_trait("URSINE_EARS") || has_trait("FELINE_EARS") ) {
+        volume_multiplier *= 1.25;
+    }
+    if( has_trait("LUPINE_EARS") ) {
+        volume_multiplier *= 1.75;
+    }
+    return volume_multiplier;
+}
+
 int player::print_info(WINDOW* w, int vStart, int, int column) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
@@ -13332,7 +13283,7 @@ std::vector<std::string> player::get_overlay_ids() const {
 
 void player::spores()
 {
-    g->sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
+    sounds::sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
     monster spore(GetMType("mon_spore"));
     int sporex, sporey;
     int mondex;
@@ -13368,10 +13319,10 @@ void player::spores()
 void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-     g->sound(posx(), posy(), 10, _("Pouf!"));
+    sounds::sound(posx(), posy(), 10, _("Pouf!"));
      for (int i = posx() - 2; i <= posx() + 2; i++) {
         for (int j = posy() - 2; j <= posy() + 2; j++) {
-                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+            g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
 }

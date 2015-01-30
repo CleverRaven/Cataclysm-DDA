@@ -9,6 +9,7 @@
 #include "uistate.h"
 #include "messages.h"
 #include "compatibility.h"
+#include "sounds.h"
 
 #include <sstream>
 #include <algorithm>
@@ -930,7 +931,7 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             }
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
-            g->sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
+            sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
             if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
             }
@@ -1010,7 +1011,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
       }
    }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
-    g->sound(examx, examy, 80, (""));
+    sounds::sound(examx, examy, 80, (""));
     m->ter_set(examx, examy, t_rock_floor);
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
@@ -1520,6 +1521,17 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if( cur_kiln_type == f_kiln_empty ) {
+        next_kiln_type = f_kiln_full;
+    } else if( cur_kiln_type == f_kiln_metal_empty ) {
+        next_kiln_type = f_kiln_metal_full;
+    } else {
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     std::vector< std::string > kilnable{ "wood", "bone" };
     bool fuel_present = false;
     auto items = m->i_at( examx, examy );
@@ -1541,7 +1553,7 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
         return;
     }
 
-    SkillLevel &skill = p->skillLevel("carpentry");
+    SkillLevel &skill = p->skillLevel( "carpentry" );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1566,19 +1578,32 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 
     p->use_charges( "fire", 1 );
     g->m.i_clear( examx, examy );
-    m->furn_set(examx, examy, f_kiln_full);
+    m->furn_set( examx, examy, next_kiln_type );
     item result( "unfinished_charcoal", calendar::turn.get_turn() );
     result.charges = char_charges;
     m->add_item( examx, examy, result );
     add_msg( _("You fire the charcoal kiln.") );
+    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    p->practice( "carpentry", practice_amount );
 }
 
 void iexamine::kiln_full(player *, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if ( cur_kiln_type == f_kiln_full ) {
+        next_kiln_type = f_kiln_empty;
+    } else if( cur_kiln_type == f_kiln_metal_full ) {
+        next_kiln_type = f_kiln_metal_empty;
+    } else {
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     auto items = m->i_at( examx, examy );
     if( items.empty() ) {
         add_msg( _("This kiln is empty...") );
-        m->furn_set(examx, examy, f_kiln_empty);
+        m->furn_set(examx, examy, next_kiln_type);
         return;
     }
     int last_bday = items[0].bday;
@@ -1610,7 +1635,7 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
     item result( "charcoal", calendar::turn.get_turn() );
     result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
     m->add_item( examx, examy, result );
-    m->furn_set( examx, examy, f_kiln_empty);
+    m->furn_set( examx, examy, next_kiln_type);
 }
 
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
@@ -2149,7 +2174,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
 
-    g->sound(examx, examy, 80, _("Ka-klunk!"));
+    sounds::sound(examx, examy, 80, _("Ka-klunk!"));
 
     int lump_weight = item( "steel_lump", 0 ).weight();
     int sheet_weight = item( "sheet_metal", 0 ).weight();
@@ -2825,7 +2850,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
 
-        g->sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
+        sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
 
         cashcard->charges -= amount * pricePerUnit;
 
@@ -2868,7 +2893,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 }
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                g->sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
+                sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
                 if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
                 }
@@ -2878,7 +2903,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hack the terminal and route all available fuel to your pump!"));
-                    g->sound(p->posx(), p->posy(), 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
+                    sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
                 } else {
                     add_msg(_("Nothing happens."));
                 }
@@ -2907,7 +2932,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
         long amount = fromPumpFuel(m, pTank, pGasPump);
         if (amount >= 0) {
-            g->sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
+            sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
             cashcard->charges += amount * pricePerUnit;
             add_msg(m_info, ngettext("Your cash card now holds %d cent.",
                                      "Your cash card now holds %d cents.",

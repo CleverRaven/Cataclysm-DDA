@@ -107,8 +107,6 @@ struct reason_weight_list {
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
-        std::map<const Skill*, SkillLevel> _skills;
-
     public:
         player();
         player(const player &) = default;
@@ -119,21 +117,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // newcharacter.cpp
         int create(character_type type, std::string tempname = "");
-        void empty_skills();
-        /** Returns the id of a random starting trait that costs >= 0 points */
-        std::string random_good_trait();
-        /** Returns the id of a random starting trait that costs < 0 points */
-        std::string random_bad_trait();
-        /** Calls Creature::normalize()
-         *  nulls out the player's weapon and normalizes HP and bodytemperature
+        /** Calls Character::normalize()
+         *  normalizes HP and bodytemperature
          */
+        
         void normalize();
 
-        virtual void die(Creature *nkiller);
-        // </newcharacter.cpp>
-
-        /** Returns a random name from NAMES_* */
-        void pick_name();
         /** Returns either "you" or the player's name */
         std::string disp_name(bool possessive = false) const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
@@ -906,8 +895,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int active_mission;
         int volume;
 
-        std::string name;
-        bool male;
         profession *prof;
 
         std::string start_location;
@@ -939,13 +926,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<morale_point> morale;
 
         int focus_pool;
-
-        SkillLevel &skillLevel(const Skill* _skill);
-        SkillLevel &skillLevel(std::string ident);
-
-        // for serialization
-        SkillLevel get_skill_level(const Skill* _skill) const;
-        SkillLevel get_skill_level(const std::string &ident) const;
 
         void set_skill_level(const Skill* _skill, int level);
         void set_skill_level(std::string ident, int level);
@@ -993,6 +973,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool is_invisible() const;
         bool is_deaf() const;
+        // Checks whether a player can hear a sound at a given volume and location.
+        bool can_hear( const point source, const int volume ) const;
+        // Returns a multiplier indicating the keeness of a player's hearing.
+        float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
 
@@ -1033,17 +1017,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void spores();
         void blossoms();
-
-        // return the calendar::turn the player expired
-        int get_turn_died() const
-        {
-            return turn_died;
-        }
-        // set the turn the turn the player died if not already done
-        void set_turn_died(int turn)
-        {
-            turn_died = (turn_died != -1) ? turn : turn_died;
-        }
 
     protected:
         std::list<disease> illness;
@@ -1096,9 +1069,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
-
-        // turn the player expired, if -1 it has not been set yet.
-        int turn_died = -1;
 };
 
 #endif

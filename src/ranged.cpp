@@ -10,6 +10,7 @@
 #include "action.h"
 #include "input.h"
 #include "messages.h"
+#include "sounds.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
@@ -790,12 +791,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         for (item &i : thrown.contents) {
             m.add_item_or_charges(tx, ty, i);
         }
-        sound(tx, ty, 16, _("glass breaking!"));
+        sounds::sound(tx, ty, 16, _("glass breaking!"));
     } else {
         if(m.has_flag("LIQUID", tx, ty)) {
-            sound(tx, ty, 10, _("splash!"));
+            sounds::sound(tx, ty, 10, _("splash!"));
         } else {
-            sound(tx, ty, 8, _("thud."));
+            sounds::sound(tx, ty, 8, _("thud."));
         }
         m.add_item_or_charges(tx, ty, thrown);
         const trap_id trid = m.tr_at(tx, ty);
@@ -1366,15 +1367,15 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 
     if( ammo_used == "40mm") {
-        g->sound(p.posx(), p.posy(), 8, _("Thunk!"));
+        sounds::sound(p.posx(), p.posy(), 8, _("Thunk!"));
     } else if( weapon_id == "hk_g80") {
-        g->sound(p.posx(), p.posy(), 24, _("tz-CRACKck!"));
+        sounds::sound(p.posx(), p.posy(), 24, _("tz-CRACKck!"));
     } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
                ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        g->sound(p.posx(), p.posy(), 4, _("Fwoosh!"));
+        sounds::sound(p.posx(), p.posy(), 4, _("Fwoosh!"));
     } else if( ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
                ammo_used != "fishspear" && ammo_used != "dart" ) {
-        g->sound(p.posx(), p.posy(), noise, gunsound);
+        sounds::sound(p.posx(), p.posy(), noise, gunsound);
     }
 }
 

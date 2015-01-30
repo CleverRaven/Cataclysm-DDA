@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include "sounds.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness(int x, int y)
@@ -31,7 +32,7 @@ void trapfunc::bubble(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Stepped on bubble wrap."),
                             pgettext("memorial_female", "Stepped on bubble wrap."));
     }
-    g->sound(x, y, 18, _("Pop!"));
+    sounds::sound(x, y, 18, _("Pop!"));
     g->m.remove_trap(x, y);
 }
 
@@ -51,7 +52,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
     if (c != NULL && c->get_size() == MS_TINY) {
         return;
     }
-    g->sound(x, y, 8, _("SNAP!"));
+    sounds::sound(x, y, 8, _("SNAP!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // What got hit?
@@ -279,7 +280,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
 
 void trapfunc::shotgun(Creature *c, int x, int y)
 {
-    g->sound(x, y, 60, _("Kerblam!"));
+    sounds::sound(x, y, 60, _("Kerblam!"));
     int shots = 1;
     if (c != NULL) {
         c->add_msg_player_or_npc(m_neutral, _("You trigger a shotgun trap!"),
@@ -396,7 +397,7 @@ void trapfunc::blade(Creature *c, int, int)
 
 void trapfunc::snare_light(Creature *c, int x, int y)
 {
-    g->sound(x, y, 2, _("Snap!"));
+    sounds::sound(x, y, 2, _("Snap!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // Determine what gets hit
@@ -423,7 +424,7 @@ void trapfunc::snare_light(Creature *c, int x, int y)
 
 void trapfunc::snare_heavy(Creature *c, int x, int y)
 {
-    g->sound(x, y, 4, _("Snap!"));
+    sounds::sound(x, y, 4, _("Snap!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // Determine waht got hit
@@ -498,7 +499,7 @@ void trapfunc::boobytrap(Creature *c, int x, int y)
 void trapfunc::telepad(Creature *c, int x, int y)
 {
     //~ the sound of a telepad functioning
-    g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
+    sounds::sound(x, y, 6, _("vvrrrRRMM*POP!*"));
     if (c != NULL) {
         monster *z = dynamic_cast<monster *>(c);
         // TODO: NPC don't teleport?
@@ -572,7 +573,7 @@ void trapfunc::goo(Creature *c, int x, int y)
 void trapfunc::dissector(Creature *c, int x, int y)
 {
     //~ the sound of a dissector dissecting
-    g->sound(x, y, 10, _("BRZZZAP!"));
+    sounds::sound(x, y, 10, _("BRZZZAP!"));
     if (c != NULL) {
         c->add_msg_player_or_npc(m_bad, _("Electrical beams emit from the floor and slice your flesh!"),
                                  _("Electrical beams emit from the floor and slice <npcname>s flesh!"));
@@ -1087,7 +1088,7 @@ void trapfunc::hum(Creature * /*c*/, int const x, int const y)
         //~ a very loud humming sound
         sfx = _("VRMMMMMM");
     }
-    g->sound(x, y, volume, sfx);
+    sounds::sound(x, y, volume, sfx);
 }
 
 void trapfunc::shadow(Creature *c, int x, int y)
@@ -1139,7 +1140,7 @@ void trapfunc::drain(Creature *c, int, int)
 void trapfunc::snake(Creature *c, int x, int y)
 {
     //~ the sound a snake makes
-    g->sound(x, y, 10, _("ssssssss"));
+    sounds::sound(x, y, 10, _("ssssssss"));
     if (one_in(6)) {
         g->m.remove_trap(x, y);
     }

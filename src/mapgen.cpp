@@ -55,7 +55,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
-    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+    for( size_t i = 0; i < grid.size(); i++ ) {
         setsubmap( i, new submap() );
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
@@ -11478,7 +11478,7 @@ void map::rotate(int turns)
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
             const auto from = get_submap_at_grid( sx, sy );
-            int gridto = 0;
+            size_t gridto = 0;
             switch(turns) {
             case 0:
                 gridto = get_nonant( sx, sy );
@@ -11524,7 +11524,7 @@ void map::rotate(int turns)
     }
 
     // change vehicles' directions
-    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+    for( size_t i = 0; i < grid.size(); i++ ) {
         for (auto &v : vehrot[i]) {
             vehicle *veh = v;
             // turn the steering wheel, vehicle::turn does not actually
