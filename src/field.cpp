@@ -678,24 +678,24 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( (fuel->made_of("cotton") || fuel->made_of("wool")) &&
                                        !fuel->made_of("nomex") ) {
-                                //Cotton and wool burn slowly but don't feed the fire much.
-                                if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
+                                //Cotton and wool moderately quickly but don't feed the fire much.
+                                if( vol <= 5 || cur->getFieldDensity() > 1 ) {
                                     time_added = 1;
                                     burn_amt = cur->getFieldDensity();
-                                } else if( fuel->burnt < cur->getFieldDensity() ) {
+                                } else if( x_in_y( cur->getFieldDensity(), fuel->burnt ) ) {
                                     burn_amt = 1;
                                 }
                                 smoke++;
 
                             } else if( fuel->made_of("flesh") || fuel->made_of("hflesh") ||
                                        fuel->made_of("iflesh") ) {
-                                //Same as cotton/wool really but more smokey.
-                                if (vol <= cur->getFieldDensity() * 5 ||
+                                // Slow and smokey
+                                if( vol <= cur->getFieldDensity() * 5 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
                                     time_added = 1;
                                     burn_amt = cur->getFieldDensity();
                                     smoke += 3;
-                                } else if (fuel->burnt < cur->getFieldDensity()) {
+                                } else if( x_in_y( cur->getFieldDensity(), fuel->burnt ) ) {
                                     burn_amt = 1;
                                     smoke++;
                                 }
@@ -737,6 +737,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if( one_in( (ammo_type != NULL) ? vol : fuel->burnt ) ) {
                                         time_added = 1;
                                     }
+                                }
+                            } else if( !fuel->made_of("nomex") ) {
+                                // Generic materials, like bone, wheat or fruit
+                                // Just damage and smoke, don't feed the fire
+                                int best_res = 0;
+                                for( auto mat : fuel->made_of_types() ) {
+                                    best_res = std::max( best_res, mat->fire_resist() );
+                                }
+                                if( best_res < cur->getFieldDensity() && one_in( vol ) ) {
+                                    smoke++;
+                                    burn_amt = cur->getFieldDensity() - best_res;
                                 }
                             }
                             if (!destroyed) {

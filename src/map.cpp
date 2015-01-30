@@ -1581,7 +1581,6 @@ bool map::is_outside(const int x, const int y)
  return outside_cache[x][y];
 }
 
-// MATERIALS-TODO: Use fire resistance
 bool map::flammable_items_at(const int x, const int y)
 {
     for (auto &i : i_at(x, y)) {
@@ -1596,7 +1595,7 @@ bool map::flammable_items_at(const int x, const int y)
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
             return true;
         }
-        if ((i.made_of("cotton") || i.made_of("wool")) && (vol <= 5 || i.burnt < 1)) {
+        if( (i.made_of("cotton") || i.made_of("wool") ) && ( i.burnt / ( vol + 1 ) <= 1 ) ) {
             return true;
         }
         if (i.is_ammo() && i.ammo_type() != "battery" &&
@@ -1604,6 +1603,10 @@ bool map::flammable_items_at(const int x, const int y)
               i.ammo_type() != "bolt" && i.ammo_type() != "arrow" &&
               i.ammo_type() != "pebble" && i.ammo_type() != "fishspear" &&
               i.ammo_type() != "NULL") {
+            return true;
+        }
+        if( i.flammable() ) {
+            // Total fire resistance == 0
             return true;
         }
     }
