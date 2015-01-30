@@ -7,6 +7,11 @@
 #include <map>
 #include <set>
 
+class Creature;
+class mdefense;
+class mdeath;
+class mattack;
+
 typedef void (mdeath::*MonDeathFunction)(monster *);
 typedef void (mattack::*MonAttackFunction)(monster *, int index);
 typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projectile *);

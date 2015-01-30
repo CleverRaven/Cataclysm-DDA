@@ -19,6 +19,7 @@
 #include "messages.h"
 #include "crafting.h"
 #include "sounds.h"
+#include "monattack.h"
 
 #include <vector>
 #include <sstream>
