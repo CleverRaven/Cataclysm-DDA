@@ -278,7 +278,6 @@ class overmap
      * coordinates), or empty vector if no matching terrain is found.
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
-    int dist_from_city(point p);
 
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
@@ -392,6 +391,8 @@ public:
 
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
+
+    int dist_from_city(point p);
 
   /**
    * Draws the overmap terrain.

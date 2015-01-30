@@ -739,7 +739,7 @@ void game::create_starting_npcs()
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
+        reserve_random_mission(ORIGIN_OPENER_NPC, om_global_location(), tmp->getID()));
 }
 
 bool game::cleanup_at_end()
@@ -1745,14 +1745,14 @@ int game::reserve_mission(mission_id type, int npc_id)
     return tmp.uid;
 }
 
-int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
+int game::reserve_random_mission(mission_origin origin, const tripoint p, int npc_id)
 {
     std::vector<int> valid;
     mission_place place;
     for( auto &elem : mission_types ) {
         for( std::vector<mission_origin>::iterator orig = elem.origins.begin();
              orig != elem.origins.end(); ++orig ) {
-            if( *orig == origin && ( place.*elem.place )( p.x, p.y ) ) {
+            if( *orig == origin && ( place.*elem.place )( p ) ) {
                 valid.push_back( elem.id );
                 break;
             }
@@ -4237,7 +4237,7 @@ void game::debug()
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                            om_location(), temp->getID());
+                            om_global_location(), temp->getID());
         if (mission_index != -1) {
             temp->chatbin.missions.push_back(mission_index);
         }
@@ -13319,7 +13319,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());
+        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_global_location(), tmp->getID());
         if (mission_index != -1) {
             tmp->chatbin.missions.push_back(mission_index);
         }

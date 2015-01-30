@@ -243,8 +243,7 @@ class game
          *  active_missions.  The function returns the UID of the new mission, which can
          *  then be passed to a MacGuffin or something else that needs to track a mission. */
         int reserve_mission(mission_id type, int npc_id = -1);
-        int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
-                                   int npc_id = -1);
+        int reserve_random_mission(mission_origin origin, tripoint p, int npc_id);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
