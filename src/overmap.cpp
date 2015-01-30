@@ -1915,7 +1915,6 @@ void overmap::move_hordes()
 */
 void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
-    // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {

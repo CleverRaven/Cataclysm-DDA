@@ -269,7 +269,6 @@ class overmap
 
     void process_mongroups(); // Makes them die out, maybe more
     void move_hordes();
-    void signal_hordes( const int x, const int y, const int sig_power);
 
     /**
      * Return a vector containing the absolute coordinates of
@@ -393,6 +392,7 @@ public:
   bool generate_sub(int const z);
 
     int dist_from_city(point p);
+    void signal_hordes( int x, int y, int sig_power );
 
   /**
    * Draws the overmap terrain.

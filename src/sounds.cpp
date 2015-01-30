@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "enums.h"
+#include "overmapbuffer.h"
 
 struct sound_event {
     int volume;
@@ -122,8 +123,7 @@ void sounds::process_sounds()
         // Alert all hordes
         if( vol > 20 && g->levz == 0 ) {
             int sig_power = ((vol > 140) ? 140 : vol) - 20;
-            g->cur_om->signal_hordes( g->levx + (MAPSIZE / 2),
-                                      g->levy + (MAPSIZE / 2), sig_power );
+            overmap_buffer.signal_hordes( g->global_sm_location(), sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {

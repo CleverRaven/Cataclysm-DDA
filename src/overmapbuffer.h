@@ -262,6 +262,13 @@ public:
     t_notes_vector find_notes(int z, const std::string& pattern) {
         return get_notes(z, &pattern); // filter with pattern
     }
+    /**
+     * Signal nearby hordes to move to given location.
+     * @param center The origin of the signal, hordes (that recognize the signal) want to go
+     * to there. In global submap coordinates.
+     * @param sig_power The signal strength, higher values means it visible farther away.
+     */
+    void signal_hordes( tripoint center, int sig_power );
     // hordes -- this uses overmap terrain coordinates!
     std::vector<mongroup*> monsters_at(int x, int y, int z);
     /**

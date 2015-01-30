@@ -291,6 +291,18 @@ std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool req
     return result;
 }
 
+void overmapbuffer::signal_hordes( const tripoint center, const int sig_power )
+{
+    const auto radius = sig_power;
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        const point abs_pos_om = om_to_sm_copy( om->pos() );
+        const point rel_pos( center.x - abs_pos_om.x, center.y - abs_pos_om.y );
+        // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
+        // for processing as the monster group stores is location as relative coordinates, too.
+        om->signal_hordes( rel_pos.x, rel_pos.y, sig_power );
+    }
+}
+
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
