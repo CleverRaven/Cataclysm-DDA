@@ -712,8 +712,12 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
 
 bool overmapbuffer::is_safe(int x, int y, int z)
 {
-    overmap &om = get_om_global(x, y);
-    return om.is_safe(x, y, z);
+    for( auto & mongrp : monsters_at( x, y, z ) ) {
+        if( !mongrp->is_safe() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 inline int modulo(int v, int m) {

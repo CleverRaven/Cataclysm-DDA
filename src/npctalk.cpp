@@ -8,6 +8,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "ammo.h"
+#include "overmapbuffer.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -1082,7 +1083,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->om_global_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -2408,7 +2409,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->om_global_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);

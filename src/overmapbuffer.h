@@ -126,6 +126,11 @@ public:
     bool has_horde(int x, int y, int z);
     std::vector<om_vehicle> get_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
+
+    /**
+     * Check for any dangerous monster groups at the global overmap terrain coordinates.
+     * If there are any, it's not safe.
+     */
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 

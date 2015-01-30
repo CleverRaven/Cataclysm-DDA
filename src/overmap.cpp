@@ -681,24 +681,6 @@ bool &overmap::explored(int x, int y, int z)
     return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
-// this uses om_pos (overmap tiles, aka levxy / 2)
-bool overmap::is_safe(int x, int y, int z)
-{
-    // use the monsters_at function of the overmapbuffer, which requires *absolute*
-    // coordinates. is_safe should be moved to the overmapbuffer, too.
-    std::vector<mongroup *> mons = overmap_buffer.monsters_at( x + loc.x * OMAPX, y + loc.y * OMAPY, z );
-    if (mons.empty()) {
-        return true;
-    }
-
-    for (auto &n : mons) {
-        if (!n->is_safe()) {
-            return false;
-        }
-    }
-    return true;
-}
-
 bool overmap::is_explored(int const x, int const y, int const z) const
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
