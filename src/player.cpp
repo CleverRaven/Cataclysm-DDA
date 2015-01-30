@@ -1864,8 +1864,8 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
-    const point global_sm_pos( g->get_abs_levx() + int(MAPSIZE / 2), g->get_abs_levy() + int(MAPSIZE / 2) );
-    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
+    const auto global_sm_pos = g->global_sm_location();
+    const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
     std::string kill_place;
     if( !closest_city ) {
         //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.

@@ -825,7 +825,8 @@ void construct::done_dig_stair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->get_abs_levx() + (MAPSIZE/2), g->get_abs_levy() + (MAPSIZE / 2), g->get_abs_levz() - 1, false);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1094,7 +1095,8 @@ void construct::done_mine_downstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->get_abs_levx() + (MAPSIZE/2), g->get_abs_levy() + (MAPSIZE / 2), g->get_abs_levz() - 1, false);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1364,7 +1366,8 @@ void construct::done_mine_upstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->get_abs_levx() + (MAPSIZE/2), g->get_abs_levy() + (MAPSIZE / 2), g->get_abs_levz() + 1, false);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;

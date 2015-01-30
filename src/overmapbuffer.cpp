@@ -537,6 +537,11 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
     return result;
 }
 
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint p, const int radius )
+{
+    return get_overmaps_near( point( p.x, p.y ), radius );
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
@@ -587,7 +592,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    const point center( g->get_abs_levx(), g->get_abs_levy() );
+    const auto center = g->global_sm_location();
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
             const auto rref = create_radio_tower_reference( *om, tower, center );
@@ -602,7 +607,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    const point center( g->get_abs_levx(), g->get_abs_levy() );
+    const auto center = g->global_sm_location();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;

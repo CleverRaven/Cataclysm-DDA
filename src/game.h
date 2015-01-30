@@ -304,6 +304,11 @@ class game
          * the center of the reality bubble.
          */
         tripoint global_omt_location() const;
+        /**
+         * Position of the player in global submap coordinates. This is specifically
+         * the center of the reality bubble.
+         */
+        tripoint global_sm_location() const;
 
         void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);

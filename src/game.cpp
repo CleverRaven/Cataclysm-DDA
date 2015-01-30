@@ -12986,6 +12986,13 @@ tripoint game::global_omt_location() const
     return tripoint(cursx, cursy, levz);
 }
 
+tripoint game::global_sm_location() const
+{
+    return tripoint( get_abs_levx() + int( MAPSIZE / 2 ),
+                     get_abs_levy() + int( MAPSIZE / 2 ),
+                     get_abs_levz() );
+}
+
 void game::update_overmap_seen()
 {
     const tripoint ompos = global_omt_location();

@@ -404,6 +404,7 @@ private:
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
      */
     std::vector<overmap *> get_overmaps_near( point location, int radius );
+    std::vector<overmap *> get_overmaps_near( tripoint location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;
