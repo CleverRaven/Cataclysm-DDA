@@ -3935,7 +3935,7 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
             if (selected_tower->type == MESSAGE_BROADCAST) {
                 message = selected_tower->message;
             } else if (selected_tower->type == WEATHER_RADIO) {
-                message = weather_forecast(*selected_tower);
+                message = weather_forecast( tref.abs_sm_pos );
             }
             for( auto &elem : message ) {
                 if (dice(10, 100) > dice(10, tref.signal_strength * 3)) {
@@ -3966,7 +3966,7 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
                 for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
-                    const auto freq = tref.tower->frequency;
+                    const auto new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
                     }

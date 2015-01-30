@@ -465,16 +465,17 @@ void weather_effect::acid()
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast(radio_tower const &tower)
+std::string weather_forecast( point const &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
-    city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
+    const auto cref = overmap_buffer.closest_city( abs_sm_pos );
+    const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
                        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
-                       closest_city->name.c_str(),
+                       city_name.c_str(),
                        weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );
 
@@ -499,7 +500,7 @@ std::string weather_forecast(radio_tower const &tower)
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
+            w_point w = g->weatherGen.get_weather(abs_sm_pos, i);
             forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);

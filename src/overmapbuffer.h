@@ -24,6 +24,20 @@ struct radio_tower_reference {
     }
 };
 
+struct city_reference {
+    /** Overmap the city is on. */
+    overmap *om;
+    /** The city itself, points into @ref overmap::cities */
+    struct city *city;
+    /** The global absolute position of the city (in submap coordinates!) */
+    point abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+    operator bool() const {
+        return city != nullptr;
+    }
+};
+
 /**
  * Coordinate systems used here are:
  * overmap (om): the position of an overmap. Each overmap stores
@@ -273,6 +287,12 @@ public:
      * All entries in the returned vector are valid (have a valid tower pointer).
      */
     std::vector<radio_tower_reference> find_all_radio_stations();
+    /**
+     * Find the closest city. If no city is close, returns an object with city set to nullptr.
+     * @param center The center of the search, the distance for determining the closest city is
+     * calculated as distance to this point. In global submap coordinates!
+     */
+    city_reference closest_city( point center );
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

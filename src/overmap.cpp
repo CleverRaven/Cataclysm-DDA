@@ -1245,21 +1245,6 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-int overmap::closest_city(point p)
-{
-    int distance = 999;
-    size_t ret = -1;
-    for (size_t i = 0; i < cities.size(); i++) {
-        int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-        if (dist < distance || (dist == distance && cities[i].s < cities[ret].s)) {
-            ret = i;
-            distance = dist;
-        }
-    }
-
-    return ret;
-}
-
 point overmap::random_house_in_city(int city_id)
 {
     if (city_id < 0 || size_t(city_id) >= cities.size()) {

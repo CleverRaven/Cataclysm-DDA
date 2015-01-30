@@ -617,6 +617,29 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
+city_reference overmapbuffer::closest_city( const point center )
+{
+    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
+    auto const radius = OMAPX * 2;
+    // Starting with distance = INT_MAX, so the first city is already closer
+    city_reference result{ nullptr, nullptr, point( 0, 0 ), INT_MAX };
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        for( auto &city : om->cities ) {
+            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
+            const auto abs_pos_city = abs_pos_om + rel_pos_city;
+            const auto distance = rl_dist( abs_pos_city, center );
+            const city_reference cr{ om, &city, abs_pos_city, distance };
+            if( distance < result.distance ) {
+                result = cr;
+            } else if( distance == result.distance && result.city->s < city.s ) {
+                result = cr;
+            }
+        }
+    }
+    return result;
+}
+
 void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 {
     // Create a copy, so we can reuse x and y later

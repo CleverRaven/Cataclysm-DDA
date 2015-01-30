@@ -184,6 +184,7 @@ struct regional_settings {
 
 
 struct city {
+ // in overmap terrain coordinates
  int x;
  int y;
  int s;
@@ -277,7 +278,6 @@ class overmap
      * coordinates), or empty vector if no matching terrain is found.
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
-    int closest_city(point p);
     point random_house_in_city(int city_id);
     int dist_from_city(point p);
 

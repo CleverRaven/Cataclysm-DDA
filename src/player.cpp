@@ -1861,20 +1861,20 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Figure out the location
     const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
-    point cur_loc = g->om_location();
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
-    int city_index = g->cur_om->closest_city(cur_loc);
+    const point global_sm_pos( g->get_abs_levx() + int(MAPSIZE / 2), g->get_abs_levy() + int(MAPSIZE / 2) );
+    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
     std::string kill_place;
-    if(city_index < 0) {
+    if( !closest_city ) {
         //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
         kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
-        city nearest_city = g->cur_om->cities[city_index];
+        const auto &nearest_city = *closest_city.city;
         //Give slightly different messages based on how far we are from the middle
-        int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
+        const int distance_from_city = closest_city.distance - nearest_city.s;
         if(distance_from_city > nearest_city.s + 4) {
             //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
             kill_place = string_format(_("%s was killed in a %s in the wilderness."),
