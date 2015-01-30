@@ -52,28 +52,15 @@
 #include <vector>
 #include <locale>
 #include <cassert>
-#include <iterator> //ostream_iterator
-#include <iomanip> // put_time
-
-//TODO replace these includes with filesystem.h
-#include <sys/stat.h>
-
-#ifdef _MSC_VER
-#   include "wdirent.h"
-#   include <direct.h>
-#else
-#   include <unistd.h>
-#   include <dirent.h>
-#endif
+#include <iterator>
+#include <ctime>
 
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
 #   include <tchar.h>
 #endif
 
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -4077,6 +4064,7 @@ void game::write_memorial_file(std::string sLastWords)
 
     // Add a timestamp for uniqueness.
     char buffer[suffix_len] {};
+    std::time_t t = std::time(nullptr);
     std::strftime(buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime(&t));
     memorial_file_path << buffer;
 
