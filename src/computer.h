@@ -67,6 +67,10 @@ enum computer_failure {
     NUM_COMPUTER_FAILURES
 };
 
+void initialize_computer_maps();
+static std::map<std::string, computer_action> string_to_action;
+static std::map<std::string, computer_failure> string_to_failure;
+
 struct computer_option {
     std::string name;
     computer_action action;
@@ -109,6 +113,8 @@ class computer
 
         static void load_lab_note(JsonObject &jsobj);
         static void clear_lab_notes();
+
+        static computer fromJson(JsonObject &jo);
 
     private:
         // Difficulty of simply logging in
