@@ -871,6 +871,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double logistic_range(int min, int max, int pos);
         void calculate_portions(int &x, int &y, int &z, int maximum);
 
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
+
         // ---------------VALUES-----------------
         inline int posx() const
         {

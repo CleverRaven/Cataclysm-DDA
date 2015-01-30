@@ -4052,6 +4052,22 @@ float player::active_light()
     return lumination;
 }
 
+tripoint player::global_square_location() const
+{
+    const auto abs_pos = g->m.getabs( position.x, position.y );
+    return tripoint( abs_pos.x, abs_pos.y, g->get_abs_levz() ); // player is always at levz
+}
+
+tripoint player::global_sm_location() const
+{
+    return overmapbuffer::ms_to_sm_copy( global_square_location() );
+}
+
+tripoint player::global_omt_location() const
+{
+    return overmapbuffer::ms_to_omt_copy( global_square_location() );
+}
+
 const point &player::pos() const
 {
     return position;

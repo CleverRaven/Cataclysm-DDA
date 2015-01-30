@@ -907,20 +907,6 @@ void npc::spawn_at_random_city(overmap *o)
     spawn_at(x, y, 0);
 }
 
-tripoint npc::global_sm_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_sm(t.x, t.y);
-    return t;
-}
-
-tripoint npc::global_omt_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_omt(t.x, t.y);
-    return t;
-}
-
 tripoint npc::global_square_location() const
 {
     return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
