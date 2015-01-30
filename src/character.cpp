@@ -3,6 +3,7 @@
 
 Character::Character()
 {
+    name = "";
     Creature::set_speed_base(100);
 }
 
@@ -541,6 +542,123 @@ bool Character::worn_with_flag( std::string flag ) const
         }
     }
     return false;
+}
+
+SkillLevel& Character::skillLevel(std::string ident)
+{
+    return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& Character::skillLevel(const Skill* _skill)
+{
+    return _skills[_skill];
+}
+
+SkillLevel Character::get_skill_level(const Skill* _skill) const
+{
+    for( const auto &elem : _skills ) {
+        if( elem.first == _skill ) {
+            return elem.second;
+        }
+    }
+    return SkillLevel();
+}
+
+SkillLevel Character::get_skill_level(const std::string &ident) const
+{
+    const Skill* sk = Skill::skill(ident);
+    return get_skill_level(sk);
+}
+
+void Character::normalize()
+{
+    Creature::normalize();
+
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
+
+    recalc_hp();
+}
+
+// Actual player death is mostly handled in game::is_game_over
+void Character::die(Creature* nkiller)
+{
+    if( nkiller != NULL && !nkiller->is_fake() ) {
+        killer = nkiller;
+    }
+    set_turn_died(int(calendar::turn));
+}
+
+void Character::reset_stats()
+{
+    Creature::reset_stats();
+    
+    // Bionic buffs
+    if (has_active_bionic("bio_hydraulics"))
+        mod_str_bonus(20);
+    if (has_bionic("bio_eye_enhancer"))
+        mod_per_bonus(2);
+    if (has_bionic("bio_str_enhancer"))
+        mod_str_bonus(2);
+    if (has_bionic("bio_int_enhancer"))
+        mod_int_bonus(2);
+    if (has_bionic("bio_dex_enhancer"))
+        mod_dex_bonus(2);
+
+    // Trait / mutation buffs
+    if (has_trait("THICK_SCALES")) {
+        mod_dex_bonus(-2);
+    }
+    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+        mod_dex_bonus(-1);
+    }
+    if (has_trait("BIRD_EYE")) {
+        mod_per_bonus(4);
+    }
+    if (has_trait("INSECT_ARMS")) {
+        mod_dex_bonus(-2);
+    }
+    if (has_trait("WEBBED")) {
+        mod_dex_bonus(-1);
+    }
+    if (has_trait("ARACHNID_ARMS")) {
+        mod_dex_bonus(-4);
+    }
+    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+            has_trait("ARM_TENTACLES_8")) {
+        mod_dex_bonus(1);
+    }
+
+    // Dodge-related effects
+    if (has_trait("TAIL_LONG")) {
+        mod_dodge_bonus(2);
+    }
+    if (has_trait("TAIL_CATTLE")) {
+        mod_dodge_bonus(1);
+    }
+    if (has_trait("TAIL_RAT")) {
+        mod_dodge_bonus(2);
+    }
+    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
+        mod_dodge_bonus(1);
+    }
+    if (has_trait("TAIL_RAPTOR")) {
+        mod_dodge_bonus(3);
+    }
+    if (has_trait("TAIL_FLUFFY")) {
+        mod_dodge_bonus(4);
+    }
+    if (has_trait("WINGS_BAT")) {
+        mod_dodge_bonus(-3);
+    }
+    if (has_trait("WINGS_BUTTERFLY")) {
+        mod_dodge_bonus(-4);
+    }
+
+    if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
+
+    nv_cached = false;
 }
 
 bool Character::has_nv()

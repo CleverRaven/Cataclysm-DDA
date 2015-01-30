@@ -38,6 +38,13 @@ class Character : public Creature
         void recalc_sight_limits();
         
         // --------------- Mutation Stuff ---------------
+        // In newcharacter.cpp
+        /** Returns the id of a random starting trait that costs >= 0 points */
+        std::string random_good_trait();
+        /** Returns the id of a random starting trait that costs < 0 points */
+        std::string random_bad_trait();
+        
+        // In mutation.cpp
         /** Returns true if the player has the entered trait */
         virtual bool has_trait(const std::string &flag) const;
         /** Returns true if the player has the entered starting trait */
@@ -209,12 +216,45 @@ class Character : public Creature
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( std::string flag ) const;
         
+        // --------------- Skill Stuff ---------------
+        SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel &skillLevel(std::string ident);
+        
+        /** for serialization */
+        SkillLevel get_skill_level(const Skill* _skill) const;
+        SkillLevel get_skill_level(const std::string &ident) const;
+        
         // --------------- Other Stuff ---------------
+        
+
+        /** return the calendar::turn the character expired */
+        int get_turn_died() const
+        {
+            return turn_died;
+        }
+        /** set the turn the turn the character died if not already done */
+        void set_turn_died(int turn)
+        {
+            turn_died = (turn_died != -1) ? turn : turn_died;
+        }
+        
+        /** Calls Creature::normalize()
+         *  nulls out the player's weapon
+         *  Should only be called through player::normalize(), not on it's own!
+         */
+        virtual void normalize();
+        virtual void die(Creature *nkiller);
+        
+        /** Resets stats, and applies effects in an idempotent manner */
+        virtual void reset_stats();
+        
         /** Returns true if the player has some form of night vision */
         bool has_nv();
         
-        
         // In newcharacter.cpp
+        void empty_skills();
+        /** Returns a random name from NAMES_* */
+        void pick_name();
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
         /** Empties the trait list */
@@ -222,6 +262,9 @@ class Character : public Creature
         void add_traits();
         
         // --------------- Values ---------------
+        std::string name;
+        bool male;
+        
         std::vector<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max;
         bool nv_cached;
@@ -247,6 +290,8 @@ class Character : public Creature
         void load(JsonObject &jsin);
         
         // --------------- Values ---------------
+        std::map<const Skill*, SkillLevel> _skills;
+
         std::map<std::string, char> trait_keys;
         
         bool underwater;
@@ -254,6 +299,9 @@ class Character : public Creature
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
+
+        // turn the character expired, if -1 it has not been set yet.
+        int turn_died = -1;
 };
 
 #endif

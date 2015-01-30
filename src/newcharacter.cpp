@@ -60,6 +60,11 @@ const Skill* random_skill();
 
 void save_template(player *u);
 
+void Character::pick_name()
+{
+    name = Name::generate(male);
+}
+
 int player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
@@ -1998,7 +2003,7 @@ void Character::empty_traits()
         }
     }
 }
-void player::empty_skills()
+void Character::empty_skills()
 {
     for( auto &skill : Skill::skills ) {
         SkillLevel &level = skillLevel( skill );
@@ -2013,7 +2018,7 @@ void Character::add_traits()
         }
     }
 }
-std::string player::random_good_trait()
+std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
@@ -2026,7 +2031,7 @@ std::string player::random_good_trait()
     return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
 }
 
-std::string player::random_bad_trait()
+std::string Character::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
