@@ -186,7 +186,7 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -207,8 +207,7 @@ void game::unserialize(std::ifstream & fin)
         calendar::start = tmpcalstart;
         nextspawn = tmpspawn;
 
-        cur_om = &overmap_buffer.get(comx, comy);
-        m.load( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz, true );
+        load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {

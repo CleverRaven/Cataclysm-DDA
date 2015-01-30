@@ -588,6 +588,16 @@ special_game_id game::gametype() const
     return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
 }
 
+void game::load_map( tripoint pos_sm )
+{
+    m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
+    const point om_pos = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
+    cur_om = &overmap_buffer.get( om_pos.x, om_pos.y );
+    levx = pos_sm.x;
+    levy = pos_sm.y;
+    levz = pos_sm.z;
+}
+
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
@@ -619,17 +629,10 @@ void game::start_game(std::string worldname)
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= MAPSIZE / 2;
     lev.y -= MAPSIZE / 2;
-    // _remain because lev[xyz] are relative to the current overmap (cur_om)
-    const point om_pos = overmapbuffer::sm_to_om_remain( lev.x, lev.y );
-    cur_om = &overmap_buffer.get( om_pos.x, om_pos.y );
-    levx = lev.x;
-    levy = lev.y;
-    levz = lev.z;
+    load_map( lev );
 
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
-    // Init the starting map at this location.
-    m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
@@ -4201,14 +4204,11 @@ void game::debug()
             }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
-
+            // offset because load_map expects the coordinates of the top left corner, but the
+            // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
-            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = nlevx - cur_om->pos().x * OMAPX * 2;
-            levy = nlevy - cur_om->pos().y * OMAPY * 2;
-            levz = tmp.z;
-            m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
+            load_map( tripoint( nlevx, nlevy, tmp.z ) );
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();

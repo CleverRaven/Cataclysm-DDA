@@ -282,11 +282,7 @@ void defense_game::init_map()
         }
     }
 
-    g->levx = 100;
-    g->levy = 100;
-    g->levz = 0;
-    g->cur_om = &starting_om;
-    g->m.load( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz(), true );
+    g->load_map( tripoint( 100, 100, 0 ) );
     g->u.setx( SEEX );
     g->u.sety( SEEY );
 

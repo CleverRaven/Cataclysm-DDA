@@ -50,9 +50,6 @@ bool tutorial_game::init()
     starting_om.ter(lx, ly, 0) = "tutorial";
     starting_om.ter(lx, ly, -1) = "tutorial";
     starting_om.clear_mon_groups();
-    // to submap coordinates as it is supposed to be
-    g->levx = lx * 2;
-    g->levy = ly * 2;
 
  g->u.toggle_trait("QUICK");
  item lighter("lighter", 0);
@@ -60,9 +57,7 @@ bool tutorial_game::init()
  g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
- cur_om = &starting_om;
- g->m.load( g->get_abs_levx(), g->get_abs_levy(), 0, true );
- g->levz = 0;
+    g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
  g->u.setx( 2 );
  g->u.sety( 4 );
 

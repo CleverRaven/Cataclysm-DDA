@@ -385,6 +385,11 @@ class game
         int get_abs_levx() const;
         int get_abs_levy() const;
         int get_abs_levz() const;
+        /**
+         * Load the main map at given location, see @ref map::load, in global, absolute submap
+         * coordinates, also sets up @ref levx etc. and @ref cur_om.
+         */
+        void load_map( tripoint pos_sm );
         player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
