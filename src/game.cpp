@@ -535,8 +535,6 @@ void game::setup()
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-    // Clear monstair value
-    monstairz = 999;
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
     new_game = true;
@@ -3779,11 +3777,6 @@ void game::load(std::string worldname, std::string name)
     u.weapon = item("null", 0);
     unserialize(fin);
     fin.close();
-
-    // Stair handling.
-    if (!coming_to_stairs.empty()) {
-        monstairz = 999;
-    }
 
     // weather
     std::string wfile = std::string(worldpath + base64_encode(u.name) + ".weather");
@@ -13037,7 +13030,6 @@ void game::update_stair_monsters()
     const bool from_below = monstairz < levz;
 
     if( coming_to_stairs.empty() ) {
-        monstairz = 999;
         return;
     }
 
@@ -13231,10 +13223,6 @@ void game::update_stair_monsters()
             }
             return;
         }
-    }
-
-    if( coming_to_stairs.empty() ) {
-        monstairz = 999;
     }
 }
 
