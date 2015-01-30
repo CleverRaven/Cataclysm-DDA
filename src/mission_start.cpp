@@ -339,7 +339,7 @@ void mission_start::place_npc_software(mission *miss)
  compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
-    oter_id oter = g->cur_om->ter(place.x, place.y, 0);
+    oter_id oter = overmap_buffer.ter(place.x, place.y, 0);
     if( is_ot_type("house", oter) || is_ot_type("s_pharm", oter) || oter == "" ) {
         std::vector<point> valid;
         for (int x = 0; x < SEEX * 2; x++) {
