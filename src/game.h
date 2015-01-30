@@ -201,8 +201,6 @@ class game
         bool is_in_sunlight(int x, int y);
         /** Returns true if (x, y) is indoors, underground, or in a car. */
         bool is_sheltered(int x, int y);
-        /** Returns true if the given point is in an ice lab. */
-        bool is_in_ice_lab(point location);
         /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
