@@ -72,9 +72,10 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
         debugmsg("Couldn't find %s", omter.c_str());
         return point();
     }
+    const auto &cur_om = g->get_cur_om();
     std::vector<point> places_om;
     for (auto &i : places) {
-        if (&g->get_cur_om() == overmap_buffer.get_existing_om_global(i))
+        if (&cur_om == overmap_buffer.get_existing_om_global(i))
             places_om.push_back(i);
     }
     const point place = places_om[rng(0,places_om.size()-1)];

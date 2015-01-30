@@ -591,8 +591,6 @@ special_game_id game::gametype() const
 void game::load_map( tripoint pos_sm )
 {
     m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
-    const point om_pos = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
-    cur_om = &overmap_buffer.get( om_pos.x, om_pos.y );
 }
 
 // Set up all default values for a new game
@@ -4219,14 +4217,17 @@ void game::debug()
     }
     break;
     case 4:
+        {
+        auto &cur_om = get_cur_om();
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
-                    get_cur_om().seen(i, j, k) = true;
+                    cur_om.seen(i, j, k) = true;
                 }
             }
         }
         add_msg(m_good, _("Current overmap revealed."));
+        }
         break;
 
     case 5: {
@@ -12920,11 +12921,6 @@ void game::update_map(int &x, int &y)
 
     m.shift( shiftx, shifty );
 
-    real_coords rc( m.getabs( 0, 0 ) );
-    if( get_cur_om().pos() != rc.abs_om ) {
-        cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
-    }
-
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
         shift_monsters( shiftx, shifty, 0 );
@@ -14239,5 +14235,7 @@ int game::get_levz() const
 
 overmap &game::get_cur_om() const
 {
-    return *cur_om;
+    const auto pos_sm = point( get_levx(), get_levy() );
+    const auto pos_om = overmapbuffer::sm_to_om_copy( pos_sm );
+    return overmap_buffer.get( pos_om.x, pos_om.y );
 }
