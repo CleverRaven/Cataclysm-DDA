@@ -700,7 +700,7 @@ void game::load_npcs()
         }
             const tripoint p = temp->global_sm_location();
             add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     levx, levy, p.x, p.y);
+                     get_abs_levx(), get_abs_levy(), p.x, p.y);
         temp->place_on_map();
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
@@ -12786,7 +12786,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !force ) {
-        monstairz = levz;
+        monstairz = get_abs_levz();
     }
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
@@ -12985,8 +12985,8 @@ void game::update_map(int &x, int &y)
 
 tripoint game::global_omt_location() const
 {
-    const int cursx = (levx + int(MAPSIZE / 2)) / 2 + cur_om->pos().x * OMAPX;
-    const int cursy = (levy + int(MAPSIZE / 2)) / 2 + cur_om->pos().y * OMAPY;
+    const int cursx = (get_abs_levx() + int(MAPSIZE / 2)) / 2;
+    const int cursy = (get_abs_levy() + int(MAPSIZE / 2)) / 2;
 
     return tripoint(cursx, cursy, levz);
 }
@@ -13040,7 +13040,7 @@ void game::update_stair_monsters()
     std::vector<int> stairx, stairy;
     std::vector<int> stairdist;
 
-    const bool from_below = monstairz < levz;
+    const bool from_below = monstairz < get_abs_levz();
 
     if( coming_to_stairs.empty() ) {
         return;
