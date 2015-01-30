@@ -81,11 +81,13 @@ void game::serialize(std::ofstream & fout) {
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
-        json.member( "levx", get_levx() );
-        json.member( "levy", get_levy() );
+        point pos_sm( get_abs_levx(), get_abs_levy() );
+        point pos_om = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
+        json.member( "levx", pos_sm.x );
+        json.member( "levy", pos_sm.y );
         json.member( "levz", get_levz() );
-        json.member( "om_x", cur_om->pos().x );
-        json.member( "om_y", cur_om->pos().y );
+        json.member( "om_x", pos_om.x );
+        json.member( "om_y", pos_om.y );
 
         // Next, the scent map.
         std::stringstream rle_out;

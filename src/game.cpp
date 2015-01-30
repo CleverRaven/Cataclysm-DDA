@@ -14237,22 +14237,6 @@ int game::get_abs_levz() const
     return m.get_abs_sub().z;
 }
 
-int game::get_levx() const
-{
-    if( cur_om == nullptr ) {
-        return INT_MIN;
-    }
-    return get_abs_levx() - get_cur_om().pos().x * OMAPX * 2;
-}
-
-int game::get_levy() const
-{
-    if( cur_om == nullptr ) {
-        return INT_MIN;
-    }
-    return get_abs_levy() - get_cur_om().pos().y * OMAPY * 2;
-}
-
 int game::get_levz() const
 {
     return m.get_abs_sub().z;

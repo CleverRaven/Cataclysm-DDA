@@ -387,9 +387,6 @@ class game
         int get_abs_levx() const;
         int get_abs_levy() const;
         int get_abs_levz() const;
-        /** Values of lev[xyz], they are relative to @ref cur_om */
-        int get_levx() const;
-        int get_levy() const;
         int get_levz() const;
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
