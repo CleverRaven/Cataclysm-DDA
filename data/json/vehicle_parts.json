@@ -2784,7 +2784,7 @@
         "durability" : 160,
         "size" : 110000,
         "fuel_type" : "diesel",
-        "item" : "metal_tank",
+        "item" : "55gal_drum",
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
