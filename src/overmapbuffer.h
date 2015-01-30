@@ -268,6 +268,11 @@ public:
      * to null.
      */
     radio_tower_reference find_radio_station( int frequency );
+    /**
+     * Find all radio stations that can be received around the current player location.
+     * All entries in the returned vector are valid (have a valid tower pointer).
+     */
+    std::vector<radio_tower_reference> find_all_radio_stations();
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

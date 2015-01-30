@@ -599,6 +599,24 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
     return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
 }
 
+std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
+{
+    std::vector<radio_tower_reference> result;
+    const point center( g->get_abs_levx(), g->get_abs_levy() );
+    // perceived signal strength is distance (in submaps) - signal strength, so towers
+    // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
+    const int radius = RADIO_MAX_STRENGTH;
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        for( auto &tower : om->radios ) {
+            const auto rref = create_radio_tower_reference( *om, tower, center );
+            if( rref.signal_strength > 0 ) {
+                result.push_back( rref );
+            }
+        }
+    }
+    return result;
+}
+
 void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 {
     // Create a copy, so we can reuse x and y later

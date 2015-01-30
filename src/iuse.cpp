@@ -3962,29 +3962,24 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
 
         switch (ch) {
             case 1: {
-                int old_frequency = it->frequency;
-                radio_tower *tower = NULL;
-                radio_tower *lowest_tower = NULL;
-                radio_tower *lowest_larger_tower = NULL;
-
-                for (size_t k = 0; k < g->cur_om->radios.size(); k++) {
-                    tower = &g->cur_om->radios[k];
-
-                    if (tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) > 0 &&
-                        tower->frequency != old_frequency) {
-                        if (tower->frequency > old_frequency &&
-                            (lowest_larger_tower == NULL ||
-                             tower->frequency < lowest_larger_tower->frequency)) {
-                            lowest_larger_tower = tower;
-                        } else if (lowest_tower == NULL ||
-                                   tower->frequency < lowest_tower->frequency) {
-                            lowest_tower = tower;
-                        }
+                const int old_frequency = it->frequency;
+                const radio_tower *lowest_tower = nullptr;
+                const radio_tower *lowest_larger_tower = nullptr;
+                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
+                    const auto freq = tref.tower->frequency;
+                    if( new_frequency == old_frequency ) {
+                        continue;
+                    }
+                    if( new_frequency > old_frequency &&
+                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency)) {
+                        lowest_larger_tower = tref.tower;
+                    } else if( lowest_tower == nullptr || new_frequency < lowest_tower->frequency ) {
+                        lowest_tower = tref.tower;
                     }
                 }
-                if (lowest_larger_tower != NULL) {
+                if( lowest_larger_tower != nullptr ) {
                     it->frequency = lowest_larger_tower->frequency;
-                } else if (lowest_tower != NULL) {
+                } else if( lowest_tower != nullptr ) {
                     it->frequency = lowest_tower->frequency;
                 }
             }
