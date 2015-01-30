@@ -1083,7 +1083,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->om_global_location() ) ) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -1123,7 +1123,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_HOW_MUCH_FURTHER:
             {
             // TODO: this ignores the z-component
-            const tripoint player_pos = g->om_global_location();
+            const tripoint player_pos = g->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
@@ -2409,7 +2409,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->om_global_location() ) ) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);

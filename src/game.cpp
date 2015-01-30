@@ -632,7 +632,7 @@ void game::start_game(std::string worldname)
     load_map( lev );
 
     // Start the overmap with out immediate neighborhood visible
-    overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
+    overmap_buffer.reveal(point(global_omt_location().x, global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
@@ -739,7 +739,7 @@ void game::create_starting_npcs()
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_global_location(), tmp->getID()));
+        reserve_random_mission(ORIGIN_OPENER_NPC, global_omt_location(), tmp->getID()));
 }
 
 bool game::cleanup_at_end()
@@ -1818,13 +1818,13 @@ bool game::mission_complete(int id, int npc_id)
     switch (type->goal) {
     case MGOAL_GO_TO: {
         // TODO: target does not contain a z-component, targets are assume to be on z=0
-        const tripoint cur_pos = om_global_location();
+        const tripoint cur_pos = global_omt_location();
         return (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1);
     }
     break;
 
     case MGOAL_GO_TO_TYPE: {
-        oter_id cur_ter = overmap_buffer.ter(om_global_location());
+        oter_id cur_ter = overmap_buffer.ter(global_omt_location());
         if (cur_ter == miss->type->target_id) {
             return true;
         }
@@ -4237,7 +4237,7 @@ void game::debug()
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                            om_global_location(), temp->getID());
+                            global_omt_location(), temp->getID());
         if (mission_index != -1) {
             temp->chatbin.missions.push_back(mission_index);
         }
@@ -4259,7 +4259,7 @@ void game::debug()
         popup_top(
             s.c_str(),
             u.posx(), u.posy(), get_abs_levx(), get_abs_levy(),
-            otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
+            otermap[overmap_buffer.ter(global_omt_location())].name.c_str(),
             int(calendar::turn), int(nextspawn),
             (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
              _("NPCs are NOT going to spawn.")),
@@ -4545,7 +4545,7 @@ void game::debug()
     break;
     case 20: {
         // display hordes on the map
-        overmap::draw_overmap(om_global_location(), true);
+        overmap::draw_overmap(global_omt_location(), true);
     }
     break;
     case 21: {
@@ -4638,7 +4638,7 @@ void game::disp_kills()
 
 inline bool npc_dist_to_player(const npc *a, const npc *b)
 {
-    const tripoint ppos = g->om_global_location();
+    const tripoint ppos = g->global_omt_location();
     const tripoint apos = a->global_omt_location();
     const tripoint bpos = b->global_omt_location();
     return square_dist(ppos.x, ppos.y, apos.x, apos.y) < square_dist(ppos.x, ppos.y, bpos.x, bpos.y);
@@ -4650,7 +4650,7 @@ void game::disp_NPCs()
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    const tripoint ppos = om_global_location();
+    const tripoint ppos = global_omt_location();
     mvwprintz(w, 0, 0, c_white, _("Your position: %d:%d"), ppos.x, ppos.y);
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player);
@@ -4824,7 +4824,7 @@ void game::list_missions()
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           miss->deadline, int(calendar::turn));
             if (miss->target != overmap::invalid_point) {
-                const tripoint pos = om_global_location();
+                const tripoint pos = global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
                 mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
                           miss->target.x, miss->target.y, pos.x, pos.y);
@@ -4971,7 +4971,7 @@ void game::draw_sidebar()
         wprintz(time_window, c_white, "]");
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter(om_global_location());
+    const oter_id &cur_ter = overmap_buffer.ter(global_omt_location());
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
@@ -5265,7 +5265,7 @@ void game::draw_minimap()
     werase(w_minimap);
     draw_border(w_minimap);
 
-    const tripoint curs = om_global_location();
+    const tripoint curs = global_omt_location();
     const int cursx = curs.x;
     const int cursy = curs.y;
     bool drew_mission = false;
@@ -12810,7 +12810,7 @@ void game::vertical_move(int movez, bool force)
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    const tripoint gpos = om_global_location();
+    const tripoint gpos = global_omt_location();
     int z_coord = levz + movez;
     for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
         for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
@@ -12978,7 +12978,7 @@ void game::update_map(int &x, int &y)
     update_overmap_seen();
 }
 
-tripoint game::om_global_location() const
+tripoint game::global_omt_location() const
 {
     const int cursx = (levx + int(MAPSIZE / 2)) / 2 + cur_om->pos().x * OMAPX;
     const int cursy = (levy + int(MAPSIZE / 2)) / 2 + cur_om->pos().y * OMAPY;
@@ -12988,7 +12988,7 @@ tripoint game::om_global_location() const
 
 void game::update_overmap_seen()
 {
-    const tripoint ompos = om_global_location();
+    const tripoint ompos = global_omt_location();
     const int dist = u.overmap_sight_range(light_level());
     // We can always see where we're standing
     overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
@@ -13310,7 +13310,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_global_location(), tmp->getID());
+        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, global_omt_location(), tmp->getID());
         if (mission_index != -1) {
             tmp->chatbin.missions.push_back(mission_index);
         }

@@ -456,7 +456,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAPS: {
         g->u.moves -= 30;
-        const tripoint center = g->om_global_location();
+        const tripoint center = g->global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
         alerts ++;
@@ -465,7 +465,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAP_SEWER: {
         g->u.moves -= 30;
-        const tripoint center = g->om_global_location();
+        const tripoint center = g->global_omt_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
                 const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);

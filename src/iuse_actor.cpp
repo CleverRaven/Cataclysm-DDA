@@ -694,7 +694,7 @@ void reveal_map_actor::load( JsonObject &obj )
 
 void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( g->om_global_location(), target, radius, false );
+    const auto places = overmap_buffer.find_all( g->global_omt_location(), target, radius, false );
     for( auto & place : places ) {
         overmap_buffer.reveal( place, reveal_distance, g->levz );
     }

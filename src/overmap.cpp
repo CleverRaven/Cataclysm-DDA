@@ -1632,12 +1632,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 tripoint overmap::draw_overmap()
 {
-    return draw_overmap(g->om_global_location());
+    return draw_overmap(g->global_omt_location());
 }
 
 tripoint overmap::draw_overmap(int z)
 {
-    tripoint loc = g->om_global_location();
+    tripoint loc = g->global_omt_location();
     loc.z = z;
     return draw_overmap(loc);
 }

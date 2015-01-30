@@ -303,7 +303,7 @@ class game
          * Position of the player in global overmap terrain coordinates. This is specifically
          * the center of the reality bubble.
          */
-        tripoint om_global_location() const;
+        tripoint global_omt_location() const;
 
         void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);

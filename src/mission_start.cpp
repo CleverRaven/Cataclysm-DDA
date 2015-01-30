@@ -56,7 +56,7 @@ point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, boo
 {
     int dist = 0;
     const point place = overmap_buffer.find_closest(
-        g->om_global_location(), omter, dist, must_see);
+        g->global_omt_location(), omter, dist, must_see);
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->levz);
     }
@@ -68,7 +68,7 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
 {
     int dist = 0;
     std::vector<point> places = overmap_buffer.find_all(
-        g->om_global_location(), omter, dist, must_see);
+        g->global_omt_location(), omter, dist, must_see);
     if (places.size() == 0){
         debugmsg("Couldn't find %s", omter.c_str());
         return point();
@@ -296,13 +296,13 @@ void mission_start::kill_horde_master(mission *miss)
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
  int dist = 0;//pick one of the below locations for the horde to haunt
- point site = overmap_buffer.find_closest(g->om_global_location(), "office_tower_1", dist, false);
+ point site = overmap_buffer.find_closest(g->global_omt_location(), "office_tower_1", dist, false);
  if (site == overmap::invalid_point)
-    site = overmap_buffer.find_closest(g->om_global_location(), "hotel_tower_1_8", dist, false);
+    site = overmap_buffer.find_closest(g->global_omt_location(), "hotel_tower_1_8", dist, false);
  if (site == overmap::invalid_point)
-    site = overmap_buffer.find_closest(g->om_global_location(), "school_5", dist, false);
+    site = overmap_buffer.find_closest(g->global_omt_location(), "school_5", dist, false);
  if (site == overmap::invalid_point)
-    site = overmap_buffer.find_closest(g->om_global_location(), "forest_thick", dist, false);
+    site = overmap_buffer.find_closest(g->global_omt_location(), "forest_thick", dist, false);
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile;
@@ -355,7 +355,7 @@ void mission_start::place_npc_software(mission *miss)
     if (type == "house") {
         place = random_house_in_closest_city();
     } else {
-        place = overmap_buffer.find_closest(g->om_global_location(), type, dist, false);
+        place = overmap_buffer.find_closest(g->global_omt_location(), type, dist, false);
     }
     miss->target = place;
     overmap_buffer.reveal(place, 6, g->levz);
@@ -438,9 +438,9 @@ void mission_start::place_deposit_box(mission *miss)
     npc *p = g->find_npc(miss->npc_id);
     p->attitude = NPCATT_FOLLOW;//npc joins you
     int dist = 0;
-    point site = overmap_buffer.find_closest(g->om_global_location(), "bank", dist, false);
+    point site = overmap_buffer.find_closest(g->global_omt_location(), "bank", dist, false);
     if (site == overmap::invalid_point) {
-        site = overmap_buffer.find_closest(g->om_global_location(), "office_tower_1", dist, false);
+        site = overmap_buffer.find_closest(g->global_omt_location(), "office_tower_1", dist, false);
     }
     miss->target = site;
     overmap_buffer.reveal(site, 2, g->levz);
@@ -507,7 +507,7 @@ void mission_start::reveal_hospital(mission *miss)
 
 void mission_start::find_safety(mission *miss)
 {
- const tripoint place = g->om_global_location();
+ const tripoint place = g->global_omt_location();
  for (int radius = 0; radius <= 20; radius++) {
   for (int dist = 0 - radius; dist <= radius; dist++) {
    int offset = rng(0, 3); // Randomizes the direction we check first
