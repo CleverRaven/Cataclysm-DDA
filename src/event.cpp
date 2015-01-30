@@ -15,17 +15,15 @@ event::event()
     type = EVENT_NULL;
     turn = 0;
     faction_id = -1;
-    map_point.x = INT_MIN;
-    map_point.y = INT_MIN;
+    map_point = tripoint( INT_MIN, INT_MIN, INT_MIN );
 }
 
-event::event( event_type e_t, int t, int f_id, int x, int y )
+event::event( event_type e_t, int t, int f_id, tripoint p )
 {
     type = e_t;
     turn = t;
     faction_id = f_id;
-    map_point.x = x;
-    map_point.y = y;
+    map_point = p;
 }
 
 void event::actualize()
@@ -74,7 +72,8 @@ void event::actualize()
         break;
 
   case EVENT_ROBOT_ATTACK: {
-   if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
+      const auto u_pos = g->u.global_sm_location();
+   if (rl_dist(u_pos, map_point) <= 4) {
     mtype *robot_type;
     if (one_in(2)) {
         robot_type = GetMType("mon_copbot");
@@ -85,8 +84,8 @@ void event::actualize()
     g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
                            pgettext("memorial_female", "Became wanted by the police!"));
     monster robot(robot_type);
-    int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
-        roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
+    int robx = (u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
+        roby = (u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
     g->add_zombie(robot);
    }

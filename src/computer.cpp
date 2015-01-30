@@ -1171,7 +1171,7 @@ void computer::activate_failure(computer_failure fail)
                               pgettext("memorial_female", "Set off an alarm."));
         sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }
         break;
 

@@ -663,7 +663,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
         it->damage < 100 ) {
         sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
-            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
+            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
     // Special handling, normally the item isn't used up, but it is if broken.

@@ -141,10 +141,11 @@ class game
          * @param type Type of event.
          * @param on_turn On which turn event should be happened.
          * @param faction_id Faction of event.
-         * @param x,y global submap coordinates.
+         * @param where The location of the event, optional, defaults to the center of the
+         * reality bubble. In global submap coordinates.
          */
-        void add_event(event_type type, int on_turn, int faction_id = -1,
-                       int x = INT_MIN, int y = INT_MIN);
+        void add_event(event_type type, int on_turn, int faction_id = -1);
+        void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type);
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);

@@ -4118,9 +4118,14 @@ void game::write_memorial_file(std::string sLastWords)
     u.memorial(memorial_file, sLastWords);
 }
 
-void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
+void game::add_event(event_type type, int on_turn, int faction_id)
 {
-    event tmp(type, on_turn, faction_id, x, y);
+    add_event( type, on_turn, faction_id, global_sm_location() );
+}
+
+void game::add_event(event_type type, int on_turn, int faction_id, const tripoint center )
+{
+    event tmp( type, on_turn, faction_id, center );
     events.push_back(tmp);
 }
 

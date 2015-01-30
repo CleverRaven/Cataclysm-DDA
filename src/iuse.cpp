@@ -4219,7 +4219,7 @@ int iuse::crowbar(player *p, item *it, bool, point pos)
                                   pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->posx(), p->posy(), 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
         }
     } else {
