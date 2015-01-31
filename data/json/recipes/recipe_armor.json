@@ -2100,6 +2100,7 @@
     [
       [ "grapnel", 1 ]
     ],
+    [
       [ "scrap", 3 ],
       ["steel_chunk", 4 ],
     ]
