@@ -2634,7 +2634,7 @@ void game::setremoteveh(vehicle *veh)
 {
     remoteveh_cache_turn = calendar::turn;
     remoteveh_cache = veh;
-    if( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) {
+    if( veh != nullptr && !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
         veh = nullptr;
     }
