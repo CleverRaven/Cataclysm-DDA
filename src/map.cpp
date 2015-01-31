@@ -1598,7 +1598,7 @@ bool map::flammable_items_at(const int x, const int y)
         if( (i.made_of("cotton") || i.made_of("wool") ) && ( i.burnt / ( vol + 1 ) <= 1 ) ) {
             return true;
         }
-        if (i.is_ammo() && i.ammo_type() != "battery" &&
+        if (i.is_ammo() && i.ammo_type() != "water" && i.ammo_type() != "battery" &&
               i.ammo_type() != "nail" && i.ammo_type() != "BB" &&
               i.ammo_type() != "bolt" && i.ammo_type() != "arrow" &&
               i.ammo_type() != "pebble" && i.ammo_type() != "fishspear" &&
