@@ -12392,7 +12392,7 @@
         "phase" : "solid",
         "encumbrance" : 2,
         "material_thickness" : 2,
-        "use_action" : "FIRE_GRAPPLE",
+        "use_action" : "FIRE_GRAPPLE"
     },
 ]
 
