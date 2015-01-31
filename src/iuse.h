@@ -253,6 +253,7 @@ class iuse_actor {
 protected:
     iuse_actor() { }
 public:
+    std::string type;
     virtual ~iuse_actor() { }
     virtual long use(player*, item*, bool, point) const = 0;
     virtual iuse_actor *clone() const = 0;
@@ -311,8 +312,22 @@ public:
     void operator=(const use_function &other);
 
     bool operator==(use_function f) const {
-        return function_type == USE_FUNCTION_CPP && f.function_type == USE_FUNCTION_CPP &&
-        f.cpp_function == cpp_function;
+        if( function_type != f.function_type ) {
+            return false;
+        }
+
+        switch( function_type ) {
+            case USE_FUNCTION_NONE:
+                return true;
+            case USE_FUNCTION_CPP:
+                return f.cpp_function == cpp_function;
+            case USE_FUNCTION_ACTOR_PTR:
+                return f.actor_ptr == actor_ptr;
+            case USE_FUNCTION_LUA:
+                return f.lua_function == lua_function;
+            default:
+                return false;
+        }
     }
 
     bool operator==(use_function_pointer f) const {

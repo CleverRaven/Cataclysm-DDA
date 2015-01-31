@@ -1322,6 +1322,7 @@ template<typename IuseActorType>
 use_function load_actor( JsonObject obj )
 {
     std::unique_ptr<IuseActorType> actor( new IuseActorType() );
+    actor->type = obj.get_string("type");
     actor->load( obj );
     return use_function( actor.release() );
 }
@@ -1480,7 +1481,12 @@ const item_category *Item_factory::get_category(const std::string &id)
 
 const use_function *Item_factory::get_iuse(const std::string &id)
 {
-    return &iuse_function_list.at(id);
+    const auto &iter = iuse_function_list.find( id );
+    if( iter != iuse_function_list.end() ) {
+        return &iter->second;
+    }
+
+    return nullptr;
 }
 
 const std::string &Item_factory::calc_category( const itype *it )

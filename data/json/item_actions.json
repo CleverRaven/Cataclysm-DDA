@@ -21,6 +21,10 @@
         "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
+        "id" : "picklock",
+        "name" : "Pick a lock"
+    },{
+        "type" : "item_action",
         "id" : "CROWBAR",
         "name" : "Pry crate, window or door"
     },{
