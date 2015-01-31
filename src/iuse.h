@@ -187,6 +187,7 @@ public:
     int sheath_knife        (player *, item *, bool, point);
     int holster_gun         (player *, item *, bool, point);
     int holster_ankle       (player *, item *, bool, point);
+    int fire_grapple        (player *, item *, bool, point);
     int towel               (player *, item *, bool, point);
     int unfold_generic      (player *, item *, bool, point);
     int airhorn             (player *, item *, bool, point);
