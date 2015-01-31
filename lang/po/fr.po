@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 12:51+0300\n"
-"PO-Revision-Date: 2015-01-10 07:30+0000\n"
+"POT-Creation-Date: 2015-01-26 09:43+0300\n"
+"PO-Revision-Date: 2015-01-27 03:39+0000\n"
 "Last-Translator: hickop <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-01-14 06:48+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-01-28 06:43+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 "X-Poedit-Bookmarks: -1,2333,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: lang/json/AMMO_from_json.py
@@ -293,8 +293,8 @@ msgstr[1] "douilles .700 NX"
 #: lang/json/AMMO_from_json.py
 msgid "00 shot"
 msgid_plural "00 shots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "chevrotine"
+msgstr[1] "chevrotines"
 
 #: lang/json/AMMO_from_json.py
 msgid "10mm Auto"
@@ -487,8 +487,8 @@ msgstr[1] "incendiaires 40mm"
 #: lang/json/AMMO_from_json.py
 msgid "40mm smoke cover"
 msgid_plural "40mm smoke cover"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fumigène 40mm"
+msgstr[1] "fumigènes 40mm"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm teargas"
@@ -1103,6 +1103,8 @@ msgstr ""
 msgid ""
 "A handful of glass marbles, useful as ammunition for slings or slingshots."
 msgstr ""
+"Une poignée de billes en verre, de bonnes munitions pour les lance-pierres "
+"et les frondes."
 
 #: lang/json/AMMO_from_json.py
 msgid "A handful of pebbles, useful as ammunition for slings or slingshots."
@@ -1279,6 +1281,8 @@ msgstr ""
 msgid ""
 "A nuclear-powered battery.  Used to charge advanced and rare electronics."
 msgstr ""
+"Une pile chargée d'énergie nucléaire. Utilisée pour recharger l'électronique "
+"de pointe."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1356,6 +1360,8 @@ msgstr "Un rouleau de tapis jaune."
 msgid ""
 "A set of universal batteries.  Used to charge almost any electronic device."
 msgstr ""
+"Un lot de piles universelles. Utilisées pour recharger pratiquement tout "
+"appareil électronique."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2670,6 +2676,7 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "Tough thin fiber, taken from a plant.  Can be used as thread."
 msgstr ""
+"Fibre mince et résistante d'origine végétale. Peut être utilisée comme fil."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2699,10 +2706,12 @@ msgid ""
 "Weak shotgun ammunition.  Designed for hunting birds and other small game, "
 "its applications in combat are very limited."
 msgstr ""
+"Faible munition de fusil. Conçues pour chasser les oiseaux et pour divers "
+"petits jeux, son utilité en combat est très limitée."
 
 #: lang/json/AMMO_from_json.py
 msgid "Wool yarn, could be used to knit wool clothing."
-msgstr ""
+msgstr "Fil de laine, pouvant servir à tricoter des vêtements."
 
 #: lang/json/AMMO_from_json.py
 msgid "acetic acid"
@@ -2827,8 +2836,8 @@ msgstr[1] "flèches en fibre de carbone"
 #: lang/json/AMMO_from_json.py
 msgid "carbon fiber fishing spear"
 msgid_plural "carbon fiber fishing spears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lance de pêche en fibre de carbone"
+msgstr[1] "lances de pêche en fibre de carbone"
 
 #: lang/json/AMMO_from_json.py
 msgid "cement"
@@ -2869,8 +2878,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid "copper"
 msgid_plural "coppers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cuivre"
+msgstr[1] "cuivres"
 
 #: lang/json/AMMO_from_json.py
 msgid "copper wire"
@@ -3161,6 +3170,12 @@ msgstr[0] "incendiaire"
 msgstr[1] "incendiaires"
 
 #: lang/json/AMMO_from_json.py
+msgid "incendiary home-made rocket"
+msgid_plural "incendiary home-made rockets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "inferno canister"
 msgid_plural "inferno canisters"
 msgstr[0] ""
@@ -3235,8 +3250,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid "marble"
 msgid_plural "marbles"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bille"
+msgstr[1] "billes"
 
 #: lang/json/AMMO_from_json.py
 msgid "medical tape"
@@ -3265,8 +3280,8 @@ msgstr[1] "carreaux d'arbalète en métal"
 #: lang/json/AMMO_from_json.py
 msgid "metal fishing spear"
 msgid_plural "metal fishing spears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lance de pêche en métal"
+msgstr[1] "lances de pêche en métal"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
@@ -3313,8 +3328,8 @@ msgstr[1] "poudre oxydante"
 #: lang/json/AMMO_from_json.py
 msgid "oxygen"
 msgid_plural "oxygens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "oxygène"
+msgstr[1] "oxygènes"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "paper cartridge"
@@ -3337,8 +3352,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
 msgid_plural "plant fibers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fibre végétale"
+msgstr[1] "fibres végétales"
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic arrow"
@@ -3949,14 +3964,14 @@ msgstr[1] "carreaux d'arbalète en bois"
 #: lang/json/AMMO_from_json.py
 msgid "wooden fishing spear"
 msgid_plural "wooden fishing spears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lance de pêche en bois"
+msgstr[1] "lances de pêche en bois"
 
 #: lang/json/AMMO_from_json.py
 msgid "yarn"
 msgid_plural "yarns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fil de laine"
+msgstr[1] "fils de laine"
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "yellow carpet"
@@ -5028,7 +5043,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of basketball shorts. Comfortable and light."
-msgstr ""
+msgstr "Un short de basket-ball. Confortable et légé."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5051,12 +5066,16 @@ msgid ""
 "A pair of black leather chaps.  Very tough, and light, but doesn't offer any "
 "storage."
 msgstr ""
+"Des jambières noires en cuir. Très résistantes et légères, mais sans "
+"emplacements pour stocker."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of black leather pants.  Very tough, but cumbersome and without much "
 "storage."
 msgstr ""
+"Un pantalon noir en cuir. Très résistant, mais encombrant et avec peu "
+"d'emplacements pour stocker."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of black tabi, as worn with traditional Japanese clothes."
@@ -5151,13 +5170,15 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of dark blue shorts, the kind used by postal service workers."
-msgstr ""
+msgstr "Un short bleu marine qu'utilisent les agents de la poste."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of denim shorts.  Thick and tough, they provide excellent protection "
 "from cuts."
 msgstr ""
+"Un short en jean. Il est épais et dur, ce qui procure une excellente "
+"résistance aux coupures."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of disposable plastic bags, adapted to be used as gloves."
@@ -5207,7 +5228,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of high heels.  Difficult to even walk in."
-msgstr ""
+msgstr "Une paire de talons hauts. Il est difficile de marcher avec."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5228,10 +5249,12 @@ msgid ""
 "A pair of inline skates.  Very fast on flat floors, but they make it hard to "
 "move on rough terrain, or to dodge effectively."
 msgstr ""
+"Une paire de rollers. Très rapides sur sol plat, mais rendent le déplacement "
+"difficile sur terrain escarpé et réduisent votre capacité à esquiver."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki pants.  Slightly warmer than jeans."
-msgstr ""
+msgstr "Un pantalon kaki. Légèrement plus chaud qu'un jean."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki shorts."
@@ -5285,7 +5308,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of padded gloves. Favored by the military"
-msgstr ""
+msgstr "Une paire de gant matelassés. Ils sont utilisés par les militaires."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of pants designed for dirt bikers and motorcyclists."
@@ -6059,20 +6082,26 @@ msgid ""
 "A tough hooded jacket with lots of pockets, thickly padded for warmth.  "
 "Favored by the military."
 msgstr ""
+"Une veste à capuche lourde avec beaucoup de poches, rembourrée pour avoir "
+"chaud. Elle est utilisée par les militaires."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A tough jacket with lots of pockets.  Favored by the military."
 msgstr ""
+"Une veste lourde avec beaucoup de poches. Elle est utilisée par les "
+"militaires."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A tough pair of pants lined with pockets, thickly padded for warmth.  "
 "Favored by the military."
 msgstr ""
+"Un pantalon lourd bordé de poches, rembourré pour avoir chaud. Il est "
+"utilisé par les militaires."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A tough pair of pants lined with pockets.  Favored by the military."
-msgstr ""
+msgstr "Un pantalon lourd bordé de poches. Il est utilisé par les militaires."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6263,6 +6292,9 @@ msgid ""
 "An old-fashioned pair of leather rollerskates with steel frames.  While "
 "quite fast on flat floors, they make it difficult to move on rough terrain."
 msgstr ""
+"Un ancien modèle de patins à roulettes avec une armature en acier. Malgré "
+"qu'ils soient plutôt rapides sur sol plat, ils rendent votre déplacement "
+"difficile sur terrain accidenté."
 
 #: lang/json/ARMOR_from_json.py
 msgid "An old-fashioned, copper bracelet."
@@ -6293,6 +6325,8 @@ msgstr "Une paire de bottes doublée de fourrure pour la chaleur."
 #: lang/json/ARMOR_from_json.py
 msgid "Boots made from the exoskeletons of insects.  Light and durable."
 msgstr ""
+"Des bottes faites à partir de carapaces d'insectes. Elles sont légères et "
+"résistantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6342,6 +6376,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "Fancy patent leather shoes.  Not designed for running in."
 msgstr ""
+"De jolies chaussures en cuir verni. Elles ne sont pas faites pour courir."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6443,10 +6478,13 @@ msgstr ""
 msgid ""
 "Leather boots armored with reinforcements made from bone.  Light and strong."
 msgstr ""
+"Des bottes en cuir renforcées d'ossements. Elles sont légères et solides."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Leather boots with a steel toe.  Extremely durable."
 msgstr ""
+"Des chaussures en cuir avec le bout renforcé en acier. Extrêmement "
+"résistantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6485,6 +6523,8 @@ msgid ""
 "Lightweight sandals made from wound cord.  They offer little in the way of "
 "protection, but keep you cool during warmer months."
 msgstr ""
+"Des sandales légères faites de corde enroulée. Elles protègent peu, mais "
+"vous rafraîchiront durant les mois chauds."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Lightweight shoes made of cloth and rubber."
@@ -6577,6 +6617,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "Modern reinforced tactical combat boots.  Very durable."
 msgstr ""
+"Un modèle moderne de bottes de combat tactique renforcées. Très résistantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6696,7 +6737,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "Simple sandals.  Very difficult to run in."
-msgstr ""
+msgstr "Des sandales simples. Il est très difficile de courir avec."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Simple shoes made from animal pelts."
@@ -6747,12 +6788,16 @@ msgid ""
 "Stiff leather boots with intricate embroidery and one-inch heels.  They look "
 "good, but aren't made for running."
 msgstr ""
+"Des bottes de cuir rigide aux broderies complexes avec un talon. Elles sont "
+"jolies, mais pas faites pour courir."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Sturdy leather hiking sandals with a heel strap.  Offers little in the way "
 "of protection, but keeps you cool during warmer months."
 msgstr ""
+"Des sandales de marche en cuir durci avec une sangle au talon. Elles "
+"protègent peu, mais vous rafraîchiront durant les mois chauds."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Stylish cloak."
@@ -6835,6 +6880,8 @@ msgstr ""
 msgid ""
 "Thick leather boots made specifically to protect the feet.  Light and tough."
 msgstr ""
+"Des bottes en cuir épais spécialement conçues pour protéger le pied. Elles "
+"sont légères et robustes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6866,7 +6913,7 @@ msgstr "Bottes de cuir dur. Très résistantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Tough yet light leather boots.  Durable and comfortable."
-msgstr ""
+msgstr "Des bottes légères en cuir dur. Résistantes et confortables."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6883,6 +6930,8 @@ msgid ""
 "Very long leather boots that cover the lower legs.  Difficult to wear but "
 "extremely durable."
 msgstr ""
+"Très hautes bottes en cuir qui couvrent le bas des jambes. Difficiles à "
+"porter mais extrêmement résistantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Warm socks made of wool."
@@ -6990,8 +7039,8 @@ msgstr[1] "casques militaires"
 #: lang/json/ARMOR_from_json.py
 msgid "army jacket"
 msgid_plural "army jacket"
-msgstr[0] "veste de l'armée"
-msgstr[1] "vestes de l'armée"
+msgstr[0] "veste militaire"
+msgstr[1] "vestes militaires"
 
 #: lang/json/ARMOR_from_json.py
 msgid "army pants"
@@ -7002,14 +7051,14 @@ msgstr[1] "pantalons militaires"
 #: lang/json/ARMOR_from_json.py
 msgid "army winter jacket"
 msgid_plural "army winter jackets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "veste d'hiver militaire"
+msgstr[1] "vestes d'hiver militaires"
 
 #: lang/json/ARMOR_from_json.py
 msgid "army winter pants"
 msgid_plural "army winter pants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pantalon d'hiver militaire"
+msgstr[1] "pantalons d'hiver militaires"
 
 #: lang/json/ARMOR_from_json.py
 msgid "back holster"
@@ -7025,13 +7074,13 @@ msgstr[1] "sacs à dos"
 
 #: lang/json/ARMOR_from_json.py
 msgid "bag gloves"
-msgid_plural "bag glovess"
+msgid_plural "pairs of bag gloves"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "bag socks"
-msgid_plural "bag sockss"
+msgid_plural "pairs of bag socks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -7092,8 +7141,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "basketball shorts"
 msgid_plural "basketball shorts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "short de basket-ball"
+msgstr[1] "shorts de basket-ball"
 
 #: lang/json/ARMOR_from_json.py
 msgid "beekeeping hood"
@@ -7494,8 +7543,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "emergency jacket"
 msgid_plural "emergency jackets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "veste de survie"
+msgstr[1] "vestes de survie"
 
 #: lang/json/ARMOR_from_json.py
 msgid "entry suit"
@@ -8243,7 +8292,7 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle boots"
-msgid_plural "motorcycle bootss"
+msgid_plural "pairs of motorcycle boots"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -8255,7 +8304,7 @@ msgstr[1] "casques de moto"
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle pants"
-msgid_plural "motorcycle pantss"
+msgid_plural "pairs of motorcycle pants"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -8364,8 +8413,8 @@ msgstr[1] "gantelets blindés du survivant"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of army winter gloves"
 msgid_plural "pairs of army winter gloves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "paire de gants d'hiver militaires"
+msgstr[1] "paires de gants d'hiver militaires"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of ballistic glasses"
@@ -8388,8 +8437,8 @@ msgstr[1] "lunettes double-foyers"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bone armor boots"
 msgid_plural "pairs of bone armor boots"
-msgstr[0] "bottes blindées en os"
-msgstr[1] "bottes blindées en os"
+msgstr[0] "paire de bottes blindées en os"
+msgstr[1] "paires de bottes blindées en os"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bone armor gauntlets"
@@ -8406,8 +8455,8 @@ msgstr[1] "paires de bottes"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bowling shoes"
 msgid_plural "pairs of bowling shoes"
-msgstr[0] "chaussures de bowling"
-msgstr[1] "chaussures de bowling"
+msgstr[0] "paire de chaussures de bowling"
+msgstr[1] "paires de chaussures de bowling"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of boxing gloves"
@@ -8424,8 +8473,8 @@ msgstr[1] "protège-bras renforcés en chitine"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of chitinous boots"
 msgid_plural "pairs of chitinous boots"
-msgstr[0] "bottes de chitine"
-msgstr[1] "bottes de chitine"
+msgstr[0] "paire de bottes de chitine"
+msgstr[1] "paires de bottes de chitine"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of chitinous gauntlets"
@@ -8442,20 +8491,20 @@ msgstr[1] "paires de crampons"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of clown shoes"
 msgid_plural "pairs of clown shoes"
-msgstr[0] "chaussures de clown"
-msgstr[1] "chaussures de clown"
+msgstr[0] "paire de chaussures de clown"
+msgstr[1] "paires de chaussures de clown"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of combat boots"
 msgid_plural "pairs of combat boots"
-msgstr[0] "bottes de combat"
-msgstr[1] "bottes de combat"
+msgstr[0] "paire de bottes de combat"
+msgstr[1] "paires de bottes de combat"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of cord sandals"
 msgid_plural "pairs of cord sandals"
-msgstr[0] "sandales en corde"
-msgstr[1] "sandales en corde"
+msgstr[0] "paire de sandales en corde"
+msgstr[1] "paires de sandales en corde"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of dance shoes"
@@ -8472,8 +8521,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "pair of dress shoes"
 msgid_plural "pairs of dress shoes"
-msgstr[0] "chaussures de ville"
-msgstr[1] "chaussures de ville"
+msgstr[0] "paire de chaussures de ville"
+msgstr[1] "paires de chaussures de ville"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of drop leg pouches"
@@ -8520,8 +8569,8 @@ msgstr[1] "gants anti-chaleur"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fishing waders"
 msgid_plural "pairs of fishing waders"
-msgstr[0] "cuissardes de pêche"
-msgstr[1] "cuissardes de pêche"
+msgstr[0] "paire de cuissardes de pêche"
+msgstr[1] "paires de cuissardes de pêche"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of flame-resistant gloves"
@@ -8538,8 +8587,8 @@ msgstr[1] "chaussettes ignifugées"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of flip-flops"
 msgid_plural "pairs of flip-flops"
-msgstr[0] "tongs"
-msgstr[1] "tongs"
+msgstr[0] "paire de tongs"
+msgstr[1] "paires de tongs"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of foot rags"
@@ -8550,8 +8599,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fur boots"
 msgid_plural "pairs of fur boots"
-msgstr[0] "bottes en fourrure"
-msgstr[1] "bottes en fourrure"
+msgstr[0] "paire de bottes en fourrure"
+msgstr[1] "paires de bottes en fourrure"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fur foot wraps"
@@ -8604,8 +8653,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "pair of hard arm guards"
 msgid_plural "pairs of hard arm guards"
-msgstr[0] "protège-bras renforcés"
-msgstr[1] "protège-bras renforcés"
+msgstr[0] "paire de protège-bras renforcés"
+msgstr[1] "paires de protège-bras renforcés"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of hard leg guards"
@@ -8628,14 +8677,14 @@ msgstr[1] "gants lourds du survivant"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of heels"
 msgid_plural "pairs of heels"
-msgstr[0] "chaussures à talons"
-msgstr[1] "chaussures à talons"
+msgstr[0] "paire de chaussures à talons"
+msgstr[1] "paires de chaussures à talons"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of hiking boots"
 msgid_plural "pairs of hiking boots"
-msgstr[0] "bottes de randonnée"
-msgstr[1] "bottes de randonnée"
+msgstr[0] "paire de bottes de randonnée"
+msgstr[1] "paires de bottes de randonnée"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of knee pads"
@@ -8652,8 +8701,8 @@ msgstr[1] "paires de grandes bottes"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather armor boots"
 msgid_plural "pairs of leather armor boots"
-msgstr[0] "bottes blindées en cuir"
-msgstr[1] "bottes blindées en cuir"
+msgstr[0] "paire de bottes blindées en cuir"
+msgstr[1] "paires de bottes blindées en cuir"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather armor gauntlets"
@@ -8688,8 +8737,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather sandals"
 msgid_plural "pairs of leather sandals"
-msgstr[0] "sandales en cuir"
-msgstr[1] "sandales en cuir"
+msgstr[0] "paire de sandales en cuir"
+msgstr[1] "paires de sandales en cuir"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leg warmers"
@@ -8718,8 +8767,8 @@ msgstr[1] "gants légers du survivant"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of lowtop tennis shoes"
 msgid_plural "pairs of lowtop tennis shoes"
-msgstr[0] "baskets basses"
-msgstr[1] "baskets basses"
+msgstr[0] "paire de baskets basses"
+msgstr[1] "paires de baskets basses"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of medical gloves"
@@ -8754,8 +8803,8 @@ msgstr[1] "paires de mocassins"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of neoprene arm sleeves"
 msgid_plural "pairs of neoprene arm sleeves"
-msgstr[0] "manches en néoprene"
-msgstr[1] "manches en néoprene"
+msgstr[0] "paire de manches en néoprene"
+msgstr[1] "paires de manches en néoprene"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of reading glasses"
@@ -8766,14 +8815,14 @@ msgstr[1] "lunettes de lecture"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of rollerblades"
 msgid_plural "pairs of rollerblades"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "paire de rollers"
+msgstr[1] "paires de rollers"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of rollerskates"
 msgid_plural "pairs of rollerskates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "paire de patins à roulettes"
+msgstr[1] "paires de patins à roulettes"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of rubber boots"
@@ -8802,26 +8851,26 @@ msgstr[1] "lunettes de ski"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of sneakers"
 msgid_plural "pairs of sneakers"
-msgstr[0] "baskets"
-msgstr[1] "baskets"
+msgstr[0] "paire de baskets"
+msgstr[1] "paires de baskets"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of socks"
 msgid_plural "pairs of socks"
-msgstr[0] "chaussettes"
-msgstr[1] "chaussettes"
+msgstr[0] "paire de chaussettes"
+msgstr[1] "paires de chaussettes"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of steeltoed boots"
 msgid_plural "pairs of steeltoed boots"
-msgstr[0] "chaussures de sécurité"
-msgstr[1] "chaussures de sécurité"
+msgstr[0] "paire de chaussures de sécurité"
+msgstr[1] "paires de chaussures de sécurité"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of stockings"
 msgid_plural "pairs of stockings"
-msgstr[0] "collants"
-msgstr[1] "collants"
+msgstr[0] "paire de bas"
+msgstr[1] "paires de bas"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of straw sandals"
@@ -8880,8 +8929,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swim fins"
 msgid_plural "pairs of swim fins"
-msgstr[0] "palmes"
-msgstr[1] "palmes"
+msgstr[0] "paire de palmes"
+msgstr[1] "paires de palmes"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swim goggles"
@@ -8892,14 +8941,14 @@ msgstr[1] "lunettes de plongée"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swimming booties"
 msgid_plural "pairs of swimming booties"
-msgstr[0] "chaussures aquatiques"
-msgstr[1] "chaussures aquatiques"
+msgstr[0] "paire de chaussures aquatiques"
+msgstr[1] "paires de chaussures aquatiques"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swimming gloves"
 msgid_plural "pairs of swimming gloves"
-msgstr[0] "gants de plongée"
-msgstr[1] "gants de plongée"
+msgstr[0] "paire de gants de plongée"
+msgstr[1] "paires de gants de plongée"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swimming trunks"
@@ -8922,14 +8971,14 @@ msgstr[1] "gants tactiques"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tentacle sleeves"
 msgid_plural "pairs of tentacle sleeves"
-msgstr[0] "manches tentacules"
-msgstr[1] "manches tentacules"
+msgstr[0] "paire de manches tentacules"
+msgstr[1] "paires de manches tentacules"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tentacle stockings"
 msgid_plural "pairs of tentacle stockings"
-msgstr[0] "collants tentacules"
-msgstr[1] "collants tentacules"
+msgstr[0] "paire de bas tentacules"
+msgstr[1] "paires de bas tentacules"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of turnout boots"
@@ -8952,8 +9001,8 @@ msgstr[1] "paires de bottes de western"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of winter boots"
 msgid_plural "pairs of winter boots"
-msgstr[0] "bottes d'hiver"
-msgstr[1] "bottes d'hiver"
+msgstr[0] "paire de bottes d'hiver"
+msgstr[1] "paires de bottes d'hiver"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of winter gloves"
@@ -8976,8 +9025,8 @@ msgstr[1] "gants d'hiver du survivant"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of wooden clogs"
 msgid_plural "pairs of wooden clogs"
-msgstr[0] "sabots en bois"
-msgstr[1] "sabots en bois"
+msgstr[0] "paire de sabots en bois"
+msgstr[1] "paires de sabots en bois"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of wool gloves"
@@ -8988,8 +9037,8 @@ msgstr[1] "gants en laine"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of wool socks"
 msgid_plural "pairs of wool socks"
-msgstr[0] "chaussettes en laine"
-msgstr[1] "chaussettes en laine"
+msgstr[0] "paire de chaussettes en laine"
+msgstr[1] "paires de chaussettes en laine"
 
 #: lang/json/ARMOR_from_json.py
 msgid "panties"
@@ -9005,13 +9054,13 @@ msgstr[1] "pantalons"
 
 #: lang/json/ARMOR_from_json.py
 msgid "paper arm guards"
-msgid_plural "paper arm guardss"
+msgid_plural "pairs of paper arm guards"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "paper leg guards"
-msgid_plural "paper leg guardss"
+msgid_plural "pairs of paper leg guards"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13723,6 +13772,9 @@ msgid ""
 "A full medical kit, with bandages, local anesthetics, and rapid healing "
 "agents.  Used for healing large amounts of damage."
 msgstr ""
+"Un kit complet de soins, avec bandages, anesthésiants locaux, et divers "
+"agents de guérison rapide. Il permet de soigner une grande quantité de "
+"dégâts."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15305,6 +15357,8 @@ msgid ""
 "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an "
 "emergency."
 msgstr ""
+"De douces boules de coton propres. Elles peuvent servir pour fabriquer des "
+"bandages de fortune en cas d'urgence."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "French fries"
@@ -16030,6 +16084,8 @@ msgstr "Du vinaigre blanc au goût incroyablement acide."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Simple cloth bandages.  Used for healing small amounts of damage."
 msgstr ""
+"De simples bandages en tissu. Ils permettent de soigner de petites quantités "
+"de dégâts."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -16088,6 +16144,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some cotton seeds.  Can be processed to produce an edible oil."
 msgstr ""
+"Quelques graines de coton. Elles peuvent être transformées pour en faire une "
+"huile comestible."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -17665,8 +17723,8 @@ msgstr[1] "farine de maïs"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton balls"
 msgid_plural "cotton balls"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "boule de coton"
+msgstr[1] "boules de coton"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton boll"
@@ -17677,8 +17735,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton seed"
 msgid_plural "cotton seeds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "graine de coton"
+msgstr[1] "graines de coton"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cough syrup"
@@ -17827,14 +17885,14 @@ msgstr[1] "viandes déshydratées"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated tainted meat"
 msgid_plural "dehydrated tainted meats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "viande contaminée déshydratée"
+msgstr[1] "viandes contaminées déshydratées"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated tainted veggy"
 msgid_plural "dehydrated tainted veggies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "légume contaminé déshydraté"
+msgstr[1] "légumes contaminés déshydratés"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated vegetable"
@@ -18271,8 +18329,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "human bone"
 msgid_plural "human bones"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "os humain"
+msgstr[1] "os humains"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "human flesh"
@@ -19471,8 +19529,8 @@ msgstr[1] "rieslings"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rolling tobacco"
 msgid_plural "rolling tobaccos"
-msgstr[0] "tabc à rouler"
-msgstr[1] "tabc à rouler"
+msgstr[0] "tabac à rouler"
+msgstr[1] "tabac à rouler"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "root beer"
@@ -19619,8 +19677,8 @@ msgstr[0] "sel assaisonné"
 msgstr[1] "sel assaisonné"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sewagas"
-msgid_plural "sewagass"
+msgid "sewagas inhaler"
+msgid_plural "sewagas inhalers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19763,8 +19821,8 @@ msgstr[0] "boisson énergétique"
 msgstr[1] "boisson énergétique"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "stimgas"
-msgid_plural "stimgass"
+msgid "stimgas inhaler"
+msgid_plural "stimgas inhalers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19849,26 +19907,26 @@ msgstr[1] "tacos"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted bone"
 msgid_plural "tainted bones"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "os contaminé"
+msgstr[1] "os contaminés"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted fat"
 msgid_plural "tainted fats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "graisse contaminée"
+msgstr[1] "graisses contaminées"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted meat"
 msgid_plural "tainted meats"
-msgstr[0] "viande infectée"
-msgstr[1] "viandes infectées"
+msgstr[0] "viande contaminée"
+msgstr[1] "viandes contaminées"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted tallow"
 msgid_plural "tainted tallows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "suif contaminé"
+msgstr[1] "suifs contaminés"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted tornado"
@@ -19879,8 +19937,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted veggy"
 msgid_plural "tainted veggies"
-msgstr[0] "légume infecté"
-msgstr[1] "légumes infectés"
+msgstr[0] "légume contaminé"
+msgstr[1] "légumes contaminés"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tallow"
@@ -21109,7 +21167,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A fluffy pillow to rest your head on when sleeping."
-msgstr "Un oreiller duveteux pour reposer votre tête pendant votre sommeil."
+msgstr "Un oreiller douillet pour y reposer votre tête durant votre sommeil."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -21578,7 +21636,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A pillow to rest your head on when sleeping."
-msgstr ""
+msgstr "Un oreiller pour y reposer votre tête durant votre sommeil."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -21948,10 +22006,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A somewhat sharpened piece of rebar, it is still better at bashing than "
-"stabbing but the added flexibility is nice"
+"stabbing but the added flexibility is nice."
 msgstr ""
-"Un barre d'armature légèrement affûtée, encore meilleure aux dégats "
-"contondants que au poignardage, mais la flexibilité ajoutée est pratique."
 
 #: lang/json/GENERIC_from_json.py
 msgid "A sparkling diamond."
@@ -24093,8 +24149,8 @@ msgstr[1] "morceaux de cuir"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "light wooden frame"
 msgid_plural "light wooden frames"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "châssis léger en bois"
+msgstr[1] "châssis légers en bois"
 
 #: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
@@ -24261,8 +24317,8 @@ msgstr[1] "planches cloutées"
 #: lang/json/GENERIC_from_json.py
 msgid "newspaper page"
 msgid_plural "newspaper pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "page de journal"
+msgstr[1] "pages de journaux"
 
 #: lang/json/GENERIC_from_json.py
 msgid "nomex patch"
@@ -24351,8 +24407,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "pillow"
 msgid_plural "pillows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "oreiller"
+msgstr[1] "oreillers"
 
 #: lang/json/GENERIC_from_json.py
 msgid "pilot light"
@@ -25266,6 +25322,12 @@ msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
+"A counterweight placed forward of the bow's grip allows for greater "
+"accuracy.  Aside from increased weight and size, there are no drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
 "A grip placed forward on the barrel allows for greater control and "
 "accuracy.  Aside from increased weight, there are no drawbacks."
 msgstr ""
@@ -25353,6 +25415,12 @@ msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
+"A set of tritium aiming pins for a bow.  Improves ease of aiming and target "
+"acquisition with no drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
 "A short shotgun with 2 barrels, which can be mounted under the barrel of "
 "many rifles.  It allows two shotgun shells to be loaded and fired."
 msgstr ""
@@ -25378,6 +25446,12 @@ msgid ""
 "A simple mechanism that converts a pistol to a fully-automatic weapon, with "
 "a burst size of three rounds.  However it reduces accuracy while increasing "
 "noise and recoil."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A small extension above the grip which an arrow rests upon while being "
+"aimed.  Improves accuracy with no drawbacks."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -25421,7 +25495,7 @@ msgstr ""
 msgid ""
 "A visible-light laser that mounts under a firearm's barrel to enhance ease "
 "and speed of target acquisition.  Aside from increased bulk, there are no "
-"drawbacks.  This is the only mod that can be used on a bow."
+"drawbacks."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -25653,6 +25727,12 @@ msgstr[0] "crosse réglable"
 msgstr[1] "crosses réglables"
 
 #: lang/json/GUNMOD_from_json.py
+msgid "arrow rest"
+msgid_plural "arrow rests"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
 msgid "auto-fire mechanism"
 msgid_plural "auto-fire mechanisms"
 msgstr[0] "mécanisme de tir automatique"
@@ -25687,6 +25767,18 @@ msgid "bipod"
 msgid_plural "bipods"
 msgstr[0] "trépied"
 msgstr[1] "trépieds"
+
+#: lang/json/GUNMOD_from_json.py
+msgid "bow sight"
+msgid_plural "bow sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "bow stabilizer"
+msgid_plural "bow stabilizers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid "brass catcher"
@@ -26681,13 +26773,13 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Automated Machine Gun Turret"
-msgid_plural "Machine Gun Turret"
+msgid_plural "Machine Gun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Avalanche Turret"
-msgid_plural "Avalanche Turret"
+msgid_plural "Avalanche Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -26934,13 +27026,13 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turret"
+msgid_plural "Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Dual SMG Turret"
-msgid_plural "Dual SMG Turret"
+msgid_plural "Dual SMG Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27015,7 +27107,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Gatling Cannon Turret"
-msgid_plural "Gatling Cannon Turret"
+msgid_plural "Gatling Cannon Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27354,7 +27446,7 @@ msgstr[1] "MAC-10"
 
 #: lang/json/GUN_from_json.py
 msgid "Machine Gun Turret"
-msgid_plural "Machine Gun Turret"
+msgid_plural "Machine Gun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27534,13 +27626,13 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Quad Nail Turret"
-msgid_plural "Quad Nail Turret"
+msgid_plural "Quad Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Quad SMG Turret"
-msgid_plural "Quad SMG Turret"
+msgid_plural "Quad SMG Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27654,13 +27746,13 @@ msgstr[1] "Remington 870"
 
 #: lang/json/GUN_from_json.py
 msgid "Ripper"
-msgid_plural "Ripper"
+msgid_plural "Rippers"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Rotary Spear Turret"
-msgid_plural "Rotary Spear Turret"
+msgid_plural "Rotary Spear Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27762,7 +27854,7 @@ msgstr[1] "Savage 111F"
 
 #: lang/json/GUN_from_json.py
 msgid "Scorpion Turret"
-msgid_plural "Scorpion Turret"
+msgid_plural "Scorpion Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27775,19 +27867,19 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Slingshot Cannon"
-msgid_plural "Slingshot Cannon"
+msgid_plural "Slingshot Cannons"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Spear Turret"
-msgid_plural "Spear Turret"
+msgid_plural "Spear Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Splintergun Turret"
-msgid_plural "Splintergun Turret"
+msgid_plural "Splintergun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28979,7 +29071,7 @@ msgid "Vehicle Additions Pack"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Zombie Nighvision"
+msgid "Zombie Nightvision"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -32117,36 +32209,48 @@ msgid ""
 "A long fur scarf, worn over the mouth for warmth. Use it to loosen it if you "
 "get too warm."
 msgstr ""
+"Une longue écharpe en fourrure, portée par dessus la bouche pour avoir "
+"chaud. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A long fur scarf, worn over the mouth for warmth. Use it to wear it tighter "
 "if you get too cold."
 msgstr ""
+"Une longue écharpe en fourrure, portée par dessus la bouche pour avoir "
+"chaud. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A long knitted cotton scarf, worn over the mouth for warmth. Use it to "
 "loosen it if you get too warm."
 msgstr ""
+"Une longue écharpe de coton tricotée, portée par dessus la bouche pour avoir "
+"chaud. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A long knitted cotton scarf, worn over the mouth for warmth. Use it to wear "
 "it tighter if you get too cold."
 msgstr ""
+"Une longue écharpe de coton tricotée, portée par dessus la bouche pour avoir "
+"chaud. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A long wool scarf, worn over the mouth for warmth. Use it to loosen it if "
 "you get too warm."
 msgstr ""
+"Une longue écharpe en laine, portée par dessus la bouche pour avoir chaud. "
+"Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A long wool scarf, worn over the mouth for warmth. Use it to wear it tighter "
 "if you get too cold."
 msgstr ""
+"Une longue écharpe en laine, portée par dessus la bouche pour avoir chaud. "
+"Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32213,6 +32317,9 @@ msgid ""
 "length, it's enough to handle nonstandard facial features and accommodate "
 "your hands too. Use it to loosen it if you get too warm."
 msgstr ""
+"Une très longue écharpe en fourrure, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32220,6 +32327,9 @@ msgid ""
 "length, it's enough to handle nonstandard facial features and accommodate "
 "your hands too. Use it to wear it tighter if you get too cold."
 msgstr ""
+"Une très longue écharpe en fourrure, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32227,6 +32337,9 @@ msgid ""
 "extra length, it's enough to handle nonstandard facial features and "
 "accommodate your hands too. Use it to loosen it if you get too warm."
 msgstr ""
+"Une très longue écharpe de coton tricotée, portée par dessus la bouche pour "
+"avoir chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32234,6 +32347,9 @@ msgid ""
 "extra length, it's enough to handle nonstandard facial features and "
 "accommodate your hands too. Use it to wear it tighter if you get too cold."
 msgstr ""
+"Une très longue écharpe de coton tricotée, portée par dessus la bouche pour "
+"avoir chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32241,6 +32357,9 @@ msgid ""
 "length, it's enough to handle nonstandard facial features and accommodate "
 "your hands too. Use it to loosen it if you get too warm."
 msgstr ""
+"Une très longue écharpe en laine, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32248,18 +32367,25 @@ msgid ""
 "length, it's enough to handle nonstandard facial features and accommodate "
 "your hands too. Use it to wear it tighter if you get too cold."
 msgstr ""
+"Une très longue écharpe en laine, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A simple and light cloth scarf, worn over the mouth for warmth. Use it to "
 "loosen it if you get too warm."
 msgstr ""
+"Une écharpe simple et légère en tissu, portée par dessus la bouche pour "
+"avoir chaud. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A simple and light cloth scarf, worn over the mouth for warmth. Use it to "
 "wear it tighter if you get too cold."
 msgstr ""
+"Une écharpe simple et légère en tissu, portée par dessus la bouche pour "
+"avoir chaud. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32273,6 +32399,9 @@ msgid ""
 "extra length, it's enough to handle nonstandard facial features and "
 "accommodate your hands too. Use it to loosen it if you get too warm."
 msgstr ""
+"Une longue écharpe légère en tissu, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la desserrer si vous avez trop chaud."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32280,6 +32409,9 @@ msgid ""
 "extra length, it's enough to handle nonstandard facial features and "
 "accommodate your hands too. Use it to wear it tighter if you get too cold."
 msgstr ""
+"Une longue écharpe légère en tissu, portée par dessus la bouche pour avoir "
+"chaud. Sa grande longueur vous permet de couvrir votre visage et de "
+"réchauffer vos mains. Utilisez-la pour la resserrer si vous avez trop froid."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32319,6 +32451,8 @@ msgid ""
 "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out "
 "of your eyes."
 msgstr ""
+"Un fedora en paille, confortable et élégant. Son bord protège vos yeux du "
+"soleil."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 #, no-python-format
@@ -32350,6 +32484,10 @@ msgid ""
 "slum it, struggle against terrible odds, win through and still know where "
 "their towel is, is clearly a force to be reckoned with."
 msgstr ""
+"C'est une serviette large et douce. Vous pourriez vous sécher avec. Celui "
+"qui a parcourut l'apocalypse en large et en travers, avec tout son lot de "
+"brutalité, de taudis, de malchance, et qui s'en est sortit en sachant encore "
+"où se trouve sa serviette, est quelqu'un sur qui l'on peut compter."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32383,6 +32521,8 @@ msgid ""
 "This is a large, sopping wet towel.  If you wait a little bit, it should dry "
 "out.  Don't panic."
 msgstr ""
+"C'est une serviette large toute trempée. Si vous attendez un peu elle "
+"séchera. Pas de panique."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -32498,7 +32638,7 @@ msgstr ""
 #: lang/json/TOOL_ARMOR_from_json.py
 #, no-python-format
 msgid "You loosen your %s."
-msgstr ""
+msgstr "Vous desserrez votre %s."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You tip your fedora."
@@ -32514,11 +32654,11 @@ msgstr "Vous allumez le casque de mineur."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You wrap your scarf a bit tighter."
-msgstr ""
+msgstr "Vous resserrez votre écharpe un peu plus."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You wrap your scarf tighter."
-msgstr ""
+msgstr "Vous resserrez votre écharpe."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 #, no-python-format
@@ -32552,14 +32692,14 @@ msgstr[1] ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "fur scarf"
 msgid_plural "fur scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en fourrure"
+msgstr[1] "écharpes en fourrure"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "fur scarf (loose)"
 msgid_plural "fur scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en fourrure (desserrée)"
+msgstr[1] "écharpes en fourrure (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "hairpin"
@@ -32570,62 +32710,62 @@ msgstr[1] "épingles à cheveux"
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "knit scarf"
 msgid_plural "knit scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en tricot"
+msgstr[1] "écharpes en tricot"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "knit scarf (loose)"
 msgid_plural "knit scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en tricot (desserrée)"
+msgstr[1] "écharpes en tricot (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long fur scarf"
 msgid_plural "long fur scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en fourrure"
+msgstr[1] "longues écharpes en fourrure"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long fur scarf (loose)"
 msgid_plural "long fur scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en fourrure (desserrée)"
+msgstr[1] "longues écharpes en fourrure (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long knit scarf"
 msgid_plural "long knit scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en tricot"
+msgstr[1] "longues écharpes en tricot"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long knit scarf (loose)"
 msgid_plural "long knit scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en tricot (desserrée)"
+msgstr[1] "longues écharpes en tricot (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long patchwork scarf"
 msgid_plural "long patchwork scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en patchwork"
+msgstr[1] "longues écharpes en patchwork"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long patchwork scarf (loose)"
 msgid_plural "long patchwork scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en patchwork (desserrée)"
+msgstr[1] "longues écharpes en patchwork (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long wool scarf"
 msgid_plural "long wool scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en laine"
+msgstr[1] "longues écharpes en laine"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "long wool scarf (loose)"
 msgid_plural "long wool scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "longue écharpe en laine (desserrée)"
+msgstr[1] "longues écharpes en laine (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mining helmet"
@@ -32708,14 +32848,14 @@ msgstr[1] ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "simple patchwork scarf"
 msgid_plural "simple patchwork scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe simple en patchwork"
+msgstr[1] "écharpes simples en patchwork"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "simple patchwork scarf (loose)"
 msgid_plural "simple patchwork scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe simple en patchwork (desserrée)"
+msgstr[1] "écharpes simples en patchwork (desserrées)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "ski mask"
@@ -32725,15 +32865,15 @@ msgstr[1] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "ski mask (open)"
-msgid_plural "ski mask (open)s"
+msgid_plural "ski masks (open)"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "straw fedora"
 msgid_plural "straw fedoras"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fedora en paille"
+msgstr[1] "fedoras en paille"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "survivor divemask"
@@ -32816,14 +32956,14 @@ msgstr[1] "lampes de poche frontales (on)"
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "wool scarf"
 msgid_plural "wool scarves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en laine"
+msgstr[1] "écharpes en laine"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "wool scarf (loose)"
 msgid_plural "wool scarves (loose)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "écharpe en laine (desserrée)"
+msgstr[1] "écharpes en laine (desserrées)"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -33565,6 +33705,8 @@ msgid ""
 "These are a long pair of heavy duty scissors.  Use scissors to cut items "
 "made from cotton (like clothing) into rags."
 msgstr ""
+"C'est une longue et lourde paire de ciseaux. Utilisez les pour couper des "
+"objets en tissu pour en faire des chiffons."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -33948,6 +34090,9 @@ msgid ""
 "nails, and two by fours in your inventory, you could board up adjacent doors "
 "and windows.  It has myriad other uses as well."
 msgstr ""
+"C'est un marteau en acier démagnétisé avec une poignée en caoutchouc. Avec "
+"lui, des clous et des planches, vous pourriez barricader portes et fenêtres. "
+"Il a des tas d'autres utilités."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -33966,6 +34111,9 @@ msgid ""
 "various drugs, like cigarettes, or to light things like Molotov cocktails.  "
 "You can also use a lighter to light nearby items on fire."
 msgstr ""
+"C'est un briquet jetable en plastique. Celui ci vous permet de consommer "
+"certaines drogues, telles que les cigarettes, ou d'allumer des cocktails "
+"Molotov. Vous pouvez également l'utiliser pour enflammer des objets proches."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34138,6 +34286,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid ""
+"This is a homemade heat sealer unit with an air pump.  It's used for vacuum "
+"packing food to preserve it."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "This is a huge two-handed sword from Germany.  It packs a real wallop."
 msgstr ""
 
@@ -34211,6 +34365,8 @@ msgid ""
 "This is a large emergency fire extinguisher.  It would be useful for putting "
 "out adjacent fires."
 msgstr ""
+"C'est un grand extincteur d'urgence. Très utile pour éteindre des feux "
+"proches de vous."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34337,6 +34493,7 @@ msgid ""
 "This is a magnifying glass.  May be useful for starting fires during sunny "
 "skies."
 msgstr ""
+"C'est une loupe. Elle peut servir à allumer des feux par temps ensoleillé."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34429,6 +34586,9 @@ msgid ""
 "article of clothing to attempt to repair or reinforce that clothing.  This "
 "uses your tailoring skill."
 msgstr ""
+"Ce kit en plastique contient tout le nécessaire à couture: aiguilles, "
+"bobines et autres. Utilisez le sur une pièce en tissu pour essayer de la "
+"réparer, ou la renforcer. Cela fait appel à vos compétences de couture."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34672,6 +34832,10 @@ msgid ""
 "light things like Molotov cocktails.  You can also use matches to light "
 "nearby items on fire."
 msgstr ""
+"C'est une petite boite d'allumettes avec un grattoir sur le côté. Celle ci "
+"vous permet de consommer certaines drogues, telles que les cigarettes, ou "
+"d'allumer des cocktails Molotov. Vous pouvez également l'utiliser pour "
+"enflammer des objets proches."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -35752,8 +35916,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "basic fishing rod"
 msgid_plural "basic fishing rods"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "canne à pêche rudimentaire"
+msgstr[1] "cannes à pêche rudimentaires"
 
 #: lang/json/TOOL_from_json.py
 msgid "basic repair kit"
@@ -36010,8 +36174,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "crack pipe"
 msgid_plural "crack pipes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pipe à crack"
+msgstr[1] "pipes à crack"
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "crossbow trap"
@@ -36394,8 +36558,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "glass pipe"
 msgid_plural "glass pipes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pipe en verre"
+msgstr[1] "pipes en verre"
 
 #: lang/json/TOOL_from_json.py
 msgid "glowstick"
@@ -36520,8 +36684,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "improvised picklock"
 msgid_plural "improvised picklocks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "crochet à serrures improvisé"
+msgstr[1] "crochets à serrures improvisés"
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive laser turret"
@@ -36682,8 +36846,8 @@ msgstr[1] "machettes"
 #: lang/json/TOOL_from_json.py
 msgid "magnifying glass"
 msgid_plural "magnifying glasses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "loupe"
+msgstr[1] "loupes"
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift crowbar"
@@ -36714,6 +36878,12 @@ msgid "makeshift machete"
 msgid_plural "makeshift machetes"
 msgstr[0] "machette de fortune"
 msgstr[1] "machettes de fortune"
+
+#: lang/json/TOOL_from_json.py
+msgid "makeshift vacuum sealer"
+msgid_plural "makeshift vacuum sealers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift welder"
@@ -36775,7 +36945,7 @@ msgid_plural "military mess kits"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/TOOL_from_json.py src/npctalk.cpp
+#: lang/json/TOOL_from_json.py
 msgid "mininuke"
 msgid_plural "mininukes"
 msgstr[0] "mini-bombe"
@@ -36904,8 +37074,8 @@ msgstr[1] "pinces coupe-boulons"
 #: lang/json/TOOL_from_json.py
 msgid "pair of scissors"
 msgid_plural "pairs of scissors"
-msgstr[0] "ciseaux"
-msgstr[1] "ciseaux"
+msgstr[0] "paire de ciseaux"
+msgstr[1] "paires de ciseaux"
 
 #: lang/json/TOOL_from_json.py
 msgid "permanent marker"
@@ -43895,10 +44065,6 @@ msgid ""
 "includes staff techniques as well."
 msgstr ""
 
-#: lang/json/martial_art_from_json.py
-msgid "Niten Ryuu"
-msgstr ""
-
 #: lang/json/martial_art_from_json.py src/player.cpp
 msgid "No style"
 msgstr ""
@@ -44457,7 +44623,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Albino"
-msgstr "Albino"
+msgstr "Albinos"
 
 #: lang/json/mutation_from_json.py
 msgid "Alcohol Metabolism"
@@ -44548,7 +44714,7 @@ msgstr "Genoux Fragiles"
 
 #: lang/json/mutation_from_json.py
 msgid "Bad Temper"
-msgstr ""
+msgstr "Mauvaise Humeur"
 
 #: lang/json/mutation_from_json.py
 msgid "Badly Deformed"
@@ -44598,6 +44764,10 @@ msgstr "Oiseau"
 #: lang/json/mutation_from_json.py
 msgid "Bird Wings"
 msgstr "Ailes d'oiseau"
+
+#: lang/json/mutation_from_json.py
+msgid "Black Belt"
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Bovine"
@@ -44699,7 +44869,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Clumsy"
-msgstr ""
+msgstr "Maladroit"
 
 #: lang/json/mutation_from_json.py
 msgid "Cold Blooded"
@@ -45138,7 +45308,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py src/player.cpp
 msgid "Hoarder"
-msgstr ""
+msgstr "Amasseur"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -45324,7 +45494,7 @@ msgstr "Nerveux"
 
 #: lang/json/mutation_from_json.py
 msgid "Junkfood Intolerance"
-msgstr ""
+msgstr "Intolérance à la Malbouffe"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -45465,6 +45635,10 @@ msgid "Marloss Vessel"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Martial Artist"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Martial Arts Training"
 msgstr "Entraîné aux arts martiaux"
 
@@ -45497,6 +45671,9 @@ msgid ""
 "Most animals don't like you, and aggressive animals are more likely to "
 "attack you. This only applies to natural animals such as woodland creatures."
 msgstr ""
+"La plupart des animaux ne vous apprécient pas, et les animaux agressifs sont "
+"plus susceptibles de vous attaquer. Cela ne s'applique qu'aux animaux de la "
+"nature telles que les créatures des bois."
 
 #: lang/json/mutation_from_json.py
 msgid "Mouth Flaps"
@@ -45927,7 +46104,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Self-Aware"
-msgstr ""
+msgstr "Conscient de soi-même"
 
 #: lang/json/mutation_from_json.py
 msgid "Self-Defense Classes"
@@ -46004,7 +46181,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Slow Healer"
-msgstr ""
+msgstr "Long à guérir"
 
 #: lang/json/mutation_from_json.py
 msgid "Slow Learner"
@@ -46016,7 +46193,7 @@ msgstr "Lecteur Lent"
 
 #: lang/json/mutation_from_json.py
 msgid "Slow Runner"
-msgstr ""
+msgstr "Coureur lent"
 
 #: lang/json/mutation_from_json.py
 msgid "Smart"
@@ -46062,6 +46239,9 @@ msgid ""
 "possible for you to eat them, but you will suffer morale penalties due to "
 "nausea."
 msgstr ""
+"Quelque chose dans ces aliments fortement transformés n'est pas en osmose "
+"avec votre organisme. Vous pouvez les manger mais vous aurez des pénalités "
+"de moral à cause de la nausée."
 
 #: lang/json/mutation_from_json.py
 msgid "Sores"
@@ -46077,7 +46257,7 @@ msgstr "Épines"
 
 #: lang/json/mutation_from_json.py
 msgid "Spiritual"
-msgstr ""
+msgstr "Spirituel"
 
 #: lang/json/mutation_from_json.py
 msgid "Spots"
@@ -46113,7 +46293,7 @@ msgstr "Dos Musclé"
 
 #: lang/json/mutation_from_json.py
 msgid "Strong Scent"
-msgstr ""
+msgstr "Forte Odeur"
 
 #: lang/json/mutation_from_json.py
 msgid "Strong Stomach"
@@ -46295,13 +46475,15 @@ msgstr "Peau épaisse"
 
 #: lang/json/mutation_from_json.py
 msgid "Thin-Skinned"
-msgstr ""
+msgstr "Peau Mince"
 
 #: lang/json/mutation_from_json.py
 msgid ""
 "Things just keep getting you down. You tend to be unhappy, and it takes some "
 "doing to cheer you up."
 msgstr ""
+"Tout ne cesse de vous rendre maussade. Vous avez tendance à être malheureux, "
+"et il faut faire fort pour vous remonter le moral."
 
 #: lang/json/mutation_from_json.py
 msgid "Thorns"
@@ -46655,9 +46837,9 @@ msgstr "Allergique à la laine"
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are a cybernetically-resurrected cop, with jurisdiction throughout the "
-"New England region thanks to interstate agreements.  Whether you can do for "
-"the law what the law did for you is another question."
+"You are a cybernetically-resurrected law enforcer, with jurisdiction "
+"throughout the New England region thanks to interstate agreements.  Whether "
+"you can do for the law what the law did for you is another question."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46791,6 +46973,10 @@ msgid ""
 "others. Note that this only applies to real-world experience, not to skill "
 "gain from other sources like books."
 msgstr ""
+"Vous êtes lent à assimiler de nouvelles idées et par conséquent vous "
+"apprenez plus lentement que d'autres. Notez que cela ne s'applique qu'à "
+"votre expérience acquise dans le monde, mais pas les compétences dont "
+"d'autres vous font bénéficier."
 
 #: lang/json/mutation_from_json.py
 msgid "You are smarter. Intelligence + 2"
@@ -46899,6 +47085,8 @@ msgid ""
 "You can't run as fast as most, resulting in a 15% speed penalty on flat "
 "ground."
 msgstr ""
+"Vous courez plus lentement que la majorité, ce qui vous inflige 15% de "
+"vitesse en moins sur sol plat."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47250,6 +47438,9 @@ msgid ""
 "You have a rare allergy that prevents you from eating wheat. It's possible "
 "for you to eat them, but you will suffer morale penalties due to nausea."
 msgstr ""
+"Vous êtes sujet à une allergie peu commune qui vous empêche de manger du "
+"blé. Vous pouvez en manger mais vous aurez des pénalités de moral à cause de "
+"la nausée."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47414,6 +47605,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid "You heal a little slower than most; sleeping will heal less lost HP."
 msgstr ""
+"Vous guérissez plus lentement que la majorité. Dormir vous redonnera moins "
+"de points de vie perdus."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47426,6 +47619,9 @@ msgid ""
 "You lack skin pigmentation due to a genetic problem.  You sunburn extremely "
 "easily, and typically use an umbrella when going out in the sun."
 msgstr ""
+"Suite à un problème génétique votre peau n'a plus de pigmentation. Le soleil "
+"vous brûle extrêmement facilement, et vous utilisez généralement une "
+"ombrelle pour vous en protéger."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47591,9 +47787,21 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
+"You were competitive at national levels, and had considered teaching your "
+"art.  Defending against the entire town may still be a challenge, though."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
 "You were just through with the administrative formalities for your residency "
 "when the cataclysm struck.  \"Your\" hospital was overrun and evacuated, but "
 "there's always work for a good doctor."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You were shaping up to be a pretty decent student of the martial arts before "
+"the Cataclysm struck.  Time to see just how good you really were."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47632,6 +47840,8 @@ msgstr ""
 msgid ""
 "You're a slow reader, and it takes you longer to get through books than most."
 msgstr ""
+"Vous êtes un lecteur lent, et cela vous prend plus de temps que la majorité "
+"pour finir un livre."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47719,6 +47929,10 @@ msgid ""
 "driven by religious beliefs or philosophical interest, you find great "
 "inspiration in studying holy texts and experiencing mystical things."
 msgstr ""
+"Vous avez toujours senti que le monde a plus à nous offrir qu'on ne peux le "
+"voir. Guidé par des croyances religieuses ou des intérêts philosophiques, "
+"vous faites preuve de grandes inspirations en étudiant des textes sacrés ou "
+"par des expériences mystiques."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -47809,6 +48023,9 @@ msgid ""
 "outgrow it. It's possible for you to eat them, but you will suffer morale "
 "penalties due to nausea."
 msgstr ""
+"Comme beaucoup d'enfants vous n'aimiez pas manger vos légumes. Vous et les "
+"légumes ça fait toujours deux. Vous pouvez les manger mais vous aurez des "
+"pénalités de moral à cause de la nausée."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -48517,7 +48734,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Your skin is fragile. Cutting damage is slightly increased for you."
-msgstr ""
+msgstr "Votre peau est fragile. Les coupures vous font plus de dégâts."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -49716,7 +49933,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Bride"
-msgstr ""
+msgstr "Jeune Mariée"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -49748,12 +49965,12 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Chain Smoker"
-msgstr ""
+msgstr "Fumeuse en chaîne"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Chain Smoker"
-msgstr ""
+msgstr "Fumeur en chaîne"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -49959,6 +50176,9 @@ msgid ""
 "hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
+"Tout le monde dans votre travail vous connaissait comme la personne qui "
+"avait toujours une cigarette ou deux à la main. Maintenant, vous êtes réduit "
+"à un seul paquet, et espérez en trouver d'autres bientôt."
 
 #. ~ Profession (male Chain Smoker) description
 #: lang/json/professions_from_json.py
@@ -49968,16 +50188,19 @@ msgid ""
 "hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
+"Tout le monde dans votre travail vous connaissait comme la personne qui "
+"avait toujours une cigarette ou deux à la main. Maintenant, vous êtes réduit "
+"à un seul paquet, et espérez en trouver d'autres bientôt."
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Failed Cyborg"
-msgstr ""
+msgstr "Cyborg Ratée"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Failed Cyborg"
-msgstr ""
+msgstr "Cyborg Raté"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -50100,7 +50323,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Groom"
-msgstr ""
+msgstr "Jeune Marié"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -50728,12 +50951,12 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Shower Victim"
-msgstr ""
+msgstr "Victime de Douche"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Shower Victim"
-msgstr ""
+msgstr "Victime de Douche"
 
 #. ~ Profession (female Survivalist) description
 #: lang/json/professions_from_json.py
@@ -50782,6 +51005,8 @@ msgid ""
 "Some would say that there's nothing particularly notable about you.  But "
 "you've survived, and that's more than most could say right now."
 msgstr ""
+"Certains diront qu'il n'y a rien de particulier à dire sur vous. Mais vous "
+"avez survécu, et c'est ce que beaucoup aimeraient pouvoir dire actuellement."
 
 #. ~ Profession (male Survivor) description
 #: lang/json/professions_from_json.py
@@ -50790,6 +51015,8 @@ msgid ""
 "Some would say that there's nothing particularly notable about you.  But "
 "you've survived, and that's more than most could say right now."
 msgstr ""
+"Certains diront qu'il n'y a rien de particulier à dire sur vous. Mais vous "
+"avez survécu, et c'est ce que beaucoup aimeraient pouvoir dire actuellement."
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -50834,12 +51061,12 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Survivor"
-msgstr ""
+msgstr "Survivante"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Survivor"
-msgstr ""
+msgstr "Survivant"
 
 #. ~ Profession (female Knight) description
 #: lang/json/professions_from_json.py
@@ -50960,6 +51187,8 @@ msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
 "wedding attire.  Cold feet? You'd just like to keep your feet attached!"
 msgstr ""
+"Le cataclysme a frappé le grand jour et vous vous êtes échappée avec rien "
+"d'autre que votre tenue de mariage."
 
 #. ~ Profession (Groom) description
 #: lang/json/professions_from_json.py
@@ -50968,6 +51197,8 @@ msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
 "wedding attire.  Cold feet? You'd just like to keep your feet attached!"
 msgstr ""
+"Le cataclysme a frappé le grand jour et vous vous êtes échappé avec rien "
+"d'autre que votre tenue de mariage."
 
 #. ~ Profession (female Bionic Assassin) description
 #: lang/json/professions_from_json.py
@@ -51020,12 +51251,12 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Tweaker"
-msgstr ""
+msgstr "Accro aux Amphétamines"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Tweaker"
-msgstr ""
+msgstr "Accro aux Amphétamines"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -51561,6 +51792,9 @@ msgid ""
 "barely managed to escape with some soap and the most massively useful thing "
 "ever...  a towel."
 msgstr ""
+"Vous étiez en train de prendre une bonne douche bien chaude lorsque le "
+"cataclysme a frappé! Vous avez tout juste réussit à vous échappé avec une "
+"savonnette et la chose vraiment la plus utile... une serviette."
 
 #. ~ Profession (male Shower Victim) description
 #: lang/json/professions_from_json.py
@@ -51570,6 +51804,9 @@ msgid ""
 "barely managed to escape with some soap and the most massively useful thing "
 "ever...  a towel."
 msgstr ""
+"Vous étiez en train de prendre une bonne douche bien chaude lorsque le "
+"cataclysme a frappé! Vous avez tout juste réussit à vous échappé avec une "
+"savonnette et la chose vraiment la plus utile... une serviette."
 
 #. ~ Profession (female Farmer) description
 #: lang/json/professions_from_json.py
@@ -51735,6 +51972,9 @@ msgid ""
 "the only thing running through your head is where you're gonna find your "
 "next hit."
 msgstr ""
+"Vous ne savez pas exactement ce qui est arrivé, mais tout va mal, et la "
+"seule chose qui vous trotte dans la tête c'est de savoir où trouver votre "
+"prochaine dose."
 
 #. ~ Profession (male Tweaker) description
 #: lang/json/professions_from_json.py
@@ -51744,6 +51984,9 @@ msgid ""
 "the only thing running through your head is where you're gonna find your "
 "next hit."
 msgstr ""
+"Vous ne savez pas exactement ce qui est arrivé, mais tout va mal, et la "
+"seule chose qui vous trotte dans la tête c'est de savoir où trouver votre "
+"prochaine dose."
 
 #. ~ Profession (female Used Car Salesman) description
 #: lang/json/professions_from_json.py
@@ -51847,6 +52090,9 @@ msgid ""
 "but are filled with broken bionics.  At least your ethanol power supply "
 "still works."
 msgstr ""
+"Votre corps est une épave de pièces bioniques. Vous avez une grande capacité "
+"de puissance, mais êtes remplis de pièces bionique cassés. Au moins votre "
+"alimentation à l'éthanol fonctionne toujours."
 
 #. ~ Profession (male Failed Cyborg) description
 #: lang/json/professions_from_json.py
@@ -51856,6 +52102,9 @@ msgid ""
 "but are filled with broken bionics.  At least your ethanol power supply "
 "still works."
 msgstr ""
+"Votre corps est une épave de pièces bioniques. Vous avez une grande capacité "
+"de puissance, mais êtes remplis de pièces bionique cassés. Au moins votre "
+"alimentation à l'éthanol fonctionne toujours."
 
 #. ~ Profession (female Volunteer Mutant) description
 #: lang/json/professions_from_json.py
@@ -57250,7 +57499,7 @@ msgstr "jeune arbre"
 
 #: lang/json/tool_quality_from_json.py
 msgid "boiling"
-msgstr "d'ébullition"
+msgstr "ébullition"
 
 #: lang/json/tool_quality_from_json.py
 msgid "bolt turning"
@@ -57258,7 +57507,7 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "brewing"
-msgstr "de brassage"
+msgstr "brassage"
 
 #: lang/json/tool_quality_from_json.py
 msgid "butchering"
@@ -57266,19 +57515,19 @@ msgstr "dépeçage"
 
 #: lang/json/tool_quality_from_json.py
 msgid "chemical making"
-msgstr "de fabrication de produits chimiques"
+msgstr "fabrication de produits chimiques"
 
 #: lang/json/tool_quality_from_json.py
 msgid "containing"
-msgstr "de contenant"
+msgstr "contenant"
 
 #: lang/json/tool_quality_from_json.py
 msgid "cutting"
-msgstr "de découpe"
+msgstr "découpe"
 
 #: lang/json/tool_quality_from_json.py
 msgid "digging"
-msgstr "de creusage"
+msgstr "creusage"
 
 #: lang/json/tool_quality_from_json.py
 msgid "drilling"
@@ -57290,11 +57539,11 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "fine hammering"
-msgstr "de martelage précis"
+msgstr "martelage précis"
 
 #: lang/json/tool_quality_from_json.py
 msgid "fine metal sawing"
-msgstr "de sciage précis de métal"
+msgstr "sciage précis de métal"
 
 #: lang/json/tool_quality_from_json.py
 msgid "fine screw driving"
@@ -57302,7 +57551,7 @@ msgstr "vissage précis"
 
 #: lang/json/tool_quality_from_json.py
 msgid "food cooking"
-msgstr "de cuisine"
+msgstr "cuisine"
 
 #: lang/json/tool_quality_from_json.py
 msgid "glare protection"
@@ -57310,11 +57559,11 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "hammering"
-msgstr "de martelage"
+msgstr "martelage"
 
 #: lang/json/tool_quality_from_json.py
 msgid "metal sawing"
-msgstr "de sciage de métal"
+msgstr "sciage de métal"
 
 #: lang/json/tool_quality_from_json.py
 msgid "screw driving"
@@ -57326,7 +57575,7 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "tree cutting"
-msgstr "d'abattage d'arbres"
+msgstr "abattage d'arbres"
 
 #: lang/json/tool_quality_from_json.py
 msgid "welding"
@@ -57334,7 +57583,7 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "wood sawing"
-msgstr "de sciage de bois"
+msgstr "sciage de bois"
 
 #: lang/json/trap_from_json.py
 msgid "buried bear trap"
@@ -57699,6 +57948,13 @@ msgid ""
 "pieces of meat, or none at all.  Note that many monsters, such as zombies, "
 "leave tainted meat, unsuitable for consumption."
 msgstr ""
+"Lorsque vous tuez un monstre il laissera bien souvent un corps. Les corps "
+"sont d'importantes sources de nourriture, et il vous faut les mettre en "
+"pièces comme un boucher avec la touche 'B'. Pour cela il vous faudra une "
+"lame dans votre inventaire, de préférence petite et bien aiguisée. Un "
+"boucher peu expérimenté n'aura que quelques pièces de viande, voire aucune. "
+"Il est a noté que beaucoup de monstres, tels que les zombies, laissent de la "
+"viande contaminée peu recommandée à la consommation."
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -61872,7 +62128,7 @@ msgstr ""
 
 #: src/construction.cpp
 msgid "Construct where?"
-msgstr ""
+msgstr "A quel endroit construire ?"
 
 #: src/construction.cpp
 msgid "Constructions"
@@ -61971,7 +62227,7 @@ msgstr ""
 #: src/construction.cpp
 #, c-format
 msgid "Requires: %s"
-msgstr ""
+msgstr "Pré-requis: %s"
 
 #: src/construction.cpp
 #, c-format
@@ -61981,7 +62237,7 @@ msgstr "Résultat: %s"
 #: src/construction.cpp
 #, c-format
 msgid "Skill Req: %d (%s)"
-msgstr ""
+msgstr "Compétence Requise: %d (%s)"
 
 #: src/construction.cpp
 #, c-format
@@ -62027,7 +62283,7 @@ msgstr ""
 #: src/construction.cpp src/crafting.cpp
 #, c-format
 msgid "Time to complete: %s"
-msgstr ""
+msgstr "Temps pour finir: %s"
 
 #: src/construction.cpp
 msgid "You avoid collapsing the rock underneath you."
@@ -62489,12 +62745,12 @@ msgstr "Pas assez de lumière pour fabriquer!"
 #: src/crafting.cpp
 #, c-format
 msgid "You craft %s from memory."
-msgstr ""
+msgstr "Vous fabriquez %s de mémoire."
 
 #: src/crafting.cpp
 #, c-format
 msgid "You craft %s using a book as a reference."
-msgstr ""
+msgstr "Vous fabriquez %s avec un livre pour référence."
 
 #: src/crafting.cpp
 #, c-format
@@ -62537,7 +62793,7 @@ msgstr "Vous avez appris une recette en démontant l'objet!"
 #: src/crafting.cpp
 #, c-format
 msgid "You memorized the recipe for %s!"
-msgstr ""
+msgstr "Vous mémorisez la recette pour %s!"
 
 #: src/crafting.cpp
 msgid "You might be able to learn a recipe if you disassemble another."
@@ -65579,18 +65835,6 @@ msgstr "%s est pris dans l'onde de choc !"
 msgid "%s is overburdened. You can't transfer your %s"
 msgstr ""
 
-#. ~ first %s is the monster name ("the zombie") or a npc name.
-#: src/game.cpp
-#, c-format
-msgid "%s is slammed against the %s!"
-msgstr ""
-
-#. ~ first %s is the monster name ("the zombie") or a npc name.
-#: src/game.cpp
-#, c-format
-msgid "%s is slammed through the %s!"
-msgstr ""
-
 #: src/game.cpp
 #, c-format
 msgid "%s moves out of the way."
@@ -67159,6 +67403,16 @@ msgstr "Le %s étincelle et commence a chercher une cible !"
 #, c-format
 msgid "The %s tried to push you back but failed! It attacks you!"
 msgstr "Le %s a esayé de vous repousser mais n'a pas réussi. Il vous attaque!"
+
+#: src/game.cpp
+#, c-format
+msgid "The <npcname> is slammed against the %s!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "The <npcname> is slammed through the %s!"
+msgstr ""
 
 #: src/game.cpp
 msgid "The EMP blast drains your power."
@@ -70145,11 +70399,11 @@ msgstr[1] ""
 
 #: src/iexamine.cpp
 msgid "Do what with the curtains?"
-msgstr ""
+msgstr "Que faire avec les rideaux ?"
 
 #: src/iexamine.cpp
 msgid "Do what with the door?"
-msgstr ""
+msgstr "Que faire avec la porte ?"
 
 #: src/iexamine.cpp
 msgid "Failure! No gas pumps found!"
@@ -70338,7 +70592,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Open door."
-msgstr ""
+msgstr "Ouvrir la porte."
 
 #: src/iexamine.cpp
 msgid "Out of order."
@@ -70350,11 +70604,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Peek through peephole."
-msgstr ""
+msgstr "Regarder à travers le judas."
 
 #: src/iexamine.cpp
 msgid "Peek through the curtains."
-msgstr ""
+msgstr "Regarder à travers les rideaux."
 
 #: src/iexamine.cpp
 #, c-format
@@ -70498,7 +70752,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Tear down the curtains."
-msgstr ""
+msgstr "Démonter les rideaux."
 
 #: src/iexamine.cpp
 #, c-format
@@ -70861,11 +71115,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You cannot look through the peephole from the outside."
-msgstr ""
+msgstr "Vous ne pouvez regarder à travers le judas de l'extérieur."
 
 #: src/iexamine.cpp
 msgid "You carefully peek through the curtains."
-msgstr ""
+msgstr "Vous regardez au travers des rideaux avec précaution."
 
 #: src/iexamine.cpp
 msgid "You cause a short circuit!"
@@ -71026,7 +71280,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You open the door."
-msgstr ""
+msgstr "Vous ouvrez la porte."
 
 #: src/iexamine.cpp
 msgid "You overwrite the previous message on the sign with your graffiti"
@@ -71034,7 +71288,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You peek through the peephole."
-msgstr ""
+msgstr "Vous regardez à travers le judas."
 
 #: src/iexamine.cpp
 msgid "You place a plank of wood over the pit."
@@ -71099,6 +71353,7 @@ msgstr ""
 #: src/iexamine.cpp
 msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr ""
+"Vous démontez les rideaux et la tringle accrochée au cadre de la fenêtre."
 
 #: src/iexamine.cpp
 msgid "You're illiterate, and can't read the screen."
@@ -71321,7 +71576,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid " (cold)"
-msgstr ""
+msgstr " (froid)"
 
 #: src/item.cpp
 msgid " (fits)"
@@ -71341,7 +71596,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid " (old)"
-msgstr ""
+msgstr " (ancien)"
 
 #: src/item.cpp
 msgid " (rechargeable)"
@@ -71652,7 +71907,7 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid "Has level %1$d %2$s quality."
-msgstr ""
+msgstr "Fournit un niveau %1$d en %2$s."
 
 #: src/item.cpp
 msgid "It can be understood by beginners."
@@ -72010,8 +72265,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
-msgid "This book has <num> unread chapters."
-msgid_plural "This book has <num> unread chapter."
+msgid "This book has <num> unread chapter."
+msgid_plural "This book has <num> unread chapters."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -72269,12 +72524,12 @@ msgstr "Vous ne pouvez pas fermer ce %s!"
 
 #: src/item.cpp
 msgid "You could use it to craft various other things."
-msgstr ""
+msgstr "Vous pourriez l'utiliser pour fabriquer diverses choses."
 
 #: src/item.cpp
 #, c-format
 msgid "You could use it to craft: %s"
-msgstr ""
+msgstr "Vous pourriez l'utiliser pour fabriquer: %s"
 
 #: src/item.cpp
 #, c-format
@@ -72283,7 +72538,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "You know dozens of things you could craft with it."
-msgstr ""
+msgstr "Vous connaissez des tas de choses à fabriquer avec."
 
 #: src/item.cpp
 msgid "You need a powered UPS."
@@ -75962,6 +76217,11 @@ msgid "You need to roar, bask, bite, and flap.  NOW."
 msgstr ""
 
 #: src/iuse.cpp
+#, c-format
+msgid "You need to unwield the %s before using it."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr ""
 
@@ -78576,6 +78836,10 @@ msgid "Your %s sank."
 msgstr "Votre %s a coulé."
 
 #: src/map.cpp
+msgid "an alarm go off!"
+msgstr ""
+
+#: src/map.cpp
 msgid "glass shattering"
 msgstr ""
 
@@ -81095,6 +81359,16 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "%s is pulled away from <npcname>'s hands!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "%s is pulled away from your hands!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "%s lunges at <npcname>, but they dodge!"
 msgstr ""
 
@@ -81753,6 +82027,16 @@ msgstr ""
 #, c-format
 msgid "The %s tries to land on you, but you dodge."
 msgstr "Le %s essaie de se poser sur vous mais vous l'esquivez."
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s unsuccessfully attempts to pull <npcname>'s weapon away."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s unsuccessfully attempts to pull your weapon away."
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -82931,22 +83215,22 @@ msgstr "Nom:"
 #: src/newcharacter.cpp
 msgctxt "set_profession_bionic"
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/newcharacter.cpp
 msgctxt "set_profession_item"
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/newcharacter.cpp
 msgctxt "set_profession_skill"
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/newcharacter.cpp
 msgctxt "set_profession_trait"
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/newcharacter.cpp
 msgid "None!"
@@ -82976,7 +83260,7 @@ msgstr "Choisissez votre sytle:"
 #: src/newcharacter.cpp
 #, c-format
 msgid "Points left: %2d"
-msgstr ""
+msgstr "Points restants: %2d"
 
 #: src/newcharacter.cpp
 #, c-format
@@ -82987,12 +83271,12 @@ msgstr "Points restants:%4d "
 #: src/newcharacter.cpp
 #, c-format
 msgid "Press %1$s to switch to %2$s(female)."
-msgstr ""
+msgstr "Presser %1$s pour passer à %2$s(femme)."
 
 #: src/newcharacter.cpp
 #, c-format
 msgid "Press %1$s to switch to %2$s(male)."
-msgstr ""
+msgstr "Presser %1$s pour passer à %2$s(homme)."
 
 #: src/newcharacter.cpp
 #, c-format
@@ -83037,20 +83321,20 @@ msgstr ""
 #, c-format
 msgid "Profession %1$s costs %2$d point"
 msgid_plural "Profession %1$s costs %2$d points"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "La profession %1$s coûte %2$d point"
+msgstr[1] "La profession %1$s coûte %2$d points"
 
 #. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
 msgid "Profession %1$s earns %2$d point"
 msgid_plural "Profession %1$s earns %2$d points"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "La profession %1$s rapporte %2$d point"
+msgstr[1] "La profession %1$s rapporte %2$d points"
 
 #: src/newcharacter.cpp
 msgid "Profession bionics:"
-msgstr ""
+msgstr "Bioniques de la profession:"
 
 #: src/newcharacter.cpp
 msgid "Profession items:"
@@ -83058,11 +83342,11 @@ msgstr "Objets de la profession:"
 
 #: src/newcharacter.cpp
 msgid "Profession skills:"
-msgstr ""
+msgstr "Compétences de la profession:"
 
 #: src/newcharacter.cpp
 msgid "Profession traits:"
-msgstr ""
+msgstr "Traits de la profession:"
 
 #: src/newcharacter.cpp
 msgid "Profession: "
@@ -83108,16 +83392,16 @@ msgstr "STATS"
 #, c-format
 msgid "Scenario %1$s costs %2$d point"
 msgid_plural "Scenario %1$s cost %2$d points"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Le scénario %1$s coûte %2$d point"
+msgstr[1] "Le scénario %1$s coûte %2$d points"
 
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
 msgid "Scenario %1$s earns %2$d point"
 msgid_plural "Scenario %1$s earns %2$d points"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Le scénario %1$s rapporte %2$d point"
+msgstr[1] "Le scénario %1$s rapporte %2$d points"
 
 #: src/newcharacter.cpp
 msgid "Scenario Location:"
@@ -83176,7 +83460,7 @@ msgid ""
 "makes actions which require brute force more effective."
 msgstr ""
 "La force vous rend également plus résistant à de nombreuses maladies et "
-"poisons et vous rend plus efficaces pour les actions nécessitant de la force "
+"poisons et vous rend plus efficace pour les actions nécessitant de la force "
 "brute."
 
 #: src/newcharacter.cpp src/player.cpp
@@ -83189,11 +83473,11 @@ msgstr "TRAITS"
 
 #: src/newcharacter.cpp
 msgid "The scenario you picked prevents you from removing this trait!"
-msgstr ""
+msgstr "Le scénario choisit vous empêche de retirer ce trait!"
 
 #: src/newcharacter.cpp
 msgid "The scenario you picked prevents you from taking this trait!"
-msgstr ""
+msgstr "Le scénario choisit vous empêche de prendre ce trait!"
 
 #: src/newcharacter.cpp src/player.cpp
 #, c-format
@@ -83680,11 +83964,6 @@ msgstr ""
 #: src/npc.cpp
 msgid "Wearing: "
 msgstr "Porte: "
-
-#: src/npc.cpp
-#, c-format
-msgid "Wielding %s"
-msgstr "Manie %s"
 
 #: src/npc.cpp
 #, c-format
@@ -89672,7 +89951,7 @@ msgstr "For %2d"
 msgid "Str %d"
 msgstr ""
 
-#: src/player.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "Strength"
 msgstr "Force"
 
@@ -90471,7 +90750,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "You feel that %s tasks of this level are becoming trivial."
-msgstr "Vous sentez que %s tâches à ce niveau deviennent sans difficulté."
+msgstr "Vous sentez que les tâches à ce niveau de %s deviennent faciles."
 
 #: src/player.cpp
 #, c-format
@@ -91887,8 +92166,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d tool with %s of %d or more."
 msgid_plural "%d tools with %s of %d or more."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d outil avec %s au niveau %d ou plus."
+msgstr[1] "%d outils avec %s au niveau %d ou plus."
 
 #. ~ <tool-name> (<numer-of-charges> charges)
 #: src/requirements.cpp
@@ -92611,9 +92890,27 @@ msgid "<s>iphon"
 msgstr "<s>iphoner"
 
 #: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "A"
+msgstr ""
+
+#: src/veh_interact.cpp
 #, c-format
 msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
 msgstr "Accélération: <color_ltblue>%3d</color> %s/t"
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "All"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Bat"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Battery"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Better not remove something while driving."
@@ -92628,13 +92925,36 @@ msgid "Boat:  <color_ltred>can't swim</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "C"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Cannot install any part here."
 msgstr "Impossible d'installer une pièce ici."
+
+#: src/veh_interact.cpp
+msgid "Cap"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Capacity"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Cargo"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
 msgid "Cargo Volume: <color_ltgray>%d/%d</color>"
 msgstr "Volume du cargo: <color_ltgray>%d/%d</color>"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Charge: <color_ltgray>%s</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Choose a facing direction for the new headlight."
@@ -92653,15 +92973,43 @@ msgid "Choose new part to install here:"
 msgstr "Choisissez une nouvelle pièce détachée à installer ici:"
 
 #: src/veh_interact.cpp
+msgid "Choose shape:"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Choose wheel to use as replacement:"
 msgstr "Choisissez une roue à utiliser en remplacement:"
+
+#: src/veh_interact.cpp
+msgid "Damage"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Diesel"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "Dmg"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Dur"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Durability"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "FWD ->"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "FoldVol"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Folded Volume"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92670,6 +93018,26 @@ msgstr "Consommation:     "
 
 #: src/veh_interact.cpp
 msgid "Gasoline"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "H"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Hull"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "I"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Internal"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92683,6 +93051,20 @@ msgid "K mass:       <color_ltblue>%3d</color>%%"
 msgstr "Friction:       <color_ltblue>%3d</color>%%"
 
 #: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "L"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Light"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Light"
+msgstr ""
+
+#: src/veh_interact.cpp
 #, c-format
 msgid "Mass: <color_ltblue>%5d</color> %s"
 msgstr "Masse: <color_ltblue>%5d</color> %s"
@@ -92694,6 +93076,14 @@ msgstr "Plus endommagé: "
 #: src/veh_interact.cpp
 msgid "Name: "
 msgstr "Nom: "
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_"
+"%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</"
+"color> skill in mechanics.%8$s"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
@@ -92726,7 +93116,30 @@ msgid "No parts here."
 msgstr "Il n'y a pas de pièce ici."
 
 #: src/veh_interact.cpp
+msgid "Noise"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "O"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Only one muscle powered engine can be installed."
+msgstr ""
+
+#: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Other"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Power: <color_ltgray>%d</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Range"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92751,12 +93164,20 @@ msgid ""
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "Size"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Status: "
 msgstr "Statut: "
 
 #: src/veh_interact.cpp
 msgid "Status:  "
 msgstr "Statut:  "
+
+#: src/veh_interact.cpp
+msgid "Str"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "The part is broken, or you don't have the proper fuel."
@@ -92800,11 +93221,33 @@ msgstr ""
 "un <color_%2$s>cric</color>."
 
 #: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "U"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Use which gizmo?"
 msgstr "Utiliser quel composant?"
 
 #: src/veh_interact.cpp
+msgctxt "Vehicle Parts|"
+msgid "Util"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Weight"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wgt"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "What to refill:"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheel Size"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92863,6 +93306,13 @@ msgstr "Vouz installez un %s dans le/la %s."
 #, c-format
 msgid ""
 "You need <color_%1$s>level %2$d</color> mechanics skill to remove this part."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"You need a <color_%1$s>hammer</color> and <color_%2$s>level %3$d</color> "
+"mechanics skill to remove this part."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92935,6 +93385,10 @@ msgid "battered"
 msgstr "abîmé"
 
 #: src/veh_interact.cpp
+msgid "boardable"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "destroyed"
 msgstr "détruite"
 
@@ -92949,6 +93403,14 @@ msgstr ""
 #: src/veh_interact.cpp
 msgid "like new"
 msgstr "comme neuf"
+
+#: src/veh_interact.cpp
+msgid "opaque"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "openable"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "r<e>name"

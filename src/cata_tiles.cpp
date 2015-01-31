@@ -7,6 +7,7 @@
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
+#include "sounds.h"
 
 #include <algorithm>
 #include <fstream>
@@ -594,8 +595,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
-             g->u.posy + g->u.view_offset_y != g->ter_view_y) {
+    else if (g->u.posx() + g->u.view_offset_x != g->ter_view_x ||
+             g->u.posy() + g->u.view_offset_y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
@@ -1429,10 +1430,8 @@ void cata_tiles::draw_zones_frame()
 void cata_tiles::draw_footsteps_frame()
 {
     static const std::string footstep_tilestring = "footstep";
-    std::vector<point> markers;
-    g->calculate_footstep_markers(markers);
-    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
-        draw_from_id_string(footstep_tilestring, a->x, a->y, 0, 0);
+    for( const auto &sound : sounds::sound_markers ) {
+        draw_from_id_string(footstep_tilestring, sound.first.x, sound.first.y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
@@ -1456,7 +1455,7 @@ void cata_tiles::init_light()
 LIGHTING cata_tiles::light_at(int x, int y)
 {
     /** Logic */
-    const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
+    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = DAYLIGHT_LEVEL;

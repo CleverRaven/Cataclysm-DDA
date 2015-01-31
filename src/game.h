@@ -160,29 +160,6 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1,
                        int x = INT_MIN, int y = INT_MIN);
         bool event_queued(event_type type);
-        /**
-         * Sound at (x, y) of intensity (vol)
-         * @param x x-position of sound.
-         * @param y y-position of sound.
-         * @param vol Volume of sound.
-         * @param description Description of the sound for the player,
-         * if non-empty string a message is generated.
-         * @param ambient If false, the sound interrupts player activities.
-         * If true, activities continue.
-         * @returns true if the player could hear the sound.
-         */
-        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
-        /** Functions identical to sound(..., true). */
-        bool ambient_sound(int x, int y, int vol, std::string description);
-        /** Creates a list of coordinates at which to draw footsteps. */
-        void add_footstep(int x, int y, int volume, int distance, monster *source);
-        std::vector<std::vector<point> > footsteps;
-        std::vector<point> footsteps_source;
-        /** Calculates where footstep marker should appear and puts those points into the result.
-         *  It also clears @ref footsteps_source and @ref footsteps. */
-        void calculate_footstep_markers(std::vector<point> &result);
-        /** Draws visual footstep cues to monsters moving out of the players sight. */
-        void draw_footsteps();
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
         /** Triggers a flashbang explosion at (x, y). */
@@ -308,8 +285,6 @@ class game
         void teleport(player *p = NULL, bool add_teleglow = true);
         /** Handles swimming by the player. Called by plmove(). */
         void plswim(int x, int y);
-        /** Handles fishing with a fishing rod. */
-        void rod_fish(int sSkillLevel, int fishChance);
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0);
         /** Returns the list of currently fishable monsters within distance of the player. */
@@ -332,7 +307,10 @@ class game
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
-        void update_map(int &x, int &y);  // Called by plmove when the map updates
+        // Handles shifting coordinates transparently when moving between submaps.
+        // Helper to make calling with a player pointer less verbose.
+        void update_map(player *p);
+        void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
         // Position of the player in overmap terrain coordinates, relative
         // to the current overmap (@ref cur_om).
@@ -621,7 +599,6 @@ class game
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
-        void advanced_inv();
 
         // Establish a grab on something.
         void grab();
@@ -637,8 +614,6 @@ class game
                                 int freed_volume_capacity) const;
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
-        void complete_butcher(int index); // Finish the butchering process
-        void forage(); // Foraging ('a' on underbrush)
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
@@ -787,27 +762,7 @@ class game
         std::vector<point> destination_preview;
 
         Creature *is_hostile_within(int distance);
-        void activity_on_turn();
-        void activity_on_turn_game();
-        void activity_on_turn_drop();
-        void activity_on_turn_stash();
-        void activity_on_turn_pickup();
-        void activity_on_turn_move_items();
-        void activity_on_turn_vibe();
-        void activity_on_turn_fill_liquid();
-        void activity_on_turn_refill_vehicle();
-        void activity_on_turn_pulp();
-        void activity_on_turn_start_fire_lens();
-        void activity_on_finish();
-        void activity_on_finish_reload();
-        void activity_on_finish_train();
-        void activity_on_finish_firstaid();
-        void activity_on_finish_fish();
-        void activity_on_finish_vehicle();
-        void activity_on_finish_make_zlave();
-        void activity_on_finish_start_fire();
-        void activity_on_finish_hotwire();
-        void longsalvage(); // Salvage everything activity
+
         void move_save_to_graveyard();
         bool save_player_data();
 };

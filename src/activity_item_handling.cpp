@@ -14,7 +14,7 @@ bool game::make_drop_activity( enum activity_type act, point target )
         return false;
     }
     u.assign_activity( act, 0 );
-    u.activity.placement = point( target.x - u.xpos(), target.y - u.ypos() );
+    u.activity.placement = point( target.x - u.posx(), target.y - u.posy() );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -130,7 +130,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
     } else {
-        g->m.add_item_or_charges( pet->xpos(), pet->ypos(), *item_to_stash, 1);
+        g->m.add_item_or_charges( pet->posx(), pet->posy(), *item_to_stash, 1);
         if( too_big ) {
             g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
                                    item_to_stash->display_name().c_str());
@@ -171,8 +171,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
-    drop_target.x += g->u.xpos();
-    drop_target.y += g->u.ypos();
+    drop_target.x += g->u.posx();
+    drop_target.y += g->u.posy();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -246,17 +246,17 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
                         selected_worn_items, worn_item_quantities, ignoring_interruptions );
 }
 
-void game::activity_on_turn_drop()
+void activity_on_turn_drop()
 {
     activity_on_turn_drop_or_stash( ACT_DROP );
 }
 
-void game::activity_on_turn_stash()
+void activity_on_turn_stash()
 {
     activity_on_turn_drop_or_stash( ACT_STASH );
 }
 
-void game::activity_on_turn_pickup()
+void activity_on_turn_pickup()
 {
     // Pickup activity has source square, bool indicating source type,
     // indices of items on map, and quantities of same.
@@ -268,7 +268,7 @@ void game::activity_on_turn_pickup()
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
+        g->m.i_at(pickup_target.x + g->u.posx(), pickup_target.y + g->u.posy()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -283,14 +283,14 @@ void game::activity_on_turn_pickup()
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
-        u.assign_activity( ACT_PICKUP, 0 );
-        u.activity.placement = pickup_target;
-        u.activity.auto_resume = autopickup;
-        u.activity.values.push_back( from_vehicle );
+        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.activity.placement = pickup_target;
+        g->u.activity.auto_resume = autopickup;
+        g->u.activity.values.push_back( from_vehicle );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }
@@ -301,10 +301,10 @@ void game::activity_on_turn_pickup()
 static void move_items( point source, point destination,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    source.x += g->u.xpos();
-    source.y += g->u.ypos();
-    destination.x += g->u.xpos();
-    destination.y += g->u.ypos();
+    source.x += g->u.posx();
+    source.y += g->u.posy();
+    destination.x += g->u.posx();
+    destination.y += g->u.posy();
     int veh_root_part = -1;
     vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
     int cargo_part = -1;
@@ -385,33 +385,33 @@ static void move_items( point source, point destination,
     }
 }
 
-void game::activity_on_turn_move_items()
+void activity_on_turn_move_items()
 {
     // Move activity has source square, target square,
     // indices of items on map, and quantities of same.
-    point source = u.activity.placement;
-    point destination = point( u.activity.values[0], u.activity.values[1] );
+    point source = g->u.activity.placement;
+    point destination = point( g->u.activity.values[0], g->u.activity.values[1] );
     std::list<int> indices;
     std::list<int> quantities;
     // Note i = 2, skipping first few elements.
-    for( size_t i = 2; i < u.activity.values.size(); i += 2 ) {
-        indices.push_back( u.activity.values[i] );
-        quantities.push_back( u.activity.values[ i + 1 ] );
+    for( size_t i = 2; i < g->u.activity.values.size(); i += 2 ) {
+        indices.push_back( g->u.activity.values[i] );
+        quantities.push_back( g->u.activity.values[ i + 1 ] );
     }
     // Nuke the current activity, leaving the backlog alone.
-    u.activity = player_activity();
+    g->u.activity = player_activity();
 
     move_items( source, destination, indices, quantities );
 
     if( !indices.empty() ) {
-        u.assign_activity( ACT_MOVE_ITEMS, 0 );
-        u.activity.placement = source;
-        u.activity.values.push_back( destination.x );
-        u.activity.values.push_back( destination.y );
+        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.activity.placement = source;
+        g->u.activity.values.push_back( destination.x );
+        g->u.activity.values.push_back( destination.y );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }

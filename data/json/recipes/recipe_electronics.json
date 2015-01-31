@@ -1570,7 +1570,7 @@
   ],
   "components": [
     [ [ "frame", 1 ] ],
-    [ ["vac_sealer", 1] ],
+    [ ["vac_sealer", 1], ["makeshift_sealer", 1] ],
     [ [ "dehydrator", 1 ] ],
     [ [ "water_purifier", 1 ] ],
     [ [ "press", 1 ] ],
@@ -2238,6 +2238,49 @@
     [ [ "broken_eyebot", 2 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_sealer",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 2 ],
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 4 ] , [ "mag_electronics", 6 ] , [ "manual_electronics", 5 ]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ], "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [ 
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "superglue", 2 ]
+    ],
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "hose", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ]
   ]
 }
 ]

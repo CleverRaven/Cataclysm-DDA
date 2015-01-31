@@ -667,7 +667,8 @@
       [ "string_6", 1 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "plant_fibre", 20 ],
+      [ "withered", 1 ]
     ]
   ]
 },{

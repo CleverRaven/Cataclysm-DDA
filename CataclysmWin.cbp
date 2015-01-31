@@ -182,6 +182,8 @@
 		<Unit filename="src/action.h" />
 		<Unit filename="src/active_item_cache.cpp" />
 		<Unit filename="src/active_item_cache.h" />
+		<Unit filename="src/activity_handlers.cpp" />
+		<Unit filename="src/activity_handlers.h" />
 		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />
@@ -409,6 +411,8 @@
 		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
+		<Unit filename="src/sounds.cpp" />
+		<Unit filename="src/sounds.h" />
 		<Unit filename="src/speech.cpp" />
 		<Unit filename="src/speech.h" />
 		<Unit filename="src/start_location.cpp" />

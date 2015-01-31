@@ -108,7 +108,7 @@
                 { "item": "bed", "chance": 80,  "x": [13,14 ], "y": [20,21 ] },
                 { "item": "bedroom", "chance": 75, "x": [ 6, 21 ], "y": [ 13,20 ], "repeat": [ 1, 2 ] },
                 { "item": "livingroom", "chance": 80, "x": [ 1,12 ], "y": [ 2,6 ], "repeat": [ 1, 2 ] },
-                { "item": "homeguns", "chance": 90, "x":  12 , "y":  22  },
+                { "item": "homeguns", "chance": 90, "x":  12 , "y":  21  },
                 { "item": "dresser", "chance": 50, "x": [ 21,21 ], "y": [ 21,21 ] },
                 { "item": "kitchen", "chance": 80, "x": [ 6,7 ], "y": [ 5,6 ], "repeat": [ 1, 5 ] },
                 { "item": "cannedfood", "chance": 90, "x": [ 11,14 ], "y":  13 , "repeat": [ 1, 4 ]  },

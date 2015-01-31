@@ -9,6 +9,7 @@
 #include "uistate.h"
 #include "messages.h"
 #include "compatibility.h"
+#include "sounds.h"
 
 #include <sstream>
 #include <algorithm>
@@ -36,7 +37,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
                 const auto min = item_it->liquid_charges( 1 );
                 const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
                 spill.charges = rng( min, max );
-                m->add_item_or_charges( p->posx, p->posy, spill, 1 );
+                m->add_item_or_charges( p->posx(), p->posy(), spill, 1 );
                 item_it->charges -= spill.charges;
                 if( item_it->charges < 1 ) {
                     items.erase( item_it );
@@ -599,7 +600,7 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
         p->moves += climb * 10;
     }
     if( p->in_vehicle ) {
-        m->unboard_vehicle( p->posx, p->posy );
+        m->unboard_vehicle( p->posx(), p->posy() );
     }
     if( examx < SEEX * int( MAPSIZE / 2 ) || examy < SEEY * int( MAPSIZE / 2 ) ||
         examx >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examy >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
@@ -607,8 +608,8 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
             g->update_map( examx, examy );
         }
     }
-    p->posx = examx;
-    p->posy = examy;
+    p->setx( examx );
+    p->sety( examy );
 }
 
 void iexamine::bars(player *p, map *m, int examx, int examy)
@@ -630,8 +631,8 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
     }
     p->moves -= 200;
     add_msg(_("You slide right between the bars."));
-    p->posx = examx;
-    p->posy = examy;
+    p->setx( examx );
+    p->sety( examy );
 }
 
 void iexamine::portable_structure(player *p, map *m, int examx, int examy)
@@ -661,7 +662,7 @@ void iexamine::portable_structure(player *p, map *m, int examx, int examy)
 void iexamine::pit(player *p, map *m, int examx, int examy)
 {
     inventory map_inv;
-    map_inv.form_from_map(point(p->posx, p->posy), 1);
+    map_inv.form_from_map(point(p->posx(), p->posy()), 1);
 
     bool player_has = p->has_amount("2x4", 1);
     bool map_has = map_inv.has_amount("2x4", 1);
@@ -676,14 +677,14 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
         // if both have, then ask to use the one on the map
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
-                m->use_amount(point(p->posx, p->posy), 1, "2x4", 1, false);
+                m->use_amount(point(p->posx(), p->posy()), 1, "2x4", 1, false);
             } else {
                 p->use_amount("2x4", 1);
             }
         } else if (player_has && !map_has) { // only player has plank
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
-            m->use_amount(point(p->posx, p->posy), 1, "2x4", 1, false);
+            m->use_amount(point(p->posx(), p->posy()), 1, "2x4", 1, false);
         }
 
         if( m->ter(examx, examy) == t_pit ) {
@@ -706,7 +707,7 @@ void iexamine::pit_covered(player *p, map *m, int examx, int examy)
 
     item plank("2x4", calendar::turn);
     add_msg(_("You remove the plank."));
-    m->add_item_or_charges(p->posx, p->posy, plank);
+    m->add_item_or_charges(p->posx(), p->posy(), plank);
 
     if( m->ter(examx, examy) == t_pit_covered ) {
         m->ter_set(examx, examy, t_pit);
@@ -769,8 +770,8 @@ void iexamine::remove_fence_rope(player *p, map *m, int examx, int examy)
         return;
     }
     item rope("rope_6", calendar::turn);
-    m->add_item_or_charges(p->posx, p->posy, rope);
-    m->add_item_or_charges(p->posx, p->posy, rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
     m->ter_set(examx, examy, t_fence_post);
     p->moves -= 200;
 
@@ -784,8 +785,8 @@ void iexamine::remove_fence_wire(player *p, map *m, int examx, int examy)
     }
 
     item rope("wire", calendar::turn);
-    m->add_item_or_charges(p->posx, p->posy, rope);
-    m->add_item_or_charges(p->posx, p->posy, rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
     m->ter_set(examx, examy, t_fence_post);
     p->moves -= 200;
 }
@@ -798,8 +799,8 @@ void iexamine::remove_fence_barbed(player *p, map *m, int examx, int examy)
     }
 
     item rope("wire_barbed", calendar::turn);
-    m->add_item_or_charges(p->posx, p->posy, rope);
-    m->add_item_or_charges(p->posx, p->posy, rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->posx(), p->posy(), rope);
     m->ter_set(examx, examy, t_fence_post);
     p->moves -= 200;
 }
@@ -930,7 +931,7 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             }
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
-            g->sound(p->posx, p->posy, 60, _("An alarm sounds!"));
+            sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
             if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
             }
@@ -1002,7 +1003,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
      mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
+             rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
       if (tries < 10) {
           g->m.ter_set(monx, mony, t_rock_floor);
           wyrm.spawn(monx, mony);
@@ -1010,7 +1011,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
       }
    }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
-    g->sound(examx, examy, 80, (""));
+    sounds::sound(examx, examy, 80, (""));
     m->ter_set(examx, examy, t_rock_floor);
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
@@ -1036,7 +1037,7 @@ large semi-spherical indentation at the top."));
 }
 
 void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
-    if (m->is_outside(p->posx, p->posy)) {
+    if (m->is_outside(p->posx(), p->posy())) {
         p->add_msg_if_player( _("You cannot look through the peephole from the outside."));
         return;
     }
@@ -1520,6 +1521,17 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if( cur_kiln_type == f_kiln_empty ) {
+        next_kiln_type = f_kiln_full;
+    } else if( cur_kiln_type == f_kiln_metal_empty ) {
+        next_kiln_type = f_kiln_metal_full;
+    } else {
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     std::vector< std::string > kilnable{ "wood", "bone" };
     bool fuel_present = false;
     auto items = m->i_at( examx, examy );
@@ -1541,7 +1553,7 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
         return;
     }
 
-    SkillLevel &skill = p->skillLevel("carpentry");
+    SkillLevel &skill = p->skillLevel( "carpentry" );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1566,19 +1578,32 @@ void iexamine::kiln_empty(player *p, map *m, int examx, int examy)
 
     p->use_charges( "fire", 1 );
     g->m.i_clear( examx, examy );
-    m->furn_set(examx, examy, f_kiln_full);
+    m->furn_set( examx, examy, next_kiln_type );
     item result( "unfinished_charcoal", calendar::turn.get_turn() );
     result.charges = char_charges;
     m->add_item( examx, examy, result );
     add_msg( _("You fire the charcoal kiln.") );
+    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    p->practice( "carpentry", practice_amount );
 }
 
 void iexamine::kiln_full(player *, map *m, int examx, int examy)
 {
+    furn_id cur_kiln_type = m->furn( examx, examy );
+    furn_id next_kiln_type = f_null;
+    if ( cur_kiln_type == f_kiln_full ) {
+        next_kiln_type = f_kiln_empty;
+    } else if( cur_kiln_type == f_kiln_metal_full ) {
+        next_kiln_type = f_kiln_metal_empty;
+    } else {
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", m->get_furn( examx, examy ).c_str() );
+        return;
+    }
+
     auto items = m->i_at( examx, examy );
     if( items.empty() ) {
         add_msg( _("This kiln is empty...") );
-        m->furn_set(examx, examy, f_kiln_empty);
+        m->furn_set(examx, examy, next_kiln_type);
         return;
     }
     int last_bday = items[0].bday;
@@ -1610,7 +1635,7 @@ void iexamine::kiln_full(player *, map *m, int examx, int examy)
     item result( "charcoal", calendar::turn.get_turn() );
     result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
     m->add_item( examx, examy, result );
-    m->furn_set( examx, examy, f_kiln_empty);
+    m->furn_set( examx, examy, next_kiln_type);
 }
 
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
@@ -1970,10 +1995,10 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
         plantCount = 12;
     }
 
-    m->spawn_item( p->xpos(), p->ypos(), itemType, plantCount, 0, calendar::turn);
+    m->spawn_item( p->posx(), p->posy(), itemType, plantCount, 0, calendar::turn);
 
     if (seeds) {
-        m->spawn_item( p->xpos(), p->ypos(), "seed_" + itemType, 1,
+        m->spawn_item( p->posx(), p->posy(), "seed_" + itemType, 1,
                       rng(plantCount / 4, plantCount / 2), calendar::turn);
     }
 
@@ -2015,8 +2040,8 @@ void iexamine::tree_pine(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    m->spawn_item(p->xpos(), p->ypos(), "pine_bough", 2, 12 );
-    m->spawn_item( p->xpos(), p->ypos(), "pinecone", rng( 1, 4 ) );
+    m->spawn_item(p->posx(), p->posy(), "pine_bough", 2, 12 );
+    m->spawn_item( p->posx(), p->posy(), "pinecone", rng( 1, 4 ) );
     m->ter_set(examx, examy, t_tree_deadpine);
 }
 
@@ -2026,8 +2051,8 @@ void iexamine::tree_blackjack(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    m->spawn_item(p->xpos(), p->ypos(), "acorns", 2, 6 );
-    m->spawn_item( p->xpos(), p->ypos(), "tanbark", rng( 1, 2 ) );
+    m->spawn_item(p->posx(), p->posy(), "acorns", 2, 6 );
+    m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
     m->ter_set(examx, examy, t_tree);
 }
 
@@ -2055,7 +2080,7 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
             m->ter_set(examx, examy, t_marloss_tree);
         }
     } else if (p->has_trait("THRESH_MARLOSS")) {
-        m->spawn_item( p->xpos(), p->ypos(), "mycus_fruit" );
+        m->spawn_item( p->posx(), p->posy(), "mycus_fruit" );
         m->ter_set(examx, examy, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
     } else {
@@ -2149,7 +2174,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
 
-    g->sound(examx, examy, 80, _("Ka-klunk!"));
+    sounds::sound(examx, examy, 80, _("Ka-klunk!"));
 
     int lump_weight = item( "steel_lump", 0 ).weight();
     int sheet_weight = item( "sheet_metal", 0 ).weight();
@@ -2205,19 +2230,19 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
     }
 
     for (int i = 0; i < num_lumps; i++) {
-        m->spawn_item(p->posx, p->posy, "steel_lump");
+        m->spawn_item(p->posx(), p->posy(), "steel_lump");
     }
 
     for (int i = 0; i < num_sheets; i++) {
-        m->spawn_item(p->posx, p->posy, "sheet_metal");
+        m->spawn_item(p->posx(), p->posy(), "sheet_metal");
     }
 
     for (int i = 0; i < num_chunks; i++) {
-        m->spawn_item(p->posx, p->posy, "steel_chunk");
+        m->spawn_item(p->posx(), p->posy(), "steel_chunk");
     }
 
     for (int i = 0; i < num_scraps; i++) {
-        m->spawn_item(p->posx, p->posy, "scrap");
+        m->spawn_item(p->posx(), p->posy(), "scrap");
     }
 }
 
@@ -2378,7 +2403,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
 
 void iexamine::curtains(player *p, map *m, const int examx, const int examy)
 {
-    if (m->is_outside(p->posx, p->posy)) {
+    if (m->is_outside(p->posx(), p->posy())) {
         p->add_msg_if_player( _("You cannot get to the curtains from the outside."));
         return;
     }
@@ -2394,10 +2419,10 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy)
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!
         m->ter_set( examx, examy, "t_window" );
-        m->spawn_item( p->xpos(), p->ypos(), "nail", 1, 4 );
-        m->spawn_item( p->xpos(), p->ypos(), "sheet", 2 );
-        m->spawn_item( p->xpos(), p->ypos(), "stick" );
-        m->spawn_item( p->xpos(), p->ypos(), "string_36" );
+        m->spawn_item( p->posx(), p->posy(), "nail", 1, 4 );
+        m->spawn_item( p->posx(), p->posy(), "sheet", 2 );
+        m->spawn_item( p->posx(), p->posy(), "stick" );
+        m->spawn_item( p->posx(), p->posy(), "string_36" );
         p->moves -= 200;
         p->add_msg_if_player( _("You tear the curtains and curtain rod off the windowframe.") );
     } else {
@@ -2825,7 +2850,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
 
-        g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+        sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
 
         cashcard->charges -= amount * pricePerUnit;
 
@@ -2868,7 +2893,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 }
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                g->sound(p->posx, p->posy, 60, _("An alarm sounds!"));
+                sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
                 if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
                 }
@@ -2878,7 +2903,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hack the terminal and route all available fuel to your pump!"));
-                    g->sound(p->posx, p->posy, 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
+                    sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
                 } else {
                     add_msg(_("Nothing happens."));
                 }
@@ -2907,7 +2932,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
         long amount = fromPumpFuel(m, pTank, pGasPump);
         if (amount >= 0) {
-            g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+            sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
             cashcard->charges += amount * pricePerUnit;
             add_msg(m_info, ngettext("Your cash card now holds %d cent.",
                                      "Your cash card now holds %d cents.",

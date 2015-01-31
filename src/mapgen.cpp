@@ -55,7 +55,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
-    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+    for( size_t i = 0; i < grid.size(); i++ ) {
         setsubmap( i, new submap() );
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
@@ -3791,7 +3791,7 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(17, 15, body);
                         add_item(8, 3, body);
                         add_item(10, 3, body);
-                        spawn_item(18, 15, "ax");
+                        spawn_item(18, 15, "fire_ax");
                         lw = 0; // no wall on the left
                     }
                     else { //analyzer
@@ -11161,8 +11161,8 @@ int map::place_npc(int x, int y, std::string type)
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->posx = x;
-    temp->posy = y;
+    temp->setx( x );
+    temp->sety( y );
     g->load_npcs();
     return temp->getID();
 }
@@ -11465,8 +11465,8 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                i->posx += (new_x-old_x);
-                i->posy += (new_y-old_y);
+                i->setx( i->posx() + new_x - old_x );
+                i->sety( i->posy() + new_y - old_y );
             }
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
@@ -11524,7 +11524,7 @@ void map::rotate(int turns)
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
             const auto from = get_submap_at_grid( sx, sy );
-            int gridto = 0;
+            size_t gridto = 0;
             switch(turns) {
             case 0:
                 gridto = get_nonant( sx, sy );
@@ -11570,7 +11570,7 @@ void map::rotate(int turns)
     }
 
     // change vehicles' directions
-    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+    for( size_t i = 0; i < grid.size(); i++ ) {
         for (auto &v : vehrot[i]) {
             vehicle *veh = v;
             // turn the steering wheel, vehicle::turn does not actually

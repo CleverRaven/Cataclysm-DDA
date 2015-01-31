@@ -319,7 +319,12 @@
       ["radio_car_box", 2],
       ["radiocontrol", 5],
       ["magnifying_glass", 2],
-      ["straw_hat", 5]
+      ["straw_hat", 5],
+      ["kufi", 1],
+      ["kippah", 1],
+      ["robe", 3],
+      ["thawb", 1],
+      ["kimono", 1]
     ]
   },{
     "type" : "item_group",
@@ -1000,6 +1005,7 @@
       ["compbow", 1],
       ["bow_sight", 5],
       ["bow_stabilizer", 5],
+      ["arrowrest", 5],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -1162,7 +1168,13 @@
       ["fedora", 10],
       ["straw_hat", 5],
       ["straw_fedora", 5],
-      ["holy_symbol", 20]
+      ["holy_symbol", 20],
+      ["kufi", 5],
+      ["kippah", 5],
+      ["robe", 10],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 5]
     ]
   },{
     "type" : "item_group",
@@ -2157,6 +2169,7 @@
       ["compbow", 1],
       ["bow_sight", 10],
       ["bow_stabilizer", 10],
+      ["arrowrest", 10],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -2337,6 +2350,7 @@
       ["compbow", 1],
       ["bow_sight", 5],
       ["bow_stabilizer", 5],
+      ["arrowrest", 5],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -3299,8 +3313,16 @@
       ["ear_spool", 30],
       ["fedora", 5],
       ["straw_hat", 5],
-      ["straw_fedora", 5]
-      
+      ["straw_fedora", 5],
+      ["kufi", 2],
+      ["kippah", 2],
+      ["thawb", 1],
+      ["kittel", 1],
+      ["cassock", 1],
+      ["robe", 5],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",
@@ -4576,7 +4598,12 @@
       ["pocketwatch", 10],
       ["knitting_needles", 10],
       ["survnote", 1],
-      ["holy_symbol", 80]
+      ["holy_symbol", 80],
+      ["cassock", 40],
+      ["thawb", 10],
+      ["kufi", 10],
+      ["kittel", 10],
+      ["kippah", 10]
     ]
   },{
     "type":"item_group",
@@ -5058,7 +5085,15 @@
       ["shark_suit", 1],
       ["motorbike_armor", 2],
       ["motorbike_pants", 2],
-	  ["motorbike_boots", 2]
+	  ["motorbike_boots", 2],
+      ["kittel", 1],
+      ["kippah", 3],
+      ["thawb", 2],
+      ["kufi", 2],
+      ["cassock", 1],
+      ["eboshi", 1],
+      ["kariginu", 2],
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",

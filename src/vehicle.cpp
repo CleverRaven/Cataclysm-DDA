@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
+#include "sounds.h"
 
 #include <fstream>
 #include <sstream>
@@ -203,7 +204,7 @@ vehicle::~vehicle()
 bool vehicle::player_in_control (player *p)
 {
     int veh_part;
-    vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
+    vehicle *veh = g->m.veh_at( p->posx(), p->posy(), veh_part );
 
     if( veh != nullptr && veh == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle ) {
@@ -806,7 +807,7 @@ void vehicle::use_controls()
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        g->m.veh_at(g->u.posx(), g->u.posy(), vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
     } else if( remotely_controlled ) {
@@ -1226,7 +1227,7 @@ void vehicle::use_controls()
         for (size_t p = 0; p < parts.size(); p++) {
             if( part_flag( p, "CARGO" ) ) {
                 for( auto &elem : get_items(p) ) {
-                    g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
                 }
                 while( !get_items(p).empty() ) {
                     get_items(p).erase( get_items(p).begin() );
@@ -1258,7 +1259,7 @@ void vehicle::use_controls()
             bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
         }
 
-        g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
+        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
         g->m.destroy_vehicle(this);
 
         g->u.moves -= 500;
@@ -1361,11 +1362,11 @@ void vehicle::honk_horn()
         const auto horn_pos = global_pos() + parts[p].precalc[0];
         //Determine sound
         if( horn_type.bonus >= 40 ) {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
         } else {
-            g->sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
+            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
         }
     }
 
@@ -2666,7 +2667,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        vehicle *veh = g->m.veh_at(g->u.posx(), g->u.posy(), part_under_player);
         bool player_controlling = player_in_control(&(g->u));
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
@@ -2986,7 +2987,7 @@ void vehicle::noise_and_smoke( double load, double time )
            lvl++;
        }
     }
-    g->ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
+    sounds::ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *cnt)
@@ -3564,7 +3565,7 @@ void vehicle::alarm(){
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-            g->sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+            sounds::sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
             if (one_in(1000)) is_alarm_on = false;
         } else{
             is_alarm_on = false;
@@ -3824,7 +3825,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
-    bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
+    bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
@@ -4070,7 +4071,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             add_msg (m_warning, _("You hear a %s"), snd.c_str());
         }
-        g->sound(x, y, smashed? 80 : 50, "");
+        sounds::sound(x, y, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -4093,7 +4094,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (part_flag(part, "SHARP")) {
             g->m.adjust_field_strength(point(x, y), fd_blood, 1 );
         } else {
-            g->sound(x, y, 20, "");
+            sounds::sound(x, y, 20, "");
         }
     }
 
@@ -4210,7 +4211,7 @@ void vehicle::handle_trap (int x, int y, int part)
         }
     }
     if (noise > 0) {
-        g->sound(x, y, noise, snd);
+        sounds::sound(x, y, noise, snd);
     }
     if( part_damage && chance >= rng (1, 100) ) {
         // Hit the wheel directly since it ran right over the trap.
@@ -5252,8 +5253,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     tmp.skillLevel(gun.gun->skill_used).level(8);
     tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
-    tmp.posx = x;
-    tmp.posy = y;
+    tmp.setx( x );
+    tmp.sety( y );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
@@ -5286,8 +5287,8 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
             }
             return false;
         }
-        xtarg = auto_target->xpos();
-        ytarg = auto_target->ypos();
+        xtarg = auto_target->posx();
+        ytarg = auto_target->posy();
     } else {
         // Target set manually
         // Second value of 'target' is last position
@@ -5301,7 +5302,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
 
     // make a noise, if extra noise is to be made
     if (extra_sound != "") {
-        g->sound(x, y, 20, extra_sound);
+        sounds::sound(x, y, 20, extra_sound);
     }
     // notify player if player can see the shot
     if( g->u.sees(x, y) ) {
