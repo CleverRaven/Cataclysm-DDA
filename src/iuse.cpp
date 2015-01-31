@@ -7794,6 +7794,11 @@ int iuse::holster_gun(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
+int iuse::fire_grapple(player *p, item *it, bool, point)
+{
+    
+}
+
 int iuse::sheath_knife(player *p, item *it, bool, point)
 {
     // if sheath is empty, pull up menu asking what to sheathe
