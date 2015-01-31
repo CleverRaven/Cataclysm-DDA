@@ -3011,6 +3011,7 @@
       [ "onion", 2 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
+      [ "dry_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
   ]
@@ -3223,6 +3224,7 @@
       [ "acorns_cooked", 1 ]
     ],
     [
+      [ "dry_hflesh", 2 ],
       [ "human_flesh", 2 ]
     ]
   ]
@@ -3594,6 +3596,7 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      [ "dry_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
@@ -3718,6 +3721,7 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      [ "dry_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
@@ -3852,6 +3856,7 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      [ "dry_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
@@ -6114,6 +6119,7 @@
       [ "onion", 2 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
+      [ "dry_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
   ]
@@ -6218,6 +6224,7 @@
       [ "acorns_cooked", 1 ]
     ],
     [
+      [ "dry_hflesh", 2 ],
       [ "human_flesh", 2 ]
     ]
   ]
