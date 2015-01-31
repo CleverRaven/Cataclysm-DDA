@@ -205,9 +205,16 @@ void monster::plan(const mfactions &factions)
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
     const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
-    auto const &myfaction = factions.find( actual_faction )->second;
+    auto const &myfaction_iter = factions.find( actual_faction );
+    if( myfaction_iter == factions.end() ) {
+        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " << 
+            ( friendly == 0 ? faction->name : "player" ) << " which wasn't loaded in game::monmove";
+        swarms = false;
+        group_morale = false;
+    }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
+        auto const &myfaction = myfaction_iter->second;
         for( int i : myfaction ) {
             monster &mon = g->zombie( i );
             float rating = rate_target( mon, bresenham_slope, dist, electronic );
