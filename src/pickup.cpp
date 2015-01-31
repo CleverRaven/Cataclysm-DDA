@@ -243,7 +243,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         }
     }
 
-    // special case for set 'picked_up' variable
+    // special pickup case check
     if( newit.made_of(LIQUID) ) {
         got_water = true;
         goto done;
@@ -329,7 +329,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         goto done;
     }
 
-    // general case for set 'picked_up' variable
+    // general pickup case 
     {
         auto &entry = mapPickup[ newit.tname()];
         entry.second += newit.count_by_charges() ? newit.charges : 1;
