@@ -319,6 +319,22 @@ std::vector<point> sounds::get_footstep_markers()
     return footsteps;
 }
 
+std::pair<std::vector<point>, std::vector<point>> sounds::get_monster_sounds()
+{
+    auto sound_clusters = cluster_sounds( recent_sounds );
+    std::vector<point> sound_locations;
+    sound_locations.reserve( recent_sounds.size() );
+    for( const auto &sound : recent_sounds ) {
+        sound_locations.push_back( sound.first );
+    }
+    std::vector<point> cluster_centroids;
+    cluster_centroids.reserve( sound_clusters.size() );
+    for( const auto &sound : sound_clusters ) {
+        cluster_centroids.emplace_back( sound.x, sound.y );
+    }
+    return { sound_locations, cluster_centroids };
+}
+
 std::string sounds::sound_at( const point &location )
 {
     auto this_sound = sound_markers.find( location );

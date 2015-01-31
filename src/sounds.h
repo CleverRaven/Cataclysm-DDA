@@ -38,9 +38,10 @@ namespace sounds {
     // process_sound_markers applies sound events to the player and records them for display.
     void process_sound_markers( player *p );
 
-    /** Calculates where footstep marker should appear and puts those points into the result.
-     * This is used by both curses and tile rendering code. */
+    // Return list of points that have sound events the player can hear.
     std::vector<point> get_footstep_markers();
+    // Return list of all sounds and the list of sound cluster centroids.
+    std::pair<std::vector<point>, std::vector<point>> get_monster_sounds();
 
     // Draw sounds as heard by monsters, including clustering.
     void draw_monster_sounds( const point &offset, WINDOW *window );

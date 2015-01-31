@@ -4569,9 +4569,16 @@ void game::debug()
 
 #ifndef TILES
     case 23: {
-        const point offset{ POSX - u.posx() + u.view_offset_x, POSY - u.posy() + u.view_offset_y };
+        const point offset{ POSX - u.posx() + u.view_offset_x,
+                POSY - u.posy() + u.view_offset_y };
         draw_ter();
-        sounds::draw_monster_sounds( offset, w_terrain );
+        auto sounds_to_draw = sounds::get_monster_sounds();
+        for( const auto &sound : sounds_to_draw.first ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?');
+        }
+        for( const auto &sound : sounds_to_draw.second ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?');
+        }
         wrefresh(w_terrain);
         getch();
     }
