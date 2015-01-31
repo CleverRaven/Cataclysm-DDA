@@ -243,12 +243,19 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         }
     }
 
+    // special case for set 'picked_up' variable
     if( newit.made_of(LIQUID) ) {
         got_water = true;
-    } else if (!g->u.can_pickWeight(newit.weight(), false)) {
+        goto done;
+    }
+
+    if( !g->u.can_pickWeight(newit.weight(), false)) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
-    } else if (!g->u.can_pickVolume(newit.volume())) {
-        if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+        goto done;
+    }
+
+    if( !g->u.can_pickVolume( newit.volume())) {
+        if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
             int quivered = handle_quiver_insertion(newit, false, moves_taken, picked_up);
             if (newit.charges > 0) {
                 if(quivered > 0) {
@@ -266,28 +273,24 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         } else if( !autopickup ) {
             // Armor can be instantly worn
             if (newit.is_armor() &&
-                query_yn(_("Put on the %s?"),
-                         newit.display_name().c_str())) {
-                if (g->u.wear_item(&newit)) {
+                query_yn(_("Put on the %s?"), newit.display_name().c_str())) {
+                if( g->u.wear_item( &newit)) {
                     picked_up = true;
                 }
             } else if (g->u.is_armed()) {
                 if (!g->u.weapon.has_flag("NO_UNWIELD")) {
-                     if( !offered_swap ) {
+                    if( !offered_swap ) {
                         offered_swap = true;
-                        if ( g->u.weapon.type->id != newit.type->id &&
-                             query_yn(_("No space for %s; wield instead? (drops %s)"),
-                                      newit.display_name().c_str(),
-                                      g->u.weapon.display_name().c_str()) ) {
+                        if( g->u.weapon.type->id != newit.type->id &&
+                            query_yn(_("No space for %s; wield instead? (drops %s)"), newit.display_name().c_str(),
+                                     g->u.weapon.display_name().c_str()) ) {
                             picked_up = true;
-                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
-                                                      g->u.remove_weapon(), 1 );
+                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y, g->u.remove_weapon(), 1 );
                             g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
                             g->u.wield( &( g->u.i_add(newit) ) );
 
-                            if (newit.invlet) {
-                                add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                                    newit.display_name().c_str());
+                            if(newit.invlet) {
+                                add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
                             } else {
                                 add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
                             }
@@ -305,29 +308,36 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                                       "and you have decided to keep your hands free."),
                             newit.display_name().c_str());
                 } else {
-                    g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+                    g->u.inv.assign_empty_invlet(newit, true); // force getting an invlet.
                     g->u.wield(&(g->u.i_add(newit)));
                     picked_up = true;
 
                     if (newit.invlet) {
-                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                            newit.display_name().c_str());
+                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
                     } else {
                         add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
                     }
                 }
             } // end of if unarmed
         } // end of if !autopickup
-    } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
-        //add ammo to quiver
+        goto done;
+    }
+
+    if(newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+        // add ammo to quiver
         handle_quiver_insertion(newit, true, moves_taken, picked_up);
-    } else {
-        auto &entry = mapPickup[newit.tname()];
+        goto done;
+    }
+
+    // general case for set 'picked_up' variable
+    {
+        auto &entry = mapPickup[ newit.tname()];
         entry.second += newit.count_by_charges() ? newit.charges : 1;
         entry.first = g->u.i_add(newit);
         picked_up = true;
     }
 
+done:
     if(picked_up) {
         Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
                                            veh, cargo_part, moves_taken, index);
@@ -337,7 +347,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         if( !to_map ) {
             to_map = !veh->add_item( cargo_part, leftovers );
         }
-        if( to_map ){
+        if( to_map ) {
             g->m.add_item_or_charges( pickup_target.x, pickup_target.y, leftovers );
         }
     }
