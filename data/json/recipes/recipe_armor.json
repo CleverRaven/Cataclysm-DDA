@@ -2074,6 +2074,40 @@
   ]
 },{
   "type" : "recipe",
+  "result": "grappler",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "welder", 20 ],
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "airspeargun", 1 ],
+      [ "speargun", 1 ],
+      [ "crossbow", 1 ]
+    ],
+    [
+      [ "grapnel", 1 ]
+    ],
+    [
+      [ "scrap", 3 ],
+      ["steel_chunk", 4 ],
+    ]
+  ]
+},
+{
+  "type" : "recipe",
   "result": "gauntlets_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",

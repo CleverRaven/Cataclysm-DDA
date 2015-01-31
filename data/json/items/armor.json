@@ -12368,6 +12368,31 @@
         "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
         "coverage" : 75,
         "material_thickness" : 3
-    }
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "grappler",
+        "name" : "grappler",
+        "weight" : 300,
+        "volume" : 4,
+        "price" : 50000,
+        "symbol" : "[",
+        "color" : "ltgray",
+        "description" : "A modified arm-mounted launching system made to fire a grappling hook. Useful for pulling things long distances.",
+        "to_hit" : 2,
+        "storage" : 0,
+        "material" : ["steel", "plastic"],
+        "covers" : ["HANDS", "ARMS"],
+        "flags" : ["VARSIZE", "STURDY"],
+        "coverage" : 50,
+        "environmental_protection" : 0,
+        "cutting" : 0,
+        "bashing" : 2,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 2,
+        "material_thickness" : 2,
+        "use_action" : "FIRE_GRAPPLE"
+    },
 ]
 
