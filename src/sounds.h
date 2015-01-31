@@ -40,10 +40,8 @@ namespace sounds {
 
     /** Calculates where footstep marker should appear and puts those points into the result.
      * This is used by both curses and tile rendering code. */
-    void calculate_footstep_markers(std::vector<point> &result);
+    std::vector<point> get_footstep_markers();
 
-    /** Draws visual footstep cues to sound events occurring out of the players sight. */
-    void draw_footsteps( const point &offset, WINDOW *window );
     // Draw sounds as heard by monsters, including clustering.
     void draw_monster_sounds( const point &offset, WINDOW *window );
     // retrieve the sound event(s?) at a location.

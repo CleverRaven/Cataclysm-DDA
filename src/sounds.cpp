@@ -285,14 +285,6 @@ void sounds::process_sound_markers( player *p )
     sounds_since_last_turn.clear();
 }
 
-// draws footsteps that have been created by monsters moving about
-void sounds::draw_footsteps( const point &offset, WINDOW *window )
-{
-    for( const auto &sound : sound_markers ) {
-        mvwputch( window, offset.y + sound.first.y, offset.x + sound.first.x, c_yellow, '?' );
-    }
-}
-
 void sounds::reset_sounds()
 {
     recent_sounds.clear();
@@ -314,6 +306,17 @@ void sounds::draw_monster_sounds( const point &offset, WINDOW *window )
     for( const auto &sound : sound_clusters ) {
         mvwputch( window, offset.y + sound.y, offset.x + sound.x, c_red, '?');
     }
+}
+
+std::vector<point> sounds::get_footstep_markers()
+{
+    // Optimization, make this static and clear it in reset_markers?
+    std::vector<point> footsteps;
+    footsteps.reserve( sound_markers.size() );
+    for( const auto &mark : sound_markers ) {
+        footsteps.push_back( mark.first );
+    }
+    return footsteps;
 }
 
 std::string sounds::sound_at( const point &location )
