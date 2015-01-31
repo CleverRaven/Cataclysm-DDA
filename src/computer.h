@@ -92,6 +92,7 @@ class computer
         ~computer();
 
         computer &operator=(const computer &rhs);
+        computer(const computer&);
         // Initialization
         void set_security(int Security);
         void add_option(std::string opt_name, computer_action action, int Security);
@@ -116,7 +117,7 @@ class computer
 
         static computer fromJson(JsonObject &jo);
 
-    private:
+//    private:
         // Difficulty of simply logging in
         int security;
         // Things we can do

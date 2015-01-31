@@ -100,11 +100,26 @@ computer &computer::operator=(const computer &rhs)
     security = rhs.security;
     name = rhs.name;
     mission_id = rhs.mission_id;
-    options = rhs.options;
-    failures = rhs.failures;
+    options.resize(rhs.options.size());
+    failures.resize(rhs.failures.size());
+    std::copy(rhs.options.begin(), rhs.options.end(), options.begin());
+    std::copy(rhs.failures.begin(), rhs.failures.end(), failures.begin());
     w_terminal = NULL;
     w_border = NULL;
     return *this;
+}
+
+computer::computer(const computer& rhs)
+{
+    security = rhs.security;
+    name = rhs.name;
+    mission_id = rhs.mission_id;
+    options.resize(rhs.options.size());
+    failures.resize(rhs.failures.size());
+    std::copy(rhs.options.begin(), rhs.options.end(), options.begin());
+    std::copy(rhs.failures.begin(), rhs.failures.end(), failures.begin());
+    w_terminal = NULL;
+    w_border = NULL;
 }
 
 void computer::set_security(int Security)
@@ -1483,11 +1498,11 @@ computer computer::fromJson(JsonObject &jo)
     JsonArray option_array = jo.get_array("options");
     while(option_array.has_more()){
         JsonObject option_object = option_array.next_object();
-        std::string prompt = option_object.get_string("prompt", "Unknown");
+        std::string prompt = option_object.get_string("prompt", _("Unknown"));
         std::string action = option_object.get_string("action", "null");
         int option_security = option_object.get_int("security", 0);
 
-        c.add_option(prompt, COMPACT_TOLL, option_security);
+        c.add_option(prompt, string_to_action[action], option_security);
     }
 
     JsonArray failure_array = jo.get_array("failures");
@@ -1497,5 +1512,6 @@ computer computer::fromJson(JsonObject &jo)
 
         c.add_failure(string_to_failure[failure]);
     }
+
     return c;
 }

@@ -147,9 +147,12 @@ struct jmapgen_place_special {
 struct jmapgen_place_computer {
     int x;
     int y;
-    computer c;
-    jmapgen_place_computer(int ix, int iy, computer ic) :
-        x(ix), y(iy), c(ic) {}
+    std::string name;
+    int security;
+    std::vector<computer_option> opts;
+    std::vector<computer_failure> fails;
+    jmapgen_place_computer(int ix, int iy, std::string iname, int isecurity, std::vector<computer_option> iopts, std::vector<computer_failure> ifails) :
+        x(ix), y(iy), name(iname), security(isecurity), opts(iopts), fails(ifails) {}
     void apply( map * m );
 };
 
