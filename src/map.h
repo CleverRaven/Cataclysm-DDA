@@ -684,6 +684,7 @@ void add_corpse(int x, int y);
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, std::string name, const int security);
+ void add_computer(const int x, const int y, computer c);
  float light_transparency(const int x, const int y) const;
  void build_map_cache();
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center

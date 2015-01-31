@@ -606,6 +606,24 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
     }
 }
 
+void mapgen_function_json::setup_place_computer(JsonArray &parray )
+{
+    int x, y;
+    while(parray.has_more()){
+        JsonObject jo = parray.next_object();
+        if ( ! jo.has_int("x") || ! jo.has_int("y") ) {
+            parray.throw_error("  place_computer: syntax error. Must include location: { \"x\": int, \"y\": int }");
+        }
+        // it may be worthwhile to just store the loc in the computer class
+        // since were going to need it later.  may be able to just ignore it here
+        x = jo.get_int("x");
+        y = jo.get_int("y");
+
+        computer c = computer::fromJson(jo);
+        jmapgen_place_computer new_computer(x, y, c);
+        place_computers.push_back(new_computer);
+    }
+}
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
@@ -803,6 +821,15 @@ bool mapgen_function_json::setup() {
                 throw err;
             }
        }
+       if ( jo.has_array("place_computers") ) {
+            parray = jo.get_array("place_computers");
+            try {
+                setup_place_computer( parray );
+            } catch (std::string smerr) {
+                err = string_format("Bad JSON mapgen place_computers array, discarding:\n  %s\n", smerr.c_str() );
+                throw err;
+            }
+       }
 
 #ifdef LUA
        // silently ignore if unsupported in build
@@ -910,6 +937,11 @@ void jmapgen_place_special::apply( map * m ) {
     }
 }
 
+void jmapgen_place_computer::apply( map * m )
+{
+    m->add_computer(x, y, c);
+}
+
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
  * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
@@ -1011,6 +1043,9 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m, d );
     }
     for( auto &elem : place_specials ) {
+        elem.apply( m );
+    }
+    for( auto &elem : place_computers ) {
         elem.apply( m );
     }
     for( auto &elem : setmap_points ) {
@@ -11373,6 +11408,14 @@ computer *map::add_computer(int x, int y, std::string name, int security)
     submap *place_on_submap = get_submap_at(x, y, lx, ly);
     place_on_submap->comp[lx][ly] = computer(name, security);
     return &(place_on_submap->comp[lx][ly]);
+}
+
+void map::add_computer(const int x, const int y, computer c)
+{
+    ter_set(x, y, t_console); // TODO: Turn this off?
+    int lx, ly;
+    submap *place_on_submap = get_submap_at(x, y, lx, ly);
+    place_on_submap->comp[lx][ly] = c;
 }
 
 /**

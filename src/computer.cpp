@@ -1468,6 +1468,11 @@ void computer::clear_lab_notes()
 
 computer computer::fromJson(JsonObject &jo)
 {
+    // initialize the maps if they haven't been already, will probably move later
+    if (string_to_action.size() == 0){
+        initialize_computer_maps();
+    }
+
     std::string name = jo.get_string("name", DEFAULT_COMPUTER_NAME);
     int security = jo.get_int("security", 0);
 
@@ -1480,7 +1485,7 @@ computer computer::fromJson(JsonObject &jo)
         std::string action = option_object.get_string("action", "null");
         int option_security = option_object.get_int("security", 0);
 
-        c.add_option(prompt, string_to_action[action], option_security);
+        c.add_option(prompt, COMPACT_TOLL, option_security);
     }
 
     JsonArray failure_array = jo.get_array("failures");

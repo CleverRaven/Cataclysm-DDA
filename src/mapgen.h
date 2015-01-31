@@ -144,6 +144,15 @@ struct jmapgen_place_special {
 
 };
 
+struct jmapgen_place_computer {
+    int x;
+    int y;
+    computer c;
+    jmapgen_place_computer(int ix, int iy, computer ic) :
+        x(ix), y(iy), c(ic) {}
+    void apply( map * m );
+};
+
 struct jmapgen_spawn_item {
     jmapgen_int x;
     jmapgen_int y;
@@ -163,6 +172,7 @@ class mapgen_function_json : public virtual mapgen_function {
     bool check_inbounds( jmapgen_int & var );
     void setup_place_group(JsonArray &parray );
     void setup_place_special(JsonArray &parray );
+    void setup_place_computer(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     virtual bool setup();
     virtual void generate(map*, oter_id, mapgendata, int, float);
@@ -187,6 +197,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;
     std::vector<jmapgen_place_special> place_specials;
+    std::vector<jmapgen_place_computer> place_computers;
     std::string luascript;
 
     bool do_format;
