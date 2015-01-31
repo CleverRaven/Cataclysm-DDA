@@ -1399,11 +1399,6 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
 
 void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 {
-    if ((debug_mode == true) && query_yn(_("Debug plant to maturity?"))) {
-        //Dialog to set the seed's bday to zero which should autocomplete plant..
-        //This is useful when testing different crops for farming.. it is also cheating!
-        g->m.furn_set(examx, examy, "f_plant_harvest");
-    }
     if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
         if (m->i_at(examx, examy).empty()) {
             m->i_clear(examx, examy);

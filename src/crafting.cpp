@@ -1338,12 +1338,10 @@ std::vector<item> recipe::create_results(int batch, handedness handed) const
     if( !item::count_by_charges( result ) ) {
         for (int i = 0; i < batch; i++) {
             item newit = create_result(handed);
-            if (contained == true) {newit = newit.in_its_container();}
             items.push_back(newit);
         }
     } else {
         item newit = create_result(handed);
-        if (contained == true) {newit = newit.in_its_container();}
         newit.charges *= batch;
         items.push_back(newit);
     }
