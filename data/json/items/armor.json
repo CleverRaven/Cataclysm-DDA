@@ -12378,7 +12378,7 @@
         "price" : 50000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A modified pneumatic harpoon gun made to fire a grappling hook. Useful for pulling things long distances.",
+        "description" : "A modified arm-mounted launching system made to fire a grappling hook. Useful for pulling things long distances.",
         "to_hit" : 2,
         "storage" : 0,
         "material" : ["steel", "plastic"],
