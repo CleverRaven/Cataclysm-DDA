@@ -3,6 +3,13 @@
 #include "game.h"
 #include "enums.h"
 
+struct sound_event {
+    int volume;
+    std::string description;
+    bool ambient;
+    bool footstep;
+};
+
 struct centroid
 {
     // Values have to be floats to prevent rounding errors.
@@ -17,6 +24,8 @@ struct centroid
 static std::vector<std::pair<point, int>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::unordered_map<point, sound_event> sounds_since_last_turn;
+// The sound events currently displayed to the player.
+static std::unordered_map<point, sound_event> sound_markers;
 
 void sounds::ambient_sound(int x, int y, int vol, std::string description)
 {

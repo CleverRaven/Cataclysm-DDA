@@ -7,7 +7,6 @@
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
-#include "sounds.h"
 
 #include <algorithm>
 #include <fstream>
@@ -1430,7 +1429,7 @@ void cata_tiles::draw_zones_frame()
 void cata_tiles::draw_footsteps_frame()
 {
     static const std::string footstep_tilestring = "footstep";
-    for( const auto &sound : sounds::sound_markers ) {
+    for( const auto &sound : g->sound_markers ) {
         draw_from_id_string(footstep_tilestring, sound.first.x, sound.first.y, 0, 0);
     }
 }

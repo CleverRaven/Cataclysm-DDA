@@ -10,17 +10,7 @@
 class monster;
 class player;
 
-struct sound_event {
-    int volume;
-    std::string description;
-    bool ambient;
-    bool footstep;
-};
-
 namespace sounds {
-    // The sound events currently displayed to the player.
-    static std::unordered_map<point, sound_event> sound_markers;
-
     // Methods for recording sound events.
     /**
      * Sound at (x, y) of intensity (vol)
