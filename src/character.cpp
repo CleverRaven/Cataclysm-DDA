@@ -554,22 +554,6 @@ SkillLevel& Character::skillLevel(const Skill* _skill)
     return _skills[_skill];
 }
 
-const SkillLevel& Character::skillLevel(std::string ident) const
-{
-    return skillLevel( Skill::skill(ident) );
-}
-
-const SkillLevel& Character::skillLevel(const Skill* _skill) const
-{
-    const auto &iter = _skills.find( _skill );
-    if( iter != _skills.end() ) {
-        return iter->second;
-    }
-
-    debugmsg( "const Chracter::get_skill_level invoked on inexistent skill %s", _skill->name().c_str() );
-    return _skills.begin()->second;
-}
-
 SkillLevel Character::get_skill_level(const Skill* _skill) const
 {
     for( const auto &elem : _skills ) {

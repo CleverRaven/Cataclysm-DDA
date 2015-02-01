@@ -848,7 +848,7 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
     // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
     // max moves capped at moves_base
-    float moves_modifier = 1 / ( p->skillLevel("survival") * 0.33 + 0.33 );
+    float moves_modifier = 1 / ( p->get_skill_level("survival") * 0.33 + 0.33 );
     if( moves_modifier < 1 ) {
         moves_modifier = 1;
     }
@@ -879,7 +879,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, point pos ) con
         }
     } else {
         if( prep_firestarter_use(p, it, pos) ) {
-            float skillLevel = float(p->skillLevel("survival"));
+            float skillLevel = float(p->get_skill_level("survival"));
             // success chance is 100% but time spent is min 5 minutes at skill == 5 and
             // it increases for lower skill levels.
             // max time is 1 hour for 0 survival
