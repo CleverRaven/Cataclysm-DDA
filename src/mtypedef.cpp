@@ -1,6 +1,7 @@
 #include "mtype.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "mondeath.h"
 
 mtype::mtype ()
 {

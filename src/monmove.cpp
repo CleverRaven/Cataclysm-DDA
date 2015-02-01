@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "cursesdef.h"
 #include "sounds.h"
+#include "monattack.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions

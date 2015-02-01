@@ -8,13 +8,15 @@
 #include <vector>
 #include <set>
 #include <math.h>
-#include "mondeath.h"
-#include "monattack.h"
-#include "mondefense.h"
 #include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
+
+class Creature;
+class mdefense;
+class mdeath;
+class mattack;
 
 typedef std::string itype_id;
 
