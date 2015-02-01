@@ -79,9 +79,11 @@ item_action_map map_actions_to_items( player &p )
 
         for( const item_action_id &use : unmapped_actions ) {
             it_tool *tool = dynamic_cast<it_tool*>(i->type);
+            const use_function *ufunc = i->type->get_use( use );
             // Can't just test for charges_per_use > charges, because charges can be -1
-            if( !i->type->can_use( use ) ||
-                (tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges) ) {
+            if( ufunc == nullptr ||
+                ( ufunc->get_actor_ptr() != nullptr && !ufunc->get_actor_ptr()->can_use( &p, i, false, p.pos() ) ) ||
+                ( tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges ) ) {
                 continue;
             }
 

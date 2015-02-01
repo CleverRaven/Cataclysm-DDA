@@ -98,7 +98,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {
@@ -121,7 +124,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {
@@ -145,7 +151,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter"
+    }
   },
 
   {
@@ -169,7 +177,10 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
 
   {
@@ -194,7 +205,10 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
 
   {
@@ -7225,7 +7239,10 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {

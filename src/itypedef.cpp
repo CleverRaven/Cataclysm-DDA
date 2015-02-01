@@ -12,28 +12,33 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::can_use( std::string iuse_name ) const
+bool itype::can_use( const std::string &iuse_name ) const
+{
+    return get_use( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_use( const std::string &iuse_name ) const
 {
     if( !has_use() ) {
-        return false;
+        return nullptr;
     }
 
     const use_function *func = item_controller->get_iuse( iuse_name );
     if( func != nullptr ) {
         if( std::find( use_methods.cbegin(), use_methods.cend(),
                          *func ) != use_methods.cend() ) {
-            return true;
+            return func;
         }
     }
 
     for( const auto &method : use_methods ) {
         const auto ptr = method.get_actor_ptr();
         if( ptr != nullptr && ptr->type == iuse_name ) {
-            return true;
+            return &method;
         }
     }
 
-    return false;
+    return nullptr;
 }
 
 int itype::invoke( player *p, item *it, bool active, point pos )

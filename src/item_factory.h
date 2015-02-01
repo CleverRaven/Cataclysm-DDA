@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "iuse.h"
+#include "bodypart.h"
 #include <string>
 #include <memory>
 #include <vector>

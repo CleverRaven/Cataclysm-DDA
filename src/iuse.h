@@ -1,14 +1,15 @@
 #ifndef IUSE_H
 #define IUSE_H
 
-#include "monstergenerator.h"
 #include <map>
 #include <string>
 #include <vector>
+#include "enums.h"
 
 class item;
 class player;
 class JsonObject;
+class MonsterGenerator;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -75,9 +76,6 @@ public:
     int catfood             (player*, item*, bool, point);
 
 // TOOLS
-    int firestarter         (player *, item *, bool, point);
-    int resolve_firestarter_use(player *p, item *, point);
-    int calculate_time_for_lens_fire (player *p, float light_level);
     int sew                 (player *, item *, bool, point);
     int extra_battery       (player *, item *, bool, point);
     int rechargeable_battery(player *, item *, bool, point);
@@ -256,6 +254,7 @@ public:
     std::string type;
     virtual ~iuse_actor() { }
     virtual long use(player*, item*, bool, point) const = 0;
+    virtual bool can_use( const player*, const item*, bool, const point& ) const { return true; }
     virtual iuse_actor *clone() const = 0;
 };
 

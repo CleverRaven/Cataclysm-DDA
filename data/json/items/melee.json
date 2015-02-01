@@ -376,7 +376,10 @@
         "bashing": -8,
         "cutting": 0,
         "to_hit": -3,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
   },
   {
         "type":"GENERIC",
@@ -1024,7 +1027,10 @@
         "bashing": 4,
         "cutting": 0,
         "to_hit": -1,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type":"GENERIC",

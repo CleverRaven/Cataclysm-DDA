@@ -5425,7 +5425,10 @@
         "flags" : ["WATER_FRIENDLY","LENS"],
         "coverage" : 75,
         "material_thickness" : 1,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type" : "ARMOR",
@@ -5630,7 +5633,10 @@
         "coverage" : 20,
         "material_thickness" : 1,
         "flags" : ["SUPER_FANCY","LENS"],
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type" : "ARMOR",

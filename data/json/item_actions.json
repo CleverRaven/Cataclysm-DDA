@@ -9,8 +9,8 @@
         "name" : "Use as knife"
     },{
         "type" : "item_action",
-        "id" : "FIRESTARTER",
-        "name" : "Start a fire"
+        "id" : "firestarter",
+        "name" : "Start a fire quickly"
     },{
         "type" : "item_action",
         "id" : "HAMMER",
@@ -75,5 +75,9 @@
         "type" : "item_action",
         "id" : "ANTICONVULSANT",
         "name" : "Take anticonvulsant"
+    },{
+        "type" : "item_action",
+        "id" : "extended_firestarter",
+        "name" : "Start a fire slowly"
     }
 ]
