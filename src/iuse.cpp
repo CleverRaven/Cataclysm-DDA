@@ -1342,7 +1342,7 @@ int iuse::poison(player *p, item *it, bool, point)
 int iuse::fun_hallu(player *p, item *it, bool, point)
 {
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
-   
+
    //Fake a normal food morale effect
     if (p->has_trait("SPIRITUAL")) {
         p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
@@ -2880,6 +2880,7 @@ int iuse::firestarter(player *p, item *it, bool t, point pos)
 
 int iuse::sew(player *p, item *it, bool, point)
 {
+
     if (it->charges == 0) {
         return 0;
     }
@@ -2892,21 +2893,26 @@ int iuse::sew(player *p, item *it, bool, point)
         add_msg(m_info, _("You can't see to sew!"));
         return 0;
     }
-    int thread_used = 1;
+    int choice = 3;
+    choice = menu(true, _("Using sewing item:"), _("Repair/fit clothing/armor"),
+                      _("Reinforce/modify clothing/armor"), _("Cancel"), NULL);
+        switch (choice) {
+        case 1:{
+            int thread_used = 1;
 
-    int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
-        return itm.made_of( "cotton" ) ||
-               itm.made_of( "leather" ) ||
-               itm.made_of( "fur" ) ||
-               itm.made_of( "nomex" ) ||
-               itm.made_of( "wool" );
-    } );
+                        int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+                        return itm.made_of( "cotton" ) ||
+                        itm.made_of( "leather" ) ||
+                        itm.made_of( "fur" ) ||
+                        itm.made_of( "nomex" ) ||
+                        itm.made_of( "wool" );
+                        } );
     item *fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
-    }
-    //some items are made from more than one material. we should try to use both items if one type of repair item is missing
+    };
+        //some items are made from more than one material. we should try to use both items if one type of repair item is missing
     itype_id repair_item = "none";
     std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
@@ -3032,9 +3038,7 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
             fix->item_tags.insert("FIT");
         } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-            fix->damage--;
-            p->consume_items(comps);
+            p->add_msg_if_player(m_neutral, _("Your %s is fully repaired."));
         } else {
             p->add_msg_if_player(m_neutral, _("You practice your sewing."));
         }
@@ -3044,7 +3048,22 @@ int iuse::sew(player *p, item *it, bool, point)
     }
 
     return thread_used;
+
+        }
+        case 2: {
+                return 0;
+
+            }
+        case 3: {
+                return 0;
+
+            }
+        }
 }
+
+
+
+
 
 int iuse::extra_battery(player *p, item *, bool, point)
 {
@@ -9774,7 +9793,7 @@ vehicle *pickveh( point center, bool advanced )
     pmenu.callback = &callback;
     pmenu.w_y = 0;
     pmenu.query();
-    
+
     if( pmenu.ret < 0 || pmenu.ret >= (int)vehs.size() ) {
         return nullptr;
     } else {
