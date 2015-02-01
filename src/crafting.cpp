@@ -46,14 +46,14 @@ recipe::~recipe()
 }
 
 recipe::recipe() :
-    id(0), result("null"), skill_used(NULL), reversible(false),
+    id(0), result("null"), contained(false),skill_used(NULL), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1),
     paired(false)
 {
 }
 
 recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-               std::string psubcat, std::string &to_use,
+               bool pcontained,std::string psubcat, std::string &to_use,
                std::map<std::string, int> &to_require,
                bool preversible, bool pautolearn, int plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
@@ -61,7 +61,7 @@ recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
                int pb_rsize) :
     ident(pident), id(pid), result(pres), time(ptime), difficulty(pdiff),
     byproducts(bps), cat(pcat),
-    subcat(psubcat), reversible(preversible), autolearn(pautolearn),
+    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn),
     learn_by_disassembly(plearn_dis), batch_rscale(pb_rscale),
     batch_rsize(pb_rsize), result_mult(pmult), paired(ppaired)
 {
@@ -171,6 +171,7 @@ void load_recipe(JsonObject &jsobj)
     int difficulty = jsobj.get_int( "difficulty" );
 
     // optional
+    bool contained = jsobj.get_bool("contained",false);
     std::string subcategory = jsobj.get_string("subcategory", "");
     bool reversible = jsobj.get_bool("reversible", false);
     std::string skill_used = jsobj.get_string("skill_used", "");
@@ -224,7 +225,7 @@ void load_recipe(JsonObject &jsobj)
     std::string rec_name = result + id_suffix;
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
-    recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
+    recipe *rec = new recipe(rec_name, id, result, category,contained, subcategory, skill_used,
                              requires_skills, reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps,
                              time, difficulty, batch_rscale, batch_rsize);
@@ -1317,6 +1318,7 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
 item recipe::create_result(handedness handed) const
 {
     item newit(result, calendar::turn, false, handed);
+    if (contained == true) {newit = newit.in_its_container();}
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }

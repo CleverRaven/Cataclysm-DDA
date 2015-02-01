@@ -52,26 +52,15 @@
 #include <vector>
 #include <locale>
 #include <cassert>
-
-//TODO replace these includes with filesystem.h
-#include <sys/stat.h>
-
-#ifdef _MSC_VER
-#   include "wdirent.h"
-#   include <direct.h>
-#else
-#   include <unistd.h>
-#   include <dirent.h>
-#endif
+#include <iterator>
+#include <ctime>
 
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
 #   include <tchar.h>
 #endif
 
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -2614,8 +2603,8 @@ vehicle *game::remoteveh()
     }
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str() == "" ||
-        ( !u.has_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
+    if( remote_veh_string.str().empty() ||
+        ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
         int vx, vy;
@@ -2634,7 +2623,12 @@ void game::setremoteveh(vehicle *veh)
 {
     remoteveh_cache_turn = calendar::turn;
     remoteveh_cache = veh;
-    if( veh == nullptr || ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "radiocontrol" ) ) ) {
+    if( veh != nullptr && !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) {
+        debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
+        veh = nullptr;
+    }
+
+    if( veh == nullptr ) {
         u.remove_value( "remote_controlling_vehicle" );
         return;
     }
@@ -4045,77 +4039,51 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-
-    //Open the file first
-    DIR *dir = opendir(FILENAMES["memorialdir"].c_str());
-    if (!dir) {
-#if (defined _WIN32 || defined __WIN32__)
-        mkdir(FILENAMES["memorialdir"].c_str());
-#else
-        mkdir(FILENAMES["memorialdir"].c_str(), 0777);
-#endif
-        dir = opendir(FILENAMES["memorialdir"].c_str());
-        if (!dir) {
-            dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-            debugmsg("Could not make '%s' directory", FILENAMES["memorialdir"].c_str());
-            return;
-        }
+    auto const &memorial_dir = FILENAMES["memorialdir"];
+    if (!assure_dir_exist(memorial_dir)) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
+        debugmsg("Could not make '%s' directory", memorial_dir.c_str());
+        return;
     }
 
-    //To ensure unique filenames and to sort files, append a timestamp
-    time_t rawtime;
-    time(&rawtime);
-    std::string timestamp = ctime(&rawtime);
+    // <name>-YYYY-MM-DD-HH-MM-SS.txt
+    //       123456789012345678901234 ~> 24 chars + a null
+    constexpr size_t suffix_len   = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
 
-    //Fun fact: ctime puts a \n at the end of the timestamp. Get rid of it.
-    size_t end = timestamp.find_last_of('\n');
-    timestamp = timestamp.substr(0, end);
+    size_t const name_len = u.name.size();    
+    // Here -1 leaves space for the ~
+    size_t const truncated_name_len = (name_len >= max_name_len) ? (max_name_len - 1) : name_len;
 
-    //Colons are not usable in paths, so get rid of them
-    for( auto &elem : timestamp ) {
-        if( elem == ':' ) {
-            elem = '-';
-        }
+    std::ostringstream memorial_file_path;    
+    memorial_file_path << memorial_dir;
+    
+    // Use the default locale to replace non-printable characters with _ in the player name.
+    std::locale locale {"C"};
+    std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
+        std::ostream_iterator<char>(memorial_file_path),
+        [&](char const c) { return !std::isgraph(c, locale); }, '_');
+
+    // Add a ~ if the player name was actually truncated.
+    memorial_file_path << ((truncated_name_len != name_len) ? "~-" : "-");
+
+    // Add a timestamp for uniqueness.
+    char buffer[suffix_len] {};
+    std::time_t t = std::time(nullptr);
+    std::strftime(buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime(&t));
+    memorial_file_path << buffer;
+
+    memorial_file_path << ".txt";
+
+    auto const path_string = memorial_file_path.str();
+    std::ofstream memorial_file {path_string};
+    if (!memorial_file) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << path_string;
+        debugmsg("Could not open memorial file '%s'", path_string.c_str());
+        return;
     }
-
-    // Use "C" locale to determine printable characters, and replace with '_'
-    // note that spaces will also be translated to '_' as well
-    std::locale locl("C");
-    std::string player_name;
-    for( auto character : u.name ) {
-        // Any printable, except space, as we want to convert those to '_'
-        if( std::isgraph( character, locl ) ) {
-            player_name.push_back( character );
-        } else {
-            player_name.push_back('_');
-        }
-        // Constant '5' takes into account '-' and '.txt'
-        unsigned int max_fn_len = (FILENAME_MAX - timestamp.length() - 5);
-        if( player_name.size() >= max_fn_len ) {
-            // Shorten string to appropriate length - 1, so can add '~'
-            player_name.resize(max_fn_len - 1);
-            // Add '~' if player's name is shortened
-            player_name.push_back('~');
-            break;
-        }
-    }
-
-    std::string memorial_file_path = FILENAMES["memorialdir"] +
-        player_name + "-" + timestamp + ".txt";
-
-    std::ofstream memorial_file;
-    memorial_file.open(memorial_file_path.c_str());
 
     u.memorial(memorial_file, sLastWords);
-
-    if (!memorial_file.is_open()) {
-        dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
-        debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
-    }
-
-    //Cleanup
-    memorial_file.close();
-    closedir(dir);
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -4569,9 +4537,16 @@ void game::debug()
 
 #ifndef TILES
     case 23: {
-        const point offset{ POSX - u.posx() + u.view_offset_x, POSY - u.posy() + u.view_offset_y };
+        const point offset{ POSX - u.posx() + u.view_offset_x,
+                POSY - u.posy() + u.view_offset_y };
         draw_ter();
-        sounds::draw_monster_sounds( offset, w_terrain );
+        auto sounds_to_draw = sounds::get_monster_sounds();
+        for( const auto &sound : sounds_to_draw.first ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?');
+        }
+        for( const auto &sound : sounds_to_draw.second ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?');
+        }
         wrefresh(w_terrain);
         getch();
     }
@@ -4879,14 +4854,22 @@ void game::list_missions()
     refresh_all();
 }
 
+// A little helper to draw footstep glyphs.
+static void draw_footsteps( WINDOW *window, point offset )
+{
+    for( const auto &footstep : sounds::get_footstep_markers() ) {
+        mvwputch( window, offset.y + footstep.y, offset.x + footstep.x, c_yellow, '?' );
+    }
+}
+
 void game::draw()
 {
     // Draw map
     werase(w_terrain);
     draw_ter();
     if( !is_draw_tiles_mode() ) {
-        sounds::draw_footsteps( { POSX - (u.posx() + u.view_offset_x),
-                    POSY - (u.posy() + u.view_offset_y) }, w_terrain );
+        draw_footsteps( w_terrain, { POSX - (u.posx() + u.view_offset_x),
+                    POSY - (u.posy() + u.view_offset_y) } );
         wrefresh(w_terrain);
     }
     draw_sidebar();
@@ -8606,7 +8589,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     }
 
     draw_ter(lx, ly);
-    sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
+    draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8785,7 +8768,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 draw_ter(lx, ly, true);
-                sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
+                draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");

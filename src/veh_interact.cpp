@@ -693,7 +693,7 @@ void veh_interact::do_install()
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
-                std::vector< vpart_info* > shapes = vpart_shapes[sel_vpart_info->name];
+                std::vector< vpart_info* > shapes = vpart_shapes[sel_vpart_info->name+sel_vpart_info->item];
                 int selected_shape = -1;
                 if ( shapes.size() > 1 ) { // more than one shape available, display selection
                     std::vector<uimenu_entry> shape_ui_entries;
@@ -1311,7 +1311,7 @@ void veh_interact::move_cursor (int dx, int dy)
     //Only build the shapes map once
     if (vpart_shapes.empty()) {
         for( auto &vpart_type : vehicle_part_types ) {
-                vpart_shapes[vpart_type.second.name].push_back(&vpart_type.second);
+                vpart_shapes[vpart_type.second.name+vpart_type.second.item].push_back(&vpart_type.second);
         }
     }
 
@@ -1321,7 +1321,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for( auto &vehicle_part_type : vehicle_part_types ) {
             if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
                 vpart_info *vpi = &vehicle_part_type.second;
-                if ( vpi->id != vpart_shapes[vpi->name][0]->id )
+                if ( vpi->id != vpart_shapes[vpi->name+vpi->item][0]->id )
                     continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, *vpi );

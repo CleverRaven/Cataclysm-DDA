@@ -3,6 +3,13 @@
 #include "game.h"
 #include "enums.h"
 
+struct sound_event {
+    int volume;
+    std::string description;
+    bool ambient;
+    bool footstep;
+};
+
 struct centroid
 {
     // Values have to be floats to prevent rounding errors.
@@ -17,6 +24,8 @@ struct centroid
 static std::vector<std::pair<point, int>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::unordered_map<point, sound_event> sounds_since_last_turn;
+// The sound events currently displayed to the player.
+static std::unordered_map<point, sound_event> sound_markers;
 
 void sounds::ambient_sound(int x, int y, int vol, std::string description)
 {
@@ -276,14 +285,6 @@ void sounds::process_sound_markers( player *p )
     sounds_since_last_turn.clear();
 }
 
-// draws footsteps that have been created by monsters moving about
-void sounds::draw_footsteps( const point &offset, WINDOW *window )
-{
-    for( const auto &sound : sound_markers ) {
-        mvwputch( window, offset.y + sound.first.y, offset.x + sound.first.x, c_yellow, '?' );
-    }
-}
-
 void sounds::reset_sounds()
 {
     recent_sounds.clear();
@@ -305,6 +306,33 @@ void sounds::draw_monster_sounds( const point &offset, WINDOW *window )
     for( const auto &sound : sound_clusters ) {
         mvwputch( window, offset.y + sound.y, offset.x + sound.x, c_red, '?');
     }
+}
+
+std::vector<point> sounds::get_footstep_markers()
+{
+    // Optimization, make this static and clear it in reset_markers?
+    std::vector<point> footsteps;
+    footsteps.reserve( sound_markers.size() );
+    for( const auto &mark : sound_markers ) {
+        footsteps.push_back( mark.first );
+    }
+    return footsteps;
+}
+
+std::pair<std::vector<point>, std::vector<point>> sounds::get_monster_sounds()
+{
+    auto sound_clusters = cluster_sounds( recent_sounds );
+    std::vector<point> sound_locations;
+    sound_locations.reserve( recent_sounds.size() );
+    for( const auto &sound : recent_sounds ) {
+        sound_locations.push_back( sound.first );
+    }
+    std::vector<point> cluster_centroids;
+    cluster_centroids.reserve( sound_clusters.size() );
+    for( const auto &sound : sound_clusters ) {
+        cluster_centroids.emplace_back( sound.x, sound.y );
+    }
+    return { sound_locations, cluster_centroids };
 }
 
 std::string sounds::sound_at( const point &location )

@@ -1430,8 +1430,8 @@ void cata_tiles::draw_zones_frame()
 void cata_tiles::draw_footsteps_frame()
 {
     static const std::string footstep_tilestring = "footstep";
-    for( const auto &sound : sounds::sound_markers ) {
-        draw_from_id_string(footstep_tilestring, sound.first.x, sound.first.y, 0, 0);
+    for( const auto &footstep : sounds::get_footstep_markers() ) {
+        draw_from_id_string(footstep_tilestring, footstep.x, footstep.y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */

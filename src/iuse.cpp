@@ -19,6 +19,7 @@
 #include "messages.h"
 #include "crafting.h"
 #include "sounds.h"
+#include "monattack.h"
 
 #include <vector>
 #include <sstream>
@@ -2756,7 +2757,8 @@ static bool prep_firestarter_use(player *p, item *it, point &pos)
         return false;
     }
     if( g->m.flammable_items_at(pos.x, pos.y) ||
-        g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ) {
+        g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
+        g->m.get_field_strength( pos, fd_web ) > 0 ) {
         return true;
     } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
@@ -8442,7 +8444,6 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
 
     }
     if( p->has_trait("ILLITERATE") ) {
-        // bio_remote makes interaction with wifi-enabled computers intuitive
         p->add_msg_if_player(_("You cannot read a computer screen."));
         return 0;
     }
@@ -9833,9 +9834,9 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
     }
 
     if( choice == 2 ) {
+        it->active = true;
         g->setremoteveh( veh );
         p->add_msg_if_player(m_good, _("You take control of the vehicle."));
-        it->active = true;
         if( !veh->engine_on ) {
             veh->start_engine();
         }

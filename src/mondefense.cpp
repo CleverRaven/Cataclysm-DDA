@@ -5,6 +5,7 @@
 #include "bodypart.h"
 #include "speech.h"
 #include "messages.h"
+#include "mondefense.h"
 #include <algorithm>
 
 

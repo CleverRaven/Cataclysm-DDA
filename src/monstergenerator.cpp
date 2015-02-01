@@ -7,6 +7,9 @@
 #include "catacharset.h"
 #include "item.h"
 #include "output.h"
+#include "monattack.h"
+#include "mondefense.h"
+#include "mondeath.h"
 #include <queue>
 
 MonsterGenerator::MonsterGenerator()

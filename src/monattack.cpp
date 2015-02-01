@@ -10,6 +10,8 @@
 #include "speech.h"
 #include "messages.h"
 #include "sounds.h"
+#include "monattack.h"
+#include "mondefense.h"
 
 #include <algorithm>
 

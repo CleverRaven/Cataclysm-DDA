@@ -48,6 +48,7 @@ struct recipe {
     requirement_data requirements;
     std::vector<byproduct> byproducts;
     std::string cat;
+    bool contained; // Does the item spawn contained?
     std::string subcat;
     const Skill* skill_used;
     std::map<const Skill*, int> required_skills;
@@ -73,7 +74,7 @@ struct recipe {
     ~recipe();
     recipe();
     recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-           std::string psubcat, std::string &to_use,
+           bool pcontained,std::string psubcat, std::string &to_use,
            std::map<std::string, int> &to_require,
            bool preversible, bool pautolearn, int plearn_dis,
            int pmult, bool ppaired, std::vector<byproduct> &bps,

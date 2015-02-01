@@ -6,6 +6,7 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
+#include "mondeath.h"
 
 #include <math.h>  // rounding
 #include <sstream>
