@@ -321,7 +321,7 @@ public:
             case USE_FUNCTION_CPP:
                 return f.cpp_function == cpp_function;
             case USE_FUNCTION_ACTOR_PTR:
-                return f.actor_ptr == actor_ptr;
+                return f.actor_ptr->type == actor_ptr->type;
             case USE_FUNCTION_LUA:
                 return f.lua_function == lua_function;
             default:

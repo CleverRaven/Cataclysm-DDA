@@ -857,6 +857,7 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
         if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
             add_msg( m_bad, "You have lost the item you were using as a lens." );
             p->cancel_activity();
+            return;
         }
 
         const auto *actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
