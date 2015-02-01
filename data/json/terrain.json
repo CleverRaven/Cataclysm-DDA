@@ -3217,6 +3217,7 @@
             "ter_set": "t_dirt",
             "items": [
                 { "item": "2x4", "amount": 4 },
+                { "item": "material_sand", "amount": 1200, "minamount": 800 },
                 { "item": "nail", "amount": 10, "minamount": 6 }
             ]
         },
@@ -3229,6 +3230,7 @@
             "items": [
                  { "item": "2x4", "amount": 3, "minamount": 0 },
                  { "item": "nail", "amount": 8, "minamount": 3 },
+                 { "item": "material_sand", "amount": 1200, "minamount": 800 },
                  { "item": "splinter", "amount": 3, "minamount": 1 }
             ]
         }
