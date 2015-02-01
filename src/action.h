@@ -81,6 +81,7 @@ enum action_id {
     ACTION_IGNORE_ENEMY,
     ACTION_SAVE,
     ACTION_QUICKSAVE,
+    ACTION_QUICKLOAD,
     ACTION_QUIT,
     // Info Screens
     ACTION_PL_INFO,

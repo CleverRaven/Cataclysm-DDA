@@ -235,6 +235,8 @@ std::string action_ident(action_id act)
         return "save";
     case ACTION_QUICKSAVE:
         return "quicksave";
+    case ACTION_QUICKLOAD:
+        return "quickload";
     case ACTION_QUIT:
         return "quit";
     case ACTION_PL_INFO:
@@ -596,6 +598,9 @@ action_id handle_action_menu()
                 REGISTER_ACTION(ACTION_QUICKSAVE);
             }
             REGISTER_ACTION(ACTION_SAVE);
+            if (hotkey_for_action(ACTION_QUICKLOAD) > -1) {
+                REGISTER_ACTION(ACTION_QUICKLOAD);
+            }
             if (hotkey_for_action(ACTION_QUIT) > -1) {
                 REGISTER_ACTION(ACTION_QUIT);
             }

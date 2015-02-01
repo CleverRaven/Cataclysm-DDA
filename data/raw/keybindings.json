@@ -1344,6 +1344,7 @@
     { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
     { "type":"keybinding", "name": "Item Action Menu", "category":"DEFAULTMODE", "id":"item_action_menu", "bindings":[ { "input_method":"keyboard", "key":"%" } ] },
     { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
+    { "type":"keybinding", "name": "Quickload", "category":"DEFAULTMODE", "id":"quickload" },
     { "type":"keybinding", "name": "Move View Northeast", "category":"DEFAULTMODE", "id":"shift_ne" },
     { "type":"keybinding", "name": "Move View Southeast", "category":"DEFAULTMODE", "id":"shift_se" },
     { "type":"keybinding", "name": "Move View Southwest", "category":"DEFAULTMODE", "id":"shift_sw" },
