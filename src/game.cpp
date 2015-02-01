@@ -4008,7 +4008,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
 #else
     // Delete files, order doesn't matter.
     for( auto &file_path : file_paths ) {
-        (void)unlink( file_path.c_str() );
+        (void)remove( file_path.c_str() );
     }
     // Delete directories -- directories are ordered deepest to shallowest.
     for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
