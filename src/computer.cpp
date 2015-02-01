@@ -100,10 +100,8 @@ computer &computer::operator=(const computer &rhs)
     security = rhs.security;
     name = rhs.name;
     mission_id = rhs.mission_id;
-    options.resize(rhs.options.size());
-    failures.resize(rhs.failures.size());
-    std::copy(rhs.options.begin(), rhs.options.end(), options.begin());
-    std::copy(rhs.failures.begin(), rhs.failures.end(), failures.begin());
+    options = rhs.options;
+    failures = rhs.failures;
     w_terminal = NULL;
     w_border = NULL;
     return *this;
@@ -114,10 +112,8 @@ computer::computer(const computer& rhs)
     security = rhs.security;
     name = rhs.name;
     mission_id = rhs.mission_id;
-    options.resize(rhs.options.size());
-    failures.resize(rhs.failures.size());
-    std::copy(rhs.options.begin(), rhs.options.end(), options.begin());
-    std::copy(rhs.failures.begin(), rhs.failures.end(), failures.begin());
+    options = rhs.options;
+    failures = rhs.failures;
     w_terminal = NULL;
     w_border = NULL;
 }

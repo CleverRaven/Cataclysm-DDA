@@ -166,8 +166,6 @@ class game
         void flashbang(int x, int y, bool player_immune = false);
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move(int z, bool force);
-        /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
-        void use_computer(int x, int y);
         /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
         bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
         /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
@@ -217,7 +215,7 @@ class game
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
         bool revive_corpse(int x, int y, item *it);
-        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done 
+        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
@@ -228,7 +226,7 @@ class game
          *  throw() and vehicle::aim_turrets() */
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                                   int hiy, std::vector <Creature *> t, int &target,
-                                  item *relevent, target_mode mode, 
+                                  item *relevent, target_mode mode,
                                   point from = point(-1, -1));
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();

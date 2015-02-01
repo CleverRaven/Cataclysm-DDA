@@ -608,14 +608,8 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
 
 void mapgen_function_json::setup_place_computer(JsonArray &parray )
 {
-    if (string_to_action.size() == 0){
-        initialize_computer_maps();
-    }
     int x, y;
     while(parray.has_more()){
-        std::vector<computer_option> opts;
-        std::vector<computer_failure> fails;
-
         JsonObject jo = parray.next_object();
         if ( ! jo.has_int("x") || ! jo.has_int("y") ) {
             parray.throw_error("  place_computer: syntax error. Must include location: { \"x\": int, \"y\": int }");
@@ -625,28 +619,8 @@ void mapgen_function_json::setup_place_computer(JsonArray &parray )
         x = jo.get_int("x");
         y = jo.get_int("y");
 
-        std::string name = jo.get_string("name", DEFAULT_COMPUTER_NAME);
-        int security = jo.get_int("security", 0);
-
-        JsonArray option_array = jo.get_array("options");
-        while(option_array.has_more()){
-            JsonObject option_object = option_array.next_object();
-            std::string prompt = option_object.get_string("prompt", _("Unknown"));
-            std::string action = option_object.get_string("action", "null");
-            int option_security = option_object.get_int("security", 0);
-
-            opts.push_back(computer_option(prompt, string_to_action[action], option_security));
-        }
-
-        JsonArray failure_array = jo.get_array("failures");
-        while(failure_array.has_more()){
-            JsonObject failure_object = failure_array.next_object();
-            std::string failure = failure_object.get_string("failure", "null");
-
-            fails.push_back((string_to_failure[failure]));
-        }
-
-        jmapgen_place_computer new_computer(x, y, name, security, opts, fails);
+        computer c = computer::fromJson(jo);
+        jmapgen_place_computer new_computer(x, y, c);
         place_computers.push_back(new_computer);
     }
 }
@@ -965,14 +939,7 @@ void jmapgen_place_special::apply( map * m ) {
 
 void jmapgen_place_computer::apply( map * m )
 {
-    computer* c = m->add_computer(x, y, name, security);
-    for(auto& opt : opts){
-        debugmsg("options: %s, %d, %d", opt.name.c_str(), opt.action, opt.security);
-        c->add_option(opt.name, opt.action, opt.security);
-    }
-    for(auto& fail : fails){
-        c->add_failure(fail);
-    }
+    m->add_computer(x, y, c);
 }
 
 /*
