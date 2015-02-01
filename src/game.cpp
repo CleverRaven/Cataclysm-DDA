@@ -4574,9 +4574,16 @@ void game::debug()
 
 #ifndef TILES
     case 23: {
-        const point offset{ POSX - u.posx() + u.view_offset_x, POSY - u.posy() + u.view_offset_y };
+        const point offset{ POSX - u.posx() + u.view_offset_x,
+                POSY - u.posy() + u.view_offset_y };
         draw_ter();
-        sounds::draw_monster_sounds( offset, w_terrain );
+        auto sounds_to_draw = sounds::get_monster_sounds();
+        for( const auto &sound : sounds_to_draw.first ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?');
+        }
+        for( const auto &sound : sounds_to_draw.second ) {
+            mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?');
+        }
         wrefresh(w_terrain);
         getch();
     }
@@ -4884,14 +4891,22 @@ void game::list_missions()
     refresh_all();
 }
 
+// A little helper to draw footstep glyphs.
+static void draw_footsteps( WINDOW *window, point offset )
+{
+    for( const auto &footstep : sounds::get_footstep_markers() ) {
+        mvwputch( window, offset.y + footstep.y, offset.x + footstep.x, c_yellow, '?' );
+    }
+}
+
 void game::draw()
 {
     // Draw map
     werase(w_terrain);
     draw_ter();
     if( !is_draw_tiles_mode() ) {
-        sounds::draw_footsteps( { POSX - (u.posx() + u.view_offset_x),
-                    POSY - (u.posy() + u.view_offset_y) }, w_terrain );
+        draw_footsteps( w_terrain, { POSX - (u.posx() + u.view_offset_x),
+                    POSY - (u.posy() + u.view_offset_y) } );
         wrefresh(w_terrain);
     }
     draw_sidebar();
@@ -8611,7 +8626,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     }
 
     draw_ter(lx, ly);
-    sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
+    draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8790,7 +8805,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 draw_ter(lx, ly, true);
-                sounds::draw_footsteps( {POSX - lx, POSY - ly}, w_terrain );
+                draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");

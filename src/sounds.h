@@ -10,17 +10,7 @@
 class monster;
 class player;
 
-struct sound_event {
-    int volume;
-    std::string description;
-    bool ambient;
-    bool footstep;
-};
-
 namespace sounds {
-    // The sound events currently displayed to the player.
-    static std::unordered_map<point, sound_event> sound_markers;
-
     // Methods for recording sound events.
     /**
      * Sound at (x, y) of intensity (vol)
@@ -48,12 +38,11 @@ namespace sounds {
     // process_sound_markers applies sound events to the player and records them for display.
     void process_sound_markers( player *p );
 
-    /** Calculates where footstep marker should appear and puts those points into the result.
-     * This is used by both curses and tile rendering code. */
-    void calculate_footstep_markers(std::vector<point> &result);
+    // Return list of points that have sound events the player can hear.
+    std::vector<point> get_footstep_markers();
+    // Return list of all sounds and the list of sound cluster centroids.
+    std::pair<std::vector<point>, std::vector<point>> get_monster_sounds();
 
-    /** Draws visual footstep cues to sound events occurring out of the players sight. */
-    void draw_footsteps( const point &offset, WINDOW *window );
     // Draw sounds as heard by monsters, including clustering.
     void draw_monster_sounds( const point &offset, WINDOW *window );
     // retrieve the sound event(s?) at a location.
