@@ -15,7 +15,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -33,7 +33,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -51,7 +51,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -69,7 +69,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -105,7 +105,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -123,7 +123,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
     },{
         "type" : "material",
@@ -159,7 +159,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -177,7 +177,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -195,7 +195,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
         },{
         "type" : "material",
@@ -213,7 +213,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
     },{
         "type" : "material",
@@ -270,7 +270,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 2,
-        "fire_resist" : 1,
+        "fire_resist" : 2,
         "density" : 6
     },{
         "type" : "material",
@@ -289,7 +289,7 @@
         ],
         "acid_resist" : 2,
         "elec_resist" : 2,
-        "fire_resist" : 1,
+        "fire_resist" : 3,
         "density" : 10
     },{
         "type" : "material",
@@ -326,7 +326,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 9
     },{
         "type" : "material",
@@ -362,7 +362,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 2,
-        "fire_resist" : 4,
+        "fire_resist" : 1,
         "density" : 7
     },{
         "type" : "material",
@@ -380,7 +380,7 @@
         ],
         "acid_resist" : 3,
         "elec_resist" : 2,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 17
     },{
         "type" : "material",
@@ -418,7 +418,7 @@
         ],
         "acid_resist" : 2,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -437,7 +437,7 @@
         ],
         "acid_resist" : 2,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 8
     },{
         "type" : "material",
@@ -455,7 +455,7 @@
         ],
         "acid_resist" : 3,
         "elec_resist" : 2,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 14
     },{
         "type" : "material",
@@ -473,7 +473,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 52
     },{
         "type" : "material",
@@ -491,7 +491,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 30
     },{
         "type" : "material",
@@ -509,7 +509,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 26
     },{
         "type" : "material",
@@ -527,7 +527,7 @@
         ],
         "acid_resist" : 3,
         "elec_resist" : 3,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 14
     },{
         "type" : "material",
@@ -545,7 +545,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 40
     },{
         "type" : "material",
@@ -563,7 +563,7 @@
         ],
         "acid_resist" : 2,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 70
     },{
         "type" : "material",
@@ -600,7 +600,7 @@
         ],
         "acid_resist" : 3,
         "elec_resist" : 0,
-        "fire_resist" : 1,
+        "fire_resist" : 3,
         "density" : 130
     },{
         "type" : "material",
@@ -618,7 +618,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 2,
         "density" : 10
     },{
         "type" : "material",
@@ -636,7 +636,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 3,
         "density" : 100
     },{
         "type" : "material",
@@ -654,7 +654,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 3
     },{
         "type" : "material",
@@ -672,7 +672,7 @@
         ],
         "acid_resist" : 2,
         "elec_resist" : 2,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 4
     },{
         "type" : "material",
