@@ -28,8 +28,8 @@ mtype::mtype ()
     hp = 0;
     def_chance = 0;
     dies.push_back(&mdeath::normal);
-    sp_attack.push_back(NULL);
-    sp_defense = NULL;
+    sp_attack.push_back(nullptr);
+    sp_defense = nullptr;
     luminance = 0;
     flags.insert(MF_HUMAN);
     flags.insert(MF_BONES);

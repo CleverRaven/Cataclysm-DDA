@@ -8,13 +8,6 @@
 #include <set>
 
 class Creature;
-class mdefense;
-class mdeath;
-class mattack;
-
-typedef void (mdeath::*MonDeathFunction)(monster *);
-typedef void (mattack::*MonAttackFunction)(monster *, int index);
-typedef void (mdefense::*MonDefenseFunction)(monster *, Creature *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 #define GetMFact(x) MonsterGenerator::generator().faction_by_name(x)
@@ -101,7 +94,7 @@ class MonsterGenerator
 
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
-        std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
+        std::vector<mon_action_death> get_death_functions(JsonObject &jo, std::string member);
         void load_special_defense(mtype *m, JsonObject &jo, std::string member);
         void load_special_attacks(mtype *m, JsonObject &jo, std::string member);
         template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags,
@@ -126,9 +119,9 @@ class MonsterGenerator
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, m_size> size_map;
-        std::map<std::string, MonDeathFunction> death_map;
-        std::map<std::string, MonAttackFunction> attack_map;
-        std::map<std::string, MonDefenseFunction> defense_map;
+        std::map<std::string, mon_action_death> death_map;
+        std::map<std::string, mon_action_attack> attack_map;
+        std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
         std::map<std::string, monfaction> faction_map;

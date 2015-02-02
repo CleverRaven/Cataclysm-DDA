@@ -243,7 +243,7 @@ std::string cOpt::getValue()
 
     } else if (sType == "float") {
         std::stringstream ssTemp;
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         const int precision = (fStep >= 0.09) ? 1 : (fStep >= 0.009) ? 2 : (fStep >= 0.0009) ? 3 : 4;
         ssTemp.precision(precision);
         ssTemp << std::fixed << fSet;
@@ -393,7 +393,7 @@ void cOpt::setValue(std::string sSetIn)
 
     } else if (sType == "float") {
         std::istringstream ssTemp(sSetIn);
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {

@@ -2618,7 +2618,7 @@ void mattack::rifle_tur(monster *z, int index)
         }
 
         z->reset_special(index);
-        this->rifle( z, target );
+        rifle( z, target );
     } else {
         // (This is a bit generous: 5.56 has 38 range.)
         // Not friendly; hence, firing at the player too
@@ -2635,7 +2635,7 @@ void mattack::rifle_tur(monster *z, int index)
         }
 
         z->reset_special(index);
-        this->rifle( z, target );
+        rifle( z, target );
     }
 }
 
@@ -3080,7 +3080,7 @@ void mattack::flamethrower(monster *z, int index)
             return;
         }
         z->reset_special( index );
-        this->flame( z, target );
+        flame( z, target );
         return;
     }
 
@@ -3090,7 +3090,7 @@ void mattack::flamethrower(monster *z, int index)
     }
     
     z->reset_special( index );
-    this->flame( z, &g->u );
+    flame( z, &g->u );
 }
 
 void mattack::flame( monster *z, Creature *target )
@@ -3171,7 +3171,7 @@ Please put down your weapon.\""));
     }
     // only taze uncuffed victims, erm, perpetrators
     if( !cuffed ) {
-        this->taze( z, &g->u );
+        taze( z, &g->u );
         return;
     }
     // If cuffed don't attack the player, unless the bot is damaged
@@ -3238,17 +3238,17 @@ void mattack::chickenbot(monster *z, int index)
     case 0:
     case 1:
         if( dist <= 1 ) {
-            this->taze( z, target );
+            taze( z, target );
         }
         break;
     case 2:
         if( dist <= 20 ) {
-            this->rifle( z, target );
+            rifle( z, target );
         }
         break;
     case 3:
         if( dist == 38 ) {
-            this->frag( z, target );
+            frag( z, target );
         }
         break;
     default:
@@ -3322,27 +3322,27 @@ void mattack::multi_robot(monster *z, int index)
     switch (mode) {
     case 1:
         if( dist <= 1 ) {
-            this->taze( z, target );
+            taze( z, target );
         }
         break;
     case 2:
         if( dist <= 5 ) {
-            this->flame( z, target );
+            flame( z, target );
         }
         break;
     case 3:
         if( dist <= 20 ) {
-            this->rifle( z, target );
+            rifle( z, target );
         }
         break;
     case 4:
         if( dist <= 30 ) {
-            this->frag( z, target );
+            frag( z, target );
         }
         break;
     case 5:
         if( dist <= 50 ) {
-            this->tankgun( z, target );
+            tankgun( z, target );
         }
         break;
     default:
