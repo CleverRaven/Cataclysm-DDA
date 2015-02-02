@@ -834,6 +834,7 @@ extended_firestarter_actor::~extended_firestarter_actor() {}
 void extended_firestarter_actor::load( JsonObject &obj )
 {
     need_sunlight = obj.get_bool( "need_sunlight", false );
+    moves_cost = obj.get_int( "moves_cost", 0 );
 }
 
 iuse_actor *extended_firestarter_actor::clone() const
