@@ -5,8 +5,7 @@ class monster;
 class Creature;
 
 namespace mattack {
-//static void none(monster *, int) {}; // apparently not used anywhere
-
+void none               (monster *z, int index);
 void antqueen           (monster *z, int index);
 void shriek             (monster *z, int index);
 void howl               (monster *z, int index);

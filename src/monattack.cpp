@@ -56,6 +56,9 @@ npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     return tmp;
 }
 
+void mattack::none(monster *, int)
+{
+}
 
 void mattack::antqueen(monster *z, int index)
 {

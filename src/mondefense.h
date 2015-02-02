@@ -13,7 +13,7 @@ namespace mdefense {
     */
 void zapback (monster *m, Creature *source, const projectile *proj);
     
-// static void none(monster *, Creature *, const projectile *) {}; // apparently unused
+void none(monster *, Creature *, const projectile *);
 } //namespace mdefense
 
 #endif
