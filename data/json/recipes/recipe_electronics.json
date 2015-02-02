@@ -599,6 +599,7 @@
     [ [ "element", 8 ] ],
     [
       [ "bottle_glass", 2 ],
+      [ "jug_clay", 2 ],
       [ "bottle_plastic", 5 ],
       [ "bottle_plastic_small", 10 ]
     ],
