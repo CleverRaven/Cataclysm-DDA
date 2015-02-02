@@ -2562,6 +2562,7 @@
       [ "string_6", 1 ]
     ],
     [
+      [ "clay_canister", 1 ],
       [ "can_food", 1 ]
     ]
   ]
@@ -2588,6 +2589,7 @@
       [ "scrap", 3 ],
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
+      [ "clay_canister", 1 ],
       [ "can_food", 1 ]
     ],
     [
