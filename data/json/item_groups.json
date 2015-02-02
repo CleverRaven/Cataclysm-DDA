@@ -9053,6 +9053,12 @@
       ["seed_onion", 60],
       ["seed_carrot", 60],
       ["seed_corn", 60],
+      ["seed_oats", 60],
+      ["seed_broccoli", 60],
+      ["seed_celery", 60],
+      ["seed_cucumber", 60],
+      ["seed_potato_raw", 60],
+      ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
       ["seed_tomato", 60]
     ]
