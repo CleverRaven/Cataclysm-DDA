@@ -732,7 +732,7 @@ int player::roll_bash_damage(bool crit)
 
 int player::roll_cut_damage(bool crit)
 {
-    if (weapon.has_flag("SPEAR"))
+    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
         return 0;  // Stabs, doesn't cut!
 
     double ret = mabuff_cut_bonus() + weapon.damage_cut();
