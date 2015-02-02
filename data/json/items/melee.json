@@ -3972,6 +3972,38 @@
     "to_hit": -2,
     "material": ["wood", "steel"]
   },{
+    "id": "mn_classic_kit",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "Mosin-Nagant classic conversion kit",
+    "name_plural": "Mosin-Nagant classic conversion kits",
+    "category": "other",
+    "description": "A beautiful wooden stock and hardware built to support common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could take a 'tacti-cool' rifle and convert it to the classic Russian design.",
+    "price": 12000,
+    "weight": 2000,
+    "volume": 11,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["wood", "steel"]
+  },{
+    "id": "mn_ebr_kit",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "Mosin-Nagant EBR conversion kit",
+    "name_plural": "Mosin-Nagant EBR conversion kits",
+    "category": "other",
+    "description": "A synthetic stock and hardware designed to accommodate common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could give the classic Russian design modern furniture and customization capacity.",
+    "price": 12000,
+    "weight": 2000,
+    "volume": 11,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["plastic", "steel"]
+  },{
     "id": "l_car_223_kit",
     "type": "GENERIC",
     "symbol": ")",

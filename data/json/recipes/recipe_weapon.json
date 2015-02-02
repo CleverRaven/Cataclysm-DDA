@@ -855,7 +855,115 @@
       ]
     ]
 },{
-    "type" : "recipe",
+  "type" : "recipe",
+  "result": "mosin91_30",
+  "byproducts": { "id" : "mn_ebr_kit", "amount" : 1 },
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 180000, "//": "Three hours to remove the action, preserve the old stock, install the action in the new stock, and prep it for use",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mosin91_30_ebr", 1 ]
+    ],
+    [
+      [ "mn_classic_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mosin44",
+  "byproducts": { "id" : "mn_ebr_kit", "amount" : 1 },
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 180000, "//": "Three hours to remove the action, preserve the old stock, install the action in the new stock, and prep it for use",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mosin44_ebr", 1 ]
+    ],
+    [
+      [ "mn_classic_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mosin91_30_ebr",
+  "byproducts": { "id" : "mn_classic_kit", "amount" : 1 },
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 180000, "//": "Three hours to remove the action, preserve the old stock, install the action in the new stock, and prep it for use",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mosin91_30", 1 ]
+    ],
+    [
+      [ "mn_ebr_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mosin44_ebr",
+  "byproducts": { "id" : "mn_classic_kit", "amount" : 1 },
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 180000, "//": "Three hours to remove the action, preserve the old stock, install the action in the new stock, and prep it for use",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mosin44", 1 ]
+    ],
+    [
+      [ "mn_ebr_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "l_car_223",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
