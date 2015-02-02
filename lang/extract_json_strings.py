@@ -23,6 +23,7 @@ ignorable = {
     "item_group",
     "monstergroup",
     "MONSTER_BLACKLIST",
+    "MONSTER_FACTION",
     "MONSTER_WHITELIST",
     "monitems",
     "npc", # FIXME right now this object is unextractable
