@@ -2562,7 +2562,9 @@
       [ "string_6", 1 ]
     ],
     [
-      [ "can_food", 1 ]
+      [ "can_food", 1 ],
+      [ "can_drink", 1 ],
+      [ "empty_canister", 1 ]
     ]
   ]
 },{
