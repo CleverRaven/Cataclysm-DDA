@@ -11312,6 +11312,23 @@ void player::try_to_sleep()
                  _("It's hard to get to sleep on this %s."),
                  terlist[ter_at_pos].name.c_str() );
     }
+    // Deactivate active items, bionics and mutations
+    for ( auto &it : inv_dump() ) {
+        if ( it->active ) {
+            use( get_item_position(it) );
+        }
+    }
+    for ( size_t i = 0; i < my_bionics.size(); i++ ) {
+        bionic &bio = my_bionics[i];
+        if ( bio.powered && bionics[bio.id]->power_over_time > 0 && bio.id != "bio_alarm" ) {
+            deactivate_bionic( i, false );
+        }
+    }
+    for ( auto &mut : my_mutations ) {
+        if ( traits[mut].powered && traits[mut].cost > 0 ) {
+            deactivate_mutation( mut );
+        }
+    }
     add_effect("lying_down", 300);
 }
 
