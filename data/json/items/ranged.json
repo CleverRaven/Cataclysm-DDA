@@ -4715,7 +4715,7 @@
     "color": "brown",
     "name": "Mosin-Nagant M44-EBR",
     "name_plural": "Mosin-Nagant M44-EBR",
-    "description": "Whether manufactured fresh to cater to anti-Communists, or an aftermarket stock system wrapped around a Model 44's guts, this carbine packs the classic Mosin-Nagant action in a modern-day stock capable of accepting modifications.",
+    "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
     "price": 33000,
     "material": ["steel", "wood"],
     "flags": "RELOAD_ONE",
