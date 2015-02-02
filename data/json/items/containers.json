@@ -738,6 +738,26 @@
         "seals": true
     },
     {
+        "id": "clay_hydria",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "clay hydria",
+        "category": "other",
+        "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
+        "price": 2000,
+        "weight": 1955,
+        "volume": 60,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -1,
+        "material": "clay",
+        "contains": 60,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
         "id": "clay_canister",
         "type": "CONTAINER",
         "symbol": "*",
