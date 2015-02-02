@@ -744,7 +744,7 @@
         "color": "brown",
         "name": "clay hydria",
         "category": "other",
-        "description": "A 15-liter clay pot with three handles: two for carrying and one for pouring.",
+        "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
         "price": 2000,
         "weight": 1955,
         "volume": 60,
