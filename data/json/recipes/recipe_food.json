@@ -6106,6 +6106,9 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1 ],
       [ "pine_tea", 1 ]
@@ -6166,6 +6169,9 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1]
     ],
@@ -6215,6 +6221,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "broth", 1 ]
     ],
@@ -6274,6 +6283,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "broth", 1 ],
       [ "broth_bone", 1]
@@ -6337,6 +6349,9 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1]
     ],
@@ -6384,6 +6399,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
@@ -6437,6 +6455,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "bone", 10 ]
     ],
