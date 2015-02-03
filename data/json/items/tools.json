@@ -6475,7 +6475,7 @@
     "color": "red",
     "name": "sealed jar of V8",
     "name_plural": "sealed jars of V8",
-    "description": "This is a sealed glass jar containing V8.  Use to open and eat to enjoy.",
+    "description": "This is a sealed glass jar containing V8.  Use to open and drink to enjoy.",
     "price": 120,
     "material": ["glass", "veggy"],
     "weight": 522,
