@@ -649,6 +649,7 @@
     ],
     [
       [ "bottle_glass", 1 ],
+      [ "clay_canister", 1 ],
       [ "flask_glass", 1 ]
     ],
     [
@@ -1574,6 +1575,7 @@
   "components": [
     [
       [ "bottle_glass", 1 ],
+      [ "clay_canister", 1 ],
       [ "flask_glass", 1 ]
     ],
     [
@@ -3858,6 +3860,7 @@
     ],
     [
       [ "bottle_glass", 1 ],
+      [ "clay_canister", 1 ],
       [ "flask_glass", 1 ],
       [ "jar_glass", 1 ]
     ]
@@ -5226,6 +5229,7 @@
     [
       [ "canister_empty", 1 ],
       [ "can_drink", 1 ],
+      [ "clay_canister", 1 ],
       [ "can_food", 1 ]
     ],
     [
