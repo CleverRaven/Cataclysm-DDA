@@ -839,15 +839,13 @@ void monster::hit_monster(monster &other)
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
-    mdefense mdf;
-    (mdf.*target->type->sp_defense)( target, this, nullptr );
+    type->sp_defense(target, this, nullptr);
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)( this, source, nullptr );
+        type->sp_defense(this, source, nullptr);
     }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -867,9 +865,9 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-    mdefense mdf;
+
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)( this, source, &proj);
+        type->sp_defense(this, source, &proj);
     }
 
     // whip has a chance to scare wildlife
@@ -1269,8 +1267,7 @@ void monster::die(Creature* nkiller) {
     if( !is_hallucination() && ch != nullptr ) {
         if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath tmpdeath;
-            tmpdeath.guilt( this );
+            mdeath::guilt(this);
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1317,20 +1314,19 @@ void monster::die(Creature* nkiller) {
             g->mission_step_complete(mission_id, 1);
         }
     }
+
     // Also, perform our death function
-    mdeath md;
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        md.disappear(this);
+        mdeath::disappear(this);
         return;
     }
+
     //Not a hallucination, go process the death effects.
-    std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-    void (mdeath::*func)(monster *);
-    for( auto &deathfunction : deathfunctions ) {
-        func = deathfunction;
-        (md.*func)(this);
+    for (auto const &deathfunction : type->dies) {
+        deathfunction(this);
     }
+
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
     if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){

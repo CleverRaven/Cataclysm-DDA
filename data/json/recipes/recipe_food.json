@@ -909,6 +909,7 @@
       [ "broccoli", 2 ],
       [ "tomato", 2 ],
       [ "zucchini", 2 ],
+      [ "celery", 2 ],
       [ "potato_raw", 2 ],
       [ "onion", 2 ],
       [ "carrot", 12 ],
@@ -2928,6 +2929,49 @@
   ]
 },{
   "type" : "recipe",
+  "result": "jar_V8",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "irradiated_tomato", 2 ],
+      [ "can_tomato", 2 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "irradiated_broccoli", 2 ],
+      [ "broccoli", 2 ]
+    ],
+    [
+      [ "irradiated_zucchini", 2 ],
+      [ "zucchini", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "broth",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -3036,6 +3080,8 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -3056,6 +3102,8 @@
       [ "onion", 2 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
+      [ "dry_veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
   ]
@@ -3091,6 +3139,8 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -3138,6 +3188,8 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "corn", 1 ],
       [ "can_corn", 1 ],
       [ "onion", 1 ],
@@ -3260,6 +3312,8 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -3268,6 +3322,8 @@
       [ "acorns_cooked", 1 ]
     ],
     [
+      [ "dry_hflesh", 2 ],
+      [ "rehydrated_hflesh", 2 ],
       [ "human_flesh", 2 ]
     ]
   ]
@@ -3639,10 +3695,13 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      ["dry_veggy", 1 ],
+      ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
       ["zucchini", 1],
+      ["celery", 1 ],
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
@@ -3763,10 +3822,13 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      ["dry_veggy", 1 ],
+      ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
       ["zucchini", 1],
+      ["celery", 1 ],
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
@@ -3896,11 +3958,14 @@
     ],
     [
       ["veggy", 1],
+      ["dry_veggy", 1 ],
+      ["rehydrated_veggy", 1 ],
       ["veggy_wild", 1],
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["broccoli", 1],
       ["zucchini", 1],
+      ["celery", 1 ],
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
@@ -3917,6 +3982,19 @@
       [ "water_clean", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "oatmeal",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ],
+                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "components": [ [ ["oats", 2] ] ]
 },{
   "type" : "recipe",
   "result": "oatmeal_cooked",
@@ -5230,6 +5308,8 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2 ],
       [ "tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "onion", 2 ],
@@ -6026,6 +6106,9 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1 ],
       [ "pine_tea", 1 ]
@@ -6086,12 +6169,17 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1]
     ],
     [
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -6134,11 +6222,16 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ]
     ],
     [
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -6159,6 +6252,8 @@
       [ "onion", 2 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
+      [ "dry_veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
   ]
@@ -6189,12 +6284,17 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1]
     ],
     [
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "corn", 1 ],
       [ "can_corn", 1 ],
       [ "onion", 1 ],
@@ -6249,12 +6349,17 @@
   ],
   "components": [
     [
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "broth", 1 ],
       [ "broth_bone", 1]
     ],
     [
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "celery", 1 ],
+      [ "irradiated_celery", 1],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
@@ -6263,6 +6368,8 @@
       [ "acorns_cooked", 1 ]
     ],
     [
+      [ "dry_hflesh", 2 ],
+      [ "rehydrated_hflesh", 2 ],
       [ "human_flesh", 2 ]
     ]
   ]
@@ -6292,6 +6399,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
@@ -6345,6 +6455,9 @@
     ]
   ],
   "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
     [
       [ "bone", 10 ]
     ],
@@ -6679,7 +6792,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2] ] ]
 },{
   "type" : "recipe",
   "result": "cornmeal",
@@ -7095,7 +7208,7 @@
       [ "water", 15 ], [ "water_clean", 15 ]
     ],
     [
-      [ "barley", 3 ], [ "buckwheat", 3 ]
+      [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ]
     ],
     [
       [ "hops", 1 ]
@@ -8066,6 +8179,7 @@
       ["tomato", 1],
       ["broccoli", 1],
       ["zucchini", 1],
+      ["cucumber", 1],
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
