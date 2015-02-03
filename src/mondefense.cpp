@@ -14,28 +14,21 @@ void mdefense::none(monster *, Creature *, const projectile *)
 
 void mdefense::zapback(monster *const m, Creature *const source, projectile const* const proj)
 {
-    if ((proj) ||                              // Not a melee attack
-        (rng(0, 100) > m->def_chance) ||       // Attacker lucked out
-        (rl_dist(m->pos(), source->pos()) > 1) // Out of range
-    ) {
+    // Not a melee attack, attacker lucked out or out of range
+    if( (proj) || (rng(0, 100) > m->def_chance) || (rl_dist(m->pos(), source->pos()) > 1) ) {
         return;
     }
 
-    auto const is_eligible_player = [](player const *const foe) {
-        return foe && (foe->weapon.conductive() || foe->unarmed_attack()) && // Eligible for zap
-            !foe->has_active_bionic("bio_faraday") &&
-            !foe->worn_with_flag("ELECTRIC_IMMUNE") &&
-            !foe->has_artifact_with(AEP_RESIST_ELECTRICITY);
-    };
+    player const *const foe = dynamic_cast<player*>(source);
+    bool is_eligible_player = foe && ( foe->weapon.conductive() || foe->unarmed_attack() ) &&
+        !foe->has_active_bionic("bio_faraday") &&!foe->worn_with_flag("ELECTRIC_IMMUNE") &&
+        !foe->has_artifact_with(AEP_RESIST_ELECTRICITY);
 
-    auto const is_eligible_monster = [](monster const *const othermon) {
-        return othermon && (othermon->type->sp_defense != &mdefense::zapback) &&
-            !othermon->has_flag(MF_ELECTRIC);
-    };
+    monster const *const othermon = dynamic_cast<monster *>(source);
+    bool is_eligible_monster = othermon && othermon->type->sp_defense != &mdefense::zapback &&
+        !othermon->has_flag(MF_ELECTRIC);
 
-    if (!is_eligible_player(dynamic_cast<player*>(source)) &&
-        !is_eligible_monster(dynamic_cast<monster*>(source)))
-    {
+    if( !is_eligible_player && !is_eligible_monster ) {
         return; // Nothing eligible
     }
 
