@@ -31,7 +31,7 @@ static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
-    
+
     static std::array<pair_t, 6> const values = {{
         pair_t {  0, _("green") },
         pair_t { 30, _("blue")  },
@@ -808,15 +808,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
-                                     mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));
+                                     mod->dispersion, true, ((mod->dispersion > 0) ? "+" : ""), true, true));
         }
         if (mod->sight_dispersion != -1) {
             dump->push_back(iteminfo("GUNMOD", _("Sight dispersion: "), "",
-                                     mod->sight_dispersion, true, ""));
+                                     mod->sight_dispersion, true, "", true, true));
         }
         if (mod->aim_speed != -1) {
             dump->push_back(iteminfo("GUNMOD", _("Aim speed: "), "",
-                                     mod->aim_speed, true, ""));
+                                     mod->aim_speed, true, "", true, true));
         }
         if (mod->damage != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
