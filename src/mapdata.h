@@ -413,26 +413,27 @@ struct submap {
         cosmetics[x][y].erase("SIGNAGE");
     }
 
-    ter_id             ter[SEEX][SEEY];  // Terrain on each square
-    std::list<item>    itm[SEEX][SEEY];  // Items on each square
-    furn_id            frn[SEEX][SEEY];  // Furniture on each square
-
     // TODO: make trp private once the horrible hack known as editmap is resolved
-    trap_id            trp[SEEX][SEEY];  // Trap on each square
-    field              fld[SEEX][SEEY];  // Field on each square
-    int                rad[SEEX][SEEY];  // Irradiation of each square
+    ter_id          ter[SEEX][SEEY];  // Terrain on each square
+    furn_id         frn[SEEX][SEEY];  // Furniture on each square
+    trap_id         trp[SEEX][SEEY];  // Trap on each square
+    int             rad[SEEX][SEEY];  // Irradiation of each square
+    std::list<item> itm[SEEX][SEEY];  // Items on each square
+    field           fld[SEEX][SEEY];  // Field on each square
+    
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     active_item_cache active_items;
 
-    int field_count;
-    int turn_last_touched;
-    int temperature;
+    int field_count = 0;
+    int turn_last_touched = 0;
+    int temperature = 0;
     std::vector<spawn_point> spawns;
     /**
      * Vehicles on this submap (their (0,0) point is on this submap).
-     * This vehicle objects are deletes by this submap when it gets
+     * This vehicle objects are deleted by this submap when it gets
      * deleted.
+     * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
     computer comp;
