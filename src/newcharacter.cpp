@@ -1995,6 +1995,12 @@ std::vector<std::string> Character::get_traits() const
 {
     return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
+
+std::vector<std::string> Character::get_mutations() const
+{
+    return std::vector<std::string>( my_mutations.begin(), my_mutations.end() );
+}
+
 void Character::empty_traits()
 {
     for( auto &traits_iter : traits ) {

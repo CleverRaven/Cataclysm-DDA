@@ -3271,6 +3271,35 @@ bool game::handle_action()
                     as_m.text =
                         _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
                 }
+                // List all active items, bionics or mutations so player can deactivate them
+                std::vector<std::string> active;
+                for ( auto &it : g->u.inv_dump() ) {
+                    if ( it->active ) {
+                        active.push_back( it->tname() );
+                    }
+                }
+                for ( int i = 0; i < g->u.num_bionics(); i++ ) {
+                    bionic &bio = g->u.bionic_at_index(i);
+                    if ( bio.powered && bionics[bio.id]->power_over_time > 0 &&
+                         bio.id != "bio_alarm" ) {
+                        active.push_back( bionics[bio.id]->name );
+                    }
+                }
+                for ( auto &mut : g->u.get_mutations() ) {
+                    if ( traits[mut].powered && traits[mut].cost > 0 ) {
+                        active.push_back( traits[mut].name );
+                    }
+                }
+                std::stringstream data;
+                if ( active.size() > 0 ) {
+                    data << as_m.text << std::endl;
+                    data << _("You may want to deactivate these before you sleep.") << std::endl;
+                    data << " " << std::endl;
+                    for ( auto &a : active ) {
+                        data << a << std::endl;
+                    }
+                    as_m.text = data.str();
+                }
                 if( (u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) &&
                     !(u.hunger < -60) ) {
                     as_m.entries.push_back(uimenu_entry(3, true, '3',

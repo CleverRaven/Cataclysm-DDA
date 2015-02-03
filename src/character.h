@@ -257,6 +257,8 @@ class Character : public Creature
         void pick_name();
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
+        /** Returns the set "my_mutations" */
+        std::vector<std::string> get_mutations() const;
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
