@@ -168,59 +168,71 @@ void init_ter_bitflags_map();
 
 typedef int ter_id;
 typedef int furn_id;
+
+struct map_data_common_t {
+    std::string id;    // The terrain's ID. Must be set, must be unique.
+    std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
+    std::string open;  // Open action: transform into terrain with matching id
+    std::string close; // Close action: transform into terrain with matching id
+
+    map_bash_info        bash;
+    map_deconstruct_info deconstruct;
+
+    std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
+    unsigned long         bitflags; // bitfield of -certian- string flags which are heavily checked
+
+    /*
+    * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
+    * as to which possible object/field/entity in a single square gets drawn and that some symbols
+    * are "reserved" such as * and % to do programmatic behavior.
+    */
+    long sym;
+
+    int loadid;     // This is akin to the old ter_id, however it is set at runtime.
+    int movecost;   // The amount of movement points required to pass this terrain by default.
+    int max_volume; // Maximal volume of items that can be stored in/on this furniture
+    
+    nc_color color; //The color the sym will draw in on the GUI.
+
+    iexamine_function examine; //What happens when the terrain is examined
+
+    bool transparent;
+
+    bool has_flag(const std::string & flag) const {
+        return !!flags.count(flag);
+    }
+
+    bool has_flag(const ter_bitflags flag) const {
+        return (bitflags & mfb(flag));
+    }
+
+    void set_flag(std::string flag) {
+        flags.insert(std::move(flag));
+
+        if(!transparent && "TRANSPARENT" == flag) {
+            transparent = true;
+        }
+
+        auto const it = ter_bitflags_map.find(flag);
+        if (it != std::end(ter_bitflags_map)) {
+            bitflags |= mfb(it->second);
+        }
+    }
+};
+
 /*
-Struct ter_t:
-Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
-
+* Struct ter_t:
+* Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
-struct ter_t {
- std::string id;   // The terrain's ID. Must be set, must be unique.
- int loadid;       // This is akin to the old ter_id, however it is set at runtime.
- std::string name; // The plaintext name of the terrain type the user would see (IE: dirt)
-
- /*
- The symbol drawn on the screen for the terrain. Please note that there are extensive rules as to which
- possible object/field/entity in a single square gets drawn and that some symbols are "reserved" such as * and % to do programmatic behavior.
- */
- long sym;
-
- nc_color color; //The color the sym will draw in on the GUI.
- unsigned char movecost; //The amount of movement points required to pass this terrain by default.
- trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::string trap_id_str; //String storing the id string of the trap.
- std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
- unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
- iexamine_function examine; //What happens when the terrain is examined
- std::string harvestable; //what will be harvested from this terrain?
- std::string transforms_into; // transform into what terrain?
- int harvest_season; // when will this terrain get harvested?
- int bloom_season; // when does this terrain bloom?
- std::string open; //open action: transform into terrain with matching id
- std::string close; //close action: transform into terrain with matching id
-
- map_bash_info bash;
- map_deconstruct_info deconstruct;
- // Maximal volume of items that can be stored in/on this furniture
- int max_volume;
-
- bool has_flag(const std::string & flag) const {
-     return flags.count(flag) != 0;
- }
-
- bool has_flag(const ter_bitflags flag) const {
-     return (bitflags & mfb(flag));
- }
-
- void set_flag(std::string flag) {
-     flags.insert(flag);
-     if("TRANSPARENT" == flag) {
-         transparent = true;
-     }
-     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
-     }
- }
- bool transparent;
+struct ter_t : map_data_common_t {
+    std::string trap_id_str;     // String storing the id string of the trap.
+    std::string harvestable;     // What will be harvested from this terrain?
+    std::string transforms_into; // Transform into what terrain?
+  
+    trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
+       
+    int harvest_season; // When will this terrain get harvested?
+    int bloom_season;   // When does this terrain bloom?
 };
 
 void set_ter_ids();
@@ -233,50 +245,15 @@ extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
+struct furn_t : map_data_common_t {
+    std::string crafting_pseudo_item;
 
-struct furn_t {
- std::string id;
- int loadid;
- std::string name;
- long sym;
- nc_color color;
- int movecost; // Penalty to terrain
- int move_str_req; //The amount of strength required to move through this terrain easily.
- std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
- unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
- iexamine_function examine;
- std::string open;
- std::string close;
- // Maximal volume of items that can be stored in/on this furniture
- int max_volume;
+    int move_str_req; //The amount of strength required to move through this terrain easily.
 
- map_bash_info bash;
- map_deconstruct_info deconstruct;
-
- std::string crafting_pseudo_item;
- // May return NULL
- itype *crafting_pseudo_item_type() const;
- // May return NULL
- itype *crafting_ammo_item_type() const;
-
- bool has_flag(const std::string & flag) const {
-     return flags.count(flag) != 0;
- }
-
- bool has_flag(const ter_bitflags flag) const {
-     return (bitflags & mfb(flag));
- }
-
- void set_flag(std::string flag) {
-     flags.insert(flag);
-     if("TRANSPARENT" == flag) {
-         transparent = true;
-     }
-     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
-     }
- }
- bool transparent;
+    // May return NULL
+    itype *crafting_pseudo_item_type() const;
+    // May return NULL
+    itype *crafting_ammo_item_type() const;
 };
 
 
