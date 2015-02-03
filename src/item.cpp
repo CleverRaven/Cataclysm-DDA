@@ -27,11 +27,12 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
-
+int     fured = 0;
+ int   pocketed = 0;
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
-    
+
     static std::array<pair_t, 6> const values = {{
         pair_t {  0, _("green") },
         pair_t { 30, _("blue")  },
@@ -178,6 +179,8 @@ void item::init() {
     bday = 0;
     invlet = 0;
     damage = 0;
+    fured = 0;
+    pocketed = 0;
     burnt = 0;
     covered_bodyparts.reset();
     poison = 0;
@@ -1628,7 +1631,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
-        } else {
+        }
+
+        else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
@@ -1662,6 +1667,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             burntext = rm_prefix(_("<burnt_adj>burnt "));
         }
     }
+
+    std::string mod_p_text = "";
+    if (pocketed == 1){
+        mod_p_text = rm_prefix(_("<mod_p_adj>pocketed "));
+    }
+
+    std::string mod_f_text = "";
+    if (fured == 1){
+        mod_f_text = rm_prefix(_("<mod_f_adj>fur lined "));
+    }
+
 
     const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
     std::string maintext = "";
@@ -1782,9 +1798,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
-                         sidedtext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(),
-                         tagtext.c_str());
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s"), damtext.c_str(), burntext.c_str(),
+                         mod_f_text.c_str(), mod_p_text.c_str(), sidedtext.c_str(), toolmodtext.c_str(),
+                        vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -2234,12 +2250,15 @@ bool item::is_auxiliary_gunmod() const
 
 int item::get_storage() const
 {
-    const auto t = find_armor_data();
+     auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
+    if( pocketed == 1){
+        t += 10;   //Value just to see that it works
+    }
     // it_armor::storage is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->storage ) );
+    return (int)( t->storage ) ;
 }
 
 int item::get_env_resist() const
@@ -2293,9 +2312,12 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    const auto t = find_armor_data();
+     auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
+    }
+     if (fured == 1){
+        t += 25; //Also arbitrary test value
     }
     // it_armor::warmth is signed char
     return static_cast<int>( t->warmth );

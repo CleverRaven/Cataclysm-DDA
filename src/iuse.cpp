@@ -2880,7 +2880,6 @@ int iuse::firestarter(player *p, item *it, bool t, point pos)
 
 int iuse::sew(player *p, item *it, bool, point)
 {
-
     if (it->charges == 0) {
         return 0;
     }
@@ -2894,8 +2893,8 @@ int iuse::sew(player *p, item *it, bool, point)
         return 0;
     }
     int choice = 3;
-    choice = menu(true, _("Using sewing item:"), _("Repair/fit clothing/armor"),
-                      _("Reinforce/modify clothing/armor"), _("Cancel"), NULL);
+    choice = menu(true, _("Using sewing item:"), _("Repair/fit clothing"),
+                      _("Modify clothing"), _("Cancel"), NULL);
         switch (choice) {
         case 1:{
             int thread_used = 1;
@@ -3038,7 +3037,8 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
             fix->item_tags.insert("FIT");
         } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-            p->add_msg_if_player(m_neutral, _("Your %s is fully repaired."));
+            p->add_msg_if_player(m_neutral, _("Your %s is already fully repaired."), fix->tname().c_str());
+            return 0;
         } else {
             p->add_msg_if_player(m_neutral, _("You practice your sewing."));
         }
@@ -3051,13 +3051,132 @@ int iuse::sew(player *p, item *it, bool, point)
 
         }
         case 2: {
+            int thread_used = 1;
+
+                        int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
+                        return itm.made_of( "cotton" ) ||
+                        itm.made_of( "leather" ) ||
+                        itm.made_of( "fur" ) ||
+                        itm.made_of( "nomex" ) ||
+                        itm.made_of( "wool" );
+                        } );
+    item *mod = &(p->i_at(pos));
+    if (mod == NULL || mod->is_null()) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0;
+    };
+     itype_id repair_item = "none";
+    std::vector<std::string> plurals;
+    std::vector<itype_id> repair_items;
+    std::string plural = "";
+    if( mod == it || std::find(repair_items.begin(), repair_items.end(), mod->typeId()) != repair_items.end()) {
+        p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
+        return 0;
+    };
+    if((mod->fured == 1) && (mod->pocketed == 1)){
+        p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
+        return 0;
+        };
+        int choice2 = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
+                      _("Line it with fur"), _("Cancel"), NULL);
+        switch (choice2) {
+        case 1:{
+                if(mod->pocketed == 1){
+                p->add_msg_if_player(m_info,_("You already sewed on extra pockets."));
                 return 0;
+                }
+                itype_id repair_item = "none";
+                std::vector<std::string> plurals;
+                std::vector<itype_id> repair_items;
+                std::string plural = "";
+
+                repair_items.push_back("rag");
+                plurals.push_back(rm_prefix(_("<plural>rags")));
+
+
+    int items_needed = 2;  //just a value for testing, should be based on the items volume
+
+    // this will cause issues if/when NPCs start being able to sew.
+    // but, then again, it'll cause issues when they start crafting, too.
+    const inventory &crafting_inv = p->crafting_inventory();
+    bool bFound = false;
+    //go through all discovered repair items and see if we have any of them available
+    for( auto &repair_items_i : repair_items ) {
+        if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
+            //we've found enough of a material, use this one
+            repair_item = repair_items_i;
+            bFound = true;
+        }
+    }
+    if (!bFound) {
+        for (unsigned int i = 0; i < repair_items.size(); i++) {
+            p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+        }
+        return 0;
+    }
+        std::vector<item_comp> comps;
+        comps.push_back(item_comp(repair_item, items_needed));
+
+    mod->pocketed = 1;
+    p->add_msg_if_player(m_info, _("You sew on some extra pockets."));
+    p->consume_items(comps);
+    return thread_used;
+        };
+
+        case 2: {
+            if(mod->fured == 1){
+                p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
+                return 0;
+            }
+        itype_id repair_item = "none";
+    std::vector<std::string> plurals;
+    std::vector<itype_id> repair_items;
+    std::string plural = "";
+
+    repair_items.push_back("fur");
+        plurals.push_back(rm_prefix(_("<plural>furs")));
+
+
+    int items_needed = 2;  //just a value for testing, should be based on the items volume
+
+    // this will cause issues if/when NPCs start being able to sew.
+    // but, then again, it'll cause issues when they start crafting, too.
+    const inventory &crafting_inv = p->crafting_inventory();
+    bool bFound = false;
+    //go through all discovered repair items and see if we have any of them available
+    for( auto &repair_items_i : repair_items ) {
+        if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
+            //we've found enough of a material, use this one
+            repair_item = repair_items_i;
+            bFound = true;
+        }
+    }
+    if (!bFound) {
+        for (unsigned int i = 0; i < repair_items.size(); i++) {
+            p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+        }
+        return 0;
+    }
+        std::vector<item_comp> comps;
+        comps.push_back(item_comp(repair_item, items_needed));
+    mod->fured = 1;
+    p->add_msg_if_player(m_info, _("You sew in a fur lining."));
+    p->consume_items(comps);
+    return thread_used;
+    };
+            }
 
             }
+
+
+
         case 3: {
                 return 0;
 
             }
+        default:{
+           return 0;
+        }
         }
 }
 
