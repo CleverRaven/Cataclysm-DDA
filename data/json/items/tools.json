@@ -6469,6 +6469,31 @@
   },
 
   {
+    "id": "jar_V8",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of V8",
+    "name_plural": "sealed jars of V8",
+    "description": "This is a sealed glass jar containing V8.  Use to open and eat to enjoy.",
+    "price": 120,
+    "material": ["glass", "veggy"],
+    "weight": 522,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "V8",
+		"target_charges": 2,
+        "container": "jar_glass"
+    }
+  },
+
+  {
     "id": "flask_yeast",
     "type": "TOOL",
     "symbol": "%",
