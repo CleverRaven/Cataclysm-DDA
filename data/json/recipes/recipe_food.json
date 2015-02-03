@@ -3929,6 +3929,19 @@
   ]
 },{
   "type" : "recipe",
+  "result": "oatmeal",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ],
+                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "components": [ [ ["oats", 2] ] ]
+},{
+  "type" : "recipe",
   "result": "oatmeal_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
