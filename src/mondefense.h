@@ -2,6 +2,7 @@
 #define MONDEFENSE_H
 
 class monster;
+class Creature;
 struct projectile;
 
 namespace mdefense {
