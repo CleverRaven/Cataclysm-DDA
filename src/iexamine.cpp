@@ -1172,7 +1172,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy)
     m->spawn_item(examx, examy, "poppy_bud");
 }
 
-void iexamine::flower_blubell(player *p, map *m, int examx, int examy)
+void iexamine::flower_bluebell(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() == WINTER) {
         add_msg(m_info, _("This flower is dead. You can't get it."));
@@ -2096,6 +2096,16 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
     return;
 }
 
+void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
+{
+    none(p, m, examx, examy);
+}
+
+void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
+{
+    none(p, m, examx, examy);
+}
+
 int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
 {
     int sum_weight = 0;
@@ -2953,189 +2963,82 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int, int)
+iexamine_function iexamine_function_from_string(std::string const& function_name)
 {
-    if ("none" == function_name) {
-        return &iexamine::none;
+    auto const function_hash = djb2_hash(function_name);
+    
+    // These are the precomputed djb2_hash values for the strings
+    // equivalent to the names of the functions they are mapped to.
+    // If a string changes, change the hash.
+    //
+    // NOTE: this can be done with constexpr magic too.
+    switch (function_hash) {
+    case 0xb99a9ce6: return &iexamine::acid_source;
+    case 0x1d584a00: return &iexamine::aggie_plant;
+    case 0x0b885ee7: return &iexamine::atm;
+    case 0x7c94786d: return &iexamine::bars;
+    case 0x2b0e1e4b: return &iexamine::bulletin_board;
+    case 0x41420232: return &iexamine::cardreader;
+    case 0x37ecf7c9: return &iexamine::chainfence;
+    case 0x579ae499: return &iexamine::controls_gate;
+    case 0x19dc916e: return &iexamine::curtains;
+    case 0xb7b1c37b: return &iexamine::dirtmound;
+    case 0x30fb784a: return &iexamine::door_peephole;
+    case 0x5e9871d2: return &iexamine::egg_sackbw;
+    case 0x5e987483: return &iexamine::egg_sackws;
+    case 0x1f656827: return &iexamine::elevator;
+    case 0x0f6bf461: return &iexamine::fault;
+    case 0x029ab06b: return &iexamine::fence_post;
+    case 0x798aac1a: return &iexamine::flower_bluebell;
+    case 0x134086b6: return &iexamine::flower_dahlia;
+    case 0x50122e01: return &iexamine::flower_dandelion;
+    case 0x134742b4: return &iexamine::flower_datura;
+    case 0x30d29194: return &iexamine::flower_marloss;
+    case 0x664f85ab: return &iexamine::flower_poppy;
+    case 0xc45a04fd: return &iexamine::fswitch;
+    case 0xfe507f3d: return &iexamine::fungus;
+    case 0xce906964: return &iexamine::fvat_empty;
+    case 0x82622568: return &iexamine::fvat_full;
+    case 0xe712e0a2: return &iexamine::gaspump;
+    case 0x1533d89e: return &iexamine::gunsafe_el;
+    case 0x1533d9a6: return &iexamine::gunsafe_ml;
+    case 0x515df994: return &iexamine::harvest_tree_shrub;
+    case 0x0b88877c: return &iexamine::keg;
+    case 0x516a3b21: return &iexamine::kiln_empty;
+    case 0x0a3a3385: return &iexamine::kiln_full;
+    case 0x7c9b47f5: return &iexamine::none;
+    case 0x9c4206e9: return &iexamine::pay_gas;
+    case 0xed0f9ffd: return &iexamine::pedestal_temple;
+    case 0xb6693185: return &iexamine::pedestal_wyrm;
+    case 0x0b889d52: return &iexamine::pit;
+    case 0x31628b59: return &iexamine::pit_covered;
+    case 0xfc11068e: return &iexamine::portable_structure;
+    case 0xff727bfe: return &iexamine::recycler;
+    case 0xd9aaa19f: return &iexamine::reload_furniture;
+    case 0x66a6b572: return &iexamine::remove_fence_barbed;
+    case 0x13a41328: return &iexamine::remove_fence_rope;
+    case 0x13a6b7c9: return &iexamine::remove_fence_wire;
+    case 0x1a47bbc1: return &iexamine::rubble;
+    case 0x7c9dc944: return &iexamine::safe;
+    case 0xadcea534: return &iexamine::shrub_blueberry;
+    case 0x28d52369: return &iexamine::shrub_marloss;
+    case 0x884aef9d: return &iexamine::shrub_strawberry;
+    case 0x3ea59202: return &iexamine::shrub_wildveggies;
+    case 0x7c9deb76: return &iexamine::sign;
+    case 0x7e82e17b: return &iexamine::slot_machine;
+    case 0x02595aab: return &iexamine::swater_source;
+    case 0x1e897a56: return &iexamine::toilet;
+    case 0x7c9e9d5c: return &iexamine::trap;
+    case 0x084a5bea: return &iexamine::tree_blackjack;
+    case 0xd4ffef55: return &iexamine::tree_marloss;
+    case 0x4119da80: return &iexamine::tree_pine;
+    case 0x72afd070: return &iexamine::vending;
+    case 0x464f8518: return &iexamine::water_source;
     }
-    if ("gaspump" == function_name) {
-        return &iexamine::gaspump;
-    }
-    if ("atm" == function_name) {
-        return &iexamine::atm;
-    }
-    if ("vending" == function_name) {
-        return &iexamine::vending;
-    }
-    if ("toilet" == function_name) {
-        return &iexamine::toilet;
-    }
-    if ("elevator" == function_name) {
-        return &iexamine::elevator;
-    }
-    if ("controls_gate" == function_name) {
-        return &iexamine::controls_gate;
-    }
-    if ("cardreader" == function_name) {
-        return &iexamine::cardreader;
-    }
-    if ("rubble" == function_name) {
-        return &iexamine::rubble;
-    }
-    if ("chainfence" == function_name) {
-        return &iexamine::chainfence;
-    }
-    if ("bars" == function_name) {
-        return &iexamine::bars;
-    }
-    if ("portable_structure" == function_name) {
-        return &iexamine::portable_structure;
-    }
-    if ("pit" == function_name) {
-        return &iexamine::pit;
-    }
-    if ("pit_covered" == function_name) {
-        return &iexamine::pit_covered;
-    }
-    if ("fence_post" == function_name) {
-        return &iexamine::fence_post;
-    }
-    if ("remove_fence_rope" == function_name) {
-        return &iexamine::remove_fence_rope;
-    }
-    if ("remove_fence_wire" == function_name) {
-        return &iexamine::remove_fence_wire;
-    }
-    if ("remove_fence_barbed" == function_name) {
-        return &iexamine::remove_fence_barbed;
-    }
-    if ("slot_machine" == function_name) {
-        return &iexamine::slot_machine;
-    }
-    if ("safe" == function_name) {
-        return &iexamine::safe;
-    }
-    if ("bulletin_board" == function_name) {
-        return &iexamine::bulletin_board;
-    }
-    if ("fault" == function_name) {
-        return &iexamine::fault;
-    }
-    if ("pedestal_wyrm" == function_name) {
-        return &iexamine::pedestal_wyrm;
-    }
-    if ("pedestal_temple" == function_name) {
-        return &iexamine::pedestal_temple;
-    }
-    if ("door_peephole" == function_name) {
-        return &iexamine::door_peephole;
-    }
-    if ("fswitch" == function_name) {
-        return &iexamine::fswitch;
-    }
-    if ("flower_poppy" == function_name) {
-        return &iexamine::flower_poppy;
-    }
-    if ("fungus" == function_name) {
-        return &iexamine::fungus;
-    }
-    if ("flower_bluebell" == function_name) {
-        return &iexamine::flower_blubell;
-    }
-    if ("flower_dahlia" == function_name) {
-        return &iexamine::flower_dahlia;
-    }
-    if ("flower_datura" == function_name) {
-        return &iexamine::flower_datura;
-    }
-    if ("flower_marloss" == function_name) {
-        return &iexamine::flower_marloss;
-    }
-    if ("flower_dandelion" == function_name) {
-        return &iexamine::flower_dandelion;
-    }
-    if ("egg_sackbw" == function_name) {
-        return &iexamine::egg_sackbw;
-    }
-    if ("egg_sackws" == function_name) {
-        return &iexamine::egg_sackws;
-    }
-    if ("dirtmound" == function_name) {
-        return &iexamine::dirtmound;
-    }
-    if ("aggie_plant" == function_name) {
-        return &iexamine::aggie_plant;
-    }
-    if ("fvat_empty" == function_name) {
-        return &iexamine::fvat_empty;
-    }
-    if ("fvat_full" == function_name) {
-        return &iexamine::fvat_full;
-    }
-    if ("keg" == function_name) {
-        return &iexamine::keg;
-    }
+
     //pick_plant deliberately missing due to different function signature
-    if ("harvest_tree_shrub" == function_name) {
-        return &iexamine::harvest_tree_shrub;
-    }
-    if ("tree_pine" == function_name) {
-        return &iexamine::tree_pine;
-    }
-    if ("tree_blackjack" == function_name) {
-        return &iexamine::tree_blackjack;
-    }
-    if ("shrub_marloss" == function_name) {
-        return &iexamine::shrub_marloss;
-    }
-    if ("tree_marloss" == function_name) {
-        return &iexamine::tree_marloss;
-    }
-    if ("shrub_wildveggies" == function_name) {
-        return &iexamine::shrub_wildveggies;
-    }
-    if ("recycler" == function_name) {
-        return &iexamine::recycler;
-    }
-    if ("trap" == function_name) {
-        return &iexamine::trap;
-    }
-    if ("water_source" == function_name) {
-        return &iexamine::water_source;
-    }
-    if ("swater_source" == function_name) {
-        return &iexamine::swater_source;
-    }
-    if ("acid_source" == function_name) {
-        return &iexamine::acid_source;
-    }
-    if ("reload_furniture" == function_name) {
-        return &iexamine::reload_furniture;
-    }
-    if( "curtains" == function_name ) {
-        return &iexamine::curtains;
-    }
-    if( "sign" == function_name ) {
-        return &iexamine::sign;
-    }
-    if ("pay_gas" == function_name) {
-        return &iexamine::pay_gas;
-    }
-    if ("gunsafe_ml" == function_name) {
-        return &iexamine::gunsafe_ml;
-    }
-    if ("gunsafe_el" == function_name) {
-        return &iexamine::gunsafe_el;
-    }
-    if( "kiln_empty" == function_name ) {
-        return &iexamine::kiln_empty;
-    }
-    if( "kiln_full" == function_name ) {
-        return &iexamine::kiln_full;
-    }
 
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
     return &iexamine::none;
-
 }
