@@ -546,10 +546,10 @@ class game
         void init_weather();
         void init_weather_anim();
         void init_morale();
-        void init_skills() throw (std::string);
+        void init_skills();
         void init_professions();
         void init_faction_data();
-        void init_mongroups() throw (std::string);    // Initializes monster groups
+        void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
         void init_missions();     // Initializes mission templates
         void init_autosave();     // Initializes autosave parameters
