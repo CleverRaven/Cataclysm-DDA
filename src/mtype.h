@@ -3,20 +3,22 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include <bitset>
-#include <string>
-#include <vector>
-#include <set>
-#include <math.h>
 #include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
 
+#include <bitset>
+#include <string>
+#include <vector>
+#include <set>
+#include <math.h>
+
 class Creature;
-class mdefense;
-class mdeath;
-class mattack;
+
+using mon_action_death  = void (*)(monster*);
+using mon_action_attack = void (*)(monster*, int);
+using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 
 typedef std::string itype_id;
 
@@ -216,12 +218,16 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
-        std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
+        
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        std::vector<void (mattack::*)(monster *, int index)> sp_attack; // This monster's special attack
+        
+        std::vector<mon_action_death>  dies;       // What happens when this monster dies
+        std::vector<mon_action_attack> sp_attack;  // This monster's special attack
+
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
-        void (mdefense::*sp_defense)(monster *, Creature *, const projectile *);
+        mon_action_defend sp_defense;
+
         // Default constructor
         mtype ();
         /**

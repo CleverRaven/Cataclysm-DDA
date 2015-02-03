@@ -8,6 +8,9 @@
 #include "mondefense.h"
 #include <algorithm>
 
+void mdefense::none(monster *, Creature *, const projectile *)
+{
+}
 
 void mdefense::zapback(monster *m, Creature *source, const projectile *proj)
 {
