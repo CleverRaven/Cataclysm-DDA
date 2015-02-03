@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "iuse.h"
+#include "bodypart.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -66,7 +67,6 @@ class Item_factory
         void register_iuse_lua(const std::string &name, int lua_function);
         /**
          * Get the iuse function function of the given name.
-         * @throw std::exception if no use function of that name is known.
          */
         const use_function *get_iuse( const std::string &id );
 

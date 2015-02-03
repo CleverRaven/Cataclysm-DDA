@@ -12,19 +12,33 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::can_use( std::string iuse_name ) const
+bool itype::can_use( const std::string &iuse_name ) const
 {
-    const use_function *func;
+    return get_use( iuse_name ) != nullptr;
+}
 
-    try {
-        func = item_controller->get_iuse( iuse_name );
-    } catch (const std::out_of_range &e) {
-        debugmsg("itype::can_use attempted to test for invalid iuse function %s", iuse_name.c_str());
-        return false;
+const use_function *itype::get_use( const std::string &iuse_name ) const
+{
+    if( !has_use() ) {
+        return nullptr;
     }
 
-    return std::find( use_methods.cbegin(), use_methods.cend(),
-                      *func ) != use_methods.cend();
+    const use_function *func = item_controller->get_iuse( iuse_name );
+    if( func != nullptr ) {
+        if( std::find( use_methods.cbegin(), use_methods.cend(),
+                         *func ) != use_methods.cend() ) {
+            return func;
+        }
+    }
+
+    for( const auto &method : use_methods ) {
+        const auto ptr = method.get_actor_ptr();
+        if( ptr != nullptr && ptr->type == iuse_name ) {
+            return &method;
+        }
+    }
+
+    return nullptr;
 }
 
 int itype::invoke( player *p, item *it, bool active, point pos )
