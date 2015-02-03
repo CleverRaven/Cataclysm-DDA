@@ -122,6 +122,7 @@ ifdef RELEASE
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
+  DEFINES += -DRELEASE
 endif
 
 ifdef CLANG
