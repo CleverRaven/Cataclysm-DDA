@@ -61,7 +61,10 @@ class Character : public Creature
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect(std::string mut);
         
+        /** Checks that an activatable mutation is active */
         bool has_active_mutation(const std::string &b) const;
+        /** Checks that an activatable mutation is NOT active */
+        bool has_inactive_mutation(const std::string &b) const;
         
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */

@@ -247,8 +247,8 @@ void Character::recalc_sight_limits()
     if (has_trait("DEBUG_NIGHTVISION")) {
         sight_boost = 59;
         sight_boost_cap = 59;
-    } else if (has_nv() || is_wearing("rm13_armor_on") || has_active_mutation("NIGHTVISION3") ||
-        has_active_mutation("ELFA_FNV") || (has_active_mutation("CEPH_VISION")) ) {
+    } else if (has_nv() || is_wearing("rm13_armor_on") || has_inactive_mutation("NIGHTVISION3") ||
+        has_inactive_mutation("ELFA_FNV") || (has_inactive_mutation("CEPH_VISION")) ) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -257,17 +257,17 @@ void Character::recalc_sight_limits()
         else {
         sight_boost = sight_boost_cap;
         }
-    } else if (has_active_mutation("ELFA_NV")) {
+    } else if (has_inactive_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
-    } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
-        has_active_mutation("URSINE_EYE")) {
+    } else if (has_inactive_mutation("NIGHTVISION2") || has_inactive_mutation("FEL_NV") ||
+        has_inactive_mutation("URSINE_EYE")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 5;
         }
          else {
             sight_boost = 4;
          }
-    } else if (has_active_mutation("NIGHTVISION")) {
+    } else if (has_inactive_mutation("NIGHTVISION")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 2;
         }

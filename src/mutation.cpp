@@ -482,6 +482,17 @@ bool Character::has_active_mutation(const std::string & b) const
     return traits[*mut_iter].powered;
 }
 
+// Sometimes it's important to know whether you've got it turned *off*.
+// This can be accomplished via checking for has_trait and NOT has_active_mutation,
+// but may as well make it more compact.
+bool Character::has_inactive_mutation(const std::string & b) const
+{
+    if (has_trait(b) && !has_active_mutation(b) ) {
+        return true;
+    }
+    return false;
+}
+
 void player::activate_mutation( std::string mut )
 {
     int cost = traits[mut].cost;
