@@ -3138,36 +3138,27 @@ void map::process_items( bool const active, T processor, std::string const &sign
 
 template<typename T>
 void map::process_items_in_submap( submap *const current_submap, int const gridx, int const gridy,
-    T processor, std::string const &signal )
+                                   T processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
     std::list<item_reference> active_items = current_submap->active_items.get();
-    auto const p0 = point {gridx * SEEX, gridy * SEEY};
+    auto const grid_offset = point {gridx * SEEX, gridy * SEEY};
     for( auto &active_item : active_items ) {
         if( !current_submap->active_items.has( active_item ) ) {
             continue;
         }
 
-        auto const p = p0 + active_item.location; //map location
-        auto items = i_at(p.x, p.y);
-        processor( items, active_item.item_iterator, p, signal );
+        auto const map_location = grid_offset + active_item.location;
+        auto items = i_at(map_location.x, map_location.y);
+        processor( items, active_item.item_iterator, map_location, signal );
     }
 }
 
-namespace {
-template <typename Container>
-bool is_vehicle_in_container(Container const& c, vehicle const *const v)
-{
-    using std::begin; using std::end;
-    return std::any_of(begin(c), end(c), [v](decltype(v) u) { return v == u; });
-}
-} //namespace
-
 template<typename T>
 void map::process_items_in_vehicles( submap *const current_submap, T processor,
-    std::string const &signal )
+                                     std::string const &signal )
 {
     std::vector<vehicle*> const &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
@@ -3175,19 +3166,20 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor,
     // won't change, but veh_in_nonant will change.
     std::vector<vehicle*> const vehicles = veh_in_nonant;
     for( auto &cur_veh : vehicles ) {
-        if (!is_vehicle_in_container(veh_in_nonant, cur_veh)) {
+        if (std::find(begin(veh_in_nonant), end(veh_in_nonant), cur_veh) == veh_in_nonant.end()) {
             // vehicle not in the vehicle list of the nonant, has been
             // destroyed (or moved to another nonant?)
             // Can't be sure that it still exists, so skip it
             continue;
         }
+
         process_items_in_vehicle( cur_veh, current_submap, processor, signal );
     }
 }
 
 template<typename T>
 void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const current_submap,
-    T processor, std::string const &signal )
+                                    T processor, std::string const &signal )
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
     for( int part : cargo_parts ) {
@@ -3222,7 +3214,8 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        if(!is_vehicle_in_container(current_submap->vehicles, cur_veh)) {
+        auto const &veh_in_nonant = current_submap->vehicles;
+        if(std::find(begin(veh_in_nonant), end(veh_in_nonant), cur_veh) == veh_in_nonant.end()) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
             // or be destroyed, anywaay it does not need to be processed here
