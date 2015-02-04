@@ -829,8 +829,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
 //helper function for Pickup::pick_up
 //return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement,
-                                    bool &picked_up)
+int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
     int quivered = here.add_ammo_to_quiver(&g->u, true);
