@@ -56,39 +56,34 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
     add_msg(m_info, _("Out of order."));
 }
 
-void iexamine::atm(player *p, map *m, int examx, int examy)
+void iexamine::atm(player *const p, map *, int , int )
 {
-    (void)m; //unused
-    (void)examx; //unused
-    (void)examy; //unused
-    int choice = -1;
-    const int purchase_cash_card = 1;
-    const int deposit_money = 2;
-    const int withdraw_money = 3;
-    const int transfer_money = 4;
-    const int transfer_all_money = 5;
-    const int cancel = 0;
-    long amount = 0;
-    long max = 0;
-    std::string popupmsg;
-    int pos;
-    int pos2;
-    item *dep;
-    item *with;
+    enum : int { // menu choices
+        cancel, purchase_cash_card, deposit_money,
+        withdraw_money, transfer_money, transfer_all_money
+    };
+
+    constexpr int card_cost      = 100;
+    constexpr int move_cost      = 100;
+    constexpr int move_cost_bulk = 10;
+
+    auto const card_count   = p->amount_of("cash_card");
+    auto const player_cash  = p->cash;
+    auto const charge_count = card_count ? p->charges_of("cash_card") : 0;
 
     uimenu amenu;
     amenu.selected = uistate.iexamine_atm_selected;
     amenu.text = _("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?");
-    if (p->cash >= 100) {
+    if (player_cash >= card_cost) {
         amenu.addentry( purchase_cash_card, true, -1, _("Purchase cash card?") );
     } else {
         amenu.addentry( purchase_cash_card, false, -1,
                         _("You need $1.00 in your account to purchase a card.") );
     }
 
-    if (p->has_amount("cash_card", 1) && p->cash > 0) {
+    if (card_count == 1 && player_cash > 0) {
         amenu.addentry( withdraw_money, true, -1, _("Withdraw Money") );
-    } else if (p->cash > 0) {
+    } else if (player_cash > 0) {
         amenu.addentry( withdraw_money, false, -1,
                         _("You need a cash card before you can withdraw money!") );
     } else {
@@ -96,17 +91,17 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
                         _("You need money in your account before you can withdraw money!") );
     }
 
-    if (p->has_charges("cash_card", 1)) {
+    if (charge_count) {
         amenu.addentry( deposit_money, true, -1, _("Deposit Money") );
     } else {
         amenu.addentry( deposit_money, false, -1,
                         _("You need a charged cash card before you can deposit money!") );
     }
 
-    if (p->has_amount("cash_card", 2) && p->has_charges("cash_card", 1)) {
+    if (card_count >= 2 && charge_count) {
         amenu.addentry( transfer_money, true, -1, _("Transfer Money") );
         amenu.addentry( transfer_all_money, true, -1, _("Transfer All Money") );
-    } else if (p->has_charges("cash_card", 1)) {
+    } else if (charge_count) {
         amenu.addentry( transfer_money, false, -1,
                         _("You need two cash cards before you can move money!") );
     } else {
@@ -116,164 +111,135 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
 
     amenu.addentry( cancel, true, 'q', _("Cancel") );
     amenu.query();
-    choice = amenu.ret;
+    auto const choice = amenu.ret;
     uistate.iexamine_atm_selected = choice;
 
-    if (choice == deposit_money) {
-        pos = g->inv(_("Insert card for deposit."));
-        dep = &(p->i_at(pos));
+    //----------------------------------------------------------------------------------------------
+    // Small helper for selecting a card from the inventory.
+    auto const choose_card = [&](char const *const msg) -> item* {
+        auto const index = g->inv_for_filter(msg, [](item const& itm) {
+            return itm.type->id == "cash_card";
+        });
 
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
+        if (index == INT_MIN) {
+            return nullptr; // player canceled
         }
-        if (dep->type->id != "cash_card") {
+
+        auto &itm = p->i_at(index);
+        if (itm.type->id != "cash_card") {
             popup(_("Please insert cash cards only!"));
+            return nullptr; // must have selected an equipped item
+        }
+
+        return &itm;
+    };
+
+    //----------------------------------------------------------------------------------------------
+    // Small helper to promp for an amount and clamp it to [0, max].
+    auto const prompt_for_amount = [&](char const *const msg, int const max) {
+        auto const formatted = string_format(msg, max);
+        auto const amount = std::atoi(string_input_popup(
+            formatted, 20, to_string(max), "", "", -1, true).c_str());
+
+        return (amount > max) ? max : (amount <= 0) ? 0 : amount;
+    };
+
+    if (choice == deposit_money) {
+        auto const src = choose_card(_("Insert card for deposit."));
+        if (!src) {
             return;
         }
-        if (dep->charges == 0) {
+        
+        auto const max = src->charges;
+        if (!src) {
             popup(_("You can only deposit money from charged cash cards!"));
             return;
         }
 
-        max = dep->charges;
-        popupmsg = string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
-                                          "Deposit how much? Max:%d cents. (0 to cancel) ",
-                                          max),
-                                 max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
-            return;
-        }
-        if (amount > max) {
-            amount = max;
-        }
-        p->cash += amount;
-        dep->charges -= amount;
-        add_msg(m_info, ngettext("Your account now holds %d cent.", "Your account now holds %d cents.",
-                                 p->cash),
-                p->cash);
-        p->moves -= 100;
-        return;
+        auto const amount = prompt_for_amount(ngettext(
+            "Deposit how much? Max: %d cent. (0 to cancel) ",
+            "Deposit how much? Max: %d cents. (0 to cancel) ", max), max);
 
-    } else if (choice == withdraw_money) {
-        pos = g->inv(_("Insert card for withdrawal."));
-        with = &(p->i_at(pos));
-
-        if (with->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (with->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
+        if (!amount) {
             return;
         }
 
-        max = p->cash;
-        std::string popupmsg = string_format(ngettext("Withdraw how much? Max:%d cent. (0 to cancel) ",
-                                             "Withdraw how much? Max:%d cents. (0 to cancel) ",
-                                             max),
-                                             max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
-            return;
-        }
-        if (amount > max) {
-            amount = max;
-        }
-        p->cash -= amount;
-        with->charges += amount;
+        p->cash      += amount;
+        src->charges -= amount;
+        p->moves     -= move_cost;
         add_msg(m_info, ngettext("Your account now holds %d cent.",
-                                 "Your account now holds %d cents.",
-                                 p->cash),
-                p->cash);
-        p->moves -= 100;
-        return;
+                                 "Your account now holds %d cents.", p->cash), p->cash);
+    } else if (choice == withdraw_money) {
+        auto const dst = choose_card(_("Insert card for withdrawal."));
+        if (!dst) {
+            return;
+        }
 
+        auto const amount = prompt_for_amount(ngettext(
+            "Withdraw how much? Max: %d cent. (0 to cancel) ",
+            "Withdraw how much? Max: %d cents. (0 to cancel) ", player_cash), player_cash);
+
+        if (!amount) {
+            return;
+        }
+
+        p->cash      -= amount;
+        dst->charges += amount;
+        p->moves     -= move_cost;
+        add_msg(m_info, ngettext("Your account now holds %d cent.",
+                                 "Your account now holds %d cents.", p->cash), p->cash);
     } else if (choice == transfer_money) {
-        pos = g->inv(_("Insert card for deposit."));
-        dep = &(p->i_at(pos));
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (dep->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
+        auto const dst = choose_card(_("Insert card for deposit."));
+        if (!dst) {
             return;
         }
 
-        pos2 = g->inv(_("Insert card for withdrawal."));
-        with = &(p->i_at(pos2));
-        if (with->is_null()) {
-            popup(_("You do not have that item!"));
+        auto const src = choose_card(_("Insert card for withdrawal."));
+        if (!src) {
             return;
-        }
-        if (with->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
-        if (with == dep) {
+        } else if (dst == src) {
             popup(_("You must select a different card to move from!"));
             return;
-        }
-        if (with->charges == 0) {
+        } else if (!src->charges) {
             popup(_("You can only move money from charged cash cards!"));
             return;
         }
 
-        max = with->charges;
-        std::string popupmsg = string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
-                                             "Transfer how much? Max:%d cents. (0 to cancel) ",
-                                             max),
-                                             max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
+        auto const max = src->charges;
+        auto const amount = prompt_for_amount(ngettext(
+            "Transfer how much? Max: %d cent. (0 to cancel) ",
+            "Transfer how much? Max: %d cents. (0 to cancel) ", max), max);
+
+        if (!amount) {
             return;
         }
-        if (amount > max) {
-            amount = max;
-        }
-        with->charges -= amount;
-        dep->charges += amount;
-        p->moves -= 100;
-        return;
 
+        src->charges -= amount;
+        dst->charges += amount;
+        p->moves     -= move_cost;
     } else if (choice == purchase_cash_card) {
         if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
             item card("cash_card", calendar::turn);
             card.charges = 0;
             p->i_add(card);
-            p->cash -= 100;
-            p->moves -= 100;
+            p->cash  -= card_cost;
+            p->moves -= move_cost;
         }
     } else if (choice == transfer_all_money) {
-        pos = g->inv(_("Insert card for bulk deposit."));
-        dep = &(p->i_at(pos));
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (dep->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
+        auto const dst = choose_card(_("Insert card for bulk deposit."));
+        if (!dst) {
             return;
         }
 
-        //for all cash cards in inventory
+        // sum all cash cards in inventory
+        auto sum = dst->charges;
         for (auto &elem : g->u.inv.all_items_by_type("cash_card")) {
-            if (elem.first == dep) continue;
-            dep->charges += elem.first->charges;
+            sum += elem.first->charges;
             elem.first->charges = 0;
             // Assuming a bulk interface for cards. Don't want to get people killed doing this.
-            p->moves -= 10;
+            p->moves -= move_cost_bulk;
         }
-    } else {
-        return;
+        dst->charges = sum;
     }
 }
 

@@ -352,15 +352,15 @@ class game
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title, const int &position = INT_MIN);
-        int inv_activatable(std::string title);
-        int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
-        int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-        int inv_for_salvage(const std::string title);
-        item *inv_map_for_liquid(const item &liquid, const std::string title);
-        int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
-        int inv_for_filter(const std::string title, const item_filter filter );
-        int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
+        int inv(const std::string &title, int position = INT_MIN);
+        int inv_activatable(std::string const &title);
+        int inv_type(std::string const &title, item_cat inv_item_type = IC_NULL);
+        int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
+        int inv_for_salvage(const std::string &title);
+        item *inv_map_for_liquid(const item &liquid, const std::string &title);
+        int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
+        int inv_for_filter(const std::string &title, item_filter filter );
+        int display_slice(indexed_invslice const&, const std::string &, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();

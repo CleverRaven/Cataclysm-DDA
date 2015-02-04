@@ -757,7 +757,7 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int game::display_slice(indexed_invslice &slice, const std::string &title, const int &position)
+int game::display_slice(indexed_invslice const &slice, const std::string &title, const int position)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
@@ -784,7 +784,7 @@ int game::display_slice(indexed_invslice &slice, const std::string &title, const
 }
 
 // Display current inventory.
-int game::inv(const std::string &title, const int &position)
+int game::inv(const std::string &title, const int position)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -792,7 +792,7 @@ int game::inv(const std::string &title, const int &position)
     return display_slice(slice, title, position);
 }
 
-int game::inv_activatable(std::string title)
+int game::inv_activatable(std::string const &title)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -800,7 +800,7 @@ int game::inv_activatable(std::string title)
     return display_slice(activatables, title);
 }
 
-int game::inv_type(std::string title, item_cat inv_item_type)
+int game::inv_type(std::string const &title, item_cat const inv_item_type)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -808,7 +808,7 @@ int game::inv_type(std::string title, item_cat inv_item_type)
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
+int game::inv_for_liquid(const item &liquid, const std::string &title, bool const auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -822,7 +822,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_salvage(const std::string title)
+int game::inv_for_salvage(const std::string &title)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -830,7 +830,7 @@ int game::inv_for_salvage(const std::string title)
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string title)
+item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
 {
     auto here = m.i_at(g->u.posx(), g->u.posy());
     typedef std::vector< std::list<item> > pseudo_inventory;
@@ -907,7 +907,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
     }
 }
 
-int game::inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single)
+int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -921,7 +921,7 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_filter(const std::string title, const item_filter filter )
+int game::inv_for_filter(std::string const &title, const item_filter filter)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -929,7 +929,7 @@ int game::inv_for_filter(const std::string title, const item_filter filter )
     return display_slice(reduced_inv, title);
 }
 
-int inventory::num_items_at_position( int position )
+int inventory::num_items_at_position( int const position )
 {
     if( position < -1 ) {
         return g->u.worn[ player::worn_position_to_index(position) ].count_by_charges() ?
@@ -992,7 +992,7 @@ std::list<std::pair<int, int>> game::multidrop()
     return dropped_pos_and_qty;
 }
 
-void game::compare(int iCompareX, int iCompareY)
+void game::compare(int const iCompareX, int const iCompareY)
 {
     int examx, examy;
 
