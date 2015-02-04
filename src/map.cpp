@@ -3151,7 +3151,8 @@ void map::process_items_in_submap( submap *const current_submap, int const gridx
         }
 
         auto const p = p0 + active_item.location; //map location
-        processor( i_at( p.x, p.y ), active_item.item_iterator, p, signal );
+        auto items = i_at(p.x, p.y);
+        processor( items, active_item.item_iterator, p, signal );
     }
 }
 
@@ -3201,17 +3202,19 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         }
 
         auto const it = std::find_if(std::begin(cargo_parts), std::end(cargo_parts),
-            [&](int const part) { return active_item.location == cur_veh->parts[part].mount; });
+            [&](int const part) {
+                return active_item.location == cur_veh->parts[static_cast<size_t>(part)].mount;
+            });
 
-        if (it == std::end(cargo_parts) || *it == -1) { // TODO: Can parts even be -1??
+        if (it == std::end(cargo_parts)) {
             continue; // Can't find a cargo part matching the active item.
         }
 
         // Find the cargo part and coordinates corresponding to the current active item.
-        auto const &vp = cur_veh->parts[*it];
-        point const item_location = cur_veh->global_pos() + vp.precalc[0];
-
-        if(!processor(cur_veh->get_items(*it), active_item.item_iterator, item_location, signal)) {
+        auto const part_index = static_cast<size_t>(*it);
+        point const item_location = cur_veh->global_pos() + cur_veh->parts[part_index].precalc[0];
+        auto items = cur_veh->get_items(static_cast<int>(part_index));
+        if(!processor(items, active_item.item_iterator, item_location, signal)) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
