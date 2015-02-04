@@ -2005,33 +2005,41 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
     m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
-void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
+void iexamine::harvest_tree_shrub(player *const p, map * const m, int const examx, int const examy)
 {
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
-         (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
-        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+    constexpr int nectar_drink_moves  = 100;
+    constexpr int nectar_drink_hunger = 15;
+    auto const current_season = calendar::turn.get_season();
+
+    //if the flowers have nectar and the player can drink it
+    if ( (p->has_trait("PROBOSCIS") || p->has_trait("BEAK_HUM")) &&
+         (p->hunger > 0) && !p->wearing_something_on(bp_mouth) &&
+         (current_season == SUMMER || current_season == SPRING) ) {
+        p->moves -= nectar_drink_moves; // Need to find a blossom (assume there's one somewhere)
         add_msg(_("You find a flower and drink some nectar."));
-        p->hunger -= 15;
+        p->hunger -= nectar_drink_hunger;
     }
+    
     //if the fruit is not ripe yet
-    if (calendar::turn.get_season() != m->get_ter_harvest_season(examx, examy)) {
+    auto const harvest_season = m->get_ter_harvest_season(examx, examy);
+    if (current_season != harvest_season) {
         std::string fruit = item::nname(m->get_ter_harvestable(examx, examy), 10);
-        fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[m->get_ter_harvest_season(examx, examy)].c_str());
-        return;
-    }
-    //if the fruit has been recently harvested
-    if (m->has_flag(TFLAG_HARVESTED, examx, examy)){
-        add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
+        fruit[0] = static_cast<char>(toupper(fruit[0])); // TODO: this is not localization friendly
+        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[harvest_season].c_str());
         return;
     }
 
-    bool seeds = false;
-    if (m->has_flag("SHRUB", examx, examy)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
-        seeds = true;
+    //if the fruit has been recently harvested
+    if (m->has_flag(TFLAG_HARVESTED, examx, examy)){
+        add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."),
+            m->tername(examx, examy).c_str());
+        return;
     }
-    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), m->get_ter_transforms_into(examx, examy), seeds);
+
+    // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
+    bool const seeds = m->has_flag("SHRUB", examx, examy);
+    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy),
+        m->get_ter_transforms_into(examx, examy), seeds);
 }
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
