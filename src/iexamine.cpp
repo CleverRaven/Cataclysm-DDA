@@ -2965,78 +2965,81 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
  */
 iexamine_function iexamine_function_from_string(std::string const& function_name)
 {
-    auto const function_hash = djb2_hash(function_name);
-    
-    // These are the precomputed djb2_hash values for the strings
-    // equivalent to the names of the functions they are mapped to.
-    // If a string changes, change the hash.
-    //
-    // NOTE: this can be done with constexpr magic too.
-    switch (function_hash) {
-    case 0xb99a9ce6: return &iexamine::acid_source;
-    case 0x1d584a00: return &iexamine::aggie_plant;
-    case 0x0b885ee7: return &iexamine::atm;
-    case 0x7c94786d: return &iexamine::bars;
-    case 0x2b0e1e4b: return &iexamine::bulletin_board;
-    case 0x41420232: return &iexamine::cardreader;
-    case 0x37ecf7c9: return &iexamine::chainfence;
-    case 0x579ae499: return &iexamine::controls_gate;
-    case 0x19dc916e: return &iexamine::curtains;
-    case 0xb7b1c37b: return &iexamine::dirtmound;
-    case 0x30fb784a: return &iexamine::door_peephole;
-    case 0x5e9871d2: return &iexamine::egg_sackbw;
-    case 0x5e987483: return &iexamine::egg_sackws;
-    case 0x1f656827: return &iexamine::elevator;
-    case 0x0f6bf461: return &iexamine::fault;
-    case 0x029ab06b: return &iexamine::fence_post;
-    case 0x798aac1a: return &iexamine::flower_bluebell;
-    case 0x134086b6: return &iexamine::flower_dahlia;
-    case 0x50122e01: return &iexamine::flower_dandelion;
-    case 0x134742b4: return &iexamine::flower_datura;
-    case 0x30d29194: return &iexamine::flower_marloss;
-    case 0x664f85ab: return &iexamine::flower_poppy;
-    case 0xc45a04fd: return &iexamine::fswitch;
-    case 0xfe507f3d: return &iexamine::fungus;
-    case 0xce906964: return &iexamine::fvat_empty;
-    case 0x82622568: return &iexamine::fvat_full;
-    case 0xe712e0a2: return &iexamine::gaspump;
-    case 0x1533d89e: return &iexamine::gunsafe_el;
-    case 0x1533d9a6: return &iexamine::gunsafe_ml;
-    case 0x515df994: return &iexamine::harvest_tree_shrub;
-    case 0x0b88877c: return &iexamine::keg;
-    case 0x516a3b21: return &iexamine::kiln_empty;
-    case 0x0a3a3385: return &iexamine::kiln_full;
-    case 0x7c9b47f5: return &iexamine::none;
-    case 0x9c4206e9: return &iexamine::pay_gas;
-    case 0xed0f9ffd: return &iexamine::pedestal_temple;
-    case 0xb6693185: return &iexamine::pedestal_wyrm;
-    case 0x0b889d52: return &iexamine::pit;
-    case 0x31628b59: return &iexamine::pit_covered;
-    case 0xfc11068e: return &iexamine::portable_structure;
-    case 0xff727bfe: return &iexamine::recycler;
-    case 0xd9aaa19f: return &iexamine::reload_furniture;
-    case 0x66a6b572: return &iexamine::remove_fence_barbed;
-    case 0x13a41328: return &iexamine::remove_fence_rope;
-    case 0x13a6b7c9: return &iexamine::remove_fence_wire;
-    case 0x1a47bbc1: return &iexamine::rubble;
-    case 0x7c9dc944: return &iexamine::safe;
-    case 0xadcea534: return &iexamine::shrub_blueberry;
-    case 0x28d52369: return &iexamine::shrub_marloss;
-    case 0x884aef9d: return &iexamine::shrub_strawberry;
-    case 0x3ea59202: return &iexamine::shrub_wildveggies;
-    case 0x7c9deb76: return &iexamine::sign;
-    case 0x7e82e17b: return &iexamine::slot_machine;
-    case 0x02595aab: return &iexamine::swater_source;
-    case 0x1e897a56: return &iexamine::toilet;
-    case 0x7c9e9d5c: return &iexamine::trap;
-    case 0x084a5bea: return &iexamine::tree_blackjack;
-    case 0xd4ffef55: return &iexamine::tree_marloss;
-    case 0x4119da80: return &iexamine::tree_pine;
-    case 0x72afd070: return &iexamine::vending;
-    case 0x464f8518: return &iexamine::water_source;
-    }
+    using pair_t = std::pair<int const, iexamine_function const>;
+    static pair_t const mappings[] = {
+        {djb2_hash("acid_source"),        &iexamine::acid_source},
+        {djb2_hash("aggie_plant"),        &iexamine::aggie_plant},
+        {djb2_hash("atm"),                &iexamine::atm},
+        {djb2_hash("bars"),               &iexamine::bars},
+        {djb2_hash("bulletin_board"),     &iexamine::bulletin_board},
+        {djb2_hash("cardreader"),         &iexamine::cardreader},
+        {djb2_hash("chainfence"),         &iexamine::chainfence},
+        {djb2_hash("controls_gate"),      &iexamine::controls_gate},
+        {djb2_hash("curtains"),           &iexamine::curtains},
+        {djb2_hash("dirtmound"),          &iexamine::dirtmound},
+        {djb2_hash("door_peephole"),      &iexamine::door_peephole},
+        {djb2_hash("egg_sackbw"),         &iexamine::egg_sackbw},
+        {djb2_hash("egg_sackws"),         &iexamine::egg_sackws},
+        {djb2_hash("elevator"),           &iexamine::elevator},
+        {djb2_hash("fault"),              &iexamine::fault},
+        {djb2_hash("fence_post"),         &iexamine::fence_post},
+        {djb2_hash("flower_bluebell"),    &iexamine::flower_bluebell},
+        {djb2_hash("flower_dahlia"),      &iexamine::flower_dahlia},
+        {djb2_hash("flower_dandelion"),   &iexamine::flower_dandelion},
+        {djb2_hash("flower_datura"),      &iexamine::flower_datura},
+        {djb2_hash("flower_marloss"),     &iexamine::flower_marloss},
+        {djb2_hash("flower_poppy"),       &iexamine::flower_poppy},
+        {djb2_hash("fswitch"),            &iexamine::fswitch},
+        {djb2_hash("fungus"),             &iexamine::fungus},
+        {djb2_hash("fvat_empty"),         &iexamine::fvat_empty},
+        {djb2_hash("fvat_full"),          &iexamine::fvat_full},
+        {djb2_hash("gaspump"),            &iexamine::gaspump},
+        {djb2_hash("gunsafe_el"),         &iexamine::gunsafe_el},
+        {djb2_hash("gunsafe_ml"),         &iexamine::gunsafe_ml},
+        {djb2_hash("harvest_tree_shrub"), &iexamine::harvest_tree_shrub},
+        {djb2_hash("keg"),                &iexamine::keg},
+        {djb2_hash("kiln_empty"),         &iexamine::kiln_empty},
+        {djb2_hash("kiln_full"),          &iexamine::kiln_full},
+        {djb2_hash("none"),               &iexamine::none},
+        {djb2_hash("pay_gas"),            &iexamine::pay_gas},
+        {djb2_hash("pedestal_temple"),    &iexamine::pedestal_temple},
+        {djb2_hash("pedestal_wyrm"),      &iexamine::pedestal_wyrm},
+        {djb2_hash("pit"),                &iexamine::pit},
+        {djb2_hash("pit_covered"),        &iexamine::pit_covered},
+        {djb2_hash("portable_structure"), &iexamine::portable_structure},
+        {djb2_hash("recycler"),           &iexamine::recycler},
+        {djb2_hash("reload_furniture"),   &iexamine::reload_furniture},
+        {djb2_hash("remove_fence_barbed"),&iexamine::remove_fence_barbed},
+        {djb2_hash("remove_fence_rope"),  &iexamine::remove_fence_rope},
+        {djb2_hash("remove_fence_wire"),  &iexamine::remove_fence_wire},
+        {djb2_hash("rubble"),             &iexamine::rubble},
+        {djb2_hash("safe"),               &iexamine::safe},
+        {djb2_hash("shrub_blueberry"),    &iexamine::shrub_blueberry},
+        {djb2_hash("shrub_marloss"),      &iexamine::shrub_marloss},
+        {djb2_hash("shrub_strawberry"),   &iexamine::shrub_strawberry},
+        {djb2_hash("shrub_wildveggies"),  &iexamine::shrub_wildveggies},
+        {djb2_hash("sign"),               &iexamine::sign},
+        {djb2_hash("slot_machine"),       &iexamine::slot_machine},
+        {djb2_hash("swater_source"),      &iexamine::swater_source},
+        {djb2_hash("toilet"),             &iexamine::toilet},
+        {djb2_hash("trap"),               &iexamine::trap},
+        {djb2_hash("tree_blackjack"),     &iexamine::tree_blackjack},
+        {djb2_hash("tree_marloss"),       &iexamine::tree_marloss},
+        {djb2_hash("tree_pine"),          &iexamine::tree_pine},
+        {djb2_hash("vending"),            &iexamine::vending},
+        {djb2_hash("water_source"),       &iexamine::water_source},
+    };
 
     //pick_plant deliberately missing due to different function signature
+
+    auto const function_hash = djb2_hash(function_name);
+    auto const it = std::find_if(std::begin(mappings), std::end(mappings), [&](pair_t const& p) {
+        return p.first == function_hash;
+    });
+
+    if (it != std::end(mappings)) {
+        return it->second;
+    }
 
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
