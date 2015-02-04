@@ -865,15 +865,15 @@ private:
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>
-     void process_items( bool active, T processor, std::string signal );
+     void process_items( bool active, T processor, std::string const &signal );
  template<typename T>
-     void process_items_in_submap( submap *const current_submap, int gridx, int gridy,
-                                   T processor, std::string signal );
+     void process_items_in_submap( submap * current_submap, int gridx, int gridy,
+                                   T processor, std::string const &signal );
  template<typename T>
-     void process_items_in_vehicles( submap *const current_submap, T processor, std::string signal);
+     void process_items_in_vehicles( submap *current_submap, T processor, std::string const &signal);
  template<typename T>
-     void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap,
-                                    T processor, std::string signal );
+     void process_items_in_vehicle( vehicle *cur_veh, submap *current_submap,
+                                    T processor, std::string const &signal );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

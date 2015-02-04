@@ -3116,14 +3116,14 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
 
 void map::process_active_items()
 {
-    process_items( true, process_map_items, "" );
+    process_items( true, process_map_items, std::string {} );
 }
 
 template<typename T>
-void map::process_items( bool active, T processor, std::string signal )
+void map::process_items( bool const active, T processor, std::string const &signal )
 {
-    for( int gx = 0; gx < my_MAPSIZE; gx++ ) {
-        for( int gy = 0; gy < my_MAPSIZE; gy++ ) {
+    for( int gx = 0; gx < my_MAPSIZE; ++gx ) {
+        for( int gy = 0; gy < my_MAPSIZE; ++gy ) {
             submap *const current_submap = get_submap_at_grid(gx, gy);
             // Vehicles first in case they get blown up and drop active items on the map.
             if( !current_submap->vehicles.empty() ) {
@@ -3137,35 +3137,44 @@ void map::process_items( bool active, T processor, std::string signal )
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor,
-                                   std::string signal )
+void map::process_items_in_submap( submap *const current_submap, int const gridx, int const gridy,
+    T processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
     std::list<item_reference> active_items = current_submap->active_items.get();
+    auto const p0 = point {gridx * SEEX, gridy * SEEY};
     for( auto &active_item : active_items ) {
-        point map_location( gridx * SEEX + active_item.location.x,
-                            gridy * SEEY + active_item.location.y );
-        auto items = i_at( map_location.x, map_location.y );
         if( !current_submap->active_items.has( active_item ) ) {
             continue;
         }
-        processor( items, active_item.item_iterator, map_location, signal );
+
+        auto const p = p0 + active_item.location; //map location
+        processor( i_at( p.x, p.y ), active_item.item_iterator, p, signal );
     }
 }
 
-template<typename T>
-void map::process_items_in_vehicles( submap *const current_submap, T processor, std::string signal )
+namespace {
+template <typename Container>
+bool is_vehicle_in_container(Container const& c, vehicle const *const v)
 {
-    std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
+    using std::begin; using std::end;
+    return std::any_of(begin(c), end(c), [v](decltype(v) u) { return v == u; });
+}
+} //namespace
+
+template<typename T>
+void map::process_items_in_vehicles( submap *const current_submap, T processor,
+    std::string const &signal )
+{
+    std::vector<vehicle*> const &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
-    std::vector<vehicle*> vehicles = veh_in_nonant;
-    for( auto &vehicles_v : vehicles ) {
-        vehicle *cur_veh = vehicles_v;
-        if (std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+    std::vector<vehicle*> const vehicles = veh_in_nonant;
+    for( auto &cur_veh : vehicles ) {
+        if (!is_vehicle_in_container(veh_in_nonant, cur_veh)) {
             // vehicle not in the vehicle list of the nonant, has been
             // destroyed (or moved to another nonant?)
             // Can't be sure that it still exists, so skip it
@@ -3176,54 +3185,51 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor, 
 }
 
 template<typename T>
-void map::process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor,
-                                    std::string signal )
+void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const current_submap,
+    T processor, std::string const &signal )
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
     for( int part : cargo_parts ) {
         process_vehicle_items( cur_veh, part );
     }
-    auto active_items = cur_veh->active_items.get();
-    for( auto &active_item : active_items ) {
-        if( !cur_veh->active_items.has( active_item ) ) {
+
+    for( auto &active_item : cur_veh->active_items.get() ) {
+        if ( cargo_parts.empty() ) {
+            return;
+        } else if( !cur_veh->active_items.has( active_item ) ) {
             continue;
+        }
+
+        auto const it = std::find_if(std::begin(cargo_parts), std::end(cargo_parts),
+            [&](int const part) {
+                return active_item.location == cur_veh->parts[part].mount;
+            });
+
+        if (it == std::end(cargo_parts) || *it == -1) { // TODO: Can partseven  be -1??
+            continue; // Can't find a cargo part matching the active item.
         }
 
         // Find the cargo part and coordinates corresponding to the current active item.
-        int part_index = -1;
-        point item_location;
-        // Fetch a possibly empty item stack so we can replace it later.
-        vehicle_stack items = cur_veh->get_items( 0 );
-        for( auto part_index_candidate : cargo_parts ) {
-            vehicle_part &vp = cur_veh->parts[part_index_candidate];
-            if( active_item.location == vp.mount ) {
-                part_index = part_index_candidate;
-                item_location = cur_veh->global_pos() + vp.precalc[0];
-                items = cur_veh->get_items( part_index );
-                break;
-            }
-        }
-        if( part_index == -1 ) {
-            // Can't find a cargo part matching the active item.
-            continue;
-        }
+        auto const &vp = cur_veh->parts[*it];
+        point const item_location = cur_veh->global_pos() + vp.precalc[0];
 
-        if( !processor( items, active_item.item_iterator, item_location, signal ) ) {
+        if(!processor(cur_veh->get_items(*it), active_item.item_iterator, item_location, signal)) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
         }
+
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
-        if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+        if(!is_vehicle_in_container(current_submap->vehicles, cur_veh)) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
             // or be destroyed, anywaay it does not need to be processed here
             return;
         }
+
         // Vehicle still valid, reload the list of cargo parts,
-        // the list of cargo parts might have changed (image a part with
+        // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
         cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
