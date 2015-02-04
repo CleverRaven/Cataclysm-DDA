@@ -1646,9 +1646,9 @@
     ],
     [
       [ "oxy_torch", 20 ],
-      ["welder", 100],
-      ["welder_crude", 150],
-      ["toolset", 150]
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 150]
     ]
   ],
   "components": [
@@ -1656,7 +1656,7 @@
       [ "chainsaw_off", 1 ]
     ],
     [
-      [ "metal_tank_small", 1 ]
+      [ "metal_tank_little", 1 ]
     ],
     [
       [ "steel_chunk", 3 ],
@@ -2431,15 +2431,15 @@
         ["superglue", 1]
     ],
     [
-        [ "2x4", 1],
-        [ "stick", 1 ]
+        ["2x4", 1],
+        ["stick", 1 ]
     ],
     [
-        ["metal_tank_small", 1]
+        ["metal_tank_little", 1]
     ],
     [
         ["steel_chunk", 3],
-        [ "scrap", 9 ]
+        ["scrap", 9 ]
     ]
   ]
 },{
@@ -2519,14 +2519,14 @@
     ],
     [
       ["2x4", 1],
-      [ "stick", 1 ]
+      ["stick", 1 ]
     ],
     [
-      ["metal_tank_small", 1]
+      ["metal_tank_little", 1]
     ],
     [
       ["steel_chunk", 3],
-      [ "scrap", 9]
+      ["scrap", 9]
     ]
   ]
 },{
