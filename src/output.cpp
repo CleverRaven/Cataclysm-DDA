@@ -1062,7 +1062,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 nc_color thisColor = c_white;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
-                        if (vItemDisplay[i].sName == k.sName) {
+                        if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
                                 thisColor = c_white;
