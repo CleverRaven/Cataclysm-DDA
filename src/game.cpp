@@ -3274,7 +3274,7 @@ bool game::handle_action()
                 // List all active items, bionics or mutations so player can deactivate them
                 std::vector<std::string> active;
                 for ( auto &it : g->u.inv_dump() ) {
-                    if ( it->active ) {
+                    if ( it->active && it->is_tool() && it->charges > 0 ) {
                         active.push_back( it->tname() );
                     }
                 }
