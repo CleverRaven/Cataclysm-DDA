@@ -5886,6 +5886,7 @@ void game::cleanup_dead()
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.get_hp(), critter.name().c_str());
+            critter.die( nullptr );
             remove_zombie( i );
         } else {
             i++;
@@ -6002,11 +6003,11 @@ void game::monmove()
 
     // Now, do active NPCs.
     for( auto &elem : active_npc ) {
+        if( elem->is_dead() ) {
+            continue;
+        }
         int turns = 0;
         m.creature_in_field( *elem );
-        if( ( elem )->hp_cur[hp_head] <= 0 || ( elem )->hp_cur[hp_torso] <= 0 ) {
-            ( elem )->die( nullptr );
-        } else {
             ( elem )->process_turn();
             while( !( elem )->is_dead() && ( elem )->moves > 0 && turns < 10 ) {
                 int moves = ( elem )->moves;
@@ -6022,7 +6023,6 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
-        }
     }
     cleanup_dead();
 }
