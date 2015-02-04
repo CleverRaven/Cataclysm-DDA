@@ -3193,10 +3193,9 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
             continue;
         }
 
-        auto const it = std::find_if(std::begin(cargo_parts), std::end(cargo_parts),
-            [&](int const part) {
-                return active_item.location == cur_veh->parts[static_cast<size_t>(part)].mount;
-            });
+        auto const it = std::find_if(begin(cargo_parts), end(cargo_parts), [&](int const part) {
+            return active_item.location == cur_veh->parts[static_cast<size_t>(part)].mount;
+        });
 
         if (it == std::end(cargo_parts)) {
             continue; // Can't find a cargo part matching the active item.
