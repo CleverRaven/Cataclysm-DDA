@@ -405,6 +405,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     on_gethit(source, bp_hit, d); // trigger on-gethit events
     dealt_dam = deal_damage(source, bp_hit, d);
     dealt_dam.bp_hit = bp_hit;
+    check_dead_state();
 }
 
 // TODO: check this over, see if it's right
@@ -618,6 +619,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
         const damage_instance &dam)
 {
+    if( is_dead_state() ) {
+        return dealt_damage_instance();
+    }
     int total_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
@@ -644,7 +648,6 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     }
 
     apply_damage(source, bp, total_damage);
-    check_dead_state();
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)

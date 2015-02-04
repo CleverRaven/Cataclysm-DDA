@@ -2182,6 +2182,7 @@ void map::crush(const int x, const int y)
 
             // Pin whoever got hit
             crushed_player->add_effect("crushed", 1, num_bp, true);
+            crushed_player->check_dead_state();
         }
     }
 
@@ -2194,6 +2195,7 @@ void map::crush(const int x, const int y)
 
         // Pin whoever got hit
         monhit->add_effect("crushed", 1, num_bp, true);
+        monhit->check_dead_state();
     }
 
     vehicle *veh = veh_at(x, y, veh_part);

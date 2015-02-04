@@ -785,10 +785,12 @@ void mattack::growplants(monster *z, int index)
                             add_msg(m_bad, _("A tree bursts forth from the earth and pierces your %s!"),
                                     body_part_name_accusative(hit).c_str());
                             g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                            g->u.check_dead_state();
                         }
                     } else {
                         int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                         if (npcdex != -1) { // An NPC got hit
+                            // TODO: combine this with the player character code above
                             body_part hit = num_bp;
                             if (one_in(2)) {
                                 hit = bp_leg_l;
@@ -810,6 +812,7 @@ void mattack::growplants(monster *z, int index)
                                         g->active_npc[npcdex]->name.c_str(),
                                         body_part_name_accusative(hit).c_str());
                             g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                            g->active_npc[npcdex]->check_dead_state();
                         }
                     }
                     g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -861,10 +864,12 @@ void mattack::growplants(monster *z, int index)
                                 add_msg(m_bad, _("The underbrush beneath your feet grows and pierces your %s!"),
                                         body_part_name_accusative(hit).c_str());
                                 g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                g->u.check_dead_state();
                             }
                         } else {
                             int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                             if (npcdex != -1) {
+                                // TODO: combine with player character code above
                                 body_part hit = num_bp;
                                 if (one_in(2)) {
                                     hit = bp_leg_l;
@@ -886,6 +891,7 @@ void mattack::growplants(monster *z, int index)
                                             g->active_npc[npcdex]->name.c_str(),
                                             body_part_name_accusative(hit).c_str());
                                 g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                g->active_npc[npcdex]->check_dead_state();
                             }
                         }
                     }
@@ -953,6 +959,7 @@ void mattack::vine(monster *z, int index)
                     d.add_damage( DT_CUT, 4 );
                     d.add_damage( DT_BASH, 4 );
                     critter->deal_damage( z, bphit, d );
+                    critter->check_dead_state();
                     z->moves -= 100;
                     return;
                 }
@@ -1057,6 +1064,7 @@ void mattack::spit_sap(monster *z, int index)
     }
     target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
     target->add_effect("sap", dam);
+    target->check_dead_state();
 }
 
 void mattack::triffid_heartbeat(monster *z, int index)
@@ -1326,7 +1334,7 @@ void mattack::fungus_inject(monster *z, int index)
     }
 
     g->u.practice( "dodge", z->type->melee_skill );
-
+    g->u.check_dead_state();
 }
 void mattack::fungus_bristle(monster *z, int index)
 {
@@ -1383,6 +1391,7 @@ void mattack::fungus_bristle(monster *z, int index)
                                 body_part_name_accusative(hit).c_str());
         foe->practice( "dodge", z->type->melee_skill );
     }
+    target->check_dead_state();
 }
 
 void mattack::fungus_growth(monster *z, int index)
@@ -1502,6 +1511,7 @@ void mattack::fungus_fortify(monster *z, int index)
                         add_msg(m_bad, _("A fungal tendril bursts forth from the earth and pierces your %s!"),
                                 body_part_name_accusative(hit).c_str());
                         g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
+                        g->u.check_dead_state();
                         // Probably doesn't have spores available *just* yet.  Let's be nice.
                         } else {
                             add_msg(m_bad, _("A fungal tendril bursts forth from the earth!"));
@@ -1546,6 +1556,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 }
 
             g->u.practice( "dodge", z->type->melee_skill );
+            g->u.check_dead_state();
         }
     }
 }
@@ -1983,6 +1994,7 @@ void mattack::tentacle(monster *z, int index)
     add_msg(m_bad, _("Your %1$s is hit for %2$d damage!"), body_part_name(hit).c_str(), dam);
     g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     g->u.practice( "dodge", z->type->melee_skill );
+    g->u.check_dead_state();
 }
 
 void mattack::vortex(monster *z, int index)
@@ -2037,6 +2049,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(m_bad, _("A %1$s hits your %2$s for %3$d damage!"), thrown.tname().c_str(),
                                         body_part_name_accusative(hit).c_str(), dam);
                                 g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+                                g->u.check_dead_state();
                                 dam = 0;
                             }
                         }
@@ -2160,6 +2173,7 @@ void mattack::vortex(monster *z, int index)
                         g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
                         if (damage_copy < damage) {
                             g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage - damage_copy ) );
+                            g->u.check_dead_state();
                         }
                     }
                     if (hit_wall) {
@@ -2169,6 +2183,7 @@ void mattack::vortex(monster *z, int index)
                         g->u.sety( traj[traj.size() - 1].y );
                     }
                     g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage ) );
+                    g->u.check_dead_state();
                     g->update_map(&(g->u));
                 } // Done with checking for player
             }
@@ -3570,6 +3585,7 @@ void mattack::bite(monster *z, int index)
     } else if( seen ) {
         add_msg( _("The %s bites %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
+    target->check_dead_state();
 }
 
 void mattack::brandish(monster *z, int index)
@@ -3639,6 +3655,7 @@ void mattack::flesh_golem(monster *z, int index)
         foe->practice( "dodge", z->type->melee_skill );
         foe->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     }
+    target->check_dead_state();
 }
 
 void mattack::lunge(monster *z, int index)
@@ -3701,6 +3718,7 @@ void mattack::lunge(monster *z, int index)
         foe->practice( "dodge", z->type->melee_skill );
         foe->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     }
+    target->check_dead_state();
 }
 
 void mattack::longswipe(monster *z, int index)
@@ -3735,6 +3753,7 @@ void mattack::longswipe(monster *z, int index)
             add_msg(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
             g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
             g->u.practice( "dodge", z->type->melee_skill );
+            g->u.check_dead_state();
         }
         return;
     }
@@ -3761,6 +3780,7 @@ void mattack::longswipe(monster *z, int index)
     g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
     g->u.add_effect("bleed", 100, hit);
     g->u.practice( "dodge", z->type->melee_skill );
+    g->u.check_dead_state();
 }
 
 
@@ -3911,6 +3931,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
                 shock.add_damage(DT_ELECTRIC, rng(1, 3));
                 foe->deal_damage(z, bp_arm_l, shock);
                 foe->deal_damage(z, bp_arm_r, shock);
+                foe->check_dead_state();
             }
             // Monster is down,
             z->add_effect("downed", 2);
@@ -4163,6 +4184,7 @@ void mattack::bio_op_takedown(monster *z, int index)
         if( seen ) {
             add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
         }
+        target->check_dead_state();
         return;
     }
     // Yes, it has the CQC bionic.
@@ -4204,6 +4226,7 @@ void mattack::bio_op_takedown(monster *z, int index)
         foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     }
     foe->practice( "dodge", z->type->melee_skill );
+    foe->check_dead_state();
 }
 
 void mattack::suicide(monster *z, int index)

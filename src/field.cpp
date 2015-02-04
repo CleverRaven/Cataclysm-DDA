@@ -1194,17 +1194,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
+                                        g->u.check_dead_state();
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y);
                                     int mondex = g->mon_at(newp.x, newp.y);
 
                                     if (npcdex != -1) {
+                                        // TODO: combine with player character code above
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if (g->u.sees( newp )) {
                                             add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
+                                        p->check_dead_state();
                                     }
 
                                     if (mondex != -1) {
@@ -1491,6 +1494,7 @@ void map::player_in_field( player &u )
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 0, 2 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 0, 2 ) ) );
             }
+            u.check_dead_state();
             break;
 
         case fd_sap:
@@ -1583,6 +1587,7 @@ void map::player_in_field( player &u )
                     u.deal_damage( nullptr, (enum body_part)part_burned,
                                       damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                 }
+                u.check_dead_state();
             }
             break;
 
@@ -1682,6 +1687,7 @@ void map::player_in_field( player &u )
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
+                u.check_dead_state();
             } else
                 u.add_msg_player_or_npc(_("These flames do not burn you."), _("Those flames do not burn <npcname>."));
             break;
@@ -1843,6 +1849,7 @@ void map::monster_in_field( monster &z )
                     const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
                     z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 }
+                z.check_dead_state();
             }
             break;
 

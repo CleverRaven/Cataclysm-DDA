@@ -5008,6 +5008,7 @@ void player::knock_back_from(int x, int y)
         add_effect("stunned", 1);
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
+        p->check_dead_state();
         return;
     }
 

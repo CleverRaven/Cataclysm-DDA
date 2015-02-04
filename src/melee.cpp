@@ -434,7 +434,8 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
-
+    // some things (shattering weapons) can harm the attacking creature.
+    check_dead_state();
     return;
 }
 

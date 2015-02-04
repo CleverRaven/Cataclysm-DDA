@@ -564,6 +564,7 @@ void trapfunc::goo(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The acidic goo eats away at your feet."));
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
                 n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 5 ) );
+                n->check_dead_state();
             }
         } else if (z != NULL) {
             if (z->type->id == "mon_blob") {

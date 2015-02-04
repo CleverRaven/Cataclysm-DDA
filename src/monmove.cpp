@@ -1047,6 +1047,7 @@ void monster::knock_back_from(int x, int y)
   if (u_see)
    add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
+  p->check_dead_state();
   return;
  }
 

@@ -6067,6 +6067,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6130,17 +6131,20 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
+                // TODO: why is this different for NPC vs player character?
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
                     dam = rng(2 * dam, 5 * dam);
                 } else if (hit == bp_torso) {
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
+                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
+                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
@@ -6391,6 +6395,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     if (one_in(2)) {
                         targ->deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
+                    targ->check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -6489,6 +6494,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     if (one_in(2)) {
                         u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
+                    u.check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -7158,6 +7164,7 @@ void game::smash()
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
+            u.check_dead_state();
         }
         if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
             if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
