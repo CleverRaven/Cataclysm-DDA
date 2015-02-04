@@ -3707,7 +3707,41 @@ bool item::flammable() const
     for( auto mat : made_of_types() ) {
         flammability += mat->fire_resist();
     }
-    return flammability <= 0;
+
+    if( flammability == 0 ) {
+        return true;
+    }
+
+    if( made_of("nomex") ) {
+        return false;
+    }
+
+    if( made_of("paper") || made_of("powder") || made_of("plastic") ||
+        type->id == "whiskey" || type->id == "vodka" ||
+        type->id == "rum" || type->id == "tequila" ||
+        type->id == "single_malt_whiskey" || type->id == "gin" ||
+        type->id == "moonshine" || type->id == "brandy") {
+        return true;
+    }
+
+    int vol = volume();
+    if( ( made_of( "wood" ) || made_of( "veggy" ) ) && ( burnt < 1 || vol <= 10 ) ) {
+        return true;
+    }
+
+    if( ( made_of("cotton") || made_of("wool") ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
+        return true;
+    }
+
+    if( is_ammo() && ammo_type() != "water" && ammo_type() != "battery" &&
+        ammo_type() != "nail" && ammo_type() != "BB" &&
+        ammo_type() != "bolt" && ammo_type() != "arrow" &&
+        ammo_type() != "pebble" && ammo_type() != "fishspear" &&
+        ammo_type() != "NULL") {
+        return true;
+    }
+
+    return false;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)

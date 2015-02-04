@@ -1583,33 +1583,13 @@ bool map::is_outside(const int x, const int y)
 
 bool map::flammable_items_at(const int x, const int y)
 {
-    for (auto &i : i_at(x, y)) {
-        int vol = i.volume();
-        if (i.made_of("paper") || i.made_of("powder") ||
-              i.type->id == "whiskey" || i.type->id == "vodka" ||
-              i.type->id == "rum" || i.type->id == "tequila" ||
-              i.type->id == "single_malt_whiskey" || i.type->id == "gin" ||
-              i.type->id == "moonshine" || i.type->id == "brandy") {
-            return true;
-        }
-        if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
-            return true;
-        }
-        if( (i.made_of("cotton") || i.made_of("wool") ) && ( i.burnt / ( vol + 1 ) <= 1 ) ) {
-            return true;
-        }
-        if (i.is_ammo() && i.ammo_type() != "water" && i.ammo_type() != "battery" &&
-              i.ammo_type() != "nail" && i.ammo_type() != "BB" &&
-              i.ammo_type() != "bolt" && i.ammo_type() != "arrow" &&
-              i.ammo_type() != "pebble" && i.ammo_type() != "fishspear" &&
-              i.ammo_type() != "NULL") {
-            return true;
-        }
+    for( const auto &i : i_at(x, y) ) {
         if( i.flammable() ) {
             // Total fire resistance == 0
             return true;
         }
     }
+
     return false;
 }
 
