@@ -10,6 +10,8 @@
 #include "debug.h"
 #include "messages.h"
 #include <cmath>
+#include <list>
+#include <functional>
 
 #ifdef _MSC_VER
 #include <math.h>
