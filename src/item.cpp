@@ -27,8 +27,8 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
-int     fured = 0;
- int   pocketed = 0;
+bool     fured = 0;
+bool     pocketed = 0;   //Move these somewhere reasonable
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -2254,11 +2254,11 @@ int item::get_storage() const
     if( t == nullptr ) {
         return 0;
     }
-    if( pocketed == 1){
-        t += 10;   //Value just to see that it works
+    if (pocketed == true){
+        t += 10; //Test value
     }
     // it_armor::storage is unsigned char
-    return (int)( t->storage ) ;
+    return (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 }
 
 int item::get_env_resist() const
@@ -2316,7 +2316,7 @@ int item::get_warmth() const
     if( t == nullptr ) {
         return 0;
     }
-     if (fured == 1){
+     if (fured == true){
         t += 25; //Also arbitrary test value
     }
     // it_armor::warmth is signed char

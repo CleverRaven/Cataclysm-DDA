@@ -3117,8 +3117,9 @@ int iuse::sew(player *p, item *it, bool, point)
         std::vector<item_comp> comps;
         comps.push_back(item_comp(repair_item, items_needed));
 
+
+    p->add_msg_if_player(m_info, _("You sew some extra pockets on your %s."), mod->tname().c_str());
     mod->pocketed = 1;
-    p->add_msg_if_player(m_info, _("You sew on some extra pockets."));
     p->consume_items(comps);
     return thread_used;
         };
@@ -3159,8 +3160,8 @@ int iuse::sew(player *p, item *it, bool, point)
     }
         std::vector<item_comp> comps;
         comps.push_back(item_comp(repair_item, items_needed));
+    p->add_msg_if_player(m_info, _("You sew a fur lining in your %s."),mod->tname().c_str());
     mod->fured = 1;
-    p->add_msg_if_player(m_info, _("You sew in a fur lining."));
     p->consume_items(comps);
     return thread_used;
     };

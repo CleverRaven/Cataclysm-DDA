@@ -112,14 +112,14 @@ void Character::load(JsonObject &data)
     Creature::load( data );
 
     JsonArray parray;
-    
+
     data.read("underwater", underwater);
-    
+
     data.read("traits", my_traits);
 
     data.read( "mutations", my_mutations );
     data.read( "mutation_keys", trait_keys );
-    
+
     data.read( "my_bionics", my_bionics );
 
     worn.clear();
@@ -141,7 +141,7 @@ void Character::load(JsonObject &data)
 
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
-    
+
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
@@ -159,7 +159,7 @@ void Character::load(JsonObject &data)
 void Character::store(JsonOut &json) const
 {
     Creature::store( json );
-    
+
     // breathing
     json.member( "underwater", underwater );
 
@@ -172,7 +172,7 @@ void Character::store(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
-    
+
     // skills
     json.member( "skills" );
     json.start_object();
@@ -1055,6 +1055,8 @@ void item::deserialize(JsonObject &data)
 
     data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
+    data.read( "pocketed", pocketed );
+    data.read( "fured", fured);
     data.read( "active", active );
     data.read( "item_counter" , item_counter );
     data.read( "fridge", fridge );
@@ -1125,6 +1127,12 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( damage != 0 ) {
         json.member( "damage", int(damage) );
+    }
+    if ( pocketed != 0 ) {
+        json.member( "pocketed", bool(pocketed) );
+    }
+    if ( fured != 0 ) {
+        json.member( "fured", bool(fured) );
     }
     if ( burnt != 0 ) {
         json.member( "burnt", burnt );
