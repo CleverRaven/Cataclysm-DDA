@@ -2079,6 +2079,9 @@ void act_vehicle_siphon(vehicle* veh) {
     if(fillv == nullptr) { // Ain't nothing there! Go away.
         add_msg(m_info, _("There's no vehicle there."));
         return;
+    } else if(fillv == veh) {
+        add_msg(m_info, _("As you bend the hose into a U-shape, you figure out something's not quite right..."));
+        return;
     }
 
     auto want = fillv->fuel_capacity(fuel) - fillv->fuel_left(fuel);
