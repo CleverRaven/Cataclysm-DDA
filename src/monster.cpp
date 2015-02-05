@@ -781,6 +781,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
             }
         }
     }
+    target.check_dead_state();
 
     if (is_hallucination()) {
         if(one_in(7)) {
@@ -840,6 +841,7 @@ void monster::hit_monster(monster &other)
  int damage = dice(type->melee_dice, type->melee_sides);
  target->apply_damage( this, bp_torso, damage );
     type->sp_defense(target, this, nullptr);
+    target->check_dead_state();
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -922,13 +924,23 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
+void monster::heal( const int delta_hp )
+{
+    hp += delta_hp;
+}
+
+void monster::set_hp( const int hp )
+{
+    this->hp = hp;
+}
+
 void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
-    if( dead ) {
+    if( is_dead_state() ) {
         return;
     }
     hp -= dam;
     if( hp < 1 ) {
-        die( source );
+        set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
     }
@@ -1253,9 +1265,7 @@ void monster::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
@@ -1449,7 +1459,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
-        hp -= 100;
+        apply_damage( nullptr, bp_torso, 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -1582,6 +1592,24 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+void monster::init_from_item( const item &itm )
+{
+    if( itm.typeId() == "corpse" ) {
+        const int burnt_penalty = itm.burnt;
+        set_speed_base( static_cast<int>( get_speed_base() * 0.8 ) - ( burnt_penalty / 2 ) );
+        hp = static_cast<int>( hp * 0.7 ) - burnt_penalty;
+        if( itm.damage > 0 ) {
+            set_speed_base( speed_base / ( itm.damage + 1 ) );
+            hp /= itm.damage + 1;
+        }
+    } else {
+        // must be a robot
+        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+        hp = std::max( 1, hp * damfac / 5 );
+    }
 }
 
 item monster::to_item() const

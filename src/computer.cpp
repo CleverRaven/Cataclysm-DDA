@@ -1184,7 +1184,7 @@ void computer::activate_failure(computer_failure fail)
             add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
         } else {
             add_msg(m_bad, _("Your body is damaged by the electric shock!"));
-            g->u.hurtall(rng(1, 10));
+            g->u.hurtall(rng(1, 10), nullptr);
         }
         break;
 

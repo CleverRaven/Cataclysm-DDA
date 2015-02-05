@@ -762,6 +762,7 @@ void mattack::growplants(monster *z, int index)
                             rn = 0;
                         }
                         g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
+                        g->zombie( mondex ).check_dead_state();
                     } else if( z->friendly == 0 && g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
@@ -784,10 +785,12 @@ void mattack::growplants(monster *z, int index)
                             add_msg(m_bad, _("A tree bursts forth from the earth and pierces your %s!"),
                                     body_part_name_accusative(hit).c_str());
                             g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                            g->u.check_dead_state();
                         }
                     } else {
                         int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                         if (npcdex != -1) { // An NPC got hit
+                            // TODO: combine this with the player character code above
                             body_part hit = num_bp;
                             if (one_in(2)) {
                                 hit = bp_leg_l;
@@ -809,6 +812,7 @@ void mattack::growplants(monster *z, int index)
                                         g->active_npc[npcdex]->name.c_str(),
                                         body_part_name_accusative(hit).c_str());
                             g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                            g->active_npc[npcdex]->check_dead_state();
                         }
                     }
                     g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -838,6 +842,7 @@ void mattack::growplants(monster *z, int index)
                                 rn = 0;
                             }
                             g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
+                            g->zombie( mondex ).check_dead_state();
                         } else if (z->friendly == 0 && g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
                                 body_part hit = num_bp;
@@ -859,10 +864,12 @@ void mattack::growplants(monster *z, int index)
                                 add_msg(m_bad, _("The underbrush beneath your feet grows and pierces your %s!"),
                                         body_part_name_accusative(hit).c_str());
                                 g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                g->u.check_dead_state();
                             }
                         } else {
                             int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                             if (npcdex != -1) {
+                                // TODO: combine with player character code above
                                 body_part hit = num_bp;
                                 if (one_in(2)) {
                                     hit = bp_leg_l;
@@ -884,6 +891,7 @@ void mattack::growplants(monster *z, int index)
                                             g->active_npc[npcdex]->name.c_str(),
                                             body_part_name_accusative(hit).c_str());
                                 g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                g->active_npc[npcdex]->check_dead_state();
                             }
                         }
                     }
@@ -951,6 +959,7 @@ void mattack::vine(monster *z, int index)
                     d.add_damage( DT_CUT, 4 );
                     d.add_damage( DT_BASH, 4 );
                     critter->deal_damage( z, bphit, d );
+                    critter->check_dead_state();
                     z->moves -= 100;
                     return;
                 }
@@ -1055,6 +1064,7 @@ void mattack::spit_sap(monster *z, int index)
     }
     target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
     target->add_effect("sap", dam);
+    target->check_dead_state();
 }
 
 void mattack::triffid_heartbeat(monster *z, int index)
@@ -1324,7 +1334,7 @@ void mattack::fungus_inject(monster *z, int index)
     }
 
     g->u.practice( "dodge", z->type->melee_skill );
-
+    g->u.check_dead_state();
 }
 void mattack::fungus_bristle(monster *z, int index)
 {
@@ -1381,6 +1391,7 @@ void mattack::fungus_bristle(monster *z, int index)
                                 body_part_name_accusative(hit).c_str());
         foe->practice( "dodge", z->type->melee_skill );
     }
+    target->check_dead_state();
 }
 
 void mattack::fungus_growth(monster *z, int index)
@@ -1432,7 +1443,7 @@ void mattack::fungus_fortify(monster *z, int index)
         if (rl_dist( z->pos(), g->u.pos() ) < 3) {
             if (query_yn(_("The tower extends and aims several tendrils from its depths.  Hold still?"))) {
                 add_msg(m_warning, _("The %s works several tendrils into your arms, legs, torso, and even neck..."), z->name().c_str());
-                g->u.hurtall(1);
+                g->u.hurtall(1, z);
                 add_msg(m_warning, _("You see a clear golden liquid pump through the tendrils--and then lose consciousness."));
                 g->u.toggle_mutation("MARLOSS");
                 g->u.toggle_mutation("MARLOSS_BLUE");
@@ -1500,6 +1511,7 @@ void mattack::fungus_fortify(monster *z, int index)
                         add_msg(m_bad, _("A fungal tendril bursts forth from the earth and pierces your %s!"),
                                 body_part_name_accusative(hit).c_str());
                         g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
+                        g->u.check_dead_state();
                         // Probably doesn't have spores available *just* yet.  Let's be nice.
                         } else {
                             add_msg(m_bad, _("A fungal tendril bursts forth from the earth!"));
@@ -1544,6 +1556,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 }
 
             g->u.practice( "dodge", z->type->melee_skill );
+            g->u.check_dead_state();
         }
     }
 }
@@ -1651,8 +1664,9 @@ void mattack::dermatik(monster *z, int index)
     }
     if( player_swat > dodge_roll ) {
         foe->add_msg_if_player(_("The %s lands on you, but you swat it off."), z->name().c_str());
-        if (z->hp >= z->type->hp / 2) {
+        if (z->get_hp() >= z->get_hp_max() / 2) {
             z->apply_damage( &g->u, bp_torso, 1 );
+            z->check_dead_state();
         }
         if (player_swat > dodge_roll * 1.5) {
             z->stumble(false);
@@ -1709,14 +1723,14 @@ void mattack::plant(monster *z, int index)
             add_msg(_("The %s falls to the ground and bursts!"),
                     z->name().c_str());
         }
-        z->hp = 0;
+        z->set_hp( 0 );
     }
 }
 
 void mattack::disappear(monster *z, int index)
 {
     (void)index; //unused
-    z->hp = 0;
+    z->set_hp( 0 );
 }
 
 void mattack::formblob(monster *z, int index)
@@ -1732,7 +1746,7 @@ void mattack::formblob(monster *z, int index)
             if (g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + i) {
                 // If we hit the player, cover them with slime
                 didit = true;
-                g->u.add_effect("slimed", rng(0, z->hp));
+                g->u.add_effect("slimed", rng(0, z->get_hp()));
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
@@ -1740,10 +1754,10 @@ void mattack::formblob(monster *z, int index)
                     if( othermon.type->id == "mon_blob_brain" ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
-                        if( othermon.hp < othermon.type->hp / 2 ) {
+                        if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
                             didit = true;
-                            othermon.hp += z->get_speed_base();
-                            z->hp = 0;
+                            othermon.heal( z->get_speed_base() );
+                            z->set_hp( 0 );
                             return;
                         }
                         continue;
@@ -1759,11 +1773,11 @@ void mattack::formblob(monster *z, int index)
                 } else if( (othermon.made_of("flesh") ||
                             othermon.made_of("veggy") ||
                             othermon.made_of("iflesh") ) &&
-                           rng(0, z->hp) > rng(0, othermon.hp)) { // Blobify!
+                           rng(0, z->get_hp()) > rng(0, othermon.get_hp())) { // Blobify!
                     didit = true;
                     othermon.poly(GetMType("mon_blob"));
                     othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
-                    othermon.hp = othermon.get_speed_base();
+                    othermon.set_hp( othermon.get_speed_base() );
                 }
             } else if (z->get_speed_base() >= 85 && rng(0, 250) < z->get_speed_base()) {
                 // If we're big enough, spawn a baby blob.
@@ -1772,7 +1786,7 @@ void mattack::formblob(monster *z, int index)
                 monster blob(GetMType("mon_blob_small"));
                 blob.spawn(z->posx() + i, z->posy() + j);
                 blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
-                blob.hp = blob.get_speed_base();
+                blob.set_hp( blob.get_speed_base() );
                 blob.faction = z->faction;
                 g->add_zombie(blob);
             }
@@ -1980,6 +1994,7 @@ void mattack::tentacle(monster *z, int index)
     add_msg(m_bad, _("Your %1$s is hit for %2$d damage!"), body_part_name(hit).c_str(), dam);
     g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     g->u.practice( "dodge", z->type->melee_skill );
+    g->u.check_dead_state();
 }
 
 void mattack::vortex(monster *z, int index)
@@ -2021,6 +2036,7 @@ void mattack::vortex(monster *z, int index)
                         int mondex = g->mon_at(traj[i].x, traj[i].y);
                         if (mondex != -1) {
                             g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
+                            g->zombie( mondex ).check_dead_state();
                             dam = 0;
                         }
                         if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -2033,6 +2049,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(m_bad, _("A %1$s hits your %2$s for %3$d damage!"), thrown.tname().c_str(),
                                         body_part_name_accusative(hit).c_str(), dam);
                                 g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+                                g->u.check_dead_state();
                                 dam = 0;
                             }
                         }
@@ -2095,6 +2112,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                                         g->zombie(monhit).name().c_str());
                             g->zombie( monhit ).apply_damage( z, bp_torso, damage );
+                            g->zombie( monhit ).check_dead_state();
                             hit_wall = true;
                             thrown->setpos(traj[i - 1]);
                         } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -2113,6 +2131,7 @@ void mattack::vortex(monster *z, int index)
                         thrown->setpos(traj[traj.size() - 1]);
                     }
                     thrown->apply_damage( z, bp_torso, damage );
+                    thrown->check_dead_state();
                 } // if (distance > 0)
             } // if (mondex != -1)
 
@@ -2139,6 +2158,7 @@ void mattack::vortex(monster *z, int index)
                                 add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
                             }
                             g->zombie( monhit ).apply_damage( &g->u, bp_torso, damage ); // We get the kill :)
+                            g->zombie( monhit ).check_dead_state();
                             hit_wall = true;
                             g->u.setx( traj[i - 1].x );
                             g->u.sety( traj[i - 1].y );
@@ -2153,6 +2173,7 @@ void mattack::vortex(monster *z, int index)
                         g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
                         if (damage_copy < damage) {
                             g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage - damage_copy ) );
+                            g->u.check_dead_state();
                         }
                     }
                     if (hit_wall) {
@@ -2162,6 +2183,7 @@ void mattack::vortex(monster *z, int index)
                         g->u.sety( traj[traj.size() - 1].y );
                     }
                     g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage ) );
+                    g->u.check_dead_state();
                     g->update_map(&(g->u));
                 } // Done with checking for player
             }
@@ -2432,10 +2454,7 @@ void mattack::taze( monster *z, Creature *target )
         foe->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
                                             _("The %s shocks <npcname>!"),
                                             z->name().c_str() );
-        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
-            foe->die( z );                
-            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
-        }
+        foe->check_dead_state();
     } else if( target->is_monster() ) {
         // From iuse::tazer, but simplified
         monster *mon = dynamic_cast< monster* >( target );
@@ -2443,6 +2462,7 @@ void mattack::taze( monster *z, Creature *target )
         mon->moves -= shock * 100;
         mon->apply_damage( z, bp_torso, shock );
         add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
+        mon->check_dead_state();
     }
 }
 
@@ -2451,7 +2471,7 @@ static bool ignore_mutants( monster *z )
     // Target not human, presumably some weird animal, not worth the ammo
     // unless the turret's damaged, at which point, shoot to kill
     // or target is driving a vehicle, because weird animals don't do that
-    if( z->hp == z->type->hp && !g->u.in_vehicle ) {
+    if( z->get_hp() == z->get_hp_max() && !g->u.in_vehicle ) {
         if( g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") ) {
             if( g->u.sees( *z ) && one_in(10) ) {
                 add_msg(m_info, _("The %s doesn't seem to consider you a target at the moment."),
@@ -2884,10 +2904,10 @@ void mattack::searchlight(monster *z, int index)
     z->reset_special(index); // Reset timer
 
     int max_lamp_count = 3;
-    if (z->hp < z->type->hp) {
+    if (z->get_hp() < z->get_hp_max()) {
         max_lamp_count--;
     }
-    if (z->hp < z->type->hp / 3) {
+    if (z->get_hp() < z->get_hp_max() / 3) {
         max_lamp_count--;
     }
 
@@ -3179,7 +3199,7 @@ Please put down your weapon.\""));
     }
     // If cuffed don't attack the player, unless the bot is damaged
     // presumably because of the player's actions
-    if (z->hp == z->type->hp) {
+    if (z->get_hp() == z->get_hp_max()) {
         z->anger = 1;
     } else {
         z->anger = z->type->agro;
@@ -3214,7 +3234,7 @@ void mattack::chickenbot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp <= z->type->hp ||
+    if( z->get_hp() <= z->get_hp_max() ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
@@ -3289,7 +3309,7 @@ void mattack::multi_robot(monster *z, int index)
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
-    if( z->hp <= z->type->hp ||
+    if( z->get_hp() <= z->get_hp_max() ||
         ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
@@ -3391,8 +3411,8 @@ void mattack::generator(monster *z, int index)
 {
     (void)index; //unused
     sounds::sound(z->posx(), z->posy(), 100, "");
-    if (int(calendar::turn) % 10 == 0 && z->hp < z->type->hp) {
-        z->hp++;
+    if (int(calendar::turn) % 10 == 0 && z->get_hp() < z->get_hp_max()) {
+        z->heal( 1 );
     }
 }
 
@@ -3554,10 +3574,7 @@ void mattack::bite(monster *z, int index)
                 foe->add_effect( "bite", 1, hit, true );
             }
         }
-        if( foe != &g->u && ( foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0 ) ) {
-            foe->die( z );                
-            g->active_npc.erase( std::find( g->active_npc.begin(), g->active_npc.end(), foe ) );
-        }
+        foe->check_dead_state();
     } else if( foe != nullptr ) {
         if( seen ) {
             foe->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
@@ -3568,6 +3585,7 @@ void mattack::bite(monster *z, int index)
     } else if( seen ) {
         add_msg( _("The %s bites %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
+    target->check_dead_state();
 }
 
 void mattack::brandish(monster *z, int index)
@@ -3637,6 +3655,7 @@ void mattack::flesh_golem(monster *z, int index)
         foe->practice( "dodge", z->type->melee_skill );
         foe->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     }
+    target->check_dead_state();
 }
 
 void mattack::lunge(monster *z, int index)
@@ -3699,6 +3718,7 @@ void mattack::lunge(monster *z, int index)
         foe->practice( "dodge", z->type->melee_skill );
         foe->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     }
+    target->check_dead_state();
 }
 
 void mattack::longswipe(monster *z, int index)
@@ -3733,6 +3753,7 @@ void mattack::longswipe(monster *z, int index)
             add_msg(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
             g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
             g->u.practice( "dodge", z->type->melee_skill );
+            g->u.check_dead_state();
         }
         return;
     }
@@ -3759,6 +3780,7 @@ void mattack::longswipe(monster *z, int index)
     g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
     g->u.add_effect("bleed", 100, hit);
     g->u.practice( "dodge", z->type->melee_skill );
+    g->u.check_dead_state();
 }
 
 
@@ -3909,12 +3931,14 @@ bool mattack::thrown_by_judo(monster *z, int index)
                 shock.add_damage(DT_ELECTRIC, rng(1, 3));
                 foe->deal_damage(z, bp_arm_l, shock);
                 foe->deal_damage(z, bp_arm_r, shock);
+                foe->check_dead_state();
             }
             // Monster is down,
             z->add_effect("downed", 2);
             // Here, have a crit!
-            z->hp -= (foe->roll_bash_damage(true));
-            z->hp -= 3; // Bonus for the takedown.
+            const auto damage = foe->roll_bash_damage( true ) + 3; // Bonus for the takedown.
+            z->apply_damage( foe, bp_torso, damage );
+            z->check_dead_state();
         } else {
             // Still avoids the major hit!
             foe->add_msg_if_player(_("but you deftly spin out of its grasp!"));
@@ -4094,7 +4118,7 @@ void mattack::riotbot(monster *z, int index)
         z->moves -= 50;
 
         int delta = dist / 4 + 1;  //precautionary shot
-        if (z->hp < z->type->hp) {
+        if (z->get_hp() < z->get_hp_max()) {
             delta = 1;    //precision shot
         }
 
@@ -4160,6 +4184,7 @@ void mattack::bio_op_takedown(monster *z, int index)
         if( seen ) {
             add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
         }
+        target->check_dead_state();
         return;
     }
     // Yes, it has the CQC bionic.
@@ -4201,6 +4226,7 @@ void mattack::bio_op_takedown(monster *z, int index)
         foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     }
     foe->practice( "dodge", z->type->melee_skill );
+    foe->check_dead_state();
 }
 
 void mattack::suicide(monster *z, int index)

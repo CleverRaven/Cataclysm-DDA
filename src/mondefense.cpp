@@ -41,4 +41,5 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
         add_msg(msg_type, _("Striking the %s shocks %s!"),
             m->name().c_str(), source->disp_name().c_str());
     }
+    source->check_dead_state();
 }

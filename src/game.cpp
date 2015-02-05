@@ -1355,10 +1355,10 @@ bool game::do_turn()
             u.healall(1);
         }
         if (u.has_trait("ROT2") && one_in(5)) {
-            u.hurtall(1);
+            u.hurtall(1, nullptr);
         }
         if (u.has_trait("ROT3") && one_in(2)) {
-            u.hurtall(1);
+            u.hurtall(1, nullptr);
         }
 
         if (u.radiation > 0 && one_in(3)) {
@@ -5885,7 +5885,8 @@ void game::cleanup_dead()
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
-                                         critter.hp, critter.name().c_str());
+                                         critter.get_hp(), critter.name().c_str());
+            critter.die( nullptr );
             remove_zombie( i );
         } else {
             i++;
@@ -5925,54 +5926,54 @@ void game::monmove()
     }
 
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster *critter = &critter_tracker.find(i);
-        while (!critter->is_dead() && !critter->can_move_to(critter->posx(), critter->posy())) {
+        monster &critter = critter_tracker.find(i);
+        while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
             // If we can't move to our current position, assign us to a new one
-                dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
-                             << " can't move to its location! (" << critter->posx()
-                             << ":" << critter->posy() << "), "
-                             << m.tername(critter->posx(), critter->posy()).c_str();
-                add_msg( m_debug, "%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
-                         critter->posx(), critter->posy(), m.tername(critter->posx(), critter->posy()).c_str());
+                dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
+                             << " can't move to its location! (" << critter.posx()
+                             << ":" << critter.posy() << "), "
+                             << m.tername(critter.posx(), critter.posy()).c_str();
+                add_msg( m_debug, "%s can't move to its location! (%d:%d), %s", critter.name().c_str(),
+                         critter.posx(), critter.posy(), m.tername(critter.posx(), critter.posy()).c_str());
             bool okay = false;
             int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-            int startx = critter->posx() - 3 * xdir, endx = critter->posx() + 3 * xdir;
-            int starty = critter->posy() - 3 * ydir, endy = critter->posy() + 3 * ydir;
+            int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
+            int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
             for (int x = startx; x != endx && !okay; x += xdir) {
                 for (int y = starty; y != endy && !okay; y += ydir) {
-                    if (critter->can_move_to(x, y) && is_empty(x, y)) {
-                        critter->setpos(x, y);
+                    if (critter.can_move_to(x, y) && is_empty(x, y)) {
+                        critter.setpos(x, y);
                         okay = true;
                     }
                 }
             }
             if (!okay) {
                 // die of "natural" cause (overpopulation is natural)
-                critter->die( nullptr );
+                critter.die( nullptr );
             }
         }
 
-        if (!critter->is_dead()) {
-            critter->process_turn();
+        if (!critter.is_dead()) {
+            critter.process_turn();
         }
 
-        m.creature_in_field( *critter );
+        m.creature_in_field( critter );
 
-        while (critter->moves > 0 && !critter->is_dead()) {
-            critter->made_footstep = false;
+        while (critter.moves > 0 && !critter.is_dead()) {
+            critter.made_footstep = false;
             // Controlled critters don't make their own plans
-            if (!critter->has_effect("controlled")) {
+            if (!critter.has_effect("controlled")) {
                 // Formulate a path to follow
-                critter->plan( monster_factions );
+                critter.plan( monster_factions );
             }
-            critter->move(); // Move one square, possibly hit u
-            critter->process_triggers();
-            m.creature_in_field( *critter );
+            critter.move(); // Move one square, possibly hit u
+            critter.process_triggers();
+            m.creature_in_field( critter );
         }
 
-        if (!critter->is_dead()) {
+        if (!critter.is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
-                rl_dist( u.pos(), critter->pos() ) <= 5) {
+                rl_dist( u.pos(), critter.pos() ) <= 5) {
                 u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
@@ -5980,28 +5981,33 @@ void game::monmove()
                     u.wake_up();
                 }
             }
-            // We might have stumbled out of range of the player; if so, kill us
-            if (critter->posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-                critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-                critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
-                critter->posy() > (SEEY * MAPSIZE * 7) / 6) {
-                // Remove the zombie, but don't let it "die", it still exists, just
-                // not in the reality bubble.
-                despawn_monster( i );
-                i--;
-            }
         }
     }
 
     cleanup_dead();
 
+    // The remaining monsters are all alive, but may be outside of the reality bubble.
+    // If so, despawn them. This is not the same as dying, they will be stored for later and the
+    // monster::die function is not called.
+    for( size_t i = 0; i < num_zombies(); ) {
+        monster &critter = critter_tracker.find( i );
+        if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
+            critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
+            critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
+            critter.posy() > ( SEEY * MAPSIZE * 7 ) / 6 ) {
+            despawn_monster( i );
+        } else {
+            i++;
+        }
+    }
+
     // Now, do active NPCs.
     for( auto &elem : active_npc ) {
+        if( elem->is_dead() ) {
+            continue;
+        }
         int turns = 0;
         m.creature_in_field( *elem );
-        if( ( elem )->hp_cur[hp_head] <= 0 || ( elem )->hp_cur[hp_torso] <= 0 ) {
-            ( elem )->die( nullptr );
-        } else {
             ( elem )->process_turn();
             while( !( elem )->is_dead() && ( elem )->moves > 0 && turns < 10 ) {
                 int moves = ( elem )->moves;
@@ -6017,7 +6023,6 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
-        }
     }
     cleanup_dead();
 }
@@ -6039,6 +6044,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
                 critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+                critter.check_dead_state();
             }
 
             int vpart;
@@ -6061,6 +6067,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6121,19 +6128,23 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
+                // TODO: why is this different for NPC vs player character?
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
                     dam = rng(2 * dam, 5 * dam);
                 } else if (hit == bp_torso) {
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
+                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
+                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
@@ -6274,6 +6285,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
+                    targ->check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -6383,6 +6395,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     if (one_in(2)) {
                         targ->deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
+                    targ->check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -6481,6 +6494,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     if (one_in(2)) {
                         u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
+                    u.check_dead_state();
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -6708,6 +6722,7 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
                 critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -6920,14 +6935,8 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-    int burnt_penalty = it->burnt;
     monster critter(it->get_mtype(), x, y);
-    critter.set_speed_base( int(critter.get_speed_base() * 0.8) - (burnt_penalty / 2) );
-    critter.hp = int(critter.hp * 0.7) - burnt_penalty;
-    if (it->damage > 0) {
-        critter.set_speed_base( critter.get_speed_base() / (it->damage + 1) );
-        critter.hp /= it->damage + 1;
-    }
+    critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
     if (it->get_var( "zlave" ) == "zlave"){
@@ -7155,6 +7164,7 @@ void game::smash()
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
+            u.check_dead_state();
         }
         if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
             if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
@@ -7413,7 +7423,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
         }
         // TODO: make the npc angry?
-        npc_or_player->hitall(bash_dmg);
+        npc_or_player->hitall(bash_dmg, 0, nullptr);
         knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
@@ -7431,6 +7441,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bp_torso, bash_dmg );
+            critter.check_dead_state();
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
@@ -12189,6 +12200,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             dname = critter->name();
             dam2 = rng( flvel, flvel * 2.0 );
             critter->apply_damage( c, bp_torso, dam2 );
+            critter->check_dead_state();
             if( !critter->is_dead() ) {
                 thru = false;
             }
@@ -12222,9 +12234,10 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                                           dname.c_str(), dam1 );
             }
             if( p != nullptr ) {
-                p->hitall(dam1, 40);
+                p->hitall(dam1, 40, critter);
             } else {
                 zz->apply_damage( critter, bp_torso, dam1 );
+                zz->check_dead_state();
             }
         }
         if( thru ) {
@@ -12265,10 +12278,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 dam1 /= 2;
             }
             if (dam1 > 0) {
-                p->hitall(dam1, 40);
+                p->hitall(dam1, 40, nullptr);
             }
         } else {
             zz->apply_damage( nullptr, bp_torso, dam1 );
+            zz->check_dead_state();
         }
         if (is_u) {
             if (dam1 > 0) {
@@ -12566,7 +12580,7 @@ void game::vertical_move(int movez, bool force)
                 add_msg(_("You fall expertly and take no damage."));
             } else {
                 add_msg(m_bad, _("You fall heavily, taking %d damage."), dam);
-                u.hurtall(dam);
+                u.hurtall(dam, nullptr);
             }
         }
     }
@@ -13141,6 +13155,7 @@ void game::teleport(player *p, bool add_teleglow)
             }
         }
         p->apply_damage( nullptr, bp_torso, 500 );
+        p->check_dead_state();
     } else if (can_see) {
         const int i = mon_at(newx, newy);
         if (i != -1) {
@@ -13587,7 +13602,7 @@ void game::process_artifact(item *it, player *p)
             case ARTC_HP:
                 if (calendar::turn.seconds() == 0) {
                     add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1);
+                    p->hurtall(1, nullptr);
                     it->charges++;
                 }
                 break;

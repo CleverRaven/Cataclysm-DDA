@@ -4616,7 +4616,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             //monster hits player melee
             nc_color color;
             std::string health_bar = "";
-            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar);
+            get_HP_Bar(dam, this->get_hp_max(player::bp_to_hp(bp)), color, health_bar);
 
             SCT.add(this->posx(),
                     this->posy(),
@@ -4877,7 +4877,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
     lifetime_stats()->damage_taken += dam;
     if( is_dead_state() ) {
-        die( source );
+        set_killer( source );
     }
 }
 
@@ -4943,38 +4943,22 @@ void player::healall(int dam)
     }
 }
 
-void player::hurtall(int dam)
+void player::hurtall(int dam, Creature *source)
 {
     for (int i = 0; i < num_hp_parts; i++) {
-        hp_cur[i] -= dam;
-        if (hp_cur[i] < 0) {
-            lifetime_stats()->damage_taken += hp_cur[i];
-            hp_cur[i] = 0;
-        }
-        mod_pain( dam / 2 );
-        lifetime_stats()->damage_taken += dam;
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        apply_damage( source, bp, dam );
     }
 }
 
-void player::hitall(int dam, int vary)
+void player::hitall(int dam, int vary, Creature *source)
 {
-    if (in_sleep_state()) {
-        wake_up();
-    }
-
     for (int i = 0; i < num_hp_parts; i++) {
-        int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int ddam = vary ? dam * rng (100 - vary, 100) / 100 : dam;
         int cut = 0;
-        absorb((body_part) i, ddam, cut);
-        hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0) {
-            lifetime_stats()->damage_taken += hp_cur[i];
-            hp_cur[i] = 0;
-        }
-
-        // Average of pre and post armor damage levels, divided by 8.
-        mod_pain( (dam + ddam) / 16 );
-        lifetime_stats()->damage_taken += ddam;
+        absorb(bp, ddam, cut);
+        apply_damage( source, bp, ddam );
     }
 }
 
@@ -5010,6 +4994,7 @@ void player::knock_back_from(int x, int y)
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         }
+        critter->check_dead_state();
 
         add_msg_player_or_npc(_("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                               critter->name().c_str() );
@@ -5023,6 +5008,7 @@ void player::knock_back_from(int x, int y)
         add_effect("stunned", 1);
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
+        p->check_dead_state();
         return;
     }
 
@@ -5046,59 +5032,49 @@ void player::knock_back_from(int x, int y)
     }
 }
 
-void player::bp_convert(hp_part &hpart, body_part bp)
+hp_part player::bp_to_hp( const body_part bp )
 {
-    hpart =  num_hp_parts;
     switch(bp) {
         case bp_head:
-            hpart = hp_head;
-            break;
+        case bp_eyes:
+        case bp_mouth:
+            return hp_head;
         case bp_torso:
-            hpart = hp_torso;
-            break;
+            return hp_torso;
         case bp_arm_l:
-            hpart = hp_arm_l;
-            break;
+        case bp_hand_l:
+            return hp_arm_l;
         case bp_arm_r:
-            hpart = hp_arm_r;
-            break;
+        case bp_hand_r:
+            return hp_arm_r;
         case bp_leg_l:
-            hpart = hp_leg_l;
-            break;
+        case bp_foot_l:
+            return hp_leg_l;
         case bp_leg_r:
-            hpart = hp_leg_r;
-            break;
+        case bp_foot_r:
+            return hp_leg_r;
         default:
-            //Silence warnings
-            break;
+            return num_hp_parts;
     }
 }
 
-void player::hp_convert(hp_part hpart, body_part &bp)
+body_part player::hp_to_bp( const hp_part hpart )
 {
-    bp =  num_bp;
     switch(hpart) {
         case hp_head:
-            bp = bp_head;
-            break;
+            return bp_head;
         case hp_torso:
-            bp = bp_torso;
-            break;
+            return bp_torso;
         case hp_arm_l:
-            bp = bp_arm_l;
-            break;
+            return bp_arm_l;
         case hp_arm_r:
-            bp = bp_arm_r;
-            break;
+            return bp_arm_r;
         case hp_leg_l:
-            bp = bp_leg_l;
-            break;
+            return bp_leg_l;
         case hp_leg_r:
-            bp = bp_leg_r;
-            break;
+            return bp_leg_r;
         default:
-            // Silence warnings
-            break;
+            return num_bp;
     }
 }
 
@@ -5169,7 +5145,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         return;
     }
 
-    if (part != num_bp && hp_cur[bodypart_to_hp_part(part)] == 0) {
+    if (part != num_bp && hp_cur[player::bp_to_hp(part)] == 0) {
         return;
     }
 
@@ -5773,7 +5749,7 @@ void player::hardcoded_effects(effect &it)
     if (id == "onfire") {
         // TODO: this should be determined by material properties
         if (!has_trait("M_SKIN2")) {
-            hurtall(3);
+            hurtall(3, nullptr);
         }
         for (size_t i = 0; i < worn.size(); i++) {
             item tmp = worn[i];
@@ -6581,7 +6557,7 @@ void player::hardcoded_effects(effect &it)
                 add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
                                   pgettext("memorial_female", "Succumbed to an asthma attack."));
             }
-            hurtall(500);
+            hurtall(500, nullptr);
         } else if (dur > 700) {
             if (one_in(20)) {
                 add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
@@ -6772,7 +6748,7 @@ void player::hardcoded_effects(effect &it)
                 add_msg(m_bad, _("You succumb to the infection."));
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
-                hurtall(500);
+                hurtall(500, nullptr);
             }
             it.mod_duration(1);
         }
@@ -7514,7 +7490,7 @@ void player::suffer()
             wake_up();
         }
         mod_pain(1);
-        hurtall(1);
+        hurtall(1, nullptr);
         }
     }
 
@@ -7709,7 +7685,7 @@ void player::suffer()
     }
 
     if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
-        hurtall(radiation / 100);
+        hurtall(radiation / 100, nullptr);
     }
 
     // Negative bionics effects
@@ -7726,7 +7702,7 @@ void player::suffer()
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg(m_bad, _("You suffer a burning acidic discharge!"));
-        hurtall(1);
+        hurtall(1, nullptr);
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg(m_bad, _("Your batteries discharge slightly."));

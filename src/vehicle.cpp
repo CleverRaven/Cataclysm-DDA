@@ -4044,7 +4044,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 z->apply_damage( nullptr, bp_torso, dam); // TODO: get the driver and make them responsible.
 
             } else {
-                ph->hitall (dam, 40);
+                ph->hitall (dam, 40, nullptr);
             }
             if (vel2_a > rng (10, 20)) {
                 g->fling_creature( z != nullptr ? static_cast<Creature*>( z)  : ph,

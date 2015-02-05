@@ -468,9 +468,9 @@ void npc::choose_monster_target(int &enemy, int &danger,
         monster *mon = &(g->zombie(i));
         if (this->sees(*mon)) {
             int distance = (100 * rl_dist(pos(), mon->pos())) / mon->get_speed();
-            double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
+            double hp_percent = (mon->get_hp_max() - mon->get_hp()) / mon->get_hp_max();
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
-            int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
+            int monster_danger = (mon->type->difficulty * mon->get_hp()) / mon->get_hp_max();
 
             auto att = mon->attitude( this );
             if( att == MATT_FRIEND || att == MATT_FPASSIVE ) {
@@ -492,7 +492,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
                     okay_by_rules = (distance <= 6);
                     break;
                 case ENGAGE_WEAK:
-                    okay_by_rules = (mon->hp <= average_damage_dealt());
+                    okay_by_rules = (mon->get_hp() <= average_damage_dealt());
                     break;
                 case ENGAGE_HIT:
                     okay_by_rules = (mon->has_effect("hit_by_player"));
@@ -574,7 +574,7 @@ npc_action npc::method_of_attack(int target, int danger)
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
     } else {
-        target_HP = g->zombie(target).hp;
+        target_HP = g->zombie(target).get_hp();
     }
 
     if (can_use_gun) {
