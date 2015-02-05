@@ -3810,7 +3810,7 @@
         "symbol": ">",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM"]
     },{
         "type": "terrain",
         "id": "t_stairs_up",
@@ -3818,7 +3818,7 @@
         "symbol": "<",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM"]
     },{
         "type" : "terrain",
         "id" : "t_manhole",
