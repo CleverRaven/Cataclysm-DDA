@@ -5297,7 +5297,7 @@
         "symbol" : "[",
         "description" : "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from air-borne illness and dust.",
         "price" : 800,
-        "material" : ["cotton", "iron"],
+        "material" : ["cotton", "null"],
         "volume" : 0,
         "cutting" : 0,
         "warmth" : 5,
