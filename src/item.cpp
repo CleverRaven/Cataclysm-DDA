@@ -28,7 +28,8 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 bool     fured = 0;
-bool     pocketed = 0;   //Move these somewhere reasonable
+bool     pocketed = 0;
+bool     leather_padded = 0;  //Move these somewhere reasonable
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -181,6 +182,7 @@ void item::init() {
     damage = 0;
     fured = 0;
     pocketed = 0;
+    leather_padded =0;
     burnt = 0;
     covered_bodyparts.reset();
     poison = 0;
@@ -1677,6 +1679,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (fured == 1){
         mod_f_text = rm_prefix(_("<mod_f_adj>fur lined "));
     }
+    std::string mod_l_text = "";
+    if (leather_padded == 1){
+        mod_l_text = rm_prefix(_("<mod_l_adj>padded "));
+    }
 
 
     const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
@@ -1798,8 +1804,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s"), damtext.c_str(), burntext.c_str(),
-                         mod_f_text.c_str(), mod_p_text.c_str(), sidedtext.c_str(), toolmodtext.c_str(),
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s%10$s"), damtext.c_str(), burntext.c_str(),
+                         mod_f_text.c_str(), mod_p_text.c_str(), mod_l_text.c_str(), sidedtext.c_str(), toolmodtext.c_str(),
                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
@@ -2470,7 +2476,9 @@ int item::bash_resist() const
     if (is_null()) {
         return resist;
     }
-
+    if (leather_padded == true){
+        eff_thickness += 10; //just for testing
+    }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
@@ -2499,7 +2507,9 @@ int item::cut_resist() const
     if (is_null()) {
         return resist;
     }
-
+    if (leather_padded == true){
+        eff_thickness += 10; //just for testing
+    }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
