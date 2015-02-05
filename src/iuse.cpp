@@ -3410,8 +3410,8 @@ int iuse::sew(player *p, item *it, bool, point)
                 mod->leather_padded = true;
                 p->consume_items(comps);
 
-                return thread_used;
             };
+            return thread_used;
         }
                 case 4:
         {
@@ -3502,8 +3502,8 @@ int iuse::sew(player *p, item *it, bool, point)
                 mod->kevlar_padded = true;
                 p->consume_items(comps);
 
-                return thread_used;
             };
+            return thread_used;
         }
         case 5:
         {
