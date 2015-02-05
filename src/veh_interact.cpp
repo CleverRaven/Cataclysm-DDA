@@ -10,6 +10,8 @@
 #include "debug.h"
 #include "messages.h"
 #include <cmath>
+#include <list>
+#include <functional>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -1973,6 +1975,131 @@ item consume_vpart_item (std::string vpid)
     return item_used.front();
 }
 
+const std::list<vehicle*> find_vehicles_around(const point &location, std::function<bool(vehicle*)> pred) {
+    auto found = std::list<vehicle*>{};
+
+    for(int x = location.x - 1; x <= location.x + 1; x++) {
+        for(int y = location.y - 1; y <= location.y + 1; y++) {
+            auto veh = g->m.veh_at(x, y);
+            if(veh == nullptr) {
+                continue; // Nothing to see here, move along...
+            }
+            add_msg(m_debug, "I has a %s at %d,%d...", veh->name.c_str(), x, y);
+            if(std::find(begin(found), end(found), veh) != end(found)) {
+                add_msg(m_debug, "...but we had it already.");
+                continue; // We have this one already.
+            }
+
+            if(!pred(veh)) {
+                add_msg(m_debug, "...but the predicate doesn't want it.");
+                continue; // Can't put any fuel into this one, ignore it.
+            }
+
+            // Okay, there's a vehicle and it's got room for gas and we haven't seen it before.
+            add_msg(m_debug, "...and I'll keep it!");
+            found.emplace_back(veh);
+        }
+    }
+
+    return found;
+}
+
+void act_vehicle_siphon(vehicle* veh) {
+    std::string fuel = "none";
+
+    if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
+        uimenu smenu;
+        smenu.text = _("Siphon what?");
+        smenu.addentry(_("Gasoline"));
+        smenu.addentry(_("Diesel"));
+        smenu.addentry(_("Never mind"));
+        smenu.query();
+        auto menu_choice = smenu.ret;
+
+        if(menu_choice == 0) {
+            fuel = "gasoline";
+        } else if(menu_choice == 1) {
+            fuel = "diesel";
+        } else {
+            add_msg(m_info, _("Never mind."));
+            return; // Siphon nothing? Okay!!
+        }
+    } else if(veh->fuel_left("gasoline") > 0) {
+        fuel = "gasoline";
+    } else if(veh->fuel_left("diesel") > 0) {
+        fuel = "diesel";
+    } else { // No fuel in this bitch, GTFO.
+        add_msg(m_info, _("The vehicle has no fuel left to siphon."));
+        return;
+    }
+
+    const auto foundv = find_vehicles_around(g->u.pos(),
+            [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
+
+    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
+
+    // No other vehicles around, just siphon into a can.
+    if(foundv.empty()) {
+        g->u.siphon(veh, fuel);
+        return;
+    } else {
+        uimenu fmenu;
+        fmenu.text = _("Fill what?");
+        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
+        fmenu.addentry(_("Container"));
+        fmenu.addentry(_("Never mind"));
+        fmenu.query();
+        auto choice = fmenu.ret;
+
+        // HAX: if choice is 0 ("Nearby vehicle"), we'll fall through to later code.
+        if(choice == 1) {
+            g->u.siphon(veh, fuel);
+            return;
+        } else if(choice == 2) {
+            add_msg(m_info, _("Never mind."));
+            return;
+        }
+    }
+
+    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
+
+    // If we get here, we're doing vehicle-to-vehicle siphoning for sure.
+    vehicle* fillv = nullptr;
+    if(foundv.size() == 1) {
+        fillv = foundv.front();
+    } else {
+        int posx, posy;
+        g->draw_ter();
+        if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+            fillv = g->m.veh_at(posx, posy);
+        } else {
+            add_msg(m_info, _("Never mind."));
+            return; // Bailed out of vehicle selection.
+        }
+    }
+
+    if(fillv == nullptr) { // Ain't nothing there! Go away.
+        add_msg(m_info, _("There's no vehicle there."));
+        return;
+    } else if(fillv == veh) {
+        add_msg(m_info, _("As you bend the hose into a U-shape, you figure out something's not quite right..."));
+        return;
+    }
+
+    auto want = fillv->fuel_capacity(fuel) - fillv->fuel_left(fuel);
+    auto got = veh->drain(fuel, want);
+    fillv->refill(fuel, got);
+    g->u.moves -= 200;
+
+    if(got < want) {
+        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, draining the tank."),
+                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+    } else {
+        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
+                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+    }
+}
+
 /**
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the the action is complete.
@@ -2009,12 +2136,6 @@ void complete_vehicle ()
     std::vector<int> parts;
     int dd = 2;
     double dmg = 1.0;
-
-    // For siphoning from adjacent vehicles
-    int posx = 0;
-    int posy = 0;
-    std::map<point, vehicle *> foundv;
-    vehicle *fillv = NULL;
 
     bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
     bool is_wood = vehicle_part_types[part_id].has_flag("NAILABLE");
@@ -2179,114 +2300,7 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        for (int x = g->u.posx() - 1; x < g->u.posx() + 2; x++) {
-            for (int y = g->u.posy() - 1; y < g->u.posy() + 2; y++) {
-                fillv = g->m.veh_at(x, y);
-                if ( fillv != NULL &&
-                     fillv != veh &&
-                     foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-                     (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("diesel") > 0)) {
-                    foundv[point(fillv->posx, fillv->posy)] = fillv;
-                }
-            }
-        }
-        fillv = NULL;
-        if ( ! foundv.empty() ) {
-            uimenu fmenu;
-            fmenu.text = _("Fill what?");
-            fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-            fmenu.addentry(_("Container"));
-            fmenu.addentry(_("Never mind"));
-            fmenu.query();
-            if ( fmenu.ret == 0 ) {
-                if ( foundv.size() > 1 ) {
-                    if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
-                        fillv = g->m.veh_at(posx, posy);
-                    } else {
-                        break;
-                    }
-                } else {
-                    fillv = foundv.begin()->second;
-
-                }
-            } else if ( fmenu.ret != 1 ) {
-                break;
-            }
-        }
-    { // Weird indention to avoid moving this whole block over 4 spaces.
-        int menu_choice = -1;
-        if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-            uimenu smenu;
-            smenu.text = _("Siphon what?");
-            smenu.addentry(_("Gasoline"));
-            smenu.addentry(_("Diesel"));
-            smenu.addentry(_("Never mind"));
-            smenu.query();
-            menu_choice = smenu.ret;
-        }
-        if( fillv != NULL ) {
-            int want = 0;
-            int got = 0;
-            std::string choice = "none";
-
-            if( menu_choice != -1 ) {
-
-                if ( menu_choice == 0 ) {
-                    choice = "gasoline";
-                    want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                    got = veh->drain("gasoline", want);
-                    fillv->refill("gasoline", got);
-                } else if( menu_choice == 1 ) {
-                    choice = "diesel";
-                    want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                    got = veh->drain("diesel", want);
-                    fillv->refill("diesel", got);
-                } else {
-                    choice = "none";
-                    break;
-                }
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("diesel") > 0 ) {
-                want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                got = veh->drain("diesel", want);
-                fillv->refill("diesel",got);
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("gasoline") > 0 ) {
-                want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                got = veh->drain("gasoline", want);
-                fillv->refill("gasoline",got);
-                g->u.moves -= 200;
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
-                break;
-            }
-            // Common message for all cases, no fuel case breaks and avoids it..
-            if( got < want ) {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, draining the tank."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
-            } else {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
-            }
-        } else {
-            if( menu_choice != -1 ) {
-                if( menu_choice == 0 ) {
-                    g->u.siphon( veh, "gasoline" );
-                } else if( menu_choice == 1 ) {
-                    g->u.siphon( veh, "diesel" );
-                } else {
-                    break;
-                }
-            } else if( veh->fuel_left("diesel") > 0 ) {
-                g->u.siphon( veh, "diesel" );
-            } else if( veh->fuel_left("gasoline") > 0 ) {
-                g->u.siphon( veh, "gasoline" );
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
-                break;
-            }
-        }
-    }
+        act_vehicle_siphon(veh);
     break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
