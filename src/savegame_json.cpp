@@ -1547,6 +1547,7 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
     jo.read("player_id", player_id );
+    jo.read("was_started", was_started );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -1580,6 +1581,7 @@ void mission::serialize(JsonOut &json) const
     json.member("step", step);
     json.member("follow_up", (int)follow_up);
     json.member("player_id", player_id);
+    json.member("was_started", was_started);
 
     json.end_object();
 }

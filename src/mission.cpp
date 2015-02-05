@@ -156,8 +156,11 @@ void mission::assign( player &u )
     }
     player_id = u.getID();
     u.on_mission_assignment( *this );
-    mission_start m_s;
-    (m_s.*type->start)(this);
+    if( !was_started ) {
+        mission_start m_s;
+        (m_s.*type->start)(this);
+        was_started = true;
+    }
 }
 
 void mission::fail()

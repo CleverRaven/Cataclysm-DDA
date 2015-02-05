@@ -245,6 +245,7 @@ private:
         int step;               // How much have we completed?
         mission_type_id follow_up;   // What mission do we get after this succeeds?
         int player_id; // The id of the player that has accepted this mission.
+        bool was_started; // whether @ref mission_type::start had been called
 public:
 
         std::string name();
@@ -274,6 +275,7 @@ public:
             bad_fac_id = -1;
             step = 0;
             player_id = -1;
+            was_started = false;
         }
 
     /** Getters, they mostly return the member directly, mostly. */ 
