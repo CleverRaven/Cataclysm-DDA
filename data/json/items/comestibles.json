@@ -14888,7 +14888,7 @@
         "nutrition" : 1,
         "description" : "Thin yellow vegetable oil used for cooking.",
         "price" : 40,
-        "material" : "null",
+        "material" : "oil",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,

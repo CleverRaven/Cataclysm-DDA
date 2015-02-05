@@ -589,8 +589,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL &&
-                                ( fuel->typeId() != "gasoline" && fuel->typeId() != "diesel" &&
-                                  fuel->typeId() != "lamp_oil" ) ) {
+                                ( !fuel->made_of("hydrocarbons") && !fuel->made_of("oil") ) ) {
                                 cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
                                           ammo_type->ammo_effects.count("COOKOFF");
                                 special = ammo_type->ammo_effects.count("FRAG") ||
@@ -702,7 +701,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( fuel->made_of(LIQUID) ) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if (fuel->type->id == "gasoline" || fuel->type->id == "diesel") {
+                                if( fuel->made_of("hydrocarbons") ) {
                                     time_added = 300;
                                     smoke += 6;
                                 } else if( fuel->made_of("alcohol") && fuel->made_of().size() == 1 ) {
