@@ -2736,7 +2736,7 @@
   "type" : "recipe",
   "result": "veggy_aspic",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough. Gelatin from pectin is harder. Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
   "time": 40000,
