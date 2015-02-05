@@ -1146,7 +1146,8 @@
   ],
   "components": [
     [
-      [ "human_flesh", 3 ]
+      [ "human_flesh", 3 ],
+      [ "rehydrated_hflesh", 6]
     ],
     [
       [ "fat", 3 ],
@@ -5264,11 +5265,14 @@
       [ "dry_veggy", 2 ]
     ],
     [
-      [ "human_flesh", 1]
-    ],
-    [
       [ "tomato", 1 ],
       [ "can_tomato", 1 ]
+    ],
+    [
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2],
+      [ "human_canned", 2]
     ],
     [
       [ "can_beans", 1],
@@ -7595,7 +7599,9 @@
   ],
   "components": [
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ],
     [
       [ "flour", 2 ],
@@ -7961,7 +7967,9 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ]
   ]
 },{
