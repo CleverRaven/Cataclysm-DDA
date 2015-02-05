@@ -264,17 +264,22 @@ std::string utf8_substr(std::string s, int start, int size)
     return std::string(buf + start);
 }
 
-std::string utf8_truncate(std::string s, size_t length)
+std::string utf8_truncate(char const *const s, size_t const length)
 {
-    int last_pos;
+    auto const last_pos = (length && s) ?
+        static_cast<size_t>(cursorx_to_position(s, length)) : 0u;
 
-    if(length == 0 || s.empty()) {
-        return s;
-    }
+    return std::string(s, last_pos);
+}
 
-    last_pos = cursorx_to_position(s.c_str(), length, NULL, -1);
+std::string utf8_truncate(std::string s, size_t const length)
+{
+    auto const last_pos = (length && !s.empty()) ?
+        static_cast<size_t>(cursorx_to_position(s.c_str(), length)) : 0u;
 
-    return s.substr(0, last_pos);
+    s.erase(last_pos);
+
+    return s;
 }
 
 static const char base64_encoding_table[] = {
