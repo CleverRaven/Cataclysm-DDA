@@ -1291,6 +1291,12 @@ void monster::die(Creature* nkiller) {
                                   name().c_str() );
         }
     }
+    // We were tied up at the moment of death, add a short rope to inventory
+    if ( has_effect("tied") ) {
+        item rope_6("rope_6", 0);
+        add_item(rope_6);
+    }
+
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( posx(), posy(), it );
