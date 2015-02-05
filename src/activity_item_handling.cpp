@@ -14,7 +14,7 @@ bool game::make_drop_activity( enum activity_type act, point target )
         return false;
     }
     u.assign_activity( act, 0 );
-    u.activity.placement = point( target.x - u.xpos(), target.y - u.ypos() );
+    u.activity.placement = point( target.x - u.posx(), target.y - u.posy() );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -43,12 +43,14 @@ static void add_drop_pairs( std::list<item *> &items, std::list<int> &quantities
 
 static void make_drop_activity( enum activity_type act, point drop_target,
     std::list<item *> &selected_items, std::list<int> &item_quantities,
-    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
+    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities,
+    bool ignoring_interruptions )
 {
     g->u.assign_activity( act, 0 );
     // This one is only ever called to re-insert the activity into the activity queue.
     // It's already relative, so no need to adjust it.
     g->u.activity.placement = drop_target;
+    g->u.activity.ignore_trivial = ignoring_interruptions;
     add_drop_pairs( selected_worn_items, worn_item_quantities);
     add_drop_pairs( selected_items, item_quantities);
 }
@@ -76,10 +78,10 @@ static point get_item_pointers_from_activity(
             // We MUST have pointers to these items, and this is the only way I can see to get them.
             std::list<item> &stack = (std::list<item> &)g->u.inv.const_stack( position );
             int items_dropped = 0;
-            for( auto it = stack.begin(); it != stack.end(); ++it ) {
-                selected_items.push_back( &*it );
-                if( it->count_by_charges() ) {
-                    const int qty_to_drop = std::min( quantity - items_dropped, (int)it->charges );
+            for( auto &elem : stack ) {
+                selected_items.push_back( &elem );
+                if( elem.count_by_charges() ) {
+                    const int qty_to_drop = std::min( quantity - items_dropped, (int)elem.charges );
                     item_quantities.push_back( qty_to_drop );
                     items_dropped += qty_to_drop;
                 } else {
@@ -109,14 +111,7 @@ enum item_place_type {
 static void stash_on_pet( item *item_to_stash, monster *pet )
 {
     item *it = &pet->inv[0];
-    it_armor *armor = nullptr;
-    if( it ) {
-        armor = dynamic_cast<it_armor *>(it->type);
-    }
-    int max_cap = 0;
-    if( armor ) {
-        max_cap = armor->storage;
-    }
+    int max_cap = it->get_storage();
     int max_weight = pet->weight_capacity();
 
     for (auto &i : pet->inv) {
@@ -135,7 +130,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
     } else {
-        g->m.add_item_or_charges( pet->xpos(), pet->ypos(), *item_to_stash, 1);
+        g->m.add_item_or_charges( pet->posx(), pet->posy(), *item_to_stash, 1);
         if( too_big ) {
             g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
                                    item_to_stash->display_name().c_str());
@@ -176,8 +171,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
-    drop_target.x += g->u.xpos();
-    drop_target.y += g->u.ypos();
+    drop_target.x += g->u.posx();
+    drop_target.y += g->u.posy();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -227,6 +222,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     std::list<item *> selected_worn_items;
     std::list<int> worn_item_quantities;
 
+    bool ignoring_interruptions = g->u.activity.ignore_trivial;
     point drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
                                                          selected_worn_items, worn_item_quantities );
 
@@ -247,20 +243,20 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     }
     // If we make it here load anything left into a new activity.
     make_drop_activity( act, drop_target, selected_items, item_quantities,
-                        selected_worn_items, worn_item_quantities );
+                        selected_worn_items, worn_item_quantities, ignoring_interruptions );
 }
 
-void game::activity_on_turn_drop()
+void activity_on_turn_drop()
 {
     activity_on_turn_drop_or_stash( ACT_DROP );
 }
 
-void game::activity_on_turn_stash()
+void activity_on_turn_stash()
 {
     activity_on_turn_drop_or_stash( ACT_STASH );
 }
 
-void game::activity_on_turn_pickup()
+void activity_on_turn_pickup()
 {
     // Pickup activity has source square, bool indicating source type,
     // indices of items on map, and quantities of same.
@@ -272,7 +268,7 @@ void game::activity_on_turn_pickup()
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
+        g->m.i_at(pickup_target.x + g->u.posx(), pickup_target.y + g->u.posy()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -287,14 +283,14 @@ void game::activity_on_turn_pickup()
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
-        u.assign_activity( ACT_PICKUP, 0 );
-        u.activity.placement = pickup_target;
-        u.activity.auto_resume = autopickup;
-        u.activity.values.push_back( from_vehicle );
+        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.activity.placement = pickup_target;
+        g->u.activity.auto_resume = autopickup;
+        g->u.activity.values.push_back( from_vehicle );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }
@@ -305,19 +301,16 @@ void game::activity_on_turn_pickup()
 static void move_items( point source, point destination,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    source.x += g->u.xpos();
-    source.y += g->u.ypos();
-    destination.x += g->u.xpos();
-    destination.y += g->u.ypos();
+    source.x += g->u.posx();
+    source.y += g->u.posy();
+    destination.x += g->u.posx();
+    destination.y += g->u.posy();
     int veh_root_part = -1;
     vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
     int cargo_part = -1;
     if( veh != nullptr ) {
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
-
-    std::vector<item> &here = (cargo_part >= 0) ?
-        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y );
 
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn;
@@ -327,35 +320,44 @@ static void move_items( point source, point destination,
         indices.pop_back();
         quantities.pop_back();
 
-        item &temp_item = here[index];
-        item leftovers = temp_item.clone();
+        item *temp_item = nullptr;
+        if( cargo_part >= 0 ) {
+            temp_item = g->m.item_from( veh, cargo_part, index );
+        } else {
+            temp_item = g->m.item_from( source, index );
+        }
+
+        if( temp_item == nullptr ) {
+            continue; // No such item.
+        }
+        item leftovers = *temp_item;
 
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
-            int leftover_charges = temp_item.charges - quantity;
+            int leftover_charges = temp_item->charges - quantity;
             if (leftover_charges > 0) {
                 leftovers.charges = leftover_charges;
-                here[index].charges = quantity;
+                temp_item->charges = quantity;
             }
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) ) {
+        if( !temp_item->made_of(LIQUID) ) {
             // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume(temp_item.volume()) && g->u.is_armed() ) {
+            if( !g->u.can_pickVolume(temp_item->volume()) && g->u.is_armed() ) {
                 g->u.moves -= 20; // Pretend to be unwielding our gun.
             }
 
             // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight(temp_item.weight(), true) ) {
-                int overweight = temp_item.weight() - (g->u.weight_capacity() - g->u.weight_carried());
+            if( !g->u.can_pickWeight(temp_item->weight(), true) ) {
+                int overweight = temp_item->weight() - (g->u.weight_capacity() - g->u.weight_carried());
 
                 // ...like one move cost per 100 grams over your leftover carry capacity.
                 g->u.moves -= int(overweight / 100);
             }
 
             // Drop it first since we're going to delete the original.
-            dropped_items.push_back( temp_item );
+            dropped_items.push_back( *temp_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
 
             // Remove from map.
@@ -383,33 +385,33 @@ static void move_items( point source, point destination,
     }
 }
 
-void game::activity_on_turn_move_items()
+void activity_on_turn_move_items()
 {
     // Move activity has source square, target square,
     // indices of items on map, and quantities of same.
-    point source = u.activity.placement;
-    point destination = point( u.activity.values[0], u.activity.values[1] );
+    point source = g->u.activity.placement;
+    point destination = point( g->u.activity.values[0], g->u.activity.values[1] );
     std::list<int> indices;
     std::list<int> quantities;
     // Note i = 2, skipping first few elements.
-    for( size_t i = 2; i < u.activity.values.size(); i += 2 ) {
-        indices.push_back( u.activity.values[i] );
-        quantities.push_back( u.activity.values[ i + 1 ] );
+    for( size_t i = 2; i < g->u.activity.values.size(); i += 2 ) {
+        indices.push_back( g->u.activity.values[i] );
+        quantities.push_back( g->u.activity.values[ i + 1 ] );
     }
     // Nuke the current activity, leaving the backlog alone.
-    u.activity = player_activity();
+    g->u.activity = player_activity();
 
     move_items( source, destination, indices, quantities );
 
     if( !indices.empty() ) {
-        u.assign_activity( ACT_MOVE_ITEMS, 0 );
-        u.activity.placement = source;
-        u.activity.values.push_back( destination.x );
-        u.activity.values.push_back( destination.y );
+        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.activity.placement = source;
+        g->u.activity.values.push_back( destination.x );
+        g->u.activity.values.push_back( destination.y );
         while( !indices.empty() ) {
-            u.activity.values.push_back( indices.front() );
+            g->u.activity.values.push_back( indices.front() );
             indices.pop_front();
-            u.activity.values.push_back( quantities.front() );
+            g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
     }

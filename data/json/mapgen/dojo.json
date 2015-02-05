@@ -40,6 +40,7 @@
             ["mag_unarmed", 20],
             ["manual_brawl", 10],
             ["mag_cutting", 5],
+            ["manual_niten", 1],
             ["textbook_weapeast", 1]
         ]
     },
@@ -51,7 +52,18 @@
         "color": "brown",
         "move_cost_mod": 0,
         "required_str": 7,
-        "flags": ["TRANSPARENT"]
+        "max_volume": 4000,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "crunch.",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "straw_pile", "amount": 8, "minamount": 5},
+                { "item": "rag", "amount": 4, "minamount": 2 },
+                { "item": "string_36", "amount": 2, "minamount": 1 }
+            ]
+        }
     },
     {
         "type" : "overmap_terrain",

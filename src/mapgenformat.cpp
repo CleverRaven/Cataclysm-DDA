@@ -92,99 +92,109 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
- std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
- characters = temp;
+    std::string temp;
+    for( auto &character : characters ) {
+        if( character != ' ' ) {
+            temp += character;
+        }
+    }
+    characters = temp;
 
- std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
- va_list vl;
- va_start(vl,characters);
- determiners.resize(characters.size());
- for( size_t i = 0; i < characters.size(); ++i )
-  determiners[i].reset( new internal::statically_determine_terrain( (ter_id)va_arg(vl,int) ));
- va_end(vl);
- return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
+    va_list vl;
+    va_start(vl,characters);
+    determiners.resize(characters.size());
+    for( size_t i = 0; i < characters.size(); ++i ) {
+        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)va_arg(vl,int) ));
+    }
+    va_end(vl);
+    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
 std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ...)
 {
- std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
- characters = temp;
+    std::string temp;
+    for( auto &character : characters ) {
+        if( character != ' ' ) {
+            temp += character;
+        }
+    }
+    characters = temp;
 
- std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
- va_list vl;
- va_start(vl,characters);
- determiners.resize(characters.size());
- for( size_t i = 0; i < characters.size(); ++i ) {
-    const std::string sid = va_arg(vl,char *);
-    const int iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : 0 );
-    determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
- }
- va_end(vl);
- return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
+    va_list vl;
+    va_start(vl,characters);
+    determiners.resize(characters.size());
+    for( size_t i = 0; i < characters.size(); ++i ) {
+        const std::string sid = va_arg(vl,char *);
+        const int iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : 0 );
+        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
+    }
+    va_end(vl);
+    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
 std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, ...)
 {
- std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
- characters = temp;
+    std::string temp;
+    for( auto &character : characters ) {
+        if( character != ' ' ) {
+            temp += character;
+        }
+    }
+    characters = temp;
 
- std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
- va_list vl;
- va_start(vl,characters);
- determiners.resize(characters.size());
- for( size_t i = 0; i < characters.size(); ++i ) {
-    const std::string sid = va_arg(vl,char *);
-    const int iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : 0 );
-    determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
- }
- va_end(vl);
- return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
+    va_list vl;
+    va_start(vl,characters);
+    determiners.resize(characters.size());
+    for( size_t i = 0; i < characters.size(); ++i ) {
+        const std::string sid = va_arg(vl,char *);
+        const int iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : 0 );
+        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
+    }
+    va_end(vl);
+    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
 
 
 std::shared_ptr<internal::format_effect> simple_method_bind(std::string characters, ...)
 {
- std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
- characters = temp;
+    std::string temp;
+    for( auto &character : characters ) {
+        if( character != ' ' ) {
+            temp += character;
+        }
+    }
+    characters = temp;
 
- std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
- va_list vl;
- va_start(vl,characters);
- determiners.resize(characters.size());
- for( size_t i = 0; i < characters.size(); ++i )
-  determiners[i].reset( new internal::determine_terrain_with_simple_method( va_arg(vl, internal::determine_terrain_with_simple_method::ter_id_func ) ));
- va_end(vl);
- return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
+    va_list vl;
+    va_start(vl,characters);
+    determiners.resize(characters.size());
+    for( size_t i = 0; i < characters.size(); ++i ) {
+        determiners[i].reset( new internal::determine_terrain_with_simple_method( va_arg(vl, internal::determine_terrain_with_simple_method::ter_id_func ) ));
+    }
+    va_end(vl);
+    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
 namespace internal
 {
- format_effect::format_effect(std::string characters, std::vector<std::shared_ptr<determine_terrain> > &determiners)
- : characters( characters )
- , determiners( determiners )
- {
- }
+    format_effect::format_effect(std::string characters, std::vector<std::shared_ptr<determine_terrain> > &determiners)
+        : characters( characters ), determiners( determiners )
+    {
+    }
 
- format_effect::~format_effect() {}
+    format_effect::~format_effect() {}
 
- void format_effect::execute(format_data& data)
- {
-  for( size_t i = 0; i < characters.size(); ++i )
-   data.bindings[characters[i]] = determiners[i];
- }
+    void format_effect::execute(format_data& data)
+    {
+        for( size_t i = 0; i < characters.size(); ++i ) {
+            data.bindings[characters[i]] = determiners[i];
+        }
+    }
 }
 
 }//END NAMESPACE mapf

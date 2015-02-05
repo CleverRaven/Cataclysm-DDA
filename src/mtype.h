@@ -3,18 +3,22 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
+#include "material.h"
+#include "enums.h"
+#include "color.h"
+#include "field.h"
+
 #include <bitset>
 #include <string>
 #include <vector>
 #include <set>
 #include <math.h>
-#include "mondeath.h"
-#include "monattack.h"
-#include "mondefense.h"
-#include "material.h"
-#include "enums.h"
-#include "color.h"
-#include "field.h"
+
+class Creature;
+
+using mon_action_death  = void (*)(monster*);
+using mon_action_attack = void (*)(monster*, int);
+using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 
 typedef std::string itype_id;
 
@@ -32,8 +36,8 @@ enum monster_trigger {
     MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
-    MTRIG_PLAYER_WEAK, // The player is hurt
-    MTRIG_PLAYER_CLOSE, // The player gets within a few tiles
+    MTRIG_HOSTILE_WEAK, // Hurt hostile player/npc/monster seen
+    MTRIG_HOSTILE_CLOSE, // Hostile creature within a few tiles
     MTRIG_HURT,  // We are hurt
     MTRIG_FIRE,  // Fire nearby
     MTRIG_FRIEND_DIED, // A monster of the same type died
@@ -67,6 +71,7 @@ enum m_flag {
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
+    MF_BORES,               // Tunnels through just about anything
     MF_POISON,              // Poisonous to eat
     MF_VENOM,               // Attack may poison the player
     MF_BADVENOM,            // Attack may SEVERELY poison the player
@@ -95,10 +100,9 @@ enum m_flag {
     MF_LEATHER,             // May produce leather when butchered
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM_CIV,             // May produce a common cbm or two when butchered
-    MF_BONES,               // May produce bones and sinews when butchered
-    MF_FAT,                 // May produce fat when butchered
+    MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
+    MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
-    MF_FRIENDLY_SPECIAL,    // Use our special attack, even if friendly
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
@@ -109,7 +113,7 @@ enum m_flag {
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
-    MF_NO_GIBS,             // Creature won't leave gibs / meat chunks when killed with huge damage.
+    MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
@@ -124,7 +128,45 @@ enum m_flag {
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_FISHABLE,            // Its fishable.
+    MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
+    MF_SWARMS,              // Monsters that like to group together and form loose packs
+    MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
+};
+
+enum mf_attitude {
+    MFA_BY_MOOD = 0,    // Hostile if angry
+    MFA_NEUTRAL,        // Neutral even when angry
+    MFA_FRIENDLY        // Friendly
+};
+
+class monfaction;
+
+typedef std::map< const monfaction*, mf_attitude > mfaction_att_map;
+
+class monfaction {
+    public:
+        int id;
+        std::string name;
+        const monfaction *base_faction;
+
+        mf_attitude attitude( const monfaction *other ) const;
+        friend class MonsterGenerator;
+    private:
+        mfaction_att_map attitude_map;
+};
+
+/** Used to store monster effects placed on attack */
+struct mon_effect_data
+{
+    std::string id;
+    int duration;
+    body_part bp;
+    bool permanent;
+    int chance;
+    
+    mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
+                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
 struct mtype {
@@ -132,10 +174,13 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string faction_name;
     public:
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
+        std::set< int > species_id;
+        const monfaction *default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;
@@ -147,10 +192,17 @@ struct mtype {
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+        
+        /** Stores effect data for effects placed on attack */
+        std::vector<mon_effect_data> atk_effs;
 
         int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
         int agro;       // How likely to attack; -100 to 100
         int morale;     // Default morale level
+
+        // Vision range is linearly scaled depending on lighting conditions
+        int vision_day;  // Vision range in bright light
+        int vision_night; // Vision range in total darkness
 
         int  speed;       // Speed; human = 100
         unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
@@ -166,12 +218,16 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
-        std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
+        
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        std::vector<void (mattack::*)(monster *, int index)> sp_attack; // This monster's special attack
+        
+        std::vector<mon_action_death>  dies;       // What happens when this monster dies
+        std::vector<mon_action_attack> sp_attack;  // This monster's special attack
+
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
-        void (mdefense::*sp_defense)(monster *, const projectile *);
+        mon_action_defend sp_defense;
+
         // Default constructor
         mtype ();
         /**
@@ -196,6 +252,7 @@ struct mtype {
         bool has_placate_trigger(monster_trigger trigger) const;
         bool in_category(std::string category) const;
         bool in_species(std::string _species) const;
+        bool in_species( int spec_id ) const;
         //Used for corpses.
         field_id bloodType () const;
         field_id gibType () const;

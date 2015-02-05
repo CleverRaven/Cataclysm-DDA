@@ -1,6 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include "enums.h"
 #include "output.h"
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -21,9 +22,10 @@ const int MENU_AUTOASSIGN = -1;
  */
 
 struct mvwzstr {
-    int left;
-    nc_color color;
+    int left = 0;
+    nc_color color = c_unset;
     std::string txt;
+    long sym = 0;
 };
 
 /*
@@ -37,6 +39,7 @@ struct uimenu_entry {
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;
+
     //std::string filtertxt; // possibly useful
     uimenu_entry(std::string T) : retval(-1), enabled(true), hotkey(-1), txt(T)
     {
@@ -50,6 +53,8 @@ struct uimenu_entry {
     {
         text_color = C_UNSET_MASK;
     };
+    uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
+        hotkey_color(H), text_color(C) {};
 };
 
 /*
@@ -193,6 +198,21 @@ class uimenu: public ui_container
         bool started;
         int last_fsize;
         int last_vshift;
+};
+
+// Callback for uimenu that pairs menu entries with points
+// When an entry is selected, view will be centered on the paired point
+class pointmenu_cb : public uimenu_callback {
+    private:
+        const std::vector< point > &points;
+        int last; // to suppress redrawing
+        int view_x; // to reposition the view after selecting
+        int view_y;
+    public:
+        pointmenu_cb( std::vector< point > &pts );
+        ~pointmenu_cb() { };
+        void select( int num, uimenu *menu );
+        void refresh( uimenu *menu );
 };
 
 #endif

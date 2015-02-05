@@ -1,19 +1,19 @@
-# Este mensaje debe tener 16 líneas de largo como máximo.
-# El largo máximo de una línea es de 68 caracteres; la línea siguiente es para usar de referencia
-####################################################################
-Cambios principales de la v0.A Kaufman:
-* Organizador de mods (activa y desactiva contenido agregado)
-* Pantalla completa.
-* Muchas mutaciones, y una progresión más detallada de las mutaciones.
-* Mejores opciones de visualización al conducir un vehículo.
-* Categorías de elementos, agarrar objetos por cantidad, ver interior de los vehículos.
-* Guardado y cargado de mapas mucho más rápido, debido a la fragmentación.
-* Movimiento y revisión por mouse.
-* Pesca y heladeras funcionales...
-* Compatibilidad retroactiva con las partidas guardades en 0.8 y 0.9.
+# Este mensaje puede ser de hasta 21 líneas de largo, pero lo ideal es que sea de menos.
+# El largo máximo de una línea es de 72 caracteres; la siguiente línea es para usar de referencia
+########################################################################
+Cambios principales de la v0.B Brin:
+* PNJ estáticos con mucho diálogo y misiones.
+* Tres nuevas estructuras MUY grandes.
+* Las mutaciones y biónicas pueden ser desactivadas.
+* Vehiculos completamente destruíbles.
+* Las pinzas para baterías permiten conectar entre sí los vehículos.
+* Objetos manejables por radio.
+* Hay diferentes escenarios y muchas locaciones para comenzar el juego.
+* Levantar o tirar objetos es una acción interrumpible.
+* Compatibilidad con las partidas guardadas de las versiones 0.9 y 0.A.
 
-Para ver las discusiones recientes y noticas sobre el Cataclysm DDA, por favor, visita:
-Página: http://www.cataclysmdda.com/
+Para ver las noticias recientes sobre Cataclysm DDA, por favor, visita:
+Página web: http://www.cataclysmdda.com/
 Wiki: http://wiki.cataclysmdda.com/
 
-Durante el juego, puedes acceder a las opciones mediante el menú de ayuda (?2).
+En el juego, puedes acceder a las opciones con el menú de ayuda (?2).

@@ -66,7 +66,7 @@ void mission_start::infect_npc(mission *miss)
   debugmsg("mission_start::infect_npc() couldn't find an NPC!");
   return;
  }
- p->add_disease("infection", 1, true);
+ p->add_effect("infection", 1, num_bp, 1, true);
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -557,8 +557,8 @@ void mission_start::recruit_tracker(mission *miss)
  temp->randomize(NC_COWBOY);
  // NPCs spawn with submap coordinates, site is in overmap terrain coords
  temp->spawn_at( site.x * 2, site.y * 2, g->levz );
- temp->posx = 11;
- temp->posy = 11;
+ temp->setx( 11 );
+ temp->sety( 11 );
  temp->attitude = NPCATT_TALK;
  temp->mission = NPC_MISSION_SHOPKEEP;
  temp->personality.aggression -= 1;

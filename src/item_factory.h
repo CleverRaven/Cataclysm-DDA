@@ -3,7 +3,9 @@
 
 #include "json.h"
 #include "iuse.h"
+#include "bodypart.h"
 #include <string>
+#include <memory>
 #include <vector>
 #include <map>
 #include <bitset>
@@ -20,28 +22,16 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
-
-class item_category
-{
-    public:
-        // id (like itype::id) - used when loading from json
-        std::string id;
-        // display name (localized)
-        std::string name;
-        // categories are sorted by this value,
-        // lower values means the category is shown first
-        int sort_rank;
-
-        item_category() : id(), name(), sort_rank(0) { }
-        item_category(const std::string &id_, const std::string &name_, int sort_rank_) : id(id_),
-            name(name_), sort_rank(sort_rank_) { }
-
-        // Comparators operato on the sort_rank, name, id
-        // (in that order).
-        bool operator<(const item_category &rhs) const;
-        bool operator==(const item_category &rhs) const;
-        bool operator!=(const item_category &rhs) const;
-};
+struct islot_container;
+struct islot_armor;
+struct islot_book;
+struct islot_gun;
+struct islot_gunmod;
+struct islot_variable_bigness;
+struct islot_bionic;
+struct islot_spawn;
+struct islot_ammo;
+class item_category;
 
 /**
  * Central item type management class.
@@ -77,7 +67,6 @@ class Item_factory
         void register_iuse_lua(const std::string &name, int lua_function);
         /**
          * Get the iuse function function of the given name.
-         * @throw std::exception if no use function of that name is known.
          */
         const use_function *get_iuse( const std::string &id );
 
@@ -86,7 +75,8 @@ class Item_factory
          * @name Item groups
          *
          * Item groups are used to spawn random items (in random amounts).
-         * You usually only need the @ref create_from_group function to create items from a group.
+         * You usually only need the @ref item_group::items_from function to create items
+         * from a group.
          */
         /*@{*/
         /**
@@ -109,47 +99,9 @@ class Item_factory
          */
         void load_item_group(JsonObject &jsobj, const Group_tag &ident, const std::string &subtype);
         /**
-         * Check whether an item group of that id exists.
-         */
-        bool has_group(const Group_tag &id) const;
-        /**
          * Get the item group object. Returns null if the item group does not exists.
          */
         Item_spawn_data *get_group(const Group_tag &id);
-        /**
-         * Returns a random item type id from the given item group.
-         * Returns @ref EMPTY_GROUP_ITEM_ID if the group is empty or undefined.
-         */
-        const Item_tag id_from(Group_tag group_tag);
-        /**
-         * Item id used by @ref id_from to indicate an invalid or empty group.
-         */
-        static const Item_tag EMPTY_GROUP_ITEM_ID;
-        /**
-         * Return a random item from the item group, handles packaged food where id_from returns the container.
-         */
-        const item item_from(Group_tag group_tag);
-        /**
-         * Check whether a specific item group contains a specific item.
-         * This is used for the "trader_avoid" item group to specify what items npc should not spawn
-         * with.
-         * @param group_tag Item group ident.
-         * @param item Item type ident.
-         */
-        bool group_contains_item(Group_tag group_tag, Group_tag item);
-        /**
-         * Create items from the given group. It creates as many items as the
-         * group definition requests.
-         * For example if the group is a distribution that only contains
-         * item ids it will create single item.
-         * If the group is a collection with several entries it can contain
-         * more than one item (or none at all!).
-         * This function also creates ammo for guns, if this is requested
-         * in the item group.
-         * @param group The ident of the item group.
-         * @param created_at The birthday of the items created by this function.
-         */
-        Item_list create_from_group(Group_tag group, int created_at);
         /**
          * Returns the idents of all item groups that are known.
          * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
@@ -235,26 +187,11 @@ class Item_factory
          * @param new_type The new item type, must not be null.
          */
         void add_item_type( itype *new_type );
-        /**
-         * Shows an menu to debug the item groups.
-         */
-        void debug_spawn();
 
         void load_item_blacklist(JsonObject &jo);
         void load_item_whitelist(JsonObject &jo);
         void finialize_item_blacklist();
 
-
-        /**
-         * Returns the translated item name for the item with given id.
-         * The name is in the proper plural form as specified by the
-         * quantity parameter.
-         */
-        std::string nname(const Item_tag &id, unsigned int quantity = 1) const;
-        /**
-         * Whether the item is counted by charges, see @ref item::count_by_charges
-         */
-        bool count_by_charges(const Item_tag &id);
         /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.
@@ -277,7 +214,7 @@ class Item_factory
         GroupMap m_template_groups;
 
         // Checks that ammo is listed in ammo_name(),
-        // That there is at least on instance (it_ammo) of
+        // That there is at least on instance of
         // this ammo type defined.
         // If any of this fails, prints a message to the msg
         // stream.
@@ -294,11 +231,35 @@ class Item_factory
 
         void create_inital_categories();
 
+        /**
+         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
+         * and calls @ref load to do the actual (type specific) loading.
+         */
+        template<typename SlotType>
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        /**
+         * Load item the item slot if present in json.
+         * Checks whether the json object has a member of the given name and if so, loads the item
+         * slot from that object. If the member does not exists, nothing is done.
+         */
+        template<typename SlotType>
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member );
+
+        void load( islot_container &slot, JsonObject &jo );
+        void load( islot_armor &slot, JsonObject &jo );
+        void load( islot_book &slot, JsonObject &jo );
+        void load( islot_gun &slot, JsonObject &jo );
+        void load( islot_gunmod &slot, JsonObject &jo );
+        void load( islot_variable_bigness &slot, JsonObject &jo );
+        void load( islot_bionic &slot, JsonObject &jo );
+        void load( islot_spawn &slot, JsonObject &jo );
+        void load( islot_ammo &slot, JsonObject &jo );
+
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member, itype *new_item_template );
+        void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
         use_function use_from_object(JsonObject obj);
         phase_id phase_from_tag(Item_tag name);
@@ -308,9 +269,10 @@ class Item_factory
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
         void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
+        void set_properties_from_json(JsonObject &jo, std::string member, itype *new_item);
 
         // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
-        std::bitset<13> flags_from_json(JsonObject &jo, const std::string &member,
+        std::bitset<num_bp> flags_from_json(JsonObject &jo, const std::string &member,
                                         std::string flag_type = "");
 
         void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
@@ -319,7 +281,7 @@ class Item_factory
         void set_intvar(std::string tag, unsigned int &var, int min, int max);
 
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
-        void set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
+        void set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                 const std::string &flag_type);
         void clear();
         void init();

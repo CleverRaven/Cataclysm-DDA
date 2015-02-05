@@ -1393,5 +1393,39 @@
         "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
+        "id": "bio_meteorologist",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Weather Reader CBM",
+        "description": "A multitude of scientific instruments and sensors collect environmental data. The data is compiled and presented as a simple readout of the current weather.",
+        "price": 350000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 3
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
+        "id": "bio_remote",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Remote Controller CBM",
+        "description": "A small module connected to your brain allows you to interface with nearby devices with wireless capabilities.",
+        "price": 600000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 6
     }
 ]

@@ -577,7 +577,7 @@
         "type" : "keybinding",
         "id": "REMOVE_MOD",
         "category": "MODMANAGER_DIALOG",
-        "name": "Move selcted mod down",
+        "name": "Move selected mod down",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -735,10 +735,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"."
-            },
-            {
-                "input_method":"keyboard",
                 "key":"RETURN"
             },
             {
@@ -782,6 +778,50 @@
             {
                 "input_method":"keyboard",
                 "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"AIM",
+        "name":"Aim",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"."
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"AIMED_SHOT",
+        "name":"Aimed Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"CAREFUL_SHOT",
+        "name":"Careful Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRECISE_SHOT",
+        "name":"Precise Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"p"
             }
         ]
     },
@@ -842,6 +882,10 @@
         "id": "PREV_TAB",
         "name": "Go to prev tab",
         "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
+            },
             {
                 "input_method":"keyboard",
                 "key":"PPAGE"
@@ -942,6 +986,18 @@
             {
                 "input_method":"keyboard",
                 "key":"%"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id" : "REROLL_CHARACTER_WITH_SCENARIO",
+        "category" : "NEW_CHAR_DESCRIPTION",
+        "name" : "Reroll Random Character With Scenario",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : "^"
             }
         ]
     },
@@ -1258,7 +1314,7 @@
     { "type":"keybinding", "name": "Drop Item to Adjacent Tile", "category":"DEFAULTMODE", "id":"drop_adj", "bindings":[ { "input_method":"keyboard", "key":"D" } ] },
     { "type":"keybinding", "name": "View/Activate Bionics", "category":"DEFAULTMODE", "id":"bionics", "bindings":[ { "input_method":"keyboard", "key":"p" } ] },
     { "type":"keybinding", "name": "View/Activate Mutations", "category":"DEFAULTMODE", "id":"mutations", "bindings":[ { "input_method":"keyboard", "key":"[" } ] },
-    { "type":"keybinding", "name": "Re-layer armour/clothing", "category":"DEFAULTMODE", "id":"sort_armor", "bindings":[ { "input_method":"keyboard", "key":"+" } ] },
+    { "type":"keybinding", "name": "Re-layer armor/clothing", "category":"DEFAULTMODE", "id":"sort_armor", "bindings":[ { "input_method":"keyboard", "key":"+" } ] },
     { "type":"keybinding", "name": "Wait for Several Minutes", "category":"DEFAULTMODE", "id":"wait", "bindings":[ { "input_method":"keyboard", "key":"|" } ] },
     { "type":"keybinding", "name": "Craft Items", "category":"DEFAULTMODE", "id":"craft", "bindings":[ { "input_method":"keyboard", "key":"&" } ] },
     { "type":"keybinding", "name": "Recraft last recipe", "category":"DEFAULTMODE", "id":"recraft", "bindings":[ { "input_method":"keyboard", "key":"-" } ] },
@@ -1286,7 +1342,9 @@
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
     { "type":"keybinding", "name": "Toggle Fullscreen mode", "category":"DEFAULTMODE", "id":"toggle_fullscreen" },
     { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
+    { "type":"keybinding", "name": "Item Action Menu", "category":"DEFAULTMODE", "id":"item_action_menu", "bindings":[ { "input_method":"keyboard", "key":"%" } ] },
     { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
+    { "type":"keybinding", "name": "Quickload", "category":"DEFAULTMODE", "id":"quickload" },
     { "type":"keybinding", "name": "Move View Northeast", "category":"DEFAULTMODE", "id":"shift_ne" },
     { "type":"keybinding", "name": "Move View Southeast", "category":"DEFAULTMODE", "id":"shift_se" },
     { "type":"keybinding", "name": "Move View Southwest", "category":"DEFAULTMODE", "id":"shift_sw" },
@@ -1607,6 +1665,38 @@
             {
                 "input_method":"keyboard",
                 "key":"D"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PAGE_DOWN",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PAGE_UP",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
             }
         ]
     },
@@ -1971,6 +2061,54 @@
             {
                 "input_method":"keyboard",
                 "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SEW",
+        "category": "ITEM_ACTIONS",
+        "name": "Sew",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "KNIFE",
+        "category": "ITEM_ACTIONS",
+        "name": "Knife",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "VITAMINS",
+        "category": "ITEM_ACTIONS",
+        "name": "Vitamins",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SOLDER_WELD",
+        "category": "ITEM_ACTIONS",
+        "name": "Solder/Weld",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
             }
         ]
     }

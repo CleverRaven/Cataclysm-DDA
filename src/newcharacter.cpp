@@ -12,7 +12,6 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "item_factory.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -57,9 +56,14 @@ int set_skills(WINDOW *w, player *u, int &points);
 
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-Skill *random_skill();
+const Skill* random_skill();
 
 void save_template(player *u);
+
+void Character::pick_name()
+{
+    name = Name::generate(male);
+}
 
 int player::create(character_type type, std::string tempname)
 {
@@ -91,6 +95,7 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+        case PLTYPE_RANDOM_WITH_SCENARIO:
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
@@ -98,12 +103,28 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            g->u.prof = profession::weighted_random();
+            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
+                std::vector<scenario *> scenarios;
+                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
+                    if (!(iter->second).has_flag("CHALLENGE")) {
+                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                    }
+                }
+                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                if (g->scen->profsize() > 0) {
+                    g->u.prof = g->scen->random_profession();
+                } else {
+                    g->u.prof = profession::weighted_random();
+                }
+                g->u.start_location = g->scen->random_start_location();
+            } else {
+                g->u.prof = profession::weighted_random();
+            }
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
             per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
+            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
             if (str_max > HIGH_STAT) {
                 points -= (str_max - HIGH_STAT);
             }
@@ -225,7 +246,7 @@ int player::create(character_type type, std::string tempname)
                 case 7:
                 case 8:
                 case 9:
-                    Skill *aSkill = random_skill();
+                    const Skill* aSkill = random_skill();
                     int level = skillLevel(aSkill);
 
                     if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
@@ -288,6 +309,10 @@ int player::create(character_type type, std::string tempname)
     delwin(w);
 
     if (tab < -1) {
+        // Returned from set_description for reroll
+        if (tab == -3) {
+            return -2;
+        }
         return -1;
     } else if (tab < 0) {
         return 0;
@@ -404,16 +429,15 @@ int player::create(character_type type, std::string tempname)
     if (has_trait("MARTIAL_ARTS5")) {
         matype_id ma_type;
         do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 2) :
-                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"),
-                              NULL);
+            int choice = (PLTYPE_NOW == type) ? rng(1, 3) :
+                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"), NULL);
             if (choice == 1) {
                 ma_type = "style_eskrima";
             } else if (choice == 2) {
                 ma_type = "style_fencing";
             } else if (choice == 3) {
                 ma_type = "style_silat";
-            }
+            } 
             if (PLTYPE_NOW != type) {
                 popup(martialarts[ma_type].description, PF_NONE);
             }
@@ -517,7 +541,60 @@ int player::create(character_type type, std::string tempname)
          iter != prof_traits.end(); ++iter) {
          g->u.toggle_trait(*iter);
     }
-
+    // These go here so it actually checks for your trait before asking you to pick
+    if (has_trait("PROF_MA_ORANGE")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Muay Thai"),
+                              _("Tai Chi"), _("Taekwondo"), NULL);
+            if (choice == 1) {
+                ma_type = "style_karate";
+            } else if (choice == 2) {
+                ma_type = "style_judo";
+            } else if (choice == 3) {
+                ma_type = "style_muay_thai";
+            } else if (choice == 4) {
+                ma_type = "style_tai_chi";
+            } else { // choice == 5
+                ma_type = "style_taekwondo";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description, PF_NONE);
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
+    if (has_trait("PROF_MA_BLACK")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
+                              _("Tai Chi"), _("Taekwondo"), _("Zui Quan"), _("Muay Thai"), NULL);
+            if (choice == 1) {
+                ma_type = "style_karate";
+            } else if (choice == 2) {
+                ma_type = "style_judo";
+            } else if (choice == 3) {
+                ma_type = "style_aikido";
+            } else if (choice == 4) {
+                ma_type = "style_tai_chi";
+            } else if (choice == 5) {
+                ma_type = "style_taekwondo";
+            } else if (choice == 6) {
+                ma_type = "style_zui_quan";
+            } else if (choice == 7) {
+                ma_type = "style_muay_thai";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description, PF_NONE);
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
+    
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);
@@ -618,7 +695,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     // Setting the position to -1 ensures that the INBOUNDS check in
     // map.cpp is triggered. This check prevents access to invalid position
     // on the map (like -1,0) and instead returns a dummy default value.
-    u->posx = -1;
+    u->setx( -1 );
     u->reset();
 
     const char clear[] = "                                                ";
@@ -689,9 +766,9 @@ int set_stats(WINDOW *w, player *u, int &points)
                 mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
             }
-            if (u->ranged_dex_mod(false) != 0) {
+            if (u->ranged_dex_mod() != 0) {
                 mvwprintz(w_description, 2, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_dex_mod(false)));
+                          abs(u->ranged_dex_mod()));
             }
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
@@ -719,9 +796,9 @@ int set_stats(WINDOW *w, player *u, int &points)
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
             }
-            if (u->ranged_per_mod(false) != 0) {
+            if (u->ranged_per_mod() != 0) {
                 mvwprintz(w_description, 0, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_per_mod(false)));
+                          abs(u->ranged_per_mod()));
             }
             fold_and_print(w_description, 2, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Perception is also used for detecting traps and other things of interest."));
@@ -816,26 +893,26 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait || g->scen->traitquery(iter->first) == true) {
-            if (iter->second.points >= 0) {
-                vStartingTraits[0].push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
+            if( traits_iter.second.points >= 0 ) {
+                vStartingTraits[0].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_good += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_good += traits_iter.second.points;
                 }
             } else {
-                vStartingTraits[1].push_back(iter->first);
+                vStartingTraits[1].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_bad += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_bad += traits_iter.second.points;
                 }
             }
         }
     }
 
-    for (int i = 0; i < 2; i++) {
-        std::sort(vStartingTraits[i].begin(), vStartingTraits[i].end(), trait_display_sort);
+    for( auto &vStartingTrait : vStartingTraits ) {
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
     }
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
@@ -1164,6 +1241,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         std::ostringstream buffer;
+
+        // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
             buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
@@ -1172,6 +1251,19 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
         }
+
+        // Profession traits
+        const auto prof_traits = sorted_profs[cur_id]->traits();
+        buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        if( prof_traits.empty() ) {
+            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
+        } else {
+            for( const auto &t : sorted_profs[cur_id]->traits() ) {
+                buffer << traits[ t ].name << "\n";
+            }
+        }
+
+        // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
         buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
@@ -1186,10 +1278,36 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
             }
         }
+
+        // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u->male );
-        buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
-        for( const auto &i : prof_items ) {
-            buffer << item_controller->nname( i.type_id ) << "\n";
+        if( prof_items.empty() ) {
+            buffer << pgettext( "set_profession_item", "None" ) << "\n";
+        } else {
+            buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+            for( const auto &i : prof_items ) {
+                buffer << item::nname( i.type_id ) << "\n";
+            }
+        }
+
+        // Profession bionics, active bionics shown first
+        auto prof_CBMs = sorted_profs[cur_id]->CBMs();
+        std::sort(prof_CBMs.begin(), prof_CBMs.end(),
+            [=](std::string a, std::string b) {return bionics[a]->activated && !bionics[b]->activated;}
+        );
+        buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
+        if( prof_CBMs.empty() ) {
+            buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
+        } else {
+            for( const auto &b : prof_CBMs ) {
+                if (bionics[b]->activated && bionics[b]->toggled) {
+                    buffer << bionics[b]->name << " (" << _("toggled") << ")\n";
+                } else if (bionics[b]->activated) {
+                    buffer << bionics[b]->name << " (" << _("activated") << ")\n";
+                } else {
+                    buffer << bionics[b]->name << "\n";
+                }
+            }
         }
 
         werase( w_items );
@@ -1253,7 +1371,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     return retval;
 }
 
-inline bool skill_display_sort(const Skill *a, const Skill *b)
+inline bool skill_display_sort(const Skill* a, const Skill* b)
 {
     return a->name() < b->name();
 }
@@ -1266,11 +1384,11 @@ int set_skills(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(iContentHeight, FULL_SCREEN_WIDTH - 35,
                                    5 + getbegy(w), 31 + getbegx(w));
 
-    std::vector<Skill *> sorted_skills = Skill::skills;
+    std::vector<const Skill*> sorted_skills = Skill::skills;
     std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
-    Skill *currentSkill = sorted_skills[cur_pos];
+    const Skill* currentSkill = sorted_skills[cur_pos];
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
@@ -1305,7 +1423,7 @@ int set_skills(WINDOW *w, player *u, int &points)
             base_y = 5 + iHalf - cur_pos;
         }
         for (int i = first_i; i < end_i; ++i) {
-            Skill *thisSkill = sorted_skills[i];
+            const Skill* thisSkill = sorted_skills[i];
             // Clear the line
             mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
             if (u->skillLevel(thisSkill) == 0) {
@@ -1319,14 +1437,14 @@ int set_skills(WINDOW *w, player *u, int &points)
                         " (%d)", int(u->skillLevel(thisSkill)));
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-            for (size_t k = 0; k < prof_skills.size(); k++) {
-                Skill *skill = Skill::skill(prof_skills[k].first);
+            for( auto &prof_skill : prof_skills ) {
+                const Skill* skill = Skill::skill( prof_skill.first );
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
                 }
                 if (skill->ident() == thisSkill->ident()) {
-                    wprintz(w, (i == cur_pos ? h_white : c_white),
-                            " (+%d)", int(prof_skills[k].second));
+                    wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
+                             int( prof_skill.second ) );
                     break;
                 }
             }
@@ -1382,8 +1500,8 @@ int set_skills(WINDOW *w, player *u, int &points)
     } while (true);
 }
 
-inline bool skill_description_sort(const std::pair<Skill *, int> &a,
-                                   const std::pair<Skill *, int> &b)
+inline bool skill_description_sort(const std::pair<const Skill*, int> &a,
+                                   const std::pair<const Skill*, int> &b)
 {
     int levelA = a.second;
     int levelB = b.second;
@@ -1561,6 +1679,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             g->scen = scenario::scen(sorted_scens[cur_id]->ident());
             u->prof = g->scen->get_profession();
             u->empty_traits();
+            u->empty_skills();
             u->add_traits();
             points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 
@@ -1593,13 +1712,15 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
     WINDOW_PTR w_traitsptr( w_traits );
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_scenarioptr( w_scenario );
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 11, getbegx(w) + 47);
     WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
     WINDOW_PTR w_skillsptr( w_skills );
     WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
-                    
+
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
@@ -1616,6 +1737,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("REROLL_CHARACTER");
+    ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
 
     uimenu select_location;
@@ -1672,40 +1794,37 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::vector<std::string>::iterator i = current_traits.begin();
-                     i != current_traits.end(); ++i) {
+                for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
-                            traits[*i].name.c_str());
+                    wprintz( w_traits, ( traits[current_trait].points > 0 ) ? c_ltgreen : c_ltred,
+                             traits[current_trait].name.c_str() );
                 }
             }
             wrefresh(w_traits);
 
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
-            std::vector<Skill *> skillslist;
+            std::vector<const Skill*> skillslist;
 
-            std::vector<std::pair<Skill *, int> > sorted;
+            std::vector<std::pair<const Skill*, int> > sorted;
             int num_skills = Skill::skills.size();
             for (int i = 0; i < num_skills; i++) {
-                Skill *s = Skill::skills[i];
+                const Skill* s = Skill::skills[i];
                 SkillLevel &sl = u->skillLevel(s);
-                sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+                sorted.push_back(std::pair<const Skill*, int>(s, sl.level() * 100 + sl.exercise()));
             }
             std::sort(sorted.begin(), sorted.end(), skill_description_sort);
-            for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin();
-                 i != sorted.end(); ++i) {
-                skillslist.push_back((*i).first);
+            for( auto &elem : sorted ) {
+                skillslist.push_back( ( elem ).first );
             }
 
             int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
-            for (std::vector<Skill *>::iterator aSkill = skillslist.begin();
-                 aSkill != skillslist.end(); ++aSkill) {
-                int level = int(u->skillLevel(*aSkill));
+            for( auto &elem : skillslist ) {
+                int level = int( u->skillLevel( elem ) );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
-                    if (i->first == (*aSkill)->ident()) {
+                    if( i->first == ( elem )->ident() ) {
                         level += i->second;
                         break;
                     }
@@ -1713,7 +1832,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
 
                 if (level > 0) {
-                    mvwprintz(w_skills, line, 0, c_ltgray, "%s", ((*aSkill)->name() + ":").c_str());
+                    mvwprintz( w_skills, line, 0, c_ltgray, "%s",
+                               ( ( elem )->name() + ":" ).c_str() );
                     mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
@@ -1727,14 +1847,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_skills);
 
             mvwprintz(w_guide, 0, 0, c_green,
-                      _("Press %s to finish character creation or %s to go back and make revisions."),
+                      _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-                    mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s to re-roll."),
-                    ctxt.get_desc("REROLL_CHARACTER").c_str());
+            if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
+                    mvwprintz( w_guide, 1, 0, c_green, _("Press %s to save character template, %s to re-roll or %s for random scenario."),
+                               ctxt.get_desc("SAVE_TEMPLATE").c_str(), ctxt.get_desc("REROLL_CHARACTER").c_str(),
+                               ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
             }else {
                     mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
@@ -1774,6 +1893,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                    c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
         wrefresh(w_location);
 
+        werase(w_scenario);
+        mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wrefresh(w_scenario);
+
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
@@ -1808,8 +1932,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
+        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
             return -7;
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
+            return -8;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
@@ -1865,53 +1991,66 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::vector<std::string> player::get_traits() const
+std::vector<std::string> Character::get_traits() const
 {
-    return my_traits;
+    return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
-void player::empty_traits()
+
+std::vector<std::string> Character::get_mutations() const
 {
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (has_trait(iter->first)) {
-            toggle_trait(iter->first);
+    return std::vector<std::string>( my_mutations.begin(), my_mutations.end() );
+}
+
+void Character::empty_traits()
+{
+    for( auto &traits_iter : traits ) {
+        if( has_trait( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
     }
 }
-void player::add_traits()
+void Character::empty_skills()
 {
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (g->scen->locked_traits(iter->first)) {
-            toggle_trait(iter->first);
+    for( auto &skill : Skill::skills ) {
+        SkillLevel &level = skillLevel( skill );
+        level.level(0);
+    }
+}
+void Character::add_traits()
+{
+    for( auto &traits_iter : traits ) {
+        if( g->scen->locked_traits( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
     }
 }
-std::string player::random_good_trait()
+std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points >= 0) {
-            vTraitsGood.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
+            vTraitsGood.push_back( traits_iter.first );
         }
     }
 
     return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
 }
 
-std::string player::random_bad_trait()
+std::string Character::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points < 0) {
-            vTraitsBad.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
+            vTraitsBad.push_back( traits_iter.first );
         }
     }
 
     return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
-Skill *random_skill()
+const Skill* random_skill()
 {
     return Skill::skill(rng(0, Skill::skill_count() - 1));
 }

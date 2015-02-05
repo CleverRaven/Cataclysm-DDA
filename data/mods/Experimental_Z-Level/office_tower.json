@@ -34,7 +34,7 @@
 			],
 			"place_groups": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
-                { "vehicle": "flatbed_truck", "x": 8, "y": 6, "rotation": 90, "chance": 25  },
+                { "vehicle": "pickup", "x": 8, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "car", "x": 14, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "motorcycle", "x": 19, "y": 6, "rotation": 90, "chance": 25  }
 			],
@@ -138,7 +138,7 @@
 			"place_groups": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
                 { "vehicle": "cube_van_cheap", "x": 11, "y": 7, "rotation": 90, "chance": 25  },
-                { "vehicle": "flatbed_truck", "x": 17, "y": 6, "rotation": 90, "chance": 25  },
+                { "vehicle": "pickup", "x": 17, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "car", "x": 4, "y": 6, "rotation": 90, "chance": 25  }
 			],
 			"terrain": {
@@ -341,7 +341,7 @@
 			"place_groups": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
                 { "vehicle": "car", "x": 9, "y": 15, "rotation": 270, "chance": 25  },
-                { "vehicle": "flatbed_truck", "x": 16, "y": 16, "rotation": 90, "chance": 25  },
+                { "vehicle": "pickup", "x": 16, "y": 16, "rotation": 90, "chance": 25  },
                 { "vehicle": "beetle", "x": 4, "y": 16, "rotation": 270, "chance": 25  }
 			],
 			"terrain": {

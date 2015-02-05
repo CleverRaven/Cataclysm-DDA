@@ -49,10 +49,25 @@
     "id" : "field",
     "items":[
       ["rock", 40],
-      { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 },
       ["months_old_newspaper", 1],
       ["weeks_old_newspaper", 2],
       ["newest_newspaper", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gas_charging_rack",
+    "items":[
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
+      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
+      ["it_battery_mount", 90],
+      ["it_battery_mount", 50],
+      ["it_battery_mount", 40],
+      ["it_battery_mount", 10]
     ]
   },{
     "type" : "item_group",
@@ -155,6 +170,7 @@
       ["seed_weed", 5],
       ["rolling_paper", 5],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["hockey_stick", 10],
       ["news_regional", 4],
       ["many_years_old_newspaper", 2],
@@ -215,6 +231,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -230,6 +247,7 @@
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
+      ["hat_newsboy", 20],
       ["helmet_bike", 35],
       ["helmet_motor", 40],
       ["touring_suit", 15],
@@ -300,7 +318,13 @@
       ["survnote", 1],
       ["radio_car_box", 2],
       ["radiocontrol", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["straw_hat", 5],
+      ["kufi", 1],
+      ["kippah", 1],
+      ["robe", 3],
+      ["thawb", 1],
+      ["kimono", 1]
     ]
   },{
     "type" : "item_group",
@@ -408,6 +432,7 @@
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_chicken", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_corn", 35],
       ["can_spam", 30],
@@ -664,10 +689,10 @@
     "type" : "item_group",
     "id" : "bed",
     "items":[
-      ["blanket", 60],
-      ["down_blanket", 25],
-      ["pillow", 60],
-      ["down_pillow", 25]
+      ["blanket", 25],
+      ["down_blanket", 13],
+      ["pillow", 30],
+      ["down_pillow", 15]
     ]
   },{
     "type" : "item_group",
@@ -728,8 +753,10 @@
       ["knitting_needles", 10],
       ["sheath", 15],
       ["peephole", 2],
-      ["magnifying_glass", 5]
-      
+      ["magnifying_glass", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -783,6 +810,7 @@
       ["glasses_bifocal", 90],
       ["towel", 40],
       ["hat_ball", 30],
+      ["hat_newsboy", 20],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["purse", 40],
@@ -856,6 +884,7 @@
       ["talking_doll", 65],
       ["marble", 65],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
       ["diving_watch", 5],
@@ -910,7 +939,9 @@
       ["mouthpiece", 1],
       ["leathersandals", 25],
       ["survnote", 2],
-      ["magnifying_glass", 2]
+      ["mask_guy_fawkes", 5],
+      ["magnifying_glass", 2],
+      ["holy_symbol", 5]
     ]
   },{
     "type":"item_group",
@@ -955,6 +986,7 @@
       ["rm120c", 1],
       ["shotgun_sawn", 1],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["bayonet", 5],
       ["pistol_bayonet", 2],
       ["sword_bayonet", 1],
@@ -971,6 +1003,9 @@
       ["tazer", 3],
       ["longbow", 5],
       ["compbow", 1],
+      ["bow_sight", 5],
+      ["bow_stabilizer", 5],
+      ["arrowrest", 5],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -1036,6 +1071,7 @@
       ["holster", 10],
       ["sig_p230", 5],
       ["walther_ppk", 5],
+      ["needlepistol", 1],
       ["survnote", 1]
     ]
   },{
@@ -1082,8 +1118,10 @@
       ["jacket_leather", 30],
       ["poncho", 15],
       ["folding_poncho", 5],
-      ["trenchcoat", 25],
-      ["sleeveless_trenchcoat", 5],
+      ["trenchcoat", 12],
+      ["sleeveless_trenchcoat", 2],
+      ["duster", 12],
+      ["sleeveless_duster", 2],
       ["peacoat", 30],
       ["vest", 15],
       ["mag_porn", 20],
@@ -1126,7 +1164,17 @@
       ["linuxtshirt", 10],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["fedora", 10],
+      ["straw_hat", 5],
+      ["straw_fedora", 5],
+      ["holy_symbol", 20],
+      ["kufi", 5],
+      ["kippah", 5],
+      ["robe", 10],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 5]
     ]
   },{
     "type" : "item_group",
@@ -1551,6 +1599,7 @@
       ["saline", 25],
       ["contacts", 10],
       ["vitamins", 75],
+      ["gummy_vitamins", 25],
       ["aspirin", 85],
       ["caffeine", 25],
       ["pills_sleep", 15],
@@ -1584,6 +1633,7 @@
       ["antiparasitic", 3],
       ["survnote", 1],
       ["diazepam", 4],
+      ["flu_shot", 5],
       ["syringe", 8]
     ]
   },{
@@ -1591,6 +1641,7 @@
     "id" : "cannedfood",
     "items":[
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["can_corn", 35],
       ["con_milk", 30],
       ["can_spam", 30],
@@ -1725,7 +1776,8 @@
       ["boots_rubber", 20],
       ["charcoal", 5],
       ["fungicide", 2],
-      ["soap", 20]
+      ["soap", 20],
+      ["chem_hydrogen_peroxide", 20]
     ]
   },{
     "type" : "item_group",
@@ -1733,6 +1785,12 @@
     "items":[
       ["jumper_cable", 10],
       ["jumper_cable_heavy", 2],
+      ["concrete", 20],
+      ["metal_smoother", 10],
+      ["brick_kiln", 5],
+      ["brick", 20],
+      ["con_mix", 5],
+      ["rebar", 20],
       ["superglue", 30],
       ["chain", 20],
       ["rope_6", 4],
@@ -1789,7 +1847,9 @@
       ["survnote", 1],
       ["fertilizer_commercial",30],
       ["peephole", 25],
-      ["magnifying_glass", 5]
+      ["magnifying_glass", 5],
+      ["chem_chromium_oxide", 5],
+      ["chem_thermite", 10]
     ]
   },{
     "type" : "item_group",
@@ -1798,6 +1858,8 @@
       ["screwdriver", 40],
       ["hammer", 35],
       ["wrench", 30],
+      ["con_mix", 10],
+      ["brick_kiln", 10],
       ["g_shovel", 20],
       ["saw", 15],
       ["circsaw_off", 5],
@@ -1828,14 +1890,18 @@
     "items":[
       ["broom", 30],
       ["mop", 30],
+      ["con_mix", 30],
+      ["brick_kiln", 30],
       ["hoe", 30],
       ["shovel", 40],
       ["scythe", 5],
       ["sickle", 3],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["trimmer_off", 10],
       ["hammer_sledge", 6],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["welder", 25],
@@ -1847,7 +1913,8 @@
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
-      ["tool_belt", 30]
+      ["tool_belt", 30],
+      ["pitchfork", 2]
     ]
   },{
     "type" : "item_group",
@@ -1856,6 +1923,9 @@
       ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
+      ["concrete", 30],
+      ["brick", 25],
+      ["rebar", 25],
       ["boots_steel", 50],
       ["boots_combat", 20],
       ["boots_hiking", 10],
@@ -1940,7 +2010,8 @@
       ["wristwatch", 15],
       ["radio_car_box", 3],
       ["radiocontrol", 15],
-      ["magnifying_glass", 4]
+      ["magnifying_glass", 4],
+      ["omnicamera", 2]
     ]
   },{
     "type" : "item_group",
@@ -2064,6 +2135,7 @@
       ["mag_survival", 40],
       ["manual_survival", 2],
       ["textbook_survival", 20],
+      ["modern_tanner", 8],
       ["recipe_bows", 8],
       ["recipe_arrows", 8],
       ["mag_rifle", 30],
@@ -2095,6 +2167,9 @@
       ["string_36", 40],
       ["longbow", 5],
       ["compbow", 1],
+      ["bow_sight", 10],
+      ["bow_stabilizer", 10],
+      ["arrowrest", 10],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -2152,7 +2227,12 @@
       ["grapnel", 1],
       ["razor_blade", 9],
       ["sheath", 5],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
+      ["straw_basket", 1],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -2268,6 +2348,9 @@
       ["string_36", 40],
       ["longbow", 5],
       ["compbow", 1],
+      ["bow_sight", 5],
+      ["bow_stabilizer", 5],
+      ["arrowrest", 5],
       ["compositebow", 3],
       ["shortbow", 5],
       ["recurbow", 2],
@@ -2300,7 +2383,8 @@
       ["folding_bicycle", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
-      ["sleeveless_trenchcoat", 3],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_duster", 2],
       ["blowgun", 5],
       ["dart", 5],
       ["elbow_pads", 40],
@@ -2438,6 +2522,7 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["striped_shirt", 1],
       ["striped_pants", 1],
       ["razor_blade", 10],
@@ -2503,7 +2588,8 @@
       ["300_casing", 4],
       ["762R_casing", 3],
       ["762_25", 3],
-      ["5x50dart", 4]
+      ["5x50dart", 4],
+      ["5x50heavy", 2]
     ]
   },{
     "type" : "item_group",
@@ -2520,6 +2606,7 @@
       ["sig_40", 4],
       ["sw_610", 2],
       ["ruger_redhawk", 3],
+      ["sw629", 4],
       ["deagle_44", 2],
       ["l_enforcer_45", 6],
       ["l_sp_45", 4],
@@ -2532,6 +2619,7 @@
       ["v29_cheap", 3],
       ["l_bak_223", 3],
       ["rm99_pistol", 2],
+      ["needlepistol", 2],
       ["rm103a_pistol", 1]
     ]
   },{
@@ -2563,6 +2651,8 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["sks", 6],
       ["rm11b_sniper_rifle", 1]
     ]
@@ -2697,6 +2787,9 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
+      ["needlepistol", 2],
       ["survnote", 1]
     ]
   },{
@@ -2716,6 +2809,7 @@
       ["sword_bayonet", 1],
       ["mag_survival", 20],
       ["textbook_survival", 2],
+      ["modern_tanner", 1],
       ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
@@ -2733,6 +2827,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
@@ -2745,6 +2840,7 @@
       ["muzzle_brake", 2],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["clip", 8],
@@ -2801,9 +2897,143 @@
       ["small_repairkit", 15],
       ["large_repairkit", 1],
       ["improve_sights", 20],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["shoulder_strap", 24]
     ]
   },{
+    "type" : "item_group",
+    "id" : "gunsmith_tools",
+    "items":[
+      ["glasses_safety", 60],
+      ["screwdriver",70],
+      ["hammer",70],
+      ["boltcutters",50],
+      ["crucible",40],
+      ["pot",50],
+      ["anvil",50],
+      ["tongs",50],
+      ["swage",50],
+      ["hacksaw",40],
+      ["welder",40],
+      ["goggles_welding",60],
+      ["wrench",70],
+      ["extinguisher",90],
+      ["puller",90],
+      ["press",90],
+      ["chemistry_set",30],
+      ["hotplate",50],
+      ["small_repairkit", 20],
+      ["large_repairkit", 50],
+      ["forge",30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_mat",
+    "items":[
+      ["rag",30],
+      ["plastic_chunk",60],
+      ["scrap",90],
+      ["steel_chunk",60],
+      ["steel_lump",20],
+      ["cable",60],
+      ["duct_tape",60],
+      ["pipe",70],
+      ["2x4",90],
+      ["spring",70],
+      ["string_6",10],
+      ["string_36",40],
+      ["superglue",40],
+      ["cu_pipe",40],
+      ["battery",30],
+      ["nail",40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_hazmat",
+    "items":[
+      ["gunpowder",80],
+      ["oxy_powder",60],
+      ["lead",90],
+      ["incendiary",30],
+      ["battery",70],
+      ["sugar",60],
+      ["charcoal",70],
+      ["ammonia",50],
+      ["bleach",50],
+      ["lye_powder",30],
+      ["shotgun_primer", 30],
+      ["smpistol_primer", 40],
+      ["lgpistol_primer", 40],
+      ["smrifle_primer", 20],
+      ["lgrifle_primer", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_gunparts",
+    "items":[
+      ["bayonet", 20],
+      ["pistol_bayonet", 10],
+      ["sword_bayonet", 5],
+      ["suppressor", 15],
+      ["shot_suppressor", 1],
+      ["grip", 24],
+      ["pistol_grip", 24],
+      ["adjustable_stock", 24],
+      ["pistol_stock", 12],
+      ["barrel_big", 20],
+      ["barrel_small", 12],
+      ["barrel_rifled", 10],
+      ["barrel_ported", 10],
+      ["muzzle_brake", 5],
+      ["conversion_battle", 1],
+      ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
+      ["clip", 16],
+      ["spare_mag", 30],
+      ["clip2", 8],
+      ["stabilizer", 4],
+      ["blowback", 3],
+      ["autofire", 2],
+      ["retool_45", 5],
+      ["retool_9mm", 5],
+      ["retool_22", 5],
+      ["retool_57", 5],
+      ["retool_46", 5],
+      ["retool_308", 5],
+      ["retool_223", 5],
+      ["brass_catcher", 30],
+      ["laser_sight", 15],
+      ["red_dot_sight", 18],
+      ["holo_sight", 20],
+      ["rifle_scope", 18],
+      ["pistol_scope", 12],
+      ["waterproof_gunmod", 8],
+      ["tuned_mechanism", 10],
+      ["match_trigger", 15],
+      ["recoil_stock", 15],
+      ["improve_sights", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_casings",
+    "items":[
+      ["22_casing", 24],
+      ["shot_hull", 12],
+      ["9mm_casing", 18],
+      ["38_casing", 10],
+      ["40_casing", 12],
+      ["44_casing", 10],
+      ["45_casing", 18],
+      ["454_casing", 3],
+      ["500_casing", 3],
+      ["57mm_casing", 12],
+      ["46mm_casing", 12],
+      ["762_casing", 10],
+      ["223_casing", 10],
+      ["3006_casing", 10],
+      ["308_casing", 10]
+    ]
+ },{
     "type" : "item_group",
     "id" : "shoes",
     "items":[
@@ -2883,7 +3113,8 @@
       ["blazer", 35],
       ["jacket_leather", 30],
       ["coat_rain", 50],
-      ["trenchcoat", 25],
+      ["trenchcoat", 12],
+      ["duster", 12],
       ["skinny_tie", 5],
       ["tieclip", 2],
       ["collarpin", 2],
@@ -2902,6 +3133,7 @@
       ["thermal_gloves", 10],
       ["thermal_suit", 10],
       ["thermal_mask", 10],
+      ["thermal_outfit", 5],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -2910,6 +3142,7 @@
       ["long_knit_scarf", 15],
       ["scarf_long", 2],
       ["hat_cotton", 45],
+      ["hat_newsboy", 20],
       ["hat_knit", 25],
       ["hat_fur", 15],
       ["pants_ski", 60],
@@ -3008,6 +3241,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -3017,6 +3251,7 @@
       ["scarf_long", 1],
       ["hat_cotton", 45],
       ["hat_knit", 25],
+      ["hat_newsboy", 20],
       ["hat_fur", 15],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -3032,10 +3267,14 @@
       ["union_suit", 20],
       ["arm_warmers", 20],
       ["leg_warmers", 20],
-      ["trenchcoat_leather", 25],
-      ["sleeveless_trenchcoat", 5],
-      ["sleeveless_trenchcoat_leather", 5],
+      ["trenchcoat_leather", 12],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_trenchcoat_leather", 2],
       ["sleeveless_trenchcoat_fur", 1],
+      ["duster_leather", 12],
+      ["sleeveless_duster", 2],
+      ["sleeveless_duster_leather", 2],
+      ["sleeveless_duster_fur", 1],
       ["cloak", 5],
       ["house_coat", 25],
       ["flotation_vest", 1],
@@ -3077,8 +3316,19 @@
       ["kilt", 5],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
-      ["ear_spool",30]
-      
+      ["ear_spool", 30],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5],
+      ["kufi", 2],
+      ["kippah", 2],
+      ["thawb", 1],
+      ["kittel", 1],
+      ["cassock", 1],
+      ["robe", 5],
+      ["eboshi", 1],
+      ["kariginu", 1],
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",
@@ -3355,6 +3605,7 @@
       ["pocket_firearms", 2],
       ["textbook_anarch", 1],
       ["textbook_survival", 8],
+      ["modern_tanner", 4],
       ["textbook_traps", 4],
       ["manual_survival", 3],
       ["manual_swimming", 5],
@@ -3365,6 +3616,30 @@
       ["textbook_armwest", 3],
       ["textbook_armeast", 3],
       ["survnote", 2]
+    ]
+  },{
+      "type" : "item_group",
+    "id" : "mansion_books",
+    "//" : "Those rich mansion people have all sorts of weird books.",
+    "items":[
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5],
+      ["textbook_gaswarfare", 5],
+      ["photo_album", 10],
+      ["fun_survival", 10],
+      ["brewing_cookbook", 8],
+      ["textbook_robots", 5],
+      ["manual_dodge", 5],
+      ["novel_experimental", 8],
+      ["novel_swash", 10],
+      ["manual_fencing", 3],
+      ["manual_niten", 3],
+      ["novel_samurai", 10],
+      ["plays_book", 10],
+      ["poetry_book", 10],
+      ["carpentry_book", 8]
     ]
   },{
     "type" : "item_group",
@@ -3743,6 +4018,8 @@
       ["carbine_flintlock", 4],
       ["mosin91_30", 5],
       ["mosin44", 5],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["l_HFPack", 1],
       ["survnote", 1]
     ]
@@ -3780,6 +4057,8 @@
       ["flintlock_ammo", 7],
       ["mosin44", 5],
       ["mosin91_30", 5],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["colt_navy", 7],
       ["colt_army", 7],
       ["36navy", 6],
@@ -3903,7 +4182,8 @@
       ["diazepam", 10],
       ["stethoscope", 35],
       ["jar_3l_glass", 15],
-      ["magnifying_glass", 5]
+      ["magnifying_glass", 5],
+      ["chem_hydrogen_peroxide", 5]
     ]
   },{
     "type" : "item_group",
@@ -3952,6 +4232,7 @@
       ["disinfectant", 35],
       ["aspirin", 40],
       ["vaccine_shot", 5],
+      ["flu_shot", 2],
       ["blanket", 50],
       ["down_blanket", 10],
       ["pillow", 50],
@@ -4088,7 +4369,8 @@
       ["gold_watch", 2],
       ["sf_watch", 1],
       ["survnote", 1],
-      ["magnifying_glass", 8]
+      ["magnifying_glass", 8],
+      ["camera_control", 2]
     ]
   },{
     "type" : "item_group",
@@ -4217,6 +4499,7 @@
       ["manual_computers", 20],
       ["mag_tailor", 10],
       ["cookbook", 35],
+      ["mask_guy_fawkes", 5],
       ["cookbook_italian", 25],
       ["manual_electronics", 20],
       ["decoy_elfa", 5],
@@ -4324,7 +4607,13 @@
       ["folding_poncho", 1],
       ["pocketwatch", 10],
       ["knitting_needles", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["holy_symbol", 80],
+      ["cassock", 40],
+      ["thawb", 10],
+      ["kufi", 10],
+      ["kittel", 10],
+      ["kippah", 10]
     ]
   },{
     "type":"item_group",
@@ -4517,9 +4806,12 @@
       ["cane", 10],
       ["suit", 60],
       ["waistcoat", 30],
-      ["sleeveless_trenchcoat", 10],
-      ["sleeveless_trenchcoat_leather", 10],
-      ["sleeveless_trenchcoat_fur", 10],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 5],
+      ["sleeveless_duster", 5],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 5],
       ["gold_watch", 20],
       ["sf_watch", 10],
       ["tieclip", 3],
@@ -4543,6 +4835,7 @@
       ["jacket_chef", 5],
       ["pda", 15],
       ["eink_tablet_pc", 12],
+      ["mask_guy_fawkes", 5],
       ["camera", 10],
       ["camera_pro", 5],
       ["ruger_redhawk", 3],
@@ -4550,6 +4843,7 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["geiger_off", 8],
@@ -4613,6 +4907,7 @@
       ["helmet_army", 40],
       ["helmet_liner", 10],
       ["hat_fur", 15],
+      ["hat_newsboy", 20],
       ["holster", 8],
       ["bootstrap", 3],
       ["remington_870", 9],
@@ -4651,8 +4946,10 @@
       ["fan", 5],
       ["radio", 20],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["carver_off", 7],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["ring", 12],
@@ -4766,6 +5063,7 @@
       ["helmet_plate", 1],
       ["huge_crossbow", 2],
       ["katana", 2],
+      ["bokken", 7],
       ["broadsword", 30],
       ["zweihander", 20],
       ["rapier", 3],
@@ -4790,7 +5088,23 @@
       ["linuxtshirt", 15],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["straw_basket", 2],
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5],
+      ["shark_suit", 1],
+      ["motorbike_armor", 2],
+      ["motorbike_pants", 2],
+	  ["motorbike_boots", 2],
+      ["kittel", 1],
+      ["kippah", 3],
+      ["thawb", 2],
+      ["kufi", 2],
+      ["cassock", 1],
+      ["eboshi", 1],
+      ["kariginu", 2],
+      ["kimono", 3]
     ]
   },{
     "type" : "item_group",
@@ -4885,6 +5199,7 @@
       ["chocolate", 50],
       ["ravioli", 25],
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_spam", 30],
       ["can_tuna", 35],
@@ -4899,6 +5214,7 @@
       ["1st_aid", 35],
       ["saline", 10],
       ["vitamins", 75],
+      ["gummy_vitamins", 25],
       ["iodine", 5],
       ["dayquil", 70],
       ["screwdriver", 40],
@@ -4921,6 +5237,7 @@
       ["thermal_gloves", 2],
       ["thermal_suit", 2],
       ["thermal_mask", 2],
+      ["thermal_outfit", 1],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_tactical", 5],
@@ -4977,6 +5294,7 @@
       ["lamp_oil", 5],
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
+      ["flu_shot", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
       ["umbrella", 7],
@@ -5092,7 +5410,13 @@
       ["chemistry_set", 8],
       ["sm_extinguisher", 20],
       ["eyedrops", 15],
-      ["charcoal", 10]
+      ["charcoal", 10],
+      ["chem_hydrogen_peroxide", 10],
+      ["chem_sulphur", 10],
+      ["chem_aluminium_powder", 5],
+      ["chem_zinc_powder", 10],
+      ["chem_saltpetre", 10],
+      ["chem_carbide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5128,7 +5452,9 @@
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
       ["eyedrops", 25],
-      ["charcoal", 15]
+      ["charcoal", 15],
+      ["chem_hydrogen_peroxide", 15],
+      ["chem_carbide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5169,7 +5495,16 @@
       ["chemistry_set", 5],
       ["sm_extinguisher", 10],
       ["charcoal", 10],
-      ["briefcase", 5]
+      ["briefcase", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
+      ["chem_sulphur", 10],
+      ["chem_aluminium_powder", 10],
+      ["chem_hexamine", 10],
+      ["chem_saltpetre", 15],
+      ["chem_nitric_acid", 15],
+      ["chem_chromium_oxide", 10]
     ]
   },{
     "type" : "item_group",
@@ -5212,7 +5547,8 @@
       ["chemistry_set", 5],
       ["meat_tainted", 8],
       ["veggy_tainted", 4],
-      ["slime_scrap", 8]
+      ["slime_scrap", 8],
+      ["chem_nitric_acid", 5]
     ]
   },{
     "type" : "item_group",
@@ -5284,7 +5620,9 @@
       ["scissors", 50],
       ["boots_rubber", 20],
       ["subsuit_xl", 4],
-      ["rag_bloody", 1]
+      ["rag_bloody", 1],
+      ["chem_nitric_acid", 10],
+      ["chem_hydrogen_peroxide_conc", 10]
     ]
   },{
     "type" : "item_group",
@@ -5309,6 +5647,10 @@
       ["seed_strawberries", 1],
       ["seed_barley", 1],
       ["seed_sugar_beet", 1],
+      ["seed_lettuce", 1],
+      ["seed_onion", 1],
+      ["seed_carrot", 1],
+      ["seed_corn", 1],
       ["seed_hops", 1],
       ["tomato", 9],
       ["broccoli", 9],
@@ -5319,7 +5661,8 @@
       ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 60],
+      ["withered", 40],
+      ["straw_pile", 20],
       ["survnote", 1]
     ]
   },{
@@ -5365,7 +5708,9 @@
       ["software_useless", 10],
       ["vac_sealer", 10],
       ["radio_car_box", 3],
-      ["radiocontrol", 25]
+      ["radiocontrol", 25],
+      ["omnicamera", 7],
+      ["chem_nitric_acid", 1]
     ]
   },{
     "type" : "item_group",
@@ -5392,6 +5737,7 @@
       ["heroin", 1],
       ["sneakers", 40],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["scarf_long", 15],
       ["jersey", 20],
       ["coat_lab", 40],
@@ -5485,6 +5831,7 @@
       ["talking_doll", 5],
       ["marble", 5],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["lsd", 1],
@@ -5519,7 +5866,10 @@
       ["holybook_scientology", 1],
       ["collarpin", 3],
       ["survnote", 1],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -5617,11 +5967,13 @@
       ["bio_leukocyte", 10],
       ["bio_speed", 5],
       ["bio_faraday", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_remote", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "bionics_common",
+    "subtype": "distribution",
     "items":[
       ["bio_power_storage", 10],
       ["bio_tools", 10],
@@ -5641,6 +5993,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_sci",
+    "subtype": "distribution",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
@@ -5837,6 +6190,7 @@
       ["rail_laser_sight", 10],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["rm20", 1],
       ["20x66_shot", 5],
       ["20x66_exp", 1],
@@ -5862,7 +6216,8 @@
       ["dynamite", 5],
       ["mininuke", 1],
       ["granade", 1],
-      ["c4", 5]
+      ["c4", 5],
+      ["tool_black_powder_bomb", 1]
     ]
   },{
     "type" : "item_group",
@@ -5938,7 +6293,8 @@
       ["grapnel", 3],
       ["glasses_bal", 30],
       ["sheath", 10],
-      ["holster", 15]
+      ["holster", 15],
+      ["sholster", 10]
     ]
   },{
     "type" : "item_group",
@@ -6030,6 +6386,26 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mil_books",
+    "//" : "Primarily combat manuals and such.",
+    "items":[
+      ["manual_melee", 4],
+      ["manual_bashing", 4],
+      ["manual_stabbing", 7],
+      ["manual_knives", 4],
+      ["manual_krav_maga", 5],
+      ["manual_ninjutsu", 5],
+      ["manual_taekwondo", 6],
+      ["manual_eskrima", 2],
+      ["manual_silat", 2],
+      ["manual_rifle", 10],
+      ["manual_smg", 8],
+      ["manual_launcher", 5],
+      ["textbook_firstaid", 4],
+      ["manual_swimming", 4]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "bionics_mil",
     "items":[
       ["bio_power_storage", 10],
@@ -6088,11 +6464,13 @@
       ["bio_speed", 2],
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
       "type" : "item_group",
     "id" : "bionics_op",
+    "subtype": "distribution",
     "note" : "What the commandos get.",
     "items":[
       ["bio_power_storage_mkII", 10],
@@ -6149,7 +6527,8 @@
       ["bio_speed", 5],
       ["bio_adrenaline", 15],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -6206,8 +6585,10 @@
       ["winter_gloves_army", 10],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
-      ["sleeveless_trenchcoat", 5],
-      ["sleeveless_trenchcoat_leather", 10],
+      ["sleeveless_trenchcoat", 2],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_duster", 2],
+      ["sleeveless_duster_leather", 5],
       ["kevlar", 30],
       ["modularvest", 12],
       ["modularvestkevlar", 10],
@@ -6237,6 +6618,7 @@
       ["helmet_motor", 40],
       ["touring_suit", 15],
       ["holster", 8],
+      ["sholster", 4],
       ["bootstrap", 3],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -6284,6 +6666,7 @@
       ["halligan", 3],
       ["fire_ax", 5],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["beartrap", 5],
       ["fishing_rod_professional", 3],
       ["grenade", 3],
@@ -6319,6 +6702,7 @@
       ["charcoal", 5],
       ["sheath", 3],
       ["holster", 3],
+      ["sholster", 2],
       ["toolbox", 1],
       ["survnote", 5]
     ]
@@ -6365,7 +6749,9 @@
       ["sm_extinguisher", 10],
       ["grapnel", 1],
       ["toolbox", 5],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 10],
+      ["chem_aluminium_sulphate", 20]
     ]
   },{
     "type" : "item_group",
@@ -6397,7 +6783,10 @@
       ["rock", 40],
       ["toolbox", 5],
       ["coal", 20],
-      ["material_shrd_limestone", 40]
+      ["material_shrd_limestone", 40],
+      ["chem_rdx", 5],
+      ["chem_hmtd", 10],
+      ["tool_anfo_charge", 2]
     ]
   },{
     "type" : "item_group",
@@ -6426,6 +6815,7 @@
       ["flashlight", 40],
       ["pickaxe", 1],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["dynamite", 5],
       ["UPS_off", 5],
@@ -6445,7 +6835,9 @@
       ["miner_hat", 40],
       ["grapnel", 1],
       ["toolbox", 1],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["tool_anfo_charge", 1],
+      ["remotevehcontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -6511,7 +6903,11 @@
       ["toolbox", 1],
       ["nic_gum", 5],
       ["radio_car_box", 2],
-      ["radiocontrol", 15]
+      ["radiocontrol", 15],
+      ["thermometer", 10],
+      ["hygrometer", 10],
+      ["barometer", 10],
+      ["weather_reader", 1]
     ]
   },{
     "type" : "item_group",
@@ -6550,7 +6946,12 @@
       ["diazepam", 5],
       ["misc_repairkit", 5],
       ["toolbox", 2],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 3],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
+      ["remotevehcontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -6635,6 +7036,7 @@
     "items":[
       ["rock", 40],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["flashlight", 40],
       ["dynamite", 5],
@@ -6650,6 +7052,7 @@
     "id" : "spider",
     "items":[
       ["corpse", 10],
+      ["holy_symbol", 1],
       ["mutagen", 8],
       ["purifier", 12],
       ["meat", 50],
@@ -6752,7 +7155,8 @@
       ["miner_hat", 10],
       ["grapnel", 2],
       ["toolbox", 1],
-      ["pur_tablets", 10]
+      ["pur_tablets", 10],
+      ["remotevehcontrol", 8]
     ]
   },{
     "type" : "item_group",
@@ -6803,7 +7207,8 @@
       ["bio_metabolics", 10],
       ["survivormap", 1],
       ["miner_hat", 10],
-      ["bio_blaster", 10]
+      ["bio_blaster", 10],
+      ["tool_black_powder_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -6898,7 +7303,8 @@
     "id" : "molebot",
     "items":[
       ["spiked_plate", 15],
-      ["hard_plate", 30]
+      ["hard_plate", 30],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -6907,7 +7313,8 @@
       ["flamethrower", 1],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["robot_controls", 3]
     ]
   },{
     "type" : "item_group",
@@ -6916,7 +7323,8 @@
       ["9mm", 8],
       ["kevlar_plate", 10],
       ["ceramic_armor", 15],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -6928,7 +7336,8 @@
       ["alloy_plate", 10],
       ["kevlar_plate", 10],
       ["ceramic_armor", 10],
-      ["hard_plate", 30]
+      ["hard_plate", 30],
+      ["robot_controls", 5]
     ]
   },{
     "type" : "item_group",
@@ -7039,7 +7448,8 @@
       ["optical_cloak", 1],
       ["grapnel", 1],
       ["briefcase", 5],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["robot_controls", 3]
     ]
   },{
     "type" : "item_group",
@@ -7114,6 +7524,7 @@
       ["helmet_liner", 10],
       ["backpack", 38],
       ["holster", 15],
+      ["sholster", 10],
       ["bootstrap", 3],
       ["gobag", 1],
       ["mess_kit", 9],
@@ -7164,6 +7575,7 @@
       ["mgl", 6],
       ["rm802", 6],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["clip", 8],
       ["brass_catcher", 15],
       ["lighter", 60],
@@ -7230,7 +7642,9 @@
       ["pur_tablets", 10],
       ["cleansuit", 5],
       ["needlegun", 4],
+      ["needlepistol", 6],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["hazmat_suit", 5],
       ["e_tool", 20],
       ["knife_trench", 14],
@@ -7254,7 +7668,8 @@
       ["toolbox", 1],
       ["knife_rm42", 4],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["shoulder_strap", 16]
     ]
   },{
     "type" : "item_group",
@@ -7278,6 +7693,9 @@
       ["mobile_memory_card", 50],
       ["mobile_memory_card_science", 5],
       ["camera", 3],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
       ["camera_pro", 1],
       ["electrohack", 3],
       ["RAM", 22],
@@ -7335,6 +7753,7 @@
       ["bio_watch", 10],
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
+      ["bio_remote", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -7348,7 +7767,12 @@
       ["toolbox", 1],
       ["diazepam", 1],
       ["magnifying_glass", 1],
-      ["material_quicklime", 10]
+      ["material_quicklime", 10],
+      ["bio_meteorologist", 10],
+      ["chem_nitric_acid", 1],
+      ["chem_sulphuric_acid", 1],
+      ["chem_hexamine", 2],
+      ["remotevehcontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -7412,7 +7836,9 @@
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["remotevehcontrol", 8],
+      ["tool_rdx_charge", 1]
     ]
   },{
     "type" : "item_group",
@@ -7577,7 +8003,8 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["hoodie", 65],
-      ["sleeveless_trenchcoat", 10],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_duster", 5],
       ["gloves_fingerless", 20],
       ["backpack", 38],
       ["backpack_leather", 28],
@@ -7603,6 +8030,7 @@
       ["mac_10", 7],
       ["rm228", 1],
       ["suppressor", 15],
+      ["shot_suppressor", 1],
       ["clip2", 4],
       ["autofire", 2],
       ["mag_porn", 20],
@@ -7674,7 +8102,9 @@
       ["lsd", 10],
       ["chemistry_set", 50],
       ["battery", 70],
-      ["flashlight", 40]
+      ["flashlight", 40],
+      ["chem_acetone", 40],
+      ["chem_hexamine", 15]
       ]
   },{
     "type" : "item_group",
@@ -7712,6 +8142,7 @@
       ["textbook_computer", 8],
       ["textbook_anarch", 4],
       ["computer_science", 7],
+      ["mask_guy_fawkes", 5],
       ["solar_cell", 5],
       ["SICP", 3],
       ["recipe_serum", 2],
@@ -7775,6 +8206,7 @@
       ["flashlight_on", 0],
       ["radio_on", 0],
       ["chainsaw_on", 0],
+      ["elec_chainsaw_on", 0],
       ["pipebomb_act", 0],
       ["grenade_act", 0],
       ["grenade_inc_act", 0],
@@ -7837,6 +8269,7 @@
       ["thermal_gloves_on", 0],
       ["thermal_suit_on", 0],
       ["thermal_socks_on", 0],
+      ["thermal_outfit_on", 0],
       ["miner_hat_on", 0],
       ["shishkebab_on", 0],
       ["broadfire_on", 0],
@@ -7851,7 +8284,10 @@
       ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
       ["v_table", 0],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["raw_leather", 0],
+      ["raw_fur", 0],
+      ["straw_pile", 0]
     ]
   },{
     "type" : "item_group",
@@ -7997,7 +8433,8 @@
       ["grapnel", 5],
       ["wearable_light", 5],
       ["toolbox", 1],
-      ["smoxygen_tank", 35]
+      ["smoxygen_tank", 35],
+      ["watercannon", 10]
     ]
   },{
     "type" : "item_group",
@@ -8081,17 +8518,25 @@
     "type" : "item_group",
     "id" : "survivorzed_tops",
     "items":[
-      ["trenchcoat_survivor", 10],
-      ["sleeveless_trenchcoat_survivor", 5],
+      ["trenchcoat_survivor", 5],
+      ["sleeveless_trenchcoat_survivor", 2],
+      ["duster_survivor", 5],
+      ["sleeveless_duster_survivor", 2],
       ["vest", 40],
       ["kevlar", 16],
       ["jacket_army", 28],
-      ["trenchcoat", 24],
-      ["trenchcoat_leather", 20],
-      ["trenchcoat_fur", 10],
-      ["sleeveless_trenchcoat", 15],
-      ["sleeveless_trenchcoat_leather", 10],
-      ["sleeveless_trenchcoat_fur", 5],
+      ["trenchcoat", 12],
+      ["trenchcoat_leather", 10],
+      ["trenchcoat_fur", 5],
+      ["sleeveless_trenchcoat", 7],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 2],
+      ["duster", 12],
+      ["duster_leather", 10],
+      ["duster_fur", 5],
+      ["sleeveless_duster", 7],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 2],
       ["peacoat", 14],
       ["vest_leather", 22],
       ["bunker_coat", 6],
@@ -8267,6 +8712,9 @@
       ["flamethrower_simple", 2],
       ["toolbox", 1],
       ["survivor_belt", 2],
+      ["survivor_machete", 2],
+      ["spear_survivor", 2],
+      ["survivor_mess_kit", 6],
       ["survnote", 30]
     ]
   },{
@@ -8330,6 +8778,7 @@
       ["jar_3l_glass", 1],
       ["wrapper", 3],
       ["withered", 5],
+      ["straw_pile", 5],
       ["string_6", 1],
       ["cig_butt", 4],
       ["string_36", 1],
@@ -8345,7 +8794,8 @@
       ["rag_bloody", 1],
       ["bone", 2],
       ["syringe", 1],
-      ["spike", 1]
+      ["spike", 1],
+      ["tanbark", 2]
     ]
   },{
 "type" : "item_group",
@@ -8393,6 +8843,7 @@
       ["8mm_civilian", 5],
       ["8mm_hvp", 1],
       ["5x50dart", 8],
+      ["5x50heavy", 4],
       ["8mm_inc", 2]
     ]
   },{
@@ -8490,7 +8941,8 @@
       ["pocketwatch", 30],
       ["tieclip", 35],
       ["pearl_collar", 30],
-      ["diamond", 10]
+      ["diamond", 10],
+      ["holy_symbol", 20]
     ]
   },{
 "type" : "item_group",
@@ -8570,7 +9022,11 @@
       ["pistol_flintlock", 4],
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
-      ["boxing_gloves", 12]
+      ["boxing_gloves", 12],
+      ["straw_doll", 1],
+      ["pitchfork", 1],
+      ["straw_sandals", 1],
+      ["holy_symbol", 10]
     ]
   },{
 "type"  : "item_group",
@@ -8604,6 +9060,16 @@
       ["seed_wheat", 60],
       ["seed_barley", 60],
       ["seed_sugar_beet", 60],
+      ["seed_lettuce", 60],
+      ["seed_onion", 60],
+      ["seed_carrot", 60],
+      ["seed_corn", 60],
+      ["seed_oats", 60],
+      ["seed_broccoli", 60],
+      ["seed_celery", 60],
+      ["seed_cucumber", 60],
+      ["seed_potato_raw", 60],
+      ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
       ["seed_tomato", 60]
     ]
@@ -8625,7 +9091,8 @@
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40],
-      ["material_quicklime", 30]
+      ["material_quicklime", 30],
+      ["pitchfork", 40]
     ]
   },{
 "type" : "item_group",
@@ -8706,11 +9173,13 @@
 "id" : "museum_misc",
 "items" : [
       ["small_relic", 80],
+      ["holy_symbol", 80],
       ["spiral_stone", 80],
       ["petrified_eye",5],
       ["etched_skull", 80],
       ["ceramic_plate", 90],
       ["ceramic_bowl", 90],
+      ["clay_hydria", 50],
       ["ceramic_cup", 90]
     ]
   },{
@@ -8721,7 +9190,8 @@
       ["tonfa", 20],
       ["tazer", 20],
       ["flashlight", 40],
-      ["two_way_radio", 10]
+      ["two_way_radio", 10],
+      ["camera_control", 5]
     ]
   },{
 "type" : "item_group",
@@ -8730,6 +9200,7 @@
 "entries" : [
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
@@ -8792,6 +9263,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_tech",
+    "subtype": "distribution",
     "note" : "Bionics used by technicians.",
     "items":[
       ["bio_torsionratchet", 20],
@@ -8804,6 +9276,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_subs",
+    "subtype": "distribution",
     "note" : "Bionics dropped by substation mini-boss.",
     "items":[
       ["bio_power_storage", 20],

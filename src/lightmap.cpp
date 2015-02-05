@@ -9,13 +9,14 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::add_light_from_items( const int x, const int y, const std::vector<item> &items )
+void map::add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
+                                std::list<item>::iterator end )
 {
-    for( auto & itm : items ) {
+    for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness
         int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
         int idir = 0;   // otherwise, it's a light_arc pointed in this direction
-        if( itm.getlight( ilum, iwidth, idir ) ) {
+        if( itm_it->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0 ) {
                 apply_light_arc( x, y, idir, ilum, iwidth );
             } else {
@@ -56,7 +57,7 @@ void map::generate_lightmap()
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
-                } else if (g->u.posx == sx && g->u.posy == sy ) {
+                } else if (g->u.posx() == sx && g->u.posy() == sy ) {
                     //Only apply daylight on square where player is standing to avoid flooding
                     // the lightmap  when in less than total sunlight.
                     lm[sx][sy] = natural_light;
@@ -67,17 +68,17 @@ void map::generate_lightmap()
 
     // Apply player light sources
     if (held_luminance > LIGHT_AMBIENT_LOW) {
-        apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
+        apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
-            const std::vector<item> &items = i_at(sx, sy);
+            auto items = i_at(sx, sy);
             const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx(), g->u.posy()) ) {
                 if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
@@ -92,7 +93,7 @@ void map::generate_lightmap()
                     }
                 }
             }
-            add_light_from_items( sx, sy, items );
+            add_light_from_items( sx, sy, items.begin(), items.end() );
             if(terrain == t_lava) {
                 add_light_source(sx, sy, 50 );
             }
@@ -160,17 +161,21 @@ void map::generate_lightmap()
     }
 
     for (size_t i = 0; i < g->num_zombies(); ++i) {
-        int mx = g->zombie(i).posx();
-        int my = g->zombie(i).posy();
+        auto &critter = g->zombie(i);
+        if(critter.is_hallucination()) {
+            continue;
+        }
+        int mx = critter.posx();
+        int my = critter.posy();
         if (INBOUNDS(mx, my)) {
-            if (g->zombie(i).has_effect("onfire")) {
+            if (critter.has_effect("onfire")) {
                 apply_light_source(mx, my, 3, trigdist);
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if (g->zombie(i).type->luminance > 0) {
-                apply_light_source(mx, my, g->zombie(i).type->luminance, trigdist);
+            if (critter.type->luminance > 0) {
+                apply_light_source(mx, my, critter.type->luminance, trigdist);
             }
         }
     }
@@ -184,46 +189,67 @@ void map::generate_lightmap()
             float veh_luminance = 0.0;
             float iteration = 1.0;
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                veh_luminance += ( v->part_info(*part).bonus / iteration );
+            for( auto &light_indice : light_indices ) {
+                veh_luminance += ( v->part_info( light_indice ).bonus / iteration );
                 iteration = iteration * 1.1;
             }
             if (veh_luminance > LL_LIT) {
-                for (std::vector<int>::iterator part = light_indices.begin();
-                     part != light_indices.end(); ++part) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+                for( auto &light_indice : light_indices ) {
+                    int px = vv.x + v->parts[light_indice].precalc[0].x;
+                    int py = vv.y + v->parts[light_indice].precalc[0].y;
                     if(INBOUNDS(px, py)) {
-                        apply_light_arc(px, py, dir + v->parts[*part].direction, veh_luminance, 45);
+                        apply_light_arc( px, py, dir + v->parts[light_indice].direction,
+                                         veh_luminance, 45 );
                     }
                 }
             }
         }
         if(v->overhead_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                if((calendar::turn % 2 && v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
-                   (!(calendar::turn % 2) && v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
-                   (!v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
-                    !v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+            for( auto &light_indice : light_indices ) {
+                if( ( calendar::turn % 2 &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ||
+                    ( !( calendar::turn % 2 ) &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) ) ||
+                    ( !v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) &&
+                      !v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ) {
+                    int px = vv.x + v->parts[light_indice].precalc[0].x;
+                    int py = vv.y + v->parts[light_indice].precalc[0].y;
                     if(INBOUNDS(px, py)) {
-                        add_light_source( px, py, v->part_info(*part).bonus );
+                        add_light_source( px, py, v->part_info( light_indice ).bonus );
                     }
                 }
             }
         }
+        // why reinvent the [lightmap] wheel
+        if(v->dome_lights_on) {
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_DOME_LIGHT);
+            for( auto &light_indice : light_indices ) {
+                int px = vv.x + v->parts[light_indice].precalc[0].x;
+                int py = vv.y + v->parts[light_indice].precalc[0].y;
+                if(INBOUNDS(px, py)) {
+                    add_light_source( px, py, v->part_info( light_indice ).bonus );
+                }
+            }
+        }
+        if(v->aisle_lights_on) {
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_AISLE_LIGHT);
+            for( auto &light_indice : light_indices ) {
+                int px = vv.x + v->parts[light_indice].precalc[0].x;
+                int py = vv.y + v->parts[light_indice].precalc[0].y;
+                if(INBOUNDS(px, py)) {
+                    add_light_source( px, py, v->part_info( light_indice ).bonus );
+                }
+            }
+        }
         for( size_t p = 0; p < v->parts.size(); ++p ) {
-            int px = vv.x + v->parts[p].precalc_dx[0];
-            int py = vv.y + v->parts[p].precalc_dy[0];
+            int px = vv.x + v->parts[p].precalc[0].x;
+            int py = vv.y + v->parts[p].precalc[0].y;
             if( !INBOUNDS( px, py ) ) {
                 continue;
             }
             if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
-                add_light_from_items( px, py, v->parts[p].items );
+                add_light_from_items( px, py, v->get_items(p).begin(), v->get_items(p).end() );
             }
         }
     }
@@ -246,7 +272,7 @@ void map::generate_lightmap()
     if (g->u.has_active_bionic("bio_night") ) {
         for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
             for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-                if (rl_dist(sx, sy, g->u.posx, g->u.posy) < 15) {
+                if (rl_dist(sx, sy, g->u.posx(), g->u.posy()) < 15) {
                     lm[sx][sy] = 0;
                 }
             }
@@ -256,7 +282,7 @@ void map::generate_lightmap()
 
 void map::add_light_source(int x, int y, float luminance )
 {
-    light_source_buffer[x][y] = luminance;
+    light_source_buffer[x][y] = std::max(luminance, light_source_buffer[x][y]);
 }
 
 lit_level map::light_at(int dx, int dy)
@@ -289,20 +315,18 @@ float map::ambient_light_at(int dx, int dy)
     return lm[dx][dy];
 }
 
-bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
+bool map::pl_sees( const int tx, const int ty, const int max_range )
 {
     if (!INBOUNDS(tx, ty)) {
         return false;
     }
 
-    if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range)) {
+    if( max_range >= 0 && square_dist( tx, ty, g->u.posx(), g->u.posy() ) > max_range ) {
         return false;    // Out of range!
     }
 
     return seen_cache[tx][ty];
 }
-
-
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
@@ -320,10 +344,10 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
 void map::build_seen_cache()
 {
     memset(seen_cache, false, sizeof(seen_cache));
-    seen_cache[g->u.posx][g->u.posy] = true;
+    seen_cache[g->u.posx()][g->u.posy()] = true;
 
-    const int offsetX = g->u.posx;
-    const int offsetY = g->u.posy;
+    const int offsetX = g->u.posx();
+    const int offsetY = g->u.posy();
 
     castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );
@@ -337,48 +361,66 @@ void map::build_seen_cache()
     castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    if (vehicle *veh = veh_at(offsetX, offsetY)) {
+    int part;
+    if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
-        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
+        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
         // from happening due to mirrors becoming visible due to processing order.
+        // Cameras are also handled here, so that we only need to get through all veh parts once
+        int cam_control = -1;
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
-            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
+            const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
-            if (!g->u.sees(mirrorX, mirrorY)) {
+            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) && !g->u.sees( mirror_pos )) {
                 m_it = mirrors.erase(m_it);
-            } else {
+            } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
+            } else {
+                if( offsetX == mirror_pos.x && offsetY == mirror_pos.y && veh->camera_on ) {
+                    cam_control = *m_it;
+                }
+                m_it = mirrors.erase( m_it );
             }
         }
 
-        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); ++m_it) {
-            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
+        for( size_t i = 0; i < mirrors.size(); i++ ) {
+            const int &mirror = mirrors[i];
+            bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+            if( is_camera && cam_control < 0 ) {
+                continue; // Player not at camera control, so cameras don't work
+            }
+
+            const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.
-            int offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+            int offsetDistance;
+            if( !is_camera ) {
+                offsetDistance = rl_dist(offsetX, offsetY, mirror_pos.x, mirror_pos.y);
+            } else {
+                offsetDistance = 60 - veh->part_info( mirror ).bonus *  
+                                      veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+                seen_cache[mirror_pos.x][mirror_pos.y] = true;
+            }
 
             // @todo: Factor in the mirror facing and only cast in the
             // directions the player's line of sight reflects to.
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
+            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
-
-            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
         }
     }
 }
@@ -592,8 +634,8 @@ void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                           int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
 {
-    int ax = abs(ex - sx) << 1;
-    int ay = abs(ey - sy) << 1;
+    int ax = abs(ex - sx) * 2;
+    int ay = abs(ey - sy) * 2;
     int dx = (sx < ex) ? 1 : -1;
     int dy = (sy < ey) ? 1 : -1;
     int x = sx;
@@ -609,7 +651,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     int td = 0;
     // TODO: [lightmap] Pull out the common code here rather than duplication
     if (ax > ay) {
-        int t = ay - (ax >> 1);
+        int t = ay - (ax / 2);
         do {
             if(t >= 0) {
                 y += dy;
@@ -643,7 +685,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
         } while(!(x == ex && y == ey));
     } else {
-        int t = ax - (ay >> 1);
+        int t = ax - (ay / 2);
         do {
             if(t >= 0) {
                 x += dx;

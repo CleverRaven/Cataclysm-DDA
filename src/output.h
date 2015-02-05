@@ -75,8 +75,8 @@ struct delwin_functor {
 typedef std::unique_ptr<WINDOW, delwin_functor> WINDOW_PTR;
 
 enum game_message_type {
-    m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
-    m_bad,      /* something bad happened to the player character, eg. health boost, increasing in skill */
+    m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
                   eg. gaining a mutation with mixed effect*/
     m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
@@ -222,7 +222,7 @@ void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
                     nc_color bar_color = c_white);

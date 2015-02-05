@@ -3,8 +3,14 @@
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "catacharset.h"
+#include "item.h"
+#include "output.h"
+#include "monattack.h"
+#include "mondefense.h"
+#include "mondeath.h"
+#include <queue>
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -18,6 +24,7 @@ MonsterGenerator::MonsterGenerator()
     init_flags();
     init_trigger();
     init_sizes();
+    init_hardcoded_factions();
 }
 
 MonsterGenerator::~MonsterGenerator()
@@ -27,14 +34,12 @@ MonsterGenerator::~MonsterGenerator()
 
 void MonsterGenerator::reset()
 {
-    for (std::map<std::string, mtype *>::iterator types = mon_templates.begin();
-         types != mon_templates.end(); ++types) {
-        delete types->second;
+    for( auto &elem : mon_templates ) {
+        delete elem.second;
     }
     mon_templates.clear();
-    for (std::map<std::string, species_type *>::iterator specs = mon_species.begin();
-         specs != mon_species.end(); ++specs) {
-        delete specs->second;
+    for( auto &elem : mon_species ) {
+        delete elem.second;
     }
     mon_species.clear();
     mon_templates["mon_null"] = new mtype();
@@ -43,11 +48,78 @@ void MonsterGenerator::reset()
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for (std::map<std::string, mtype *>::iterator monentry = mon_templates.begin();
-         monentry != mon_templates.end(); ++monentry) {
-        mtype *mon = monentry->second;
+    for( auto &elem : mon_templates ) {
+        mtype *mon = elem.second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
+        set_species_ids( mon );
+        set_default_faction( mon );
+    }
+}
+
+void MonsterGenerator::apply_base_faction( const monfaction *base, monfaction *faction )
+{
+    for( const auto &pair : base->attitude_map ) {
+        // Fill in values set in base faction, but not in derived one
+        if( faction->attitude_map.count( pair.first ) == 0 ) {
+            faction->attitude_map.insert( pair );
+        }
+    }
+}
+
+void MonsterGenerator::finalize_monfactions()
+{
+    monfaction *nullfaction = get_or_add_faction( "" );
+    nullfaction->base_faction = nullptr;
+    // Create a tree of faction dependence
+    std::multimap< const monfaction*, monfaction* > child_map;
+    std::set< monfaction* > unloaded; // To check if cycles exist
+    std::queue< monfaction* > queue;
+    for( auto &pair : faction_map ) {
+        auto faction = &pair.second;
+        unloaded.insert( faction );
+        // Point parent to children
+        std::pair< const monfaction*, monfaction* > kv;
+        kv.first = faction->base_faction;
+        kv.second = faction;
+        child_map.insert( kv );
+
+        // Set faction as friendly to itself if not explicitly set to anything
+        if( faction->attitude_map.count( faction ) == 0 ) {
+            faction->attitude_map[faction] = MFA_FRIENDLY;
+        }
+    }
+
+    child_map.erase( nullptr ); // "" faction's inexistent parent
+    queue.push( nullfaction );
+
+    // Traverse the tree (breadth-first), starting from root
+    while( !queue.empty() ) {
+        monfaction *cur = queue.front();
+        queue.pop();
+        if( unloaded.count( cur ) != 0 ) {
+            unloaded.erase( cur );
+        } else {
+            debugmsg( "Tried to load monster faction %s more than once", cur->name.c_str() );
+            continue;
+        }
+        auto children = child_map.equal_range( cur );
+        for( auto it = children.first; it != children.second; ++it ) {
+            // Copy attributes to child
+            apply_base_faction( cur, it->second );
+            queue.push( it->second );
+        }
+    }
+
+    // Bad json
+    if( !unloaded.empty() ) {
+        std::string names;
+        for( auto &fac : unloaded ) {
+            names.append( fac->name );
+            names.append( " " );
+            fac->base_faction = nullfaction;
+        }
+        debugmsg( "Cycle encountered when processing monster faction tree. Bad factions:\n %s", names.c_str() );
     }
 }
 
@@ -96,8 +168,8 @@ void MonsterGenerator::set_mtype_flags(mtype *mon)
 template <typename T>
 void MonsterGenerator::apply_set_to_set(std::set<T> from, std::set<T> &to)
 {
-    for (typename std::set<T>::iterator entry = from.begin(); entry != from.end(); ++entry) {
-        to.insert(*entry);
+    for( const auto &elem : from ) {
+        to.insert( elem );
     }
 }
 
@@ -163,6 +235,7 @@ void MonsterGenerator::init_attack()
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
+    attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
@@ -204,7 +277,6 @@ void MonsterGenerator::init_attack()
     attack_map["LASER"] = &mattack::laser;
     attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["BMG_TUR"] = &mattack::bmg_tur;
-    attack_map["TANK_TUR"] = &mattack::tank_tur;
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
@@ -239,8 +311,8 @@ void MonsterGenerator::init_trigger()
     trigger_map["NULL"] = MTRIG_NULL;// = 0,
     trigger_map["STALK"] = MTRIG_STALK;//  // Increases when following the player
     trigger_map["MEAT"] = MTRIG_MEAT;//  // Meat or a corpse nearby
-    trigger_map["PLAYER_WEAK"] = MTRIG_PLAYER_WEAK;// // The player is hurt
-    trigger_map["PLAYER_CLOSE"] = MTRIG_PLAYER_CLOSE;// // The player gets within a few tiles
+    trigger_map["PLAYER_WEAK"] = MTRIG_HOSTILE_WEAK;// // Hurt hostile player/npc/monster seen
+    trigger_map["PLAYER_CLOSE"] = MTRIG_HOSTILE_CLOSE;// // Hostile creature within a few tiles
     trigger_map["HURT"] = MTRIG_HURT;//  // We are hurt
     trigger_map["FIRE"] = MTRIG_FIRE;//  // Fire nearby
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
@@ -268,7 +340,9 @@ void MonsterGenerator::init_flags()
     flag_map["HARDTOSHOOT"] = MF_HARDTOSHOOT;
     flag_map["GRABS"] = MF_GRABS;
     flag_map["BASHES"] = MF_BASHES;
+    flag_map["GROUP_BASH"] = MF_GROUP_BASH;
     flag_map["DESTROYS"] = MF_DESTROYS;
+    flag_map["BORES"] = MF_BORES;
     flag_map["POISON"] = MF_POISON;
     flag_map["VENOM"] = MF_VENOM;
     flag_map["BADVENOM"] = MF_BADVENOM;
@@ -301,7 +375,6 @@ void MonsterGenerator::init_flags()
     flag_map["BONES"] = MF_BONES;
     flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
-    flag_map["FRIENDLY_SPECIAL"] = MF_FRIENDLY_SPECIAL;
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
     flag_map["GUILT"] = MF_GUILT;
     flag_map["HUMAN"] = MF_HUMAN;
@@ -312,7 +385,7 @@ void MonsterGenerator::init_flags()
     flag_map["REVIVES"] = MF_REVIVES;
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
-    flag_map["NO_GIBS"] = MF_NO_GIBS;
+    flag_map["NOGIB"] = MF_NOGIB;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["SMALL_BITER"] = MF_SMALL_BITER;
     flag_map["ABSORBS"] = MF_ABSORBS;
@@ -326,8 +399,41 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["SWARMS"] = MF_SWARMS;
+    flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
 }
 
+void MonsterGenerator::init_hardcoded_factions()
+{
+    monfaction playerfact;
+    playerfact.id = -1;
+    playerfact.name = "player";
+    faction_map[playerfact.name] = playerfact;
+
+    monfaction nullfact;
+    nullfact.id = 0;
+    nullfact.name = "";
+    faction_map[nullfact.name] = nullfact;
+}
+
+void MonsterGenerator::set_species_ids( mtype *mon )
+{
+    const std::set< std::string > &specs = mon->species;
+    std::set< int > ret;
+    for( const auto &s : specs ) {
+        auto iter = mon_species.find( s );
+        if( iter != mon_species.end() ) {
+            mon->species_id.insert( iter->second->short_id );
+        } else {
+            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
+        }
+    }
+}
+
+void MonsterGenerator::set_default_faction( mtype *mon )
+{
+    mon->default_faction = faction_by_name( mon->faction_name );
+}
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
@@ -356,6 +462,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
 
+        newmon->faction_name = jo.get_string("default_faction", "");
+        get_or_add_faction( newmon->faction_name );
+
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
@@ -379,6 +488,19 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         jo.read("starting_ammo", newmon->starting_ammo);
         newmon->luminance = jo.get_float("luminance", 0);
         newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
+        newmon->vision_day = jo.get_int("vision_day", 60);
+        newmon->vision_night = jo.get_int("vision_night", 1);
+        
+        if (jo.has_array("attack_effs")) {
+            JsonArray jsarr = jo.get_array("attack_effs");
+            while (jsarr.has_more()) {
+                JsonObject e = jsarr.next_object();
+                mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
+                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false),
+                                    e.get_int("chance", 100));
+                newmon->atk_effs.push_back(new_eff);
+            }
+        }
 
         if (jo.has_string("death_drops")) {
             newmon->death_drops = jo.get_string("death_drops");
@@ -388,7 +510,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             newmon->death_drops = newmon->id + "_death_drops_auto";
             const std::string subtype = death_frop_json.get_string("subtype", "distribution");
             // and load the entry as a standard item group using the made up name.
-            item_controller->load_item_group(death_frop_json, newmon->death_drops, subtype);
+            item_group::load_item_group(death_frop_json, newmon->death_drops, subtype);
         } else if (jo.has_member("death_drops")) {
             jo.throw_error("invalid type, must be string or object", "death_drops");
         }
@@ -417,7 +539,9 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")) {
         sid = jo.get_string("id");
+        int species_num = mon_species.size();
         if (mon_species.count(sid) > 0) {
+            species_num = mon_species[sid]->short_id; // Keep it or weird things may happen
             delete mon_species[sid];
         }
 
@@ -433,10 +557,40 @@ void MonsterGenerator::load_species(JsonObject &jo)
         fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
         placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
 
-        species_type *new_species = new species_type(sid, flags, anger, fear, placate);
+        species_type *new_species = new species_type(species_num, sid, flags, anger, fear, placate);
 
         mon_species[sid] = new_species;
     }
+}
+
+// Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
+void MonsterGenerator::add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map, 
+                                            mf_attitude value )
+{
+    for( const auto &k : keys ) {
+        monfaction *faction = get_or_add_faction( k );
+        map[faction] = value;
+    }
+}
+
+void MonsterGenerator::load_monster_faction(JsonObject &jo)
+{
+    // Factions inherit values from their parent factions - this is set during finalization
+    if( !jo.has_member( "name" ) ) {
+        debugmsg( "Invalid faction: no name\n%s", jo.str().c_str() );
+    }
+
+    std::string name = jo.get_string( "name" );
+    monfaction *faction = get_or_add_faction( name );
+    std::string base_faction = jo.get_string( "base_faction", "" );
+    faction->base_faction = get_or_add_faction( base_faction );
+    std::set< std::string > by_mood, neutral, friendly;
+    by_mood = jo.get_tags( "by_mood" );
+    neutral = jo.get_tags( "neutral" );
+    friendly = jo.get_tags( "friendly" );
+    add_to_attitude_map( by_mood, faction->attitude_map, MFA_BY_MOOD );
+    add_to_attitude_map( neutral, faction->attitude_map, MFA_NEUTRAL );
+    add_to_attitude_map( friendly, faction->attitude_map, MFA_FRIENDLY );
 }
 
 mtype *MonsterGenerator::get_mtype(std::string mon)
@@ -467,10 +621,9 @@ bool MonsterGenerator::has_species(const std::string &species) const
 mtype *MonsterGenerator::get_mtype(int mon)
 {
     int count = 0;
-    for (std::map<std::string, mtype *>::iterator monit = mon_templates.begin();
-         monit != mon_templates.end(); ++monit) {
+    for( auto &elem : mon_templates ) {
         if (count == mon) {
-            return monit->second;
+            return elem.second;
         }
         ++count;
     }
@@ -484,9 +637,8 @@ std::map<std::string, mtype *> MonsterGenerator::get_all_mtypes() const
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
     std::vector<std::string> hold;
-    for (std::map<std::string, mtype *>::const_iterator mon = mon_templates.begin();
-         mon != mon_templates.end(); ++mon) {
-        hold.push_back(mon->first);
+    for( const auto &elem : mon_templates ) {
+        hold.push_back( elem.first );
     }
     return hold;
 }
@@ -494,31 +646,60 @@ std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 mtype *MonsterGenerator::get_valid_hallucination()
 {
     std::vector<mtype *> potentials;
-    for (std::map<std::string, mtype *>::iterator mon = mon_templates.begin();
-         mon != mon_templates.end(); ++mon) {
-        if (mon->first != "mon_null" && mon->first != "mon_generator") {
-            potentials.push_back(mon->second);
+    for( auto &elem : mon_templates ) {
+        if( elem.first != "mon_null" && elem.first != "mon_generator" ) {
+            potentials.push_back( elem.second );
         }
     }
 
     return potentials[rng(0, potentials.size() - 1)];
 }
 
+const monfaction *MonsterGenerator::faction_by_name( const std::string &name ) const
+{
+    auto found = faction_map.find( name );
+    if( found == faction_map.end() ) {
+        return &faction_map.find( "" )->second;
+    }
+    return &found->second;
+}
+
+monfaction *MonsterGenerator::get_or_add_faction( const std::string &name )
+{
+    auto found = faction_map.find( name );
+    if( found == faction_map.end() ) {
+        const monfaction *nullfaction = GetMFact( "" );
+        monfaction mfact;
+        mfact.name = name;
+        mfact.id = faction_map.size();
+        mfact.base_faction = nullfaction;
+        faction_map[mfact.name] = mfact;
+        found = faction_map.find( mfact.name );
+    }
+
+    return &found->second;
+}
+
+
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
 {
     return flag_map.find( flag )->second;
 }
 
-std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(JsonObject &jo,
+std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &jo,
         std::string member)
 {
-    std::vector<void (mdeath::*)(monster *)> deaths;
+    std::vector<mon_action_death> deaths;
 
     std::set<std::string> death_flags = jo.get_tags(member);
 
     std::set<std::string>::iterator it = death_flags.begin();
     for (; it != death_flags.end(); ++it) {
-        deaths.push_back(death_map[*it]);
+        if ( death_map.find(*it) != death_map.end() ) {
+            deaths.push_back(death_map[*it]);
+        } else {
+            jo.throw_error("Invalid death_function");
+        }
     }
 
     if (deaths.empty()) {
@@ -535,8 +716,12 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-            m->sp_freq.push_back(inner.get_int(1));
+            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
+                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+                m->sp_freq.push_back(inner.get_int(1));
+            } else {
+                inner.throw_error("Invalid special_attacks");
+            }
         }
     }
 
@@ -549,8 +734,12 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
 void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
     if (jo.has_array(member)) {
         JsonArray jsarr = jo.get_array(member);
-        m->sp_defense = defense_map[jsarr.get_string(0)];
-        m->def_chance = jsarr.get_int(1);
+        if ( defense_map.find(jsarr.get_string(0)) != defense_map.end() ) {
+            m->sp_defense = defense_map[jsarr.get_string(0)];
+            m->def_chance = jsarr.get_int(1);
+        } else {
+            jsarr.throw_error("Invalid special_when_hit");
+        }
     }
 
     if (m->sp_defense == NULL) {
@@ -565,9 +754,9 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
     std::set<T> ret;
 
     if (!tags.empty()) {
-        for (std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it) {
-            if (conversion_map.find(*it) != conversion_map.end()) {
-                ret.insert(conversion_map[*it]);
+        for( const auto &tag : tags ) {
+            if( conversion_map.find( tag ) != conversion_map.end() ) {
+                ret.insert( conversion_map[tag] );
             }
         }
     }
@@ -591,20 +780,19 @@ T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> co
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for(std::map<std::string, mtype *>::const_iterator a = mon_templates.begin();
-        a != mon_templates.end(); ++a) {
-        const mtype *mon = a->second;
+    for( const auto &elem : mon_templates ) {
+        const mtype *mon = elem.second;
         for(std::set<std::string>::iterator spec = mon->species.begin(); spec != mon->species.end();
             ++spec) {
             if(!has_species(*spec)) {
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec->c_str());
             }
         }
-        if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
+        if (!mon->death_drops.empty() && !item_group::group_is_defined(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
         }
-        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+        if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
                      mon->revert_to_itype.c_str());
         }

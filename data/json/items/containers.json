@@ -32,7 +32,9 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 2,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "cup_plastic",
@@ -50,7 +52,8 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true
     },
     {
         "id": "bottle_glass",
@@ -68,7 +71,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 3,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "can_drink",
@@ -86,7 +91,9 @@
         "to_hit": -3,
         "material": "aluminum",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
@@ -98,14 +105,14 @@
         "category": "other",
         "description":"A pewter bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
         "cutting":0,
-        "price": 100,
+        "price": 400,
         "weight":50,
         "volume":1,
         "bashing":0,
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-        "flags":[ "RIGID" ]
+        "rigid": true
     },
     {
         "id": "can_food",
@@ -123,7 +130,9 @@
         "to_hit": 0,
         "material": "steel",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
@@ -143,7 +152,7 @@
         "to_hit": 0,
         "material": "paper",
         "contains": 4,
-        "flags": ["RIGID"]
+        "rigid": true
     },
     {
         "id": "canteen",
@@ -152,8 +161,8 @@
         "color": "green",
         "name": "plastic canteen",
         "category": "other",
-        "description": "A large military-style water canteen, with a 1.5 liter capacity and strap.",
-        "price": 2000,
+        "description": "A large military-style water canteen, with a 1.5 liter capacity and carrying strap.",
+        "price": 800,
         "weight": 155,
         "volume": 6,
         "bashing": 0,
@@ -161,7 +170,19 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 6,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "encumbrance" : 0,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "2lcanteen",
@@ -170,8 +191,8 @@
         "color": "dark_gray",
         "name": "2.5L canteen",
         "category": "other",
-        "description": "A large plastic water canteen, with a 2.5 liter capacity and strap.",
-        "price": 2500,
+        "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
+        "price": 1000,
         "weight": 155,
         "volume": 10,
         "bashing": 1,
@@ -179,7 +200,19 @@
         "to_hit": -1,
         "material": "plastic",
         "contains": 10,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "jerrycan",
@@ -189,7 +222,7 @@
         "name": "plastic jerrycan",
         "category": "other",
         "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.  It has a capacity of 10 liters.",
-        "price": 15000,
+        "price": 1250,
         "weight": 1587,
         "volume": 40,
         "bashing": 0,
@@ -197,7 +230,9 @@
         "to_hit": -2,
         "material": "plastic",
         "contains": 40,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "jug_plastic",
@@ -215,7 +250,9 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 15,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "flask_glass",
@@ -225,7 +262,7 @@
         "name": "glass flask",
         "category": "other",
         "description": "A 250 ml laboratory conical flask, with a rubber bung.",
-        "price": 500,
+        "price": 400,
         "weight": 48,
         "volume": 1,
         "bashing": 3,
@@ -233,7 +270,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 1,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "waterskin",
@@ -242,7 +281,7 @@
         "color": "brown",
         "name": "small waterskin",
         "category": "other",
-        "description": "A small watertight leather bag, can hold 1.5 liters of water.",
+        "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
         "price": 2000,
         "weight": 453,
         "volume": 1,
@@ -251,7 +290,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 6,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 5,
+        "material_thickness" : 2,
+        "encumbrance" : 0,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "waterskin2",
@@ -260,8 +310,8 @@
         "color": "brown",
         "name": "waterskin",
         "category": "other",
-        "description": "A watertight leather bag, can hold 3 liters of water.",
-        "price": 5000,
+        "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
+        "price": 4000,
         "weight": 783,
         "volume": 2,
         "bashing": 2,
@@ -269,7 +319,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 12,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 10,
+        "material_thickness" : 2,
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
     },
     {
         "id": "waterskin3",
@@ -278,8 +339,8 @@
         "color": "brown",
         "name": "large waterskin",
         "category": "other",
-        "description": "A large watertight leather bag, can hold 5 liters of water.",
-        "price": 8000,
+        "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
+        "price": 6000,
         "weight": 990,
         "volume": 3,
         "bashing": 3,
@@ -287,7 +348,18 @@
         "to_hit": -1,
         "material": "leather",
         "contains": 20,
-        "flags": ["SEALS", "WATERTIGHT"]
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 15,
+        "material_thickness" : 2,
+        "encumbrance" : 1,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 0
+        },
+        "watertight": true,
+        "seals": true,
+        "flags": ["BELTED"]
     },
     {
         "id": "jerrycan_big",
@@ -297,7 +369,7 @@
         "name": "steel jerrycan",
         "category": "other",
         "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.  It has a capacity of 25 liters.",
-        "price": 8000,
+        "price": 5000,
         "weight": 4815,
         "volume": 100,
         "bashing": 4,
@@ -305,7 +377,9 @@
         "to_hit": -3,
         "material": "steel",
         "contains": 100,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank",
@@ -315,7 +389,7 @@
         "name" : "metal tank",
         "category": "other",
         "description" : "A metal tank for holding liquids.  Useful for crafting.",
-        "price" : 6000,
+        "price" : 10000,
         "weight" : 5668,
         "volume" : 225,
         "bashing" : 6,
@@ -323,7 +397,9 @@
         "to_hit" : -4,
         "contains" : 225,
         "material" : ["steel", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank_small",
@@ -333,7 +409,7 @@
         "name" : "small metal tank",
         "category": "other",
         "description" : "A gas tank from a motorcycle.  Useful for crafting.",
-        "price" : 2000,
+        "price" : 6000,
         "weight" : 3200,
         "volume" : 45,
         "bashing" : 5,
@@ -341,7 +417,9 @@
         "to_hit" : -3,
         "contains" : 45,
         "material" : ["aluminum", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id" : "metal_tank_little",
@@ -351,7 +429,7 @@
         "name" : "little metal tank",
         "category": "other",
         "description" : "A little gas tank.  Useful for crafting.",
-        "price" : 250,
+        "price" : 1000,
         "weight" : 400,
         "volume" : 5,
         "bashing" : 2,
@@ -359,7 +437,9 @@
         "to_hit" : -2,
         "contains" : 5,
         "material" : ["aluminum", "null"],
-        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "keg",
@@ -377,7 +457,9 @@
         "to_hit": -5,
         "material": "aluminum",
         "contains": 200,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "jar_glass",
@@ -386,7 +468,7 @@
         "color": "light_cyan",
         "name": "glass jar",
         "category": "other",
-        "description": "A half-litre glass jar with a metal screw top lid, used for canning.",
+        "description": "A half-liter glass jar with a metal screw top lid, used for canning.",
         "price": 0,
         "weight": 264,
         "volume": 2,
@@ -395,7 +477,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -405,7 +489,7 @@
         "color": "light_cyan",
         "name": "3l glass jar",
         "category": "other",
-        "description": "A three-litre glass jar with a metal screw top lid, used for canning.",
+        "description": "A three-liter glass jar with a metal screw top lid, used for canning.",
         "price": 0,
         "weight": 365,
         "volume": 12,
@@ -414,7 +498,9 @@
         "to_hit": -1,
         "material": "glass",
         "contains": 12,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -433,7 +519,9 @@
         "to_hit": 1,
         "material": "aluminum",
         "contains": 1,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id":"bowl_plastic",
@@ -451,7 +539,9 @@
         "to_hit":1,
         "material":"plastic",
         "contains":1,
-        "flags":[ "RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "wrapper",
@@ -478,7 +568,7 @@
         "name": "55 gallon drum",
         "category": "other",
         "description": "A massive steel barrel with a resealable lid.",
-        "price": 0,
+        "price": 10000,
         "weight": 20000,
         "volume": 825,
         "bashing": 8,
@@ -486,7 +576,9 @@
         "to_hit": -5,
         "material": "steel",
         "contains": 825,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "30gal_drum",
@@ -496,7 +588,7 @@
         "name": "30 gallon barrel",
         "category": "other",
         "description": "A huge plastic barrel with a resealable lid.",
-        "price": 0,
+        "price": 5000,
         "weight": 6800,
         "volume": 450,
         "bashing": 8,
@@ -504,7 +596,9 @@
         "to_hit": -5,
         "material": "plastic",
         "contains": 450,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "wooden_barrel",
@@ -514,7 +608,7 @@
         "name": "wooden barrel",
         "category": "other",
         "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
-        "price": 20000,
+        "price": 12000,
         "weight": 42408,
         "volume": 400,
         "bashing": 8,
@@ -522,7 +616,9 @@
         "to_hit": -5,
         "material": ["wood", "steel"],
         "contains": 400,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     },
     {
         "id": "bag_canvas",
@@ -531,7 +627,7 @@
         "color": "brown",
         "name": "canvas sack",
         "category": "other",
-        "description": "A large and sturdy canvas sack. Smells faintly of earth and hard work.",
+        "description": "A large and sturdy canvas sack.  Smells faintly of earth and hard work.",
         "price": 0,
         "weight": 415,
         "volume": 4,
@@ -540,7 +636,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 60,
-        "flags": [ "SEALS" ]
+        "seals": true
     },
     {
         "id": "bag_canvas_small",
@@ -549,7 +645,7 @@
         "color": "brown",
         "name": "canvas bag",
         "category": "other",
-        "description": "Small bag made of canvas. Looks fine to store dried herbs in.",
+        "description": "Small bag made of canvas.  Looks fine to store dried herbs in.",
         "price": 0,
         "weight": 5,
         "volume": 1,
@@ -558,7 +654,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 4,
-        "flags": [ "SEALS" ]
+        "seals": true
     },
     {
         "id": "bottle_plastic_small",
@@ -576,6 +672,109 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "jug_clay",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "clay jug",
+        "category": "other",
+        "description": "A clay container with a lid, used to hold and pour liquids.",
+        "price": 100,
+        "weight": 400,
+        "volume": 4,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": 0,
+        "material": "clay",
+        "contains": 4,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "bowl_clay",
+        "type": "CONTAINER",
+        "color": "brown",
+        "symbol": ")",
+        "name": "clay bowl",
+        "category": "other",
+        "description": "A clay bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
+        "cutting": 0,
+        "price": 100,
+        "weight": 60,
+        "volume": 1,
+        "bashing": 0,
+        "to_hit": -1,
+        "material": "clay",
+        "contains" : 1,
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "qualities": [["CONTAIN", 1]]
+    },
+    {
+        "id": "clay_watercont",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "large clay pot",
+        "category": "other",
+        "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+        "price": 10000,
+        "weight": 4887,
+        "volume": 150,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -2,
+        "material": "clay",
+        "contains": 150,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "clay_hydria",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "clay hydria",
+        "category": "other",
+        "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
+        "price": 2000,
+        "weight": 1955,
+        "volume": 60,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -1,
+        "material": "clay",
+        "contains": 60,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "clay_canister",
+        "type": "CONTAINER",
+        "symbol": "*",
+        "color": "brown",
+        "name": "clay canister",
+        "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+        "price": 1000,
+        "weight": 268,
+        "volume": 1,
+        "category": "other",
+        "bashing": -1,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "clay",
+        "contains": 1,
+        "rigid": true,
+        "watertight": true,
+        "seals": true
     }
 ]

@@ -6,7 +6,6 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
 #include "translations.h"
@@ -51,10 +50,9 @@ static void place_construction(const std::string &desc);
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
-    for( std::vector<construction *>::iterator a = constructions.begin();
-         a != constructions.end(); ++a ) {
-        if( (*a)->description == description ) {
-            result.push_back( *a );
+    for( auto &constructions_a : constructions ) {
+        if( ( constructions_a )->description == description ) {
+            result.push_back( constructions_a );
         }
     }
     return result;
@@ -143,7 +141,7 @@ void construction_menu()
     std::string category_name = "";
     std::vector<std::string> constructs;
 
-    inventory total_inv = g->crafting_inventory(&(g->u));
+    const inventory &total_inv = g->u.crafting_inventory();
 
     input_context ctxt("CONSTRUCTION");
     ctxt.register_action("UP", _("Move cursor up"));
@@ -296,8 +294,8 @@ void construction_menu()
                     // display time needed
                     posy++;
                     posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
-                    posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
-                    posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                    posy += current_con->requirements.print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                    posy += current_con->requirements.print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
                 }
             }
         } // Finished updating
@@ -394,9 +392,8 @@ static bool player_can_build(player &p, const inventory &pinv, const std::string
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for (std::vector<construction *>::iterator it = cons.begin();
-         it != cons.end(); ++it) {
-        if (player_can_build(p, pinv, *it)) {
+    for( auto &con : cons ) {
+        if( player_can_build( p, pinv, con ) ) {
             return true;
         }
     }
@@ -408,16 +405,15 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
-    return con->can_make_with_inventory( pinv );
+    return con->requirements.can_make_with_inventory(pinv);
 }
 
 static bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for(std::vector<construction *>::iterator it = cons.begin();
-        it != cons.end(); ++it) {
-        if(can_construct(*it)) {
+    for( auto &con : cons ) {
+        if( can_construct( con ) ) {
             return true;
         }
     }
@@ -461,9 +457,9 @@ static bool can_construct(construction *con, int x, int y)
 
 static bool can_construct(construction *con)
 {
-    for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-        for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-            if (x == g->u.posx && y == g->u.posy) {
+    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
+        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
+            if (x == g->u.posx() && y == g->u.posy()) {
                 y++;
             }
             if (can_construct(con, x, y)) {
@@ -477,28 +473,25 @@ static bool can_construct(construction *con)
 static void place_construction(const std::string &desc)
 {
     g->refresh_all();
-    inventory total_inv = g->crafting_inventory(&(g->u));
+    const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc(desc);
     std::map<point, construction *> valid;
-    for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-        for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-            if (x == g->u.posx && y == g->u.posy) {
+    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
+        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
+            if (x == g->u.posx() && y == g->u.posy()) {
                 y++;
             }
-            for (std::vector<construction *>::iterator it = cons.begin();
-                 it != cons.end(); ++it) {
-                if (can_construct(*it, x, y)
-                    && player_can_build(g->u, total_inv, *it)) {
-                    valid[point(x, y)] = *it;
+            for( auto &con : cons ) {
+                if( can_construct( con, x, y ) && player_can_build( g->u, total_inv, con ) ) {
+                    valid[point( x, y )] = con;
                 }
             }
         }
     }
 
-    for (std::map<point, construction *>::iterator it = valid.begin();
-         it != valid.end(); ++it) {
-        int x = it->first.x, y = it->first.y;
+    for( auto &elem : valid ) {
+        int x = elem.first.x, y = elem.first.y;
         g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
     }
     wrefresh(g->w_terrain);
@@ -525,11 +518,11 @@ void complete_construction()
 
     g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
                    (int)(built->difficulty * 1.25) );
-    for (auto it = built->components.begin(); it != built->components.end(); ++it) {
+    for (const auto &it : built->requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!it->empty()) {
-            g->consume_items(&(g->u), *it);
+        if (!it.empty()) {
+            g->u.consume_items(it);
         }
     }
 
@@ -611,10 +604,9 @@ void construct::done_tree(point p)
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
-    for (std::vector<point>::iterator it = tree.begin();
-         it != tree.end(); ++it) {
-        g->m.destroy(it->x, it->y);
-        g->m.ter_set(it->x, it->y, t_trunk);
+    for( auto &elem : tree ) {
+        g->m.destroy( elem.x, elem.y );
+        g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
 
@@ -657,6 +649,8 @@ void construct::done_vehicle(point p)
         veh->install_part (0, 0, "xlframe_vertical_2");
     } else if (g->u.lastconsumed == "frame_wood_light") {
         veh->install_part (0, 0, "frame_wood_light_vertical_2");
+    } else if (g->u.lastconsumed == "foldframe") {
+        veh->install_part (0, 0, "folding_frame");
     } else {
         veh->install_part (0, 0, "frame_vertical_2");
     }
@@ -746,10 +740,10 @@ void construct::done_dig_stair(point p)
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
                   item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
               // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 8);
+              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
               return;
           }
       }
@@ -758,10 +752,10 @@ void construct::done_dig_stair(point p)
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
                   item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
               // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 8);
+              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
               return;
           }
       }
@@ -839,27 +833,27 @@ void construct::done_dig_stair(point p)
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
                   } else {
                       add_msg(_("You pull yourself to safety!"));
                       int index = rng(0, safe.size() - 1);
-                      g->u.posx = safe[index].x;
-                      g->u.posy = safe[index].y;
-                      g->update_map(g->u.posx, g->u.posy);
+                      g->u.setx( safe[index].x );
+                      g->u.sety( safe[index].y );
+                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                     g->vertical_move(-1, true);
                 }
               } else {
                   add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                   }
                 g->vertical_move(-1, true);
               }
@@ -891,9 +885,9 @@ void construct::done_dig_stair(point p)
                           } else {
                               add_msg(_("You pull yourself to safety!"));
                               int index = rng(0, safe.size() - 1);
-                              g->u.posx = safe[index].x;
-                              g->u.posy = safe[index].y;
-                              g->update_map(g->u.posx, g->u.posy);
+                              g->u.setx( safe[index].x );
+                              g->u.sety( safe[index].y );
+                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -926,26 +920,26 @@ void construct::done_dig_stair(point p)
                   }
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
                       add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
                       int index = rng(0, safe.size() - 1);
-                      g->u.posx = safe[index].x;
-                      g->u.posy = safe[index].y;
-                      g->update_map(g->u.posx, g->u.posy);
+                      g->u.setx( safe[index].x );
+                      g->u.sety( safe[index].y );
+                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                     g->vertical_move(-1, true);
                 }
               } else {
                   add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                   }
                 g->vertical_move(-1, true);
               }
@@ -1016,10 +1010,10 @@ void construct::done_mine_downstair(point p)
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
                   item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
               // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
+              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
               return;
           }
       }
@@ -1028,10 +1022,10 @@ void construct::done_mine_downstair(point p)
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
                   item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
               // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
+              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
               return;
           }
       }
@@ -1109,27 +1103,27 @@ void construct::done_mine_downstair(point p)
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
                   } else {
                       add_msg(_("You pull yourself to safety!"));
                       int index = rng(0, safe.size() - 1);
-                      g->u.posx = safe[index].x;
-                      g->u.posy = safe[index].y;
-                      g->update_map(g->u.posx, g->u.posy);
+                      g->u.setx( safe[index].x );
+                      g->u.sety( safe[index].y );
+                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                     g->vertical_move(-1, true);
                 }
               } else {
                   add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                   }
                 g->vertical_move(-1, true);
               }
@@ -1161,9 +1155,9 @@ void construct::done_mine_downstair(point p)
                           } else {
                               add_msg(_("You pull yourself to safety!"));
                               int index = rng(0, safe.size() - 1);
-                              g->u.posx = safe[index].x;
-                              g->u.posy = safe[index].y;
-                              g->update_map(g->u.posx, g->u.posy);
+                              g->u.setx( safe[index].x );
+                              g->u.sety( safe[index].y );
+                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1196,26 +1190,26 @@ void construct::done_mine_downstair(point p)
                   }
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
                       add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
                       int index = rng(0, safe.size() - 1);
-                      g->u.posx = safe[index].x;
-                      g->u.posy = safe[index].y;
-                      g->update_map(g->u.posx, g->u.posy);
+                      g->u.setx( safe[index].x );
+                      g->u.sety( safe[index].y );
+                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                     g->vertical_move(-1, true);
                 }
               } else {
                   add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                   }
                 g->vertical_move(-1, true);
               }
@@ -1293,10 +1287,10 @@ void construct::done_mine_upstair(point p)
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
               item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
           }
           // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
+          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
           return;
       }
       if (danger_open) {
@@ -1304,10 +1298,10 @@ void construct::done_mine_upstair(point p)
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
                   item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
               // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
+              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
               return;
           }
       }
@@ -1316,10 +1310,10 @@ void construct::done_mine_upstair(point p)
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
               item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
           }
           // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
+          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
           return;
       }
   }
@@ -1380,10 +1374,10 @@ void load_construction(JsonObject &jo)
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
     con->category = jo.get_string("category", "OTHER");
-    con->load(jo);
+    con->requirements.load(jo);
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
-    con->time *= 1000;
+    con->time = jo.get_int("time") * 1000;
 
     con->pre_terrain = jo.get_string("pre_terrain", "");
     if (con->pre_terrain.size() > 1
@@ -1453,9 +1447,8 @@ void load_construction(JsonObject &jo)
 
 void reset_constructions()
 {
-    for( std::vector<construction *>::iterator a = constructions.begin();
-         a != constructions.end(); ++a ) {
-        delete *a;
+    for( auto &constructions_a : constructions ) {
+        delete constructions_a;
     }
     constructions.clear();
 }
@@ -1471,7 +1464,7 @@ void check_constructions()
         if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
-        c->check_consistency(display_name);
+        c->requirements.check_consistency(display_name);
         if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
             debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }
@@ -1485,4 +1478,30 @@ void check_constructions()
             debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
         }
     }
+}
+
+int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
+                             nc_color col) const
+{
+    const int turns = time / 100;
+    std::string text;
+    if( turns < MINUTES( 1 ) ) {
+        const int seconds = std::max( 1, turns * 6 );
+        text = string_format( ngettext( "%d second", "%d seconds", seconds ), seconds );
+    } else {
+        const int minutes = ( turns % HOURS( 1 ) ) / MINUTES( 1 );
+        const int hours = turns / HOURS( 1 );
+        if( hours == 0 ) {
+            text = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
+        } else if( minutes == 0 ) {
+            text = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
+        } else {
+            const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
+            const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
+            //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
+            text = string_format( _( "%s and %s" ), h.c_str(), m.c_str() );
+        }
+    }
+    text = string_format( _( "Time to complete: %s" ), text.c_str() );
+    return fold_and_print( w, ypos, xpos, width, col, text );
 }

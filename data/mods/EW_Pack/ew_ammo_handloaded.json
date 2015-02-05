@@ -19,15 +19,15 @@
         "damage" : 38,
         "pierce" : 7,
         "range" : 38,
-        "dispersion" : 6,
-        "recoil" : 37,
+        "dispersion" : 90,
+        "recoil" : 555,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
     {
         "type" : "AMMO",
         "id" : "reloaded_545",
-        "price" : 3750,
+        "price" : 2750,
         "name" : "reloaded 5.45x39mm 5N7",
         "name_plural" : "reloaded 5.45x39mm 5N7",
         "symbol" : "=",
@@ -44,15 +44,15 @@
         "damage" : 36,
         "pierce" : 5,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
     {
         "type" : "AMMO",
         "id" : "reloaded_545_ap",
-        "price" : 4250,
+        "price" : 6250,
         "name" : "reloaded 5.45x39mm 7N22",
         "name_plural" : "reloaded 5.45x39mm 7N22",
         "symbol" : "=",
@@ -69,8 +69,8 @@
         "damage" : 31,
         "pierce" : 12,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     }

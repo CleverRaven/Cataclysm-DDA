@@ -2,6 +2,9 @@
 #include "item.h"
 #include "game.h"
 #include "monster.h"
+#include "overmapbuffer.h"
+#include "sounds.h"
+#include "monstergenerator.h"
 #include <sstream>
 #include <algorithm>
 
@@ -12,6 +15,22 @@ iuse_transform::~iuse_transform()
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform(*this);
+}
+
+void iuse_transform::load( JsonObject &obj )
+{
+    // Mandatory:
+    target_id = obj.get_string( "target" );
+    // Optional (default is good enough):
+    obj.read( "msg", msg_transform );
+    obj.read( "target_charges", target_charges );
+    obj.read( "container", container_id );
+    obj.read( "active", active );
+    obj.read( "need_fire", need_fire );
+    obj.read( "need_fire_msg", need_fire_msg );
+    obj.read( "need_charges", need_charges );
+    obj.read( "need_charges_msg", need_charges_msg );
+    obj.read( "moves", moves );
 }
 
 long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
@@ -26,19 +45,21 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     }
     if (need_charges > 0 && it->charges < need_charges) {
         if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(m_info, need_charges_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
         if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, need_fire_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
     // load this from the original item, not the transformed one.
-    const int charges_to_use = it->type->charges_to_use();
-    p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
+    const long charges_to_use = it->type->charges_to_use();
+    if( !msg_transform.empty() ) {
+        p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
+    }
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
@@ -55,10 +76,15 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     if (target_charges > -2) {
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
-    }
+    } else if( charges_to_use > 0 && target->charges >= 0 ) {
+    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
+    // both into the target_charges value.
+    // Also if the target does not use charges (item::charges == -1), don't change them at all.
+    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
     // Active item handling has gotten complicated, so having this consume charges itself
     // instead of passing it off to the caller.
-    target->charges -= std::min(charges_to_use, (int)target->charges);
+        target->charges -= std::min(charges_to_use, target->charges);
+    }
     p->moves -= moves;
     return 0;
 }
@@ -72,6 +98,13 @@ auto_iuse_transform::~auto_iuse_transform()
 iuse_actor *auto_iuse_transform::clone() const
 {
     return new auto_iuse_transform(*this);
+}
+
+void auto_iuse_transform::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "when_underwater", when_underwater );
+    obj.read( "non_interactive_msg", non_interactive_msg );
 }
 
 long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
@@ -90,7 +123,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(m_info, non_interactive_msg.c_str(), it->tname().c_str());
+        p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
         // Activated by the player, but not allowed to do so
         return 0;
     }
@@ -111,11 +144,36 @@ iuse_actor *explosion_iuse::clone() const
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
+void explosion_iuse::load( JsonObject &obj )
+{
+    obj.read( "explosion_power", explosion_power );
+    obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_fire", explosion_fire );
+    obj.read( "explosion_blast", explosion_blast );
+    obj.read( "draw_explosion_radius", draw_explosion_radius );
+    if( obj.has_member( "draw_explosion_color" ) ) {
+        draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
+    }
+    obj.read( "do_flashbang", do_flashbang );
+    obj.read( "flashbang_player_immune", flashbang_player_immune );
+    obj.read( "fields_radius", fields_radius );
+    if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
+        fields_type = field_from_ident( obj.get_string( "fields_type" ) );
+    }
+    obj.read( "fields_min_density", fields_min_density );
+    obj.read( "fields_max_density", fields_max_density );
+    obj.read( "emp_blast_radius", emp_blast_radius );
+    obj.read( "scrambler_blast_radius", scrambler_blast_radius );
+    obj.read( "sound_volume", sound_volume );
+    obj.read( "sound_msg", sound_msg );
+    obj.read( "no_deactivate_msg", no_deactivate_msg );
+}
+
 long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            g->sound(pos.x, pos.y, sound_volume, sound_msg);
+            sounds::sound(pos.x, pos.y, sound_volume, sound_msg);
         }
         return 0;
     }
@@ -124,7 +182,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, _( no_deactivate_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
@@ -139,8 +197,8 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
         std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
-        for(size_t i = 0; i < gas_sources.size(); i++) {
-            const point &p = gas_sources[i];
+        for( auto &gas_source : gas_sources ) {
+            const point &p = gas_source;
             const int dens = rng(fields_min_density, fields_max_density);
             g->m.add_field(p.x, p.y, fields_type, dens);
         }
@@ -173,6 +231,14 @@ iuse_actor *unfold_vehicle_iuse::clone() const
     return new unfold_vehicle_iuse(*this);
 }
 
+void unfold_vehicle_iuse::load( JsonObject &obj )
+{
+    obj.read( "vehicle_name", vehicle_name );
+    obj.read( "unfold_msg", unfold_msg );
+    obj.read( "moves", moves );
+    obj.read( "tools_needed", tools_needed );
+}
+
 long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
 {
     if (p->is_underwater()) {
@@ -184,12 +250,12 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         // Amount == -1 means need one, but don't consume it.
         if (!p->has_amount(tool->first, 1)) {
             p->add_msg_if_player(_("You need %s to do it!"),
-                                 item(tool->first, 0).type->nname(1).c_str());
+                                 item::nname( tool->first ).c_str());
             return 0;
         }
     }
 
-    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
+    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx(), p->posy(), 0, 0, 0, false);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
@@ -199,26 +265,28 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
     veh->tags.insert(std::string("convertible:") + it->type->id);
-    p->add_msg_if_player(unfold_msg.c_str(), it->tname().c_str());
+    if( !unfold_msg.empty() ) {
+        p->add_msg_if_player( _( unfold_msg.c_str() ), it->tname().c_str());
+    }
     p->moves -= moves;
     // Restore HP of parts if we stashed them previously.
-    if (it->item_vars.count("folding_bicycle_parts") == 0) {
+    if( it->has_var( "folding_bicycle_parts" ) ) {
         // Brand new, no HP stored
         return 1;
     }
     std::istringstream veh_data;
-    const std::string &data = it->item_vars["folding_bicycle_parts"];
+    const auto data = it->get_var( "folding_bicycle_parts" );
     veh_data.str(data);
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            veh_data >> veh->parts[p].hp;
+        for( auto &elem : veh->parts ) {
+            veh_data >> elem.hp;
         }
     } else {
         try {
             JsonIn json(veh_data);
             // Load parts into a temporary vector to not override
-            // cached values (like precalc_dx, passenger_id, ...)
+            // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read(parts);
             for(size_t i = 0; i < parts.size() && i < veh->parts.size(); i++) {
@@ -240,11 +308,30 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     return 1;
 }
 
-consume_drug_iuse::~consume_drug_iuse() {};
+consume_drug_iuse::~consume_drug_iuse() {}
 
 iuse_actor *consume_drug_iuse::clone() const
 {
     return new consume_drug_iuse(*this);
+}
+
+void consume_drug_iuse::load( JsonObject &obj )
+{
+    obj.read( "activation_message", activation_message );
+    obj.read( "charges_needed", charges_needed );
+    obj.read( "tools_needed", tools_needed );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+                                 body_parts[e.get_string( "bp", "NUM_BP" )], e.get_bool( "permanent", false ) );
+            effects.push_back( new_eff );
+        }
+    }
+    obj.read( "stat_adjustments", stat_adjustments );
+    obj.read( "fields_produced", fields_produced );
 }
 
 long consume_drug_iuse::use(player *p, item *it, bool, point) const
@@ -254,8 +341,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(tool->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( tool->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -265,20 +352,24 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(consumable->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( consumable->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
     // Apply the various effects.
-    for( auto disease = diseases.cbegin(); disease != diseases.cend(); ++disease ) {
-        int duration = disease->second;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would cause negative duration.
-        } else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
+    for( auto eff : effects ) {
+        if (eff.id == "null") {
+            continue;
         }
-        p->add_disease( disease->first, duration );
+
+        int dur = eff.duration;
+        if (p->has_trait("TOLERANCE")) {
+            dur *= .8;
+        } else if (p->has_trait("LIGHTWEIGHT")) {
+            dur *= 1.2;
+        }
+        p->add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
     for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
         p->mod_stat( stat->first, stat->second );
@@ -286,7 +377,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fid, field->second);
+            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fid, field->second);
         }
     }
     // Output message.
@@ -301,11 +392,51 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     return it->type->charges_to_use();
 }
 
-place_monster_iuse::~place_monster_iuse() {};
+delayed_transform_iuse::~delayed_transform_iuse() {}
+
+iuse_actor *delayed_transform_iuse::clone() const
+{
+    return new delayed_transform_iuse(*this);
+}
+
+void delayed_transform_iuse::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    not_ready_msg = obj.get_string( "not_ready_msg" );
+    transform_age = obj.get_int( "transform_age" );
+}
+
+int delayed_transform_iuse::time_to_do( const item &it ) const
+{
+    return it.bday + transform_age - calendar::turn.get_turn();
+}
+
+long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
+{
+    if( time_to_do( *it ) > 0 ) {
+        p->add_msg_if_player( m_info, _( not_ready_msg.c_str() ) );
+        return 0;
+    }
+    return iuse_transform::use( p, it, t, pos );
+}
+
+place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
     return new place_monster_iuse(*this);
+}
+
+void place_monster_iuse::load( JsonObject &obj )
+{
+    mtype_id = obj.get_string( "monster_id" );
+    obj.read( "friendly_msg", friendly_msg );
+    obj.read( "hostile_msg", hostile_msg );
+    obj.read( "difficulty", difficulty );
+    obj.read( "moves", moves );
+    obj.read( "place_randomly", place_randomly );
+    obj.read( "skill1", skill1 );
+    obj.read( "skill2", skill2 );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, point ) const
@@ -314,8 +445,8 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     point target;
     if( place_randomly ) {
         std::vector<point> valid;
-        for( int x = p->posx - 1; x <= p->posx + 1; x++ ) {
-            for( int y = p->posy - 1; y <= p->posy + 1; y++ ) {
+        for( int x = p->posx() - 1; x <= p->posx() + 1; x++ ) {
+            for( int y = p->posy() - 1; y <= p->posy() + 1; y++ ) {
                 if( g->is_empty( x, y ) ) {
                     valid.push_back( point( x, y ) );
                 }
@@ -346,7 +477,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
             amdef.second = 0;
             p->add_msg_if_player( m_info,
                                   _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type->nname( 2 ).c_str(), newmon.name().c_str() );
+                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
             continue;
         }
         // Don't load more than the default from the the monster definition.
@@ -355,14 +486,12 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         //~ First %s is the ammo item (with plural form and count included), second is the monster name
         p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
                                         "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type->nname( ammo_item.charges ).c_str(),
+                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
                               newmon.name().c_str() );
         amdef.second = ammo_item.charges;
     }
-    const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
-    // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
-    newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+    newmon.init_from_item( *it );
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
         rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -387,11 +516,30 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {};
+ups_based_armor_actor::~ups_based_armor_actor() {}
 
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
+}
+
+void ups_based_armor_actor::load( JsonObject &obj )
+{
+    obj.read( "activate_msg", activate_msg );
+    obj.read( "deactive_msg", deactive_msg );
+    obj.read( "out_of_power_msg", out_of_power_msg );
+}
+
+bool has_power_armor_interface(const player &p)
+{
+    return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
+}
+
+bool has_powersource(const item &i, const player &p) {
+    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+        return true;
+    }
+    return p.has_charges( "UPS", 1 );
 }
 
 long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
@@ -407,15 +555,10 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
         p->add_msg_if_player( m_info, _( "You should wear the %s before activating it." ), it->tname().c_str() );
         return 0;
     }
-    if( !it->active && !p->has_charges( "UPS", 1 ) ) {
+    if( !it->active && !has_powersource( *it, *p ) ) {
         p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
-        return 0;
-    }
-    if( it->active && !p->has_charges( "UPS", 1 ) ) {
-        if( out_of_power_msg.empty() ) {
-            p->add_msg_if_player( m_info, _( out_of_power_msg.c_str() ), it->tname().c_str() );
-        } else {
-            p->add_msg_if_player( m_info, _( "Your %s powers down." ), it->tname().c_str() );
+        if( it->is_power_armor() ) {
+            p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
         }
         return 0;
     }
@@ -434,4 +577,343 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
         }
     }
     return 0;
+}
+
+
+pick_lock_actor::~pick_lock_actor() {}
+
+iuse_actor *pick_lock_actor::clone() const
+{
+    return new pick_lock_actor(*this);
+}
+
+void pick_lock_actor::load( JsonObject &obj )
+{
+    pick_quality = obj.get_int( "pick_quality" );
+}
+
+long pick_lock_actor::use( player *p, item *it, bool, point ) const
+{
+    if( p == nullptr || p->is_npc() ) {
+        return 0;
+    }
+    int dirx, diry;
+    if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
+        return 0;
+    }
+    if( dirx == p->posx() && diry == p->posy() ) {
+        p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        return 0;
+    }
+    const ter_id type = g->m.ter( dirx, diry );
+    const int npcdex = g->npc_at( dirx, diry );
+    if( npcdex != -1 ) {
+        p->add_msg_if_player( m_info,
+                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        return 0;
+    }
+
+    ter_id new_type;
+    std::string open_message;
+    if( type == t_chaingate_l ) {
+        new_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( type == t_door_locked || type == t_door_locked_alarm ||
+               type == t_door_locked_interior ) {
+        new_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_locked_peep ) {
+        new_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_metal_pickable ) {
+        new_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( type == t_door_bar_locked ) {
+        new_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open..." );
+    } else if( type == t_door_c ) {
+        add_msg( m_info, _( "That door isn't locked." ) );
+        return 0;
+    } else {
+        add_msg( m_info, _( "That cannot be picked." ) );
+        return 0;
+    }
+
+    p->practice( "mechanics", 1 );
+    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( "mechanics" ) ) * 5 );
+    int pick_roll = ( dice( 2, p->skillLevel( "mechanics" ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int door_roll = dice( 4, 30 );
+    if( pick_roll >= door_roll ) {
+        p->practice( "mechanics", 1 );
+        p->add_msg_if_player( m_good, "%s", open_message.c_str() );
+        g->m.ter_set( dirx, diry, new_type );
+    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
+        it->damage++;
+        if( it->damage >= 5 ) {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
+        it->damage < 100 ) {
+        sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
+        if( !g->event_queued( EVENT_WANTED ) ) {
+            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
+        }
+    }
+    // Special handling, normally the item isn't used up, but it is if broken.
+    if( it->damage >= 5 ) {
+        return 1;
+    }
+
+    return it->type->charges_to_use();
+}
+
+
+reveal_map_actor::~reveal_map_actor() {}
+
+iuse_actor *reveal_map_actor::clone() const
+{
+    return new reveal_map_actor(*this);
+}
+
+void reveal_map_actor::load( JsonObject &obj )
+{
+    radius = obj.get_int( "radius" );
+    message = obj.get_string( "message" );
+    JsonArray jarr = obj.get_array( "terrain" );
+    while( jarr.has_more() ) {
+        omt_types.push_back( jarr.next_string() );
+    }
+}
+
+void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
+{
+    const auto places = overmap_buffer.find_all( g->om_global_location(), target, radius, false );
+    for( auto & place : places ) {
+        overmap_buffer.reveal( place, reveal_distance, g->levz );
+    }
+}
+
+long reveal_map_actor::use( player *p, item *it, bool, point ) const
+{
+    if( it->already_used_by_player( *p ) ) {
+        p->add_msg_if_player( _( "There isn't anything new on the %s." ), it->tname().c_str() );
+        return 0;
+    } else if( g->levz < 0 ) {
+        p->add_msg_if_player( _( "You should read your %s when you get to the surface." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    for( auto & omt : omt_types ) {
+        reveal_targets( omt, 0 );
+    }
+    if( !message.empty() ) {
+        p->add_msg_if_player( m_good, "%s", _( message.c_str() ) );
+    }
+    it->mark_as_used_by_player( *p );
+    return 0;
+}
+
+firestarter_actor::~firestarter_actor() {}
+
+void firestarter_actor::load( JsonObject &obj )
+{
+    moves_cost = obj.get_int( "moves_cost", 0 );
+}
+
+iuse_actor *firestarter_actor::clone() const
+{
+    return new firestarter_actor( *this );
+}
+
+bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, point &pos )
+{
+    if( (it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
+        return false;
+    }
+    if( p->is_underwater() ) {
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return false;
+    }
+    if( !choose_adjacent(_("Light where?"), pos.x, pos.y) ) {
+        return false;
+    }
+    if( pos.x == p->posx() && pos.y == p->posy() ) {
+        p->add_msg_if_player(m_info, _("You would set yourself on fire."));
+        p->add_msg_if_player(_("But you're already smokin' hot."));
+        return false;
+    }
+    if( g->m.get_field( pos, fd_fire ) ) {
+        // check if there's already a fire
+        p->add_msg_if_player(m_info, _("There is already a fire."));
+        return false;
+    }
+    if( g->m.flammable_items_at(pos.x, pos.y) ||
+        g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
+        g->m.get_field_strength( pos, fd_web ) > 0 ) {
+        return true;
+    } else {
+        p->add_msg_if_player(m_info, _("There's nothing to light there."));
+        return false;
+    }
+}
+
+void firestarter_actor::resolve_firestarter_use( const player *p, const item *, const point &pos )
+{
+    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+        p->add_msg_if_player(_("You successfully light a fire."));
+    }
+}
+
+// TODO: Move prep_firestarter_use here
+long firestarter_actor::use( player *p, item *it, bool t, point pos ) const
+{
+    if (it->has_flag("REFILLABLE_LIGHTER")) {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player(_("The lighter is extinguished."));
+            it->make("ref_lighter");
+            it->active = false;
+            return 0;
+        }
+        if (t) {
+            if (it->charges < it->type->charges_to_use()) {
+                p->add_msg_if_player(_("The lighter burns out."));
+                it->make("ref_lighter");
+                it->active = false;
+            }
+        } else if (it->charges <= 0) {
+            p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
+        } else { // Turning it off
+            int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
+                              _("light something"), _("cancel"), NULL);
+            switch (choice) {
+                case 1: {
+                    p->add_msg_if_player(_("You extinguish the lighter."));
+                    it->make("ref_lighter");
+                    it->active = false;
+                    return 0;
+                }
+                break;
+                case 2:
+                    if( prep_firestarter_use(p, it, pos) ) {
+                        p->moves -= moves_cost;
+                        resolve_firestarter_use(p, it, pos);
+                        return it->type->charges_to_use();
+                    }
+            }
+        }
+        return it->type->charges_to_use();
+    } else { // common ligher or matches
+        if( prep_firestarter_use(p, it, pos) ) {
+            p->moves -= moves_cost;
+            resolve_firestarter_use( p, it, pos );
+            return it->type->charges_to_use();
+        }
+    }
+    return 0;
+}
+
+bool firestarter_actor::can_use( const player* p, const item*, bool, const point& ) const
+{
+    if( p->is_underwater() ) {
+        return false;
+    }
+
+    return true;
+}
+
+extended_firestarter_actor::~extended_firestarter_actor() {}
+
+void extended_firestarter_actor::load( JsonObject &obj )
+{
+    need_sunlight = obj.get_bool( "need_sunlight", false );
+    moves_cost = obj.get_int( "moves_cost", 0 );
+}
+
+iuse_actor *extended_firestarter_actor::clone() const
+{
+    return new extended_firestarter_actor( *this );
+}
+
+int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, float light_level ) const
+{
+    // base moves based on sunlight levels... 1 minute when sunny (80 lighting),
+    // ~10 minutes when clear (60 lighting)
+    float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
+    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
+    // max moves capped at moves_base
+    float moves_modifier = 1 / ( p->get_skill_level("survival") * 0.33 + 0.33 );
+    if( moves_modifier < 1 ) {
+        moves_modifier = 1;
+    }
+    return int(moves_base * moves_modifier);
+}
+
+long extended_firestarter_actor::use( player *p, item *it, bool, point pos ) const
+{
+    if( need_sunlight ) {
+        // Needs the correct weather, light and to be outside.
+        if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
+            g->natural_light_level() >= 60 && !g->m.has_flag("INDOORS", pos.x, pos.y) ) {
+            if( prep_firestarter_use(p, it, pos ) ) {
+                // turns needed for activity.
+                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level() );
+                if( turns/1000 > 1 ) {
+                    // If it takes less than a minute, no need to inform the player about time.
+                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns / 1000);
+                }
+                p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
+                // Keep natural_light_level for comparing throughout the activity.
+                p->activity.values.push_back( g->natural_light_level() );
+                p->activity.placement = pos;
+                p->practice("survival", 5);
+            }
+        } else {
+            p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
+        }
+    } else {
+        if( prep_firestarter_use(p, it, pos) ) {
+            float skillLevel = float(p->get_skill_level("survival"));
+            // success chance is 100% but time spent is min 5 minutes at skill == 5 and
+            // it increases for lower skill levels.
+            // max time is 1 hour for 0 survival
+            const float moves_base = 5 * 1000;
+            if( skillLevel < 1 ) {
+                // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
+                skillLevel = 0.536;
+            }
+            // At survival=5 modifier=1, at survival=1 modifier=~6.
+            float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
+            if (moves_modifier < 1) {
+                moves_modifier = 1; // activity time improvement is capped at skillevel 5
+            }
+            const int turns = int( moves_base * moves_modifier );
+            p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns / 1000);
+            p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+            p->activity.placement = pos;
+            p->practice("survival", 10);
+            it->charges -= it->type->charges_to_use() * round(moves_modifier);
+            return 0;
+        }
+    }
+    return 0;
+}
+
+bool extended_firestarter_actor::can_use( const player* p, const item* it, bool t, const point& pos ) const
+{
+    if( !firestarter_actor::can_use( p, it, t, pos ) ) {
+        return false;
+    }
+
+    if( need_sunlight ) {
+        return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
+                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos.x, pos.y );
+    }
+
+    return true;
 }

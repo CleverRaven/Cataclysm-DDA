@@ -1,4 +1,3 @@
-
 #include "game.h"
 #include "output.h"
 #include "skill.h"
@@ -15,18 +14,6 @@
 #include "trap.h"
 #include "mapdata.h"
 #include "translations.h"
-#include "item_factory.h"
-#include <map>
-#include <set>
-#include <algorithm>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <math.h>
-#include <vector>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include "debug.h"
 #include "weather.h"
 #include "monstergenerator.h"
@@ -41,14 +28,26 @@
 #include "profession.h"
 #include "skill.h"
 #include "vehicle.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
-#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
-
-//
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+
+#if !defined(_MSC_VER)
+#include <unistd.h>
+#endif
+
+#include <map>
+#include <set>
+#include <algorithm>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <math.h>
+#include <vector>
+
+#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
 /*
  * Properly reuse a stringstream object for line by line parsing
  */
@@ -118,9 +117,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++ ) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++ ) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
 
@@ -200,9 +199,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -312,9 +311,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -421,9 +420,9 @@ original 'structure', which globs game/weather/location & killcount/player data 
          last_target = tmptar;
 
         // Next, the scent map.
-         for( size_t i = 0; i < SEEX * MAPSIZE; i++) {
-          for( size_t j = 0; j < SEEY * MAPSIZE; j++)
-           fin >> grscent[i][j];
+         for( auto &elem : grscent ) {
+             for( auto &elem_j : elem )
+                 fin >> elem_j;
          }
         // Now the number of monsters...
          int nummon;
@@ -453,8 +452,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
         // And the kill counts;
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
-         for (size_t i = 0; i < ARRAY_SIZE(legacy_mon_id); i++)
-          fin >> kills[legacy_mon_id[i]];
+         for( auto &elem : legacy_mon_id )
+             fin >> kills[elem];
         // Finally, the data on the player.
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
@@ -1140,16 +1139,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff);
             it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
+            if( it_tmp.active ) {
+                sm->active_items.add( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
+            }
            } else if (string_identifier == "C") {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
-            int index = sm->itm[itx][ity].size() - 1;
             it_tmp.load_info(databuff);
-            sm->itm[itx][ity][index].put_in(it_tmp);
-            if (it_tmp.active)
-             sm->active_item_count++;
+            sm->itm[itx][ity].back().put_in(it_tmp);
            } else if (string_identifier == "T") {
             fin >> itx >> ity >> t;
             sm->set_trap(itx, ity, trap_id(t));
@@ -1415,17 +1412,13 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 it_tmp.load_info(databuff);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active) {
-                    sm->active_item_count++;
+                    sm->active_items.add( std::prev(sm->itm[itx][ity].end()), point( itx, ity ) );
                 }
             } else if (string_identifier == "C") {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
-                int index = sm->itm[itx][ity].size() - 1;
                 it_tmp.load_info(databuff);
-                sm->itm[itx][ity][index].put_in(it_tmp);
-                if (it_tmp.active) {
-                    sm->active_item_count++;
-                }
+                sm->itm[itx][ity].back().put_in(it_tmp);
             } else if (string_identifier == "T") {
                 fin >> itx >> ity >> t;
                 sm->set_trap(itx, ity, trap_id(trap_key[t]));
@@ -1506,14 +1499,9 @@ void mapbuffer::load( std::string worldname )
     if( num_submaps > 0 ) {
         // Chunked up saves need to be fully loaded to convert them to json.
         // Hopefully this is the last time we ever need to do this.
-        std::vector<std::string> map_files = file_finder::get_files_from_path(
-            ".map", world_map_path.str(), true, true );
-        if( map_files.empty() ) {
-            return;
-        }
-        for( std::vector<std::string>::iterator file = map_files.begin();
-             file != map_files.end(); ++file ) {
-            fin.open( file->c_str() );
+        auto const map_files = get_files_from_path(".map", world_map_path.str(), true, true);
+        for( auto &map_file : map_files ) {
+            fin.open( map_file.c_str() );
             unserialize_legacy_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
             fin.close();
             // Write out and clear map data as its read.
@@ -1533,7 +1521,7 @@ void player::load_legacy(std::stringstream & dump)
  itype_id styletmp;
  std::string prof_ident;
 
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
+ dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
@@ -1562,21 +1550,21 @@ void player::load_legacy(std::stringstream & dump)
  style_selected = styletmp;
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.push_back(sTemp);
+        my_traits.insert(sTemp);
     }
  }
 
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
     } else {
-        my_mutations.push_back(sTemp);
+        my_mutations.insert(sTemp);
     }
  }
 
@@ -1588,8 +1576,8 @@ void player::load_legacy(std::stringstream & dump)
  for (int i = 0; i < num_bp; i++)
   dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
 
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     dump >> skillLevel( skill );
  }
 
  int num_recipes;
@@ -1649,8 +1637,8 @@ void player::load_legacy(std::stringstream & dump)
   std::string item_id;
   dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-        if( item_controller->has_template( item_id ) ) {
-            mortmp.item_type = item_controller->find_template( item_id );
+        if( item::type_is_defined( item_id ) ) {
+            mortmp.item_type = item::find_type( item_id );
         } else {
             mortmp.item_type = nullptr;
         }
@@ -1720,7 +1708,7 @@ void npc::load_legacy(std::stringstream & dump) {
    name += tmpname + " ";
  } while (tmpname != "||");
  name = name.substr(0, name.size() - 1); // Strip off trailing " "
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
+ dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
          fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
          scent >> moves >> underwater >> dodges_left >> oxygen >> deathtmp >>
@@ -1739,19 +1727,19 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.push_back(sTemp);
+        my_traits.insert(sTemp);
     }
  }
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     dump >> skillLevel( skill );
  }
 
  itype_id tmpstyle;
@@ -1882,9 +1870,9 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 
 void monster::load_legacy(std::stringstream & dump) {
-    int idtmp, plansize, speed;
-    dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout[0] >> plansize >> friendly >> faction_id >> mission_id >>
+    int idtmp, plansize, speed, faction_dummy;
+    dump >> idtmp >> position.x >> position.y >> wandx >> wandy >> wandf >> moves >> speed >>
+         hp >> sp_timeout[0] >> plansize >> friendly >> faction_dummy >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
 
     // load->int->str->int (possibly shifted)
@@ -1905,8 +1893,9 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 void item::load_legacy(std::stringstream & dump) {
     clear();
-    std::string idtmp, ammotmp, item_tag;
+    std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
+	int owned; // Ignoring an obsolete member. 
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
@@ -1933,6 +1922,7 @@ void item::load_legacy(std::stringstream & dump) {
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
+    set_gun_mode( mode );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -1947,11 +1937,7 @@ void item::load_legacy(std::stringstream & dump) {
     if (acttmp == 1) {
         active = true;
     }
-    if (ammotmp != "null") {
-        curammo = dynamic_cast<it_ammo*>(item_controller->find_template( ammotmp ));
-    } else {
-        curammo = NULL;
-    }
+    set_curammo( ammotmp );
 }
 
 ///// vehicle.h
@@ -2003,21 +1989,22 @@ void vehicle::load_legacy(std::ifstream &stin) {
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.setid(legacy_vpart_id[ pid ]);
-        new_part.mount_dx = pdx;
-        new_part.mount_dy = pdy;
+        new_part.mount.x = pdx;
+        new_part.mount.y = pdy;
         new_part.hp = php;
         new_part.blood = pbld;
         new_part.bigness = pbig;
         new_part.flags = pflag;
         new_part.passenger_id = pass;
         new_part.amount = pam;
+        parts.push_back (new_part);
         for (int j = 0; j < pnit; j++)
         {
             itms++;
             getline(stin, databuff);
             item itm;
             itm.load_info(databuff);
-            new_part.items.push_back (itm);
+            add_item(j, itm);
             int ncont;
             stin >> ncont; // how many items inside container
             getline(stin, databuff); // Clear EoL
@@ -2026,10 +2013,9 @@ void vehicle::load_legacy(std::ifstream &stin) {
                 getline(stin, databuff);
                 item citm;
                 citm.load_info(databuff);
-                new_part.items[new_part.items.size()-1].put_in (citm);
+                new_part.items.back().put_in (citm);
             }
         }
-        parts.push_back (new_part);
     }
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */

@@ -1,10 +1,11 @@
 #include "game.h"
 #include "output.h"
 #include "item_factory.h"
-#include <sstream>
-#include "helper.h"
 #include "uistate.h"
 #include "monstergenerator.h"
+#include "compatibility.h"
+
+#include <sstream>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -58,9 +59,9 @@ class wish_mutate_callback: public uimenu_callback
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
-                for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-                    vTraits.push_back(iter->first);
-                    pTraits[iter->first] = ( p->has_trait( iter->first ) );
+                for( auto &traits_iter : traits ) {
+                    vTraits.push_back( traits_iter.first );
+                    pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
 
@@ -146,8 +147,8 @@ class wish_mutate_callback: public uimenu_callback
 
             std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
                                             menu->pad_right - 1 );
-            for( size_t j = 0; j < desc.size(); ++j ) {
-                mvwprintz(menu->window, line2, startx, c_ltgray, "%s", desc[j].c_str() );
+            for( auto &elem : desc ) {
+                mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
                 line2++;
             }
             lastlen = line2 + 1;
@@ -167,14 +168,14 @@ void game::wishmutate( player *p )
     uimenu wmenu;
     int c = 0;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        wmenu.addentry(-1, true, -2, "%s", iter->second.name.c_str() );
+    for( auto &traits_iter : traits ) {
+        wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
         wmenu.entries[ c ].extratxt.color = c_ltgreen;
-        if( p->has_trait( iter->first ) ) {
+        if( p->has_trait( traits_iter.first ) ) {
             wmenu.entries[ c ].text_color = c_green;
-            if ( p->has_base_trait( iter->first ) ) {
+            if( p->has_base_trait( traits_iter.first ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
         }
@@ -251,6 +252,7 @@ class wish_monster_callback: public uimenu_callback
         int lastent;           // last menu entry
         std::string msg;       // feedback message
         bool friendly;         // spawn friendly critter?
+        bool hallucination;
         int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
@@ -261,6 +263,7 @@ class wish_monster_callback: public uimenu_callback
         {
             started = false;
             friendly = false;
+            hallucination = false;
             group = 0;
             lastent = -2;
             w_info = NULL;
@@ -285,6 +288,9 @@ class wish_monster_callback: public uimenu_callback
                 return true;  // tell menu we handled keypress
             } else if( key == 'i' ) {
                 group++;
+                return true;
+            } else if( key == 'h' ) {
+                hallucination = !hallucination;
                 return true;
             } else if( key == 'd' ) {
                 group = std::max( 1, group - 1 );
@@ -313,11 +319,14 @@ class wish_monster_callback: public uimenu_callback
             std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
+            if( hallucination ) {
+                wprintw( w_info, _( " (hallucination)" ) );
+            }
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
             mvwprintw(w_info, getmaxy(w_info) - 2, 0,
-                      _("[/] find, [f]riendly, [i]ncrease group, [d]ecrease group, [q]uit"));
+                      _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu)
@@ -349,11 +358,10 @@ void game::wishmonster(int x, int y)
     wmenu.callback = cb;
 
     int i = 0;
-    for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
-         mon != montypes.end(); ++mon) {
-        wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
-        wmenu.entries[i].extratxt.txt = mon->second->sym;
-        wmenu.entries[i].extratxt.color = mon->second->color;
+    for( const auto &montype : montypes ) {
+        wmenu.addentry( i, true, 0, "%s", montype.second->nname().c_str() );
+        wmenu.entries[i].extratxt.txt = montype.second->sym;
+        wmenu.entries[i].extratxt.color = montype.second->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
     }
@@ -364,6 +372,9 @@ void game::wishmonster(int x, int y)
             monster mon = monster(GetMType(wmenu.ret));
             if (cb->friendly) {
                 mon.friendly = -1;
+            }
+            if (cb->hallucination) {
+                mon.hallucination = true;
             }
             point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
             if (spawn.x != -1) {
@@ -410,12 +421,7 @@ class wish_item_callback: public uimenu_callback
             for(int y = 2; y < menu->w_height - 1; y++) {
                 mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
             }
-            itype *ity = item_controller->find_template(standard_itype_ids[entnum]);
-
-            if ( ity == NULL ) {
-                return;
-            }
-            item tmp(ity->id, calendar::turn);
+            item tmp(standard_itype_ids[entnum], calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -448,10 +454,10 @@ void game::wishitem( player *p, int x, int y)
     wmenu.callback = cb;
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
-        itype *ity = item_controller->find_template(standard_itype_ids[i]);
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->nname(1).c_str()) );
-        wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
-        wmenu.entries[i].extratxt.color = ity->color;
+        item ity( standard_itype_ids[i], 0 );
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1).c_str()) );
+        wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
+        wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
     }
     do {
@@ -459,9 +465,9 @@ void game::wishitem( player *p, int x, int y)
         if ( wmenu.ret >= 0 ) {
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
-                amount = helper::to_int(
-                             string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
-                                                granted.tname()));
+                amount = std::atoi(
+                             string_input_popup(_("How many?"), 20, to_string( amount ),
+                                                granted.tname()).c_str());
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
                 granted = granted.in_its_container();
@@ -470,6 +476,7 @@ void game::wishitem( player *p, int x, int y)
                 for (int i = 0; i < amount; i++) {
                     p->i_add(granted);
                 }
+                p->invalidate_crafting_inventory();
             } else if ( x >= 0 && y >= 0 ) {
                 m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';
@@ -497,12 +504,11 @@ void game::wishskill(player *p)
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
     int *origskills = new int[Skill::skills.size()] ;
 
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        int skill_id = (*aSkill)->id();
-        skmenu.addentry( skill_id + skoffset, true, -2, _("@ %d: %s  "),
-                         (int)p->skillLevel(*aSkill), (*aSkill)->name().c_str() );
-        origskills[skill_id] = (int)p->skillLevel(*aSkill);
+    for( auto &skill : Skill::skills ) {
+        int skill_id = ( skill )->id();
+        skmenu.addentry( skill_id + skoffset, true, -2, _( "@ %d: %s  " ),
+                         (int)p->skillLevel( skill ), ( skill )->name().c_str() );
+        origskills[skill_id] = (int)p->skillLevel( skill );
     }
     do {
         skmenu.query();

@@ -1,6 +1,7 @@
 #include "mtype.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "mondeath.h"
 
 mtype::mtype ()
 {
@@ -27,10 +28,11 @@ mtype::mtype ()
     hp = 0;
     def_chance = 0;
     dies.push_back(&mdeath::normal);
-    sp_attack.push_back(NULL);
-    sp_defense = NULL;
+    sp_attack.push_back(nullptr);
+    sp_defense = nullptr;
     luminance = 0;
     flags.insert(MF_HUMAN);
+    flags.insert(MF_BONES);
 }
 
 std::string mtype::nname(unsigned int quantity) const
@@ -82,9 +84,14 @@ bool mtype::in_species(std::string spec) const
     return (species.find(spec) != species.end());
 }
 
+bool mtype::in_species( int spec_id ) const
+{
+    return ( species_id.find(spec_id) != species_id.end() );
+}
+
 bool mtype::same_species( const mtype &other ) const
 {
-    for( auto &s : species ) {
+    for( int s : species_id ) {
         if( other.in_species( s ) ) {
             return true;
         }
@@ -156,7 +163,7 @@ itype_id mtype::get_meat_itype() const
                 return "meat";
             }
         } else if( mat == "bone" ) {
-            return "bone";
+            return "bone_tainted";
         } else if( mat == "iflesh" ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";
@@ -165,4 +172,19 @@ itype_id mtype::get_meat_itype() const
         }
     }
     return "null";
+}
+
+mf_attitude monfaction::attitude( const monfaction *other ) const
+{
+    auto found = attitude_map.find( other );
+    if( found != attitude_map.end() ) {
+        return found->second;
+    }
+
+    if( other->base_faction != nullptr ) {
+        return attitude( other->base_faction );
+    }
+
+    // Shouldn't happen
+    return MFA_FRIENDLY;
 }

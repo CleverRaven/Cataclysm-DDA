@@ -1,12 +1,13 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "itype.h"
 #include "json.h"
 #include <string>
 
 #define MIN_MORALE_READ (-40)
 #define MIN_MORALE_CRAFT (-50)
+
+struct itype;
 
 enum morale_type
 {
@@ -56,6 +57,7 @@ enum morale_type
 
     MORALE_MOODSWING,
     MORALE_BOOK,
+    MORALE_COMFY,
 
     MORALE_SCREAM,
 
@@ -89,26 +91,7 @@ class morale_point : public JsonSerializer, public JsonDeserializer
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const;
 
-        std::string name(std::string morale_data[])
-        {
-            // Start with the morale type's description.
-            std::string ret = morale_data[type];
-
-            // Get the name of the referenced item (if any).
-            std::string item_name = "";
-            if (item_type != NULL) {
-                item_name = item_type->nname(1);
-            }
-
-            // Replace each instance of %i with the item's name.
-            size_t it = ret.find("%i");
-            while (it != std::string::npos) {
-                ret.replace(it, 2, item_name);
-                it = ret.find("%i");
-            }
-
-            return ret;
-        }
+        std::string name() const;
 };
 
 #endif

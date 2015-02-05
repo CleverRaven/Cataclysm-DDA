@@ -45,7 +45,7 @@
     "item" : "hand_paddles",
     "difficulty" : 1,
     "location" : "engine_block",
-    "flags" : ["PADDLES", "ENGINE", "FOLDABLE"],
+    "flags" : ["ENGINE", "FOLDABLE"],
     "breaks_into" : [
         {"item": "steel_chunk", "min": 1, "max": 2},
         {"item": "plastic_chunk", "min": 10, "max": 20}

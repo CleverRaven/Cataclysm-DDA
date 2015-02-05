@@ -2,7 +2,7 @@
 #define INVENTORY_H
 
 #include "item.h"
-#include "artifact.h"
+#include "enums.h"
 
 #include <list>
 #include <string>
@@ -17,6 +17,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef bool (*item_filter)( const item & );
 
 class inventory
 {
@@ -51,6 +52,7 @@ class inventory
         indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
+        indexed_invslice slice_filter_by_salvageability();
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -126,7 +128,6 @@ class inventory
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
 
         int butcher_factor() const;
-        bool has_artifact_with(art_effect_passive effect) const;
 
         // NPC/AI functions
         int worst_item_value(npc *p) const;
@@ -161,6 +162,20 @@ class inventory
         void assign_empty_invlet(item &it, bool force = false);
 
         std::set<char> allocated_invlets() const;
+
+        template<typename T>
+        indexed_invslice slice_filter_by( T filter )
+        {
+            int i = 0;
+            indexed_invslice stacks;
+            for( auto &elem : items ) {
+                if( filter( elem.front() ) ) {
+                    stacks.push_back( std::make_pair( &elem, i ) );
+                }
+                ++i;
+            }
+            return stacks;
+        }
 
         template<typename T>
         static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
@@ -203,7 +218,7 @@ class inventory
             std::vector<const item *> result;
             for( auto &stack : items ) {
                 for( auto &it : stack ) {
-                    inventory::items_with_recursive( result, it, filter );
+                    items_with_recursive( result, it, filter );
                 }
             }
             return result;
@@ -239,6 +254,7 @@ class inventory
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
         void update_cache_with_item(item &newit);
+        char find_usable_cached_invlet(const std::string &item_type);
 
         // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
         // we back those functions with a single internal function templated on the type of Locator.
@@ -247,7 +263,6 @@ class inventory
 
         invstack items;
         bool sorted;
-        char get_invlet_for_item( std::string item_type );
 };
 
 #endif

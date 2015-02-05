@@ -231,7 +231,7 @@ std::string robot_finds_kitten::getmessage(int idx)
     } else {
         return std::string(rfimessages[idx]);
     }
-};
+}
 
 robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 {

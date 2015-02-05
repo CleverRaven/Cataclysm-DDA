@@ -48,9 +48,10 @@
         "item": "veh_tracker",
         "difficulty": 3,
         "epower": -63,
+        "folded_volume": 2,
         "flags": [
-            "TRACK", "UNMOUNT_ON_DAMAGE"
-            ],
+          "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"
+        ],
         "breaks_into": [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -64,11 +65,12 @@
         "broken_color" : "red",
         "damage_modifier" : 20,
         "durability" : 80,
+        "folded_volume": 5,
         "item" : "saddle",
         "difficulty" : 1,
         "location" : "center",
         "flags" : [
-            "SEAT", "BOARDABLE"
+            "SEAT", "BOARDABLE", "FOLDABLE"
         ],
         "breaks_into" : [
             {"item": "leather", "min": 0, "max": 1},
@@ -85,6 +87,7 @@
         "damage_modifier" : 10,
         "durability" : 20,
         "item" : "sheet",
+        "folded_volume": 10,
         "difficulty" : 3,
         "location" : "anywhere",
         "flags" : [
@@ -322,8 +325,9 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 50,
-        "item" : "pipe", "commoent": "TODO: better item!",
+        "folded_volume": 10,
         "difficulty" : 3,
+        "item" : "foldframe",
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE"],
         "breaks_into" : [
@@ -654,10 +658,11 @@
         "broken_symbol" : "#",
         "broken_color" : "light_cyan",
         "durability" : 100,
+        "folded_volume": 3,
         "item" : "pipe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -675,7 +680,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -692,7 +697,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -709,7 +714,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -726,7 +731,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -743,7 +748,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -760,7 +765,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -777,7 +782,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -794,7 +799,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -811,7 +816,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -828,7 +833,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -845,7 +850,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -862,7 +867,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -879,7 +884,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -896,7 +901,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -913,7 +918,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -930,7 +935,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -947,7 +952,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -964,7 +969,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -981,7 +986,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -998,7 +1003,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -1015,7 +1020,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : [],
+        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -1248,7 +1253,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1264,7 +1269,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1280,7 +1285,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1296,7 +1301,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1312,7 +1317,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1328,7 +1333,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
+        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1634,7 +1639,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1650,7 +1655,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1666,7 +1671,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1682,7 +1687,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1698,7 +1703,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1714,7 +1719,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1730,7 +1735,7 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1746,9 +1751,31 @@
         "item" : "wood_plate",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OBSTACLE"],
+        "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "lit_aisle_horizontal",
+        "name" : "aisle with lights",
+        "symbol" : "=",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 400,
+        "epower" : -75,
+        "bonus" : 15,
+        "item" : "sheet_metal_lit",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6},
+            {"item": "cable", "min": 6, "max": 10},
+            {"item": "plastic_chunk", "min": 1, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -1842,10 +1869,11 @@
         "broken_symbol" : "#",
         "broken_color" : "dark_gray",
         "durability" : 15,
+        "folded_volume": 15,
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE"],
+        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -2137,10 +2165,11 @@
         "damage_modifier" : 50,
         "durability" : 40,
         "wheel_width" : 2,
+        "folded_volume": 14,
         "item" : "wheel_bicycle",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2156,11 +2185,12 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 50,
         "durability" : 40,
-        "wheel_width" : 4,
+        "folded_volume": 25,
+        "wheel_width" : 2,
         "item" : "wheel_wheelchair",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2176,11 +2206,12 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 50,
         "durability" : 40,
+        "folded_volume": 14,
         "wheel_width" : 2,
         "item" : "wheel_bicycle",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2216,11 +2247,11 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 50,
         "durability" : 70,
-        "wheel_width" : 6,
+        "wheel_width" : 3,
         "item" : "wheel_small",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "NO_JACK"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2236,11 +2267,12 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 50,
         "durability" : 70,
-        "wheel_width" : 6,
+        "folded_volume": 5,
+        "wheel_width" : 1,
         "item" : "wheel_caster",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2255,11 +2287,11 @@
         "broken_color" : "brown",
         "damage_modifier" : 50,
         "durability" : 30,
-        "wheel_width" : 2,
+        "wheel_width" : 3,
         "item" : "wheel_wood",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH", "NAILABLE"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15}]
@@ -2273,11 +2305,11 @@
         "broken_color" : "brown",
         "damage_modifier" : 60,
         "durability" : 60,
-        "wheel_width" : 2,
+        "wheel_width" : 3,
         "item" : "wheel_wood_b",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "TOOL_WRENCH", "NAILABLE"],
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15},
@@ -2571,12 +2603,13 @@
         "broken_color" : "red",
         "damage_modifier" : 50,
         "durability" : 50,
+        "folded_volume": 2,
         "power" : 60,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2591,12 +2624,13 @@
         "broken_color" : "red",
         "damage_modifier" : 50,
         "durability" : 50,
+        "folded_volume": 2,
         "power" : 50,
         "fuel_type" : "muscle",
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2750,7 +2784,7 @@
         "durability" : 160,
         "size" : 110000,
         "fuel_type" : "diesel",
-        "item" : "metal_tank",
+        "item" : "55gal_drum",
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
@@ -2770,9 +2804,70 @@
         "item" : "small_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "folded_volume" : 2,
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "medium_storage_battery",
+        "name" : "medium storage battery",
+        "symbol" : "O",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "battery",
+        "item" : "medium_storage_battery",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "folded_volume" : 4,
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "storage_battery_mount",
+        "name" : "swappable storage battery case",
+        "symbol" : "O",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "item" : "it_battery_mount",
+        "difficulty" : 3,
+        "location" : "fuel_source",
+        "flags" : ["BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "storage_battery_removable",
+        "name" : "swappable storage battery",
+        "symbol" : "O",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "size" : 100000,
+        "fuel_type" : "battery",
+        "item" : "storage_battery",
+        "difficulty" : 1,
+        "location" : "on_battery_mount",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 5, "max": 10},
+            {"item": "steel_chunk", "min": 5, "max": 10},
+            {"item": "scrap", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -2935,7 +3030,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -2950,6 +3045,7 @@
         "broken_color" : "brown",
         "damage_modifier" : 60,
         "durability" : 75,
+        "folded_volume": 4,
         "size" : 60,
         "item" : "wire",
         "difficulty" : 1,
@@ -2970,6 +3066,22 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "basketlg_folding",
+        "name" : "folding shopping cart basket",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 75,
+        "size" : 200,
+        "item" : "folding_basket",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"],
+        "folded_volume" : 12
     },{
         "type" : "vehicle_part",
         "id" : "veh_table",
@@ -3000,13 +3112,17 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 250,
+        "bonus": 5,
+        "epower": -25,
+        "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 3,
-        "flags" : ["CONTROLS", "FOLDABLE"],
+        "flags" : ["CONTROLS", "FOLDABLE", "DOME_LIGHT"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "cable", "min": 0, "max": 4}
         ]
     },{
         "type" : "vehicle_part",
@@ -3037,13 +3153,33 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 35,
+        "folded_volume": 2,
         "bonus" : 25,
         "item" : "rope_6",
         "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "vehicle_alarm",
+        "name" : "security system",
+        "symbol" : ",",
+        "color" : "ltred",
+        "broken_symbol" : ",",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 35,
+        "epower" : -300,
+        "bonus" : 25,
+        "item" : "processor",
+        "difficulty" : 8,
+        "location" : "on_controls",
+        "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -3055,11 +3191,12 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 100,
+        "folded_volume": 4,
         "bonus" : 25,
         "item" : "rope_30",
         "difficulty" : 2,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -3320,6 +3457,7 @@
         "broken_color" : "cyan",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "223",
         "item" : "m249",
         "size" : 40,
@@ -3339,6 +3477,7 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 5,
         "fuel_type" : "gasoline",
         "item" : "flamethrower",
         "difficulty" : 7,
@@ -3357,6 +3496,7 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "plasma",
         "item" : "plasma_rifle",
         "difficulty" : 7,
@@ -3375,6 +3515,7 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "fusion",
         "item" : "ftk93",
         "difficulty" : 7,
@@ -3394,6 +3535,7 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "battery",
         "item" : "nx17",
         "difficulty" : 7,
@@ -3412,6 +3554,7 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "50",
         "item" : "m2browning",
         "difficulty" : 6,
@@ -3431,6 +3574,7 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 12,
         "fuel_type" : "40mm",
         "item" : "mark19",
         "difficulty" : 6,
@@ -3452,7 +3596,7 @@
         "item" : "wood_plate",
         "difficulty" : 3,
         "location" : "armor",
-        "flags" : ["ARMOR"],
+        "flags" : ["ARMOR", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -3559,11 +3703,12 @@
         "broken_color" : "white",
         "damage_modifier" : 10,
         "durability" : 20,
+        "folded_volume": 1,
         "epower" : -187,
         "bonus" : 480,
         "item" : "flashlight",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT"],
+        "flags" : ["CONE_LIGHT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3613,10 +3758,11 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 75,
+        "folded_volume": 1,
         "bonus" : 15,
         "item" : "horn_bicycle",
         "difficulty" : 1,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
@@ -3668,7 +3814,8 @@
         "fuel_type" : "battery",
         "item" : "battery_motorbike",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "folded_volume" : 3,
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3688,7 +3835,8 @@
         "fuel_type" : "battery",
         "item" : "battery_car",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "folded_volume" : 4,
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 9},
             {"item": "steel_chunk", "min": 6, "max": 9},
@@ -3708,7 +3856,7 @@
         "fuel_type" : "battery",
         "item" : "battery_truck",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 12},
             {"item": "steel_chunk", "min": 8, "max": 12},
@@ -3729,7 +3877,8 @@
         "fuel_type" : "battery",
         "item" : "alternator_motorbike",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR"],
+        "flags" : ["ALTERNATOR", "FOLDABLE"],
+        "folded_volume" : 5,
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 5},
             {"item": "steel_chunk", "min": 2, "max": 5},
@@ -3842,19 +3991,23 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 20,
+        "folded_volume": 2,
         "epower" : -125,
         "bonus" : 350,
         "item" : "light_emergency_red",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "ODDTURN"],
+        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_chunk", "min": 0, "max": 1},
-            {"item": "scrap", "min": 1, "max": 1}
+          {"item": "steel_lump", "min": 4, "max": 6},
+          {"item": "steel_chunk", "min": 4, "max": 6},
+          {"item": "scrap", "min": 4, "max": 6},
+          {"item": "cable", "min": 2, "max": 4},
+          {"item": "plastic_chunk", "min": 1, "max": 3}
         ]
     },{
-        "type" : "vehicle_part",
-        "id" : "light_blue",
+		"type" : "vehicle_part",
+		"id" : "light_blue",
         "name" : "blue light",
         "symbol" : "*",
         "color" : "blue",
@@ -3862,16 +4015,39 @@
         "broken_color" : "blue",
         "damage_modifier" : 10,
         "durability" : 20,
+        "folded_volume": 2,
         "epower" : -125,
         "bonus" : 350,
         "item" : "light_emergency_blue",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "EVENTURN"],
+        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_chunk", "min": 0, "max": 1},
-            {"item": "scrap", "min": 1, "max": 1}
+			{"item": "steel_chunk", "min": 0, "max": 1},
+			{"item": "scrap", "min": 1, "max": 1}
         ]
+    },{
+      "type" : "vehicle_part",
+      "id" : "lit_aisle_vertical",
+      "name" : "aisle with lights",
+      "symbol" : "H",
+      "color" : "white",
+      "broken_symbol" : "#",
+      "broken_color" : "light_gray",
+      "durability" : 400,
+      "epower" : -75,
+      "bonus" : 15,
+      "item" : "sheet_metal_lit",
+      "difficulty" : 1,
+      "location" : "center",
+      "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
+      "breaks_into" : [
+        {"item": "steel_lump", "min": 4, "max": 6},
+        {"item": "steel_chunk", "min": 4, "max": 6},
+        {"item": "scrap", "min": 4, "max": 6},
+        {"item": "cable", "min": 2, "max": 4},
+        {"item": "plastic_chunk", "min": 1, "max": 3}
+      ]
     },{
         "type" : "vehicle_part",
         "id" : "cargo_space",
@@ -3892,7 +4068,7 @@
             {"item": "scrap", "min": 6, "max": 8}
         ]
     },{
-            "type" : "vehicle_part",
+        "type" : "vehicle_part",
         "id" : "floodlight",
         "name" : "floodlight",
         "symbol" : "*",
@@ -3906,13 +4082,14 @@
         "item" : "floodlight",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT"],
+        "flags" : ["CIRCLE_LIGHT", "FOLDABLE"],
+        "folded_volume": 8,
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
-            "type" : "vehicle_part",
+        "type" : "vehicle_part",
         "id" : "recharge_station",
         "name" : "recharging station",
         "symbol" : "#",
@@ -3926,7 +4103,8 @@
         "item" : "recharge_station",
         "difficulty" : 3,
         "location" : "on_cargo",
-        "flags" : ["INTERNAL", "RECHARGE"],
+        "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE"],
+        "folded_volume" : 8,
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2},
@@ -3942,10 +4120,11 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 10,
         "durability" : 20,
+        "folded_volume": 2,
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MIRROR", "PROTRUSION", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
@@ -4005,7 +4184,7 @@
         "durability" : 120,
         "item" : "jumper_cable",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "cable", "min": 1, "max": 10},
             {"item": "plastic_chunk", "min": 1, "max": 2}
@@ -4025,7 +4204,7 @@
         "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
         "item" : "jumper_cable_heavy",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "wire", "min": 4, "max": 8},
             {"item": "plastic_chunk", "min": 4, "max": 8}
@@ -4045,7 +4224,7 @@
         "durability" : 120,
         "item" : "jumper_cable_debug",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "jumper_cable_debug", "min": 1, "max": 1}
         ]
@@ -4063,7 +4242,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
+        "flags" : ["SEAT", "BOARDABLE", "BELTABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4081,7 +4260,7 @@
         "item" : "pointy_stick",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "NAILABLE"],
         "breaks_into" : []
     },
     {
@@ -4097,7 +4276,7 @@
         "item" : "frame_wood",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4114,7 +4293,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF"],
+        "flags" : ["ROOF", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -4163,7 +4342,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 70,
         "durability" : 180,
-        "wheel_width" : 3,
+        "wheel_width" : 4,
         "item" : "wheel_metal",
         "difficulty" : 2,
         "location" : "under",
@@ -4171,6 +4350,166 @@
         "breaks_into" : [
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "mounted RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "fuel_type" : "8x40mm",
+        "item" : "rm614_lmg",
+        "difficulty" : 8,
+        "size" : 600,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm614_lmg", "min": 0, "max": 1}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "mounted RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "fuel_type" : "8x40mm",
+        "item" : "rm298",
+        "difficulty" : 9,
+        "size" : 1800,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm298", "min": 0, "max": 1}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "door_motor",
+        "name" : "door motor",
+        "symbol" : "*",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 50,
+        "item" : "motor_small",
+        "difficulty" : 3,
+        "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "drive_by_wire_controls",
+        "name" : "drive by wire controls",
+        "symbol" : "$",
+        "color" : "light_red",
+        "broken_symbol" : "$",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "item" : "drive_by_wire_controls",
+        "difficulty" : 3,
+        "flags" : ["CONTROLS", "REMOTE_CONTROLS"],
+        "breaks_into" : [
+            {"item": "motor_small", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "cam_control",
+        "name" : "camera control system",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 20,
+        "durability" : 200,
+        "folded_volume": 10,
+        "item" : "camera_control",
+        "epower": -100,
+        "difficulty" : 4,
+        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 10},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "omnicam",
+        "name" : "security camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume" : 8,
+        "bonus" : 24,
+        "item" : "omnicamera",
+        "epower": -75,
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : [ "VISION", "CAMERA" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "min": 4, "max": 16},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "watercannon",
+        "name" : "water cannon",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 7,
+        "fuel_type" : "water",
+        "item" : "watercannon",
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "watercannon", "min": 0, "max": 1}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "robot_controls",
+        "name" : "robot controls",
+        "symbol" : "&",
+        "color" : "white",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 300,
+        "item" : "robot_controls",
+        "difficulty" : 6,
+        "folded_volume": 5,
+        "location" : "center",
+        "flags" : ["REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "motor_small", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "e_scrap", "min": 1, "max": 5}
         ]
     }
 ]

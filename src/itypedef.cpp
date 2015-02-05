@@ -12,38 +12,33 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::can_use( std::string iuse_name ) const
+bool itype::can_use( const std::string &iuse_name ) const
 {
-    const use_function *func;
-
-    try {
-        func = item_controller->get_iuse( iuse_name );
-    } catch (const std::out_of_range &e) {
-        debugmsg("itype::can_use attempted to test for invalid iuse function %s", iuse_name.c_str());
-        return false;
-    }
-
-    return std::find( use_methods.cbegin(), use_methods.cend(),
-                      *func ) != use_methods.cend();
+    return get_use( iuse_name ) != nullptr;
 }
 
-bool itype::is_covering(body_part bp) const
+const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    if (!is_armor()) {
-        return false;
+    if( !has_use() ) {
+        return nullptr;
     }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->covers.test(bp);
-}
 
-
-bool itype::is_sided(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
+    const use_function *func = item_controller->get_iuse( iuse_name );
+    if( func != nullptr ) {
+        if( std::find( use_methods.cbegin(), use_methods.cend(),
+                         *func ) != use_methods.cend() ) {
+            return func;
+        }
     }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->sided.test(bp);
+
+    for( const auto &method : use_methods ) {
+        const auto ptr = method.get_actor_ptr();
+        if( ptr != nullptr && ptr->type == iuse_name ) {
+            return &method;
+        }
+    }
+
+    return nullptr;
 }
 
 int itype::invoke( player *p, item *it, bool active, point pos )
@@ -56,6 +51,18 @@ int itype::invoke( player *p, item *it, bool active, point pos )
     return charges_to_use;
 }
 
+itype *newSoftwareIType( const itype_id &id, const std::string &name, const std::string &name_plural,
+               unsigned int price, software_type swtype, int /*power*/, const std::string &description )
+{
+    static const std::vector<std::string> no_materials = { "null" };
+    itype *t = new itype( id, price, name, name_plural, description, ' ', c_white, no_materials,
+                          SOLID, 0, 0, 0, 0, 0 );
+    t->software.reset( new islot_software() );
+    t->software->swtype = swtype;
+    t->spawn.reset( new islot_spawn() );
+    t->spawn->default_container = "usb_drive";
+    return t;
+}
 
 void Item_factory::init_old()
 {
@@ -86,6 +93,9 @@ void Item_factory::init_old()
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
                   '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
     itypes["toolset"]->item_tags.insert( "PSEUDO" );
+    itypes["toolset"]->qualities[ "WRENCH" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M" ] = 1;
+    itypes["toolset"]->qualities[ "SAW_M_FINE" ] = 1;
     // For smoking drugs
     add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
@@ -99,30 +109,20 @@ void Item_factory::init_old()
                   '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
     itypes["cvd_machine"]->item_tags.insert( "PSEUDO" );
 
-    // SOFTWARE
-#define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
-    add_item_type( new it_software(id, price, name, name_plural, description,' ', c_white,\
-                                   no_materials, 0, 0, 0, 0, 0, swtype, power) )
+    add_item_type( newSoftwareIType( "software_useless", "misc software", "none", 300, SW_USELESS, 0,
+    _( "A miscellaneous piece of hobby software. Probably useless." ) ) );
 
-    SOFTWARE("software_useless", "misc software", "none", 300, SW_USELESS, 0, _("\
-A miscellaneous piece of hobby software. Probably useless."));
+    add_item_type( newSoftwareIType( "software_hacking", "hackPRO", "none", 800, SW_HACKING, 2,
+    _( "A piece of hacking software." ) ) );
 
-    SOFTWARE("software_hacking", "hackPRO", "none", 800, SW_HACKING, 2, _("\
-A piece of hacking software."));
+    add_item_type( newSoftwareIType( "software_medical", "MediSoft", "none", 600, SW_MEDICAL, 2,
+    _( "A piece of medical software." ) ) );
 
-    SOFTWARE("software_medical", "MediSoft", "none", 600, SW_MEDICAL, 2, _("\
-A piece of medical software."));
+    add_item_type( newSoftwareIType( "software_math", "MatheMAX", "none", 500, SW_SCIENCE, 3,
+    _( "A piece of mathematical software." ) ) );
 
-    SOFTWARE("software_math", "MatheMAX", "none", 500, SW_SCIENCE, 3, _("\
-A piece of mathematical software."));
-
-    SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
-Medical data on zombie blood."));
-
-    std::vector<std::string> paper_material = { "paper" };
-    add_item_type( new it_macguffin( "note", 0, "note", "notes",
-                                     _("A hand-written paper note."), '?', c_white,
-                                     paper_material, 3, 0, 0, 0, 0, true, &iuse::mcg_note ) );
+    add_item_type( newSoftwareIType( "software_blood_data", "infection data", "none", 200, SW_DATA, 5,
+    _( "Medical data on zombie blood." ) ) );
 
     itype *m_missing_item = new itype();
     // intentionally left untranslated

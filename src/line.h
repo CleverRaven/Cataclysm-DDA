@@ -36,23 +36,24 @@ enum direction {
 
 // The "t" value decides WHICH Bresenham line is used.
 std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t);
+std::vector <point> line_to( const point &p1, const point &p2, int t );
 // t and t2 decide which Bresenham line is used.
-std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2);
+std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2);
 // sqrt(dX^2 + dY^2)
 int trig_dist(const int x1, const int y1, const int x2, const int y2);
-int trig_dist(const tripoint loc1, const tripoint loc2);
+int trig_dist(const tripoint &loc1, const tripoint &loc2);
 // Roguelike distance; minimum of dX and dY
 int square_dist(const int x1, const int y1, const int x2, const int y2);
-int square_dist(const tripoint loc1, const tripoint loc2);
+int square_dist(const tripoint &loc1, const tripoint &loc2);
 int rl_dist(const int x1, const int y1, const int x2, const int y2);
-int rl_dist(const tripoint loc1, const tripoint loc2);
-int rl_dist(point a, point b);
+int rl_dist(const tripoint &loc1, const tripoint &loc2);
+int rl_dist(const point &a, const point &b);
 std::pair<double, double> slope_of(const std::vector<point> &line);
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line);
 std::vector<point> continue_line(const std::vector<point> &line, const int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance);
 direction direction_from(const int x1, const int y1, const int x2, const int y2);
-direction direction_from(const tripoint loc1, const tripoint loc2);
+direction direction_from(const tripoint &loc1, const tripoint &loc2);
 point direction_XY(direction dir);
 std::string direction_name(direction dir);
 std::string direction_name_short(direction dir);

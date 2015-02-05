@@ -10,6 +10,8 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "cursesdef.h" // WINDOW
+
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
@@ -34,32 +36,109 @@ class Creature
         {
             return false;
         }
+        virtual bool is_monster() const
+        {
+            return false;
+        }
 
-        // Fake is used to mark non-real creatures used temporarally,
-        // such as fake NPCs that fire weapons to simulate turrets.
+        /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake () const;
+        /** Sets a Creature's fake boolean. */
         virtual void set_fake (const bool fake_value);
 
-        virtual void normalize(); // recreate the Creature from scratch
-        virtual void
-        process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
-        virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
-        virtual void reset_bonuses(); // reset the value of all bonus fields to 0
-        virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
+        /** Recreates the Creature from scratch. */
+        virtual void normalize();
+        /** Processes effects and bonuses and allocates move points based on speed. */
+        virtual void process_turn();
+        /** Handles both reset steps. Should be called instead of each individual reset function generally. */
+        virtual void reset();
+        /** Resets the value of all bonus fields to 0. */
+        virtual void reset_bonuses();
+        /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
+        virtual void reset_stats();
+        
+        /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
+        /** Should always be overwritten by the appropriate player/NPC/monster version, return 0 just in case. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
 
-        // makes a single melee attack, with the currently equipped weapon
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  matec_id technique) = 0; // Returns a damage
+        /**
+         * Simplified attitude towards any creature:
+         * hostile - hate, want to kill, etc.
+         * friendly - avoid harming it, maybe even help.
+         * neutral - anything between.
+         */
+        enum Attitude {
+            A_HOSTILE,
+            A_NEUTRAL,
+            A_FRIENDLY,
+        };
+        /**
+         * Attitude (of this creature) towards another creature. This might not be symmetric.
+         */
+        virtual Attitude attitude_to( const Creature &other ) const = 0;
 
-        // fires a projectile at target point from source point, with total_dispersion
-        // dispersion. returns the rolled dispersion of the shot.
+        /**
+         * The functions check whether this creature can see the target.
+         * The target may either be another creature (critter), or a specific point on the map.
+         *
+         * The bresenham_slope parameter is only set when the target is actually visible. Its
+         * value must be passed to @ref line_to to get a line from this creature to the target
+         * which will pass through transparent terrain only. Using a different value for line_to
+         * may result in a line that passes through opaque terrain.
+         *
+         * Different creatures types are supposed to only implement the two virtual functions.
+         * The other functions are here to give the callers more freedom, they simply forward
+         * to one of the virtual functions.
+         *
+         * The function that take another creature as input should check visibility of that creature
+         * (e.g. not digging, or otherwise invisible). They must than check whether the location of
+         * the other monster is visible.
+         */
+        /*@{*/
+        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        bool sees( const Creature &critter ) const;
+        bool sees( int cx, int cy, int &bresenham_slope ) const;
+        bool sees( int tx, int ty ) const;
+        virtual bool sees( point t, int &bresenham_slope ) const;
+        bool sees( point t ) const;
+        /*@}*/
+
+        /**
+         * How far the creature sees under the given light. Places outside this range can
+         * @param light_level See @ref game::light_level.
+         */
+        virtual int sight_range( int light_level ) const = 0;
+
+        /** Returns an approximation of the creature's strength. Should always be overwritten by
+         *  the appropriate player/NPC/monster function. */
+        virtual float power_rating() const = 0;
+        /**
+         * For fake-players (turrets, mounted turrets) this functions
+         * chooses a target. This is for creatures that are friendly towards
+         * the player and therefor choose a target that is hostile
+         * to the player.
+         * @param pos Position of the fake-player
+         * @param range The maximal range to look for monsters, anything
+         * outside of that range is ignored.
+         * @param boo_hoo The number of targets that have been skipped
+         * because the player is in the way.
+         * @param area The area of effect of the projectile aimed.
+         */
+        Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0);
+
+        /** Make a single melee attack with the currently equipped weapon against the targeted
+         *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
+        virtual void melee_attack(Creature &t, bool allow_special,
+                                  matec_id technique) = 0;
+
+        /** Fires a projectile at the target point from the source point with total_dispersion
+         *  dispersion. Returns the rolled dispersion of the shot. */
         virtual double projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                          int targetx, int targety, double total_dispersion);
-        // overloaded version, assume it comes from this Creature's position
+        /** Overloaded version that assumes the projectile comes from this Creature's postion. */
         virtual double projectile_attack(const projectile &proj, int targetx, int targety,
                                          double total_dispersion);
 
@@ -98,10 +177,15 @@ class Creature
         virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam);
 
-        // deals the damage via an attack. Allows armor mitigation etc.
-        // Most sources of external damage should use deal_damage
-        // Mutates the damage_instance& object passed in to reflect the
-        // post-mitigation object
+        /**
+         * Deals the damage via an attack. Allows armor mitigation etc.
+         * Most sources of external damage should use deal_damage
+         * Mutates the damage_instance& object passed in to reflect the
+         * post-mitigation object.
+         * Does nothing if this creature is already dead.
+         * Does not call @ref check_dead_state (see there).
+         * @ref source The attacking creature, can be null.
+         */
         virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
                 const damage_instance &d);
         // for each damage type, how much gets through and how much pain do we
@@ -118,32 +202,69 @@ class Creature
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
-        // returns true iff health is zero or otherwise should be dead
+        // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
+        /**
+         * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
+         * You can either call this function after hitting this creature, or let the game
+         * call it during @ref game::cleanup_dead.
+         * As @ref die has many side effects (messages, on-death-triggers, ...), you should be
+         * careful when calling this and expect that at least a "The monster dies!" message might
+         * have been printed. If you want to print any message relating to the attack (e.g. how
+         * much damage has been dealt, how the attack was performed, what has been blocked...), do
+         * it *before* calling this function.
+         */
+        void check_dead_state();
 
-        // xpos and ypos, because posx/posy are used as public variables in
-        // player.cpp and therefore referenced everywhere
-        virtual int xpos() const = 0;
-        virtual int ypos() const = 0;
-        virtual point pos() const = 0;
+        virtual int posx() const = 0;
+        virtual int posy() const = 0;
+        virtual const point &pos() const = 0;
 
-        // should replace both player.add_disease and monster.add_effect
-        // these are nonvirtual since otherwise they can't be accessed with
-        // the old add_effect
-        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        struct compare_by_dist_to_point {
+            point center;
+            // Compare the two creatures a and b by their distance to a fixed center point.
+            // The nearer creature is considered smaller and sorted first.
+            bool operator()( const Creature *a, const Creature *b ) const;
+        };
+
+        /** Processes move stopping effects. Returns false if movement is stopped. */
+        virtual bool move_effects();
+
+        /** Handles effect application effects. */
+        virtual void add_eff_effects(effect e, bool reduced);
+
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 0);
+        /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            int intensity = 1, bool permanent =
-                                false); // gives chance to save via env resist, returns if successful
-        void remove_effect(efftype_id eff_id);
-        void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id) const;
+                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
+         *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
+        bool remove_effect(efftype_id eff_id, body_part bp = num_bp);
+        /** Remove all effects. */
+        void clear_effects();
+        /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
+         *  of the matching type, targeted or untargeted. */
+        bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Return the effect that matches the given arguments exactly. */
+        effect get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_int(efftype_id eff_id, body_part bp = num_bp) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );
         void remove_value( const std::string key );
         std::string get_value( const std::string key ) const;
 
-        virtual void process_effects(); // runs all the effects on the Creature
+        /** Processes through all the effects on the Creature. */
+        virtual void process_effects();
+
+        /** Returns true if the player has the entered trait, returns false for non-humans */
+        virtual bool has_trait(const std::string &flag) const;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int base_threshold = 0);
@@ -151,6 +272,9 @@ class Creature
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
+        virtual void set_moves(int nmoves);
+
+        virtual bool in_sleep_state() const;
 
         /*
          * Get/set our killer, this is currently used exclusively to allow
@@ -201,6 +325,7 @@ class Creature
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
+        virtual int hp_percentage() const = 0;
         virtual std::string get_material() const
         {
             return "flesh";
@@ -209,6 +334,10 @@ class Creature
         virtual field_id gibType () const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const
+        {
+            return false;
+        };
+        virtual bool uncanny_dodge()
         {
             return false;
         };
@@ -290,6 +419,7 @@ class Creature
             str_cur, dex_cur, per_cur, int_cur;
 
         int moves, pain;
+        bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
         /**
@@ -322,9 +452,11 @@ class Creature
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
+        void set_killer( Creature *killer );
 
-        std::unordered_map<std::string, effect> effects;
-        // Miscelaneous key/value pairs.
+        // Storing body_part as an int to make things easier for hash and JSON
+        std::unordered_map<std::string, std::unordered_map<body_part, effect, std::hash<int>>> effects;
+        // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be
@@ -371,6 +503,24 @@ class Creature
         Creature &operator=(Creature &&) = default;
 
         body_part select_body_part(Creature *source, int hit_roll);
+
+        /**
+         * This function replaces the "<npcname>" substring with the provided NPC name.
+         *
+         * Its purpose is to avoid repeated code and improve source readability / maintainability.
+         *
+         */
+        inline std::string replace_with_npc_name(std::string str, std::string name) const
+        {
+            size_t offset = str.find("<npcname>");
+            if (offset != std::string::npos) {
+                str.replace(offset, 9, name);
+                if (offset == 0 && !str.empty()) {
+                    capitalize_letter(str, 0);
+                }
+            }
+            return str;
+        }
 
         /**
          * These two functions are responsible for storing and loading the members

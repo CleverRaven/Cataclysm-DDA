@@ -29,18 +29,16 @@ void damage_instance::add_effect( std::string effect )
 
 void damage_instance::mult_damage(double multiplier)
 {
-    for (std::vector<damage_unit>::iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        it->damage_multiplier *= multiplier;
+    for( auto &elem : damage_units ) {
+        elem.damage_multiplier *= multiplier;
     }
 }
 float damage_instance::type_damage(damage_type dt) const
 {
     float ret = 0;
-    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        if (it->type == dt) {
-            ret += it->amount;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret += elem.amount;
         }
     }
     return ret;
@@ -49,9 +47,8 @@ float damage_instance::type_damage(damage_type dt) const
 float damage_instance::total_damage() const
 {
     float ret = 0;
-    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-         it != damage_units.end(); ++it) {
-        ret += it->amount;
+    for( const auto &elem : damage_units ) {
+        ret += elem.amount;
     }
     return ret;
 }
@@ -145,7 +142,7 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("MININUKE_MOD")) {
-        g->explosion(x, y, 300, 0, false);
+        g->explosion(x, y, 450, 0, false);
         int junk;
         for (int i = -6; i <= 6; i++) {
             for (int j = -6; j <= 6; j++) {

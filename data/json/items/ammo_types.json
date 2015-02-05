@@ -61,6 +61,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "blunderbuss",
+        "name" : "blunderbuss",
+        "default" : "blun_shot"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "22",
         "name" : ".22",
         "default" : "22_lr"
@@ -394,5 +400,18 @@
         "id" : "fish_bait",
         "name" : "fish bait",
         "default" : "fish_bait_meat"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "homebrew_rocket",
+        "name" : "homebrew rocket",
+        "default" : "spiked_rocket"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "unfinished_char",
+        "name" : "semi-charred fuel",
+        "default" : "unfinished_charcoal"
     }
+
 ]

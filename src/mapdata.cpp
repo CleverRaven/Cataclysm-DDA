@@ -1,7 +1,6 @@
 #include "mapdata.h"
 #include "color.h"
 #include "init.h"
-#include "item_factory.h"
 #include "game_constants.h"
 #include "debug.h"
 #include <ostream>
@@ -38,8 +37,7 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
   {
    if( !sm->itm[x][y].empty() )
    {
-    for( std::vector<item>::const_iterator it = sm->itm[x][y].begin(),
-      end = sm->itm[x][y].end(); it != end; ++it )
+    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
     {
      out << "\n\t("<<x<<","<<y<<") ";
      out << *it << ", ";
@@ -110,6 +108,9 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
         explosive = j.get_int("explosive", -1);
 
+        sound_vol = j.get_int("sound_vol", -1);
+        sound_fail_vol = j.get_int("sound_fail_vol", -1);
+
         destroy_only = j.get_bool("destroy_only", false);
 
         sound = j.get_string("sound", _("smash!"));
@@ -164,7 +165,7 @@ furn_t null_furniture_t() {
   new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
-};
+}
 
 ter_t null_terrain_t() {
   ter_t new_terrain;
@@ -188,7 +189,7 @@ ter_t null_terrain_t() {
   new_terrain.close = "";
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_terrain;
-};
+}
 
 void load_furniture(JsonObject &jsobj)
 {
@@ -338,7 +339,7 @@ ter_id terfind(const std::string & id) {
          return 0;
     }
     return termap[id].loadid;
-};
+}
 
 ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
@@ -373,13 +374,13 @@ ter_id t_null,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
-    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
+    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass, t_window_bars_alarm,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -387,7 +388,7 @@ ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -424,7 +425,8 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator;
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp;
 
 void set_ter_ids() {
     t_null=terfind("t_null");
@@ -523,6 +525,7 @@ void set_ter_ids() {
     t_door_metal_c=terfind("t_door_metal_c");
     t_door_metal_o=terfind("t_door_metal_o");
     t_door_metal_locked=terfind("t_door_metal_locked");
+    t_door_metal_pickable=terfind("t_door_metal_pickable");
     t_door_bar_c=terfind("t_door_bar_c");
     t_door_bar_o=terfind("t_door_bar_o");
     t_door_bar_locked=terfind("t_door_bar_locked");
@@ -546,6 +549,7 @@ void set_ter_ids() {
     t_window_reinforced_noglass=terfind("t_window_reinforced_noglass");
     t_window_enhanced=terfind("t_window_enhanced");
     t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
+    t_window_bars_alarm=terfind("t_window_bars_alarm");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
@@ -569,6 +573,7 @@ void set_ter_ids() {
     t_tree_plum=terfind("t_tree_plum");
     t_tree_plum_harvested=terfind("t_tree_plum_harvested");
     t_tree_pine=terfind("t_tree_pine");
+    t_tree_blackjack=terfind("t_tree_blackjack");
     t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");
     t_shrub=terfind("t_shrub");
@@ -668,7 +673,11 @@ void set_ter_ids() {
     t_water_pump=terfind("t_water_pump");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
-};
+    t_pavement_bg_dp = terfind("t_pavement_bg_dp");
+    t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
+    t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
+    t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
+}
 
 furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
@@ -676,7 +685,7 @@ furn_id furnfind(const std::string & id) {
          return 0;
     }
     return furnmap[id].loadid;
-};
+}
 
 furn_id f_null,
     f_hay,
@@ -684,7 +693,7 @@ furn_id f_null,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
-    f_bed, f_toilet, f_makeshift_bed,
+    f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
     f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
@@ -703,7 +712,9 @@ furn_id f_null,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
-    f_floor_canvas;
+    f_floor_canvas,
+    f_tatami,
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
@@ -721,6 +732,7 @@ void set_furn_ids() {
     f_bed=furnfind("f_bed");
     f_toilet=furnfind("f_toilet");
     f_makeshift_bed=furnfind("f_makeshift_bed");
+    f_straw_bed=furnfind("f_straw_bed");
     f_sink=furnfind("f_sink");
     f_oven=furnfind("f_oven");
     f_woodstove=furnfind("f_woodstove");
@@ -791,6 +803,10 @@ void set_furn_ids() {
     f_egg_sacke=furnfind("f_egg_sacke");
     f_flower_marloss=furnfind("f_flower_marloss");
     f_floor_canvas=furnfind("f_floor_canvas");
+    f_kiln_empty=furnfind("f_kiln_empty");
+    f_kiln_full=furnfind("f_kiln_full");
+    f_kiln_metal_empty=furnfind("f_kiln_metal_empty");
+    f_kiln_metal_full=furnfind("f_kiln_metal_full");
 }
 
 /*
@@ -804,9 +820,9 @@ ter_furn_id::ter_furn_id() {
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
 {
-    for(size_t i = 0; i < mbi.items.size(); i++) {
-        const std::string &it = mbi.items[i].itemtype;
-        if (!item_controller->has_template(it)) {
+    for( auto &elem : mbi.items ) {
+        const std::string &it = elem.itemtype;
+        if( !item::type_is_defined( it ) ) {
             debugmsg("%s: bash result item %s does not exist", id.c_str(), it.c_str());
         }
     }
@@ -828,9 +844,9 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if (!mbi.can_do) {
         return;
     }
-    for(size_t i = 0; i < mbi.items.size(); i++) {
-        const std::string &it = mbi.items[i].itemtype;
-        if (!item_controller->has_template(it)) {
+    for( auto &elem : mbi.items ) {
+        const std::string &it = elem.itemtype;
+        if( !item::type_is_defined( it ) ) {
             debugmsg("%s: deconstruct result item %s does not exist", id.c_str(), it.c_str());
         }
     }
@@ -874,8 +890,7 @@ void check_furniture_and_terrain()
     }
 }
 
-submap::submap() : ter(), frn(), trp(), rad(),
-    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+submap::submap() : ter(), frn(), trp(), rad(), field_count(0), turn_last_touched(0), temperature(0) {
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             ter[x][y] = t_null;

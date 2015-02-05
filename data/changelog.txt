@@ -1,3 +1,308 @@
+0.C
+
+Unsorted (up to commit 32fd9a483):
+
+- Overhaul of diseases:
+	- configurable from JSON
+	- now applied as relatively generic status effects
+- Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well
+as an all-inclusive weather station. Now we can finally talk about the
+weather, as we've always wanted.
+- An abandoned farmhouse may spawn in the forest from time to time, with a sad
+story behind it.
+- You can warm yourself up from a nearby fire.
+- Change car batteries without any tools, truck batteries with just a wrench,
+or install swappable storage battery cases and add/remove storage batteries to
+your heart's content. Electric cars come with cases for their storage
+batteries by default now.
+- Many vehicle parts are now foldable, enabling you to have a more complete
+folding bicycle (or wheelchair).
+- Butchering can now be used to cut up items, too. Also, you can now salvage
+_all_ the things (in a tile) in one keypress.
+- Tanning with trees! Blackjack oaks now spawn, and can provide tanbark.
+- Gun mods aren't just a free-for-all when reaching marksmanship level 1
+anymore -- instead, they each have different skill requirements to install.
+- Doors and windows no longer hold up the roof! Hopefully preventing collapses
+from zombies breaking into your shop.
+- Electric chainsaws and jackhammers now exist in the world.
+- Destructible bridges! They can be smashed, they have sidewalks, and are a
+source of rebar.
+- Straw! Get it from the hay in farm barns and make yourself a nice straw hat.
+- Aiming! You can now spend time when aiming a ranged weapon to improve your
+accuracy with it.
+- Item descriptions now tell you what you know you can craft with them. No
+more wondering what those stupid copper tubes are good for.
+- Canes, cudgels, and umbrellas now work as improvised fencing weapons.
+- Battery mods (extended battery, rechargeable battery, etc.) can now be
+removed by applying a screwdriver.
+- You can now choose to ensure that items you pick up never get wielded,
+keeping your hands free -- useful when you want to be using a martial arts
+style that's primarily unarmed.
+- The patented DeathCam™! You can now watch what happens after your epic
+death: is anything left of you after that massive fire burns itself out?
+- Foraging just... happens. Without prompting you (Y/N?) every (Y/N?) time.
+- Rifle straps! Mount one on your gun and just wear it when you're not using
+it.
+- You can now choose to re-roll a random scenario along with your other random
+character generation things.
+- Some cars have alarms now, and you can try to bypass the alarm and unlock
+the controls.
+- Wool and felt are now usable materials.
+- Solar panels now _just work_ (as long as they're above-ground and it's
+sunny). You don't need to be near them anymore.
+
+
+0.B
+
+Features:
+Random characters have professions applied.
+Brewing.
+Wearable tools.
+Martial arts techniques can trigger when wielding appropriate weapons.
+Wing mirrors for vehicles.
+Prototype hordes.
+Adjust zombie speed with mods.
+Made butcher menu's first entry match the butcher hotkey, so you can just hold down the button to butcher all.
+You can dig down stairs with proper equipment.
+Scabbards, holsters and sheathable weapons.
+At high skills you can quick draw/attack with weapons.
+Fish spawn as distinct creatures, and they're used for fishing checks.
+Quivers for arrows.
+Furniture can act as a tool.
+Corpses rot and eventually disappear.
+Armor is assigned to a layer, and armor on different layers doesn't impose layering penalties.
+Destroyed vehicle parts get ripped off the vehicle.
+Player can start at various locations.
+Special support for mapsharing installs:
+  lock down debug menu
+  lock players to their username
+  more configurable file placement
+  locks around map files
+Language switch is dynamic now.
+Guns such as revolvers no longer eject casings when fired, they're instead ejected on reload.
+Internal furnace and Battery System CBMs are toggleable so you're less likely to eat random objects by accident.
+Spending more time near traps has incremental chance of finding them, spotted traps are remembered.
+Thrown items above a trap-defined threshold will trigger traps.
+You can now peek through curtains and some doors.
+Smashing a broken window again clears out the broken glass (relatively quietly).
+Autopickup can get at anything you can reach, i.e. adjacent tiles.
+Can set exclusion zones for autopickup, so you can avoid accidentally picking up all your stuff in your base.
+Contents of books are unknown until first read (which is faster than usual).
+Can craft recipes if you have a book in range that provides it.
+Can learn recipes by practicing them.
+Roof of the vehicle you're currently in is not drawn.
+Faction hostility is back.
+Kiln operates without player being nearby.
+Radio operated items.
+Switched to seed-based weather generation.
+Options are only displayed when they are applicable to your build.
+Can perform unspeakable acts upon zombies to turn them into your packmule slave thing.
+Messages give feedback on melee misses.
+Foraging is seasonal, fruits will grow each season, but once picked are gone until the next.
+Pet menu to interact with friendly monsters.
+Starting scenarios stitch together profession, traits, and starting location.
+Picking up and dropping multiple items is now an interruptable activity.
+Activatable mutations.
+Heavily moddable gun platform.
+Fire creates invisible hot air fields, which meander around in enclosed spaces and warm them up.
+Factored windchill and humidity into body temperature calculations.
+Vehicles smash items when they (wheels) run over them.
+Refined vehicle/terrain collisions.
+Hulks and Brutes now have a very damaging fling attack.
+Jumper cables can be used to link together electrical systems of vehicles, including vehicles outside the reality bubble.
+Crafting a large batch of items can apply a discount to the crafting time required.
+Overhaul of "cut up" system:
+  Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun).
+  Cutting up returns items from each material that makes up the item.
+  Cuting up most items should respect the total volume of the item.
+Most terrain can be smashed now, if you can hit it hard enough.
+Can turn individual vehicle engines on and off.
+Filling an item with water from e.g. a river is now an interruptable action.
+
+Infrastructure:
+Switched to SDL 2.0.
+Made paths configurable for packaging and installation support.
+Finished pushing martial art definitions out to json.
+JSONized multi-tile building generation, leading to huger buildings.
+Tilesets can provide a per-category fallback tile to handle new monsters/items/whatever.
+Silenced all the warnings, now it's easier to keep new ones from cropping up.
+Lots of string handling infrastructure, making translated string handling easier.
+Missing tiles in tilesets can fall back to ASCII.
+Saner glyph cache handling.
+Components used to craft an item are stored in the item.
+Debug overlay for hordes.
+Improved window handling.
+Generic iuse functors unify many types of iuse functions.
+JSONized bullet pulling recipes.
+Generic support for foldable vehicles, still need support for *crafting* them.
+Encapsulation applied to map accessors.
+JSONized monster drops.
+Damaged fuel tanks leak fuel on the ground.
+Most menus use input context now, and therefore have configurable keybindings.
+Switched build to c++11.
+Items can have a list of iuse methods instead of just one.
+Drug effects can mostly be defined in JSON.
+Scripts for querying json in tools_json_tools.
+Beefed up utf-8 input handling.
+JSONized NPC definitions.
+Unified recipe requirements across constructions and crafting.
+Better error handling when initializing SDL.
+Recipes can have byproducts.
+Added a standalone map layout utility.
+Monsters are saved to the overmap instead of per-submap, clearing the way for horde support.
+Hgamelaunch start script.
+Items can spawn with variable amounts of charge.
+Monster blacklists are applied consistently to all spawn code.
+Different ammunition-bearing monsters (turrets, robots) have customized loadouts of their various ammo types.
+Obsolete mods can be marked as such, preventing debug spam if a save containing them is loaded.
+
+Balance:
+Give most starting professions decent starting equipment.
+Nether spawns near corpse spawns.
+Capped skill gain from many activities, especially crafting.
+Melee weapons can take wear and tear damage based on their primary material.
+Categorized CBMs you can get from butchering things.
+BEES!
+Armor values nerfed.
+Mutagen spawn rates slashed.
+Overhauled mp3 player morale bonus to make micromanagement of it suboptimal.
+Amount of damage blocked by a block technique based on strength and skill of blocker.
+Removed acid rain until it can be made into a local event.
+Nerfed speed of many zombie animals.
+Starting professions supplied with cold-weather gear to match the expected climate.
+Standing in a fire less likely to ignite clothes.
+Lying in fire (when one or more legs is at 0HP) causes MUCH more damage.
+
+Content:
+New monster, Wraith.
+Hops, barley, and molasses as brewing ingredients.
+Yeast for fermenting brews and baking some bread foods.
+Sugar beet as a renewable source of sugar.
+Fruit wine and Brandy.
+Moonshine and home-brewed beer.
+Grappling hook.
+Many new house layouts.
+Wells and well digging.
+CQB CBM that provides martial art style.
+Warehouse building.
+Decorative terrain and furniture.
+Parasites and diseases from unsafe foods.
+Curtains for vehicle doors and windshields, privacy please!
+Foraging (in bushes, shrubs, trees).
+Towel usable for many handy things (still not at HHGttG level).
+hehe, honey.
+Wearable rx12 auto-injector.
+E-cigs
+Motel locations.
+Slime mutants can slip through tight spaces, spawn friendly slimes.
+Some insect-like mutants can sip nectar from flowers (but at a cost...)
+Mutagen gives you wings! (butterfly wings)
+Bird mutations.
+Zoose
+Killed bots drop (disassemblable) broken bot items instead of corpses.
+Bear mutations.
+Bio operator zombie.
+Spider nest basements.
+Nice looking road ends and roundabouts.
+Exploding gasbag zombies.
+Pizza parlor building.
+Wheelchairs.
+Notes left by other survivors scattered all over.
+Brain blob directs nearby blobs to move intelligently.
+Mall location.
+Several toolbox items to streamline carrying around your crafting needfulls.
+Cotton and many cotton-based recipes and items.
+Plant mutations.
+Audit of all item prices to try and get a sensical baseline for them.
+Supercharged military turrets.
+Make Fedora activatable, m'ilady.
+Road barricades.
+Necropolis.
+Rollerblades and skates.
+Evac center and piles of NPCs and missions.
+Bandit camps.
+RC car and remote-detonated bombs, and a remote controlled lamp.
+Automated gas stations.
+Boats.
+E-ink tablet and laptops can display recipes and act like books.
+Can take pictures of monsters and view them on laptops or tablets.
+Fish traps.
+A "Thrilling" monster easter egg.
+Riot control bot.
+Extensive mutation chain culminating with player effectively joining the Marloss faction.
+Extensive expansion of Marloss monsters/structures.
+Various power substations, with new monsters.
+Diesel added as a vehicle fuel.
+Added craftable pontoon bridges.
+Rat mutants can burrow, Cephalopod mutants can grow a large shell, lizards can regrow limbs.
+Many new starting locations.
+Curing hides and tanning leather.
+Full coverage of tiles in Retrodays and MShock's tilesets!
+
+Interface:
+Expanded armor layering window.
+Added way to swap panes in AIM.
+Animation and duration for smoking activity.
+Action menu that displays all actions in a tree menu.
+Highlight things you can interact with when 'e'xamining.
+Many strings are properly pluralized and have support for doing so when translated as well.
+Standardized overmap building colors.
+Vehicle examine menu shows used/capacity of fuel tanks and cargo space.
+SDL builds can play music.
+Log messages colorized.
+Books colorized by category.
+Different weather types get their own animations.
+Save/load log messages.
+Fuzzy river borders.
+Scrolling text animations when things are damaged and on some effects triggering.
+Lots of menus now have sorting, categories, and search.
+Animation delay option.
+Player can write and read sign items.
+Added a menu displaying martial art style characteristics.
+Perishable and rotting items colorized.
+UPS no longer activatable, now act as passive batteries.
+Prompt to continue studying a book until all recipes learned.
+
+Performance:
+Greatly sped up construction menu.
+Overmap scrolling speed greatly improved.
+Turn number added to calendar since it's called a gajillion times.
+Switched a lot of large collections to use std::unordered_map() or std::unordered_set().
+SDL framebuffer cache.
+Extracted rain animation code from main drawing code.
+Tile lookup speedups.
+
+Bugfixes:
+No bleeding effect if your armor absorbs all the damage.
+Make game stop treating trees, walls, etc as hallucinatory with respect to vehicle collisions.
+Prevent dragging furniture from hoovering up items.
+Option to force software rendering to work around hardware support issues.
+Players are ejected from vehicles when their seats are destroyed.
+Contents of items destroyed by interacting with them are dumped instead of being deleted.
+Restored function of area melee attacks.
+Made various battery mods play nice together.
+Prevent segfault in the unlikely case that you miss so badly that you shoot yourself.
+Don't cause blood spatters when the attack does no damage.
+Avoid crashing when loading a corrupted submap.
+Avoid resetting creature speed to 100 when a creature is saved/loaded.
+Option to disable joystick input in case you have a broken joystick.
+Always practice at least one of the melee skill types when attacking.
+Fixed off-by-one error that made 100% coverage armor 99% coverage.
+Move critical multiplier calculaton after armor absorbs damage.
+Added move cost for interacting with computers.
+Use maximum heard sound for effects (such as deafness), not the sum.
+Player graveyard works as intended, most recent player save is moved to the graveyard folder.
+Factored weight of items in furniture into cost of dragging the furniture.
+Gunmods with firing modes finally make correct sounds when fired.
+Guns spawn with ammo when mapgen calls for it.
+Fixed longstanding bug where displayed warmth would fluctuate wildly if your body temperature was optimal.
+Prevent player from taking damage when driving over an acid puddle.
+Taught zombies how to pick the right stairs.
+Fixed bug where zombies can attack at range after a knockback.
+Lots of window refresh cleanup.
+Turrets and vehicle turrets now respect friendly status when burst firing.
+Fixed a bug where monsters could see further than they should in circular distance mode (they still used square dist).
+
 0.A
 
 Highlights:

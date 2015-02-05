@@ -8115,20 +8115,6 @@
          "multitile" : false
       },
       {
-         "id" : "smg_9mm",
-         "fg" : 1384,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "smg_45",
-         "fg" : 1385,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "sig_mosquito",
          "fg" : 1386,
          "bg" : -1,

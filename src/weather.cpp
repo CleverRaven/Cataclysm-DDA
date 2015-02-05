@@ -1,19 +1,19 @@
 #include <vector>
 #include <sstream>
-#include "item_factory.h"
 #include "options.h"
 #include "game.h"
 #include "weather.h"
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "math.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx, g->u.posy) && g->levz >= 0)
+#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->levz >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -28,7 +28,7 @@ std::map<weather_type, clWeatherAnim> mapWeatherAnim;
  */
 void weather_effect::glare()
 {
-    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) &&
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx(), g->u.posy()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             if (g->u.has_trait("CEPH_VISION")) {
@@ -142,30 +142,26 @@ void item::add_rain_to_container(bool acid, int charges)
     if( charges <= 0) {
         return;
     }
-    const char *typeId = acid ? "water_acid" : "water";
-    long max = dynamic_cast<it_container *>(type)->contains;
-    long orig = 0;
-    long added = charges;
+    item ret( acid ? "water_acid" : "water", calendar::turn );
+    const long capa = get_remaining_capacity_for_liquid( ret );
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        item ret(typeId, 0);
         if (!acid) {
             // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
-        ret.charges = ( charges > max ? max : charges );
+        ret.charges = std::min<long>( charges, capa );
         put_in(ret);
     } else {
         // The container already has a liquid.
         item &liq = contents[0];
-        orig = liq.charges;
-        max -= liq.charges;
-        added = ( charges > max ? max : charges );
-        if (max > 0 ) {
+        long orig = liq.charges;
+        long added = std::min<long>( charges, capa );
+        if (capa > 0 ) {
             liq.charges += added;
         }
 
-        if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
+        if (liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak") {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -234,25 +230,25 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     const std::set<point> &funnel_locs = g->m.trap_locations(t);
     std::set<point>::const_iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
-        item *c = NULL;
         int maxcontains = 0;
         point loc = *i;
-        std::vector<item> &items = g->m.i_at(loc.x, loc.y);
+        auto items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for (size_t j = 0; j < items.size(); j++) {
-                item *it = &(items[j]);
-                if ( it->is_funnel_container( maxcontains ) ) {
-                    c = it;
+            auto container = items.end();
+            for( auto candidate_container = items.begin(); candidate_container != items.end();
+                 ++candidate_container ) {
+                if ( candidate_container->is_funnel_container( maxcontains ) ) {
+                    container = candidate_container;
                 }
             }
 
-            if (c != NULL) {
-                c->add_rain_to_container(acid, 1);
-                c->bday = int(calendar::turn);
+            if( container != items.end() ) {
+                container->add_rain_to_container(acid, 1);
+                container->bday = int(calendar::turn);
             }
         }
     }
@@ -266,6 +262,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
 {
     fill_funnels(mmPerHour, acid, tr_funnel);
     fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
+    fill_funnels(mmPerHour, acid, tr_leather_funnel);
 }
 
 /**
@@ -273,8 +270,8 @@ void fill_water_collectors(int mmPerHour, bool acid)
  */
 void decay_fire_and_scent(int fire_amount)
 {
-    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
+    for (int x = g->u.posx() - SEEX * 2; x <= g->u.posx() + SEEX * 2; x++) {
+        for (int y = g->u.posy() - SEEY * 2; y <= g->u.posy() + SEEY * 2; y++) {
             if (g->m.is_outside(x, y)) {
                 g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
                 if (g->scent(x, y) > 0) {
@@ -566,50 +563,117 @@ std::string print_temperature(float fahrenheit, int decimals)
 
 }
 
-int get_local_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
+/**
+ * Print wind speed (and convert to m/s if km/h is enabled.)
+ */
+std::string print_windspeed(float windspeed, int decimals)
 {
-    /**
-    *  A player is sheltered if he is underground, in a car, or indoors.
-    **/
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
 
-    int tmpwind = windpower;
-    tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
-    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
+    if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
+        ret << windspeed;
+        return rmp_format(_("%s mph"), ret.str().c_str());
+    } else {
+        ret << windspeed * 0.44704;
+        return rmp_format(_("%s m/s"), ret.str().c_str());
+    }
+}
 
-    // Over map terrain may modify the effect of wind.
-    if (sheltered)
-        tmpwind  = 0.0;
-    else if ( omtername == "forest_water")
-        tmpwind *= 0.7;
-    else if ( omtername == "forest" )
-        tmpwind *= 0.5;
-    else if ( omtername == "forest_thick" || omtername == "hive")
-        tmpwind *= 0.4;
+/**
+ * Print relative humidity (no conversions.)
+ */
+std::string print_humidity(float humidity, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << humidity;
+    return rmp_format(_("%s %%"), ret.str().c_str());
+}
+
+/**
+ * Print pressure (no conversions.)
+ */
+std::string print_pressure(float pressure, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << pressure/10;
+    return rmp_format(_("%s kPa"), ret.str().c_str());
+}
 
 
+int get_local_windchill(double temperature, double humidity, double windpower)
+{
+    double tmptemp = temperature;
+    double tmpwind = windpower;
+    double windchill = 0;
 
-    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
+    if (tmptemp < 50) {
+        /// Model 1, cold wind chill (only valid for temps below 50F)
+        /// Is also used as a standard in North America.
 
-    windchill = windchill * 9/5; // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * (pow(tmpwind,
+                    0.16)) + 0.4275 * tmptemp * (pow(tmpwind, 0.16)) - tmptemp;
+        if (tmpwind < 4) {
+            windchill = 0;    // This model fails when there is 0 wind.
+        }
+    } else {
+        /// Model 2, warm wind chill
+
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
+
+        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
+                             (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);
+        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        windchill = windchill * 9 / 5;
+    }
 
     return windchill;
-
 }
 
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
-    if (sheltered)
-    {
+    if (sheltered) {
         tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
-    }
-    else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING)
-    {
+    } else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
+               weather == WEATHER_LIGHTNING) {
         tmphumidity = 100;
     }
 
     return tmphumidity;
+}
+
+int get_local_windpower(double windpower, std::string omtername, bool sheltered)
+{
+    /**
+    *  A player is sheltered if he is underground, in a car, or indoors.
+    **/
+
+    double tmpwind = windpower;
+
+    // Over map terrain may modify the effect of wind.
+    if (sheltered) {
+        tmpwind  = 0.0;
+    } else if ( omtername == "forest_water") {
+        tmpwind *= 0.7;
+    } else if ( omtername == "forest" ) {
+        tmpwind *= 0.5;
+    } else if ( omtername == "forest_thick" || omtername == "hive") {
+        tmpwind *= 0.4;
+    }
+
+    return tmpwind;
 }
 
 ///@}

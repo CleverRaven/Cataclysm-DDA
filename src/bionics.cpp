@@ -7,7 +7,9 @@
 #include "line.h"
 #include "json.h"
 #include "messages.h"
-#include "item_factory.h"
+#include "overmapbuffer.h"
+#include "sounds.h"
+
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -19,18 +21,20 @@ std::vector<bionic_id> faulty_bionics;
 std::vector<bionic_id> power_source_bionics;
 std::vector<bionic_id> unpowered_bionics;
 
-void bionics_install_failure(player *u, it_bionic *type, int success);
+void bionics_install_failure(player *u, int difficulty, int success);
 
-bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                         int new_power_cost, int new_charge_time, std::string new_description,
-                         bool new_faulty) : description(new_description)
+bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
+                          int ct, std::string desc, bool fault) : description(desc)
 {
-    name = new_name;
-    power_source = new_power_source;
-    activated = new_activated;
-    power_cost = new_power_cost;
-    charge_time = new_charge_time;
-    faulty = new_faulty;
+    name = nname;
+    power_source = ps;
+    activated = tog || pac || ct;
+    toggled = tog;
+    power_activate = pac;
+    power_deactivate = pad;
+    power_over_time = pot;
+    charge_time = ct;
+    faulty = fault;
 }
 
 bionic_id game::random_good_bionic() const
@@ -77,12 +81,11 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
-    for (std::vector<bionic>::iterator it = my_bionics.begin();
-         it != my_bionics.end(); ++it) {
-        if (!bionics[it->id]->activated) {
-            passive.push_back(&*it);
+    for( auto &elem : my_bionics ) {
+        if( !bionics[elem.id]->activated ) {
+            passive.push_back( &elem );
         } else {
-            active.push_back(&*it);
+            active.push_back( &elem );
         }
     }
 
@@ -199,11 +202,26 @@ void player::power_bionics()
                         type = c_ltred;
                     }
                     mvwputch(wBio, list_start_y + i, second_column, type, active[i]->invlet);
-                    mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
-                              bionics[active[i]->id]->name.c_str(),
-                              bionics[active[i]->id]->power_cost,
-                              bionics[active[i]->id]->charge_time);
+                    std::stringstream power_desc;
+                    power_desc << bionics[active[i]->id]->name;
+                    if (bionics[active[i]->id]->power_over_time > 0 && bionics[active[i]->id]->charge_time > 0) {
+                        power_desc << string_format(_(", %d PU / %d turns"),
+                                        bionics[active[i]->id]->power_over_time,
+                                        bionics[active[i]->id]->charge_time);
+                    }
+                    if (bionics[active[i]->id]->power_activate > 0) {
+                        power_desc << string_format(_(", %d PU act"),
+                                        bionics[active[i]->id]->power_activate);
+                    }
+                    if (bionics[active[i]->id]->power_deactivate > 0) {
+                        power_desc << string_format(_(", %d PU deact"),
+                                        bionics[active[i]->id]->power_deactivate);
+                    }
+                    if (active[i]->powered) {
+                        power_desc << _(", ON");
+                    }
+                    std::string tmp = power_desc.str();
+                    mvwprintz(wBio, list_start_y + i, second_column + 2, type, tmp.c_str());
                 }
             }
 
@@ -286,34 +304,22 @@ void player::power_bionics()
             }
             if (menu_mode == "activating") {
                 if (bio_data.activated) {
-                    itype_id weapon_id = weapon.type->id;
                     int b = tmp - &my_bionics[0];
                     if (tmp->powered) {
-                        tmp->powered = false;
-                        add_msg(m_neutral, _("%s powered off."), bio_data.name.c_str());
-
                         deactivate_bionic(b);
-                    } else if (power_level >= bio_data.power_cost ||
-                               (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
-                               (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
-
-                        // this will clear the bionics menu for targeting purposes
-                        wBioptr.reset();
-                        w_titleptr.reset();
-                        w_descriptionptr.reset();
-                        g->draw();
-                        activate_bionic(b);
-
-                        if (bio_id == "bio_cqb") {
-                            pick_style();
-                        }
                     } else {
-                        popup( _( "You don't have enough power to activate the %s." ), bio_data.name.c_str() );
-                        redraw = true;
-                        continue;
+                        // this will clear the bionics menu for targeting purposes
+                        g->draw();
+                        redraw = !activate_bionic(b);
                     }
-                    // Action done, leave screen
-                    return;
+                    if (redraw) {
+                        // To update message on the sidebar
+                        g->refresh_all();
+                        continue;
+                    } else {
+                        // Action done, leave screen
+                        return;
+                    }
                 } else {
                     popup(_("\
 You can not activate %s!  To read a description of \
@@ -355,34 +361,36 @@ void draw_exam_window(WINDOW *win, int border_line, bool examination)
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-void player::activate_bionic(int b)
+bool player::activate_bionic(int b, bool eff_only)
 {
-    bionic bio = my_bionics[b];
-    int power_cost = bionics[bio.id]->power_cost;
+    bionic &bio = my_bionics[b];
+
+    // Special compatibility code for people who updated saves with their claws out
     if ((weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon") ||
         (weapon.type->id == "bio_blade_weapon" && bio.id == "bio_blade_weapon")) {
-        power_cost = 0;
-    }
-    if (power_level < power_cost) {
-        if (my_bionics[b].powered) {
-            add_msg(m_neutral, _("Your %s powers down."), bionics[bio.id]->name.c_str());
-            my_bionics[b].powered = false;
-        } else {
-            add_msg(m_info, _("You cannot power your %s"), bionics[bio.id]->name.c_str());
-        }
-        return;
+        return deactivate_bionic(b);
     }
 
-    if (my_bionics[b].powered && my_bionics[b].charge > 0) {
-        // Already-on units just lose a bit of charge
-        my_bionics[b].charge--;
-    } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if (bionics[bio.id]->charge_time > 0) {
-            my_bionics[b].powered = true;
-            my_bionics[b].charge = bionics[bio.id]->charge_time - 1;
+    // eff_only means only do the effect without messing with stats or displaying messages
+    if (!eff_only) {
+        if (bio.powered) {
+            // It's already on!
+            return false;
         }
-        power_level -= power_cost;
+        if (power_level < bionics[bio.id]->power_activate) {
+            add_msg(m_info, _("You don't have the power to activate your %s."), bionics[bio.id]->name.c_str());
+            return false;
+        }
+
+        //We can actually activate now, do activation-y things
+        power_level -= bionics[bio.id]->power_activate;
+        if (bionics[bio.id]->toggled || bionics[bio.id]->charge_time > 0) {
+            bio.powered = true;
+        }
+        if (bionics[bio.id]->charge_time > 0) {
+            bio.charge = bionics[bio.id]->charge_time;
+        }
+        add_msg(m_info, _("You activate your %s."), bionics[bio.id]->name.c_str());
     }
 
     std::vector<point> traj;
@@ -390,27 +398,28 @@ void player::activate_bionic(int b)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
+    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
+    // On activation effects go here
     if(bio.id == "bio_painkiller") {
         pkill += 6;
         pain -= 2;
         if (pkill > pain) {
             pkill = pain;
         }
+    } else if (bio.id == "bio_cqb") {
+        pick_style();
     } else if (bio.id == "bio_nanobots") {
-        rem_disease("bleed");
+        remove_effect("bleed");
         healall(4);
-    } else if (bio.id == "bio_night") {
-        if (calendar::turn % 5) {
-            add_msg(m_neutral, _("Artificial night generator active!"));
-        }
     } else if (bio.id == "bio_resonator") {
-        g->sound(posx, posy, 30, _("VRRRRMP!"));
-        for (int i = posx - 1; i <= posx + 1; i++) {
-            for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
+        //~Sound of a bionic sonic-resonator shaking the area
+        sounds::sound(posx(), posy(), 30, _("VRRRRMP!"));
+        for (int i = posx() - 1; i <= posx() + 1; i++) {
+            for (int j = posy() - 1; j <= posy() + 1; j++) {
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -426,21 +435,20 @@ void player::activate_bionic(int b)
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
-            add_disease("teleglow", rng(50, 400));
+            add_effect("teleglow", rng(50, 400));
         }
     } else if (bio.id == "bio_teleport") {
         g->teleport();
-        add_disease("teleglow", 300);
-    }
+        add_effect("teleglow", 300);
     // TODO: More stuff here (and bio_blood_filter)
-    else if(bio.id == "bio_blood_anal") {
+    } else if(bio.id == "bio_blood_anal") {
         WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
                            10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
-        if (has_disease("fungus")) {
+        if (has_effect("fungus")) {
             bad.push_back(_("Fungal Parasite"));
         }
-        if (has_disease("dermatik")) {
+        if (has_effect("dermatik")) {
             bad.push_back(_("Insect Parasite"));
         }
         if (has_effect("stung")) {
@@ -452,67 +460,70 @@ void player::activate_bionic(int b)
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_disease("pkill1")) {
+        if (has_effect("pkill1")) {
             good.push_back(_("Minor Painkiller"));
         }
-        if (has_disease("pkill2")) {
+        if (has_effect("pkill2")) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_disease("pkill3")) {
+        if (has_effect("pkill3")) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_disease("pkill_l")) {
+        if (has_effect("pkill_l")) {
             good.push_back(_("Slow-Release Painkiller"));
         }
-        if (has_disease("drunk")) {
+        if (has_effect("drunk")) {
             good.push_back(_("Alcohol"));
         }
-        if (has_disease("cig")) {
+        if (has_effect("cig")) {
             good.push_back(_("Nicotine"));
         }
-        if (has_disease("meth")) {
+        if (has_effect("meth")) {
             good.push_back(_("Methamphetamines"));
         }
-        if (has_disease("high")) {
+        if (has_effect("high")) {
             good.push_back(_("Intoxicant: Other"));
         }
-        if (has_disease("weed_high")) {
+        if (has_effect("weed_high")) {
             good.push_back(_("THC Intoxication"));
         }
-        if (has_disease("hallu") || has_disease("visuals")) {
-            bad.push_back(_("Magic Mushroom"));
+        if (has_effect("hallu") || has_effect("visuals")) {
+            bad.push_back(_("Hallucinations"));
         }
-        if (has_disease("iodine")) {
+        if (has_effect("iodine")) {
             good.push_back(_("Iodine"));
         }
-        if (has_disease("datura")) {
+        if (has_effect("datura")) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
         }
-        if (has_disease("took_xanax")) {
+        if (has_effect("took_xanax")) {
             good.push_back(_("Xanax"));
         }
-        if (has_disease("took_prozac")) {
+        if (has_effect("took_prozac")) {
             good.push_back(_("Prozac"));
         }
-        if (has_disease("took_flumed")) {
+        if (has_effect("took_flumed")) {
             good.push_back(_("Antihistamines"));
         }
-        if (has_disease("adrenaline")) {
+        if (has_effect("adrenaline")) {
             good.push_back(_("Adrenaline Spike"));
         }
-        if (has_disease("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+        if (has_effect("adrenaline_mycus")) {
+            good.push_back(_("Mycal Spike"));
+        }
+        if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
-        if (has_disease("bloodworms")) {
+        if (has_effect("bloodworms")) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_disease("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
+        if (has_effect("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
             good.push_back(_("Intracranial Parasite"));
         }
-        if (has_disease("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
+        if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
-        if (has_disease("tetanus")) {  // Tetanus infection.
+        if (has_effect("tetanus")) {  // Tetanus infection.
             good.push_back(_("Clostridium Tetani Infection"));
         }
         if (good.empty() && bad.empty()) {
@@ -531,120 +542,69 @@ void player::activate_bionic(int b)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
-        add_msg(m_neutral, _("You activate your blood filtration system."));
-        rem_disease("fungus");
-        rem_disease("dermatik");
-        rem_disease("bloodworms");
-        rem_disease("tetanus");
+        remove_effect("fungus");
+        remove_effect("dermatik");
+        remove_effect("bloodworms");
+        remove_effect("tetanus");
         remove_effect("poison");
         remove_effect("stung");
-        rem_disease("pkill1");
-        rem_disease("pkill2");
-        rem_disease("pkill3");
-        rem_disease("pkill_l");
-        rem_disease("drunk");
-        rem_disease("cig");
-        rem_disease("high");
-        rem_disease("hallu");
-        rem_disease("visuals");
-        rem_disease("iodine");
-        rem_disease("datura");
-        rem_disease("took_xanax");
-        rem_disease("took_prozac");
-        rem_disease("took_flumed");
-        rem_disease("adrenaline");
-        rem_disease("meth");
+        remove_effect("pkill1");
+        remove_effect("pkill2");
+        remove_effect("pkill3");
+        remove_effect("pkill_l");
+        remove_effect("drunk");
+        remove_effect("cig");
+        remove_effect("high");
+        remove_effect("hallu");
+        remove_effect("visuals");
+        remove_effect("iodine");
+        remove_effect("datura");
+        remove_effect("took_xanax");
+        remove_effect("took_prozac");
+        remove_effect("took_flumed");
+        remove_effect("adrenaline");
+        remove_effect("meth");
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int humidity = weatherPoint.humidity;
         int water_charges = (humidity * 3.0) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
         if (water_charges == 0) {
             add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        }
-        if (g->handle_liquid(water, true, false)) {
+        } else if (g->handle_liquid(water, true, false)) {
             moves -= 100;
-        } else if (query_yn(_("Drink from your hands?"))) {
-            inv.push_back(water);
-            consume(inv.position_by_type(water.typeId()));
-            moves -= 350;
-        } else if (water.charges == water_charges && water_charges != 0) {
-            power_level += bionics["bio_evap"]->power_cost;
+        } else {
+            water.charges -= drink_from_hands( water );
+            if( water.charges == water_charges ) {
+                power_level += bionics["bio_evap"]->power_activate;
+            }
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
            (!g->m.add_field(dirx, diry, fd_fire, 1))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
-            power_level += bionics["bio_lighter"]->power_cost;
+            power_level += bionics["bio_lighter"]->power_activate;
         }
-
-    }
-    if(bio.id == "bio_leukocyte") {
-        add_msg(m_neutral, _("You activate your leukocyte breeder system."));
+    } else if(bio.id == "bio_leukocyte") {
         set_healthy(std::min(100, get_healthy() + 2));
         mod_healthy_mod(20);
-    }
-    if(bio.id == "bio_geiger") {
+    } else if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
-    }
-    if(bio.id == "bio_radscrubber") {
-        add_msg(m_neutral, _("You activate your radiation scrubber system."));
+    } else if(bio.id == "bio_radscrubber") {
         if (radiation > 4) {
             radiation -= 5;
         } else {
             radiation = 0;
         }
-    }
-    if(bio.id == "bio_adrenaline") {
-        add_msg(m_neutral, _("You activate your adrenaline pump."));
-        if (has_disease("adrenaline")) {
-            add_disease("adrenaline", 50);
+    } else if(bio.id == "bio_adrenaline") {
+        if (has_effect("adrenaline")) {
+            add_effect("adrenaline", 50);
         } else {
-            add_disease("adrenaline", 200);
-        }
-    } else if(bio.id == "bio_claws") {
-        if (weapon.type->id == "bio_claws_weapon") {
-            add_msg(m_neutral, _("You withdraw your claws."));
-            weapon = ret_null;
-        } else if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            power_level += bionics[bio.id]->power_cost;
-            return;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("Your claws extend!"));
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        }
-    } else if(bio.id == "bio_blade") {
-        if (weapon.type->id == "bio_blade_weapon") {
-            add_msg(m_neutral, _("You retract your blade."));
-            weapon = ret_null;
-        } else if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            power_level += bionics[bio.id]->power_cost;
-            return;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("You extend your blade!"));
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
+            add_effect("adrenaline", 200);
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;
@@ -652,7 +612,7 @@ void player::activate_bionic(int b)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_cost;
+            power_level += bionics[bio.id]->power_activate;
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_laser") {
@@ -661,7 +621,7 @@ void player::activate_bionic(int b)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_cost;
+            power_level += bionics[bio.id]->power_activate;
         }
         weapon = tmp_item;
     } else if(bio.id == "bio_chain_lightning") {
@@ -670,58 +630,53 @@ void player::activate_bionic(int b)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_cost;
+            power_level += bionics[bio.id]->power_activate;
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
             g->emp_blast(dirx, diry);
         } else {
-            power_level += bionics["bio_emp"]->power_cost;
+            power_level += bionics["bio_emp"]->power_activate;
         }
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        g->sound(posx, posy, 19, _("HISISSS!"));
+        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
-             it != g->m.i_at(posx, posy).end(); ++it) {
-            if (it->type->id == "corpse" ) {
-                int avail = 0;
-                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
-                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
-                } else {
-                    avail = it->volume() / 2;
-                }
+        for( auto it = g->m.i_at(posx(), posy()).begin();
+             it != g->m.i_at(posx(), posy()).end(); ++it) {
+            if( it->is_corpse() ) {
+                const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
-                    if (g->handle_liquid(water, true, true)) {
+                    water.charges = avail;
+                    if (g->handle_liquid(water, true, false)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condenser?"))) {
-                        inv.push_back(water);
-                        consume(inv.position_by_type(water.typeId()));
-                        moves -= 350;
+                    } else {
+                        water.charges -= drink_from_hands( water );
                     }
-                    extracted = true;
-                    avail--;
-                    it->item_vars["remaining_water"] = string_format("%d", avail);
+                    if( water.charges != avail ) {
+                        extracted = true;
+                        it->set_var( "remaining_water", static_cast<int>( water.charges ) );
+                    }
                     break;
                 }
             }
         }
         if (!extracted) {
-            power_level += bionics["bio_water_extractor"]->power_cost;
+            power_level += bionics["bio_water_extractor"]->power_activate;
         }
     } else if(bio.id == "bio_magnet") {
-        for (int i = posx - 10; i <= posx + 10; i++) {
-            for (int j = posy - 10; j <= posy + 10; j++) {
+        for (int i = posx() - 10; i <= posx() + 10; i++) {
+            for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
                     int t; //not sure why map:sees really needs this, but w/e
-                    if (g->m.sees(i, j, posx, posy, -1, t)) {
-                        traj = line_to(i, j, posx, posy, t);
+                    if (g->m.sees(i, j, posx(), posy(), -1, t)) {
+                        traj = line_to(i, j, posx(), posy(), t);
                     } else {
-                        traj = line_to(i, j, posx, posy, 0);
+                        traj = line_to(i, j, posx(), posy(), 0);
                     }
                 }
                 traj.insert(traj.begin(), point(i, j));
@@ -738,6 +693,7 @@ void player::activate_bionic(int b)
                             int index = g->mon_at(it->x, it->y);
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
+                                g->zombie(index).check_dead_state();
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
                             } else if (g->m.move_cost(it->x, it->y) == 0) {
@@ -756,7 +712,7 @@ void player::activate_bionic(int b)
                             }
                         }
                         if (it == traj.end()) {
-                            g->m.add_item_or_charges(posx, posy, tmp_item);
+                            g->m.add_item_or_charges(posx(), posy(), tmp_item);
                         }
                     }
                 }
@@ -764,68 +720,204 @@ void player::activate_bionic(int b)
         }
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
-        if(!choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)) {
-            power_level += bionics["bio_lockpick"]->power_cost;
-            return;
+        item tmp_item( "pseuso_bio_picklock", 0 );
+        if( tmp_item.type->invoke( this, &tmp_item, false, pos() ) == 0 ) {
+            power_level += bionics["bio_lockpick"]->power_activate;
+            return false;
         }
-        ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                              door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c);
-            // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
-        } else if(type == t_door_bar_locked) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The bars swing open..."),
-                              door_name.c_str()); //Could better copy the messages from lockpick....
-            g->m.ter_set(dirx, diry, t_door_bar_o);
-        } else if(type == t_chaingate_l) {
-            moves -= 40;
-            std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
-                              gate_name.c_str());
-            g->m.ter_set(dirx, diry, t_chaingate_c);
-        } else if (type  == t_door_locked_peep) {
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
-                              door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c_peep);
-        } else if(type == t_door_c) {
-            add_msg(m_info, _("That door isn't locked."));
-        } else {
-            add_msg_if_player(m_neutral, _("You can't unlock that %s."),
-                              g->m.tername(dirx, diry).c_str());
+        if( tmp_item.damage > 0 ) {
+            // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        add_msg_if_player(m_neutral, _("You activate your integrated flashbang generator!"));
-        g->flashbang(posx, posy, true);
+        g->flashbang(posx(), posy(), true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave(posx, posy, 3, 4, 2, 8, true);
+        g->shockwave(posx(), posy(), 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_meteorologist") {
+        // Calculate local wind power
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+        int vehwindspeed = 0;
+        if( veh ) {
+            vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
+
+        add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx(), g->u.posy()))).c_str());
+        add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
+        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
+    } else if(bio.id == "bio_claws") {
+        if (weapon.has_flag ("NO_UNWIELD")) {
+            add_msg(m_info, _("Deactivate your %s first!"),
+                    weapon.tname().c_str());
+            power_level += bionics[bio.id]->power_activate;
+            bio.powered = false;
+            return false;
+        } else if(weapon.type->id != "null") {
+            add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
+                    weapon.tname().c_str());
+            g->m.add_item_or_charges(posx(), posy(), weapon);
+            weapon = item("bio_claws_weapon", 0);
+            weapon.invlet = '#';
+        } else {
+            add_msg(m_neutral, _("Your claws extend!"));
+            weapon = item("bio_claws_weapon", 0);
+            weapon.invlet = '#';
+        }
+    } else if(bio.id == "bio_blade") {
+        if (weapon.has_flag ("NO_UNWIELD")) {
+            add_msg(m_info, _("Deactivate your %s first!"),
+                    weapon.tname().c_str());
+            power_level += bionics[bio.id]->power_activate;
+            bio.powered = false;
+            return false;
+        } else if(weapon.type->id != "null") {
+            add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
+                    weapon.tname().c_str());
+            g->m.add_item_or_charges(posx(), posy(), weapon);
+            weapon = item("bio_blade_weapon", 0);
+            weapon.invlet = '#';
+        } else {
+            add_msg(m_neutral, _("You extend your blade!"));
+            weapon = item("bio_blade_weapon", 0);
+            weapon.invlet = '#';
+        }
+    } else if( bio.id == "bio_remote" ) {
+        int choice = menu( true, _("Perform which function:"), _("Nothing"),
+                           _("Control vehicle"), _("RC radio"), NULL );
+        if( choice >= 2 && choice <= 3 ) {
+            item ctr;
+            if( choice == 2 ) {
+                ctr = item( "remotevehcontrol", 0 );
+            } else {
+                ctr = item( "radiocontrol", 0 );
+            }
+            ctr.charges = power_level;
+            int power_use = ctr.type->invoke( &g->u, &ctr, false, pos() );
+            power_level -= power_use;
+            bio.powered = ctr.active;
+        } else {
+            bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
+        }
     }
+
+    return true;
 }
 
-void player::deactivate_bionic(int b)
+bool player::deactivate_bionic(int b, bool eff_only)
 {
-    bionic bio = my_bionics[b];
+    bionic &bio = my_bionics[b];
 
+    // Just do the effect, no stat changing or messages
+    if (!eff_only) {
+        if (!bio.powered) {
+            // It's already off!
+            return false;
+        }
+        if (!bionics[bio.id]->toggled) {
+            // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
+            add_msg(m_info, _("You can't deactivate your %s manually!"), bionics[bio.id]->name.c_str());
+            return false;
+        }
+        if (power_level < bionics[bio.id]->power_deactivate) {
+            add_msg(m_info, _("You don't have the power to deactivate your %s."), bionics[bio.id]->name.c_str());
+            return false;
+        }
+
+        //We can actually deactivate now, do deactivation-y things
+        power_level -= bionics[bio.id]->power_deactivate;
+        bio.powered = false;
+        add_msg(m_neutral, _("You deactivate your %s."), bionics[bio.id]->name.c_str());
+    }
+
+    // Deactivation effects go here
     if (bio.id == "bio_cqb") {
         // check if player knows current style naturally, otherwise drop them back to style_none
         if (style_selected != "style_none") {
             bool has_style = false;
-            for (std::vector<matype_id>::iterator it = ma_styles.begin();
-                 it != ma_styles.end(); ++it) {
-                if (*it == style_selected) {
+            for( auto &elem : ma_styles ) {
+                if( elem == style_selected ) {
                     has_style = true;
                 }
             }
             if (!has_style) {
                 style_selected = "style_none";
             }
+        }
+    } else if(bio.id == "bio_claws") {
+        if (weapon.type->id == "bio_claws_weapon") {
+            add_msg(m_neutral, _("You withdraw your claws."));
+            weapon = ret_null;
+        }
+    } else if(bio.id == "bio_blade") {
+        if (weapon.type->id == "bio_blade_weapon") {
+            add_msg(m_neutral, _("You retract your blade."));
+            weapon = ret_null;
+        }
+    } else if( bio.id == "bio_remote" ) {
+        if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
+            g->setremoteveh( nullptr );
+        } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
+            set_value( "remote_controlling", "" );
+        }
+    }
+
+    return true;
+}
+
+void player::process_bionic(int b)
+{
+    bionic &bio = my_bionics[b];
+    if (!bio.powered) {
+        // Only powered bionics should be processed
+        return;
+    }
+
+    if (bio.charge > 0) {
+        // Units already with charge just lose charge
+        bio.charge--;
+    } else {
+        if (bionics[bio.id]->charge_time > 0) {
+            // Try to recharge our bionic if it is made for it
+            if (bionics[bio.id]->power_over_time > 0) {
+                if (power_level < bionics[bio.id]->power_over_time) {
+                    // No power to recharge, so deactivate
+                    bio.powered = false;
+                    add_msg(m_neutral, _("Your %s powers down."), bionics[bio.id]->name.c_str());
+                    // This purposely bypasses the deactivation cost
+                    deactivate_bionic(b, true);
+                    return;
+                } else {
+                    // Pay the recharging cost
+                    power_level -= bionics[bio.id]->power_over_time;
+                    // We just spent our first turn of charge, so -1 here
+                    bio.charge = bionics[bio.id]->charge_time - 1;
+                }
+            // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
+            } else {
+                bio.powered = false;
+                add_msg(m_neutral, _("Your %s powers down."), bionics[bio.id]->name.c_str());
+                // This purposely bypasses the deactivation cost
+                deactivate_bionic(b, true);
+                return;
+            }
+        }
+    }
+
+    // Bionic effects on every turn they are active go here.
+    if (bio.id == "bio_night") {
+        if (calendar::turn % 5) {
+            add_msg(m_neutral, _("Artificial night generator active!"));
+        }
+    } else if( bio.id == "bio_remote" ) {
+        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
+            bio.powered = false;
+            add_msg( m_warning, _("Your %s has lost connection and is turning off."), 
+                     bionics[bio.id]->name.c_str() );
         }
     }
 }
@@ -850,7 +942,7 @@ void bionics_uninstall_failure(player *u)
         break;
     }
     add_msg(m_bad, _("Your body is severely damaged!"));
-    u->hurtall(rng(30, 80));
+    u->hurtall(rng(30, 80), u); // stop hurting yourself!
 }
 
 // bionic manipulation chance of success
@@ -861,7 +953,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_electronics * 4 +
                    s_firstaid    * 3 +
                    s_mechanics   * 1;
-    
+
     // Medical residents have some idea what they're doing
     if (g->u.has_trait("PROF_MED")) {
         pl_skill += 3;
@@ -889,16 +981,18 @@ bool player::uninstall_bionic(bionic_id b_id)
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
-    if( item_controller->has_template(b_id) > 0) {
-        const it_bionic *type = dynamic_cast<it_bionic *> (item_controller->find_template(b_id));
-        difficulty = type->difficulty;
+    if( item::type_is_defined( b_id ) ) {
+        auto type = item::find_type( b_id );
+        if( type->bionic ) {
+            difficulty = type->bionic->difficulty;
+        }
     }
 
     if (!has_bionic(b_id)) {
         popup(_("You don't have this bionic installed."));
         return false;
     }
-    if (!(inv.has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
+    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
@@ -936,7 +1030,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
-        g->m.spawn_item(posx, posy, "burnt_out_bionic", 1);
+        g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
                          pgettext("memorial_female", "Removed bionic: %s."),
@@ -947,27 +1041,29 @@ bool player::uninstall_bionic(bionic_id b_id)
     return true;
 }
 
-bool player::install_bionics(it_bionic *type)
+bool player::install_bionics(const itype &type)
 {
-    if (type == NULL) {
+    if( type.bionic.get() == nullptr ) {
         debugmsg("Tried to install NULL bionic");
         return false;
     }
-    if (bionics.count(type->id) == 0) {
-        popup("invalid / unknown bionic id %s", type->id.c_str());
+    const std::string bioid = type.bionic->bionic_id;
+    if( bionics.count( bioid ) == 0 ) {
+        popup("invalid / unknown bionic id %s", bioid.c_str());
         return false;
     }
-    if (has_bionic(type->id)) {
-        if (!(type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII")) {
+    if( has_bionic( bioid ) ) {
+        if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
             popup(_("You have already installed this bionic."));
             return false;
         }
     }
+    const int difficult = type.bionic->difficulty;
     int chance_of_success = bionic_manip_cos(int_cur,
                             skillLevel("electronics"),
                             skillLevel("firstaid"),
                             skillLevel("mechanics"),
-                            type->difficulty);
+                            difficult);
 
     if (!query_yn(
             _("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),
@@ -975,39 +1071,38 @@ bool player::install_bionics(it_bionic *type)
         return false;
     }
     int pow_up = 0;
-    if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
+    if( bioid == "bio_power_storage" ) {
         pow_up = BATTERY_AMOUNT;
-        if (type->id == "bio_power_storage_mkII") {
-            pow_up = 250;
-        }
+    } else if( bioid == "bio_power_storage_mkII" ) {
+        pow_up = 250;
     }
 
     practice( "electronics", int((100 - chance_of_success) * 1.5) );
     practice( "firstaid", int((100 - chance_of_success) * 1.0) );
     practice( "mechanics", int((100 - chance_of_success) * 0.5) );
-    int success = chance_of_success - rng(1, 100);
+    int success = chance_of_success - rng(0, 99);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
-                         bionics[type->id]->name.c_str());
+                         bionics[bioid]->name.c_str());
         if (pow_up) {
             max_power_level += pow_up;
             add_msg_if_player(m_good, _("Increased storage capacity by %i"), pow_up);
         } else {
-            add_msg(m_good, _("Successfully installed %s."), bionics[type->id]->name.c_str());
-            add_bionic(type->id);
+            add_msg(m_good, _("Successfully installed %s."), bionics[bioid]->name.c_str());
+            add_bionic(bioid);
         }
     } else {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
-                         bionics[type->id]->name.c_str());
-        bionics_install_failure(this, type, success);
+                         bionics[bioid]->name.c_str());
+        bionics_install_failure(this, difficult, success);
     }
     g->refresh_all();
     return true;
 }
 
-void bionics_install_failure(player *u, it_bionic *type, int success)
+void bionics_install_failure(player *u, int difficulty, int success)
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -1019,7 +1114,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
-    // Medical resients get a substantial assist here
+    // Medical residents get a substantial assist here
     if (u->has_trait("PROF_MED")) {
         pl_skill += 6;
     }
@@ -1032,7 +1127,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = int(sqrt(success * 4.0 * type->difficulty / float (adjusted_skill)));
+    int failure_level = int(sqrt(success * 4.0 * difficulty / float (adjusted_skill)));
     int fail_type = (failure_level > 5 ? 5 : failure_level);
 
     if (fail_type <= 0) {
@@ -1067,7 +1162,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
             fail_type = rng(1,3);
         }
     }
-    
+
     if (fail_type == 3 && u->num_bionics() == 0) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
@@ -1083,7 +1178,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
     case 2:
         add_msg(m_bad, _("Your body is damaged!"));
-        u->hurtall(rng(failure_level, failure_level * 2));
+        u->hurtall(rng(failure_level, failure_level * 2), u); // you hurt yourself
         break;
 
     case 3:
@@ -1108,10 +1203,9 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     case 5: {
         add_msg(m_bad, _("The installation is faulty!"));
         std::vector<bionic_id> valid;
-        for (std::vector<std::string>::iterator it = faulty_bionics.begin() ; it != faulty_bionics.end();
-             ++it) {
-            if (!u->has_bionic(*it)) {
-                valid.push_back(*it);
+        for( auto &faulty_bionic : faulty_bionics ) {
+            if( !u->has_bionic( faulty_bionic ) ) {
+                valid.push_back( faulty_bionic );
             }
         }
         if (valid.empty()) { // We've got all the bad bionics!
@@ -1138,9 +1232,8 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
 void reset_bionics()
 {
-    for (std::map<bionic_id, bionic_data *>::iterator bio = bionics.begin(); bio != bionics.end();
-         ++bio) {
-        delete bio->second;
+    for( auto &bionic : bionics ) {
+        delete bionic.second;
     }
     bionics.clear();
     faulty_bionics.clear();
@@ -1153,11 +1246,18 @@ void load_bionic(JsonObject &jsobj)
     std::string id = jsobj.get_string("id");
     std::string name = _(jsobj.get_string("name").c_str());
     std::string description = _(jsobj.get_string("description").c_str());
-    int cost = jsobj.get_int("cost", 0);
+    int on_cost = jsobj.get_int("act_cost", 0);
+
+    bool toggled = jsobj.get_bool("toggled", false);
+    // Requires ability to toggle
+    int off_cost = jsobj.get_int("deact_cost", 0);
+
     int time = jsobj.get_int("time", 0);
+    // Requires a non-zero time
+    int react_cost = jsobj.get_int("react_cost", 0);
+
     bool faulty = jsobj.get_bool("faulty", false);
     bool power_source = jsobj.get_bool("power_source", false);
-    bool active = jsobj.get_bool("active", false);
 
     if (faulty) {
         faulty_bionics.push_back(id);
@@ -1165,9 +1265,10 @@ void load_bionic(JsonObject &jsobj)
     if (power_source) {
         power_source_bionics.push_back(id);
     }
-    if (!active) {
+    // Things are activatable if they are toggleable, have a activation cost, or have a activation time
+    if (!toggled && on_cost <= 0 && time <= 0) {
         unpowered_bionics.push_back(id);
     }
 
-    bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
+    bionics[id] = new bionic_data(name, power_source, toggled, on_cost, off_cost, react_cost, time, description, faulty);
 }

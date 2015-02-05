@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
 // can load from json
 #include "effect.h"
@@ -37,6 +37,7 @@
 #include "game.h"
 #include "faction.h"
 #include "npc.h"
+#include "item_action.h"
 
 #include <string>
 #include <vector>
@@ -123,6 +124,7 @@ void DynamicDataLoader::initialize()
         &ammunition_type::load_ammunition_type);
     type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
+    type_function_map["item_action"] = new StaticFunctionAccessor(&item_action::load_item_action);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
@@ -165,6 +167,8 @@ void DynamicDataLoader::initialize()
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+    type_function_map["MONSTER_FACTION"] = new ClassFunctionAccessor<MonsterGenerator>
+    (&MonsterGenerator::generator(), &MonsterGenerator::load_monster_faction);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
@@ -201,13 +205,13 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+
 }
 
 void DynamicDataLoader::reset()
 {
-    for(t_type_function_map::iterator a = type_function_map.begin(); a != type_function_map.end();
-        ++a) {
-        delete a->second;
+    for( auto &elem : type_function_map ) {
+        delete elem.second;
     }
     type_function_map.clear();
 }
@@ -221,7 +225,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = file_finder::get_files_from_path(".json", path, true, true);
+    str_vec files = get_files_from_path(".json", path, true, true);
     if (files.empty()) {
         std::ifstream tmp(path.c_str(), std::ios::in);
         if (tmp) {
@@ -231,8 +235,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
         }
     }
     // iterate over each file
-    for (size_t i = 0; i < files.size(); i++) {
-        const std::string &file = files[i];
+    for( auto &files_i : files ) {
+        const std::string &file = files_i;
         // open the file as a stream
         std::ifstream infile(file.c_str(), std::ifstream::in | std::ifstream::binary);
         // and stuff it into ram
@@ -345,6 +349,7 @@ void DynamicDataLoader::unload_data()
     reset_speech();
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
+    ammunition_type::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -359,6 +364,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_overmap_terrain();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
+    MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
     g->finalize_vehicles();
     item_controller->finialize_item_blacklist();
@@ -369,6 +375,7 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::check_consistency()
 {
     item_controller->check_definitions();
+    g->check_vehicleparts();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();

@@ -51,13 +51,12 @@ std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
 std::string dependency_node::s_errors()
 {
     std::stringstream ret;
-    for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin();
-         it != all_errors.end(); ++it) {
-        ret << error_keyvals[(unsigned)(it->first)];
-        for (std::vector<std::string>::iterator str = it->second.begin();
-             str != it->second.end(); ++str) {
+    for( auto &elem : all_errors ) {
+        ret << error_keyvals[(unsigned)( elem.first )];
+        for( std::vector<std::string>::iterator str = elem.second.begin(); str != elem.second.end();
+             ++str ) {
             ret << *str;
-            if (str != it->second.end() - 1) {
+            if( str != elem.second.end() - 1 ) {
                 ret << ", ";
             }
         }
@@ -70,9 +69,8 @@ void dependency_node::check_cyclicity()
     std::stack<dependency_node *> nodes_to_check;
     std::set<std::string> nodes_visited;
 
-    for (std::vector<dependency_node *>::iterator it = parents.begin();
-         it != parents.end(); ++it) {
-        nodes_to_check.push(*it);
+    for( auto &elem : parents ) {
+        nodes_to_check.push( elem );
     }
     nodes_visited.insert(key);
 
@@ -89,10 +87,8 @@ void dependency_node::check_cyclicity()
 
         // add check parents, if exist, to stack
         if (!check->parents.empty()) {
-            for (std::vector<dependency_node *>::iterator it =
-                     check->parents.begin();
-                 it != check->parents.end(); ++it) {
-                nodes_to_check.push(*it);
+            for( auto &elem : check->parents ) {
+                nodes_to_check.push( elem );
             }
         }
         nodes_visited.insert(check->key);
@@ -102,9 +98,8 @@ void dependency_node::check_cyclicity()
 bool dependency_node::has_errors()
 {
     bool ret = false;
-    for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin();
-         it != all_errors.end(); ++it) {
-        if (!it->second.empty()) {
+    for( auto &elem : all_errors ) {
+        if( !elem.second.empty() ) {
             ret = true;
             break;
         }
@@ -117,9 +112,8 @@ void dependency_node::inherit_errors()
     std::stack<dependency_node * > nodes_to_check;
     std::set<std::string> nodes_visited;
 
-    for (std::vector<dependency_node *>::iterator it = parents.begin();
-         it != parents.end(); ++it) {
-        nodes_to_check.push(*it);
+    for( auto &elem : parents ) {
+        nodes_to_check.push( elem );
     }
     nodes_visited.insert(key);
 
@@ -130,16 +124,14 @@ void dependency_node::inherit_errors()
         // add check errors
         if (check->errors().size() > 0) {
             std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
-            for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = cerrors.begin();
-                 it != cerrors.end(); ++it) {
-                std::vector<std::string> node_errors = it->second;
-                NODE_ERROR_TYPE error_type = it->first;
+            for( auto &cerror : cerrors ) {
+                std::vector<std::string> node_errors = cerror.second;
+                NODE_ERROR_TYPE error_type = cerror.first;
                 std::vector<std::string> cur_errors = all_errors[error_type];
-                for (std::vector<std::string>::iterator error =
-                         node_errors.begin();
-                     error != node_errors.end(); ++error) {
-                    if (std::find(cur_errors.begin(), cur_errors.end(), *error) == cur_errors.end()) {
-                        all_errors[it->first].push_back(*error);
+                for( auto &node_error : node_errors ) {
+                    if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
+                        cur_errors.end() ) {
+                        all_errors[cerror.first].push_back( node_error );
                     }
                 }
             }
@@ -149,10 +141,8 @@ void dependency_node::inherit_errors()
         }
         // add check parents, if exist, to stack
         if (!check->parents.empty()) {
-            for (std::vector<dependency_node *>::iterator it =
-                     check->parents.begin();
-                 it != check->parents.end(); ++it) {
-                nodes_to_check.push(*it);
+            for( auto &elem : check->parents ) {
+                nodes_to_check.push( elem );
             }
         }
         nodes_visited.insert(check->key);
@@ -165,9 +155,8 @@ std::vector<std::string > dependency_node::get_dependencies_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
 
-    for (std::vector<dependency_node *>::iterator it = as_nodes.begin();
-         it != as_nodes.end(); ++it) {
-        ret.push_back((*it)->key);
+    for( auto &as_node : as_nodes ) {
+        ret.push_back( ( as_node )->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -181,9 +170,8 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
     std::set<std::string> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for (std::vector<dependency_node *>::iterator it = parents.begin();
-         it != parents.end(); ++it) {
-        nodes_to_check.push(*it);
+    for( auto &elem : parents ) {
+        nodes_to_check.push( elem );
     }
     found.insert(key);
 
@@ -201,10 +189,8 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
 
         // add parents to check list
         if (!check->parents.empty()) {
-            for (std::vector<dependency_node *>::iterator it =
-                     check->parents.begin();
-                 it != check->parents.end(); ++it) {
-                nodes_to_check.push(*it);
+            for( auto &elem : check->parents ) {
+                nodes_to_check.push( elem );
             }
         }
         found.insert(check->key);
@@ -228,9 +214,8 @@ std::vector<std::string> dependency_node::get_dependents_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
 
-    for (std::vector<dependency_node *>::iterator it = as_nodes.begin();
-         it != as_nodes.end(); ++it) {
-        ret.push_back((*it)->key);
+    for( auto &as_node : as_nodes ) {
+        ret.push_back( ( as_node )->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -243,9 +228,8 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     std::set<std::string> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for (std::vector<dependency_node *>::iterator it = children.begin();
-         it != children.end(); ++it) {
-        nodes_to_check.push(*it);
+    for( auto &elem : children ) {
+        nodes_to_check.push( elem );
     }
     found.insert(key);
 
@@ -260,20 +244,17 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
         dependents.push_back(check);
 
         if (!check->children.empty()) {
-            for (std::vector<dependency_node *>::iterator it =
-                     check->children.begin();
-                 it != check->children.end(); ++it) {
-                nodes_to_check.push(*it);
+            for( auto &elem : check->children ) {
+                nodes_to_check.push( elem );
             }
         }
         found.insert(check->key);
     }
 
     // sort from front, keeping only one copy of the node
-    for (std::vector<dependency_node *>::iterator it = dependents.begin();
-         it != dependents.end(); ++it) {
-        if (std::find(ret.begin(), ret.end(), *it) == ret.end()) {
-            ret.push_back(*it);
+    for( auto &dependent : dependents ) {
+        if( std::find( ret.begin(), ret.end(), dependent ) == ret.end() ) {
+            ret.push_back( dependent );
         }
     }
 
@@ -302,12 +283,11 @@ void dependency_tree::init(std::map<std::string, std::vector<std::string> > key_
 void dependency_tree::build_node_map(std::map<std::string, std::vector<std::string > >
                                      key_dependency_map)
 {
-    for (std::map<std::string, std::vector<std::string> >::iterator kvp = key_dependency_map.begin();
-         kvp != key_dependency_map.end(); ++kvp) {
+    for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
-        if (master_node_map.find(kvp->first) == master_node_map.end()) {
+        if( master_node_map.find( elem.first ) == master_node_map.end() ) {
             // it does, so get the Node
-            master_node_map[kvp->first] = new dependency_node(kvp->first);
+            master_node_map[elem.first] = new dependency_node( elem.first );
         }
     }
 }
@@ -315,25 +295,23 @@ void dependency_tree::build_node_map(std::map<std::string, std::vector<std::stri
 void dependency_tree::build_connections(std::map<std::string, std::vector<std::string > >
                                         key_dependency_map)
 {
-    for (std::map<std::string, std::vector<std::string> >::iterator kvp = key_dependency_map.begin();
-         kvp != key_dependency_map.end(); ++kvp) {
+    for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
-        if (master_node_map.find(kvp->first) != master_node_map.end()) {
+        if( master_node_map.find( elem.first ) != master_node_map.end() ) {
             // it does, so get the Node
-            dependency_node *knode = master_node_map[kvp->first];
+            dependency_node *knode = master_node_map[elem.first];
 
             // apply parents list
-            std::vector<std::string> vnode_parents = kvp->second;
-            for (std::vector<std::string>::iterator vit = vnode_parents.begin(); vit != vnode_parents.end();
-                 ++vit) {
-                if (master_node_map.find(*vit) != master_node_map.end()) {
-                    dependency_node *vnode = master_node_map[*vit];
+            std::vector<std::string> vnode_parents = elem.second;
+            for( auto &vnode_parent : vnode_parents ) {
+                if( master_node_map.find( vnode_parent ) != master_node_map.end() ) {
+                    dependency_node *vnode = master_node_map[vnode_parent];
 
                     knode->add_parent(vnode);
                     vnode->add_child(knode);
                 } else {
                     // missing dependency!
-                    knode->all_errors[DEPENDENCY].push_back("<" + *vit + ">");
+                    knode->all_errors[DEPENDENCY].push_back( "<" + vnode_parent + ">" );
                 }
             }
         }
@@ -342,9 +320,8 @@ void dependency_tree::build_connections(std::map<std::string, std::vector<std::s
     // finalize and check for circular dependencies
     check_for_strongly_connected_components();
 
-    for (std::map<std::string, dependency_node *>::iterator kvp = master_node_map.begin();
-         kvp != master_node_map.end(); ++kvp) {
-        kvp->second->inherit_errors();
+    for( auto &elem : master_node_map ) {
+        elem.second->inherit_errors();
     }
 }
 std::vector<std::string> dependency_tree::get_dependencies_of_X_as_strings(std::string key)
@@ -392,9 +369,8 @@ void dependency_tree::clear()
 {
     // remove all keys and nodes from the master_node_map
     if (!master_node_map.empty()) {
-        for (std::map<std::string, dependency_node *>::iterator it = master_node_map.begin();
-             it != master_node_map.end(); ++it) {
-            delete it->second;
+        for( auto &elem : master_node_map ) {
+            delete elem.second;
         }
 
         master_node_map.clear();
@@ -415,33 +391,28 @@ void dependency_tree::check_for_strongly_connected_components()
     open_index = 0;
     connection_stack = std::stack<dependency_node *>();
 
-    for (std::map<std::string, dependency_node *>::iterator g = master_node_map.begin();
-         g != master_node_map.end(); ++g) {
+    for( auto &elem : master_node_map ) {
         //nodes_on_stack = std::vector<dependency_node*>();
         // clear it for the next stack to run
-        if (g->second->index < 0) {
-            strong_connect(g->second);
+        if( elem.second->index < 0 ) {
+            strong_connect( elem.second );
         }
     }
 
     // now go through and make a set of these
     std::set<dependency_node *> in_circular_connection;
-    for (std::vector<std::vector<dependency_node *> >::iterator it =
-             strongly_connected_components.begin();
-         it != strongly_connected_components.end(); ++it) {
-        if (it->size() > 1) {
-            for (std::vector<dependency_node *>::iterator node = it->begin();
-                 node != it->end(); ++node) {
-                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << (*node)->key << "\n";
-                in_circular_connection.insert(*node);
+    for( auto &elem : strongly_connected_components ) {
+        if( elem.size() > 1 ) {
+            for( auto &elem_node : elem ) {
+                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << ( elem_node )->key << "\n";
+                in_circular_connection.insert( elem_node );
             }
 
         }
     }
     // now go back through this and give them all the circular error code!
-    for (std::set<dependency_node *>::iterator it = in_circular_connection.begin();
-         it != in_circular_connection.end(); ++it) {
-        (*it)->all_errors[CYCLIC].push_back("In Circular Dependency Cycle");
+    for( const auto &elem : in_circular_connection ) {
+        ( elem )->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
     }
 }
 

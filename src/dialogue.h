@@ -47,11 +47,11 @@ struct talk_function {
     void insult_combat        (npc *);
     void reveal_stats         (npc *);
     void follow               (npc *); // p follows u
-    void deny_follow          (npc *); // p gets DI_ASKED_TO_FOLLOW
-    void deny_lead            (npc *); // p gets DI_ASKED_TO_LEAD
-    void deny_equipment       (npc *); // p gets DI_ASKED_FOR_ITEM
-    void deny_train           (npc *); // p gets DI_ASKED_TO_TRAIN
-    void deny_personal_info   (npc *); // p gets DI_ASKED_PERSONAL_INFO
+    void deny_follow          (npc *); // p gets "asked_to_follow"
+    void deny_lead            (npc *); // p gets "asked_to_lead"
+    void deny_equipment       (npc *); // p gets "asked_for_item"
+    void deny_train           (npc *); // p gets "asked_to_train"
+    void deny_personal_info   (npc *); // p gets "asked_personal_info"
     void enslave              (npc *) {}; // p becomes slave of u
     void hostile              (npc *); // p turns hostile to u
     void flee                 (npc *);
@@ -93,7 +93,7 @@ struct talk_response {
     int mission_index;
     mission_id miss; // If it generates a new mission
     int tempvalue; // Used for various stuff
-    Skill *skill;
+    const Skill* skill;
     matype_id style;
     npc_opinion opinion_success;
     npc_opinion opinion_failure;

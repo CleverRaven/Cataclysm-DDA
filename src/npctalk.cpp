@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
+#include "ammo.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -967,7 +968,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("I don't know, look for supplies and other survivors I guess.");
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease(_("asked_for_item"))) {
+            if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
             }
             return _("Why should I share my equipment with you?");
@@ -987,7 +988,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
-            std::vector<Skill*> trainable = p->skills_offered_to(&(g->u));
+            std::vector<const Skill*> trainable = p->skills_offered_to(&(g->u));
             std::vector<matype_id> styles = p->styles_offered_to(&(g->u));
             if (trainable.empty() && styles.empty()) {
                 return _("Sorry, but it doesn't seem I have anything to teach you.");
@@ -1009,10 +1010,10 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Alright, let's begin.");
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease(_("infection"))) {
+            if (p->has_effect(_("infection"))) {
                 return _("Not until I get some antibiotics...");
             }
-            if (p->has_disease(_("asked_to_follow"))) {
+            if (p->has_effect(_("asked_to_follow"))) {
                 return _("You asked me recently; ask again later.");
             }
             return _("Why should I travel with you?");
@@ -1039,7 +1040,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             {
             // TODO: this ignores the z-component
             const tripoint player_pos = g->om_global_location();
-            int dist = rl_dist(player_pos.x, player_pos.y, p->goal.x, p->goal.y);
+            int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
             if (dist >= 1300) {
@@ -2091,6 +2092,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 RESPONSE(_("Want to travel with me?"));
                     SUCCESS(TALK_SUGGEST_FOLLOW);
             }
+            RESPONSE(_("Let's trade items."));
+                SUCCESS(TALK_NONE);
+                SUCCESS_ACTION(&talk_function::start_trade);
             if (p->chatbin.missions_assigned.size() == 1) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
@@ -2111,14 +2115,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease(_("asked_for_item"))) {
+            if (p->has_effect(_("asked_for_item"))) {
                 RESPONSE(_("Okay, fine."));
                     SUCCESS(TALK_NONE);
             } else {
                 int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                               p->personality.altruism * 2;
                 int missions_value = p->assigned_missions_value();
-                if (g->u.has_amount(_("mininuke"), 1)) {
+                if (g->u.has_amount("mininuke", 1)) {
                     RESPONSE(_("Because I'm holding a thermal detonator!"));
                         SUCCESS(TALK_GIVE_EQUIPMENT);
                             SUCCESS_ACTION(&talk_function::give_equipment);
@@ -2187,7 +2191,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                Skill *skillt = Skill::skill(backlog.name);
+                const Skill* skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
                     resume << martialarts[backlog.name].name;
                     SELECT_STYLE(resume.str(), backlog.name);
@@ -2198,7 +2202,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_TRAIN_START);
             }
             std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
-            std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
+            std::vector<const Skill*> trainable = p->skills_offered_to( &(g->u) );
             if (trainable.empty() && styles.empty()) {
                 RESPONSE(_("Oh, okay.")); // Nothing to learn here
                     SUCCESS(TALK_NONE);
@@ -2210,7 +2214,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             for (size_t i = shift; i < trainable.size() && printed < 9; i++) {
                 //shift--;
                 printed++;
-                Skill* trained = trainable[i];
+                const Skill* trained = trainable[i];
                 SELECT_SKIL(string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1,
                       200 * (g->u.skillLevel(trained) + 1)),
@@ -2270,10 +2274,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease(_("infection"))) {
+            if (p->has_effect(_("infection"))) {
                 RESPONSE(_("Understood.  I'll get those antibiotics."));
                     SUCCESS(TALK_NONE);
-            } else if (p->has_disease(_("asked_to_follow"))) {
+            } else if (p->has_effect(_("asked_to_follow"))) {
                 RESPONSE(_("Right, right, I'll ask later."));
                     SUCCESS(TALK_NONE);
             } else {
@@ -2338,7 +2342,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             }
                 RESPONSE(_("I'm going to go my own way for a while."));
                     SUCCESS(TALK_LEAVE);
-            if (!p->has_disease(_("asked_to_lead"))) {
+            if (!p->has_effect(_("asked_to_lead"))) {
                 RESPONSE(_("I'd like to lead for a while."));
                     TRIAL(TALK_TRIAL_PERSUADE, persuade);
                         SUCCESS(TALK_PLAYER_LEADS);
@@ -2404,7 +2408,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Can I do anything for you?"));
                 SUCCESS(TALK_MISSION_LIST);
             SELECT_TEMP(_("Can you teach me anything?"), 0);
-            if (!p->has_disease("asked_to_train")) {
+            if (!p->has_effect("asked_to_train")) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
                 TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
@@ -2417,7 +2421,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->is_following() && g->m.camp_at(g->u.posx, g->u.posy)) {
+            if (p->is_following() && g->m.camp_at(g->u.posx(), g->u.posy())) {
                 RESPONSE(_("Wait at this base."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::assign_base);
@@ -2434,7 +2438,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             }
             if (p->is_following()) {
                 RESPONSE(_("I'd like to know a bit more about you..."));
-                if (!p->has_disease("asked_personal_info")) {
+                if (!p->has_effect("asked_personal_info")) {
                     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                     3 * p->op_of_u.anger + p->op_of_u.owed / 25;
                     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
@@ -2968,7 +2972,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
 void talk_function::assign_base(npc *p)
 {
     // TODO: decide what to do upon assign? maybe pathing required
-    basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
+    basecamp* camp = g->m.camp_at(g->u.posx(), g->u.posy());
     if(!camp) {
         dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
         return;
@@ -3050,7 +3054,7 @@ void talk_function::give_equipment(npc *p)
 
     g->u.i_add( it );
     p->op_of_u.owed -= prices[chosen];
-    p->add_disease("asked_for_item", 1800);
+    p->add_effect("asked_for_item", 1800);
 }
 
 void talk_function::follow(npc *p)
@@ -3060,27 +3064,27 @@ void talk_function::follow(npc *p)
 
 void talk_function::deny_follow(npc *p)
 {
-    p->add_disease("asked_to_follow", 3600);
+    p->add_effect("asked_to_follow", 3600);
 }
 
 void talk_function::deny_lead(npc *p)
 {
- p->add_disease("asked_to_lead", 3600);
+ p->add_effect("asked_to_lead", 3600);
 }
 
 void talk_function::deny_equipment(npc *p)
 {
- p->add_disease("asked_for_item", 600);
+ p->add_effect("asked_for_item", 600);
 }
 
 void talk_function::deny_train(npc *p)
 {
- p->add_disease("asked_to_train", 3600);
+ p->add_effect("asked_to_train", 3600);
 }
 
 void talk_function::deny_personal_info(npc *p)
 {
- p->add_disease("asked_personal_info", 1800);
+ p->add_effect("asked_personal_info", 1800);
 }
 
 void talk_function::hostile(npc *p)
@@ -3126,7 +3130,7 @@ void talk_function::player_leaving(npc *p)
 
 void talk_function::drop_weapon(npc *p)
 {
- g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
+ g->m.add_item_or_charges(p->posx(), p->posy(), p->remove_weapon());
 }
 
 void talk_function::player_weapon_away(npc *p)
@@ -3138,7 +3142,7 @@ void talk_function::player_weapon_away(npc *p)
 void talk_function::player_weapon_drop(npc *p)
 {
     (void)p; // unused
-    g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.remove_weapon());
+    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), g->u.remove_weapon());
 }
 
 void talk_function::lead_to_safety(npc *p)
@@ -3197,7 +3201,7 @@ void talk_function::set_engagement_all(npc *p)
 void talk_function::start_training(npc *p)
 {
  int cost = 0, time = 0;
- Skill* sk_used = NULL;
+ const Skill* sk_used = NULL;
  std::string name;
  if (p->chatbin.skill == NULL) {
   // we're training a martial art style
@@ -3218,7 +3222,7 @@ void talk_function::start_training(npc *p)
   return;
 // Then receive it
  g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
- p->add_disease("asked_to_train", 3600);
+ p->add_effect("asked_to_train", 3600);
 }
 
 void parse_tags(std::string &phrase, const player *u, const npc *me)
@@ -3256,8 +3260,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
     if (!me->weapon.is_gun())
      phrase.replace(fa, l, _("BADAMMO"));
     else {
-     it_gun* gun = dynamic_cast<it_gun*>(me->weapon.type);
-     phrase.replace(fa, l, ammo_name(gun->ammo));
+     phrase.replace(fa, l, ammunition_type::find_ammunition_type( me->weapon.ammo_type() )->name() );
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {
@@ -3302,8 +3305,8 @@ talk_topic dialogue::opt(talk_topic topic)
 // Number of lines to highlight
  int hilight_lines = 1;
  std::vector<std::string> folded = foldstring(challenge, FULL_SCREEN_WIDTH / 2);
- for (size_t i = 0; i < folded.size(); i++) {
-  history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
   hilight_lines++;
  }
 
@@ -3400,8 +3403,8 @@ talk_topic dialogue::opt(talk_topic topic)
 
  std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for( size_t i = 0; i < folded.size(); ++i ){
-   history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
    hilight_lines++;
  }
 
@@ -3681,8 +3684,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             }
         }
         // Do it in two passes, so removing items doesn't corrupt yours[]
-        for (size_t i = 0; i < removing.size(); i++) {
-            g->u.i_rem(removing[i]);
+        for( auto &elem : removing ) {
+            g->u.i_rem( elem );
         }
 
         for (size_t i = 0; i < theirs.size(); i++) {

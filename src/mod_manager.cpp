@@ -1,8 +1,7 @@
 #include "mod_manager.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "debug.h"
 #include "output.h"
-#include "file_wrapper.h"
 #include "worldfactory.h"
 #include "path_info.h"
 
@@ -10,16 +9,9 @@
 #include <queue>
 #include <iostream>
 #include <fstream>
-// FILE I/O
+
 #include "json.h"
 #include <fstream>
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
@@ -40,8 +32,8 @@ dependency_tree &mod_manager::get_tree()
 void mod_manager::clear()
 {
     tree.clear();
-    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
-        delete a->second;
+    for( auto &elem : mod_map ) {
+        delete elem.second;
     }
     mod_map.clear();
     default_mods.clear();
@@ -59,8 +51,8 @@ void mod_manager::refresh_mod_list()
     // remove these mods from the list, so they do not appear to the user
     remove_mod("user:default");
     remove_mod("dev:default");
-    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
-        mod_dependency_map[a->second->ident] = a->second->dependencies;
+    for( auto &elem : mod_map ) {
+        mod_dependency_map[elem.second->ident] = elem.second->dependencies;
     }
     tree.init(mod_dependency_map);
 }
@@ -91,15 +83,15 @@ bool mod_manager::has_mod(const std::string &ident) const
 
 void mod_manager::load_mods_from(std::string path)
 {
-    std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
-    for (size_t i = 0; i < mod_files.size(); ++i) {
-        load_mod_info(mod_files[i]);
+    auto const mod_files = get_files_from_path(MOD_SEARCH_FILE, path, true);
+    for( auto &mod_file : mod_files ) {
+        load_mod_info( mod_file );
     }
     if (file_exist(FILENAMES["mods-dev-default"])) {
         load_mod_info(FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(FILENAMES["mods-user-defaults"])) {
-        load_mod_info(FILENAMES["mods-user-defaults"]);
+    if (file_exist(FILENAMES["mods-user-default"])) {
+        load_mod_info(FILENAMES["mods-user-default"]);
     }
 }
 
@@ -116,6 +108,15 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
     }
+    if( jo.has_bool( "obsolete" ) ) {
+        // Marked obsolete, no need to try to load anything else.
+        MOD_INFORMATION *modfile = new MOD_INFORMATION;
+        modfile->ident = m_ident;
+        modfile->obsolete = true;
+        mod_map[modfile->ident] = modfile;
+        return;
+    }
+
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
     std::vector<std::string> m_authors;
     if (jo.has_array("authors")) {
@@ -199,7 +200,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
     default_mods = mods;
     std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Can not open %s for writing"), FILENAMES["mods-user-default"].c_str());
         return false;
     }
     try {
@@ -214,7 +215,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-default"].c_str());
     } catch(std::string e) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());
@@ -250,10 +251,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         size_t start_index = mod->path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true,
-                                               true);
-        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions,
-                                               mod->path, true);
+        auto input_files = get_files_from_path(".json", mod->path, true, true);
+        auto input_dirs  = get_directories_with(search_extensions, mod->path, true);
 
         if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
             // Self contained mod, all data is inside the modinfo.json file
@@ -274,8 +273,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        for (size_t j = 0; j < input_dirs.size(); ++j) {
-            dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
+        for( auto &input_dir : input_dirs ) {
+            dir_to_make.push( cur_mod_dir.str() + "/" + input_dir.substr( start_index ) );
         }
 
         while (!dir_to_make.empty()) {
@@ -289,11 +288,11 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::ofstream fout;
         // trim file paths from full length down to just /data forward
-        for (size_t j = 0; j < input_files.size(); ++j) {
-            std::string output_path = input_files[j];
+        for( auto &input_file : input_files ) {
+            std::string output_path = input_file;
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
 
-            std::ifstream infile(input_files[j].c_str(), std::ifstream::in | std::ifstream::binary);
+            std::ifstream infile( input_file.c_str(), std::ifstream::in | std::ifstream::binary );
             // and stuff it into ram
             std::istringstream iss(
                 std::string(

@@ -1,0 +1,83 @@
+[
+    {
+        "type" : "item_action",
+        "id" : "SEW",
+        "name" : "Sew"
+    },{
+        "type" : "item_action",
+        "id" : "KNIFE",
+        "name" : "Use as knife"
+    },{
+        "type" : "item_action",
+        "id" : "firestarter",
+        "name" : "Start a fire quickly"
+    },{
+        "type" : "item_action",
+        "id" : "HAMMER",
+        "name" : "Pull out nails"
+    },{
+        "type" : "item_action",
+        "id" : "SOLDER_WELD",
+        "name" : "Repair metal/plastic/kevlar"
+    },{
+        "type" : "item_action",
+        "id" : "picklock",
+        "name" : "Pick a lock"
+    },{
+        "type" : "item_action",
+        "id" : "CROWBAR",
+        "name" : "Pry crate, window or door"
+    },{
+        "type" : "item_action",
+        "id" : "MAKEMOUND",
+        "name" : "Upturn earth"
+    },{
+        "type" : "item_action",
+        "id" : "PICKAXE",
+        "name" : "Dig through rock"
+    },{
+        "type" : "item_action",
+        "id" : "GEIGER",
+        "name" : "Use geiger counter"
+    },{
+        "type" : "item_action",
+        "id" : "HACKSAW",
+        "name" : "Cut metal"
+    },{
+        "type" : "item_action",
+        "id" : "BOLTCUTTERS",
+        "name" : "Cut bolts or wires"
+    },{
+        "type" : "item_action",
+        "id" : "HOTPLATE",
+        "name" : "Heat up food"
+    },{
+        "type" : "item_action",
+        "id" : "MISC_REPAIR",
+        "name" : "Repair wood/bone/chitin"
+    },{
+        "type" : "item_action",
+        "id" : "GUN_REPAIR",
+        "name" : "Repair a gun"
+    },{
+        "type" : "item_action",
+        "id" : "ROBOTCONTROL",
+        "name" : "Hack a robot"
+    },{
+        "type" : "item_action",
+        "id" : "VITAMINS",
+        "name" : "Take vitamins"
+    },{
+        "type" : "item_action",
+        "id" : "METH",
+        "name" : "Smoke/snort meth"
+    },{
+        "type" : "item_action",
+        "id" : "ANTICONVULSANT",
+        "name" : "Take anticonvulsant"
+    },{
+        "type" : "item_action",
+        "id" : "extended_firestarter",
+        "name" : "Start a fire slowly"
+    }
+]

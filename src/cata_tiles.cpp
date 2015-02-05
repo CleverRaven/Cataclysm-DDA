@@ -1,12 +1,15 @@
 #if (defined SDLTILES)
-#include <algorithm>
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
+#include "item.h"
 #include "veh_type.h"
+#include "filesystem.h"
+#include "sounds.h"
+
+#include <algorithm>
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
@@ -104,8 +107,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
+    // search for the files (tileset.txt)
+    auto files = get_files_from_path(filename, dir_path, true);
 
     for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
         std::ifstream fin;
@@ -535,11 +538,13 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             x = mx + o_x;
             y = my + o_y;
             l = light_at(x, y);
-
+            const auto critter = g->critter_at( x, y );
             if (l != CLEAR) {
                 // Draw lighting
                 draw_lighting(x, y, l);
-                // continue on to next part of loop
+                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+                }
                 continue;
             }
             // light is no longer being considered, for now.
@@ -551,8 +556,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_trap(x, y);
             draw_field_or_item(x, y);
             draw_vpart(x, y);
-            draw_entity(x, y);
-            draw_entity_with_overlays(x, y);
+            if( critter != nullptr ) {
+                draw_entity( *critter, x, y );
+            }
         }
     }
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
@@ -589,8 +595,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
-             g->u.posy + g->u.view_offset_y != g->ter_view_y) {
+    else if (g->u.posx() + g->u.view_offset_x != g->ter_view_x ||
+             g->u.posy() + g->u.view_offset_y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
@@ -609,18 +615,23 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     rows = ceil((double) height / tile_height);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
 {
     return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                     const std::string &subcategory, int x, int y,
+                                     int subtile, int rota)
 {
-    // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
+    // If the ID string does not produce a drawable tile
+    // it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
 
-    // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
-    if (x - o_x < 0 || x - o_x >= screentile_width || y - o_y < 0 || y - o_y >= screentile_height) {
+    // check to make sure that we are drawing within a valid area
+    // [0->width|height / tile_width|height]
+    if( x - o_x < 0 || x - o_x >= screentile_width ||
+        y - o_y < 0 || y - o_y >= screentile_height ) {
         return false;
     }
 
@@ -640,11 +651,11 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         break;
     }
     tile_id_iterator it = tile_ids.find(seasonal_id);
-    if (it != tile_ids.end()) {
-        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    if (it == tile_ids.end()) {
+        it = tile_ids.find(id);
+    } else {
+        id = seasonal_id;
     }
-
-    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -692,9 +703,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            const itype *i = item_controller->find_template(id);
-            sym = i->sym;
-            col = i->color;
+            const auto tmp = item( id, 0 );
+            sym = tmp.symbol();
+            col = tmp.color();
         }
         // Special cases for walls
         switch(sym) {
@@ -977,8 +988,6 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
     const field &f = g->m.field_at(x, y);
-    // check for items
-    const std::vector<item> &items = g->m.i_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -1042,6 +1051,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
+        auto items = g->m.i_at(x, y);
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
@@ -1091,7 +1101,7 @@ bool cata_tiles::draw_vpart(int x, int y)
         }
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
@@ -1099,61 +1109,51 @@ bool cata_tiles::draw_vpart(int x, int y)
     return ret;
 }
 
-bool cata_tiles::draw_entity(int x, int y)
+bool cata_tiles::draw_entity( const Creature &critter, const int x, const int y )
 {
-    // figure out what entity exists at x,y
-    std::string ent_name;
-    TILE_CATEGORY ent_category = C_NONE;
-    std::string ent_subcategory = empty_string;
-    bool entity_here = false;
-    // check for monster (most common)
-    if (!entity_here && g->mon_at(x, y) >= 0) {
-        monster &m = g->zombie(g->mon_at(x, y));
-            ent_name = m.type->id;
-            ent_category = C_MONSTER;
-            if(!(m.type->species.empty())) {
-                ent_subcategory = *(m.type->species.begin());
-            }
-            entity_here = true;
+    if( !g->u.sees( critter ) ) {
+        if( g->u.sees_with_infrared( critter ) ) {
+            return draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+        }
+        return false;
     }
-    if (entity_here) {
-        int subtile = corner;
+    const monster *m = dynamic_cast<const monster*>( &critter );
+    if( m != nullptr ) {
+        const auto ent_name = m->type->id;
+        const auto ent_category = C_MONSTER;
+        std::string ent_subcategory = empty_string;
+        if( !m->type->species.empty() ) {
+            ent_subcategory = *m->type->species.begin();
+        }
+        const int subtile = corner;
         return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
+    }
+    const player *p = dynamic_cast<const player*>( &critter );
+    if( p != nullptr ) {
+        draw_entity_with_overlays( *p, x, y );
+        return true;
     }
     return false;
 }
 
-void cata_tiles::draw_entity_with_overlays(int x, int y) {
-    const player* entity_to_draw = NULL;
+void cata_tiles::draw_entity_with_overlays( const player &p, const int x, const int y )
+{
     std::string ent_name;
 
-    int npc_index = g->npc_at(x, y);
-    if (npc_index >= 0) {
-        entity_to_draw = g->active_npc[npc_index];
-        if (! (g->active_npc[npc_index]->is_dead()) ) {
-            ent_name = entity_to_draw->male ? "npc_male" : "npc_female";
-        } else {
-            entity_to_draw = NULL;
-        }
+    if( p.is_npc() ) {
+        ent_name = p.male ? "npc_male" : "npc_female";
+    } else {
+        ent_name = p.male ? "player_male" : "player_female";
     }
-
-    if (!entity_to_draw) {
-        if (g->u.posx == x && g->u.posy == y) {
-            entity_to_draw = &(g->u);
-            ent_name = entity_to_draw->male ? "player_male" : "player_female";
-        }
-    }
-
-    if (entity_to_draw) {
         // first draw the character itself(i guess this means a tileset that
         // takes this seriously needs a naked sprite)
         draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
 
         // next up, draw all the overlays
-        std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
+        std::vector<std::string> overlays = p.get_overlay_ids();
         for(const std::string& overlay : overlays) {
             bool exists = true;
-            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            std::string draw_id = p.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
             if (tile_ids.find(draw_id) == tile_ids.end()) {
                 draw_id = "overlay_" + overlay;
                 if(tile_ids.find(draw_id) == tile_ids.end()) {
@@ -1166,7 +1166,6 @@ void cata_tiles::draw_entity_with_overlays(int x, int y) {
                 draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
             }
         }
-    }
 }
 
 bool cata_tiles::draw_item_highlight(int x, int y)
@@ -1361,7 +1360,7 @@ void cata_tiles::draw_line()
 {
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
-    if (!is_target_line || g->u_see(mx, my)) {
+    if (!is_target_line || g->u.sees(mx, my)) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             mx = it->x;
             my = it->y;
@@ -1431,10 +1430,8 @@ void cata_tiles::draw_zones_frame()
 void cata_tiles::draw_footsteps_frame()
 {
     static const std::string footstep_tilestring = "footstep";
-    std::vector<point> markers;
-    g->calculate_footstep_markers(markers);
-    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
-        draw_from_id_string(footstep_tilestring, a->x, a->y, 0, 0);
+    for( const auto &footstep : sounds::get_footstep_markers() ) {
+        draw_from_id_string(footstep_tilestring, footstep.x, footstep.y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
@@ -1458,12 +1455,12 @@ void cata_tiles::init_light()
 LIGHTING cata_tiles::light_at(int x, int y)
 {
     /** Logic */
-    const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
+    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = DAYLIGHT_LEVEL;
 
-    bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
+    bool can_see = g->m.pl_sees( x, y, distance_to_look );
     lit_level lit = g->m.light_at(x, y);
 
     if (lit != LL_BRIGHT && dist > real_max_sight_range) {

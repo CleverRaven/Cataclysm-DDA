@@ -68,6 +68,10 @@ List of known flags, used in both terrain.json and furniture.json
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades)
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
+- ```PERMEABLE``` Permeable for gases.
+- ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
+- ```UNSTABLE``` Walking here cause the bouldering effect on the character.
+- ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 
 ### Examine actions
 
@@ -167,11 +171,6 @@ Flags used to describe monsters and define their properties and abilities.
 
 - ```NULL``` Source use only.
 - ```SEES``` It can see you (and will run/follow).
-- ```VIS50``` Vision -10
-- ```VIS40``` Vision -20
-- ```VIS30``` Vision -30
-- ```VIS20``` Vision -40
-- ```VIS10``` Vision -50
 - ```HEARS``` It can hear you.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```SMELLS``` It can smell you.
@@ -180,9 +179,12 @@ Flags used to describe monsters and define their properties and abilities.
 - ```WARM``` Warm blooded.
 - ```NOHEAD``` Headshots not allowed!
 - ```HARDTOSHOOT``` Some shots are actually misses.
+- ```LEAKSGAS``` Leaks toxic gas.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
-- ```DESTROYS``` Bashes down walls and more.
+- ```GROUP_BASH``` Gets help from monsters around it when bashing.
+- ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
+- ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
 - ```BADVENOM``` Attack may **severely** poison the player.
@@ -224,7 +226,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
-- ```NO_GIBS``` Does not leave gibs / meat chunks when killed with huge damage.
+- ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 - ```ABSORBS``` Consumes objects it moves over.
@@ -248,6 +250,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
+- ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
 - ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```BOOMER``` Spit bile.
 - ```RESURRECT``` Revives the dead--again.
@@ -278,10 +281,13 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```TAZER``` Shock the player.
 - ```SMG``` SMG turret fires.
 - ```LASER``` Laser turret fires.
-  ```RIFLE_TUR``` Rifle turret fires.
-- ```FLAMETHROWER``` Shoots a stream fire.
+- ```RIFLE_TUR``` Rifle turret fires.
+- ```FRAG_TUR``` MGL fires frag rounds.
+- ```BMG_TUR``` Barrett .50BMG rifle fires.
+- ```FLAMETHROWER``` Shoots a stream of fire.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
-- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.
+- ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.
+- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```RATKING``` Inflicts disease `rat`
 - ```GENERATOR``` Regenerates health.
 - ```UPGRADE``` Upgrades a regular zombie into a special zombie.
@@ -354,6 +360,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 - ```NULL``` None
 - ```gasoline``` Refined dino.
+- ```diesel``` Refined dino.
 - ```battery``` Electrifying.
 - ```plutonium``` 1.21 Gigawatts!
 - ```plasma``` Superheated.
@@ -388,7 +395,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it.
+- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
+- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
@@ -483,45 +491,24 @@ The chambering of weapons that this ammo can be loaded into.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```FLAME``` Very small explosion that lights fires.
-- ```STREAM``` No effect? Not currently used in source files.
+- ```STREAM``` Leaves a trail of fire fields.
+- ```STREAM_BIG``` Leaves a trail of intense fire fields.
 - ```BEANBAG``` Stuns the target.
 - ```LARGE_BEANBAG``` Heavily stuns the target.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```LIGHTNING``` Creates a trail of lightning.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```LASER``` Creates a trail of laser (the field type)
+- ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
+- ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
+- ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
+- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
 
 ## Techniques
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-### Offensive
-
-- ```SWEEP``` Criticals may make your enemy fall & miss a turn.
-- ```PRECISE``` Criticals are painful and stun.
-- ```BRUTAL``` Criticals knock the target back.
-- ```GRAB``` Hit may allow a second unarmed attack attempt.
-- ```WIDE``` Attacks adjacent opponents.
-- ```RAPID``` Hits faster.
-- ```FEINT``` Misses take less time.
-- ```THROW``` Attacks may throw your opponent.
-- ```DISARM``` Remove an NPC's weapon.
-- ```FLAMING``` Sets the target on fire.
-
-### Defensive
-
-- ```BLOCK``` Block attacks, reducing them to 25% damage.
-- ```BLOCK_LEGS``` Block attacks, but with your legs.
-- ```WBLOCK_1``` Poor chance to block when wielding this item (e.g. pole).
-- ```WBLOCK_2``` Moderate chance to block when wielding this item (e.g. a weapon made for blocking)
-- ```WBLOCK_3``` Good chance to block when wielding this item (e.g. a shield).
-- ```BREAK``` Break from a grab.
-- ```DEF_THROW``` Throw an enemy that attacks you.
-- ```DEF_DISARM``` Disarm an enemy.
-
-## Qualities
-Qualities, like techniques, may be used by tools, armors, weapons and anything else that can be wielded.
-
-- ```CUT``` Can be used to cut objects.
+- see contents of `data/json/techniques.json`
+- techniques are also used with martial arts styles, see `data/json/martialarts.json`
 
 ## Armor
 
@@ -531,19 +518,27 @@ Qualities, like techniques, may be used by tools, armors, weapons and anything e
 - ```HEAD```
 - ```EYES```
 - ```MOUTH```
-- ```ARMS```
-- ```HANDS```
-- ```LEGS```
-- ```FEET```
+- ```ARM_L```
+- ```ARM_R```
+- ```ARMS``` ... same ```ARM_L``` and ```ARM_R```
+- ```HAND_L```
+- ```HAND_R```
+- ```HANDS``` ... same ```HAND_L``` and ```HAND_R```
+- ```LEG_L```
+- ```LEG_R```
+- ```LEGS``` ... same ```LEG_L``` and ```LEG_R```
+- ```FOOT_L```
+- ```FOOT_R```
+- ```FEET``` ... same ```FOOT_L``` and ```FOOT_R```
 
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
-- ```FIT``` Reduces encumbrance by one.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```SKINTIGHT``` Undergarment layer.
 - ```OUTER```  Outer garment layer.
-- ```BELTED``` Layer for belts and backpacks.
+- ```BELTED``` Layer for backpacks and things worn over outerwear.
+- ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
@@ -557,6 +552,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```DEAF``` Makes the player deaf.
+- ```SWIM_GOGGLES``` - Allows you to see much further under water.
+- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
+- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
 
 ## Comestibles
 
@@ -651,12 +649,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
-
-## Containers
-
-- ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
-- ```WATERTIGHT``` Can hold liquids.
-- ```SEALS``` Can be resealed.
+- ```BREW``` ... Can be put into fermenting vat.
+- ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
+- ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 
 ## Melee
 
@@ -690,6 +685,14 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
+- ```NO_BOOM``` Cancels the ammo effect "FLAME".
+- ```STR8_DRAW``` Character needs at least strength 8 to use the full range of this bow, can not be used with less than 4 strength.
+- ```STR10_DRAW``` Character needs at least strength 10 to use the full range of this bow, can not be used with less than 5 strength.
+- ```STR12_DRAW``` Character needs at least strength 12 to use the full range of this bow, can not be used with less than 6 strength.
+- ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
+- ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
+- ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
+- ```NEVER_JAMS``` Never malfunctions.
 
 ## Tools
 
@@ -713,12 +716,23 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
+- ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+
 - ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
+- ```FIT``` Reduces encumbrance by one.
+- ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
+- ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+
+## Books
+
+- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
 
 ### Use actions
 
@@ -759,6 +773,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SIPHON``` Siphon liquids out of vehicle.
 - ```CHAINSAW_OFF``` Turn the chainsaw on.
 - ```CHAINSAW_ON``` Turn the chainsaw off.
+- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
+- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
 - ```CARVER_OFF``` Turn the carver on.
 - ```CARVER_ON``` Turn the carver off.
 - ```COMBATSAW_OFF``` Turn the combat-saw on.
@@ -873,14 +889,31 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
-
-
+- ```FLAMING``` ... Sets the target on fire when used as melee weapon.
+- ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
+- ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
+- ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
+- ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
+- ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
+- ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 
 ## Skills
 
 ### Tags
 
 - ```"gun_types"``` Define gun related skills?
+
+## Scenarios
+
+### Flags
+
+- ```SUM_START``` ... start in summer.
+- ```SPR_START``` ... start in spring.
+- ```AUT_START``` ... start in autumn.
+- ```WIN_START``` ... start in winter.
+- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
 
 ## TODO
 

@@ -80,3 +80,10 @@ nbproject/
 
 # GitEye files
 *.project
+
+# vimdiff backup
+*.orig
+
+# OSX
+Cataclysm.app
+data/osx/AppIcon.icns

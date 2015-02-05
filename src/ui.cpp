@@ -10,6 +10,7 @@
 #include "cursesdef.h"
 #include "uistate.h"
 #include "options.h"
+#include "game.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -560,6 +561,10 @@ void uimenu::show()
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
+            if ( entries[ei].extratxt.sym != 0 ) {
+                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
+            }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
             }
@@ -788,3 +793,39 @@ void uimenu::settext(const char *format, ...)
     text = vstring_format(format, ap);
     va_end(ap);
 }
+
+pointmenu_cb::pointmenu_cb( std::vector< point > &pts ) : points( pts )
+{
+    last = INT_MIN;
+    view_x = g->u.view_offset_x;
+    view_y = g->u.view_offset_y;
+}
+
+void pointmenu_cb::select( int /*num*/, uimenu * /*menu*/ ) {
+    g->u.view_offset_x = view_x;
+    g->u.view_offset_y = view_y;
+}
+
+void pointmenu_cb::refresh( uimenu *menu ) {
+    if( last == menu->selected ) {
+        return;
+    }
+    if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
+        last = menu->selected;
+        g->u.view_offset_x = 0;
+        g->u.view_offset_y = 0;
+        g->draw_ter();
+        menu->redraw( false ); // show() won't redraw borders
+        menu->show();
+        return;
+    }
+
+    last = menu->selected;
+    const point &center = points[menu->selected];
+    g->u.view_offset_x = center.x - g->u.posx();
+    g->u.view_offset_y = center.y - g->u.posy();
+    g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
+    menu->redraw( false );
+    menu->show();
+}
+

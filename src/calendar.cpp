@@ -19,12 +19,6 @@ calendar::calendar()
     year = 0;
 }
 
-calendar::calendar(const calendar &copy)
-{
-    turn_number   = copy.turn_number;
-    sync();
-}
-
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
     turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * season_length() + Year * year_turns();
@@ -45,18 +39,6 @@ int calendar::get_turn() const
 calendar::operator int() const
 {
     return turn_number;
-}
-
-calendar &calendar::operator =(const calendar &rhs)
-{
-    if (this == &rhs) {
-        return *this;
-    }
-
-    turn_number = rhs.turn_number;
-    sync();
-
-    return *this;
 }
 
 calendar &calendar::operator =(int rhs)
@@ -135,12 +117,6 @@ void calendar::increment()
 {
     turn_number++;
     sync();
-}
-
-int calendar::getHour()
-{
-    sync();
-    return hour;
 }
 
 int calendar::minutes_past_midnight() const
@@ -307,7 +283,6 @@ std::string calendar::print_time(bool just_hour) const
 
 std::string calendar::textify_period()
 {
-    sync();
     int am;
     const char *tx;
     // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
@@ -336,27 +311,27 @@ std::string calendar::textify_period()
 
 std::string calendar::day_of_week() const
 {
-    // Design rationale
-    // <kevingranade> here's a question
-    // <kevingranade> what day of the week is day 0?
-    // <wito> Sunday
-    // <GlyphGryph> Why does it matter?
-    // <GlyphGryph> For like where people are and stuff?
-    // <wito> 7 is also Sunday
-    // <kevingranade> NOAA weather forecasts include day of week
-    // <GlyphGryph> Also by day0 do you mean the day people start day 0
-    // <GlyphGryph> Or actual day 0
-    // <kevingranade> good point, turn 0
-    // <GlyphGryph> So day 5
-    // <wito> Oh, I thought we were talking about week day numbering in general.
-    // <wito> Day 5 is a thursday, I think.
-    // <wito> Nah, Day 5 feels like a thursday. :P
-    // <wito> Which would put the apocalpyse on a saturday?
-    // <Starfyre> must be a thursday.  I was never able to get the hang of those.
-    // <ZChris13> wito: seems about right to me
-    // <wito> kevingranade: add four for thursday. ;)
-    // <kevingranade> sounds like consensus to me
-    // <kevingranade> Thursday it is
+    /* Design rationale:
+     * <kevingranade> here's a question
+     * <kevingranade> what day of the week is day 0?
+     * <wito> Sunday
+     * <GlyphGryph> Why does it matter?
+     * <GlyphGryph> For like where people are and stuff?
+     * <wito> 7 is also Sunday
+     * <kevingranade> NOAA weather forecasts include day of week
+     * <GlyphGryph> Also by day0 do you mean the day people start day 0
+     * <GlyphGryph> Or actual day 0
+     * <kevingranade> good point, turn 0
+     * <GlyphGryph> So day 5
+     * <wito> Oh, I thought we were talking about week day numbering in general.
+     * <wito> Day 5 is a thursday, I think.
+     * <wito> Nah, Day 5 feels like a thursday. :P
+     * <wito> Which would put the apocalpyse on a saturday?
+     * <Starfyre> must be a thursday.  I was never able to get the hang of those.
+     * <ZChris13> wito: seems about right to me
+     * <wito> kevingranade: add four for thursday. ;)
+     * <kevingranade> sounds like consensus to me
+     * <kevingranade> Thursday it is */
 
     enum weekday {
         THURSDAY = 0,
@@ -410,9 +385,10 @@ int calendar::season_length()
 
 void calendar::sync()
 {
-    year = turn_number / year_turns();
-    season = season_type(turn_number / DAYS(season_length()) % 4);
-    day = turn_number / DAYS(1) % season_length();
+    const int sl = season_length();
+    year = turn_number / DAYS(sl * 4);
+    season = season_type(turn_number / DAYS(sl) % 4);
+    day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
     minute = turn_number / MINUTES(1) % 60;
     second = (turn_number * 6) % 60;

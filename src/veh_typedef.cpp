@@ -1,6 +1,6 @@
 #include "vehicle.h"
 #include "game.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "json.h"
 
 // GENERAL GUIDELINES
@@ -48,16 +48,11 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.color_broken = color_from_string(jo.get_string("broken_color"));
     next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
     next_part.durability = jo.get_int("durability");
-    if(jo.has_member("power")) {
-        next_part.power = jo.get_int("power");
-    } else { //defaults to 0
-        next_part.power = 0;
-    }
-    if(jo.has_member("epower")) {
-        next_part.epower = jo.get_int("epower");
-    } else { //defaults to 0
-        next_part.epower = 0;
-    }
+    next_part.power = jo.get_int("power", 0);
+    next_part.epower = jo.get_int("epower", 0);
+    next_part.folded_volume = jo.get_int("folded_volume", 0);
+    next_part.range = jo.get_int( "range", 12 );
+
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
                         + (jo.has_member("size") ? 1 : 0)
@@ -101,6 +96,10 @@ void game::load_vehiclepart(JsonObject &jo)
         }
     }
 
+    if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
+        debugmsg("Error: folded part %s has a volume of 0!", next_part.name.c_str());
+    }
+
     JsonArray breaks_into = jo.get_array("breaks_into");
     while(breaks_into.has_more()) {
         JsonObject next_entry = breaks_into.next_object();
@@ -139,6 +138,10 @@ void game::load_vehiclepart(JsonObject &jo)
         //Should be hidden by frames
         next_part.z_order = 4;
         next_part.list_order = 8 ;
+    } else if (next_part.location == "on_battery_mount"){
+        //Should be hidden by frames
+        next_part.z_order = 3;
+        next_part.list_order = 10;
     } else if(next_part.location == "fuel_source") {
         //Should be hidden by frames
         next_part.z_order = 3;
@@ -165,6 +168,18 @@ void game::load_vehiclepart(JsonObject &jo)
         vehicle_part_int_types.push_back(next_part);
     }
     vehicle_part_types[next_part.id] = next_part;
+}
+
+void game::check_vehicleparts()
+{
+    for( auto &part : vehicle_part_int_types ) {
+        for( auto &component : part.breaks_into ) {
+            if( !item::type_is_defined( component.item_id ) ) {
+                debugmsg( "Vehicle part %s breaks into non-existent part %s.",
+                          part.id.c_str(), component.item_id.c_str() );
+            }
+        }
+    }
 }
 
 void game::reset_vehicleparts()
@@ -232,8 +247,8 @@ void game::load_vehicle(JsonObject &jo)
 
 void game::reset_vehicles()
 {
-    for (std::map<std::string, vehicle *>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh) {
-        delete veh->second;
+    for( auto &elem : vtypes ) {
+        delete elem.second;
     }
     vtypes.clear();
 }
@@ -285,12 +300,12 @@ void game::finalize_vehicles()
                          proto->name.c_str(), i.x, i.y, i.chance);
             }
             for (auto &j : i.item_ids) {
-                if (!item_controller->has_template(j)) {
+                if( !item::type_is_defined( j ) ) {
                     debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }
             for (auto &j : i.item_groups) {
-                if (!item_controller->has_group(j)) {
+                if (!item_group::group_is_defined(j)) {
                     debugmsg("unknown item group %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }
@@ -322,6 +337,8 @@ void init_vpart_bitflag_map()
     vpart_bitflag_map["SEATBELT"] = VPFLAG_SEATBELT;       // crashes
     vpart_bitflag_map["WHEEL"] = VPFLAG_WHEEL;
     vpart_bitflag_map["FLOATS"] = VPFLAG_FLOATS;
+    vpart_bitflag_map["DOME_LIGHT"] = VPFLAG_DOME_LIGHT;
+    vpart_bitflag_map["AISLE_LIGHT"] = VPFLAG_AISLE_LIGHT;
     vpart_bitflag_map["ALTERNATOR"] = VPFLAG_ALTERNATOR;
     vpart_bitflag_map["ENGINE"] = VPFLAG_ENGINE;
     vpart_bitflag_map["FRIDGE"] =    VPFLAG_FRIDGE;
@@ -336,5 +353,5 @@ void init_vpart_bitflag_map()
     vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
     /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
     vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
-    vpart_bitflag_map["MIRROR"] = VPFLAG_MIRROR;
+    vpart_bitflag_map["VISION"] = VPFLAG_EXTENDS_VISION;
 }

@@ -1,7 +1,7 @@
 [
     {
         "id": "manual_karate",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Shotokan Karate Handbook",
@@ -14,18 +14,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_aikido",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Spirit of Aikido",
@@ -38,18 +40,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_boxing",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Practical Pugilism",
@@ -62,18 +66,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_judo",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Kodokan Judo",
@@ -86,18 +92,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_tai_chi",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Becoming One with the Tao",
@@ -110,18 +118,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_capoeira",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Capoeira 100",
@@ -134,18 +144,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_krav_maga",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Complete Krav Maga",
@@ -158,18 +170,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_muay_thai",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Ultimate Muay Thai",
@@ -182,18 +196,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_ninjutsu",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Essence of Ninjutsu",
@@ -206,18 +222,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_taekwondo",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Official Taekwondo Training Manual",
@@ -229,18 +247,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_zui_quan",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Zui Quan and You",
@@ -253,18 +273,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_crane",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Red Crane",
@@ -277,18 +299,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_dragon",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Jade Dragon",
@@ -301,18 +325,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_leopard",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Deaf Leopard",
@@ -325,18 +351,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_tiger",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The White Tiger",
@@ -349,18 +377,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_snake",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Black Snake",
@@ -373,18 +403,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_centipede",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Centipede Lu Feng",
@@ -397,18 +429,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_scorpion",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Scorpion Sun Chien",
@@ -421,18 +455,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_toad",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Toad Lo Mang",
@@ -445,18 +481,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_lizard",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Lizard Kuo Chui",
@@ -469,18 +507,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_venom_snake",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Viper Wei Pai",
@@ -493,18 +533,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_eskrima",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "Practical Eskrima",
@@ -517,18 +559,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_fencing",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Modern Swordsman",
@@ -541,18 +585,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "id": "manual_silat",
-        "type": "BOOK",
+        "type": "GENERIC",
         "symbol": "?",
         "color": "green",
         "name": "The Indonesian Warrior",
@@ -565,14 +611,42 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -1,
-        "max_level" : 0,
-        "intelligence" : 0,
-        "time" : 10,
-        "fun" : 0,
-        "skill" : "none",
-        "required_level" : 0,
-        "chapters": 0,
-        "use_action": "MA_MANUAL"
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
+    },
+    {
+        "id": "manual_niten",
+        "type": "GENERIC",
+        "symbol": "?",
+        "color": "green",
+        "name": "The Book of Five Rings",
+        "name_plural": "copies of The Book of Five Rings",
+        "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu.",
+        "price": 20000,
+        "material": "paper",
+        "weight": 150,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -1,
+        "book_data": {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 10,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MA_MANUAL"
+        }
     },
     {
         "type" : "item_group",
@@ -600,6 +674,7 @@
             ["manual_venom_snake", 5],
             ["manual_eskrima", 5],
             ["manual_fencing", 5],
+            ["manual_niten", 5],
             ["manual_silat", 5]
         ]
     }

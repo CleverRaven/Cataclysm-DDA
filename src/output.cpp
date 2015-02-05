@@ -185,7 +185,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         }
     }
     return textformatted.size();
-};
+}
 
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
 {
@@ -209,7 +209,8 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y + (int)next_paragraph.size() > height - ((i + 1) < (int)text.size() ? 1 : 0)) {
             // Next page
             i--;
-            mvwprintw(w, height - 1, 1, _("Press any key for more..."));
+            const std::string cont_str = _("Press any key for more...");
+            mvwprintw(w, height - 1, center_text_pos(cont_str.c_str(), 0, width - 1), cont_str.c_str());
             wrefresh(w);
             refresh();
             getch();
@@ -888,8 +889,8 @@ long popup(const std::string &text, PopupFlags flags)
     int height = 2;
     std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        int cw = utf8_width(folded[i].c_str());
+    for( auto &elem : folded ) {
+        int cw = utf8_width( elem.c_str() );
         if(cw > width) {
             width = cw;
         }
@@ -912,7 +913,7 @@ long popup(const std::string &text, PopupFlags flags)
     draw_border(w);
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        mvwprintz(w, i + 1, 1, c_white, "%s", folded[i].c_str());
+        fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
     }
 
     long ch = 0;
@@ -977,9 +978,10 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    // TODO: So ... uhm ... who deletes the window?
-    return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border);
+    delwin( win );
+    return result;
 }
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
@@ -996,6 +998,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     bool bStartNewLine = true;
     int selected_ret = '\n';
     std::string spaces(getmaxx(win), ' ');
+    // Buffering the whole item info text so we can apply proper word wrapping on it.
+    // Note that the "MENU" items are *not* included in this buffer, they are only used from
+    // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
+    std::ostringstream buffer;
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -1022,23 +1028,19 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
-            line_num++;
+            buffer << "\n";
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(win, line_num, (without_border) ? 1 : 2, getmaxx(win) - 4, c_white,
-                                           vItemDisplay[i].sName);
+                buffer << vItemDisplay[i].sName;
             }
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    const auto b = without_border ? 1 : 2;
-                    const auto h = fold_and_print( win, line_num, b, getmaxx( win ) - b * 2,
-                                                   c_white, vItemDisplay[i].sName );
-                    line_num += h - 1;
+                    buffer << "\n" << vItemDisplay[i].sName;
                 }
                 bStartNewLine = false;
             } else {
                 if (vItemDisplay[i].bDrawName) {
-                    wprintz(win, c_white, "%s", vItemDisplay[i].sName.c_str());
+                    buffer << vItemDisplay[i].sName;
                 }
             }
 
@@ -1050,17 +1052,17 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find("<num>");
             if(pos != std::string::npos) {
-                wprintz(win, c_white, "%s", sFmt.substr(0, pos).c_str());
+                buffer << sFmt.substr(0, pos);
                 sPost = sFmt.substr(pos + 5);
             } else {
-                wprintz(win, c_white, "%s", sFmt.c_str());
+                buffer << sFmt;
             }
 
             if (vItemDisplay[i].sValue != "-999") {
                 nc_color thisColor = c_white;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
-                        if (vItemDisplay[i].sName == k.sName) {
+                        if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
                                 thisColor = c_white;
@@ -1081,19 +1083,26 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                         }
                     }
                 }
+                buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
                 if (vItemDisplay[i].is_int == true) {
-                    wprintz(win, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    wprintz(win, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
                 }
+                buffer << "</color>";
             }
-            wprintz(win, c_white, "%s", sPost.c_str());
+            buffer << sPost;
 
             if (vItemDisplay[i].bNewLine) {
-                line_num++;
+                buffer << "\n";
                 bStartNewLine = true;
             }
         }
+    }
+    if( !buffer.str().empty() ) {
+        const auto b = without_border ? 1 : 2;
+        const auto width = getmaxx( win ) - b * 2;
+        fold_and_print( win, line_num, b, width, c_white, buffer.str() );
     }
 
     if (!without_border) {
@@ -1109,7 +1118,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         } else if ( selected == KEY_LEFT ) {
             ch = (int)' ';
         }
-        delwin(win);
     }
 
     return ch;
@@ -1279,17 +1287,17 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
 {
     int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
 
     mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     if (bSelected) {
-        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
-        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+        mvwputch(w, 0, iOffsetX - bDecorate,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + bDecorate, h_ltgray, '>');
 
-        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+        for (int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++) {
             mvwputch(w, 1, i, c_black, ' ');
         }
     }
@@ -1404,72 +1412,51 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-std::string vstring_format(const char *pattern, va_list argptr)
+#if defined(_MSC_VER)
+std::string vstring_format(char const *const format, va_list args)
 {
-    // If we have no C++11 support, define a hackish way to do va_copy
-    // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
-    // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
-#if __cplusplus < 201103L && !defined(va_copy)
-#define va_copy(dest, source) dest = source
-#endif
+    int const result = _vscprintf_p(format, args);
+    if (result == -1) {
+        return std::string("Bad format string for printf.");
+    }
 
-    int buffer_size = 1024; // Any number is good
-    int returned_length = 0;
-    std::vector<char> buffer(buffer_size, '\0');
-    // Call of vsnprintf() makes va_list unusable, so we need a copy.
-    va_list cur_argptr;
-#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
-    // Microsofts vsnprintf does return -1 on buffer overflow, not
-    // the required size of the buffer. So we have to increase the buffer
-    // until we succeed.
-    while(true) {
-        buffer.resize(buffer_size, '\0');
-        va_copy(cur_argptr, argptr);
-        returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        if( returned_length >= 0 && returned_length <= buffer_size ) {
-            // Buffer size was sufficient, string has been printed, all is well
-            break;
-        } else if( returned_length > 0 ) {
-            // For some reason (is this a mingw build with mingws own vsnprintf?)
-            // vsnprintf seems to be POSIX compatible and returns the required
-            // size of the buffer instead of -1
-            // Note that buffer_size is always > 0 and therefor the case returned_length==0
-            // is handled above.
-            buffer_size = returned_length + 1;
-        } else {
-            buffer_size *= 2;
-        }
-    }
-#else
-    va_copy(cur_argptr, argptr);
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-    va_end(cur_argptr);
-    if (required < 0) {
-        return std::string("invalid input to string_format function!");
-    } else if (required >= buffer_size) {
-        // Did not fit the buffer, retry with better buffer size.
-        buffer_size = required + 1;
-        buffer.resize(buffer_size, '\0');
-        // Try again one time, this should be save as we know the required
-        // buffer size and have allocated that much.
-        va_copy(cur_argptr, argptr);
-        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
-        va_end(cur_argptr);
-        // ignore the result of vsnprintf, because it returns different
-        // things on windows, see above.
-        returned_length = required;
-    } else {
-        returned_length = required;
-    }
-#endif
-    //drop contents behind \003, this trick is there to skip certain arguments
-    std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
-    if (a != buffer.end()) {
-        return std::string(&buffer[0], a - buffer.begin());
-    }
-    return std::string(&buffer[0], returned_length);
+    std::string buffer(result, '\0');
+    _vsprintf_p(&buffer[0], result + 1, format, args); //+1 for string's null
+
+    return buffer;
 }
+#else
+std::string vstring_format(char const *const format, va_list args)
+{
+    errno = 0; // Clear errno before trying
+    std::vector<char> buffer(1024, '\0');
+
+    for (;;) {
+        size_t const buffer_size = buffer.size();
+
+        va_list args_copy;
+        va_copy(args_copy, args);
+        int const result = vsnprintf(&buffer[0], buffer_size, format, args_copy);
+        va_end(args_copy);
+
+        // No error, and the buffer is big enough; we're done.
+        if (result >= 0 && static_cast<size_t>(result) < buffer_size) {
+            break;
+        }
+
+        // Standards conformant versions return -1 on error only.
+        // Some non-standard versions return -1 to indicate a bigger buffer is needed.
+        if (result < 0 && errno) {
+            return std::string("Bad format string for printf.");
+        }
+
+        // Looks like we need to grow... bigger, definitely bigger.
+        buffer.resize(buffer_size * 2);
+    }
+
+    return std::string(&buffer[0]);
+}
+#endif
 
 std::string string_format(const char *pattern, ...)
 {
@@ -1518,24 +1505,28 @@ std::string rm_prefix(std::string str, char c1, char c2)
     return str;
 }
 
-// draw a menu item like strign with highlighted shortcut character
+// draw a menu-item-like string with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
 size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
                       const std::string &fmt)
 {
-    std::string tmp = fmt;
-    size_t pos = tmp.find_first_of('<');
-    size_t pos2 = tmp.find_first_of('>');
+    size_t pos = fmt.find_first_of('<');
+    size_t pos2 = fmt.find_first_of('>');
+    size_t sep = std::min(fmt.find_first_of('|', pos), pos2);
     size_t len = 0;
     if(pos2 != std::string::npos && pos < pos2) {
-        tmp.erase(pos, 1);
-        tmp.erase(pos2 - 1, 1);
-        mvwprintz(w, y, x, color, "%s", tmp.c_str());
-        mvwprintz(w, y, x + pos, colork, "%s", tmp.substr(pos, pos2 - pos - 1).c_str());
-        len = utf8_width(tmp.c_str());
+        std::string prestring = fmt.substr(0, pos);
+        std::string poststring = fmt.substr(pos2 + 1, std::string::npos);
+        std::string shortcut = fmt.substr(pos + 1, sep - pos - 1);
+        mvwprintz(w, y, x, color, "%s", prestring.c_str());
+        len = utf8_width(prestring.c_str());
+        mvwprintz(w, y, x + len, colork, "%s", shortcut.c_str());
+        len += utf8_width(shortcut.c_str());
+        mvwprintz(w, y, x + len, color, "%s", poststring.c_str());
+        len += utf8_width(poststring.c_str());
     } else {
-        // no shutcut?
+        // no shortcut?
         mvwprintz(w, y, x, color, "%s", fmt.c_str());
         len = utf8_width(fmt.c_str());
     }
@@ -1545,19 +1536,22 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
 //same as above, from current position
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt)
 {
-    std::string tmp = fmt;
-    size_t pos = tmp.find_first_of('<');
-    size_t pos2 = tmp.find_first_of('>');
+    size_t pos = fmt.find_first_of('<');
+    size_t pos2 = fmt.find_first_of('>');
+    size_t sep = std::min(fmt.find_first_of('|', pos), pos2);
     size_t len = 0;
     if(pos2 != std::string::npos && pos < pos2) {
-        tmp.erase(pos, 1);
-        tmp.erase(pos2 - 1, 1);
-        wprintz(w, color, "%s", tmp.substr(0, pos).c_str());
-        wprintz(w, colork, "%s", tmp.substr(pos, pos2 - pos - 1).c_str());
-        wprintz(w, color, "%s", tmp.substr(pos2 - 1).c_str());
-        len = utf8_width(tmp.c_str());
+        std::string prestring = fmt.substr(0, pos);
+        std::string poststring = fmt.substr(pos2 + 1, std::string::npos);
+        std::string shortcut = fmt.substr(pos + 1, sep - pos - 1);
+        wprintz(w, color, "%s", prestring.c_str());
+        wprintz(w, colork, "%s", shortcut.c_str());
+        wprintz(w, color, "%s", poststring.c_str());
+        len = utf8_width(prestring.c_str());
+        len += utf8_width(shortcut.c_str());
+        len += utf8_width(poststring.c_str());
     } else {
-        // no shutcut?
+        // no shortcut?
         wprintz(w, color, "%s", fmt.c_str());
         len = utf8_width(fmt.c_str());
     }

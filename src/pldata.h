@@ -20,6 +20,7 @@ typedef std::string efftype_id;
 enum character_type {
     PLTYPE_CUSTOM,
     PLTYPE_RANDOM,
+    PLTYPE_RANDOM_WITH_SCENARIO,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
     PLTYPE_MAX
@@ -203,22 +204,21 @@ struct trait {
     bool thirst;
     int cost;
     int charge;
-    char invlet;
     bool powered;
     int cooldown;
     std::string description;
-    trait() : name("NULL_TRAIT")
+    trait() : name("NULL_TRAIT"), points(0), visibility(0), ugliness(0), mixed_effect(false),
+        startingtrait(false), purifiable(false), activated(false), fatigue(false),
+        hunger(false), thirst(false), cost(0), charge(0), powered(false), cooldown(0)
     {
-        invlet = 'a';
-        powered = false;
-        charge = 0;
     }
-    trait(std::string pid, char pinvlet) : name(pid)
+
+    trait(std::string pid) : name(pid), points(0), visibility(0), ugliness(0),
+        mixed_effect(false), startingtrait(false), purifiable(false), activated(false),
+        fatigue(false), hunger(false), thirst(false), cost(0), charge(0), powered(false),
+        cooldown(0)
     {
         id = pid;
-        invlet = pinvlet;
-        powered = false;
-        charge = 0;
     };
 };
 
@@ -238,42 +238,5 @@ enum hp_part {
     hp_leg_r,
     num_hp_parts
 };
-
-inline hp_part bodypart_to_hp_part(body_part p_bp)
-{
-    switch(p_bp) {
-    case bp_torso:
-        return hp_torso;
-
-    case bp_head:
-    case bp_eyes:
-    case bp_mouth:
-        return hp_torso;
-
-    case bp_arm_l:
-    case bp_hand_l:
-        return hp_arm_l;
-
-    case bp_arm_r:
-    case bp_hand_r:
-        return hp_arm_r;
-
-    case bp_leg_l:
-    case bp_foot_l:
-        return hp_leg_l;
-
-    case bp_leg_r:
-    case bp_foot_r:
-        return hp_leg_r;
-
-    case num_bp:
-        return num_hp_parts;
-
-    default:
-        break;
-    }
-
-    return hp_torso;
-}
 
 #endif

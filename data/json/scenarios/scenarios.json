@@ -13,54 +13,55 @@
     "name": "Missed",
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","boarded_house"],
     "start_name": "In Town"
   },{
     "type": "scenario",
     "ident": "infected",
     "name": "Infected",
     "points" : -4,
-    "description": "In the chaos and panic of evacuation, you got bitten by something! You didn't get proper medical care, and now the wound has started turning green.",
+    "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
-    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer"],
+    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
     "flags" : ["INFECTED"]
   },{
     "type": "scenario",
     "ident": "fire",
     "name": "Burning Building",
     "points" : -2,
-    "description": "The building you had chosen to reside in has suddenly caught fire! You might want to leave.",
+    "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
-    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer"],
+    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
     "flags" : ["FIRE_START"]
   },{
     "type": "scenario",
     "ident": "bad_day",
     "name": "Challenge-Really Bad Day",
     "points" : -10,
-    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu. This day went downhill really fast.",
+    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
     "professions" : ["svictim","tweaker"],
-    "flags" : ["FIRE_START","INFECTED","BAD_DAY"]
+    "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
   },{
     "type": "scenario",
     "ident": "lab_chal",
     "name": "Challenge-Lab",
     "points" : -8,
-    "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
+    "description": "You've been locked in a lab with no way out!  Survive as long as you can!  Brag about it on the forums!  (Pics or it didn't happen)",
     "start_name": "Locked Lab",
     "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
     "allowed_locs" : ["lab_stairs"],
-    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"],
+    "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
     "ident": "ambushed",
     "name": "Ambush",
     "points" : 0,
-    "description": "It is the winter after zero hour, cold and weary you ducked into a small cabin for the night. The next morning, you awoke to the sound of lots of movement in the woods.",
+    "description": "It is the winter after zero hour, cold and weary you ducked into a small cabin for the night.  The next morning, you awoke to the sound of lots of movement in the woods.",
     "allowed_locs": ["cabin"],
     "start_name": "Abandoned Cabin",
     "flags" : ["SUR_START","WIN_START"],
@@ -70,7 +71,7 @@
     "ident": "alone",
     "name": "Sheltered",
     "points" : -3,
-    "description": "When the apocalypse broke out, you were funnelled into a nearby shelter. Here you have lived, never leaving, lest the unknowns of the outside world hurt you. Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
+    "description": "When the apocalypse broke out, you were funnelled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
     "allowed_locs": ["lmoe","shelter"],
     "start_name": "Enclosed Shelter",
     "flags" : ["WIN_START"],
@@ -80,18 +81,19 @@
     "ident": "patient",
     "name": "Challenge-Abandoned",
     "points" : -8,
-    "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital. When yours was evacuated, you were left behind because you were a lost cause. You awaken to the sound of movement around the hospital.",
+    "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
     "allowed_locs": ["hospital"],
     "start_name": "Hospital",
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
-    "professions" : ["unemployed","bionic_patient","patient"]
+    "professions" : ["unemployed","bionic_patient","patient"],
+    "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
     "ident" : "mutant",
     "name" : "Experiment",
     "points" : 2,
-    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not. Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
+    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name" : "Forest",
     "allowed_locs" : ["forest"],
     "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
@@ -101,7 +103,7 @@
     "ident": "mall_cop",
     "name": "Mall Cop",
     "points" : -2,
-    "description": "You've survived for as long as you could inside of the mall you worked at as a security guard. Find a way out and try your best to survive.",
+    "description": "You've survived for as long as you could inside of the mall you worked at as a security guard.  Find a way out and try your best to survive.",
     "start_name": "Mall",
     "professions" : ["mall_cop"],
     "allowed_locs" : ["mall_a_12", "mall_a_30"]
@@ -122,7 +124,7 @@
     "points" : 0,
     "description": "You knew the day was going to be bad when it started with your partner getting eaten by a perp before you even had coffee.  The scene back at the station house looks bad, real bad.  This is going to be an all-nighter.",
     "allowed_locs" : ["police"],
-    "professions" : ["cop","bionic_cop","detective"],
+    "professions" : ["cop","bionic_cop","detective","swat"],
     "start_name": "Police Station",
     "flags" : ["SUR_START"]
   },{
@@ -130,9 +132,9 @@
     "ident": "wilderness",
     "name": "Wilderness",
     "points" : 0,
-    "description": "You find yourself amongst trees. The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack"],
+    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack", "jr_survivalist"],
     "allowed_locs" : ["forest"]
     }
 ]

@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "item_factory.h"
 #include "bionics.h"
 #include "mutation.h"
 #include "text_snippets.h"
@@ -163,10 +162,10 @@ void profession::check_definitions()
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto & itd : items ) {
-        if( !item_controller->has_template( itd.type_id ) ) {
+        if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
-            const itype *type = item_controller->find_template( itd.type_id );
+            const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
                           _ident.c_str(), itd.type_id.c_str() );
@@ -193,12 +192,15 @@ void profession::check_definition() const
         }
     }
     
-    // Yeah, could use a check for traits if you've got one that works.
+    for( auto &t : _starting_traits ) {
+        if( ::traits.count( t ) == 0 ) {
+            debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
+        }
+    }
 
-    for (StartingSkillList::const_iterator a = _starting_skills.begin(); a != _starting_skills.end();
-         ++a) {
+    for( const auto &elem : _starting_skills ) {
         // Skill::skill shows a debug message if the skill is unknown
-        Skill::skill(a->first);
+        Skill::skill( elem.first );
     }
 }
 

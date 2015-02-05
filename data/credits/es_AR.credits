@@ -1,18 +1,18 @@
-# Este mensaje debe tener 16 líneas de largo como máximo.
-# Este mensaje debe tener 16 líneas de largo como máximo.
-####################################################################
+# Este mensaje puede ser de hasta 21 líneas de largo, pero lo ideal es que sea de menos.
+# El largo máximo de una línea es de 72 caracteres; la siguiente línea es para usar de referencia
+########################################################################
 Autor original: Director del Proyecto: Sitio Web/Foro:
 Whales (retirado) KevinGranade GlyphGryph
 
-Desarrolladores principales actuales/Encargados de Github:
-KevinGranade, i2amroy, Rivet-the-Zombie, KA101, BevapDin
+Desarrolladores actuales principales/Encargados de Github:
+KevinGranade, Rivet-the-Zombie, KA101, BevapDin
 
 Agradecimientos especiales:
-TheDarklingWolf - Por crear Cataclysm:DDA así como lo conocemos.
 Narc - Por configurar el bot de construcción Jenkins automático.
-BevapDin - Por su incansable esfuerzo reparando bugs.
-dwarfkoala - Por una plétora de jerarquización de bugs.
-illi-kun - Por sus incontables limpiezas en la UI.
+Acidia - Por sus maravillosos PNJ, Misiones y Locaciones.
+Wuzzy y VlasovVitaly - Por sus esfuerzos hercúleos de traducción.
+i2amroy - Por sus varias reparaciones de infraestructura.
+HuXTUS - Por una cantidad enorme de contenido espectacular.
 
 Para ver la lista completa de colaboradores, por favor, visita:
 https://github.com/CleverRaven/Cataclysm-DDA/contributors

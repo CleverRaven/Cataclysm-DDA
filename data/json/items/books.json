@@ -17,9 +17,34 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 400,
         "required_level" : 0,
         "chapters": 4
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "note",
+        "name" : "note",
+        "description" : "A hand-written paper note.",
+        "weight" : 0,
+        "to_hit" : 0,
+        "color" : "white",
+        "symbol" : "?",
+        "material" : ["paper"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 0,
+        "book_data" : {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 1,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MCG_NOTE"
+        }
     },
     {
         "type" : "BOOK",
@@ -41,7 +66,8 @@
         "skill" : "none",
         "price" : 3000,
         "required_level" : 0,
-        "chapters": 4
+        "chapters": 4,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -84,7 +110,7 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "barter",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -105,7 +131,7 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -126,7 +152,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "electronics",
-        "price" : 4000,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -148,7 +174,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "mechanics",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -170,7 +196,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -192,7 +218,7 @@
         "time" : 8,
         "fun" : 3,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 1
     },
     {
@@ -213,7 +239,7 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -234,7 +260,7 @@
         "time" : 55,
         "fun" : -3,
         "skill" : "survival",
-        "price" : 92000,
+        "price" : 920,
         "required_level" : 1
     },
     {
@@ -255,7 +281,7 @@
         "time" : 55,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 92000,
+        "price" : 920,
         "required_level" : 5
     },
     {
@@ -277,7 +303,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "bashing",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -298,7 +324,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "bashing",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -320,7 +346,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "cutting",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -342,7 +368,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "cutting",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -364,7 +390,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "melee",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -385,7 +411,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "melee",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -406,7 +432,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "stabbing",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -428,7 +454,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "unarmed",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -450,7 +476,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "launcher",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -472,7 +498,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "launcher",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -493,7 +519,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "pistol",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -514,7 +540,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "pistol",
-        "price" : 18000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -535,7 +561,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "rifle",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -556,7 +582,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "rifle",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -577,7 +603,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "shotgun",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -598,7 +624,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "shotgun",
-        "price" : 18000,
+        "price" : 2100,
         "required_level" : 0
     },
     {
@@ -619,7 +645,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "smg",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -640,7 +666,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "smg",
-        "price" : 18000,
+        "price" : 2100,
         "required_level" : 0
     },
     {
@@ -661,7 +687,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 60000,
+        "price" : 8500, "//" : "College-level textbooks are Cheap at $60. Med book is likely more expensive.",
         "required_level" : 3
     },
     {
@@ -682,7 +708,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "speech",
-        "price" : 60000,
+        "price" : 4000,
         "required_level" : 3
     },
     {
@@ -703,7 +729,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 60000,
+        "price" : 6000,
         "required_level" : 3
     },
     {
@@ -724,7 +750,7 @@
         "time" : 55,
         "fun" : 1,
         "skill" : "survival",
-        "price" : 92000,
+        "price" : 920, "//" : "Since it's a novel, price point is much more reasonable.",
         "required_level" : 5
     },
     {
@@ -746,7 +772,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 60000,
+        "price" : 6000,
         "required_level" : 3
     },
     {
@@ -768,7 +794,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "speech",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -789,7 +815,7 @@
         "time" : 10,
         "fun" : 2,
         "skill" : "none",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -810,7 +836,7 @@
         "time" : 5,
         "fun" : 1,
         "skill" : "none",
-        "price" : 3500,
+        "price" : 350,
         "required_level" : 0
     },
     {
@@ -831,7 +857,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "driving",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -852,7 +878,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -873,7 +899,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -894,7 +920,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "tailor",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -916,7 +942,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -938,7 +964,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "carpentry",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -959,7 +985,7 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "gun",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -980,7 +1006,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "gun",
-        "price" : 18000,
+        "price" : 3800,
         "required_level" : 0
     },
     {
@@ -1001,7 +1027,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 20000,
+        "price" : 12000,
         "required_level" : 3
     },
     {
@@ -1023,7 +1049,7 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "archery",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1044,7 +1070,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "archery",
-        "price" : 20000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -1065,7 +1091,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "archery",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -1086,7 +1112,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 4800,
         "required_level" : 2
     },
     {
@@ -1107,7 +1133,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 4800,
         "required_level" : 3
     },
     {
@@ -1128,7 +1154,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 300,
         "required_level" : 0
     },
     {
@@ -1149,7 +1175,7 @@
         "time" : 7,
         "fun" : 2,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 300,
         "required_level" : 0
     },
     {
@@ -1171,7 +1197,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "firstaid",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1193,7 +1219,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "dodge",
-        "price" : 4800,
+        "price" : 490,
         "required_level" : 0
     },
     {
@@ -1215,7 +1241,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "dodge",
-        "price" : 20000,
+        "price" : 7200,
         "required_level" : 0
     },
     {
@@ -1237,7 +1263,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "throw",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1259,7 +1285,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "throw",
-        "price" : 18000,
+        "price" : 2800,
         "required_level" : 0
     },
     {
@@ -1280,7 +1306,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "swimming",
-        "price" : 4800,
+        "price" : 460,
         "required_level" : 0
     },
     {
@@ -1301,7 +1327,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "swimming",
-        "price" : 18000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -1322,7 +1348,7 @@
         "time" : 15,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1344,7 +1370,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1366,7 +1392,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1388,7 +1414,7 @@
         "time" : 20,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1410,7 +1436,7 @@
         "time" : 20,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1432,7 +1458,7 @@
         "time" : 25,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1454,7 +1480,7 @@
         "time" : 20,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1476,7 +1502,7 @@
         "time" : 20,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1498,7 +1524,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1520,7 +1546,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1542,7 +1568,7 @@
         "time" : 20,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1564,7 +1590,7 @@
         "time" : 4,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 550,
         "required_level" : 0,
         "chapters": 4
     },
@@ -1586,7 +1612,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1608,7 +1634,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1630,7 +1656,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1652,7 +1678,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1674,7 +1700,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1696,7 +1722,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1718,7 +1744,7 @@
         "time" : 18,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1740,7 +1766,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1762,7 +1788,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1785,7 +1811,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1050,
         "required_level" : 0,
         "chapters": 36
     },
@@ -1808,7 +1834,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1050,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1831,7 +1857,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 950,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1853,7 +1879,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1876,7 +1902,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1150,
         "required_level" : 0,
         "chapters": 36
     },
@@ -1898,7 +1924,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1921,7 +1947,7 @@
         "time" : 26,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1250,
         "required_level" : 0,
         "chapters": 40
     },
@@ -1944,7 +1970,7 @@
         "time" : 36,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1250,
         "required_level" : 0,
         "chapters": 44
     },
@@ -1966,7 +1992,7 @@
         "time" : 36,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1989,7 +2015,7 @@
         "time" : 48,
         "fun" : 5,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1400,
         "required_level" : 0,
         "chapters": 28
     },
@@ -2011,7 +2037,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1290,
         "required_level" : 0,
         "chapters": 28
     },
@@ -2034,7 +2060,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "unarmed",
-        "price" : 18000,
+        "price" : 3800,
         "required_level" : 0
     },
     {
@@ -2055,7 +2081,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 8300,
         "required_level" : 5
     },
     {
@@ -2077,7 +2103,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "cutting",
-        "price" : 20000,
+        "price" : 5200,
         "required_level" : 1
     },
     {
@@ -2098,7 +2124,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "stabbing",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -2119,7 +2145,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "mechanics",
-        "price" : 19000,
+        "price" : 5500,
         "required_level" : 0
     },
     {
@@ -2140,7 +2166,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 20000,
+        "price" : 2900,
         "required_level" : 0
     },
     {
@@ -2162,7 +2188,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "speech",
-        "price" : 16000,
+        "price" : 1600,
         "required_level" : 0
     },
     {
@@ -2184,7 +2210,7 @@
         "time" : 25,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 18000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2206,7 +2232,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 20000,
+        "price" : 2500,
         "required_level" : 0
     },
     {
@@ -2228,7 +2254,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2249,7 +2275,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2271,7 +2297,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "gun",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2292,7 +2318,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 17000,
+        "price" : 1700,
         "required_level" : 0
     },
     {
@@ -2314,7 +2340,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 17000,
+        "price" : 5500, "//" : "College-level textbooks are Cheap at $60.",
         "required_level" : 0
     },
     {
@@ -2335,7 +2361,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "price" : 16000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2356,7 +2382,7 @@
         "time" : 10,
         "fun" : -5,
         "skill" : "cooking",
-        "price" : 40000,
+        "price" : 40000, "//" : "Wasn't commercially traded. ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
         "required_level" : 2
     },
     {
@@ -2377,7 +2403,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 3
     },
     {
@@ -2398,7 +2424,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "electronics",
-        "price" : 20000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2419,7 +2445,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "tailor",
-        "price" : 19000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2441,7 +2467,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "tailor",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -2463,7 +2489,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "tailor",
-        "price" : 60000,
+        "price" : 6000,
         "required_level" : 3
     },
     {
@@ -2484,7 +2510,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "tailor",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2505,7 +2531,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 24000,
+        "price" : 2400,
         "required_level" : 0
     },
     {
@@ -2526,7 +2552,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 24000,
+        "price" : 2400,
         "required_level" : 0
     },
     {
@@ -2548,7 +2574,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "carpentry",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2570,7 +2596,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "carpentry",
-        "price" : 22000,
+        "price" : 1800,
         "required_level" : 0
     },
     {
@@ -2592,7 +2618,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "driving",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2614,7 +2640,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "computer",
-        "price" : 50000,
+        "price" : 8500,
         "required_level" : 3
     },
     {
@@ -2636,7 +2662,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "computer",
-        "price" : 50000,
+        "price" : 7900,
         "required_level" : 3
     },
     {
@@ -2658,7 +2684,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 52000,
+        "price" : 8200,
         "required_level" : 2
     },
     {
@@ -2680,7 +2706,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 53000,
+        "price" : 9300,
         "required_level" : 3
     },
     {
@@ -2702,7 +2728,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 53000,
+        "price" : 3300,
         "required_level" : 4
     },
     {
@@ -2724,7 +2750,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 48000,
+        "price" : 9800, "//" : "Biz majors can afford it. Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
         "required_level" : 3
     },
     {
@@ -2746,7 +2772,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "mechanics",
-        "price" : 49500,
+        "price" : 4950,
         "required_level" : 3
     },
     {
@@ -2768,7 +2794,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "mechanics",
-        "price" : 49500,
+        "price" : 5950,
         "required_level" : 4
     },
     {
@@ -2789,7 +2815,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 7950,
         "required_level" : 3
     },
     {
@@ -2810,7 +2836,7 @@
         "time" : 15,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 495,
+        "price" : 4950,
         "required_level" : 2
     },
     {
@@ -2831,7 +2857,7 @@
         "time" : 45,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 1950,
         "required_level" : 1
     },
     {
@@ -2853,7 +2879,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 7950,
         "required_level" : 5
     },
     {
@@ -2875,7 +2901,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "carpentry",
-        "price" : 55000,
+        "price" : 6500,
         "required_level" : 3
     },
     {
@@ -2896,7 +2922,7 @@
         "time" : 50,
         "fun" : -1,
         "skill" : "computer",
-        "price" : 78000,
+        "price" : 7800,
         "required_level" : 5
     },
     {
@@ -2918,7 +2944,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2940,7 +2966,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "firstaid",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2962,7 +2988,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "carpentry",
-        "price" : 92000,
+        "price" : 8200,
         "required_level" : 5
     },
     {
@@ -3027,7 +3053,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 10000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -3048,7 +3074,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 50000,
+        "price" : 5000, "//" : "ooh, military records, probably Classified!",
         "required_level" : 0
     },
     {
@@ -3061,7 +3087,7 @@
         "weight" : 340,
         "to_hit" : 1,
         "color" : "light_gray",
-        "intelligence" : 0,
+        "intelligence" : 15,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 3,
@@ -3070,8 +3096,9 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 50000,
-        "required_level" : 0
+        "price" : 1500,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3092,8 +3119,9 @@
         "time" : 30,
         "fun" : 2,
         "skill" : "none",
-        "price" : 90000,
-        "required_level" : 0
+        "price" : 2900,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3114,7 +3142,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "fabrication",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -3136,7 +3164,7 @@
         "time" : 16,
         "fun" : 1,
         "skill" : "fabrication",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -3157,7 +3185,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 55000,
+        "price" : 4500,
         "required_level" : 3
     },
     {
@@ -3179,7 +3207,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 55000,
+        "price" : 6500,
         "required_level" : 4
     },
     {
@@ -3201,7 +3229,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3223,7 +3251,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3245,7 +3273,7 @@
         "time" : 60,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3267,7 +3295,7 @@
         "time" : 60,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3289,7 +3317,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "cooking",
-        "price" : 50000,
+        "price" : 62000,
         "required_level" : 8
     },
     {
@@ -3333,7 +3361,7 @@
         "time" : 10,
         "fun" : -2,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 400,
         "required_level" : 4
     },
     {
@@ -3343,7 +3371,7 @@
         "description" : "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.",
         "weight" : 1409,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 84000,
         "time" : 45,
         "fun" : 1,
         "skill" : "fabrication",
@@ -3475,7 +3503,7 @@
         "description" : "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 60000,
+        "price" : 64000,
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
@@ -3497,7 +3525,7 @@
         "description" : "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before...",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 50000,
+        "price" : 56000,
         "time" : 45,
         "fun" : -2,
         "skill" : "electronics",
@@ -3519,7 +3547,7 @@
         "description" : "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
         "weight" : 1909,
         "volume" : 2,
-        "price" : 30000,
+        "price" : 3000,
         "time" : 45,
         "fun" : 1,
         "skill" : "electronics",
@@ -3541,7 +3569,7 @@
         "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes.  Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals.  The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 500,
+        "price" : 50000,
         "time" : 45,
         "fun" : -1,
         "skill" : "fabrication",
@@ -3563,7 +3591,7 @@
         "description" : "This Doubletech Industries binder has several intimidating security warnings on the cover.  Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
         "weight" : 1409,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 74000,
         "time" : 45,
         "fun" : 1,
         "skill" : "electronics",
@@ -3585,7 +3613,7 @@
         "description" : "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
         "weight" : 223,
         "volume" : 2,
-        "price" : 50000,
+        "price" : 5000,
         "time" : 45,
         "fun" : 1,
         "skill" : "driving",
@@ -3607,7 +3635,7 @@
         "description" : "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
         "weight" : 220,
         "volume" : 2,
-        "price" : 20000,
+        "price" : 2000,
         "time" : 30,
         "fun" : 2,
         "skill" : "driving",
@@ -3629,7 +3657,7 @@
         "description" : "This sheaf of papers-dated two weeks before all this started-describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"...",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3651,7 +3679,7 @@
         "description" : "This sheaf of papers-dated the day before you evacuated-describes a new chemical formula in detail and supplies instructions for its use as some sort of ...crowd-control catalyst?  That can't be right...",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3672,7 +3700,7 @@
         "description" : "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with...a chemical formula?",
         "weight" : 400,
         "volume" : 3,
-        "price" : 40000,
+        "price" : 400,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3693,7 +3721,7 @@
         "description" : "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
         "weight" : 400,
         "volume" : 3,
-        "price" : 40000,
+        "price" : 400,
         "time" : 45,
         "fun" : -2,
         "skill" : "none",
@@ -3726,7 +3754,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6500,
         "required_level" : 7
     },
     {
@@ -3737,7 +3765,7 @@
         "description" : "This sheaf of papers (dated the day you left the shelter!) is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3770,7 +3798,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 45000,
+        "price" : 4500,
         "required_level" : 4
     },
     {
@@ -3791,8 +3819,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3812,8 +3841,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3833,8 +3863,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3854,8 +3885,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3875,8 +3907,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3896,8 +3929,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3917,8 +3951,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3939,8 +3974,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3961,8 +3997,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3983,8 +4020,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4005,8 +4043,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4027,8 +4066,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4049,8 +4089,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4071,8 +4112,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4093,8 +4135,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4115,8 +4158,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4137,8 +4181,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4146,7 +4191,7 @@
         "name" : "Dianetics",
         "name_plural" : "copies of Dianetics",
         "max_level" : 0,
-        "description" : "The book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musing on psychology called Dianetics.",
+        "description" : "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
         "weight" : 486,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4159,8 +4204,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4202,7 +4248,29 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "cooking",
-        "price" : 4000,
+        "price" : 3500,
         "required_level" : 1
+    },
+    {
+        "type" : "BOOK",
+        "id" : "modern_tanner",
+        "name" : "The Modern Tanner",
+        "name_plural" : "copies of The Modern Tanner",
+        "max_level" : 4,
+        "description" : "A in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
+        "weight" : 568,
+        "to_hit" : 0,
+        "color" : "brown",
+        "intelligence" : 4,
+        "symbol" : "?",
+        "material" : ["paper", "leather"],
+        "volume" : 3,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 18,
+        "fun" : 0,
+        "skill" : "cooking",
+        "price" : 2000,
+        "required_level" : 3
     }
 ]

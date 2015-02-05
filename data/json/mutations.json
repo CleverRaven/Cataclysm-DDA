@@ -103,11 +103,12 @@
         "id" : "NIGHTVISION",
         "name" : "Night Vision",
         "points" : 1,
-        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
+        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
@@ -240,6 +241,14 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["LIGHTWEIGHT"]
+    },{
+        "type" : "mutation",
+        "id" : "SPIRITUAL",
+        "name" : "Spiritual",
+        "points" : 1,
+        "description" : "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "TOLERANCE",
@@ -587,8 +596,9 @@
         "points" : -3,
         "description" : "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
+        "//" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
         "valid" : false,
-        "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN", "ANTIFRUIT"]
+        "cancels" : ["CANNIBAL", "MEATARIAN", "ANTIFRUIT"]
     },{
         "type" : "mutation",
         "id" : "THINSKIN",
@@ -605,7 +615,7 @@
         "description" : "You, like many children, hated eating your vegetables; however, you didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
+        "cancels" : ["VEGETARIAN"]
     },{
         "type" : "mutation",
         "id" : "ANTIFRUIT",
@@ -614,12 +624,13 @@
         "description" : "You despise eating fruits. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
+        "cancels" : ["VEGETARIAN"]
     },{
         "type" : "mutation",
         "id" : "LACTOSE",
         "name" : "Lactose Intolerance",
         "points" : -1,
+        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -634,6 +645,7 @@
         "id" : "ANTIWHEAT",
         "name" : "Wheat Allergy",
         "points" : -2,
+        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating wheat. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -875,21 +887,23 @@
         "id" : "NIGHTVISION2",
         "name" : "High Night Vision",
         "points" : 3,
-        "description" : "You can see incredibly well in the dark!",
+        "description" : "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
         "name" : "Full Night Vision",
         "points" : 5,
-        "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
+        "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "CEPH_EYES",
@@ -906,10 +920,11 @@
         "id" : "CEPH_VISION",
         "name" : "Cephalopod Vision",
         "points" : 3,
-        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
+        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["CEPH_EYES"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
-        "category" : ["MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -925,20 +940,22 @@
         "id" : "ELFA_NV",
         "name" : "Fey Vision",
         "points" : 3,
-        "description" : "The shadows don't seem as dark now.",
+        "description" : "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["ELFAEYES"],
         "changes_to" : ["ELFA_FNV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "ELFA_FNV",
         "name" : "Fey Nightsight",
         "points" : 5,
-        "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
+        "description" : "You can see clearly, even in the darkest caves and under moonless skies.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "FEL_EYE",
@@ -955,18 +972,20 @@
         "id" : "FEL_NV",
         "name" : "Feline Vision",
         "points" : 4,
-        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.",
+        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "URSINE_EYE",
         "name" : "Ursine Vision",
         "points" : 1,
-        "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.",
+        "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",
@@ -1034,7 +1053,7 @@
         "points" : 5,
         "valid" : false,
         "purifiable" : false,
-        "description" : "Your broken limbs mend theselves without significant difficulty.",
+        "description" : "Your broken limbs mend themselves without significant difficulty.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER"],
         "threshreq" : ["THRESH_LIZARD"],
@@ -1265,10 +1284,10 @@
         "visibility" : 6,
         "ugliness" : 2,
         "description" : "Light fur has grown to cover your entire body, providing slight protection from cold.",
-        "category" : ["MUTCAT_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_SPIDER"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR"]
+        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
@@ -1277,10 +1296,10 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
@@ -1289,7 +1308,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -1300,7 +1319,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Dense grey fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_LUPINE"]
     },{
@@ -1311,7 +1330,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "You've grown sleek brown fur, providing some protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "leads_to" : ["LYNX_FUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
@@ -1335,7 +1354,8 @@
         "description" : "Your epidermis has turned into a thin, flexible layer of chitin. It provides minor protection from cutting wounds. Slightly reduces wet effects.",
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
-        "changes_to" : ["CHITIN2"],
+        "changes_to" : ["CHITIN2", "CHITIN_FUR"],
+        "category" : ["MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 1 },
             { "part" : "LEGS", "ignored" : 5 },
@@ -1372,8 +1392,9 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "You've grown a chitin exoskeleton made of thick, stiff plates. It provides excellent physical protection, but reduces your dexterity by 1 and encumbers all body parts but your eyes and mouth. Greatly reduces wet effects.",
-        "prereqs" : ["CHITIN2"],
+        "prereqs" : ["CHITIN2", "CHITIN_FUR2"],
         "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR3"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 4 },
             { "part" : "LEGS", "ignored" : 14 },
@@ -1382,6 +1403,48 @@
             { "part" : "HANDS", "ignored" : 3 },
             { "part" : "TORSO", "ignored" : 26 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR",
+        "name" : "Hairy Chitin",
+        "points" : 3,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
+        "prereqs" : ["CHITIN", "LIGHTFUR"],
+        "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR2"]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR2",
+        "name" : "Furred Chitin",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
+        "prereqs" : ["CHITIN_FUR"],
+        "category" : ["MUTCAT_SPIDER"],
+        "changes_to" : ["CHITIN_FUR3", "CHITIN3"]
+    },{
+        "type" : "mutation",
+        "id" : "CHITIN_FUR3",
+        "name" : "Furred Plate",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "Your exoskeleton has hardened considerably--restricting movement, granted--and boasts a fine coat of hairs that put feline whiskers to shame.",
+        "prereqs" : ["CHITIN_FUR2", "CHITIN3"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "CF_HAIR",
+        "name" : "Urticating Hairs",
+        "points" : 3,
+        "description" : "Significant amounts of your hairs have loosened.  If somme creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
+        "prereqs" : ["CHITIN_FUR2", "CHITIN_FUR3"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "SPINES",
@@ -1596,8 +1659,7 @@
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_FELINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "CLAWS_TENTACLE",
@@ -1813,7 +1875,7 @@
         "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
         "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE"],
         "prereqs" : ["EYEBULGE"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PADDED_FEET",
@@ -1821,7 +1883,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
@@ -1836,7 +1898,7 @@
         "mixed_effect" : true,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
         "valid" : false,
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1937,27 +1999,25 @@
         "id" : "RUMINANT",
         "name" : "Ruminant",
         "points" : 5,
-        "description" : "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
+        "description" : "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by activating this, standing over your target, and pressing E.",
         "prereqs" : ["HERBIVORE"],
         "changes_to" : ["GRAZER"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "GRAZER",
         "name" : "Grazer",
         "points" : 10,
-        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by standing over it and pressing E.",
+        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by activating this,  standing over your target, and pressing E.",
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
@@ -2229,8 +2289,7 @@
         "threshreq" : ["THRESH_URSINE"],
         "category" : ["MUTCAT_URSINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
@@ -2425,7 +2484,7 @@
         "points" : 3,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your momvement, with some effort and noise.",
+        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
         "prereqs" : ["WINGS_STUB"],
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_INSECT"],
@@ -2459,11 +2518,30 @@
         "mixed_effect" : true,
         "description" : "A set of insect-like mandibles have grown around your mouth. They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear. Slightly reduces wet effects.",
         "prereqs" : ["MOUTH_FLAPS"],
+        "changes_to" : ["FANGS_SPIDER"],
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "FANGS_SPIDER",
+        "name" : "Folding Fangs",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 6,
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
+        "prereqs" : ["MANDIBLES"],
+        "prereqs2" : ["POISONOUS", "POISONOUS2"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 1 }
+        ],
+        "active"     :    true,
+        "time"       :    10
     },{
         "type" : "mutation",
         "id" : "CANINE_EARS",
@@ -2512,7 +2590,7 @@
         "points" : 0,
         "visibility" : 4,
         "ugliness" : 1,
-        "description" : "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+        "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
         "category" : ["MUTCAT_ELFA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
@@ -3128,7 +3206,7 @@
         "ugliness" : 4,
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
         "prereqs" : ["SNOUT"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "SNOUT"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
@@ -3152,8 +3230,8 @@
         "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
-        "prereqs" : ["EYEBULGE"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR", "MANDIBLES", "MOUTH_TENTACLES"],
+        "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["MUTCAT_INSECT"]
     },{
@@ -3393,7 +3471,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "You have a beak for a mouth. You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouthgear. Slightly reduces wet effects.",
-        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH"],
+        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH", "PROBOSCIS"],
         "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
@@ -3457,14 +3535,14 @@
         "id" : "RADIOACTIVE1",
         "name" : "Minor Radioactivity",
         "points" : -4,
-        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
-        "points" : -4,
+        "points" : -7,
         "description" : "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
@@ -3473,7 +3551,7 @@
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
-        "points" : -4,
+        "points" : -10,
         "description" : "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE2"]
     },{
@@ -3554,7 +3632,7 @@
         "name" : "Herbivore",
         "points" : -3,
         "description" : "Your body's ability to digest meat is severely hampered. Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
-        "cancels" : ["CARNIVORE", "SAPROVORE"],
+        "cancels" : ["CARNIVORE", "SAPROVORE", "ANTIFRUIT", "MEATARIAN"],
         "leads_to" : ["RUMINANT"]
     },{
         "type" : "mutation",
@@ -3562,7 +3640,7 @@
         "name" : "Carnivore",
         "points" : -3,
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
-        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"],
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
     },{
@@ -3666,10 +3744,10 @@
         "visibility" : 4,
         "ugliness" : 5,
         "//~" : "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task. The handheld game does count.",
-        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting on, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients from the soil.",
+        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["MUTCAT_PLANT"]
     },{
@@ -3679,7 +3757,7 @@
         "points" : -3,
         "visibility" : 5,
         "ugliness" : 5,
-        "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
+        "description" : "You find it difficult not to sink roots when able. You extract nutrients and water whenever on diggable terrain, but move more slowly.",
         "prereqs" : ["ROOTS2"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
@@ -3692,7 +3770,7 @@
         "points" : 10,
         "visibility" : 7,
         "ugliness" : 1,
-        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger you might have.",
+        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger or thirst you might have.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["ROOTS2", "ROOTS3"],
@@ -3827,7 +3905,7 @@
         "purifiable" : false,
         "changes_to" : ["INSECT_ARMS_OK", "ARACHNID_ARMS"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "prereqs" : ["CHITIN"],
+        "prereqs" : ["CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"]
@@ -3859,7 +3937,7 @@
         "changes_to" : ["ARACHNID_ARMS_OK"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["INSECT_ARMS"],
-        "prereqs2" : ["CHITIN3", "FUR"],
+        "prereqs2" : ["CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -3874,7 +3952,7 @@
         "purifiable" : false,
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["ARACHNID_ARMS"],
-        "prereqs2" : ["VENOMOUS", "WEB_RAPPEL"],
+        "prereqs2" : ["POISONOUS", "POISONOUS2", "WEB_RAPPEL"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -3948,16 +4026,14 @@
         "visibility" : 10,
         "ugliness" : 3,
         "mixed_effect" : true,
-        "description" : "Your protective shell has grown large enough to accomodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
         "prereqs" : ["SHELL"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ],
-        "active"     :    true,
-        "//" : "Needs to be nonzero so it stays on, but there's no charge for using your shell",
-        "time"       :    100
+        "active"     :    true
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
@@ -4197,6 +4273,24 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_SWAT",
+        "name" : "SWAT Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_CYBERCOP",
+        "name" : "Bionic Officer",
+        "points" : 0,
+        "description" : "You are a cybernetically-resurrected law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_PD_DET",
         "name" : "Police Detective",
         "points" : 0,
@@ -4229,6 +4323,24 @@
         "name" : "Skater",
         "points" : 0,
         "description" : "You spent a lot of time actively maneuvering on skates before the cataclysm, and are better at staying on your feet when checked or blocked.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MA_ORANGE",
+        "name" : "Martial Artist",
+        "points" : 0,
+        "description" : "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really were.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MA_BLACK",
+        "name" : "Black Belt",
+        "points" : 0,
+        "description" : "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
         "valid": false,
         "purifiable": false,
         "profession": true

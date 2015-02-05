@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "necromancy",
+    "name": "Necromancy",
+    "author" : "dambuk1",
+    "description": "Adds the ability to revive creatures as minions.",
+    "path": ""
+}
+

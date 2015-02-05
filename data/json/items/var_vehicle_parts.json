@@ -101,7 +101,7 @@
         "symbol": "]",
         "color": "dark_gray",
         "name": "small wheel",
-        "description": "A pretty small wheel.  Probably from one of those segway things.  It is not very menacing.",
+        "description": "A pretty small wheel.  Probably from one of those Segway things.  It is not very menacing.",
         "price": 14000,
         "material": ["steel", "plastic"],
         "weight": 2722,

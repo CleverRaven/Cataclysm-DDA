@@ -1010,6 +1010,8 @@
         "name" : "Dragon Snatch",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
+        "stun_dur" : 2,
+        "bash_mult" : 1.2,
         "messages" : [
             "You grab and knee %s!",
             "<npcname> grabs and knees %s!"
@@ -1137,6 +1139,72 @@
         "messages" : [
             "You trip %s",
             "<npcname> trips %s"
+        ]
+    },{
+         "type" : "technique",
+      "id" : "niten_water_cut",
+      "name" : "Flowing Water Cut",
+      "min_melee" : 4,
+      "messages" : [
+          "You strike %s with the slow power of flowing water",
+          "<npcname> strikes %s with the slow power of flowing water"
+        ],
+      "cut_mult" : 2.5,
+      "bash_mult" : 2.0,
+      "speed_mult" : 1.5
+    },{
+       "type" : "technique",
+      "id" : "niten_red_leaf",
+      "name" : "Red Leaf's Cut",
+      "min_melee" : 5,
+      "down_dur" : 2,
+        "messages" : [
+          "Your strike knocks %s off balance",
+          "<npcname>'s strike knocks %s off balance"
+      ]
+   },{
+       "type" : "technique",
+      "id" : "niten_stone_cut",
+      "name" : "Fire and Stone's Cut",
+      "min_melee" : 6,
+      "crit_tec" : true,
+      "messages" : [
+          "You stun %s with the force of the blow!",
+          "<npcname> stuns %s with the force of the blow!"
+      ],
+      "cut_mult" : 1.8,
+      "bash_mult" : 1.8,
+      "stun_dir" : 3
+   },{
+       "type" : "technique",
+      "id" : "niten_timing_attack",
+      "name" : "In-One Timing",
+      "min_melee" : 5,
+      "req_buffs" : [
+          "niten_set-up"
+      ],
+      "messages" : [
+          "You strike at %s's weaknesses!",
+          "<npcname> strikes %s's weaknesses!"
+      ],
+      "cut_mult" : 1.2,
+      "bash_mult" : 1.2,
+      "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
+      "quick" : true,
+      "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
+      "stun_dir" : 2
+   },{
+       "type" : "technique",
+      "id" : "niten_feint",
+      "name" : "feint at",
+      "melee_allowed" : true,
+      "min_melee" : 2,
+      "defensive" : true,
+      "miss_recovery" : true,
+      "speed_mult" : 0.8,
+      "messages" : [
+          "You feint at %s",
+          "<npcname> feints at %s"
         ]
     }
 ]

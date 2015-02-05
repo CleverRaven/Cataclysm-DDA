@@ -10,12 +10,13 @@
 #include "get_version.h"
 #include "help.h"
 #include "worldfactory.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
 
 #include <fstream>
 
+//TODO replace these with filesystem.h
 #include <sys/stat.h>
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -27,8 +28,11 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
+static std::vector<std::string> mmenu_title;
 static std::vector<std::string> mmenu_motd;
 static std::vector<std::string> mmenu_credits;
+static std::vector<std::string> vMenuItems;
+static std::vector<std::vector<std::string>> vMenuHotkeys;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
@@ -49,78 +53,47 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
                  _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
     int iLine = 0;
-    const int iOffsetX1 = 3 + (window_width - FULL_SCREEN_WIDTH) / 2;
-    const int iOffsetX2 = 4 + (window_width - FULL_SCREEN_WIDTH) / 2;
-    const int iOffsetX3 = 18 + (window_width - FULL_SCREEN_WIDTH) / 2;
+    const int iOffsetX = (window_width - FULL_SCREEN_WIDTH) / 2;
 
     const nc_color cColor1 = c_ltcyan;
     const nc_color cColor2 = c_ltblue;
     const nc_color cColor3 = c_ltblue;
 
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "_________            __                   .__                            ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
-              "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+    if (mmenu_title.size() > 1) {
+        for (size_t i = 0; i < mmenu_title.size(); ++i) {
+            if (i == 6) {
+                if (!bShowDDA) {
+                    break;
+                }
+                if (FULL_SCREEN_HEIGHT > 24) {
+                    ++iLine;
+                }
+            }
+            mvwprintz(w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, mmenu_title[i].c_str());
+        }
+    } else {
+        center_print(w_open, iLine++, cColor1, mmenu_title[0].c_str());
+    }
 
     if (bShowDDA) {
-        if (FULL_SCREEN_HEIGHT > 24) {
-            ++iLine;
-        }
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "________                   .__      ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
-                  "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
-
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
         iLine++;
         center_print(w_open, iLine++, cColor3, _("Version: %s"), getVersionString());
     }
 
-    std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
-    vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
-    vMenuItems.push_back(pgettext("Main Menu", "Lo<a>d"));
-    vMenuItems.push_back(pgettext("Main Menu", "<W>orld"));
-    vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
-    vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
-    vMenuItems.push_back(pgettext("Main Menu", "H<e>lp"));
-    vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
-    vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
-
     int menu_length = 0;
-    for( auto menu_item : vMenuItems ) {
-        // adds width if there are shortcut symbols "<" & ">", and width + 2 otherwise.
-        menu_length += utf8_width(menu_item.c_str()) +
-            (menu_item.find_first_of("<") != std::string::npos ? 0 : 2);
+    for( size_t i = 0; i < vMenuItems.size(); ++i ) {
+        menu_length += utf8_width(vMenuItems[i].c_str(), true) + 2;
+        if (!vMenuHotkeys[i].empty()) {
+            menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
+        }
     }
-    // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
-    const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
-    const int spacing = free_space / ((int)vMenuItems.size() - 1);
-    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int free_space = std::max(0, window_width - menu_length - iMenuOffsetX);
+    const int spacing = free_space / ((int)vMenuItems.size() + 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() + 1);
     const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
+    const int final_offset = iMenuOffsetX + adj_offset + spacing;
 
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, adj_offset, spacing);
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, final_offset, spacing);
 
     refresh();
     wrefresh(w_open);
@@ -165,6 +138,11 @@ std::vector<std::string> load_file( const std::string &path, const std::string &
     return result;
 }
 
+void game::mmenu_refresh_title()
+{
+    mmenu_title = load_file(PATH_INFO::find_translated_file( "titledir", ".title", "title" ), _( "Cataclysm: Dark Days Ahead" ) );
+}
+
 void game::mmenu_refresh_motd()
 {
     mmenu_motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
@@ -173,6 +151,25 @@ void game::mmenu_refresh_motd()
 void game::mmenu_refresh_credits()
 {
     mmenu_credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+}
+
+std::vector<std::string> get_hotkeys(const std::string& s)
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of('<');
+    size_t end = s.find_first_of('>');
+    if (start != std::string::npos && end != std::string::npos) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of('|', start);
+        while (sep < end) {
+            hotkeys.push_back(s.substr(lastsep + 1, sep - lastsep - 1));
+            lastsep = sep;
+            sep = s.find_first_of('|', sep + 1);
+        }
+        hotkeys.push_back(s.substr(lastsep + 1, end - lastsep - 1));
+    }
+    return hotkeys;
 }
 
 bool game::opening_screen()
@@ -205,23 +202,51 @@ bool game::opening_screen()
     WINDOW *w_open = newwin(total_h, total_w, y0, x0);
     WINDOW_PTR w_openptr( w_open );
 
-    const int iMenuOffsetX = 2;
+    const int iMenuOffsetX = 0;
     int iMenuOffsetY = total_h - 3;
+    // note: if iMenuOffset is changed,
+    // please update MOTD and credits to indicate how long they can be.
 
-    std::vector<std::string> vSubItems;
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    // fill menu with translated menu items
+    vMenuItems.clear();
+    vMenuItems.push_back(pgettext("Main Menu", "<M|m>OTD"));
+    vMenuItems.push_back(pgettext("Main Menu", "<N|n>ew Game"));
+    vMenuItems.push_back(pgettext("Main Menu", "Lo<a|A>d"));
+    vMenuItems.push_back(pgettext("Main Menu", "<W|w>orld"));
+    vMenuItems.push_back(pgettext("Main Menu", "<S|s>pecial"));
+    vMenuItems.push_back(pgettext("Main Menu", "<O|o>ptions"));
+    vMenuItems.push_back(pgettext("Main Menu", "H<e|E|?>lp"));
+    vMenuItems.push_back(pgettext("Main Menu", "<C|c>redits"));
+    vMenuItems.push_back(pgettext("Main Menu", "<Q|q>uit"));
+
+    // determine hotkeys from (possibly translated) menu item text
+    vMenuHotkeys.clear();
+    for ( auto item : vMenuItems ) {
+        vMenuHotkeys.push_back(get_hotkeys(item));
     }
 
+    std::vector<std::string> vSubItems;
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<C|c>ustom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<P|p>reset Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<R|r>andom Character"));
+    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N|n>ow!"));
+    }
+    std::vector<std::vector<std::string>> vNewGameHotkeys;
+    for ( auto item : vSubItems ) {
+        vNewGameHotkeys.push_back(get_hotkeys(item));
+    }
 
     std::vector<std::string> vWorldSubItems;
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D>elete World"));
-    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R>eset World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<C|c>reate World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<D|d>elete World"));
+    vWorldSubItems.push_back(pgettext("Main Menu|World", "<R|r>eset World"));
+    std::vector<std::vector<std::string>> vWorldHotkeys;
+    for ( auto item : vWorldSubItems ) {
+        vWorldHotkeys.push_back(get_hotkeys(item));
+    }
 
+    mmenu_refresh_title();
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;
@@ -266,15 +291,19 @@ bool game::opening_screen()
 
         if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
-                for (size_t i = 0; i < mmenu_motd.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_motd[i].c_str());
+                const int motdy = (iMenuOffsetY - mmenu_motd.size()) * 2/3;
+                const int motdx = 8 + extra_w / 2;
+                for (size_t i = 0; i < mmenu_motd.size(); i++) {
+                    mvwprintz(w_open, motdy + i, motdx, c_ltred, mmenu_motd[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
-                for (size_t i = 0; i < mmenu_credits.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_credits[i].c_str());
+                const int credy = (iMenuOffsetY - mmenu_credits.size()) * 2/3;
+                const int credx = 8 + extra_w / 2;
+                for (size_t i = 0; i < mmenu_credits.size(); i++) {
+                    mvwprintz(w_open, credy + i, credx, c_ltred, mmenu_credits[i].c_str());
                 }
 
                 wrefresh(w_open);
@@ -282,40 +311,18 @@ bool game::opening_screen()
             }
 
             std::string action = ctxt.handle_input();
-            const long chInput = ctxt.get_raw_input().get_first_input();
-            if (chInput == 'm' || chInput == 'M') {
-                // MOTD
-                sel1 = 0;
-                action = "CONFIRM";
-            } else if (chInput == 'n' || chInput == 'N') {
-                // New Game
-                sel1 = 1;
-                action = "CONFIRM";
-            } else if (chInput == 'a' || chInput == 'A') {
-                // Load Game
-                sel1 = 2;
-                action = "CONFIRM";
-            } else if (chInput == 'w' || chInput == 'W') {
-                // World
-                sel1 = 3;
-                action = "CONFIRM";
-            } else if (chInput == 's' || chInput == 'S') {
-                // Special Game
-                sel1 = 4;
-                action = "CONFIRM";
-            } else if (chInput == 'o' || chInput == 'O') {
-                // Options
-                sel1 = 5;
-                action = "CONFIRM";
-            } else if (chInput == 'e' || chInput == 'E' || chInput == '?') {
-                // Help
-                sel1 = 6;
-                action = "CONFIRM";
-            } else if (chInput == 'c' || chInput == 'C') {
-                // Credits
-                sel1 = 7;
-                action = "CONFIRM";
-            } else if (action == "QUIT") {
+            std::string sInput = ctxt.get_raw_input().text;
+            // check automatic menu shortcuts
+            for (size_t i = 0; i < vMenuHotkeys.size(); ++i) {
+                for ( auto hotkey : vMenuHotkeys[i] ) {
+                    if (sInput == hotkey) {
+                        sel1 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+            // also check special keys
+            if (action == "QUIT") {
                 // Quit
                 sel1 = 8;
                 action = "CONFIRM";
@@ -360,20 +367,16 @@ bool game::opening_screen()
                 refresh();
 
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if (chInput == 'p' || chInput == 'P') {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if (chInput == 'r' || chInput == 'R') {
-                    sel2 = 2;
-                    action = "CONFIRM";
-                } else if (chInput == 'n' || chInput == 'N') {
-                    sel2 = 3;
-                    action = "CONFIRM";
-                } else if (action == "LEFT") {
+                std::string sInput = ctxt.get_raw_input().text;
+                for (size_t i = 0; i < vNewGameHotkeys.size(); ++i) {
+                    for ( auto hotkey : vNewGameHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
+                }
+                if (action == "LEFT") {
                     sel2--;
                     if (sel2 < 0) {
                         sel2 = vSubItems.size() - 1;
@@ -399,13 +402,17 @@ bool game::opening_screen()
                         world_generator->set_active_world(world);
                         setup();
                         int pgen = -1;
+                        bool rnd_scn = false;
                         while (pgen < 0) {
-                            //create will return -1 on re-randomize command, keeping the loop going
+                            //create will return -1 (random character)
+                            //or -2 (random character and scenario) keeping the loop going
                             //it will return 0 on exit, or 1 on success
-                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW));
-                            if (pgen == -1) {
+                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2) ?
+                                           (rnd_scn ? PLTYPE_RANDOM_WITH_SCENARIO : PLTYPE_RANDOM) :
+                                            PLTYPE_NOW));
+                            if (pgen < 0) {
                                 u = player();
+                                rnd_scn = pgen == -2;
                             }
                         }
                         if (pgen == 0) {
@@ -503,17 +510,14 @@ bool game::opening_screen()
                 wrefresh(w_open);
                 refresh();
                 std::string action = ctxt.handle_input();
-                const long chInput = ctxt.get_raw_input().get_first_input();
-
-                if (chInput == 'c' || chInput == 'C') {
-                    sel2 = 0;
-                    action = "CONFIRM";
-                } else if ((chInput == 'd' || chInput == 'D') && (world_subs_to_display > 1)) {
-                    sel2 = 1;
-                    action = "CONFIRM";
-                } else if ((chInput == 'r' || chInput == 'R') && (world_subs_to_display > 1)) {
-                    sel2 = 2;
-                    action = "CONFIRM";
+                std::string sInput = ctxt.get_raw_input().text;
+                for (int i = 0; i < world_subs_to_display; ++i) {
+                    for ( auto hotkey : vWorldHotkeys[i] ) {
+                        if (sInput == hotkey) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
                 }
 
                 if (action == "LEFT") {

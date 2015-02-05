@@ -32,7 +32,7 @@ void addict_effect(addiction &add)
             }
             if (rng(8, 400) < in) {
                 add_msg(m_bad, _("Your hands start shaking... you need it bad!"));
-                g->u.add_disease("shakes", 20);
+                g->u.add_effect("shakes", 20);
             }
         }
         break;
@@ -49,9 +49,9 @@ void addict_effect(addiction &add)
         } else if (rng(8, 300) < in) {
             add_msg(m_bad, _("Your hands start shaking... you need a drink bad!"));
             g->u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
-            g->u.add_disease("shakes", 50);
-        } else if (!g->u.has_disease("hallu") && rng(10, 1600) < in) {
-            g->u.add_disease("hallu", 3600);
+            g->u.add_effect("shakes", 50);
+        } else if (!g->u.has_effect("hallu") && rng(10, 1600) < in) {
+            g->u.add_effect("hallu", 3600);
         }
         break;
 
@@ -82,7 +82,7 @@ void addict_effect(addiction &add)
             if (one_in(20) && dice(2, 20) < in) {
                 add_msg(m_bad, _("Your hands start shaking... you need some painkillers."));
                 g->u.add_morale(MORALE_CRAVING_OPIATE, -40, -200);
-                g->u.add_disease("shakes", 20 + in * 5);
+                g->u.add_effect("shakes", 20 + in * 5);
             } else if (one_in(20) && dice(2, 30) < in) {
                 add_msg(m_bad, _("You feel anxious.  You need your painkillers!"));
                 g->u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
@@ -114,13 +114,13 @@ void addict_effect(addiction &add)
         } else if (one_in(10) && dice(2, 80) < in) {
             add_msg(m_bad, _("Your hands start shaking... you need a pick-me-up."));
             g->u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
-            g->u.add_disease("shakes", in * 20);
+            g->u.add_effect("shakes", in * 20);
         } else if (one_in(50) && dice(2, 100) < in) {
             add_msg(m_bad, _("You stop suddenly, feeling bewildered."));
             g->cancel_activity();
             g->u.moves -= 300;
-        } else if (!g->u.has_disease("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
-            g->u.add_disease("hallu", 3600);
+        } else if (!g->u.has_effect("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
+            g->u.add_effect("hallu", 3600);
         }
     }
     break;
@@ -188,9 +188,9 @@ void addict_effect(addiction &add)
         } else if (rng(8, 200) < in) {
             add_msg(m_bad, _("You're shaking... you need some diazepam!"));
             g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
-            g->u.add_disease("shakes", 50);
-        } else if (!g->u.has_disease("hallu") && rng(10, 3200) < in) {
-            g->u.add_disease("hallu", 3600);
+            g->u.add_effect("shakes", 50);
+        } else if (!g->u.has_effect("hallu") && rng(10, 3200) < in) {
+            g->u.add_effect("hallu", 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
             add_msg(m_bad, _("You throw up heavily!"));
             g->cancel_activity_query(_("Throwing up."));
@@ -198,25 +198,31 @@ void addict_effect(addiction &add)
         }
         break;
     case ADD_MARLOSS_R:
-        add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
-        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
     case ADD_MARLOSS_B:
-       add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
-       g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
     case ADD_MARLOSS_Y:
-        add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
-        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+        if (one_in(800 - 20 * in)) {
+            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
+            if (g->u.focus_pool > 40) {
                 g->u.focus_pool -= (in);
             }
+        }
         break;
 
     //for any other unhandled cases

@@ -1,9 +1,10 @@
 #ifndef ARMOR_LAYERS_H
 #define ARMOR_LAYERS_H
 
-#include "item.h"
 #include "output.h"
 #include <string>
+
+class item;
 
 void draw_mid_pane(WINDOW *win, item *worn_item);
 

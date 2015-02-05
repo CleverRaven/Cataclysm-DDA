@@ -1,7 +1,7 @@
 #include "debug.h"
 #include "path_info.h"
 #include "output.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 #include <time.h>
 #include <cstdlib>
 #include <cstdarg>
@@ -39,7 +39,7 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " " << text;
-    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_red, "DEBUG: %s\n  Press spacebar...",
+    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred, "DEBUG: %s\n  Press spacebar...",
                     text.c_str() );
     while( getch() != ' ' ) {
         // wait for spacebar
@@ -247,18 +247,50 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
     return out;
 }
 
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream& operator<<(Stream& out, time_info const& t) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert(std::is_base_of<base, Stream>::value, "");
+
+        out << t.hours << ':' << t.minutes << ':' << t.seconds << '.' << t.mseconds;
+
+        return out;
+    }
+};
+
+#ifdef _MSC_VER
+time_info get_time() noexcept {
+    SYSTEMTIME time {};
+
+    GetLocalTime(&time);
+
+    return time_info { static_cast<int>(time.wHour), static_cast<int>(time.wMinute),
+            static_cast<int>(time.wSecond), static_cast<int>(time.wMilliseconds) };
+}
+#else
+time_info get_time() noexcept {
+    timeval tv;
+    gettimeofday( &tv, nullptr );
+
+    auto const tt      = time_t {tv.tv_sec};
+    auto const current = localtime( &tt );
+
+    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+            static_cast<int>(tv.tv_usec / 1000.0 + 0.5) };
+}
+#endif
+
 std::ofstream &DebugFile::currentTime()
 {
-    struct tm *current;
-    timeval tv;
-    time_t tt;
-    gettimeofday( &tv, NULL );
-    tt = tv.tv_sec;
-    current = localtime( &tt );
-
-    file << current->tm_hour << ":" << current->tm_min << ":" <<
-         current->tm_sec << "." << int( tv.tv_usec / 1000 + 0.5 );
-    return file;
+    return (file << get_time());
 }
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )

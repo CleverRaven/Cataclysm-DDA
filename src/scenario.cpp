@@ -7,10 +7,10 @@
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "item_factory.h"
 #include "bionics.h"
 #include "start_location.h"
 #include "game.h"
+
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
      _description_male("null"), _description_female("null")
@@ -183,24 +183,35 @@ void scenario::check_definitions()
     }
 }
 
+void check_traits( const std::set<std::string> &traits, const std::string &ident )
+{
+    for( auto &t : traits ) {
+        if( ::traits.count( t ) == 0 ) {
+            debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
+        }
+    }
+}
+
 void scenario::check_definition() const
 {
     for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_female.begin(); a != _starting_items_female.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_male.begin(); a != _starting_items_male.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
-
+    check_traits( _allowed_traits, _ident );
+    check_traits( _forced_traits, _ident );
+    check_traits( _forbidden_traits, _ident );
 }
 
 bool scenario::has_initialized()
@@ -263,9 +274,25 @@ std::string scenario::start_location() const
 {
     return _default_loc;
 }
+std::string scenario::random_start_location() const
+{
+   std::vector<std::string> allowed_locs(_allowed_locs.begin(), _allowed_locs.end());
+   if (allowed_locs.size() == 0) {
+       return start_location();
+   }
+   return allowed_locs[rng(0, allowed_locs.size()-1)];
+}
 profession* scenario::get_profession() const
 {
     return profession::prof(_profession);;
+}
+profession* scenario::random_profession() const
+{
+    std::vector<std::string> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
+    if (allowed_professions.size() == 0) {
+        return profession::generic();
+    }
+    return profession::prof(allowed_professions[rng(0, allowed_professions.size()-1)]);
 }
 std::string scenario::start_name() const
 {

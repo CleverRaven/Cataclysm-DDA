@@ -31,11 +31,30 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "shot_beanbag",
+        "items": [
+            ["rubber_slug", 1],
+            ["shot_hull", 1],
+            ["shotgun_primer", 1],
+            ["gunpowder", 16]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "shot_flechette",
+        "items": [
+            ["combatnail", 8],
+            ["shot_hull", 1],
+            ["shotgun_primer", 1],
+            ["gunpowder", 20]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "22_lr",
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 2]
         ]
     },
@@ -45,7 +64,6 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 2]
         ]
     },
@@ -55,8 +73,17 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 1]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "22_fmj",
+        "items": [
+            ["lead", 2],
+            ["22_casing", 1],
+            ["gunpowder", 1],
+            ["copper", 2]
         ]
     },
     {
@@ -91,6 +118,27 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "9mmfmj",
+        "items": [
+            ["lead", 4],
+            ["9mm_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 6],
+            ["copper", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "32_acp",
+        "items": [
+            ["lead", 5],
+            ["38_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "38_special",
         "items": [
             ["lead", 5],
@@ -107,6 +155,17 @@
             ["38_casing", 1],
             ["smpistol_primer", 1],
             ["gunpowder", 7]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "38_fmj",
+        "items": [
+            ["lead", 5],
+            ["38_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 5]
         ]
     },
     {
@@ -131,13 +190,35 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "40sw",
+        "bullet": "40fmj",
+        "items": [
+            ["lead", 6],
+            ["40_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 6],
+            ["copper", 6]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "44magnum",
         "items": [
             ["lead", 10],
             ["44_casing", 1],
             ["lgpistol_primer", 1],
             ["gunpowder", 10]
         ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "44fmj",
+        "items": [
+            ["lead", 7],
+            ["44_casing", 1],
+            ["lgpistol_primer", 1],
+            ["gunpowder", 10],
+            ["copper", 7]
+                ]
     },
     {
         "type": "BULLET_PULLING",
@@ -153,10 +234,11 @@
         "type": "BULLET_PULLING",
         "bullet": "45_jhp",
         "items": [
-            ["lead", 8],
+            ["lead", 7],
             ["45_casing", 1],
             ["lgpistol_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 7]
         ]
     },
     {
@@ -176,7 +258,8 @@
             ["lead", 20],
             ["454_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 20]
+            ["gunpowder", 20],
+            ["copper", 20]
         ]
     },
     {
@@ -186,7 +269,8 @@
             ["lead", 24],
             ["500_casing", 1],
             ["lgpistol_primer", 1],
-            ["gunpowder", 24]
+            ["gunpowder", 24],
+            ["copper", 24]
         ]
     },
     {
@@ -216,7 +300,8 @@
             ["lead", 5],
             ["762_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 7]
+            ["gunpowder", 7],
+            ["copper", 5]
         ]
     },
     {
@@ -226,7 +311,8 @@
             ["lead", 5],
             ["762_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 8]
+            ["gunpowder", 8],
+            ["copper", 5]
         ]
     },
     {
@@ -236,7 +322,8 @@
             ["lead", 2],
             ["223_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 4]
+            ["gunpowder", 4],
+            ["copper", 2]
         ]
     },
     {
@@ -246,7 +333,8 @@
             ["lead", 2],
             ["223_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 6]
+            ["gunpowder", 6],
+            ["copper", 2]
         ]
     },
     {
@@ -256,7 +344,8 @@
             ["incendiary", 2],
             ["223_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 6]
+            ["gunpowder", 6],
+            ["copper", 2]
         ]
     },
     {
@@ -266,7 +355,8 @@
             ["lead", 5],
             ["3006_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 5]
         ]
     },
     {
@@ -276,7 +366,8 @@
             ["lead", 6],
             ["3006_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 8]
+            ["gunpowder", 8],
+            ["copper", 6]
         ]
     },
     {
@@ -286,7 +377,8 @@
             ["incendiary", 6],
             ["3006_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 8]
+            ["gunpowder", 8],
+            ["copper", 6]
         ]
     },
     {
@@ -296,7 +388,8 @@
             ["lead", 6],
             ["308_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 6]
         ]
     },
     {
@@ -306,7 +399,8 @@
             ["lead", 6],
             ["308_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 6]
         ]
     },
     {
@@ -316,7 +410,8 @@
             ["incendiary", 6],
             ["308_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+             ["copper", 6]
         ]
     },
     {
@@ -346,7 +441,8 @@
             ["lead", 21],
             ["50_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 45]
+            ["gunpowder", 45],
+            ["copper", 21]
         ]
     }
 ]

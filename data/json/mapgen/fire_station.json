@@ -134,7 +134,9 @@
                     { "item": "fireman_head",   "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
                     { "item": "fireman_gloves", "chance": 70, "x": [ 16,16 ], "y": [ 21,21 ] },
                     { "item": "fireman_mask",   "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
-                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] }
+                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] },
+                    { "vehicle": "fire_engine", "x": 12, "y": 13, "rotation": 270, "chance": 30 }
+
                 ]
             }
         } ]

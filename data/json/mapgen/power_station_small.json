@@ -1,5 +1,26 @@
 [
     {
+        "type"  : "item_group",
+        "id"    : "pwr_equipment",
+        "items" : [
+            ["hat_hard",         80],
+            ["boots",            60],
+            ["glasses_safety",   40],
+            ["flashlight",       20],
+            ["screwdriver",      20],
+            ["wrench",           30]
+        ]
+    },
+        {
+        "type"  : "item_group",
+        "id"    : "pwr_supplies",
+        "items" : [
+            ["amplifier",        20],
+            ["power_supply",     20],
+            ["cable",            40]
+        ]
+    },
+    {
         "type" : "mapgen",
         "om_terrain" : ["pwr_sub_s"],
         "method": "json",
@@ -58,39 +79,18 @@
             "furniture": {
             "c": "f_counter"
             },
-              "add": [
-                { "item": "hat_hard", "x": 16, "y": 7, "chance": 8 },
-                { "item": "boots", "x": 16, "y": 7, "chance": 6 },
-                { "item": "glasses_safety", "x": 16, "y": 7, "chance": 4 },
-                { "item": "flashlight", "x": 16, "y": 7, "chance": 2 },
-                { "item": "wrench", "x": 16, "y": 7, "chance": 2 },
-                { "item": "screwdriver", "x": 16, "y": 7, "chance": 2 },
-                { "item": "cable", "x": 16, "y": 7, "chance": 6 },
-                { "item": "amplifier", "x": 16, "y": 7, "chance": 2 },
-                { "item": "hat_hard", "x": 16, "y": 8, "chance": 2 },
-                { "item": "boots", "x": 16, "y": 8, "chance": 4 },    
-                { "item": "glasses_safety", "x": 16, "y": 8, "chance": 6 },
-                { "item": "flashlight", "x": 16, "y": 8, "chance": 6 },
-                { "item": "wrench", "x": 16, "y": 8, "chance": 4 },
-                { "item": "screwdriver", "x": 16, "y": 8, "chance": 4 },
-                { "item": "cable", "x": 16, "y": 7, "chance": 2 },
-                { "item": "amplifier", "x": 16, "y": 8, "chance": 6 },
-                { "item": "hat_hard", "x": 16, "y": 12, "chance": 8 },
-                { "item": "boots", "x": 16, "y": 12, "chance": 6 },
-                { "item": "glasses_safety", "x": 16, "y": 12, "chance": 4 },
-                { "item": "flashlight", "x": 16, "y": 12, "chance": 2 },
-                { "item": "wrench", "x": 16, "y": 12, "chance": 2 },
-                { "item": "screwdriver", "x": 16, "y": 12, "chance": 2 },
-                { "item": "cable", "x": 16, "y": 7, "chance": 2 },
-                { "item": "power_supply", "x": 16, "y": 12, "chance": 6 },
-                { "item": "hat_hard", "x": 16, "y": 13, "chance": 2 },
-                { "item": "boots", "x": 16, "y": 13, "chance": 4 },
-                { "item": "glasses_safety", "x": 16, "y": 13, "chance": 6 },
-                { "item": "flashlight", "x": 16, "y": 13, "chance": 6 },
-                { "item": "wrench", "x": 16, "y": 7, "chance": 4 },
-                { "item": "screwdriver", "x": 16, "y": 13, "chance": 4 },
-                { "item": "cable", "x": 16, "y": 7, "chance": 4 },
-                { "item": "power_supply", "x": 16, "y": 13, "chance": 4 }
+              "place_groups": [
+                { "item": "pwr_equipment",  "x": 16, "y": 7, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 7, "chance": 60 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 8, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 8, "chance": 40 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 12, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 12, "chance": 40 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 13, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 13, "chance": 20 }
             ]
         }
     }

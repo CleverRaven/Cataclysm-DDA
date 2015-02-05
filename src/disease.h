@@ -6,22 +6,14 @@
 #include "bodypart.h"
 #include <sstream>
 
+// TODO: Convert martial art buffs over to the effects system and cut out this and disease.cpp completely
+// NOTE: DO NOT PUT MORE STUFF IN THIS FILE, THIS IS ONLY HERE FOR LEGACY PURPOSES UNTIL IT CAN BE REMOVED
+
 class game;
-
-bool dis_msg(dis_type type);
-
-void weed_msg(player *p);
-
-void dis_end_msg(player &p, disease &dis);
-
-void dis_remove_memorial(dis_type type);
 
 void dis_effect(player &p, disease &dis);
 
-int disease_speed_boost(disease dis);
-
 std::string dis_name(disease &dis);
-std::string dis_combined_name(disease &dis);
 
 std::string dis_description(disease &dis);
 

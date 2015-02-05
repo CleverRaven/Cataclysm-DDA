@@ -7,6 +7,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "sounds.h"
 #include <climits>
 
 event::event()
@@ -57,11 +58,11 @@ void event::actualize()
                 temp->spawn_at( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz() );
                 // spawn at the border of the reality bubble, outside of the players view
                 if( one_in( 2 ) ) {
-                    temp->posx = rng( 0, SEEX * MAPSIZE - 1 );
-                    temp->posy = rng( 0, 1 ) * SEEY * MAPSIZE;
+                    temp->setx( rng( 0, SEEX * MAPSIZE - 1 ) );
+                    temp->sety( rng( 0, 1 ) * SEEY * MAPSIZE );
                 } else {
-                    temp->posx = rng( 0, 1 ) * SEEX * MAPSIZE;
-                    temp->posy = rng( 0, SEEY * MAPSIZE - 1 );
+                    temp->setx( rng( 0, 1 ) * SEEX * MAPSIZE );
+                    temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
                 }
                 // And tell the npc to go to the player.
                 temp->goal.x = g->om_global_location().x;
@@ -74,17 +75,15 @@ void event::actualize()
 
   case EVENT_ROBOT_ATTACK: {
    if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
-    mtype *robot_type = GetMType("mon_tripod");
-    if (faction_id == 0) { // The cops!
-     if (one_in(2)) {
-         robot_type = GetMType("mon_copbot");
-     } else {
-         robot_type = GetMType("mon_riotbot");
-     }
-
-     g->u.add_memorial_log(pgettext("memorial_male", "Became wanted by the police!"),
-                           pgettext("memorial_female", "Became wanted by the police!"));
+    mtype *robot_type;
+    if (one_in(2)) {
+        robot_type = GetMType("mon_copbot");
+    } else {
+        robot_type = GetMType("mon_riotbot");
     }
+
+    g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
+                           pgettext("memorial_female", "Became wanted by the police!"));
     monster robot(robot_type);
     int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
         roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
@@ -96,8 +95,8 @@ void event::actualize()
   case EVENT_SPAWN_WYRMS: {
    if (g->levz >= 0)
     return;
-   g->u.add_memorial_log(pgettext("memorial_male", "Awoke a group of dark wyrms!"),
-                         pgettext("memorial_female", "Awoke a group of dark wyrms!"));
+   g->u.add_memorial_log(pgettext("memorial_male", "Drew the attention of more dark wyrms!"),
+                         pgettext("memorial_female", "Drew the attention of more dark wyrms!"));
    monster wyrm(GetMType("mon_dark_wyrm"));
    int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
@@ -108,11 +107,18 @@ void event::actualize()
      mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
-    if (tries < 10) {
-     wyrm.spawn(monx, mony);
-     g->add_zombie(wyrm);
-    }
+             rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
+      if (tries < 10) {
+          g->m.ter_set(monx, mony, t_rock_floor);
+          wyrm.spawn(monx, mony);
+          g->add_zombie(wyrm);
+      }
+   }
+   // You could drop the flag, you know.
+   if (g->u.has_amount("petrified_eye", 1)) {
+      add_msg(_("The eye you're carrying lets out a tortured scream!"));
+      sounds::sound(g->u.posx(), g->u.posy(), 60, "");
+      g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
    }
    if (!one_in(25)) // They just keep coming!
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
@@ -183,7 +189,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u_see(x, y))
+      if (!saw_grate && g->u.sees(x, y))
        saw_grate = true;
      }
     }
@@ -232,8 +238,8 @@ void event::actualize()
    if (!flooded)
     return; // We finished flooding the entire chamber!
 // Check if we should print a message
-   if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
-    if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
+   if (flood_buf[g->u.posx()][g->u.posy()] != g->m.ter(g->u.posx(), g->u.posy())) {
+    if (flood_buf[g->u.posx()][g->u.posy()] == t_water_sh) {
      add_msg(m_warning, _("Water quickly floods up to your knees."));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached knees."),
                            pgettext("memorial_female", "Water level reached knees."));
@@ -241,7 +247,7 @@ void event::actualize()
      add_msg(m_warning, _("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached the ceiling."),
                            pgettext("memorial_female", "Water level reached the ceiling."));
-     g->plswim(g->u.posx, g->u.posy);
+     g->plswim(g->u.posx(), g->u.posy());
     }
    }
 // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -263,11 +269,11 @@ void event::actualize()
    monster spawned( GetMType(montype) );
    int tries = 0, x, y;
    do {
-    x = rng(g->u.posx - 5, g->u.posx + 5);
-    y = rng(g->u.posy - 5, g->u.posy + 5);
+    x = rng(g->u.posx() - 5, g->u.posx() + 5);
+    y = rng(g->u.posy() - 5, g->u.posy() + 5);
     tries++;
    } while (tries < 20 && !g->is_empty(x, y) &&
-            rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
+            rl_dist(x, y, g->u.posx(), g->u.posy()) <= 2);
    if (tries < 20) {
     spawned.spawn(x, y);
     g->add_zombie(spawned);
@@ -283,17 +289,18 @@ void event::per_turn()
 {
  switch (type) {
   case EVENT_WANTED: {
-   // About once every 10 minutes. Suppress in classic zombie mode.
-   if (g->levz >= 0 && one_in(100) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+   // About once every 5 minutes. Suppress in classic zombie mode.
+   if (g->levz >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
-    eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
-    if (g->u_see(place.x, place.y))
+    if (g->u.sees( place ))
      add_msg(m_warning, _("An eyebot swoops down nearby!"));
+    // One eyebot per trigger is enough, really
+    turn = int(calendar::turn);
    }
   } break;
 

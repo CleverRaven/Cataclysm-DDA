@@ -1,19 +1,19 @@
 # This message may be 16 lines long at maximum.
-# Max length of a line is 68 characters; the following line is for reference
-####################################################################
-Автор:                 Проект-менеджер:    Сайт/Форум:
-Whales (не активен)    KevinGranade        GlyphGryph
+# Max length of a line is 72 characters; the following line is for reference
+########################################################################
+Оригинальный автор:    Менеджер проекта:    Вебсайт/Форум:
+Whales (не активен)    KevinGranade         GlyphGryph
 
-Текущие разработчики и менеджеры на github:
-KevinGranade, i2amroy, Rivet-the-Zombie, KA101, BevapDin
+Текущие основные разработчики и менеджеры проекта на Github:
+KevinGranade, Rivet-the-Zombie, KA101, BevapDin
 
 Особая благодарность:
-TheDarklingWolf - За создание Cataclysm:DDA таким, каким мы его знаем.
-Narc - За настройку автоматической системы сборки Jenkins.
-BevapDin - За бесконечное, неустанное исправление ошибок.
-dwarfkoala - За многочисленные исправления ошибок.
-illi-kun - За бесчисленные исправления в UI.
+Narc - за настройку Jenkins, автоматической системы сборки.
+Acidia - за замечательный вклад в NPC, квесты и локации.
+Wuzzy и VlasovVitaly - за титанический труд по переводу.
+i2amroy - за несколько крупных инфраструктурных усовершенствований.
+HuXTUS - за огромное количество потрясающего контента.
 
-Полный список участников можно увидеть в:
+Полный список участников находится здесь:
 https://github.com/CleverRaven/Cataclysm-DDA/contributors
-Катаклизм: тёмные дни впереди выпускается под лицензией CC-BY-SA 3.0.
+«Катаклизм: Темные дни впереди» выпущен под лицензией CC-BY-SA 3.0.

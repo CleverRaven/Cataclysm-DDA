@@ -3,11 +3,10 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "file_wrapper.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -244,7 +243,7 @@ std::string cOpt::getValue()
 
     } else if (sType == "float") {
         std::stringstream ssTemp;
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         const int precision = (fStep >= 0.09) ? 1 : (fStep >= 0.009) ? 2 : (fStep >= 0.0009) ? 3 : 4;
         ssTemp.precision(precision);
         ssTemp << std::fixed << fSet;
@@ -270,11 +269,11 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
-        for (size_t i = 0; i < vItems.size(); i++) {
+        for( auto &elem : vItems ) {
             if (sItems != "") {
                 sItems += _(", ");
             }
-            sItems += (bTranslated) ? optionNames[vItems[i]] : vItems[i];
+            sItems += ( bTranslated ) ? optionNames[elem] : elem;
         }
         return string_format(_("Default: %s - Values: %s"),
                              (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
@@ -394,7 +393,7 @@ void cOpt::setValue(std::string sSetIn)
 
     } else if (sType == "float") {
         std::istringstream ssTemp(sSetIn);
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {
@@ -409,19 +408,36 @@ void cOpt::setValue(std::string sSetIn)
 cOpt::operator float() const
 {
     if (sType == "string") {
-        return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
-
+        return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
-        return (bSet) ? 1.0 : 0.0;
-
+        return (bSet) ? 1.0f : 0.0f;
     } else if (sType == "int") {
-        return (float)iSet;
-
+        return static_cast<float>(iSet);
     } else if (sType == "float") {
         return fSet;
     }
 
-    return 0.0;
+    return 0.0f;
+}
+
+cOpt::operator int() const
+{
+    if (sType == "string") {
+        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
+    } else if (sType == "bool") {
+        return (bSet) ? 1 : 0;
+    } else if (sType == "int") {
+        return iSet;
+    } else if (sType == "float") {
+        return static_cast<int>(fSet);
+    }
+
+    return 0;
+}
+
+cOpt::operator bool() const
+{
+    return static_cast<float>(*this) != 0.0f;
 }
 
 // if (class == "string")
@@ -469,7 +485,7 @@ void initOptions()
                                  );
 
     OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
-                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg. your homebase."),
                                            false
                                           );
 
@@ -555,30 +571,38 @@ void initOptions()
                                  false
                                 );
 
+    optionNames["ask"]      = _("Ask");
+    optionNames["always"]   = _("Always");
+    optionNames["never"]    = _("Never");
+    OPTIONS["DEATHCAM"]     = cOpt("general", _("DeathCam"),
+                                _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
+                                "always,ask,never", "ask"
+                                );
+
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     // Note: language names are in their own language and are *not* translated at all.
-    optionNames["cs"] = "Čeština";
-    optionNames["en"] = "English";
-    optionNames["fi"] = "Suomi";
-    optionNames["fr_FR"] =  "Français (France)";
-    optionNames["de_DE"] = "Deutsch (Deutschland)";
-    optionNames["it"] = "Italiano";
-    optionNames["es_AR"] = "Español (Argentina)";
-    optionNames["es_ES"] = "Español (España)";
-    optionNames["ja"] = "日本語";
-    optionNames["ko"] = "한국어";
-    optionNames["pl"] = "polski";
-    optionNames["pt_BR"] = "Português (Brasil)";
-    optionNames["pt_PT"] = "Português (Portugal)";
-    optionNames["ru"] = "Русский";
-    optionNames["sr"] = "Srpski";
-    optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(天朝)";
-    optionNames["zh_TW"] = "中文(台灣)";
+    optionNames["cs"] = R"(Čeština)";
+    optionNames["en"] = R"(English)";
+    optionNames["fi"] = R"(Suomi)";
+    optionNames["fr_FR"] =  R"(Français (France))";
+    optionNames["de_DE"] = R"(Deutsch (Deutschland))";
+    optionNames["it_IT"] = R"(Italiano)";
+    optionNames["es_AR"] = R"(Español (Argentina))";
+    optionNames["es_ES"] = R"(Español (España))";
+    optionNames["ja"] = R"(日本語)";
+    optionNames["ko"] = R"(한국어)";
+    optionNames["pl"] = R"(Polski)";
+    optionNames["pt_BR"] = R"(Português (Brasil))";
+    optionNames["pt_PT"] = R"(Português (Portugal))";
+    optionNames["ru"] = R"(Русский)";
+    optionNames["sr"] = R"(Srpski)";
+    optionNames["vi"] = R"(Tiếng Việt)";
+    optionNames["zh_CN"] = R"(中文(天朝))";
+    optionNames["zh_TW"] = R"(中文(台灣))";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it,es_AR, es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr_FR,de_DE,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
@@ -704,6 +728,11 @@ void initOptions()
                                            _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
                                            "false,centered,edge",  "centered"
                                           );
+                                          
+    OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
+                                        _("If false, new inventory items will only get letters assigned if they had one before."),
+                                        true
+                                       );
 
     mOptionsSort["interface"]++;
 
@@ -928,10 +957,11 @@ void initOptions()
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
 
-    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
+    for( auto &elem : OPTIONS ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
-            if (vPages[i].first == (iter->second).getPage() && (iter->second).getSortPos() > -1) {
-                mPageItems[i][(iter->second).getSortPos()] = iter->first;
+            if( vPages[i].first == ( elem.second ).getPage() &&
+                ( elem.second ).getSortPos() > -1 ) {
+                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
                 break;
             }
         }
@@ -994,8 +1024,9 @@ void show_options(bool ingame)
     mvwputch(w_options_border, iTooltipHeight + 1,  0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_options_border, iTooltipHeight + 1, 79, BORDER_COLOR, LINE_XOXX); // -|
 
-    for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+    for( auto &mapLine : mapLines ) {
+        mvwputch( w_options_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR,
+                  LINE_XXOX ); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
@@ -1260,6 +1291,7 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_title();
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
@@ -1363,14 +1395,13 @@ void save_options(bool ingame)
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && (int)j == iWorldOptPage );
-        for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
-            if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
-                fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-                fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText(false) << std::endl;
-                fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+        for( auto &elem : mPageItems[j] ) {
+            if( OPTIONS[elem].getDefaultText() != "" ) {
+                fout << "#" << OPTIONS[elem].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[elem].getDefaultText( false ) << std::endl;
+                fout << elem << " " << OPTIONS[elem].getValue() << std::endl << std::endl;
                 if ( update_wopt ) {
-                    world_generator->active_world->world_options[ mPageItems[j][i] ] =
-                        ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
                 }
             }
         }
@@ -1397,18 +1428,18 @@ std::string get_tileset_names(std::string dir_path)
     const std::string defaultTilesets = "hoder,deon";
 
     const std::string filename = "tileset.txt";                             // tileset-info-file
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search it
+    // search it
+    auto const files = get_files_from_path(filename, dir_path, true);
 
     std::string tileset_names;
     bool first_tileset_name = true;
 
-    for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {
+    for( auto &file : files ) {
         std::ifstream fin;
-        fin.open(it->c_str());
+        fin.open( file.c_str() );
         if(!fin.is_open()) {
             fin.close();
-            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << *it;
+            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << file;
             optionNames["deon"] = _("Deon's");          // just setting some standards
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;

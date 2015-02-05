@@ -132,7 +132,7 @@ int weather_generator::get_water_temperature()
 
     int season_length = calendar::turn.season_length();
     int day = calendar::turn.day_of_year();
-    int hour = calendar::turn.getHour();
+    int hour = calendar::turn.hours();
     int water_temperature = 0;
 
     if (season_length == 0) season_length = 1;

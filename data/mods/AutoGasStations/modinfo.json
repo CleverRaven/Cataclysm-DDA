@@ -1,9 +1,5 @@
 {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
     "ident": "ags",
-    "name": "Automated gas stations",
-    "description": "Automated gas stations",
-    "author": "HuXTUS",
-    "path": ""
+    "obsolete": true
 }

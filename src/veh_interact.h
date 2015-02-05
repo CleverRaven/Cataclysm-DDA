@@ -7,6 +7,7 @@
 #include "input.h"
 
 #define DUCT_TAPE_USED 100
+#define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
@@ -49,6 +50,7 @@ class veh_interact
         WINDOW *w_parts;
         WINDOW *w_stats;
         WINDOW *w_list;
+        WINDOW *w_details;
         WINDOW *w_name;
 
         int mode_h;
@@ -68,9 +70,12 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
+        bool has_hammer;
+        bool has_nailgun;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
+        bool has_nails;
         bool has_hacksaw;
         bool has_jack;
         bool has_siphon;
@@ -87,9 +92,10 @@ class veh_interact
          * @param pos index to change.
          * @param action input action (taken from input_context::handle_input)
          * @param size size of the list to scroll, used to wrap the cursor around.
+         * @param header number of lines reserved for list header.
          * @return false if the action is not a move action, the index is not changed in this case.
          */
-        bool move_in_list(int &pos, const std::string &action, const int size) const;
+        bool move_in_list(int &pos, const std::string &action, const int size, const int header = 0) const;
 
         void do_install();
         void do_repair();
@@ -106,7 +112,8 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode(char mode);
-        void display_list(size_t pos, std::vector<vpart_info> list);
+        void display_list(size_t pos, std::vector<vpart_info> list, const int header = 0);
+        void display_details(const vpart_info *part);
         size_t display_esc (WINDOW *w);
 
         void countDurability();
@@ -122,6 +129,13 @@ class veh_interact
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart;
 
+        //do_remove supporting operation, writes requirements to ui
+        bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
+        //do install support, writes requirements to ui
+        bool can_install_part(int msg_width);
+        //true if trying to install foot crank with electric engines for example
+        //writes failure to ui
+        bool is_drive_conflict(int msg_width);
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */
@@ -131,6 +145,10 @@ class veh_interact
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
         std::vector<vpart_info> can_mount;
+
+        /* Maps part names to vparts representing different shapes of a part.
+         * Used to slim down installable parts list. Only built once. */
+        std::map< std::string, std::vector<vpart_info*> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */

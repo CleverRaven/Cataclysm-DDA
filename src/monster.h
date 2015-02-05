@@ -9,23 +9,9 @@
 class map;
 class game;
 class item;
+class monfaction;
 
-enum monster_effect_type {
-    ME_NULL = 0,
-    ME_BEARTRAP,        // Stuck in beartrap
-    ME_POISONED,        // Slowed, takes damage
-    ME_ONFIRE,          // Lit aflame
-    ME_STUNNED,         // Stumbling briefly
-    ME_DOWNED,          // Knocked down
-    ME_BLIND,           // Can't use sight
-    ME_DEAF,            // Can't use hearing
-    ME_TARGETED,        // Targeting locked on--for robots that shoot guns
-    ME_DOCILE,          // Don't attack other monsters--for tame monster
-    ME_HIT_BY_PLAYER,   // We shot or hit them
-    ME_RUN,             // For hit-and-run monsters; we're running for a bit;
-    ME_BOUNCED,
-    NUM_MONSTER_EFFECTS
-};
+typedef std::map< const monfaction*, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -37,12 +23,6 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
-};
-
-struct monster_effect {
-    monster_effect_type type;
-    int duration;
-    monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
 class monster : public Creature, public JsonSerializer, public JsonDeserializer
@@ -57,6 +37,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
         monster &operator=(monster &&) = default;
+
+        virtual bool is_monster() const
+        {
+            return true;
+        }
+
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
         m_size get_size() const;
@@ -64,14 +50,23 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return hp;
         };
-        int get_hp_max( hp_part = num_hp_parts ) const
+        int get_hp() const
+        {
+            return hp;
+        }
+        int get_hp_max( hp_part ) const
         {
             return type->hp;
         };
+        int get_hp_max() const
+        {
+            return type->hp;
+        }
         std::string get_material() const
         {
             return type->mat;
         };
+        int hp_percentage() const;
 
         // Access
         std::string name(unsigned int quantity = 1) const; // Returns the monster's formal name
@@ -98,9 +93,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
         bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
         bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
-        int vision_range(const int x, const int y)
-        const; // Returns monster vision range, x and y are the target spot
-        bool sees_player(int &tc, player *p = NULL) const;   // Sees player/npc
+        int sight_range( int light_level ) const override;
+        using Creature::sees;
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
@@ -115,6 +109,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void debug(player &u);      // Gives debug info
 
         point move_target(); // Returns point at the end of the monster's current plans
+        Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
         void shift(int sx, int sy); // Shifts the monster to the appropriate submap
@@ -146,7 +141,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
         // the route.  Give up after f steps.
-        void plan(const std::vector<int> &friendlies);
+
+        // How good of a target is given creature (checks for visibility)
+        float rate_target( Creature &c, int &bresenham_slope, float best, bool smart = false ) const;
+        // Pass all factions to mon, so that hordes of same-faction mons
+        // do not iterate over each other
+        void plan(const mfactions &factions);
         void move(); // Actual movement
         void footsteps(int x, int y); // noise made by movement
         void friendly_move();
@@ -188,6 +188,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
+        int bash_estimate();
+        /** Returns ability of monster and any cooperative helpers to
+         * bash the designated target.  **/
+        int group_bash_skill( point target );
 
         void stumble(bool moved);
         void knock_back_from(int posx, int posy);
@@ -195,6 +199,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Combat
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
+        Attitude attitude_to( const Creature &other ) const override;
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
@@ -213,13 +218,35 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual int deal_melee_attack(Creature *source, int hitroll);
         virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam);
-        // TODO: fully replace hurt with apply/deal_damage
         virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain);
         void apply_damage(Creature *source, body_part bp, int amount);
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+        /**
+         * Flat addition to the monsters @ref hp. This is not capped at the maximal hp!
+         */
+        void heal( int hp_delta );
+        /**
+         * Directly set the current @ref hp of the monster (not capped at the maximal hp).
+         * You might want to use @ref heal / @ref apply_damage or @ref deal_damage instead.
+         */
+        void set_hp( int hp );
+
+        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        virtual void process_effects();
+        /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
+         *  Returns false if movement is stopped. */
+        virtual bool move_effects();
+        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
+        virtual void add_eff_effects(effect e, bool reduced);
+        /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 0);
+
+        virtual float power_rating() const;
+
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied
@@ -227,7 +254,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
-        
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.
@@ -240,7 +267,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        void process_effects(); // Process long-term effects
         bool make_fungus();  // Makes this monster into a fungus version
         // Returns false if no such monster exists
         void make_friendly();
@@ -262,11 +288,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int hp;
         int def_chance;
         int friendly;
         int anger, morale;
-        int faction_id; // If we belong to a faction
+        const monfaction *faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
@@ -278,26 +303,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool setpos(const int x, const int y, const bool level_change = false);
         bool setpos(const point &p, const bool level_change = false);
-        point pos() const;
-        // posx and posy are kept to retain backwards compatibility
+        const point &pos() const;
         inline int posx() const
         {
-            return _posx;
+            return position.x;
         }
         inline int posy() const
         {
-            return _posy;
-        }
-        // the creature base class uses xpos/ypos to prevent conflict with
-        // player.xpos and player.ypos which are public ints that are literally used
-        // in every single file.
-        int xpos() const
-        {
-            return _posx;
-        }
-        int ypos() const
-        {
-            return _posy;
+            return position.y;
         }
 
         short ignoring;
@@ -314,11 +327,18 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * a non-empty item id as revet_to_itype.
          */
         item to_item() const;
+        /**
+         * Initialize values like speed / hp from data of an item.
+         * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
+         * and to reviving monsters that spawn from a corpse.
+         */
+        void init_from_item( const item &itm );
 
     private:
+        int hp;
         std::vector<int> sp_timeout;
         std::vector <point> plans;
-        int _posx, _posy;
+        point position;
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

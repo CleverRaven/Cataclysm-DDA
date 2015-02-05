@@ -34,23 +34,21 @@ void mod_ui::set_usable_mods()
     std::vector<std::string> available_cores, available_supplementals;
     std::vector<std::string> ordered_mods;
 
-    typedef std::vector<MOD_INFORMATION *> mod_vector;
-    mod_vector mods;
-    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin();
-        a != active_manager->mod_map.end(); ++a) {
-        mods.push_back(a->second);
+    std::vector<MOD_INFORMATION *> mods;
+    for( auto &modinfo_pair : active_manager->mod_map ) {
+        if( !modinfo_pair.second->obsolete ) {
+            mods.push_back(modinfo_pair.second);
+        }
     }
     std::sort(mods.begin(), mods.end(), &compare_mod_by_name);
 
-    for(mod_vector::iterator a = mods.begin(); a != mods.end(); ++a) {
-        MOD_INFORMATION *mod = *a;
-
-        switch(mod->_type) {
+    for( auto modinfo : mods ) {
+        switch(modinfo->_type) {
         case MT_CORE:
-            available_cores.push_back(mod->ident);
+            available_cores.push_back(modinfo->ident);
             break;
         case MT_SUPPLEMENTAL:
-            available_supplementals.push_back(mod->ident);
+            available_supplementals.push_back(modinfo->ident);
             break;
         }
     }

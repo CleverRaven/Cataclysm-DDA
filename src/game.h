@@ -9,7 +9,6 @@
 #include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
-#include "mapitems.h"
 #include "crafting.h"
 #include "npc.h"
 #include "faction.h"
@@ -57,11 +56,12 @@ enum input_ret {
 };
 
 enum quit_status {
-    QUIT_NO = 0,  // Still playing
-    QUIT_MENU,    // Quit at the menu
-    QUIT_SUICIDE, // Quit with 'Q'
-    QUIT_SAVED,   // Saved and quit
-    QUIT_DIED,     // Actual death
+    QUIT_NO = 0,    // Still playing
+    QUIT_MENU,      // Quit at the menu
+    QUIT_SUICIDE,   // Quit with 'Q'
+    QUIT_SAVED,     // Saved and quit
+    QUIT_DIED,      // Actual death
+    QUIT_WATCH,     // Died, and watching aftermath
     QUIT_ERROR
 };
 
@@ -69,6 +69,12 @@ enum safe_mode_type {
     SAFE_MODE_OFF = 0, // Moving always allowed
     SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
+};
+
+enum target_mode {
+    TARGET_MODE_FIRE,
+    TARGET_MODE_THROW,
+    TARGET_MODE_TURRET
 };
 
 // Refactoring into base monster class.
@@ -96,42 +102,53 @@ class game
         game();
         ~game();
 
-        // Static data, does not depend on mods or similar.
+        /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        // Load core data and all mods.
+        /** Loads core data and all mods. */
         void check_all_mod_data();
     protected:
-        // Load core dynamic data
+        /** Loads core dynamic data. */
         void load_core_data();
-        // Load dynamic data from given directory
+        /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
-        // Load core data and mods from that world
+        /** Loads core data and mods from the given world. */
         void load_world_modfiles(WORLDPTR world);
     public:
 
-
+        /** Initializes the UI. */
         void init_ui();
         void setup();
-        bool game_quit(); // True if we actually quit the game - used in main.cpp
+        /** Returns true if we actually quit the game. Used in main.cpp. */
+        bool game_quit();
+        /** Returns true if the game quits through some error. */
         bool game_error();
-        bool new_game;    // Is true if game has just started or loaded, false otherwise
-        quit_status uquit;    // used in main.cpp to determine what type of quit
+        /** True if the game has just started or loaded, else false. */
+        bool new_game;
+        /** Used in main.cpp to determine what type of quit is being performed. */
+        quit_status uquit;
+        /** Saving and loading functions. */
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
         bool unserialize_legacy(std::ifstream &fin);  // for old load
         void unserialize_master(std::ifstream &fin);  // for load
         bool unserialize_master_legacy(std::ifstream &fin);  // for old load
 
-        // returns false if saving faild for whatever reason
+        /** Returns false if saving failed. */
         bool save();
+        /** Deletes the given world. If delete_folder is true delete all the files and directories
+         *  of the given world folder. Else just avoid deleting the two config files and the directory
+         *  itself. */
         void delete_world(std::string worldname, bool delete_folder);
+        /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
-        void cleanup_at_end();
+        bool cleanup_at_end();
         void start_calendar();
+        /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
+        void draw_ter(int posx, int posy, bool looking);
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
@@ -143,134 +160,157 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1,
                        int x = INT_MIN, int y = INT_MIN);
         bool event_queued(event_type type);
-        /**
-         * Sound at (x, y) of intensity (vol)
-         * @param x x-position of sound.
-         * @param y y-position of sound.
-         * @param vol Volume of sound.
-         * @param description Description of the sound for the player,
-         * if non-empty string a message is generated.
-         * @param ambient If false, the sound interrupts player activities.
-         * If true, activities continue.
-         * @returns true if the player could hear the sound.
-         */
-        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
-        // same as sound(..., true)
-        bool ambient_sound(int x, int y, int vol, std::string description);
-        // creates a list of coordinates to draw footsteps
-        void add_footstep(int x, int y, int volume, int distance, monster *source);
-        std::vector<std::vector<point> > footsteps;
-        std::vector<monster *> footsteps_source;
-        // Calculate where footstep marker should appear and put those points into the result.
-        // It also clears @ref footsteps_source and @ref footsteps
-        void calculate_footstep_markers(std::vector<point> &result);
-        // visual cue to monsters moving out of the players sight
-        void draw_footsteps();
-        // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
+        /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
-        // Draws an explosion with set radius and color at the given location
-        /* Defined later in this file */
-        //void draw_explosion(int x, int y, int radius, nc_color col);
-        // Flashback at (x, y)
+        /** Triggers a flashbang explosion at (x, y). */
         void flashbang(int x, int y, bool player_immune = false);
-        // Move the player vertically, if (force) then they fell
+        /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move(int z, bool force);
+        /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer(int x, int y);
+        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
         bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
+        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
         bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
+        /** Triggers a resonance cascade at (x, y). */
         void resonance_cascade(int x, int y);
+        /** Triggers a scrambler blast at (x, y). */
         void scrambler_blast(int x, int y);
+        /** Triggers an emp blast at (x, y). */
         void emp_blast(int x, int y);
-        int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
-        int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
-        // Return any critter at (x,y), be it a monster, an npc, or u (the player).
+        /** Returns the NPC index of the npc at (x, y). Returns -1 if no NPC is present. */
+        int  npc_at(const int x, const int y) const;
+        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
+        int  npc_by_id(const int id) const;
+        /** Returns the Creature at (x, y). */
         Creature *critter_at(int x, int y);
-        // void build_monmap();  // Caches data for mon_at()
 
+        /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
+        /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
+        /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
         monster &zombie(const int idx);
+        /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos(const monster &critter, const int newx, const int newy);
         void remove_zombie(const int idx);
+        /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        bool spawn_hallucination(); //Spawns a hallucination close to the player
+        /** Spawns a hallucination close to the player. */
+        bool spawn_hallucination();
 
-        int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
+        /** Returns the monster index of the monster at (x, y). Returns -1 if no monster is present. */
+        int  mon_at(const int x, const int y) const;
+        /** Returns the monster index of the monster at the given point. Returns -1 if no monster is present. */
         int  mon_at(point p) const;
-        bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
+        /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
+        bool is_empty(const int x, const int y);
+        /** Returns true if the value of test is between down and up. */
         bool isBetween(int test, int down, int up);
-        bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
-        bool is_sheltered(int x, int y); // Checks if indoors, underground or in a car.
+        /** Returns true if (x, y) is outdoors and it is sunny. */
+        bool is_in_sunlight(int x, int y);
+        /** Returns true if (x, y) is indoors, underground, or in a car. */
+        bool is_sheltered(int x, int y);
+        /** Returns true if the given point is in an ice lab. */
         bool is_in_ice_lab(point location);
-        bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
-        bool revive_corpse(int x, int y,
-                           item *it); // revives a corpse by item pointer, caller handles item deletion
-        void plfire(bool burst, int default_target_x = -1,
-                    int default_target_y = -1); // Player fires a gun (target selection)...
-        // ... a gun is fired, maybe by an NPC (actual damage, etc.).
-        void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
-                  bool burst);
+        /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
+        bool revive_corpse(int x, int y, int n);
+        /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
+        bool revive_corpse(int x, int y, item *it);
+        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done 
+         *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
+        void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
+        /** Target is an interactive function which allows the player to choose a nearby
+         *  square.  It display information on any monster/NPC on that square, and also
+         *  returns a Bresenham line to that square.  It is called by plfire(),
+         *  throw() and vehicle::aim_turrets() */
+        std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
+                                  int hiy, std::vector <Creature *> t, int &target,
+                                  item *relevent, target_mode mode, 
+                                  point from = point(-1, -1));
+        /** Redirects to player::cancel_activity(). */
         void cancel_activity();
+        /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query(const char *message, ...);
+        /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
+         *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query(const char *reason, ...);
+        /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount(int tox, int toy);
 
-        int assign_mission_id(); // Just returns the next available one
-        void give_mission(mission_id type); // Create the mission and assign it
-        void assign_mission(int id); // Just assign an existing mission
-        // reserve_mission() creates a new mission of the given type and pushes it to
-        // active_missions.  The function returns the UID of the new mission, which can
-        // then be passed to a MacGuffin or something else that needs to track a mission
+        /** Returns the current remotely controlled vehicle. */
+        vehicle *remoteveh();
+        /** Sets the current remotely controlled vehicle. */
+        void setremoteveh(vehicle *veh);
+
+        /** Returns the next available mission id. */
+        int assign_mission_id();
+        /** Creates a mission of the matching type and assigns it to the player. */
+        void give_mission(mission_id type);
+        /** Assigns an existing mission to the player. */
+        void assign_mission(int id);
+        /** reserve_mission() creates a new mission of the given type and pushes it to
+         *  active_missions.  The function returns the UID of the new mission, which can
+         *  then be passed to a MacGuffin or something else that needs to track a mission. */
         int reserve_mission(mission_id type, int npc_id = -1);
         int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                                    int npc_id = -1);
         npc *find_npc(int id);
-        void load_npcs(); //Make any nearby NPCs from the overmap active.
-        int kill_count(std::string mon);       // Return the number of kills of a given mon_id
-        // Register one kill of a monster of type mtype_id by the player.
+        /** Makes any nearby NPC's on the overmap active. */
+        void load_npcs();
+        /** Returns the number of kills of the given mon_id by the player. */
+        int kill_count(std::string mon);
+        /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
-        mission_type *find_mission_type(int id); // Same, but returns its type
-        bool mission_complete(int id, int npc_id); // True if we made it
-        bool mission_failed(int id); // True if we failed it
-        void wrap_up_mission(int id); // Perform required actions
-        void fail_mission(int id); // Perform required actions, move to failed list
-        void mission_step_complete(int id, int step); // Parial completion
-        void process_missions(); // Process missions, see if time's run out
+        /** Returns the matching mission with UID == id; else returns NULL. */
+        mission *find_mission(int id);
+        /** Returns the mission type of the mission with UID == id; else returns NULL. */
+        mission_type *find_mission_type(int id);
+        /** Checks if the player has completed the matching mission and returns true if they have. */
+        bool mission_complete(int id, int npc_id);
+        /** Checks if the player has failed the matching mission and returns true if they have. */
+        bool mission_failed(int id);
+        /** Handles mission completion tasks (remove given item, etc.). */
+        void wrap_up_mission(int id);
+        /** Handles mission failure tasks (remove mission items, etc.). */
+        void fail_mission(int id);
+        /** Handles partial mission completion (kill complete, now report back!). */
+        void mission_step_complete(int id, int step);
+        /** Handles mission deadline processing. */
+        void process_missions();
 
+        /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
-        void plswim(int x, int y); // Called by plmove.  Handles swimming
-        void rod_fish(int sSkillLevel, int fishChance); // fish with rod catching function
-        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
-        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
-        // when player is thrown (by impact or something)
-        void fling_creature(Creature *c, const int &dir, float flvel,
-                            bool controlled = false);
+        /** Handles swimming by the player. Called by plmove(). */
+        void plswim(int x, int y);
+        /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0);
+        /** Returns the list of currently fishable monsters within distance of the player. */
+        std::vector<monster*> get_fishable(int distance);
+        /** Flings the input creature in the given direction. */
+        void fling_creature(Creature *c, const int &dir, float flvel, bool controlled = false);
 
-        /**
-         * Nuke the area at (x,y) - global overmap terrain coordinates!
-         */
+        /** Nuke the area at (x, y) - global overmap terrain coordinates! */
         void nuke(int x, int y);
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
         int &scent(int x, int y);
+        float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
         faction *faction_by_ident(std::string ident);
-        bool sees_u(int x, int y, int &t);
-        bool u_see (int x, int y);
-        bool u_see (const monster *critter);
-        bool u_see (const Creature *t); // for backwards compatibility
-        bool u_see (const Creature &t);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
-        void update_map(int &x, int &y);  // Called by plmove when the map updates
+        // Handles shifting coordinates transparently when moving between submaps.
+        // Helper to make calling with a player pointer less verbose.
+        void update_map(player *p);
+        void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
         // Position of the player in overmap terrain coordinates, relative
         // to the current overmap (@ref cur_om).
@@ -279,7 +319,7 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        void process_artifact(item *it, player *p, bool wielded = false);
+        void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek( int peekx = 0, int peeky = 0);
@@ -304,7 +344,6 @@ class game
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::vector<int> find_nearby_monsters(int iRadius);
         std::string ask_item_filter(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
@@ -317,35 +356,15 @@ class game
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+        int inv_for_salvage(const std::string title);
         item *inv_map_for_liquid(const item &liquid, const std::string title);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
+        int inv_for_filter(const std::string title, const item_filter filter );
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
-
-        recipe_map list_recipes()
-        {
-            return recipes;
-        };
-        inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(player *p, const std::vector<tool_comp> &tools, int batch = 1);
-        /**
-         * Returns the recipe that is used to disassemble the given item type.
-         * Returns NULL if there is no recipe to disassemble the item type.
-         */
-        const recipe *get_disassemble_recipe(const itype_id &ype);
-        /**
-         * Check if the player can disassemble the item dis_item with the recipe
-         * cur_recipe and the inventory crafting_inv.
-         * Checks for example tools (and charges), enough input charges
-         * (if disassembled item is counted by charges).
-         * If print_msg is true show a message about missing tools/charges.
-         */
-        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             inventory &crafting_inv, bool print_msg);
 
         bool has_gametype() const;
         special_game_id gametype() const;
@@ -459,6 +478,7 @@ class game
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);
+        void check_vehicleparts();
         void load_vehicle(JsonObject &jo);
         void reset_vehicleparts();
         void reset_vehicles();
@@ -470,6 +490,7 @@ class game
                             bool bite = true, bool infect = true);
 
         bool opening_screen();// Warn about screen size, then present the main menu
+        void mmenu_refresh_title();
         void mmenu_refresh_motd();
         void mmenu_refresh_credits();
 
@@ -525,10 +546,10 @@ class game
         void init_weather();
         void init_weather_anim();
         void init_morale();
-        void init_skills() throw (std::string);
+        void init_skills();
         void init_professions();
         void init_faction_data();
-        void init_mongroups() throw (std::string);    // Initializes monster groups
+        void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
         void init_missions();     // Initializes mission templates
         void init_autosave();     // Initializes autosave parameters
@@ -554,28 +575,6 @@ class game
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
         void smash(); // Smash terrain
-        void craft();                        // See crafting.cpp
-        void recraft();                      // See crafting.cpp
-        void long_craft();                   // See crafting.cpp
-        bool crafting_allowed();             // See crafting.cpp
-        bool crafting_can_see();             // See crafting.cpp
-        const recipe *select_crafting_recipe( int &batch_size );    // See crafting.cpp
-        bool making_would_work(std::string id_to_make, int batch_size);   // See crafting.cpp
-        bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
-        std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(const recipe *r, int batch = 1);
-        bool can_make(const recipe *r, int batch_size); // See crafting.cpp
-        void make_craft(std::string id, int batch_size); // See crafting.cpp
-        void make_all_craft(std::string id, int batch_size); // See crafting.cpp
-        void complete_craft();               // See crafting.cpp
-        void pick_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
-                          std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
-                          std::string filter);// crafting.cpp
-        void batch_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
-                           std::vector<bool> &available, const recipe* r);// crafting.cpp
-        void disassemble(int pos = INT_MAX);       // See crafting.cpp
-        void complete_disassemble();         // See crafting.cpp
-        const recipe *recipe_by_index(int index);  // See crafting.cpp
 
         // Forcefully close a door at (x, y).
         // The function checks for creatures/items/vehicles at that point and
@@ -600,7 +599,6 @@ class game
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
-        void advanced_inv();
 
         // Establish a grab on something.
         void grab();
@@ -616,8 +614,6 @@ class game
                                 int freed_volume_capacity) const;
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
-        void complete_butcher(int index); // Finish the butchering process
-        void forage(); // Foraging ('a' on underbrush)
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
@@ -642,18 +638,11 @@ class game
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
-
         input_context get_player_input(std::string &action);
-        // Target is an interactive function which allows the player to choose a nearby
-        // square.  It display information on any monster/NPC on that square, and also
-        // returns a Bresenham line to that square.  It is called by plfire() and
-        // throw().
-        std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                                  int hiy, std::vector <Creature *> t, int &target,
-                                  item *relevent);
+
         // interface to target(), collects a list of targets & selects default target
         // finally calls target() and returns its result.
-        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent,
+        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, target_mode mode,
                                         int default_target_x = -1, int default_target_y = -1);
 
         // Map updating and monster spawning
@@ -688,6 +677,8 @@ class game
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+
+        void item_action_menu(); // Displays item action menu
 
 
         void rcdrive(int dx, int dy); //driving radio car
@@ -728,7 +719,6 @@ class game
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.
         void display_scent();   // Displays the scent map
-        void mondebug();        // Debug monster behavior directly
         void groupdebug();      // Get into on monster groups
 
         // ########################## DATA ################################
@@ -749,7 +739,6 @@ class game
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
         int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<std::string, int> kills;         // Player's kill count
@@ -757,7 +746,9 @@ class game
         time_t last_save_timestamp;
         unsigned char latest_lightlevel;
         calendar latest_lightlevel_turn;
-
+        // remoteveh() cache
+        int remoteveh_cache_turn;
+        vehicle *remoteveh_cache;
 
         special_game *gamemode;
 
@@ -771,24 +762,7 @@ class game
         std::vector<point> destination_preview;
 
         Creature *is_hostile_within(int distance);
-        void activity_on_turn();
-        void activity_on_turn_game();
-        void activity_on_turn_drop();
-        void activity_on_turn_stash();
-        void activity_on_turn_pickup();
-        void activity_on_turn_move_items();
-        void activity_on_turn_vibe();
-        void activity_on_turn_refill_vehicle();
-        void activity_on_turn_pulp();
-        void activity_on_turn_start_fire_lens();
-        void activity_on_finish();
-        void activity_on_finish_reload();
-        void activity_on_finish_train();
-        void activity_on_finish_firstaid();
-        void activity_on_finish_fish();
-        void activity_on_finish_vehicle();
-        void activity_on_finish_make_zlave();
-        void activity_on_finish_start_fire();
+
         void move_save_to_graveyard();
         bool save_player_data();
 };

@@ -32,12 +32,12 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
     _tags = tags;
 }
 
-std::vector<Skill *> Skill::skills;
+std::vector<const Skill*> Skill::skills;
 
 void Skill::reset()
 {
-    for(std::vector<Skill *>::iterator a = skills.begin(); a != skills.end(); ++a) {
-        delete *a;
+    for( auto &skill : skills ) {
+        delete skill;
     }
     skills.clear();
 }
@@ -45,7 +45,7 @@ void Skill::reset()
 void Skill::load_skill(JsonObject &jsobj)
 {
     std::string ident = jsobj.get_string("ident");
-    for(std::vector<Skill *>::iterator a = skills.begin(); a != skills.end(); ++a) {
+    for(std::vector<const Skill*>::iterator a = skills.begin(); a != skills.end(); ++a) {
         if ((*a)->_ident == ident) {
             delete *a;
             skills.erase(a);
@@ -61,17 +61,16 @@ void Skill::load_skill(JsonObject &jsobj)
         tags.insert(jsarr.next_string());
     }
 
-    Skill *sk = new Skill(skills.size(), ident, name, description, tags);
+    const Skill* sk = new Skill(skills.size(), ident, name, description, tags);
     skills.push_back(sk);
     DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
 }
 
-Skill *Skill::skill(std::string ident)
+const Skill* Skill::skill(const std::string& ident)
 {
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        if ((*aSkill)->_ident == ident) {
-            return *aSkill;
+    for( auto &skill : Skill::skills ) {
+        if( ( skill )->_ident == ident ) {
+            return skill;
         }
     }
     if(ident != "none") {
@@ -80,24 +79,23 @@ Skill *Skill::skill(std::string ident)
     return NULL;
 }
 
-Skill *Skill::skill(size_t id)
+const Skill* Skill::skill(size_t id)
 {
     return Skill::skills[id];
 }
 
-Skill *Skill::random_skill_with_tag(std::string tag)
+const Skill* Skill::random_skill_with_tag(const std::string& tag)
 {
-    std::list<Skill *> valid;
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        if ((*aSkill)->_tags.find(tag) != (*aSkill)->_tags.end()) {
-            valid.push_back(*aSkill);
+    std::list<const Skill*> valid;
+    for( auto &skill : Skill::skills ) {
+        if( ( skill )->_tags.find( tag ) != ( skill )->_tags.end() ) {
+            valid.push_back( skill );
         }
     }
     if (valid.empty()) {
         return NULL;
     }
-    std::list<Skill *>::iterator chosen = valid.begin();
+    std::list<const Skill*>::iterator chosen = valid.begin();
     std::advance(chosen, rng(0, valid.size() - 1));
     return *chosen;
 }

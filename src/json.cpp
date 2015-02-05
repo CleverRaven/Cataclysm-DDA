@@ -137,9 +137,8 @@ bool JsonObject::has_member(const std::string &name)
 std::set<std::string> JsonObject::get_member_names()
 {
     std::set<std::string> ret;
-    for (std::map<std::string, int>::iterator it = positions.begin();
-         it != positions.end(); ++it) {
-        ret.insert(it->first);
+    for( auto &elem : positions ) {
+        ret.insert( elem.first );
     }
     return ret;
 }
@@ -1302,6 +1301,15 @@ bool JsonIn::read(bool &b)
     return true;
 }
 
+bool JsonIn::read(char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    c = get_int();
+    return true;
+}
+
 bool JsonIn::read(int &i)
 {
     if (!test_number()) {
@@ -1365,13 +1373,18 @@ bool JsonIn::read(std::string &s)
     return true;
 }
 
-bool JsonIn::read(std::bitset<13> &b)
+template<size_t N>
+bool JsonIn::read(std::bitset<N> &b)
 {
     if (!test_bitset()) {
         return false;
     }
     std::string tmp_string = get_string();
-    b = std::bitset<13> (tmp_string);
+    if( tmp_string.length() > N ) {
+        // If the loaded string contains more bits than expected, skip the most significant bits
+        tmp_string.erase( 0, tmp_string.length() - N );
+    }
+    b = std::bitset<N> (tmp_string);
     return true;
 }
 
@@ -1750,7 +1763,8 @@ void JsonOut::write(const std::string &s)
     need_separator = true;
 }
 
-void JsonOut::write(const std::bitset<13> &b)
+template<size_t N>
+void JsonOut::write(const std::bitset<N> &b)
 {
     if (need_separator) {
         write_separator();
@@ -1812,3 +1826,8 @@ void JsonDeserializer::deserialize(std::istream &i)
     deserialize(jin);
 }
 
+// Need to instantiate those template to make them available for other compilation units.
+// Currently only bitsets of size 12 are loaded / stored, if you need other sizes, either explicitly
+// instantiate them here, or move the templated read/write functions into the header.
+template void JsonOut::write<12>(const std::bitset<12> &);
+template bool JsonIn::read<12>(std::bitset<12> &);

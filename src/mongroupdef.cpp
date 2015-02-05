@@ -54,32 +54,31 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         bool season_limited = false;
         bool season_matched = false;
         //Collect the various spawn conditions, and then insure they are met appropriately
-        for(std::vector<std::string>::iterator condition = it->conditions.begin();
-            condition != it->conditions.end(); ++condition) {
+        for( auto &elem : it->conditions ) {
             //Collect valid time of day ranges
-            if( (*condition) == "DAY" || (*condition) == "NIGHT" || (*condition) == "DUSK" ||
-                (*condition) == "DAWN" ) {
+            if( ( elem ) == "DAY" || ( elem ) == "NIGHT" || ( elem ) == "DUSK" ||
+                ( elem ) == "DAWN" ) {
                 int sunset = calendar::turn.sunset().get_turn();
                 int sunrise = calendar::turn.sunrise().get_turn();
-                if((*condition) == "DAY") {
+                if( ( elem ) == "DAY" ) {
                     valid_times_of_day.push_back( std::make_pair(sunrise, sunset) );
-                } else if((*condition) == "NIGHT") {
+                } else if( ( elem ) == "NIGHT" ) {
                     valid_times_of_day.push_back( std::make_pair(sunset, sunrise) );
-                } else if((*condition) == "DUSK") {
+                } else if( ( elem ) == "DUSK" ) {
                     valid_times_of_day.push_back( std::make_pair(sunset - HOURS(1), sunset + HOURS(1)) );
-                } else if((*condition) == "DAWN") {
+                } else if( ( elem ) == "DAWN" ) {
                     valid_times_of_day.push_back( std::make_pair(sunrise - HOURS(1), sunrise + HOURS(1)) );
                 }
             }
 
             //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
-            if( (*condition) == "SUMMER" || (*condition) == "WINTER" || (*condition) == "SPRING" ||
-                (*condition) == "AUTUMN" ) {
+            if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
+                ( elem ) == "AUTUMN" ) {
                 season_limited = true;
-                if( (calendar::turn.get_season() == SUMMER && (*condition) == "SUMMER") ||
-                    (calendar::turn.get_season() == WINTER && (*condition) == "WINTER") ||
-                    (calendar::turn.get_season() == SPRING && (*condition) == "SPRING") ||
-                    (calendar::turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ) {
+                if( ( calendar::turn.get_season() == SUMMER && ( elem ) == "SUMMER" ) ||
+                    ( calendar::turn.get_season() == WINTER && ( elem ) == "WINTER" ) ||
+                    ( calendar::turn.get_season() == SPRING && ( elem ) == "SPRING" ) ||
+                    ( calendar::turn.get_season() == AUTUMN && ( elem ) == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }
@@ -92,10 +91,9 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             is_valid_time_of_day = true;
         } else {
             //Otherwise, it's valid if it matches any of the times of day
-            for(std::vector<std::pair<int, int> >::iterator time_pair = valid_times_of_day.begin();
-                time_pair != valid_times_of_day.end(); ++time_pair) {
+            for( auto &elem : valid_times_of_day ) {
                 int time_now = calendar::turn.get_turn();
-                if(time_now > time_pair->first &&  time_now < time_pair->second) {
+                if( time_now > elem.first && time_now < elem.second ) {
                     is_valid_time_of_day = true;
                 }
             }
@@ -171,8 +169,8 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
 
     monsters.push_back(g.defaultMonster);
 
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it) {
-        monsters.push_back(it->name);
+    for( auto &elem : g.monsters ) {
+        monsters.push_back( elem.name );
     }
     return monsters;
 }
@@ -224,15 +222,13 @@ bool monster_is_blacklisted(const mtype *m)
     if(m == NULL || monster_whitelist.count(m->id) > 0) {
         return false;
     }
-    for(std::set<std::string>::const_iterator b = monster_categories_whitelist.begin();
-        b != monster_categories_whitelist.end(); ++b) {
-        if (m->categories.count(*b) > 0) {
+    for( const auto &elem : monster_categories_whitelist ) {
+        if( m->categories.count( elem ) > 0 ) {
             return false;
         }
     }
-    for(std::set<std::string>::const_iterator b = monster_categories_blacklist.begin();
-        b != monster_categories_blacklist.end(); ++b) {
-        if (m->categories.count(*b) > 0) {
+    for( const auto &elem : monster_categories_blacklist ) {
+        if( m->categories.count( elem ) > 0 ) {
             return true;
         }
     }
@@ -257,9 +253,8 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             debugmsg("monster on blacklist %s does not exist", a->c_str());
         }
     }
-    for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin();
-        b != monsterGroupMap.end(); ++b) {
-        MonsterGroup &mg = b->second;
+    for( auto &elem : monsterGroupMap ) {
+        MonsterGroup &mg = elem.second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
             if(monster_is_blacklisted(gen.GetMType(c->name))) {
                 c = mg.monsters.erase(c);
@@ -320,6 +315,10 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 void MonsterGroupManager::ClearMonsterGroups()
 {
     monsterGroupMap.clear();
+    monster_blacklist.clear();
+    monster_whitelist.clear();
+    monster_categories_blacklist.clear();
+    monster_categories_whitelist.clear();
 }
 
 void MonsterGroupManager::check_group_definitions()
@@ -332,8 +331,8 @@ void MonsterGroupManager::check_group_definitions()
             debugmsg("monster group %s has unknown default monster %s", a->first.c_str(),
                      mg.defaultMonster.c_str());
         }
-        for(FreqDef::const_iterator fd = mg.monsters.begin(); fd != mg.monsters.end(); ++fd) {
-            const MonsterGroupEntry &mge = *fd;
+        for( const auto &mge : mg.monsters ) {
+
             if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
                 // mon_null should not be valid here
                 debugmsg("monster group %s contains unknown monster %s", a->first.c_str(), mge.name.c_str());
