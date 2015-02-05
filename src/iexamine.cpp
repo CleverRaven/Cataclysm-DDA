@@ -68,22 +68,21 @@ void iexamine::atm(player *const p, map *, int , int )
     constexpr int move_cost_bulk = 10;
 
     auto const card_count   = p->amount_of("cash_card");
-    auto const player_cash  = p->cash;
     auto const charge_count = card_count ? p->charges_of("cash_card") : 0;
 
     uimenu amenu;
     amenu.selected = uistate.iexamine_atm_selected;
     amenu.text = _("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?");
-    if (player_cash >= card_cost) {
+    if (p->cash >= card_cost) {
         amenu.addentry( purchase_cash_card, true, -1, _("Purchase cash card?") );
     } else {
         amenu.addentry( purchase_cash_card, false, -1,
                         _("You need $1.00 in your account to purchase a card.") );
     }
 
-    if (card_count == 1 && player_cash > 0) {
+    if (card_count && p->cash > 0) {
         amenu.addentry( withdraw_money, true, -1, _("Withdraw Money") );
-    } else if (player_cash > 0) {
+    } else if (p->cash > 0) {
         amenu.addentry( withdraw_money, false, -1,
                         _("You need a cash card before you can withdraw money!") );
     } else {
@@ -150,15 +149,14 @@ void iexamine::atm(player *const p, map *, int , int )
             return;
         }
         
-        auto const max = src->charges;
-        if (!src) {
+        if (!src->charges) {
             popup(_("You can only deposit money from charged cash cards!"));
             return;
         }
 
         auto const amount = prompt_for_amount(ngettext(
             "Deposit how much? Max: %d cent. (0 to cancel) ",
-            "Deposit how much? Max: %d cents. (0 to cancel) ", max), max);
+            "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
 
         if (!amount) {
             return;
@@ -177,7 +175,7 @@ void iexamine::atm(player *const p, map *, int , int )
 
         auto const amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
-            "Withdraw how much? Max: %d cents. (0 to cancel) ", player_cash), player_cash);
+            "Withdraw how much? Max: %d cents. (0 to cancel) ", p->cash), p->cash);
 
         if (!amount) {
             return;
@@ -205,10 +203,9 @@ void iexamine::atm(player *const p, map *, int , int )
             return;
         }
 
-        auto const max = src->charges;
         auto const amount = prompt_for_amount(ngettext(
             "Transfer how much? Max: %d cent. (0 to cancel) ",
-            "Transfer how much? Max: %d cents. (0 to cancel) ", max), max);
+            "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
 
         if (!amount) {
             return;
@@ -231,15 +228,9 @@ void iexamine::atm(player *const p, map *, int , int )
             return;
         }
 
-        // sum all cash cards in inventory
-        auto sum = dst->charges;
-        for (auto &elem : g->u.inv.all_items_by_type("cash_card")) {
-            sum += elem.first->charges;
-            elem.first->charges = 0;
-            // Assuming a bulk interface for cards. Don't want to get people killed doing this.
-            p->moves -= move_cost_bulk;
-        }
-        dst->charges = sum;
+        // sum all cash cards in inventory        
+        p->moves -= (p->amount_of("cash_card") - 1) * move_cost_bulk; // no cost for the dst: -1
+        dst->charges = p->charges_of("cash_card");
     }
 }
 
