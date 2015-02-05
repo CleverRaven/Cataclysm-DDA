@@ -2028,7 +2028,7 @@ void act_vehicle_siphon(vehicle* veh) {
         fuel = "gasoline";
     } else if(veh->fuel_left("diesel") > 0) {
         fuel = "diesel";
-    } else { // No fuel in this bitch, GTFO.
+    } else { // No fuel here, GTFO.
         add_msg(m_info, _("The vehicle has no fuel left to siphon."));
         return;
     }
