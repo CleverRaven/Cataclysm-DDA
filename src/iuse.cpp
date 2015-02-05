@@ -3177,9 +3177,11 @@ int iuse::sew(player *p, item *it, bool, point)
             }
             std::vector<item_comp> comps;
             comps.push_back(item_comp(repair_item, items_needed));
+
             p->moves -= 500 * p->fine_detail_vision_mod();
             p->practice("tailor", 9);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
+
             if (p->dex_cur < 8 && one_in(p->dex_cur))
             {
                 rn -= rng(2, 6);
@@ -3193,7 +3195,7 @@ int iuse::sew(player *p, item *it, bool, point)
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 5)
+            if (rn <= 8)
             {
                 p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew on pockets!"), mod->tname().c_str());
                 mod->damage++;
@@ -3203,13 +3205,13 @@ int iuse::sew(player *p, item *it, bool, point)
                     p->i_rem_keep_contents( pos );
                 }
             }
-            else if (rn <= 7)
+            else if (rn <= 10)
             {
                 p->add_msg_if_player(m_bad, _("You fail to sew on pockets, and you waste a lot of thread and rags."));
                 thread_used = rng(5, 14);
                 p->consume_items(comps);
             }
-            else if (rn <= 10)
+            else if (rn <= 14)
             {
                 p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
                                      mod->tname().c_str());
@@ -3285,7 +3287,7 @@ int iuse::sew(player *p, item *it, bool, point)
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 5)
+            if (rn <= 8)
             {
                 p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"), mod->tname().c_str());
                 mod->damage++;
@@ -3295,13 +3297,13 @@ int iuse::sew(player *p, item *it, bool, point)
                     p->i_rem_keep_contents( pos );
                 }
             }
-            else if (rn <= 7)
+            else if (rn <= 10)
             {
-                p->add_msg_if_player(m_bad, _("You fail to sew in a fur lining, and you waste a lot of thread and rags."));
+                p->add_msg_if_player(m_bad, _("You fail to sew in a fur lining, and you waste a lot of thread and fur."));
                 thread_used = rng(5, 14);
                 p->consume_items(comps);
             }
-            else if (rn <= 10)
+            else if (rn <= 14)
             {
                 p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
                                      mod->tname().c_str());
@@ -3375,7 +3377,7 @@ int iuse::sew(player *p, item *it, bool, point)
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 5)
+            if (rn <= 8)
             {
                 p->add_msg_if_player(m_bad, _("You damage your %s further trying to pad it with leather!"), mod->tname().c_str());
                 mod->damage++;
@@ -3385,20 +3387,20 @@ int iuse::sew(player *p, item *it, bool, point)
                     p->i_rem_keep_contents( pos );
                 }
             }
-            else if (rn <= 7)
+            else if (rn <= 10)
             {
-                p->add_msg_if_player(m_bad, _("You fail to pad your %s with leather, and you waste a lot of thread and rags."),
+                p->add_msg_if_player(m_bad, _("You fail to pad your %s with leather, and you waste a lot of thread and leather."),
                                      mod->tname().c_str());
                 thread_used = rng(5, 14);
                 p->consume_items(comps);
             }
-            else if (rn <= 10)
+            else if (rn <= 14)
             {
                 p->add_msg_if_player(m_mixed, _("You pad your %s with leather, but waste a lot of thread."),
                                      mod->tname().c_str());
                 p->consume_items(comps);
                 mod->leather_padded = true;
-                thread_used = rng(5, 14);
+                thread_used = rng(5, 14 + (rng(1, 3)));
             }
             else
             {

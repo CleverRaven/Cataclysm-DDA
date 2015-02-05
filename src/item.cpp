@@ -2467,6 +2467,7 @@ int item::melee_value(player *p)
 int item::bash_resist() const
 {
     int resist = 0;
+    float l_padding = 1;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2477,7 +2478,7 @@ int item::bash_resist() const
         return resist;
     }
     if (leather_padded == true){
-        eff_thickness += 10; //just for testing
+        l_padding = 1.3; //Is this balanced?
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2492,12 +2493,13 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment);
+    return (int)(resist * eff_thickness * adjustment* l_padding);
 }
 
 int item::cut_resist() const
 {
     int resist = 0;
+    int l_padding = 1;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2508,7 +2510,7 @@ int item::cut_resist() const
         return resist;
     }
     if (leather_padded == true){
-        eff_thickness += 10; //just for testing
+        l_padding = 2; //just for testing
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2523,7 +2525,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment);
+    return (int)(resist * eff_thickness * adjustment * l_padding);
 }
 
 int item::acid_resist() const
