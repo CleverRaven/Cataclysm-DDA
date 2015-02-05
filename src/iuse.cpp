@@ -3126,13 +3126,15 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         };
-        if(((mod->fured == 1) && (mod->pocketed == 1)) || ((mod->fured == 1) && (mod->leather_padded == 1)) || ((mod->pocketed == 1) && (mod->leather_padded == 1)))
+        if(((mod->fured == 1) && (mod->pocketed == 1)) || ((mod->fured == 1) && (mod->leather_padded == 1)) ||
+            ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->fured == 1) && (mod->kevlar_padded == 1)) ||
+            ((mod->kevlar_padded == 1) && (mod->pocketed == 1)) || ((mod->leather_padded == 1) && (mod->kevlar_padded == 1))) //This is a mess. No three of any.
         {
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
         int choice2 = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
-                           _("Line it with fur"),_("Pad with leather"), _("Cancel"), NULL);
+                           _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Cancel"), NULL);
         switch (choice2)
         {
         case 1:
@@ -3411,7 +3413,99 @@ int iuse::sew(player *p, item *it, bool, point)
                 return thread_used;
             };
         }
-        case 4:
+                case 4:
+        {
+            if(mod->kevlar_padded == 1)
+            {
+                p->add_msg_if_player(m_info,_("You've already lined this with kevlar."));
+                return 0;
+            }
+            itype_id repair_item = "none";
+            std::vector<std::string> plurals;
+            std::vector<itype_id> repair_items;
+            std::string plural = "";
+
+            repair_items.push_back("kevlar_plate");
+            plurals.push_back(rm_prefix(_("<plural>kevlar plates")));
+
+
+            int items_needed = 2;  //just a value for testing, should be based on the items volume
+
+            // this will cause issues if/when NPCs start being able to sew.
+            // but, then again, it'll cause issues when they start crafting, too.
+            const inventory &crafting_inv = p->crafting_inventory();
+            bool bFound = false;
+            //go through all discovered repair items and see if we have any of them available
+            for( auto &repair_items_i : repair_items )
+            {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) )
+                {
+                    //we've found enough of a material, use this one
+                    repair_item = repair_items_i;
+                    bFound = true;
+                }
+            }
+            if (!bFound)
+            {
+                for (unsigned int i = 0; i < repair_items.size(); i++)
+                {
+                    p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+                }
+                return 0;
+            }
+            std::vector<item_comp> comps;
+            comps.push_back(item_comp(repair_item, items_needed));
+            p->moves -= 500 * p->fine_detail_vision_mod();
+            p->practice("tailor", 9);
+            int rn = dice(4, 2 + p->skillLevel("tailor"));
+            if (p->dex_cur < 8 && one_in(p->dex_cur))
+            {
+                rn -= rng(2, 6);
+            }
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+            {
+                rn += rng(2, 6);
+            }
+            if (p->dex_cur > 16)
+            {
+                rn += rng(0, p->dex_cur - 16);
+            }
+
+            if (rn <= 8)
+            {
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with kevlar!"), mod->tname().c_str());
+                mod->damage++;
+                if (mod->damage >= 5)
+                {
+                    p->add_msg_if_player(m_bad, _("You destroy it!"));
+                    p->i_rem_keep_contents( pos );
+                }
+            }
+            else if (rn <= 10)
+            {
+                p->add_msg_if_player(m_bad, _("You fail to line your %s with kevlar, and you waste a lot of thread and kevlar."),
+                                     mod->tname().c_str());
+                thread_used = rng(5, 14);
+                p->consume_items(comps);
+            }
+            else if (rn <= 14)
+            {
+                p->add_msg_if_player(m_mixed, _("You line your %s with kevlar, but waste a lot of thread."),
+                                     mod->tname().c_str());
+                p->consume_items(comps);
+                mod->kevlar_padded = true;
+                thread_used = rng(5, 14 + (rng(1, 3)));
+            }
+            else
+            {
+                p->add_msg_if_player(m_good, _("You line your %s with kevlar!"), mod->tname().c_str());
+                mod->kevlar_padded = true;
+                p->consume_items(comps);
+
+                return thread_used;
+            };
+        }
+        case 5:
         {
             return 0;
         }
