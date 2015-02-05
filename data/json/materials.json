@@ -692,5 +692,23 @@
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 8
+    },{
+        "type" : "material",
+        "ident" : "alcohol",
+        "name" : "Alcohol",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
     }
 ]
