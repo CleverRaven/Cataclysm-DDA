@@ -6731,7 +6731,7 @@
         "id" : "veggy_aspic",
         "name" : "vegetable aspic",
         "weight" : 120,
-        "color" : "red",
+        "color" : "green",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "stim" : 0,
