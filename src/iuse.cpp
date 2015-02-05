@@ -3051,7 +3051,7 @@ int iuse::sew(player *p, item *it, bool, point)
 
         }
         case 2: {
-            int thread_used = 1;
+            int thread_used = 5;
 
                         int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
                         return itm.made_of( "cotton" ) ||
@@ -3082,7 +3082,7 @@ int iuse::sew(player *p, item *it, bool, point)
         switch (choice2) {
         case 1:{
                 if(mod->pocketed == 1){
-                p->add_msg_if_player(m_info,_("You already sewed on extra pockets."));
+                p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
                 return 0;
                 }
                 itype_id repair_item = "none";
@@ -3116,11 +3116,42 @@ int iuse::sew(player *p, item *it, bool, point)
     }
         std::vector<item_comp> comps;
         comps.push_back(item_comp(repair_item, items_needed));
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("tailor", 9);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
 
+        if (rn <= 5) {
+            p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew on pockets!"), mod->tname().c_str());
+            mod->damage++;
+            if (mod->damage >= 5) {
+                p->add_msg_if_player(m_bad, _("You destroy it!"));
+                p->i_rem_keep_contents( pos );
+            }
+        } else if (rn <= 7) {
+            p->add_msg_if_player(m_bad, _("You fail to sew on pockets, and you waste a lot of thread and rags."));
+            thread_used = rng(5, 14);
+            p->consume_items(comps);
+        } else if (rn <= 10) {
+            p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
+                                 mod->tname().c_str());
+                p->consume_items(comps);
+                mod->pocketed = true;
+                thread_used = rng(5, 14);
+        } else {
+            p->add_msg_if_player(m_good, _("You sew extra pockets on your %s!"), mod->tname().c_str());
+                mod->pocketed = true;
+                p->consume_items(comps);
+        }
 
-    p->add_msg_if_player(m_info, _("You sew some extra pockets on your %s."), mod->tname().c_str());
-    mod->pocketed = 1;
-    p->consume_items(comps);
     return thread_used;
         };
 
@@ -3160,9 +3191,42 @@ int iuse::sew(player *p, item *it, bool, point)
     }
         std::vector<item_comp> comps;
         comps.push_back(item_comp(repair_item, items_needed));
-    p->add_msg_if_player(m_info, _("You sew a fur lining in your %s."),mod->tname().c_str());
-    mod->fured = 1;
-    p->consume_items(comps);
+           p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("tailor", 9);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+
+        if (rn <= 5) {
+            p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"), mod->tname().c_str());
+            mod->damage++;
+            if (mod->damage >= 5) {
+                p->add_msg_if_player(m_bad, _("You destroy it!"));
+                p->i_rem_keep_contents( pos );
+            }
+        } else if (rn <= 7) {
+            p->add_msg_if_player(m_bad, _("You fail to sew in a fur lining, and you waste a lot of thread and rags."));
+            thread_used = rng(5, 14);
+            p->consume_items(comps);
+        } else if (rn <= 10) {
+            p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
+                                 mod->tname().c_str());
+                p->consume_items(comps);
+                mod->fured = true;
+                thread_used = rng(5, 14);
+        } else {
+            p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
+                mod->fured = true;
+                p->consume_items(comps);
+        }
+
     return thread_used;
     };
             }
