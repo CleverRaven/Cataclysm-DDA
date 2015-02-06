@@ -2956,6 +2956,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "water_tank_barrel",
+        "name" : "water barrel",
+        "symbol" : "O",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "size" : 400,
+        "fuel_type" : "water",
+        "item" : "wooden_barrel",
+        "difficulty" : 0,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 8},
+            {"item": "2x4", "min": 2, "max": 8},
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "minifridge",
         "name" : "minifridge",
         "symbol" : "H",
