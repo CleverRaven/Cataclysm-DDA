@@ -654,6 +654,7 @@
     [
       [ "tallow_tainted", 2 ],
       [ "meat_tainted", 3 ],
+      [ "dry_meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
       [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
@@ -1039,7 +1040,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat_tainted", 3 ]
+      [ "meat_tainted", 3 ],
+      [ "dry_meat_tainted", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1406,6 +1408,7 @@
     ],
     [
       [ "meat_tainted", 3 ],
+      [ "dry_meat_tainted", 3 ],
       [ "can_chowder", 1 ],
       [ "can_clams", 1 ]
     ],
@@ -2381,7 +2384,8 @@
   ],
   "components": [
     [
-      [ "meat_tainted", 1 ]
+      [ "meat_tainted", 1 ],
+      [ "dry_meat_tainted", 1 ]
     ],
     [
       [ "ammonia", 1 ]
