@@ -2546,6 +2546,7 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
+  "id_suffix" : "open_cans_such_as_food",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
   "skill_used": "traps",
@@ -2564,6 +2565,32 @@
     [
       [ "clay_canister", 1 ],
       [ "can_food", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "boobytrap",
+  "id_suffix" : "closed_cans_such_as_drinks",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "grenade", 1 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "can_drink", 1 ]
     ]
   ]
 },{
