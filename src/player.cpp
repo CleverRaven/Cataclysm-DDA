@@ -10951,8 +10951,8 @@ void player::read(int inventory_position)
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
         it->typeId() == "cookbook_human") {
         add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
-    } else if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
-        add_morale(MORALE_BOOK, 50, 150, minutes + 60, minutes, false, it->type);
+    } if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
+        add_morale(MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it->type);
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
@@ -11027,8 +11027,11 @@ void player::do_read( item *book )
             book->typeId() == "cookbook_human" ) {
             fun_bonus = 25;
             add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type);
+        } if (has_trait("SPIRITUAL") && book->has_flag("INSPIRATIONAL")) {
+              fun_bonus = 15;
+            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type);
         } else {
-            add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
+              add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
         }
     }
 
