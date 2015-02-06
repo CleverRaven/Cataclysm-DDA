@@ -2747,11 +2747,6 @@ int iuse::sew(player *p, item *it, bool, point)
         add_msg(m_info, _("You can't see to sew!"));
         return 0;
     }
-    int choice = 3;
-    choice = menu(true, _("Using sewing item:"), _("Repair/fit clothing"),
-                  _("Modify clothing"), _("Cancel"), NULL);
-    switch (choice) {
-    case 1: {
         int thread_used = 1;
 
         int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
@@ -2897,22 +2892,38 @@ int iuse::sew(player *p, item *it, bool, point)
                     if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
                         p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
                         fix->item_tags.insert("FIT");
-                    } else
-                        if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-                            p->add_msg_if_player(m_neutral, _("Your %s is already fully repaired."), fix->tname().c_str());
-                            return 0;
+                    }else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
+                        p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
+                        fix->damage--;
+                        p->consume_items(comps);
                         } else {
                             p->add_msg_if_player(m_neutral, _("You practice your sewing."));
                         }
             } else {
-                p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
+                p->add_msg_if_player(m_info, _("Your %s already reinforced."), fix->tname().c_str());
                 return 0;
             }
 
         return thread_used;
 
+
+}
+
+
+int iuse::sew_advanced(player *p, item *it, bool, point)
+{
+    if (it->charges == 0) {
+        return 0;
     }
-    case 2: {
+    if (p->is_underwater()) {
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return 0;
+    }
+    //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to sew!"));
+        return 0;
+    }
         int thread_used = 5;
 
         int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
@@ -2944,9 +2955,9 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
-        int choice2 = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
+        int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
                            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Cancel"), NULL);
-        switch (choice2) {
+        switch (choice) {
         case 1: {
             if(mod->pocketed == 1) {
                 p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
@@ -3267,22 +3278,8 @@ int iuse::sew(player *p, item *it, bool, point)
         default: {
             return 0;
         }
-
-
-        }
-    }
-    case 3: {
-        return 0;
-
-    }
-    default: {
-        return 0;
-    }
-    }
 }
-
-
-
+}
 int iuse::extra_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {

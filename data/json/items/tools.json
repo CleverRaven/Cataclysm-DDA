@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "testflames",
     "type": "TOOL",
@@ -254,6 +254,29 @@
     "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
+  },
+
+  {
+    "id": "tailors_kit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "tailor's kit",
+    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, and a few other useful textile tools.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "price": 1000,
+    "material": ["plastic", "steel"],
+    "weight": 100,
+    "volume": 2,
+    "bashing": -1,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 400,
+    "initial_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "thread",
+    "revert_to": "null",
+    "use_action": "SEW_ADVANCED"
   },
 
   {
