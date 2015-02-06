@@ -10578,7 +10578,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                                                  default_target_x, default_target_y);
 
     if (trajectory.empty()) {
-        if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.activity.type != ACT_AIM ) {
+            // Supress unloading if we're mid-aim.
             u.moves += u.weapon.reload_time(u);
             unload(u.weapon);
             u.moves += u.weapon.reload_time(u) / 2; // unloading time
