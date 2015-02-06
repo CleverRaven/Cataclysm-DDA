@@ -2950,7 +2950,9 @@
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
         "breaks_into" : [
-            {"item": "plastic_chunk", "min": 3, "max": 12}
+            {"item": "steel_lump", "min": 2, "max": 2},
+	    {"item": "steel_chunk", "min": 1, "max": 2},
+ 	    {"item": "scrap", "min": 1, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
