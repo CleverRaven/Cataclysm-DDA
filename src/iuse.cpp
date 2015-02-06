@@ -3153,7 +3153,7 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>rags")));
 
 
-            int items_needed = 2;  //just a value for testing, should be based on the items volume
+            int items_needed = (((mod->volume()) / 3) + 1 );  //Based on the item's volume, might be closed to balanced.
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
@@ -3247,7 +3247,7 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>furs")));
 
 
-            int items_needed = 2;  //just a value for testing, should be based on the items volume
+            int items_needed = (((mod->volume()) / 3) + 1 );
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
@@ -3337,7 +3337,7 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>leather")));
 
 
-            int items_needed = 2;  //just a value for testing, should be based on the items volume
+            int items_needed = (((mod->volume()) / 3) + 1 );  //just a value for testing, should be based on the items volume
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
@@ -3429,7 +3429,7 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>kevlar plates")));
 
 
-            int items_needed = 2;  //just a value for testing, should be based on the items volume
+            int items_needed = (((mod->volume()) / 3) + 1 );  //just a value for testing, should be based on the items volume
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.

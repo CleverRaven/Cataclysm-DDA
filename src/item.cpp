@@ -2261,15 +2261,16 @@ bool item::is_auxiliary_gunmod() const
 
 int item::get_storage() const
 {
-     auto t = find_armor_data();
+    float pockets = 1;
+    auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
     if (pocketed == true){
-        t += 10; //Test value
+        pockets = (1.5); //Test value
     }
     // it_armor::storage is unsigned char
-    return (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
+    return (static_cast<int> (static_cast<unsigned int>( t->storage * pockets) ) );
 }
 
 int item::get_env_resist() const
@@ -2323,15 +2324,16 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-     auto t = find_armor_data();
+    int warmed = 1;
+    auto t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
      if (fured == true){
-        t += 25; //Also arbitrary test value
+        warmed = 2; // Doubles an item's warmth
     }
     // it_armor::warmth is signed char
-    return static_cast<int>( t->warmth );
+    return static_cast<int>( t->warmth * warmed);
 }
 
 int item::brewing_time() const
@@ -2484,10 +2486,10 @@ int item::bash_resist() const
         return resist;
     }
     if (leather_padded == true){
-        l_padding = 1.3; //Is this balanced?
+        l_padding = 1.4;
     }
         if (kevlar_padded == true){
-        k_padding = 1.3; //Is this balanced?
+        k_padding = 1.4;
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2520,10 +2522,10 @@ int item::cut_resist() const
         return resist;
     }
     if (leather_padded == true){
-        l_padding = 1.3; //just for testing
+        l_padding = 1.4;
     }
     if (kevlar_padded == true){
-        k_padding = 2; //just for testing
+        k_padding = 2;
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
