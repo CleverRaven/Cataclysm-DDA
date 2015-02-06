@@ -3536,8 +3536,8 @@ void mattack::bite(monster *z, int index)
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
-                foe->add_msg_player_or_npc( msg_type, _("%s lunges at you, but you dodge!"),
-                                                      _("%s lunges at <npcname>, but they dodge!"),
+                foe->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
+                                                      _("The %s lunges at <npcname>, but they dodge!"),
                                             z->name().c_str() );
             }
             if( !uncanny ) {
