@@ -652,6 +652,7 @@
         "type" : "item_group",
         "id"   : "ma_manuals",
         "items":[
+            ["manual_boxing", 5],
             ["manual_karate", 5],
             ["manual_aikido", 5],
             ["manual_judo", 5],
