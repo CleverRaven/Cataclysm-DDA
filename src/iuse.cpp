@@ -7438,7 +7438,8 @@ int iuse::spray_can(player *p, item *it, bool, point)
 static bool heat_item(player *p)
 {
     int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
-        return itm.is_food() && itm.has_flag("EATEN_HOT");
+        return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
+            (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
     } );
     item *heat = &( p->i_at(inventory_index ) );
     if (heat->type->id == "null") {
