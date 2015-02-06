@@ -178,8 +178,7 @@
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+            "type": "extended_firestarter"
     }
   },
 
