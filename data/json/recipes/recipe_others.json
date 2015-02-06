@@ -4716,6 +4716,42 @@
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
+  "time": 262500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 40], [ "oxy_torch", 40]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "30gal_barrel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 8,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
