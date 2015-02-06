@@ -6,7 +6,7 @@
     "color": "dark_gray",
     "name": "SVS-24",
     "name_plural": "SVS-24",
-    "description": "The Sarafanov Assault Rifle replaced the famous AK family of guns as the service rifle of the Russian Army. It uses the 6.54x42mm cartrige.",
+    "description": "The Sarafanov Assault Rifle replaced the famous AK family of guns as the service rifle of the Russian Army. It uses the 6.54x42mm cartridge.",
     "price": 450000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
