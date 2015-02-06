@@ -2880,32 +2880,26 @@ int iuse::firestarter(player *p, item *it, bool t, point pos)
 
 int iuse::sew(player *p, item *it, bool, point)
 {
-    if (it->charges == 0)
-    {
+    if (it->charges == 0) {
         return 0;
     }
-    if (p->is_underwater())
-    {
+    if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
     //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
-    if (p->fine_detail_vision_mod() > 4)
-    {
+    if (p->fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to sew!"));
         return 0;
     }
     int choice = 3;
     choice = menu(true, _("Using sewing item:"), _("Repair/fit clothing"),
                   _("Modify clothing"), _("Cancel"), NULL);
-    switch (choice)
-    {
-    case 1:
-    {
+    switch (choice) {
+    case 1: {
         int thread_used = 1;
 
-        int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm )
-        {
+        int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
             return itm.made_of( "cotton" ) ||
                    itm.made_of( "leather" ) ||
                    itm.made_of( "fur" ) ||
@@ -2913,8 +2907,7 @@ int iuse::sew(player *p, item *it, bool, point)
                    itm.made_of( "wool" );
         } );
         item *fix = &(p->i_at(pos));
-        if (fix == NULL || fix->is_null())
-        {
+        if (fix == NULL || fix->is_null()) {
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         };
@@ -2924,39 +2917,33 @@ int iuse::sew(player *p, item *it, bool, point)
         std::vector<itype_id> repair_items;
         std::string plural = "";
         //translation note: add <plural> tag to keep them unique
-        if (fix->made_of("cotton"))
-        {
+        if (fix->made_of("cotton")) {
             repair_items.push_back("rag");
             plurals.push_back(rm_prefix(_("<plural>rags")));
         }
-        if (fix->made_of("leather"))
-        {
+        if (fix->made_of("leather")) {
             repair_items.push_back("leather");
             plurals.push_back(rm_prefix(_("<plural>leather")));
         }
-        if (fix->made_of("fur"))
-        {
+        if (fix->made_of("fur")) {
             repair_items.push_back("fur");
             plurals.push_back(rm_prefix(_("<plural>fur")));
         }
-        if (fix->made_of("nomex"))
-        {
+        if (fix->made_of("nomex")) {
             repair_items.push_back("nomex");
             plurals.push_back(rm_prefix(_("<plural>nomex")));
         }
-        if (fix->made_of("wool"))
-        {
+        if (fix->made_of("wool")) {
             repair_items.push_back("felt_patch");
             plurals.push_back(rm_prefix(_("<plural>wool")));
         }
-        if (repair_items.empty())
-        {
+        if (repair_items.empty()) {
             p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
                                  fix->tname().c_str());
             return 0;
         }
-        if( fix == it || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end())
-        {
+        if( fix == it
+                || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         }
@@ -2968,19 +2955,15 @@ int iuse::sew(player *p, item *it, bool, point)
         const inventory &crafting_inv = p->crafting_inventory();
         bool bFound = false;
         //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items )
-        {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) )
-            {
+        for( auto &repair_items_i : repair_items ) {
+            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                 //we've found enough of a material, use this one
                 repair_item = repair_items_i;
                 bFound = true;
             }
         }
-        if (!bFound)
-        {
-            for (unsigned int i = 0; i < repair_items.size(); i++)
-            {
+        if (!bFound) {
+            for (unsigned int i = 0; i < repair_items.size(); i++) {
                 p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
             }
             return 0;
@@ -2989,122 +2972,95 @@ int iuse::sew(player *p, item *it, bool, point)
         std::vector<item_comp> comps;
         comps.push_back(item_comp(repair_item, items_needed));
 
-        if (fix->damage > 0)
-        {
+        if (fix->damage > 0) {
             p->moves -= 500 * p->fine_detail_vision_mod();
             p->practice("tailor", 8);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
             rn -= rng(fix->damage, fix->damage * 2);
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
+            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
-            {
+            if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
-            if (p->dex_cur > 16)
-            {
+            if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
-            if (rn <= 4)
-            {
+            if (rn <= 4) {
                 p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix->tname().c_str());
                 fix->damage++;
-                if (fix->damage >= 5)
-                {
+                if (fix->damage >= 5) {
                     p->add_msg_if_player(m_bad, _("You destroy it!"));
                     p->i_rem_keep_contents( pos );
                 }
-            }
-            else if (rn <= 6)
-            {
-                p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
-                                     fix->tname().c_str());
-                thread_used = rng(1, 8);
-            }
-            else if (rn <= 8)
-            {
-                p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
-                                     fix->tname().c_str());
-                if (fix->damage >= 3)
-                {
-                    p->consume_items(comps);
+            } else
+                if (rn <= 6) {
+                    p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
+                                         fix->tname().c_str());
+                    thread_used = rng(1, 8);
+                } else
+                    if (rn <= 8) {
+                        p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
+                                             fix->tname().c_str());
+                        if (fix->damage >= 3) {
+                            p->consume_items(comps);
+                        }
+                        fix->damage--;
+                        thread_used = rng(1, 8);
+                    } else
+                        if (rn <= 16) {
+                            p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
+                            if (fix->damage >= 3) {
+                                p->consume_items(comps);
+                            }
+                            fix->damage--;
+                        } else {
+                            p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
+                            if (fix->damage >= 3) {
+                                p->consume_items(comps);
+                            }
+                            fix->damage = 0;
+                        }
+        } else
+            if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
+                p->moves -= 500 * p->fine_detail_vision_mod();
+                p->practice("tailor", 10);
+                int rn = dice(4, 2 + p->skillLevel("tailor"));
+                if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+                    rn -= rng(2, 6);
                 }
-                fix->damage--;
-                thread_used = rng(1, 8);
-            }
-            else if (rn <= 16)
-            {
-                p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-                if (fix->damage >= 3)
-                {
-                    p->consume_items(comps);
+                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+                    rn += rng(2, 6);
                 }
-                fix->damage--;
-            }
-            else
-            {
-                p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-                if (fix->damage >= 3)
-                {
-                    p->consume_items(comps);
+                if (p->dex_cur > 16) {
+                    rn += rng(0, p->dex_cur - 16);
                 }
-                fix->damage = 0;
-            }
-        }
-        else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT")))
-        {
-            p->moves -= 500 * p->fine_detail_vision_mod();
-            p->practice("tailor", 10);
-            int rn = dice(4, 2 + p->skillLevel("tailor"));
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
-                rn -= rng(2, 6);
-            }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-            {
-                rn += rng(2, 6);
-            }
-            if (p->dex_cur > 16)
-            {
-                rn += rng(0, p->dex_cur - 16);
-            }
-            if (rn <= 4)
-            {
-                p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-                fix->damage++;
-            }
-            else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))
-            {
-                p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
-                fix->item_tags.insert("FIT");
-            }
-            else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE")))
-            {
-                p->add_msg_if_player(m_neutral, _("Your %s is already fully repaired."), fix->tname().c_str());
+                if (rn <= 4) {
+                    p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
+                    fix->damage++;
+                } else
+                    if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
+                        p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
+                        fix->item_tags.insert("FIT");
+                    } else
+                        if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
+                            p->add_msg_if_player(m_neutral, _("Your %s is already fully repaired."), fix->tname().c_str());
+                            return 0;
+                        } else {
+                            p->add_msg_if_player(m_neutral, _("You practice your sewing."));
+                        }
+            } else {
+                p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
                 return 0;
             }
-            else
-            {
-                p->add_msg_if_player(m_neutral, _("You practice your sewing."));
-            }
-        }
-        else
-        {
-            p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
-            return 0;
-        }
 
         return thread_used;
 
     }
-    case 2:
-    {
+    case 2: {
         int thread_used = 5;
 
-        int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm )
-        {
+        int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
             return itm.made_of( "cotton" ) ||
                    itm.made_of( "leather" ) ||
                    itm.made_of( "fur" ) ||
@@ -3112,8 +3068,7 @@ int iuse::sew(player *p, item *it, bool, point)
                    itm.made_of( "wool" );
         } );
         item *mod = &(p->i_at(pos));
-        if (mod == NULL || mod->is_null())
-        {
+        if (mod == NULL || mod->is_null()) {
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         };
@@ -3121,26 +3076,24 @@ int iuse::sew(player *p, item *it, bool, point)
         std::vector<std::string> plurals;
         std::vector<itype_id> repair_items;
         std::string plural = "";
-        if( mod == it || std::find(repair_items.begin(), repair_items.end(), mod->typeId()) != repair_items.end())
-        {
+        if( mod == it
+                || std::find(repair_items.begin(), repair_items.end(), mod->typeId()) != repair_items.end()) {
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         };
         if(((mod->fured == 1) && (mod->pocketed == 1)) || ((mod->fured == 1) && (mod->leather_padded == 1)) ||
-            ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->fured == 1) && (mod->kevlar_padded == 1)) ||
-            ((mod->kevlar_padded == 1) && (mod->pocketed == 1)) || ((mod->leather_padded == 1) && (mod->kevlar_padded == 1))) //This is a mess. No three of any.
-        {
+                ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->fured == 1)
+                        && (mod->kevlar_padded == 1)) ||
+                ((mod->kevlar_padded == 1) && (mod->pocketed == 1)) || ((mod->leather_padded == 1)
+                        && (mod->kevlar_padded == 1))) { //This is a mess. Have to block every combo of 2. Probably a better way.
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
         int choice2 = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
                            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Cancel"), NULL);
-        switch (choice2)
-        {
-        case 1:
-        {
-            if(mod->pocketed == 1)
-            {
+        switch (choice2) {
+        case 1: {
+            if(mod->pocketed == 1) {
                 p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
                 return 0;
             }
@@ -3153,26 +3106,22 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>rags")));
 
 
-            int items_needed = (((mod->volume()) / 3) + 1 );  //Based on the item's volume, might be closed to balanced.
+            int items_needed = (((mod->volume()) / 3) +1 ); //Add 1 so it isn't zero
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
             const inventory &crafting_inv = p->crafting_inventory();
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items )
-            {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) )
-                {
+            for( auto &repair_items_i : repair_items ) {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                     //we've found enough of a material, use this one
                     repair_item = repair_items_i;
                     bFound = true;
                 }
             }
-            if (!bFound)
-            {
-                for (unsigned int i = 0; i < repair_items.size(); i++)
-                {
+            if (!bFound) {
+                for (unsigned int i = 0; i < repair_items.size(); i++) {
                     p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
                 }
                 return 0;
@@ -3184,57 +3133,48 @@ int iuse::sew(player *p, item *it, bool, point)
             p->practice("tailor", 9);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
 
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
+            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-            {
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
-            if (p->dex_cur > 16)
-            {
+            if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 8)
-            {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew on pockets!"), mod->tname().c_str());
+            if (rn <= 8) {
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew on pockets!"),
+                                     mod->tname().c_str());
                 mod->damage++;
-                if (mod->damage >= 5)
-                {
+                if (mod->damage >= 5) {
                     p->add_msg_if_player(m_bad, _("You destroy it!"));
                     p->i_rem_keep_contents( pos );
                 }
-            }
-            else if (rn <= 10)
-            {
-                p->add_msg_if_player(m_bad, _("You fail to sew on pockets, and you waste a lot of thread and rags."));
-                thread_used = rng(5, 14);
-                p->consume_items(comps);
-            }
-            else if (rn <= 14)
-            {
-                p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
-                                     mod->tname().c_str());
-                p->consume_items(comps);
-                mod->pocketed = true;
-                thread_used = rng(5, 14);
-            }
-            else
-            {
-                p->add_msg_if_player(m_good, _("You sew extra pockets on your %s!"), mod->tname().c_str());
-                mod->pocketed = true;
-                p->consume_items(comps);
-            }
+            } else
+                if (rn <= 10) {
+                    p->add_msg_if_player(m_bad,
+                                         _("You fail to sew on pockets, and you waste a lot of thread and rags."));
+                    thread_used = rng(5, 14);
+                    p->consume_items(comps);
+                } else
+                    if (rn <= 14) {
+                        p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
+                                             mod->tname().c_str());
+                        p->consume_items(comps);
+                        mod->pocketed = true;
+                        thread_used = rng(5, 14);
+                    } else {
+                        p->add_msg_if_player(m_good, _("You sew extra pockets on your %s!"), mod->tname().c_str());
+                        mod->pocketed = true;
+                        p->consume_items(comps);
+                    }
 
             return thread_used;
         };
 
-        case 2:
-        {
-            if(mod->fured == 1)
-            {
+        case 2: {
+            if(mod->fured == 1) {
                 p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
                 return 0;
             }
@@ -3254,19 +3194,15 @@ int iuse::sew(player *p, item *it, bool, point)
             const inventory &crafting_inv = p->crafting_inventory();
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items )
-            {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) )
-                {
+            for( auto &repair_items_i : repair_items ) {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                     //we've found enough of a material, use this one
                     repair_item = repair_items_i;
                     bFound = true;
                 }
             }
-            if (!bFound)
-            {
-                for (unsigned int i = 0; i < repair_items.size(); i++)
-                {
+            if (!bFound) {
+                for (unsigned int i = 0; i < repair_items.size(); i++) {
                     p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
                 }
                 return 0;
@@ -3276,55 +3212,46 @@ int iuse::sew(player *p, item *it, bool, point)
             p->moves -= 500 * p->fine_detail_vision_mod();
             p->practice("tailor", 9);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
+            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-            {
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
-            if (p->dex_cur > 16)
-            {
+            if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 8)
-            {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"), mod->tname().c_str());
+            if (rn <= 8) {
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"),
+                                     mod->tname().c_str());
                 mod->damage++;
-                if (mod->damage >= 5)
-                {
+                if (mod->damage >= 5) {
                     p->add_msg_if_player(m_bad, _("You destroy it!"));
                     p->i_rem_keep_contents( pos );
                 }
-            }
-            else if (rn <= 10)
-            {
-                p->add_msg_if_player(m_bad, _("You fail to sew in a fur lining, and you waste a lot of thread and fur."));
-                thread_used = rng(5, 14);
-                p->consume_items(comps);
-            }
-            else if (rn <= 14)
-            {
-                p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
-                                     mod->tname().c_str());
-                p->consume_items(comps);
-                mod->fured = true;
-                thread_used = rng(5, 14);
-            }
-            else
-            {
-                p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
-                mod->fured = true;
-                p->consume_items(comps);
-            }
+            } else
+                if (rn <= 10) {
+                    p->add_msg_if_player(m_bad,
+                                         _("You fail to sew in a fur lining, and you waste a lot of thread and fur."));
+                    thread_used = rng(5, 14);
+                    p->consume_items(comps);
+                } else
+                    if (rn <= 14) {
+                        p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
+                                             mod->tname().c_str());
+                        p->consume_items(comps);
+                        mod->fured = true;
+                        thread_used = rng(5, 14);
+                    } else {
+                        p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
+                        mod->fured = true;
+                        p->consume_items(comps);
+                    }
             return thread_used;
         }
-        case 3:
-        {
-            if(mod->leather_padded == 1)
-            {
+        case 3: {
+            if(mod->leather_padded == 1) {
                 p->add_msg_if_player(m_info,_("You've already padded this with leather."));
                 return 0;
             }
@@ -3337,26 +3264,21 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>leather")));
 
 
-            int items_needed = (((mod->volume()) / 3) + 1 );  //just a value for testing, should be based on the items volume
-
+            int items_needed = (((mod->volume()) / 3) +1 );
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
             const inventory &crafting_inv = p->crafting_inventory();
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items )
-            {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) )
-                {
+            for( auto &repair_items_i : repair_items ) {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                     //we've found enough of a material, use this one
                     repair_item = repair_items_i;
                     bFound = true;
                 }
             }
-            if (!bFound)
-            {
-                for (unsigned int i = 0; i < repair_items.size(); i++)
-                {
+            if (!bFound) {
+                for (unsigned int i = 0; i < repair_items.size(); i++) {
                     p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
                 }
                 return 0;
@@ -3366,57 +3288,48 @@ int iuse::sew(player *p, item *it, bool, point)
             p->moves -= 500 * p->fine_detail_vision_mod();
             p->practice("tailor", 9);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
+            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-            {
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
-            if (p->dex_cur > 16)
-            {
+            if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 8)
-            {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to pad it with leather!"), mod->tname().c_str());
+            if (rn <= 8) {
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to pad it with leather!"),
+                                     mod->tname().c_str());
                 mod->damage++;
-                if (mod->damage >= 5)
-                {
+                if (mod->damage >= 5) {
                     p->add_msg_if_player(m_bad, _("You destroy it!"));
                     p->i_rem_keep_contents( pos );
                 }
-            }
-            else if (rn <= 10)
-            {
-                p->add_msg_if_player(m_bad, _("You fail to pad your %s with leather, and you waste a lot of thread and leather."),
-                                     mod->tname().c_str());
-                thread_used = rng(5, 14);
-                p->consume_items(comps);
-            }
-            else if (rn <= 14)
-            {
-                p->add_msg_if_player(m_mixed, _("You pad your %s with leather, but waste a lot of thread."),
-                                     mod->tname().c_str());
-                p->consume_items(comps);
-                mod->leather_padded = true;
-                thread_used = rng(5, 14 + (rng(1, 3)));
-            }
-            else
-            {
-                p->add_msg_if_player(m_good, _("You pad your %s with leather!"), mod->tname().c_str());
-                mod->leather_padded = true;
-                p->consume_items(comps);
+            } else
+                if (rn <= 10) {
+                    p->add_msg_if_player(m_bad,
+                                         _("You fail to pad your %s with leather, and you waste a lot of thread and leather."),
+                                         mod->tname().c_str());
+                    thread_used = rng(5, 14);
+                    p->consume_items(comps);
+                } else
+                    if (rn <= 14) {
+                        p->add_msg_if_player(m_mixed, _("You pad your %s with leather, but waste a lot of thread."),
+                                             mod->tname().c_str());
+                        p->consume_items(comps);
+                        mod->leather_padded = true;
+                        thread_used = rng(5, 14 + (rng(1, 3)));
+                    } else {
+                        p->add_msg_if_player(m_good, _("You pad your %s with leather!"), mod->tname().c_str());
+                        mod->leather_padded = true;
+                        p->consume_items(comps);
 
-            };
+                    };
             return thread_used;
         }
-                case 4:
-        {
-            if(mod->kevlar_padded == 1)
-            {
+        case 4: {
+            if(mod->kevlar_padded == 1) {
                 p->add_msg_if_player(m_info,_("You've already lined this with kevlar."));
                 return 0;
             }
@@ -3429,26 +3342,21 @@ int iuse::sew(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>kevlar plates")));
 
 
-            int items_needed = (((mod->volume()) / 3) + 1 );  //just a value for testing, should be based on the items volume
-
+            int items_needed = (((mod->volume()) / 3) +1 );
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
             const inventory &crafting_inv = p->crafting_inventory();
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items )
-            {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) )
-                {
+            for( auto &repair_items_i : repair_items ) {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                     //we've found enough of a material, use this one
                     repair_item = repair_items_i;
                     bFound = true;
                 }
             }
-            if (!bFound)
-            {
-                for (unsigned int i = 0; i < repair_items.size(); i++)
-                {
+            if (!bFound) {
+                for (unsigned int i = 0; i < repair_items.size(); i++) {
                     p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
                 }
                 return 0;
@@ -3458,72 +3366,61 @@ int iuse::sew(player *p, item *it, bool, point)
             p->moves -= 500 * p->fine_detail_vision_mod();
             p->practice("tailor", 9);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
-            if (p->dex_cur < 8 && one_in(p->dex_cur))
-            {
+            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-            {
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
-            if (p->dex_cur > 16)
-            {
+            if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
 
-            if (rn <= 8)
-            {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with kevlar!"), mod->tname().c_str());
+            if (rn <= 8) {
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with kevlar!"),
+                                     mod->tname().c_str());
                 mod->damage++;
-                if (mod->damage >= 5)
-                {
+                if (mod->damage >= 5) {
                     p->add_msg_if_player(m_bad, _("You destroy it!"));
                     p->i_rem_keep_contents( pos );
                 }
-            }
-            else if (rn <= 10)
-            {
-                p->add_msg_if_player(m_bad, _("You fail to line your %s with kevlar, and you waste a lot of thread and kevlar."),
-                                     mod->tname().c_str());
-                thread_used = rng(5, 14);
-                p->consume_items(comps);
-            }
-            else if (rn <= 14)
-            {
-                p->add_msg_if_player(m_mixed, _("You line your %s with kevlar, but waste a lot of thread."),
-                                     mod->tname().c_str());
-                p->consume_items(comps);
-                mod->kevlar_padded = true;
-                thread_used = rng(5, 14 + (rng(1, 3)));
-            }
-            else
-            {
-                p->add_msg_if_player(m_good, _("You line your %s with kevlar!"), mod->tname().c_str());
-                mod->kevlar_padded = true;
-                p->consume_items(comps);
+            } else
+                if (rn <= 10) {
+                    p->add_msg_if_player(m_bad,
+                                         _("You fail to line your %s with kevlar, and you waste a lot of thread and kevlar."),
+                                         mod->tname().c_str());
+                    thread_used = rng(5, 14);
+                    p->consume_items(comps);
+                } else
+                    if (rn <= 14) {
+                        p->add_msg_if_player(m_mixed, _("You line your %s with kevlar, but waste a lot of thread."),
+                                             mod->tname().c_str());
+                        p->consume_items(comps);
+                        mod->kevlar_padded = true;
+                        thread_used = rng(5, 14 + (rng(1, 3)));
+                    } else {
+                        p->add_msg_if_player(m_good, _("You line your %s with kevlar!"), mod->tname().c_str());
+                        mod->kevlar_padded = true;
+                        p->consume_items(comps);
 
-            };
+                    };
             return thread_used;
         }
-        case 5:
-        {
+        case 5: {
             return 0;
         }
-        default:
-        {
+        default: {
             return 0;
         }
 
 
         }
     }
-    case 3:
-    {
+    case 3: {
         return 0;
 
     }
-    default:
-    {
+    default: {
         return 0;
     }
     }
