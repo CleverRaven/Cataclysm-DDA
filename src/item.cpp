@@ -1,4 +1,4 @@
-Ôªø#include "item.h"
+#include "item.h"
 #include "player.h"
 #include "output.h"
 #include "skill.h"
@@ -27,7 +27,7 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
-bool     fured = 0;
+bool     furred = 0;
 bool     pocketed = 0;
 bool     leather_padded = 0;  //Move these somewhere reasonable
 bool     kevlar_padded = 0;
@@ -181,7 +181,7 @@ void item::init() {
     bday = 0;
     invlet = 0;
     damage = 0;
-    fured = 0;
+    furred = 0;
     pocketed = 0;
     leather_padded = 0;
     kevlar_padded = 0;
@@ -1678,7 +1678,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string mod_f_text = "";
-    if (fured == 1){
+    if (furred == 1){
         mod_f_text = rm_prefix(_("<mod_f_adj>fur lined "));
     }
     std::string mod_l_text = "";
@@ -1808,7 +1808,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. ‚Äúbruised‚Äù). %2$s: burn adjectives (eg. ‚Äúburnt‚Äù). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. ‚Äúatomic‚Äù). %5$s: vehicle part text (eg. ‚Äú3.8-Liter‚Äù). $6$s: main item text (eg. ‚Äúapple‚Äù). %7$s: tags (eg. ‚Äú (wet) (fits)‚Äù).
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. ìbruisedî). %2$s: burn adjectives (eg. ìburntî). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. ìatomicî). %5$s: vehicle part text (eg. ì3.8-Literî). $6$s: main item text (eg. ìappleî). %7$s: tags (eg. ì (wet) (fits)î).
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s%10$s%11$s"), damtext.c_str(), burntext.c_str(),
                          mod_f_text.c_str(), mod_p_text.c_str(), mod_l_text.c_str(), mod_k_text.c_str(), sidedtext.c_str(), toolmodtext.c_str(),
                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
@@ -2329,7 +2329,7 @@ int item::get_warmth() const
     if( t == nullptr ) {
         return 0;
     }
-     if (fured == true){
+     if (furred == true){
         warmed = 2; // Doubles an item's warmth
     }
     // it_armor::warmth is signed char

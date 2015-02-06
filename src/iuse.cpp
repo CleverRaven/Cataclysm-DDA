@@ -3081,8 +3081,8 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         };
-        if(((mod->fured == 1) && (mod->pocketed == 1)) || ((mod->fured == 1) && (mod->leather_padded == 1)) ||
-                ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->fured == 1)
+        if(((mod->furred == 1) && (mod->pocketed == 1)) || ((mod->furred == 1) && (mod->leather_padded == 1)) ||
+                ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->furred == 1)
                         && (mod->kevlar_padded == 1)) ||
                 ((mod->kevlar_padded == 1) && (mod->pocketed == 1)) || ((mod->leather_padded == 1)
                         && (mod->kevlar_padded == 1))) { //This is a mess. Have to block every combo of 2. Probably a better way.
@@ -3174,7 +3174,7 @@ int iuse::sew(player *p, item *it, bool, point)
         };
 
         case 2: {
-            if(mod->fured == 1) {
+            if(mod->furred == 1) {
                 p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
                 return 0;
             }
@@ -3241,11 +3241,11 @@ int iuse::sew(player *p, item *it, bool, point)
                         p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
-                        mod->fured = true;
+                        mod->furred = true;
                         thread_used = rng(5, 14);
                     } else {
                         p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
-                        mod->fured = true;
+                        mod->furred = true;
                         p->consume_items(comps);
                     }
             return thread_used;

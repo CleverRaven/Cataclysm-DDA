@@ -919,7 +919,7 @@ public:
  long charges;
  bool active;             // If true, it has active effects to be processed
  signed char damage;      // How much damage it's sustained; generally, max is 5
- bool fured;             // If it has been warmed. 0 or 1
+ bool furred;             // If it has been warmed. 0 or 1
  bool pocketed;           // If it has been pocketed
  bool leather_padded;
  bool kevlar_padded;
