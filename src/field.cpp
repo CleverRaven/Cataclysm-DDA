@@ -589,8 +589,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL &&
-                                (fuel->typeId() != "gasoline" || fuel->typeId() != "diesel" ||
-                                 fuel->typeId() != "lamp_oil") ) {
+                                ( !fuel->made_of("hydrocarbons") && !fuel->made_of("oil") ) ) {
                                 cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
                                           ammo_type->ammo_effects.count("COOKOFF");
                                 special = ammo_type->ammo_effects.count("FRAG") ||
@@ -702,15 +701,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( fuel->made_of(LIQUID) ) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if (fuel->type->id == "gasoline" || fuel->type->id == "diesel") {
+                                if( fuel->made_of("hydrocarbons") ) {
                                     time_added = 300;
                                     smoke += 6;
-                                } else if (fuel->type->id == "tequila" || fuel->type->id == "whiskey" ||
-                                           fuel->type->id == "vodka" || fuel->type->id == "rum" ||
-                                           fuel->type->id == "single_malt_whiskey" || fuel->type->id == "gin" ||
-                                           fuel->type->id == "moonshine" || fuel->type->id == "brandy") {
+                                } else if( fuel->made_of("alcohol") && fuel->made_of().size() == 1 ) {
+                                    // Only strong alcohol for now
                                     time_added = 250;
-                                    smoke += 5;
+                                    smoke += 1;
                                 } else if( fuel->type->id == "lamp_oil" ) {
                                     time_added = 300;
                                     smoke += 3;
@@ -719,12 +716,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     time_added = -rng(80 * vol, 300 * vol);
                                     smoke++;
                                 }
+                                // burn_amt will get multiplied by stack size in item::burn
                                 burn_amt = cur->getFieldDensity();
 
                             } else if( fuel->made_of("powder") ) {
-                                // Any powder will fuel the fire as much as its volume
+                                // Any powder will fuel the fire as 100 times much as its volume
                                 // but be immediately destroyed.
-                                time_added = vol;
+                                time_added = vol * 100;
                                 destroyed = true;
                                 smoke += 2;
 
@@ -745,12 +743,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for( auto mat : fuel->made_of_types() ) {
                                     best_res = std::max( best_res, mat->fire_resist() );
                                 }
-                                if( best_res < cur->getFieldDensity() && one_in( vol ) ) {
+                                if( best_res < cur->getFieldDensity() && one_in( fuel->volume( true, false ) ) ) {
                                     smoke++;
                                     burn_amt = cur->getFieldDensity() - best_res;
                                 }
                             }
-                            if (!destroyed) {
+                            if( !destroyed ) {
                                 destroyed = fuel->burn( burn_amt );
                             }
 
