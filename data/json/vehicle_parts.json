@@ -2764,7 +2764,7 @@
         "damage_modifier" : 80,
         "durability" : 75,
         "size" : 650,
-        "fuel_type" : "gasoline",
+        "fuel_type" : "diesel",
         "item" : "metal_tank_little",
         "difficulty" : 1,
         "location" : "fuel_source",
