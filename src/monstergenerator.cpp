@@ -686,10 +686,10 @@ m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
     return flag_map.find( flag )->second;
 }
 
-std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(JsonObject &jo,
+std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &jo,
         std::string member)
 {
-    std::vector<void (mdeath::*)(monster *)> deaths;
+    std::vector<mon_action_death> deaths;
 
     std::set<std::string> death_flags = jo.get_tags(member);
 

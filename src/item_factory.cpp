@@ -4,7 +4,6 @@
 #include "addiction.h"
 #include "translations.h"
 #include "item_group.h"
-#include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
 #include "item.h"
@@ -197,7 +196,6 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
     // TOOLS
-    iuse_function_list["FIRESTARTER"] = &iuse::firestarter;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
@@ -1322,6 +1320,7 @@ template<typename IuseActorType>
 use_function load_actor( JsonObject obj )
 {
     std::unique_ptr<IuseActorType> actor( new IuseActorType() );
+    actor->type = obj.get_string("type");
     actor->load( obj );
     return use_function( actor.release() );
 }
@@ -1349,6 +1348,10 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return load_actor<ups_based_armor_actor>( obj );
     } else if( type == "reveal_map" ) {
         return load_actor<reveal_map_actor>( obj );
+    } else if( type == "firestarter" ) {
+        return load_actor<firestarter_actor>( obj );
+    } else if( type == "extended_firestarter" ) {
+        return load_actor<extended_firestarter_actor>( obj );
     } else {
         obj.throw_error( "unknown use_action", "type" );
         return use_function(); // line above throws, but the compiler does not know \-:
@@ -1480,7 +1483,12 @@ const item_category *Item_factory::get_category(const std::string &id)
 
 const use_function *Item_factory::get_iuse(const std::string &id)
 {
-    return &iuse_function_list.at(id);
+    const auto &iter = iuse_function_list.find( id );
+    if( iter != iuse_function_list.end() ) {
+        return &iter->second;
+    }
+
+    return nullptr;
 }
 
 const std::string &Item_factory::calc_category( const itype *it )

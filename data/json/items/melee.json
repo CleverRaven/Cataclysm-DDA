@@ -376,7 +376,10 @@
         "bashing": -8,
         "cutting": 0,
         "to_hit": -3,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
   },
   {
         "type":"GENERIC",
@@ -1024,7 +1027,10 @@
         "bashing": 4,
         "cutting": 0,
         "to_hit": -1,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type":"GENERIC",
@@ -2144,16 +2150,17 @@
         "id" : "warhammer",
         "name" : "war hammer",
         "description" : "A medieval hammer made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
-        "weight" : 1231,
+        "weight" : 1337,
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
-        "material" : ["wood", "silver"],
+        "//": "Craftable from steel, shouldn't be silver. A warhammer is essentialy one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
+        "material" : ["iron", "wood"],
         "techniques" : ["BRUTAL"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "SPEAR"],
         "volume" : 5,
-        "bashing" : 30,
-        "cutting" : 0,
+        "bashing" : 15,
+        "cutting" : 15,
         "price" : 16000,
         "qualities": [["HAMMER", 1]]
     },
@@ -2531,7 +2538,7 @@
         "id" : "mace",
         "name" : "mace",
         "description" : "A medieval weapon consisting of a wood handle with a heavy iron end.  It is heavy and slow, but its crushing damage is devastating.",
-        "weight" : 2140,
+        "weight" : 2267,
         "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
@@ -2539,17 +2546,18 @@
         "techniques" : ["SWEEP"],
         "flags" : ["DURABLE_MELEE"],
         "volume" : 5,
-        "bashing" : 28,
+        "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
+        "bashing" : 34,
         "cutting" : 0,
         "price" : 100000,
-                "qualities": [["HAMMER", 1]]
+        "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
         "id" : "morningstar",
         "name" : "morningstar",
         "description" : "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  It deals devastating crushing damage, with a small amount of piercing to boot.",
-        "weight" : 2267,
+        "weight" : 2140,
         "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
@@ -2560,7 +2568,7 @@
         "cutting" : 4,
         "flags" : ["DURABLE_MELEE", "SPEAR"],
         "price" : 120000,
-                "qualities": [["HAMMER", 1]]
+        "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -3971,6 +3979,38 @@
     "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
+  },{
+    "id": "mn_classic_kit",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "Mosin-Nagant classic conversion kit",
+    "name_plural": "Mosin-Nagant classic conversion kits",
+    "category": "other",
+    "description": "A beautiful wooden stock and hardware built to support common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could take a 'tacti-cool' rifle and convert it to the classic Russian design.",
+    "price": 12000,
+    "weight": 2000,
+    "volume": 11,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["wood", "steel"]
+  },{
+    "id": "mn_ebr_kit",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "Mosin-Nagant EBR conversion kit",
+    "name_plural": "Mosin-Nagant EBR conversion kits",
+    "category": "other",
+    "description": "A synthetic stock and hardware designed to accommodate common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could give the classic Russian design modern furniture and customization capacity.",
+    "price": 12000,
+    "weight": 2000,
+    "volume": 11,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["plastic", "steel"]
   },{
     "id": "l_car_223_kit",
     "type": "GENERIC",

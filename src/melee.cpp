@@ -428,16 +428,14 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             add_msg_if_player(specialmsg.c_str());
         }
 
-        if (t.is_dead_state()) {
-            t.die(this);
-        }
-
+        t.check_dead_state();
     }
 
     mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
-
+    // some things (shattering weapons) can harm the attacking creature.
+    check_dead_state();
     return;
 }
 
@@ -732,7 +730,7 @@ int player::roll_bash_damage(bool crit)
 
 int player::roll_cut_damage(bool crit)
 {
-    if (weapon.has_flag("SPEAR"))
+    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
         return 0;  // Stabs, doesn't cut!
 
     double ret = mabuff_cut_bonus() + weapon.damage_cut();

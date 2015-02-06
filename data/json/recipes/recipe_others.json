@@ -365,7 +365,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "scrap", 6 ]
+      [ "scrap", 1 ]
     ],
     [
       [ "rag", 1 ]
@@ -373,9 +373,9 @@
     [
       [ "bottle_glass", 1 ],
       [ "flask_glass", 1],
-      [ "jar_glass", 1 ]
-    ],
-    [
+      [ "jar_glass", 1 ],
+      [ "clay_teapot", 1 ],
+      [ "jug_clay", 1 ],
       [ "can_food", 1 ],
       [ "can_drink", 1 ],
       [ "canister_empty", 1 ]
@@ -2546,6 +2546,7 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
+  "id_suffix" : "open_cans_such_as_food",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
   "skill_used": "traps",
@@ -2562,7 +2563,34 @@
       [ "string_6", 1 ]
     ],
     [
+      [ "clay_canister", 1 ],
       [ "can_food", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "boobytrap",
+  "id_suffix" : "closed_cans_such_as_drinks",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "grenade", 1 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "can_drink", 1 ]
     ]
   ]
 },{
@@ -2588,6 +2616,7 @@
       [ "scrap", 3 ],
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
+      [ "clay_canister", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -4687,6 +4716,42 @@
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
+  "time": 262500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 40], [ "oxy_torch", 40]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "30gal_barrel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 8,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
@@ -6196,6 +6261,47 @@
     ],
     [
       [ "clay_lump", 20 ]
+    ],
+    [
+      [ "leather", 3 ],
+      [ "fur", 3 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "wax", 1 ],
+      [ "lamp_oil", 400 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "clay_hydria",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      [ "clay_lump", 10 ]
     ],
     [
       [ "leather", 3 ],

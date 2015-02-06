@@ -828,9 +828,11 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
         moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
         picked_up = true;
         return quivered;
-    } else if (inv_on_fail) {
+    }
+
+    if (inv_on_fail) {
         //add to inventory instead
-        item& it = g->u.i_add(here);
+        item &it = g->u.i_add(here);
         picked_up = true;
 
         //display output message

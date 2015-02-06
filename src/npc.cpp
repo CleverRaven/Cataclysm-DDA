@@ -2043,9 +2043,7 @@ void npc::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     if (in_vehicle) {
         g->m.unboard_vehicle(posx(), posy());
     }

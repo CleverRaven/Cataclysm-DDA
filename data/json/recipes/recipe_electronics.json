@@ -1867,6 +1867,7 @@
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
+    [ [ "software_hacking", 1 ] ],
     [
       [ "soldering_iron", 14 ],
       [ "toolset", 14 ]
@@ -1875,7 +1876,6 @@
   "components": [
     [ [ "laptop", 1 ] ],
     [ [ "receiver", 2 ] ],
-    [ [ "software_hacking", 1 ] ],
     [ [ "e_scrap", 2 ] ],
     [ [ "rechargeable_battery", 1 ] ],
     [ [ "antenna", 1] ]

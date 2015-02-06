@@ -781,6 +781,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
             }
         }
     }
+    target.check_dead_state();
 
     if (is_hallucination()) {
         if(one_in(7)) {
@@ -837,17 +838,18 @@ void monster::hit_monster(monster &other)
  }
  if (g->u.sees(*this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- int damage = dice(type->melee_dice, type->melee_sides);
- target->apply_damage( this, bp_torso, damage );
-    mdefense mdf;
-    (mdf.*target->type->sp_defense)( target, this, nullptr );
+ if (!is_hallucination()) {
+  int damage = dice(type->melee_dice, type->melee_sides);
+  target->apply_damage( this, bp_torso, damage );
+  type->sp_defense(target, this, nullptr);
+  target->check_dead_state();
+ }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)( this, source, nullptr );
+        type->sp_defense(this, source, nullptr);
     }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -867,9 +869,9 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-    mdefense mdf;
+
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)( this, source, &proj);
+        type->sp_defense(this, source, &proj);
     }
 
     // whip has a chance to scare wildlife
@@ -924,13 +926,23 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
+void monster::heal( const int delta_hp )
+{
+    hp += delta_hp;
+}
+
+void monster::set_hp( const int hp )
+{
+    this->hp = hp;
+}
+
 void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
-    if( dead ) {
+    if( is_dead_state() ) {
         return;
     }
     hp -= dam;
     if( hp < 1 ) {
-        die( source );
+        set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
     }
@@ -1255,9 +1267,7 @@ void monster::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
@@ -1269,8 +1279,7 @@ void monster::die(Creature* nkiller) {
     if( !is_hallucination() && ch != nullptr ) {
         if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath tmpdeath;
-            tmpdeath.guilt( this );
+            mdeath::guilt(this);
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1282,6 +1291,12 @@ void monster::die(Creature* nkiller) {
                                   name().c_str() );
         }
     }
+    // We were tied up at the moment of death, add a short rope to inventory
+    if ( has_effect("tied") ) {
+        item rope_6("rope_6", 0);
+        add_item(rope_6);
+    }
+
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( posx(), posy(), it );
@@ -1317,20 +1332,19 @@ void monster::die(Creature* nkiller) {
             g->mission_step_complete(mission_id, 1);
         }
     }
+
     // Also, perform our death function
-    mdeath md;
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        md.disappear(this);
+        mdeath::disappear(this);
         return;
     }
+
     //Not a hallucination, go process the death effects.
-    std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-    void (mdeath::*func)(monster *);
-    for( auto &deathfunction : deathfunctions ) {
-        func = deathfunction;
-        (md.*func)(this);
+    for (auto const &deathfunction : type->dies) {
+        deathfunction(this);
     }
+
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
     if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
@@ -1453,7 +1467,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
-        hp -= 100;
+        apply_damage( nullptr, bp_torso, 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -1586,6 +1600,24 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+void monster::init_from_item( const item &itm )
+{
+    if( itm.typeId() == "corpse" ) {
+        const int burnt_penalty = itm.burnt;
+        set_speed_base( static_cast<int>( get_speed_base() * 0.8 ) - ( burnt_penalty / 2 ) );
+        hp = static_cast<int>( hp * 0.7 ) - burnt_penalty;
+        if( itm.damage > 0 ) {
+            set_speed_base( speed_base / ( itm.damage + 1 ) );
+            hp /= itm.damage + 1;
+        }
+    } else {
+        // must be a robot
+        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+        hp = std::max( 1, hp * damfac / 5 );
+    }
 }
 
 item monster::to_item() const

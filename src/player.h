@@ -534,16 +534,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Heals all body parts for dam */
         void healall(int dam);
         /** Hurts all body parts for dam, no armor reduction */
-        void hurtall(int dam);
+        void hurtall(int dam, Creature *source);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
-        void hitall(int dam, int vary = 0);
+        void hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
         void knock_back_from(int x, int y);
 
         /** Converts a body_part to an hp_part */
-        static void bp_convert(hp_part &hpart, body_part bp);
+        static hp_part bp_to_hp(body_part bp);
         /** Converts an hp_part to a body_part */
-        static void hp_convert(hp_part hpart, body_part &bp);
+        static body_part hp_to_bp(hp_part hpart);
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const;

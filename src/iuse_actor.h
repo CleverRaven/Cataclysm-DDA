@@ -347,4 +347,47 @@ class reveal_map_actor : public iuse_actor
         virtual iuse_actor *clone() const;
 };
 
+/**
+ * Starts a fire instantly
+ */
+class firestarter_actor : public iuse_actor
+{
+    public:
+        /**
+         * Moves used at start of the action.
+         */
+        int moves_cost;
+
+        static bool prep_firestarter_use( const player *p, const item *it, point &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const point &pos );
+
+        firestarter_actor() : iuse_actor(), moves_cost( 0 ) { }
+        virtual ~firestarter_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Starts an extended action to start a fire
+ */
+class extended_firestarter_actor : public firestarter_actor
+{
+    public:
+        /**
+         * Does it need sunlight to be used.
+         */
+        bool need_sunlight;
+
+        int calculate_time_for_lens_fire( const player *, float light_level ) const;
+
+        extended_firestarter_actor() : firestarter_actor(), need_sunlight( false ) { }
+        virtual ~extended_firestarter_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
+        virtual iuse_actor *clone() const;
+};
+
 #endif

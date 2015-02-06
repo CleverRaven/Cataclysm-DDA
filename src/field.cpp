@@ -589,8 +589,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL &&
-                                (fuel->typeId() != "gasoline" || fuel->typeId() != "diesel" ||
-                                 fuel->typeId() != "lamp_oil") ) {
+                                ( !fuel->made_of("hydrocarbons") && !fuel->made_of("oil") ) ) {
                                 cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
                                           ammo_type->ammo_effects.count("COOKOFF");
                                 special = ammo_type->ammo_effects.count("FRAG") ||
@@ -702,15 +701,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( fuel->made_of(LIQUID) ) {
                                 // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if (fuel->type->id == "gasoline" || fuel->type->id == "diesel") {
+                                if( fuel->made_of("hydrocarbons") ) {
                                     time_added = 300;
                                     smoke += 6;
-                                } else if (fuel->type->id == "tequila" || fuel->type->id == "whiskey" ||
-                                           fuel->type->id == "vodka" || fuel->type->id == "rum" ||
-                                           fuel->type->id == "single_malt_whiskey" || fuel->type->id == "gin" ||
-                                           fuel->type->id == "moonshine" || fuel->type->id == "brandy") {
+                                } else if( fuel->made_of("alcohol") && fuel->made_of().size() == 1 ) {
+                                    // Only strong alcohol for now
                                     time_added = 250;
-                                    smoke += 5;
+                                    smoke += 1;
                                 } else if( fuel->type->id == "lamp_oil" ) {
                                     time_added = 300;
                                     smoke += 3;
@@ -719,12 +716,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     time_added = -rng(80 * vol, 300 * vol);
                                     smoke++;
                                 }
+                                // burn_amt will get multiplied by stack size in item::burn
                                 burn_amt = cur->getFieldDensity();
 
                             } else if( fuel->made_of("powder") ) {
-                                // Any powder will fuel the fire as much as its volume
+                                // Any powder will fuel the fire as 100 times much as its volume
                                 // but be immediately destroyed.
-                                time_added = vol;
+                                time_added = vol * 100;
                                 destroyed = true;
                                 smoke += 2;
 
@@ -745,12 +743,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for( auto mat : fuel->made_of_types() ) {
                                     best_res = std::max( best_res, mat->fire_resist() );
                                 }
-                                if( best_res < cur->getFieldDensity() && one_in( vol ) ) {
+                                if( best_res < cur->getFieldDensity() && one_in( fuel->volume( true, false ) ) ) {
                                     smoke++;
                                     burn_amt = cur->getFieldDensity() - best_res;
                                 }
                             }
-                            if (!destroyed) {
+                            if( !destroyed ) {
                                 destroyed = fuel->burn( burn_amt );
                             }
 
@@ -1194,17 +1192,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
+                                        g->u.check_dead_state();
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y);
                                     int mondex = g->mon_at(newp.x, newp.y);
 
                                     if (npcdex != -1) {
+                                        // TODO: combine with player character code above
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if (g->u.sees( newp )) {
                                             add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
+                                        p->check_dead_state();
                                     }
 
                                     if (mondex != -1) {
@@ -1213,6 +1214,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         if (g->u.sees( newp ))
                                             add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
+                                        mon->check_dead_state();
                                     }
                                 }
                             }
@@ -1490,6 +1492,7 @@ void map::player_in_field( player &u )
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 0, 2 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 0, 2 ) ) );
             }
+            u.check_dead_state();
             break;
 
         case fd_sap:
@@ -1582,6 +1585,7 @@ void map::player_in_field( player &u )
                     u.deal_damage( nullptr, (enum body_part)part_burned,
                                       damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                 }
+                u.check_dead_state();
             }
             break;
 
@@ -1668,7 +1672,7 @@ void map::player_in_field( player &u )
                                   cur->getFieldDensity() * (cur->getFieldDensity() + 1));
             if (cur->getFieldDensity() == 3) {
                 u.add_msg_if_player(m_bad, _("This radioactive gas burns!"));
-                u.hurtall(rng(1, 3));
+                u.hurtall(rng(1, 3), nullptr);
             }
             break;
 
@@ -1681,6 +1685,7 @@ void map::player_in_field( player &u )
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
+                u.check_dead_state();
             } else
                 u.add_msg_player_or_npc(_("These flames do not burn you."), _("Those flames do not burn <npcname>."));
             break;
@@ -1693,7 +1698,7 @@ void map::player_in_field( player &u )
             else {
                 u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
                 //small universal damage based on density.
-                u.hurtall(rng(1, cur->getFieldDensity()));
+                u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
                 if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - u.str_cur)) {
                     //str of 30 stops this from happening.
                     u.add_msg_player_or_npc(m_bad, _("You're paralyzed!"), _("<npcname> is paralyzed!"));
@@ -1707,7 +1712,7 @@ void map::player_in_field( player &u )
             if (rng(0, 2) < cur->getFieldDensity() && u.is_player() ) {
                 // TODO: allow teleporting for npcs
                 add_msg(m_bad, _("You're violently teleported!"));
-                u.hurtall(cur->getFieldDensity());
+                u.hurtall(cur->getFieldDensity(), nullptr);
                 g->teleport();
             }
             break;
@@ -1775,11 +1780,11 @@ void map::player_in_field( player &u )
         // Mysterious incendiary substance melts you horribly.
             if (u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary burns you!"), _("The incendiary burns <npcname>!"));
-                u.hurtall(rng(1, 3));
+                u.hurtall(rng(1, 3), nullptr);
             } else {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary melts into your skin!"), _("The incendiary melts into <npcname>s skin!"));
                 u.add_effect("onfire", 8);
-                u.hurtall(rng(2, 6));
+                u.hurtall(rng(2, 6), nullptr);
             }
             break;
 
@@ -1842,6 +1847,7 @@ void map::monster_in_field( monster &z )
                     const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
                     z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 }
+                z.check_dead_state();
             }
             break;
 
@@ -2083,6 +2089,7 @@ void map::monster_in_field( monster &z )
     }
     if (dam > 0) {
         z.apply_damage( nullptr, bp_torso, dam );
+        z.check_dead_state();
     }
 }
 

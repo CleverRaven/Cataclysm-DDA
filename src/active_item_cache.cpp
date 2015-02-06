@@ -18,7 +18,7 @@ bool active_item_cache::has( std::list<item>::iterator it, point ) const
     return active_item_set.count( &*it ) != 0;
 }
 
-bool active_item_cache::has( item_reference &itm ) const
+bool active_item_cache::has( item_reference const &itm ) const
 {
     return active_item_set.count( itm.item_id ) != 0;
 }

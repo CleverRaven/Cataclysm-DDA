@@ -583,9 +583,7 @@ void Character::normalize()
 // Actual player death is mostly handled in game::is_game_over
 void Character::die(Creature* nkiller)
 {
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     set_turn_died(int(calendar::turn));
 }
 

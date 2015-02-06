@@ -98,7 +98,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {
@@ -121,7 +124,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {
@@ -145,7 +151,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter"
+    }
   },
 
   {
@@ -169,7 +177,10 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
 
   {
@@ -194,7 +205,10 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
 
   {
@@ -6469,6 +6483,31 @@
   },
 
   {
+    "id": "jar_V8",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of V8",
+    "name_plural": "sealed jars of V8",
+    "description": "This is a sealed glass jar containing V8.  Use to open and drink to enjoy.",
+    "price": 120,
+    "material": ["glass", "veggy"],
+    "weight": 522,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "V8",
+		"target_charges": 2,
+        "container": "jar_glass"
+    }
+  },
+
+  {
     "id": "flask_yeast",
     "type": "TOOL",
     "symbol": "%",
@@ -6880,7 +6919,7 @@
     "symbol": ",",
     "color": "cyan",
     "name": "crack pipe",
-    "description": "This is a fine glass tube with a bulb with an bowl on one end.  It's used in partaking of certain illicit substances.",
+    "description": "This is a fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
     "price": 0,
     "rarity": 5,
     "material": "glass",
@@ -7225,7 +7264,10 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": "FIRESTARTER"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
 
   {

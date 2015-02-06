@@ -5297,7 +5297,7 @@
         "symbol" : "[",
         "description" : "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from air-borne illness and dust.",
         "price" : 800,
-        "material" : ["cotton", "iron"],
+        "material" : ["cotton", "null"],
         "volume" : 0,
         "cutting" : 0,
         "warmth" : 5,
@@ -5425,7 +5425,10 @@
         "flags" : ["WATER_FRIENDLY","LENS"],
         "coverage" : 75,
         "material_thickness" : 1,
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type" : "ARMOR",
@@ -5630,7 +5633,10 @@
         "coverage" : 20,
         "material_thickness" : 1,
         "flags" : ["SUPER_FANCY","LENS"],
-        "use_action": "FIRESTARTER"
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type" : "ARMOR",

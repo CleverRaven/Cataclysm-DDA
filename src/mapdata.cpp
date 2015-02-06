@@ -4,6 +4,7 @@
 #include "game_constants.h"
 #include "debug.h"
 #include <ostream>
+#include <memory>
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
@@ -890,15 +891,14 @@ void check_furniture_and_terrain()
     }
 }
 
-submap::submap() : ter(), frn(), trp(), rad(), field_count(0), turn_last_touched(0), temperature(0) {
-    for (int x = 0; x < SEEX; x++) {
-        for (int y = 0; y < SEEY; y++) {
-            ter[x][y] = t_null;
-            set_furn(x, y, f_null);
-            set_trap(x, y, tr_null);
-            set_radiation(x, y, 0);
-        }
-    }
+submap::submap()
+{
+    constexpr size_t elements = SEEX * SEEY;
+
+    std::uninitialized_fill_n(&ter[0][0], elements, t_null);
+    std::uninitialized_fill_n(&frn[0][0], elements, f_null);
+    std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
+    std::uninitialized_fill_n(&rad[0][0], elements, 0);
 }
 
 submap::~submap()

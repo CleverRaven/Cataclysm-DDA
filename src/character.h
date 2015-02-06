@@ -219,7 +219,7 @@ class Character : public Creature
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(std::string ident);
-        
+
         /** for serialization */
         SkillLevel get_skill_level(const Skill* _skill) const;
         SkillLevel get_skill_level(const std::string &ident) const;
@@ -257,6 +257,8 @@ class Character : public Creature
         void pick_name();
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
+        /** Returns the set "my_mutations" */
+        std::vector<std::string> get_mutations() const;
         /** Empties the trait list */
         void empty_traits();
         void add_traits();

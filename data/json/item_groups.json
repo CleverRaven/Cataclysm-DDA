@@ -2651,6 +2651,8 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["sks", 6],
       ["rm11b_sniper_rifle", 1]
     ]
@@ -2785,6 +2787,8 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["needlepistol", 2],
       ["survnote", 1]
     ]
@@ -2836,6 +2840,7 @@
       ["muzzle_brake", 2],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["clip", 8],
@@ -2982,6 +2987,7 @@
       ["muzzle_brake", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
       ["clip", 16],
       ["spare_mag", 30],
       ["clip2", 8],
@@ -4012,6 +4018,8 @@
       ["carbine_flintlock", 4],
       ["mosin91_30", 5],
       ["mosin44", 5],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["l_HFPack", 1],
       ["survnote", 1]
     ]
@@ -4049,6 +4057,8 @@
       ["flintlock_ammo", 7],
       ["mosin44", 5],
       ["mosin91_30", 5],
+      ["mosin91_30_ebr", 1],
+      ["mosin44_ebr", 1],
       ["colt_navy", 7],
       ["colt_army", 7],
       ["36navy", 6],
@@ -4833,6 +4843,7 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["geiger_off", 8],
@@ -9053,6 +9064,12 @@
       ["seed_onion", 60],
       ["seed_carrot", 60],
       ["seed_corn", 60],
+      ["seed_oats", 60],
+      ["seed_broccoli", 60],
+      ["seed_celery", 60],
+      ["seed_cucumber", 60],
+      ["seed_potato_raw", 60],
+      ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
       ["seed_tomato", 60]
     ]
@@ -9162,6 +9179,7 @@
       ["etched_skull", 80],
       ["ceramic_plate", 90],
       ["ceramic_bowl", 90],
+      ["clay_hydria", 50],
       ["ceramic_cup", 90]
     ]
   },{
