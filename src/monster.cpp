@@ -838,10 +838,12 @@ void monster::hit_monster(monster &other)
  }
  if (g->u.sees(*this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- int damage = dice(type->melee_dice, type->melee_sides);
- target->apply_damage( this, bp_torso, damage );
-    type->sp_defense(target, this, nullptr);
-    target->check_dead_state();
+ if (!is_hallucination()) {
+  int damage = dice(type->melee_dice, type->melee_sides);
+  target->apply_damage( this, bp_torso, damage );
+  type->sp_defense(target, this, nullptr);
+  target->check_dead_state();
+ }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -1289,6 +1291,12 @@ void monster::die(Creature* nkiller) {
                                   name().c_str() );
         }
     }
+    // We were tied up at the moment of death, add a short rope to inventory
+    if ( has_effect("tied") ) {
+        item rope_6("rope_6", 0);
+        add_item(rope_6);
+    }
+
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( posx(), posy(), it );
