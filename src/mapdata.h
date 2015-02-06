@@ -191,7 +191,7 @@ struct map_data_common_t {
     int loadid;     // This is akin to the old ter_id, however it is set at runtime.
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
-    
+
     nc_color color; //The color the sym will draw in on the GUI.
 
     iexamine_function examine; //What happens when the terrain is examined
@@ -207,7 +207,7 @@ struct map_data_common_t {
     }
 
     void set_flag(std::string flag) {
-        flags.insert(std::move(flag));
+        flags.insert( flag );
 
         if(!transparent && "TRANSPARENT" == flag) {
             transparent = true;
@@ -228,9 +228,9 @@ struct ter_t : map_data_common_t {
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
     std::string transforms_into; // Transform into what terrain?
-  
+
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
-       
+
     int harvest_season; // When will this terrain get harvested?
     int bloom_season;   // When does this terrain bloom?
 };
@@ -397,7 +397,7 @@ struct submap {
     int             rad[SEEX][SEEY];  // Irradiation of each square
     std::list<item> itm[SEEX][SEEY];  // Items on each square
     field           fld[SEEX][SEEY];  // Field on each square
-    
+
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     active_item_cache active_items;
