@@ -457,7 +457,7 @@ void computer::activate_function(computer_action action)
         g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
-        query_any(_("Surface map data downloaded.  Press any key..."));
+        query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
         alerts ++;
     }
     break;
