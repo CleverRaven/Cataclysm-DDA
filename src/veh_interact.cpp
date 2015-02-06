@@ -873,6 +873,7 @@ void veh_interact::do_repair()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, need_repair.size());
@@ -1077,6 +1078,7 @@ void veh_interact::do_remove()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, parts_here.size());
