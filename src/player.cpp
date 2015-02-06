@@ -11053,7 +11053,7 @@ void player::do_read( item *book )
             add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type);
         } if (has_trait("SPIRITUAL") && book->has_flag("INSPIRATIONAL")) {
               fun_bonus = 15;
-            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type);
+            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type);
         } else {
               add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
         }
