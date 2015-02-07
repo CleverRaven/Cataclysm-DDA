@@ -265,15 +265,17 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                 }
             }
         } else {
-            //add to inventory instead
-            item &it = g->u.i_add(newit);
-            picked_up = true;
+            if (newit.charges > 0) {
+                //add to inventory instead
+                item &it = g->u.i_add(newit);
+                picked_up = true;
 
-            //display output message
-            PickupMap map_pickup;
-            int charges = (newit.count_by_charges()) ? newit.charges : 1;
-            map_pickup.insert(std::pair<std::string, ItemCount>(newit.tname(), ItemCount(it, charges)));
-            show_pickup_message(map_pickup);
+                //display output message
+                PickupMap map_pickup;
+                int charges = (newit.count_by_charges()) ? newit.charges : 1;
+                map_pickup.insert(std::pair<std::string, ItemCount>(newit.tname(), ItemCount(it, charges)));
+                show_pickup_message(map_pickup);
+            }
         }
     } else if (!g->u.can_pickVolume(newit.volume())) {
         if( !autopickup ) {
