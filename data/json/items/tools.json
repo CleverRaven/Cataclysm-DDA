@@ -1,4 +1,4 @@
-[
+Ôªø[
   {
     "id": "testflames",
     "type": "TOOL",
@@ -262,7 +262,7 @@
     "symbol": ";",
     "color": "red",
     "name": "tailor's kit",
-    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, and a few other useful textile tools.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, and a few other useful textile tools.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "price": 1000,
     "material": ["plastic", "steel"],
     "weight": 100,
@@ -276,8 +276,7 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "sew_advanced",
-	"qualities": [["CUT", 1]]
+    "use_action": "SEW_ADVANCED"
   },
 
   {
@@ -4466,7 +4465,7 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
-    "name": "zweih‰nder",
+    "name": "zweih√§nder",
     "description": "This is a huge two-handed sword from Germany.  It packs a real wallop.",
     "rarity": 30,
     "price": 160000,
@@ -4495,7 +4494,7 @@
     "color": "light_gray",
     "name": "flammenschwert (aus)",
     "name_plural": "flammenschwerter (aus)",
-    "description": "Ein groﬂes zweih‰ndiges Schwert aus Deutschland, an dessen Klinge sich, unter zuf¸hrung von Benzin, eine anhaltende Flamme erzeugen l‰sst.  Es ist eine sehr m‰chtige Waffe.",
+    "description": "Ein gro√ües zweih√§ndiges Schwert aus Deutschland, an dessen Klinge sich, unter zuf√ºhrung von Benzin, eine anhaltende Flamme erzeugen l√§sst.  Es ist eine sehr m√§chtige Waffe.",
     "rarity": 0,
     "price": 160000,
     "material": "steel",
@@ -4523,7 +4522,7 @@
     "color": "red",
     "name": "flammenschwert (an)",
     "name_plural": "flammenschwerter (an)",
-    "description": "Ein groﬂes zweih‰ndiges Schwert aus Deutschland, an dessen Klinge sich, unter zuf¸hrung von Benzin, eine anhaltende Flamme erzeugen l‰sst.  Es ist eine sehr m‰chtige Waffe.",
+    "description": "Ein gro√ües zweih√§ndiges Schwert aus Deutschland, an dessen Klinge sich, unter zuf√ºhrung von Benzin, eine anhaltende Flamme erzeugen l√§sst.  Es ist eine sehr m√§chtige Waffe.",
     "rarity": 0,
     "price": 160000,
     "material": "steel",
@@ -9123,7 +9122,7 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "cyan",
-    "name": "diamond zweih‰nder",
+    "name": "diamond zweih√§nder",
     "description": "This zweihander's blade has been coated in diamond-like carbon, making it pack even more of a punch.",
     "price": 250000,
     "material": ["steel", "diamond"],
@@ -9293,7 +9292,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Tick.",
-"no_deactivate_msg": "You've already lit the fuse ñ run!",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì run!",
 "explosion_power": 500,
 "explosion_shrapnel": 50
 }
@@ -9352,7 +9351,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse ñ throw it!",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì throw it!",
 "explosion_power": 10,
 "explosion_shrapnel": 5
 }
@@ -9411,7 +9410,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse ñ run!",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì run!",
 "explosion_power": 60,
 "explosion_shrapnel": 30
 }
@@ -9470,7 +9469,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse ñ what are you waiting for?",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì what are you waiting for?",
 "explosion_power": 9,
 "explosion_shrapnel": 40
 }
@@ -9529,7 +9528,7 @@
 "type": "explosion",
 "sound_volume": 0,
 "sound_msg": "Kshhh.",
-"no_deactivate_msg": "You've already lit the fuse ñ clear the area immediately!",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì clear the area immediately!",
 "explosion_power": 750,
 "explosion_shrapnel": 200
 }
@@ -9540,7 +9539,7 @@
 "symbol": "*",
 "color": "green",
 "name": "rocket candy",
-"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen ñ if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+"description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen ‚Äì if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
 "price": 100,
 "material": ["steel", "plastic"],
 "weight": 250,
@@ -9588,7 +9587,7 @@
 "type": "explosion",
 "sound_volume": 5,
 "sound_msg": "Hsssss.",
-"no_deactivate_msg": "You've already lit the fuse ñ get rid of it immediately!",
+"no_deactivate_msg": "You've already lit the fuse ‚Äì get rid of it immediately!",
 "explosion_power": 1,
 "fields_radius": 2,
 "fields_type": "fd_smoke",
