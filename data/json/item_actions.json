@@ -5,7 +5,7 @@
         "name" : "Sew"
     },{
         "type" : "item_action",
-        "id" : "sew_advanced",
+        "id" : "SEW_ADVANCED",
         "name" : "Modify Clothing"
     },{
         "type" : "item_action",

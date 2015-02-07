@@ -1055,9 +1055,6 @@ void item::deserialize(JsonObject &data)
 
     data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
-    data.read( "fur lined", furred);
-    data.read( "padded", leather_padded);
-    data.read( "kevlar lined", kevlar_padded);
     data.read( "active", active );
     data.read( "item_counter" , item_counter );
     data.read( "fridge", fridge );
@@ -1128,15 +1125,6 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( damage != 0 ) {
         json.member( "damage", int(damage) );
-    }
-    if ( furred != 0 ) {
-        json.member( "fur lined", bool(furred) );
-    }
-        if ( leather_padded != 0 ) {
-        json.member( "padded", bool(leather_padded));
-    }
-        if ( kevlar_padded != 0 ) {
-        json.member( "kevlar lined", bool(kevlar_padded));
     }
     if ( burnt != 0 ) {
         json.member( "burnt", burnt );

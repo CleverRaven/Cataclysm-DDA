@@ -276,7 +276,7 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "sew_advanced",
+    "use_action": "SEW_ADVANCED",
 	"qualities": [["CUT", 1]]
   },
 

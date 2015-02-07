@@ -179,9 +179,6 @@ void item::init() {
     bday = 0;
     invlet = 0;
     damage = 0;
-    furred = 0;
-    leather_padded = 0;
-    kevlar_padded = 0;
     burnt = 0;
     covered_bodyparts.reset();
     poison = 0;
@@ -2319,7 +2316,7 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-     if (furred){
+     if (item::item_tags.count("furred") > 0){
         warmed = 2; // Doubles an item's warmth
         if (result > 0)
             return result * warmed;
@@ -2478,10 +2475,10 @@ int item::bash_resist() const
     if (is_null()) {
         return resist;
     }
-    if (leather_padded == true){
+    if (item::item_tags.count("leather_padded") > 0){
         l_padding = 1.4;
     }
-        if (kevlar_padded == true){
+        if (item::item_tags.count("kevlar_padded") > 0){
         k_padding = 1.4;
     }
     std::vector<material_type*> mat_types = made_of_types();
@@ -2514,10 +2511,10 @@ int item::cut_resist() const
     if (is_null()) {
         return resist;
     }
-    if (leather_padded == true){
+    if (item::item_tags.count("leather_padded") > 0){
         l_padding = 1.4;
     }
-    if (kevlar_padded == true){
+    if (item::item_tags.count("kevlar_padded") > 0){
         k_padding = 2;
     }
     std::vector<material_type*> mat_types = made_of_types();

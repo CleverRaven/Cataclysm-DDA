@@ -919,9 +919,6 @@ public:
  long charges;
  bool active;             // If true, it has active effects to be processed
  signed char damage;      // How much damage it's sustained; generally, max is 5
- bool furred;             // If it has been warmed. 0 or 1
- bool leather_padded;
- bool kevlar_padded;
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
  light_emission light;

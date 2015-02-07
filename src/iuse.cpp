@@ -2947,11 +2947,12 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         };
-        if(((mod->furred == 1) && (mod->item_tags.count("pocketed") > 0)) || ((mod->furred == 1) && (mod->leather_padded == 1)) ||
-                ((mod->item_tags.count("pocketed") > 0) && (mod->leather_padded == 1)) || ((mod->furred == 1)
-                        && (mod->kevlar_padded == 1)) ||
-                ((mod->kevlar_padded == 1) && (mod->item_tags.count("pocketed") > 0 )) || ((mod->leather_padded == 1)
-                        && (mod->kevlar_padded == 1))) { //This is a mess. Have to block every combo of 2. Probably a better way.
+        if(((mod->item_tags.count("furred") > 0) && (mod->item_tags.count("pocketed") > 0)) ||
+           ((mod->item_tags.count("furred") > 0) && (mod->item_tags.count("leather_padded") > 0)) ||
+           ((mod->item_tags.count("pocketed") > 0) && (mod->item_tags.count("leather_padded") > 0)) ||
+           ((mod->item_tags.count("furred") > 0) && (mod->item_tags.count("kevlar_padded") > 0)) ||
+           ((mod->item_tags.count("kevlar_padded") > 0) && (mod->item_tags.count("pocketed") > 0 )) ||
+           ((mod->item_tags.count("leather_padded") > 0) && (mod->item_tags.count("kevlar_padded") > 0))) { //This is a mess. Have to block every combo of 2. Probably a better way.
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
@@ -3040,7 +3041,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         };
 
         case 2: {
-            if(mod->furred == 1) {
+            if(mod->item_tags.count("furred") > 0) {
                 p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
                 return 0;
             }
@@ -3107,17 +3108,17 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                         p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
-                        mod->furred = true;
+                        mod->item_tags.insert("furred");
                         thread_used = rng(5, 14);
                     } else {
                         p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
-                        mod->furred = true;
+                        mod->item_tags.insert("furred");
                         p->consume_items(comps);
                     }
             return thread_used;
         }
         case 3: {
-            if(mod->leather_padded == 1) {
+            if(mod->item_tags.count("leather_padded") > 0) {
                 p->add_msg_if_player(m_info,_("You've already padded this with leather."));
                 return 0;
             }
@@ -3184,18 +3185,18 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                         p->add_msg_if_player(m_mixed, _("You pad your %s with leather, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
-                        mod->leather_padded = true;
+                        mod->item_tags.insert("leather_padded");
                         thread_used = rng(5, 14 + (rng(1, 3)));
                     } else {
                         p->add_msg_if_player(m_good, _("You pad your %s with leather!"), mod->tname().c_str());
-                        mod->leather_padded = true;
+                        mod->item_tags.insert("leather_padded");
                         p->consume_items(comps);
 
                     };
             return thread_used;
         }
         case 4: {
-            if(mod->kevlar_padded == 1) {
+            if(mod->item_tags.count("kevlar_padded") > 0) {
                 p->add_msg_if_player(m_info,_("You've already lined this with kevlar."));
                 return 0;
             }
@@ -3262,11 +3263,11 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                         p->add_msg_if_player(m_mixed, _("You line your %s with kevlar, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
-                        mod->kevlar_padded = true;
+                        mod->item_tags.insert("kevlar_padded");
                         thread_used = rng(5, 14 + (rng(1, 3)));
                     } else {
                         p->add_msg_if_player(m_good, _("You line your %s with kevlar!"), mod->tname().c_str());
-                        mod->kevlar_padded = true;
+                        mod->item_tags.insert("kevlar_padded");
                         p->consume_items(comps);
 
                     };
