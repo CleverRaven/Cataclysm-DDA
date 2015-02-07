@@ -2266,14 +2266,20 @@ int item::get_storage() const
 {
     float pockets = 1;
     auto t = find_armor_data();
-    if( t == nullptr ) {
+    if( t == nullptr )
         return 0;
-    }
-    if (pocketed == true){
-        pockets = (1.5); //Test value
-    }
+
     // it_armor::storage is unsigned char
-    return (static_cast<int> (static_cast<unsigned int>( t->storage * pockets) ) );
+    int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
+
+    if (pocketed){
+    pockets = 1.5;
+        if (result > 0)
+            return result * pockets;
+        else return result + pockets + 3.5; // Can I just use return 5?
+    }
+    else return result;
+
 }
 
 int item::get_env_resist() const
@@ -2328,15 +2334,21 @@ int item::get_thickness() const
 int item::get_warmth() const
 {
     int warmed = 1;
-    auto t = find_armor_data();
-    if( t == nullptr ) {
+    const auto t = find_armor_data();
+    if( t == nullptr )
         return 0;
-    }
-     if (furred == true){
-        warmed = 2; // Doubles an item's warmth
-    }
+
     // it_armor::warmth is signed char
-    return static_cast<int>( t->warmth * warmed);
+    int result = static_cast<int>( t->warmth );
+
+     if (furred){
+        warmed = 2; // Doubles an item's warmth
+        if (result > 0)
+            return result * warmed;
+        else return result + (warmed * 5);
+     }
+     else return result;
+
 }
 
 int item::brewing_time() const

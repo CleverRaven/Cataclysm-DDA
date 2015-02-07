@@ -5,8 +5,8 @@
         "name" : "Sew"
     },{
         "type" : "item_action",
-        "id" : "SEW_ADVANCED",
-        "name" : "Sew_ADVANCED"
+        "id" : "sew_advanced",
+        "name" : "Modify Clothing"
     },{
         "type" : "item_action",
         "id" : "KNIFE",
