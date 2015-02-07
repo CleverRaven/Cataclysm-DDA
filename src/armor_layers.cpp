@@ -85,8 +85,6 @@ void player::sort_armor()
     WINDOW *w_sort_middle = newwin(cont_h, middle_w, win_y + 3, win_x + left_w + 2);
     WINDOW *w_sort_right  = newwin(cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3);
 
-    nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
-
     input_context ctxt("SORT_ARMOR");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
@@ -137,13 +135,10 @@ void player::sort_armor()
                 mvwprintz(w_sort_left, drawindex + 1, 0, c_yellow, ">>");
             }
 
-            if (itemindex == selected) {
-                mvwprintz(w_sort_left, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          tmp_worn[itemindex]->type_name(1).c_str());
-            } else {
-                mvwprintz(w_sort_left, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          tmp_worn[itemindex]->type_name(1).c_str());
-            }
+            mvwprintz(w_sort_left, drawindex + 1, (itemindex == selected) ? 3 : 2,
+                      dam_color(int(tmp_worn[itemindex]->damage + 1)),
+                      tmp_worn[itemindex]->type_name(1).c_str());
+
             mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", tmp_worn[itemindex]->get_storage());
         }
 
@@ -202,7 +197,7 @@ void player::sort_armor()
             for( auto &elem : worn ) {
                 if( elem.covers( static_cast<body_part>( cover ) ) ) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
-                        mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
+                        mvwprintz( w_sort_right, pos, 2, dam_color(int( elem.damage + 1 )),
                                    elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                    ( elem.has_flag( "FIT" ) ) ?
