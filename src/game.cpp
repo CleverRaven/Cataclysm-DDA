@@ -1726,32 +1726,6 @@ void game::increase_kill_count(const std::string &mtype_id)
     kills[mtype_id]++;
 }
 
-void game::wrap_up_mission(int id)
-{
-    mission *miss = mission::find(id);
-    if (miss == NULL) {
-        return;
-    }
-    u.on_mission_finished( *miss );
-    switch (miss->type->goal) {
-    case MGOAL_FIND_ITEM:
-        if( item::count_by_charges( miss->type->item_id ) ) {
-            u.use_charges(miss->type->item_id, miss->item_count);
-        } else {
-            u.use_amount(miss->type->item_id, miss->item_count);
-        }
-        break;
-    case MGOAL_FIND_ANY_ITEM:
-        u.remove_mission_items(miss->uid);
-        break;
-    default:
-        //Suppress warnings
-        break;
-    }
-    mission_end endfunc;
-    (endfunc.*miss->type->end)(miss);
-}
-
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them

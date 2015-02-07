@@ -169,6 +169,34 @@ void mission::step_complete( const int _step )
     }
 }
 
+void mission::wrap_up()
+{
+    auto &u = g->u;
+    if( u.getID() != player_id ) {
+        // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
+        // that have been assigned to the current player.
+        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id, u.getID() );
+    }
+    u.on_mission_finished( *this );
+    switch( type->goal ) {
+        case MGOAL_FIND_ITEM:
+            if( item::count_by_charges( type->item_id ) ) {
+                u.use_charges( type->item_id, item_count );
+            } else {
+                u.use_amount( type->item_id, item_count );
+            }
+            break;
+        case MGOAL_FIND_ANY_ITEM:
+            u.remove_mission_items( uid );
+            break;
+        default:
+            //Suppress warnings
+            break;
+    }
+    mission_end endfunc;
+    ( endfunc.*type->end )( this );
+}
+
 bool mission::is_complete( const int _npc_id ) const
 {
     // TODO: maybe not g->u, but more generalized?

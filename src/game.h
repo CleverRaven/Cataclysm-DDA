@@ -246,8 +246,6 @@ class game
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        /** Handles mission completion tasks (remove given item, etc.). */
-        void wrap_up_mission(int id);
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);

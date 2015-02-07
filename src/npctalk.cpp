@@ -3046,7 +3046,7 @@ void talk_function::mission_success(npc *p)
         p->my_fac->likes_u += 10;
         p->my_fac->respects_u += 10;
     }
-    g->wrap_up_mission(index);
+    miss->wrap_up();
 }
 
 void talk_function::mission_failure(npc *p)

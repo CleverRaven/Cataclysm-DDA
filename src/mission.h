@@ -273,6 +273,8 @@ class mission : public JsonSerializer, public JsonDeserializer
 
     /** Called when the mission has failed, calls the mission fail callback. */
     void fail();
+    /** Handles mission completion tasks (remove given item, etc.). */
+    void wrap_up();
     /** Handles partial mission completion (kill complete, now report back!). */
     void step_complete( int step );
     /** Checks if the player has completed the matching mission and returns true if they have. */
