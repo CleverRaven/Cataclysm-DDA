@@ -12006,6 +12006,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             case DT_STAB:
                 elem.amount -= 3.2;
                 break;
+            default:
+                break;
             }
         }
         if( bp == bp_head && has_bionic("bio_armor_head") ) {
@@ -12019,6 +12021,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             case DT_STAB:
                 elem.amount -= 2.4;
                 break;
+            default:
+                break;
             }
         } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
             switch (elem.type) {
@@ -12030,6 +12034,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             case DT_STAB:
                 elem.amount -= 2.4;
+                break;
+            default:
                 break;
             }
         } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
@@ -12043,6 +12049,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             case DT_STAB:
                 elem.amount -= 2.4;
                 break;
+            default:
+                break;
             }
         } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
             switch (elem.type) {
@@ -12052,8 +12060,10 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             case DT_CUT:
                 elem.amount -= 3;
                 break;
-            case DT_STAB:elem.
+            case DT_STAB:
                 elem.amount -= 2.4;
+                break;
+            default:
                 break;
             }
         } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
@@ -12066,6 +12076,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             case DT_STAB:
                 elem.amount -= 2.4;
+                break;
+            default:
                 break;
             }
         }
