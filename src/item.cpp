@@ -1573,6 +1573,11 @@ nc_color item::color(player *u) const
         } else {
             ret = c_red; // Book hasn't been identified yet: red
         }
+    } else if ( is_armor() ) {
+        const int iDmg = damage + 1;
+        if (iDmg > 1) {
+            ret = dam_color(iDmg);
+        }
     }
     return ret;
 }

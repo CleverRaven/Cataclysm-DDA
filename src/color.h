@@ -179,6 +179,7 @@ nc_color yellow_background(nc_color c);
 nc_color magenta_background(nc_color c);
 nc_color cyan_background(nc_color c);
 nc_color rand_color();
+nc_color dam_color(int iDmg);
 
 nc_color color_from_string(std::string color);
 std::string string_from_color(nc_color color);

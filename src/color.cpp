@@ -520,7 +520,7 @@ nc_color invert_color(nc_color c)
     case c_ltred_green:  return c_ltgreen_red;
     case c_ltred_cyan:   return c_ltcyan_red;
     case c_red_yellow:   return c_yellow_red;
-    
+
     case c_black: return c_black;
     case c_black_cyan: return c_cyan;
     case c_black_green: return c_green;
@@ -774,6 +774,19 @@ nc_color rand_color()
     }
     return c_dkgray;
 }
+
+nc_color dam_color(int iDmg)
+{
+    switch (iDmg) {
+    case 0: return c_green;
+    case 1: return c_ltgreen;
+    case 2: return c_yellow;
+    case 3: return c_magenta;
+    case 4: return c_ltred;
+    case 5: return c_red;
+    }
+    return c_white;
+};
 
 std::map<std::string,nc_color> colormap;
 
