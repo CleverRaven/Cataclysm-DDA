@@ -1718,6 +1718,7 @@
       ["marshmallow", 20],
       ["biscuit", 12],
       ["hardtack", 2],
+      ["pastaextruder", 5],
       ["seasoning_salt", 25],
       ["seasoning_italian", 25]
     ]
@@ -4800,6 +4801,7 @@
       ["television", 10],
       ["microwave", 5],
       ["multi_cooker", 1],
+      ["pastaextruder", 8],
       ["knuckle_brass", 15],
       ["gold", 10],
       ["silver", 20],
@@ -7156,6 +7158,7 @@
       ["grapnel", 2],
       ["toolbox", 1],
       ["pur_tablets", 10],
+      ["pastaextruder", 10],
       ["remotevehcontrol", 8]
     ]
   },{
