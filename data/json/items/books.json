@@ -2,7 +2,7 @@
     {
         "type" : "BOOK",
         "id" : "mag_porn",
-        "name" : "Playboy",
+        "name" : "pornographic magazine",
         "max_level" : 0,
         "description" : "You can read it for the articles.  Or not.",
         "weight" : 60,
