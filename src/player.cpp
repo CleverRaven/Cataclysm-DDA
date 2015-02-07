@@ -11952,27 +11952,29 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         // destroyed armor earlier in the loop.
         std::vector<int> armor_indices;
 
-        get_armor_on(this,bp,armor_indices);
+        get_armor_on( this,bp,armor_indices );
 
         // CBMs absorb damage first before hitting armor
-        if (has_active_bionic("bio_ads")) {
+        if( has_active_bionic("bio_ads") ) {
             if( elem.amount > 0 && power_level > 24 ) {
-                if( elem.type == DT_BASH )
+                if( elem.type == DT_BASH ) {
                     elem.amount -= rng( 1, 8 );
-                else if( elem.type == DT_CUT )
+                } else if( elem.type == DT_CUT ) {
                     elem.amount -= rng( 1, 4 );
-                else if( elem.type == DT_STAB )
+                } else if( elem.type == DT_STAB ) {
                     elem.amount -= rng( 1, 2 );
+                }
                 power_level -= 25;
             }
-            if( elem.amount < 0 )
+            if( elem.amount < 0 ) {
                 elem.amount = 0;
+            }
         }
 
         // The worn vector has the innermost item first, so
         // iterate reverse to damage the outermost (last in worn vector) first.
-        for (std::vector<int>::reverse_iterator armor_it = armor_indices.rbegin();
-                armor_it != armor_indices.rend(); ++armor_it) {
+        for( std::vector<int>::reverse_iterator armor_it = armor_indices.rbegin();
+             armor_it != armor_indices.rend(); ++armor_it ) {
 
             const int index = *armor_it;
 
@@ -11980,7 +11982,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             // now check if armor was completely destroyed and display relevant messages
             // TODO: use something less janky than the old code for this check
-            if (worn[index].damage >= 5) {
+            if( worn[index].damage >= 5 ) {
                 //~ %s is armor name
                 add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                  pgettext("memorial_female", "Worn %s was completely destroyed."),
@@ -11993,7 +11995,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         }
 
         // Next, apply reductions from bionics and traits.
-        if (has_bionic("bio_carbon")) {
+        if( has_bionic("bio_carbon") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 2;
@@ -12006,7 +12008,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             }
         }
-        if (bp == bp_head && has_bionic("bio_armor_head")) {
+        if( bp == bp_head && has_bionic("bio_armor_head") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 3;
@@ -12018,7 +12020,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount -= 2.4;
                 break;
             }
-        } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
+        } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 3;
@@ -12030,7 +12032,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount -= 2.4;
                 break;
             }
-        } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+        } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 3;
@@ -12042,7 +12044,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount -= 2.4;
                 break;
             }
-        } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
+        } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 3;
@@ -12054,7 +12056,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount -= 2.4;
                 break;
             }
-        } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+        } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
             switch (elem.type) {
             case DT_BASH:
                 elem.amount -= 3;
@@ -12067,15 +12069,19 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             }
         }
-        if (has_trait("THICKSKIN")) {
-            if (elem.type == DT_CUT)
+        if( has_trait("THICKSKIN") ) {
+            if( elem.type == DT_CUT ) {
                 elem.amount -= 1;
+            }
         }
-        if (has_trait("THINSKIN")) {
-            if (elem.type == DT_CUT)
+        if( has_trait("THINSKIN") ) {
+            if( elem.type == DT_CUT ) {
                 elem.amount += 1;
+            }
         }
-        if (elem.amount < 0) elem.amount = 0;
+        if( elem.amount < 0 ) {
+            elem.amount = 0;
+        }
     }
 }
 
