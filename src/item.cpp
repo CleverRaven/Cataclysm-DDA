@@ -28,10 +28,7 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
-bool     furred = 0;
-bool     pocketed = 0;
-bool     leather_padded = 0;  //Move these somewhere reasonable
-bool     kevlar_padded = 0;
+
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -183,7 +180,6 @@ void item::init() {
     invlet = 0;
     damage = 0;
     furred = 0;
-    pocketed = 0;
     leather_padded = 0;
     kevlar_padded = 0;
     burnt = 0;
@@ -1675,24 +1671,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    std::string mod_p_text = "";
-    if (pocketed == 1){
-        mod_p_text = rm_prefix(_("<mod_p_adj>pocketed "));
-    }
-
-    std::string mod_f_text = "";
-    if (furred == 1){
-        mod_f_text = rm_prefix(_("<mod_f_adj>fur lined "));
-    }
-    std::string mod_l_text = "";
-    if (leather_padded == 1){
-        mod_l_text = rm_prefix(_("<mod_l_adj>padded "));
-    }
-    std::string mod_k_text = "";
-    if (kevlar_padded == 1){
-        mod_k_text = rm_prefix(_("<mod_k_adj>kevlar lined "));
-    }
-
     const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
@@ -1812,8 +1790,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s%10$s%11$s"), damtext.c_str(), burntext.c_str(),
-                         mod_f_text.c_str(), mod_p_text.c_str(), mod_l_text.c_str(), mod_k_text.c_str(), sidedtext.c_str(), toolmodtext.c_str(),
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
+                        sidedtext.c_str(), toolmodtext.c_str(),
                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
@@ -2272,7 +2250,7 @@ int item::get_storage() const
     // it_armor::storage is unsigned char
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
-    if (pocketed){
+    if (item::item_tags.count("pocketed") > 0){
     pockets = 1.5;
         if (result > 0)
             return result * pockets;

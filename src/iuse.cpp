@@ -2947,10 +2947,10 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
             return 0;
         };
-        if(((mod->furred == 1) && (mod->pocketed == 1)) || ((mod->furred == 1) && (mod->leather_padded == 1)) ||
-                ((mod->pocketed == 1) && (mod->leather_padded == 1)) || ((mod->furred == 1)
+        if(((mod->furred == 1) && (mod->item_tags.count("pocketed") > 0)) || ((mod->furred == 1) && (mod->leather_padded == 1)) ||
+                ((mod->item_tags.count("pocketed") > 0) && (mod->leather_padded == 1)) || ((mod->furred == 1)
                         && (mod->kevlar_padded == 1)) ||
-                ((mod->kevlar_padded == 1) && (mod->pocketed == 1)) || ((mod->leather_padded == 1)
+                ((mod->kevlar_padded == 1) && (mod->item_tags.count("pocketed") > 0 )) || ((mod->leather_padded == 1)
                         && (mod->kevlar_padded == 1))) { //This is a mess. Have to block every combo of 2. Probably a better way.
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
@@ -2959,7 +2959,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Cancel"), NULL);
         switch (choice) {
         case 1: {
-            if(mod->pocketed == 1) {
+            if(mod->item_tags.count("pocketed") > 0) {
                 p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
                 return 0;
             }
@@ -3028,11 +3028,11 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                         p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
-                        mod->pocketed = true;
+                        mod->item_tags.insert("pocketed");
                         thread_used = rng(5, 14);
                     } else {
                         p->add_msg_if_player(m_good, _("You sew extra pockets on your %s!"), mod->tname().c_str());
-                        mod->pocketed = true;
+                        mod->item_tags.insert("pocketed");
                         p->consume_items(comps);
                     }
 
