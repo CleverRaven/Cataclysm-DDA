@@ -12013,8 +12013,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         if( bp == bp_head && has_bionic("bio_armor_head") ) {
             switch (elem.type) {
             case DT_BASH:
-                elem.amount -= 3;
-                break;
             case DT_CUT:
                 elem.amount -= 3;
                 break;
@@ -12027,8 +12025,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
             switch (elem.type) {
             case DT_BASH:
-                elem.amount -= 3;
-                break;
             case DT_CUT:
                 elem.amount -= 3;
                 break;
@@ -12041,8 +12037,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
             switch (elem.type) {
             case DT_BASH:
-                elem.amount -= 3;
-                break;
             case DT_CUT:
                 elem.amount -= 3;
                 break;
@@ -12055,8 +12049,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
             switch (elem.type) {
             case DT_BASH:
-                elem.amount -= 3;
-                break;
             case DT_CUT:
                 elem.amount -= 3;
                 break;
@@ -12069,8 +12061,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
             switch (elem.type) {
             case DT_BASH:
-                elem.amount -= 3;
-                break;
             case DT_CUT:
                 elem.amount -= 3;
                 break;
