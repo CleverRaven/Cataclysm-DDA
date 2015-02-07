@@ -1238,6 +1238,26 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
+        if (is_armor() && item_tags.count("pocketed")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("You've sewed on some pockets and straps to give you some more places to carry things.")));
+        }
+        if (is_armor() && item_tags.count("furred")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("You've sewed in a fur lining to increase its overall warmth.")));
+        }
+        if (is_armor() && item_tags.count("leather_padded")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("You've padded certain parts with leather to increase protection without increasing encumbrance.")));
+        }
+        if (is_armor() && item_tags.count("kevlar_padded")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("You've inserted kevlar into strategic locations to increase protection without increasing encumbrance.")));
+        }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1757,19 +1777,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (item_tags.count("pocketed") > 0 ){
         ret << _("(P) ");
-        //("You've sewed on some pockets and straps to give you some more places to carry things.");
     }
         if (item_tags.count("furred") > 0 ){
         ret << _("(F) ");
-        //("You've sewed in a fur lining to increase its overall warmth.");
     }
     if (item_tags.count("leather_padded") > 0 ){
         ret << _("(L) ");
-        //("You've padded certain parts with leather to increase protection without increasing encumbrance.");
     }
     if (item_tags.count("kevlar_padded") > 0 ){
         ret << _("(K) ");
-        //("You've inserted kevlar into strategic locations to increase protection without increasing encumbrance.");
     }
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
