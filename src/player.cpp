@@ -2535,16 +2535,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     // First!  Default STATS screen.
     const char* title_STATS = _("STATS");
     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
-    mvwprintz(w_stats, 2, 1, c_ltgray, "                     ");
     mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
     mvwprintz(w_stats, 2, 20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
-    mvwprintz(w_stats, 3, 1, c_ltgray, "                     ");
     mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
     mvwprintz(w_stats, 3, 20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
-    mvwprintz(w_stats, 4, 1, c_ltgray, "                     ");
     mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
     mvwprintz(w_stats, 4, 20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
-    mvwprintz(w_stats, 5, 1, c_ltgray, "                     ");
     mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
     mvwprintz(w_stats, 5, 20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
