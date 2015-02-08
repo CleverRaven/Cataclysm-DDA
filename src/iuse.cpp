@@ -2938,10 +2938,36 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         };
-        itype_id repair_item = "none";
+                itype_id repair_item = "none";
         std::vector<std::string> plurals;
         std::vector<itype_id> repair_items;
         std::string plural = "";
+        //translation note: add <plural> tag to keep them unique
+        if (mod->made_of("cotton")) {
+            repair_items.push_back("rag");
+            plurals.push_back(rm_prefix(_("<plural>rags")));
+        }
+        if (mod->made_of("leather")) {
+            repair_items.push_back("leather");
+            plurals.push_back(rm_prefix(_("<plural>leather")));
+        }
+        if (mod->made_of("fur")) {
+            repair_items.push_back("fur");
+            plurals.push_back(rm_prefix(_("<plural>fur")));
+        }
+        if (mod->made_of("nomex")) {
+            repair_items.push_back("nomex");
+            plurals.push_back(rm_prefix(_("<plural>nomex")));
+        }
+        if (mod->made_of("wool")) {
+            repair_items.push_back("felt_patch");
+            plurals.push_back(rm_prefix(_("<plural>wool")));
+        }
+        if (repair_items.empty()) {
+            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
+                                 mod->tname().c_str());
+            return 0;
+        }
         if( mod == it
                 || std::find(repair_items.begin(), repair_items.end(), mod->typeId()) != repair_items.end()) {
             p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
