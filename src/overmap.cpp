@@ -1813,9 +1813,16 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
         } else if (action == "QUIT") {
             ret = invalid_tripoint;
         } else if (action == "CREATE_NOTE") {
+            std::string color_notes = _("Color codes: ");
+            for( auto color_pair : get_note_color_names() ) {
+                // The color index is not translatable, but the name is.
+                color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
+                                              _(color_pair.second.c_str()) );
+            }
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"),
-                                         45, old_note); // 45 char max
+            const std::string new_note = string_input_popup(
+                _("Note (X:TEXT for custom symbol, G; for color):"),
+                45, old_note, color_notes); // 45 char max
             if(old_note != new_note) {
                 overmap_buffer.add_note(curs, new_note);
             }
