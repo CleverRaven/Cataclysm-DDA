@@ -5068,6 +5068,7 @@
         "type" : "COMESTIBLE",
         "id" : "tallow_tainted",
         "name" : "tainted tallow",
+        "category": "other",
         "weight" : 128,
         "color" : "light_gray",
         "addiction_type" : "none",
