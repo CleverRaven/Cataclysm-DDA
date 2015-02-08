@@ -2892,9 +2892,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
                               base_damage(false));
 
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Strength affects your melee damage, the amount of weight you can carry, your total HP, \
-your resistance to many diseases, and the effectiveness of actions which require brute force."));
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Strength affects your melee damage, the amount of weight you can carry, your total HP, "
+                     "your resistance to many diseases, and the effectiveness of actions which require brute force."));
                 } else if (line == 1) {
                     // display player current DEX effects
                     mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
@@ -2911,9 +2911,9 @@ your resistance to many diseases, and the effectiveness of actions which require
                         mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty: -%d"),
                         abs(throw_dex_mod(false)));
                     }
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Dexterity affects your chance to hit in melee combat, helps you steady your \
-gun for ranged combat, and enhances many actions that require finesse."));
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Dexterity affects your chance to hit in melee combat, helps you steady your "
+                     "gun for ranged combat, and enhances many actions that require finesse."));
                 } else if (line == 2) {
                     // display player current INT effects
                     mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
@@ -2921,9 +2921,9 @@ gun for ranged combat, and enhances many actions that require finesse."));
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), get_int());
 
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Intelligence is less important in most situations, but it is vital for more complex tasks like \
-electronics crafting. It also affects how much skill you can pick up from reading a book."));
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Intelligence is less important in most situations, but it is vital for more complex tasks like "
+                     "electronics crafting. It also affects how much skill you can pick up from reading a book."));
                 } else if (line == 3) {
                     // display player current PER effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
@@ -2931,9 +2931,9 @@ electronics crafting. It also affects how much skill you can pick up from readin
                               abs(ranged_per_mod()),"          ");
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
                     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Perception is the most important stat for ranged combat. It's also used for \
-detecting traps and other things of interest."));
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Perception is the most important stat for ranged combat. It's also used for "
+                     "detecting traps and other things of interest."));
                 }
                 wrefresh(w_stats);
                 wrefresh(w_info);
@@ -3009,11 +3009,10 @@ detecting traps and other things of interest."));
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
-                s += string_format( _("\
-Perception %+d when checking traps or firing ranged weapons;\n\
-Perception %+.1f when throwing items."),
-                               -encumb(bp_eyes),
-                               double(double(-encumb(bp_eyes)) / 2));
+                s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
+                                     "Perception %+.1f when throwing items."),
+                                   -encumb(bp_eyes),
+                                   double(double(-encumb(bp_eyes)) / 2));
             } else if (line == 3) { //Eyes
                 s += run_cost_text( encumb( bp_mouth ) * 5 );
             } else if (line == 4) { //Left Arm
