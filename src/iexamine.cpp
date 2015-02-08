@@ -2098,12 +2098,12 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
 {
-    none(p, m, examx, examy);
+    harvest_tree_shrub(p, m, examx, examy);
 }
 
 void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
 {
-    none(p, m, examx, examy);
+    harvest_tree_shrub(p, m, examx, examy);
 }
 
 int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
