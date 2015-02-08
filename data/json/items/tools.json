@@ -611,7 +611,7 @@
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
     "price": 1000,
     "material": ["plastic", "null"],
-    "flags": "LIGHT_6",
+    "flags": "LIGHT_15",
     "weight": 980,
     "volume": 4,
     "bashing": 1,
@@ -620,7 +620,7 @@
     "max_charges": 400,
     "initial_charges": 400,
     "charges_per_use": 0,
-    "turns_per_charge": 20,
+    "turns_per_charge": 45,
     "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
