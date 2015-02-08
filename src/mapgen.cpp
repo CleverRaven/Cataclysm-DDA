@@ -183,22 +183,6 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
 }
 
 /////////////////////////////////////////////////////////////////////////////////
-///// builtin mapgen functions
-
-/*
- * Store 3 ints. That's it.
- */
-mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w) : mapgen_function( w )
-{
-    std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
-    if ( gptr !=  mapgen_cfunction_map.end() ) {
-        fptr = gptr->second;
-    } else {
-        debugmsg("No such mapgen function: %s ", sptr.c_str() );
-    }
-}
-
-/////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
 ///// 1 - init():
 
@@ -225,8 +209,9 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
         if ( mgtype == "builtin" ) { // c-function
             if ( jio.has_string("name") ) {
                 const std::string mgname = jio.get_string("name");
-                if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
-                    ret = new mapgen_function_builtin( mgname, mgweight );
+                const auto iter = mapgen_cfunction_map.find( mgname );
+                if( iter != mapgen_cfunction_map.end() ) {
+                    ret = new mapgen_function_builtin( iter->second, mgweight );
                     oter_mapgen[id_base].push_back( ret ); //new mapgen_function_builtin( mgname, mgweight ) );
                 } else {
                     debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );

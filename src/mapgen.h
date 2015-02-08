@@ -29,7 +29,6 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    mapgen_function_builtin(std::string sptr, int w = 1000);
     virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) {
         (*fptr)(m, o, mgd, i, d);
     }
