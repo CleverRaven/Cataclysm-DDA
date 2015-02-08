@@ -8654,7 +8654,9 @@
     "type" : "item_group",
     "id" : "survivorzed_extra",
     "items":[
-      ["mask_survivor", 10],
+      ["mask_lsurvivor", 10],
+      ["mask_survivor", 8],
+      ["mask_hsurvivor", 6],
       ["survivor_vest", 8],
       ["survivor_runner_pack", 6],
       ["survivor_pack", 5],

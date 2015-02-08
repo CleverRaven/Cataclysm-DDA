@@ -1,7 +1,9 @@
 {
     "type": "ITEM_BLACKLIST",
     "items": [
+        "mask_lsurvivor",
         "mask_survivor",
+        "mask_hsurvivor",
         "survivor_belt",
         "mask_survivorxl",
         "survivor_vest",
