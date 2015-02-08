@@ -2535,17 +2535,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     // First!  Default STATS screen.
     const char* title_STATS = _("STATS");
     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
-    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-    mvwprintz(w_stats, 2, 20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
-    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-    mvwprintz(w_stats, 3, 20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
-    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-    mvwprintz(w_stats, 4, 20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-    mvwprintz(w_stats, 5, 20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
     nc_color status = c_white;
 
+    // Strength current and max
     int stat_tmp = get_str();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2559,8 +2552,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  2, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
+    mvwprintz(w_stats, 2, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 2, 21, c_ltgray, "(%2d)", str_max);
 
+    // Dexterity current and max
     stat_tmp = get_dex();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2574,8 +2570,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  3, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
+    mvwprintz(w_stats, 3, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 3, 21, c_ltgray, "(%2d)", dex_max);
 
+    // Intelligence current and max
     stat_tmp = get_int();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2589,8 +2588,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  4, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
+    mvwprintz(w_stats, 4, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 4, 21, c_ltgray, "(%2d)", int_max);
 
+    // Intelligence current and max
     stat_tmp = get_per();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2604,7 +2606,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  5, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
+    mvwprintz(w_stats, 5, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 5, 21, c_ltgray, "(%2d)", per_max);
 
     wrefresh(w_stats);
 
