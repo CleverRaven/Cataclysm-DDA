@@ -3155,7 +3155,7 @@
         "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.",
         "price": 175000,
         "material": ["plastic", "aluminum"],
-        "flags": ["LIGHT_6", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+        "flags": ["LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
         "weight": 5438,
         "volume": 4,
         "bashing": 8,
