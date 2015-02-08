@@ -1651,9 +1651,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
-        }
-
-        else {
+        } else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
@@ -1766,7 +1764,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if (has_flag("FIT")) {
-        ret << _(" (fits) ");
+        ret << _(" (fits)");
     }
 
     if (has_flag("RECHARGE")) {
@@ -1776,16 +1774,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (UPS)");
     }
     if (item_tags.count("pocketed") > 0 ){
-        ret << _("(P) ");
+        ret << _("( P)");
     }
         if (item_tags.count("furred") > 0 ){
-        ret << _("(F) ");
+        ret << _(" (F)");
     }
     if (item_tags.count("leather_padded") > 0 ){
-        ret << _("(L) ");
+        ret << _(" (L)");
     }
     if (item_tags.count("kevlar_padded") > 0 ){
-        ret << _("(K) ");
+        ret << _(" (K)");
     }
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
