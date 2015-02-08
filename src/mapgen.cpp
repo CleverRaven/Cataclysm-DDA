@@ -188,9 +188,8 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
 /*
  * Store 3 ints. That's it.
  */
-mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
+mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w) : mapgen_function( w )
 {
-    weight = w;
     std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
     if ( gptr !=  mapgen_cfunction_map.end() ) {
         fptr = gptr->second;

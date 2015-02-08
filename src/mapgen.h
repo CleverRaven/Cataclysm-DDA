@@ -14,7 +14,7 @@ class mapgen_function {
     public:
     int weight;
     protected:
-    mapgen_function() { }
+    mapgen_function( const int w ) : weight( w ) { }
     public:
     virtual ~mapgen_function() { }
     virtual bool setup() { return true; }
@@ -27,8 +27,7 @@ class mapgen_function {
 class mapgen_function_builtin : public virtual mapgen_function {
     public:
     building_gen_pointer fptr;
-    mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : fptr(ptr) {
-        weight = w;
+    mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
     mapgen_function_builtin(std::string sptr, int w = 1000);
     virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) {
@@ -167,8 +166,7 @@ class mapgen_function_json : public virtual mapgen_function {
     virtual bool setup();
     virtual void generate(map*, oter_id, mapgendata, int, float);
 
-    mapgen_function_json(std::string s, int w = 1000) {
-        weight = w;
+    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
         jdata = s;
         mapgensize = 24;
         fill_ter = -1;
@@ -200,8 +198,7 @@ class mapgen_function_json : public virtual mapgen_function {
 class mapgen_function_lua : public virtual mapgen_function {
     public:
     const std::string scr;
-    mapgen_function_lua(std::string s, int w = 1000) : scr(s) {
-        weight = w;
+    mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
 #if defined(LUA)
