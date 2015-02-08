@@ -210,7 +210,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
     int mgweight = jio.get_int("weight", 1000);
     mapgen_function * ret = NULL;
-    if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
+    if ( mgweight <= 0 || jio.get_bool("disabled", false) ) {
         const std::string mgtype = jio.get_string("method");
         if ( default_idx != -1 && mgtype == "builtin" ) {
             if ( jio.has_string("name") ) {
@@ -606,7 +606,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
 bool mapgen_function_json::setup() {
-    if ( is_ready == true ) {
+    if ( is_ready ) {
         return true;
     }
     if ( jdata.empty() ) {
@@ -1013,7 +1013,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     (void)md;
     (void)t;
 #endif
-    if ( terrain_type.t().rotates == true ) {
+    if ( terrain_type.t().rotates ) {
         mapgen_rotate(m, terrain_type, false );
     }
 }
@@ -5048,7 +5048,7 @@ ff.......|....|WWWWWWWW|\n\
             }
         } while (tries < 5);
         int ladderx = rng(0, SEEX * 2 - 1), laddery = rng(0, SEEY * 2 - 1);
-        while (dat.is_groundcover( ter(ladderx, laddery) ) == false) {
+        while( !dat.is_groundcover( ter(ladderx, laddery) ) ) {
             ladderx = rng(0, SEEX * 2 - 1);
             laddery = rng(0, SEEY * 2 - 1);
         }
@@ -11036,7 +11036,7 @@ void map::place_spawns(std::string group, const int chance,
         return;
     }
 
-    if (MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+    if( !MonsterGroupManager::isValidMonsterGroup( group ) ) {
         const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
