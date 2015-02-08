@@ -283,6 +283,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "electric_lantern",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 3 ] , [ "mag_electronics", 4 ] , [ "textbook_electronics", 2 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 7 ],
+      [ "toolset", 7 ]
+    ]
+  ],
+  "components": [
+    [ [ "cable", 8 ] ],
+    [ [ "plastic_chunk", 2 ] ],
+    [ [ "circuit", 2 ] ],
+    [ [ "e_scrap", 2 ] ],
+    [ [ "amplifier", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "lightstrip_inactive",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
