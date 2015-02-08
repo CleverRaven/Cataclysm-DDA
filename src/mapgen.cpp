@@ -547,9 +547,6 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
  */
 void mapgen_function_json::setup_place_special(JsonArray &parray )
 {
-
-    std::string tmpval="";
-
     while ( parray.has_more() ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
@@ -558,7 +555,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
         JsonObject jsi = parray.next_object();
         if ( jsi.has_string("type") ) {
-            tmpval = jsi.get_string("type");
+            const std::string tmpval = jsi.get_string("type");
             if (tmpval == "toilet") {
                 tmpop = JMAPGEN_PLACESPECIAL_TOILET;
             } else if (tmpval == "gaspump") {
@@ -602,7 +599,6 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
         load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
         jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
-        tmpval = "";
     }
 }
 
@@ -613,7 +609,6 @@ bool mapgen_function_json::setup() {
     if ( is_ready == true ) {
         return true;
     }
-    std::string err = "";
     if ( jdata.empty() ) {
         return false;
     }
@@ -623,7 +618,7 @@ bool mapgen_function_json::setup() {
         jsin.eat_whitespace();
         char ch = jsin.peek();
         if ( ch != '{' ) {
-            err=string_format("Bad json:\n%s\n",jdata.substr(0,796).c_str()); throw err;
+            throw string_format("Bad json:\n%s\n",jdata.substr(0,796).c_str());
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
@@ -661,12 +656,11 @@ bool mapgen_function_json::setup() {
                                                         ( key ).c_str() ) );
                     }
                     if( pjo.has_string( key ) ) {
-                        tmpval = pjo.get_string( key );
+                        const auto tmpval = pjo.get_string( key );
                         if ( termap.find( tmpval ) == termap.end() ) {
                             jo.throw_error( string_format("Invalid terrain '%s'", tmpval.c_str() ) );
                         }
                         format_terrain[(int)( key )[0]] = termap[tmpval].loadid;
-                        tmpval = "";
                     } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng terrain is todo");
                     } else {
@@ -675,7 +669,7 @@ bool mapgen_function_json::setup() {
                     }
                 }
             } else {
-                err=string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str()); throw err;
+                throw string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str());
             }
             // optional.
             // "furniture": { "a": "f_chair", "b": "f_chair_electric" }
@@ -688,12 +682,11 @@ bool mapgen_function_json::setup() {
                                                         ( key ).c_str() ) );
                     }
                     if( pjo.has_string( key ) ) {
-                        tmpval = pjo.get_string( key );
+                        const auto tmpval = pjo.get_string( key );
                         if ( furnmap.find( tmpval ) == furnmap.end() ) {
                             jo.throw_error( string_format("Invalid furniture '%s'", tmpval.c_str() ) );
                         }
                         format_furniture[(int)( key )[0]] = furnmap[tmpval].loadid;
-                        tmpval = "";
                     } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng furniture is todo");
                     } else {
@@ -713,7 +706,7 @@ bool mapgen_function_json::setup() {
 
             c=0;
             while ( parray.has_more() ) { // hrm
-                tmpval = parray.next_string();
+                const auto tmpval = parray.next_string();
                 if ( (int)tmpval.size() != mapgensize ) {
                     parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
@@ -728,7 +721,6 @@ bool mapgen_function_json::setup() {
                         format[ wtf_mean_nonant(c, i) ].furn = format_furniture[ tmpkey ];
                     }
                 }
-                tmpval = "";
                 c++;
             }
             qualifies = true;
@@ -737,7 +729,7 @@ bool mapgen_function_json::setup() {
 
        // No fill_ter? No format? GTFO.
        if ( ! qualifies ) {
-           err = string_format("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)\n%s\n",jo.str().substr(0,796).c_str()); throw err;
+           throw string_format("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)\n%s\n",jo.str().substr(0,796).c_str());
            // todo: write TFM.
        }
 
@@ -781,8 +773,7 @@ bool mapgen_function_json::setup() {
             try {
                 setup_setmap( parray );
             } catch (std::string smerr) {
-                err = string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
-                throw err;
+                throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
             }
        }
        if ( jo.has_array("place_specials") ) {
@@ -790,8 +781,7 @@ bool mapgen_function_json::setup() {
             try {
                 setup_place_special( parray );
             } catch (std::string smerr) {
-                err = string_format("Bad JSON mapgen place_special array, discarding:\n  %s\n", smerr.c_str() );
-                throw err;
+                throw string_format("Bad JSON mapgen place_special array, discarding:\n  %s\n", smerr.c_str() );
             }
        }
        if ( jo.has_array("place_groups") ) {
@@ -799,8 +789,7 @@ bool mapgen_function_json::setup() {
             try {
                 setup_place_group( parray );
             } catch (std::string smerr) {
-                err = string_format("Bad JSON mapgen place_group array, discarding:\n  %s\n", smerr.c_str() );
-                throw err;
+                throw string_format("Bad JSON mapgen place_group array, discarding:\n  %s\n", smerr.c_str() );
             }
        }
 
