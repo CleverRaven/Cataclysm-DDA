@@ -1953,6 +1953,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "atomic_lamp",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 6 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "components": [
+    [ [ "plastic_chunk", 2 ] ],
+    [ [ "superglue", 1 ] ],
+    [ [ "power_supply", 1 ] ],
+    [ [ "cable", 2 ] ],
+    [ [ "plut_cell", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "atomic_coffeepot",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
