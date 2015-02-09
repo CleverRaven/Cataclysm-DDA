@@ -63,17 +63,13 @@ void iexamine::atm(player *const p, map *, int , int )
         withdraw_money, transfer_money, transfer_all_money
     };
 
-    constexpr int card_cost      = 100;
-    constexpr int move_cost      = 100;
-    constexpr int move_cost_bulk = 10;
-
     auto const card_count   = p->amount_of("cash_card");
     auto const charge_count = card_count ? p->charges_of("cash_card") : 0;
 
     uimenu amenu;
     amenu.selected = uistate.iexamine_atm_selected;
     amenu.text = _("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?");
-    if (p->cash >= card_cost) {
+    if (p->cash >= 100) {
         amenu.addentry( purchase_cash_card, true, -1, _("Purchase cash card?") );
     } else {
         amenu.addentry( purchase_cash_card, false, -1,
@@ -121,6 +117,7 @@ void iexamine::atm(player *const p, map *, int , int )
         });
 
         if (index == INT_MIN) {
+            add_msg(m_info, _("Nevermind."));
             return nullptr; // player canceled
         }
 
@@ -164,7 +161,7 @@ void iexamine::atm(player *const p, map *, int , int )
 
         p->cash      += amount;
         src->charges -= amount;
-        p->moves     -= move_cost;
+        p->moves     -= 100;
         add_msg(m_info, ngettext("Your account now holds %d cent.",
                                  "Your account now holds %d cents.", p->cash), p->cash);
     } else if (choice == withdraw_money) {
@@ -183,7 +180,7 @@ void iexamine::atm(player *const p, map *, int , int )
 
         p->cash      -= amount;
         dst->charges += amount;
-        p->moves     -= move_cost;
+        p->moves     -= 100;
         add_msg(m_info, ngettext("Your account now holds %d cent.",
                                  "Your account now holds %d cents.", p->cash), p->cash);
     } else if (choice == transfer_money) {
@@ -213,14 +210,14 @@ void iexamine::atm(player *const p, map *, int , int )
 
         src->charges -= amount;
         dst->charges += amount;
-        p->moves     -= move_cost;
+        p->moves     -= 100;
     } else if (choice == purchase_cash_card) {
         if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
             item card("cash_card", calendar::turn);
             card.charges = 0;
             p->i_add(card);
-            p->cash  -= card_cost;
-            p->moves -= move_cost;
+            p->cash  -= 100;
+            p->moves -= 100;
         }
     } else if (choice == transfer_all_money) {
         auto const dst = choose_card(_("Insert card for bulk deposit."));
@@ -229,7 +226,7 @@ void iexamine::atm(player *const p, map *, int , int )
         }
 
         // sum all cash cards in inventory        
-        p->moves -= (p->amount_of("cash_card") - 1) * move_cost_bulk; // no cost for the dst: -1
+        p->moves -= (p->amount_of("cash_card") - 1) * 10; // no cost for the dst: -1
         dst->charges = p->charges_of("cash_card");
     }
 }
