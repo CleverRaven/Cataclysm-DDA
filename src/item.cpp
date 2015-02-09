@@ -2867,6 +2867,11 @@ bool item::is_funnel_container(int &bigger_than) const
     return false;
 }
 
+bool item::is_emissive() const
+{
+    return light.luminance || type && type->light_emission;
+}
+
 bool item::is_tool() const
 {
     if( is_null() )

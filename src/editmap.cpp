@@ -1256,6 +1256,11 @@ int editmap::edit_itm()
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format("burnt: %d", it->burnt);
                         } else if (imenu.ret == imenu_luminance ) {
+                            auto const delta = (it->is_emissive() && !retval) ? -1 :
+                                               (!it->is_emissive() && retval) ? 1 : 0;
+                            int x, y;
+                            g->m.get_submap_at(target.x, target.y, x, y)->lum[x][y] += delta;
+
                             it->light.luminance = (unsigned short)retval;
                             imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);
                         } else if (imenu.ret == imenu_direction ) {
@@ -1680,6 +1685,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
                             memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
+                            memcpy( *destsm->lum, srcsm->lum, sizeof(srcsm->lum) ); // emissive items
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
                                     destsm->itm[x][y].swap( srcsm->itm[x][y] );
