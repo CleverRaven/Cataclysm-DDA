@@ -1622,7 +1622,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null() && with_prefix) {
+    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
@@ -1631,7 +1631,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 nc_color color;
                 std::string health_bar = "";
-                get_HP_Bar(9, 10, color, health_bar, true);
+                get_item_HP_Bar(damage, color, health_bar);
 
                 damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
             } else {
@@ -1647,7 +1647,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 nc_color color;
                 std::string health_bar = "";
-                get_HP_Bar(9-damage*2, 10, color, health_bar, true);
+                get_item_HP_Bar(damage, color, health_bar);
 
                 damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
 

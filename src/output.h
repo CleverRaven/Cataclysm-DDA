@@ -158,6 +158,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
+std::string remove_color_tags(const std::string &s);
 
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
@@ -221,6 +222,7 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
 void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
+void get_item_HP_Bar(const int iDamage, nc_color &color, std::string &text);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
