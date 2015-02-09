@@ -9,7 +9,7 @@
 
 struct itype;
 
-enum morale_type
+enum morale_type : int
 {
     MORALE_NULL = 0,
     MORALE_FOOD_GOOD,

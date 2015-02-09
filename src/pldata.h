@@ -28,7 +28,7 @@ enum character_type {
 
 typedef std::string dis_type;
 
-enum add_type {
+enum add_type : int {
     ADD_NULL,
     ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
     ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
