@@ -2096,16 +2096,6 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
     return;
 }
 
-void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
-{
-    none(p, m, examx, examy);
-}
-
-void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
-{
-    none(p, m, examx, examy);
-}
-
 int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
 {
     int sum_weight = 0;
@@ -3103,12 +3093,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
-    }
-    if ("shrub_strawberry" == function_name) {
-        return &iexamine::shrub_strawberry;
-    }
-    if ("shrub_blueberry" == function_name) {
-        return &iexamine::shrub_blueberry;
     }
     if ("recycler" == function_name) {
         return &iexamine::recycler;
