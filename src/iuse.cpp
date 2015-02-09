@@ -2912,7 +2912,8 @@ int iuse::sew(player *p, item *it, bool, point)
 
 int iuse::sew_advanced(player *p, item *it, bool, point)
 {
-    if (it->charges == 0) {
+    if (it->charges < 5){
+        p->add_msg_if_player(m_info, _("You don't have enough thread."));
         return 0;
     }
     if (p->is_underwater()) {
@@ -2931,6 +2932,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                    itm.made_of( "leather" ) ||
                    itm.made_of( "fur" ) ||
                    itm.made_of( "nomex" ) ||
+                   itm.made_of( "plastic" ) ||
                    itm.made_of( "wool" );
         } );
         item *mod = &(p->i_at(pos));
@@ -2958,6 +2960,10 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         if (mod->made_of("nomex")) {
             repair_items.push_back("nomex");
             plurals.push_back(rm_prefix(_("<plural>nomex")));
+        }
+        if (mod->made_of("plastic")) {
+            repair_items.push_back("plastic");
+            plurals.push_back(rm_prefix(_("<plural>plastic")));
         }
         if (mod->made_of("wool")) {
             repair_items.push_back("felt_patch");

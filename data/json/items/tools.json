@@ -262,7 +262,7 @@
     "symbol": ";",
     "color": "red",
     "name": "tailor's kit",
-    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, and a few other useful textile tools.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic. Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "price": 1000,
     "material": ["plastic", "steel"],
     "weight": 100,
