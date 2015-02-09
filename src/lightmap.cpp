@@ -70,43 +70,45 @@ void map::generate_lightmap()
     if (held_luminance > LIGHT_AMBIENT_LOW) {
         apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
     }
+
+    auto const u_is_inside = !is_outside(g->u.posx(), g->u.posy());
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-            const ter_id terrain = ter(sx, sy);
-            auto items = i_at(sx, sy);
-            const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx(), g->u.posy()) ) {
-                if (!is_outside(sx, sy)) {
-                    // Apply light sources for external/internal divide
-                    for(int i = 0; i < 4; ++i) {
-                        if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
-                            is_outside(sx + dir_x[i], sy + dir_y[i])) {
-                            lm[sx][sy] = natural_light;
+            if (natural_light > LIGHT_SOURCE_BRIGHT && u_is_inside && !is_outside(sx, sy)) {
+                // Apply light sources for external/internal divide
+                for(int i = 0; i < 4; ++i) {
+                    if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
+                        is_outside(sx + dir_x[i], sy + dir_y[i])) {
+                        lm[sx][sy] = natural_light;
 
-                            if (light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
-                                apply_light_arc(sx, sy, dir_d[i], natural_light);
-                            }
+                        if (light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
+                            apply_light_arc(sx, sy, dir_d[i], natural_light);
                         }
                     }
                 }
             }
-            add_light_from_items( sx, sy, items.begin(), items.end() );
-            if(terrain == t_lava) {
+            
+            {
+                int lx, ly;
+                if (get_submap_at(sx, sy, lx, ly)->lum[lx][ly]) {
+                    auto items = i_at(sx, sy);
+                    add_light_from_items(sx, sy, items.begin(), items.end());
+                }
+            }
+
+            const ter_id terrain = ter(sx, sy);
+            if (terrain == t_lava) {
                 add_light_source(sx, sy, 50 );
-            }
-
-            if(terrain == t_console) {
+            } else if (terrain == t_console) {
                 add_light_source(sx, sy, 3 );
-            }
-
-            if(terrain == t_utility_light) {
+            } else if (terrain == t_utility_light) {
                 add_light_source(sx, sy, 35 );
             }
 
-            for( auto &fld : current_field ) {
+            for( auto &fld : field_at(sx, sy) ) {
                 const field_entry *cur = &fld.second;
                 // TODO: [lightmap] Attach light brightness to fields
                 switch(cur->getFieldType()) {

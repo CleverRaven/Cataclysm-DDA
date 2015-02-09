@@ -493,6 +493,7 @@ public:
  bool is_container_empty() const;
  bool is_container_full() const;
  bool is_funnel_container(int &bigger_than) const;
+ bool is_emissive() const; //! whether the item emits light
 
  bool is_tool() const;
  bool is_tool_reversible() const;

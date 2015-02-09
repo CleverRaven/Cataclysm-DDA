@@ -395,6 +395,7 @@ struct submap {
     furn_id         frn[SEEX][SEEY];  // Furniture on each square
     trap_id         trp[SEEX][SEEY];  // Trap on each square
     int             rad[SEEX][SEEY];  // Irradiation of each square
+    int             lum[SEEX][SEEY];  // Number of items emitting light on each square
     std::list<item> itm[SEEX][SEEY];  // Items on each square
     field           fld[SEEX][SEEY];  // Field on each square
 
