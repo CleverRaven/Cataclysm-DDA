@@ -1391,10 +1391,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     // weapon blocks are preferred to arm blocks
     std::string thing_blocked_with;
-    if (can_weapon_block()) {
-        thing_blocked_with = weapon.tname();
-        handle_melee_wear();
-    } else if (can_limb_block()) {
+    if (can_limb_block()) {
         //Choose which body part to block with, assume left side first
         if (can_leg_block() && can_arm_block()) {
             bp_hit = one_in(2) ? bp_leg_l : bp_arm_l;
@@ -1416,6 +1413,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         }
 
         thing_blocked_with = body_part_name(bp_hit);
+    }
+    else {
+        thing_blocked_with = weapon.tname();
+        handle_melee_wear();
     }
 
     std::string damage_blocked_description;
