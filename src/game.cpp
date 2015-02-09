@@ -7976,14 +7976,14 @@ void game::examine(int examx, int examy)
     }
     const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
     const ter_t *xter_t = &terlist[m.ter(examx, examy)];
-    iexamine xmine;
+
     const int player_x = u.posx();
     const int player_y = u.posy();
 
     if (m.has_furn(examx, examy)) {
-        (xmine.*xfurn_t->examine)(&u, &m, examx, examy);
+        xfurn_t->examine(&u, &m, examx, examy);
     } else {
-        (xmine.*xter_t->examine)(&u, &m, examx, examy);
+        xter_t->examine(&u, &m, examx, examy);
     }
 
     // Did the player get moved? Bail out if so; our examx and examy probably
@@ -8033,7 +8033,7 @@ void game::examine(int examx, int examy)
 
     //check for disarming traps last to avoid disarming query black box issue.
     if(m.tr_at(examx, examy) != tr_null) {
-        xmine.trap(&u, &m, examx, examy);
+        iexamine::trap(&u, &m, examx, examy);
         if(m.tr_at(examx, examy) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
