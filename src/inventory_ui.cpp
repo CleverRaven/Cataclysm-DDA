@@ -326,11 +326,10 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             invlet_color = selected_line_color;
         }
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
-        item_name = trim_to(item_name, w - 2); // 2 for the invlet & space
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
-        fold_and_print(w_inv, cur_line, y + 2, 40, name_color, "%s", item_name.c_str());
+        fold_and_print(w_inv, cur_line, y + 2, w, name_color, "%s", item_name.c_str());
     }
 }
 

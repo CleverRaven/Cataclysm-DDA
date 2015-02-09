@@ -756,7 +756,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, "%s", here[cur_it].display_name().c_str());
+                    fold_and_print(w_pickup, 1 + (cur_it % maxitems), 4, pickupW-4, icolor, "%s", here[cur_it].display_name().c_str());
                 }
             }
 
