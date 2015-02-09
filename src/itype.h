@@ -73,6 +73,11 @@ struct islot_container {
      * Volume of the item does not include volume of the content.
      */
     bool rigid = false;
+    /**
+     * Can store other items in this container
+     */
+    bool stores = false;
+
 };
 
 struct islot_armor {

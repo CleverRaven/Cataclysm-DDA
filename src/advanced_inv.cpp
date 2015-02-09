@@ -1480,8 +1480,8 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         const auto cont = s.get_container();
         assert( cont != nullptr );
         assert( !cont->contents.empty() );
-        assert( &cont->contents.front() == sitem.it );
-        cont->contents.erase( cont->contents.begin() );
+        assert( &cont->contents[0] == sitem.it );
+        cont->contents.rem( cont->contents.begin() );
     } else if( s.veh != nullptr ) {
         s.veh->remove_item( s.vstor, sitem.it );
     } else {

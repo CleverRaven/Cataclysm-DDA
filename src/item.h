@@ -8,6 +8,8 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include <iterator>
+
 #include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
@@ -21,6 +23,7 @@ struct itype;
 struct islot_armor;
 class material_type;
 class item_category;
+class item;
 
 std::string const& rad_badge_color(int rad);
 
@@ -83,6 +86,96 @@ class item_category
         bool operator<(const item_category &rhs) const;
         bool operator==(const item_category &rhs) const;
         bool operator!=(const item_category &rhs) const;
+};
+
+/*-----------------------------------------------------------------------------
+ *  Storage for items in items (this is var slim to reduce size to item mem usage)
+ *-----------------------------------------------------------------------------*/
+class storage
+{
+    // save on the clickity clacks
+    typedef std::vector<item>::iterator         item_iterator;
+    typedef std::vector<item>::const_iterator   item_const_iterator;
+
+    private:
+        // <item *> to item that contains <this> storage instance
+        item *me;
+        // items stored in this bag
+        std::vector<item> items;
+        // holds any extra information we need about storage
+        std::map<std::string, void *> var;
+
+    public:
+        storage() {};
+        storage(item *self) : me(self) {}
+        storage(item *self, std::vector<item> &&item_vec)
+            : me(self), items(std::move(item_vec)) {}
+        storage(item *self, item_iterator start, item_iterator stop);
+
+        void init(item *self)                               {        me = self;         }
+        /*-----------------------------------------------------------------------------
+         *                                  OVERLOADS
+         *-----------------------------------------------------------------------------*/
+        item &operator[](size_t index)                      { return items[index];      }
+        const item &operator[](size_t index) const          { return items[index];      }
+        item_iterator begin()                               { return items.begin();     }
+        item_const_iterator begin() const                   { return items.cbegin();    }
+        item_iterator end()                                 { return items.end();       }
+        item_const_iterator end() const                     { return items.cend();      }
+        size_t size() const                                 { return items.size();      }
+        bool empty() const                                  { return items.empty();     }
+        void clear()                                        {        items.clear();     }
+        /*-----------------------------------------------------------------------------
+         *                                  ACCESS
+         *-----------------------------------------------------------------------------*/
+        // retrieve a reference to the items vector
+        std::vector<item> &get()                            { return items;             }
+        const std::vector<item> &get() const                { return items;             }
+        /*-----------------------------------------------------------------------------
+         *                                MANIPULATION
+         *-----------------------------------------------------------------------------*/
+        // return a pointer to where the item is now stored
+        // (use the new pointer to operate on object)
+        item *add(const item &thing);
+        // insert a set of items
+        std::vector<item *> add(std::vector<item> items, size_t index=0);
+        // insert a range of items
+        std::vector<item *> add(item_iterator start, item_iterator stop, size_t index=0);
+        // removes the item from storage, returning the item itself
+        item rem(size_t index);
+        // removes the item (from iterator)
+        item_iterator rem(item_iterator iter);
+        // removes a range of items
+        std::vector<item> rem(item_iterator start, item_iterator stop);
+        /*-----------------------------------------------------------------------------
+         *                                  UTIL
+         *-----------------------------------------------------------------------------*/
+        void *get_var(std::string name)                     { return var[name];         }
+        void set_var(std::string name, void *thing)         {        var[name] = thing; }
+        /*-----------------------------------------------------------------------------
+         *                                STORAGE
+         *-----------------------------------------------------------------------------*/
+        bool is_full() const
+        {
+            return space_free() == 0;
+        }
+        bool is_empty() const
+        {
+            return items.empty();
+        }
+
+        // returns true if this is storing a liquid
+        bool has_liquid() const;
+        // returns true if storing food
+        bool has_food() const;
+        bool has_space_for(const item &thing) const;
+        unsigned int space_used() const;
+        unsigned int space_free() const;
+        /*-----------------------------------------------------------------------------
+         *                                  JSON
+         *-----------------------------------------------------------------------------*/
+        void save_contents(JsonOut &data) const;
+        void load_contents(JsonObject &json);
 };
 
 class item : public JsonSerializer, public JsonDeserializer
@@ -483,6 +576,7 @@ public:
  bool is_armor() const;
  bool is_book() const;
  bool is_container() const;
+ bool is_storage() const;
  bool is_watertight_container() const;
  bool is_salvageable() const;
  bool is_disassemblable() const;
@@ -525,9 +619,9 @@ public:
      * no components */
     std::string components_to_string() const;
 
- itype_id typeId() const;
- itype* type;
- std::vector<item> contents;
+        itype_id   typeId() const;
+        itype      *type;
+        storage    contents;
 
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
@@ -879,10 +973,10 @@ public:
         std::list<item> remove_items_with( T filter )
         {
             std::list<item> result;
-            for( auto it = contents.begin(); it != contents.end(); ) {
+            for(auto it = contents.begin(); it != contents.end();) {
                 if( filter( *it ) ) {
                     result.push_back( std::move( *it ) );
-                    it = contents.erase( it );
+                    it = contents.rem( it );
                 } else {
                     result.splice( result.begin(), it->remove_items_with( filter ) );
                     ++it;

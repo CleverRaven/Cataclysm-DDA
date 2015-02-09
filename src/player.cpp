@@ -10648,7 +10648,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
-        gun->contents.push_back(i_rem(used));
+        gun->contents.add(i_rem(used));
         return;
 
     } else if (used->is_bionic()) {
@@ -10663,7 +10663,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         read(inventory_position);
         return;
     } else if (used->is_gun()) {
-        std::vector<item> &mods = used->contents;
+        std::vector<item> &mods = used->contents.get();
         // Get weapon mod names.
         if (mods.empty()) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
@@ -10791,7 +10791,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
         weapon->next_mode();
     }
     i_add_or_drop(*gunmod);
-    weapon->contents.erase(weapon->contents.begin()+id);
+    weapon->contents.rem(weapon->contents.begin()+id);
 }
 
 hint_rating player::rate_action_read(item *it)
@@ -12559,7 +12559,7 @@ void player::wield_contents(item *container, bool force_invlet,
         item& weap = container->contents[0];
         inv.assign_empty_invlet(weap, force_invlet);
         wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
+        container->contents.rem(container->contents.begin());
     } else {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
     }
@@ -13168,10 +13168,10 @@ void player::place_corpse()
     while( pow >= 100 ) {
         if( pow >= 250 ) {
             pow -= 250;
-            body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
+            body.contents.add( item( "bio_power_storage_mkII", calendar::turn ) );
         } else {
             pow -= 100;
-            body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
+            body.contents.add( item( "bio_power_storage", calendar::turn ) );
         }
     }
     g->m.add_item_or_charges( posx(), posy(), body );

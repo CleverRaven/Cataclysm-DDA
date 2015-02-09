@@ -6955,7 +6955,7 @@ int iuse::quiver(player *p, item *it, bool, point)
                                  arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
             p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
-            it->contents.erase(it->contents.begin());
+            it->contents.rem(it->contents.begin());
             return it->type->charges_to_use();
         }
     }
@@ -7359,7 +7359,7 @@ int iuse::boots(player *p, item *it, bool, point)
         if (!p->is_armed() || p->wield(NULL)) {
             p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
             p->wield(&(p->i_add(knife)));
-            it->contents.erase(it->contents.begin() + choice - 1);
+            it->contents.rem(it->contents.begin() + choice - 1);
         }
     } else if ((it->contents.empty() && choice == 1) || // Put 1st
                (it->contents.size() == 1 && choice == 2)) { // Put 2st
@@ -8873,7 +8873,7 @@ int iuse::radiocar(player *p, item *it, bool, point)
 
             p->inv.assign_empty_invlet(bomb, true); // force getting an invlet.
             p->i_add(bomb);
-            it->contents.erase(it->contents.begin());
+            it->contents.rem(it->contents.begin());
 
             p->add_msg_if_player(_("You disarmed your RC car"));
         }

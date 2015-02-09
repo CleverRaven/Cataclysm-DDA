@@ -450,10 +450,10 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
-                case 'C': npc_inventory.back().contents.push_back(tmp); break;
+                case 'C': npc_inventory.back().contents.add(tmp);       break;
                 case 'W': last->worn.push_back(tmp);                    break;
                 case 'w': last->weapon = tmp;                           break;
-                case 'c': last->weapon.contents.push_back(tmp);         break;
+                case 'c': last->weapon.contents.add(tmp);               break;
                 }
             }
         } else if ( datatype == '!' ) { // temporary holder for future sanity

@@ -69,8 +69,8 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->make(container_id);
-        it->contents.push_back(item(target_id, calendar::turn));
-        target = &it->contents.back();
+        it->contents.add(item(target_id, calendar::turn));
+        target = &it->contents[it->contents.size()];
     }
     target->active = active;
     if (target_charges > -2) {

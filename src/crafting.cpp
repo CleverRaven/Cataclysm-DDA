@@ -2214,8 +2214,8 @@ void remove_ammo(item *dis_item, player &p)
         }
     }
     while( !dis_item->contents.empty() ) {
-        item tmp = dis_item->contents.front();
-        dis_item->contents.erase( dis_item->contents.begin() );
+        item tmp = dis_item->contents[0];
+        dis_item->contents.rem( dis_item->contents.begin() );
         if( tmp.made_of( LIQUID ) && &p == &g->u ) {
             while( !g->handle_liquid( tmp, false, false ) ) {
                 // Allow selecting several containers

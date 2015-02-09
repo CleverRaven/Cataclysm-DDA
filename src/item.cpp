@@ -194,6 +194,7 @@ void item::init() {
     fridge = 0;
     rot = 0;
     last_rot_check = 0;
+    contents.init(this);
 }
 
 void item::make( const std::string new_type )
@@ -293,7 +294,7 @@ item item::in_its_container()
             // container being suitable (seals, watertight etc.)
             charges = liquid_charges( ret.type->container->contains );
         }
-        ret.contents.push_back(*this);
+        ret.contents.add(*this);
         ret.invlet = invlet;
         return ret;
     } else {
@@ -408,7 +409,7 @@ bool item::merge_charges( const item &rhs )
 
 void item::put_in(item payload)
 {
-    contents.push_back(payload);
+    contents.add(payload);
 }
 const char ivaresc=001;
 
@@ -638,7 +639,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( is_food() ) {
         food_item = this;
     } else if( is_food_container() ) {
-        food_item = &contents.front();
+        food_item = &contents[0];
     }
     if( food_item != nullptr ) {
         const auto food = dynamic_cast<const it_comest*>( food_item->type );
@@ -966,8 +967,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
                                  get_env_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
-
+        dump->push_back(iteminfo("ARMOR", _("Storage: "), 
+                    string_format(_("%d/"), contents.space_used()), get_storage()));
     }
     if( is_book() ) {
 
@@ -1057,7 +1058,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if( c.preserves ) {
             dump->push_back( iteminfo( "CONTAINER", _( "This container preserves its contents from spoiling." ) ) );
         }
-        dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+        if( c.stores ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container can store other items inside of it." ) ) );
+        } else {
+            dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+        }
     }
     if( is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
@@ -1743,19 +1748,20 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
-    } else if (contents.size() == 1) {
-        if(contents[0].made_of(LIQUID)) {
+    } else if(!contents.is_empty()) {
+        if(contents.has_liquid()) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
-        } else if (contents[0].is_food()) {
+        } else if(contents.has_food()) {
             maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname(contents[0].charges, with_prefix).c_str()) :
                                                  rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname( quantity, with_prefix ).c_str());
+        } else if(is_storage()) {
+                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), contents.space_used(), get_storage());
         } else {
             maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         }
-    }
-    else if (!contents.empty()) {
+    } else if (contents.is_full()) {
         maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
         maintext = type_name(quantity);
@@ -1840,7 +1846,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
+    /* This is a string to construct the item name as it is displayed. 
+     * This format string has been added for maximum flexibility.
+     * The strings are:
+     *      %1$s: Damage text (eg. "bruised").
+     *      %2$s: burn adjectives (eg. "burnt").
+     *      %3$s: sided adjectives (eg. "left").
+     *      %4$s: tool modifier text (eg. "atomic").
+     *      %5$s: vehicle part text (eg. "3.8-Liter").
+     *      %6$s: main item text (eg. "apple").
+     *      %7$s: tags (eg. "(wet) (fits)").
+     */
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
                         sidedtext.c_str(), toolmodtext.c_str(),
                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
@@ -2919,6 +2935,16 @@ bool item::is_container() const
     return type->container.get() != nullptr;
 }
 
+bool item::is_storage() const
+{
+    if(type->container) {
+        return type->container->stores;
+    } else if(type->armor) {
+        return type->armor->storage > 0;
+    }
+    return false;
+}
+
 bool item::is_watertight_container() const
 {
     return type->container && type->container->watertight && type->container->seals;
@@ -3837,7 +3863,7 @@ bool item::reload(player &u, int pos)
         }
         if (ammo_to_use->charges == 0) {
             if (ammo_container != NULL) {
-                ammo_container->contents.erase(ammo_container->contents.begin());
+                ammo_container->contents.rem(ammo_container->contents.begin());
                 // We just emptied a container, which might be part of stack,
                 // but empty and non-empty containers should not stack, force
                 // a re-stacking.
@@ -4075,7 +4101,7 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
     return L_ERR_NONE;
 }
 
-// Remaining capacity for currently stored liquid in container - do not call for empty container
+// Remaining capacity for currently stored thing[s] in container - do not call for empty container
 int item::get_remaining_capacity() const
 {
     const auto total_capacity = contents[0].liquid_charges( type->container->contains );
@@ -4111,7 +4137,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     bool used_item_contents = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, use_container, used)) {
-            a = contents.erase(a);
+            a = contents.rem(a);
             used_item_contents = true;
         } else {
             ++a;
@@ -4194,7 +4220,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_charges(it, quantity, used)) {
-            a = contents.erase(a);
+            a = contents.rem(a);
         } else {
             ++a;
         }
@@ -4895,7 +4921,7 @@ bool item::process( player *carrier, point pos, bool activate )
             it->last_rot_check = calendar::turn;
         }
         if( it->process( carrier, pos, activate ) ) {
-            it = contents.erase( it );
+            it = contents.rem( it );
         } else {
             ++it;
         }
@@ -5083,3 +5109,89 @@ bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
 }
+
+/*-----------------------------------------------------------------------------
+ *  storage functions
+ *-----------------------------------------------------------------------------*/
+typedef std::vector<item>::iterator                                item_iterator;
+typedef std::vector<item>::const_iterator                    item_const_iterator;
+
+storage::storage(item *self, item_iterator start, item_iterator stop)
+{
+    me = self;
+    items.insert(items.begin(), start, stop);
+}
+
+item *storage::add(const item &thing)
+{
+    items.push_back(thing);
+    return &items[items.size()-1];
+}
+
+std::vector<item *> storage::add(std::vector<item> things, size_t index)
+{
+    return add(things.begin(), things.end(), index);
+}
+
+std::vector<item *> storage::add(item_iterator start, item_iterator stop, size_t index)
+{
+    std::vector<item *> pointers;
+    auto pos = (items.begin() + index);
+    items.insert(pos, start, stop);
+    for(; pos != items.end(); ++pos) {
+        pointers.push_back(&(*pos));
+    }
+    return pointers;
+}
+
+item storage::rem(size_t index)
+{
+    auto elem = items[index];
+    items.erase(items.begin() + index);
+    return elem;
+}
+
+item_iterator storage::rem(item_iterator iter)
+{
+    return items.erase(iter);
+}
+
+std::vector<item> storage::rem(item_iterator start, item_iterator stop)
+{
+    std::vector<item> things;
+    for(auto pos = start; ((pos != stop) && (pos != items.end())); ++pos) {
+        things.push_back(*pos);
+    }
+    items.erase(start, stop);
+    return things;
+}
+
+unsigned int storage::space_used() const
+{
+    int storage_used = 0;
+    for(auto &thing : items) {
+        storage_used += thing.volume();
+    }
+    return storage_used;
+}
+
+unsigned int storage::space_free() const
+{
+    return (me->get_storage() - space_used());
+}
+
+bool storage::has_liquid() const
+{
+    return items[0].made_of("LIQUID");
+}
+
+bool storage::has_food() const
+{
+    return items[0].is_food();
+}
+
+bool storage::has_space_for(const item &thing) const
+{
+    return (thing.volume() <= space_free());
+}
+
