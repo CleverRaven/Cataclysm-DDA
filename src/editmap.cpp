@@ -1680,19 +1680,19 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
                             memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
+
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
                                     destsm->itm[x][y].swap( srcsm->itm[x][y] );
                                     destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
+                                    destsm->comp[x][y] = srcsm->comp[x][y];
                                 }
                             }
-
                             // various misc variables
                             destsm->active_items = srcsm->active_items;
 
                             destsm->temperature = srcsm->temperature;
                             destsm->turn_last_touched = int(calendar::turn);
-                            destsm->comp = srcsm->comp;
                             destsm->camp = srcsm->camp;
 
                             if ( spawns_todo > 0 ) {                              // trigger spawnpoints

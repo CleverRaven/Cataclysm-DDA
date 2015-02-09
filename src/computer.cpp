@@ -16,6 +16,59 @@
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 
+void initialize_computer_maps()
+{
+    string_to_action["null"] = COMPACT_NULL;
+    string_to_action["open"] = COMPACT_OPEN;
+    string_to_action["lock"] = COMPACT_LOCK;
+    string_to_action["unlock"] = COMPACT_UNLOCK;
+    string_to_action["toll"] = COMPACT_TOLL;
+    string_to_action["sample"] = COMPACT_SAMPLE;
+    string_to_action["release"] = COMPACT_RELEASE;
+    string_to_action["release_bionics"] = COMPACT_RELEASE_BIONICS;
+    string_to_action["terminate"] = COMPACT_TERMINATE;
+    string_to_action["portal"] = COMPACT_PORTAL;
+    string_to_action["cascade"] = COMPACT_CASCADE;
+    string_to_action["research"] = COMPACT_RESEARCH;
+    string_to_action["maps"] = COMPACT_MAPS;
+    string_to_action["maps_sewer"] = COMPACT_MAP_SEWER;
+    string_to_action["miss_launch"] = COMPACT_MISS_LAUNCH;
+    string_to_action["miss_disarm"] = COMPACT_MISS_DISARM;
+    string_to_action["list_bionics"] = COMPACT_LIST_BIONICS;
+    string_to_action["elevator_on"] = COMPACT_ELEVATOR_ON;
+    string_to_action["amigara_log"] = COMPACT_AMIGARA_LOG;
+    string_to_action["amigara_start"] = COMPACT_AMIGARA_START;
+    string_to_action["download"] = COMPACT_DOWNLOAD_SOFTWARE;
+    string_to_action["blood_analysis"] = COMPACT_BLOOD_ANAL;
+    string_to_action["data_analysis"] = COMPACT_DATA_ANAL;
+    string_to_action["disconnect"] = COMPACT_DISCONNECT;
+    string_to_action["stemcell"] = COMPACT_STEMCELL_TREATMENT;
+    string_to_action["emerg_mess"] = COMPACT_EMERG_MESS;
+    string_to_action["tower_unresponsive"] = COMPACT_TOWER_UNRESPONSIVE;
+    string_to_action["sr1_mess"] = COMPACT_SR1_MESS;
+    string_to_action["sr2_mess"] = COMPACT_SR2_MESS;
+    string_to_action["sr3_mess"] = COMPACT_SR3_MESS;
+    string_to_action["sr4_mess"] = COMPACT_SR4_MESS;
+    string_to_action["srcf1_mess"] = COMPACT_SRCF_1_MESS;
+    string_to_action["srcf2_mess"] = COMPACT_SRCF_2_MESS;
+    string_to_action["srcf3_mess"] = COMPACT_SRCF_3_MESS;
+    string_to_action["srcf_seal_order"] = COMPACT_SRCF_SEAL_ORDER;
+    string_to_action["srcf_seal"] = COMPACT_SRCF_SEAL;
+    string_to_action["srcf_elevator"] = COMPACT_SRCF_ELEVATOR;
+
+    string_to_failure["null"] = COMPFAIL_NULL;
+    string_to_failure["shutdown"] = COMPFAIL_SHUTDOWN;
+    string_to_failure["alarm"] = COMPFAIL_ALARM;
+    string_to_failure["manhacks"] = COMPFAIL_MANHACKS;
+    string_to_failure["secubots"] = COMPFAIL_SECUBOTS;
+    string_to_failure["damage"] = COMPFAIL_DAMAGE;
+    string_to_failure["pump_explode"] = COMPFAIL_PUMP_EXPLODE;
+    string_to_failure["pump_leak"] = COMPFAIL_PUMP_LEAK;
+    string_to_failure["amigara"] = COMPFAIL_AMIGARA;
+    string_to_failure["destroy_blood"] = COMPFAIL_DESTROY_BLOOD;
+    string_to_failure["destroy_data"] = COMPFAIL_DESTROY_DATA;
+}
+
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
     security = 0;
@@ -52,6 +105,17 @@ computer &computer::operator=(const computer &rhs)
     w_terminal = NULL;
     w_border = NULL;
     return *this;
+}
+
+computer::computer(const computer& rhs)
+{
+    security = rhs.security;
+    name = rhs.name;
+    mission_id = rhs.mission_id;
+    options = rhs.options;
+    failures = rhs.failures;
+    w_terminal = NULL;
+    w_border = NULL;
 }
 
 void computer::set_security(int Security)
@@ -1414,4 +1478,37 @@ void computer::load_lab_note(JsonObject &jsobj)
 void computer::clear_lab_notes()
 {
     lab_notes.clear();
+}
+
+computer computer::fromJson(JsonObject &jo)
+{
+    // initialize the maps if they haven't been already, will probably move later
+    if (string_to_action.size() == 0){
+        initialize_computer_maps();
+    }
+
+    std::string name = jo.get_string("name", DEFAULT_COMPUTER_NAME);
+    int security = jo.get_int("security", 0);
+
+    computer c(name, security);
+
+    JsonArray option_array = jo.get_array("options");
+    while(option_array.has_more()){
+        JsonObject option_object = option_array.next_object();
+        std::string prompt = option_object.get_string("prompt", _("Unknown"));
+        std::string action = option_object.get_string("action", "null");
+        int option_security = option_object.get_int("security", 0);
+
+        c.add_option(prompt, string_to_action[action], option_security);
+    }
+
+    JsonArray failure_array = jo.get_array("failures");
+    while(failure_array.has_more()){
+        JsonObject failure_object = failure_array.next_object();
+        std::string failure = failure_object.get_string("failure", "null");
+
+        c.add_failure(string_to_failure[failure]);
+    }
+
+    return c;
 }

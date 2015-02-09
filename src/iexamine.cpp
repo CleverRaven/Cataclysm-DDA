@@ -21,6 +21,30 @@ void iexamine::none(player *p, map *m, int examx, int examy)
     add_msg(_("That is a %s."), m->name(examx, examy).c_str());
 }
 
+void iexamine::console (player *p, map *m, int examx, int examy)
+{
+    if (p->has_trait("ILLITERATE")) {
+        add_msg(m_info, _("You can not read a computer screen!"));
+        return;
+    }
+
+    if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+        && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
+        add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
+        return;
+    }
+
+    computer* c = m->computer_at(examx, examy);
+
+    if (c == NULL){
+        debugmsg("used computer at %d, %d, none found", examx, examy);
+    }
+
+    c->use();
+
+    g->refresh_all();
+}
+
 void iexamine::gaspump(player *p, map *m, int examx, int examy)
 {
     if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
@@ -2957,6 +2981,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
 {
     if ("none" == function_name) {
         return &iexamine::none;
+    }
+    if ("console" == function_name) {
+        return &iexamine::console;
     }
     if ("gaspump" == function_name) {
         return &iexamine::gaspump;

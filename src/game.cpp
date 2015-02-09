@@ -6540,33 +6540,6 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
     return;
 }
 
-void game::use_computer(int x, int y)
-{
-    if (u.has_trait("ILLITERATE")) {
-        add_msg(m_info, _("You can not read a computer screen!"));
-        return;
-    }
-
-    if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
-        add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
-        return;
-    }
-
-    computer *used = m.computer_at(x, y);
-
-    if (used == NULL) {
-        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
-            x << ", " << y << ") - none there";
-        debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
-        return;
-    }
-
-    used->use();
-
-    refresh_all();
-}
-
 void game::resonance_cascade(int x, int y)
 {
     int maxglow = 100 - 5 * trig_dist(x, y, u.posx(), u.posy());
@@ -7970,10 +7943,6 @@ void game::examine(int examx, int examy)
         return;
     }
 
-    if (m.has_flag("CONSOLE", examx, examy)) {
-        use_computer(examx, examy);
-        return;
-    }
     const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
     const ter_t *xter_t = &terlist[m.ter(examx, examy)];
     iexamine xmine;

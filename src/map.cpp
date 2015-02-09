@@ -3821,15 +3821,17 @@ void map::remove_field(const int x, const int y, const field_id field_to_remove)
 
 computer* map::computer_at(const int x, const int y)
 {
- if (!INBOUNDS(x, y))
-  return NULL;
+    if (!INBOUNDS(x, y)){
+        return NULL;
+    }
 
- submap * const current_submap = get_submap_at(x, y);
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- if (current_submap->comp.name == "") {
-  return NULL;
- }
- return &(current_submap->comp);
+    if (current_submap->comp[lx][ly].name == "") {
+        return NULL;
+    }
+    return &(current_submap->comp[lx][ly]);
 }
 
 bool map::allow_camp(const int x, const int y, const int radius)

@@ -400,6 +400,8 @@ struct submap {
 
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
+    computer           comp[SEEX][SEEY];
+
     active_item_cache active_items;
 
     int field_count = 0;
@@ -413,7 +415,6 @@ struct submap {
      * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
-    computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();

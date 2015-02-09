@@ -67,6 +67,10 @@ enum computer_failure {
     NUM_COMPUTER_FAILURES
 };
 
+void initialize_computer_maps();
+static std::map<std::string, computer_action> string_to_action;
+static std::map<std::string, computer_failure> string_to_failure;
+
 struct computer_option {
     std::string name;
     computer_action action;
@@ -88,6 +92,7 @@ class computer
         ~computer();
 
         computer &operator=(const computer &rhs);
+        computer(const computer&);
         // Initialization
         void set_security(int Security);
         void add_option(std::string opt_name, computer_action action, int Security);
@@ -110,7 +115,9 @@ class computer
         static void load_lab_note(JsonObject &jsobj);
         static void clear_lab_notes();
 
-    private:
+        static computer fromJson(JsonObject &jo);
+
+//    private:
         // Difficulty of simply logging in
         int security;
         // Things we can do

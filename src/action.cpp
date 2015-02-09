@@ -456,9 +456,6 @@ bool can_examine_at(int x, int y)
     if (veh) {
         return true;
     }
-    if (g->m.has_flag("CONSOLE", x, y)) {
-        return true;
-    }
     const furn_t *xfurn_t = &furnlist[g->m.furn(x, y)];
     const ter_t *xter_t = &terlist[g->m.ter(x, y)];
 
