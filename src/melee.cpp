@@ -1313,7 +1313,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     
     //can not block if player is unarmed and can not limb block
     
-    if (!player::is_armed() && !can_limb_block()) {
+    if (!is_armed() && !can_limb_block()) {
         return false;
     }
     blocks_left--;
