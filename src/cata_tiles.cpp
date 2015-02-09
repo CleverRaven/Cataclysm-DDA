@@ -780,8 +780,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile->multitile) {
-        std::vector<std::string> display_subtiles = display_tile->available_subtiles;
-        if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
+        auto const &display_subtiles = display_tile->available_subtiles;
+        auto const end = std::end(display_subtiles);
+        if (std::find(begin(display_subtiles), end, multitile_keys[subtile]) != end) {
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
                 std::move(id.append("_", 1).append(multitile_keys[subtile])),x, y, -1, rota);
