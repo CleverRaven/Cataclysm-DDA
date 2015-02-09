@@ -1628,6 +1628,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(9, 10, color, health_bar, true);
+
+                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1637,6 +1643,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(9-damage*2, 10, color, health_bar, true);
+
+                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
+
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }

@@ -4091,13 +4091,13 @@ void game::write_memorial_file(std::string sLastWords)
     constexpr size_t suffix_len   = 24 + 1;
     constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
 
-    size_t const name_len = u.name.size();    
+    size_t const name_len = u.name.size();
     // Here -1 leaves space for the ~
     size_t const truncated_name_len = (name_len >= max_name_len) ? (max_name_len - 1) : name_len;
 
-    std::ostringstream memorial_file_path;    
+    std::ostringstream memorial_file_path;
     memorial_file_path << memorial_dir;
-    
+
     // Use the default locale to replace non-printable characters with _ in the player name.
     std::locale locale {"C"};
     std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
@@ -9426,7 +9426,7 @@ int game::list_items(const int iLastState)
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
-                        mvwprintz(w_items, iNum - iStartPos, 1,
+                        fold_and_print(w_items, iNum - iStartPos, 1, 40,
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
