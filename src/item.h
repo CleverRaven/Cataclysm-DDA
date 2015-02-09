@@ -169,8 +169,8 @@ class storage
         // returns true if storing food
         bool has_food() const;
         bool has_space_for(const item &thing) const;
-        unsigned int space_used() const;
-        unsigned int space_free() const;
+        int space_used() const;
+        int space_free() const;
         /*-----------------------------------------------------------------------------
          *                                  JSON
          *-----------------------------------------------------------------------------*/

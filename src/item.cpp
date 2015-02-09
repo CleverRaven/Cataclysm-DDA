@@ -5166,7 +5166,7 @@ std::vector<item> storage::rem(item_iterator start, item_iterator stop)
     return things;
 }
 
-unsigned int storage::space_used() const
+int storage::space_used() const
 {
     int storage_used = 0;
     for(auto &thing : items) {
@@ -5175,7 +5175,7 @@ unsigned int storage::space_used() const
     return storage_used;
 }
 
-unsigned int storage::space_free() const
+int storage::space_free() const
 {
     return (me->get_storage() - space_used());
 }
