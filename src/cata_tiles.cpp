@@ -641,7 +641,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
    
     std::string seasonal_id;
     seasonal_id.reserve(id.size() + suffix_len);
-    seasonal_id.append(id).append(season_suffix[calendar::turn.get_season()], suffix_len);
+    seasonal_id.append(id).append(season_suffix[calendar::turn.get_season()], suffix_len - 1);
 
     tile_id_iterator it = tile_ids.find(seasonal_id);
     if (it == tile_ids.end()) {
