@@ -2882,55 +2882,72 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             case 1: // Stats tab
                 mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
                 mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
+
+                // Clear bonus/penalty menu.
+                mvwprintz(w_stats, 6, 0, c_ltgray, "%26s", "");
+                mvwprintz(w_stats, 7, 0, c_ltgray, "%26s", "");
+                mvwprintz(w_stats, 8, 0, c_ltgray, "%26s", "");
+
                 if (line == 0) {
-                    // display player current STR effects
+                    // Display player current strength effects
                     mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "), hp_max[1]);
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "),
-                              convert_weight(weight_capacity()),
-                              OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
-                              base_damage(false));
+                    // xgettext:range: 1..21
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP:"));
+                    mvwprintz(w_stats, 6, 22, c_magenta, "%3d", hp_max[1]);
+                    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
+                        // xgettext:range: 1..19
+                        mvwprintz(w_stats, 7, 1, c_magenta, "Carry weight(kg):");
+                    } else {
+                        // xgettext:range: 1..19
+                        mvwprintz(w_stats, 7, 1, c_magenta, "Carry weight(lbs):");
+                    }
+                    mvwprintz(w_stats, 7, 21, c_magenta, "%4.1f", convert_weight(weight_capacity()));
+                    // xgettext:range: 1..21
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage:"));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%3d", base_damage(false));
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                      "your resistance to many diseases, and the effectiveness of actions which require brute force."));
                 } else if (line == 1) {
-                    // display player current DEX effects
+                    // Display player current dexterity effects
                     mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus: +%d                      "),
-                              base_to_hit(false));
-                    mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_dex_mod()));
-                    mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
+
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus:"));
+                    mvwprintz(w_stats, 6, 22, c_magenta, "%+3d", base_to_hit(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty:"));
+                    mvwprintz(w_stats, 7, 21, c_magenta, "%+4d", -(abs(ranged_dex_mod())));
                     if (throw_dex_mod(false) <= 0) {
-                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
-                        abs(throw_dex_mod(false)));
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus:"));
                     } else {
-                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty: -%d"),
-                        abs(throw_dex_mod(false)));
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty:"));
                     }
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%+3d", -(throw_dex_mod(false)));
+
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Dexterity affects your chance to hit in melee combat, helps you steady your "
                      "gun for ranged combat, and enhances many actions that require finesse."));
                 } else if (line == 2) {
-                    // display player current INT effects
+                    // Display player current intelligence effects
                     mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "), read_speed(false));
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), get_int());
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Read times:"));
+                    mvwprintz(w_stats, 6, 21, c_magenta, "%3d%%", read_speed(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust:"));
+                    mvwprintz(w_stats, 7, 22, c_magenta, "%2d%%", rust_rate(false));
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus:"));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%2d%%", get_int());
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Intelligence is less important in most situations, but it is vital for more complex tasks like "
                      "electronics crafting. It also affects how much skill you can pick up from reading a book."));
                 } else if (line == 3) {
-                    // display player current PER effects
+                    // Display player current perception effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
-                    mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_per_mod()),"          ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
-                    mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
+                    mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty:"));
+                    mvwprintz(w_stats, 6, 21, c_magenta, "%+4d", -(abs(ranged_per_mod())));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level:"));
+                    mvwprintz(w_stats, 7, 23, c_magenta, "%2d", get_per());
+
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Perception is the most important stat for ranged combat. It's also used for "
                      "detecting traps and other things of interest."));
