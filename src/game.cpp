@@ -9052,7 +9052,7 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
 }
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state(WINDOW *window, int height)
+void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 {
     const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++) {
@@ -9076,6 +9076,18 @@ void game::reset_item_list_state(WINDOW *window, int height)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
+    std::string sSort = "<s>ort: ";
+
+    if ( bRadiusSort ) {
+        sSort += _("dist");
+    } else {
+        sSort += _("cat");
+    }
+
+    int letters = utf8_width(sSort.c_str());
+
+    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
+
     std::vector<std::string> tokens;
     if (sFilter != "") {
         tokens.push_back(_("<R>eset"));
@@ -9087,7 +9099,7 @@ void game::reset_item_list_state(WINDOW *window, int height)
     tokens.push_back(_("<+/->Priority"));
 
     int gaps = tokens.size() + 1;
-    int letters = 0;
+    letters = 0;
     int n = tokens.size();
     for (int i = 0; i < n; i++) {
         letters += utf8_width(tokens[i].c_str()) - 2; //length ignores < >
@@ -9271,8 +9283,8 @@ int game::list_items(const int iLastState)
     bool reset = true;
     bool refilter = true;
     bool addcategory = false;
-    int iFilter = 0;
     int iPage = 0;
+    int iCatSortNum = 0;
     std::map<int, std::string> vSortCategory;
 
     std::string action;
@@ -9303,6 +9315,7 @@ int game::list_items(const int iLastState)
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 reset = true;
                 refilter = true;
+                addcategory = !bRadiusSort;
             } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
@@ -9310,6 +9323,7 @@ int game::list_items(const int iLastState)
                 iLastActiveY = INT_MIN;
                 reset = true;
                 refilter = true;
+                addcategory = !bRadiusSort;
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 item oThisItem = filtered_items[iActive].example;
                 std::vector<iteminfo> vThisItem, vDummy;
@@ -9327,11 +9341,13 @@ int game::list_items(const int iLastState)
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
+                addcategory = !bRadiusSort;
             } else if (action == "PRIORITY_DECREASE") {
                 std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
+                addcategory = !bRadiusSort;
             } else if (action == "SORT") {
                 if ( bRadiusSort ) {
                     bRadiusSort = false;
@@ -9343,17 +9359,19 @@ int game::list_items(const int iLastState)
 
                     ground_items = ground_items_radius;
                     iItemNum = ground_items.size();
-                    vSortCategory.clear();
                 }
 
                 highPEnd = -1;
                 lowPStart = -1;
 
+                vSortCategory.clear();
                 refilter = true;
                 reset = true;
             }
 
             if (refilter) {
+                refilter = false;
+
                 filtered_items = filter_item_stacks(ground_items, sFilter);
                 highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
                 lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
@@ -9361,49 +9379,42 @@ int game::list_items(const int iLastState)
                 iPage = 0;
                 iLastActiveX = INT_MIN;
                 iLastActiveY = INT_MIN;
-                refilter = false;
+                iItemNum = filtered_items.size();
             }
 
             if ( addcategory ) {
                 addcategory = false;
-                int iNum = 0;
                 std::string sLastCategoryName = "";
-
-                std::stringstream ssTemp;
-                ssTemp << highPEnd;
+                iCatSortNum = 0;
+                vSortCategory.clear();
 
                 if ( highPEnd > 0 ) {
-                    vSortCategory[0] = "HIGH PRIORITY" + ssTemp.str();
-                    iNum++;
-                }
-
-                ssTemp.str("");
-                ssTemp << lowPStart;
-
-                if ( lowPStart <= (int)ground_items.size() ) {
-                    vSortCategory[lowPStart] = "LOW PRIORITY" + ssTemp.str();
-                    iNum++;
+                    vSortCategory[0] = _("HIGH PRIORITY");
+                    iCatSortNum++;
                 }
 
                 const int iStart = (highPEnd > 0) ? highPEnd : 0;
-                const int iEnd = (lowPStart < (int)ground_items.size()) ? lowPStart : ground_items.size() ;
+                const int iEnd = (lowPStart < (int)filtered_items.size()) ? lowPStart : filtered_items.size() ;
 
                 for (int i=iStart; i < iEnd; i++) {
-                    if ( ground_items[i].example.get_category().name != sLastCategoryName ) {
-                        sLastCategoryName = ground_items[i].example.get_category().name;
+                    if ( filtered_items[i].example.get_category().name != sLastCategoryName ) {
+                        sLastCategoryName = filtered_items[i].example.get_category().name;
+                        vSortCategory[i + iCatSortNum] = _(sLastCategoryName.c_str());
 
-                        ssTemp.str("");
-                        ssTemp << i;
-
-                        vSortCategory[i] = sLastCategoryName + ssTemp.str();
+                        iCatSortNum++;
                     }
                 }
 
-                iItemNum = ground_items.size() + iNum;
+                if ( lowPStart < (int)filtered_items.size() ) {
+                    vSortCategory[lowPStart + iCatSortNum] = _("LOW PRIORITY");
+                    iCatSortNum++;
+                }
+
+                iItemNum = filtered_items.size() + iCatSortNum;
             }
 
             if (reset) {
-                reset_item_list_state(w_items_border, iInfoHeight);
+                reset_item_list_state(w_items_border, iInfoHeight, bRadiusSort);
                 reset = false;
             }
 
@@ -9411,12 +9422,12 @@ int game::list_items(const int iLastState)
                 iActive--;
                 iPage = 0;
                 if (iActive < 0) {
-                    iActive = iItemNum - iFilter - 1;
+                    iActive = iItemNum - 1;
                 }
             } else if (action == "DOWN") {
                 iActive++;
                 iPage = 0;
-                if (iActive >= iItemNum - iFilter) {
+                if (iActive >= iItemNum) {
                     iActive = 0;
                 }
             } else if (action == "RIGHT") {
@@ -9436,16 +9447,15 @@ int game::list_items(const int iLastState)
             }
 
             if (ground_items.empty() && iLastState == 1) {
-                reset_item_list_state(w_items_border, iInfoHeight);
+                reset_item_list_state(w_items_border, iInfoHeight, bRadiusSort);
                 wrefresh(w_items_border);
                 mvwprintz(w_items, 10, 2, c_white, _("You dont see any items around you!"));
             } else {
                 werase(w_items);
 
-                calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
+                calcStartPos(iStartPos, iActive, iMaxRows, iItemNum);
 
                 int iNum = 0;
-                iFilter = ground_items.size() - filtered_items.size();
                 iActiveX = 0;
                 iActiveY = 0;
                 item activeItem;
@@ -9456,19 +9466,28 @@ int game::list_items(const int iLastState)
                 int iCatSortOffset = 0;
                 bool bReduceIter = false;
 
+                for (int i=0; i < iStartPos; i++) {
+                    if (vSortCategory[i] != "") {
+                        iNum++;
+                    }
+                }
+
                 for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
                      iter != filtered_items.end();
                      ++iter, ++index) {
 
-                    if (bReduceIter) {
+                    if ( bReduceIter ) {
                         bReduceIter = false;
                         --iter;
                     }
 
-                    if (index + iCatSortOffset == highPEnd) {
-                        high = false;
-                    } else if (index + iCatSortOffset == lowPStart) {
+                    if ( index < highPEnd + iCatSortOffset ) {
+                        high = true;
+                    } else if ( index >= lowPStart + iCatSortOffset ) {
                         low = true;
+                    } else {
+                        high = false;
+                        low = false;
                     }
 
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows)) {
@@ -9514,12 +9533,17 @@ int game::list_items(const int iLastState)
                         }
                     }
 
+                    if ( bReduceIter && index > 0 ) {
+                        bReduceIter = false;
+                        --iter;
+                    }
+
                     iNum++;
                 }
 
-                mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive + 1);
-                wprintz(w_items_border, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+                mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum > 9) ? 0 : 1),
+                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive + 1);
+                wprintz(w_items_border, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
 
                 werase(w_item_info);
                 //fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
@@ -9537,7 +9561,7 @@ int game::list_items(const int iLastState)
                     draw_trail_to_square(iActiveX, iActiveY, true);
                 }
                 //Draw Scrollbar
-                draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum - iFilter, 1);
+                draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum, 1);
             }
 
             for (int j = 0; j < iInfoHeight - 1; j++) {
