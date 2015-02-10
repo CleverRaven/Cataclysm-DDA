@@ -59,7 +59,7 @@ public:
     disease() : type("null") { }
 
     disease(std::string t, int const d, int const i, body_part const part, bool const perm, int const dec)
-        : type {std::move(t)}, duration {d}, intensity {i}, bp {part}, permanent {perm}, decay {dec}
+        : type {std::move(t)}, intensity {i}, duration {d}, decay {dec}, bp {part}, permanent {perm}
     {
     }
 
