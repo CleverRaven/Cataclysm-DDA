@@ -325,11 +325,15 @@ void reset_mapgens()
 ///// 2 - right after init() finishes parsing all game json and terrain info/etc is set..
 /////   ...parse more json! (mapgen_function_json)
 
-/* same as map's 'nonant' but variable
- * todo; less silly name
- */
-int wtf_mean_nonant(const int y, const int x, const int mapsize = 24) {
-    return ( y * mapsize ) + x;
+size_t mapgen_function_json::calc_index( const size_t x, const size_t y) const
+{
+    if( x >= mapgensize ) {
+        debugmsg( "invalid value %d for x in mapgen_function_json::calc_index", x );
+    }
+    if( y >= mapgensize ) {
+        debugmsg( "invalid value %d for y in mapgen_function_json::calc_index", y );
+    }
+    return y * mapgensize + x;
 }
 
 bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
@@ -707,18 +711,18 @@ bool mapgen_function_json::setup() {
             c=0;
             while ( parray.has_more() ) { // hrm
                 const auto tmpval = parray.next_string();
-                if ( (int)tmpval.size() != mapgensize ) {
+                if ( tmpval.size() != mapgensize ) {
                     parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
                 for ( size_t i = 0; i < tmpval.size(); i++ ) {
                     tmpkey=(int)tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
-                        format[ wtf_mean_nonant(c, i) ].ter = format_terrain[ tmpkey ];
+                        format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
                         parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
-                        format[ wtf_mean_nonant(c, i) ].furn = format_furniture[ tmpkey ];
+                        format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
                     }
                 }
                 c++;

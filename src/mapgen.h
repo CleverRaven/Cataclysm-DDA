@@ -179,8 +179,10 @@ class mapgen_function_json : public virtual mapgen_function {
         delete[] format;
     }
 
+    size_t calc_index( size_t x, size_t y ) const;
+
     std::string jdata;
-    int mapgensize;
+    size_t mapgensize;
     int fill_ter;
     ter_furn_id * format;
     std::vector<jmapgen_setmap> setmap_points;
