@@ -1414,6 +1414,22 @@
     },
     {
         "type" : "keybinding",
+        "id":"SORT",
+        "category":"LIST_ITEMS",
+        "name":"Change sort order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REASSIGN",
         "category":"BIONICS",
         "name":"reassign invlet",

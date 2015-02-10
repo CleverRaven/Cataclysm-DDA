@@ -9073,7 +9073,7 @@ void game::reset_item_list_state(WINDOW *window, int height)
     mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray, LINE_XOXX); // -|
 
-    mvwprintz(window, 0, 2, c_ltgreen, "<Tab>  ");
+    mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
     std::vector<std::string> tokens;
@@ -9107,12 +9107,12 @@ void game::reset_item_list_state(WINDOW *window, int height)
 }
 
 //returns the first non priority items.
-int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities)
+int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::string priorities)
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
     for(auto it = stack.begin(); it != stack.end();) {
-        if (prorities == "" || !list_items_match(it->example, prorities)) {
+        if (priorities == "" || !list_items_match(it->example, priorities)) {
             tempstack.push_back(*it);
             it = stack.erase(it);
         } else {
@@ -9128,12 +9128,12 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
 }
 
 int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start,
-                                   std::string prorities)
+                                   std::string priorities)
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
     for (auto it = stack.begin() + start; it != stack.end();) {
-        if(prorities != "" && list_items_match(it->example, prorities)) {
+        if(priorities != "" && list_items_match(it->example, priorities)) {
             tempstack.push_back(*it);
             it = stack.erase(it);
         } else {
@@ -9239,15 +9239,18 @@ int game::list_items(const int iLastState)
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
 
+    bool bRadiusSort = true;
+
     //this stores the items found, along with the coordinates
-    std::vector<map_item_stack> ground_items = find_nearby_items(iRadius);
+    std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
+    std::vector<map_item_stack> ground_items = ground_items_radius;
     //this stores only those items that match our filter
     std::vector<map_item_stack> filtered_items = (sFilter != "" ?
             filter_item_stacks(ground_items, sFilter) :
             ground_items);
     int highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
     int lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
-    const int iItemNum = ground_items.size();
+    int iItemNum = ground_items.size();
     if (iItemNum > 0) {
         uistate.list_item_mon = 1; // remember we've tabbed here
     }
@@ -9267,8 +9270,10 @@ int game::list_items(const int iLastState)
     int iLastActiveY = INT_MIN;
     bool reset = true;
     bool refilter = true;
+    bool addcategory = false;
     int iFilter = 0;
     int iPage = 0;
+    std::map<int, std::string> vSortCategory;
 
     std::string action;
     input_context ctxt("LIST_ITEMS");
@@ -9286,6 +9291,7 @@ int game::list_items(const int iLastState)
     ctxt.register_action("COMPARE");
     ctxt.register_action("PRIORITY_INCREASE");
     ctxt.register_action("PRIORITY_DECREASE");
+    ctxt.register_action("SORT");
 
     do {
         if (!ground_items.empty() || iLastState == 1) {
@@ -9326,6 +9332,25 @@ int game::list_items(const int iLastState)
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
+            } else if (action == "SORT") {
+                if ( bRadiusSort ) {
+                    bRadiusSort = false;
+                    addcategory = true;
+                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+
+                } else {
+                    bRadiusSort = true;
+
+                    ground_items = ground_items_radius;
+                    iItemNum = ground_items.size();
+                    vSortCategory.clear();
+                }
+
+                highPEnd = -1;
+                lowPStart = -1;
+
+                refilter = true;
+                reset = true;
             }
 
             if (refilter) {
@@ -9337,6 +9362,44 @@ int game::list_items(const int iLastState)
                 iLastActiveX = INT_MIN;
                 iLastActiveY = INT_MIN;
                 refilter = false;
+            }
+
+            if ( addcategory ) {
+                addcategory = false;
+                int iNum = 0;
+                std::string sLastCategoryName = "";
+
+                std::stringstream ssTemp;
+                ssTemp << highPEnd;
+
+                if ( highPEnd > 0 ) {
+                    vSortCategory[0] = "HIGH PRIORITY" + ssTemp.str();
+                    iNum++;
+                }
+
+                ssTemp.str("");
+                ssTemp << lowPStart;
+
+                if ( lowPStart <= (int)ground_items.size() ) {
+                    vSortCategory[lowPStart] = "LOW PRIORITY" + ssTemp.str();
+                    iNum++;
+                }
+
+                const int iStart = (highPEnd > 0) ? highPEnd : 0;
+                const int iEnd = (lowPStart < (int)ground_items.size()) ? lowPStart : ground_items.size() ;
+
+                for (int i=iStart; i < iEnd; i++) {
+                    if ( ground_items[i].example.get_category().name != sLastCategoryName ) {
+                        sLastCategoryName = ground_items[i].example.get_category().name;
+
+                        ssTemp.str("");
+                        ssTemp << i;
+
+                        vSortCategory[i] = sLastCategoryName + ssTemp.str();
+                    }
+                }
+
+                iItemNum = ground_items.size() + iNum;
             }
 
             if (reset) {
@@ -9390,52 +9453,67 @@ int game::list_items(const int iLastState)
                 bool high = true;
                 bool low = false;
                 int index = 0;
+                int iCatSortOffset = 0;
+                bool bReduceIter = false;
+
                 for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
                      iter != filtered_items.end();
                      ++iter, ++index) {
 
-                    if (index == highPEnd) {
-                        high = false;
+                    if (bReduceIter) {
+                        bReduceIter = false;
+                        --iter;
                     }
-                    if (index == lowPStart) {
+
+                    if (index + iCatSortOffset == highPEnd) {
+                        high = false;
+                    } else if (index + iCatSortOffset == lowPStart) {
                         low = true;
                     }
 
-                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ?
-                            iItemNum : iMaxRows)) {
+                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows)) {
                         int iThisPage = 0;
 
-                        if (iNum == iActive) {
-                            iThisPage = iPage;
+                        if ( vSortCategory[iNum] != "" ) {
+                            iCatSortOffset++;
+                            bReduceIter = true;
 
-                            iActiveX = iter->vIG[iThisPage].x;
-                            iActiveY = iter->vIG[iThisPage].y;
+                            mvwprintz(w_items, iNum - iStartPos, 1, ((iNum == iActive) ? c_yellow : c_magenta), "%s", vSortCategory[iNum].c_str());
 
-                            activeItem = iter->example;
+                        } else {
+                            if (iNum == iActive) {
+                                iThisPage = iPage;
+
+                                iActiveX = iter->vIG[iThisPage].x;
+                                iActiveY = iter->vIG[iThisPage].y;
+
+                                activeItem = iter->example;
+                            }
+
+                            sText.str("");
+
+                            if (iter->vIG.size() > 1) {
+                                sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                            }
+
+                            sText << iter->example.tname();
+
+                            if (iter->vIG[iThisPage].count > 1) {
+                                sText << " [" << iter->vIG[iThisPage].count << "]";
+                            }
+
+                            mvwprintz(w_items, iNum - iStartPos, 1,
+                                      ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example.color_in_inventory()))),
+                                      "%s", (sText.str()).c_str());
+                            int numw = iItemNum > 9 ? 2 : 1;
+                            mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
+                                      ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                                      numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
+                                      direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
+                                     );
                         }
-
-                        sText.str("");
-
-                        if (iter->vIG.size() > 1) {
-                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
-                        }
-
-                        sText << iter->example.tname();
-
-                        if (iter->vIG[iThisPage].count > 1) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
-                        }
-
-                        mvwprintz(w_items, iNum - iStartPos, 1,
-                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example.color_in_inventory()))),
-                                  "%s", (sText.str()).c_str());
-                        int numw = iItemNum > 9 ? 2 : 1;
-                        mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
-                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
-                                  direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
-                                 );
                     }
+
                     iNum++;
                 }
 

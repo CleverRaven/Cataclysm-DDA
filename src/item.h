@@ -1008,6 +1008,11 @@ class map_item_stack
             }
             totalcount++;
         }
+
+        static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
+        {
+            return lhs.example.get_category().sort_rank < rhs.example.get_category().sort_rank;
+        }
 };
 
 // Commonly used convenience functions that match an item to one of the 3 common types of locators:
