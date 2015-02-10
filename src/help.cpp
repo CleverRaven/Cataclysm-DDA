@@ -775,23 +775,23 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
 ^>v<        Man-made buildings - The pointed side indicates the front door."));
     mvwprintz(win, 19, 0, c_ltgray, _("\
             There are many others out there... search for them!"));
-    mvwprintz(win, 21, 0,  c_ltgray,  _("            Note colors: "));
-    mvwprintz(win, 21, 27, c_ltgray,  _(",   ,   ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,"));
-    mvwprintz(win, 21, 25, c_brown,   _("br"));
-    mvwprintz(win, 21, 29, c_ltgray,  _("lg"));
-    mvwprintz(win, 21, 33, c_dkgray,  _("dg"));
-    mvwprintz(win, 21, 37, c_ltred,   _("r"));
-    mvwprintz(win, 21, 40, c_red,     _("R"));
-    mvwprintz(win, 21, 43, c_ltgreen, _("g"));
-    mvwprintz(win, 21, 46, c_green,   _("G"));
-    mvwprintz(win, 21, 49, c_ltblue,  _("b"));
-    mvwprintz(win, 21, 52, c_blue,    _("B"));
-    mvwprintz(win, 21, 55, c_white,   _("W"));
-    mvwprintz(win, 21, 58, c_ltcyan,  _("c"));
-    mvwprintz(win, 21, 61, c_cyan,    _("C"));
-    mvwprintz(win, 21, 64, c_pink,    _("P"));
-    mvwprintz(win, 21, 67, c_magenta, _("m"));
+    mvwprintz(win, 20, 0,  c_ltgray,  _("Note colors: "));
+    int row = 20;
+    int column = utf8_width(_("Note colors: "));
+    for( auto color_pair : get_note_color_names() ) {
+        // The color index is not translatable, but the name is.
+        std::string color_description = string_format("%s:%s, ", color_pair.first.c_str(),
+                                                      _(color_pair.second.c_str()));
+        int pair_width = utf8_width( color_description.c_str() );
 
+        if( column + pair_width > getmaxx(win) ) {
+            column = 0;
+            row++;
+        }
+        mvwprintz(win, row, column, get_note_color(color_pair.first),
+                  color_description.c_str());
+        column += pair_width;
+    }
     wrefresh(win);
     refresh();
     getch();

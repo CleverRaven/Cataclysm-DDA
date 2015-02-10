@@ -2940,6 +2940,21 @@ bool item::is_tool() const
     return type->is_tool();
 }
 
+bool item::is_tool_reversible() const
+{
+    const it_tool *source = dynamic_cast<const it_tool *>( type );
+    if( source != nullptr && source->revert_to != "null" ) {
+        item revert( source->revert_to, 0 );
+        npc n;
+        revert.type->invoke( &n, &revert, false, point(-999, -999) );
+        const it_tool *target = dynamic_cast<const it_tool *>( revert.type );
+        if ( target != nullptr ) {
+            return ( source->id == target->id );
+        }
+    }
+    return false;
+}
+
 bool item::is_software() const
 {
     return type->software.get() != nullptr;

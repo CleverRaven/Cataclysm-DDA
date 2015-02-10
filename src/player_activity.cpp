@@ -232,11 +232,13 @@ void player_activity::finish( player *p )
             type = ACT_NULL;
             break;
         case ACT_LONGCRAFT:
-            p->complete_craft();
-            type = ACT_NULL;
             {
                 int batch_size = values.front();
-                if( p->making_would_work( p->lastrecipe, batch_size ) ) {
+                p->complete_craft();
+                // Workaround for a bug where longcraft can be unset in complete_craft().
+                if( type == ACT_LONGCRAFT &&
+                    p->making_would_work( p->lastrecipe, batch_size ) ) {
+                    type = ACT_NULL;
                     p->make_all_craft(p->lastrecipe, batch_size);
                 }
             }

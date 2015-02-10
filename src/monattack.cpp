@@ -2466,24 +2466,6 @@ void mattack::taze( monster *z, Creature *target )
     }
 }
 
-static bool ignore_mutants( monster *z )
-{
-    // Target not human, presumably some weird animal, not worth the ammo
-    // unless the turret's damaged, at which point, shoot to kill
-    // or target is driving a vehicle, because weird animals don't do that
-    if( z->get_hp() == z->get_hp_max() && !g->u.in_vehicle ) {
-        if( g->u.crossed_threshold() && !g->u.has_trait("THRESH_ALPHA") ) {
-            if( g->u.sees( *z ) && one_in(10) ) {
-                add_msg(m_info, _("The %s doesn't seem to consider you a target at the moment."),
-                        z->name().c_str());
-            }
-            z->moves -= 100;
-            return true;
-        }
-    }
-    return false;
-}
-
 void mattack::smg(monster *z, int index)
 {
     const std::string ammo_type("9mm");
@@ -2519,10 +2501,7 @@ void mattack::smg(monster *z, int index)
         if( dist > 18 ) {
             return;
         }
-        if( target == &g->u && ignore_mutants(z) ) {
-            return;
-        }
-
+        
         if( !z->has_effect("targeted") ) {
             sounds::sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
@@ -2586,10 +2565,7 @@ void mattack::laser(monster *z, int index)
         if( dist > 18 ) {
             return;
         }
-        if( target == &g->u && ignore_mutants(z) ) {
-            return;
-        }
-
+        
         if (!z->has_effect("targeted")) {
             sounds::sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
@@ -2653,10 +2629,7 @@ void mattack::rifle_tur(monster *z, int index)
         if( dist > 18 ) {
             return;
         }
-        if( target == &g->u && ignore_mutants(z) ) {
-            return;
-        }
-
+        
         z->reset_special(index);
         rifle( z, target );
     }
@@ -2791,10 +2764,7 @@ void mattack::bmg_tur(monster *z, int index)
         if( dist > 18 ) {
             return;
         }
-        if( target == &g->u && ignore_mutants(z) ) {
-            return;
-        }
-
+        
         z->reset_special(index);
 
         if (!z->has_effect("targeted")) {
@@ -2850,10 +2820,7 @@ void mattack::tankgun( monster *z, Creature *target )
     if( dist > 50 ) {
         return;
     }
-    if( target == &g->u && ignore_mutants(z) ) {
-        return;
-    }
-
+    
     if (!z->has_effect("targeted")) {
         //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
         target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );

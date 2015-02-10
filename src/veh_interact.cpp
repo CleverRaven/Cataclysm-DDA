@@ -508,68 +508,78 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     std::string engine_string = "";
-    if (!drive_conflict){
-        if (engines && is_engine) { // already has engine
-            engine_string = string_format(
-                                _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
-                                has_skill2 ? "ltgreen" : "red",
-                                dif_eng);
-        }
-        if (is_wood) {
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_hammer ? "ltgreen" : "red",
-                           has_nailgun ? "ltgreen" : "red",
-                           has_nails ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        } else if (is_wrenchable){
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_wrench ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        else if (is_hand_remove) {
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        else {
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_wrench ? "ltgreen" : "red",
-                           (has_welder && has_goggles) ? "ltgreen" : "red",
-                           has_duct_tape ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        if (has_comps && (has_tools || (is_wood && (has_hammer || has_nailgun) && has_nails) || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
-            return true;
-        }
+
+    if (drive_conflict) {
+        return false; // No, you cannot has twin pedal power
     }
-    return false;
+
+    if (engines && is_engine) { // already has engine
+        engine_string = string_format(
+                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
+                            has_skill2 ? "ltgreen" : "red",
+                            dif_eng);
+    }
+
+    if (is_hand_remove) {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else if (is_wrenchable){
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_wrench ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else if (is_wood) {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_nails ? "ltgreen" : "red",
+                        (has_hammer || has_nailgun) ? "ltgreen" : "red",
+                        has_duct_tape ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_wrench ? "ltgreen" : "red",
+                        (has_welder && has_goggles) ? "ltgreen" : "red",
+                        has_duct_tape ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    }
+
+    if(!has_comps || !has_skill || !has_skill2) {
+        return false; //Bail early on easy conditions
+    } else if(is_hand_remove) {
+        return true;
+    } else if(is_wrenchable) {
+        return has_wrench;
+    } else if(is_wood) {
+        return has_duct_tape || (has_nails && (has_hammer || has_nailgun));
+    } else {
+        return has_tools;
+    }
 }
 
 /**
@@ -863,6 +873,7 @@ void veh_interact::do_repair()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, need_repair.size());
@@ -1067,6 +1078,7 @@ void veh_interact::do_remove()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, parts_here.size());
@@ -2147,6 +2159,7 @@ void complete_vehicle ()
     case 'i':
         if(is_wood) {
             tools.push_back(tool_comp("nail", NAILS_USED));
+            tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
             g->u.consume_tools(tools);
         }
         // Only parts that use charges

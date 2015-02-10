@@ -1008,13 +1008,17 @@ void game::compare(int iCompareX, int iCompareY)
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
     //Filter out items with the same name (keep only one of them)
-    //Only the first 10 Items due to numbering 0-9
     std::set<std::string> dups;
-    for (size_t i = 0; i < here.size() && grounditems.size() < 10; i++) {
+    for (size_t i = 0; i < here.size(); i++) {
         if (dups.count(here[i].tname()) == 0) {
             grounditems.push_back(std::list<item>(1, here[i]));
-            // invlet: '0' ... '9'
-            grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+
+            //Only the first 10 items get a invlet
+            if ( grounditems.size() <= 10 ) {
+                // invlet: '0' ... '9'
+                grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+            }
+
             dups.insert(here[i].tname());
         }
     }
