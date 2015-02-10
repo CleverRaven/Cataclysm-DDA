@@ -1030,3 +1030,37 @@ nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
     return color_from_string(color_name);
 }
 
+struct note_color {
+    nc_color color;
+    std::string name;
+};
+
+// The color codes are intentionally untranslatable.
+const std::map<std::string, note_color> color_shortcuts {
+    {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("lt gray")}},
+    {"dg", {c_dkgray, _("dk gray")}}, {"r", {c_ltred, _("lt red")}},
+    {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("lt green")}},
+    {"G", {c_green, _("green")}}, {"b", {c_ltblue, _("lt blue")}},
+    {"B", {c_blue, _("blue")}}, {"W", {c_white, _("white")}},
+    {"C", {c_cyan, _("cyan")}}, {"c", {c_ltcyan, _("lt cyan")}},
+    {"P", {c_pink, _("pink")}}, {"m", {c_magenta, _("magenta")}}
+};
+
+nc_color get_note_color(std::string note_id)
+{
+    auto candidate_color = color_shortcuts.find( note_id );
+    if( candidate_color != std::end( color_shortcuts ) ) {
+        return candidate_color->second.color;
+    }
+    // The default note color.
+    return c_yellow;
+}
+
+std::list<std::pair<std::string, std::string>> get_note_color_names()
+{
+    std::list<std::pair<std::string, std::string>> color_list;
+    for( auto const &color_pair : color_shortcuts ) {
+        color_list.emplace_back( color_pair.first, color_pair.second.name );
+    }
+    return color_list;
+}

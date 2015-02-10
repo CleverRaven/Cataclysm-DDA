@@ -1441,58 +1441,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
                     std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
 
-                    if (sym.length() == 2) {
-
-                        if (sym.compare("br") == 0) {
-                            ter_color = c_brown;
-                        }
-                        if (sym.compare("lg") == 0) {
-                            ter_color = c_ltgray;
-                        }
-                        if (sym.compare("dg") == 0) {
-                            ter_color = c_dkgray;
-                        }
-
-                    } else {
-
-                        char colorID = sym.c_str()[0];
-
-                        if (colorID == 'r') {
-                            ter_color = c_ltred;
-                        }
-                        if (colorID == 'R') {
-                            ter_color = c_red;
-                        }
-                        if (colorID == 'g') {
-                            ter_color = c_ltgreen;
-                        }
-                        if (colorID == 'G') {
-                            ter_color = c_green;
-                        }
-                        if (colorID == 'b') {
-                            ter_color = c_ltblue;
-                        }
-                        if (colorID == 'B') {
-                            ter_color = c_blue;
-                        }
-                        if (colorID == 'W') {
-                            ter_color = c_white;
-                        }
-                        if (colorID == 'C') {
-                            ter_color = c_cyan;
-                        }
-                        if (colorID == 'c') {
-                            ter_color = c_ltcyan;
-                        }
-                        if (colorID == 'P') {
-                            ter_color = c_pink;
-                        }
-                        if (colorID == 'm') {
-                            ter_color = c_magenta;
-                        }
-
-                    }
-
+                    ter_color = get_note_color( sym );
                 }
 
             } else if (!see) {
@@ -1864,9 +1813,16 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
         } else if (action == "QUIT") {
             ret = invalid_tripoint;
         } else if (action == "CREATE_NOTE") {
+            std::string color_notes = _("Color codes: ");
+            for( auto color_pair : get_note_color_names() ) {
+                // The color index is not translatable, but the name is.
+                color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
+                                              _(color_pair.second.c_str()) );
+            }
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"),
-                                         45, old_note); // 45 char max
+            const std::string new_note = string_input_popup(
+                _("Note (X:TEXT for custom symbol, G; for color):"),
+                45, old_note, color_notes); // 45 char max
             if(old_note != new_note) {
                 overmap_buffer.add_note(curs, new_note);
             }

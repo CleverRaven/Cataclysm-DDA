@@ -611,15 +611,16 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             }
         }
     }
-    if (this->is_dead_state()) {
-        this->die(source);
-    }
+    check_dead_state();
     return 0;
 }
 
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
         const damage_instance &dam)
 {
+    if( is_dead_state() ) {
+        return dealt_damage_instance();
+    }
     int total_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
@@ -646,9 +647,6 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     }
 
     apply_damage(source, bp, total_damage);
-    if( is_dead_state() ) {
-        die( source );
-    }
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
@@ -991,6 +989,15 @@ bool Creature::in_sleep_state() const
 Creature *Creature::get_killer() const
 {
     return killer;
+}
+
+void Creature::set_killer( Creature * const killer )
+{
+    // Only the first killer will be stored, calling set_killer again with a different
+    // killer would mean it's called on a dead creature and therefor ignored.
+    if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
+        this->killer = killer;
+    }
 }
 
 /*
@@ -1506,4 +1513,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
     return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
+}
+
+void Creature::check_dead_state() {
+    if( is_dead_state() ) {
+        die( nullptr );
+    }
 }

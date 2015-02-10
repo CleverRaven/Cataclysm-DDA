@@ -532,13 +532,11 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
-        body_part bp;
-        p->hp_convert( healed, bp );
+        const body_part bp = player::hp_to_bp( healed );
         p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    body_part bp_healed = bp_torso;
-    p->hp_convert(healed, bp_healed);
+    const body_part bp_healed = player::hp_to_bp( healed );
 
     if (p->has_effect("bleed", bp_healed)) {
         if (x_in_y(bleed, 100)) {
@@ -1531,7 +1529,7 @@ static int marloss_reject_mutagen( player *p, item *it )
         p->vomit();
         p->mod_pain(35);
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(20, 35));
+        p->hurtall(rng(20, 35), nullptr);
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((3000 - p->int_cur * 10));
         // Marloss is too thoroughly into your body to be dislodged by orals.
@@ -1570,7 +1568,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
         p->vomit();
         p->mod_pain(55);
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(30, 45));
+        p->hurtall(rng(30, 45), nullptr);
          // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((4000 - p->int_cur * 10));
         // Injection does the trick.  Burn the fungus out.
@@ -2347,7 +2345,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -2472,7 +2470,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -2593,7 +2591,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
         p->vomit();
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
-        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
@@ -3398,8 +3396,7 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
         } else {
             p->add_msg_if_player(m_neutral, _("It itches a little."));
         }
-        body_part bp = num_bp;
-        p->hp_convert(hpart, bp);
+        const body_part bp = player::hp_to_bp( hpart );
         if (p->has_effect("bite", bp)) {
             p->add_effect("bite", 2600, bp, true);
         }
@@ -5147,14 +5144,15 @@ int iuse::can_goo(player *p, item *it, bool, point)
     }
     int mondex = g->mon_at(goox, gooy);
     if (mondex != -1) {
+        auto &critter = g->zombie( mondex );
         if (g->u.sees(goox, gooy)) {
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
-                    g->zombie(mondex).name().c_str());
+                    critter.name().c_str());
         }
-        g->zombie(mondex).poly(GetMType("mon_blob"));
+        critter.poly(GetMType("mon_blob"));
 
-        g->zombie(mondex).set_speed_base( g->zombie(mondex).get_speed_base() - rng(5, 25) );
-        g->zombie(mondex).hp = g->zombie(mondex).get_speed();
+        critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
+        critter.set_hp( critter.get_speed() );
     } else {
         if (g->u.sees(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -5277,9 +5275,10 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_base(
-                                g->zombie(mon_hit).get_speed_base() * rng_float(1.1, 2.0) );
-                            g->zombie(mon_hit).hp *= rng_float(1.1, 2.0);
+                            auto &critter = g->zombie( mon_hit );
+                            critter.set_speed_base(
+                                critter.get_speed_base() * rng_float(1.1, 2.0) );
+                            critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5310,9 +5309,10 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_base(
-                                rng( 0, g->zombie(mon_hit).get_speed_base() ) );
-                            g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
+                            auto &critter = g->zombie( mon_hit );
+                            critter.set_speed_base(
+                                rng( 0, critter.get_speed_base() ) );
+                            critter.set_hp( rng( 1, critter.get_hp() ) );
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5342,9 +5342,10 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_base( g->zombie(mon_hit).type->speed );
-                            g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
-                            g->zombie(mon_hit).clear_effects();
+                            auto &critter = g->zombie( mon_hit );
+                            critter.set_speed_base( critter.type->speed );
+                            critter.set_hp( critter.get_hp_max() );
+                            critter.clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->environmental_revert_effect();
@@ -5673,7 +5674,7 @@ int iuse::pheromone(player *p, item *it, bool, point)
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.hp ) {
+            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
             }
@@ -5773,11 +5774,8 @@ int iuse::tazer(player *p, item *it, bool, point)
         p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
         int shock = rng(5, 20);
         foe->moves -= shock * 100;
-        foe->hurtall(shock);
-        if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-            foe->die( p );
-            g->active_npc.erase(g->active_npc.begin() + npcdex);
-        }
+        foe->hurtall( shock, p );
+        foe->check_dead_state();
     }
     return it->type->charges_to_use();
 }
@@ -5868,12 +5866,8 @@ int iuse::tazer2(player *p, item *it, bool, point)
             p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
             int shock = rng(5, 20);
             foe->moves -= shock * 100;
-            foe->hurtall(shock);
-
-            if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-                foe->die( p );
-                g->active_npc.erase(g->active_npc.begin() + npcdex);
-            }
+            foe->hurtall( shock, p );
+            foe->check_dead_state();
         }
 
         return 100;
@@ -7214,7 +7208,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         int mondex = g->mon_at(x, y);
                         if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
-                            rng(0, 600) > g->zombie(mondex).hp) {
+                            rng(0, 600) > g->zombie(mondex).get_hp()) {
                             g->zombie(mondex).make_friendly();
                         }
                     }
@@ -7444,7 +7438,8 @@ int iuse::spray_can(player *p, item *it, bool, point)
 static bool heat_item(player *p)
 {
     int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
-        return itm.is_food() && itm.has_flag("EATEN_HOT");
+        return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
+            (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
     } );
     item *heat = &( p->i_at(inventory_index ) );
     if (heat->type->id == "null") {

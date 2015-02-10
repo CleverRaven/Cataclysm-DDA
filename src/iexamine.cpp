@@ -1126,7 +1126,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy)
     m->spawn_item(examx, examy, "poppy_bud");
 }
 
-void iexamine::flower_blubell(player *p, map *m, int examx, int examy)
+void iexamine::flower_bluebell(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() == WINTER) {
         add_msg(m_info, _("This flower is dead. You can't get it."));
@@ -2901,13 +2901,13 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 }
 
 /**
- * Given then name of one of the above functions, returns the matching function
- * pointer. If no match is found, defaults to iexamine::none but prints out a
- * debug message as a warning.
- * @param function_name The name of the function to get.
- * @return A function pointer to the specified function.
- */
-void (iexamine::*iexamine_function_from_string(std::string function_name))(player *, map *, int, int)
+* Given then name of one of the above functions, returns the matching function
+* pointer. If no match is found, defaults to iexamine::none but prints out a
+* debug message as a warning.
+* @param function_name The name of the function to get.
+* @return A function pointer to the specified function.
+*/
+iexamine_function iexamine_function_from_string(std::string const &function_name)
 {
     if ("none" == function_name) {
         return &iexamine::none;
@@ -2994,7 +2994,7 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
         return &iexamine::fungus;
     }
     if ("flower_bluebell" == function_name) {
-        return &iexamine::flower_blubell;
+        return &iexamine::flower_bluebell;
     }
     if ("flower_dahlia" == function_name) {
         return &iexamine::flower_dahlia;
@@ -3066,10 +3066,10 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     if ("reload_furniture" == function_name) {
         return &iexamine::reload_furniture;
     }
-    if( "curtains" == function_name ) {
+    if ("curtains" == function_name) {
         return &iexamine::curtains;
     }
-    if( "sign" == function_name ) {
+    if ("sign" == function_name) {
         return &iexamine::sign;
     }
     if ("pay_gas" == function_name) {
@@ -3081,15 +3081,13 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
     }
-    if( "kiln_empty" == function_name ) {
+    if ("kiln_empty" == function_name) {
         return &iexamine::kiln_empty;
     }
-    if( "kiln_full" == function_name ) {
+    if ("kiln_full" == function_name) {
         return &iexamine::kiln_full;
     }
-
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
     return &iexamine::none;
-
 }

@@ -50,10 +50,18 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return hp;
         };
-        int get_hp_max( hp_part = num_hp_parts ) const
+        int get_hp() const
+        {
+            return hp;
+        }
+        int get_hp_max( hp_part ) const
         {
             return type->hp;
         };
+        int get_hp_max() const
+        {
+            return type->hp;
+        }
         std::string get_material() const
         {
             return type->mat;
@@ -210,13 +218,21 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual int deal_melee_attack(Creature *source, int hitroll);
         virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam);
-        // TODO: fully replace hurt with apply/deal_damage
         virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain);
         void apply_damage(Creature *source, body_part bp, int amount);
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+        /**
+         * Flat addition to the monsters @ref hp. This is not capped at the maximal hp!
+         */
+        void heal( int hp_delta );
+        /**
+         * Directly set the current @ref hp of the monster (not capped at the maximal hp).
+         * You might want to use @ref heal / @ref apply_damage or @ref deal_damage instead.
+         */
+        void set_hp( int hp );
 
         /** Processes monster-specific effects effects before calling Creature::process_effects(). */
         virtual void process_effects();
@@ -272,7 +288,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int hp;
         int def_chance;
         int friendly;
         int anger, morale;
@@ -312,8 +327,15 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * a non-empty item id as revet_to_itype.
          */
         item to_item() const;
+        /**
+         * Initialize values like speed / hp from data of an item.
+         * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
+         * and to reviving monsters that spawn from a corpse.
+         */
+        void init_from_item( const item &itm );
 
     private:
+        int hp;
         std::vector<int> sp_timeout;
         std::vector <point> plans;
         point position;

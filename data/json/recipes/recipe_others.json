@@ -2546,6 +2546,7 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
+  "id_suffix" : "open_cans_such_as_food",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
   "skill_used": "traps",
@@ -2564,6 +2565,32 @@
     [
       [ "clay_canister", 1 ],
       [ "can_food", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "boobytrap",
+  "id_suffix" : "closed_cans_such_as_drinks",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "grenade", 1 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "can_drink", 1 ]
     ]
   ]
 },{
@@ -4685,6 +4712,42 @@
 },{
   "type" : "recipe",
   "result": "30gal_drum",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 262500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 40], [ "oxy_torch", 40]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "30gal_barrel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",

@@ -3741,22 +3741,24 @@ void vehicle::cruise_thrust (int amount)
         (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount)) ){
         cruise_velocity = safe_vel;
     } else {
-        //if coming down from safe_velocity or max_velocity
-        //then take one, so cruise_velocity scales down a multiple of amount
         if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
+            // If coming down from safe_velocity or max_velocity decrease by one so
+            // the rounding below will drop velocity to a multiple of amount.
             cruise_velocity += -1;
-        }
-        //if not going up from max reverse velocity, increase by amount
-        else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
+        } else if( amount > 0 && cruise_velocity == max_rev_vel ) {
+            // If increasing from max_rev_vel, do the opposite.
+            cruise_velocity += 1;
+        } else {
+            // Otherwise just add the amount.
             cruise_velocity += amount;
         }
-        //integer round to lowest multiple of amount
-        //the result is always equal to the original or closer to zero
-        //even if negative
-        cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+        // Integer round to lowest multiple of amount.
+        // The result is always equal to the original or closer to zero,
+        // even if negative
+        cruise_velocity = (cruise_velocity / abs(amount)) * abs(amount);
     }
-    //can't have a cruise speed faster than max speed
-    //or reverse speed faster than max reverse speed
+    // Can't have a cruise speed faster than max speed
+    // or reverse speed faster than max reverse speed.
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
     } else if (cruise_velocity < max_rev_vel) {
@@ -4044,7 +4046,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 z->apply_damage( nullptr, bp_torso, dam); // TODO: get the driver and make them responsible.
 
             } else {
-                ph->hitall (dam, 40);
+                ph->hitall (dam, 40, nullptr);
             }
             if (vel2_a > rng (10, 20)) {
                 g->fling_creature( z != nullptr ? static_cast<Creature*>( z)  : ph,

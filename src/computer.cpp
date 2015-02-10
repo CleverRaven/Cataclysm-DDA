@@ -457,7 +457,8 @@ void computer::activate_function(computer_action action)
         g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
-        query_any(_("Surface map data downloaded.  Press any key..."));
+        query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
+        alerts ++;
     }
     break;
 
@@ -1184,7 +1185,7 @@ void computer::activate_failure(computer_failure fail)
             add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
         } else {
             add_msg(m_bad, _("Your body is damaged by the electric shock!"));
-            g->u.hurtall(rng(1, 10));
+            g->u.hurtall(rng(1, 10), nullptr);
         }
         break;
 

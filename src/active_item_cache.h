@@ -27,7 +27,7 @@ public:
     void add( std::list<item>::iterator it, point location );
     bool has( std::list<item>::iterator it, point ) const;
     // Use this one if there's a chance that the item being referenced has been invalidated.
-    bool has( item_reference &itm ) const;
+    bool has( item_reference const &itm ) const;
     bool empty() const;
     std::list<item_reference> get();
 };

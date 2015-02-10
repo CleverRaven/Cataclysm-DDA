@@ -135,7 +135,8 @@
     "durability": 8,
     "burst": 5,
     "clip_size": 100,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "bbgun",
@@ -161,7 +162,7 @@
     "durability": 7,
     "clip_size": 20,
     "reload": 500,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "sling",

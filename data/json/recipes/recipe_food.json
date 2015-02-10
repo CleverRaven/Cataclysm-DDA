@@ -1146,7 +1146,8 @@
   ],
   "components": [
     [
-      [ "human_flesh", 3 ]
+      [ "human_flesh", 3 ],
+      [ "rehydrated_hflesh", 6]
     ],
     [
       [ "fat", 3 ],
@@ -2714,18 +2715,95 @@
   ],
   "components": [
     [
-      [ "bone", 4 ]
+        [ "bone", 4 ]
     ],
     [
         [ "meat", 1 ],
-        [ "fish", 1 ],
-        [ "can_tuna", 1 ],
-        [ "can_sardine", 1 ],
-        [ "veggy_wild", 1 ],
-        [ "zucchini", 1],
-        [ "can_tomato", 1 ],
-        [ "tomato", 1]
-
+        [ "meat_cooked", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ],
+        [ "fish", 2 ],
+        [ "fish_cooked", 2 ],
+        [ "can_tuna", 2 ],
+        [ "can_sardine", 2 ], 
+        [ "can_clams", 2]
+    ],
+    [
+        [ "water_clean", 1],
+        [ "water", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "veggy_aspic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough. Gelatin from pectin is harder. Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[50, 5],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+        [ "veggy", 2 ],
+        [ "veggy_cooked", 2 ],
+        [ "veggy_wild", 2 ],
+        [ "veggy_wild_cooked", 2 ],
+        [ "can_tomato", 3 ],
+        [ "tomato", 3 ],
+        [ "broccoli", 3 ],
+        [ "zucchini", 3 ],
+        [ "celery", 9 ],
+        [ "potato_raw", 3 ],
+        [ "potato_baked", 3 ],
+        [ "corn", 3 ],
+        [ "onion", 9 ],
+        [ "carrot", 9 ]
+    ],
+    [
+        [ "water_clean", 2],
+        [ "water", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_aspic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[50, 5],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+        [ "bone_human", 4 ]
+    ],
+    [
+        [ "human_flesh", 1 ],
+        [ "human_cooked", 1 ]
     ],
     [
         [ "water_clean", 1],
@@ -5264,11 +5342,14 @@
       [ "dry_veggy", 2 ]
     ],
     [
-      [ "human_flesh", 1]
-    ],
-    [
       [ "tomato", 1 ],
       [ "can_tomato", 1 ]
+    ],
+    [
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2],
+      [ "human_canned", 2]
     ],
     [
       [ "can_beans", 1],
@@ -7595,7 +7676,9 @@
   ],
   "components": [
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ],
     [
       [ "flour", 2 ],
@@ -7961,7 +8044,9 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ]
   ]
 },{
