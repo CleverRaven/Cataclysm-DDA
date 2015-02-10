@@ -2277,15 +2277,11 @@ int item::get_storage() const
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
     if (item::item_tags.count("pocketed") > 0){
-    pockets = 1.5;
-        if (result > 0)
-            return result * pockets;
-        else return result + pockets + 3.5; // Can I just use return 5?
-    }
+        pockets = volume() * (get_coverage() / 100);
+        return result + pockets;
+        }
     else return result;
-
 }
-
 int item::get_env_resist() const
 {
     const auto t = find_armor_data();
@@ -2339,16 +2335,17 @@ int item::get_warmth() const
 {
     int warmed = 1;
     const auto t = find_armor_data();
-    if( t == nullptr )
+    if( t == nullptr ){
         return 0;
-
+    }
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
      if (item::item_tags.count("furred") > 0){
         warmed = 2; // Doubles an item's warmth
-        if (result > 0)
+        if (result > 0){
             return result * warmed;
+        }
         else return result + (warmed * 5);
      }
      else return result;

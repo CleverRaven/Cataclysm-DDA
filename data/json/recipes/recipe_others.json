@@ -335,6 +335,11 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 3 ]],
+  "tools": [
+     [
+      ["soldering_iron", -5]
+     ]
+    ],
   "components": [
     [
       [ "sewing_kit", 1 ]

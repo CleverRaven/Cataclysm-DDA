@@ -2996,6 +2996,10 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                 p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
                 return 0;
             }
+            if(mod->has_flag("FANCY") || (mod->has_flag("SUPER_FANCY"))){
+                p->add_msg_if_player(m_info,_("You can't bring yourself to cover your beautiful regalia with hideous pockets!"));
+                return 0;
+            }
             itype_id repair_item = "none";
             std::vector<std::string> plurals;
             std::vector<itype_id> repair_items;
