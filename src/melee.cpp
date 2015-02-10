@@ -1311,11 +1311,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         return false;
     }
     
-    //can not block if player is unarmed and can not limb block
-    
-    if (!is_armed() && !can_limb_block()) {
-        return false;
-    }
     blocks_left--;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
@@ -1400,7 +1395,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     if (player::is_armed()) {
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
-    } else if (can_limb_block()) {
+    } else {
         //Choose which body part to block with, assume left side first
         if (can_leg_block() && can_arm_block()) {
             bp_hit = one_in(2) ? bp_leg_l : bp_arm_l;
