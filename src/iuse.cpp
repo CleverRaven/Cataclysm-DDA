@@ -2962,7 +2962,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>nomex")));
         }
         if (mod->made_of("plastic")) {
-            repair_items.push_back("plastic");
+            repair_items.push_back("plastic_chunk");
             plurals.push_back(rm_prefix(_("<plural>plastic")));
         }
         if (mod->made_of("wool")) {
@@ -2970,7 +2970,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             plurals.push_back(rm_prefix(_("<plural>wool")));
         }
         if (repair_items.empty()) {
-            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
+            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, wool or plastic."),
                                  mod->tname().c_str());
             return 0;
         }
