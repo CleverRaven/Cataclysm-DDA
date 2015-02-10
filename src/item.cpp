@@ -1774,7 +1774,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (UPS)");
     }
     if (item_tags.count("pocketed") > 0 ){
-        ret << _("( P)");
+        ret << _(" (P)");
     }
         if (item_tags.count("furred") > 0 ){
         ret << _(" (F)");
@@ -2277,7 +2277,7 @@ int item::get_storage() const
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
     if (item::item_tags.count("pocketed") > 0){
-        pockets = volume() * (get_coverage() / 100);
+        pockets = (volume() * get_coverage()) / 100;
         return result + pockets;
         }
     else return result;
