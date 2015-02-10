@@ -1256,11 +1256,13 @@ int editmap::edit_itm()
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format("burnt: %d", it->burnt);
                         } else if (imenu.ret == imenu_luminance ) {
-                            auto const delta = (it->is_emissive() && !retval) ? -1 :
-                                               (!it->is_emissive() && retval) ? 1 : 0;
                             int x, y;
-                            g->m.get_submap_at(target.x, target.y, x, y)->lum[x][y] += delta;
-
+                            if (it->is_emissive() && !retval) {
+                                g->m.get_submap_at(target.x, target.y, x, y)->update_lum_rem(*it, x, y);
+                            } else if (!it->is_emissive() && retval) {
+                                g->m.get_submap_at(target.x, target.y, x, y)->update_lum_add(*it, x, y);
+                            }
+                            
                             it->light.luminance = (unsigned short)retval;
                             imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);
                         } else if (imenu.ret == imenu_direction ) {
