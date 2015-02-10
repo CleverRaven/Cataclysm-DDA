@@ -702,8 +702,9 @@ void Pickup::pick_up(int posx, int posy, int min)
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                const auto name = utf8_wrapper( here[selected].display_name() ).shorten( itemsW - 8 );
-                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", name.c_str());
+
+                mvwprintw(w_item_info, 0, 2, "< ");
+                fold_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
                 wrefresh(w_item_info);
             }
 
@@ -756,7 +757,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, "%s", here[cur_it].display_name().c_str());
+                    fold_and_print(w_pickup, 1 + (cur_it % maxitems), 4, pickupW-4, icolor, "%s", here[cur_it].display_name().c_str());
                 }
             }
 

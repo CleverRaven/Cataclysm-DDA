@@ -186,7 +186,7 @@ void Messages::display_messages()
         int lasttime = -1;
         for (size_t i = offset; i < size() && line <= bottom; i++) {
             const game_message &m = player_messages.messages[size() - i - 1];
-            const std::string mstr = m.get_with_count();
+            const std::string mstr = remove_color_tags( m.get_with_count() );
             const nc_color col = m.get_color();
             calendar timepassed = calendar::turn - m.turn;
             if (int(timepassed) > lasttime) {
@@ -232,7 +232,7 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
     int line = bottom;
     for (int i = size() - 1; i >= 0 && line >= top; i--) {
         const game_message &m = player_messages.messages[i];
-        const std::string mstr = m.get_with_count();
+        const std::string mstr = remove_color_tags( m.get_with_count() );
         const nc_color col = m.get_color();
         std::vector<std::string> folded = foldstring(mstr, maxlength);
         for (int j = folded.size() - 1; j >= 0 && line >= top; j--, line--) {

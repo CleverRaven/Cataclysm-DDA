@@ -85,6 +85,25 @@ std::vector<std::string> split_by_color(const std::string &s)
     return ret;
 }
 
+std::string remove_color_tags(const std::string &s)
+{
+    std::string ret;
+    std::vector<size_t> tag_positions = get_tag_positions(s);
+    size_t next_pos = 0;
+
+    if ( tag_positions.size() > 1 ) {
+        for (size_t i = 0; i < tag_positions.size(); ++i) {
+            ret += s.substr(next_pos, tag_positions[i] - next_pos);
+            next_pos = s.find(">", tag_positions[i], 1) + 1;
+        }
+
+        ret += s.substr(next_pos, std::string::npos);
+    } else {
+        return s;
+    }
+    return ret;
+}
+
 // returns number of printed lines
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                    const char *mes, ...)
@@ -535,7 +554,7 @@ bool query_yn(const char *mes, ...)
             // utf8_width uses the same text as it will be printed in the window.
             std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 2 );
             for( auto &s : textformatted ) {
-                win_width = std::max( win_width, utf8_width( s.c_str() ) );
+                win_width = std::max( win_width, utf8_width( remove_color_tags( s ).c_str() ) );
             }
             w = newwin( textformatted.size() + 2, win_width + 2, (TERMY - 3) / 2,
                         std::max( TERMX - win_width, 0 ) / 2 );
@@ -990,7 +1009,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
 {
     int line_num = 1;
     if (sItemName != "") {
-        mvwprintz(win, line_num, (without_border) ? 0 : 2, c_white, "%s", sItemName.c_str());
+        const int iOffset = (without_border) ? 0 : 2;
+        fold_and_print(win, line_num, iOffset, getmaxx(win) - iOffset, c_white, "%s", sItemName.c_str());
         line_num = 3;
     }
 
@@ -1597,6 +1617,40 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     } else {
         color = c_ltgray;
         text = "-----";
+    }
+}
+
+void get_item_HP_Bar(const int iDamage, nc_color &color, std::string &text)
+{
+    switch( iDamage ) {
+    case -1:
+        color = c_ltblue;
+        text = "++";
+        break;
+    case 0:
+        color = c_green;
+        text = "||";
+        break;
+    case 1:
+        color = c_ltgreen;
+        text = "|\\";
+        break;
+    case 2:
+        color = c_yellow;
+        text = "|.";
+        break;
+    case 3:
+        color = c_ltred;
+        text = "\\.";
+        break;
+    case 4:
+        color = c_red;
+        text = "..";
+        break;
+    default:
+        color = c_white;
+        text = "??";
+        break;
     }
 }
 

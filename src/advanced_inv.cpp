@@ -250,8 +250,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        std::string it_name = utf8_truncate( it.display_name(), max_name_length );
-        mvwprintz( window, 6 + x, compact ? 1 : 4, thiscolor, "%s", it_name.c_str() );
+        fold_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s", it.display_name().c_str() );
 
         //print src column
         if( pane.area == AIM_ALL && !compact ) {

@@ -1622,12 +1622,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null() && with_prefix) {
+    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                nc_color color;
+                std::string health_bar = "";
+                get_item_HP_Bar(damage, color, health_bar);
+
+                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1637,6 +1643,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                nc_color color;
+                std::string health_bar = "";
+                get_item_HP_Bar(damage, color, health_bar);
+
+                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
+
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
@@ -2865,11 +2879,6 @@ bool item::is_funnel_container(int &bigger_than) const
         return true;
     }
     return false;
-}
-
-bool item::is_emissive() const
-{
-    return light.luminance || (type && type->light_emission);
 }
 
 bool item::is_tool() const
