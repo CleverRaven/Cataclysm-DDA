@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 #include "mapgenformat.h"
 #include "mapgen_functions.h"
 
@@ -173,7 +174,6 @@ class mapgen_function_json : public virtual mapgen_function {
         do_format = false;
     }
     ~mapgen_function_json() {
-        delete[] format;
     }
 
     size_t calc_index( size_t x, size_t y ) const;
@@ -181,7 +181,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::string jdata;
     size_t mapgensize;
     int fill_ter;
-    ter_furn_id * format;
+    std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;

@@ -629,7 +629,7 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
-        format = new ter_furn_id[ mapgensize * mapgensize ];
+        format.reset(new ter_furn_id[ mapgensize * mapgensize ]);
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             std::map<int,int> format_terrain;
@@ -982,7 +982,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         m->draw_fill_background( fill_ter );
     }
     if ( do_format ) {
-        formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
+        formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );
     }
     for( auto &elem : spawnitems ) {
         elem.apply( m );
