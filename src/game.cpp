@@ -9076,7 +9076,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
-    std::string sSort = "<s>ort: ";
+    std::string sSort = _("<s>ort: ");
 
     if ( bRadiusSort ) {
         sSort += _("dist");
@@ -9285,6 +9285,7 @@ int game::list_items(const int iLastState)
     bool addcategory = false;
     int iPage = 0;
     int iCatSortNum = 0;
+    item activeItem;
     std::map<int, std::string> vSortCategory;
 
     std::string action;
@@ -9324,13 +9325,12 @@ int game::list_items(const int iLastState)
                 reset = true;
                 refilter = true;
                 addcategory = !bRadiusSort;
-            } else if (action == "EXAMINE" && filtered_items.size()) {
-                item oThisItem = filtered_items[iActive].example;
+            } else if (action == "EXAMINE" && filtered_items.size() && vSortCategory[iActive] == "") {
                 std::vector<iteminfo> vThisItem, vDummy;
 
-                oThisItem.info(true, &vThisItem);
+                activeItem.info(true, &vThisItem);
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               oThisItem.tname(), vThisItem, vDummy);
+                               activeItem.tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActiveX = INT_MIN;
@@ -9458,7 +9458,6 @@ int game::list_items(const int iLastState)
                 int iNum = 0;
                 iActiveX = 0;
                 iActiveY = 0;
-                item activeItem;
                 std::stringstream sText;
                 bool high = true;
                 bool low = false;
@@ -9498,6 +9497,11 @@ int game::list_items(const int iLastState)
                             bReduceIter = true;
 
                             mvwprintz(w_items, iNum - iStartPos, 1, ((iNum == iActive) ? c_yellow : c_magenta), "%s", vSortCategory[iNum].c_str());
+
+                            if ( iNum == iActive ) {
+                                iActiveX = -1;
+                                iActiveY = -1;
+                            }
 
                         } else {
                             if (iNum == iActive) {
@@ -9548,13 +9552,19 @@ int game::list_items(const int iLastState)
                 werase(w_item_info);
                 //fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
 
-                std::vector<iteminfo> vThisItem, vDummy;
-                activeItem.info(true, &vThisItem);
+                if ( !( iActiveX == -1 && iActiveY == -1 ) ) {
+                    std::vector<iteminfo> vThisItem, vDummy;
+                    activeItem.info(true, &vThisItem);
 
-                draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
-
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
+                }
                 //Only redraw trail/terrain if x/y position changed
-                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                if ( iActiveX == -1 && iActiveY == -1 ) {
+                    draw_ter();
+                    iLastActiveX = iActiveX;
+                    iLastActiveY = iActiveY;
+
+                } else if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
                     iLastActiveX = iActiveX;
                     iLastActiveY = iActiveY;
                     centerlistview(iActiveX, iActiveY);
