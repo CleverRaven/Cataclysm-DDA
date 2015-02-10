@@ -554,7 +554,7 @@ bool query_yn(const char *mes, ...)
             // utf8_width uses the same text as it will be printed in the window.
             std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 2 );
             for( auto &s : textformatted ) {
-                win_width = std::max( win_width, utf8_width( s.c_str() ) );
+                win_width = std::max( win_width, utf8_width( remove_color_tags( s ).c_str() ) );
             }
             w = newwin( textformatted.size() + 2, win_width + 2, (TERMY - 3) / 2,
                         std::max( TERMX - win_width, 0 ) / 2 );
@@ -1009,7 +1009,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
 {
     int line_num = 1;
     if (sItemName != "") {
-        mvwprintz(win, line_num, (without_border) ? 0 : 2, c_white, "%s", sItemName.c_str());
+        fold_and_print(win, line_num, (without_border) ? 0 : 2, getmaxx(win) - (without_border) ? 0 : 2, c_white, "%s", sItemName.c_str());
         line_num = 3;
     }
 
