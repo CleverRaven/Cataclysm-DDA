@@ -331,7 +331,7 @@
     "id" : "honey_scraper",
     "type":"TOOL",
     "name" : "honey scraper",
-    "description" : "A sharp, knife-like tool used in harvesting honey from beehives. Makes a passable melee weapon.",
+    "description" : "A sharp, knife-like tool used in harvesting honey from beehives.  Makes a passable melee weapon.",
     "weight" : 580,
     "to_hit" : 0,
     "color" : "dark_gray",
