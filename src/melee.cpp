@@ -1310,6 +1310,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     if (blocks_left < 1 || in_sleep_state()) {
         return false;
     }
+    
     blocks_left--;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
@@ -1391,10 +1392,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     // weapon blocks are preferred to arm blocks
     std::string thing_blocked_with;
-    if (can_weapon_block()) {
+    if (player::is_armed()) {
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
-    } else if (can_limb_block()) {
+    } else {
         //Choose which body part to block with, assume left side first
         if (can_leg_block() && can_arm_block()) {
             bp_hit = one_in(2) ? bp_leg_l : bp_arm_l;
