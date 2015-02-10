@@ -74,7 +74,7 @@ struct delwin_functor {
  */
 typedef std::unique_ptr<WINDOW, delwin_functor> WINDOW_PTR;
 
-enum game_message_type {
+enum game_message_type : int {
     m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
     m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),

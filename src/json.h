@@ -1,6 +1,7 @@
 #ifndef JSON_H
 #define JSON_H
 
+#include <type_traits>
 #include <iosfwd>
 #include <map>
 #include <unordered_map>
@@ -8,7 +9,6 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
-#include <list>
 #include <bitset>
 #include <array>
 
@@ -203,28 +203,33 @@ class JsonIn
         template<size_t N>
         bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
-        // array ~> vector
-        template <typename T> bool read(std::vector<T> &v)
-        {
-            if (!test_array()) {
+        
+        // array ~> vector, deque, list
+        template <typename T, typename std::enable_if<
+            !std::is_same<void, typename T::value_type>::value>::type* = nullptr
+        >
+        auto read(T &v) -> decltype(v.front(), true) {
+            if( !test_array() ) {
                 return false;
             }
             try {
                 start_array();
                 v.clear();
                 while (!end_array()) {
-                    T element;
+                    typename T::value_type element;
                     if (read(element)) {
-                        v.push_back(element);
+                        v.push_back(std::move(element));
                     } else {
                         skip_value();
                     }
                 }
-                return true;
-            } catch (std::string e) {
+            } catch (std::string const&) {
                 return false;
             }
+            
+            return true;
         }
+
         // array ~> array
         template <typename T, size_t N> bool read( std::array<T, N> &v )
         {
@@ -242,13 +247,17 @@ class JsonIn
                     }
                 }
                 return end_array(); // false if json array is too big
-            } catch( std::string e ) {
+            } catch(std::string const&) {
                 return false;
             }
         }
-        // array ~> list
-        template <typename T> bool read(std::list<T> &v)
-        {
+
+        // object ~> containers with matching key_type and value_type
+        // set, unordered_set ~> object
+        template <typename T, typename std::enable_if<
+            std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
+        >
+        bool read(T &v) {
             if (!test_array()) {
                 return false;
             }
@@ -256,107 +265,48 @@ class JsonIn
                 start_array();
                 v.clear();
                 while (!end_array()) {
-                    T element;
+                    typename T::value_type element;
                     if (read(element)) {
-                        v.push_back(element);
+                        v.emplace(std::move(element));
                     } else {
                         skip_value();
                     }
                 }
-                return true;
-            } catch (std::string e) {
+            } catch (std::string const&) {
                 return false;
             }
+            
+            return true;
         }
-        // array ~> set
-        template <typename T> bool read(std::set<T> &v)
-        {
-            if (!test_array()) {
-                return false;
-            }
-            try {
-                start_array();
-                v.clear();
-                while (!end_array()) {
-                    T element;
-                    if (read(element)) {
-                        v.insert(element);
-                    } else {
-                        skip_value();
-                    }
-                }
-                return true;
-            } catch (std::string e) {
-                return false;
-            }
-        }
-        // array ~> unordered_set
-        template <typename T> bool read(std::unordered_set<T> &v)
-        {
-            if (!test_array()) {
-                return false;
-            }
-            try {
-                start_array();
-                v.clear();
-                while (!end_array()) {
-                    T element;
-                    if (read(element)) {
-                        v.insert(element);
-                    } else {
-                        skip_value();
-                    }
-                }
-                return true;
-            } catch (std::string e) {
-                return false;
-            }
-        }
-        // object ~> map
-        template <typename T> bool read(std::map<std::string, T> &m)
-        {
+
+
+        // object ~> containers with unmatching key_type and value_type
+        // map, unordered_map ~> object
+        template <typename T, typename std::enable_if<
+            !std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
+        >
+        bool read(T &m) {
             if (!test_object()) {
                 return false;
             }
+
             try {
                 start_object();
                 m.clear();
                 while (!end_object()) {
                     std::string name = get_member_name();
-                    T element;
+                    typename T::mapped_type element;
                     if (read(element)) {
-                        m[name] = element;
+                        m[std::move(name)] = std::move(element);
                     } else {
                         skip_value();
                     }
                 }
-                return true;
-            } catch (std::string e) {
+            } catch (std::string const&) {
                 return false;
             }
-        }
-        // object ~> unordered_map
-        template <typename T> bool read(std::unordered_map<std::string, T> &m)
-        {
-            if (!test_object()) {
-                return false;
-            }
-            try {
-                start_object();
-                m.clear();
-                while (!end_object()) {
-                    std::string name = get_member_name();
-                    T element;
-                    if (read(element)) {
-                        m[name] = element;
-                    } else {
-                        skip_value();
-                    }
-                }
-                return true;
-            } catch (std::string e) {
-                return false;
-            }
+
+            return true;
         }
 
         // error messages
@@ -419,6 +369,14 @@ class JsonOut
         // write data to the output stream as JSON
         void write_null();
         void write(const bool &b);
+        void write(const char &c)
+        {
+            write(static_cast<int>(c));
+        }
+        void write(const signed char &c)
+        {
+            write(static_cast<unsigned>(c));
+        }
         void write(const int &i);
         void write(const unsigned &u);
         void write(const long &l);
@@ -432,74 +390,53 @@ class JsonOut
             write(std::string(cstr));
         }
         void write(const JsonSerializer &thing);
-        // vector ~> array
-        template <typename T> void write(const std::vector<T> &v)
-        {
+        
+        // enum ~> underlying type
+        template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>
+        void write(T const &value) {
+            write(static_cast<typename std::underlying_type<T>::type>(value));
+        }
+
+        template <typename T>
+        void write_as_array(T const &container) {
             start_array();
-            for (typename std::vector<T>::const_iterator it = v.begin();
-                 it != v.end(); ++it) {
-                write(*it);
+            for (auto const &e : container) {
+                write(e);
             }
             end_array();
         }
-        template <typename T, size_t N> void write(const std::array<T, N> &v)
+
+        // containers with front() ~> array
+        // vector, deque, forward_list, list
+        template <typename T, typename std::enable_if<
+            !std::is_same<void, typename T::value_type>::value>::type* = nullptr
+        >
+        auto write(T const &container) -> decltype(container.front(), (void)0)
         {
-            start_array();
-            for( auto &e : v ) {
-                write( e );
-            }
-            end_array();
+            write_as_array(container);
         }
-        template <typename T> void write(const std::list<T> &v)
+
+        // containers with matching key_type and value_type ~> array
+        // set, unordered_set
+        template <typename T, typename std::enable_if<
+            std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
+        >
+        void write(T const &container)
         {
-            start_array();
-            for (typename std::list<T>::const_iterator it = v.begin();
-                 it != v.end(); ++it) {
-                write(*it);
-            }
-            end_array();
+            write_as_array(container);
         }
-        // set ~> array
-        template <typename T> void write(const std::set<T> &v)
-        {
-            start_array();
-            typename std::set<T>::const_iterator it;
-            for (it = v.begin(); it != v.end(); ++it) {
-                write(*it);
-            }
-            end_array();
-        }
-        // unordered_set ~> array
-        template <typename T> void write(const std::unordered_set<T> &v)
-        {
-            start_array();
-            typename std::unordered_set<T>::const_iterator it;
-            for (it = v.begin(); it != v.end(); ++it) {
-                write(*it);
-            }
-            end_array();
-        }
-        // map ~> object
-        template <typename T> void write(const std::map<std::string, T> &m)
-        {
+
+        // containers with unmatching key_type and value_type ~> object
+        // map, unordered_map ~> object
+        template <typename T, typename std::enable_if<
+            !std::is_same<typename T::key_type, typename T::value_type>::value>::type* = nullptr
+        >
+        void write(T const &map) {
             start_object();
-            typename std::map<std::string, T>::const_iterator it;
-            for (it = m.begin(); it != m.end(); ++it) {
-                write(it->first);
+            for (auto const &it : map) {
+                write(it.first);
                 write_member_separator();
-                write(it->second);
-            }
-            end_object();
-        }
-        // unordered_map ~> object
-        template <typename T> void write(const std::unordered_map<std::string, T> &m)
-        {
-            start_object();
-            typename std::unordered_map<std::string, T>::const_iterator it;
-            for (it = m.begin(); it != m.end(); ++it) {
-                write(it->first);
-                write_member_separator();
-                write(it->second);
+                write(it.second);
             }
             end_object();
         }
