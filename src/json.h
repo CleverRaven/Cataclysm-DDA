@@ -3,10 +3,6 @@
 
 #include <type_traits>
 #include <iosfwd>
-#include <map>
-#include <unordered_map>
-#include <set>
-#include <unordered_set>
 #include <string>
 #include <vector>
 #include <bitset>
@@ -247,7 +243,7 @@ class JsonIn
                     }
                 }
                 return end_array(); // false if json array is too big
-            } catch(std::string const&) {
+            } catch (std::string const&) {
                 return false;
             }
         }
@@ -289,7 +285,6 @@ class JsonIn
             if (!test_object()) {
                 return false;
             }
-
             try {
                 start_object();
                 m.clear();
