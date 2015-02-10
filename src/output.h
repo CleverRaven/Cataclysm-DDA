@@ -222,7 +222,7 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
 void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
-void get_item_HP_Bar(const int iDamage, nc_color &color, std::string &text);
+std::pair<nc_color, std::string> get_item_HP_Bar(const int iDamage);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
