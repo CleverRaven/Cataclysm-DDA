@@ -9425,8 +9425,8 @@ int game::list_items(const int iLastState)
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
-                        fold_and_print(w_items, iNum - iStartPos, 1, width-8,
-                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example.color_in_inventory()))),
+                        fold_and_print(w_items, iNum - iStartPos, 1, 40,
+                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
                         mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),

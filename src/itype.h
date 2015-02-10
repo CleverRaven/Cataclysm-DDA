@@ -11,7 +11,6 @@
 #include "rng.h"
 #include "material.h"
 #include "mtype.h"
-#include "translations.h"
 
 #include <string>
 #include <vector>
@@ -48,33 +47,43 @@ itype_id default_ammo(ammotype guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
-    int power    = -1;
-    int shrapnel = 0;
-    bool fire    = false;
-    bool blast   = true;
+    int power;
+    int shrapnel;
+    bool fire;
+    bool blast;
+    explosion_data() : power(-1), fire(false), blast(true) { }
 };
 
 struct islot_container {
     /**
      * Volume, scaled by the default-stack size of the item that is contained in this container.
      */
-    int contains = 0;
+    int contains;
     /**
      * Can be resealed.
      */
-    bool seals = false;
+    bool seals;
     /**
      * Can hold liquids.
      */
-    bool watertight = false;
+    bool watertight;
     /**
      * Contents do not spoil.
      */
-    bool preserves = false;
+    bool preserves;
     /**
      * Volume of the item does not include volume of the content.
      */
-    bool rigid = false;
+    bool rigid;
+
+    islot_container()
+    : contains( 0 )
+    , seals( false )
+    , watertight( false )
+    , preserves( false )
+    , rigid( false )
+    {
+    }
 };
 
 struct islot_armor {
@@ -91,32 +100,45 @@ struct islot_armor {
     /**
      * How much this item encumbers the player.
      */
-    signed char encumber = 0;
+    signed char encumber;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
-    unsigned char coverage = 0;
+    unsigned char coverage;
     /**
      * TODO: document me.
      */
-    unsigned char thickness = 0;
+    unsigned char thickness;
     /**
      * Resistance to environmental effects.
      */
-    unsigned char env_resist = 0;
+    unsigned char env_resist;
     /**
      * How much warmth this item provides.
      */
-    signed char warmth = 0;
+    signed char warmth;
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    unsigned char storage;
     /**
      * Whether this is a power armor item.
      */
-    bool power_armor = false;
+    bool power_armor;
+
+    islot_armor()
+    : covers( 0 )
+    , sided( 0 )
+    , encumber( 0 )
+    , coverage( 0 )
+    , thickness( 0 )
+    , env_resist( 0 )
+    , warmth( 0 )
+    , storage( 0 )
+    , power_armor( false )
+    {
+    }
 };
 
 struct islot_book {
@@ -124,32 +146,32 @@ struct islot_book {
      * Which skill it upgrades, if any. Can be NULL.
      * TODO: this should be a pointer to const
      */
-    const Skill* skill = nullptr;
+    const Skill* skill;
     /**
      * The skill level the book provides.
      */
-    int level = 0;
+    int level;
     /**
      * The skill level required to understand it.
      */
-    int req = 0;
+    int req;
     /**
      * How fun reading this is, can be negative.
      */
-    int fun = 0;
+    int fun;
     /**
      * Intelligence required to read it.
      */
-    int intel = 0;
+    int intel;
     /**
      * How long, in 10-turns (aka minutes), it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
-    int time = 0;
+    int time;
     /**
      * Fun books have chapters; after all are read, the book is less fun.
      */
-    int chapters = 0;
+    int chapters;
     /**
      * What recipes can be learned from this book.
      * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
@@ -160,6 +182,19 @@ struct islot_book {
      * Special effects that can happen after the item has been read. May be empty.
      */
     std::vector<use_function> use_methods;
+
+    islot_book()
+    : skill( nullptr )
+    , level( 0 )
+    , req( 0 )
+    , fun( 0 )
+    , intel( 0 )
+    , time( 0 )
+    , chapters( 0 )
+    , recipes()
+    , use_methods()
+    {
+    }
 };
 
 /**
@@ -171,23 +206,32 @@ struct common_ranged_data {
     /**
      * Armor-pierce bonus from gun.
      */
-    int pierce = 0;
+    int pierce;
     /**
      * Range bonus from gun.
      */
-    int range = 0;
+    int range;
     /**
      * Damage bonus from gun.
      */
-    int damage = 0;
+    int damage;
     /**
      * Dispersion "bonus" from gun.
      */
-    int dispersion = 0;
+    int dispersion;
     /**
      * Recoil "bonus" from gun.
      */
-    int recoil = 0;
+    int recoil;
+
+    common_ranged_data()
+    : pierce( 0 )
+    , range( 0 )
+    , damage( 0 )
+    , dispersion( 0 )
+    , recoil( 0 )
+    {
+    }
 };
 
 /**
@@ -200,25 +244,35 @@ struct common_firing_data : public common_ranged_data {
      * TODO: this needs documentation, who knows what it is?
      * A value of -1 in gunmods means it's ignored.
      */
-    int sight_dispersion = 0;
+    int sight_dispersion;
     /**
      * TODO: this needs documentation, who knows what it is?
      * A value of -1 in gunmods means it's ignored.
      */
-    int aim_speed = 0;
+    int aim_speed;
     /**
      * Burst size.
      */
-    int burst = 0;
+    int burst;
     /**
      * Clip size. Note that on some gunmods it means relative (in percent) of the
      * guns main magazine.
      */
-    int clip = 0;
+    int clip;
     /**
      * TODO: document me
      */
-    int loudness = 0;
+    int loudness;
+
+    common_firing_data()
+    : common_ranged_data()
+    , sight_dispersion( 0 )
+    , aim_speed( 0 )
+    , burst( 0 )
+    , clip( 0 )
+    , loudness( 0 )
+    {
+    }
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -226,21 +280,21 @@ struct islot_gun : public common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
-    std::string ammo;
+    ammotype ammo;
     /**
      * What skill this gun uses.
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
      */
-    const Skill* skill_used = nullptr;
+    const Skill* skill_used;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
-    int durability = 0;
+    int durability;
     /**
      * Reload time.
      */
-    int reload_time = 0;
+    int reload_time;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -254,23 +308,34 @@ struct islot_gun : public common_firing_data {
     /**
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
-    int ups_charges = 0;
+    int ups_charges;
+
+    islot_gun()
+    : common_firing_data()
+    , skill_used( nullptr )
+    , durability( 0 )
+    , reload_time( 0 )
+    , ammo_effects()
+    , valid_mod_locations()
+    , ups_charges( 0 )
+    {
+    }
 };
 
 struct islot_gunmod : public common_firing_data {
     /**
      * TODO: document me
      */
-    int req_skill = 0;
+    int req_skill;
     /**
      * TODO: document me
      * TODO: this should be a pointer to const Skill.
      */
-    const Skill* skill_used = nullptr;
+    const Skill* skill_used;
     /**
      * TODO: document me
      */
-    std::string newtype;
+    ammotype newtype;
     /**
      * TODO: document me
      */
@@ -278,35 +343,52 @@ struct islot_gunmod : public common_firing_data {
     /**
      * TODO: document me
      */
-    bool used_on_pistol = false;
+    bool used_on_pistol;
     /**
      * TODO: document me
      */
-    bool used_on_shotgun = false;
+    bool used_on_shotgun;
     /**
      * TODO: document me
      */
-    bool used_on_smg = false;
+    bool used_on_smg;
     /**
      * TODO: document me
      */
-    bool used_on_rifle = false;
+    bool used_on_rifle;
     /**
      * TODO: document me
      */
-    bool used_on_bow = false;
+    bool used_on_bow;
     /**
      * TODO: document me
      */
-    bool used_on_crossbow = false;
+    bool used_on_crossbow;
     /**
      * TODO: document me
      */
-    bool used_on_launcher = false;
+    bool used_on_launcher;
     /**
      * TODO: document me
      */
     std::string location;
+
+    islot_gunmod()
+    : common_firing_data()
+    , req_skill( 0 )
+    , skill_used( nullptr )
+    , newtype()
+    , acceptible_ammo_types()
+    , used_on_pistol( false )
+    , used_on_shotgun( false )
+    , used_on_smg( false )
+    , used_on_rifle( false )
+    , used_on_bow( false )
+    , used_on_crossbow( false )
+    , used_on_launcher( false )
+    , location()
+    {
+    }
 };
 
 struct islot_ammo : public common_ranged_data {
@@ -314,63 +396,92 @@ struct islot_ammo : public common_ranged_data {
      * Ammo type, basically the "form" of the the ammo that fits into the gun/tool.
      * This is an id, it can be looked up in the @ref ammunition_type class.
      */
-    std::string type;
+    ammotype type;
     /**
      * Type id of casings, can be "NULL" for no casings at all.
      */
-    std::string casing;
+    itype_id casing;
     /**
      * Default charges.
      */
-    long def_charges = 0;
+    long def_charges;
     /**
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
 
-    islot_ammo() : casing {"NULL"} { }
+    islot_ammo()
+    : common_ranged_data()
+    , type()
+    , casing( "NULL" )
+    , def_charges( 0 )
+    , ammo_effects()
+    {
+    }
 };
 
 struct islot_variable_bigness {
     /**
      * Minimal value of the bigness value of items of this type.
      */
-    int min_bigness = 0;
+    int min_bigness;
     /**
      * Maximal value of the bigness value of items of this type.
      */
-    int max_bigness = 0;
+    int max_bigness;
     /**
      * What the bigness actually represent see @ref bigness_property_aspect
      */
-    bigness_property_aspect bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+    bigness_property_aspect bigness_aspect;
+
+    islot_variable_bigness()
+    : min_bigness( 0 )
+    , max_bigness( 0 )
+    , bigness_aspect( BIGNESS_ENGINE_DISPLACEMENT )
+    {
+    }
 };
 
 struct islot_bionic {
     /**
      * Arbitrary difficulty scale, see bionics.cpp for its usage.
      */
-    int difficulty = 0;
+    int difficulty;
     /**
      * Id of the bionic, see @ref bionics.
      */
     std::string bionic_id;
+
+    islot_bionic()
+    : difficulty( 0 )
+    , bionic_id()
+    {
+    }
 };
 
 struct islot_software {
     /**
      * Type of software, see enum.
      */
-    software_type swtype = SW_USELESS;
+    software_type swtype;
+
+    islot_software()
+    : swtype( SW_USELESS )
+    {
+    }
 };
 
 // Data used when spawning items, should be obsoleted by the spawn system, but
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
-    std::string default_container; // The container it comes in
+    itype_id default_container; // The container it comes in
     std::vector<long> rand_charges;
 
-    islot_spawn() : default_container {"null"} { }
+    islot_spawn()
+    : default_container( "null" )
+    , rand_charges()
+    {
+    }
 };
 
 struct itype {
@@ -572,13 +683,13 @@ struct it_comest : public virtual itype {
 };
 
 struct it_tool : public virtual itype {
-    std::string ammo;
-    long max_charges = 0;
-    long def_charges = 0;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
-    std::string revert_to;
-    std::string subtype;
+    ammotype ammo;
+    long max_charges;
+    long def_charges;
+    unsigned char charges_per_use;
+    unsigned char turns_per_charge;
+    itype_id revert_to;
+    itype_id subtype;
 
     virtual bool is_tool() const
     {
@@ -599,6 +710,10 @@ struct it_tool : public virtual itype {
     int maximum_charges() const
     {
         return max_charges;
+    }
+    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), charges_per_use(0),
+        turns_per_charge(0), revert_to(), subtype()
+    {
     }
 };
 
