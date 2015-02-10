@@ -1629,11 +1629,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                nc_color color;
-                std::string health_bar = "";
-                get_item_HP_Bar(damage, color, health_bar);
-
-                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
+                auto nc_text = get_item_HP_Bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1645,11 +1642,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                nc_color color;
-                std::string health_bar = "";
-                get_item_HP_Bar(damage, color, health_bar);
-
-                damtext = "<color_" + string_from_color(color) + ">" + health_bar + " </color>";
+                auto nc_text = get_item_HP_Bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
 
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());

@@ -1619,23 +1619,26 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     }
 }
 
-void get_item_HP_Bar(const int iDamage, nc_color &color, std::string &text)
+std::pair<nc_color, std::string> get_item_HP_Bar(const int iDamage)
 {
+    nc_color color = c_white;
+    std::string text = "??";
+
     switch( iDamage ) {
     case -1:
-        color = c_ltblue;
+        color = c_green;
         text = "++";
         break;
     case 0:
-        color = c_green;
+        color = c_ltgreen;
         text = "||";
         break;
     case 1:
-        color = c_ltgreen;
+        color = c_yellow;
         text = "|\\";
         break;
     case 2:
-        color = c_yellow;
+        color = c_magenta;
         text = "|.";
         break;
     case 3:
@@ -1647,10 +1650,10 @@ void get_item_HP_Bar(const int iDamage, nc_color &color, std::string &text)
         text = "..";
         break;
     default:
-        color = c_white;
-        text = "??";
         break;
     }
+
+    return std::make_pair(color, text);
 }
 
 /**
