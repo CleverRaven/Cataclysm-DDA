@@ -128,6 +128,59 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base
     }
 }
 
+void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
+                    const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap, mes);
+    const std::string text = vstring_format(mes, ap);
+    va_end(ap);
+
+    std::string sText = "";
+    if ( utf8_width( remove_color_tags( text ).c_str() ) > width + 1 ) {
+
+        int iLength = 0;
+        std::string sTempText = "";
+        std::string sColor = "";
+
+        const auto color_segments = split_by_color( text );
+        for( auto seg : color_segments ) {
+            sColor = "";
+
+            if( !seg.empty() && seg[0] == '<' ) {
+                if ( seg.substr(0,8) == "</color>" ) {
+                    sTempText = seg.substr(8);
+                } else {
+                    sTempText = rm_prefix( seg );
+                    sColor = seg.substr(0, seg.find(">") + 1);
+                }
+            } else {
+                sTempText = seg;
+            }
+
+            const int iTempLen = utf8_width( sTempText.c_str() );
+            iLength += iTempLen;
+
+            if ( iLength > width ) {
+                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(), iTempLen - (iLength - width), NULL, -1)) + "…";
+            }
+
+            sText += sColor + sTempText;
+            if (sColor != "") {
+                sText += "</color>";
+            }
+
+            if ( iLength > width ) {
+                break;
+            }
+        }
+    } else {
+        sText = text;
+    }
+
+    print_colored_text(w, begin_y, begin_x, base_color, base_color, sText);
+}
+
 int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg )
 {
     const size_t wwidth = getmaxx( w );

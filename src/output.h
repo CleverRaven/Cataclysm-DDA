@@ -127,6 +127,8 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
                         nc_color color, const char *mes, ...);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const std::string &text);
+void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
+                    const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);

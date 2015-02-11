@@ -568,7 +568,7 @@ void editmap::update_view(bool update_info)
         }
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
-            fold_and_print(w_info, off, 1, getmaxx( w_info ), c_ltgray, _("There is a %s there."),
+            trim_and_print(w_info, off, 1, getmaxx( w_info ), c_ltgray, _("There is a %s there."),
                       g->m.i_at(target.x, target.y).front().tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {

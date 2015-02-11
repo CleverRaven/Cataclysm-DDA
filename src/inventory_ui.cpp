@@ -329,7 +329,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
-        fold_and_print(w_inv, cur_line, y + 2, w, name_color, "%s", item_name.c_str());
+        trim_and_print(w_inv, cur_line, y + 2, w, name_color, "%s", item_name.c_str());
     }
 }
 
@@ -349,7 +349,7 @@ void inventory_selector::print_right_column() const
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        fold_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
     for (size_t k = 0; k < u.worn.size(); k++) {
@@ -358,7 +358,7 @@ void inventory_selector::print_right_column() const
             continue;
         }
         const char invlet = invlet_or_space(u.worn[k]);
-        fold_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, u.worn[k].display_name().c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, u.worn[k].display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -381,7 +381,7 @@ void inventory_selector::print_right_column() const
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
-        fold_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
 }
