@@ -7708,6 +7708,7 @@ bool pet_menu(monster *z)
         cancel,
         swap_pos,
         push_zlave,
+        rename,
         attach_bag,
         drop_all,
         give_items,
@@ -7728,6 +7729,7 @@ bool pet_menu(monster *z)
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
+    amenu.addentry( rename, true, 'e', _("Rename") );
 
     if (z->has_effect("has_bag")) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
@@ -7801,6 +7803,14 @@ bool pet_menu(monster *z)
 
         z->move_to(z->posx() + deltax, z->posy() + deltay);
 
+        return true;
+    }
+
+    if ( rename == choice ) {
+        std::string unique_name = string_input_popup( _("Enter new pet name:"), 20 );
+        if( unique_name.length() > 0 ) {
+            z->unique_name = unique_name;
+        }
         return true;
     }
 
