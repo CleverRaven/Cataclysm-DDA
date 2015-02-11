@@ -220,6 +220,18 @@ class mapgen_function_json : public virtual mapgen_function {
      */
     template<typename PieceType>
     void load_objects( JsonObject &jsi, const std::string &member_name );
+    /**
+     * The mapping from character code (key) to a list of things that should be placed. This is
+     * similar to @ref objects, but it uses key to get the actual position where to place things
+     * out of the json "bitmap" (which is used to paint the terrain/furniture).
+     */
+    using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
+    template<typename PieceType>
+    /**
+     * Load (append to format_placings) the places that should be put there.
+     * member_name is the name of an optional object / array in the json object jsi.
+     */
+    void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
     std::string luascript;
 
     bool do_format;

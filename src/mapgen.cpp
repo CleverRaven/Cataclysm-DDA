@@ -698,6 +698,33 @@ void mapgen_function_json::load_objects( JsonObject &jsi, const std::string &mem
     load_objects<PieceType>( jsi.get_array( member_name ) );
 }
 
+template<typename PieceType>
+void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
+{
+    if( !jo.has_object( member_name ) ) {
+        return;
+    }
+    JsonObject pjo = jo.get_object( member_name );
+    for( auto & key : pjo.get_member_names() ) {
+        if( key.size() != 1 ) {
+            pjo.throw_error( "format map key must be 1 character", key );
+        }
+        auto &vect = format_placings[ key[0] ];
+        if( pjo.has_object( key ) ) {
+            JsonObject jsi = pjo.get_object( key );
+            std::shared_ptr<PieceType> what( new PieceType( jsi ) );
+            vect.push_back( what );
+        } else {
+            JsonArray jarr = pjo.get_array( key );
+            while( jarr.has_more() ) {
+                JsonObject jsi = jarr.next_object();
+                std::shared_ptr<PieceType> what( new PieceType( jsi ) );
+                vect.push_back( what );
+            }
+        }
+    }
+}
+
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
@@ -791,6 +818,13 @@ bool mapgen_function_json::setup() {
                     }
                 }
             }
+            placing_map format_placings;
+            load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
+            load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
+            load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
+            load_place_mapings<jmapgen_vending_machine>( jo, "vendingmachines", format_placings );
+            load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
+            load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -815,6 +849,13 @@ bool mapgen_function_json::setup() {
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
                         format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
+                    }
+                    const auto fpi = format_placings.find( tmpkey );
+                    if( fpi != format_placings.end() ) {
+                        jmapgen_place where( i, c );
+                        for( auto &what: fpi->second ) {
+                            objects.push_back( jmapgen_obj( where, what ) );
+                        }
                     }
                 }
                 c++;
