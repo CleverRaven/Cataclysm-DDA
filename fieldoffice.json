@@ -166,8 +166,8 @@
                     "H": "f_hay",
                     "I": "f_hay"
                 },
-                "place_specials": [
-                    { "type": "toilet", "x": 16, "y": 8 }
+                "place_toilets": [
+                    { "x": 16, "y": 8 }
                 ],
                 "comment": "randomly picked from a group ---v",
                 "place_groups": [
