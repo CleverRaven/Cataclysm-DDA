@@ -359,6 +359,34 @@ struct submap {
         rad[x][y] = radiation;
     }
 
+    void update_lum_add(item const &i, int const x, int const y) {
+        if (i.is_emissive() && lum[x][y] < 255) {
+            lum[x][y]++;
+        }
+    }
+
+    void update_lum_rem(item const &i, int const x, int const y) {
+        if (!i.is_emissive()) {
+            return;
+        } else if (lum[x][y] && lum[x][y] < 255) {
+            lum[x][y]--;
+            return;
+        }
+
+        // Have to scan through all items to be sure removing i will actally lower
+        // the count below 255.
+        int count = 0;
+        for (auto const &it : itm[x][y]) {
+            if (it.is_emissive()) {
+                count++;
+            }
+        }
+
+        if (count <= 256) {
+            lum[x][y] = static_cast<uint8_t>(count - 1);
+        }
+    }
+
     bool has_graffiti( int x, int y ) const;
     const std::string &get_graffiti( int x, int y ) const;
     void set_graffiti( int x, int y, const std::string &new_graffiti );
@@ -393,10 +421,11 @@ struct submap {
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
     furn_id         frn[SEEX][SEEY];  // Furniture on each square
-    trap_id         trp[SEEX][SEEY];  // Trap on each square
-    int             rad[SEEX][SEEY];  // Irradiation of each square
+    std::uint8_t    lum[SEEX][SEEY];  // Number of items emitting light on each square
     std::list<item> itm[SEEX][SEEY];  // Items on each square
     field           fld[SEEX][SEEY];  // Field on each square
+    trap_id         trp[SEEX][SEEY];  // Trap on each square
+    int             rad[SEEX][SEEY];  // Irradiation of each square
 
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 

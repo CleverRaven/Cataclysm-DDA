@@ -9,14 +9,51 @@
 #include <queue>
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
 
 #include "json.h"
 #include <fstream>
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
+static std::unordered_set<std::string> obsolete_mod_list;
+
+static void load_obsolete_mods( const std::string path )
+{
+    // info_file_path is the fully qualified path to the information file for this mod
+    std::ifstream infile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+    if( !infile ) {
+        // fail silently?
+        return;
+    }
+    try {
+        JsonIn jsin( infile );
+        jsin.eat_whitespace();
+        char ch = jsin.peek();
+        if( ch == '[' ) {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                obsolete_mod_list.insert( jsin.get_string() );
+            }
+        } else {
+            // not an object or an array?
+            std::stringstream err;
+            err << jsin.line_number() << ": ";
+            err << "expected array, but found '" << ch << "'";
+            throw err.str();
+        }
+    } catch(std::string e) {
+        debugmsg("%s", e.c_str());
+    }
+}
+
 mod_manager::mod_manager()
 {
+    // Insure obsolete_mod_list is initialized.
+    if( obsolete_mod_list.empty() && file_exist(FILENAMES["obsolete-mods"]) ) {
+        load_obsolete_mods(FILENAMES["obsolete-mods"]);
+    }
 }
 
 mod_manager::~mod_manager()
@@ -106,14 +143,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         // TODO: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
-        return;
-    }
-    if( jo.has_bool( "obsolete" ) ) {
-        // Marked obsolete, no need to try to load anything else.
-        MOD_INFORMATION *modfile = new MOD_INFORMATION;
-        modfile->ident = m_ident;
-        modfile->obsolete = true;
-        mod_map[modfile->ident] = modfile;
         return;
     }
 
@@ -363,10 +392,18 @@ std::string mod_manager::get_mods_list_file(const WORLDPTR world)
 
 void mod_manager::save_mods_list(WORLDPTR world) const
 {
-    if (world == NULL || world->active_mod_order.empty()) {
+    if( world == NULL ) {
         return;
     }
     const std::string path = get_mods_list_file(world);
+    if( world->active_mod_order.empty() ) {
+        // If we were called from load_mods_list to prune the list,
+        // and it's empty now, delete the file.
+        if( file_exist(path) ) {
+            remove_file(path);
+        }
+        return;
+    }
     std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);
     if(!mods_list_file) {
         popup(_("Can not open %s for writing"), path.c_str());
@@ -390,22 +427,33 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     }
     std::vector<std::string> &amo = world->active_mod_order;
     amo.clear();
-    std::ifstream mods_list_file(get_mods_list_file(world).c_str(), std::ios::in | std::ios::binary);
+    std::ifstream mods_list_file( get_mods_list_file(world).c_str(),
+                                  std::ios::in | std::ios::binary );
     if (!mods_list_file) {
         return;
     }
+    bool obsolete_mod_found = false;
     try {
         JsonIn jsin(mods_list_file);
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
             const std::string mod = ja.next_string();
-            if (mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end()) {
+            if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
                 continue;
             }
+            if( obsolete_mod_list.count( mod ) ) {
+                obsolete_mod_found = true;
+                continue;
+            }
+
             amo.push_back(mod);
         }
     } catch (std::string e) {
         DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
+    }
+    if( obsolete_mod_found ) {
+        // If we found an obsolete mod, overwrite the mod list without the obsolete one.
+        save_mods_list(world);
     }
 }
 
