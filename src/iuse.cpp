@@ -2976,9 +2976,12 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         }
         if( mod == it
                 || std::find(repair_items.begin(), repair_items.end(), mod->typeId()) != repair_items.end()) {
-            p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
+            p->add_msg_if_player(m_info, _("This can be used to repair or modify other items, not itself."));
             return 0;
         };
+        int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
+            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Repair clothing"),_("Cancel"), NULL);
+
         if(((mod->item_tags.count("furred")) && (mod->item_tags.count("pocketed"))) ||
            ((mod->item_tags.count("furred")) && (mod->item_tags.count("leather_padded"))) ||
            ((mod->item_tags.count("pocketed")) && (mod->item_tags.count("leather_padded"))) ||
@@ -2988,8 +2991,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
-        int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
-                           _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Cancel"), NULL);
+
         switch (choice) {
         case 1: {
             if(mod->item_tags.count("pocketed")) {
@@ -3310,6 +3312,10 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             return thread_used;
         }
         case 5: {
+            int thread_used = iuse::sew(p, it, true, pos);
+            return thread_used;
+        }
+        case 6: {
             return 0;
         }
         default: {
