@@ -73,7 +73,7 @@ public:
     atm_menu& operator=(atm_menu const&) = delete;
     atm_menu& operator=(atm_menu&&)      = delete;
 
-    explicit atm_menu(player &p) : u {p} {
+    explicit atm_menu(player &p) : u(p) {
         reset(false);
     }
 
@@ -320,8 +320,8 @@ private:
         return true;
     }
 
-    player& u;
-    uimenu  amenu;
+    player &u;
+    uimenu amenu;
 };
 } //namespace
 
