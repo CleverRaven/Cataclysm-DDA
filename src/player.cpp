@@ -243,7 +243,7 @@ player::~player()
 void player::normalize()
 {
     Character::normalize();
-    
+
     style_selected = "style_none";
 
     recalc_hp();
@@ -277,7 +277,7 @@ std::string player::skin_name() const
 void player::reset_stats()
 {
     Character::reset_stats();
-    
+
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -1230,7 +1230,7 @@ void player::update_bodytemp()
             }
         }
 
-        int temp_before = temp_cur[i];        
+        int temp_before = temp_cur[i];
         int temp_difference = temp_before - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
@@ -1242,12 +1242,12 @@ void player::update_bodytemp()
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
         }
-        // This statement checks if we should be wearing our bonus warmth. 
+        // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if (clothing_warmth_adjusted_bonus != 0 && 
-            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {            
+        if (clothing_warmth_adjusted_bonus != 0 &&
+            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {
             temp_conv[i] += clothing_warmth_adjusted_bonus;
-            rounding_error = 0;            
+            rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
                 rounding_error = 1;
             }
@@ -11625,7 +11625,7 @@ int player::bonus_warmth(body_part bp) const
     if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
-    
+
     return ret;
 }
 
@@ -11954,7 +11954,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             if( is_player() ) {
                 SCT.add(posx(), posy(),
                     NORTH,
-                    pre_damage_name, m_neutral,
+                    remove_color_tags( pre_damage_name ), m_neutral,
                     damage_verb, m_info);
             }
         }
