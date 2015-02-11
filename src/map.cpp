@@ -5187,61 +5187,6 @@ void map::build_outside_cache()
     outside_cache_dirty = false;
 }
 
-// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache()
-{
-    if( !transparency_cache_dirty ) {
-        return;
-    }
-    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
-        for( int y = 0; y < my_MAPSIZE * SEEY; y++ ) {
-            // Default to fully transparent.
-            transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
-
-            if( !ter_at(x, y).transparent || !furn_at(x, y).transparent ) {
-                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-                continue;
-            }
-
-            const field &curfield = field_at(x,y);
-            for( auto &fld : curfield ) {
-                const field_entry * cur = &fld.second;
-                    if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
-                        // Fields are either transparent or not, however we want some to be translucent
-                        switch(cur->getFieldType()) {
-                        case fd_cigsmoke:
-                        case fd_weedsmoke:
-                        case fd_cracksmoke:
-                        case fd_methsmoke:
-                        case fd_relax_gas:
-                            transparency_cache[x][y] *= 0.7;
-                            break;
-                        case fd_smoke:
-                        case fd_incendiary:
-                        case fd_toxic_gas:
-                        case fd_tear_gas:
-                            if(cur->getFieldDensity() == 3) {
-                                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-                            }
-                            if(cur->getFieldDensity() == 2) {
-                                transparency_cache[x][y] *= 0.5;
-                            }
-                            break;
-                        case fd_nuke_gas:
-                            transparency_cache[x][y] *= 0.5;
-                            break;
-                        default:
-                            transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-                            break;
-                        }
-                    }
-                    // TODO: [lightmap] Have glass reduce light as well
-            }
-        }
-    }
-    transparency_cache_dirty = false;
-}
-
 void map::build_map_cache()
 {
     build_outside_cache();
