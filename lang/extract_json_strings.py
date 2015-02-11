@@ -16,6 +16,11 @@ not_json = {
     "main.lua"
 }
 
+# don't parse this files. Full related path.
+ignore_files = {
+    "data/mods/obsolete-mods.json"
+}
+
 # these objects have no translatable strings
 ignorable = {
     "colordef",
@@ -373,12 +378,13 @@ def extract_all_from_dir(json_dir):
     dirs = []
     skiplist = [ ".gitkeep" ]
     for f in allfiles:
-        if os.path.isdir(os.path.join(json_dir, f)):
+        full_name = os.path.join(json_dir, f)
+        if os.path.isdir(full_name):
             dirs.append(f)
-        elif f in skiplist:
+        elif f in skiplist or full_name in ignore_files:
             continue
         elif f.endswith(".json"):
-            extract_all_from_file(os.path.join(json_dir, f))
+            extract_all_from_file(full_name)
         elif f not in not_json:
             print("skipping file: %r" % f)
     for d in dirs:
