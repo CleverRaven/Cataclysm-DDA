@@ -2123,8 +2123,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
         WINDOW_PTR wptr( w );
 
-        wmove(w, 1, 2);
-        wprintz(w, c_white, "%s", item_name.c_str());
+        fold_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
         max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
         if (max_line > TERMY - VIEW_OFFSET_Y * 2 - 5) {
             wmove(w, 1, iWidth - 3);
@@ -2247,8 +2246,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                     wprintz(w, c_white, "^^");
                 }
             }
-            wmove(w, 1, 2);
-            wprintz(w, c_white, "%s", item_name.c_str());
+            fold_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
             fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
             draw_border(w);
             wrefresh(w);
@@ -8179,7 +8177,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
             return;
         }
         auto items = m.i_at(lx, ly);
-        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        fold_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), items[0].tname().c_str());
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
@@ -9525,7 +9523,7 @@ int game::list_items(const int iLastState)
                                 sText << " [" << iter->vIG[iThisPage].count << "]";
                             }
 
-                            mvwprintz(w_items, iNum - iStartPos, 1,
+                            fold_and_print(w_items, iNum - iStartPos, 1, width - 8,
                                       ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example.color_in_inventory()))),
                                       "%s", (sText.str()).c_str());
                             int numw = iItemNum > 9 ? 2 : 1;

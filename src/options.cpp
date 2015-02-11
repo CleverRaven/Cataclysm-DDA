@@ -736,7 +736,7 @@ void initOptions()
 
     OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
-                                     false
+                                     true
                                     );
 
     mOptionsSort["interface"]++;
