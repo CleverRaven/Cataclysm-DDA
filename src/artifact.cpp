@@ -1136,7 +1136,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
@@ -1202,7 +1202,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
