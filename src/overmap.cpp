@@ -1348,6 +1348,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
+    std::array<std::pair<oter_id, oter_t const*>, 8> cache {};
+    size_t cache_next = 0;
+
     for (int i = 0; i < om_map_width; i++) {
         for (int j = 0; j < om_map_height; j++) {
             const int omx = cursx + i - (om_map_width / 2);
@@ -1363,20 +1366,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     los = true;
                 }
             }
-            //Check if there is an npc.
-            const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
-            // Check for hordes within player line-of-sight
-            bool horde_here = false;
-            if (los) {
-                std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx, omy, z);
-                for (const auto &ih : hordes) {
-                    if (ih->horde) {
-                        horde_here = true;
-                    }
-                }
-            }
-            // and a vehicle
-            const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
+
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
@@ -1449,36 +1439,50 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_color = c_dkgray;
                 ter_sym = '#';
                 // All cases below assume that see is true.
-            } else if (blink && npc_here) {
+            } else if (blink && overmap_buffer.has_npc(omx, omy, z)) {
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
                 ter_sym = '@';
-            } else if (blink && horde_here) {
+            } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym = 'Z';
-            } else if (blink && veh_here) {
+            } else if (blink && overmap_buffer.has_vehicle(omx, omy, z)) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
                 ter_sym = 'c';
             } else {
-                if (sZoneName != "" && tripointZone.x == omx && tripointZone.y == omy) {
+                if (!sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy) {
                     ter_color = c_yellow;
                     ter_sym = 'Z';
                 } else {
-                    // Nothing special, but is visible to the player.
-                    if (otermap.find(cur_ter) == otermap.end()) {
-                        debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
-                        ter_color = c_red;
-                        ter_sym = '?';
-                    } else {
-                        // Map tile marked as explored
-                        if (show_explored && overmap_buffer.is_explored(omx, omy, z)) {
-                            ter_color = c_dkgray;
-                        } else {
-                            ter_color = otermap[cur_ter].color;
+                    // Nothing special, but is visible to the player.                   
+                    oter_t const* info = nullptr;
+                    for (auto const &c : cache) {
+                        if (c.first == cur_ter) {
+                            info = c.second;
+                            break;
                         }
-                        ter_sym = otermap[cur_ter].sym;
+                    }
+                    
+                    if (!info) {
+                        auto const it = otermap.find(cur_ter);
+                        if (it == otermap.end()) {
+                            debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+                            ter_color = c_red;
+                            ter_sym = '?';
+                        }
+
+                        info = &it->second;
+                        cache[cache_next] = std::make_pair(cur_ter, info);
+                        cache_next = (cache_next + 1) % 8;
+                    }
+
+                    if (info) {
+                        // Map tile marked as explored
+                        bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
+                        ter_color = explored ? c_dkgray : info->color;
+                        ter_sym   = info->sym;
                     }
                 }
             }
@@ -3713,13 +3717,13 @@ const unsigned &oter_id::operator=(const int &i)
     return _val;
 }
 // ter(...) = "rock"
-oter_id::operator std::string() const
+oter_id::operator std::string const&() const
 {
     if ( _val > oterlist.size() ) {
         debugmsg("oterlist[%d] > %d", _val, oterlist.size()); // remove me after testing (?)
         return 0;
     }
-    return std::string(oterlist[_val].id);
+    return oterlist[_val].id;
 }
 
 // int index = ter(...);
