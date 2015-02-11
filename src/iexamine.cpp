@@ -78,10 +78,8 @@ public:
     }
 
     void start() {
-        while (!quit) {
+        for (bool result = false; !result; ) {
             amenu.query();
-
-            bool result = false;
 
             switch (uistate.iexamine_atm_selected = amenu.ret) {
             case purchase_card:      result = do_purchase_card();      break;
@@ -89,23 +87,24 @@ public:
             case withdraw_money:     result = do_withdraw_money();     break;
             case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
-            default :
+            default:
                 if (amenu.keypress != KEY_ESCAPE) {
                     continue; // only interested in escape.
                 }
                 //fallthrough
             case cancel:
-                quit = true;
-                break;
+                if (u.activity.type == ACT_ATM) {
+                    u.activity.index = 0; // stop activity
+                }
+                return;
             };
 
-            if (result) {
-                reset();
-            } else {
-                amenu.redraw();
-            }
-
+            amenu.redraw();
             g->draw();
+        }
+
+        if (u.activity.type != ACT_ATM) {
+            u.assign_activity(ACT_ATM, 0);
         }
     }
 private:
@@ -328,7 +327,6 @@ private:
 
     player& u;
     uimenu  amenu;
-    bool    quit = false;
 };
 } //namespace
 

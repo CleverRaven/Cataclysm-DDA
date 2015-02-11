@@ -40,6 +40,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,
     ACT_AIM,
+    ACT_ATM,
     NUM_ACTIVITIES
 };
 
