@@ -194,7 +194,6 @@ void item::init() {
     fridge = 0;
     rot = 0;
     last_rot_check = 0;
-    contents.init(this);
 }
 
 void item::make( const std::string new_type )
@@ -967,8 +966,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
                                  get_env_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", _("Storage: "), 
-                    string_format(_("%d/"), contents.space_used()), get_storage()));
+        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), 
+                    string_format(_("%d/"), space_used()), get_storage()));
     }
     if( is_book() ) {
 
@@ -1010,8 +1009,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int unread = get_remaining_chapters( g->u );
                 dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapter.",
                                                                  "This book has <num> unread chapters.",
-                                                                 unread ),
-                                           unread ) );
+                                                                 unread ), unread ) );
             }
 
             if (!(book->recipes.empty())) {
@@ -1748,7 +1746,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
-    } else if(!contents.is_empty()) {
+    } else if(!is_empty()) {
         if(contents.has_liquid()) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         } else if(contents.has_food()) {
@@ -1757,11 +1755,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                                  rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname( quantity, with_prefix ).c_str());
         } else if(is_storage()) {
-                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), contents.space_used(), get_storage());
+                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), space_used(), get_storage());
         } else {
             maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         }
-    } else if (contents.is_full()) {
+    } else if (is_full()) {
         maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
         maintext = type_name(quantity);
@@ -5116,9 +5114,8 @@ bool item_category::operator!=( const item_category &rhs ) const
 typedef std::vector<item>::iterator                                item_iterator;
 typedef std::vector<item>::const_iterator                    item_const_iterator;
 
-storage::storage(item *self, item_iterator start, item_iterator stop)
+storage::storage(item_iterator start, item_iterator stop)
 {
-    me = self;
     items.insert(items.begin(), start, stop);
 }
 
@@ -5166,20 +5163,6 @@ std::vector<item> storage::rem(item_iterator start, item_iterator stop)
     return things;
 }
 
-int storage::space_used() const
-{
-    int storage_used = 0;
-    for(auto &thing : items) {
-        storage_used += thing.volume();
-    }
-    return storage_used;
-}
-
-int storage::space_free() const
-{
-    return (me->get_storage() - space_used());
-}
-
 bool storage::has_liquid() const
 {
     return items[0].made_of("LIQUID");
@@ -5190,7 +5173,21 @@ bool storage::has_food() const
     return items[0].is_food();
 }
 
-bool storage::has_space_for(const item &thing) const
+int item::space_used() const
+{
+    int storage_used = 0;
+    for(auto &elem : contents.get()) {
+        storage_used += elem.volume();
+    }
+    return storage_used;
+}
+
+int item::space_free() const
+{
+    return (get_storage() - space_used());
+}
+
+bool item::has_space_for(const item &thing) const
 {
     return (thing.volume() <= space_free());
 }

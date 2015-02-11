@@ -98,21 +98,15 @@ class storage
     typedef std::vector<item>::const_iterator   item_const_iterator;
 
     private:
-        // <item *> to item that contains <this> storage instance
-        item *me;
         // items stored in this bag
         std::vector<item> items;
-        // holds any extra information we need about storage
-        std::map<std::string, void *> var;
 
     public:
         storage() {};
-        storage(item *self) : me(self) {}
-        storage(item *self, std::vector<item> &&item_vec)
-            : me(self), items(std::move(item_vec)) {}
-        storage(item *self, item_iterator start, item_iterator stop);
+        storage(std::vector<item> &&item_vec)
+            : items(std::move(item_vec)) {}
+        storage(item_iterator start, item_iterator stop);
 
-        void init(item *self)                               {        me = self;         }
         /*-----------------------------------------------------------------------------
          *                                  OVERLOADS
          *-----------------------------------------------------------------------------*/
@@ -148,29 +142,12 @@ class storage
         // removes a range of items
         std::vector<item> rem(item_iterator start, item_iterator stop);
         /*-----------------------------------------------------------------------------
-         *                                  UTIL
-         *-----------------------------------------------------------------------------*/
-        void *get_var(std::string name)                     { return var[name];         }
-        void set_var(std::string name, void *thing)         {        var[name] = thing; }
-        /*-----------------------------------------------------------------------------
          *                                STORAGE
          *-----------------------------------------------------------------------------*/
-        bool is_full() const
-        {
-            return space_free() == 0;
-        }
-        bool is_empty() const
-        {
-            return items.empty();
-        }
-
         // returns true if this is storing a liquid
         bool has_liquid() const;
         // returns true if storing food
         bool has_food() const;
-        bool has_space_for(const item &thing) const;
-        int space_used() const;
-        int space_free() const;
         /*-----------------------------------------------------------------------------
          *                                  JSON
          *-----------------------------------------------------------------------------*/
@@ -621,7 +598,20 @@ public:
 
         itype_id   typeId() const;
         itype      *type;
+
         storage    contents;
+
+        int space_used() const;
+        int space_free() const;
+        bool has_space_for(const item &thing) const;
+        bool is_full() const
+        {
+            return ((contents.empty()) ? false : space_free() == 0);
+        }
+        bool is_empty() const
+        {
+            return contents.empty();
+        }
 
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
