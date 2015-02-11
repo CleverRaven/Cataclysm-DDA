@@ -912,7 +912,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int scent;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;
-        long cash;
+        unsigned long cash;
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
