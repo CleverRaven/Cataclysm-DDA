@@ -362,11 +362,11 @@ void DynamicDataLoader::finalize_loaded_data()
     g->init_missions(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
+    g->finalize_vehicles();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
-    g->finalize_vehicles();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
     check_consistency();

@@ -497,6 +497,9 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
                  jsi.throw_error(string_format("place_group: no such monster group '%s'",tmpval.c_str() ));
              }
          } else if ( jsi.read("vehicle", tmpval ) ) {
+            if( g->vtypes.count( tmpval ) == 0 ) {
+                jsi.throw_error( string_format( "place_group: no such vehicle type '%s'", tmpval.c_str() ) );
+            }
              tmpop = JMAPGEN_PLACEGROUP_VEHICLE;
          } else {
              parray.throw_error("place_group: syntax error, need \"item\" \"item_group_name\" or \"monster\": \"mon_group_name\" ");
