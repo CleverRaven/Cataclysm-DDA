@@ -1063,7 +1063,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     int line_num = 1;
     if (sItemName != "") {
         const int iOffset = (without_border) ? 0 : 2;
-        fold_and_print(win, line_num, iOffset, getmaxx(win) - iOffset, c_white, "%s", sItemName.c_str());
+        trim_and_print(win, line_num, iOffset, getmaxx(win) - iOffset, c_white, "%s", sItemName.c_str());
         line_num = 3;
     }
 

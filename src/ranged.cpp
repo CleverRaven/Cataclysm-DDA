@@ -840,7 +840,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 p.print_recoil( w_target );
             }
         } else if( mode == TARGET_MODE_THROW ) {
-            fold_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());
+            trim_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());
         } else {
             wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
         }
