@@ -65,7 +65,7 @@
                 ["gold_watch", 20],
                 ["pocketwatch", 20],
                 ["collarpin", 10],
-				["tailors_kit", 40]
+                ["tailors_kit", 40]
             ]
     },{
             "type" : "item_group",
@@ -245,7 +245,7 @@
                 ["candle", 50],
                 ["scissors", 30],
                 ["soap", 45],
-				["tailors_kit", 25]
+                ["tailors_kit", 25]
             ]
     },{
         "type" : "mapgen",

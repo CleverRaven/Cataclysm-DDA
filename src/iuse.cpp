@@ -2747,166 +2747,163 @@ int iuse::sew(player *p, item *it, bool, point)
         add_msg(m_info, _("You can't see to sew!"));
         return 0;
     }
-        int thread_used = 1;
+    int thread_used = 1;
 
-        int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
-            return itm.made_of( "cotton" ) ||
-                   itm.made_of( "leather" ) ||
-                   itm.made_of( "fur" ) ||
-                   itm.made_of( "nomex" ) ||
-                   itm.made_of( "wool" );
-        } );
-        item *fix = &(p->i_at(pos));
-        if (fix == NULL || fix->is_null()) {
+    int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
+        return itm.made_of( "cotton" ) ||
+                itm.made_of( "leather" ) ||
+                itm.made_of( "fur" ) ||
+                itm.made_of( "nomex" ) ||
+                itm.made_of( "wool" );
+    } );
+    item *fix = &(p->i_at(pos));
+    if (fix == NULL || fix->is_null()) {
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
-        };
-        //some items are made from more than one material. we should try to use both items if one type of repair item is missing
-        itype_id repair_item = "none";
-        std::vector<std::string> plurals;
-        std::vector<itype_id> repair_items;
-        std::string plural = "";
-        //translation note: add <plural> tag to keep them unique
-        if (fix->made_of("cotton")) {
-            repair_items.push_back("rag");
-            plurals.push_back(rm_prefix(_("<plural>rags")));
-        }
-        if (fix->made_of("leather")) {
-            repair_items.push_back("leather");
-            plurals.push_back(rm_prefix(_("<plural>leather")));
-        }
-        if (fix->made_of("fur")) {
-            repair_items.push_back("fur");
-            plurals.push_back(rm_prefix(_("<plural>fur")));
-        }
-        if (fix->made_of("nomex")) {
-            repair_items.push_back("nomex");
-            plurals.push_back(rm_prefix(_("<plural>nomex")));
-        }
-        if (fix->made_of("wool")) {
-            repair_items.push_back("felt_patch");
-            plurals.push_back(rm_prefix(_("<plural>wool")));
-        }
-        if (repair_items.empty()) {
-            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
-                                 fix->tname().c_str());
-            return 0;
-        }
-        if( fix == it
-                || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
-            p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
-            return 0;
-        }
+    };
+    //some items are made from more than one material. we should try to use both items if one type of repair item is missing
+    itype_id repair_item = "none";
+    std::vector<std::string> plurals;
+    std::vector<itype_id> repair_items;
+    std::string plural = "";
+    //translation note: add <plural> tag to keep them unique
+    if (fix->made_of("cotton")) {
+        repair_items.push_back("rag");
+        plurals.push_back(rm_prefix(_("<plural>rags")));
+    }
+    if (fix->made_of("leather")) {
+        repair_items.push_back("leather");
+        plurals.push_back(rm_prefix(_("<plural>leather")));
+    }
+    if (fix->made_of("fur")) {
+        repair_items.push_back("fur");
+        plurals.push_back(rm_prefix(_("<plural>fur")));
+    }
+    if (fix->made_of("nomex")) {
+        repair_items.push_back("nomex");
+        plurals.push_back(rm_prefix(_("<plural>nomex")));
+    }
+    if (fix->made_of("wool")) {
+        repair_items.push_back("felt_patch");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
+    }
+    if (repair_items.empty()) {
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
+                                fix->tname().c_str());
+        return 0;
+    }
+    if( fix == it
+            || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
+        p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
+        return 0;
+    }
 
-        int items_needed = (fix->damage > 2 || fix->damage == 0) ? 1 : 0;
+    int items_needed = (fix->damage > 2 || fix->damage == 0) ? 1 : 0;
 
-        // this will cause issues if/when NPCs start being able to sew.
-        // but, then again, it'll cause issues when they start crafting, too.
-        const inventory &crafting_inv = p->crafting_inventory();
-        bool bFound = false;
-        //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items ) {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                //we've found enough of a material, use this one
-                repair_item = repair_items_i;
-                bFound = true;
+    // this will cause issues if/when NPCs start being able to sew.
+    // but, then again, it'll cause issues when they start crafting, too.
+    const inventory &crafting_inv = p->crafting_inventory();
+    bool bFound = false;
+    //go through all discovered repair items and see if we have any of them available
+    for( auto &repair_items_i : repair_items ) {
+        if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
+            //we've found enough of a material, use this one
+            repair_item = repair_items_i;
+            bFound = true;
+        }
+    }
+    if (!bFound) {
+        for (unsigned int i = 0; i < repair_items.size(); i++) {
+            p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+        }
+        return 0;
+    }
+    std::vector<item_comp> comps;
+    comps.push_back(item_comp(repair_item, items_needed));
+
+    if (fix->damage > 0) {
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("tailor", 8);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        rn -= rng(fix->damage, fix->damage * 2);
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+        if (rn <= 4) {
+            p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix->tname().c_str());
+            fix->damage++;
+            if (fix->damage >= 5) {
+                p->add_msg_if_player(m_bad, _("You destroy it!"));
+                p->i_rem_keep_contents( pos );
             }
-        }
-        if (!bFound) {
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-            }
-            return 0;
-        }
-
-        std::vector<item_comp> comps;
-        comps.push_back(item_comp(repair_item, items_needed));
-
-        if (fix->damage > 0) {
+        } else
+            if (rn <= 6) {
+                p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
+                                        fix->tname().c_str());
+                thread_used = rng(1, 8);
+            } else
+                if (rn <= 8) {
+                    p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
+                                            fix->tname().c_str());
+                    if (fix->damage >= 3) {
+                        p->consume_items(comps);
+                    }
+                    fix->damage--;
+                    thread_used = rng(1, 8);
+                } else
+                    if (rn <= 16) {
+                        p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
+                        if (fix->damage >= 3) {
+                            p->consume_items(comps);
+                        }
+                        fix->damage--;
+                    } else {
+                        p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
+                        if (fix->damage >= 3) {
+                            p->consume_items(comps);
+                        }
+                        fix->damage = 0;
+                    }
+    } else
+        if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
             p->moves -= 500 * p->fine_detail_vision_mod();
-            p->practice("tailor", 8);
+            p->practice("tailor", 10);
             int rn = dice(4, 2 + p->skillLevel("tailor"));
-            rn -= rng(fix->damage, fix->damage * 2);
             if (p->dex_cur < 8 && one_in(p->dex_cur)) {
                 rn -= rng(2, 6);
             }
-            if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
+            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
                 rn += rng(2, 6);
             }
             if (p->dex_cur > 16) {
                 rn += rng(0, p->dex_cur - 16);
             }
             if (rn <= 4) {
-                p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix->tname().c_str());
+                p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
                 fix->damage++;
-                if (fix->damage >= 5) {
-                    p->add_msg_if_player(m_bad, _("You destroy it!"));
-                    p->i_rem_keep_contents( pos );
-                }
             } else
-                if (rn <= 6) {
-                    p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
-                                         fix->tname().c_str());
-                    thread_used = rng(1, 8);
-                } else
-                    if (rn <= 8) {
-                        p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
-                                             fix->tname().c_str());
-                        if (fix->damage >= 3) {
-                            p->consume_items(comps);
-                        }
-                        fix->damage--;
-                        thread_used = rng(1, 8);
-                    } else
-                        if (rn <= 16) {
-                            p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-                            if (fix->damage >= 3) {
-                                p->consume_items(comps);
-                            }
-                            fix->damage--;
-                        } else {
-                            p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-                            if (fix->damage >= 3) {
-                                p->consume_items(comps);
-                            }
-                            fix->damage = 0;
-                        }
-        } else
-            if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice("tailor", 10);
-                int rn = dice(4, 2 + p->skillLevel("tailor"));
-                if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-                    rn -= rng(2, 6);
-                }
-                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-                    rn += rng(2, 6);
-                }
-                if (p->dex_cur > 16) {
-                    rn += rng(0, p->dex_cur - 16);
-                }
-                if (rn <= 4) {
-                    p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-                    fix->damage++;
-                } else
-                    if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
-                        p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
-                        fix->item_tags.insert("FIT");
-                    }else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-                        p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-                        fix->damage--;
-                        p->consume_items(comps);
-                        } else {
-                            p->add_msg_if_player(m_neutral, _("You practice your sewing."));
-                        }
-            } else {
-                p->add_msg_if_player(m_info, _("Your %s already reinforced."), fix->tname().c_str());
-                return 0;
-            }
+                if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
+                    p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
+                    fix->item_tags.insert("FIT");
+                }else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
+                    p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
+                    fix->damage--;
+                    p->consume_items(comps);
+                    } else {
+                        p->add_msg_if_player(m_neutral, _("You practice your sewing."));
+                    }
+        } else {
+            p->add_msg_if_player(m_info, _("Your %s already reinforced."), fix->tname().c_str());
+            return 0;
+        }
 
-        return thread_used;
-
-
+    return thread_used;
 }
 
 

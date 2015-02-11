@@ -1241,12 +1241,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("pocketed")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've sewed on some pockets and straps to give you some more places to carry things.")));
+                _("You've sewn on some pockets and straps to give you some more places to carry things.")));
         }
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've sewed in a fur lining to increase its overall warmth.")));
+                _("You've sewn in a fur lining to increase its overall warmth.")));
         }
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1776,7 +1776,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (item_tags.count("pocketed") > 0 ){
         ret << _(" (P)");
     }
-        if (item_tags.count("furred") > 0 ){
+    if (item_tags.count("furred") > 0 ){
         ret << _(" (F)");
     }
     if (item_tags.count("leather_padded") > 0 ){
@@ -2277,10 +2277,13 @@ int item::get_storage() const
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
     if (item::item_tags.count("pocketed") > 0){
-        pockets = (volume() * get_coverage()) / 100;
-        return result + pockets;
+        pockets = ((volume() * get_coverage()) / 100) / 1.333;
+        if (result > (volume() / 2)){
+            pockets = (pockets / 2);
         }
-    else return result;
+        return result + pockets;
+        } else { return result;
+    }
 }
 int item::get_env_resist() const
 {
@@ -2342,14 +2345,10 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
      if (item::item_tags.count("furred") > 0){
-        warmed = 2; // Doubles an item's warmth
-        if (result > 0){
-            return result * warmed;
-        }
-        else return result + (warmed * 5);
-     }
-     else return result;
-
+        warmed = 2 * ((volume() * get_coverage()) / 100); // Doubles an item's warmth
+        return result + warmed;
+        } else { return result;
+    }
 }
 
 int item::brewing_time() const
@@ -2490,8 +2489,8 @@ int item::melee_value(player *p)
 int item::bash_resist() const
 {
     int resist = 0;
-    float l_padding = 1;
-    float k_padding = 1;
+    float l_padding = 0;
+    float k_padding = 0;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2502,10 +2501,16 @@ int item::bash_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = 1.4;
+        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (l_padding > 5 ){
+            l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
+        }
     }
-        if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = 1.4;
+    if (item::item_tags.count("kevlar_padded") > 0){
+        k_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (k_padding > 5 ){
+            k_padding = k_padding / 2.5;
+        }
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2520,14 +2525,14 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment * l_padding * k_padding);
+    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
 {
     int resist = 0;
-    float l_padding = 1;
-    float k_padding = 1;
+    float l_padding = 0;
+    float k_padding = 0;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2538,10 +2543,16 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = 1.4;
+        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (l_padding > 5 ){
+            l_padding = l_padding / 2.5;
+        }
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = 2;
+        k_padding = ((volume() * get_coverage()) / 100) / 2;
+        if (k_padding > 5 ){
+            k_padding = k_padding / 2;
+        }
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2556,7 +2567,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment * l_padding * k_padding);
+    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
