@@ -493,6 +493,7 @@ public:
  bool is_container_empty() const;
  bool is_container_full() const;
  bool is_funnel_container(int &bigger_than) const;
+ bool is_emissive() const; //! whether the item emits light
 
  bool is_tool() const;
  bool is_tool_reversible() const;
@@ -1006,6 +1007,11 @@ class map_item_stack
                 vIG[iVGsize - 1].count++;
             }
             totalcount++;
+        }
+
+        static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
+        {
+            return lhs.example.get_category().sort_rank < rhs.example.get_category().sort_rank;
         }
 };
 

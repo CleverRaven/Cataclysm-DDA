@@ -617,7 +617,7 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
 {
-    return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota);
+    return cata_tiles::draw_from_id_string(std::move(id), C_NONE, empty_string, x, y, subtile, rota);
 }
 
 bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
@@ -635,26 +635,17 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return false;
     }
 
-    std::string seasonal_id;
-    switch (calendar::turn.get_season()) {
-    case SPRING:
-        seasonal_id = id + "_season_spring";
-        break;
-    case SUMMER:
-        seasonal_id = id + "_season_summer";
-        break;
-    case AUTUMN:
-        seasonal_id = id + "_season_autumn";
-        break;
-    case WINTER:
-        seasonal_id = id + "_season_winter";
-        break;
-    }
+    constexpr size_t suffix_len = 15;
+    constexpr char const season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
+   
+    std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
+
     tile_id_iterator it = tile_ids.find(seasonal_id);
     if (it == tile_ids.end()) {
         it = tile_ids.find(id);
     } else {
-        id = seasonal_id;
+        id = std::move(seasonal_id);
     }
 
     if (it == tile_ids.end()) {
@@ -787,11 +778,12 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile->multitile) {
-        std::vector<std::string> display_subtiles = display_tile->available_subtiles;
-        if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
+        auto const &display_subtiles = display_tile->available_subtiles;
+        auto const end = std::end(display_subtiles);
+        if (std::find(begin(display_subtiles), end, multitile_keys[subtile]) != end) {
             // append subtile name to tile and re-find display_tile
-            const std::string new_id = id + "_" + multitile_keys[subtile];
-            return draw_from_id_string(new_id, x, y, -1, rota);
+            return draw_from_id_string(
+                std::move(id.append("_", 1).append(multitile_keys[subtile])),x, y, -1, rota);
         }
     }
 

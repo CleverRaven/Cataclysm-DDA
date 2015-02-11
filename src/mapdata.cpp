@@ -897,8 +897,10 @@ submap::submap()
 
     std::uninitialized_fill_n(&ter[0][0], elements, t_null);
     std::uninitialized_fill_n(&frn[0][0], elements, f_null);
+    std::uninitialized_fill_n(&lum[0][0], elements, 0);
     std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
     std::uninitialized_fill_n(&rad[0][0], elements, 0);
+    
 }
 
 submap::~submap()
