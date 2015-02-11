@@ -264,9 +264,9 @@
                         { "item":    "bowling_food",     "chance": 60,    "x": [1,1], "y":[15,16]    },
                         { "item":    "bowling_fridge",   "chance": 70,    "x": [1,1], "y":[19,21]    }
                     ],
-                    "place_specials": [
-                        { "type": "toilet", "x": 6, "y": 22 },
-                        { "type": "toilet", "x": 9, "y": 22 }
+                    "place_toilets": [
+                        { "x": 6, "y": 22 },
+                        { "x": 9, "y": 22 }
                     ]
                 }
             }

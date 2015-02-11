@@ -209,8 +209,8 @@
                 "L": "f_locker",
                 "U": "f_chair"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 22 }
+            "place_toilets": [
+                { "x": 1, "y": 22 }
             ],
             "//": "Default terrain is floor but some things are outside (tables)",
             "set": [

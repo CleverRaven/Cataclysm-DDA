@@ -90,8 +90,8 @@
                 "w": "f_washer",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 15, "y": 13 }
+            "place_toilets": [
+                { "x": 15, "y": 13 }
             ],
             "add": [
                 { "item": "television", "x": 5, "y": 11 }

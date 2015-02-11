@@ -120,9 +120,6 @@
             "?": "f_statue",
             "G": "f_oven"
             },
-                "place_specials": [
-                    
-                ],
                 "comment": "randomly picked from a group ---v",
                 "place_groups": [
                  { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [3,3 ] },

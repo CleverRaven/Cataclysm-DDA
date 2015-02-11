@@ -93,12 +93,14 @@
                 "H": "f_armchair",
                 "P": "f_sign"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 20, "y": 4 },
-                { "type": "toilet", "x": 8, "y": 21 },
-                { "type": "toilet", "x": 10, "y": 21 },
-                { "type": "sign", "x": 1, "y": 2, "signage": "the address has been defaced" },
-                { "type": "sign", "x": 23, "y": 2, "signage": "the address is unreadable" }
+            "place_toilets": [
+                { "x": 20, "y": 4 },
+                { "x": 8, "y": 21 },
+                { "x": 10, "y": 21 }
+            ],
+            "place_signs": [
+                { "x": 1, "y": 2, "signage": "the address has been defaced" },
+                { "x": 23, "y": 2, "signage": "the address is unreadable" }
             ],
             "add": [
                 { "item": "television", "x": 15, "y": 2 },

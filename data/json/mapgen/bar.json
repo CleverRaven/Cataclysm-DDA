@@ -179,8 +179,8 @@
                 "{": "f_rack",
                 "C": "f_chair"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 22 }
+            "place_toilets": [
+                { "x": 1, "y": 22 }
             ],
             "//": "default fill is floor but dumpster is on pavement",
             "set": [

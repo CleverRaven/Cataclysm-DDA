@@ -76,8 +76,8 @@
                 "^": "f_indoor_plant",
                 "A": "f_statue"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 18 }
+            "place_toilets": [
+                { "x": 2, "y": 18 }
             ],
             "place_groups": [
                 {"item": "restaur_table",  "chance": 30, "x": 17,   "y": 10, "repeat": [1,2]},

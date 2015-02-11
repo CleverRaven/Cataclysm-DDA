@@ -171,8 +171,8 @@
         
         { "line": "trap", "x": 14, "y": 13, "x2": 16, "y2": 13, "id": "tr_beartrap", "chance": 10 }
       ],
-      "place_specials": [
-        { "type": "toilet", "x": 15, "y": 16 }
+      "place_toilets": [
+        { "x": 15, "y": 16 }
       ],
       "place_groups": [
         {"item": "fast_table",  "chance": 20, "x": 8,     "y": 3,      "repeat": [1,2]},

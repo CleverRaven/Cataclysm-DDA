@@ -230,9 +230,9 @@
                 "..............ss........",
                 "..............ss........"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 22, "y": 10 },
-                { "type": "toilet", "x": 5, "y": 12 }
+           "place_toilets": [
+                { "x": 22, "y": 10 },
+                { "x": 5, "y": 12 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -1205,8 +1205,8 @@
                 ".|-----|------------|---",
                 "-|  h  V   kh   kh  |@ t"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 23, "y": 23 }
+           "place_toilets": [
+                { "x": 23, "y": 23 }
             ],
             "add": [
                 { "item": "55gal_drum", "x": 11, "y": 2, "chance": 90 },
@@ -1373,10 +1373,10 @@
                 "------------|...........",
                 "!@ t!@ t!@ t|........x.."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 3, "y": 23 },
-                { "type": "toilet", "x": 11, "y": 23 },
-                { "type": "toilet", "x": 7, "y": 23 }
+           "place_toilets": [
+                { "x": 3, "y": 23 },
+                { "x": 11, "y": 23 },
+                { "x": 7, "y": 23 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -1536,8 +1536,8 @@
                 ".qQQQQQQQQQQQQQQQQQQQQQQ",
                 "........................"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 11, "y": 3 }
+           "place_toilets": [
+                { "x": 11, "y": 3 }
             ],
             "place_groups": [
                 { "vehicle": "electric_car", "x": 15, "y": 17, "rotation": 0, "chance": 75},
@@ -2030,9 +2030,9 @@
                 ".|c  {{{{ssssssMss.MMsMM",
                 ".|-{{{-sss-ssssssM.MMMsM"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 12, "y": 4 },
-                { "type": "toilet", "x": 16, "y": 4 }
+           "place_toilets": [
+                { "x": 12, "y": 4 },
+                { "x": 16, "y": 4 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -2511,15 +2511,17 @@
                 "..w h   r r r r| +      ",
                 "..|P           : | hhhhh"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 11, "y": 6 },
-                { "type": "toilet", "x": 11, "y": 9 },
-                { "type": "toilet", "x": 13, "y": 3 },
-                { "type": "toilet", "x": 15, "y": 3 },
-                { "type": "toilet", "x": 17, "y": 3 },
-                { "type": "toilet", "x": 20, "y": 3 },
-                { "type": "vendingmachine", "x": 14, "y": 14, "item_group": "vending_food" },
-                { "type": "vendingmachine", "x": 14, "y": 15, "item_group": "vending_drink" }
+           "place_toilets": [
+                { "x": 11, "y": 6 },
+                { "x": 11, "y": 9 },
+                { "x": 13, "y": 3 },
+                { "x": 15, "y": 3 },
+                { "x": 17, "y": 3 },
+                { "x": 20, "y": 3 }
+            ],
+           "place_vendingmachines": [
+                { "x": 14, "y": 14, "item_group": "vending_food" },
+                { "x": 14, "y": 15, "item_group": "vending_drink" }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -2684,8 +2686,8 @@
                 " |ss________________,___",
                 " |ss________________,___"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 23, "y": 8 }
+           "place_toilets": [
+                { "x": 23, "y": 8 }
             ],
             "place_groups": [
                 { "vehicle": "policecar", "x": 23, "y": 14, "rotation": 180, "chance": 50 },
@@ -2856,10 +2858,10 @@
                 "_____,________8.........",
                 "_____,________8........."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 3, "y": 8 },
-                { "type": "toilet", "x": 7, "y": 8 },
-                { "type": "toilet", "x": 11, "y": 8 }
+           "place_toilets": [
+                { "x": 3, "y": 8 },
+                { "x": 7, "y": 8 },
+                { "x": 11, "y": 8 }
             ],
             "place_groups": [
                 { "vehicle": "policecar", "x": 9, "y": 14, "rotation": 180, "chance": 50 },
@@ -5280,8 +5282,8 @@
                 "   +     kkk      |  |..",
                 "---|      h    @@ |--|.."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 15, "y": 16 }
+           "place_toilets": [
+                { "x": 15, "y": 16 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -5451,8 +5453,8 @@
                 "......|){{{{{sssMssMsssM",
                 "......|-{{{{ssMsMssMssMM"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 20, "y": 11 }
+           "place_toilets": [
+                { "x": 20, "y": 11 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -7709,12 +7711,14 @@
                 "sss|-+---------|-- --|ss",
                 "sss|   jjjjjj D|l    |ss"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 11, "y": 7 },
-                { "type": "toilet", "x": 11, "y": 7},
-                { "type": "toilet", "x": 13, "y": 14 },
-                { "type": "toilet", "x": 13, "y": 14 },
-                { "type": "vendingmachine", "x": 16, "y": 23, "item_group": "vending_drink" }
+            "place_toilets": [
+                { "x": 11, "y": 7 },
+                { "x": 11, "y": 7},
+                { "x": 13, "y": 14 },
+                { "x": 13, "y": 14 }
+            ],
+            "place_vendingmachines": [
+                { "x": 16, "y": 23, "item_group": "vending_drink" }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -7884,13 +7888,13 @@
                 "ssssssssssssssssssssssss",
                 "ss______________________"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 12, "y": 0 },
-                { "type": "toilet", "x": 12, "y": 7 },
-                { "type": "toilet", "x": 12, "y": 14 },
-                { "type": "toilet", "x": 14, "y": 0 },
-                { "type": "toilet", "x": 14, "y": 7 },
-                { "type": "toilet", "x": 14, "y": 14 }
+           "place_toilets": [
+                { "x": 12, "y": 0 },
+                { "x": 12, "y": 7 },
+                { "x": 12, "y": 14 },
+                { "x": 14, "y": 0 },
+                { "x": 14, "y": 7 },
+                { "x": 14, "y": 14 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -8216,9 +8220,9 @@
                 "___,__,_________________",
                 "___,,,,_________________"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 12, "y": 13 },
-                { "type": "toilet", "x": 12, "y": 16 }
+            "place_toilets": [
+                { "x": 12, "y": 13 },
+                { "x": 12, "y": 16 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -8705,9 +8709,9 @@
                 "........................",
                 "....C..................."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 18, "y": 6 },
-                { "type": "toilet", "x": 18, "y": 12 }
+           "place_toilets": [
+                { "x": 18, "y": 6 },
+                { "x": 18, "y": 12 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -8888,11 +8892,11 @@
                 "........|S |        wss_",
                 "........|-+|        |ss_"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 9, "y": 0 },
-                { "type": "toilet", "x": 9, "y": 7 },
-                { "type": "toilet", "x": 9, "y": 14 },
-                { "type": "toilet", "x": 9, "y": 21 }
+           "place_toilets": [
+                { "x": 9, "y": 0 },
+                { "x": 9, "y": 7 },
+                { "x": 9, "y": 14 },
+                { "x": 9, "y": 21 }
             ],
             "place_groups": [
                 { "item": "traveler", "chance": 70, "x": [ 13,18 ], "y": [ 4,4]},
@@ -9227,13 +9231,15 @@
                 "_ssw        |  k     +ss",
                 "_ssw        ; hk     +ss"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 11, "y": 4 },
-                { "type": "toilet", "x": 11, "y": 11 },
-                { "type": "toilet", "x": 13, "y": 4 },
-                { "type": "toilet", "x": 13, "y": 11 },
-                { "type": "vendingmachine", "x": 16, "y": 0, "item_group": "vending_food" },
-                { "type": "vendingmachine", "x": 20, "y": 17, "item_group": "vending_drink" }
+            "place_toilets": [
+                { "x": 11, "y": 4 },
+                { "x": 11, "y": 11 },
+                { "x": 13, "y": 4 },
+                { "x": 13, "y": 11 }
+            ],
+            "place_vendingmachines": [
+                { "x": 16, "y": 0, "item_group": "vending_food" },
+                { "x": 20, "y": 17, "item_group": "vending_drink" }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -10209,9 +10215,9 @@
                 "...|---vv-|--|------|.q.",
                 "T.....................q."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 12, "y": 9 },
-                { "type": "toilet", "x": 12, "y": 17 }
+           "place_toilets": [
+                { "x": 12, "y": 9 },
+                { "x": 12, "y": 17 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -11966,8 +11972,8 @@
                 "......................C.",
                 "........................"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 22, "y": 12 }
+           "place_toilets": [
+                { "x": 22, "y": 12 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -12134,8 +12140,8 @@
                 "........................",
                 "........#..............."
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 19, "y": 7 }
+           "place_toilets": [
+                { "x": 19, "y": 7 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
@@ -12781,9 +12787,9 @@
                 ".......................X",
                 "..............#........."
             ],
-           "place_specials": [
-                { "type": "vendingmachine", "x": 3, "y": 5, "item_group": "vending_food" },
-                { "type": "vendingmachine", "x": 4, "y": 5, "item_group": "vending_drink" }
+           "place_vendingmachines": [
+                { "x": 3, "y": 5, "item_group": "vending_food" },
+                { "x": 4, "y": 5, "item_group": "vending_drink" }
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 10, "y": 10, "rotation": 270, "chance": 75 },
@@ -12952,9 +12958,9 @@
                 "........................",
                 "........................"
             ],
-           "place_specials": [
-                { "type": "toilet", "x": 6, "y": 10 },
-                { "type": "toilet", "x": 6, "y": 12 }
+           "place_toilets": [
+                { "x": 6, "y": 10 },
+                { "x": 6, "y": 12 }
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },

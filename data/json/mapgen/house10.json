@@ -79,9 +79,9 @@
                 "S": "f_sink",
                 "t": "f_toilet"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 3, "y": 11 },
-                { "type": "toilet", "x": 20, "y": 13 }
+            "place_toilets": [
+                { "x": 3, "y": 11 },
+                { "x": 20, "y": 13 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [

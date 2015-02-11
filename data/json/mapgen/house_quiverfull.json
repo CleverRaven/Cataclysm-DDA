@@ -93,9 +93,9 @@
                 "G": "f_oven",
                 "H": "f_armchair"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 15, "y": 20 },
-                { "type": "toilet", "x": 10, "y": 2 }
+            "place_toilets": [
+                { "x": 15, "y": 20 },
+                { "x": 10, "y": 2 }
             ],
                         "comment": "randomly picked from a group ---v",
             "place_groups": [

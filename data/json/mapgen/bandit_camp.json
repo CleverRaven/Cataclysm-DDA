@@ -45,10 +45,10 @@
                 { "item": "camping", "chance": 75,  "x": [ 8,9 ], "y": [ 17,18 ] },
                 { "item": "electronics", "chance": 75,  "x": [ 23,23 ], "y": [ 16,18 ] }
             ],
-            "place_specials": [
-                { "type": "npc", "class": "bandit", "x": 15, "y": 13 },
-                { "type": "npc", "class": "bandit", "x": 20, "y": 12 },
-                { "type": "npc", "class": "thug", "x": 20, "y": 20 }
+            "place_npcs": [
+                { "class": "bandit", "x": 15, "y": 13 },
+                { "class": "bandit", "x": 20, "y": 12 },
+                { "class": "thug", "x": 20, "y": 20 }
             ],
             "set": [
                 { "point": "trap", "id": "tr_landmine_buried", "x": [ 7, 23 ], "y": [ 2, 5 ], "repeat": [ 2, 6 ] },
@@ -139,9 +139,9 @@
                 { "item": "home_hw", "chance": 75,  "x": [ 3,3 ], "y": [ 17,19 ] },
                 { "item": "electronics", "chance": 75,  "x": [ 1,2 ], "y": [ 19,19 ] }
             ],
-            "place_specials": [
-                { "type": "npc", "class": "bandit", "x": 11, "y": 13 },
-                { "type": "npc", "class": "bandit", "x": 15, "y": 22 }
+            "place_npcs": [
+                { "class": "bandit", "x": 11, "y": 13 },
+                { "class": "bandit", "x": 15, "y": 22 }
             ],
             "set": [
                 { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 16 ], "y": [ 2, 5 ], "repeat": [ 2, 6 ] },
@@ -244,10 +244,10 @@
                 { "point": "trap", "id": "tr_rollmat", "x": 14, "y": 13},
                 { "point": "trap", "id": "tr_rollmat", "x": 15, "y": 13}
             ],
-            "place_specials": [
-                { "type": "npc", "class": "bandit", "x": 11, "y": 6 },
-                { "type": "npc", "class": "bandit", "x": 16, "y": 9 },
-                { "type": "npc", "class": "bandit", "x": 14, "y": 14 }
+            "place_npcs": [
+                { "class": "bandit", "x": 11, "y": 6 },
+                { "class": "bandit", "x": 16, "y": 9 },
+                { "class": "bandit", "x": 14, "y": 14 }
             ],
             "terrain": {
                 "/": "t_dirt",
@@ -343,10 +343,10 @@
                 { "point": "trap", "id": "tr_rollmat", "x": 0, "y": 9},
                 { "point": "trap", "id": "tr_rollmat", "x": 0, "y": 10}
             ],
-            "place_specials": [
-                { "type": "npc", "class": "thug", "x": 1, "y": 17 },
-                { "type": "npc", "class": "bandit", "x": 4, "y": 17 },
-                { "type": "npc", "class": "thug", "x": 12, "y": 6 }
+            "place_npcs": [
+                { "class": "thug", "x": 1, "y": 17 },
+                { "class": "bandit", "x": 4, "y": 17 },
+                { "class": "thug", "x": 12, "y": 6 }
             ],
             "terrain": {
                 "/": "t_dirt",

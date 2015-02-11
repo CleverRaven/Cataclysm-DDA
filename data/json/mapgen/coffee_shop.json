@@ -185,9 +185,9 @@
         "c": "f_counter",
         "&": "f_trashcan"
       },
-      "place_specials": [
-        { "type": "toilet", "x": 7, "y": 22 },
-        { "type": "toilet", "x": 1, "y": 22 }
+      "place_toilets": [
+        { "x": 7, "y": 22 },
+        { "x": 1, "y": 22 }
       ],
       "//": "Default fill is floor but some tables are outside",
       "set": [

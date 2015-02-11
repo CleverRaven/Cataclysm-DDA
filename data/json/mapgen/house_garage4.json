@@ -89,8 +89,8 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 5, "y": 14 }
+            "place_toilets": [
+                { "x": 5, "y": 14 }
             ],
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },

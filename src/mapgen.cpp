@@ -508,6 +508,106 @@ public:
         m.add_field( point( x, y ), ftype, density, age );
     }
 };
+/**
+ * Place an NPC.
+ * "class": the npc class, see @ref map::place_npc
+ */
+class jmapgen_npc : public jmapgen_piece {
+public:
+    std::string npc_class;
+    jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
+    , npc_class( jsi.get_string( "class" ) )
+    {
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.place_npc( x, y, npc_class );
+    }
+};
+/**
+ * Place a sign with some text.
+ * "signage": the text on the sign.
+ */
+class jmapgen_sign : public jmapgen_piece {
+public:
+    std::string signage;
+    jmapgen_sign( JsonObject &jsi ) : jmapgen_piece()
+    , signage( jsi.get_string( "signage" ) )
+    {
+        if( !signage.empty() ) {
+            signage = _( signage.c_str() );
+        }
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.furn_set( x, y, f_null );
+        m.furn_set( x, y, "f_sign" );
+        m.set_signage( x, y, signage );
+    }
+};
+/**
+ * Place a vending machine with content.
+ * "item_group": the item group that is used to generate the content of the vending machine.
+ */
+class jmapgen_vending_machine : public jmapgen_piece {
+public:
+    std::string item_group;
+    jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
+    , item_group( jsi.get_string( "item_group", one_in( 2 ) ? "vending_food" : "vending_drink" ) )
+    {
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.furn_set( x, y, f_null );
+        m.place_vending( x, y, item_group );
+    }
+};
+/**
+ * Place a toilet with (dirty) water in it.
+ * "amount": number of water charges to place.
+ */
+class jmapgen_toilet : public jmapgen_piece {
+public:
+    jmapgen_int amount;
+    jmapgen_toilet( JsonObject &jsi ) : jmapgen_piece()
+    , amount( 0, 0 )
+    {
+        load_jmapgen_int( jsi, "amount", amount.val, amount.valmax );
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        const long charges = amount.get();
+        m.furn_set( x, y, f_null );
+        if( charges == 0 ) {
+            m.place_toilet( x, y ); // Use the default charges supplied as default values
+        } else {
+            m.place_toilet( x, y, charges );
+        }
+    }
+};
+/**
+ * Place a gas pump with fuel in it.
+ * "amount": number of fuel charges to place.
+ */
+class jmapgen_gaspump : public jmapgen_piece {
+public:
+    jmapgen_int amount;
+    jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
+    , amount( 0, 0 )
+    {
+        load_jmapgen_int( jsi, "amount", amount.val, amount.valmax );
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        const long charges = amount.get();
+        m.furn_set( x, y, f_null );
+        if( charges == 0 ) {
+            m.place_gas_pump( x, y, rng( 10000, 50000 ) );
+        } else {
+            m.place_gas_pump( x, y, charges );
+        }
+    }
+};
 
 /*
  * place_item, place_monster; determines what's added via item_group mon_group
@@ -576,65 +676,6 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          place_groups.push_back( new_placegroup );
          tmpval = "";
      }
-}
-/*
- * place special map terrains
- */
-void mapgen_function_json::setup_place_special(JsonArray &parray )
-{
-    while ( parray.has_more() ) {
-        jmapgen_int tmp_x(0,0);
-        jmapgen_int tmp_y(0,0);
-        jmapgen_int tmp_amt(0,0);
-        std::string tmp_type;
-        jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
-        JsonObject jsi = parray.next_object();
-        if ( jsi.has_string("type") ) {
-            const std::string tmpval = jsi.get_string("type");
-            if (tmpval == "toilet") {
-                tmpop = JMAPGEN_PLACESPECIAL_TOILET;
-            } else if (tmpval == "gaspump") {
-                tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
-            } else if (tmpval == "vendingmachine") {
-                tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
-                tmp_type = jsi.get_string("item_group", one_in(2) ? "vending_food" : "vending_drink");
-                if (!item_group::group_is_defined(tmp_type)) {
-                    jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
-                }
-            } else if (tmpval == "sign") {
-                tmpop = JMAPGEN_PLACESPECIAL_SIGN;
-                // Distinct to signs
-                if (!jsi.has_member("signage")) {
-                    jsi.throw_error("  place_specials: signs must have a signage member (the written text for the sign).");
-                }
-                // Because the "type" member is open for use, make use of it
-                // to act as the label of the sign.
-                tmp_type = jsi.get_string("signage");
-            } else if (tmpval == "npc") {
-                tmpop = JMAPGEN_PLACESPECIAL_NPC;
-                if (!jsi.has_member("class")) {
-                    jsi.throw_error("  place_specials: npcs must have a class");
-                }
-                tmp_type = jsi.get_string("class");
-            } else {
-                jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
-            }
-        } else {
-            parray.throw_error("placing other specials is not supported yet"); return;
-        }
-        if ( ! jsi.has_member("x") || ! jsi.has_member("y") ) {
-            parray.throw_error("  place_specials: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }");
-        }
-        if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
-            jsi.throw_error("  place_specials: invalid value for 'x'");
-        }
-        if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
-            jsi.throw_error("  place_specials: invalid value for 'y'");
-        }
-        load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
-        place_specials.push_back( new_special );
-    }
 }
 
 template<typename PieceType>
@@ -831,14 +872,6 @@ bool mapgen_function_json::setup() {
                 throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
             }
        }
-       if ( jo.has_array("place_specials") ) {
-            parray = jo.get_array("place_specials");
-            try {
-                setup_place_special( parray );
-            } catch (std::string smerr) {
-                throw string_format("Bad JSON mapgen place_special array, discarding:\n  %s\n", smerr.c_str() );
-            }
-       }
        if ( jo.has_array("place_groups") ) {
             parray = jo.get_array("place_groups");
             try {
@@ -848,6 +881,11 @@ bool mapgen_function_json::setup() {
             }
        }
         load_objects<jmapgen_field>( jo, "place_fields" );
+        load_objects<jmapgen_npc>( jo, "place_npc" );
+        load_objects<jmapgen_sign>( jo, "place_signs" );
+        load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
+        load_objects<jmapgen_toilet>( jo, "place_toilets" );
+        load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
@@ -914,44 +952,6 @@ void jmapgen_spawn_item::apply( map * m ) {
         for (int i = 0; i < trepeat; i++) {
             m->spawn_item( x.get(), y.get(), itype, amount.get() );
         }
-    }
-}
-
-void jmapgen_place_special::apply( map * m ) {
-    int charges = amount.get();
-    switch(op) {
-        case JMAPGEN_PLACESPECIAL_TOILET: {
-            m->furn_set(x.get(), y.get(), f_null);
-            if (charges == 0)
-                m->place_toilet(x.get(), y.get());
-            else
-                m->place_toilet(x.get(), y.get(), charges );
-        } break;
-        case JMAPGEN_PLACESPECIAL_GASPUMP: {
-            m->furn_set(x.get(), y.get(), f_null);
-            if (charges == 0)
-                m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
-            else
-                m->place_toilet(x.get(), y.get(), charges );
-        } break;
-        case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
-            m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), type);
-        } break;
-        case JMAPGEN_PLACESPECIAL_SIGN: {
-            // type meaning here: the writing on the sign, not the type of sign.
-            m->furn_set(x.get(), y.get(), f_null);
-            m->furn_set(x.get(), y.get(), "f_sign");
-            m->set_signage(x.get(), y.get(), type);
-        } break;
-        case JMAPGEN_PLACESPECIAL_NPC: {
-            m->place_npc(x.get(), y.get(), type);
-        } break;
-        case JMAPGEN_PLACESPECIAL_NULL:
-        default:
-        {
-            debugmsg("JSON map special not set!");
-        } break;
     }
 }
 
@@ -1054,9 +1054,6 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     }
     for( auto &elem : place_groups ) {
         elem.apply( m, d );
-    }
-    for( auto &elem : place_specials ) {
-        elem.apply( m );
     }
     for( auto &elem : setmap_points ) {
         elem.apply( m );

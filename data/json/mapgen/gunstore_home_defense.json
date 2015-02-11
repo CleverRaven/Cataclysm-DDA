@@ -218,9 +218,9 @@
                 "d": "f_dumpster",
                 "z": "f_null"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 21 },
-                { "type": "toilet", "x": 6, "y": 21 }
+            "place_toilets": [
+                { "x": 2, "y": 21 },
+                { "x": 6, "y": 21 }
             ],
             "add": [
                 { "item": "television", "x": 16, "y": 14, "chance": 30},

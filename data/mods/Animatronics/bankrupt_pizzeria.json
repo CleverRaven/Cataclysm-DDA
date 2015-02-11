@@ -251,8 +251,8 @@
                 "#": "f_trashcan",
                     "I": "f_hay"
                 },
-                "place_specials": [
-                    { "type": "toilet", "x": 22, "y": 14 }
+                "place_toilets": [
+                    { "x": 22, "y": 14 }
                 ],
                 "comment": "randomly picked from a group ---v",
                 "place_groups": [

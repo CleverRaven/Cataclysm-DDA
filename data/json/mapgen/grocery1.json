@@ -216,9 +216,9 @@
                 "7": "f_bookcase",
                 "f": "f_glass_fridge"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 15 },
-                { "type": "toilet", "x": 1, "y": 17 }
+            "place_toilets": [
+                { "x": 1, "y": 15 },
+                { "x": 1, "y": 17 }
             ],
             "place_groups": [
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 2 },

@@ -120,8 +120,8 @@
                 "/": "f_chair",
                 "#": "f_table"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 17, "y": 9 }
+            "place_toilets": [
+                { "x": 17, "y": 9 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [

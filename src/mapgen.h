@@ -96,8 +96,6 @@ struct jmapgen_setmap {
     bool apply( map * m );
 };
 
-/* todo: place_gas_pump, place_toile, add_spawn */
-
 enum jmapgen_place_group_op {
     JMAPGEN_PLACEGROUP_ITEM,
     JMAPGEN_PLACEGROUP_MONSTER,
@@ -120,27 +118,6 @@ struct jmapgen_place_group {
       ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) { }
     void apply( map * m, float mdensity );
-};
-
-enum jmapgen_place_special_op {
-    JMAPGEN_PLACESPECIAL_TOILET,
-    JMAPGEN_PLACESPECIAL_GASPUMP,
-    JMAPGEN_PLACESPECIAL_VENDINGMACHINE,
-    JMAPGEN_PLACESPECIAL_SIGN,
-    JMAPGEN_PLACESPECIAL_NPC,
-    JMAPGEN_PLACESPECIAL_NULL
-};
-
-struct jmapgen_place_special {
-    jmapgen_int x;
-    jmapgen_int y;
-    jmapgen_place_special_op op;
-    jmapgen_int amount;
-    std::string type;
-    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop, jmapgen_int iamount, std::string itype
-        ) : x(ix), y(iy), op(iop), amount(iamount), type(itype) {}
-    void apply( map * m );
-
 };
 
 struct jmapgen_spawn_item {
@@ -202,7 +179,6 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( jmapgen_int & var );
     void setup_place_group(JsonArray &parray );
-    void setup_place_special(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     virtual bool setup();
     virtual void generate(map*, oter_id, mapgendata, int, float);
@@ -226,7 +202,6 @@ class mapgen_function_json : public virtual mapgen_function {
     std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;
-    std::vector<jmapgen_place_special> place_specials;
     /**
      * Combination of where to place something and what to place.
      */

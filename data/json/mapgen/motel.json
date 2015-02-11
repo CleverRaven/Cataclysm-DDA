@@ -208,11 +208,13 @@
                 "G": "f_oven",
                 "0": "f_dive_block"
             },
-            "place_specials": [
-                { "type": "vendingmachine", "x": 18, "y": 6 },
-                { "type": "vendingmachine", "x": 18, "y": 7 },
-                { "type": "vendingmachine", "x": 18, "y": 9 },
-                { "type": "toilet", "x": 2, "y": 18 }
+            "place_vendingmachines": [
+                { "x": 18, "y": 6 },
+                { "x": 18, "y": 7 },
+                { "x": 18, "y": 9 }
+            ],
+            "place_toilets": [
+                { "x": 2, "y": 18 }
             ],
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
@@ -339,12 +341,12 @@
                 "H": "f_sofa",
                 "{": "f_dumpster"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 0 },
-                { "type": "toilet", "x": 2, "y": 6 },
-                { "type": "toilet", "x": 2, "y": 12 },
-                { "type": "toilet", "x": 14, "y": 21 },
-                { "type": "toilet", "x": 20, "y": 21 }
+            "place_toilets": [
+                { "x": 2, "y": 0 },
+                { "x": 2, "y": 6 },
+                { "x": 2, "y": 12 },
+                { "x": 14, "y": 21 },
+                { "x": 20, "y": 21 }
             ],
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
@@ -470,11 +472,11 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 21 },
-                { "type": "toilet", "x": 8, "y": 21 },
-                { "type": "toilet", "x": 14, "y": 21 },
-                { "type": "toilet", "x": 20, "y": 21 }
+            "place_toilets": [
+                { "x": 2, "y": 21 },
+                { "x": 8, "y": 21 },
+                { "x": 14, "y": 21 },
+                { "x": 20, "y": 21 }
             ],
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }

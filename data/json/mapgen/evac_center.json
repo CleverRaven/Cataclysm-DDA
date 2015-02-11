@@ -617,9 +617,11 @@
                 { "item": "allclothes", "chance": 60, "x": [ 8, 20 ], "y": [ 11, 11 ]},
                 { "item": "allclothes", "chance": 60, "x": [ 8, 17 ], "y": [ 16, 16 ]}
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 14, "y": 23 },
-                { "type": "npc", "class": "guard", "x": 19, "y": 21 }
+            "place_toilets": [
+                { "x": 14, "y": 23 }
+            ],
+            "place_npcs": [
+                { "class": "guard", "x": 19, "y": 21 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -722,9 +724,9 @@
                 { "item": "jackets", "chance": 80, "x": [ 19, 19 ], "y": [ 8, 10 ]},
                 { "item": "cleaning", "chance": 80, "x": [ 4, 4 ], "y": [ 8, 10 ]}
             ],
-            "place_specials": [
-                { "type": "npc", "class": "evac_broker", "x": 2, "y": 20 },
-                { "type": "npc", "class": "guard", "x": 15, "y": 15 }
+            "place_npcs": [
+                { "class": "evac_broker", "x": 2, "y": 20 },
+                { "class": "guard", "x": 15, "y": 15 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1131,11 +1133,13 @@
                 { "item": "cleaning", "chance": 80, "x": [ 19, 19 ], "y": [ 13, 13 ]},
                 { "vehicle": "schoolbus", "x": 4, "y": 8, "rotation": 270, "chance": 90 }
             ],
-            "place_specials": [
+            "place_toilets": [
                 { "type": "toilet", "x": 14, "y": 3 },
                 { "type": "toilet", "x": 14, "y": 20 },
-                { "type": "toilet", "x": 14, "y": 22 },
-                { "type": "npc", "class": "evac_guard2", "x": 18, "y": 18 }
+                { "type": "toilet", "x": 14, "y": 22 }
+            ],
+            "place_npcs": [
+                { "class": "evac_guard2", "x": 18, "y": 18 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1241,9 +1245,9 @@
                 { "item": "cannedfood", "chance": 90, "x": [ 3, 19 ], "y": [ 4, 5 ]},
                 { "item": "cannedfood", "chance": 90, "x": [ 2, 20 ], "y": [ 8, 8 ]}
             ],
-            "place_specials": [
-                { "type": "npc", "class": "evac_guard1", "x": 9, "y": 21 },
-                { "type": "npc", "class": "guard", "x": 14, "y": 21 }
+            "place_npcs": [
+                { "class": "evac_guard1", "x": 9, "y": 21 },
+                { "class": "guard", "x": 14, "y": 21 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1345,11 +1349,11 @@
                 { "vehicle": "car", "x": 17, "y": 16, "rotation": 90, "chance": 90 },
                 { "vehicle": "pickup", "x": 18, "y": 8, "rotation": 90, "chance": 90 }
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 8, "y": 3 },
-                { "type": "toilet", "x": 8, "y": 1 },
-                { "type": "toilet", "x": 8, "y": 20 },
-                { "type": "toilet", "x": 8, "y": 22 }
+            "place_toilets": [
+                { "x": 8, "y": 3 },
+                { "x": 8, "y": 1 },
+                { "x": 8, "y": 20 },
+                { "x": 8, "y": 22 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1636,10 +1640,12 @@
                 "s.......................",
                 "ss......................"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 14, "y": 0 },
-                { "type": "npc", "class": "scavenger_merc", "x": 8, "y": 5 },
-                { "type": "npc", "class": "old_guard_rep", "x": 19, "y": 7 }
+            "place_toilets": [
+                { "x": 14, "y": 0 }
+            ],
+            "place_npcs": [
+                { "class": "scavenger_merc", "x": 8, "y": 5 },
+                { "class": "old_guard_rep", "x": 19, "y": 7 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1736,9 +1742,9 @@
                 "..........ssss..........",
                 ".........ssssss........."
             ],
-            "place_specials": [
-                { "type": "npc", "class": "arsonist", "x": 5, "y": 2 },
-                { "type": "npc", "class": "evac_merchant", "x": 23, "y": 0 }
+            "place_npcs": [
+                { "class": "arsonist", "x": 5, "y": 2 },
+                { "class": "evac_merchant", "x": 23, "y": 0 }
             ],
             "terrain": {
                 " ": "t_floor",
@@ -1844,8 +1850,8 @@
                 { "item": "cannedfood", "chance": 20, "x": [ 1, 2 ], "y": [ 10, 12 ]},
                 { "item": "cannedfood", "chance": 20, "x": [ 1, 2 ], "y": [ 15, 17 ]}
             ],
-            "place_specials": [
-                { "type": "npc", "class": "guard", "x": 7, "y": 8 }
+            "place_npcs": [
+                { "class": "guard", "x": 7, "y": 8 }
             ],
             "terrain": {
                 " ": "t_floor",

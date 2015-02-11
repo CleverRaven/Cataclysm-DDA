@@ -111,8 +111,8 @@
                     "S": "f_sink",
                     "G": "f_oven"
                 },
-                "place_specials": [
-                    { "type": "toilet", "x": 1, "y": 21 }
+                "place_toilets": [
+                    { "x": 1, "y": 21 }
                 ],
                 "set": [
                     { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }

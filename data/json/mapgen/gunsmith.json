@@ -91,9 +91,9 @@
         "T": "f_toilet",
         "d": "f_dumpster"
       },
-      "place_specials": [
-        { "type": "toilet", "x": 19, "y": 21 },
-        { "type": "toilet", "x": 21, "y": 21 }
+      "place_toilets": [
+        { "x": 19, "y": 21 },
+        { "x": 21, "y": 21 }
       ],
       "set": [
         { "point": "terrain", "id": "t_tree_young",

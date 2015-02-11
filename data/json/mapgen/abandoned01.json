@@ -374,8 +374,8 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 19, "y": 18 }
+            "place_toilets": [
+                { "x": 19, "y": 18 }
             ],
             "set": [
                 { "point": "bash", "x": 7, "y":  7},

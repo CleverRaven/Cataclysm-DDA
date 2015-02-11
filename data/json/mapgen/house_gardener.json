@@ -91,8 +91,8 @@
                 "H": "f_armchair",
                 "X": "f_shower"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 12 }
+            "place_toilets": [
+                { "x": 2, "y": 12 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [

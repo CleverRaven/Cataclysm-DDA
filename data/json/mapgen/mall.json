@@ -1589,8 +1589,8 @@
                 "-|-----------|-HHHHH-|22",
                 " |6d h     6        P|22"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 21, "y": 5 }
+            "place_toilets": [
+                { "x": 21, "y": 5 }
             ],
             "place_groups": [
                 { "item": "cubical_office", "chance": 50, "x": [ 13,14 ], "y": [ 3,3 ]},
@@ -1839,13 +1839,15 @@
                 "211222[2112[ssssssssssss",
                 "211222[2112[sssssssssssI"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 11, "y": 0 },
-                { "type": "toilet", "x": 11, "y": 2 },
-                { "type": "toilet", "x": 11, "y": 4 },
-                { "type": "toilet", "x": 11, "y": 6 },
-                { "type": "vendingmachine", "x": 3, "y": 6, "item_group": "vending_food" },
-                { "type": "vendingmachine", "x": 4, "y": 6, "item_group": "vending_drink" }
+            "place_toilets": [
+                { "x": 11, "y": 0 },
+                { "x": 11, "y": 2 },
+                { "x": 11, "y": 4 },
+                { "x": 11, "y": 6 }
+            ],
+            "place_vendingmachines": [
+                { "x": 3, "y": 6, "item_group": "vending_food" },
+                { "x": 4, "y": 6, "item_group": "vending_drink" }
             ],
             "place_groups": [
                 { "item": "floor_trash", "chance": 10, "x": [ 7,8 ], "y": [ 0,2 ]},
@@ -3724,8 +3726,8 @@
                 "____ss...##|  |rV VcV   ",
                 "____ss....#|  |rV VcV   "
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 18, "y": 14 }
+            "place_toilets": [
+                { "x": 18, "y": 14 }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 12 ], "density": 0.3 },
@@ -3988,9 +3990,9 @@
                 "   |           V21111111",
                 "   |r rr    rr V21111111"
             ],
-            "place_specials": [
-                { "type": "vendingmachine", "x": 2, "y": 17, "item_group": "vending_drink"  },
-                { "type": "vendingmachine", "x": 2, "y": 18, "item_group": "vending_food"  }
+            "place_vendingmachines": [
+                { "x": 2, "y": 17, "item_group": "vending_drink"  },
+                { "x": 2, "y": 18, "item_group": "vending_food"  }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 9 ], "density": 0.4 },
@@ -4391,10 +4393,10 @@
                 "     c6c| n | n |S   + t",
                 "     ch | n | n |c   |--"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 23, "y": 11 },
-                { "type": "toilet", "x": 23, "y": 13 },
-                { "type": "toilet", "x": 23, "y": 22 }
+            "place_toilets": [
+                { "x": 23, "y": 11 },
+                { "x": 23, "y": 13 },
+                { "x": 23, "y": 22 }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 18 ], "y": [ 3, 7 ], "density": 0.2 },
@@ -4535,10 +4537,10 @@
                 { "vehicle": "car", "x": 23, "y": 16, "rotation": 0, "chance": 35  },
                 { "monster": "GROUP_MALL", "x": [ 11, 23 ], "y": [ 2, 23 ], "density": 0.2 }
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 11 },
-                { "type": "toilet", "x": 1, "y": 13 },
-                { "type": "toilet", "x": 1, "y": 22 }
+            "place_toilets": [
+                { "x": 1, "y": 11 },
+                { "x": 1, "y": 13 },
+                { "x": 1, "y": 22 }
             ],
             "terrain": {
                 "|": "t_wall_v",
@@ -5548,8 +5550,8 @@
                 "V2111111112|rrrcccScccSc",
                 "V2221111112|            "
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 23, "y": 0 }
+            "place_toilets": [
+                { "x": 23, "y": 0 }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -5683,8 +5685,8 @@
                 "ccScccc| r|##.....ss____",
                 "       + r|##.....ss____"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 0 }
+            "place_toilets": [
+                { "x": 1, "y": 0 }
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 23, "y": 6, "rotation": 0, "chance": 35  },
@@ -6567,9 +6569,9 @@
                 "H+H|-|cc4ccc444ccc4ccc44",
                 "333+L|e44444444ccc4ccc44"
             ],
-            "place_specials": [
-                { "type": "vendingmachine", "x": 4, "y": 12, "item_group": "vending_drink" },
-                { "type": "vendingmachine", "x": 4, "y": 13, "item_group": "vending_food" }
+            "place_vendingmachines": [
+                { "x": 4, "y": 12, "item_group": "vending_drink" },
+                { "x": 4, "y": 13, "item_group": "vending_food" }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -7326,8 +7328,8 @@
                 "c      ccccc         r|S",
                 "   rr           rrrr r|-"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 23, "y": 16 }
+            "place_toilets": [
+                { "x": 23, "y": 16 }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -7473,10 +7475,12 @@
                 "cScSc|211P|3333333333333",
                 "-----|211l|c3VHHHHHHHHHV"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 16 },
-                { "type": "toilet", "x": 4, "y": 16 },
-                { "type": "vendingmachine", "x": 9, "y": 23, "item_group": "vending_food" }
+            "place_toilets": [
+                { "x": 2, "y": 16 },
+                { "x": 4, "y": 16 }
+            ],
+            "place_vendingmachines": [
+                { "x": 9, "y": 23, "item_group": "vending_food" }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -8522,8 +8526,8 @@
                 "_____,______s###s______,",
                 "_____,______s#T#s______,"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 23, "y": 6 }
+            "place_toilets": [
+                { "x": 23, "y": 6 }
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 2, "y": 23, "rotation": 90, "chance": 35  },
@@ -8659,10 +8663,12 @@
                 "______,______,______s.#.",
                 "______,______,______s.#."
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 6 },
-                { "type": "toilet", "x": 4, "y": 6 },
-                { "type": "vendingmachine", "x": 9, "y": 0, "item_group": "vending_drink"  }
+            "place_toilets": [
+                { "x": 2, "y": 6 },
+                { "x": 4, "y": 6 }
+            ],
+            "place_vendingmachines": [
+                { "x": 9, "y": 0, "item_group": "vending_drink"  }
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 2, "y": 23, "rotation": 90, "chance": 35  },
@@ -8790,8 +8796,8 @@
                 "s______________________s",
                 "s______________________s"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 23, "y": 12 }
+            "place_toilets": [
+                { "x": 23, "y": 12 }
             ],
             "place_groups": [
                 { "monster": "GROUP_MALL", "x": [ 4, 19 ], "y": [ 0, 23 ], "density": 0.7 },
@@ -8910,8 +8916,8 @@
                 ".#.s______,______,______",
                 ".#.s______,______,______"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 3, "y": 12 }
+            "place_toilets": [
+                { "x": 3, "y": 12 }
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 7, "y": 23, "rotation": 90, "chance": 35  },
@@ -9043,9 +9049,9 @@
                 ",______s###s______,_____",
                 ",______s#T#s______,_____"
             ],
-            "place_specials": [
-                { "type": "toilet", "x": 6, "y": 3 },
-                { "type": "toilet", "x": 4, "y": 6 }
+            "place_toilets": [
+                { "x": 6, "y": 3 },
+                { "x": 4, "y": 6 }
             ],
             "place_groups": [
                 { "vehicle": "hippie_van", "x": 4, "y": 23, "rotation": 90, "chance": 35  },

@@ -63,8 +63,8 @@
                 "{": "f_vending_c"
 
             },
-            "place_specials": [
-                { "type": "sign", "x": 6, "y": 7, "signage": "Danger! Do not smoke! Risk of explosion!" }
+            "place_signs": [
+                { "x": 6, "y": 7, "signage": "Danger! Do not smoke! Risk of explosion!" }
             ],
             
             "add": [
