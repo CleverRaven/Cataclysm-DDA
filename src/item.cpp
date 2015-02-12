@@ -1241,22 +1241,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("pocketed")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've sewn on some pockets and straps to give you some more places to carry things.")));
+                _("This piece of clothing has some pockets and straps sewn on to give you some more places to carry things.")));
         }
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've sewn in a fur lining to increase its overall warmth.")));
+                _("This piece of clothing has a fur lining sewn into it to increase its overall warmth.")));
         }
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've padded certain parts with leather to increase protection without increasing encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection without increasing encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("You've inserted kevlar into strategic locations to increase protection without increasing encumbrance.")));
+                _("This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
