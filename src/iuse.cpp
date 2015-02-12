@@ -7066,7 +7066,7 @@ int iuse::artifact(player *p, item *it, bool, point)
         //~ %s is artifact name
         p->add_memorial_log(pgettext("memorial_male", "Activated the %s."),
                             pgettext("memorial_female", "Activated the %s."),
-                            it->tname().c_str());
+                            it->tname( 1, false ).c_str());
     }
     it_artifact_tool *art = dynamic_cast<it_artifact_tool *>(it->type);
     size_t num_used = rng(1, art->effects_activated.size());

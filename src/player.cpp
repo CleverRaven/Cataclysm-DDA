@@ -12005,7 +12005,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                                  worn[index].tname().c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
-                                              worn[index].tname().c_str() );
+                                              worn[index].tname( 1, false ).c_str() );
                 worn.erase(worn.begin() + index);
             }
         }
@@ -12192,7 +12192,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                        worn[i].tname().c_str());
                         add_msg_player_or_npc(m_bad, _("Your %s is completely destroyed!"),
                                                      _("<npcname>'s %s is completely destroyed!"),
-                                                     worn[i].tname().c_str() );
+                                                     worn[i].tname( 1, false ).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         auto &material = worn[i].get_random_material();
