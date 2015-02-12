@@ -9285,7 +9285,7 @@ int game::list_items(const int iLastState)
     bool addcategory = false;
     int iPage = 0;
     int iCatSortNum = 0;
-    map_item_stack activeItem;
+    map_item_stack *activeItem;
     std::map<int, std::string> mSortCategory;
 
     std::string action;
@@ -9328,9 +9328,9 @@ int game::list_items(const int iLastState)
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 std::vector<iteminfo> vThisItem, vDummy;
 
-                activeItem.example->info(true, &vThisItem);
+                activeItem->example->info(true, &vThisItem);
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem.example->tname(), vThisItem, vDummy);
+                               activeItem->example->tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActiveX = INT_MIN;
@@ -9442,8 +9442,8 @@ int game::list_items(const int iLastState)
                 }
             } else if (action == "RIGHT") {
                 iPage++;
-                if (!filtered_items.empty() && iPage >= (int)activeItem.vIG.size()) {
-                    iPage = activeItem.vIG.size() - 1;
+                if (!filtered_items.empty() && iPage >= (int)activeItem->vIG.size()) {
+                    iPage = activeItem->vIG.size() - 1;
                 }
             } else if (action == "LEFT") {
                 iPage--;
@@ -9509,7 +9509,7 @@ int game::list_items(const int iLastState)
                                 iActiveX = iter->vIG[iThisPage].x;
                                 iActiveY = iter->vIG[iThisPage].y;
 
-                                activeItem = *iter;
+                                activeItem = &(*iter);
                             }
 
                             sText.str("");
@@ -9559,7 +9559,7 @@ int game::list_items(const int iLastState)
                 werase(w_item_info);
 
                 std::vector<iteminfo> vThisItem, vDummy;
-                activeItem.example->info(true, &vThisItem);
+                activeItem->example->info(true, &vThisItem);
 
                 draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
