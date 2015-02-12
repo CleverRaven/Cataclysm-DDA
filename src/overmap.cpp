@@ -1319,13 +1319,16 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
         // set color or symbol
         if (!set_symbol && note[end] == ':') {
             std::get<0>(result) = note[end - 1];
+            std::get<2>(result) = end + 1;
             set_symbol = true;
         } else if (!set_color && note[end] == ';') {
-            std::get<1>(result) = get_note_color(note.substr(pos, end));
+            std::get<1>(result) = get_note_color(note.substr(pos, end - pos));
+            std::get<2>(result) = end + 1;
             set_color = true;
+        } else {
         }
 
-        std::get<2>(result) = (pos = end + 1);
+        pos = end + 1;
     }
 
     return result;
