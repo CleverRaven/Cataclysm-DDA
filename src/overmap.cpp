@@ -1296,18 +1296,52 @@ int overmap::dist_from_city(point p)
     return distance;
 }
 
+std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note)
+{
+    std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
+    bool set_color  = false;
+    bool set_symbol = false;
+
+    size_t pos = 0;
+    for (int i = 0; i < 2; ++i) {
+        // find the first non-whitespace non-delimiter
+        pos = note.find_first_not_of(" :;", pos, 3);
+        if (pos == std::string::npos) {
+            return result;
+        }
+
+        // find the first following delimiter
+        auto const end = note.find_first_of(" :;", pos, 3);
+        if (end == std::string::npos) {
+            return result;
+        }
+
+        // set color or symbol
+        if (!set_symbol && note[end] == ':') {
+            std::get<0>(result) = note[end - 1];
+            set_symbol = true;
+        } else if (!set_color && note[end] == ';') {
+            std::get<1>(result) = get_note_color(note.substr(pos, end));
+            set_color = true;
+        }
+
+        std::get<2>(result) = (pos = end + 1);
+    }
+
+    return result;
+}
+
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt,
                    bool debug_monstergroups,
                    const int iZoneIndex)
 {
-    const int z = center.z;
+    const int z     = center.z;
     const int cursx = center.x;
     const int cursy = center.y;
-    const int om_map_width = OVERMAP_WINDOW_WIDTH;
+    const int om_map_width  = OVERMAP_WINDOW_WIDTH;
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
-
 
     // Target of current mission
     point target;
@@ -1326,7 +1360,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range(g->light_level());
 
-    std::string sZoneName = "";
+    std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
 
     if (iZoneIndex != -1) {
@@ -1336,7 +1370,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     // If we're debugging monster groups, find the monster group we've selected
-    const mongroup *mgroup = NULL;
+    const mongroup *mgroup = nullptr;
     std::vector<mongroup *> mgroups;
     if(debug_monstergroups) {
         mgroups = overmap_buffer.monsters_at( center.x, center.y, center.z );
@@ -1348,142 +1382,94 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
-    std::array<std::pair<oter_id, oter_t const*>, 8> cache {};
+    // A small LRU cache: most oter_id's occur in clumps like forests of swamps.
+    // This cache helps avoid much more costly lookups in the full hashmap.
+    constexpr size_t cache_size = 8;
+    std::array<std::pair<oter_id, oter_t const*>, cache_size> cache {};
     size_t cache_next = 0;
 
-    for (int i = 0; i < om_map_width; i++) {
-        for (int j = 0; j < om_map_height; j++) {
-            const int omx = cursx + i - (om_map_width / 2);
-            const int omy = cursy + j - (om_map_height / 2);
+    auto const offset_x = cursx - (om_map_width  / 2);
+    auto const offset_y = cursy - (om_map_height / 2);
+
+    for (int i = 0; i < om_map_width; ++i) {
+        for (int j = 0; j < om_map_height; ++j) {
+            const int omx = i + offset_x;
+            const int omy = j + offset_y;
+            
             const bool see = overmap_buffer.seen(omx, omy, z);
-            bool los = false;
             if (see) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter(omx, omy, z);
-
-                // Check if location is within player line-of-sight
-                if (g->u.overmap_los(omx, omy, sight_points)) {
-                    los = true;
-                }
             }
 
-            if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
+            // Check if location is within player line-of-sight
+            const bool los = see && g->u.overmap_los(omx, omy, sight_points);
+
+            tripoint const cur_pos {omx, omy, z};
+
+            if (blink && cur_pos == orig) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
-                ter_sym = '@';
+                ter_sym   = '@';
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
-                ter_sym = '*';
-            } else if (blink && overmap_buffer.has_note(omx, omy, z)) {
+                ter_sym   = '*';
+            } else if (blink && overmap_buffer.has_note(cur_pos)) {
                 // Display notes in all situations, even when not seen
-                const std::string &note_text = overmap_buffer.note(omx, omy, z);
-
-                ter_color = c_yellow;
-                ter_sym = 'N';
-
-                int symbolIndex = note_text.find(':');
-                int colorIndex = note_text.find(';');
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if (colorIndex > -1 && symbolIndex > -1) {
-                    if (symbolFirst) {
-                        if (colorIndex > 4) {
-                            colorIndex = -1;
-                        }
-                        if (symbolIndex > 1) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if (symbolIndex > 4) {
-                            symbolIndex = -1;
-                        }
-                        if (colorIndex > 2) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if (colorIndex > 2) {
-                    colorIndex = -1;
-                } else if (symbolIndex > 1) {
-                    symbolIndex = -1;
-                }
-
-                if (symbolIndex > -1) {
-
-                    int symbolStart = 0;
-                    if (colorIndex > -1 && !symbolFirst) {
-                        symbolStart = colorIndex + 1;
-                    }
-
-                    ter_sym = note_text.substr(symbolStart, symbolIndex - symbolStart).c_str()[0];
-
-                }
-
-                if (colorIndex > -1) {
-
-                    int colorStart = 0;
-                    if (symbolIndex > -1 && symbolFirst) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
-
-                    ter_color = get_note_color( sym );
-                }
-
+                std::tie(ter_sym, ter_color, std::ignore) =
+                    get_note_display_info(overmap_buffer.note(cur_pos));
             } else if (!see) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dkgray;
-                ter_sym = '#';
+                ter_sym   = '#';
                 // All cases below assume that see is true.
             } else if (blink && overmap_buffer.has_npc(omx, omy, z)) {
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
-                ter_sym = '@';
+                ter_sym   = '@';
             } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym = 'Z';
+                ter_sym   = 'Z';
             } else if (blink && overmap_buffer.has_vehicle(omx, omy, z)) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
-                ter_sym = 'c';
+                ter_sym   = 'c';
+            } else if (!sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy) {
+                ter_color = c_yellow;
+                ter_sym   = 'Z';
             } else {
-                if (!sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy) {
-                    ter_color = c_yellow;
-                    ter_sym = 'Z';
-                } else {
-                    // Nothing special, but is visible to the player.                   
-                    oter_t const* info = nullptr;
-                    for (auto const &c : cache) {
-                        if (c.first == cur_ter) {
-                            info = c.second;
-                            break;
-                        }
+                // Nothing special, but is visible to the player.
+                // First see if we have the oter_t cached
+                oter_t const* info = nullptr;
+                for (auto const &c : cache) {
+                    if (c.first == cur_ter) {
+                        info = c.second;
+                        break;
                     }
-                    
-                    if (!info) {
-                        auto const it = otermap.find(cur_ter);
-                        if (it == otermap.end()) {
-                            debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
-                            ter_color = c_red;
-                            ter_sym = '?';
-                        }
-
+                }
+                // Nope, look in the hash map next
+                if (!info) {
+                    auto const it = otermap.find(cur_ter);
+                    if (it == otermap.end()) {
+                        debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+                        ter_color = c_red;
+                        ter_sym   = '?';
+                    } else {
+                        // cache the new value
                         info = &it->second;
                         cache[cache_next] = std::make_pair(cur_ter, info);
-                        cache_next = (cache_next + 1) % 8;
+                        cache_next = (cache_next + 1) % cache_size;
                     }
-
-                    if (info) {
-                        // Map tile marked as explored
-                        bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
-                        ter_color = explored ? c_dkgray : info->color;
-                        ter_sym   = info->sym;
-                    }
+                }
+                // Ok, we found something
+                if (info) {
+                    // Map tile marked as explored
+                    bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
+                    ter_color = explored ? c_dkgray : info->color;
+                    ter_sym   = info->sym;
                 }
             }
 
@@ -1565,81 +1551,35 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
-    std::string note_text = overmap_buffer.note(cursx, cursy, z);
-
-    int symbolIndex = note_text.find(':');
-    int colorIndex = note_text.find(';');
-
-    bool symbolFirst = symbolIndex < colorIndex;
-
-    if (colorIndex > -1 && symbolIndex > -1) {
-        if (symbolFirst) {
-            if (colorIndex > 4) {
-                colorIndex = -1;
-            }
-            if (symbolIndex > 1) {
-                symbolIndex = -1;
-                colorIndex = -1;
-            }
-        } else {
-            if (symbolIndex > 4) {
-                symbolIndex = -1;
-            }
-            if (colorIndex > 2) {
-                colorIndex = -1;
-            }
-        }
-    } else if (colorIndex > 2) {
-        colorIndex = -1;
-    } else if (symbolIndex > 1) {
-        symbolIndex = -1;
-    }
-
-    int erasureLength = 0;
-
-    if (symbolIndex > -1 && symbolIndex < 5) {
-        if (colorIndex > -1 && !symbolFirst) {
-            erasureLength = symbolIndex;
-        } else if (colorIndex == -1) {
-            erasureLength = symbolIndex;
-        }
-    }
-    if (colorIndex > -1 && colorIndex < 5) {
-        if (symbolIndex > -1 && symbolFirst) {
-            erasureLength = colorIndex;
-        } else if (symbolIndex == -1) {
-            erasureLength = colorIndex;
-        }
-    }
-
-    if (erasureLength > 0) {
-        note_text.erase(0, erasureLength + 1);
-    }
-
     std::vector<std::string> corner_text;
+
+    auto const &note_text = overmap_buffer.note(cursx, cursy, z);
     if (!note_text.empty()) {
-        corner_text.push_back( note_text );
-    }
-    const auto npcs = overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0);
-    for( const auto &npc : npcs ) {
-        if( npc->marked_for_death ) {
-            continue;
+        auto const pos = std::get<2>(get_note_display_info(note_text));
+        if (pos != std::string::npos) {
+            corner_text.emplace_back(note_text.substr(pos));
         }
-        corner_text.push_back( npc->name );
     }
-    const auto vehicles = overmap_buffer.get_vehicle(cursx, cursy, z);
-    for( const auto &v : vehicles ) {
-        corner_text.push_back( v.name );
+   
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
+        if( !npc->marked_for_death ) {
+            corner_text.emplace_back( npc->name );
+        }
+    }
+
+    for( auto &v : overmap_buffer.get_vehicle(cursx, cursy, z) ) {
+        corner_text.emplace_back( std::move(v.name) );
     }
 
     if( !corner_text.empty() ) {
-        int maxlen = 0;
-        for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.c_str() ) );
-        }
+        auto const maxlen = std::accumulate(begin(corner_text), end(corner_text), int {0},
+            [](int const cur_max, std::string const &line) {
+                return std::max(cur_max, utf8_width(line.c_str())); });
+
+        const std::string spacer(maxlen, ' ');
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, i, 0, c_yellow, std::string(maxlen, ' ').c_str() );
+            mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
             mvwprintz( w, i, 0, c_yellow, "%s", corner_text[i].c_str() );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
