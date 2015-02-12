@@ -12366,20 +12366,21 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             }
             float velocity_difference = previous_velocity - flvel;
             dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
-            if( thru ) {
-                c->add_msg_player_or_npc( _("You are slammed through the %s for %d damage!"),
-                                          _("The <npcname> is slammed through the %s!"),
-                                          dname.c_str(), dam1 );
-            } else {
-                c->add_msg_player_or_npc( _("You are slammed against the %s for %d damage!"),
-                                          _("The <npcname> is slammed against the %s!"),
-                                          dname.c_str(), dam1 );
-            }
+            int damage_taken = 0;
             if( p != nullptr ) {
-                p->hitall(dam1, 40, critter);
+                damage_taken = p->hitall(dam1, 40, critter);
             } else {
                 zz->apply_damage( critter, bp_torso, dam1 );
                 zz->check_dead_state();
+            }
+            if( thru ) {
+                c->add_msg_player_or_npc( _("You are slammed through the %s for %d damage!"),
+                                          _("The <npcname> is slammed through the %s!"),
+                                          dname.c_str(), damage_taken );
+            } else {
+                c->add_msg_player_or_npc( _("You are slammed against the %s for %d damage!"),
+                                          _("The <npcname> is slammed against the %s!"),
+                                          dname.c_str(), damage_taken );
             }
         }
         if( thru ) {
@@ -12413,6 +12414,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
         }
+        int damage_taken = 0;
         if( p != nullptr ) {
             int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
@@ -12420,16 +12422,16 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 dam1 /= 2;
             }
             if (dam1 > 0) {
-                p->hitall(dam1, 40, nullptr);
+                damage_taken = p->hitall(dam1, 40, nullptr);
             }
         } else {
             zz->apply_damage( nullptr, bp_torso, dam1 );
             zz->check_dead_state();
         }
-        if (is_u) {
-            if (dam1 > 0) {
-                add_msg(m_bad, _("You fall on the ground for %d damage."), dam1);
-            } else if (!controlled) {
+        if( is_u ) {
+            if( damage_taken > 0 ) {
+                add_msg(m_bad, _("You fall on the ground for %d damage."), damage_taken);
+            } else if( !controlled ) {
                 add_msg(_("You land on the ground."));
             }
         }
