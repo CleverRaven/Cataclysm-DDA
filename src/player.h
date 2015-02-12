@@ -511,10 +511,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation();
 
-        /** Converts bphurt to a hp_part, then does/heals dam
-         *  absorb() reduces dam and cut by your armor (and bionics, traits, etc)
-         */
-        void absorb(body_part bp, int &dam, int &cut);
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d);
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
@@ -535,7 +531,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall(int dam, Creature *source);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
-        void hitall(int dam, int vary, Creature *source);
+        int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
         void knock_back_from(int x, int y);
 

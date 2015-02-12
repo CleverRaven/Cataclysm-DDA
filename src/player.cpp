@@ -4967,15 +4967,17 @@ void player::hurtall(int dam, Creature *source)
     }
 }
 
-void player::hitall(int dam, int vary, Creature *source)
+int player::hitall(int dam, int vary, Creature *source)
 {
+    int damage_taken = 0;
     for (int i = 0; i < num_hp_parts; i++) {
         const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         int ddam = vary ? dam * rng (100 - vary, 100) / 100 : dam;
         int cut = 0;
-        absorb(bp, ddam, cut);
-        apply_damage( source, bp, ddam );
+        auto damage = damage_instance::physical(ddam, cut, 0);
+        damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
+    return damage_taken;
 }
 
 void player::knock_back_from(int x, int y)
@@ -11967,6 +11969,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     }
     return armor_damaged;
 }
+
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     for( auto &elem : dam.damage_units ) {
 
@@ -12093,220 +12096,82 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             }
         }
-        if( has_trait("THICKSKIN") ) {
-            if( elem.type == DT_CUT ) {
+        if( elem.type == DT_CUT ) {
+            if( has_trait("THICKSKIN") ) {
                 elem.amount -= 1;
             }
-        }
-        if( has_trait("THINSKIN") ) {
-            if( elem.type == DT_CUT ) {
+            if( has_trait("THINSKIN") ) {
                 elem.amount += 1;
             }
+            if (has_trait("SCALES")) {
+                elem.amount -= 2;
+            }
+            if (has_trait("THICK_SCALES")) {
+                elem.amount -= 4;
+            }
+            if (has_trait("SLEEK_SCALES")) {
+                elem.amount -= 1;
+            }
+            if (has_trait("FAT")) {
+                elem.amount --;
+            }
+            if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
+                elem.amount -= 2;
+            }
+            if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
+                elem.amount--;
+            }
+            if (has_trait("CHITIN2")) {
+                elem.amount -= 4;
+            }
+            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+                elem.amount -= 8;
+            }
+            elem.amount -= mabuff_arm_cut_bonus();
         }
+        if( elem.type == DT_BASH ) {
+            if (has_trait("FEATHERS")) {
+                elem.amount--;
+            }
+            if (has_trait("AMORPHOUS")) {
+                elem.amount--;
+                if (!(has_trait("INT_SLIME"))) {
+                    elem.amount -= 3;
+                }
+            }
+            if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
+                elem.amount--;
+            }
+            if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+                elem.amount--;
+            }
+            if (bp == bp_head && has_trait("LYNX_FUR")) {
+                elem.amount--;
+            }
+            if (has_trait("CHITIN2")) {
+                elem.amount--;
+            }
+            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+                elem.amount -= 2;
+            }
+            if (has_trait("PLANTSKIN")) {
+                elem.amount--;
+            }
+            if (has_trait("BARK")) {
+                elem.amount -= 2;
+            }
+            if (has_trait("LIGHT_BONES")) {
+                elem.amount *= 1.4;
+            }
+            if (has_trait("HOLLOW_BONES")) {
+                elem.amount *= 1.8;
+            }
+            elem.amount -= mabuff_arm_bash_bonus();
+        }
+
         if( elem.amount < 0 ) {
             elem.amount = 0;
         }
-    }
-}
-
-// TODO: move the ONE caller of this in player::hitall to call absorb_hit() instead and
-// get rid of this.
-void player::absorb(body_part bp, int &dam, int &cut)
-{
-    int arm_bash = 0, arm_cut = 0;
-    bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armor
-    int bash_absorb = 0;      // to determine if lower layers of armor get damaged
-
-    // CBMS absorb damage first before hitting armor
-    if (has_active_bionic("bio_ads")) {
-        if (dam > 0 && power_level > 24) {
-            dam -= rng(1, 8);
-            power_level -= 25;
-        }
-        if (cut > 0 && power_level > 24) {
-            cut -= rng(0, 4);
-            power_level -= 25;
-        }
-        if (dam < 0) {
-            dam = 0;
-        }
-        if (cut < 0) {
-            cut = 0;
-        }
-    }
-
-    // determines how much damage is absorbed by armor
-    // zero if damage misses a covered part
-    int bash_reduction = 0;
-    int cut_reduction = 0;
-
-    // See, we do it backwards, iterating inwards
-    for (int i = worn.size() - 1; i >= 0; i--) {
-        if (worn[i].covers(bp)) {
-            // first determine if damage is at a covered part of the body
-            // probability given by coverage
-            if (rng(0, 100) <= worn[i].get_coverage()) {
-                // hit a covered part of the body, so now determine if armor is damaged
-                arm_bash = worn[i].bash_resist();
-                arm_cut  = worn[i].cut_resist();
-                // also determine how much damage is absorbed by armor
-                // factor of 3 to normalise for material hardness values
-                bash_reduction = arm_bash / 3;
-                cut_reduction = arm_cut / 3;
-
-                // power armor first  - to depreciate eventually
-                if (worn[i].is_power_armor()) {
-                    if (cut > arm_cut * 2 || dam > arm_bash * 2) {
-                        add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
-                        worn[i].damage++;
-                    }
-                } else { // normal armor
-                    // determine how much the damage exceeds the armor absorption
-                    // bash damage takes into account preceding layers
-                    int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
-                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (cut - arm_cut);
-                    bool armor_damaged = false;
-                    std::string pre_damage_name = worn[i].tname();
-
-                    // armor damage occurs only if damage exceeds armor absorption
-                    // plus a luck factor, even if damage is below armor absorption (2% chance)
-                    if ((dam > arm_bash && !one_in(diff_bash)) ||
-                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50))) {
-                        armor_damaged = true;
-                        worn[i].damage++;
-                    }
-                    bash_absorb += arm_bash;
-
-                    // cut damage falls through to inner layers only if preceding layer was damaged
-                    if (cut_through) {
-                        if ((cut > arm_cut && !one_in(diff_cut)) ||
-                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50))) {
-                            armor_damaged = true;
-                            worn[i].damage++;
-                        } else {
-                            // layer of clothing was not damaged,
-                            // so stop cutting damage from penetrating
-                            cut_through = false;
-                        }
-                    }
-
-                    // now check if armor was completely destroyed and display relevant messages
-                    if (worn[i].damage >= 5) {
-                      //~ %s is armor name
-                      add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
-                                       pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                       worn[i].tname().c_str());
-                        add_msg_player_or_npc(m_bad, _("Your %s is completely destroyed!"),
-                                                     _("<npcname>'s %s is completely destroyed!"),
-                                                     worn[i].tname( 1, false ).c_str() );
-                        worn.erase(worn.begin() + i);
-                    } else if (armor_damaged) {
-                        auto &material = worn[i].get_random_material();
-                        std::string damage_verb = diff_bash > diff_cut ? material.bash_dmg_verb() :
-                                                                         material.cut_dmg_verb();
-                        add_msg_if_player( m_bad, _("Your %s is %s!"), pre_damage_name.c_str(),
-                                                  damage_verb.c_str());
-                    }
-                } // end of armor damage code
-            }
-        }
-        // reduce damage accordingly
-        dam -= bash_reduction;
-        cut -= cut_reduction;
-    }
-    // now account for CBMs and mutations
-    if (has_bionic("bio_carbon")) {
-        dam -= 2;
-        cut -= 4;
-    }
-    if (bp == bp_head && has_bionic("bio_armor_head")) {
-        dam -= 3;
-        cut -= 3;
-    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
-        dam -= 3;
-        cut -= 3;
-    } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
-        dam -= 3;
-        cut -= 3;
-    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
-        dam -= 3;
-        cut -= 3;
-    } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
-        dam -= 3;
-        cut -= 3;
-    }
-    if (has_trait("THICKSKIN")) {
-        cut--;
-    }
-    if (has_trait("THINSKIN")) {
-        cut++;
-    }
-    if (has_trait("SCALES")) {
-        cut -= 2;
-    }
-    if (has_trait("THICK_SCALES")) {
-        cut -= 4;
-    }
-    if (has_trait("SLEEK_SCALES")) {
-        cut -= 1;
-    }
-    if (has_trait("FEATHERS")) {
-        dam--;
-    }
-    if (has_trait("AMORPHOUS")) {
-        dam--;
-        if (!(has_trait("INT_SLIME"))) {
-            dam -= 3;
-        }
-    }
-    if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
-        dam--;
-    }
-    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-        dam--;
-    }
-    if (bp == bp_head && has_trait("LYNX_FUR")) {
-        dam--;
-    }
-    if (has_trait("FAT")) {
-        cut --;
-    }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
-        cut -= 2;
-    }
-    if (has_trait("CHITIN2")) {
-        dam--;
-        cut -= 4;
-    }
-    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        dam -= 2;
-        cut -= 8;
-    }
-    if (has_trait("PLANTSKIN")) {
-        dam--;
-    }
-    if (has_trait("BARK")) {
-        dam -= 2;
-    }
-    if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
-        cut--;
-    }
-    if (has_trait("LIGHT_BONES")) {
-        dam *= 1.4;
-    }
-    if (has_trait("HOLLOW_BONES")) {
-        dam *= 1.8;
-    }
-
-    // apply martial arts armor buffs
-    dam -= mabuff_arm_bash_bonus();
-    cut -= mabuff_arm_cut_bonus();
-
-    if (dam < 0) {
-        dam = 0;
-    }
-    if (cut < 0) {
-        cut = 0;
     }
 }
 
