@@ -137,7 +137,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
     va_end(ap);
 
     std::string sText = "";
-    if ( utf8_width( remove_color_tags( text ).c_str() ) > width + 1 ) {
+    if ( utf8_width( remove_color_tags( text ).c_str() ) > width ) {
 
         int iLength = 0;
         std::string sTempText = "";
@@ -162,7 +162,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
             iLength += iTempLen;
 
             if ( iLength > width ) {
-                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(), iTempLen - (iLength - width), NULL, -1)) + "…";
+                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(), iTempLen - (iLength - width) - 1, NULL, -1)) + "…";
             }
 
             sText += sColor + sTempText;
