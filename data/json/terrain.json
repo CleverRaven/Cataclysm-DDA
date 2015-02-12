@@ -3924,9 +3924,10 @@
         "move_cost": 0,
         "flags": ["NOITEM"],
         "bash": {
-            "str_min": 18, "str_max": 180,
+            "str_min": 200, "str_max": 600,
             "sound": "crunch!",
             "sound_fail": "whack!",
+            "//" : "Since these are set into the walls, they ought to have the resilence of metal walls.",
             "ter_set": "t_concrete",
             "items": [
                 { "item": "processor", "amount": 1, "chance": 25 },
