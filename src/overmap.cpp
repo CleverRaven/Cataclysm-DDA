@@ -3660,11 +3660,12 @@ const unsigned &oter_id::operator=(const int &i)
     return _val;
 }
 // ter(...) = "rock"
+namespace { std::string const debug_dummy_string; }
 oter_id::operator std::string const&() const
 {
     if ( _val > oterlist.size() ) {
         debugmsg("oterlist[%d] > %d", _val, oterlist.size()); // remove me after testing (?)
-        return 0;
+        return debug_dummy_string;
     }
     return oterlist[_val].id;
 }
