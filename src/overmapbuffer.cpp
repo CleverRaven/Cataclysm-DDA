@@ -522,32 +522,27 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
     const point upper_left = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
     const point lower_right = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
 
-    std::vector<point> distinct_corners;
-    auto const dx = lower_right.x - upper_left.x;
-    auto const dy = lower_right.y - upper_left.y;
-    distinct_corners.reserve(std::max(1, dx*dy));
-
-    for( int x = upper_left.x; x <= lower_right.x; x++ ) {
-        for( int y = upper_left.y; y <= lower_right.y; y++ ) {
-            distinct_corners.emplace_back(x, y);
-        }
-    }
-
-    std::sort(begin(distinct_corners), end(distinct_corners));
-    auto const last = std::unique(begin(distinct_corners), end(distinct_corners));
-
-    std::vector<overmap*> nearby_overmaps;
-    nearby_overmaps.reserve(distance(begin(distinct_corners), last));
+    auto const dx = std::max(1, lower_right.x - upper_left.x);
+    auto const dy = std::max(1, lower_right.y - upper_left.y);
 
     // Grab references to the overmaps at those coordinates, but only if they exist.
     // Might use this to drive creation of these overmaps at some point if we want to
     // more agressively expand the created overmaps.
-    for (auto const &overmap_origin : distinct_corners) {
-        auto const nearby_overmap = get_existing(overmap_origin.x, overmap_origin.y);
-        if (nearby_overmap) {
-            nearby_overmaps.emplace_back(nearby_overmap);
+    std::vector<overmap*> nearby_overmaps;
+    nearby_overmaps.reserve(dx*dy);
+
+    for (int x = upper_left.x; x <= lower_right.x; ++x) {
+        for (int y = upper_left.y; y <= lower_right.y; ++y) {
+            auto const nearby_overmap = get_existing(x, y);
+            if (nearby_overmap) {
+                nearby_overmaps.emplace_back(nearby_overmap);
+            }
         }
     }
+
+    std::sort(begin(nearby_overmaps), end(nearby_overmaps));
+    nearby_overmaps.erase(unique(begin(nearby_overmaps), end(nearby_overmaps)),
+        end(nearby_overmaps));
 
     return nearby_overmaps;
 }
