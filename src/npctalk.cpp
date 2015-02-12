@@ -3231,6 +3231,9 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
   debugmsg("Called parse_tags() with NULL pointers!");
   return;
  }
+
+ phrase = remove_color_tags( phrase );
+
  size_t fa, fb;
  std::string tag;
  do {
@@ -3539,10 +3542,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         _("You: $%.2f"), (double)g->u.cash/100);
             // Draw their list of items, starting from them_off
             for (int i = them_off; i < (int)theirs.size() && i < (17 + them_off); i++) {
-                mvwprintz(w_them, i - them_off + 1, 1,
-                        (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%.2f",
+                trim_and_print(w_them, i - them_off + 1, 1, 30,
+                        (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s",
                         char((i -them_off) + 'a'), (getting_theirs[i] ? '+' : '-'),
-                        utf8_substr(theirs[i]->tname(), 0, 25).c_str(),
+                        theirs[i]->tname().c_str());
+
+                mvwprintz(w_them, i - them_off + 1, 32,
+                        (getting_theirs[i] ? c_white : c_ltgray), "$%.2f",
                         (double)their_price[i]/100);
             }
             if (them_off > 0) {
@@ -3553,10 +3559,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             }
             // Draw your list of items, starting from you_off
             for (int i = you_off; i < (int)yours.size() && (i < (17 + you_off)) ; i++) {
-                mvwprintz(w_you, i - you_off + 1, 1,
-                        (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%.2f",
+                trim_and_print(w_you, i - you_off + 1, 1, 30,
+                        (getting_yours[i] ? c_white : c_ltgray), "%c %c %s",
                         char((i -you_off) + 'a'), (getting_yours[i] ? '+' : '-'),
-                        utf8_substr(yours[i]->tname(), 0,25).c_str(),
+                        yours[i]->tname().c_str());
+
+                mvwprintz(w_you, i - you_off + 1, 32,
+                        (getting_yours[i] ? c_white : c_ltgray), "$%.2f",
                         (double)your_price[i]/100);
             }
             if (you_off > 0) {

@@ -282,7 +282,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
 
-    mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
+    trim_and_print(hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, _("Use %s:"), item_name.c_str());
     nc_color color = c_ltgray;
     bool allowed_result[num_hp_parts] = { false };
     if (p->hp_cur[hp_head] < p->hp_max[hp_head] ||
@@ -1341,7 +1341,7 @@ int iuse::poison(player *p, item *it, bool, point)
 int iuse::fun_hallu(player *p, item *it, bool, point)
 {
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
-   
+
    //Fake a normal food morale effect
     if (p->has_trait("SPIRITUAL")) {
         p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
@@ -9625,7 +9625,7 @@ vehicle *pickveh( point center, bool advanced )
     pmenu.callback = &callback;
     pmenu.w_y = 0;
     pmenu.query();
-    
+
     if( pmenu.ret < 0 || pmenu.ret >= (int)vehs.size() ) {
         return nullptr;
     } else {

@@ -3483,9 +3483,9 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
         wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            wprintz(w, c, _("%s (Burst)"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
         } else {
-            wprintz(w, c, _("%s"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
         }
     }
 }
