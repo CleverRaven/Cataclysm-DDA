@@ -147,11 +147,10 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
         for( auto seg : color_segments ) {
             sColor = "";
 
-            if( !seg.empty() && seg[0] == '<' ) {
-                if ( seg.substr(0,8) == "</color>" ) {
-                    sTempText = seg.substr(8);
-                } else {
-                    sTempText = rm_prefix( seg );
+            if( !seg.empty() && ( seg.substr(0, 7) == "<color_" || seg.substr(0, 7) == "</color" ) ) {
+                sTempText = rm_prefix( seg );
+
+                if ( seg.substr(0,7) == "<color_" ) {
                     sColor = seg.substr(0, seg.find(">") + 1);
                 }
             } else {
@@ -166,7 +165,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
             }
 
             sText += sColor + sTempText;
-            if (sColor != "") {
+            if ( sColor != "" ) {
                 sText += "</color>";
             }
 

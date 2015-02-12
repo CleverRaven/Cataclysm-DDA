@@ -329,7 +329,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
-        trim_and_print(w_inv, cur_line, y + 2, w, name_color, "%s", item_name.c_str());
+        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
     }
 }
 
