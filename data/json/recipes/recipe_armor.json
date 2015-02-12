@@ -8375,6 +8375,25 @@
 },
 {
   "type" : "recipe",
+  "result": "shark_suit_faraday",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "shark_suit", 1 ]
+    ],
+    [
+      [ "cable", 50 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
   "result": "armor_nomad",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
