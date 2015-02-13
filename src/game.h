@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "mtype.h"
-#include "monster.h"
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
@@ -77,19 +76,12 @@ enum target_mode {
     TARGET_MODE_TURRET
 };
 
-// Refactoring into base monster class.
-
-struct monster_and_count {
-    monster critter;
-    int count;
-    monster_and_count(monster M, int C) : critter (M), count (C) {};
-};
-
 struct special_game;
 struct mtype;
 struct mission_type;
 class map;
 class player;
+class monster;
 class calendar;
 class DynamicDataLoader;
 
@@ -465,7 +457,7 @@ class game
         void draw_explosion(int x, int y, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
                          timespec &ts);
-        void draw_hit_mon(int x, int y, monster critter, bool dead = false);
+        void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
         void draw_hit_player(player *p, const int iDam, bool dead = false);
         void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
         void draw_line(const int x, const int y, std::vector<point> ret);
