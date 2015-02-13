@@ -1506,7 +1506,7 @@ int map::bash_rating(const int str, const int x, const int y) const
 
     int ret = (10 * (str - bash_min)) / (bash_max - bash_min);
     // Round up to 1, so that desperate NPCs can try to bash down walls
-    return ret > 0 ? ret : 1;
+    return std::max( ret, 1);
 }
 
 void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
