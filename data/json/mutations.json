@@ -48,7 +48,7 @@
         "id" : "QUICK",
         "name" : "Quick",
         "points" : 3,
-        "description" : "You're just generally quick! You get a 10% bonus to action points.",
+        "description" : "You're just generally quick!  You get a 10% bonus to action points.",
         "starting_trait" : true,
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
@@ -56,7 +56,7 @@
         "id" : "OPTIMISTIC",
         "name" : "Optimist",
         "points" : 2,
-        "description" : "Nothing gets you down! You savor the joys of life, ignore its hardships, and are generally happier than most people.",
+        "description" : "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADTEMPER"]
@@ -140,7 +140,7 @@
         "id" : "TOUGH",
         "name" : "Tough",
         "points" : 3,
-        "description" : "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
+        "description" : "It takes a lot to bring you down!  You get a 20% bonus to all hit points.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
@@ -150,7 +150,7 @@
         "id" : "TOUGH2",
         "name" : "Durable",
         "points" : 4,
-        "description" : "You can shrug off almost anything! You get a 30% bonus to all hit points.",
+        "description" : "You can shrug off almost anything!  You get a 30% bonus to all hit points.",
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
@@ -160,7 +160,7 @@
         "id" : "TOUGH3",
         "name" : "Unbreakable",
         "points" : 5,
-        "description" : "Nothing can break you! You get a 40% bonus to all hit points.",
+        "description" : "Nothing can break you!  You get a 40% bonus to all hit points.",
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH2"]
@@ -183,7 +183,7 @@
         "id" : "PACKMULE",
         "name" : "Packmule",
         "points" : 3,
-        "description" : "You can manage to find space for anything! You can carry 40% more volume.",
+        "description" : "You can manage to find space for anything!  You can carry 40% more volume.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["DISORGANIZED"]
@@ -237,7 +237,7 @@
         "id" : "DRUNKEN",
         "name" : "Drunken Master",
         "points" : 2,
-        "description" : "The ancient arts of drunken brawling come naturally to you! While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
+        "description" : "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["LIGHTWEIGHT"]
@@ -263,7 +263,7 @@
         "id" : "GOURMAND",
         "name" : "Gourmand",
         "points" : 2,
-        "description" : "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
+        "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
         "starting_trait" : true,
         "valid" : false
     },{
@@ -478,7 +478,7 @@
         "id" : "MYOPIC",
         "name" : "Near-Sighted",
         "points" : -2,
-        "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
+        "description" : "Without your glasses, your seeing radius is severely reduced!  However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
         "cancels" : ["URSINE_EYE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE"]
@@ -557,7 +557,7 @@
         "id" : "ILLITERATE",
         "name" : "Illiterate",
         "points" : -5,
-        "description" : "You never learned to read! Books and computers are off-limits to you.",
+        "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FASTREADER", "SLOWREADER"]
@@ -2641,7 +2641,7 @@
         "id" : "WEB_ROPE",
         "name" : "Rope Webs",
         "points" : 10,
-        "description" : "With spinnerets like THESE, who needs rope?! Your natural abilities can handle that part of most construction projects.",
+        "description" : "With spinnerets like THESE, who needs rope?!  Your natural abilities can handle that part of most construction projects.",
         "prereqs" : ["WEB_WEAVER"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
@@ -2969,7 +2969,7 @@
         "points" : 0,
         "visibility" : 0,
         "ugliness" : 0,
-        "description" : "Just thinking of mutagen (such a lovely word! 'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
+        "description" : "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
         "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
         "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
@@ -3535,7 +3535,7 @@
         "id" : "RADIOACTIVE1",
         "name" : "Minor Radioactivity",
         "points" : -4,
-        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
+        "description" : "Your body has become radioactive!  You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
@@ -3543,7 +3543,7 @@
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
         "points" : -7,
-        "description" : "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
         "category": ["MUTCAT_ELFA"]
@@ -3552,7 +3552,7 @@
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
         "points" : -10,
-        "description" : "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
@@ -4131,7 +4131,7 @@
         "id" : "THRESH_CATTLE",
         "name" : "Bovine",
         "points" : 1,
-        "description" : "Civilization collapsed? Great! You and your kin will never have to worry about a slaughterhouse again.",
+        "description" : "Civilization collapsed? Great!  You and your kin will never have to worry about a slaughterhouse again.",
         "valid": false,
         "purifiable": false,
         "threshold": true
