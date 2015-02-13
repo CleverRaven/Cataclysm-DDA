@@ -9368,11 +9368,11 @@ int game::list_items(const int iLastState)
                     bRadiusSort = true;
 
                     ground_items = ground_items_radius;
-                    iItemNum = ground_items.size();
                 }
 
                 highPEnd = -1;
                 lowPStart = -1;
+                iCatSortNum = 0;
 
                 mSortCategory.clear();
                 refilter = true;
@@ -9563,22 +9563,24 @@ int game::list_items(const int iLastState)
                 }
 
                 mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive - iNum + 1);
+                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), (iItemNum > 0) ? iActive - iNum + 1 : 0);
                 wprintz(w_items_border, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum - iCatSortNum);
 
                 werase(w_item_info);
 
-                std::vector<iteminfo> vThisItem, vDummy;
-                activeItem->example->info(true, &vThisItem);
+                if ( iItemNum > 0 ) {
+                    std::vector<iteminfo> vThisItem, vDummy;
+                    activeItem->example->info(true, &vThisItem);
 
-                draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
-                //Only redraw trail/terrain if x/y position changed
-                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
-                    iLastActiveX = iActiveX;
-                    iLastActiveY = iActiveY;
-                    centerlistview(iActiveX, iActiveY);
-                    draw_trail_to_square(iActiveX, iActiveY, true);
+                    //Only redraw trail/terrain if x/y position changed
+                    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                        iLastActiveX = iActiveX;
+                        iLastActiveY = iActiveY;
+                        centerlistview(iActiveX, iActiveY);
+                        draw_trail_to_square(iActiveX, iActiveY, true);
+                    }
                 }
 
                 //Draw Scrollbar
