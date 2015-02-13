@@ -30,7 +30,7 @@ struct dream {
 };
 
 struct mutation_branch {
-    bool valid; // True if this is a valid mutation (False for "unavailable from generic mutagen")
+    bool valid = false; // True if this is a valid mutation (False for "unavailable from generic mutagen")
     bool purifiable; // True if Purifier can remove it (False for *Special* mutations)
     bool threshold; // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default)
     bool profession; // True if this is a trait associated with professional training/experience, so profession/quest ONLY
@@ -45,11 +45,6 @@ struct mutation_branch {
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
     std::vector<std::string> initial_ma_styles; // Martial art styles that can be chosen upon character generation
-
-    mutation_branch()
-    {
-        valid = false;
-    };
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
 };
