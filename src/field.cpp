@@ -4,330 +4,132 @@
 #include "game.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include "json.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
 field_t fieldlist[num_fields];
 
-void game::init_fields()
-{
-    field_t tmp_fields[num_fields] =
-    {
-        {
-            "fd_null",
-            {"", "", ""}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-        {
-            "fd_blood",
-            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
-            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_bile",
-            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
-            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 14400,
-            {0,0,0}
-        },
+namespace {
 
-        {
-            "fd_gibs_flesh",
-            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
-            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
+template <typename T>
+T next_array_element(JsonArray &arr);
 
-        {
-            "fd_gibs_veggy",
-            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
-            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
+template <> std::string next_array_element<std::string>(JsonArray &arr) {
+    return arr.next_string();
+}
 
-        {
-            "fd_web",
-            {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
-            {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
-            {0,0,0}
-        },
+template <> bool next_array_element<bool>(JsonArray &arr) {
+    return arr.next_bool();
+}
 
-        {
-            "fd_slime",
-            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 14400,
-            {0,0,0}
-        },
+template <> int next_array_element<int>(JsonArray &arr) {
+    return arr.next_int();
+}
 
-        {
-            "fd_acid",
-            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, 10,
-            {0,0,0}
-        },
-
-        {
-            "fd_sap",
-            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5', 2,
-            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, 20,
-            {0,0,0}
-        },
-
-        {
-            "fd_sludge",
-            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 3600,
-            {0,0,0}
-        },
-
-        {
-            "fd_fire",
-            {_("small fire"), _("fire"), _("raging fire")}, '4', 4,
-            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
-            {0,0,0}
-        },
-
-       {
-           "fd_rubble",
-           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
-           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
-           {0,0,0}
-       },
-
-        {
-            "fd_smoke",
-            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
-            {0,0,0}
-        },
-        {
-            "fd_toxic_gas",
-            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
-            {0,0,0}
-        },
-
-        {
-            "fd_tear_gas",
-            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
-            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true},   600,
-            {0,0,0}
-        },
-
-        {
-            "fd_nuke_gas",
-            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true},  1000,
-            {0,0,0}
-        },
-
-        {
-            "fd_gas_vent",
-            {_("gas vent"), _("gas vent"), _("gas vent")}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // Fire Vents
-            "fd_fire_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        {
-            "fd_flame_burst",
-            {_("fire"), _("fire"), _("fire")}, '5', 4,
-            {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
-            {0,0,0}
-        },
-
-        {
-            "fd_electricity",
-            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9', 4,
-            {c_white, c_cyan, c_blue}, {true, true, true}, {true, true, true}, 2,
-            {0,0,0}
-        },
-
-        {
-            "fd_fatigue",
-            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*', 8,
-            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
-            {0,0,0}
-        },
-
-        { //Push Items
-            "fd_push_items",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // shock vents
-            "fd_shock_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // acid vents
-            "fd_acid_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // plasma glow (for plasma weapons)
-            "fd_plasma",
-            {_("faint plasma"), _("glowing plasma"), _("glaring plasma")}, '9', 4,
-            {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
-            {0,0,0}
-        },
-
-        { // laser beam (for laser weapons)
-            "fd_laser",
-            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#', 4,
-            {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
-            {0,0,0}
-        },
-        {
-            "fd_spotlight",
-            { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
-            {c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
-            {0,0,0}
-        },
-        {
-            "fd_dazzling",
-            { _("dazzling"), _("dazzling"), _("dazzling") }, '#', 4,
-            {c_ltred_yellow, c_ltred_yellow, c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
-            { 0, 0, 0 }
-        },
-        {
-            "fd_blood_veggy",
-            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_blood_insect",
-            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_blood_invertebrate",
-            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_gibs_insect",
-            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_gibs_invertebrate",
-            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 28800,
-            {0,0,0}
-        },
-        {
-            "fd_cigsmoke",
-            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
-            {0,0,0}
-        },
-        {
-            "fd_weedsmoke",
-            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
-            {0,0,0}
-        },
-
-        {
-            "fd_cracksmoke",
-            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
-            {0,0,0}
-        },
-        {
-            "fd_methsmoke",
-            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
-            {0,0,0}
-        },
-        {
-            "fd_bees",
-            {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
-            {0,0,0}
-        },
-
-        {
-            "fd_incendiary",
-            {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
-            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true},  500,
-            {0,0,0}
-        },
-
-        {
-            "fd_relax_gas",
-            {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
-            {0,0,0}
-        },
-
-        {
-            "fd_fungal_haze",
-            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air1",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air2",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air3",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air4",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
-            {0,0,0}
-        }
-
-    };
-    for(int i = 0; i < num_fields; i++) {
-        fieldlist[i] = tmp_fields[i];
+template <typename T, size_t N>
+void read_array(JsonObject &jo, std::string const &name, T (&out)[N]) {
+    auto arr = jo.get_array(name);
+    for (size_t i = 0; i < N && arr.has_more(); ++i) {
+        out[i] = next_array_element<T>(arr);
     }
+}
+
+template <typename T, size_t N, typename Function>
+void read_array(JsonObject &jo, std::string const &name, T (&out)[N], Function f) {
+    auto arr = jo.get_array(name);
+    for (size_t i = 0; i < N && arr.has_more(); ++i) {
+        out[i] = f(next_array_element<T>(arr));
+    }
+}
+
+}
+
+void init_fields(JsonObject &jo)
+{
+    field_t fld;
+
+    fld.id = jo.get_string("id", "unknown");
+    
+    auto const symbol = jo.get_string("symbol", "?");
+    fld.sym = symbol.empty() ? '?' : symbol[0];
+
+    fld.priority = jo.get_int("priority");
+    fld.halflife = jo.get_int("halflife");
+
+    read_array(jo, "name", fld.name, [](std::string const &s) {
+        return _(s.c_str());
+    });
+    
+    auto color_arr = jo.get_array("color");
+    for (size_t i = 0; i < field_t::density_levels && color_arr.has_more(); ++i) {
+        fld.color[i] = color_from_string(color_arr.next_string());
+    }
+
+    read_array(jo, "transparent", fld.transparent);
+    read_array(jo, "dangerous",   fld.dangerous);
+    read_array(jo, "move_cost",   fld.move_cost);
+
+    auto const index = static_cast<size_t>(field_from_ident(fld.id));
+    fieldlist[index] = std::move(fld);
 }
 
 field_id field_from_ident(const std::string &field_ident)
 {
-    for( size_t i = 0; i < num_fields; i++) {
-        if( fieldlist[i].id == field_ident ) {
-            return static_cast<field_id>( i );
-        }
+    static std::map<std::string, field_id> const map {
+        {"fd_null"              , fd_null}              ,
+        {"fd_blood"             , fd_blood}             ,
+        {"fd_bile"              , fd_bile}              ,
+        {"fd_gibs_flesh"        , fd_gibs_flesh}        ,
+        {"fd_gibs_veggy"        , fd_gibs_veggy}        ,
+        {"fd_web"               , fd_web}               ,
+        {"fd_slime"             , fd_slime}             ,
+        {"fd_acid"              , fd_acid}              ,
+        {"fd_sap"               , fd_sap}               ,
+        {"fd_sludge"            , fd_sludge}            ,
+        {"fd_fire"              , fd_fire}              ,
+        {"fd_rubble"            , fd_rubble}            ,
+        {"fd_smoke"             , fd_smoke}             ,
+        {"fd_toxic_gas"         , fd_toxic_gas}         ,
+        {"fd_tear_gas"          , fd_tear_gas}          ,
+        {"fd_nuke_gas"          , fd_nuke_gas}          ,
+        {"fd_gas_vent"          , fd_gas_vent}          ,
+        {"fd_fire_vent"         , fd_fire_vent}         ,
+        {"fd_flame_burst"       , fd_flame_burst}       ,
+        {"fd_electricity"       , fd_electricity}       ,
+        {"fd_fatigue"           , fd_fatigue}           ,
+        {"fd_push_items"        , fd_push_items}        ,
+        {"fd_shock_vent"        , fd_shock_vent}        ,
+        {"fd_acid_vent"         , fd_acid_vent}         ,
+        {"fd_plasma"            , fd_plasma}            ,
+        {"fd_laser"             , fd_laser}             ,
+        {"fd_spotlight"         , fd_spotlight}         ,
+        {"fd_dazzling"          , fd_dazzling}          ,
+        {"fd_blood_veggy"       , fd_blood_veggy}       ,
+        {"fd_blood_insect"      , fd_blood_insect}      ,
+        {"fd_blood_invertebrate", fd_blood_invertebrate},
+        {"fd_gibs_insect"       , fd_gibs_insect}       ,
+        {"fd_gibs_invertebrate" , fd_gibs_invertebrate} ,
+        {"fd_cigsmoke"          , fd_cigsmoke}          ,
+        {"fd_weedsmoke"         , fd_weedsmoke}         ,
+        {"fd_cracksmoke"        , fd_cracksmoke}        ,
+        {"fd_methsmoke"         , fd_methsmoke}         ,
+        {"fd_bees"              , fd_bees}              ,
+        {"fd_incendiary"        , fd_incendiary}        ,
+        {"fd_relax_gas"         , fd_relax_gas}         ,
+        {"fd_fungal_haze"       , fd_fungal_haze}       ,
+        {"fd_hot_air1"          , fd_hot_air1}          ,
+        {"fd_hot_air2"          , fd_hot_air2}          ,
+        {"fd_hot_air3"          , fd_hot_air3}          ,
+        {"fd_hot_air4"          , fd_hot_air4}
+    };
+
+    auto const it = map.find(field_ident);
+    if (it != map.end()) {
+        return it->second;
     }
+
     debugmsg( "unknown field ident %s", field_ident.c_str() );
     return fd_null;
 }
@@ -2093,25 +1895,44 @@ void map::monster_in_field( monster &z )
     }
 }
 
-int field_entry::move_cost() const{
-  return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
+bool field_entry::is_dangerous() const
+{
+    return fieldlist[type].dangerous[density - 1];
 }
 
-field_id field_entry::getFieldType() const{
+std::string const& field_entry::name() const
+{
+    return fieldlist[type].name[density - 1];
+}
+
+bool field_entry::isAlive() const
+{
+    return is_alive;
+}
+
+int field_entry::move_cost() const
+{
+    return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
+}
+
+field_id field_entry::getFieldType() const
+{
     return type;
 }
 
-
-int field_entry::getFieldDensity() const{
+int field_entry::getFieldDensity() const
+{
     return density;
 }
 
 
-int field_entry::getFieldAge() const{
+int field_entry::getFieldAge() const
+{
     return age;
 }
 
-field_id field_entry::setFieldType(const field_id new_field_id){
+field_id field_entry::setFieldType(const field_id new_field_id)
+{
 
     //TODO: Better bounds checking.
     if(new_field_id >= 0 && new_field_id < num_fields){
@@ -2124,7 +1945,8 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 }
 
-int field_entry::setFieldDensity(const int new_density){
+int field_entry::setFieldDensity(const int new_density)
+{
 
     if(new_density > 3) {
         density = 3;
@@ -2139,21 +1961,10 @@ int field_entry::setFieldDensity(const int new_density){
 
 }
 
-int field_entry::setFieldAge(const int new_age){
-
+int field_entry::setFieldAge(const int new_age)
+{
     age = new_age;
-
     return age;
-}
-
-field::field()
-    : field_list()
-    , draw_symbol( fd_null )
-{
-}
-
-field::~field()
-{
 }
 
 /*
@@ -2170,18 +1981,9 @@ field_entry *field::findField( const field_id field_to_find )
     return nullptr;
 }
 
-const field_entry *field::findFieldc( const field_id field_to_find ) const
-{
-    const auto it = field_list.find( field_to_find );
-    if( it != field_list.end() ) {
-        return &it->second;
-    }
-    return nullptr;
-}
-
 const field_entry *field::findField( const field_id field_to_find ) const
 {
-    return findFieldc( field_to_find );
+    return const_cast<field*>(this)->findField( field_to_find );
 }
 
 /*
@@ -2192,7 +1994,8 @@ If the field already exists, it will return false BUT it will add the density/ag
 If you wish to modify an already existing field use findField and modify the result.
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
+bool field::addField(const field_id field_to_add, const int new_density, const int new_age)
+{
     auto it = field_list.find(field_to_add);
     if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
         draw_symbol = field_to_add;

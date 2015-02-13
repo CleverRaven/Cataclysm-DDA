@@ -1,101 +1,112 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include <map>
 #include <vector>
 #include <string>
-#include <iosfwd>
+
+class JsonObject;
+enum nc_color : int;
+
+//The master list of id's for a field, corresponding to the fieldlist array.
+enum field_id : int {
+    fd_null = 0,
+    fd_blood,
+    fd_bile,
+    fd_gibs_flesh,
+    fd_gibs_veggy,
+    fd_web,
+    fd_slime,
+    fd_acid,
+    fd_sap,
+    fd_sludge,
+    fd_fire,
+    fd_rubble,
+    fd_smoke,
+    fd_toxic_gas,
+    fd_tear_gas,
+    fd_nuke_gas,
+    fd_gas_vent,
+    fd_fire_vent,
+    fd_flame_burst,
+    fd_electricity,
+    fd_fatigue,
+    fd_push_items,
+    fd_shock_vent,
+    fd_acid_vent,
+    fd_plasma,
+    fd_laser,
+    fd_spotlight,
+    fd_dazzling,
+    fd_blood_veggy,
+    fd_blood_insect,
+    fd_blood_invertebrate,
+    fd_gibs_insect,
+    fd_gibs_invertebrate,
+    fd_cigsmoke,
+    fd_weedsmoke,
+    fd_cracksmoke,
+    fd_methsmoke,
+    fd_bees,
+    fd_incendiary,
+    fd_relax_gas,
+    fd_fungal_haze,
+    fd_hot_air1,
+    fd_hot_air2,
+    fd_hot_air3,
+    fd_hot_air4,
+    num_fields
+};
 
 /*
-struct field_t
-Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
-of an existing field.
-*/
+ * struct field_t
+ * Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
+ * of an existing field.
+ */
 struct field_t {
+    enum : size_t { density_levels = 3 };
+
+    field_t() = default;
+
     // internal ident, used for tileset and for serializing,
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
- std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
- char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
- int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
- nc_color color[3]; //The color the field will be drawn as on the screen, by density.
+    
+    // Controls, albeit randomly, how long (in turns) a field of a given type will last before going
+    // down in density.
+    int halflife = 0;
 
- /*
- If true, does not invoke a check to block line of sight. If false, may block line of sight.
- Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
- transparancy code there with a case statement as well!
- */
- bool transparent[3];
+    // Inferior numbers have lower priority.
+    // 0 is "ground" (splatter)
+    // 2 is "on the ground"
+    // 4 is "above the ground" (fire)
+    // 6 is reserved for furniture and
+    // 8 is "in the air" (smoke).
+    int priority = 0;
+    
+    //The display name of the given density (ie: light smoke, smoke, heavy smoke)
+    std::string name[density_levels];
 
- //Dangerous tiles ask you before you step in them.
- bool dangerous[3];
+    //cost of moving into and out of this field
+    int move_cost[density_levels];
 
- //Controls, albeit randomly, how long a field of a given type will last before going down in density.
- int halflife; // In turns
+    //The color the field will be drawn as on the screen, by density.
+    nc_color color[density_levels];
 
- //cost of moving into and out of this field
- int move_cost[3];
+    /*
+     * If true, does not invoke a check to block line of sight. If false, may block line of sight.
+     * Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
+     * transparancy code there with a case statement as well!
+     */
+    bool transparent[density_levels];
+
+    // Dangerous tiles ask you before you step in them.
+    bool dangerous[density_levels];
+
+    // The symbol to draw for this field. Note that some are reserved like * and %.
+    // You will have to check the draw function for specifics.
+    char sym = '%';
 };
-
-//The master list of id's for a field, corresponding to the fieldlist array.
-enum field_id {
- fd_null = 0,
- fd_blood,
- fd_bile,
- fd_gibs_flesh,
- fd_gibs_veggy,
- fd_web,
- fd_slime,
- fd_acid,
- fd_sap,
- fd_sludge,
- fd_fire,
- fd_rubble,
- fd_smoke,
- fd_toxic_gas,
- fd_tear_gas,
- fd_nuke_gas,
- fd_gas_vent,
- fd_fire_vent,
- fd_flame_burst,
- fd_electricity,
- fd_fatigue,
- fd_push_items,
- fd_shock_vent,
- fd_acid_vent,
- fd_plasma,
- fd_laser,
- fd_spotlight,
- fd_dazzling,
- fd_blood_veggy,
- fd_blood_insect,
- fd_blood_invertebrate,
- fd_gibs_insect,
- fd_gibs_invertebrate,
- fd_cigsmoke,
- fd_weedsmoke,
- fd_cracksmoke,
- fd_methsmoke,
- fd_bees,
- fd_incendiary,
- fd_relax_gas,
- fd_fungal_haze,
- fd_hot_air1,
- fd_hot_air2,
- fd_hot_air3,
- fd_hot_air4,
- num_fields
-};
-
-/*
-Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
-*/
-extern field_t fieldlist[num_fields];
-/**
- * Returns the field_id of the field whose ident (field::id) matches the given ident.
- * Returns fd_null (and prints a debug message!) if the field ident is unknown.
- * Never returns num_fields.
- */
-extern field_id field_from_ident(const std::string &field_ident);
 
 /**
  * An active or passive effect existing on a tile.
@@ -103,19 +114,9 @@ extern field_id field_from_ident(const std::string &field_ident);
  */
 class field_entry {
 public:
-    field_entry() {
-      type = fd_null;
-      density = 1;
-      age = 0;
-      is_alive = false;
-    };
-
-    field_entry(field_id t, int d, int a) {
-        type = t;
-        density = d;
-        age = a;
-        is_alive = true;
-    }
+    field_entry() = default;
+    field_entry(field_id const t, int const d, int const a)
+      : type {t}, density {d}, age {a}, is_alive {true} { }
 
     //returns the move cost of this field
     int move_cost() const;
@@ -132,37 +133,28 @@ public:
     //Allows you to modify the field_id of the current field entry.
     //This probably shouldn't be called outside of field::replaceField, as it
     //breaks the field drawing code and field lookup
-    field_id setFieldType(const field_id new_field_id);
+    field_id setFieldType(field_id new_field_id);
 
     //Allows you to modify the density of the current field entry.
-    int setFieldDensity(const int new_density);
+    int setFieldDensity(int new_density);
 
     //Allows you to modify the age of the current field entry.
-    int setFieldAge(const int new_age);
+    int setFieldAge(int new_age);
 
     //Returns if the current field is dangerous or not.
-    bool is_dangerous() const
-    {
-        return fieldlist[type].dangerous[density - 1];
-    }
+    bool is_dangerous() const;
 
     //Returns the display name of the current field given its current density.
     //IE: light smoke, smoke, heavy smoke
-    std::string name() const
-    {
-        return fieldlist[type].name[density - 1];
-    }
+    std::string const& name() const;
 
     //Returns true if this is an active field, false if it should be removed.
-    bool isAlive(){
-        return is_alive;
-    }
-
+    bool isAlive() const;
 private:
-    field_id type; //The field identifier.
-    int density; //The density, or intensity (higher is stronger), of the field entry.
-    int age; //The age, or time to live, of the field effect. 0 is permanent.
-    bool is_alive; //True if this is an active field, false if it should be destroyed next check.
+    field_id type     = fd_null; // The field identifier.
+    int      density  = 1;       // The density, or intensity (higher is stronger), of the entry.
+    int      age      = 0;       // The age, or time to live, of the field effect. 0 is permanent.
+    bool     is_alive = false;   // True if active, false if it should be destroyed next check.
 };
 
 /**
@@ -172,27 +164,21 @@ private:
  * Use @ref findField to get the field entry of a specific type, or iterate over
  * all entries via @ref begin and @ref end (allows range based iteration).
  * There is @ref fieldSymbol to specific which field should be drawn on the map.
-*/
-class field{
+ */
+class field {
 public:
-    field();
-    ~field();
+    field() = default;
 
     /**
      * Returns a field entry corresponding to the field_id parameter passed in.
      * If no fields are found then nullptr is returned.
      */
-    field_entry* findField(const field_id field_to_find);
+    field_entry* findField(field_id field_to_find);
     /**
      * Returns a field entry corresponding to the field_id parameter passed in.
      * If no fields are found then nullptr is returned.
      */
-    const field_entry* findFieldc(const field_id field_to_find) const;
-    /**
-     * Returns a field entry corresponding to the field_id parameter passed in.
-     * If no fields are found then nullptr is returned.
-     */
-    const field_entry* findField(const field_id field_to_find) const;
+    const field_entry* findField(field_id field_to_find) const;
 
     /**
      * Inserts the given field_id into the field list for a given tile if it does not already exist.
@@ -201,14 +187,14 @@ public:
      * The density is added to an existing field entry, but the age is only used for newly added entries.
      * @return false if the field_id already exists, true otherwise.
      */
-    bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
+    bool addField(field_id field_to_add, int new_density = 1, int new_age = 0);
 
     /**
      * Removes the field entry with a type equal to the field_id parameter.
      * @return The iterator to the field after the removed on.
      * The result might be the @ref end iterator.
      */
-    std::map<field_id, field_entry>::iterator removeField(const field_id field_to_remove);
+    std::map<field_id, field_entry>::iterator removeField(field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
@@ -232,10 +218,26 @@ public:
      * Returns the total move cost from all fields.
      */
     int move_cost() const;
-
 private:
-    std::map<field_id, field_entry> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
-    field_id draw_symbol;
+    // A pointer lookup table of all field effects on the current tile.
+    std::map<field_id, field_entry> field_list;
+    // Draw_symbol currently is equal to the last field added to the square.
+    // You can modify this behavior in the class functions if you wish.
+    field_id draw_symbol = fd_null;
 };
+
+/*
+ * Controls the master listing of all possible field effects, indexed by a field_id.
+ * Does not store active fields, just metadata.
+ */
+extern field_t fieldlist[num_fields];
+
+void init_fields(JsonObject &jo);
+/**
+ * Returns the field_id of the field whose ident (field::id) matches the given ident.
+ * Returns fd_null (and prints a debug message!) if the field ident is unknown.
+ * Never returns num_fields.
+ */
+field_id field_from_ident(const std::string &field_ident);
 
 #endif

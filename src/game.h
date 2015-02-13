@@ -534,7 +534,6 @@ class game
         void load_uistate(std::string worldname);
         // Data Initialization
         void init_npctalk();
-        void init_fields();
         void init_weather();
         void init_weather_anim();
         void init_morale();

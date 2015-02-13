@@ -1,0 +1,1442 @@
+[
+    {
+        "type": "field",
+        "id": "fd_null",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 0,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_blood",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "blood splatter",
+            "blood stain",
+            "puddle of blood"
+        ],
+        "color": [
+            "red",
+            "red",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_bile",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 14400,
+        "name": [
+            "bile splatter",
+            "bile stain",
+            "puddle of bile"
+        ],
+        "color": [
+            "pink",
+            "pink",
+            "pink"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_gibs_flesh",
+        "symbol": "~",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "scraps of flesh",
+            "bloody meat chunks",
+            "heap of gore"
+        ],
+        "color": [
+            "brown",
+            "ltred",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_gibs_veggy",
+        "symbol": "~",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "shredded leaves and twigs",
+            "shattered branches and leaves",
+            "broken vegetation tangle"
+        ],
+        "color": [
+            "ltgreen",
+            "ltgreen",
+            "green"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_web",
+        "symbol": "}",
+        "priority": 2,
+        "halflife": 0,
+        "name": [
+            "cobwebs",
+            "webs",
+            "thick webs"
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            false
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_slime",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 14400,
+        "name": [
+            "slime trail",
+            "slime stain",
+            "puddle of slime"
+        ],
+        "color": [
+            "ltgreen",
+            "ltgreen",
+            "green"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_acid",
+        "symbol": "5",
+        "priority": 2,
+        "halflife": 10,
+        "name": [
+            "acid splatter",
+            "acid streak",
+            "pool of acid"
+        ],
+        "color": [
+            "ltgreen",
+            "green",
+            "green"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_sap",
+        "symbol": "5",
+        "priority": 2,
+        "halflife": 20,
+        "name": [
+            "sap splatter",
+            "glob of sap",
+            "pool of sap"
+        ],
+        "color": [
+            "yellow",
+            "brown",
+            "brown"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_sludge",
+        "symbol": "5",
+        "priority": 2,
+        "halflife": 3600,
+        "name": [
+            "thin sludge trail",
+            "sludge trail",
+            "thick sludge trail"
+        ],
+        "color": [
+            "ltgray",
+            "dkgray",
+            "black"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_fire",
+        "symbol": "4",
+        "priority": 4,
+        "halflife": 800,
+        "name": [
+            "small fire",
+            "fire",
+            "raging fire"
+        ],
+        "color": [
+            "yellow",
+            "ltred",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_rubble",
+        "symbol": "#",
+        "priority": 0,
+        "halflife": 1,
+        "name": [
+            "legacy rubble",
+            "legacy rubble",
+            "legacy rubble"
+        ],
+        "color": [
+            "dkgray",
+            "dkgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_smoke",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 300,
+        "name": [
+            "thin smoke",
+            "smoke",
+            "thick smoke"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            false,
+            false
+        ],
+        "dangerous": [
+            false,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_toxic_gas",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 900,
+        "name": [
+            "hazy cloud",
+            "toxic gas",
+            "thick toxic gas"
+        ],
+        "color": [
+            "white",
+            "ltgreen",
+            "green"
+        ],
+        "transparent": [
+            true,
+            false,
+            false
+        ],
+        "dangerous": [
+            false,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_tear_gas",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 600,
+        "name": [
+            "hazy cloud",
+            "tear gas",
+            "thick tear gas"
+        ],
+        "color": [
+            "white",
+            "yellow",
+            "brown"
+        ],
+        "transparent": [
+            true,
+            false,
+            false
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_nuke_gas",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 1000,
+        "name": [
+            "hazy cloud",
+            "radioactive gas",
+            "thick radioactive gas"
+        ],
+        "color": [
+            "white",
+            "ltgreen",
+            "green"
+        ],
+        "transparent": [
+            true,
+            true,
+            false
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_gas_vent",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 0,
+        "name": [
+            "gas vent",
+            "gas vent",
+            "gas vent"
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_fire_vent",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 0,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_flame_burst",
+        "symbol": "5",
+        "priority": 4,
+        "halflife": 0,
+        "name": [
+            "fire",
+            "fire",
+            "fire"
+        ],
+        "color": [
+            "red",
+            "red",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_electricity",
+        "symbol": "9",
+        "priority": 4,
+        "halflife": 2,
+        "name": [
+            "sparks",
+            "electric crackle",
+            "electric cloud"
+        ],
+        "color": [
+            "white",
+            "cyan",
+            "blue"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_fatigue",
+        "symbol": "*",
+        "priority": 8,
+        "halflife": 0,
+        "name": [
+            "odd ripple",
+            "swirling air",
+            "tear in reality"
+        ],
+        "color": [
+            "ltgray",
+            "dkgray",
+            "magenta"
+        ],
+        "transparent": [
+            true,
+            true,
+            false
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_push_items",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 0,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_shock_vent",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 0,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_acid_vent",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 0,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_plasma",
+        "symbol": "9",
+        "priority": 4,
+        "halflife": 2,
+        "name": [
+            "faint plasma",
+            "glowing plasma",
+            "glaring plasma"
+        ],
+        "color": [
+            "magenta",
+            "pink",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_laser",
+        "symbol": "#",
+        "priority": 4,
+        "halflife": 1,
+        "name": [
+            "faint glimmer",
+            "beam of light",
+            "intense beam of light"
+        ],
+        "color": [
+            "blue",
+            "ltblue",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_spotlight",
+        "symbol": "&",
+        "priority": 1,
+        "halflife": 1,
+        "name": [
+            "spotlight",
+            "spotlight",
+            "spotlight"
+        ],
+        "color": [
+            "white",
+            "white",
+            "white"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_dazzling",
+        "symbol": "#",
+        "priority": 4,
+        "halflife": 1,
+        "name": [
+            "dazzling",
+            "dazzling",
+            "dazzling"
+        ],
+        "color": [
+            "ltred_yellow",
+            "ltred_yellow",
+            "ltred_yellow"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_blood_veggy",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "plant sap splatter",
+            "plant sap stain",
+            "puddle of resin"
+        ],
+        "color": [
+            "ltgreen",
+            "ltgreen",
+            "ltgreen"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_blood_insect",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "bug blood splatter",
+            "bug blood stain",
+            "puddle of bug blood"
+        ],
+        "color": [
+            "green",
+            "green",
+            "green"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_blood_invertebrate",
+        "symbol": "%",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "hemolymph splatter",
+            "hemolymph stain",
+            "puddle of hemolymph"
+        ],
+        "color": [
+            "ltgray",
+            "ltgray",
+            "ltgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_gibs_insect",
+        "symbol": "~",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "shards of chitin",
+            "shattered bug leg",
+            "torn insect organs"
+        ],
+        "color": [
+            "ltgreen",
+            "green",
+            "yellow"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_gibs_invertebrate",
+        "symbol": "~",
+        "priority": 0,
+        "halflife": 28800,
+        "name": [
+            "gooey scraps",
+            "icky mess",
+            "heap of squishy gore"
+        ],
+        "color": [
+            "ltgray",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_cigsmoke",
+        "symbol": "%",
+        "priority": 8,
+        "halflife": 350,
+        "name": [
+            "swirl of tobacco smoke",
+            "tobacco smoke",
+            "thick tobacco smoke"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_weedsmoke",
+        "symbol": "%",
+        "priority": 8,
+        "halflife": 325,
+        "name": [
+            "swirl of pot smoke",
+            "pot smoke",
+            "thick pot smoke"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_cracksmoke",
+        "symbol": "%",
+        "priority": 8,
+        "halflife": 225,
+        "name": [
+            "swirl of crack smoke",
+            "crack smoke",
+            "thick crack smoke"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_methsmoke",
+        "symbol": "%",
+        "priority": 8,
+        "halflife": 275,
+        "name": [
+            "swirl of meth smoke",
+            "meth smoke",
+            "thick meth smoke"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_bees",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 1000,
+        "name": [
+            "some bees",
+            "swarm of bees",
+            "angry swarm of bees"
+        ],
+        "color": [
+            "white",
+            "ltgray",
+            "dkgray"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_incendiary",
+        "symbol": "8",
+        "priority": 8,
+        "halflife": 500,
+        "name": [
+            "smoke",
+            "airborne incendiary",
+            "airborne incendiary"
+        ],
+        "color": [
+            "white",
+            "ltred",
+            "ltred_red"
+        ],
+        "transparent": [
+            true,
+            true,
+            false
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_relax_gas",
+        "symbol": ".",
+        "priority": 8,
+        "halflife": 500,
+        "name": [
+            "hazy cloud",
+            "sedative gas",
+            "relaxation gas"
+        ],
+        "color": [
+            "white",
+            "pink",
+            "cyan"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_fungal_haze",
+        "symbol": ".",
+        "priority": 8,
+        "halflife": 40,
+        "name": [
+            "hazy cloud",
+            "fungal haze",
+            "thick fungal haze"
+        ],
+        "color": [
+            "white",
+            "cyan",
+            "cyan"
+        ],
+        "transparent": [
+            true,
+            true,
+            false
+        ],
+        "dangerous": [
+            true,
+            true,
+            true
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_hot_air1",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 500,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "yellow",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_hot_air2",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 500,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "yellow",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_hot_air3",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 500,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "yellow",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "type": "field",
+        "id": "fd_hot_air4",
+        "symbol": "&",
+        "priority": -1,
+        "halflife": 500,
+        "name": [
+            "",
+            "",
+            ""
+        ],
+        "color": [
+            "white",
+            "yellow",
+            "red"
+        ],
+        "transparent": [
+            true,
+            true,
+            true
+        ],
+        "dangerous": [
+            false,
+            false,
+            false
+        ],
+        "move_cost": [
+            0,
+            0,
+            0
+        ]
+    }
+]
