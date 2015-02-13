@@ -1277,6 +1277,13 @@
     },
     {
         "type" : "keybinding",
+        "id": "MOVE_ITEM"
+        "category": "INVENTORY",
+        "name": "Move item around inventory"
+        "bindings":[ { "input_method":"keyboard", "key":"SPACE" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toggle activate/examine",

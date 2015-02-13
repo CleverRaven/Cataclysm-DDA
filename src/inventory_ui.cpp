@@ -300,7 +300,9 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
     int cur_line = 2;
-    for (size_t a = 0; a + current_page_offset < items.size() && a < items_per_page; a++, cur_line++) {
+    for (size_t a = 0;
+            (a + current_page_offset < items.size()) && (a < items_per_page);
+            a++, cur_line++) {
         const itemstack_or_category &cur_entry = items[a + current_page_offset];
         if (cur_entry.category == NULL) {
             continue;
@@ -323,7 +325,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         if (g->u.assigned_invlet.count(it.invlet)) {
             invlet_color = c_yellow;
         }
-        if (a + current_page_offset == selected) {
+        if ((a + current_page_offset) == selected) {
             name_color = selected_line_color;
             invlet_color = selected_line_color;
         }
@@ -464,6 +466,7 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    //[davek] TODO: add ability to see item 'info' in right column in normal mode
     if (compare || multidrop) {
         left_column_width = 40;
         left_column_offset = 0;
