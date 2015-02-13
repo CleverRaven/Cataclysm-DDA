@@ -3267,7 +3267,7 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if ( traits[mut].powered && mutation_data[mut].cost > 0 ) {
+                    if( mutation_data[mut].cost > 0 && u.has_active_mutation( mut ) ) {
                         active.push_back( mutation_data[mut].name );
                     }
                 }

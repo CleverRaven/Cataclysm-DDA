@@ -1557,7 +1557,7 @@ void player::load_legacy(std::stringstream & dump)
  style_selected = styletmp;
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+ for( size_t i = 0; i < mutation_data.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
@@ -1566,7 +1566,7 @@ void player::load_legacy(std::stringstream & dump)
     }
  }
 
- for( size_t i = 0; i < traits.size(); i++ ) {
+ for( size_t i = 0; i < mutation_data.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
@@ -1734,7 +1734,7 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+ for( size_t i = 0; i < mutation_data.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;

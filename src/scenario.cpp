@@ -186,7 +186,7 @@ void scenario::check_definitions()
 void check_traits( const std::set<std::string> &traits, const std::string &ident )
 {
     for( auto &t : traits ) {
-        if( ::traits.count( t ) == 0 ) {
+        if( mutation_data.count( t ) == 0 ) {
             debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
         }
     }

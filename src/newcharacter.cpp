@@ -1892,7 +1892,7 @@ void Character::empty_skills()
 }
 void Character::add_traits()
 {
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_data ) {
         if( g->scen->locked_traits( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }

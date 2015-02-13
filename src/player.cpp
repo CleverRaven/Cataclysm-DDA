@@ -2373,11 +2373,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     unsigned infooffsetytop = 11;
     unsigned infooffsetybottom = 15;
-    std::vector<std::string> traitslist;
-
-    for( const auto &elem : my_mutations ) {
-        traitslist.push_back( elem );
-    }
+    std::vector<std::string> traitslist = get_mutations();
 
     unsigned effect_win_size_y = 1 + effect_name.size();
     unsigned trait_win_size_y = 1 + traitslist.size();
@@ -13218,7 +13214,7 @@ std::vector<std::string> player::get_overlay_ids() const {
     std::vector<std::string> rval;
 
     // first get mutations
-    for(const std::string& mutation : my_mutations) {
+    for( auto & mutation : get_mutations() ) {
         rval.push_back("mutation_"+mutation);
     }
 

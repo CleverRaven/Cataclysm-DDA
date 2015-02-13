@@ -826,9 +826,9 @@ void player::mutate()
     std::vector<std::string> downgrades;
 
     // For each mutation...
-    for( auto &traits_iter : traits ) {
-        std::string base_mutation = traits_iter.first;
-        const auto &base_mdata = mutation_data[base_mutation];
+    for( auto &traits_iter : mutation_data ) {
+        const auto &base_mutation = traits_iter.first;
+        const auto &base_mdata = traits_iter.second;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -917,8 +917,8 @@ void player::mutate()
 
         if (cat == "") {
             // Pull the full list
-            for( auto &traits_iter : traits ) {
-                if( mutation_data[traits_iter.first].valid ) {
+            for( auto &traits_iter : mutation_data ) {
+                if( traits_iter.second.valid ) {
                     valid.push_back( traits_iter.first );
                 }
             }
@@ -1239,12 +1239,12 @@ void player::remove_mutation( const std::string &mut )
     //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
     if (replacing == "") {
         //Check each mutation until we reach the end or find a trait to revert to
-        for (std::map<std::string, trait>::iterator iter = traits.begin();
-             replacing == "" && iter != traits.end(); ++iter) {
+        for( auto iter = mutation_data.begin();
+             replacing == "" && iter != mutation_data.end(); ++iter) {
             //See if it's in our list of base traits but not active
             if (has_base_trait(iter->first) && !has_trait(iter->first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
+                std::vector<std::string> traitcheck = iter->second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing == "" && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
@@ -1259,12 +1259,12 @@ void player::remove_mutation( const std::string &mut )
     // Duplicated for prereq2
     if (replacing2 == "") {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( std::map<std::string, trait>::iterator iter = traits.begin();
-             replacing2 == "" && iter != traits.end(); ++iter ) {
+        for( auto iter = mutation_data.begin();
+             replacing2 == "" && iter != mutation_data.end(); ++iter ) {
             //See if it's in our list of base traits but not active
             if (has_base_trait(iter->first) && !has_trait(iter->first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
+                std::vector<std::string> traitcheck = iter->second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {

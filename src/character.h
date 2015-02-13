@@ -264,7 +264,7 @@ class Character : public Creature
         void pick_name();
         /** Get the idents of all base traits. */
         std::vector<std::string> get_base_traits() const;
-        /** Returns the set "my_mutations" */
+        /** Get the idents of all traits/mutations. */
         std::vector<std::string> get_mutations() const;
         /** Empties the trait list */
         void empty_traits();

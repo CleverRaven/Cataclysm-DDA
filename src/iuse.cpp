@@ -2177,7 +2177,7 @@ int iuse::purifier(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_data ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
@@ -2221,7 +2221,7 @@ int iuse::purify_iv(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_data ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
