@@ -2366,7 +2366,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for( auto &elem : addictions ) {
         if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( elem ) );
+            effect_text.push_back( addiction_text( *this, elem ) );
         }
     }
 
@@ -7256,7 +7256,13 @@ void player::suffer()
         for (size_t i = 0; i < addictions.size(); i++) {
             if (addictions[i].sated <= 0 &&
                 addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-                addict_effect(addictions[i]);
+                addict_effect(*this, addictions[i], [&](char const *const msg) {
+                    if (msg) {
+                        g->cancel_activity_query(msg);
+                    } else {
+                        g->cancel_activity();
+                    }
+                });
             }
             addictions[i].sated--;
             if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
@@ -11523,7 +11529,7 @@ float player::fine_detail_vision_mod()
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) { vision_ii -= 2; }
     else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
       has_trait("CEPH_VISION")) {
         vision_ii -= 3;

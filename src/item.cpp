@@ -1,4 +1,4 @@
-ï»¿#include "item.h"
+#include "item.h"
 #include "player.h"
 #include "output.h"
 #include "skill.h"
@@ -1238,6 +1238,26 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
+        if (is_armor() && item_tags.count("pocketed")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing has some pockets and straps sewn on to give you some more places to carry things.")));
+        }
+        if (is_armor() && item_tags.count("furred")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing has a fur lining sewn into it to increase its overall warmth.")));
+        }
+        if (is_armor() && item_tags.count("leather_padded")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear has certain parts padded with leather to increase protection without increasing encumbrance.")));
+        }
+        if (is_armor() && item_tags.count("kevlar_padded")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.")));
+        }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1761,7 +1781,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-
+    if (item_tags.count("pocketed") > 0 ){
+        ret << _(" (P)");
+    }
+    if (item_tags.count("furred") > 0 ){
+        ret << _(" (F)");
+    }
+    if (item_tags.count("leather_padded") > 0 ){
+        ret << _(" (L)");
+    }
+    if (item_tags.count("kevlar_padded") > 0 ){
+        ret << _(" (K)");
+    }
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
@@ -1792,10 +1823,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. â€œbruisedâ€). %2$s: burn adjectives (eg. â€œburntâ€). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. â€œatomicâ€). %5$s: vehicle part text (eg. â€œ3.8-Literâ€). $6$s: main item text (eg. â€œappleâ€). %7$s: tags (eg. â€œ (wet) (fits)â€).
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
-                         sidedtext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(),
-                         tagtext.c_str());
+                        sidedtext.c_str(), toolmodtext.c_str(),
+                        vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -1936,7 +1967,7 @@ int item::weight() const
 /*
  * precise_unit_volume: Returns the volume, multiplied by 1000.
  * 1: -except- ammo, since the game treats the volume of count_by_charge items as 1/stack_size of the volume defined in .json
- * 2: Ammo is also not totalled.
+ * 2: Ammo is also not totaled.
  * 3: gun mods -are- added to the total, since a modded gun is not a splittable thing, in an inventory sense
  * This allows one to obtain the volume of something consistent with game rules, with a precision that is lost
  * when a 2 volume bullet is divided by ???? and returned as an int.
@@ -2245,14 +2276,23 @@ bool item::is_auxiliary_gunmod() const
 
 int item::get_storage() const
 {
-    const auto t = find_armor_data();
-    if( t == nullptr ) {
+    float pockets = 1;
+    auto t = find_armor_data();
+    if( t == nullptr )
         return 0;
-    }
-    // it_armor::storage is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->storage ) );
-}
 
+    // it_armor::storage is unsigned char
+    int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
+
+    if (item::item_tags.count("pocketed") > 0){
+        pockets = ((volume() * get_coverage()) / 100) / 1.333;
+        if (result > (volume() / 2)){
+            pockets = (pockets / 2);
+        }
+        return result + pockets;
+        } else { return result;
+    }
+}
 int item::get_env_resist() const
 {
     const auto t = find_armor_data();
@@ -2304,12 +2344,19 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
+    int warmed = 1;
     const auto t = find_armor_data();
-    if( t == nullptr ) {
+    if( t == nullptr ){
         return 0;
     }
     // it_armor::warmth is signed char
-    return static_cast<int>( t->warmth );
+    int result = static_cast<int>( t->warmth );
+
+     if (item::item_tags.count("furred") > 0){
+        warmed = 2 * ((volume() * get_coverage()) / 100); // Doubles an item's warmth
+        return result + warmed;
+        } else { return result;
+    }
 }
 
 int item::brewing_time() const
@@ -2450,6 +2497,8 @@ int item::melee_value(player *p)
 int item::bash_resist() const
 {
     int resist = 0;
+    float l_padding = 0;
+    float k_padding = 0;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2459,7 +2508,18 @@ int item::bash_resist() const
     if (is_null()) {
         return resist;
     }
-
+    if (item::item_tags.count("leather_padded") > 0){
+        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (l_padding > 5 ){
+            l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
+        }
+    }
+    if (item::item_tags.count("kevlar_padded") > 0){
+        k_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (k_padding > 5 ){
+            k_padding = k_padding / 2.5;
+        }
+    }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
@@ -2473,12 +2533,14 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment);
+    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
 {
     int resist = 0;
+    float l_padding = 0;
+    float k_padding = 0;
     int eff_thickness = 1;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
@@ -2488,7 +2550,18 @@ int item::cut_resist() const
     if (is_null()) {
         return resist;
     }
-
+    if (item::item_tags.count("leather_padded") > 0){
+        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        if (l_padding > 5 ){
+            l_padding = l_padding / 2.5;
+        }
+    }
+    if (item::item_tags.count("kevlar_padded") > 0){
+        k_padding = ((volume() * get_coverage()) / 100) / 2;
+        if (k_padding > 5 ){
+            k_padding = k_padding / 2;
+        }
+    }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
@@ -2502,7 +2575,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * eff_thickness * adjustment);
+    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const

@@ -973,19 +973,18 @@ class map_item_stack
                 ~item_group() {};
         };
     public:
-        item example; //an example item for showing stats, etc.
+        item *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack()
         {
-            example = item();
             vIG.push_back(item_group());
             totalcount = 0;
         }
 
-        map_item_stack(const item it, const int arg_x, const int arg_y)
+        map_item_stack(item *it, const int arg_x, const int arg_y)
         {
             example = it;
             vIG.push_back(item_group(arg_x, arg_y, 1));
@@ -1011,7 +1010,7 @@ class map_item_stack
 
         static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
         {
-            return lhs.example.get_category().sort_rank < rhs.example.get_category().sort_rank;
+            return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };
 

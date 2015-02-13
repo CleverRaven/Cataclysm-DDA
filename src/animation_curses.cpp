@@ -61,7 +61,7 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> tr
     }
 }
 /* Monster hit animation */
-void game::draw_hit_mon(int x, int y, monster m, bool dead)
+void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
 {
     nc_color cMonColor = m.type->color;
     const std::string &sMonSym = m.symbol();
