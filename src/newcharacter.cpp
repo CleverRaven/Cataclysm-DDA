@@ -450,7 +450,7 @@ int player::create(character_type type, std::string tempname)
          iter != prof_traits.end(); ++iter) {
          g->u.toggle_trait(*iter);
     }
-    for( auto &t : get_traits() ) {
+    for( auto &t : get_base_traits() ) {
         std::vector<std::string> styles;
         for( auto &s : mutation_data[t].initial_ma_styles ) {
             if( !has_martialart( s ) ) {
@@ -1659,7 +1659,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::vector<std::string> current_traits = u->get_traits();
+            std::vector<std::string> current_traits = u->get_base_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
@@ -1860,7 +1860,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::vector<std::string> Character::get_traits() const
+std::vector<std::string> Character::get_base_traits() const
 {
     return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }

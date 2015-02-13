@@ -262,8 +262,8 @@ class Character : public Creature
         void empty_skills();
         /** Returns a random name from NAMES_* */
         void pick_name();
-        /** Returns the set "my_traits" */
-        std::vector<std::string> get_traits() const;
+        /** Get the idents of all base traits. */
+        std::vector<std::string> get_base_traits() const;
         /** Returns the set "my_mutations" */
         std::vector<std::string> get_mutations() const;
         /** Empties the trait list */
