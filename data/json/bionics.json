@@ -201,7 +201,7 @@
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
-        "time": 1,
+        "time": 25,
         "description": "Mounted between your eyes is a small but powerful LED flashlight."
     },{
         "type": "bionic",
