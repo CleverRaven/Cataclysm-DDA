@@ -313,7 +313,7 @@ bool Character::has_active_mutation(const std::string & b) const
     return traits[*mut_iter].powered;
 }
 
-void player::activate_mutation( std::string mut )
+void player::activate_mutation( const std::string &mut )
 {
     int cost = traits[mut].cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -466,7 +466,7 @@ void player::activate_mutation( std::string mut )
     }
 }
 
-void player::deactivate_mutation(std::string mut)
+void player::deactivate_mutation( const std::string &mut )
 {
     traits[mut].powered = false;
     
@@ -781,7 +781,7 @@ You cannot activate %s!  To read a description of \
     }
 }
 
-bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
+bool player::mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const
 {
     if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
@@ -947,7 +947,7 @@ void player::mutate()
     mutate_towards(selection);
 }
 
-void player::mutate_category(std::string cat)
+void player::mutate_category( const std::string &cat )
 {
     bool force_bad = one_in(3);
     bool force_good = false;
@@ -982,7 +982,7 @@ void player::mutate_category(std::string cat)
     return;
 }
 
-void player::mutate_towards(std::string mut)
+void player::mutate_towards( const std::string &mut )
 {
     if (has_child_flag(mut)) {
         remove_child_flag(mut);
@@ -1200,7 +1200,7 @@ void player::mutate_towards(std::string mut)
     drench_mut_calc();
 }
 
-void player::remove_mutation(std::string mut)
+void player::remove_mutation( const std::string &mut )
 {
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
@@ -1325,7 +1325,7 @@ void player::remove_mutation(std::string mut)
     drench_mut_calc();
 }
 
-bool player::has_child_flag(std::string flag)
+bool player::has_child_flag( const std::string &flag ) const
 {
     for( auto &elem : mutation_data[flag].replacements ) {
         std::string tmp = elem;
@@ -1336,7 +1336,7 @@ bool player::has_child_flag(std::string flag)
     return false;
 }
 
-void player::remove_child_flag(std::string flag)
+void player::remove_child_flag( const std::string &flag )
 {
     for( auto &elem : mutation_data[flag].replacements ) {
         std::string tmp = elem;
