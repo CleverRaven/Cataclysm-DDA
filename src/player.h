@@ -3,7 +3,6 @@
 
 #include "character.h"
 #include "item.h"
-#include "monster.h"
 #include "trap.h"
 #include "morale.h"
 #include "mutation.h"

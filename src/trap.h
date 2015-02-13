@@ -2,7 +2,6 @@
 #define TRAP_H
 
 #include "color.h"
-#include "monster.h"
 #include "itype.h"
 #include "json.h"
 #include <string>

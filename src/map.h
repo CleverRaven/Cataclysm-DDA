@@ -15,7 +15,6 @@
 #include "overmap.h"
 #include "item.h"
 #include "json.h"
-#include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "lightmap.h"
@@ -29,6 +28,7 @@
 #define CAMPCHECK 3
 
 class player;
+class monster;
 class item;
 struct itype;
 struct mapgendata;

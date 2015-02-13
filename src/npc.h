@@ -3,7 +3,6 @@
 
 #include "messages.h"
 #include "player.h"
-#include "monster.h"
 #include "faction.h"
 #include "json.h"
 
