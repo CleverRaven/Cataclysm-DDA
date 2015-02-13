@@ -887,6 +887,7 @@ void monster::load(JsonObject &data)
     }
     type = GetMType(sidtmp);
 
+    data.read( "unique_name", unique_name );
     data.read("posx", position.x);
     data.read("posy", position.y);
     data.read("wandx", wandx);
@@ -953,6 +954,7 @@ void monster::store(JsonOut &json) const
 {
     Creature::store( json );
     json.member( "typeid", type->id );
+    json.member( "unique_name", unique_name );
     json.member("posx", position.x);
     json.member("posy", position.y);
     json.member("wandx", wandx);
