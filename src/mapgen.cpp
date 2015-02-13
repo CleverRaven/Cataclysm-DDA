@@ -349,6 +349,18 @@ bool load_jmapgen_int( JsonObject &jo, const std::string & tag, short & val1, sh
     return false;
 }
 
+void load_jmapgen_int_throw( JsonObject &jo, const std::string &tag, jmapgen_int &val )
+{
+    if( !load_jmapgen_int( jo, tag, val.val, val.valmax ) ) {
+        jo.throw_error( string_format( "missing/invalid entry %s", tag.c_str() ) );
+    }
+}
+
+void load_jmapgen_int_optional( JsonObject &jo, const std::string &tag, jmapgen_int &val )
+{
+    load_jmapgen_int( jo, tag, val.val, val.valmax );
+}
+
 /*
  * Turn json gobbldigook into machine friendly gobbldigook, for applying
  * basic map 'set' functions, optionally based on one_in(chance) or repeat value
@@ -464,6 +476,38 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     }
 
 }
+
+jmapgen_place::jmapgen_place( JsonObject &jsi ) : x( 0, 0 ), y( 0, 0 )
+{
+    load_jmapgen_int_throw( jsi, "x", x );
+    load_jmapgen_int_throw( jsi, "y", y );
+}
+
+/**
+ * Places fields on the map.
+ * "field": field type ident.
+ * "density": initial field density.
+ * "age": initial field age.
+ */
+class jmapgen_field : public jmapgen_piece {
+public:
+    field_id ftype;
+    int density;
+    int age;
+    jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
+    , ftype( field_from_ident( jsi.get_string( "field" ) ) )
+    , density( jsi.get_int( "density", 1 ) )
+    , age( jsi.get_int( "age", 0 ) )
+    {
+        if( ftype == fd_null ) {
+            jsi.throw_error( "invalid field type", "field" );
+        }
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.add_field( point( x, y ), ftype, density, age );
+    }
+};
 
 /*
  * place_item, place_monster; determines what's added via item_group mon_group
@@ -591,6 +635,26 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
         jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
     }
+}
+
+template<typename PieceType>
+void mapgen_function_json::load_objects( JsonArray parray )
+{
+    while( parray.has_more() ) {
+        auto jsi = parray.next_object();
+        const jmapgen_place where( jsi );
+        std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
+        objects.push_back( jmapgen_obj( where, what ) );
+    }
+}
+
+template<typename PieceType>
+void mapgen_function_json::load_objects( JsonObject &jsi, const std::string &member_name )
+{
+    if( !jsi.has_member( member_name ) ) {
+        return;
+    }
+    load_objects<PieceType>( jsi.get_array( member_name ) );
 }
 
 /*
@@ -783,6 +847,7 @@ bool mapgen_function_json::setup() {
                 throw string_format("Bad JSON mapgen place_group array, discarding:\n  %s\n", smerr.c_str() );
             }
        }
+        load_objects<jmapgen_field>( jo, "place_fields" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
@@ -1004,6 +1069,13 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     (void)md;
     (void)t;
 #endif
+    for( auto &obj : objects ) {
+        const auto &where = obj.first;
+        const auto &what = *obj.second;
+        const auto x = where.x.get();
+        const auto y = where.y.get();
+        what.apply( *m, x, y, d );
+    }
     if ( terrain_type.t().rotates ) {
         mapgen_rotate(m, terrain_type, false );
     }

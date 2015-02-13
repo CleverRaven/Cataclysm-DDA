@@ -157,6 +157,47 @@ struct jmapgen_spawn_item {
 
 };
 
+/**
+ * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
+ * Inherit from this class and implement the @ref apply function.
+ *
+ * Instructions for adding more mapgen things:
+ * 1. create a new class inheriting from @ref jmapgen_piece.
+ *   - It should have a constructor that a accepts a @ref JsonObject and initializes all it local
+ *     members from it. On errors / invalid data, call @ref JsonObject::throw_error or similar.
+ *   - Implement the @ref apply function to do the actual change on the map.
+ * 2. Go into @ref mapgen_function_json::setup and look for the lines with load_objects, add a new
+ *    line with your own class there. It should look like
+ *    @code load_objects<your_own_class_from_step_1>( jo, "place_something" ); @endcode
+ *    Use a descriptive name for "something", preferably matching the name of your class.
+ * 3. Go into @ref mapgen_function_json::setup and look for the lines with load_place_mapings, add
+ *    a new line with your class there. It should look like
+ *    @code load_place_mapings<your_own_class_from_step_1>( jo, "something", format_placings ); @endcode
+ *    Using the same "something" as in step 2 is preferred.
+ *
+ * For actual examples look at the commits that introduced the load_objects/load_place_mapings
+ * lines (ignore the changes to the json files).
+ */
+class jmapgen_piece {
+protected:
+    jmapgen_piece() { }
+public:
+    /** Place something on the map m at (x,y). mon_density */
+    virtual void apply( map &m, size_t x, size_t y, float mon_density ) const = 0;
+};
+
+/**
+ * Where to place something on a map.
+ */
+class jmapgen_place {
+public:
+    jmapgen_place() : x( 0, 0 ), y( 0, 0 ) { }
+    jmapgen_place(const int a, const int b) : x( a ), y( b ) { }
+    jmapgen_place( JsonObject &jsi );
+    jmapgen_int x;
+    jmapgen_int y;
+};
+
 class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( jmapgen_int & var );
@@ -186,6 +227,24 @@ class mapgen_function_json : public virtual mapgen_function {
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;
     std::vector<jmapgen_place_special> place_specials;
+    /**
+     * Combination of where to place something and what to place.
+     */
+    using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
+    std::vector<jmapgen_obj> objects;
+    /**
+     * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
+     * JsonObject as parameter. The function loads all objects from the json array and stores
+     * them in @ref objects.
+     */
+    template<typename PieceType>
+    void load_objects( JsonArray parray );
+    /**
+     * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
+     * nothing is loaded and the function just returns.
+     */
+    template<typename PieceType>
+    void load_objects( JsonObject &jsi, const std::string &member_name );
     std::string luascript;
 
     bool do_format;
