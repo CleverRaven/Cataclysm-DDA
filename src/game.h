@@ -336,7 +336,7 @@ class game
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::string ask_item_filter(WINDOW *window, int rows);
+        void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
         void draw_trail_to_square(int x, int y, bool bDrawX);

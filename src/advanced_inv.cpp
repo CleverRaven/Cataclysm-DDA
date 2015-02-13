@@ -1249,6 +1249,8 @@ void advanced_inventory::display()
             std::string filter = spane.filter;
             filter_edit = true;
 
+            g->draw_item_filter_rules(dpane.window, 12);
+
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
@@ -1260,6 +1262,7 @@ void advanced_inventory::display()
             } while( key != '\n' && key != KEY_ESCAPE );
             filter_edit = false;
             spane.redraw = true;
+            dpane.redraw = true;
         } else if( action == "RESET_FILTER" ) {
             spane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
