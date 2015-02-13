@@ -2491,7 +2491,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     // Print name and header
     // Post-humanity trumps your pre-Cataclysm life.
     if (crossed_threshold()) {
-        std::vector<std::string> traitslist;
         std::string race;
         for( auto &mut : my_mutations ) {
             traitslist.push_back( mut );
@@ -2640,23 +2639,24 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-        if ( (mutation_data[traitslist[i]].threshold == true) ||
-            (mutation_data[traitslist[i]].profession == true) ) {
+        const auto &mdata = traits[traitslist[i]];
+        const auto &tdata = mutation_data[traitslist[i]];
+        if( tdata.threshold || tdata.profession ) {
             status = c_white;
         }
-        else if (traits[traitslist[i]].mixed_effect == true) {
+        else if (mdata.mixed_effect) {
             status = c_pink;
         }
-        else if (traits[traitslist[i]].points > 0) {
+        else if (mdata.points > 0) {
             status = c_ltgreen;
         }
-        else if (traits[traitslist[i]].points < 0) {
+        else if (mdata.points < 0) {
             status = c_ltred;
         }
         else {
             status = c_yellow;
         }
-        mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
+        mvwprintz(w_traits, i+1, 1, status, mdata.name.c_str());
     }
     wrefresh(w_traits);
 
@@ -3093,20 +3093,21 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             for (unsigned i = min; i < max; i++) {
+                const auto &mdata = traits[traitslist[i]];
+                const auto &tdata = mutation_data[traitslist[i]];
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
                 if (i > traits.size())
                     status = c_ltblue;
-                else if ( (mutation_data[traitslist[i]].threshold == true) ||
-                        (mutation_data[traitslist[i]].profession == true) ) {
+                else if ( tdata.threshold || tdata.profession ) {
                     status = c_white;
                 }
-                else if (traits[traitslist[i]].mixed_effect == true) {
+                else if (mdata.mixed_effect) {
                     status = c_pink;
                 }
-                else if (traits[traitslist[i]].points > 0) {
+                else if (mdata.points > 0) {
                     status = c_ltgreen;
                 }
-                else if (traits[traitslist[i]].points < 0) {
+                else if (mdata.points < 0) {
                     status = c_ltred;
                 }
                 else {
@@ -3114,15 +3115,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 }
                 if (i == line) {
                     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
-                              traits[traitslist[i]].name.c_str());
+                              mdata.name.c_str());
                 } else {
                     mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
-                              traits[traitslist[i]].name.c_str());
+                              mdata.name.c_str());
                 }
             }
             if (line < traitslist.size()) {
+                const auto &mdata = traits[traitslist[line]];
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta,
-                               traits[traitslist[line]].description);
+                               mdata.description);
             }
             wrefresh(w_traits);
             wrefresh(w_info);
@@ -3139,24 +3141,25 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
+                    const auto &mdata = traits[traitslist[i]];
+                    const auto &tdata = mutation_data[traitslist[i]];
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-                    if ((mutation_data[traitslist[i]].threshold == true) ||
-                        (mutation_data[traitslist[i]].profession == true)) {
+                    if( tdata.threshold || tdata.profession ) {
                         status = c_white;
                     }
-                    else if (traits[traitslist[i]].mixed_effect == true) {
+                    else if (mdata.mixed_effect) {
                         status = c_pink;
                     }
-                    else if (traits[traitslist[i]].points > 0) {
+                    else if (mdata.points > 0) {
                         status = c_ltgreen;
                     }
-                    else if (traits[traitslist[i]].points < 0) {
+                    else if (mdata.points < 0) {
                         status = c_ltred;
                     }
                     else {
                         status = c_yellow;
                     }
-                    mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
+                    mvwprintz(w_traits, i + 1, 1, status, "%s", mdata.name.c_str());
                 }
                 wrefresh(w_traits);
                 line = 0;
@@ -3803,51 +3806,38 @@ bool player::has_conflicting_trait(const std::string &flag) const
 
 bool player::has_opposite_trait(const std::string &flag) const
 {
-    if (!mutation_data[flag].cancels.empty()) {
-        std::vector<std::string> cancels = mutation_data[flag].cancels;
-        for (auto &i : cancels) {
+        for (auto &i : mutation_data[flag].cancels) {
             if (has_trait(i)) {
                 return true;
             }
         }
-    }
     return false;
 }
 
 bool player::has_lower_trait(const std::string &flag) const
 {
-    if (!mutation_data[flag].prereqs.empty()) {
-        std::vector<std::string> prereqs = mutation_data[flag].prereqs;
-        for (auto &i : prereqs) {
+        for (auto &i : mutation_data[flag].prereqs) {
             if (has_trait(i) || has_lower_trait(i)) {
                 return true;
             }
         }
-    }
     return false;
 }
 
 bool player::has_higher_trait(const std::string &flag) const
 {
-    if (!mutation_data[flag].replacements.empty()) {
-        std::vector<std::string> replacements = mutation_data[flag].replacements;
-        for (auto &i : replacements) {
+        for (auto &i : mutation_data[flag].replacements) {
             if (has_trait(i) || has_higher_trait(i)) {
                 return true;
             }
         }
-    }
     return false;
 }
 
 bool player::crossed_threshold()
 {
-    std::vector<std::string> traitslist;
     for( auto &mut : my_mutations ) {
-        traitslist.push_back( mut );
-    }
-    for( auto &i : traitslist ) {
-        if (mutation_data[i].threshold == true) {
+        if( mutation_data[mut].threshold ) {
             return true;
         }
     }
@@ -3865,15 +3855,16 @@ bool player::purifiable(const std::string &flag) const
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for( auto &elem : mutation_data[sMut].category ) {
+        const auto &mdata = mutation_data[sMut];
+        for( auto &elem : mdata.category ) {
             mutation_category_level[elem] += 8;
         }
 
-        for (auto &i : mutation_data[sMut].prereqs) {
+        for (auto &i : mdata.prereqs) {
             set_cat_level_rec(i);
         }
 
-        for (auto &i : mutation_data[sMut].prereqs2) {
+        for (auto &i : mdata.prereqs2) {
             set_cat_level_rec(i);
         }
     }
@@ -7110,49 +7101,49 @@ void player::suffer()
         }
     }
 
-    for (auto mut : my_mutations) {
-        if (!traits[mut].powered ) {
+    for( auto &mut : my_mutations ) {
+        auto &tdata = traits[mut];
+        if (!tdata.powered ) {
             continue;
         }
-        if (traits[mut].powered && traits[mut].charge > 0) {
+        if (tdata.powered && tdata.charge > 0) {
         // Already-on units just lose a bit of charge
-        traits[mut].charge--;
+        tdata.charge--;
         } else {
             // Not-on units, or those with zero charge, have to pay the power cost
-            if (traits[mut].cooldown > 0) {
-                traits[mut].powered = true;
-                traits[mut].charge = traits[mut].cooldown - 1;
+            if (tdata.cooldown > 0) {
+                tdata.powered = true;
+                tdata.charge = tdata.cooldown - 1;
             }
-            if (traits[mut].hunger){
-                hunger += traits[mut].cost;
+            if (tdata.hunger){
+                hunger += tdata.cost;
                 if (hunger >= 700) { // Well into Famished
-                    add_msg(m_warning, _("You're too famished to keep your %s going."), traits[mut].name.c_str());
-                    traits[mut].powered = false;
-                    traits[mut].cooldown = traits[mut].cost;
+                    add_msg(m_warning, _("You're too famished to keep your %s going."), tdata.name.c_str());
+                    tdata.powered = false;
+                    tdata.cooldown = tdata.cost;
                 }
             }
-            if (traits[mut].thirst){
-                thirst += traits[mut].cost;
+            if (tdata.thirst){
+                thirst += tdata.cost;
                 if (thirst >= 260) { // Well into Dehydrated
-                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), traits[mut].name.c_str());
-                    traits[mut].powered = false;
-                    traits[mut].cooldown = traits[mut].cost;
+                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), tdata.name.c_str());
+                    tdata.powered = false;
+                    tdata.cooldown = tdata.cost;
                 }
             }
-            if (traits[mut].fatigue){
-                fatigue += traits[mut].cost;
+            if (tdata.fatigue){
+                fatigue += tdata.cost;
                 if (fatigue >= 575) { // Exhausted
-                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), traits[mut].name.c_str());
-                    traits[mut].powered = false;
-                    traits[mut].cooldown = traits[mut].cost;
+                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), tdata.name.c_str());
+                    tdata.powered = false;
+                    tdata.cooldown = tdata.cost;
                 }
             }
             
-            if (traits[mut].powered == false) {
+            if (tdata.powered == false) {
                 apply_mods(mut, false);
             }
         }
-
     }
 
     if (underwater) {

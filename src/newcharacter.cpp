@@ -220,12 +220,15 @@ int player::create(character_type type, std::string tempname)
                 case 3:
                 case 4:
                     rn = random_good_trait();
-                    if (!has_trait(rn) && points >= traits[rn].points &&
-                        num_gtraits + traits[rn].points <= max_trait_points &&
+                    {
+                        auto &mdata = traits[rn];
+                    if (!has_trait(rn) && points >= mdata.points &&
+                        num_gtraits + mdata.points <= max_trait_points &&
                         !has_conflicting_trait(rn)) {
                         toggle_trait(rn);
-                        points -= traits[rn].points;
-                        num_gtraits += traits[rn].points;
+                        points -= mdata.points;
+                        num_gtraits += mdata.points;
+                    }
                     }
                     break;
                 case 5:
@@ -843,21 +846,22 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
                     (int)((iContentHeight > traits_size[iCurrentPage]) ?
                           traits_size[iCurrentPage] : iContentHeight)) {
+                    auto &mdata = traits[vStartingTraits[iCurrentPage][i]];
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
                                   "                                      ");
-                        int points = traits[vStartingTraits[iCurrentPage][i]].points;
+                        int points = mdata.points;
                         bool negativeTrait = points < 0;
                         if (negativeTrait) {
                             points *= -1;
                         }
                         mvwprintz(w,  3, 41, col_tr, ngettext("%s %s %d point", "%s %s %d points", points),
-                                  traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
+                                  mdata.name.c_str(),
                                   negativeTrait ? _("earns") : _("costs"),
                                   points);
                         fold_and_print(w_description, 0, 0,
                                        FULL_SCREEN_WIDTH - 2, col_tr,
-                                       traits[vStartingTraits[iCurrentPage][i]].description);
+                                       mdata.description);
                     }
 
                     nc_color cLine = col_off_pas;
@@ -889,7 +893,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                               (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
                                   "); // Clear the line
                     mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, cLine,
-                              traits[vStartingTraits[iCurrentPage][i]].name.c_str());
+                              mdata.name.c_str());
                 }
             }
 
@@ -927,6 +931,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "CONFIRM") {
             int inc_type = 0;
             std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const auto &mdata = traits[cur_trait];
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
@@ -945,13 +950,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 popup(_("You already picked a conflicting trait!"));
             } else if(g->scen->forbidden_traits(cur_trait)) {
                 popup(_("The scenario you picked prevents you from taking this trait!"));
-            } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
+            } else if (iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points) {
                 popup(ngettext("Sorry, but you can only take %d point of advantages.",
                                "Sorry, but you can only take %d points of advantages.", max_trait_points),
                       max_trait_points);
 
-            } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
+            } else if (iCurWorkingPage != 0 && num_bad + mdata.points <
                        -max_trait_points) {
                 popup(ngettext("Sorry, but you can only take %d point of disadvantages.",
                                "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
@@ -973,11 +978,11 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if(inc_type != 0) {
                 u->toggle_trait(cur_trait);
-                points -= traits[cur_trait].points * inc_type;
+                points -= mdata.points * inc_type;
                 if (iCurWorkingPage == 0) {
-                    num_good += traits[cur_trait].points * inc_type;
+                    num_good += mdata.points * inc_type;
                 } else {
-                    num_bad += traits[cur_trait].points * inc_type;
+                    num_bad += mdata.points * inc_type;
                 }
             }
         } else if (action == "PREV_TAB") {

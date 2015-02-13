@@ -64,6 +64,8 @@ class wish_mutate_callback: public uimenu_callback
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
+            const auto &mdata = mutation_data[vTraits[entnum]];
+            const auto &tdata = traits[vTraits[entnum]];
 
             int startx = menu->w_width - menu->pad_right;
             for ( int i = 1; i < lastlen; i++ ) {
@@ -71,67 +73,67 @@ class wish_mutate_callback: public uimenu_callback
             }
 
             mvwprintw(menu->window, 1, startx,
-                      mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+                      mdata.valid ? _("Valid") : _("Nonvalid"));
             int line2 = 2;
 
-            if ( !mutation_data[vTraits[entnum]].prereqs.empty() ) {
+            if ( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs) {
+                for (auto &j : mdata.prereqs) {
                     mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].prereqs2.empty() ) {
+            if ( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs2) {
+                for (auto &j : mdata.prereqs2) {
                     mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].threshreq.empty() ) {
+            if ( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].threshreq) {
+                for (auto &j : mdata.threshreq) {
                     mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].cancels.empty() ) {
+            if ( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].cancels) {
+                for (auto &j : mdata.cancels) {
                     mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].replacements.empty() ) {
+            if ( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].replacements) {
+                for (auto &j : mdata.replacements) {
                     mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].additions.empty() ) {
+            if ( !mdata.additions.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].additions) {
+                for (auto &j : mdata.additions) {
                     mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].category.empty() ) {
+            if ( !mdata.category.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].category) {
+                for (auto &j : mdata.category) {
                     mvwprintw(menu->window, line2, startx + 11, "%s", j.c_str());
                     line2++;
                 }
@@ -139,13 +141,13 @@ class wish_mutate_callback: public uimenu_callback
             line2 += 2;
 
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      traits[vTraits[entnum]].points,
-                      traits[vTraits[entnum]].visibility,
-                      traits[vTraits[entnum]].ugliness
+                      tdata.points,
+                      tdata.visibility,
+                      tdata.ugliness
                      );
             line2 += 2;
 
-            std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
+            std::vector<std::string> desc = foldstring( tdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
                 mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
@@ -195,8 +197,9 @@ void game::wishmutate( player *p )
         if ( wmenu.ret > 0 ) {
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
-            bool threshold = mutation_data[mstr].threshold;
-            bool profession = mutation_data[mstr].profession;
+            const auto &mdata = mutation_data[mstr];
+            bool threshold = mdata.threshold;
+            bool profession = mdata.profession;
             //Manual override for the threshold-gaining
             if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
