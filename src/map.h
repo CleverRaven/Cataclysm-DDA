@@ -424,6 +424,13 @@ class map
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
+ /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
+  *  @param no_furn if true, the function will stop and return false
+  *  if it encounters a furniture
+  *  @return true if from x to xmax or y to ymax depending on direction
+  *  all terrain is floor and the last terrain is a wall */
+ bool is_last_ter_wall(const bool no_furn, const int x, const int y,
+                       const int xmax, const int ymax, const direction dir) const;
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
