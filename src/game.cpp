@@ -8852,7 +8852,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-bool game::list_items_match(item *item, std::string sPattern)
+bool game::list_items_match(const item *item, std::string sPattern)
 {
     size_t iPos;
     bool hasExclude = false;
