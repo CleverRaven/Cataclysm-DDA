@@ -9295,7 +9295,7 @@ int game::list_items(const int iLastState)
     bool addcategory = false;
     int iPage = 0;
     int iCatSortNum = 0;
-    map_item_stack *activeItem;
+    map_item_stack *activeItem = NULL;
     std::map<int, std::string> mSortCategory;
 
     std::string action;
