@@ -347,10 +347,10 @@ void player::activate_mutation( std::string mut )
 	apply_mods(mut, true);
     }
 
-    if( traits[mut].id == "WEB_WEAVER" ) {
+    if( mut == "WEB_WEAVER" ) {
         g->m.add_field(posx(), posy(), fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
-    } else if (traits[mut].id == "BURROW"){
+    } else if (mut == "BURROW"){
         if (g->u.is_underwater()) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
             traits[mut].powered = false;
@@ -388,7 +388,7 @@ void player::activate_mutation( std::string mut )
                           g->m.tername(dirx, diry).c_str());
         traits[mut].powered = false;
         return; // handled when the activity finishes
-    } else if (traits[mut].id == "SLIMESPAWNER") {
+    } else if (mut == "SLIMESPAWNER") {
         std::vector<point> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
@@ -424,31 +424,31 @@ void player::activate_mutation( std::string mut )
         }
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "SHOUT1") {
+    } else if (mut == "SHOUT1") {
         sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "SHOUT2"){
+    } else if (mut == "SHOUT2"){
         sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "SHOUT3"){
+    } else if (mut == "SHOUT3"){
         sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         traits[mut].powered = false;
         return;
-    } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
+    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
         vomit();
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "M_FERTILE"){
+    } else if (mut == "M_FERTILE"){
         spores();
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "M_BLOOM"){
+    } else if (mut == "M_BLOOM"){
         blossoms();
         traits[mut].powered = false;
         return;
-    } else if (traits[mut].id == "VINES3"){
+    } else if (mut == "VINES3"){
         item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
@@ -596,7 +596,7 @@ void player::power_mutations()
                     }
                     type = c_cyan;
                     mvwprintz(wBio, list_start_y + i, 2, type, "%c %s",
-                              trait_keys[traits[passive[i]].id],
+                              trait_keys[passive[i]],
                               traits[passive[i]].name.c_str());
                 }
             }
@@ -618,7 +618,7 @@ void player::power_mutations()
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type,
-                              trait_keys[traits[active[i]].id] );
+                              trait_keys[active[i]] );
                     std::stringstream mut_desc;
                     mut_desc << traits[active[i]].name;
                     if ( traits[active[i]].cost > 0 && traits[active[i]].cooldown > 0 ) {
