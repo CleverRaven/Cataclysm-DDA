@@ -8987,7 +8987,7 @@ void game::draw_item_filter_rules(WINDOW *window, int rows)
     mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
 
     mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,-chunk,-steel"));
 
     mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
     mvwprintz(window, 10, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
