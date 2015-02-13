@@ -111,7 +111,7 @@
             "f": "f_fridge",
             "H": "f_sofa"
             },
-        "place_groups": [
+        "place_items": [
                 { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
                 { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
         ],

@@ -112,7 +112,7 @@
                 { "item": "television", "x": 4, "y": 10 }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "bedroom",    "chance": 65, "x": [18,21], "y": [18,21] },
                 { "item": "bed",        "chance": 80, "x": [20,21], "y": [19,20] },
                 { "item": "dresser",    "chance": 50, "x": 18,      "y": 18 },

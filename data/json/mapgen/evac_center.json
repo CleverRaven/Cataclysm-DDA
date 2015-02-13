@@ -124,7 +124,7 @@
                 "ssssssssssssssssssssssss",
                 "ssssssssssssssssssssssss"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "schoolbus", "x": 18, "y": 18, "rotation": 0, "chance": 90 }
             ],
             "terrain": {
@@ -220,7 +220,7 @@
                 "sss,_,_,_,_,_,_,_,_,_sss",
                 "ssss,,,,,,,,,,,,,,,,ssss"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 10, "y": 23, "rotation": 270, "chance": 90 }
             ],
             "terrain": {
@@ -502,7 +502,7 @@
                 "......_______,,_______ss",
                 "......_______,,_______ss"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "schoolbus", "x": 21, "y": 13, "rotation": 270, "chance": 90 }
             ],
             "terrain": {
@@ -598,7 +598,7 @@
                 "s...#############++##  #",
                 "s....#########t+   S#  #"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [8,8 ], "y": [7,8 ] },
                 { "item": "bed", "chance": 80,  "x": [8,8 ], "y": [12,13 ] },
                 { "item": "bed", "chance": 80,  "x": [8,8 ], "y": [17,18 ] },
@@ -718,7 +718,7 @@
                 "##########EEEE##########",
                 "##########EEEE##########"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "office", "chance": 80, "x": [ 1, 3 ], "y": [ 19, 19 ]},
                 { "item": "shelter", "chance": 90, "x": [ 13, 14 ], "y": [ 16, 17 ]},
                 { "item": "jackets", "chance": 80, "x": [ 19, 19 ], "y": [ 8, 10 ]},
@@ -823,8 +823,10 @@
                 "  ##++##############...s",
                 "==#S   +t##########....s"
             ],
-            "place_groups": [
-                { "monster": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 4, 20 ], "density": 0.6 },
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 4, 20 ], "density": 0.6 }
+            ],
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [8,8 ], "y": [7,8 ] },
                 { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [12,13 ] },
                 { "item": "bed", "chance": 80,  "x": [15,15 ], "y": [17,18 ] },
@@ -939,7 +941,7 @@
                 "ss_______,,_______......",
                 "ss_______,,_______......"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "flatbed_truck", "x": 2, "y": 18, "rotation": 90, "chance": 90 }
             ],
             "terrain": {
@@ -1128,9 +1130,11 @@
                 "sss.........##t+ 2c#  # ",
                 "ss.........#####  S#  # "
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "cleaning", "chance": 80, "x": [ 17, 17 ], "y": [ 13, 13 ]},
-                { "item": "cleaning", "chance": 80, "x": [ 19, 19 ], "y": [ 13, 13 ]},
+                { "item": "cleaning", "chance": 80, "x": [ 19, 19 ], "y": [ 13, 13 ]}
+            ],
+            "place_vehicles": [
                 { "vehicle": "schoolbus", "x": 4, "y": 8, "rotation": 270, "chance": 90 }
             ],
             "place_toilets": [
@@ -1236,7 +1240,7 @@
                 " ##  bbbb      bbbb  ## ",
                 " 6V    2        2    V6 "
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "pasta", "chance": 90, "x": [ 0, 0 ], "y": [ 1, 2 ]},
                 { "item": "pasta", "chance": 90, "x": [ 0, 0 ], "y": [ 7, 8 ]},
                 { "item": "pasta", "chance": 90, "x": [ 22, 22 ], "y": [ 1, 2 ]},
@@ -1343,9 +1347,11 @@
                 " #  #c2+t##.........sss_",
                 " #  #S #####.........sss"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "snacks", "chance": 60, "x": [ 3, 3 ], "y": [ 13, 13 ]},
-                { "item": "snacks", "chance": 60, "x": [ 5, 5 ], "y": [ 13, 13 ]},
+                { "item": "snacks", "chance": 60, "x": [ 5, 5 ], "y": [ 13, 13 ]}
+            ],
+            "place_vehicles": [
                 { "vehicle": "car", "x": 17, "y": 16, "rotation": 90, "chance": 90 },
                 { "vehicle": "pickup", "x": 18, "y": 8, "rotation": 90, "chance": 90 }
             ],
@@ -1543,7 +1549,7 @@
                 "......_______,,_______ss",
                 "......_______,,_______ss"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "hippie_van", "x": 21, "y": 17, "rotation": 90, "chance": 90 },
                 { "vehicle": "policecar", "x": 22, "y": 7, "rotation": 90, "chance": 90 }
             ],
@@ -1841,7 +1847,7 @@
                 ".......................s",
                 "......................ss"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "cannedfood", "chance": 20, "x": [ 8, 15 ], "y": [ 4, 5 ]},
                 { "item": "cannedfood", "chance": 20, "x": [ 8, 15 ], "y": [ 8, 9 ]},
                 { "item": "cannedfood", "chance": 20, "x": [ 8, 15 ], "y": [ 12, 13 ]},
@@ -1948,7 +1954,7 @@
                 "ss_______,,_______...%..",
                 "ss_______,,_______......"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car_mini", "x": 3, "y": 15, "rotation": 90, "chance": 90 }
             ],
             "terrain": {
@@ -2137,7 +2143,7 @@
                 "....................%...",
                 "........................"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "schoolbus", "x": 8, "y": 6, "rotation": 180, "chance": 90 }
             ],
             "terrain": {

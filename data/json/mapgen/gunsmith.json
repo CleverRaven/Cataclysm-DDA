@@ -105,7 +105,7 @@
         { "item": "television", "x": 14, "y": 16, "chance": 60 },
         { "item": "laptop", "x": 17, "y": 15, "chance": 30 }
       ],
-      "place_groups": [
+      "place_items": [
         { "item": "fridgesnacks", "chance": 70, "x": 16, "y": 18, "repeat": [ 1, 2 ] },
         { "item": "ammo", "chance": 75, "x": 21, "y": [ 11, 13 ], "repeat": [ 1, 5 ] },
         { "item": "allguns", "chance": 60, "x": [ 17, 20 ], "y": 11, "repeat": [ 1, 4 ] },

@@ -255,10 +255,7 @@
                     { "x": 22, "y": 14 }
                 ],
                 "comment": "randomly picked from a group ---v",
-                "place_groups": [
-                
-
-
+                "place_items": [
 { "item": "pizza_display", "x": 11,      "y": 5,  "chance": 60 }
 
 ,
@@ -319,7 +316,8 @@
                 { "item": "office",        "x": 11, "y": 20, "chance": 60 }
 ,
                 { "item": "pizza_trash",   "x": 22, "y": 6,"chance": 60  }
-,
+                ],
+                "place_monsters": [
                     { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 9, "y": 1, "density": 0.10 }
 ,
                     { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 10, "y": 1, "density": 0.10 }

@@ -75,7 +75,7 @@
             { "point": "terrain", "id": "t_gas_tank", "x": 3, "y": 5}
              ],
 
-            "place_groups": [
+            "place_items": [
                 { "item": "vending_drink", "chance": 85, "x": 17, "y": 6 },
                 { "item": "vending_food", "chance": 85, "x": 17, "y": 7 }
 

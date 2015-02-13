@@ -238,7 +238,7 @@
                 { "x": 1, "y": 17 },
                 { "x": 1, "y": 19 }
             ],
-            "place_groups": [
+            "place_items": [
                 {"item": "restaur_table",  "chance": 25, "x": [3,4],   "y": [7,8], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [8,9],   "y": [7,8], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [14,15], "y": [7,8], "repeat": [1,2]},
@@ -264,8 +264,9 @@
                 
                 {"item": "restaur_trash",  "chance": 50, "x": [7,8],   "y": 22, "repeat": [1,2]},
                 {"item": "trash",          "chance": 50, "x": [7,8],   "y": 22, "repeat": [1,2]},
-                {"item": "trash",          "chance": 20, "x": [0,17],  "y": [22,23], "repeat": [1,2]},
-                
+                {"item": "trash",          "chance": 20, "x": [0,17],  "y": [22,23], "repeat": [1,2]}
+            ],
+            "place_monsters": [
                 {"monster": "GROUP_GROCERY","chance": 5, "x": [7,19],  "y": 19}
             ] 
         }

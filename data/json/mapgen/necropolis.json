@@ -72,8 +72,10 @@
                 "........................",
                 "...............X........"
             ],
-            "place_groups": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]},
+            "place_items": [
+                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -234,8 +236,10 @@
                 { "x": 22, "y": 10 },
                 { "x": 5, "y": 12 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "allclothes", "chance": 75, "x": [ 20,20 ], "y": [ 3,3 ] },
                 { "item": "allclothes", "chance": 75, "x": [ 22,22 ], "y": [ 15,15 ] },
                 { "item": "allclothes", "chance": 75, "x": [ 18,18 ], "y": [ 8,8 ] },
@@ -403,8 +407,10 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -561,8 +567,10 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -719,8 +727,10 @@
                 "...........ssssssssssssM",
                 "M.......M..sssssssMsssss"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 90, "x": [ 21,23 ], "y": [ 17,20 ]},
                 { "item": "building_rubble", "chance": 90, "x": [ 11,20 ], "y": [ 19,21 ]},
                 { "item": "building_rubble", "chance": 90, "x": [ 16,17 ], "y": [ 17,18 ]},
@@ -882,8 +892,10 @@
                 "..ss________________ssss",
                 "..ss_______,,_______sss."
             ],
-            "place_groups": [
-                { "vehicle": "policecar", "x": 12, "y": 11, "rotation": 0, "chance": 75},
+            "place_vehicles": [
+                { "vehicle": "policecar", "x": 12, "y": 11, "rotation": 0, "chance": 75}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1042,8 +1054,10 @@
                 "sssssssssss.|--------|..",
                 "..|---------|rrrrrrrr|--"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "office", "chance": 90, "x": [ 16,18 ], "y": [ 10,11 ]},
                 { "item": "office", "chance": 90, "x": [ 13,15 ], "y": [ 17,18 ]},
                 { "item": "home_hw", "chance": 90, "x": [ 0,18 ], "y": [ 2,6 ]},
@@ -1214,8 +1228,10 @@
                 { "item": "55gal_drum", "x": 11, "y": 3, "chance": 75 },
                 { "item": "55gal_drum", "x": 2, "y": 12, "chance": 75 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "home_hw", "chance": 90, "x": [ 11,11 ], "y": [ 12,13 ]},
                 { "item": "sewage_plant", "chance": 40, "x": [ 0,11 ], "y": [ 18,19 ]}
             ],
@@ -1378,8 +1394,10 @@
                 { "x": 11, "y": 23 },
                 { "x": 7, "y": 23 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -1539,9 +1557,13 @@
            "place_toilets": [
                 { "x": 11, "y": 3 }
             ],
-            "place_groups": [
-                { "vehicle": "electric_car", "x": 15, "y": 17, "rotation": 0, "chance": 75},
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "electric_car", "x": 15, "y": 17, "rotation": 0, "chance": 75}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "novels", "chance": 70, "x": [ 13,14], "y": [ 13,13 ]},
                 { "item": "home_hw", "chance": 40, "x": [ 9,9], "y": [ 15,19 ]},
                 { "item": "dining", "chance": 40, "x": [ 9,10 ], "y": [ 10,11 ]},
@@ -1706,7 +1728,7 @@
                 "Qqss________________ss..",
                 "..ss_______,,_______ss.."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1863,9 +1885,13 @@
                 "|rcccr  c   r|rssZZssr8.",
                 "|-www-[[-www-|777777778."
             ],
-            "place_groups": [
-                { "vehicle": "flatbed_truck", "x": 7, "y": 6, "rotation": 180, "chance": 50},
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "flatbed_truck", "x": 7, "y": 6, "rotation": 180, "chance": 50}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 13,17 ]},
                 { "item": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 20,22 ]},
                 { "item": "farming_seeds", "chance": 60, "x": [ 4,5 ], "y": [ 19,20 ]},
@@ -2034,8 +2060,10 @@
                 { "x": 12, "y": 4 },
                 { "x": 16, "y": 4 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 95, "x": [ 7,20 ], "y": [ 4,10 ]},
                 { "item": "building_rubble", "chance": 95, "x": [ 5,10 ], "y": [ 11,23 ]},
                 { "item": "beauty", "chance": 60, "x": [ 2,10 ], "y": [ 4,4 ]},
@@ -2195,9 +2223,12 @@
                 "mm]]]]]]]]]]]]]]]]]]]mmM",
                 "Mmm]]]]]]]]]]]]]]]]]mmMM"
             ],
-            "place_groups": [
-                { "vehicle": "car", "x": 6, "y": 7, "rotation": 135, "chance": 100 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "car", "x": 6, "y": 7, "rotation": 135, "chance": 100 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ], "place_items": [
                 { "item": "building_rubble", "chance": 95, "x": [ 0,22 ], "y": [ 7,23 ]}
             ],
             "terrain": {
@@ -2354,7 +2385,7 @@
                 "MMMM____M___________sss.",
                 "MMMs_M_M___,,_______sss."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2523,8 +2554,10 @@
                 { "x": 14, "y": 14, "item_group": "vending_food" },
                 { "x": 14, "y": 15, "item_group": "vending_drink" }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "cop_gear", "chance": 70, "x": [ 13,18 ], "y": [ 9,9 ]},
                 { "item": "cop_gear", "chance": 70, "x": [ 13,20 ], "y": [ 12,12 ]},
                 { "item": "cop_evidence", "chance": 70, "x": [ 13,20 ], "y": [ 1,1 ]},
@@ -2689,10 +2722,14 @@
            "place_toilets": [
                 { "x": 23, "y": 8 }
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "policecar", "x": 23, "y": 14, "rotation": 180, "chance": 50 },
-                { "vehicle": "policecar", "x": 23, "y": 21, "rotation": 180, "chance": 50 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+                { "vehicle": "policecar", "x": 23, "y": 21, "rotation": 180, "chance": 50 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "office", "chance": 70, "x": [ 5,5 ], "y": [ 6,8 ]},
                 { "item": "office", "chance": 70, "x": [ 10,10 ], "y": [ 6,8 ]},
                 { "item": "office", "chance": 70, "x": [ 19,19 ], "y": [ 6,8 ]},
@@ -2863,10 +2900,14 @@
                 { "x": 7, "y": 8 },
                 { "x": 11, "y": 8 }
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "policecar", "x": 9, "y": 14, "rotation": 180, "chance": 50 },
-                { "vehicle": "policecar", "x": 9, "y": 21, "rotation": 180, "chance": 50 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+                { "vehicle": "policecar", "x": 9, "y": 21, "rotation": 180, "chance": 50 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 15,23 ], "y": [ 0,23 ]},
                 { "item": "bed", "chance": 80,  "x": [ 1,1 ], "y": [ 0,0 ]},
                 { "item": "bed", "chance": 80,  "x": [ 5,5 ], "y": [ 0,0 ]},
@@ -3029,13 +3070,15 @@
                 ".....sssssssssssssssssss",
                 "......IsssssI..........."
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 9, "y": 5, "rotation": 90, "chance": 25 },
                 { "vehicle": "pickup", "x": 16, "y": 5, "rotation": 90, "chance": 25 },
                 { "vehicle": "car_sports", "x": 23, "y": 5, "rotation": 90, "chance": 25 },
                 { "vehicle": "hippie_van", "x": 8, "y": 16, "rotation": 270, "chance": 25 },
                 { "vehicle": "car", "x": 15, "y": 17, "rotation": 270, "chance": 25 },
-                { "vehicle": "car_mini", "x": 22, "y": 18, "rotation": 270, "chance": 25 },
+                { "vehicle": "car_mini", "x": 22, "y": 18, "rotation": 270, "chance": 25 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3192,7 +3235,7 @@
                 "ssssssssssssssssssssssss",
                 ".......ssssssss......sss"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3349,7 +3392,7 @@
                 "s..........ssss.........",
                 "............ss.........T"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3506,9 +3549,13 @@
                 ".sss_______,,_______ssss",
                 "..ss________________sss."
             ],
-            "place_groups": [
-                { "vehicle": "fire_truck", "x": 15, "y": 8, "rotation": 45, "chance": 90 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "fire_truck", "x": 15, "y": 8, "rotation": 45, "chance": 90 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,9 ], "y": [ 0,4 ]},
                 { "item": "building_rubble", "chance": 20, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -3666,9 +3713,13 @@
                 ".........|------|-------",
                 ".........|nnn dd|       "
             ],
-            "place_groups": [
-                { "vehicle": "car", "x": 21, "y": 5, "rotation": 45, "chance": 100 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "car", "x": 21, "y": 5, "rotation": 45, "chance": 100 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "vehicle_scrapped", "chance": 75, "x": [ 18,23 ], "y": [ 2,8 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 14,15 ], "y": [ 23,23 ]},
                 { "item": "building_rubble", "chance": 20, "x": [ 0,23 ], "y": [ 0,23 ]}
@@ -3827,8 +3878,10 @@
                 "------|-------|.........",
                 "   oo |d@   @d|........."
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "novels", "chance": 70, "x": [ 3,4 ], "y": [ 23,23 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 7,7 ], "y": [ 23,23 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 13,13 ], "y": [ 23,23 ]},
@@ -3990,7 +4043,7 @@
                 "..s..........sssss......",
                 "..s.|-HHH-HHH-|ss|-HHH-|"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4147,7 +4200,7 @@
                 ".sss________________ss..",
                 "..ss_______,,_______sM.."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4304,8 +4357,10 @@
                 "...X.........#..........",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -4462,8 +4517,10 @@
                 "...........ss|r{{{{   {{",
                 "...........ss|r {{  {{{{"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 95, "x": [ 15,23 ], "y": [ 18,23 ]},
                 { "item": "alcohol", "chance": 75, "x": [ 14,14 ], "y": [ 16,23 ]},
                 { "item": "cannedfood", "chance": 75, "x": [ 19,23 ], "y": [ 16,17 ]},
@@ -4631,8 +4688,10 @@
                 "{ssssssMsMssMsMMMMMMMMMM",
                 "sMsssssMsMMsMMMMMMMMMMMM"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 95, "x": [ 12,22 ], "y": [ 10,17 ]},
                 { "item": "building_rubble", "chance": 95, "x": [ 0,11 ], "y": [ 14,23 ]},
                 { "item": "produce", "chance": 75, "x": [ 11,12 ], "y": [ 11,12 ]},
@@ -4803,8 +4862,10 @@
                 "MNMNMNNNJJJNNN...ss....T",
                 "MMMNNNMNNMNNNNNNMss....."
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -4961,7 +5022,7 @@
                 "..ss_______,,_______sss.",
                 "..ss________________sss."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5118,8 +5179,10 @@
                 ".........|O hnnh        ",
                 ".........|c      |------"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "homebooks", "chance": 75, "x": [ 15,15 ], "y": [ 2,3 ]},
                 { "item": "office", "chance": 75, "x": [ 22,23 ], "y": [ 1,1 ]},
                 { "item": "church", "chance": 75, "x": [ 20,21 ], "y": [ 19,19 ]},
@@ -5285,8 +5348,10 @@
            "place_toilets": [
                 { "x": 15, "y": 16 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "lmoe_guns", "chance": 10, "x": [ 9,9 ], "y": [ 22,22 ]},
                 { "item": "office", "chance": 70, "x": [ 9,11 ], "y": [ 22,22 ]},
                 { "item": "church", "chance": 70, "x": [ 1,2 ], "y": [ 19,19 ]},
@@ -5456,8 +5521,10 @@
            "place_toilets": [
                 { "x": 20, "y": 11 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 95, "x": [ 7,15 ], "y": [ 13,18 ]},
                 { "item": "building_rubble", "chance": 95, "x": [ 7,15 ], "y": [ 15,23 ]},
                 { "item": "novels", "chance": 70, "x": [ 14,15 ], "y": [ 14,16 ]},
@@ -5627,8 +5694,10 @@
                 "MMMMMmm]]]]]]]]]]]]]]]]]",
                 "MMMMMmm]]]]]]]]]]]]]]]]]"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,15 ]},
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -5786,8 +5855,10 @@
                 "]]mmMMMMM...M..M........",
                 "]]mmMMMMM.M..M..MM......"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 50, "x": [ 0,23 ], "y": [ 0,23 ]},
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -5945,8 +6016,10 @@
                 "........|r   {   {{{{sss",
                 "........|r   {{ rr{{){ss"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "home_hw", "chance": 75, "x": [ 12,15 ], "y": [ 20,21 ]},
                 { "item": "home_hw", "chance": 75, "x": [ 10,13 ], "y": [ 18,18 ]},
                 { "item": "home_hw", "chance": 75, "x": [ 9,9 ], "y": [ 18,23 ]},
@@ -6107,8 +6180,10 @@
                 "sssMM__MMMMMMMMmmmmmmmmm",
                 "sMsM_M_M__MMMMMMmmmmmmmM"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -6265,9 +6340,13 @@
                 "MMMMMsssMMssMsssss---M{{",
                 "MMMMssssMsBssBBssss{{{{s"
             ],
-            "place_groups": [
-                { "vehicle": "ambulance", "x": 17, "y": 15, "rotation": 0, "chance": 90 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "ambulance", "x": 17, "y": 15, "rotation": 0, "chance": 90 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 80, "x": [ 15,23 ], "y": [ 20,23 ]},
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -6425,8 +6504,10 @@
                 "..ss{{{{--|--|--|-----|s",
                 "..ss{{ {@d|BB|BB|d@@ n|s"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 23,23 ]},
                 { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 23,23 ]},
                 { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 23,23 ]}
@@ -6585,8 +6666,10 @@
                 "ssss________________sss#",
                 "s.ss_______,,_______ss##"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "homebooks", "chance": 70, "x": [ 15,16 ], "y": [ 0,0 ]}
             ],
             "terrain": {
@@ -6743,8 +6826,10 @@
                 "######|--ww-++-ww---|sss",
                 "shhsss|hh      chnnh|sss"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "allclothes", "chance": 75, "x": [ 4,4 ], "y": [ 0,0 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 17,17 ], "y": [ 0,0 ]},
                 { "item": "bed", "chance": 80,  "x": [ 15,16 ], "y": [ 0,0 ]}
@@ -6903,8 +6988,10 @@
                 "...............ss.......",
                 "......#.....#..ss..#...."
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [15,23 ], "y": [ 0,18 ]}
             ],
             "terrain": {
@@ -7061,8 +7148,10 @@
                 ".sss_M______________ssM.",
                 "..ss_______,,__M____sss|"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
@@ -7219,8 +7308,10 @@
                 "........................",
                 "--vvv--|-v-v-|--vv---|.."
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,15 ], "y": [ 0,18 ]},
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -7378,8 +7469,10 @@
                 "........|--|--------|.ss",
                 "........|BB|d@@d@@ n|sss"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 70, "x": [ 12,12 ], "y": [ 23,23 ]},
                 { "item": "traveler", "chance": 70, "x": [ 15,15 ], "y": [ 23,23 ]},
                 { "item": "building_rubble", "chance": 95, "x": [ 16,23 ], "y": [ 0,11 ]},
@@ -7552,9 +7645,13 @@
                 "ssssssss________ssssssss",
                 "________________________"
             ],
-            "place_groups": [
-                { "vehicle": "fire_truck", "x": 8, "y": 4, "rotation": 270, "chance": 90 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_vehicles": [
+                { "vehicle": "fire_truck", "x": 8, "y": 4, "rotation": 270, "chance": 90 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "building_rubble", "chance": 70, "x": [ 0,23 ], "y": [ 0,19 ]}
             ],
             "terrain": {
@@ -7720,8 +7817,10 @@
             "place_vendingmachines": [
                 { "x": 16, "y": 23, "item_group": "vending_drink" }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 70, "x": [ 16,16 ], "y": [ 6,6 ]},
                 { "item": "traveler", "chance": 70, "x": [ 16,19 ], "y": [ 11,11]},
                 { "item": "traveler", "chance": 70, "x": [ 8,8 ], "y": [ 13,13]},
@@ -7896,8 +7995,10 @@
                 { "x": 14, "y": 7 },
                 { "x": 14, "y": 14 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 70, "x": [ 5,9 ], "y": [ 6,11]},
                 { "item": "traveler", "chance": 70, "x": [ 16,21 ], "y": [ 13,18]},
                 { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 16,16]},
@@ -8063,7 +8164,7 @@
                 "ssss____________________",
                 "__ss_______,,___________"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8224,8 +8325,10 @@
                 { "x": 12, "y": 13 },
                 { "x": 12, "y": 16 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "dining", "chance": 70, "x": [ 16,16 ], "y": [ 2,9 ]},
                 { "item": "dining", "chance": 60, "x": [ 7,8 ], "y": [ 5,6 ]},
                 { "item": "dining", "chance": 60, "x": [ 7,8 ], "y": [ 1,2 ]},
@@ -8387,8 +8490,10 @@
                 "________________________",
                 "________________________"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "homebooks", "chance": 70, "x": [ 21,22 ], "y": [ 15,15 ]},
                 { "item": "homebooks", "chance": 70, "x": [ 7,7 ], "y": [ 11,12 ]},
                 { "item": "office", "chance": 70, "x": [ 9,9 ], "y": [ 12,14 ]},
@@ -8552,7 +8657,7 @@
                 "____________________ss..",
                 "___________,,_______ss.."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8713,8 +8818,10 @@
                 { "x": 18, "y": 6 },
                 { "x": 18, "y": 12 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "allclothes", "chance": 70, "x": [ 14,14 ], "y": [ 15,17 ]},
                 { "item": "homebooks", "chance": 70, "x": [ 16,17 ], "y": [ 18,18 ]},
                 { "item": "allclothes", "chance": 70, "x": [ 20,20 ], "y": [ 18,18 ]},
@@ -8898,7 +9005,10 @@
                 { "x": 9, "y": 14 },
                 { "x": 9, "y": 21 }
             ],
-            "place_groups": [
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 70, "x": [ 13,18 ], "y": [ 4,4]},
                 { "item": "traveler", "chance": 70, "x": [ 12,12 ], "y": [ 6,6]},
                 { "item": "traveler", "chance": 70, "x": [ 15,15 ], "y": [ 6,6]},
@@ -8906,7 +9016,6 @@
                 { "item": "traveler", "chance": 70, "x": [ 13,18 ], "y": [ 18,18]},
                 { "item": "traveler", "chance": 70, "x": [ 12,12 ], "y": [ 20,20]},
                 { "item": "traveler", "chance": 70, "x": [ 15,15 ], "y": [ 20,20]},
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
                 { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 0,0 ]},
                 { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 0,0 ]},
                 { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 6,7 ]},
@@ -9070,11 +9179,13 @@
                 "________________________",
                 "________________________"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car_sports", "x": 22, "y": 9, "rotation": 180, "chance": 75 },
                 { "vehicle": "flatbed_truck", "x": 2, "y": 21, "rotation": 0, "chance": 75 },
                 { "vehicle": "car", "x": 12, "y": 10, "rotation": 45, "chance": 75 },
-                { "vehicle": "ambulance", "x": 13, "y": 12, "rotation": 270, "chance": 90 },
+                { "vehicle": "ambulance", "x": 13, "y": 12, "rotation": 270, "chance": 90 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -9241,8 +9352,10 @@
                 { "x": 16, "y": 0, "item_group": "vending_food" },
                 { "x": 20, "y": 17, "item_group": "vending_drink" }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 70, "x": [ 16,16 ], "y": [ 3,3]},
                 { "item": "traveler", "chance": 70, "x": [ 16,19 ], "y": [ 8,8]},
                 { "item": "traveler", "chance": 70, "x": [ 16,16 ], "y": [ 10,10]},
@@ -9414,12 +9527,14 @@
                 "s_______________________",
                 "s_______________________"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 4, "y": 2, "rotation": 0, "chance": 90 },
                 { "vehicle": "hippie_van", "x": 4, "y": 8, "rotation": 0, "chance": 50 },
                 { "vehicle": "electric_car", "x": 5, "y": 15, "rotation": 0, "chance": 50 },
                 { "vehicle": "car_mini", "x": 4, "y": 22, "rotation": 0, "chance": 50 },
-                { "vehicle": "ambulance", "x": 12, "y": 12, "rotation": 270, "chance": 90 },
+                { "vehicle": "ambulance", "x": 12, "y": 12, "rotation": 270, "chance": 90 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -9576,7 +9691,7 @@
                 "__ss________________ss__",
                 "__ss_______,,_______ss__"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -9733,14 +9848,16 @@
                 "____,______s.s______,___",
                 "____,______s.s______,___"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 1, "y": 7, "rotation": 90, "chance": 50 },
                 { "vehicle": "pickup", "x": 8, "y": 7, "rotation": 90, "chance": 50 },
                 { "vehicle": "car_mini", "x": 17, "y": 6, "rotation": 90, "chance": 50 },
                 { "vehicle": "hippie_van", "x": 0, "y": 21, "rotation": 270, "chance": 50 },
                 { "vehicle": "car", "x": 7, "y": 21, "rotation": 270, "chance": 50 },
                 { "vehicle": "pickup", "x": 16, "y": 21, "rotation": 270, "chance": 50 },
-                { "vehicle": "car", "x": 23, "y": 21, "rotation": 270, "chance": 50 },
+                { "vehicle": "car", "x": 23, "y": 21, "rotation": 270, "chance": 50 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -9897,11 +10014,13 @@
                 "___,______s.s______,____",
                 "___,______s.s______,____"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 0, "y": 7, "rotation": 90, "chance": 25 },
                 { "vehicle": "car_sports", "x": 16, "y": 7, "rotation": 90, "chance": 25 },
                 { "vehicle": "pickup", "x": 15, "y": 21, "rotation": 270, "chance": 25 },
-                { "vehicle": "car", "x": 23, "y": 21, "rotation": 270, "chance": 25 },
+                { "vehicle": "car", "x": 23, "y": 21, "rotation": 270, "chance": 25 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -10058,7 +10177,7 @@
                 "__ss________________ssq.",
                 "__ss_______,,_______ssq."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -10219,8 +10338,10 @@
                 { "x": 12, "y": 9 },
                 { "x": 12, "y": 17 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "magazines", "chance": 75, "x": [ 16,17 ], "y": [ 18,19 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 4,4 ], "y": [ 21,21 ]},
                 { "item": "office", "chance": 70, "x": [ 5,7 ], "y": [ 17,17 ]},
@@ -10391,10 +10512,12 @@
                 "..............#..s______",
                 ".............###.s______"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "truck_trailer", "x": 0, "y": 16, "rotation": 0, "chance": 100 },
                 { "vehicle": "semi_truck", "x": 12, "y": 14, "rotation": 0, "chance": 100 },
-                { "vehicle": "policecar", "x": 23, "y": 11, "rotation": 90, "chance": 90 },
+                { "vehicle": "policecar", "x": 23, "y": 11, "rotation": 90, "chance": 90 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -10552,7 +10675,7 @@
                 "_____________________s##",
                 ",______,______,______s##"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -10709,9 +10832,11 @@
                 "s__,,,,__s|HHHH[[HHHH|ss",
                 "s___,,___s|hnnh  hnnh|ss"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "dining", "chance": 70, "x": [ 12,13 ], "y": [ 23,23 ]},
-                { "item": "dining", "chance": 70, "x": [ 18,19 ], "y": [ 23,23 ]},
+                { "item": "dining", "chance": 70, "x": [ 18,19 ], "y": [ 23,23 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -10868,7 +10993,7 @@
                 "s___________,,__________",
                 "____________,,__________"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11025,7 +11150,7 @@
                 "_sss________________sss_",
                 "__ss_______,,_______ss__"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11182,7 +11307,7 @@
                 "________________________",
                 "________________________"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11340,7 +11465,7 @@
                 "________________________",
                 "________________________"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11498,7 +11623,7 @@
                 "_____ss.................",
                 "_____s.......#.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11655,8 +11780,10 @@
                 ".......#................",
                 "........................"
             ],
-            "place_groups": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]},
+            "place_items": [
+                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -11813,8 +11940,10 @@
                 ".........X..............",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "pool_table", "chance": 70, "x": [ 18,19 ], "y": [ 13,16 ]},
                 { "item": "field", "chance": 70, "x": [ 0,16 ], "y": [ 0,23 ]}
             ],
@@ -11975,8 +12104,10 @@
            "place_toilets": [
                 { "x": 22, "y": 12 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "alcohol", "chance": 85, "x": [ 19,19 ], "y": [ 16,18 ]},
                 { "item": "alcohol", "chance": 80, "x": [ 7,15 ], "y": [ 18,18 ]},
                 { "item": "alcohol", "chance": 50, "x": [ 4,16 ], "y": [ 15,15 ]},
@@ -12143,8 +12274,10 @@
            "place_toilets": [
                 { "x": 19, "y": 7 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "floor_trash", "chance": 90, "x": [ 11,11 ], "y": [ 2,2 ]},
                 { "item": "fast_food", "chance": 70, "x": [ 15,16 ], "y": [ 9,9 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 19,19 ], "y": [ 9,9 ]},
@@ -12307,7 +12440,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -12464,8 +12597,10 @@
                 "...._________________s..",
                 "....________________ss.."
             ],
-            "place_groups": [
-                { "vehicle": "policecar", "x": 9, "y": 9, "rotation": 0, "chance": 90 },
+            "place_vehicles": [
+                { "vehicle": "policecar", "x": 9, "y": 9, "rotation": 0, "chance": 90 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -12623,8 +12758,10 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "alcohol", "chance": 70, "x": [ 19,23 ], "y": [ 19,19 ]},
                 { "item": "magazines", "chance": 70, "x": [ 19,19 ], "y": [ 12,12 ]},
                 { "item": "snacks", "chance": 70, "x": [ 20,22 ], "y": [ 14,15 ]},
@@ -12791,10 +12928,14 @@
                 { "x": 3, "y": 5, "item_group": "vending_food" },
                 { "x": 4, "y": 5, "item_group": "vending_drink" }
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "car", "x": 10, "y": 10, "rotation": 270, "chance": 75 },
-                { "vehicle": "pickup", "x": 21, "y": 10, "rotation": 270, "chance": 75 },
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+                { "vehicle": "pickup", "x": 21, "y": 10, "rotation": 270, "chance": 75 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "mechanics", "chance": 80, "x": [ 11,23 ], "y": [ 18,18 ]},
                 { "item": "manuals", "chance": 80, "x": [ 9,11 ], "y": [ 20,20 ]},
                 { "item": "office", "chance": 70, "x": [ 6,8 ], "y": [ 18,18 ]},
@@ -12962,8 +13103,10 @@
                 { "x": 6, "y": 10 },
                 { "x": 6, "y": 12 }
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "mechanics", "chance": 70, "x": [ 4,4 ], "y": [ 8,14 ]},
                 { "item": "mechanics", "chance": 70, "x": [ 0,4 ], "y": [ 18,18 ]},
                 { "item": "field", "chance": 70, "x": [ 12,23 ], "y": [ 0,23 ]}
@@ -13122,8 +13265,10 @@
                 "..........C.............",
                 "........................"
             ],
-            "place_groups": [
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+            "place_monsters": [
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+            ],
+            "place_items": [
                 { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {

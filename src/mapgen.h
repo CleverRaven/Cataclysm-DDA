@@ -96,30 +96,6 @@ struct jmapgen_setmap {
     bool apply( map * m );
 };
 
-enum jmapgen_place_group_op {
-    JMAPGEN_PLACEGROUP_ITEM,
-    JMAPGEN_PLACEGROUP_MONSTER,
-    JMAPGEN_PLACEGROUP_VEHICLE
-};
-
-struct jmapgen_place_group {
-    jmapgen_int x;
-    jmapgen_int y;
-    std::string gid;
-    jmapgen_place_group_op op;
-    int chance;
-    float density;
-    jmapgen_int repeat;
-    int rotation;
-    int fuel;
-    int status;
-    jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
-        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0, int ifuel = -1, int istatus = -1
-      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation),
-       fuel(ifuel), status(istatus) { }
-    void apply( map * m, float mdensity );
-};
-
 struct jmapgen_spawn_item {
     jmapgen_int x;
     jmapgen_int y;
@@ -168,17 +144,17 @@ public:
  */
 class jmapgen_place {
 public:
-    jmapgen_place() : x( 0, 0 ), y( 0, 0 ) { }
-    jmapgen_place(const int a, const int b) : x( a ), y( b ) { }
+    jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
+    jmapgen_place(const int a, const int b) : x( a ), y( b ), repeat( 1, 1 ) { }
     jmapgen_place( JsonObject &jsi );
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int repeat;
 };
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( jmapgen_int & var );
-    void setup_place_group(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     virtual bool setup();
     virtual void generate(map*, oter_id, mapgendata, int, float);
@@ -201,7 +177,6 @@ class mapgen_function_json : public virtual mapgen_function {
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
-    std::vector<jmapgen_place_group> place_groups;
     /**
      * Combination of where to place something and what to place.
      */

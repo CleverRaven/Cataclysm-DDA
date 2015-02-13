@@ -79,7 +79,7 @@
             "place_toilets": [
                 { "x": 2, "y": 18 }
             ],
-            "place_groups": [
+            "place_items": [
                 {"item": "restaur_table",  "chance": 30, "x": 17,   "y": 10, "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 30, "x": 17,   "y": 15, "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 30, "x": 6,    "y": 19, "repeat": [1,2]},
@@ -101,8 +101,9 @@
 
                 {"item": "restaur_trash",  "chance": 50, "x": 3,    "y": [7,8], "repeat": [1,2]},
                 {"item": "trash",          "chance": 50, "x": 3,    "y": [7,8], "repeat": [1,2]},
-                {"item": "trash",          "chance": 20, "x": [0,2],"y":[3,13], "repeat": [1,2]},
-
+                {"item": "trash",          "chance": 20, "x": [0,2],"y":[3,13], "repeat": [1,2]}
+            ],
+            "place_monsters": [
                 {"monster": "GROUP_GROCERY","chance": 5, "x": [5, 9], "y": [9, 14]}
             ]
         }

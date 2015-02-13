@@ -108,10 +108,14 @@
                 { "item": "touristmap", "x": 8, "y": 8, "chance": 2 },
                 { "item": "survivormap", "x": 8, "y": 7, "chance": 8 }
              ],
-            "place_groups": [
-                { "item": "traveler", "chance": 90, "x": [ 6,6 ], "y": [ 6,6 ] },
+            "place_items": [
+                { "item": "traveler", "chance": 90, "x": [ 6,6 ], "y": [ 6,6 ] }
+            ],
+            "place_vehicles": [
                 { "vehicle": "motorcycle", "x": 1, "y": 17, "rotation":180, "chance": 35  },
-                { "vehicle": "motorcycle", "x": 5, "y": 17, "rotation":180, "chance": 35  },
+                { "vehicle": "motorcycle", "x": 5, "y": 17, "rotation":180, "chance": 35  }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ]
         }
@@ -229,7 +233,7 @@
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
                 { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
@@ -241,7 +245,9 @@
                 { "item": "trash_forest", "chance": 40, "x": [14,23], "y": [16,23] },
                 { "item": "trash", "chance": 50, "x": [14,23], "y": [16,23] },
                 { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
-                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] },
                 { "monster": "GROUP_ZOMBIE_POOL", "chance": 2, "x": [ 2, 10 ], "y": [ 3, 11 ] }
             ]
@@ -363,7 +369,7 @@
                 { "item": "phonebook", "x": 18, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -377,7 +383,9 @@
                 { "item": "bed", "chance": 60, "x": [8,9], "y": [7,8] },
                 { "item": "bed", "chance": 60, "x": [7,8], "y": [13,14] },
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
-                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 3, 23 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 3, "x": [ 2,9 ], "y": [ 0,14 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 12,22 ], "y": [ 13,21 ] }
@@ -494,8 +502,10 @@
                 { "item": "phonebook", "x": 22, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
-                { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  },
+            "place_vehicles": [
+                { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  }
+            ],
+            "place_items": [
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -509,7 +519,9 @@
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [17,18] },
                 { "item": "bed", "chance": 60, "x": [18,19], "y": [14,15] },
-                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 0, 21 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 0, 22 ], "y": [ 13, 21 ] }
             ]
@@ -713,11 +725,13 @@
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
                 { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
-                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 6 ], "y": [16, 16 ] }
             ]
         }
@@ -834,7 +848,7 @@
                 { "item": "phonebook", "x": 18, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -844,7 +858,9 @@
                 { "item": "bed", "chance": 60, "x": [8,9], "y": [7,8] },
                 { "item": "bed", "chance": 60, "x": [7,8], "y": [13,14] },
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
-                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 4, 6 ], "y": [ 4, 4 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 3, "x": [ 15,16 ], "y": [ 16,16 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 22,22 ], "y": [ 16,16 ] }
@@ -959,7 +975,7 @@
                 { "item": "phonebook", "x": 22, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -971,7 +987,9 @@
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
                 { "item": "bed", "chance": 60, "x": [12,13], "y": [17,18] },
                 { "item": "bed", "chance": 60, "x": [18,19], "y": [14,15] },
-                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 4, 4 ], "y": [ 16, 16 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 10, 10 ], "y": [ 16, 16 ] }
             ]

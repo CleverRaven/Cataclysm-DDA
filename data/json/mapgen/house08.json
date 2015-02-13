@@ -99,7 +99,7 @@
                 { "point": "terrain", "id": "t_tree_young", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 3,5 ] }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [4,5 ], "y": [7,8 ] },
                 { "item": "bedroom", "chance": 70, "x": [ 2,8 ], "y": [ 6,8 ] },
                 { "item": "livingroom", "chance": 80, "x": [ 9,21 ], "y": [ 2,7 ] },
@@ -113,7 +113,9 @@
                 { "item": "oven", "chance": 50, "x": [ 21, 21 ], "y": 10 },
                 { "item": "cleaning", "chance": 50, "x": [ 2,5 ], "y": [ 13,14 ] },
                 { "item": "softdrugs", "chance": 70, "x": [ 2,5 ], "y": [ 12,14 ] },
-                { "item": "office", "chance": 50, "x": [ 2,7 ], "y": [ 2,4 ] },
+                { "item": "office", "chance": 50, "x": [ 2,7 ], "y": [ 2,4 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

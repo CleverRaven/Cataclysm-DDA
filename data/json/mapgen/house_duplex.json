@@ -107,7 +107,7 @@
                 { "item": "television", "x": 11, "y": 3 }
             ],
             "comment": "east  dwelling followed by west dwelling",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [15,16 ], "y": [17,18 ] },
                 { "item": "homebooks", "chance": 60,  "x": [ 14, 14 ], "y": [ 5, 6 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 13, 16 ], "y": [ 17, 21 ] },

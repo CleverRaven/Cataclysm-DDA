@@ -241,8 +241,10 @@
                     },
                     "set": [
                     ],
-                    "place_groups": [
-                        { "monster": "GROUP_PLAIN",      "chance": 1,     "x": [2,21],  "y": [7,22]  },
+                    "place_monsters": [
+                        { "monster": "GROUP_PLAIN",      "chance": 1,     "x": [2,21],  "y": [7,22]  }
+                    ],
+                    "place_items": [
                         { "item":    "bowling_item",     "chance": 70,    "x": [22,22],   "y": [8,9] },
                         { "item":    "bowling_item",     "chance": 70,    "x": [4,4],   "y": [19,22] },
                         { "item":    "bowling_balls",    "chance": 80,    "x": [11,11], "y": [13,14] },

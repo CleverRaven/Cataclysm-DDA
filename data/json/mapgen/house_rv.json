@@ -95,8 +95,10 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
                     ],
                         "comment": "randomly picked from a group ---v",
-            "place_groups": [
-                { "vehicle": "rv", "x": 5, "y": 4, "rotation": 270, "chance": 10  },
+            "place_vehicles": [
+                { "vehicle": "rv", "x": 5, "y": 4, "rotation": 270, "chance": 10  }
+            ],
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [18,19 ] },
                 { "item": "livingroom", "chance": 70,  "x": [ 12,21 ], "y": [ 2,6 ] },
                 { "item": "dining", "chance": 70,  "x": [ 16,18 ], "y": [ 8,9 ] },
@@ -115,7 +117,9 @@
                 { "item": "knifeblock", "chance": 30, "x": [ 3,5 ], "y": [ 15,15 ] },
                 { "item": "cannedfood", "chance": 30, "x": [ 16,19 ], "y": [ 17,17 ] },
                 { "item": "camping", "chance": 20, "x": [ 16,19 ], "y": [ 19,19 ] },
-                { "item": "softdrugs", "chance": 30, "x": [ 16,19 ], "y": [ 21,21 ] },
+                { "item": "softdrugs", "chance": 30, "x": [ 16,19 ], "y": [ 21,21 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

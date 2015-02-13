@@ -121,7 +121,7 @@
             "G": "f_oven"
             },
                 "comment": "randomly picked from a group ---v",
-                "place_groups": [
+                "place_items": [
                  { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [3,3 ] },
                  { "item": "bed", "chance": 80,  "x": [5,5 ], "y": [3,3 ] },
                  { "item": "bed", "chance": 80,  "x": [7,7 ], "y": [3,3 ] },

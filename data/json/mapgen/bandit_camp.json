@@ -32,7 +32,7 @@
                 ",,,///,//P//WWWWW///////",
                 ",%,4//,//P//WwwwW////WWW"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "stash_wood", "chance": 85,  "x": [ 12,12 ], "y": [ 8,10 ] },
                 { "item": "dresser", "chance": 85,  "x": [ 23,23 ], "y": [ 8,8 ] },
                 { "item": "home_hw", "chance": 85,  "x": [ 12,12 ], "y": [ 16,18 ] },
@@ -133,7 +133,7 @@
                 "/////////////////,,/,/,,",
                 "WW//////////////////,,,,"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [2,3], "y": [7,8 ] },
                 { "item": "dresser", "chance": 75,  "x": [ 1,2 ], "y": [ 10,10 ] },
                 { "item": "home_hw", "chance": 75,  "x": [ 3,3 ], "y": [ 17,19 ] },
@@ -230,7 +230,7 @@
                 ",,,,,,%,,,/,,,$,,/,/,,,%",
                 "$,,%,,$,,,,,%,,,%,,$,,,,"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "cannedfood", "chance": 75,  "x": [ 20,21 ], "y": [ 13,14 ] }
             ],
             "set": [
@@ -326,10 +326,12 @@
                 "/$,/,,%/,,,,,,,,$,,,$,%,",
                 ",//,,,,,$,,,,,%,,,%,,,,,"
             ],
-            "place_groups": [
+            "place_vehicles": [
                 { "vehicle": "motorcycle", "x": 8, "y": 6, "rotation": 180, "chance": 80  },
                 { "vehicle": "motorcycle", "x": 8, "y": 8, "rotation": 180, "chance": 80  },
-                { "vehicle": "motorcycle", "x": 9, "y": 10, "rotation": 180, "chance": 80  },
+                { "vehicle": "motorcycle", "x": 9, "y": 10, "rotation": 180, "chance": 80  }
+            ],
+            "place_items": [
                 { "item": "mechanics", "chance": 65,  "x": [ 8,12 ], "y": [ 13,13 ] },
                 { "item": "mechanics", "chance": 65,  "x": [ 12,12 ], "y": [ 4,5 ] },
                 { "item": "mechanics", "chance": 65,  "x": [ 12,12 ], "y": [ 8,9 ] },

@@ -138,7 +138,7 @@
                     "5": "f_canvas_floor",
                     "^": "f_indoor_plant"
                 },
-                "place_groups": [
+                "place_items": [
                     { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [3, 5] },
                     { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 40, "repeat": [1, 2] },
                     { "item": "boxing_books", "x": [17, 19], "y": [18, 18], "chance": 80, "repeat": [1, 3] },

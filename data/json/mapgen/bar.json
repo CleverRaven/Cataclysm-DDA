@@ -187,7 +187,7 @@
                 { "point": "terrain", "id": "t_pavement", "x": 10, "y": 21},
                 { "point": "terrain", "id": "t_pavement", "x": 11, "y": 21}
             ],
-            "place_groups": [
+            "place_items": [
             { "item": "pool_table",   "chance": 50, "x": [5,8],  "y":[17,18], "repeat": [2,3] },
             { "item": "pool_table",   "chance": 50, "x": [14,17],"y":[17,18], "repeat": [2,3] },
             

@@ -93,7 +93,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [10,11 ], "y": [20,21 ] },
                 { "item": "bed", "chance": 80,  "x": [18,19 ], "y": [20,21 ] },
                 { "item": "bedroom", "chance": 90, "x": [ 6, 21 ], "y": [ 18,21 ]},
@@ -115,7 +115,9 @@
                 { "item": "textbooks", "chance": 30, "x": [ 14,14 ], "y": [ 8,10] },
                 { "item": "homebooks", "chance": 80, "x": [ 14,18 ], "y": [ 10,10] },
                 { "item": "homebooks", "chance": 80, "x": [ 18,18 ], "y": [ 7,7] },
-                { "item": "alcohol", "chance": 80, "x": [ 21,21 ], "y": [ 5,7] },
+                { "item": "alcohol", "chance": 80, "x": [ 21,21 ], "y": [ 5,7] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

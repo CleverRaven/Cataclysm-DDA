@@ -117,8 +117,10 @@
                 "set": [
                     { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
                 ],
-                "place_groups": [
-                    { "monster": "GROUP_FIRE",  "chance": 1,  "x": [ 2, 21 ], "y": [ 9, 21 ]},
+                "place_monsters": [
+                    { "monster": "GROUP_FIRE",  "chance": 1,  "x": [ 2, 21 ], "y": [ 9, 21 ]}
+                ],
+                "place_items": [
                     { "item": "bed",            "chance": 80, "x": [3,4 ],    "y": [16,16 ] },
                     { "item": "bed",            "chance": 80, "x": [3,4 ],    "y": [18,18 ] },
                     { "item": "fireman_doc",    "chance": 70, "x": [ 1,1 ],   "y": [ 2,2 ] },
@@ -134,7 +136,9 @@
                     { "item": "fireman_head",   "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
                     { "item": "fireman_gloves", "chance": 70, "x": [ 16,16 ], "y": [ 21,21 ] },
                     { "item": "fireman_mask",   "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
-                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] },
+                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] }
+                ],
+                "place_vehicles": [
                     { "vehicle": "fire_engine", "x": 12, "y": 13, "rotation": 270, "chance": 30 }
 
                 ]

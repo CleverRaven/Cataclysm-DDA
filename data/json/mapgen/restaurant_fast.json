@@ -174,7 +174,7 @@
       "place_toilets": [
         { "x": 15, "y": 16 }
       ],
-      "place_groups": [
+      "place_items": [
         {"item": "fast_table",  "chance": 20, "x": 8,     "y": 3,      "repeat": [1,2]},
         {"item": "fast_table",  "chance": 20, "x": 15,    "y": 3,      "repeat": [1,2]},
         {"item": "fast_table",  "chance": 20, "x": [8,9], "y": [7,8],  "repeat": [1,2]},
@@ -190,8 +190,9 @@
         {"item": "fast_trash",  "chance": 75, "x": 7,     "y": 11,     "repeat": [1,3]},
         {"item": "fast_bath",   "chance": 25, "x": 14,    "y": 15,     "repeat": [1,2]},
         {"item": "fast_trash",  "chance": 60, "x": [3,4], "y": 23,     "repeat": [1,3]},
-        {"item": "trash",       "chance": 30, "x": [3,4], "y": 23,     "repeat": [1,3]},
-
+        {"item": "trash",       "chance": 30, "x": [3,4], "y": 23,     "repeat": [1,3]}
+       ],
+       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 }
       ]
     }

@@ -104,7 +104,7 @@
                 { "point": "terrain", "id": "t_grass", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 1,3 ] }
             ],
                         "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "hydro", "chance": 80,  "x": 5, "y": [ 16,20 ] },
                 { "item": "hydro", "chance": 80,  "x": 7, "y": [ 16,20 ] },
                 { "item": "hydro", "chance": 80,  "x": 9, "y": [ 16,20 ] },
@@ -119,7 +119,9 @@
                 { "item": "farming_tools", "chance": 60,  "x": [ 18,21 ], "y": 12 },
                 { "item": "oven", "chance": 70,  "x": 2, "y": 9, "repeat": [ 1,4 ] },
                 { "item": "fridge", "chance": 70,  "x": 3, "y": 10, "repeat": [ 1,4 ] },
-                { "item": "magazines", "chance": 30,  "x": 13, "y": [ 8,9 ], "repeat": [ 1,2 ] },
+                { "item": "magazines", "chance": 30,  "x": 13, "y": [ 8,9 ], "repeat": [ 1,2 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

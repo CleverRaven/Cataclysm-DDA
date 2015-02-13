@@ -227,7 +227,7 @@
                 { "item": "laptop",     "x": 14, "y": 15, "chance": 70},
                 { "item": "multitool",  "x": 21, "y": 17, "chance": 60}
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "fridgesnacks",    "chance": 70, "x": 21,      "y": 15,      "repeat": [1,2] },
                 { "item": "elecsto_cameras", "chance": 60, "x": [3,6],   "y": 8,       "repeat": 1 },
                 { "item": "bionics_common",  "chance": 50, "x": [9,12],  "y": 8,       "repeat": [2,3] },

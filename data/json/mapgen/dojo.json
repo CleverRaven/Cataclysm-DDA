@@ -136,7 +136,7 @@
                     "C": "f_chair",
                     "X": "f_rack"
                 },
-                "place_groups": [
+                "place_items": [
                     { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
                     { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] },
                     { "item": "dojo_manuals", "x": [17, 19], "y": [19, 19], "chance": 80, "repeat": [1, 2] }
