@@ -2705,7 +2705,7 @@ bool game::handle_action()
                     }
 
                     if (new_destination) {
-                        destination_preview = m.route(u.posx(), u.posy(), mx, my, false);
+                        destination_preview = m.route( u.posx(), u.posy(), mx, my, 0 );
                         return false;
                     }
                 } else if (action == "SEC_SELECT") {

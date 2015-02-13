@@ -1034,13 +1034,13 @@ std::string map::name(const int x, const int y)
  return has_furn(x, y) ? furn_at(x, y).name : ter_at(x, y).name;
 }
 
-bool map::has_furn(const int x, const int y)
+bool map::has_furn(const int x, const int y) const
 {
   return furn(x, y) != f_null;
 }
 
-
-std::string map::get_furn(const int x, const int y) const {
+std::string map::get_furn(const int x, const int y) const
+{
     return furn_at(x, y).id;
 }
 
@@ -1280,7 +1280,7 @@ int map::combined_movecost(const int x1, const int y1,
     return (cost1 + cost2 + modifier) * mult / 2;
 }
 
-bool map::trans(const int x, const int y)
+bool map::trans(const int x, const int y) const
 {
     return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
 }
@@ -1399,7 +1399,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 }
 
 /////
-bool map::is_bashable(const int x, const int y)
+bool map::is_bashable(const int x, const int y) const
 {
     if (!inbounds(x, y)) {
         DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
@@ -1429,7 +1429,7 @@ bool map::is_bashable(const int x, const int y)
     return false;
 }
 
-bool map::is_bashable_ter(const int x, const int y)
+bool map::is_bashable_ter(const int x, const int y) const
 {
     if ( ter_at(x, y).bash.str_max != -1 ) {
         return true;
@@ -1437,7 +1437,7 @@ bool map::is_bashable_ter(const int x, const int y)
     return false;
 }
 
-bool map::is_bashable_furn(const int x, const int y)
+bool map::is_bashable_furn(const int x, const int y) const
 {
     if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
         return true;
@@ -1445,12 +1445,12 @@ bool map::is_bashable_furn(const int x, const int y)
     return false;
 }
 
-bool map::is_bashable_ter_furn(const int x, const int y)
+bool map::is_bashable_ter_furn(const int x, const int y) const
 {
     return is_bashable_furn(x, y) || is_bashable_ter(x, y);
 }
 
-int map::bash_strength(const int x, const int y)
+int map::bash_strength(const int x, const int y) const
 {
     if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
         return furn_at(x, y).bash.str_max;
@@ -1460,7 +1460,7 @@ int map::bash_strength(const int x, const int y)
     return -1;
 }
 
-int map::bash_resistance(const int x, const int y)
+int map::bash_resistance(const int x, const int y) const
 {
     if ( has_furn(x, y) && furn_at(x, y).bash.str_min != -1 ) {
         return furn_at(x, y).bash.str_min;
@@ -1470,7 +1470,7 @@ int map::bash_resistance(const int x, const int y)
     return -1;
 }
 
-int map::bash_rating(const int str, const int x, const int y)
+int map::bash_rating(const int str, const int x, const int y) const
 {
     if (!is_bashable(x,y)) {
         return -1;
@@ -1485,7 +1485,8 @@ int map::bash_rating(const int str, const int x, const int y)
 
     if (!furn_smash && !ter_smash) {
     //There must be a vehicle there!
-        return 10;
+        // Monsters only care about rating > 0, NPCs should want to path around cars instead
+        return 2;
     }
 
     int bash_min = 0;
@@ -1503,7 +1504,9 @@ int map::bash_rating(const int str, const int x, const int y)
         return 10;
     }
 
-    return (10 * (str - bash_min)) / (bash_max - bash_min);
+    int ret = (10 * (str - bash_min)) / (bash_max - bash_min);
+    // Round up to 1, so that desperate NPCs can try to bash down walls
+    return ret > 0 ? ret : 1;
 }
 
 void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
@@ -1568,12 +1571,12 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items,
  * @param y The y coordinate to look at.
  * @return true if the terrain can be dived into; false if not.
  */
-bool map::is_divable(const int x, const int y)
+bool map::is_divable(const int x, const int y) const
 {
   return has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y);
 }
 
-bool map::is_outside(const int x, const int y)
+bool map::is_outside(const int x, const int y) const
 {
  if(!INBOUNDS(x, y))
   return true;
@@ -2506,34 +2509,54 @@ bool map::marlossify(const int x, const int y)
 
 bool map::open_door(const int x, const int y, const bool inside, const bool check_only)
 {
- const auto &ter = ter_at(x, y);
- const auto &furn = furn_at(x, y);
- if ( !ter.open.empty() && ter.open != "t_null" ) {
-     if ( termap.find( ter.open ) == termap.end() ) {
-         debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
-         return false;
-     }
-     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
-         return false;
-     }
-     if(!check_only) {
-         ter_set(x, y, ter.open );
-     }
-     return true;
- } else if ( !furn.open.empty() && furn.open != "t_null" ) {
-     if ( furnmap.find( furn.open ) == furnmap.end() ) {
-         debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
-         return false;
-     }
-     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
-         return false;
-     }
-     if(!check_only) {
-         furn_set(x, y, furn.open );
-     }
-     return true;
- }
- return false;
+    const auto &ter = ter_at( x, y );
+    const auto &furn = furn_at( x, y );
+    int vpart = -1;
+    vehicle *veh = veh_at( x, y, vpart );
+    if ( !ter.open.empty() && ter.open != "t_null" ) {
+        if ( termap.find( ter.open ) == termap.end() ) {
+            debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
+            return false;
+        }
+
+        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+            return false;
+        }
+
+        if(!check_only) {
+            ter_set(x, y, ter.open );
+        }
+
+        return true;
+    } else if ( !furn.open.empty() && furn.open != "t_null" ) {
+        if ( furnmap.find( furn.open ) == furnmap.end() ) {
+            debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
+            return false;
+        }
+
+        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+            return false;
+        }
+
+        if(!check_only) {
+            furn_set(x, y, furn.open );
+        }
+
+        return true;
+    } else if( veh != nullptr ) {
+        int openable = veh->next_part_to_open( vpart, true );
+        if (openable >= 0) {
+            if( !check_only ) {
+                veh->open_all_at( openable );
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    return false;
 }
 
 void map::translate(const ter_id from, const ter_id to)
@@ -2711,7 +2734,7 @@ bool map::sees_some_items(int x, int y, const player &u)
     return !i_at( x, y ).empty() && could_see_items( x, y, u );
 }
 
-bool map::could_see_items(int x, int y, const player &u)
+bool map::could_see_items(int x, int y, const player &u) const
 {
     const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
     const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
@@ -4133,7 +4156,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 }
 
-bool map::sees( const point F, const point T, const int range, int &bresenham_slope )
+bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const
 {
     return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
 }
@@ -4143,7 +4166,7 @@ map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 */
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &bresenham_slope)
+               const int range, int &bresenham_slope) const
 {
     const int dx = Tx - Fx;
     const int dy = Ty - Fy;
@@ -4287,7 +4310,7 @@ bool map::accessible_furniture(const int Fx, const int Fy, const int Tx, const i
            clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
-std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty)
+std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const
 {
     std::vector<point> vCircle;
     vCircle.resize(8);
@@ -4320,8 +4343,15 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
     return vCircle;
 }
 
-// Bash defaults to true.
-std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
+struct pair_greater_cmp
+{
+    bool operator()( const std::pair<int, point> &a, const std::pair<int, point> &b)
+    {
+        return a.first > b.first;
+    }
+};
+
+std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -4351,7 +4381,8 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     tername(Fx, Fy).c_str(), Tx, Ty);
     }
     */
-    std::vector<point> open;
+    std::priority_queue< std::pair<int, point>, std::vector< std::pair<int, point> >, pair_greater_cmp > open;
+    std::set<point> closed;
     astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
     int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
     int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -4380,29 +4411,32 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
 
     for (int x = startx; x <= endx; x++) {
         for (int y = starty; y <= endy; y++) {
-            list  [x][y] = ASL_NONE; // Init to not being on any list
+            list  [x][y] = ASL_NONE; // Mark as unvisited
             score [x][y] = 0;        // No score!
             gscore[x][y] = 0;        // No score!
             parent[x][y] = point(-1, -1);
         }
     }
-    list[Fx][Fy] = ASL_OPEN;
-    open.push_back(point(Fx, Fy));
+    open.push( std::make_pair( 0, point(Fx, Fy) ) );
 
     bool done = false;
 
     do {
         //debugmsg("Open.size() = %d", open.size());
-        int best = 9999;
-        int index = -1;
-        for (size_t i = 0; i < open.size(); i++) {
-            if (i == 0 || score[open[i].x][open[i].y] < best) {
-                best = score[open[i].x][open[i].y];
-                index = i;
-            }
+        auto pr = open.top();
+        open.pop();
+        if( pr.first > 9999 ) {
+            // Shortest path would be too long, return empty vector
+            return std::vector<point>();
         }
 
-        std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
+        const point &cur = pr.second;
+        if( list[cur.x][cur.y] == ASL_CLOSED ) {
+            continue;
+        }
+
+        list[cur.x][cur.y] = ASL_CLOSED;
+        std::vector<point> vDirCircle = getDirCircle(cur.x, cur.y, Tx, Ty);
 
         for( auto &elem : vDirCircle ) {
             const int x = elem.x;
@@ -4410,37 +4444,52 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
 
             if (x == Tx && y == Ty) {
                 done = true;
-                parent[x][y] = open[index];
-            } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
-                        (move_cost(x, y) > 0 || (can_bash && is_bashable(x, y)))) {
-                if (list[x][y] == ASL_NONE) { // Not listed, so make it open
+                parent[x][y] = cur;
+            } else if( x >= startx && x <= endx && y >= starty && y <= endy ) {
+                if( list[x][y] == ASL_CLOSED ) {
+                    continue;
+                }
+
+                const int cost = move_cost(x, y);
+                // Don't calculate bash rating unless we intend to actually use it
+                const int rating = ( cost == 0 && bash > 0 ) ? bash_rating( bash, x, y ) : -1;
+                if( cost == 0 && rating <= 0 ) {
+                    list[x][y] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
+                    continue;
+                }
+
+                int newg = gscore[cur.x][cur.y] + move_cost(x, y) + ((cur.x - x != 0 && cur.y - y != 0) ? 1 : 0);
+                if( cost == 0 ) {
+                    // Handle all kinds of doors
+                    // Only try to open INSIDE doors from the inside
+                    const auto &ter = ter_at(x, y);
+
+                    if ( !ter.open.empty() &&
+                           ( !has_flag("OPENCLOSE_INSIDE", x, y) || !is_outside( cur.x, cur.y) ) ) {
+                        newg += 4; // To open and then move onto the tile
+                    } else if( rating > 1 ) {
+                        // Expected number of turns to bash it down, 1 turn to move there
+                        // and 2 turns of penalty not to trash everything just because we can
+                        newg += ( 20 / rating ) + 2 + 4; 
+                    } else if( rating == 1 ) {
+                        // Desperate measures, avoid whenever possible
+                        newg += 1000;
+                    } else{
+                        debugmsg("map::route picked an invalid tile");
+                    }
+                }
+
+                // If not in list, add it
+                // If in list, add it only if we can do so with better score
+                if (list[x][y] == ASL_NONE || newg < gscore[x][y] ) {
                     list[x][y] = ASL_OPEN;
-                    open.push_back(point(x, y));
-                    parent[x][y] = open[index];
-                    gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
-                    if (ter(x, y) == t_door_c) {
-                        gscore[x][y] += 4; // A turn to open it and a turn to move there
-                    } else if (move_cost(x, y) == 0 && (can_bash && is_bashable(x, y))) {
-                        gscore[x][y] += 18; // Worst case scenario with damage penalty
-                    }
-                    score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
-                } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
-                    int newg = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
-                    if (ter(x, y) == t_door_c) {
-                        newg += 4; // A turn to open it and a turn to move there
-                    } else if (move_cost(x, y) == 0 && (can_bash && is_bashable(x, y))) {
-                        newg += 18; // Worst case scenario with damage penalty
-                    }
-                    if (newg < gscore[x][y]) {
-                        gscore[x][y] = newg;
-                        parent[x][y] = open[index];
-                        score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
-                    }
+                    gscore[x][y] = newg;
+                    parent[x][y] = cur;
+                    score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
+                    open.push( std::make_pair( score[x][y], point(x, y) ) );
                 }
             }
         }
-        list[open[index].x][open[index].y] = ASL_CLOSED;
-        open.erase(open.begin() + index);
     } while (!done && !open.empty());
 
     std::vector<point> tmp;
@@ -4461,6 +4510,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
             ret.push_back(tmp[i]);
         }
     }
+
     return ret;
 }
 
