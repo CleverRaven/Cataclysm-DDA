@@ -16,18 +16,15 @@ namespace {
 template <typename T>
 T next_array_element(JsonArray &arr);
 
-template <>
-std::string next_array_element<std::string>(JsonArray &arr) {
+template <> std::string next_array_element<std::string>(JsonArray &arr) {
     return arr.next_string();
 }
 
-template <>
-bool next_array_element<bool>(JsonArray &arr) {
+template <> bool next_array_element<bool>(JsonArray &arr) {
     return arr.next_bool();
 }
 
-template <>
-int next_array_element<int>(JsonArray &arr) {
+template <> int next_array_element<int>(JsonArray &arr) {
     return arr.next_int();
 }
 
@@ -36,6 +33,14 @@ void read_array(JsonObject &jo, std::string const &name, T (&out)[N]) {
     auto arr = jo.get_array(name);
     for (size_t i = 0; i < N && arr.has_more(); ++i) {
         out[i] = next_array_element<T>(arr);
+    }
+}
+
+template <typename T, size_t N, typename Function>
+void read_array(JsonObject &jo, std::string const &name, T (&out)[N], Function f) {
+    auto arr = jo.get_array(name);
+    for (size_t i = 0; i < N && arr.has_more(); ++i) {
+        out[i] = f(next_array_element<T>(arr));
     }
 }
 
@@ -53,7 +58,9 @@ void init_fields(JsonObject &jo)
     fld.priority = jo.get_int("priority");
     fld.halflife = jo.get_int("halflife");
 
-    read_array(jo, "name", fld.name);
+    read_array(jo, "name", fld.name, [](std::string const &s) {
+        return _(s.c_str());
+    });
     
     auto color_arr = jo.get_array("color");
     for (size_t i = 0; i < field_t::density_levels && color_arr.has_more(); ++i) {
@@ -1888,25 +1895,44 @@ void map::monster_in_field( monster &z )
     }
 }
 
-int field_entry::move_cost() const{
-  return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
+bool field_entry::is_dangerous() const
+{
+    return fieldlist[type].dangerous[density - 1];
 }
 
-field_id field_entry::getFieldType() const{
+std::string const& field_entry::name() const
+{
+    return fieldlist[type].name[density - 1];
+}
+
+bool field_entry::isAlive() const
+{
+    return is_alive;
+}
+
+int field_entry::move_cost() const
+{
+    return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
+}
+
+field_id field_entry::getFieldType() const
+{
     return type;
 }
 
-
-int field_entry::getFieldDensity() const{
+int field_entry::getFieldDensity() const
+{
     return density;
 }
 
 
-int field_entry::getFieldAge() const{
+int field_entry::getFieldAge() const
+{
     return age;
 }
 
-field_id field_entry::setFieldType(const field_id new_field_id){
+field_id field_entry::setFieldType(const field_id new_field_id)
+{
 
     //TODO: Better bounds checking.
     if(new_field_id >= 0 && new_field_id < num_fields){
@@ -1919,7 +1945,8 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 }
 
-int field_entry::setFieldDensity(const int new_density){
+int field_entry::setFieldDensity(const int new_density)
+{
 
     if(new_density > 3) {
         density = 3;
@@ -1934,21 +1961,10 @@ int field_entry::setFieldDensity(const int new_density){
 
 }
 
-int field_entry::setFieldAge(const int new_age){
-
+int field_entry::setFieldAge(const int new_age)
+{
     age = new_age;
-
     return age;
-}
-
-field::field()
-    : field_list()
-    , draw_symbol( fd_null )
-{
-}
-
-field::~field()
-{
 }
 
 /*
@@ -1965,18 +1981,9 @@ field_entry *field::findField( const field_id field_to_find )
     return nullptr;
 }
 
-const field_entry *field::findFieldc( const field_id field_to_find ) const
-{
-    const auto it = field_list.find( field_to_find );
-    if( it != field_list.end() ) {
-        return &it->second;
-    }
-    return nullptr;
-}
-
 const field_entry *field::findField( const field_id field_to_find ) const
 {
-    return findFieldc( field_to_find );
+    return const_cast<field*>(this)->findField( field_to_find );
 }
 
 /*
@@ -1987,7 +1994,8 @@ If the field already exists, it will return false BUT it will add the density/ag
 If you wish to modify an already existing field use findField and modify the result.
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
+bool field::addField(const field_id field_to_add, const int new_density, const int new_age)
+{
     auto it = field_list.find(field_to_add);
     if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
         draw_symbol = field_to_add;
