@@ -3053,36 +3053,7 @@ bool game::handle_action()
             break;
 
         case ACTION_LIST_ITEMS: {
-            int iRetItems = -1;
-            int iRetMonsters = -1;
-            int startas = uistate.list_item_mon;
-            temp_exit_fullscreen();
-            do {
-                if (startas != 2) { // last mode 2 = list_monster
-                    startas = 0;      // but only for the first bit of the loop
-                    iRetItems = list_items(iRetMonsters);
-                } else {
-                    iRetItems = -2;   // so we'll try list_items if list_monsters found 0
-                }
-                if (iRetItems != -1 || startas == 2) {
-                    startas = 0;
-                    iRetMonsters = list_monsters(iRetItems);
-                    if (iRetMonsters == 2) {
-                        iRetItems = -1; // will fire, exit loop
-                    } else if (iRetMonsters == -1 && iRetItems == -2) {
-                        iRetItems = -1; // exit if requested on list_monsters firstrun
-                    }
-                }
-            } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
-
-            if (iRetItems == 0 && iRetMonsters == 0) {
-                add_msg(m_info, _("You don't see any items or monsters around you!"));
-            } else if (iRetMonsters == 2) {
-                refresh_all();
-                plfire(false);
-            }
-            refresh_all();
-            reenter_fullscreen();
+            list_items_monsters();
         }
         break;
 
@@ -8675,11 +8646,18 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
+    ctxt.register_action("LIST_ITEMS");
 
     do {
         if (bNewWindow) {
             werase(w_info);
             draw_border(w_info);
+
+            if (!bSelectZone) {
+                mvwprintz(w_info, getmaxy(w_info)-1, 2, c_white, _("Press"));
+                wprintz(w_info, c_ltgreen, " %s ", ctxt.press_x("LIST_ITEMS", "", "").c_str());
+                wprintz(w_info, c_white, _("to list items and monsters"));
+            }
         }
 
         int junk;
@@ -8795,7 +8773,11 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         if (!handle_mouseview(ctxt, action)) {
             // Our coordinates will either be determined by coordinate input(mouse),
             // by a direction key, or by the previous value.
-            if (action == "TOGGLE_FAST_SCROLL") {
+
+            if (action == "LIST_ITEMS" && !bSelectZone) {
+                list_items_monsters();
+
+            } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
 
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -9239,6 +9221,40 @@ void game::zoom_out()
     }
     rescale_tileset(tileset_zoom);
 #endif
+}
+
+void game::list_items_monsters()
+{
+    int iRetItems = -1;
+    int iRetMonsters = -1;
+    int startas = uistate.list_item_mon;
+    temp_exit_fullscreen();
+    do {
+        if (startas != 2) { // last mode 2 = list_monster
+            startas = 0;      // but only for the first bit of the loop
+            iRetItems = list_items(iRetMonsters);
+        } else {
+            iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+        }
+        if (iRetItems != -1 || startas == 2) {
+            startas = 0;
+            iRetMonsters = list_monsters(iRetItems);
+            if (iRetMonsters == 2) {
+                iRetItems = -1; // will fire, exit loop
+            } else if (iRetMonsters == -1 && iRetItems == -2) {
+                iRetItems = -1; // exit if requested on list_monsters firstrun
+            }
+        }
+    } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+
+    if (iRetItems == 0 && iRetMonsters == 0) {
+        add_msg(m_info, _("You don't see any items or monsters around you!"));
+    } else if (iRetMonsters == 2) {
+        refresh_all();
+        plfire(false);
+    }
+    refresh_all();
+    reenter_fullscreen();
 }
 
 int game::list_items(const int iLastState)
