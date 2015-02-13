@@ -8842,7 +8842,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-bool game::list_items_match(item &item, std::string sPattern)
+bool game::list_items_match(item *item, std::string sPattern)
 {
     size_t iPos;
     bool hasExclude = false;
@@ -8864,7 +8864,7 @@ bool game::list_items_match(item &item, std::string sPattern)
 
         std::string namepat = pat;
         std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-        if( lcmatch( item.tname(), namepat ) ) {
+        if( lcmatch( item->tname(), namepat ) ) {
             return !exclude;
         }
 
@@ -8872,17 +8872,17 @@ bool game::list_items_match(item &item, std::string sPattern)
             std::string adv_pat_type = pat.substr(1, pat.find(":") - 1);
             std::string adv_pat_search = pat.substr(pat.find(":") + 1, (pat.find("}") - pat.find(":")) - 1);
             std::transform(adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower);
-            if (adv_pat_type == "c" && lcmatch(item.get_category().name, adv_pat_search)) {
+            if (adv_pat_type == "c" && lcmatch(item->get_category().name, adv_pat_search)) {
                 return !exclude;
             } else if (adv_pat_type == "m") {
-                for (auto material : item.made_of_types()) {
+                for (auto material : item->made_of_types()) {
                     if (lcmatch(material->name(), adv_pat_search)) {
                         return !exclude;
                     }
                 }
-            } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
+            } else if (adv_pat_type == "dgt" && item->damage > atoi(adv_pat_search.c_str())) {
                 return !exclude;
-            } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
+            } else if (adv_pat_type == "dlt" && item->damage < atoi(adv_pat_search.c_str())) {
                 return !exclude;
             }
         }
@@ -8927,7 +8927,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
                     if (std::find(vOrder.begin(), vOrder.end(), name) == vOrder.end()) {
                         vOrder.push_back(name);
                         temp_items[name] =
-                            map_item_stack( elem, points_p_it.x - u.posx(), points_p_it.y - u.posy() );
+                            map_item_stack( &elem, points_p_it.x - u.posx(), points_p_it.y - u.posy() );
                     } else {
                         temp_items[name].addNewPos( points_p_it.x - u.posx(),
                                                     points_p_it.y - u.posy() );
@@ -9285,7 +9285,7 @@ int game::list_items(const int iLastState)
     bool addcategory = false;
     int iPage = 0;
     int iCatSortNum = 0;
-    item activeItem;
+    map_item_stack *activeItem;
     std::map<int, std::string> mSortCategory;
 
     std::string action;
@@ -9328,9 +9328,9 @@ int game::list_items(const int iLastState)
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 std::vector<iteminfo> vThisItem, vDummy;
 
-                activeItem.info(true, &vThisItem);
+                activeItem->example->info(true, &vThisItem);
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem.tname(), vThisItem, vDummy);
+                               activeItem->example->tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActiveX = INT_MIN;
@@ -9397,8 +9397,8 @@ int game::list_items(const int iLastState)
                 const int iEnd = (lowPStart < (int)filtered_items.size()) ? lowPStart : filtered_items.size() ;
 
                 for (int i=iStart; i < iEnd; i++) {
-                    if ( filtered_items[i].example.get_category().name != sLastCategoryName ) {
-                        sLastCategoryName = filtered_items[i].example.get_category().name;
+                    if ( filtered_items[i].example->get_category().name != sLastCategoryName ) {
+                        sLastCategoryName = filtered_items[i].example->get_category().name;
                         mSortCategory[i + iCatSortNum] = _(sLastCategoryName.c_str());
 
                         iCatSortNum++;
@@ -9442,8 +9442,8 @@ int game::list_items(const int iLastState)
                 }
             } else if (action == "RIGHT") {
                 iPage++;
-                if (!filtered_items.empty() && iPage >= (int)filtered_items[iActive].vIG.size()) {
-                    iPage = filtered_items[iActive].vIG.size() - 1;
+                if (!filtered_items.empty() && iPage >= (int)activeItem->vIG.size()) {
+                    iPage = activeItem->vIG.size() - 1;
                 }
             } else if (action == "LEFT") {
                 iPage--;
@@ -9509,7 +9509,7 @@ int game::list_items(const int iLastState)
                                 iActiveX = iter->vIG[iThisPage].x;
                                 iActiveY = iter->vIG[iThisPage].y;
 
-                                activeItem = iter->example;
+                                activeItem = &(*iter);
                             }
 
                             sText.str("");
@@ -9518,14 +9518,14 @@ int game::list_items(const int iLastState)
                                 sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
                             }
 
-                            sText << iter->example.tname();
+                            sText << iter->example->tname();
 
                             if (iter->vIG[iThisPage].count > 1) {
                                 sText << " [" << iter->vIG[iThisPage].count << "]";
                             }
 
                             mvwprintz(w_items, iNum - iStartPos, 1,
-                                      ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example.color_in_inventory()))),
+                                      ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example->color_in_inventory()))),
                                       "%s", (sText.str()).c_str());
                             int numw = iItemNum > 9 ? 2 : 1;
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
@@ -9559,7 +9559,7 @@ int game::list_items(const int iLastState)
                 werase(w_item_info);
 
                 std::vector<iteminfo> vThisItem, vDummy;
-                activeItem.info(true, &vThisItem);
+                activeItem->example->info(true, &vThisItem);
 
                 draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
