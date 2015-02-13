@@ -170,10 +170,12 @@
                     { "x": 16, "y": 8 }
                 ],
                 "comment": "randomly picked from a group ---v",
-                "place_groups": [
+                "place_items": [
                     { "item": "fieldoffice_weapons", "chance": 70, "x": [ 20,21 ], "y": 20 },
                     { "item": "fieldoffice_tools", "chance": 80, "x": [ 18,19 ], "y": 20 },
-                    { "item": "fieldoffice_books", "chance": 80, "x": 22, "y": [9,10] },
+                    { "item": "fieldoffice_books", "chance": 80, "x": 22, "y": [9,10] }
+                ],
+                "place_monsters": [
                     { "monster": "GROUP_FOREST", "chance": 2, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },
                     { "monster": "GROUP_DINOSAUR_DANGEROUS", "chance": 4, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },
                     { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 3, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },
