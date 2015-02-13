@@ -5,35 +5,56 @@
 #include <string>
 #include <iosfwd>
 
+class JsonObject;
+
 /*
 struct field_t
 Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
 of an existing field.
 */
 struct field_t {
+    enum : size_t { density_levels = 3 };
+
+    field_t() = default;
+
     // internal ident, used for tileset and for serializing,
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
- std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
- char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
- int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
- nc_color color[3]; //The color the field will be drawn as on the screen, by density.
+    
+    // Controls, albeit randomly, how long (in turns) a field of a given type will last before going
+    // down in density.
+    int halflife = 0;
 
- /*
- If true, does not invoke a check to block line of sight. If false, may block line of sight.
- Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
- transparancy code there with a case statement as well!
- */
- bool transparent[3];
+    // Inferior numbers have lower priority.
+    // 0 is "ground" (splatter)
+    // 2 is "on the ground"
+    // 4 is "above the ground" (fire)
+    // 6 is reserved for furniture and
+    // 8 is "in the air" (smoke).
+    int priority = 0;
+    
+    //The display name of the given density (ie: light smoke, smoke, heavy smoke)
+    std::string name[density_levels];
 
- //Dangerous tiles ask you before you step in them.
- bool dangerous[3];
+    //cost of moving into and out of this field
+    int move_cost[density_levels];
 
- //Controls, albeit randomly, how long a field of a given type will last before going down in density.
- int halflife; // In turns
+    //The color the field will be drawn as on the screen, by density.
+    nc_color color[density_levels];
 
- //cost of moving into and out of this field
- int move_cost[3];
+    /*
+     * If true, does not invoke a check to block line of sight. If false, may block line of sight.
+     * Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
+     * transparancy code there with a case statement as well!
+     */
+    bool transparent[density_levels];
+
+    // Dangerous tiles ask you before you step in them.
+    bool dangerous[density_levels];
+
+    // The symbol to draw for this field. Note that some are reserved like * and %.
+    // You will have to check the draw function for specifics.
+    char sym = '%';
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
@@ -237,5 +258,7 @@ private:
     std::map<field_id, field_entry> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
 };
+
+void init_fields(JsonObject &jo);
 
 #endif
