@@ -3267,8 +3267,8 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if ( traits[mut].powered && traits[mut].cost > 0 ) {
-                        active.push_back( traits[mut].name );
+                    if ( traits[mut].powered && mutation_data[mut].cost > 0 ) {
+                        active.push_back( mutation_data[mut].name );
                     }
                 }
                 std::stringstream data;

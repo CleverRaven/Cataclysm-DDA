@@ -45,20 +45,19 @@ void load_mutation(JsonObject &jsobj)
     trait &new_trait = traits[id];
 
     JsonArray jsarr;
-    new_trait.id = id;
-    new_trait.name = _(jsobj.get_string("name").c_str());
-    new_trait.description = _(jsobj.get_string("description").c_str());
-    new_trait.points = jsobj.get_int("points");
-    new_trait.visibility = jsobj.get_int("visibility", 0);
-    new_trait.ugliness = jsobj.get_int("ugliness", 0);
-    new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
-    new_trait.mixed_effect = jsobj.get_bool("mixed_effect", false);
-    new_trait.activated = jsobj.get_bool("active", false);
-    new_trait.cost = jsobj.get_int("cost", 0);
-    new_trait.cooldown = jsobj.get_int("time",0);
-    new_trait.hunger = jsobj.get_bool("hunger",false);
-    new_trait.thirst = jsobj.get_bool("thirst",false);
-    new_trait.fatigue = jsobj.get_bool("fatigue",false);
+    new_mut.name = _(jsobj.get_string("name").c_str());
+    new_mut.description = _(jsobj.get_string("description").c_str());
+    new_mut.points = jsobj.get_int("points");
+    new_mut.visibility = jsobj.get_int("visibility", 0);
+    new_mut.ugliness = jsobj.get_int("ugliness", 0);
+    new_mut.startingtrait = jsobj.get_bool("starting_trait", false);
+    new_mut.mixed_effect = jsobj.get_bool("mixed_effect", false);
+    new_mut.activated = jsobj.get_bool("active", false);
+    new_mut.cost = jsobj.get_int("cost", 0);
+    new_mut.cooldown = jsobj.get_int("time",0);
+    new_mut.hunger = jsobj.get_bool("hunger",false);
+    new_mut.thirst = jsobj.get_bool("thirst",false);
+    new_mut.fatigue = jsobj.get_bool("fatigue",false);
     new_trait.charge = 0;
 
     new_mut.valid = jsobj.get_bool("valid", true);
@@ -145,3 +144,7 @@ void load_dream(JsonObject &jsobj)
     dreams.push_back(newdream);
 }
 
+bool trait_display_sort( const std::string &a, const std::string &b ) noexcept
+{
+    return mutation_data[a].name < mutation_data[b].name;
+}

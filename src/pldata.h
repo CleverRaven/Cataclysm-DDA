@@ -170,32 +170,13 @@ public:
 };
 
 struct trait {
-    std::string name;
-    std::string id;
-    std::string description;
-    int points     = 0; // How many points it costs in character creation
-    int visibility = 0; // How visible it is
-    int ugliness   = 0; // How ugly it is
-    int cost       = 0;
     int charge     = 0;
     int cooldown   = 0;
-    bool mixed_effect  = false; // Wheather it has positive as well as negative effects.
-    bool startingtrait = false; // Starting Trait True/False
-    bool purifiable    = false; // Whether it's vulnerable to Purifier
-    bool activated     = false;
-    bool fatigue       = false; //IF any of the three are true, it drains that as the "cost"
-    bool hunger        = false;
-    bool thirst        = false;
     bool powered       = false;
-
-    trait(std::string pid = "NULL_TRAIT") : name(pid), id(std::move(pid)) {}
 };
 
 extern std::map<std::string, trait> traits;
 
-inline bool trait_display_sort(const std::string &a, const std::string &b) noexcept
-{
-    return traits[a].name < traits[b].name;
-}
+bool trait_display_sort(const std::string &a, const std::string &b) noexcept;
 
 #endif

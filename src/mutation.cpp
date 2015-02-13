@@ -315,7 +315,8 @@ bool Character::has_active_mutation(const std::string & b) const
 
 void player::activate_mutation( const std::string &mut )
 {
-    auto &mdata = traits[mut];
+    const auto &mdata = mutation_data[mut];
+    auto &tdata = traits[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
@@ -325,13 +326,13 @@ void player::activate_mutation( const std::string &mut )
         add_msg(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;
     }
-    if (mdata.powered && mdata.charge > 0) {
+    if (tdata.powered && tdata.charge > 0) {
         // Already-on units just lose a bit of charge
-        mdata.charge--;
+        tdata.charge--;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
         if (mdata.cooldown > 0) {
-            mdata.charge = mdata.cooldown - 1;
+            tdata.charge = mdata.cooldown - 1;
         }
         if (mdata.hunger){
             hunger += cost;
@@ -342,7 +343,7 @@ void player::activate_mutation( const std::string &mut )
         if (mdata.fatigue){
             fatigue += cost;
         }
-        mdata.powered = true;
+        tdata.powered = true;
         
         // Handle stat changes from activation
         apply_mods(mut, true);
@@ -354,19 +355,19 @@ void player::activate_mutation( const std::string &mut )
     } else if (mut == "BURROW"){
         if (g->u.is_underwater()) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
-            mdata.powered = false;
+            tdata.powered = false;
             return;
         }
         int dirx, diry;
         if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
-            mdata.powered = false;
+            tdata.powered = false;
             return;
         }
 
         if (dirx == g->u.posx() && diry == g->u.posy()) {
             add_msg_if_player(_("You've got places to go and critters to beat."));
             add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            mdata.powered = false;
+            tdata.powered = false;
             return;
         }
         int turns;
@@ -380,14 +381,14 @@ void player::activate_mutation( const std::string &mut )
             turns = 18000;
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
-            mdata.powered = false;
+            tdata.powered = false;
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
         g->u.activity.placement = point(dirx, diry);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
-        mdata.powered = false;
+        tdata.powered = false;
         return; // handled when the activity finishes
     } else if (mut == "SLIMESPAWNER") {
         std::vector<point> valid;
@@ -401,7 +402,7 @@ void player::activate_mutation( const std::string &mut )
         // Oops, no room to divide!
         if (valid.size() == 0) {
             add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
-            mdata.powered = false;
+            tdata.powered = false;
             return;
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
@@ -423,31 +424,31 @@ void player::activate_mutation( const std::string &mut )
         } else {
             add_msg(m_good, _("we're a team, we've got this!"));
         }
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "SHOUT1") {
         sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "SHOUT2"){
         sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "SHOUT3"){
         sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
         vomit();
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "M_FERTILE"){
         spores();
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "M_BLOOM"){
         blossoms();
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     } else if (mut == "VINES3"){
         item newit("vine_30", calendar::turn, false);
@@ -462,7 +463,7 @@ void player::activate_mutation( const std::string &mut )
             newit = i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
-        mdata.powered = false;
+        tdata.powered = false;
         return;
     }
 }
@@ -507,7 +508,7 @@ void player::power_mutations()
     std::vector <std::string> passive;
     std::vector <std::string> active;
     for( auto &mut : my_mutations ) {
-        if (!traits[mut].activated) {
+        if (!mutation_data[mut].activated) {
             passive.push_back(mut);
         } else {
             active.push_back(mut);
@@ -591,7 +592,7 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    const auto &md = traits[passive[i]];
+                    const auto &md = mutation_data[passive[i]];
                     const auto &tk = trait_keys[passive[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
@@ -606,15 +607,16 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    const auto &md = traits[active[i]];
+                    const auto &md = mutation_data[active[i]];
+                    const auto &td = traits[active[i]];
                     const auto &tk = trait_keys[active[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
-                    if (!md.powered) {
+                    if (!td.powered) {
                         type = c_red;
-                    }else if (md.powered) {
+                    }else if (td.powered) {
                         type = c_ltgreen;
                     } else {
                         type = c_ltred;
@@ -631,7 +633,7 @@ void player::power_mutations()
                     } else if ( md.cooldown > 0 ) {
                         mut_desc << string_format( _(" - %d turns"), md.cooldown );
                     }
-                    if ( md.powered ) {
+                    if ( td.powered ) {
                         mut_desc << _(" - Active");
                     }
                     mvwprintz( wBio, list_start_y + i, second_column + 2, type,
@@ -667,7 +669,7 @@ void player::power_mutations()
             }
             redraw = true;
             const char newch = popup_getkey(_("%s; enter new letter."),
-                                            traits[mut_id].name.c_str());
+                                            mutation_data[mut_id].name.c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
@@ -724,10 +726,10 @@ void player::power_mutations()
                 // -> leave screen
                 break;
             }
-            const trait mut_data = traits[mut_id];
+            const auto &mut_data = mutation_data[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    if (mut_data.powered) {
+                    if (traits[mut_id].powered) {
                         add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation( mut_id );
@@ -789,7 +791,7 @@ bool player::mutation_ok( const std::string &mutation, bool force_good, bool for
         // We already have this mutation or something that replaces it.
         return false;
     }
-    const auto &mdata = traits[mutation];
+    const auto &mdata = mutation_data[mutation];
     if (force_bad && mdata.points > 0) {
         // This is a good mutation, and we're due for a bad one.
         return false;
@@ -991,7 +993,6 @@ void player::mutate_towards( const std::string &mut )
         remove_child_flag(mut);
         return;
     }
-    const auto &tdata = traits[mut];
     const auto &mdata = mutation_data[mut];
 
     bool has_prereqs = false;
@@ -1122,85 +1123,85 @@ void player::mutate_towards( const std::string &mut )
     game_message_type rating;
 
     if (replacing != "") {
-        const auto &replace_mdata = traits[replacing];
-        if(tdata.mixed_effect || replace_mdata.mixed_effect) {
+        const auto &replace_mdata = mutation_data[replacing];
+        if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(replace_mdata.points - tdata.points < 0) {
+        } else if(replace_mdata.points - mdata.points < 0) {
             rating = m_good;
-        } else if(tdata.points - replace_mdata.points < 0) {
+        } else if(mdata.points - replace_mdata.points < 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
-                replace_mdata.name.c_str(), tdata.name.c_str());
+                replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                         replace_mdata.name.c_str(), tdata.name.c_str());
+                         replace_mdata.name.c_str(), mdata.name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(replacing);
         mutation_effect(mut);
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        const auto &replace_mdata = traits[replacing2];
-        if(tdata.mixed_effect || replace_mdata.mixed_effect) {
+        const auto &replace_mdata = mutation_data[replacing2];
+        if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(replace_mdata.points - tdata.points < 0) {
+        } else if(replace_mdata.points - mdata.points < 0) {
             rating = m_good;
-        } else if(tdata.points - replace_mdata.points < 0) {
+        } else if(mdata.points - replace_mdata.points < 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
-                replace_mdata.name.c_str(), tdata.name.c_str());
+                replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                         replace_mdata.name.c_str(), tdata.name.c_str());
+                         replace_mdata.name.c_str(), mdata.name.c_str());
         toggle_mutation(replacing2);
         mutation_loss_effect(replacing2);
         mutation_effect(mut);
         mutation_replaced = true;
     }
     for (size_t i = 0; i < canceltrait.size(); i++) {
-        const auto &cancel_mdata = traits[canceltrait[i]];
-        if(tdata.mixed_effect || cancel_mdata.mixed_effect) {
+        const auto &cancel_mdata = mutation_data[canceltrait[i]];
+        if(mdata.mixed_effect || cancel_mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(tdata.points < cancel_mdata.points) {
+        } else if(mdata.points < cancel_mdata.points) {
             rating = m_bad;
-        } else if(tdata.points > cancel_mdata.points) {
+        } else if(mdata.points > cancel_mdata.points) {
             rating = m_good;
-        } else if(tdata.points == cancel_mdata.points) {
+        } else if(mdata.points == cancel_mdata.points) {
             rating = m_neutral;
         } else {
             rating = m_mixed;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
-                cancel_mdata.name.c_str(), tdata.name.c_str());
+                cancel_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                        cancel_mdata.name.c_str(), tdata.name.c_str());
+                        cancel_mdata.name.c_str(), mdata.name.c_str());
         toggle_mutation(canceltrait[i]);
         mutation_loss_effect(canceltrait[i]);
         mutation_effect(mut);
         mutation_replaced = true;
     }
     if (!mutation_replaced) {
-        if(tdata.mixed_effect) {
+        if(mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(tdata.points > 0) {
+        } else if(mdata.points > 0) {
             rating = m_good;
-        } else if(tdata.points < 0) {
+        } else if(mdata.points < 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("You gain a mutation called %s!"), tdata.name.c_str());
+        add_msg(rating, _("You gain a mutation called %s!"), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "Gained the mutation '%s'."),
                          pgettext("memorial_female", "Gained the mutation '%s'."),
-                         tdata.name.c_str());
+                         mdata.name.c_str());
         mutation_effect(mut);
     }
 
@@ -1211,7 +1212,6 @@ void player::mutate_towards( const std::string &mut )
 void player::remove_mutation( const std::string &mut )
 {
     const auto &mdata = mutation_data[mut];
-    const auto &tdata = traits[mut];
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
     std::vector<std::string> originals = mdata.prereqs;
@@ -1284,17 +1284,17 @@ void player::remove_mutation( const std::string &mut )
     game_message_type rating;
 
     if (replacing != "") {
-        const auto &replace_mdata = traits[replacing];
-        if(tdata.mixed_effect || replace_mdata.mixed_effect) {
+        const auto &replace_mdata = mutation_data[replacing];
+        if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(replace_mdata.points - tdata.points > 0) {
+        } else if(replace_mdata.points - mdata.points > 0) {
             rating = m_good;
-        } else if(tdata.points - replace_mdata.points > 0) {
+        } else if(mdata.points - replace_mdata.points > 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), tdata.name.c_str(),
+        add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(mut);
@@ -1302,17 +1302,17 @@ void player::remove_mutation( const std::string &mut )
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        const auto &replace_mdata = traits[replacing2];
-        if(tdata.mixed_effect || replace_mdata.mixed_effect) {
+        const auto &replace_mdata = mutation_data[replacing2];
+        if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(replace_mdata.points - tdata.points > 0) {
+        } else if(replace_mdata.points - mdata.points > 0) {
             rating = m_good;
-        } else if(tdata.points - replace_mdata.points > 0) {
+        } else if(mdata.points - replace_mdata.points > 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), tdata.name.c_str(),
+        add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
         toggle_mutation(replacing2);
         mutation_loss_effect(mut);
@@ -1320,16 +1320,16 @@ void player::remove_mutation( const std::string &mut )
         mutation_replaced = true;
     }
     if(!mutation_replaced) {
-        if(tdata.mixed_effect) {
+        if(mdata.mixed_effect) {
             rating = m_mixed;
-        } else if(tdata.points > 0) {
+        } else if(mdata.points > 0) {
             rating = m_bad;
-        } else if(tdata.points < 0) {
+        } else if(mdata.points < 0) {
             rating = m_good;
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("You lose your %s mutation."), tdata.name.c_str());
+        add_msg(rating, _("You lose your %s mutation."), mdata.name.c_str());
         mutation_loss_effect(mut);
     }
 

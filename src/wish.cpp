@@ -59,13 +59,12 @@ class wish_mutate_callback: public uimenu_callback
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
-                for( auto &traits_iter : traits ) {
+                for( auto &traits_iter : mutation_data ) {
                     vTraits.push_back( traits_iter.first );
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
             const auto &mdata = mutation_data[vTraits[entnum]];
-            const auto &tdata = traits[vTraits[entnum]];
 
             int startx = menu->w_width - menu->pad_right;
             for ( int i = 1; i < lastlen; i++ ) {
@@ -80,7 +79,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
                 for (auto &j : mdata.prereqs) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -89,7 +88,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
                 for (auto &j : mdata.prereqs2) {
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -98,7 +97,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
                 for (auto &j : mdata.threshreq) {
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -107,7 +106,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
                 for (auto &j : mdata.cancels) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -116,7 +115,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
                 for (auto &j : mdata.replacements) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -125,7 +124,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
                 for (auto &j : mdata.additions) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_data[j].name.c_str());
                     line2++;
                 }
             }
@@ -141,13 +140,13 @@ class wish_mutate_callback: public uimenu_callback
             line2 += 2;
 
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      tdata.points,
-                      tdata.visibility,
-                      tdata.ugliness
+                      mdata.points,
+                      mdata.visibility,
+                      mdata.ugliness
                      );
             line2 += 2;
 
-            std::vector<std::string> desc = foldstring( tdata.description,
+            std::vector<std::string> desc = foldstring( mdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
                 mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
@@ -170,7 +169,7 @@ void game::wishmutate( player *p )
     uimenu wmenu;
     int c = 0;
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_data ) {
         wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";

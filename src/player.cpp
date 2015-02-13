@@ -1976,11 +1976,11 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Traits
     memorial_file << _("Traits:") << "\n";
     bool had_trait = false;
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-      if(has_trait(iter->first)) {
-        had_trait = true;
-        memorial_file << indent << traits[iter->first].name << "\n";
-      }
+    for( auto &iter : mutation_data ) {
+        if( has_trait( iter.first ) ) {
+            had_trait = true;
+            memorial_file << indent << iter.second.name << "\n";
+        }
     }
     if(!had_trait) {
       memorial_file << indent << _("(None)") << "\n";
@@ -2496,7 +2496,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             traitslist.push_back( mut );
             for( auto &elem : traitslist ) {
                 if( mutation_data[elem].threshold ) {
-                    race = traits[elem].name;
+                    race = mutation_data[elem].name;
                     break;
                 }
             }
@@ -2639,9 +2639,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-        const auto &mdata = traits[traitslist[i]];
-        const auto &tdata = mutation_data[traitslist[i]];
-        if( tdata.threshold || tdata.profession ) {
+        const auto &mdata = mutation_data[traitslist[i]];
+        if( mdata.threshold || mdata.profession ) {
             status = c_white;
         }
         else if (mdata.mixed_effect) {
@@ -3093,12 +3092,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             for (unsigned i = min; i < max; i++) {
-                const auto &mdata = traits[traitslist[i]];
-                const auto &tdata = mutation_data[traitslist[i]];
+                const auto &mdata = mutation_data[traitslist[i]];
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
                 if (i > traits.size())
                     status = c_ltblue;
-                else if ( tdata.threshold || tdata.profession ) {
+                else if ( mdata.threshold || mdata.profession ) {
                     status = c_white;
                 }
                 else if (mdata.mixed_effect) {
@@ -3122,7 +3120,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 }
             }
             if (line < traitslist.size()) {
-                const auto &mdata = traits[traitslist[line]];
+                const auto &mdata = mutation_data[traitslist[line]];
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta,
                                mdata.description);
             }
@@ -3141,10 +3139,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-                    const auto &mdata = traits[traitslist[i]];
-                    const auto &tdata = mutation_data[traitslist[i]];
+                    const auto &mdata = mutation_data[traitslist[i]];
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-                    if( tdata.threshold || tdata.profession ) {
+                    if( mdata.threshold || mdata.profession ) {
                         status = c_white;
                     }
                     else if (mdata.mixed_effect) {
@@ -7106,37 +7103,38 @@ void player::suffer()
         if (!tdata.powered ) {
             continue;
         }
+        const auto &mdata = mutation_data[mut];
         if (tdata.powered && tdata.charge > 0) {
         // Already-on units just lose a bit of charge
         tdata.charge--;
         } else {
             // Not-on units, or those with zero charge, have to pay the power cost
-            if (tdata.cooldown > 0) {
+            if (mdata.cooldown > 0) {
                 tdata.powered = true;
-                tdata.charge = tdata.cooldown - 1;
+                tdata.charge = mdata.cooldown - 1;
             }
-            if (tdata.hunger){
-                hunger += tdata.cost;
+            if (mdata.hunger){
+                hunger += mdata.cost;
                 if (hunger >= 700) { // Well into Famished
-                    add_msg(m_warning, _("You're too famished to keep your %s going."), tdata.name.c_str());
+                    add_msg(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = tdata.cost;
+                    tdata.cooldown = mdata.cost;
                 }
             }
-            if (tdata.thirst){
-                thirst += tdata.cost;
+            if (mdata.thirst){
+                thirst += mdata.cost;
                 if (thirst >= 260) { // Well into Dehydrated
-                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), tdata.name.c_str());
+                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = tdata.cost;
+                    tdata.cooldown = mdata.cost;
                 }
             }
-            if (tdata.fatigue){
-                fatigue += tdata.cost;
+            if (mdata.fatigue){
+                fatigue += mdata.cost;
                 if (fatigue >= 575) { // Exhausted
-                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), tdata.name.c_str());
+                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = tdata.cost;
+                    tdata.cooldown = mdata.cost;
                 }
             }
             
