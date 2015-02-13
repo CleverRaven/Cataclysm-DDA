@@ -636,7 +636,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     constexpr size_t suffix_len = 15;
-    constexpr char const season_suffix[4][suffix_len] = {
+    constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
    
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
