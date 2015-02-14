@@ -281,7 +281,7 @@ std::string calendar::print_time(bool just_hour) const
     return time_string.str();
 }
 
-std::string calendar::textify_period()
+std::string calendar::textify_period() const
 {
     int am;
     const char *tx;

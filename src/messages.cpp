@@ -2,107 +2,312 @@
 #include "input.h"
 #include "game.h"
 #include "debug.h"
-#include <sstream>
+#include "compatibility.h" //to_string
+#include "json.h"
+#include "output.h"
+#include "calendar.h"
+
+#include <deque>
+#include <iterator>
+
+namespace {
 
 // Messages object.
-static Messages player_messages;
+Messages player_messages;
 
-std::vector< std::pair<std::string, std::string> > Messages::recent_messages(const size_t count)
-{
-    const int tmp_count = std::min( size(), count );
+struct game_message : public JsonDeserializer, public JsonSerializer {
+    std::string       message;
+    calendar          time  = 0;
+    int               count = 1;
+    game_message_type type  = m_neutral;
 
-    std::vector< std::pair<std::string, std::string> > recent_messages;
-    for( size_t i = size() - tmp_count; i < size(); ++i ) {
-        std::stringstream message_with_count;
-        message_with_count << player_messages.messages[i].message;
-        if( player_messages.messages[i].count > 1 ) {
-            message_with_count << " x" << player_messages.messages[i].count;
+    game_message() = default;
+    game_message(std::string &&msg, game_message_type const t)
+      : message {std::move(msg)}, time {calendar::turn}, type {t}
+    {
+    }
+
+    int turn() const {
+        return time.get_turn();
+    }
+
+    std::string get_with_count() const {
+        if (count <= 1) {
+            return message;
+        }
+        //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
+        return string_format(_("%s x %d"), message.c_str(), count);
+    }
+
+    nc_color get_color(int const current) const {
+        if (turn() >= current) {
+            // color for new messages
+            return msgtype_to_color(type, false);
+
+        } else if (turn() + 5 >= current) {
+            // color for slightly old messages
+            return msgtype_to_color(type, true);
         }
 
-        recent_messages.push_back( std::make_pair( player_messages.messages[i].turn.print_time(),
-                                   message_with_count.str() ) );
+        // color for old messages
+        return c_dkgray;
     }
-    return recent_messages;
+
+    void deserialize(JsonIn &jsin) override {
+        JsonObject obj = jsin.get_object();
+        time = obj.get_int( "turn" );
+        message = obj.get_string( "message" );
+        count = obj.get_int( "count" );
+        type = static_cast<game_message_type>( obj.get_int( "type" ) );
+    }
+
+    void serialize(JsonOut &jsout) const override {
+        jsout.start_object();
+        jsout.member( "turn", static_cast<int>( time ) );
+        jsout.member( "message", message );
+        jsout.member( "count", count );
+        jsout.member( "type", static_cast<int>( type ) );
+        jsout.end_object();
+    }
+};
+
+} //namespace
+
+class Messages::impl_t {
+public:
+    std::deque<game_message> messages;   // Messages to be printed
+    int                      curmes = 0; // The last-seen message.
+
+    bool has_undisplayed_messages() const {
+        return !messages.empty() && messages.back().turn() > curmes;
+    }
+
+    game_message const& history(int const i) const {
+        return messages[messages.size() - i - 1];
+    }
+
+    // coalesce recent like messages
+    bool coalesce_messages(std::string const &msg, game_message_type const type) {
+        if (messages.empty()) {
+            return false;
+        }
+
+        auto &last_msg = messages.back();
+        if (last_msg.turn() + 3 < calendar::turn.get_turn()) {
+            return false;
+        }
+
+        if (type != last_msg.type || msg != last_msg.message) {
+            return false;
+        }
+
+        last_msg.count++;
+        last_msg.time = calendar::turn;
+        last_msg.type = type;
+
+        return true;
+    }
+
+    void add_msg_string(std::string &&msg) {
+        add_msg_string(std::move(msg), m_neutral);
+    }
+
+    void add_msg_string(std::string &&msg, game_message_type const type) {
+        if (msg.length() == 0) {
+            return;
+        }
+        // hide messages if dead
+        if (g->u.is_dead_state()) {
+            return;
+        }
+
+        if (type == m_debug && !debug_mode) {
+            return;
+        }
+        
+        if (coalesce_messages(msg, type)) {
+            return;
+        }
+
+        while (messages.size() > 255) {
+            messages.pop_front();
+        }
+
+        messages.emplace_back(remove_color_tags(std::move(msg)), type);
+    }
+
+    std::vector<std::pair<std::string, std::string>> recent_messages(const size_t count) const {
+        std::vector<std::pair<std::string, std::string>> result;
+
+        auto const offset = static_cast<std::ptrdiff_t>(
+            messages.size() - std::min(messages.size(), count));
+
+        std::transform(begin(messages) + offset, end(messages), back_inserter(result),
+            [](game_message const& msg) {
+                return std::make_pair(msg.time.print_time(),
+                    msg.count ? msg.message + to_string(msg.count) : msg.message);
+            }
+        );
+
+        return result;
+    }
+};
+
+Messages::Messages() : impl_ {new impl_t()}
+{
+}
+
+Messages::~Messages() = default;
+
+std::vector<std::pair<std::string, std::string>> Messages::recent_messages(const size_t count)
+{
+    return player_messages.impl_->recent_messages(count);
 }
 
 void Messages::serialize( JsonOut &json )
 {
     json.member( "player_messages" );
     json.start_object();
-    json.member( "messages", player_messages.messages );
-    json.member( "curmes", player_messages.curmes );
+    json.member( "messages", player_messages.impl_->messages );
+    json.member( "curmes", player_messages.impl_->curmes );
     json.end_object();
 }
 
 void Messages::deserialize( JsonObject &json )
 {
-    if( json.has_member( "player_messages" ) ) {
-        JsonObject obj = json.get_object( "player_messages" );
-        obj.read( "messages", player_messages.messages );
-        obj.read( "curmes", player_messages.curmes );
-    }
-}
-
-void Messages::game_message::deserialize( JsonIn &jsin )
-{
-    JsonObject obj = jsin.get_object();
-    turn = obj.get_int( "turn" );
-    message = obj.get_string( "message" );
-    count = obj.get_int( "count" );
-    type = static_cast<game_message_type>( obj.get_int( "type" ) );
-}
-
-void Messages::game_message::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-    jsout.member( "turn", static_cast<int>( turn ) );
-    jsout.member( "message", message );
-    jsout.member( "count", count );
-    jsout.member( "type", static_cast<int>( type ) );
-    jsout.end_object();
-}
-
-void Messages::add_msg_string(const std::string &s)
-{
-    add_msg_string(s, m_neutral);
-}
-
-void Messages::add_msg_string(const std::string &s, game_message_type type)
-{
-    if (s.length() == 0) {
+    if (!json.has_member("player_messages")) {
         return;
     }
-    // hide messages if dead
-    if(g->u.is_dead_state()) {
-        return;
-    }
-    if( type == m_debug && !debug_mode ) {
-        return;
-    }
-    if (!player_messages.messages.empty() &&
-        int(player_messages.messages.back().turn) + 3 >= int(calendar::turn) &&
-        s == player_messages.messages.back().message) {
-        player_messages.messages.back().count++;
-        player_messages.messages.back().turn = calendar::turn;
-        player_messages.messages.back().type = type;
-        return;
-    }
-
-    while( size() >= 256 ) {
-        player_messages.messages.erase(player_messages.messages.begin());
-    }
-
-    player_messages.messages.push_back(game_message(calendar::turn, s, type));
+    
+    JsonObject obj = json.get_object( "player_messages" );
+    obj.read( "messages", player_messages.impl_->messages );
+    obj.read( "curmes", player_messages.impl_->curmes );
 }
 
 void Messages::vadd_msg(const char *msg, va_list ap)
 {
-    player_messages.add_msg_string(vstring_format(msg, ap));
+    player_messages.impl_->add_msg_string(vstring_format(msg, ap));
 }
 
 void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
 {
-    player_messages.add_msg_string(vstring_format(msg, ap), type);
+    player_messages.impl_->add_msg_string(vstring_format(msg, ap), type);
+}
+
+void Messages::clear_messages()
+{
+    player_messages.impl_->messages.clear();
+}
+
+size_t Messages::size()
+{
+    return player_messages.impl_->messages.size();
+}
+
+bool Messages::has_undisplayed_messages()
+{
+    return player_messages.impl_->has_undisplayed_messages();
+}
+
+void Messages::display_messages()
+{
+    WINDOW_PTR w_ptr {newwin(
+        FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0)};
+
+    WINDOW *const w = w_ptr.get();
+
+    input_context ctxt("MESSAGE_LOG");
+    ctxt.register_action("UP", _("Scroll up"));
+    ctxt.register_action("DOWN", _("Scroll down"));
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
+    int offset = 0;
+    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1;
+    const int bottom = FULL_SCREEN_HEIGHT - 2;
+    auto const msg_count = static_cast<int>(size());
+
+    for (;;) {
+        werase(w);
+        draw_border(w);
+        mvwprintz(w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
+        draw_scrollbar(w, offset, bottom, msg_count, 1);
+
+        int line = 1;
+        int lasttime = -1;
+        for (auto i = offset; i < msg_count; ++i) {
+            if (line > bottom) {
+                break;
+            }
+
+            auto const &m         = player_messages.impl_->history(i);
+            auto const col        = m.get_color(player_messages.impl_->curmes);
+            auto const timepassed = calendar::turn - m.time;
+
+            if (timepassed.get_turn() > lasttime) {
+                mvwprintz(w, line++, 3, c_ltblue, _("%s ago:"),
+                    timepassed.textify_period().c_str());
+                lasttime = timepassed.get_turn();
+            }
+
+            for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
+                if (line > bottom) {
+                    break;
+                }
+                mvwprintz(w, line++, 1, col, "%s", folded.c_str());
+            }
+        }
+
+        if (offset + 1 < msg_count) {
+            mvwprintz(w, bottom + 1, 5, c_magenta, "vvv");
+        }
+        if (offset > 0) {
+            mvwprintz(w, bottom + 1, maxlength - 3, c_magenta, "^^^");
+        }
+        wrefresh(w);
+
+        auto const &action = ctxt.handle_input();
+        if (action == "DOWN" && offset + 1 < msg_count) {
+            offset++;
+        } else if (action == "UP" && offset > 0) {
+            offset--;
+        } else if (action == "QUIT") {
+            break;
+        }
+    }
+
+    player_messages.impl_->curmes = calendar::turn.get_turn();
+}
+
+void Messages::display_messages(WINDOW *const ipk_target, int const left, int const top,
+                                int const right, int const bottom)
+{
+    if (!size()) {
+        return;
+    }
+    
+    int const maxlength = right - left;
+    int line = bottom;
+
+    for (auto i = size() - 1; i >= 0; --i) {
+        if (line < top) {
+            break;
+        }
+
+        auto const &m  = player_messages.impl_->messages[i];
+        auto const col = m.get_color(player_messages.impl_->curmes);
+
+        for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
+            if (line < top) {
+                break;
+            }
+            mvwprintz(ipk_target, line--, left, col, "%s", folded.c_str());
+        }
+    }
+
+    player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
 void add_msg(const char *msg, ...)
@@ -113,131 +318,10 @@ void add_msg(const char *msg, ...)
     va_end(ap);
 }
 
-void add_msg(game_message_type type, const char *msg, ...)
+void add_msg(game_message_type const type, const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(type, msg, ap);
     va_end(ap);
-}
-
-void Messages::clear_messages()
-{
-    player_messages.messages.clear();
-}
-
-size_t Messages::size()
-{
-    return player_messages.messages.size();
-}
-
-bool Messages::has_undisplayed_messages()
-{
-    return size() && (player_messages.messages.back().turn > player_messages.curmes);
-}
-
-std::string Messages::game_message::get_with_count() const
-{
-    if (count <= 1) {
-        return message;
-    }
-    //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
-    return string_format(_("%s x %d"), message.c_str(), count);
-}
-
-nc_color Messages::game_message::get_color() const
-{
-    if (int(turn) >= player_messages.curmes) {
-        // color for new messages
-        return msgtype_to_color(type, false);
-
-    } else if (int(turn) + 5 >= player_messages.curmes) {
-        // color for slightly old messages
-        return msgtype_to_color(type, true);
-    }
-
-    // color for old messages
-    return c_dkgray;
-}
-
-void Messages::display_messages()
-{
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-
-    size_t offset = 0;
-    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1;
-    const int bottom = FULL_SCREEN_HEIGHT - 2;
-    input_context ctxt("MESSAGE_LOG");
-    ctxt.register_action("UP", _("Scroll up"));
-    ctxt.register_action("DOWN", _("Scroll down"));
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while(true) {
-        werase(w);
-        draw_border(w);
-        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"),
-                  ctxt.get_desc("QUIT").c_str());
-
-        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, size(), 1);
-
-        int line = 1;
-        int lasttime = -1;
-        for (size_t i = offset; i < size() && line <= bottom; i++) {
-            const game_message &m = player_messages.messages[size() - i - 1];
-            const std::string mstr = remove_color_tags( m.get_with_count() );
-            const nc_color col = m.get_color();
-            calendar timepassed = calendar::turn - m.turn;
-            if (int(timepassed) > lasttime) {
-                mvwprintz(w, line, 3, c_ltblue, _("%s ago:"),
-                          timepassed.textify_period().c_str());
-                line++;
-                lasttime = int(timepassed);
-            }
-            std::vector<std::string> folded = foldstring(mstr, maxlength);
-            for (size_t j = 0; j < folded.size() && line <= bottom; j++, line++) {
-                mvwprintz(w, line, 1, col, "%s", folded[j].c_str());
-            }
-        }
-
-        if (offset + 1 < size()) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 5, c_magenta, "vvv");
-        }
-        if (offset > 0) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 6, c_magenta, "^^^");
-        }
-        wrefresh(w);
-
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN" && offset + 1 < size()) {
-            offset++;
-        } else if (action == "UP" && offset > 0) {
-            offset--;
-        } else if (action == "QUIT") {
-            break;
-        }
-    }
-    player_messages.curmes = int(calendar::turn);
-    werase(w);
-    delwin(w);
-}
-
-void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom)
-{
-    if (!size()) {
-        return;
-    }
-    const int maxlength = right - left;
-    int line = bottom;
-    for (int i = size() - 1; i >= 0 && line >= top; i--) {
-        const game_message &m = player_messages.messages[i];
-        const std::string mstr = remove_color_tags( m.get_with_count() );
-        const nc_color col = m.get_color();
-        std::vector<std::string> folded = foldstring(mstr, maxlength);
-        for (int j = folded.size() - 1; j >= 0 && line >= top; j--, line--) {
-            mvwprintz(ipk_target, line, left, col, "%s", folded[j].c_str());
-        }
-    }
-    player_messages.curmes = int(calendar::turn);
 }
