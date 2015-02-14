@@ -34,7 +34,7 @@
 	"special_freq":[0],
 	"death_function":"BROKEN",
 	"special_attack":[["PARROT", 0]],
-	"description":"A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look quite sharp.  Its right had is replaced with a hook.  It looks heavily worn and degraded.",
+	"description":"A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look quite sharp.  Its right hand is replaced with a hook.  It looks heavily worn and degraded.",
 	"flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"],
 	"anger_triggers":["PLAYER_CLOSE", "HURT"]
     },{
