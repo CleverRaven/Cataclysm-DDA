@@ -301,11 +301,11 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
         const game_message &m = player_messages.impl_->messages[i];
         const nc_color col = m.get_color(player_messages.impl_->curmes);
 
-        for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
-            if (line < top) {
-                break;
-            }
-            mvwprintz(ipk_target, line--, left, col, "%s", folded.c_str());
+        const auto folded_strings = foldstring(m.get_with_count(), maxlength);
+        const auto folded_rend = folded_strings.rend();
+        for( auto string_iter = folded_strings.rbegin();
+             string_iter != folded_rend && line >= top; ++string_iter, line-- ) {
+            mvwprintz(ipk_target, line, left, col, "%s", string_iter->c_str());
         }
     }
 
