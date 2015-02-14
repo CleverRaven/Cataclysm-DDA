@@ -129,6 +129,21 @@ void mutation_branch::check_consistency()
     }
 }
 
+nc_color mutation_branch::get_display_color() const
+{
+    if( threshold || profession ) {
+        return c_white;
+    } else if( mixed_effect ) {
+        return c_pink;
+    } else if( points > 0 ) {
+        return c_ltgreen;
+    } else if( points < 0 ) {
+        return c_ltred;
+    } else {
+        return c_yellow;
+    }
+}
+
 void load_dream(JsonObject &jsobj)
 {
     dream newdream;

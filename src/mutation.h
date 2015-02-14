@@ -58,6 +58,10 @@ struct mutation_branch {
     std::vector<std::string> initial_ma_styles; // Martial art styles that can be chosen upon character generation
     std::string name;
     std::string description;
+    /**
+     * Returns the color to display the mutation name with.
+     */
+    nc_color get_display_color() const;
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
 };

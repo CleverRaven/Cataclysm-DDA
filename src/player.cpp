@@ -2631,22 +2631,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
         const auto &mdata = mutation_data[traitslist[i]];
-        if( mdata.threshold || mdata.profession ) {
-            status = c_white;
-        }
-        else if (mdata.mixed_effect) {
-            status = c_pink;
-        }
-        else if (mdata.points > 0) {
-            status = c_ltgreen;
-        }
-        else if (mdata.points < 0) {
-            status = c_ltred;
-        }
-        else {
-            status = c_yellow;
-        }
-        mvwprintz(w_traits, i+1, 1, status, mdata.name.c_str());
+        const auto color = mdata.get_display_color();
+        mvwprintz(w_traits, i+1, 1, color, mdata.name.c_str());
     }
     wrefresh(w_traits);
 
@@ -3085,28 +3071,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             for (unsigned i = min; i < max; i++) {
                 const auto &mdata = mutation_data[traitslist[i]];
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
-                if (i > traits.size())
-                    status = c_ltblue;
-                else if ( mdata.threshold || mdata.profession ) {
-                    status = c_white;
-                }
-                else if (mdata.mixed_effect) {
-                    status = c_pink;
-                }
-                else if (mdata.points > 0) {
-                    status = c_ltgreen;
-                }
-                else if (mdata.points < 0) {
-                    status = c_ltred;
-                }
-                else {
-                    status = c_yellow;
-                }
+                const auto color = mdata.get_display_color();
                 if (i == line) {
-                    mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
+                    mvwprintz(w_traits, 1 + i - min, 1, hilite(color), "%s",
                               mdata.name.c_str());
                 } else {
-                    mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
+                    mvwprintz(w_traits, 1 + i - min, 1, color, "%s",
                               mdata.name.c_str());
                 }
             }
@@ -3132,22 +3102,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
                     const auto &mdata = mutation_data[traitslist[i]];
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-                    if( mdata.threshold || mdata.profession ) {
-                        status = c_white;
-                    }
-                    else if (mdata.mixed_effect) {
-                        status = c_pink;
-                    }
-                    else if (mdata.points > 0) {
-                        status = c_ltgreen;
-                    }
-                    else if (mdata.points < 0) {
-                        status = c_ltred;
-                    }
-                    else {
-                        status = c_yellow;
-                    }
-                    mvwprintz(w_traits, i + 1, 1, status, "%s", mdata.name.c_str());
+                    const auto color = mdata.get_display_color();
+                    mvwprintz(w_traits, i + 1, 1, color, "%s", mdata.name.c_str());
                 }
                 wrefresh(w_traits);
                 line = 0;
