@@ -8339,12 +8339,58 @@
       [ "hat_hunting", 1 ]
     ],
     [
+      [ "mask_dust", 1 ],
+      [ "bandana", 2 ]
+    ],
+    [
       [ "glasses_safety", 1 ],
       [ "glasses_bal", 1 ]
     ],
     [
-      [ "leather", 12 ],
+      [ "leather", 8 ],
       [ "tanned_hide", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "helmet_scavenger",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 8,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 8 ],
+      [ "toolset", 8 ]
+    ],
+    [
+      [ "needle_bone", 65 ],
+      [ "needle_wood", 65 ],
+      [ "sewing_kit", 65 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hat_ball", 1 ],
+      [ "hat_hunting", 1 ]
+    ],
+    [
+      [ "mask_filter", 1 ],
+    ],
+    [
+      [ "glasses_bal", 1 ],
+      [ "goggles_ski", 1 ]
+    ],
+    [
+      [ "kevlar_plate", 8 ],
     ]
   ]
 },
@@ -8398,6 +8444,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
   "difficulty": 8,
   "time": 80000,
   "reversible": false,
@@ -8414,7 +8461,7 @@
   ],
   "components": [
     [
-      [ "duster", 1 ]
+      [ "sleeveless_duster", 1 ]
     ],
     [
       [ "vest", 1 ],
@@ -8424,7 +8471,6 @@
       [ "ragpouch", 1 ],
       [ "leather_pouch", 1 ],
       [ "dump_pouch", 1 ],
-      [ "legrig", 1 ]
     ],
     [
       [ "tool_belt", 1 ],
@@ -8438,6 +8484,61 @@
       [ "leather", 24 ],
       [ "tanned_hide", 4 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_scavenger",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 18 ],
+      [ "toolset", 18 ]
+    ],
+    [
+      [ "needle_bone", 90 ],
+      [ "needle_wood", 90 ],
+      [ "sewing_kit", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jacket_flannel", 1 ],
+      [ "jacket_army", 1 ],
+    ],
+    [
+      [ "vest", 1 ],
+      [ "mbag", 1 ],
+      [ "runner_bag", 1 ]
+    ],
+    [
+      [ "fanny", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "fireman_belt", 1 ],
+    ],
+    [
+      [ "tool_belt", 1 ],
+      [ "legrig", 1 ]
+    ],
+    [
+      [ "pants_army", 1 ],
+      [ "pants_ski", 1 ]
+      [ "motorbike_pants", 1 ]
+    ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
   ]
 },{
   "type" : "recipe",
