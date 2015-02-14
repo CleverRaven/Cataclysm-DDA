@@ -3673,9 +3673,9 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    auto const &save_dir      = world_generator->active_world->world_path;
-    auto const &graveyard_dir = FILENAMES["graveyarddir"];
-    auto const &prefix        = base64_encode(u.name) + ".";
+    const std::string &save_dir      = world_generator->active_world->world_path;
+    const std::string &graveyard_dir = FILENAMES["graveyarddir"];
+    const std::string &prefix        = base64_encode(u.name) + ".";
 
     if (!assure_dir_exist(graveyard_dir)) {
         debugmsg("could not create graveyard path '%s'", graveyard_dir.c_str());
@@ -3687,7 +3687,7 @@ void game::move_save_to_graveyard()
     }
 
     for (auto const &src_path : save_files) {
-        auto const dst_path = graveyard_dir +
+        const std::string dst_path = graveyard_dir +
             src_path.substr(src_path.rfind('/'), std::string::npos);
 
         if (rename_file(src_path, dst_path)) {
@@ -4048,7 +4048,7 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    auto const &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_dir = FILENAMES["memorialdir"];
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
@@ -4084,7 +4084,7 @@ void game::write_memorial_file(std::string sLastWords)
 
     memorial_file_path << ".txt";
 
-    auto const path_string = memorial_file_path.str();
+    const std::string path_string = memorial_file_path.str();
     std::ofstream memorial_file {path_string};
     if (!memorial_file) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << path_string;
