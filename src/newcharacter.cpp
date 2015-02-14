@@ -70,6 +70,9 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( type == PLTYPE_NOW ) {
         return styles[rng( 0, styles.size() - 1 )];
     }
+    if( styles.size() == 1 ) {
+        return styles.front();
+    }
     uimenu menu;
     menu.text = _( "Pick your style:" );
     for( auto & s : styles ) {
@@ -353,43 +356,6 @@ int player::create(character_type type, std::string tempname)
         scent = 300;
     }
 
-    if (has_trait("MARTIAL_ARTS")) {
-        const std::vector<matype_id> matypes = { "style_karate", "style_judo", "style_aikido",
-            "style_tai_chi", "style_taekwondo" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS2")) {
-        const std::vector<matype_id> matypes = { "style_krav_maga", "style_muay_thai",
-             "style_ninjutsu",  "style_capoeira", "style_zui_quan" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS3")) {
-        const std::vector<matype_id> matypes = { "style_tiger", "style_crane", "style_leopard",
-             "style_snake", "style_dragon" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS4")) {
-        const std::vector<matype_id> matypes = { "style_centipede", "style_venom_snake",
-             "style_scorpion", "style_lizard", "style_toad" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS5")) {
-        const std::vector<matype_id> matypes = { "style_eskrima", "style_fencing",
-             "style_silat" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-
-
     ret_null = item("null", 0);
     weapon = ret_null;
 
@@ -484,20 +450,18 @@ int player::create(character_type type, std::string tempname)
          iter != prof_traits.end(); ++iter) {
          g->u.toggle_trait(*iter);
     }
-    // These go here so it actually checks for your trait before asking you to pick
-    if (has_trait("PROF_MA_ORANGE")) {
-        const std::vector<matype_id> matypes = { "style_karate", "style_judo", "style_muay_thai",
-            "style_tai_chi", "style_taekwondo" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("PROF_MA_BLACK")) {
-        const std::vector<matype_id> matypes = { "style_karate", "style_judo", "style_aikido",
-            "style_tai_chi", "style_taekwondo", "style_zui_quan", "style_muay_thai" };
-        const auto ma_type = choose_ma_style( type, matypes );
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
+    for( auto &t : get_traits() ) {
+        std::vector<std::string> styles;
+        for( auto &s : mutation_data[t].initial_ma_styles ) {
+            if( !has_martialart( s ) ) {
+                styles.push_back( s );
+            }
+        }
+        if( !styles.empty() ) {
+            const auto ma_type = choose_ma_style( type, styles );
+            ma_styles.push_back( ma_type );
+            style_selected = ma_type;
+        }
     }
     
     // Likewise, the asthmatic start with their medication.
