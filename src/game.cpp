@@ -2038,7 +2038,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
-        const bool bHPR = hasPickupRule(oThisItem.tname());
+        const bool bHPR = hasPickupRule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -2123,8 +2123,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
         WINDOW_PTR wptr( w );
 
-        wmove(w, 1, 2);
-        wprintz(w, c_white, "%s", item_name.c_str());
+        trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
         max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
         if (max_line > TERMY - VIEW_OFFSET_Y * 2 - 5) {
             wmove(w, 1, iWidth - 3);
@@ -2218,14 +2217,14 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 break;
             case '+':
                 if (!bHPR) {
-                    addPickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname().c_str());
+                    addPickupRule(oThisItem.tname( 1, false ));
+                    add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             case '-':
                 if (bHPR) {
-                    removePickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname().c_str());
+                    removePickupRule(oThisItem.tname( 1, false ));
+                    add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             default:
@@ -2247,8 +2246,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                     wprintz(w, c_white, "^^");
                 }
             }
-            wmove(w, 1, 2);
-            wprintz(w, c_white, "%s", item_name.c_str());
+            trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
             fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
             draw_border(w);
             wrefresh(w);
@@ -8160,7 +8158,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
             return;
         }
         auto items = m.i_at(lx, ly);
-        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), items[0].tname().c_str());
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
@@ -8835,6 +8833,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 bool game::list_items_match(const item *item, std::string sPattern)
+
 {
     size_t iPos;
     bool hasExclude = false;
@@ -9553,7 +9552,7 @@ int game::list_items(const int iLastState)
                                 sText << " [" << iter->vIG[iThisPage].count << "]";
                             }
 
-                            mvwprintz(w_items, iNum - iStartPos, 1,
+                            trim_and_print(w_items, iNum - iStartPos, 1, width - 9,
                                       ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example->color_in_inventory()))),
                                       "%s", (sText.str()).c_str());
                             int numw = iItemNum > 9 ? 2 : 1;
@@ -9589,9 +9588,7 @@ int game::list_items(const int iLastState)
 
                 std::vector<iteminfo> vThisItem, vDummy;
                 activeItem->example->info(true, &vThisItem);
-
                 draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
-
                 //Only redraw trail/terrain if x/y position changed
                 if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
                     iLastActiveX = iActiveX;

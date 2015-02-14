@@ -250,8 +250,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        std::string it_name = utf8_truncate( it.display_name(), max_name_length );
-        mvwprintz( window, 6 + x, compact ? 1 : 4, thiscolor, "%s", it_name.c_str() );
+        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s", it.display_name().c_str() );
 
         //print src column
         if( pane.area == AIM_ALL && !compact ) {
@@ -609,7 +608,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , it( an_item )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
-    , autopickup( hasPickupRule( an_item->tname() ) )
+    , autopickup( hasPickupRule( an_item->tname( 1, false ) ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )

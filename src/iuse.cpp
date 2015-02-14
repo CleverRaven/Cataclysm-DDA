@@ -282,7 +282,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
 
-    mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
+    trim_and_print(hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, _("Use %s:"), item_name.c_str());
     nc_color color = c_ltgray;
     bool allowed_result[num_hp_parts] = { false };
     if (p->hp_cur[hp_head] < p->hp_max[hp_head] ||
@@ -7485,7 +7485,7 @@ int iuse::artifact(player *p, item *it, bool, point)
         //~ %s is artifact name
         p->add_memorial_log(pgettext("memorial_male", "Activated the %s."),
                             pgettext("memorial_female", "Activated the %s."),
-                            it->tname().c_str());
+                            it->tname( 1, false ).c_str());
     }
     it_artifact_tool *art = dynamic_cast<it_artifact_tool *>(it->type);
     size_t num_used = rng(1, art->effects_activated.size());

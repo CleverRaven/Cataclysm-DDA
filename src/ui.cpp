@@ -313,7 +313,7 @@ void uimenu::setup()
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
     for ( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width(entries[ i ].txt.c_str());
+        int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
@@ -359,7 +359,7 @@ void uimenu::setup()
     }
 
     if(!text.empty() ) {
-        int twidth = utf8_width(text.c_str());
+        int twidth = utf8_width(remove_color_tags( text ).c_str());
         bool formattxt = true;
         int realtextwidth = 0;
         if ( textwidth == -1 ) {
@@ -554,8 +554,8 @@ void uimenu::show()
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const auto entry = utf8_wrapper( entries[ ei ].txt ).shorten( padspaces.size() - 3 );
-                mvwprintz( window, estart + si, pad_left + 4, co, "%s", entry.c_str() );
+                const auto entry = utf8_wrapper( entries[ ei ].txt );
+                trim_and_print( window, estart + si, pad_left + 4, w_width - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
