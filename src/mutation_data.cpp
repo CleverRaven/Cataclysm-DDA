@@ -37,6 +37,7 @@ void load_mutation(JsonObject &jsobj)
 
     mutation_data[id].valid = jsobj.get_bool("valid", true);
     mutation_data[id].purifiable = jsobj.get_bool("purifiable", true);
+    mutation_data[id].initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
     mutation_data[id].threshold = jsobj.get_bool("threshold", false);
     mutation_data[id].profession = jsobj.get_bool("profession", false);
 

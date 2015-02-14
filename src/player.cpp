@@ -243,7 +243,7 @@ player::~player()
 void player::normalize()
 {
     Character::normalize();
-    
+
     style_selected = "style_none";
 
     recalc_hp();
@@ -277,7 +277,7 @@ std::string player::skin_name() const
 void player::reset_stats()
 {
     Character::reset_stats();
-    
+
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -1230,7 +1230,7 @@ void player::update_bodytemp()
             }
         }
 
-        int temp_before = temp_cur[i];        
+        int temp_before = temp_cur[i];
         int temp_difference = temp_before - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
@@ -1242,12 +1242,12 @@ void player::update_bodytemp()
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
         }
-        // This statement checks if we should be wearing our bonus warmth. 
+        // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if (clothing_warmth_adjusted_bonus != 0 && 
-            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {            
+        if (clothing_warmth_adjusted_bonus != 0 &&
+            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {
             temp_conv[i] += clothing_warmth_adjusted_bonus;
-            rounding_error = 0;            
+            rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
                 rounding_error = 1;
             }
@@ -3483,9 +3483,9 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
         wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            wprintz(w, c, _("%s (Burst)"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
         } else {
-            wprintz(w, c, _("%s"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
         }
     }
 }
@@ -11631,7 +11631,7 @@ int player::bonus_warmth(body_part bp) const
     if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
-    
+
     return ret;
 }
 
@@ -11960,7 +11960,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             if( is_player() ) {
                 SCT.add(posx(), posy(),
                     NORTH,
-                    pre_damage_name, m_neutral,
+                    remove_color_tags( pre_damage_name ), m_neutral,
                     damage_verb, m_info);
             }
         }
@@ -12011,7 +12011,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                                  worn[index].tname().c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
-                                              worn[index].tname().c_str() );
+                                              worn[index].tname( 1, false ).c_str() );
                 worn.erase(worn.begin() + index);
             }
         }
@@ -12198,7 +12198,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                        worn[i].tname().c_str());
                         add_msg_player_or_npc(m_bad, _("Your %s is completely destroyed!"),
                                                      _("<npcname>'s %s is completely destroyed!"),
-                                                     worn[i].tname().c_str() );
+                                                     worn[i].tname( 1, false ).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         auto &material = worn[i].get_random_material();

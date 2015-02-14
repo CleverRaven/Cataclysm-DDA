@@ -2038,7 +2038,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
-        const bool bHPR = hasPickupRule(oThisItem.tname());
+        const bool bHPR = hasPickupRule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -2123,8 +2123,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
         WINDOW_PTR wptr( w );
 
-        wmove(w, 1, 2);
-        wprintz(w, c_white, "%s", item_name.c_str());
+        trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
         max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
         if (max_line > TERMY - VIEW_OFFSET_Y * 2 - 5) {
             wmove(w, 1, iWidth - 3);
@@ -2218,14 +2217,14 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 break;
             case '+':
                 if (!bHPR) {
-                    addPickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname().c_str());
+                    addPickupRule(oThisItem.tname( 1, false ));
+                    add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             case '-':
                 if (bHPR) {
-                    removePickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname().c_str());
+                    removePickupRule(oThisItem.tname( 1, false ));
+                    add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             default:
@@ -2247,8 +2246,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                     wprintz(w, c_white, "^^");
                 }
             }
-            wmove(w, 1, 2);
-            wprintz(w, c_white, "%s", item_name.c_str());
+            trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
             fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
             draw_border(w);
             wrefresh(w);
@@ -3053,36 +3051,7 @@ bool game::handle_action()
             break;
 
         case ACTION_LIST_ITEMS: {
-            int iRetItems = -1;
-            int iRetMonsters = -1;
-            int startas = uistate.list_item_mon;
-            temp_exit_fullscreen();
-            do {
-                if (startas != 2) { // last mode 2 = list_monster
-                    startas = 0;      // but only for the first bit of the loop
-                    iRetItems = list_items(iRetMonsters);
-                } else {
-                    iRetItems = -2;   // so we'll try list_items if list_monsters found 0
-                }
-                if (iRetItems != -1 || startas == 2) {
-                    startas = 0;
-                    iRetMonsters = list_monsters(iRetItems);
-                    if (iRetMonsters == 2) {
-                        iRetItems = -1; // will fire, exit loop
-                    } else if (iRetMonsters == -1 && iRetItems == -2) {
-                        iRetItems = -1; // exit if requested on list_monsters firstrun
-                    }
-                }
-            } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
-
-            if (iRetItems == 0 && iRetMonsters == 0) {
-                add_msg(m_info, _("You don't see any items or monsters around you!"));
-            } else if (iRetMonsters == 2) {
-                refresh_all();
-                plfire(false);
-            }
-            refresh_all();
-            reenter_fullscreen();
+            list_items_monsters();
         }
         break;
 
@@ -4228,8 +4197,6 @@ void game::debug()
     }
     break;
     case 4:
-        debugmsg(ngettext("%d radio tower", "%d radio towers", cur_om->radios.size()),
-                 cur_om->radios.size());
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
@@ -8189,7 +8156,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
             return;
         }
         auto items = m.i_at(lx, ly);
-        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), items[0].tname().c_str());
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
@@ -8675,11 +8642,18 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
+    ctxt.register_action("LIST_ITEMS");
 
     do {
         if (bNewWindow) {
             werase(w_info);
             draw_border(w_info);
+
+            if (!bSelectZone) {
+                mvwprintz(w_info, getmaxy(w_info)-1, 2, c_white, _("Press"));
+                wprintz(w_info, c_ltgreen, " %s ", ctxt.press_x("LIST_ITEMS", "", "").c_str());
+                wprintz(w_info, c_white, _("to list items and monsters"));
+            }
         }
 
         int junk;
@@ -8795,7 +8769,11 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         if (!handle_mouseview(ctxt, action)) {
             // Our coordinates will either be determined by coordinate input(mouse),
             // by a direction key, or by the previous value.
-            if (action == "TOGGLE_FAST_SCROLL") {
+
+            if (action == "LIST_ITEMS" && !bSelectZone) {
+                list_items_monsters();
+
+            } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
 
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8852,7 +8830,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-bool game::list_items_match(item *item, std::string sPattern)
+bool game::list_items_match(const item *item, std::string sPattern)
+
 {
     size_t iPos;
     bool hasExclude = false;
@@ -8972,25 +8951,26 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
     return ret;
 }
 
-std::string game::ask_item_filter(WINDOW *window, int rows)
+void game::draw_item_filter_rules(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
+        for (int j = 1; j < getmaxx(window) - 1; j++) {
+            mvwprintz(window, i, j, c_black, "%s", " ");
+        }
     }
 
-    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
-    mvwprintz(window, 1, 2, c_white, "%s", _("nearby matching items."));
+    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to"));
+    mvwprintz(window, 1, 2, c_white, "%s", _("filter it."));
+
     mvwprintz(window, 3, 2, c_white, "%s", _("Separate multiple items with ,"));
     mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
 
     mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,-chunk,-steel"));
 
     mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
     mvwprintz(window, 10, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
     wrefresh(window);
-    return string_input_popup(_("Filter:"), 55, sFilter,
-                              _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
 }
 
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
@@ -9241,6 +9221,40 @@ void game::zoom_out()
 #endif
 }
 
+void game::list_items_monsters()
+{
+    int iRetItems = -1;
+    int iRetMonsters = -1;
+    int startas = uistate.list_item_mon;
+    temp_exit_fullscreen();
+    do {
+        if (startas != 2) { // last mode 2 = list_monster
+            startas = 0;      // but only for the first bit of the loop
+            iRetItems = list_items(iRetMonsters);
+        } else {
+            iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+        }
+        if (iRetItems != -1 || startas == 2) {
+            startas = 0;
+            iRetMonsters = list_monsters(iRetItems);
+            if (iRetMonsters == 2) {
+                iRetItems = -1; // will fire, exit loop
+            } else if (iRetMonsters == -1 && iRetItems == -2) {
+                iRetItems = -1; // exit if requested on list_monsters firstrun
+            }
+        }
+    } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+
+    if (iRetItems == 0 && iRetMonsters == 0) {
+        add_msg(m_info, _("You don't see any items or monsters around you!"));
+    } else if (iRetMonsters == 2) {
+        refresh_all();
+        plfire(false);
+    }
+    refresh_all();
+    reenter_fullscreen();
+}
+
 int game::list_items(const int iLastState)
 {
     int iInfoHeight = std::min(25, TERMY / 2);
@@ -9323,7 +9337,9 @@ int game::list_items(const int iLastState)
                 reset = true;
                 refresh_all();
             } else if (action == "FILTER") {
-                sFilter = ask_item_filter(w_item_info, iInfoHeight);
+                draw_item_filter_rules(w_item_info, iInfoHeight);
+                sFilter = string_input_popup(_("Filter:"), 55, sFilter,
+                                _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
                 reset = true;
                 refilter = true;
                 addcategory = !bRadiusSort;
@@ -9368,11 +9384,11 @@ int game::list_items(const int iLastState)
                     bRadiusSort = true;
 
                     ground_items = ground_items_radius;
-                    iItemNum = ground_items.size();
                 }
 
                 highPEnd = -1;
                 lowPStart = -1;
+                iCatSortNum = 0;
 
                 mSortCategory.clear();
                 refilter = true;
@@ -9534,7 +9550,7 @@ int game::list_items(const int iLastState)
                                 sText << " [" << iter->vIG[iThisPage].count << "]";
                             }
 
-                            mvwprintz(w_items, iNum - iStartPos, 1,
+                            trim_and_print(w_items, iNum - iStartPos, 1, width - 9,
                                       ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example->color_in_inventory()))),
                                       "%s", (sText.str()).c_str());
                             int numw = iItemNum > 9 ? 2 : 1;
@@ -9563,22 +9579,24 @@ int game::list_items(const int iLastState)
                 }
 
                 mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive - iNum + 1);
+                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), (iItemNum > 0) ? iActive - iNum + 1 : 0);
                 wprintz(w_items_border, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum - iCatSortNum);
 
                 werase(w_item_info);
 
-                std::vector<iteminfo> vThisItem, vDummy;
-                activeItem->example->info(true, &vThisItem);
+                if ( iItemNum > 0 ) {
+                    std::vector<iteminfo> vThisItem, vDummy;
+                    activeItem->example->info(true, &vThisItem);
 
-                draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
-                //Only redraw trail/terrain if x/y position changed
-                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
-                    iLastActiveX = iActiveX;
-                    iLastActiveY = iActiveY;
-                    centerlistview(iActiveX, iActiveY);
-                    draw_trail_to_square(iActiveX, iActiveY, true);
+                    //Only redraw trail/terrain if x/y position changed
+                    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                        iLastActiveX = iActiveX;
+                        iLastActiveY = iActiveY;
+                        centerlistview(iActiveX, iActiveY);
+                        draw_trail_to_square(iActiveX, iActiveY, true);
+                    }
                 }
 
                 //Draw Scrollbar

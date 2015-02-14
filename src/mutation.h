@@ -41,6 +41,7 @@ struct mutation_branch {
     std::vector<std::string> additions; // Mutations that add to this one
     std::vector<std::string> category; // Mutation Categories
     std::map<std::string, mutation_wet> protection; // Mutation wet effects
+    std::vector<std::string> initial_ma_styles; // Martial art styles that can be choosen upon character generation
 
     mutation_branch()
     {

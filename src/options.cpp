@@ -728,11 +728,16 @@ void initOptions()
                                            _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
                                            "false,centered,edge",  "centered"
                                           );
-                                          
+
     OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
                                         _("If false, new inventory items will only get letters assigned if they had one before."),
                                         true
                                        );
+
+    OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
+                                     _("If true, show item health bars instead of reinforced, scratched etc. text."),
+                                     true
+                                    );
 
     mOptionsSort["interface"]++;
 

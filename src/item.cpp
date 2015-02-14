@@ -1642,12 +1642,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null() && with_prefix) {
+    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                auto nc_text = get_item_HP_Bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1657,6 +1660,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+
+            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+                auto nc_text = get_item_HP_Bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
+
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
@@ -1720,14 +1728,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
-            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         } else if (contents[0].is_food()) {
             maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
-                                                            contents[0].tname(contents[0].charges).c_str()) :
+                                                            contents[0].tname(contents[0].charges, with_prefix).c_str()) :
                                                  rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
-                                                            contents[0].tname().c_str());
+                                                            contents[0].tname( quantity, with_prefix ).c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         }
     }
     else if (!contents.empty()) {
@@ -1959,7 +1967,7 @@ int item::weight() const
 /*
  * precise_unit_volume: Returns the volume, multiplied by 1000.
  * 1: -except- ammo, since the game treats the volume of count_by_charge items as 1/stack_size of the volume defined in .json
- * 2: Ammo is also not totalled.
+ * 2: Ammo is also not totaled.
  * 3: gun mods -are- added to the total, since a modded gun is not a splittable thing, in an inventory sense
  * This allows one to obtain the volume of something consistent with game rules, with a precision that is lost
  * when a 2 volume bullet is divided by ???? and returned as an int.

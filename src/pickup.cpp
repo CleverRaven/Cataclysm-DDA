@@ -186,25 +186,26 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
             bPickup = false;
             if (here[i].volume() == (int)iVol) {
                 iNumChecked++;
+                const std::string sItemName = here[i].tname( 1, false );
 
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                     if (here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        checkExcludeRules(here[i].tname())) {
+                        checkExcludeRules(sItemName)) {
                         bPickup = true;
                     }
                 }
 
                 //Check the Pickup Rules
-                if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
+                if ( mapAutoPickupItems[sItemName] == "true" ) {
                     bPickup = true;
-                } else if ( mapAutoPickupItems[here[i].tname()] != "false" ) {
+                } else if ( mapAutoPickupItems[sItemName] != "false" ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    createPickupRules(here[i].tname());
+                    createPickupRules(sItemName);
 
-                    if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
+                    if ( mapAutoPickupItems[sItemName] == "true" ) {
                         bPickup = true;
                     }
                 }
@@ -702,8 +703,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                const auto name = utf8_wrapper( here[selected].display_name() ).shorten( itemsW - 8 );
-                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", name.c_str());
+                mvwprintw(w_item_info, 0, 2, "< ");
+                trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
                 wrefresh(w_item_info);
             }
 
@@ -756,7 +757,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, "%s", here[cur_it].display_name().c_str());
+                    trim_and_print(w_pickup, 1 + (cur_it % maxitems), 4, pickupW-4, icolor, "%s", here[cur_it].display_name().c_str());
                 }
             }
 

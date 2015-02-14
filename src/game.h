@@ -325,18 +325,19 @@ class game
         // Look at nearby terrain ';', or select zone points
         point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
 
+        void list_items_monsters();
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
         void print_all_tile_info(int lx, int ly, WINDOW *w_look, int column, int &line, bool mouse_hover);
 
-        bool list_items_match(item *item, std::string sPattern);
+        bool list_items_match(const item *item, std::string sPattern);
         int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
         int list_filter_low_priority(std::vector<map_item_stack> &stack, int start, std::string prorities);
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::string ask_item_filter(WINDOW *window, int rows);
+        void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
         void draw_trail_to_square(int x, int y, bool bDrawX);

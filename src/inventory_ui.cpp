@@ -326,11 +326,10 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             invlet_color = selected_line_color;
         }
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
-        item_name = trim_to(item_name, w - 2); // 2 for the invlet & space
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
-        mvwprintz(w_inv, cur_line, y + 2, name_color, "%s", item_name.c_str());
+        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
     }
 }
 
@@ -350,8 +349,7 @@ void inventory_selector::print_right_column() const
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        item_name = trim_to(item_name, right_column_width - 2); // 2 for the invlet & space
-        mvwprintz(w_inv, drp_line, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
     for (size_t k = 0; k < u.worn.size(); k++) {
@@ -360,9 +358,7 @@ void inventory_selector::print_right_column() const
             continue;
         }
         const char invlet = invlet_or_space(u.worn[k]);
-        std::string item_name = trim_to(u.worn[k].display_name(),
-                                        right_column_width - 4); // 2 for the invlet '+' &  2 space
-        mvwprintz(w_inv, drp_line, right_column_offset, c_cyan, "%c + %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, u.worn[k].display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -385,8 +381,7 @@ void inventory_selector::print_right_column() const
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
-        item_name = trim_to(item_name, right_column_width - 2); // 2 for the invlet & space
-        mvwprintz(w_inv, drp_line, right_column_offset, col, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
 }

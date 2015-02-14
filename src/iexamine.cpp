@@ -330,49 +330,47 @@ void iexamine::atm(player *const p, map *, int , int )
     atm_menu {*p}.start();
 }
 
-void iexamine::vending(player *p, map *m, int examx, int examy)
+void iexamine::vending(player * const p, map * const m, int const examx, int const examy)
 {
-    auto vend_items = m->i_at(examx, examy);
-    int num_items = vend_items.size();
+    constexpr int moves_cost = 250;
 
-    if (num_items == 0) {
+    auto vend_items = m->i_at(examx, examy);   
+    if (vend_items.empty()) {
         add_msg(m_info, _("The vending machine is empty!"));
         return;
-    }
-
-    item *card;
-    if (!p->has_charges("cash_card", 1)) {
+    } else if (!p->has_charges("cash_card", 1)) {
         popup(_("You need a charged cash card to purchase things!"));
         return;
     }
-    int pos = g->inv(_("Insert card for purchases."));
-    card = &(p->i_at(pos));
+
+    auto const card = &p->i_at(g->inv_for_filter(_("Insert card for purchases."),
+        [](item const &i) { return i.type->id == "cash_card"; }));
 
     if (card->is_null()) {
-        popup(_("You do not have that item!"));
-        return;
-    }
-    if (card->type->id != "cash_card") {
+        return; // player cancelled selection
+    } else if (card->type->id != "cash_card") {
         popup(_("Please insert cash cards only!"));
         return;
-    }
-    if (card->charges == 0) {
+    } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
     }
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 4;
-    const int iHalf = iContentHeight / 2;
-    const bool odd = iContentHeight % 2;
+    int const padding_x    = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const padding_y    = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
+    int const window_h     = FULL_SCREEN_HEIGHT;
+    int const w_items_w    = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
+    int const w_info_w     = FULL_SCREEN_WIDTH / 2;
+    int const list_lines   = window_h - 4; // minus for header and footer
 
-    const int w_width = FULL_SCREEN_WIDTH / 2 - 1;
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2 - 1,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_item_info = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2,
-                                 (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 + FULL_SCREEN_WIDTH / 2 :
-                                 FULL_SCREEN_WIDTH / 2);
+    constexpr int first_item_offset = 3; // header size
+
+    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
+    WINDOW_PTR const w_item_info_ptr {
+        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+
+    auto const w           = w_ptr.get();
+    auto const w_item_info = w_item_info_ptr.get();
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");
@@ -381,99 +379,125 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
+    // Collate identical items.
+    // First, build a map {item::tname} => {item_it, item_it, item_it...}
+    using iterator_t = decltype(std::begin(vend_items)); // map_stack::iterator doesn't exist.
+    using map_t      = std::map<std::string, std::vector<iterator_t>>;
+    using vector_t   = std::vector<map_t::value_type*>;
+
+    map_t item_map;
+    for (auto it = std::begin(vend_items); it != std::end(vend_items); ++it) {
+        // |# {name}|
+        // 123      4
+        item_map[utf8_truncate(it->tname(), static_cast<size_t>(w_items_w - 4))].push_back(it);
+    }
+
+    // Next, put pointers to the pairs in the map in a vector to allow indexing.
+    vector_t item_list;
+    item_list.reserve(item_map.size());
+    for (auto &pair : item_map) {
+        item_list.emplace_back(&pair);
+    }
+
+    // | {title}|
+    // 12       3
+    auto const title = utf8_truncate(string_format(
+        _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
+
+    int const lines_above = list_lines / 2;                  // lines above the selector
+    int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
     int cur_pos = 0;
-    auto cur_item = vend_items.begin();
-    while(true) {
+    for (;;) {
+        int const num_items = static_cast<int>(item_list.size());
+        int const page_size = std::min(num_items, list_lines);
+
         werase(w);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        for (int i = 1; i < FULL_SCREEN_WIDTH / 2 - 2; i++) {
-            mvwaddch(w, 2, i, LINE_OXOX);
-        }
+        mvwhline(w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2);
+        mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
+        mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
+        
+        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
 
-        mvwaddch(w, 2, 0, LINE_XXXO); // |-
-        mvwaddch(w, 2, w_width - 1, LINE_XOXX); // -|
-
-        num_items = vend_items.size();
-
-        mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' or ESC to stop."), card->charges);
-
-        int first_i, end_i;
-        if (cur_pos < iHalf || num_items <= iContentHeight) {
-            first_i = 0;
-            end_i = std::min(iContentHeight, num_items);
-        } else if (cur_pos >= num_items - iHalf) {
-            first_i = num_items - iContentHeight;
-            end_i = num_items;
+        // Keep the item selector centered in the page.
+        int page_beg = 0;
+        int page_end = page_size;
+        if (cur_pos < num_items - cur_pos) {
+            page_beg = std::max(0, cur_pos - lines_above);
+            page_end = std::min(num_items, page_beg + list_lines);
         } else {
-            first_i = cur_pos - iHalf;
-            if (odd) {
-                end_i = cur_pos + iHalf + 1;
-            } else {
-                end_i = cur_pos + iHalf;
-            }
+            page_end = std::min(num_items, cur_pos + lines_below);
+            page_beg = std::max(0, page_end - list_lines);
         }
-        int base_y = 3 - first_i;
-        for (int i = first_i; i < end_i; ++i) {
-            mvwprintz(w, base_y + i, 2,
-                      (i == cur_pos ? h_ltgray : c_ltgray), vend_items[i].tname().c_str());
+
+        for (int line = 0; line < page_size; ++line) {
+            auto const i     = page_beg + line;
+            auto const color = (i == cur_pos ? h_ltgray : c_ltgray);
+            auto const &elem = item_list[static_cast<size_t>(i)];
+            auto const count = static_cast<int>(elem->second.size());
+            auto const c     = static_cast<char>(count < 10 ? '0' + count : '*');
+            mvwprintz(w, first_item_offset + line, 1, color, "%c %s", c, elem->first.c_str());
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_pos, iContentHeight, num_items, 3);
+        draw_scrollbar(w, cur_pos, list_lines, num_items, first_item_offset);
         wrefresh(w);
 
         // Item info
+        auto &cur_items = item_list[static_cast<size_t>(cur_pos)]->second;
+        auto &cur_item  = cur_items.back();
+
         werase(w_item_info);
-        fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, cur_item->info(true));
+        // | {line}|
+        // 12      3
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintw(w_item_info, 0, 2, "< %s >", cur_item->display_name().c_str() );
+
+        //+<{name}>+
+        //12      34
+        auto const name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
+        mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
-        const std::string action = ctxt.handle_input();
+        
+        auto const &action = ctxt.handle_input();
         if (action == "DOWN") {
-            cur_pos++;
-            if (cur_pos >= num_items) {
-                cur_pos = 0;
-                cur_item = vend_items.begin();
-            } else {
-                cur_item++;
-            }
+            cur_pos = (cur_pos + 1) % num_items;
         } else if (action == "UP") {
-            cur_pos--;
-            if (cur_pos < 0) {
-                cur_pos = num_items - 1;
-                cur_item = vend_items.end();
-            }
-            cur_item--;
+            cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if( cur_item->price() > card->charges ) {
+            if ( cur_item->price() > card->charges ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
+            
+            if (!used_machine) {
+                used_machine = true;
+                p->moves -= moves_cost;
+            }
+
             card->charges -= cur_item->price();
             p->i_add_or_drop( *cur_item );
-            cur_item = vend_items.erase( cur_item );
-            if (cur_pos == (int)vend_items.size()) {
-                cur_item = vend_items.end();
-                cur_item--;
-                cur_pos--;
-            }
-            used_machine = true;
 
-            if (num_items == 1) {
+            vend_items.erase( cur_item );
+            cur_items.pop_back();
+            if (!cur_items.empty()) {
+                continue;
+            }
+            
+            item_list.erase(std::begin(item_list) + cur_pos);
+            if (item_list.empty()) {
                 add_msg(_("With a beep, the empty vending machine shuts down"));
-                break;
+                return;
+            } else if (cur_pos == num_items - 1) {
+                cur_pos--;
             }
         } else if (action == "QUIT") {
             break;
         }
     }
-    if (used_machine) {
-        p->moves -= 250;
-    }
-    delwin(w_item_info);
-    delwin(w);
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy)
