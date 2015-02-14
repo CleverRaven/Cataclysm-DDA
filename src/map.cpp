@@ -160,20 +160,29 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
 vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
+    // Apparently this is a proper coding practice and not an ugly hack
+    return const_cast<vehicle *>( static_cast<const map &>(*this).veh_at( x, y, part_num ) );
+}
+
+const vehicle* map::veh_at(const int x, const int y, int &part_num) const
+{
     // This function is called A LOT. Move as much out of here as possible.
-    if (!veh_in_active_range || !inbounds(x, y)) {
-        return NULL;    // Out-of-bounds - null vehicle
+    if( !veh_in_active_range || !inbounds(x, y) ) {
+        return nullptr;    // Out-of-bounds - null vehicle
     }
-    if(!veh_exists_at[x][y]) {
-        return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
+
+    if( !veh_exists_at[x][y] ) {
+        return nullptr;    // cache cache indicates no vehicle. This should optimize a great deal.
     }
+
     const auto it = veh_cached_parts.find( point( x, y ) );
     if( it != veh_cached_parts.end() ) {
         part_num = it->second.second;
         return it->second.first;
     }
-    debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
-    return NULL;
+
+    debugmsg( "vehicle part cache cache indicated vehicle not found: %d %d", x, y );
+    return nullptr;
 }
 
 point map::veh_part_coordinates(const int x, const int y)
@@ -190,9 +199,14 @@ point map::veh_part_coordinates(const int x, const int y)
 
 vehicle* map::veh_at(const int x, const int y)
 {
- int part = 0;
- vehicle *veh = veh_at(x, y, part);
- return veh;
+    int part = 0;
+    return veh_at(x, y, part);
+}
+
+const vehicle* map::veh_at(const int x, const int y) const
+{
+    int part = 0;
+    return veh_at(x, y, part);
 }
 
 void map::reset_vehicle_cache()
@@ -4450,15 +4464,19 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     continue;
                 }
 
-                const int cost = move_cost(x, y);
+                // Big code smell warning: multiple inbounds checks in move_cost, bash_rating
+                // Vehicle is found thrice: once in move_cost, once in bash_rating and once explicitly
+                const int cost = move_cost( x, y );
+                int part = -1;
+                const vehicle *veh = veh_at( x, y, part );
                 // Don't calculate bash rating unless we intend to actually use it
-                const int rating = ( cost == 0 && bash > 0 ) ? bash_rating( bash, x, y ) : -1;
+                const int rating = ( bash > 0 && cost == 0 ) ? bash_rating( bash, x, y ) : -1;
                 if( cost == 0 && rating <= 0 ) {
                     list[x][y] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
                     continue;
                 }
 
-                int newg = gscore[cur.x][cur.y] + move_cost(x, y) + ((cur.x - x != 0 && cur.y - y != 0) ? 1 : 0);
+                int newg = gscore[cur.x][cur.y] + cost + ((cur.x - x != 0 && cur.y - y != 0) ? 1 : 0);
                 if( cost == 0 ) {
                     // Handle all kinds of doors
                     // Only try to open INSIDE doors from the inside
@@ -4467,6 +4485,11 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     if ( !ter.open.empty() &&
                            ( !has_flag("OPENCLOSE_INSIDE", x, y) || !is_outside( cur.x, cur.y) ) ) {
                         newg += 4; // To open and then move onto the tile
+                    } else if( veh != nullptr && veh->part_flag( part, VPFLAG_OPENABLE ) &&
+                                 veh->part_flag( part, VPFLAG_OBSTACLE ) &&
+                                 ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) || veh_at( cur.x, cur.y ) == veh ) ) {
+                        // Handle car doors, but don't try to path through curtains
+                        newg += 10; // One turn to open, 4 to move there
                     } else if( rating > 1 ) {
                         // Expected number of turns to bash it down, 1 turn to move there
                         // and 2 turns of penalty not to trash everything just because we can
@@ -4474,7 +4497,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     } else if( rating == 1 ) {
                         // Desperate measures, avoid whenever possible
                         newg += 1000;
-                    } else{
+                    } else {
                         debugmsg("map::route picked an invalid tile");
                     }
                 }

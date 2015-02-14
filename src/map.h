@@ -303,11 +303,13 @@ class map
   * @return A pointer to the vehicle in this tile.
   */
  vehicle* veh_at(const int x, const int y, int &part_num);
+ const vehicle* veh_at(const int x, const int y, int &part_num) const;
 
  /**
   * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
   */
- vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
+ vehicle* veh_at(const int x, const int y);// checks if tile is occupied by vehicle
+ const vehicle* veh_at(const int x, const int y) const;
 
  /**
   * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
