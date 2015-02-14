@@ -49,6 +49,8 @@ class Character : public Creature
         virtual bool has_trait(const std::string &flag) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
+        /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
+        std::string trait_by_invlet( char ch ) const;
         
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);

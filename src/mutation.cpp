@@ -49,14 +49,7 @@ void Character::toggle_str_set( std::unordered_set< std::string > &set, const st
         char new_key = ' ';
         // Find a letter in inv_chars that isn't in trait_keys.
         for( const auto &letter : inv_chars ) {
-            bool found = false;
-            for( const auto &key : trait_keys ) {
-                if( letter == key.second ) {
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
+            if( trait_by_invlet( letter ).empty() ) {
                 new_key = letter;
                 break;
             }
@@ -503,6 +496,17 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 
     wrefresh(window);
 }
+
+std::string Character::trait_by_invlet( const char ch ) const
+{
+    for( auto &tk : trait_keys ) {
+        if( tk.second == ch ) {
+            return tk.first;
+        }
+    }
+    return std::string();
+}
+
 void player::power_mutations()
 {
     std::vector <std::string> passive;
@@ -656,13 +660,7 @@ void player::power_mutations()
         const long ch = ctxt.get_raw_input().get_first_input();
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
-            std::string mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == ch ) {
-                    mut_id = key_pair.first;
-                    break;
-                }
-            }
+            const auto mut_id = trait_by_invlet( ch );
             if( mut_id.empty() ) {
                 // Selected an non-existing mutation (or escape, or ...)
                 continue;
@@ -674,13 +672,7 @@ void player::power_mutations()
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            std::string other_mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == newch ) {
-                    other_mut_id = key_pair.first;
-                    break;
-                }
-            }
+            const auto other_mut_id = trait_by_invlet( newch );
             // if there is already a mutation with the new key, the key
             // is considered valid.
             if( other_mut_id.empty() && inv_chars.find(newch) == std::string::npos ) {
@@ -714,13 +706,7 @@ void player::power_mutations()
         }else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
-            std::string mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == ch ) {
-                    mut_id = key_pair.first;
-                    break;
-                }
-            }
+            const auto mut_id = trait_by_invlet( ch );
             if( mut_id.empty() ) {
                 // entered a key that is not mapped to any mutation,
                 // -> leave screen
