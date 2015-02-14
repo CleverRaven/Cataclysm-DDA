@@ -5,6 +5,10 @@
         "name" : "Sew"
     },{
         "type" : "item_action",
+        "id" : "SEW_ADVANCED",
+        "name" : "Modify Clothing"
+    },{
+        "type" : "item_action",
         "id" : "KNIFE",
         "name" : "Use as knife"
     },{

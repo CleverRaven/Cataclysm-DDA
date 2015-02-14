@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-02 10:11+0300\n"
+"POT-Creation-Date: 2015-02-11 09:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3648,7 +3648,7 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Inspired by the improved .270, Alexander Sarafanov himself developed the "
-"6.54x42mm rifle cartrige for his new SVS-24 Assault Rifle."
+"6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3730,8 +3730,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Inspired by the improved .270, Alexander Sarafanov himself developed the "
-"6.54x42mm rifle cartrige for his new SVS-24 Assault Rifle. This one has been "
-"hand-reloaded."
+"6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle. This one has "
+"been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -5230,8 +5230,32 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
+"A custom-built, leather reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "light survivor mask"
+msgid_plural "light survivor masks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
 "A custom-built, reinforced gas mask that covers the face and eyes.  Provides "
 "excellent protection from smoke, teargas, and shrapnel."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "heavy survivor mask"
+msgid_plural "heavy survivor masks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A custom-built, steel reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -6497,6 +6521,18 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of fit-over sunglasses"
+msgid_plural "pairs of fit-over sunglasses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A pair of fit-over sunglasses designed to be worn over a pair of corrective "
+"glasses.  Good for keeping the glare out of your eyes."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -13979,7 +14015,7 @@ msgstr[1] ""
 msgid "Concentrated acid.  Don't drink it."
 msgstr ""
 
-#: lang/json/COMESTIBLE_from_json.py src/item_factory.cpp
+#: lang/json/COMESTIBLE_from_json.py
 msgid "mutagen"
 msgid_plural "mutagens"
 msgstr[0] ""
@@ -14870,7 +14906,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A hot dog, served with chili con humano as a topping.  Delightful."
+msgid "A hot dog, served with chili con cabron as a topping.  Delightful."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -15364,8 +15400,32 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A dish in which meat is set into a gelatin made from a meat or vegetable "
-"stock.  This food will never spoil."
+"A dish in which meat or fish is set into a gelatin made from a meat or "
+"vegetable stock.  This food will never spoil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "vegetable aspic"
+msgid_plural "vegetable aspics"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A dish in which vegetables are set into a gelatin made from a plant stock.  "
+"This food will never spoil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "amoral aspic"
+msgid_plural "amoral aspics"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A dish in which human meat has been set into a gelatin made from human "
+"bones. Murderously delicious - if you're into that sort of thing."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -15890,6 +15950,16 @@ msgid "It's a bit tough, but quite delicious."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "broccoli seed"
+msgid_plural "broccoli seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some broccoli seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini"
 msgid_plural "zucchinis"
 msgstr[0] ""
@@ -15897,6 +15967,16 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty summer squash."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "zucchini seed"
+msgid_plural "zucchini seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some zucchini seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -16219,8 +16299,8 @@ msgid "A spicy stew containing chili peppers, meat, tomatoes and beans."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "chili con humano"
-msgid_plural "chilis con humano"
+msgid "chili con cabron"
+msgid_plural "chilis con cabrones"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -16556,6 +16636,26 @@ msgstr[1] ""
 msgid ""
 "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also "
 "doubles as food for horses while dry."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "oats"
+msgid_plural "oats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Raw oats."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "oat seed"
+msgid_plural "oat seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some oat seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -16905,6 +17005,16 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mildly toxic and not very tasty raw.  When cooked, it is delicious."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "seed potato"
+msgid_plural "seed potatoes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some seed potatoes."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -19316,6 +19426,16 @@ msgid "Come from the gourd family, not tasty but very juicy."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "cucumber seed"
+msgid_plural "cucumber seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cucumber seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cucumber"
 msgid_plural "irradiated cucumbers"
 msgstr[0] ""
@@ -19335,6 +19455,16 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Neither tasty nor very nutritious, but it goes well with salad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "celery seed"
+msgid_plural "celery seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some celery seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -20054,6 +20184,16 @@ msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "A massive steel barrel with a resealable lid."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "30 gallon drum"
+msgid_plural "30 gallon drums"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "A huge steel barrel with a resealable lid."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
@@ -22606,6 +22746,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "atomic lamp"
+msgid_plural "atomic lamps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and "
+"feel confident that you won't have to worry about depleting its power supply "
+"for at least 40 million years of faithful service."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "atomic coffee maker"
 msgid_plural "atomic coffee makers"
 msgstr[0] ""
@@ -23688,6 +23841,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "sealed jar of V8"
+msgid_plural "sealed jars of V8"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a sealed glass jar containing V8.  Use to open and drink to enjoy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "vacuum-packed meat slice"
 msgid_plural "vacuum-packed meat slices"
 msgstr[0] ""
@@ -24730,7 +24894,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "Oars for a boat"
+msgid "Oars for a boat."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -25769,6 +25933,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "barrel"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "BB gun"
 msgid_plural "BB guns"
 msgstr[0] ""
@@ -25777,14 +25945,6 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "Popular among children.  It's fairly accurate, but BBs deal nearly no damage."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "barrel"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "muzzle"
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -25856,6 +26016,10 @@ msgstr[1] ""
 msgid ""
 "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer "
 "to strike the single round it holds."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "muzzle"
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -27978,7 +28142,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "The Sarafanov Assault Rifle replaced the famous AK family of guns as the "
-"service rifle of the Russian Army. It uses the 6.54x42mm cartrige."
+"service rifle of the Russian Army. It uses the 6.54x42mm cartridge."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -28602,10 +28766,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "RemoteVehicles"
-msgstr ""
-
-#: lang/json/MOD_INFO_from_json.py
 msgid "Slow Zombies"
 msgstr ""
 
@@ -28897,7 +29057,7 @@ msgid ""
 "threat to humans, but it can be aggressive if not left alone."
 msgstr ""
 
-#: lang/json/MONSTER_from_json.py
+#: lang/json/MONSTER_from_json.py src/game.cpp
 msgid "cat"
 msgid_plural "cats"
 msgstr[0] ""
@@ -32683,7 +32843,7 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A sharp, knife-like tool used in harvesting honey from beehives. Makes a "
+"A sharp, knife-like tool used in harvesting honey from beehives.  Makes a "
 "passable melee weapon."
 msgstr ""
 
@@ -32807,6 +32967,34 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "electric lantern (off)"
+msgid_plural "electric lanterns (off)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "The lantern has no batteries."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a battery-powered lamp.  It does not provide much light, but it "
+"lasts a long time.  Use it to turn it on."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "electric lantern (on)"
+msgid_plural "electric lanterns (on)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a battery-powered lamp.  It does not provide much light, but it "
+"lasts a long time.  It is turned on.  Use it to turn it off."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "flashlight (off)"
 msgid_plural "flashlights (off)"
 msgstr[0] ""
@@ -32869,8 +33057,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "lightstrip (active)"
-msgid_plural "lightstrips (active)"
+msgid "lightstrip"
+msgid_plural "lightstrips"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -34049,12 +34237,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "acid bomb (active)"
-msgid_plural "acid bombs (active)"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
 msgid ""
 "This is a glass vial, with two chemicals mixing inside.  The vial feels "
 "colder and the contents are frothing.  If this mixture is exposed to air (as "
@@ -34154,12 +34336,6 @@ msgid ""
 "Use it to activate the timer.  You guess that the explosion would be large "
 "enough to take out a small house."
 msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "mininuke (active)"
-msgid_plural "mininukes (active)"
-msgstr[0] ""
-msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -35661,8 +35837,8 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a fine glass tube with a bulb with an bowl on one end.  It's used in "
-"partaking of certain illicit substances."
+"This is a fine glass tube with a bulb with a bowl on one end.  It's used to "
+"partake of certain illicit substances."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -35823,7 +35999,7 @@ msgid ""
 "fire."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py src/iuse.cpp
+#: lang/json/TOOL_from_json.py src/iuse_actor.cpp
 msgid "refillable lighter (lit)"
 msgid_plural "refillable lighters (lit)"
 msgstr[0] ""
@@ -37359,11 +37535,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
+msgid "An inflatable boat section."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "inflatable airbag"
 msgid_plural "inflatable airbag"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "An inflatable airbag."
+msgstr ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
 #: lang/json/vehicle_part_from_json.py
@@ -41514,7 +41698,7 @@ msgid "Use as knife"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-msgid "Start a fire"
+msgid "Start a fire quickly"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -41523,6 +41707,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Repair metal/plastic/kevlar"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Pick a lock"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -41575,6 +41763,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Take anticonvulsant"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Start a fire slowly"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -42253,6 +42445,10 @@ msgid "Quicksave"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Quickload"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Move View Northeast"
 msgstr ""
 
@@ -42295,6 +42491,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Decrease priority"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Change sort order"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -43468,22 +43668,22 @@ msgid "Unknown"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: lang/json/material_from_json.py src/material.cpp
+#: src/material.cpp
 msgid "damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "lightly damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "very damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "thoroughly damaged"
 msgstr ""
 
@@ -43734,6 +43934,18 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Clay"
+msgstr ""
+
+#: lang/json/material_from_json.py src/bionics.cpp
+msgid "Alcohol"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Oil"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Hydrocarbons"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -48009,7 +48221,8 @@ msgstr ""
 msgid "barn"
 msgstr ""
 
-#: lang/json/overmap_terrain_from_json.py src/item.cpp
+#: lang/json/overmap_terrain_from_json.py src/color.cpp
+#: src/item.cpp
 msgid "green"
 msgstr ""
 
@@ -57623,6 +57836,10 @@ msgid "water tank"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "water barrel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "trunk"
 msgstr ""
 
@@ -58567,7 +58784,7 @@ msgstr ""
 msgid "South East"
 msgstr ""
 
-#: src/advanced_inv.cpp src/help.cpp
+#: src/advanced_inv.cpp
 msgid "W"
 msgstr ""
 
@@ -59858,10 +60075,6 @@ msgid "Slow-Release Painkiller"
 msgstr ""
 
 #: src/bionics.cpp
-msgid "Alcohol"
-msgstr ""
-
-#: src/bionics.cpp
 msgid "Methamphetamines"
 msgstr ""
 
@@ -60599,6 +60812,58 @@ msgstr ""
 msgid "Failed to save zones to %s"
 msgstr ""
 
+#: src/color.cpp
+msgid "brown"
+msgstr ""
+
+#: src/color.cpp
+msgid "lt gray"
+msgstr ""
+
+#: src/color.cpp
+msgid "dk gray"
+msgstr ""
+
+#: src/color.cpp
+msgid "lt red"
+msgstr ""
+
+#: src/color.cpp
+msgid "lt green"
+msgstr ""
+
+#: src/color.cpp src/item.cpp
+msgid "red"
+msgstr ""
+
+#: src/color.cpp
+msgid "lt blue"
+msgstr ""
+
+#: src/color.cpp src/item.cpp src/npctalk.cpp
+msgid "blue"
+msgstr ""
+
+#: src/color.cpp
+msgid "white"
+msgstr ""
+
+#: src/color.cpp
+msgid "cyan"
+msgstr ""
+
+#: src/color.cpp
+msgid "lt cyan"
+msgstr ""
+
+#: src/color.cpp
+msgid "magenta"
+msgstr ""
+
+#: src/color.cpp
+msgid "pink"
+msgstr ""
+
 #: src/computer.cpp
 #, c-format
 msgid "Logging into %s..."
@@ -60730,7 +60995,9 @@ msgid ""
 msgstr ""
 
 #: src/computer.cpp
-msgid "Surface map data downloaded.  Press any key..."
+msgid ""
+"Surface map data downloaded.  Local anomalous-access error logged.  Press "
+"any key..."
 msgstr ""
 
 #: src/computer.cpp
@@ -61761,15 +62028,15 @@ msgstr ""
 msgid "very dark"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "WEAPONS"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "AMMO"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "FOOD"
 msgstr ""
 
@@ -61786,6 +62053,7 @@ msgid "ARMOR"
 msgstr ""
 
 #: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "OTHER"
 msgstr ""
 
@@ -61821,7 +62089,7 @@ msgstr ""
 msgid "EXPLOSIVE"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "MODS"
 msgstr ""
 
@@ -61861,11 +62129,11 @@ msgstr ""
 msgid "PASTA"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "DRUGS"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "MUTAGEN"
 msgstr ""
 
@@ -61878,6 +62146,7 @@ msgid "CBMS"
 msgstr ""
 
 #: src/crafting.cpp
+#: src/crafting.cpp src/item_factory.cpp
 msgid "TOOLS"
 msgstr ""
 
@@ -65466,6 +65735,10 @@ msgid ""
 msgstr ""
 
 #: src/game.cpp
+msgid "You may want to deactivate these before you sleep."
+msgstr ""
+
+#: src/game.cpp
 msgid "Set alarm to wake up in 3 hours."
 msgstr ""
 
@@ -66320,7 +66593,8 @@ msgstr ""
 #: src/iuse.cpp
 #: src/iuse.cpp src/npctalk.cpp
 #: src/npctalk.cpp
-#: src/pickup.cpp src/player.cpp
+#: src/pickup.cpp src/player.cpp src/veh_interact.cpp
+#: src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -66708,6 +66982,14 @@ msgid "Items"
 msgstr ""
 
 #: src/game.cpp
+msgid "<s>ort: "
+msgstr ""
+
+#: src/game.cpp
+msgid "dist"
+msgstr ""
+
+#: src/game.cpp
 msgid "<R>eset"
 msgstr ""
 
@@ -66733,6 +67015,14 @@ msgstr ""
 
 #: src/game.cpp src/inventory_ui.cpp
 msgid "Next item"
+msgstr ""
+
+#: src/game.cpp
+msgid "HIGH PRIORITY"
+msgstr ""
+
+#: src/game.cpp
+msgid "LOW PRIORITY"
 msgstr ""
 
 #: src/game.cpp
@@ -68976,63 +69266,7 @@ msgid "            There are many others out there... search for them!"
 msgstr ""
 
 #: src/help.cpp
-msgid "            Note colors: "
-msgstr ""
-
-#: src/help.cpp
-msgid ",   ,   ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,"
-msgstr ""
-
-#: src/help.cpp
-msgid "br"
-msgstr ""
-
-#: src/help.cpp
-msgid "lg"
-msgstr ""
-
-#: src/help.cpp
-msgid "dg"
-msgstr ""
-
-#: src/help.cpp
-msgid "r"
-msgstr ""
-
-#: src/help.cpp
-msgid "R"
-msgstr ""
-
-#: src/help.cpp
-msgid "g"
-msgstr ""
-
-#: src/help.cpp
-msgid "G"
-msgstr ""
-
-#: src/help.cpp
-msgid "b"
-msgstr ""
-
-#: src/help.cpp
-msgid "B"
-msgstr ""
-
-#: src/help.cpp
-msgid "c"
-msgstr ""
-
-#: src/help.cpp
-msgid "C"
-msgstr ""
-
-#: src/help.cpp
-msgid "P"
-msgstr ""
-
-#: src/help.cpp
-msgid "m"
+msgid "Note colors: "
 msgstr ""
 
 #: src/help.cpp
@@ -70540,16 +70774,8 @@ msgstr ""
 msgid "Compare:"
 msgstr ""
 
-#: src/item.cpp src/npctalk.cpp
-msgid "blue"
-msgstr ""
-
 #: src/item.cpp
 msgid "yellow"
-msgstr ""
-
-#: src/item.cpp
-msgid "red"
 msgstr ""
 
 #: src/item.cpp
@@ -70561,12 +70787,10 @@ msgid "Weight: "
 msgstr ""
 
 #: src/item.cpp src/newcharacter.cpp src/options.cpp
-#: src/player.cpp
 msgid "kg"
 msgstr ""
 
 #: src/item.cpp src/newcharacter.cpp src/options.cpp
-#: src/player.cpp
 msgid "lbs"
 msgstr ""
 
@@ -71646,47 +71870,19 @@ msgid "Execute which action?"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "guns"
+msgid "GUNS"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "ammo"
+msgid "CLOTHING"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "weapons"
+msgid "BOOKS"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "tools"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "clothing"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "food"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "drugs"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "books"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "mods"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "bionics"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "other"
+msgid "BIONICS"
 msgstr ""
 
 #: src/item_factory.cpp
@@ -71695,7 +71891,7 @@ msgstr ""
 
 #. ~ Spawn group menu: Menu entry to exit menu
 #: src/item_factory.cpp src/iuse.cpp
-#: src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
 msgid "cancel"
 msgstr ""
 
@@ -71868,7 +72064,7 @@ msgid "Your wound still hurts."
 msgstr ""
 
 #: src/iuse.cpp
-#: src/iuse_actor.cpp src/mutation.cpp src/player.cpp
+#: src/iuse_actor.cpp src/mutation.cpp
 #: src/player.cpp
 msgid "You can't do that while underwater."
 msgstr ""
@@ -73032,70 +73228,6 @@ msgid "You spill the cat food all over the ground."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Light where?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You would set yourself on fire."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "But you're already smokin' hot."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "There is already a fire."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "There's nothing to light there."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You successfully light a fire."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid ""
-"If the current weather holds, it will take around %d minutes to light a fire."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You need direct sunlight to light a fire with this."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "At your skill level, it will take around %d minutes to light a fire."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The lighter is extinguished."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The lighter burns out."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "The %s winks out."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "extinguish"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "light something"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You extinguish the lighter."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "You can't see to sew!"
 msgstr ""
 
@@ -73693,10 +73825,11 @@ msgid "Siphon from where?"
 msgstr ""
 
 #: src/iuse.cpp
+#: src/veh_interact.cpp
 msgid "There's no vehicle there."
 msgstr ""
 
-#: src/iuse.cpp src/veh_interact.cpp
+#: src/iuse.cpp
 msgid "That vehicle has no fuel to siphon."
 msgstr ""
 
@@ -74928,6 +75061,14 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "The %s winks out"
+msgstr ""
+
+#: src/iuse.cpp src/iuse_actor.cpp
+msgid "extinguish"
+msgstr ""
+
+#: src/iuse.cpp src/iuse_actor.cpp
+msgid "light something"
 msgstr ""
 
 #: src/iuse.cpp
@@ -76350,6 +76491,62 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You should read your %s when you get to the surface."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Light where?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You would set yourself on fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "But you're already smokin' hot."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There is already a fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There's nothing to light there."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You successfully light a fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The lighter is extinguished."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The lighter burns out."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "The %s winks out."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You extinguish the lighter."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid ""
+"If the current weather holds, it will take around %d minutes to light a fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You need direct sunlight to light a fire with this."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "At your skill level, it will take around %d minutes to light a fire."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -80878,11 +81075,6 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s doesn't seem to consider you a target at the moment."
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
 msgid "Pointed in your direction, the %s emits an IFF warning beep."
 msgid_plural ""
 "Pointed in your direction, the %s emits %d annoyed sounding beeps."
@@ -81042,12 +81234,12 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "%s lunges at you, but you dodge!"
+msgid "The %s lunges at you, but you dodge!"
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "%s lunges at <npcname>, but they dodge!"
+msgid "The %s lunges at <npcname>, but they dodge!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -82098,18 +82290,17 @@ msgstr ""
 msgid "Melee to-hit bonus: +%d"
 msgstr ""
 
-#: src/newcharacter.cpp src/player.cpp
+#: src/newcharacter.cpp
 #, c-format
 msgid "Throwing bonus: +%d"
 msgstr ""
 
-#: src/newcharacter.cpp src/player.cpp
+#: src/newcharacter.cpp
 #, c-format
 msgid "Throwing penalty: -%d"
 msgstr ""
 
-#: src/newcharacter.cpp src/player.cpp
-#: src/player.cpp
+#: src/newcharacter.cpp
 #, c-format
 msgid "Ranged penalty: -%d"
 msgstr ""
@@ -87260,6 +87451,10 @@ msgid "LEVEL %i, %d'%d, %d'%d"
 msgstr ""
 
 #: src/overmap.cpp
+msgid "Color codes: "
+msgstr ""
+
+#: src/overmap.cpp
 msgid "Note (X:TEXT for custom symbol, G; for color):"
 msgstr ""
 
@@ -88185,18 +88380,23 @@ msgid "                          "
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Base HP: %d              "
+#, range: 1..21
+msgid "Base HP:"
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Carry weight: %.1f %s     "
+#, range: 1..19
+msgid "Carry weight(kg):"
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Melee damage: %d         "
+#, range: 1..19
+msgid "Carry weight(lbs):"
+msgstr ""
+
+#: src/player.cpp
+#, range: 1..21
+msgid "Melee damage:"
 msgstr ""
 
 #: src/player.cpp
@@ -88207,8 +88407,19 @@ msgid ""
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Melee to-hit bonus: +%d                      "
+msgid "Melee to-hit bonus:"
+msgstr ""
+
+#: src/player.cpp
+msgid "Ranged penalty:"
+msgstr ""
+
+#: src/player.cpp
+msgid "Throwing bonus:"
+msgstr ""
+
+#: src/player.cpp
+msgid "Throwing penalty:"
 msgstr ""
 
 #: src/player.cpp
@@ -88218,18 +88429,15 @@ msgid ""
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Read times: %d%%           "
+msgid "Read times:"
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Skill rust: %d%%           "
+msgid "Skill rust:"
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Crafting Bonus: %d          "
+msgid "Crafting Bonus:"
 msgstr ""
 
 #: src/player.cpp
@@ -88240,8 +88448,7 @@ msgid ""
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Trap detection level: %d       "
+msgid "Trap detection level:"
 msgstr ""
 
 #: src/player.cpp
@@ -91646,9 +91853,8 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
-"Needs <color_%1$s>%2$s</color>, a <color_%3$s>hammer</color> or <color_"
-"%4$s>nailgun</color>, <color_%5$s>nails</color> and level <color_%6$s>%7$d</"
-"color> skill in mechanics.%8$s"
+"Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in "
+"mechanics.%5$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -91661,8 +91867,9 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
-"Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in "
-"mechanics.%5$s"
+"Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_"
+"%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and "
+"level <color_%6$s>%7$d</color> skill in mechanics.%8$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -92145,6 +92352,35 @@ msgid "Use which gizmo?"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "Siphon what?"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Gasoline"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Diesel"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid ""
+"As you bend the hose into a U-shape, you figure out something's not quite "
+"right..."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s, draining the tank."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"Siphoned %d units of %s from the %s into the %s, receiving tank is full."
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Choose a facing direction for the new headlight."
 msgstr ""
 
@@ -92166,29 +92402,6 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid "You remove the broken %s from the %s."
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "Siphon what?"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "Gasoline"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "Diesel"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "Siphoned %d units of %s from the %s into the %s, draining the tank."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"Siphoned %d units of %s from the %s into the %s, receiving tank is full."
 msgstr ""
 
 #: src/veh_interact.cpp

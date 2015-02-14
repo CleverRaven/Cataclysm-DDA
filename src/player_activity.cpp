@@ -45,7 +45,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop interacting with inventory?"),
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
-        _(" Stop aiming?")
+        _(" Stop aiming?"), _(" Stop using the ATM?")
     };
     return stop_phrase[type];
 }
@@ -99,6 +99,7 @@ bool player_activity::is_suspendable() const
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
         case ACT_AIM:
+        case ACT_ATM:
             return false;
         default:
             return true;
@@ -192,6 +193,17 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_FILL_LIQUID:
             activity_handlers::fill_liquid_do_turn( this, p );
+            break;
+        case ACT_ATM:
+            // Based on speed, not time
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            iexamine::atm(p, nullptr, 0, 0);
             break;
         default:
             // Based on speed, not time
@@ -304,6 +316,12 @@ void player_activity::finish( player *p )
         case ACT_AIM:
             // Aim bails itself by resetting itself every turn,
             // you only re-enter if it gets set again.
+            break;
+        case ACT_ATM:
+            // ATM sets index to 0 to indicate it's finished.
+            if (!index) {
+                type = ACT_NULL;
+            }
             break;
         default:
             type = ACT_NULL;

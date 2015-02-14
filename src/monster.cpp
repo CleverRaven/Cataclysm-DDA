@@ -129,18 +129,19 @@ const point &monster::pos() const
 
 void monster::poly(mtype *t)
 {
- double hp_percentage = double(hp) / double(type->hp);
- type = t;
- moves = 0;
- Creature::set_speed_base(type->speed);
- anger = type->agro;
- morale = type->morale;
- hp = int(hp_percentage * type->hp);
- sp_timeout.clear();
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( elem );
- }
- def_chance = type->def_chance;
+    double hp_percentage = double(hp) / double(type->hp);
+    type = t;
+    moves = 0;
+    Creature::set_speed_base(type->speed);
+    anger = type->agro;
+    morale = type->morale;
+    hp = int(hp_percentage * type->hp);
+    sp_timeout.clear();
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( elem );
+    }
+    def_chance = type->def_chance;
+    faction = t->default_faction;
 }
 
 void monster::spawn(int x, int y)

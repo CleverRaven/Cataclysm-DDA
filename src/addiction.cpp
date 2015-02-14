@@ -1,57 +1,60 @@
 #include "addiction.h"
+#include "debug.h"
+#include "pldata.h"
+#include "player.h"
+#include "morale.h"
 #include "rng.h"
-#include "game.h"
-#include "messages.h"
 
-void addict_effect(addiction &add)
+void addict_effect(player &u, addiction &add,
+                   std::function<void (char const*)> const &cancel_activity)
 {
-    int in = add.intensity;
+    int const in = add.intensity;
 
     switch (add.type) {
     case ADD_CIG:
         if (in > 20 || one_in((500 - 20 * in))) {
-            add_msg(rng(0, 6) < in ? _("You need some nicotine.") :
+            u.add_msg_if_player(rng(0, 6) < in ? _("You need some nicotine.") :
                     _("You could use some nicotine."));
-            g->u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
+            u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
             if (one_in(800 - 50 * in)) {
-                g->u.fatigue++;
+                u.fatigue++;
             }
-            if (g->u.stim > -50 && one_in(400 - 20 * in)) {
-                g->u.stim--;
+            if (u.stim > -50 && one_in(400 - 20 * in)) {
+                u.stim--;
             }
         }
         break;
 
     case ADD_CAFFEINE:
-        g->u.moves -= 2;
+        u.moves -= 2;
         if (in > 20 || one_in((500 - 20 * in))) {
-            add_msg(m_warning, _("You want some caffeine."));
-            g->u.add_morale(MORALE_CRAVING_CAFFEINE, -5, -30);
-            if (g->u.stim > -150 && rng(0, 10) < in) {
-                g->u.stim--;
+            u.add_msg_if_player(m_warning, _("You want some caffeine."));
+            u.add_morale(MORALE_CRAVING_CAFFEINE, -5, -30);
+            if (u.stim > -150 && rng(0, 10) < in) {
+                u.stim--;
             }
             if (rng(8, 400) < in) {
-                add_msg(m_bad, _("Your hands start shaking... you need it bad!"));
-                g->u.add_effect("shakes", 20);
+                u.add_msg_if_player(m_bad, _("Your hands start shaking... you need it bad!"));
+                u.add_effect("shakes", 20);
             }
         }
         break;
 
     case ADD_ALCOHOL:
-        g->u.mod_per_bonus(-1);
-        g->u.mod_int_bonus(-1);
+        u.mod_per_bonus(-1);
+        u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10) {
-            g->u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1);
         }
         if (one_in(20) && rng(0, 20) < in) {
-            add_msg(m_warning, _("You could use a drink."));
-            g->u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
+            u.add_msg_if_player(m_warning, _("You could use a drink."));
+            u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
         } else if (rng(8, 300) < in) {
-            add_msg(m_bad, _("Your hands start shaking... you need a drink bad!"));
-            g->u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
-            g->u.add_effect("shakes", 50);
-        } else if (!g->u.has_effect("hallu") && rng(10, 1600) < in) {
-            g->u.add_effect("hallu", 3600);
+            u.add_msg_if_player(m_bad, _("Your hands start shaking... you need a drink bad!"));
+            u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
+            u.add_effect("shakes", 50);
+        } else if (!u.has_effect("hallu") && rng(10, 1600) < in) {
+            u.add_effect("hallu", 3600);
         }
         break;
 
@@ -64,32 +67,32 @@ void addict_effect(addiction &add)
         break;
 
     case ADD_PKILLER:
-        if ((in >= 25 || int(calendar::turn) % (100 - in * 4) == 0) && g->u.pkill > 0) {
-            g->u.pkill--;    // Tolerance increases!
+        if ((in >= 25 || int(calendar::turn) % (100 - in * 4) == 0) && u.pkill > 0) {
+            u.pkill--;    // Tolerance increases!
         }
-        if (g->u.pkill >= 35) { // No further effects if we're doped up.
+        if (u.pkill >= 35) { // No further effects if we're doped up.
             add.sated = 0;
         } else {
-            g->u.mod_str_bonus(-(1 + int(in / 7)));
-            g->u.mod_per_bonus(-1);
-            g->u.mod_dex_bonus(-1);
-            if (g->u.pain < in * 3) {
-                g->u.mod_pain(1);
+            u.mod_str_bonus(-(1 + int(in / 7)));
+            u.mod_per_bonus(-1);
+            u.mod_dex_bonus(-1);
+            if (u.pain < in * 3) {
+                u.mod_pain(1);
             }
             if (in >= 40 || one_in(1200 - 30 * in)) {
-                g->u.mod_healthy_mod(-1);
+                u.mod_healthy_mod(-1);
             }
             if (one_in(20) && dice(2, 20) < in) {
-                add_msg(m_bad, _("Your hands start shaking... you need some painkillers."));
-                g->u.add_morale(MORALE_CRAVING_OPIATE, -40, -200);
-                g->u.add_effect("shakes", 20 + in * 5);
+                u.add_msg_if_player(m_bad, _("Your hands start shaking... you need some painkillers."));
+                u.add_morale(MORALE_CRAVING_OPIATE, -40, -200);
+                u.add_effect("shakes", 20 + in * 5);
             } else if (one_in(20) && dice(2, 30) < in) {
-                add_msg(m_bad, _("You feel anxious.  You need your painkillers!"));
-                g->u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
+                u.add_msg_if_player(m_bad, _("You feel anxious.  You need your painkillers!"));
+                u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
             } else if (one_in(50) && dice(3, 50) < in) {
-                add_msg(m_bad, _("You throw up heavily!"));
-                g->cancel_activity_query(_("Throwing up."));
-                g->u.vomit();
+                u.add_msg_if_player(m_bad, _("You throw up heavily!"));
+                cancel_activity(_("Throwing up."));
+                u.vomit();
             }
         }
         break;
@@ -99,128 +102,128 @@ void addict_effect(addiction &add)
         // usually 25 moves, this ensures that even at minimal speed
         // the PC gets 5 moves per turn.
         int move_pen = std::min(in * 5, 20);
-        g->u.moves -= move_pen;
-        g->u.mod_int_bonus(-1);
-        g->u.mod_str_bonus(-1);
-        if (g->u.stim > -100 && (in >= 20 || int(calendar::turn) % (100 - in * 5) == 0)) {
-            g->u.stim--;
+        u.moves -= move_pen;
+        u.mod_int_bonus(-1);
+        u.mod_str_bonus(-1);
+        if (u.stim > -100 && (in >= 20 || int(calendar::turn) % (100 - in * 5) == 0)) {
+            u.stim--;
         }
         if (rng(0, 150) <= in) {
-            g->u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1);
         }
         if (dice(2, 100) < in) {
-            add_msg(m_warning, _("You feel depressed.  Speed would help."));
-            g->u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
+            u.add_msg_if_player(m_warning, _("You feel depressed.  Speed would help."));
+            u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
         } else if (one_in(10) && dice(2, 80) < in) {
-            add_msg(m_bad, _("Your hands start shaking... you need a pick-me-up."));
-            g->u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
-            g->u.add_effect("shakes", in * 20);
+            u.add_msg_if_player(m_bad, _("Your hands start shaking... you need a pick-me-up."));
+            u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
+            u.add_effect("shakes", in * 20);
         } else if (one_in(50) && dice(2, 100) < in) {
-            add_msg(m_bad, _("You stop suddenly, feeling bewildered."));
-            g->cancel_activity();
-            g->u.moves -= 300;
-        } else if (!g->u.has_effect("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
-            g->u.add_effect("hallu", 3600);
+            u.add_msg_if_player(m_bad, _("You stop suddenly, feeling bewildered."));
+            cancel_activity(nullptr);
+            u.moves -= 300;
+        } else if (!u.has_effect("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
+            u.add_effect("hallu", 3600);
         }
     }
     break;
 
     case ADD_COKE:
-        g->u.mod_int_bonus(-1);
-        g->u.mod_per_bonus(-1);
+        u.mod_int_bonus(-1);
+        u.mod_per_bonus(-1);
         if (in >= 30 || one_in((900 - 30 * in))) {
-            add_msg(m_warning, _("You feel like you need a bump."));
-            g->u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
+            u.add_msg_if_player(m_warning, _("You feel like you need a bump."));
+            u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
         }
         if (dice(2, 80) <= in) {
-            add_msg(m_warning, _("You feel like you need a bump."));
-            g->u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
-            if (g->u.stim > -150) {
-                g->u.stim -= 3;
+            u.add_msg_if_player(m_warning, _("You feel like you need a bump."));
+            u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
+            if (u.stim > -150) {
+                u.stim -= 3;
             }
         }
         break;
 
     case ADD_CRACK:
-        g->u.mod_int_bonus(-1);
-        g->u.mod_per_bonus(-1);
+        u.mod_int_bonus(-1);
+        u.mod_per_bonus(-1);
         if (in >= 30 || one_in((900 - 30 * in))) {
-            add_msg(m_bad, _("You're shivering, you need some crack."));
-            g->u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
+            u.add_msg_if_player(m_bad, _("You're shivering, you need some crack."));
+            u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
         }
         if (dice(2, 80) <= in) {
-            add_msg(m_bad, _("You're shivering, you need some crack."));
-            g->u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
-            if (g->u.stim > -150) {
-                g->u.stim -= 3;
+            u.add_msg_if_player(m_bad, _("You're shivering, you need some crack."));
+            u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
+            if (u.stim > -150) {
+                u.stim -= 3;
             }
         }
         break;
 
     case ADD_MUTAGEN:
-        if (g->u.has_trait("MUT_JUNKIE")) {
+        if (u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {
-                add_msg(m_warning, rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
+                u.add_msg_if_player(m_warning, rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
                         _("Your body is SOO booorrrring.  Just a little sip to liven things up?"));
-                g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
+                u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
             }
-            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
-                g->u.focus_pool -= (in);
-                add_msg(m_warning,
+            if (u.focus_pool > 40 && one_in(800 - 20 * in)) {
+                u.focus_pool -= (in);
+                u.add_msg_if_player(m_warning,
                         _("You daydream what it'd be like if you were *different*.  Different is good."));
             }
         } else if (in > 5 || one_in((500 - 15 * in))) {
-            add_msg(m_warning, rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
+            u.add_msg_if_player(m_warning, rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
                     _("You could use some new parts..."));
-            g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
+            u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
         }
         break;
 
     case ADD_DIAZEPAM:
-        g->u.mod_per_bonus(-1);
-        g->u.mod_int_bonus(-1);
+        u.mod_per_bonus(-1);
+        u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10) {
-            g->u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1);
         }
         if (one_in(20) && rng(0, 20) < in) {
-            add_msg(m_warning, _("You could use some diazepam."));
-            g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
+            u.add_msg_if_player(m_warning, _("You could use some diazepam."));
+            u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
         } else if (rng(8, 200) < in) {
-            add_msg(m_bad, _("You're shaking... you need some diazepam!"));
-            g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
-            g->u.add_effect("shakes", 50);
-        } else if (!g->u.has_effect("hallu") && rng(10, 3200) < in) {
-            g->u.add_effect("hallu", 3600);
+            u.add_msg_if_player(m_bad, _("You're shaking... you need some diazepam!"));
+            u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
+            u.add_effect("shakes", 50);
+        } else if (!u.has_effect("hallu") && rng(10, 3200) < in) {
+            u.add_effect("hallu", 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
-            add_msg(m_bad, _("You throw up heavily!"));
-            g->cancel_activity_query(_("Throwing up."));
-            g->u.vomit();
+            u.add_msg_if_player(m_bad, _("You throw up heavily!"));
+            cancel_activity(_("Throwing up."));
+            u.vomit();
         }
         break;
     case ADD_MARLOSS_R:
         if (one_in(800 - 20 * in)) {
-            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
-            if (g->u.focus_pool > 40) {
-                g->u.focus_pool -= (in);
+            u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            u.add_msg_if_player(m_info, _("You daydream about luscious pink berries as big as your fist."));
+            if (u.focus_pool > 40) {
+                u.focus_pool -= (in);
             }
         }
         break;
     case ADD_MARLOSS_B:
         if (one_in(800 - 20 * in)) {
-            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
-            if (g->u.focus_pool > 40) {
-                g->u.focus_pool -= (in);
+            u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            u.add_msg_if_player(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
+            if (u.focus_pool > 40) {
+                u.focus_pool -= (in);
             }
         }
         break;
     case ADD_MARLOSS_Y:
         if (one_in(800 - 20 * in)) {
-            g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
-            add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
-            if (g->u.focus_pool > 40) {
-                g->u.focus_pool -= (in);
+            u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            u.add_msg_if_player(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
+            if (u.focus_pool > 40) {
+                u.focus_pool -= (in);
             }
         }
         break;
@@ -236,7 +239,7 @@ void addict_effect(addiction &add)
  * Returns the name of an addiction. It should be able to finish the sentence
  * "Became addicted to ______".
  */
-std::string addiction_type_name(add_type cur)
+std::string addiction_type_name(add_type const cur)
 {
     switch(cur) {
     case ADD_CIG:
@@ -270,7 +273,7 @@ std::string addiction_type_name(add_type cur)
     }
 }
 
-std::string addiction_name(addiction cur)
+std::string addiction_name(addiction const &cur)
 {
     switch (cur.type) {
     case ADD_CIG:
@@ -304,7 +307,7 @@ std::string addiction_name(addiction cur)
     }
 }
 
-morale_type addiction_craving(add_type cur)
+morale_type addiction_craving(add_type const cur)
 {
     switch (cur) {
     case ADD_CIG:
@@ -336,7 +339,7 @@ morale_type addiction_craving(add_type cur)
     }
 }
 
-add_type addiction_type(std::string name)
+add_type addiction_type(std::string const &name)
 {
     if (name == "nicotine") {
         return ADD_CIG;
@@ -372,9 +375,9 @@ add_type addiction_type(std::string name)
     }
 }
 
-std::string addiction_text(addiction cur)
+std::string addiction_text(player const& u, addiction const &cur)
 {
-    int strpen = 1 + int(cur.intensity / 7);
+    int const strpen = 1 + cur.intensity / 7;
     switch (cur.type) {
     case ADD_CIG:
         return _("Intelligence - 1;   Occasional cravings");
@@ -383,28 +386,25 @@ std::string addiction_text(addiction cur)
         return _("Strength - 1;   Slight sluggishness;   Occasional cravings");
 
     case ADD_ALCOHOL:
-        return _("\
-Perception - 1;   Intelligence - 1;   Occasional Cravings;\n\
-Risk of delirium tremens");
+        return _("Perception - 1;   Intelligence - 1;   Occasional Cravings;\n"
+                 "Risk of delirium tremens");
 
     case ADD_SLEEP:
         return _("You may find it difficult to sleep without medication.");
 
     case ADD_PKILLER: {
-        if (g->u.has_trait("NOPAIN")) {
-            return string_format(_(
-                                     "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                                     "Depression.  Frequent cravings.  Vomiting."), strpen);
+        if (u.has_trait("NOPAIN")) {
+            return string_format(_( "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                                    "Depression.  Frequent cravings.  Vomiting."), strpen);
         } else {
-            return string_format(_(
-                                     "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                                     "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
+            return string_format(_( "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                                    "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
         }
     }
 
     case ADD_SPEED:
-        return _("Strength - 1;   Intelligence - 1;\n\
-Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.");
+        return _("Strength - 1;   Intelligence - 1;\n"
+                 "Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.");
 
     case ADD_COKE:
         return _("Perception - 1;   Intelligence - 1;  Frequent cravings.");
@@ -416,8 +416,8 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
         return _("You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want.");
 
     case ADD_DIAZEPAM:
-        return _("Perception - 1;   Intelligence - 1;\n\
-Anxiety, nausea, hallucinations, and general malaise.");
+        return _("Perception - 1;   Intelligence - 1;\n"
+                 "Anxiety, nausea, hallucinations, and general malaise.");
 
     case ADD_MARLOSS_R:
         return _("You should try some of those pink berries.");

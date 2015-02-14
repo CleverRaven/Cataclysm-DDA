@@ -225,7 +225,7 @@ void Messages::display_messages()
     ctxt.register_action("HELP_KEYBINDINGS");
 
     int offset = 0;
-    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1;
+    const int max_len = FULL_SCREEN_WIDTH - 2 - 1;
     const int bottom = FULL_SCREEN_HEIGHT - 2;
     auto const msg_count = static_cast<int>(size());
 
@@ -237,6 +237,7 @@ void Messages::display_messages()
 
         int line = 1;
         int lasttime = -1;
+
         for (auto i = offset; i < msg_count; ++i) {
             if (line > bottom) {
                 break;
@@ -252,7 +253,7 @@ void Messages::display_messages()
                 lasttime = timepassed.get_turn();
             }
 
-            for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
+            for (auto const &folded : foldstring(remove_color_tags(m.get_with_count()), max_len)) {
                 if (line > bottom) {
                     break;
                 }
@@ -264,7 +265,7 @@ void Messages::display_messages()
             mvwprintz(w, bottom + 1, 5, c_magenta, "vvv");
         }
         if (offset > 0) {
-            mvwprintz(w, bottom + 1, maxlength - 3, c_magenta, "^^^");
+            mvwprintz(w, bottom + 1, max_len - 3, c_magenta, "^^^");
         }
         wrefresh(w);
 
@@ -299,7 +300,7 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
         auto const &m  = player_messages.impl_->messages[i];
         auto const col = m.get_color(player_messages.impl_->curmes);
 
-        for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
+        for (auto const &folded : foldstring(remove_color_tags(m.get_with_count()), maxlength)) {
             if (line < top) {
                 break;
             }

@@ -568,7 +568,7 @@ void editmap::update_view(bool update_info)
         }
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
-            mvwprintw(w_info, off, 1, _("There is a %s there."),
+            trim_and_print(w_info, off, 1, getmaxx( w_info ), c_ltgray, _("There is a %s there."),
                       g->m.i_at(target.x, target.y).front().tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
@@ -1256,10 +1256,12 @@ int editmap::edit_itm()
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format("burnt: %d", it->burnt);
                         } else if (imenu.ret == imenu_luminance ) {
-                            auto const delta = (it->is_emissive() && !retval) ? -1 :
-                                               (!it->is_emissive() && retval) ? 1 : 0;
                             int x, y;
-                            g->m.get_submap_at(target.x, target.y, x, y)->lum[x][y] += delta;
+                            if (it->is_emissive() && !retval) {
+                                g->m.get_submap_at(target.x, target.y, x, y)->update_lum_rem(*it, x, y);
+                            } else if (!it->is_emissive() && retval) {
+                                g->m.get_submap_at(target.x, target.y, x, y)->update_lum_add(*it, x, y);
+                            }
 
                             it->light.luminance = (unsigned short)retval;
                             imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);

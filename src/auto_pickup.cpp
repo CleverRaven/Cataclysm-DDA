@@ -337,7 +337,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     }
 
     //Loop through all itemfactory items
-    //TODO: somehow generate damaged, fitting or container items
+    //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( auto &p : item_controller->get_all_itypes() ) {
         sItemName = p.second->nname(1);
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive &&
@@ -368,7 +368,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
               "%s", buf.c_str());
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display damaged, fits and can/bottle items"));
+              _("Won't display bottled and suffixes=(fits)"));
 
     wrefresh(w_test_rule_border);
 

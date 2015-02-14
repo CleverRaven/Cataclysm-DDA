@@ -357,7 +357,7 @@ void mission_start::place_npc_software(mission *miss)
         bool found = false;
         for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
             for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-                if (compmap.ter(x, y) == t_floor) {
+                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
                     found = true;
                     comppoint = point(x, y);
                 }
@@ -367,7 +367,7 @@ void mission_start::place_npc_software(mission *miss)
         bool found = false;
         for (int x = 0; x < SEEX * 2 && !found; x++) {
             for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-                if (compmap.ter(x, y) == t_floor) {
+                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
                     found = true;
                     comppoint = point(x, y);
                 }
@@ -377,7 +377,7 @@ void mission_start::place_npc_software(mission *miss)
         bool found = false;
         for (int x = 0; x < SEEX * 2 && !found; x++) {
             for (int y = 0; y < SEEY * 2 && !found; y++) {
-                if (compmap.ter(x, y) == t_floor) {
+                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
                     found = true;
                     comppoint = point(x, y);
                 }
@@ -387,7 +387,7 @@ void mission_start::place_npc_software(mission *miss)
         bool found = false;
         for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
             for (int y = 0; y < SEEY * 2 && !found; y++) {
-                if (compmap.ter(x, y) == t_floor) {
+                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
                     found = true;
                     comppoint = point(x, y);
                 }

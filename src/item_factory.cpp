@@ -197,6 +197,7 @@ void Item_factory::init()
 
     // TOOLS
     iuse_function_list["SEW"] = &iuse::sew;
+    iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
@@ -356,18 +357,18 @@ void Item_factory::create_inital_categories()
     // (simply define a category in json with the id
     // taken from category_id_* and that definition will get
     // used - see load_item_category)
-    add_category(category_id_guns, -21, _("guns"));
-    add_category(category_id_ammo, -20, _("ammo"));
-    add_category(category_id_weapons, -19, _("weapons"));
-    add_category(category_id_tools, -18, _("tools"));
-    add_category(category_id_clothing, -17, _("clothing"));
-    add_category(category_id_food, -16, _("food"));
-    add_category(category_id_drugs, -15, _("drugs"));
-    add_category(category_id_books, -14, _("books"));
-    add_category(category_id_mods, -13, _("mods"));
-    add_category(category_id_cbm, -12, _("bionics"));
-    add_category(category_id_mutagen, -11, _("mutagen"));
-    add_category(category_id_other, -10, _("other"));
+    add_category(category_id_guns, -21, _("GUNS"));
+    add_category(category_id_ammo, -20, _("AMMO"));
+    add_category(category_id_weapons, -19, _("WEAPONS"));
+    add_category(category_id_tools, -18, _("TOOLS"));
+    add_category(category_id_clothing, -17, _("CLOTHING"));
+    add_category(category_id_food, -16, _("FOOD"));
+    add_category(category_id_drugs, -15, _("DRUGS"));
+    add_category(category_id_books, -14, _("BOOKS"));
+    add_category(category_id_mods, -13, _("MODS"));
+    add_category(category_id_cbm, -12, _("BIONICS"));
+    add_category(category_id_mutagen, -11, _("MUTAGEN"));
+    add_category(category_id_other, -10, _("OTHER"));
 }
 
 void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name)

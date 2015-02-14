@@ -988,14 +988,14 @@ bool npc::enough_time_to_reload(int target, item &gun)
 void npc::update_path(int x, int y)
 {
     if (path.empty()) {
-        path = g->m.route( posx(), posy(), x, y );
+        path = g->m.route( posx(), posy(), x, y, str_cur + weapon.type->melee_dam );
         return;
     }
     point last = path[path.size() - 1];
     if (last.x == x && last.y == y) {
         return;    // Our path already leads to that point, no need to recalculate
     }
-    path = g->m.route( posx(), posy(), x, y );
+    path = g->m.route( posx(), posy(), x, y, str_cur + weapon.type->melee_dam );
     if (!path.empty() && path[0].x == posx() && path[0].y == posy()) {
         path.erase(path.begin());
     }
@@ -1003,10 +1003,12 @@ void npc::update_path(int x, int y)
 
 bool npc::can_move_to(int x, int y) const
 {
-    //Space is considered good with a 20% chance of bashing successfully
-    return( (g->m.move_cost(x, y) > 0 ||
-             g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
-            rl_dist(posx(), posy(), x, y) <= 1 );
+    // Allow moving into any bashable spots, but penalize them during pathing
+    return( rl_dist(posx(), posy(), x, y) <= 1 &&
+              (g->m.move_cost(x, y) > 0 ||
+               g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0 ||
+               g->m.open_door( x, y, !g->m.is_outside( posx(), posy() ), true ) )
+           );
 }
 
 void npc::move_to(int x, int y)
@@ -1113,7 +1115,7 @@ void npc::move_to(int x, int y)
                 g->m.board_vehicle( posx(), posy(), this );
             }
             g->m.creature_in_field( *this );
-        } else if (g->m.open_door(x, y, (g->m.ter(posx(), posy()) == t_floor))) {
+        } else if (g->m.open_door(x, y, !g->m.is_outside( posx(), posy() ) ) ) {
             moves -= 100;
         } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
             moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
@@ -2097,12 +2099,6 @@ void npc::mug_player(player &mark)
 void npc::look_for_player(player &sought)
 {
     if( sees( sought ) ) {
-        if (sought.is_npc())
-            debugmsg("npc::look_for_player() called, but we can see %s!",
-                     sought.name.c_str());
-        else {
-            debugmsg("npc::look_for_player() called, but we can see u!");
-        }
         move_pause();
         return;
     }
@@ -2267,10 +2263,10 @@ void npc::go_to_destination()
                     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
                          //Needs 20% chance of bashing success to be considered for pathing
                          g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
-                         g->m.ter(x + dx, y + dy) == t_door_c) &&
+                         g->m.open_door(x + dx, y + dy, true, true) ) &&
                         sees( x + dx, y + dy )) {
-                        path = g->m.route(posx(), posy(), x + dx, y + dy);
-                        if (!path.empty() && can_move_to(path[0].x, path[0].y)) {
+                        path = g->m.route( posx(), posy(), x + dx, y + dy, str_cur + weapon.type->melee_dam );
+                        if( !path.empty() && can_move_to( path[0].x, path[0].y ) ) {
                             move_to_next();
                             return;
                         } else {

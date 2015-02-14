@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "mtype.h"
-#include "monster.h"
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
@@ -77,19 +76,12 @@ enum target_mode {
     TARGET_MODE_TURRET
 };
 
-// Refactoring into base monster class.
-
-struct monster_and_count {
-    monster critter;
-    int count;
-    monster_and_count(monster M, int C) : critter (M), count (C) {};
-};
-
 struct special_game;
 struct mtype;
 struct mission_type;
 class map;
 class player;
+class monster;
 class calendar;
 class DynamicDataLoader;
 
@@ -217,7 +209,7 @@ class game
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
         bool revive_corpse(int x, int y, item *it);
-        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done 
+        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
@@ -228,7 +220,7 @@ class game
          *  throw() and vehicle::aim_turrets() */
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                                   int hiy, std::vector <Creature *> t, int &target,
-                                  item *relevent, target_mode mode, 
+                                  item *relevent, target_mode mode,
                                   point from = point(-1, -1));
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
@@ -333,34 +325,35 @@ class game
         // Look at nearby terrain ';', or select zone points
         point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
 
+        void list_items_monsters();
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
         void print_all_tile_info(int lx, int ly, WINDOW *w_look, int column, int &line, bool mouse_hover);
 
-        bool list_items_match(item &item, std::string sPattern);
+        bool list_items_match(const item *item, std::string sPattern);
         int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
         int list_filter_low_priority(std::vector<map_item_stack> &stack, int start, std::string prorities);
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::string ask_item_filter(WINDOW *window, int rows);
+        void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
         void draw_trail_to_square(int x, int y, bool bDrawX);
-        void reset_item_list_state(WINDOW *window, int height);
+        void reset_item_list_state(WINDOW *window, int height, bool bRadiusSort);
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title, const int &position = INT_MIN);
-        int inv_activatable(std::string title);
-        int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
-        int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-        int inv_for_salvage(const std::string title);
-        item *inv_map_for_liquid(const item &liquid, const std::string title);
-        int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
-        int inv_for_filter(const std::string title, const item_filter filter );
-        int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
+        int inv(const std::string &title, int position = INT_MIN);
+        int inv_activatable(std::string const &title);
+        int inv_type(std::string const &title, item_cat inv_item_type = IC_NULL);
+        int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
+        int inv_for_salvage(const std::string &title);
+        item *inv_map_for_liquid(const item &liquid, const std::string &title);
+        int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
+        int inv_for_filter(const std::string &title, item_filter filter );
+        int display_slice(indexed_invslice const&, const std::string &, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -465,7 +458,7 @@ class game
         void draw_explosion(int x, int y, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
                          timespec &ts);
-        void draw_hit_mon(int x, int y, monster critter, bool dead = false);
+        void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
         void draw_hit_player(player *p, const int iDam, bool dead = false);
         void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
         void draw_line(const int x, const int y, std::vector<point> ret);

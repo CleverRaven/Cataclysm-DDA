@@ -112,14 +112,14 @@ void Character::load(JsonObject &data)
     Creature::load( data );
 
     JsonArray parray;
-    
+
     data.read("underwater", underwater);
-    
+
     data.read("traits", my_traits);
 
     data.read( "mutations", my_mutations );
     data.read( "mutation_keys", trait_keys );
-    
+
     data.read( "my_bionics", my_bionics );
 
     worn.clear();
@@ -141,7 +141,7 @@ void Character::load(JsonObject &data)
 
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
-    
+
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
@@ -159,7 +159,7 @@ void Character::load(JsonObject &data)
 void Character::store(JsonOut &json) const
 {
     Creature::store( json );
-    
+
     // breathing
     json.member( "underwater", underwater );
 
@@ -172,7 +172,7 @@ void Character::store(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
-    
+
     // skills
     json.member( "skills" );
     json.start_object();
@@ -887,6 +887,7 @@ void monster::load(JsonObject &data)
     }
     type = GetMType(sidtmp);
 
+    data.read( "unique_name", unique_name );
     data.read("posx", position.x);
     data.read("posy", position.y);
     data.read("wandx", wandx);
@@ -953,6 +954,7 @@ void monster::store(JsonOut &json) const
 {
     Creature::store( json );
     json.member( "typeid", type->id );
+    json.member( "unique_name", unique_name );
     json.member("posx", position.x);
     json.member("posy", position.y);
     json.member("wandx", wandx);

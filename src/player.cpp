@@ -243,7 +243,7 @@ player::~player()
 void player::normalize()
 {
     Character::normalize();
-    
+
     style_selected = "style_none";
 
     recalc_hp();
@@ -277,7 +277,7 @@ std::string player::skin_name() const
 void player::reset_stats()
 {
     Character::reset_stats();
-    
+
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -1230,7 +1230,7 @@ void player::update_bodytemp()
             }
         }
 
-        int temp_before = temp_cur[i];        
+        int temp_before = temp_cur[i];
         int temp_difference = temp_before - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
@@ -1242,12 +1242,12 @@ void player::update_bodytemp()
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
         }
-        // This statement checks if we should be wearing our bonus warmth. 
+        // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if (clothing_warmth_adjusted_bonus != 0 && 
-            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {            
+        if (clothing_warmth_adjusted_bonus != 0 &&
+            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {
             temp_conv[i] += clothing_warmth_adjusted_bonus;
-            rounding_error = 0;            
+            rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
                 rounding_error = 1;
             }
@@ -2366,7 +2366,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for( auto &elem : addictions ) {
         if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( elem ) );
+            effect_text.push_back( addiction_text( *this, elem ) );
         }
     }
 
@@ -2535,21 +2535,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     // First!  Default STATS screen.
     const char* title_STATS = _("STATS");
     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
-    mvwprintz(w_stats, 2, 1, c_ltgray, "                     ");
-    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-    mvwprintz(w_stats, 2, 20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
-    mvwprintz(w_stats, 3, 1, c_ltgray, "                     ");
-    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-    mvwprintz(w_stats, 3, 20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
-    mvwprintz(w_stats, 4, 1, c_ltgray, "                     ");
-    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-    mvwprintz(w_stats, 4, 20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
-    mvwprintz(w_stats, 5, 1, c_ltgray, "                     ");
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-    mvwprintz(w_stats, 5, 20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
     nc_color status = c_white;
 
+    // Strength current and max
     int stat_tmp = get_str();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2563,8 +2552,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  2, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
+    mvwprintz(w_stats, 2, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 2, 21, c_ltgray, "(%2d)", str_max);
 
+    // Dexterity current and max
     stat_tmp = get_dex();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2578,8 +2570,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  3, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
+    mvwprintz(w_stats, 3, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 3, 21, c_ltgray, "(%2d)", dex_max);
 
+    // Intelligence current and max
     stat_tmp = get_int();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2593,8 +2588,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  4, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
+    mvwprintz(w_stats, 4, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 4, 21, c_ltgray, "(%2d)", int_max);
 
+    // Intelligence current and max
     stat_tmp = get_per();
     if (stat_tmp <= 0)
         status = c_dkgray;
@@ -2608,7 +2606,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  5, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
+    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
+    mvwprintz(w_stats, 5, 18, status, "%2d", stat_tmp);
+    mvwprintz(w_stats, 5, 21, c_ltgray, "(%2d)", per_max);
 
     wrefresh(w_stats);
 
@@ -2882,58 +2882,75 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             case 1: // Stats tab
                 mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
                 mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
+
+                // Clear bonus/penalty menu.
+                mvwprintz(w_stats, 6, 0, c_ltgray, "%26s", "");
+                mvwprintz(w_stats, 7, 0, c_ltgray, "%26s", "");
+                mvwprintz(w_stats, 8, 0, c_ltgray, "%26s", "");
+
                 if (line == 0) {
-                    // display player current STR effects
+                    // Display player current strength effects
                     mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "), hp_max[1]);
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "),
-                              convert_weight(weight_capacity()),
-                              OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
-                              base_damage(false));
-
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Strength affects your melee damage, the amount of weight you can carry, your total HP, \
-your resistance to many diseases, and the effectiveness of actions which require brute force."));
-                } else if (line == 1) {
-                    // display player current DEX effects
-                    mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus: +%d                      "),
-                              base_to_hit(false));
-                    mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_dex_mod()));
-                    mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
-                    if (throw_dex_mod(false) <= 0) {
-                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
-                        abs(throw_dex_mod(false)));
+                    // xgettext:range: 1..21
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP:"));
+                    mvwprintz(w_stats, 6, 22, c_magenta, "%3d", hp_max[1]);
+                    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
+                        // xgettext:range: 1..19
+                        mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight(kg):"));
                     } else {
-                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty: -%d"),
-                        abs(throw_dex_mod(false)));
+                        // xgettext:range: 1..19
+                        mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight(lbs):"));
                     }
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Dexterity affects your chance to hit in melee combat, helps you steady your \
-gun for ranged combat, and enhances many actions that require finesse."));
-                } else if (line == 2) {
-                    // display player current INT effects
-                    mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
-                    mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "), read_speed(false));
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), get_int());
+                    mvwprintz(w_stats, 7, 21, c_magenta, "%4.1f", convert_weight(weight_capacity()));
+                    // xgettext:range: 1..21
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage:"));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%3d", base_damage(false));
 
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Intelligence is less important in most situations, but it is vital for more complex tasks like \
-electronics crafting. It also affects how much skill you can pick up from reading a book."));
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Strength affects your melee damage, the amount of weight you can carry, your total HP, "
+                     "your resistance to many diseases, and the effectiveness of actions which require brute force."));
+                } else if (line == 1) {
+                    // Display player current dexterity effects
+                    mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
+
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus:"));
+                    mvwprintz(w_stats, 6, 22, c_magenta, "%+3d", base_to_hit(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty:"));
+                    mvwprintz(w_stats, 7, 21, c_magenta, "%+4d", -(abs(ranged_dex_mod())));
+                    if (throw_dex_mod(false) <= 0) {
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus:"));
+                    } else {
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty:"));
+                    }
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%+3d", -(throw_dex_mod(false)));
+
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Dexterity affects your chance to hit in melee combat, helps you steady your "
+                     "gun for ranged combat, and enhances many actions that require finesse."));
+                } else if (line == 2) {
+                    // Display player current intelligence effects
+                    mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Read times:"));
+                    mvwprintz(w_stats, 6, 21, c_magenta, "%3d%%", read_speed(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust:"));
+                    mvwprintz(w_stats, 7, 22, c_magenta, "%2d%%", rust_rate(false));
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus:"));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%2d%%", get_int());
+
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Intelligence is less important in most situations, but it is vital for more complex tasks like "
+                     "electronics crafting. It also affects how much skill you can pick up from reading a book."));
                 } else if (line == 3) {
-                    // display player current PER effects
+                    // Display player current perception effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
-                    mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_per_mod()),"          ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
-                    mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
-                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Perception is the most important stat for ranged combat. It's also used for \
-detecting traps and other things of interest."));
+                    mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty:"));
+                    mvwprintz(w_stats, 6, 21, c_magenta, "%+4d", -(abs(ranged_per_mod())));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level:"));
+                    mvwprintz(w_stats, 7, 23, c_magenta, "%2d", get_per());
+
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                     _("Perception is the most important stat for ranged combat. It's also used for "
+                     "detecting traps and other things of interest."));
                 }
                 wrefresh(w_stats);
                 wrefresh(w_info);
@@ -3009,11 +3026,10 @@ detecting traps and other things of interest."));
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
-                s += string_format( _("\
-Perception %+d when checking traps or firing ranged weapons;\n\
-Perception %+.1f when throwing items."),
-                               -encumb(bp_eyes),
-                               double(double(-encumb(bp_eyes)) / 2));
+                s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
+                                     "Perception %+.1f when throwing items."),
+                                   -encumb(bp_eyes),
+                                   double(double(-encumb(bp_eyes)) / 2));
             } else if (line == 3) { //Eyes
                 s += run_cost_text( encumb( bp_mouth ) * 5 );
             } else if (line == 4) { //Left Arm
@@ -3467,9 +3483,9 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
         wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            wprintz(w, c, _("%s (Burst)"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
         } else {
-            wprintz(w, c, _("%s"), weapname().c_str());
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
         }
     }
 }
@@ -7240,7 +7256,13 @@ void player::suffer()
         for (size_t i = 0; i < addictions.size(); i++) {
             if (addictions[i].sated <= 0 &&
                 addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-                addict_effect(addictions[i]);
+                addict_effect(*this, addictions[i], [&](char const *const msg) {
+                    if (msg) {
+                        g->cancel_activity_query(msg);
+                    } else {
+                        g->cancel_activity();
+                    }
+                });
             }
             addictions[i].sated--;
             if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
@@ -11507,7 +11529,7 @@ float player::fine_detail_vision_mod()
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) { vision_ii -= 2; }
     else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
       has_trait("CEPH_VISION")) {
         vision_ii -= 3;
@@ -11609,7 +11631,7 @@ int player::bonus_warmth(body_part bp) const
     if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
-    
+
     return ret;
 }
 
@@ -11938,7 +11960,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             if( is_player() ) {
                 SCT.add(posx(), posy(),
                     NORTH,
-                    pre_damage_name, m_neutral,
+                    remove_color_tags( pre_damage_name ), m_neutral,
                     damage_verb, m_info);
             }
         }
@@ -11989,7 +12011,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                                  worn[index].tname().c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
-                                              worn[index].tname().c_str() );
+                                              worn[index].tname( 1, false ).c_str() );
                 worn.erase(worn.begin() + index);
             }
         }
@@ -12176,7 +12198,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                        worn[i].tname().c_str());
                         add_msg_player_or_npc(m_bad, _("Your %s is completely destroyed!"),
                                                      _("<npcname>'s %s is completely destroyed!"),
-                                                     worn[i].tname().c_str() );
+                                                     worn[i].tname( 1, false ).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         auto &material = worn[i].get_random_material();

@@ -79,7 +79,7 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
     }
 }
 /* Monster hit animation */
-void game::draw_hit_mon(int x, int y, monster m, bool dead)
+void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
 {
     if (use_tiles) {
         //int iTimeout = 0;

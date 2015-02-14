@@ -1139,7 +1139,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff);
             it_tmp.load_info(databuff);
             if( it_tmp.is_emissive() ) {
-                sm->lum[itx][ity]++;
+                sm->update_lum_add(it_tmp, itx, ity);
             }
             sm->itm[itx][ity].push_back(it_tmp);
             if( it_tmp.active ) {
@@ -1415,7 +1415,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 getline(fin, databuff);
                 it_tmp.load_info(databuff);
                 if (it_tmp.is_emissive()) {
-                    sm->lum[itx][ity]++;
+                    sm->update_lum_add(it_tmp, itx, ity);
                 }
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active) {

@@ -4,10 +4,16 @@
 #include "lightmap.h"
 #include "options.h"
 
+#include <cmath>
+
 #define INBOUNDS(x, y) \
     (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
+
+constexpr double PI     = 3.14159265358979323846;
+constexpr double HALFPI = 1.57079632679489661923;
+constexpr double SQRT_2 = 1.41421356237309504880;
 
 void map::add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                                 std::list<item>::iterator end )
@@ -26,6 +32,83 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
     }
 }
 
+// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+void map::build_transparency_cache()
+{
+    if( !transparency_cache_dirty ) {
+        return;
+    }
+
+    // Default to fully transparent.
+    std::uninitialized_fill_n(
+        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_CLEAR);
+
+    auto const stride = my_MAPSIZE;
+
+    // Traverse the submaps in order
+    for (int smx = 0; smx < MAPSIZE; ++smx) {
+        for (int smy = 0; smy < MAPSIZE; ++smy) {
+            auto const cur_submap = grid[smx + smy * stride];
+    
+            for (int sx = 0; sx < SEEX; ++sx) {
+                for (int sy = 0; sy < SEEY; ++sy) {
+                    auto const x = sx + smx * SEEX;
+                    auto const y = sy + smy * SEEY;
+                    
+                    auto &value = transparency_cache[x][y];
+
+                    if (!(terlist [cur_submap->ter[sx][sy]].transparent &&
+                          furnlist[cur_submap->frn[sx][sy]].transparent))
+                    {
+                        value = LIGHT_TRANSPARENCY_SOLID;
+                        continue;
+                    }
+
+                    for (auto const &fld : cur_submap->fld[sx][sy]) {
+                        auto const &cur    = fld.second;
+                        auto const type    = cur.getFieldType();
+                        auto const density = cur.getFieldDensity();
+
+                        if (fieldlist[type].transparent[density - 1]) {
+                            continue;
+                        }
+
+                        // Fields are either transparent or not, however we want some to be translucent
+                        switch (type) {
+                        case fd_cigsmoke:
+                        case fd_weedsmoke:
+                        case fd_cracksmoke:
+                        case fd_methsmoke:
+                        case fd_relax_gas:
+                            value *= 0.7;
+                            break;
+                        case fd_smoke:
+                        case fd_incendiary:
+                        case fd_toxic_gas:
+                        case fd_tear_gas:
+                            if (density == 3) {
+                                value = LIGHT_TRANSPARENCY_SOLID;
+                            } else if (density == 2) {
+                                value *= 0.5;
+                            }
+                            break;
+                        case fd_nuke_gas:
+                            value *= 0.5;
+                            break;
+                        default:
+                            value = LIGHT_TRANSPARENCY_SOLID;
+                            break;
+                        }
+                        // TODO: [lightmap] Have glass reduce light as well
+                    }
+                }
+            }
+        }
+    }
+    
+    transparency_cache_dirty = false;
+}
+
 void map::generate_lightmap()
 {
     memset(lm, 0, sizeof(lm));
@@ -41,19 +124,19 @@ void map::generate_lightmap()
      */
     memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
+    constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
+    constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
+    constexpr int dir_d[] = { 180, 270, 0, 90 }; //    [3]
 
-    const int dir_x[] = { 1, 0 , -1,  0 };
-    const int dir_y[] = { 0, 1 ,  0, -1 };
-    const int dir_d[] = { 180, 270, 0, 90 };
+    const bool  u_is_inside    = !is_outside(g->u.posx(), g->u.posy());
     const float held_luminance = g->u.active_light();
-    const float natural_light = g->natural_light_level();
+    const float natural_light  = g->natural_light_level();
+    const float hl             = natural_light / 2;
 
     if (natural_light > LIGHT_SOURCE_BRIGHT) {
         // Apply sunlight, first light source so just assign
-        for(int sx = DAYLIGHT_LEVEL - (natural_light / 2);
-            sx < LIGHTMAP_CACHE_X - (natural_light / 2); ++sx) {
-            for(int sy = DAYLIGHT_LEVEL - (natural_light / 2);
-                sy < LIGHTMAP_CACHE_Y - (natural_light / 2); ++sy) {
+        for (int sx = DAYLIGHT_LEVEL - hl; sx < LIGHTMAP_CACHE_X - hl; ++sx) {
+            for (int sy = DAYLIGHT_LEVEL - hl; sy < LIGHTMAP_CACHE_Y - hl; ++sy) {
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
@@ -71,92 +154,100 @@ void map::generate_lightmap()
         apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
     }
 
-    auto const u_is_inside = !is_outside(g->u.posx(), g->u.posy());
-    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
-        for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-            // When underground natural_light is 0, if this changes we need to revisit
-            // Only apply this whole thing if the player is inside,
-            // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_SOURCE_BRIGHT && u_is_inside && !is_outside(sx, sy)) {
-                // Apply light sources for external/internal divide
-                for(int i = 0; i < 4; ++i) {
-                    if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
-                        is_outside(sx + dir_x[i], sy + dir_y[i])) {
-                        lm[sx][sy] = natural_light;
+    // LIGHTMAP_CACHE_X = MAPSIZE * SEEX
+    // LIGHTMAP_CACHE_Y = MAPSIZE * SEEY
+    // Traverse the submaps in order
+    auto const stride = my_MAPSIZE;
+    for (int smx = 0; smx < MAPSIZE; ++smx) {
+        for (int smy = 0; smy < MAPSIZE; ++smy) {
+            auto const cur_submap = grid[smx + smy * stride];
+    
+            for (int sx = 0; sx < SEEX; ++sx) {
+                for (int sy = 0; sy < SEEY; ++sy) {
+                    auto const x = sx + smx * SEEX;
+                    auto const y = sy + smy * SEEY;
+                    // When underground natural_light is 0, if this changes we need to revisit
+                    // Only apply this whole thing if the player is inside,
+                    // buildings will be shadowed when outside looking in.
+                    if (natural_light > LIGHT_SOURCE_BRIGHT && u_is_inside && !is_outside(x, y)) {
+                        // Apply light sources for external/internal divide
+                        for(int i = 0; i < 4; ++i) {
+                            if (INBOUNDS(x + dir_x[i], y + dir_y[i]) &&
+                                is_outside(x + dir_x[i], y + dir_y[i])) {
+                                lm[x][y] = natural_light;
 
-                        if (light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
-                            apply_light_arc(sx, sy, dir_d[i], natural_light);
+                                if (light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID) {
+                                    apply_light_arc(x, y, dir_d[i], natural_light);
+                                }
+                            }
                         }
                     }
-                }
-            }
-            
-            {
-                int lx, ly;
-                if (get_submap_at(sx, sy, lx, ly)->lum[lx][ly]) {
-                    auto items = i_at(sx, sy);
-                    add_light_from_items(sx, sy, items.begin(), items.end());
-                }
-            }
 
-            const ter_id terrain = ter(sx, sy);
-            if (terrain == t_lava) {
-                add_light_source(sx, sy, 50 );
-            } else if (terrain == t_console) {
-                add_light_source(sx, sy, 3 );
-            } else if (terrain == t_utility_light) {
-                add_light_source(sx, sy, 35 );
-            }
+                    if (cur_submap->lum[sx][sy]) {
+                        auto items = i_at(x, y);
+                        add_light_from_items(x, y, items.begin(), items.end());
+                    }
 
-            for( auto &fld : field_at(sx, sy) ) {
-                const field_entry *cur = &fld.second;
-                // TODO: [lightmap] Attach light brightness to fields
-                switch(cur->getFieldType()) {
-                case fd_fire:
-                    if (3 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 160);
-                    } else if (2 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 60);
-                    } else {
-                        add_light_source(sx, sy, 16);
+                    const ter_id terrain = cur_submap->ter[sx][sy];
+                    if (terrain == t_lava) {
+                        add_light_source(x, y, 50 );
+                    } else if (terrain == t_console) {
+                        add_light_source(x, y, 3 );
+                    } else if (terrain == t_utility_light) {
+                        add_light_source(x, y, 35 );
                     }
-                    break;
-                case fd_fire_vent:
-                case fd_flame_burst:
-                    add_light_source(sx, sy, 8);
-                    break;
-                case fd_electricity:
-                case fd_plasma:
-                    if (3 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 8);
-                    } else if (2 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 1);
-                    } else {
-                        apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL,
-                                           trigdist);    // kinda a hack as the square will still get marked
+
+                    for( auto &fld : cur_submap->fld[sx][sy] ) {
+                        const field_entry *cur = &fld.second;
+                        // TODO: [lightmap] Attach light brightness to fields
+                        switch(cur->getFieldType()) {
+                        case fd_fire:
+                            if (3 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 160);
+                            } else if (2 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 60);
+                            } else {
+                                add_light_source(x, y, 16);
+                            }
+                            break;
+                        case fd_fire_vent:
+                        case fd_flame_burst:
+                            add_light_source(x, y, 8);
+                            break;
+                        case fd_electricity:
+                        case fd_plasma:
+                            if (3 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 8);
+                            } else if (2 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 1);
+                            } else {
+                                apply_light_source(x, y, LIGHT_SOURCE_LOCAL,
+                                                   trigdist);    // kinda a hack as the square will still get marked
+                            }
+                            break;
+                        case fd_incendiary:
+                            if (3 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 30);
+                            } else if (2 == cur->getFieldDensity()) {
+                                add_light_source(x, y, 16);
+                            } else {
+                                add_light_source(x, y, 8);
+                            }
+                            break;
+                        case fd_laser:
+                            apply_light_source(x, y, 1, trigdist);
+                            break;
+                        case fd_spotlight:
+                            add_light_source(x, y, 20);
+                            break;
+                        case fd_dazzling:
+                            add_light_source(x, y, 2);
+                            break;
+                        default:
+                            //Suppress warnings
+                            break;
+                        }
                     }
-                    break;
-                case fd_incendiary:
-                    if (3 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 30);
-                    } else if (2 == cur->getFieldDensity()) {
-                        add_light_source(sx, sy, 16);
-                    } else {
-                        add_light_source(sx, sy, 8);
-                    }
-                    break;
-                case fd_laser:
-                    apply_light_source(sx, sy, 1, trigdist);
-                    break;
-                case fd_spotlight:
-                    add_light_source(sx, sy, 20);
-                    break;
-                case fd_dazzling:
-                    add_light_source(sx, sy, 2);
-                    break;
-                default:
-                    //Suppress warnings
-                    break;
                 }
             }
         }
@@ -200,6 +291,7 @@ void map::generate_lightmap()
                     int px = vv.x + v->parts[light_indice].precalc[0].x;
                     int py = vv.y + v->parts[light_indice].precalc[0].y;
                     if(INBOUNDS(px, py)) {
+                        add_light_source(px, py, SQRT_2); // Add a little surrounding light
                         apply_light_arc( px, py, dir + v->parts[light_indice].direction,
                                          veh_luminance, 45 );
                     }
@@ -486,11 +578,7 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
-    static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
-    memset(lit, 0, sizeof(lit));
-
     if (INBOUNDS(x, y)) {
-        lit[x][y] = true;
         lm[x][y] += std::max(luminance, static_cast<float>(LL_LOW));
         sm[x][y] += luminance;
     }
@@ -498,7 +586,15 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
         return;
     } else if ( luminance <= 2 ) {
         luminance = 1.49f;
+    } else if (luminance <= LIGHT_SOURCE_LOCAL) {
+        return;
     }
+
+    bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y] {};
+    if (INBOUNDS(x, y)) {
+        lit[x][y] = true;
+    }
+
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
          neighboring fires to the north and west that were applied via light_source_buffer
        If there's a 1 luminance candle east in buffer, we still cast rays into ex since it's smaller
@@ -521,30 +617,28 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
     bool east = (x != peer_inbounds && light_source_buffer[x + 1][y] < luminance );
     bool west = (x != 0 && light_source_buffer[x - 1][y] < luminance );
 
-    if (luminance > LIGHT_SOURCE_LOCAL) {
-        int range = LIGHT_RANGE(luminance);
-        int sx = x - range;
-        int ex = x + range;
-        int sy = y - range;
-        int ey = y + range;
+    int range = LIGHT_RANGE(luminance);
+    int sx = x - range;
+    int ex = x + range;
+    int sy = y - range;
+    int ey = y + range;
 
-        for(int off = sx; off <= ex; ++off) {
-            if ( south ) {
-                apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
-            }
-            if ( north ) {
-                apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
-            }
+    for(int off = sx; off <= ex; ++off) {
+        if ( south ) {
+            apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
         }
+        if ( north ) {
+            apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
+        }
+    }
 
-        // Skip corners with + 1 and < as they were done
-        for(int off = sy + 1; off < ey; ++off) {
-            if ( west ) {
-                apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
-            }
-            if ( east ) {
-                apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
-            }
+    // Skip corners with + 1 and < as they were done
+    for(int off = sy + 1; off < ey; ++off) {
+        if ( west ) {
+            apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
+        }
+        if ( east ) {
+            apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
         }
     }
 }
@@ -556,10 +650,9 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
         return;
     }
 
-    static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
-    memset(lit, 0, sizeof(lit));
+    bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y] {};
 
-#define lum_mult 3.0
+    constexpr float lum_mult = 3.0f;
 
     luminance = luminance * lum_mult;
 
@@ -567,9 +660,6 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     apply_light_source(x, y, LIGHT_SOURCE_LOCAL, trigdist);
 
     // Normalise (should work with negative values too)
-
-    const double PI = 3.14159265358979f;
-    const double HALFPI = 1.570796326794895f;
     const double wangle = wideangle / 2.0;
 
     int nangle = angle % 360;
@@ -582,35 +672,36 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     int testx, testy;
     calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
-    double wdist = sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy)));
-    if(wdist > 0.5) {
-        double wstep = ( wangle / ( wdist *
-                                    1.42 ) ); // attempt to determine beam density required to cover all squares
+    auto const wdist = std::hypot(endx - testx, endy - testy);
+    if (wdist <= 0.5) {
+        return;
+    }
 
-        for (double ao = wstep; ao <= wangle; ao += wstep) {
-            if ( trigdist ) {
-                double fdist = (ao * HALFPI) / wangle;
-                double orad = ( PI * ao / 180.0 );
-                endx = int( x + ( (double)range - fdist * 2.0) * cos(rad + orad) );
-                endy = int( y + ( (double)range - fdist * 2.0) * sin(rad + orad) );
-                apply_light_ray(lit, x, y, endx, endy , luminance, true);
+    // attempt to determine beam density required to cover all squares
+    double const wstep = ( wangle / ( wdist * SQRT_2 ) );
 
-                endx = int( x + ( (double)range - fdist * 2.0) * cos(rad - orad) );
-                endy = int( y + ( (double)range - fdist * 2.0) * sin(rad - orad) );
-                apply_light_ray(lit, x, y, endx, endy , luminance, true);
-            } else {
-                calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
-                apply_light_ray(lit, x, y, endx, endy , luminance, false);
-                calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
-                apply_light_ray(lit, x, y, endx, endy , luminance, false);
-            }
+    for (double ao = wstep; ao <= wangle; ao += wstep) {
+        if ( trigdist ) {
+            double fdist = (ao * HALFPI) / wangle;
+            double orad = ( PI * ao / 180.0 );
+            endx = int( x + ( (double)range - fdist * 2.0) * cos(rad + orad) );
+            endy = int( y + ( (double)range - fdist * 2.0) * sin(rad + orad) );
+            apply_light_ray(lit, x, y, endx, endy , luminance, true);
+
+            endx = int( x + ( (double)range - fdist * 2.0) * cos(rad - orad) );
+            endy = int( y + ( (double)range - fdist * 2.0) * sin(rad - orad) );
+            apply_light_ray(lit, x, y, endx, endy , luminance, true);
+        } else {
+            calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
+            apply_light_ray(lit, x, y, endx, endy , luminance, false);
+            calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
+            apply_light_ray(lit, x, y, endx, endy , luminance, false);
         }
     }
 }
 
 void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
 {
-    const double PI = 3.14159265358979f;
     double rad = (PI * angle) / 180;
     if (trigdist) {
         *outx = x + range * cos(rad);
