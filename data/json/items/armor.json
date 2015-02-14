@@ -12326,7 +12326,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
