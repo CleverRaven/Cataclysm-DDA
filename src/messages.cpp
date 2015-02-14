@@ -136,11 +136,13 @@ public:
         messages.emplace_back(remove_color_tags(std::move(msg)), type);
     }
 
-    std::vector<std::pair<std::string, std::string>> recent_messages(const size_t count) const {
-        std::vector<std::pair<std::string, std::string>> result;
+    std::vector<std::pair<std::string, std::string>> recent_messages(size_t count) const {
+        count = std::min(count, messages.size());
 
-        auto const offset = static_cast<std::ptrdiff_t>(
-            messages.size() - std::min(messages.size(), count));
+        std::vector<std::pair<std::string, std::string>> result;
+        result.reserve(count);
+
+        const int offset = static_cast<std::ptrdiff_t>( messages.size() - count );
 
         std::transform(begin(messages) + offset, end(messages), back_inserter(result),
             [](game_message const& msg) {
