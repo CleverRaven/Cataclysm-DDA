@@ -173,13 +173,13 @@ int player::create(character_type type, std::string tempname)
                     do {
                         rn = random_bad_trait();
                         tries++;
-                    } while ((has_trait(rn) || num_btraits - mutation_data[rn].points > max_trait_points) &&
+                    } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
                              tries < 5);
 
                     if (tries < 5 && !has_conflicting_trait(rn)) {
                         toggle_trait(rn);
-                        points -= mutation_data[rn].points;
-                        num_btraits -= mutation_data[rn].points;
+                        points -= mutation_branch::get( rn ).points;
+                        num_btraits -= mutation_branch::get( rn ).points;
                     }
                 } else {
                     switch (rng(1, 4)) {
@@ -221,7 +221,7 @@ int player::create(character_type type, std::string tempname)
                 case 4:
                     rn = random_good_trait();
                     {
-                        auto &mdata = mutation_data[rn];
+                        auto &mdata = mutation_branch::get( rn );
                     if (!has_trait(rn) && points >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points &&
                         !has_conflicting_trait(rn)) {
@@ -455,7 +455,7 @@ int player::create(character_type type, std::string tempname)
     }
     for( auto &t : get_base_traits() ) {
         std::vector<std::string> styles;
-        for( auto &s : mutation_data[t].initial_ma_styles ) {
+        for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
             if( !has_martialart( s ) ) {
                 styles.push_back( s );
             }
@@ -773,7 +773,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for( auto &traits_iter : mutation_data ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
             if( traits_iter.second.points >= 0 ) {
                 vStartingTraits[0].push_back( traits_iter.first );
@@ -854,7 +854,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
                     (int)((iContentHeight > traits_size[iCurrentPage]) ?
                           traits_size[iCurrentPage] : iContentHeight)) {
-                    auto &mdata = mutation_data[vStartingTraits[iCurrentPage][i]];
+                    auto &mdata = mutation_branch::get( vStartingTraits[iCurrentPage][i] );
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
                                   "                                      ");
@@ -939,7 +939,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "CONFIRM") {
             int inc_type = 0;
             std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
-            const auto &mdata = mutation_data[cur_trait];
+            const auto &mdata = mutation_branch::get( cur_trait );
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
@@ -1141,7 +1141,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         } else {
             for( const auto &t : sorted_profs[cur_id]->traits() ) {
-                buffer << mutation_data[ t ].name << "\n";
+                buffer << mutation_branch::get_name( t ) << "\n";
             }
         }
 
@@ -1678,8 +1678,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz( w_traits, ( mutation_data[current_trait].points > 0 ) ? c_ltgreen : c_ltred,
-                             mutation_data[current_trait].name.c_str() );
+                    wprintz( w_traits, ( mutation_branch::get( current_trait ).points > 0 ) ? c_ltgreen : c_ltred,
+                             mutation_branch::get_name( current_trait ).c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -1901,7 +1901,7 @@ void Character::empty_skills()
 }
 void Character::add_traits()
 {
-    for( auto &traits_iter : mutation_data ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( g->scen->locked_traits( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }
@@ -1911,7 +1911,7 @@ std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
-    for( auto &traits_iter : mutation_data ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
             vTraitsGood.push_back( traits_iter.first );
         }
@@ -1924,7 +1924,7 @@ std::string Character::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
-    for( auto &traits_iter : mutation_data ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
             vTraitsBad.push_back( traits_iter.first );
         }

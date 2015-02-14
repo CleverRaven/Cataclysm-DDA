@@ -3259,8 +3259,9 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if( mutation_data[mut].cost > 0 && u.has_active_mutation( mut ) ) {
-                        active.push_back( mutation_data[mut].name );
+                    const auto &mdata = mutation_branch::get( mut );
+                    if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+                        active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;

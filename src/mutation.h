@@ -14,7 +14,6 @@ struct mutation_branch;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<std::string> > mutations_category;
-extern std::map<std::string, mutation_branch> mutation_data;
 typedef std::pair<body_part, tripoint> mutation_wet;
 
 struct dream {
@@ -30,6 +29,7 @@ struct dream {
 };
 
 struct mutation_branch {
+    using MutationMap = std::unordered_map<std::string, mutation_branch>;
     bool valid = false; // True if this is a valid mutation (False for "unavailable from generic mutagen")
     bool purifiable; // True if Purifier can remove it (False for *Special* mutations)
     bool threshold; // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default)
@@ -62,11 +62,32 @@ struct mutation_branch {
      * Returns the color to display the mutation name with.
      */
     nc_color get_display_color() const;
+    /**
+     * Check whether the given id is a valid mutation id (refers to a known mutation).
+     */
+    static bool has( const std::string &mutation_id );
+    /**
+     * Get the mutation data of a given mutation id. The id *must* be valid.
+     */
+    static const mutation_branch &get( const std::string &mutation_id );
+    /**
+     * Shortcut for getting the name of a (translated) mutation, same as
+     * @code get( mutation_id ).name @endcode
+     */
+    static const std::string &get_name( const std::string &mutation_id );
+    /**
+     * All known mutations. Key is the mutation id, value is the mutation_branch that you would
+     * also get by calling @ref get.
+     */
+    static const MutationMap &get_all();
+    // For init.cpp: reset (clear) the mutation data
+    static void reset_all();
+    // For init.cpp: load mutation data from json
+    static void load( JsonObject &jsobj );
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
 };
 
-void load_mutation(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);
 
 #endif

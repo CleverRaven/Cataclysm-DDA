@@ -108,7 +108,7 @@ void DynamicDataLoader::initialize()
     type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
-    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
+    type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
@@ -323,8 +323,7 @@ void DynamicDataLoader::unload_data()
     // the overmap terrain + items and that gets loaded from json.
     g->mission_types.clear();
     item_controller->reset();
-    mutations_category.clear();
-    mutation_data.clear();
+    mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     furnlist.clear();

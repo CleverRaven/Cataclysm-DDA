@@ -56,7 +56,7 @@ void Character::toggle_mutation(const std::string &flag)
 
 int Character::get_mod(std::string mut, std::string arg) const
 {
-    auto &mod_data = mutation_data[mut].mods;
+    auto &mod_data = mutation_branch::get( mut ).mods;
     int ret = 0;
     auto found = mod_data.find(std::make_pair(false, arg));
     if (found != mod_data.end()) {
@@ -297,7 +297,7 @@ bool Character::has_active_mutation(const std::string & b) const
 
 void player::activate_mutation( const std::string &mut )
 {
-    const auto &mdata = mutation_data[mut];
+    const auto &mdata = mutation_branch::get( mut );
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -501,7 +501,7 @@ void player::power_mutations()
     std::vector <std::string> passive;
     std::vector <std::string> active;
     for( auto &mut : my_mutations ) {
-        if (!mutation_data[mut.first].activated) {
+        if (!mutation_branch::get( mut.first ).activated) {
             passive.push_back(mut.first);
         } else {
             active.push_back(mut.first);
@@ -594,7 +594,7 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    const auto &md = mutation_data[passive[i]];
+                    const auto &md = mutation_branch::get( passive[i] );
                     const auto &td = my_mutations[passive[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
@@ -609,7 +609,7 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    const auto &md = mutation_data[active[i]];
+                    const auto &md = mutation_branch::get( active[i] );
                     const auto &td = my_mutations[active[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
@@ -664,7 +664,7 @@ void player::power_mutations()
             }
             redraw = true;
             const char newch = popup_getkey(_("%s; enter new letter."),
-                                            mutation_data[mut_id].name.c_str());
+                                            mutation_branch::get_name( mut_id ).c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
@@ -709,7 +709,7 @@ void player::power_mutations()
                 // -> leave screen
                 break;
             }
-            const auto &mut_data = mutation_data[mut_id];
+            const auto &mut_data = mutation_branch::get( mut_id );
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
                     if (my_mutations[mut_id].powered) {
@@ -774,7 +774,7 @@ bool player::mutation_ok( const std::string &mutation, bool force_good, bool for
         // We already have this mutation or something that replaces it.
         return false;
     }
-    const auto &mdata = mutation_data[mutation];
+    const auto &mdata = mutation_branch::get( mutation );
     if (force_bad && mdata.points > 0) {
         // This is a good mutation, and we're due for a bad one.
         return false;
@@ -809,7 +809,7 @@ void player::mutate()
     std::vector<std::string> downgrades;
 
     // For each mutation...
-    for( auto &traits_iter : mutation_data ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         const auto &base_mutation = traits_iter.first;
         const auto &base_mdata = traits_iter.second;
         bool thresh_save = base_mdata.threshold;
@@ -820,7 +820,7 @@ void player::mutate()
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
             for( auto &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation_data[mutation].valid;
+                bool valid_ok = mutation_branch::get( mutation ).valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -830,7 +830,7 @@ void player::mutate()
 
             // ...consider the mutations that add to it.
             for( auto &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation_data[mutation].valid;
+                bool valid_ok = mutation_branch::get( mutation ).valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -898,7 +898,7 @@ void player::mutate()
 
         if (cat == "") {
             // Pull the full list
-            for( auto &traits_iter : mutation_data ) {
+            for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
                     valid.push_back( traits_iter.first );
                 }
@@ -912,7 +912,7 @@ void player::mutate()
         // goes against our intention of a good/bad mutation
         for (size_t i = 0; i < valid.size(); i++) {
             if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
-                 (!(mutation_data[valid[i]].valid)) ) {
+                 (!(mutation_branch::get( valid[i] ).valid)) ) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -974,7 +974,7 @@ void player::mutate_towards( const std::string &mut )
         remove_child_flag(mut);
         return;
     }
-    const auto &mdata = mutation_data[mut];
+    const auto &mdata = mutation_branch::get( mut );
 
     bool has_prereqs = false;
     bool prereq1 = false;
@@ -1075,8 +1075,9 @@ void player::mutate_towards( const std::string &mut )
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
             std::string pre = elem;
-            for (size_t j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
-                if (mutation_data[pre].replacements[j] == mut) {
+            const auto &p = mutation_branch::get( pre );
+            for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+                if (p.replacements[j] == mut) {
                     replacing = pre;
                 }
             }
@@ -1089,8 +1090,9 @@ void player::mutate_towards( const std::string &mut )
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
             std::string pre2 = elem;
-            for (size_t j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
-                if (mutation_data[pre2].replacements[j] == mut) {
+            const auto &p = mutation_branch::get( pre2 );
+            for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+                if (p.replacements[j] == mut) {
                     replacing2 = pre2;
                 }
             }
@@ -1104,7 +1106,7 @@ void player::mutate_towards( const std::string &mut )
     game_message_type rating;
 
     if (replacing != "") {
-        const auto &replace_mdata = mutation_data[replacing];
+        const auto &replace_mdata = mutation_branch::get( replacing );
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -1125,7 +1127,7 @@ void player::mutate_towards( const std::string &mut )
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        const auto &replace_mdata = mutation_data[replacing2];
+        const auto &replace_mdata = mutation_branch::get( replacing2 );
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -1146,7 +1148,7 @@ void player::mutate_towards( const std::string &mut )
         mutation_replaced = true;
     }
     for (size_t i = 0; i < canceltrait.size(); i++) {
-        const auto &cancel_mdata = mutation_data[canceltrait[i]];
+        const auto &cancel_mdata = mutation_branch::get( canceltrait[i] );
         if(mdata.mixed_effect || cancel_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(mdata.points < cancel_mdata.points) {
@@ -1192,14 +1194,15 @@ void player::mutate_towards( const std::string &mut )
 
 void player::remove_mutation( const std::string &mut )
 {
-    const auto &mdata = mutation_data[mut];
+    const auto &mdata = mutation_branch::get( mut );
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
     std::vector<std::string> originals = mdata.prereqs;
     for (size_t i = 0; replacing == "" && i < originals.size(); i++) {
         std::string pre = originals[i];
-        for (size_t j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
-            if (mutation_data[pre].replacements[j] == mut) {
+        const auto &p = mutation_branch::get( pre );
+        for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+            if (p.replacements[j] == mut) {
                 replacing = pre;
             }
         }
@@ -1209,8 +1212,9 @@ void player::remove_mutation( const std::string &mut )
     std::vector<std::string> originals2 = mdata.prereqs2;
     for (size_t i = 0; replacing2 == "" && i < originals2.size(); i++) {
         std::string pre2 = originals2[i];
-        for (size_t j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
-            if (mutation_data[pre2].replacements[j] == mut) {
+        const auto &p = mutation_branch::get( pre2 );
+        for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+            if (p.replacements[j] == mut) {
                 replacing2 = pre2;
             }
         }
@@ -1220,19 +1224,21 @@ void player::remove_mutation( const std::string &mut )
     //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
     if (replacing == "") {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto iter = mutation_data.begin();
-             replacing == "" && iter != mutation_data.end(); ++iter) {
+        for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if (has_base_trait(iter->first) && !has_trait(iter->first)) {
+            if (has_base_trait(iter.first) && !has_trait(iter.first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = iter->second.cancels;
+                std::vector<std::string> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing == "" && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
-                            replacing = (iter->first);
+                            replacing = (iter.first);
                         }
                     }
                 }
+            }
+            if( !replacing.empty() ) {
+                break;
             }
         }
     }
@@ -1240,19 +1246,21 @@ void player::remove_mutation( const std::string &mut )
     // Duplicated for prereq2
     if (replacing2 == "") {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto iter = mutation_data.begin();
-             replacing2 == "" && iter != mutation_data.end(); ++iter ) {
+        for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if (has_base_trait(iter->first) && !has_trait(iter->first)) {
+            if (has_base_trait(iter.first) && !has_trait(iter.first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = iter->second.cancels;
+                std::vector<std::string> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
-                            replacing2 = (iter->first);
+                            replacing2 = (iter.first);
                         }
                     }
                 }
+            }
+            if( !replacing2.empty() ) {
+                break;
             }
         }
     }
@@ -1265,7 +1273,7 @@ void player::remove_mutation( const std::string &mut )
     game_message_type rating;
 
     if (replacing != "") {
-        const auto &replace_mdata = mutation_data[replacing];
+        const auto &replace_mdata = mutation_branch::get( replacing );
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1283,7 +1291,7 @@ void player::remove_mutation( const std::string &mut )
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        const auto &replace_mdata = mutation_data[replacing2];
+        const auto &replace_mdata = mutation_branch::get( replacing2 );
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1320,7 +1328,7 @@ void player::remove_mutation( const std::string &mut )
 
 bool player::has_child_flag( const std::string &flag ) const
 {
-    for( auto &elem : mutation_data[flag].replacements ) {
+    for( auto &elem : mutation_branch::get( flag ).replacements ) {
         std::string tmp = elem;
         if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
@@ -1331,7 +1339,7 @@ bool player::has_child_flag( const std::string &flag ) const
 
 void player::remove_child_flag( const std::string &flag )
 {
-    for( auto &elem : mutation_data[flag].replacements ) {
+    for( auto &elem : mutation_branch::get( flag ).replacements ) {
         std::string tmp = elem;
         if (has_trait(tmp)) {
             remove_mutation(tmp);

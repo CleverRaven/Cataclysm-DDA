@@ -11,7 +11,7 @@
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
-std::map<std::string, mutation_branch> mutation_data;
+std::unordered_map<std::string, mutation_branch> mutation_data;
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
                         std::string mod_type, bool active, std::string type_key)
@@ -38,7 +38,7 @@ static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unord
     }   
 }
 
-void load_mutation(JsonObject &jsobj)
+void mutation_branch::load( JsonObject &jsobj )
 {
     const std::string id = jsobj.get_string( "id" );
     mutation_branch &new_mut = mutation_data[id];
@@ -101,7 +101,7 @@ void load_mutation(JsonObject &jsobj)
 static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )
 {
     for( const auto &m : mvec ) {
-        if( mutation_data.count( m ) == 0 ) {
+        if( !mutation_branch::has( m ) ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
     }
@@ -139,6 +139,38 @@ nc_color mutation_branch::get_display_color() const
     } else {
         return c_yellow;
     }
+}
+
+bool mutation_branch::has( const std::string &mutation_id )
+{
+    return mutation_data.count( mutation_id ) > 0;
+}
+
+const mutation_branch &mutation_branch::get( const std::string &mutation_id )
+{
+    const auto iter = mutation_data.find( mutation_id );
+    if( iter != mutation_data.end() ) {
+        return iter->second;
+    }
+    debugmsg( "Requested unknown mutation %s", mutation_id.c_str() );
+    static mutation_branch dummy;
+    return dummy;
+}
+
+const std::string &mutation_branch::get_name( const std::string &mutation_id )
+{
+    return get( mutation_id ).name;
+}
+
+const mutation_branch::MutationMap &mutation_branch::get_all()
+{
+    return mutation_data;
+}
+
+void mutation_branch::reset_all()
+{
+    mutations_category.clear();
+    mutation_data.clear();
 }
 
 void load_dream(JsonObject &jsobj)

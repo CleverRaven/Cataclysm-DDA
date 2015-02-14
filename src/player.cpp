@@ -1975,7 +1975,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Traits
     memorial_file << _("Traits:") << "\n";
     for( auto &iter : my_mutations ) {
-        memorial_file << indent << mutation_data[iter.first].name << "\n";
+        memorial_file << indent << mutation_branch::get_name( iter.first ) << "\n";
     }
     if( !my_mutations.empty() ) {
       memorial_file << indent << _("(None)") << "\n";
@@ -2484,7 +2484,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::string race;
         for( auto &mut : my_mutations ) {
-            auto &mdata = mutation_data[mut.first];
+            const auto &mdata = mutation_branch::get( mut.first );
             if( mdata.threshold ) {
                 race = mdata.name;
                 break;
@@ -2625,7 +2625,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-        const auto &mdata = mutation_data[traitslist[i]];
+        const auto &mdata = mutation_branch::get( traitslist[i] );
         const auto color = mdata.get_display_color();
         mvwprintz(w_traits, i+1, 1, color, mdata.name.c_str());
     }
@@ -3064,7 +3064,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             for (unsigned i = min; i < max; i++) {
-                const auto &mdata = mutation_data[traitslist[i]];
+                const auto &mdata = mutation_branch::get( traitslist[i] );
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
                 const auto color = mdata.get_display_color();
                 if (i == line) {
@@ -3076,7 +3076,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 }
             }
             if (line < traitslist.size()) {
-                const auto &mdata = mutation_data[traitslist[line]];
+                const auto &mdata = mutation_branch::get( traitslist[line] );
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta,
                                mdata.description);
             }
@@ -3095,7 +3095,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-                    const auto &mdata = mutation_data[traitslist[i]];
+                    const auto &mdata = mutation_branch::get( traitslist[i] );
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
                     const auto color = mdata.get_display_color();
                     mvwprintz(w_traits, i + 1, 1, color, "%s", mdata.name.c_str());
@@ -3745,7 +3745,7 @@ bool player::has_conflicting_trait(const std::string &flag) const
 
 bool player::has_opposite_trait(const std::string &flag) const
 {
-        for (auto &i : mutation_data[flag].cancels) {
+        for (auto &i : mutation_branch::get( flag ).cancels) {
             if (has_trait(i)) {
                 return true;
             }
@@ -3755,7 +3755,7 @@ bool player::has_opposite_trait(const std::string &flag) const
 
 bool player::has_lower_trait(const std::string &flag) const
 {
-        for (auto &i : mutation_data[flag].prereqs) {
+        for (auto &i : mutation_branch::get( flag ).prereqs) {
             if (has_trait(i) || has_lower_trait(i)) {
                 return true;
             }
@@ -3765,7 +3765,7 @@ bool player::has_lower_trait(const std::string &flag) const
 
 bool player::has_higher_trait(const std::string &flag) const
 {
-        for (auto &i : mutation_data[flag].replacements) {
+        for (auto &i : mutation_branch::get( flag ).replacements) {
             if (has_trait(i) || has_higher_trait(i)) {
                 return true;
             }
@@ -3776,7 +3776,7 @@ bool player::has_higher_trait(const std::string &flag) const
 bool player::crossed_threshold()
 {
     for( auto &mut : my_mutations ) {
-        if( mutation_data[mut.first].threshold ) {
+        if( mutation_branch::get( mut.first ).threshold ) {
             return true;
         }
     }
@@ -3785,7 +3785,7 @@ bool player::crossed_threshold()
 
 bool player::purifiable(const std::string &flag) const
 {
-    if(mutation_data[flag].purifiable) {
+    if(mutation_branch::get( flag ).purifiable) {
         return true;
     }
     return false;
@@ -3794,7 +3794,7 @@ bool player::purifiable(const std::string &flag) const
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        const auto &mdata = mutation_data[sMut];
+        const auto &mdata = mutation_branch::get( sMut );
         for( auto &elem : mdata.category ) {
             mutation_category_level[elem] += 8;
         }
@@ -7045,7 +7045,7 @@ void player::suffer()
         if (!tdata.powered ) {
             continue;
         }
-        const auto &mdata = mutation_data[mut];
+        const auto &mdata = mutation_branch::get( mut.first );
         if (tdata.powered && tdata.charge > 0) {
         // Already-on units just lose a bit of charge
         tdata.charge--;
@@ -7979,7 +7979,7 @@ void player::drench_mut_calc()
         good = 0;
 
         for( const auto &_iter : my_mutations ) {
-            const auto &mdata = mutation_data[_iter.first];
+            const auto &mdata = mutation_branch::get( _iter.first );
             for( auto &_wp_iter : mdata.protection ) {
                 if( body_parts[_wp_iter.first] == elem.first ) {
                     ignored += _wp_iter.second.second.x;
