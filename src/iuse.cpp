@@ -2930,6 +2930,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                    itm.made_of( "fur" ) ||
                    itm.made_of( "nomex" ) ||
                    itm.made_of( "plastic" ) ||
+                   itm.made_of( "kevlar" ) ||
                    itm.made_of( "wool" );
         } );
         item *mod = &(p->i_at(pos));
@@ -2962,12 +2963,16 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             repair_items.push_back("plastic_chunk");
             plurals.push_back(rm_prefix(_("<plural>plastic")));
         }
+        if (mod->made_of("kevlar")) {
+            repair_items.push_back("kevlar_plate");
+            plurals.push_back(rm_prefix(_("<plural>kevlar")));
+        }
         if (mod->made_of("wool")) {
             repair_items.push_back("felt_patch");
             plurals.push_back(rm_prefix(_("<plural>wool")));
         }
         if (repair_items.empty()) {
-            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, wool or plastic."),
+            p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, kevlar, wool or plastic."),
                                  mod->tname().c_str());
             return 0;
         }
