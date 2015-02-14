@@ -11924,15 +11924,7 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     }
 }
 
-// mutates du, returns true if armor was damaged
-bool player::armor_absorb(damage_unit& du, item& armor) {
-    float mitigation = 0; // total amount of damage mitigated
-    float effective_resist = resistances(armor).get_effective_resist(du);
-    bool armor_damaged = false;
-
-    std::string pre_damage_name = armor.tname();
-    std::string pre_damage_adj = armor.get_base_material().dmg_adj(armor.damage);
-
+void player::armor_absorb(damage_unit& du, item& armor) {
     if (rng(0,100) <= armor.get_coverage()) {
         if (armor.is_power_armor()) { // TODO: add some check for power armor
         }
@@ -11945,37 +11937,38 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             return;
         }
 
-        mitigation = std::min(effective_resist, du.amount);
+        const float effective_resist = resistances(armor).get_effective_resist(du);
+        // Amount of damage mitigated
+        const float mitigation = std::min(effective_resist, du.amount);
         du.amount -= mitigation; // mitigate the damage first
 
         // if the post-mitigation amount is greater than the amount
-        if ((du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
-                // or if it isn't, but 1/50 chance
-                (du.amount <= effective_resist && !armor.has_flag("STURDY")
-                && !armor.is_power_armor() && one_in(200))) {
-            armor_damaged = true;
+        if( (du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
+            // or if it isn't, but 1/50 chance
+            (du.amount <= effective_resist && !armor.has_flag("STURDY") &&
+             !armor.is_power_armor() && one_in(200)) ) {
+
             armor.damage++;
             auto &material = armor.get_random_material();
-            std::string damage_verb = du.type == DT_BASH
-                ? material.bash_dmg_verb()
-                : material.cut_dmg_verb();
+            std::string damage_verb = ( du.type == DT_BASH ) ?
+                material.bash_dmg_verb() : material.cut_dmg_verb();
+
+            const std::string pre_damage_name = armor.tname();
+            const std::string pre_damage_adj = armor.get_base_material().
+                dmg_adj(armor.damage);
 
             // add "further" if the damage adjective and verb are the same
-            std::string format_string = pre_damage_adj == damage_verb
-                ? _("Your %s is %s further!")
-                : _("Your %s is %s!");
+            std::string format_string = ( pre_damage_adj == damage_verb ) ?
+                _("Your %s is %s further!") : _("Your %s is %s!");
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                                      damage_verb.c_str());
+                               damage_verb.c_str());
             //item is damaged
             if( is_player() ) {
-                SCT.add(posx(), posy(),
-                    NORTH,
-                    remove_color_tags( pre_damage_name ), m_neutral,
-                    damage_verb, m_info);
+                SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                        m_neutral, damage_verb, m_info);
             }
         }
     }
-    return armor_damaged;
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
