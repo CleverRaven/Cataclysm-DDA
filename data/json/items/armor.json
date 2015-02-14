@@ -12254,7 +12254,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -12278,7 +12278,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -12302,21 +12302,21 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
         "id" : "armor_scavenger",
         "name" : "scavenger gear",
         "weight" : 7915,
-        "color" : "light_red",
+        "color" : "green",
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "to_hit" : -3,
         "storage" : 80,
         "symbol" : "[",
         "description" : "A sturdy scavenger's outfit made from refitted pre-cataclysm protective gear.  It has a lot of storage space.",
         "price" : 180000,
-        "material" : ["kevlar", "plastic"],
+        "material" : ["kevlar", "cotton"],
         "volume" : 30,
         "cutting" : 0,
         "warmth" : 40,
@@ -12326,7 +12326,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
