@@ -1430,6 +1430,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"LIST_ITEMS",
+        "category":"LOOK",
+        "name":"List items and monsters",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REASSIGN",
         "category":"BIONICS",
         "name":"reassign invlet",

@@ -325,6 +325,7 @@ class game
         // Look at nearby terrain ';', or select zone points
         point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
 
+        void list_items_monsters();
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
