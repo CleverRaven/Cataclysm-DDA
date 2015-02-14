@@ -1,14 +1,13 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "catacurse.h" // WINDOW
+#include "cursesdef.h" // WINDOW
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <utility>
-
-#include <vadefs.h>
+#include <cstdarg>
 
 class JsonOut;
 class JsonObject;

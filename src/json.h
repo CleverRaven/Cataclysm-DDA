@@ -7,6 +7,8 @@
 #include <vector>
 #include <bitset>
 #include <array>
+#include <map>
+#include <set>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven

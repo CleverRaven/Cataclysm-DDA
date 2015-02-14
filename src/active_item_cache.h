@@ -4,6 +4,7 @@
 #include "enums.h"
 #include "item.h"
 #include <list>
+#include <unordered_map>
 #include <unordered_set>
 
 // A struct used to uniquely identify an item within a submap or vehicle.
