@@ -602,21 +602,6 @@ void advanced_inventory::init()
     panes[right].window = right_window;
 }
 
-bool cached_lcmatch( const std::string &str, const std::string &findstr,
-                     std::map<std::string, bool> &filtercache )
-{
-    if( filtercache.find( str ) == filtercache.end() ) {
-        std::string ret = "";
-        ret.reserve( str.size() );
-        transform( str.begin(), str.end(), std::back_inserter( ret ), tolower );
-        bool ismatch = ( ret.find( findstr ) != std::string::npos );
-        filtercache[ str ] = ismatch;
-        return ismatch;
-    } else {
-        return filtercache[ str ];
-    }
-}
-
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
         aim_location _area )
     : idx( index )
@@ -674,12 +659,24 @@ bool advanced_inv_listitem::is_item_entry() const
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
-    return is_filtered( it.name );
+    return is_filtered( it.it );
 }
 
-bool advanced_inventory_pane::is_filtered( const std::string &name ) const
+bool advanced_inventory_pane::is_filtered( const item *it ) const
 {
-    return !filter.empty() && !cached_lcmatch( name, filter, filtercache );
+    if ( filter.empty() ) {
+        return false;
+    }
+
+    std::string str = it->tname();
+    if( filtercache.find( str ) == filtercache.end() ) {
+        bool match = !g->list_items_match( it, filter );
+        filtercache[ str ] = match;
+
+        return match;
+    }
+
+    return filtercache[ str ];
 }
 
 template <typename Container>
@@ -738,7 +735,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
         for( size_t x = 0; x < stacks.size(); ++x ) {
             auto &an_item = stacks[x]->front();
             advanced_inv_listitem it( &an_item, x, stacks[x]->size(), square.id );
-            if( is_filtered( it ) ) {
+            if( is_filtered( it.it ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -765,7 +762,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
             i_stacked( m.i_at( square.x, square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
-            if( is_filtered( it ) ) {
+            if( is_filtered( it.it ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -978,7 +975,7 @@ bool advanced_inventory::move_all_items()
 
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
             const auto &stack = g->u.inv.const_stack( index );
-            if( spane.is_filtered( stack.front().tname() ) ) {
+            if( spane.is_filtered( &(stack.front()) ) ) {
                 continue;
             }
             g->u.activity.values.push_back( index );
@@ -1013,7 +1010,7 @@ bool advanced_inventory::move_all_items()
         int index = -1;
         for( auto item_it = begin; item_it != end; ++item_it ) {
             index++;
-            if( spane.is_filtered( item_it->tname() ) ) {
+            if( spane.is_filtered( &(*item_it) ) ) {
                 continue;
             }
             g->u.activity.values.push_back( index );
@@ -1252,6 +1249,8 @@ void advanced_inventory::display()
             std::string filter = spane.filter;
             filter_edit = true;
 
+            g->draw_item_filter_rules(dpane.window, 12);
+
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
@@ -1263,6 +1262,7 @@ void advanced_inventory::display()
             } while( key != '\n' && key != KEY_ESCAPE );
             filter_edit = false;
             spane.redraw = true;
+            dpane.redraw = true;
         } else if( action == "RESET_FILTER" ) {
             spane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {

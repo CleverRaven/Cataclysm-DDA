@@ -8852,7 +8852,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-bool game::list_items_match(item *item, std::string sPattern)
+bool game::list_items_match(const item *item, std::string sPattern)
 {
     size_t iPos;
     bool hasExclude = false;
@@ -8972,25 +8972,26 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
     return ret;
 }
 
-std::string game::ask_item_filter(WINDOW *window, int rows)
+void game::draw_item_filter_rules(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
+        for (int j = 1; j < getmaxx(window) - 1; j++) {
+            mvwprintz(window, i, j, c_black, "%s", " ");
+        }
     }
 
-    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
-    mvwprintz(window, 1, 2, c_white, "%s", _("nearby matching items."));
+    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to"));
+    mvwprintz(window, 1, 2, c_white, "%s", _("filter it."));
+
     mvwprintz(window, 3, 2, c_white, "%s", _("Separate multiple items with ,"));
     mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
 
     mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,-chunk,-steel"));
 
     mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
     mvwprintz(window, 10, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
     wrefresh(window);
-    return string_input_popup(_("Filter:"), 55, sFilter,
-                              _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
 }
 
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
@@ -9323,7 +9324,9 @@ int game::list_items(const int iLastState)
                 reset = true;
                 refresh_all();
             } else if (action == "FILTER") {
-                sFilter = ask_item_filter(w_item_info, iInfoHeight);
+                draw_item_filter_rules(w_item_info, iInfoHeight);
+                sFilter = string_input_popup(_("Filter:"), 55, sFilter,
+                                _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
                 reset = true;
                 refilter = true;
                 addcategory = !bRadiusSort;
