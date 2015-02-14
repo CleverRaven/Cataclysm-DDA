@@ -4197,8 +4197,6 @@ void game::debug()
     }
     break;
     case 4:
-        debugmsg(ngettext("%d radio tower", "%d radio towers", cur_om->radios.size()),
-                 cur_om->radios.size());
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
