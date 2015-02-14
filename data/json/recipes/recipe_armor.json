@@ -8383,7 +8383,7 @@
       [ "hat_hunting", 1 ]
     ],
     [
-      [ "mask_filter", 1 ],
+      [ "mask_filter", 1 ]
     ],
     [
       [ "glasses_bal", 1 ],
@@ -8470,7 +8470,7 @@
     [
       [ "ragpouch", 1 ],
       [ "leather_pouch", 1 ],
-      [ "dump_pouch", 1 ],
+      [ "dump_pouch", 1 ]
     ],
     [
       [ "tool_belt", 1 ],
@@ -8522,7 +8522,7 @@
     [
       [ "fanny", 2 ],
       [ "dump_pouch", 1 ],
-      [ "fireman_belt", 1 ],
+      [ "fireman_belt", 1 ]
     ],
     [
       [ "tool_belt", 1 ],
@@ -8530,7 +8530,7 @@
     ],
     [
       [ "pants_army", 1 ],
-      [ "pants_ski", 1 ]
+      [ "pants_ski", 1 ],
       [ "motorbike_pants", 1 ]
     ],
      [
