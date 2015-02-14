@@ -229,7 +229,7 @@ void Messages::display_messages()
     int offset = 0;
     const int maxlength = FULL_SCREEN_WIDTH - 2 - 1;
     const int bottom = FULL_SCREEN_HEIGHT - 2;
-    auto const msg_count = static_cast<int>(size());
+    const int msg_count = size();
 
     for (;;) {
         werase(w);
@@ -239,14 +239,14 @@ void Messages::display_messages()
 
         int line = 1;
         int lasttime = -1;
-        for (auto i = offset; i < msg_count; ++i) {
+        for( int i = offset; i < msg_count; ++i ) {
             if (line > bottom) {
                 break;
             }
 
-            auto const &m         = player_messages.impl_->history(i);
-            auto const col        = m.get_color(player_messages.impl_->curmes);
-            auto const timepassed = calendar::turn - m.time;
+            const game_message &m     = player_messages.impl_->history(i);
+            const nc_color col        = m.get_color(player_messages.impl_->curmes);
+            const calendar timepassed = calendar::turn - m.time;
 
             if (timepassed.get_turn() > lasttime) {
                 mvwprintz(w, line++, 3, c_ltblue, _("%s ago:"),
@@ -254,7 +254,7 @@ void Messages::display_messages()
                 lasttime = timepassed.get_turn();
             }
 
-            for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
+            for( const std::string &folded : foldstring(m.get_with_count(), maxlength) ) {
                 if (line > bottom) {
                     break;
                 }
@@ -270,7 +270,7 @@ void Messages::display_messages()
         }
         wrefresh(w);
 
-        auto const &action = ctxt.handle_input();
+        const std::string &action = ctxt.handle_input();
         if (action == "DOWN" && offset + 1 < msg_count) {
             offset++;
         } else if (action == "UP" && offset > 0) {
@@ -293,13 +293,13 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
     int const maxlength = right - left;
     int line = bottom;
 
-    for (auto i = size() - 1; i >= 0; --i) {
+    for (int i = size() - 1; i >= 0; --i) {
         if (line < top) {
             break;
         }
 
-        auto const &m  = player_messages.impl_->messages[i];
-        auto const col = m.get_color(player_messages.impl_->curmes);
+        const game_message &m = player_messages.impl_->messages[i];
+        const nc_color col = m.get_color(player_messages.impl_->curmes);
 
         for (auto const &folded : foldstring(m.get_with_count(), maxlength)) {
             if (line < top) {
