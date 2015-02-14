@@ -519,7 +519,7 @@ void uimenu::show()
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     for ( int i = 0; i < text_lines; i++ ) {
-        mvwprintz(window, 1 + i, 2, text_color, "%s", textformatted[i].c_str());
+        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
     }
 
     mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
