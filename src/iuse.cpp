@@ -2937,6 +2937,15 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         };
+
+        if ((mod->made_of("iron")) ||
+           (mod->made_of("steel")) ||
+           (mod->made_of("superalloy")) ||
+           (mod->made_of("hardsteel"))){
+            p->add_msg_if_player(m_info, _("Your %s is made out of metals!."),
+                                 mod->tname().c_str());
+            return 0;
+        };
                 itype_id repair_item = "none";
         std::vector<std::string> plurals;
         std::vector<itype_id> repair_items;
@@ -2979,12 +2988,8 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
             _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Repair clothing"),_("Cancel"), NULL);
 
-        if(((mod->item_tags.count("furred")) && (mod->item_tags.count("pocketed"))) ||
-           ((mod->item_tags.count("furred")) && (mod->item_tags.count("leather_padded"))) ||
-           ((mod->item_tags.count("pocketed")) && (mod->item_tags.count("leather_padded"))) ||
-           ((mod->item_tags.count("furred")) && (mod->item_tags.count("kevlar_padded"))) ||
-           ((mod->item_tags.count("kevlar_padded")) && (mod->item_tags.count("pocketed"))) ||
-           ((mod->item_tags.count("leather_padded")) && (mod->item_tags.count("kevlar_padded")))) { //This is a mess. Have to block every combo of 2. Probably a better way.
+        if(((mod->item_tags.count("furred")) + (mod->item_tags.count("pocketed")) +
+            (mod->item_tags.count("leather_padded")) + (mod->item_tags.count("kevlar_padded"))) >= 2){
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
