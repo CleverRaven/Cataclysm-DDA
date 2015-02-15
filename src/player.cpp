@@ -11929,6 +11929,11 @@ void player::armor_absorb(damage_unit& du, item& armor) {
         if (armor.is_power_armor()) { // TODO: add some check for power armor
         }
 
+        const float effective_resist = resistances(armor).get_effective_resist(du);
+        // Amount of damage mitigated
+        const float mitigation = std::min(effective_resist, du.amount);
+        du.amount -= mitigation; // mitigate the damage first
+
         // Scale chance of article taking damage based on the number of parts it covers.
         // This represents large articles being able to take more punishment
         // before becoming inneffective or being destroyed.
@@ -11936,11 +11941,6 @@ void player::armor_absorb(damage_unit& du, item& armor) {
         if( !one_in( num_parts_covered ) ) {
             return;
         }
-
-        const float effective_resist = resistances(armor).get_effective_resist(du);
-        // Amount of damage mitigated
-        const float mitigation = std::min(effective_resist, du.amount);
-        du.amount -= mitigation; // mitigate the damage first
 
         // if the post-mitigation amount is greater than the amount
         if( (du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
