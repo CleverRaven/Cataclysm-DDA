@@ -440,6 +440,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "CYCLE_NEXT_COMPONENT_LINE",
+        "category": "CRAFTING",
+        "name": "Scroll component list",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "HELP_RECIPE",
         "category": "CRAFTING",
         "name": "Show recipe result",
