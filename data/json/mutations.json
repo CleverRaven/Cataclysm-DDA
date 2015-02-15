@@ -1843,7 +1843,10 @@
         "description" : "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
         "changes_to" : ["BENDY2"],
         "threshreq" : ["THRESH_SLIME", "THRESH_ELFA"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_ELFA"],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "BENDY2",
@@ -1856,7 +1859,11 @@
         "changes_to" : ["BENDY3"],
         "threshreq" : ["THRESH_SLIME"],
         "leads_to" : ["AMORPHOUS"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "passive_mods" : {
+            "dex_mod" : 3,
+            "str_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "BENDY3",
@@ -1869,7 +1876,11 @@
         "prereqs" : ["BENDY2"],
         "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "passive_mods" : {
+            "dex_mod" : 4,
+            "str_mod" : -4
+        }
     },{
         "type" : "mutation",
         "id" : "COMPOUND_EYES",
@@ -1951,7 +1962,11 @@
         "points" : 0,
         "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
         "threshreq" : ["THRESH_TROGLOBITE"],
-        "category" : ["MUTCAT_TROGLOBITE"]
+        "category" : ["MUTCAT_TROGLOBITE"],
+        "passive_mods" : {
+            "str_mod" : 2,
+            "dex_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",
@@ -2433,7 +2448,10 @@
         "leads_to" : ["SAPIOVORE"],
         "changes_to" : ["PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
+        "passive_mods" : {
+            "int_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "PRED4",
@@ -2445,7 +2463,10 @@
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED3"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"],
+        "passive_mods" : {
+            "int_mod" : -3
+        }
     },{
         "type" : "mutation",
         "id" : "SAPIOVORE",
@@ -2691,7 +2712,10 @@
         "description" : "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"],
+        "passive_mods" : {
+            "str_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "LARGE_OK",
@@ -2705,7 +2729,10 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD"],
         "changes_to": ["HUGE"],
         "leads_to" : ["MUT_TOUGH"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"],
+        "passive_mods" : {
+            "str_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "HUGE",
@@ -2718,7 +2745,10 @@
         "prereqs" : ["LARGE", "LARGE_OK"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "changes_to": ["HUGE_OK"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
+        "passive_mods" : {
+            "str_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "HUGE_OK",
@@ -2732,7 +2762,10 @@
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "leads_to" : ["MUT_TOUGH"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
+        "passive_mods" : {
+            "str_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "STR_UP",
@@ -2740,7 +2773,10 @@
         "points" : 1,
         "description" : "Your muscles are a little stronger.  Strength + 1",
         "changes_to" : ["STR_UP_2"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR"],
+        "passive_mods" : {
+            "str_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "STR_UP_2",
@@ -2749,7 +2785,10 @@
         "description" : "Your muscles are stronger.  Strength + 2",
         "prereqs" : ["STR_UP"],
         "changes_to" : ["STR_UP_3", "STR_ALPHA"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"],
+        "passive_mods" : {
+            "str_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "STR_UP_3",
@@ -2760,7 +2799,10 @@
         "prereqs" : ["STR_UP_2"],
         "changes_to" : ["STR_UP_4"],
         "leads_to" : ["MUT_TOUGH"],
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "passive_mods" : {
+            "str_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "STR_UP_4",
@@ -2772,7 +2814,10 @@
         "prereqs" : ["STR_UP_3"],
         "leads_to" : ["MUT_TOUGH"],
         "threshreq" : ["THRESH_BEAST", "THRESH_URSINE"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"],
+        "passive_mods" : {
+            "str_mod" : 7
+        }
     },{
         "type" : "mutation",
         "id" : "STR_ALPHA",
@@ -2790,7 +2835,10 @@
         "points" : 1,
         "description" : "You are a little nimbler.  Dexterity + 1",
         "changes_to" : ["DEX_UP_2", "DEX_ALPHA"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_UP_2",
@@ -2799,7 +2847,10 @@
         "description" : "You are nimbler.  Dexterity + 2",
         "prereqs" : ["DEX_UP"],
         "changes_to" : ["DEX_UP_3"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
+        "passive_mods" : {
+            "dex_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_UP_3",
@@ -2808,7 +2859,10 @@
         "description" : "You are nimble and quick.  Dexterity + 4",
         "prereqs" : ["DEX_UP_2"],
         "changes_to" : ["DEX_UP_4"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"],
+        "passive_mods" : {
+            "dex_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_UP_4",
@@ -2817,7 +2871,10 @@
         "description" : "You are much nimbler than before.  Dexterity + 7",
         "prereqs" : ["DEX_UP_3"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
-        "category" : ["MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "passive_mods" : {
+            "dex_mod" : 7
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_ALPHA",
@@ -2835,7 +2892,10 @@
         "points" : 1,
         "description" : "You are a little smarter.  Intelligence + 1",
         "changes_to" : ["INT_UP_2", "INT_ALPHA", "INT_SLIME"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"],
+        "passive_mods" : {
+            "int_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "INT_UP_2",
@@ -2843,7 +2903,10 @@
         "points" : 2,
         "ugliness" : 0,"description" : "You are smarter.  Intelligence + 2",
         "prereqs" : ["INT_UP"],
-        "changes_to" : ["INT_UP_3"]
+        "changes_to" : ["INT_UP_3"],
+        "passive_mods" : {
+            "int_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "INT_UP_3",
@@ -2854,7 +2917,10 @@
         "description" : "You are much smarter, and your skull bulges slightly.  Intelligence + 4",
         "prereqs" : ["INT_UP_2"],
         "changes_to" : ["INT_UP_4"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "passive_mods" : {
+            "int_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "INT_UP_4",
@@ -2865,7 +2931,10 @@
         "description" : "Your skull bulges noticeably with your impressive brain.  Intelligence + 7",
         "prereqs" : ["INT_UP_3"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
-        "category" : ["MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "passive_mods" : {
+            "int_mod" : 7
+        }
     },{
         "type" : "mutation",
         "id" : "INT_ALPHA",
@@ -2898,7 +2967,10 @@
         "points" : 1,
         "description" : "Your senses are a little keener.  Perception + 1",
         "changes_to" : ["PER_UP_2"],
-        "leads_to" : ["BIRD_EYE"]
+        "leads_to" : ["BIRD_EYE"],
+        "passive_mods" : {
+            "per_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "PER_UP_2",
@@ -2907,7 +2979,10 @@
         "description" : "Your senses are keener.  Perception + 2",
         "prereqs" : ["PER_UP"],
         "changes_to" : ["PER_UP_3", "PER_ALPHA"],
-        "category" : ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"],
+        "passive_mods" : {
+            "per_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "PER_UP_3",
@@ -2916,7 +2991,10 @@
         "description" : "Your senses are much keener.  Perception + 4",
         "prereqs" : ["PER_UP_2"],
         "changes_to" : ["PER_UP_4"],
-        "category" : ["MUTCAT_ELFA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_ELFA", "MUTCAT_RAPTOR"],
+        "passive_mods" : {
+            "per_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "PER_UP_4",
@@ -2925,7 +3003,10 @@
         "description" : "You can sense things you never imagined.  Perception + 7",
         "prereqs" : ["PER_UP_3"],
         "threshreq" : ["THRESH_BIRD"],
-        "category" : ["MUTCAT_BIRD"]
+        "category" : ["MUTCAT_BIRD"],
+        "passive_mods" : {
+            "per_mod" : 7
+        }
     },{
         "type" : "mutation",
         "id" : "PER_ALPHA",
@@ -2950,7 +3031,10 @@
         "prereqs" : ["PER_UP"],
         "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "passive_mods" : {
+            "per_mod" : -8
+        }
     },{
         "type" : "mutation",
         "id" : "PER_SLIME_OK",
@@ -2965,7 +3049,10 @@
         "prereqs" : ["PER_SLIME"],
         "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "passive_mods" : {
+            "per_mod" : 5
+        }
     },{
         "type" : "mutation",
         "id" : "MUT_JUNKIE",

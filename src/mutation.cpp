@@ -73,6 +73,24 @@ void Character::toggle_str_set( std::unordered_set< std::string > &set, const st
     }
 }
 
+int Character::get_mod(std::string mut, std::string arg) const
+{
+    auto &mod_data = mutation_data[mut].mods;
+    int ret = 0;
+    auto found = mod_data.find(std::make_pair(false, arg));
+    if (found != mod_data.end()) {
+        ret += found->second;
+    }
+    /* Deactivated due to inability to store active mutation state
+    if (has_active_mutation(mut)) {
+        found = mod_data.find(std::make_pair(true, arg));
+        if (found != mod_data.end()) {
+            ret += found->second;
+        }
+    } */
+    return ret;
+}
+
 void Character::mutation_effect(std::string mut)
 {
     bool is_u = is_player();
@@ -130,14 +148,7 @@ void Character::mutation_effect(std::string mut)
         // Push off non-cloth helmets
         bps.push_back(bp_head);
 
-    } else if (mut == "LARGE" || mut == "LARGE_OK") {
-        str_max += 2;
-        recalc_hp();
-
     } else if (mut == "HUGE") {
-        str_max += 4;
-        // Bad-Huge gets less HP bonus than normal, this is handled in recalc_hp()
-        recalc_hp();
         // And there goes your clothing; by now you shouldn't need it anymore
         add_msg(m_bad, _("You rip out of your clothing!"));
         destroy = true;
@@ -152,45 +163,6 @@ void Character::mutation_effect(std::string mut)
         bps.push_back(bp_foot_l);
         bps.push_back(bp_foot_r);
 
-    }  else if (mut == "HUGE_OK") {
-        str_max += 4;
-        recalc_hp();
-        // Good-Huge still can't fit places but its heart's healthy enough for
-        // going around being Huge, so you get the HP
-
-    } else if (mut == "STOCKY_TROGLO") {
-        dex_max -= 2;
-        str_max += 2;
-        recalc_hp();
-
-    } else if (mut == "PRED3") {
-        // Not so much "better at learning combat skills"
-        // as "brain changes to focus on their development".
-        // We are talking post-humanity here.
-        int_max --;
-
-    } else if (mut == "PRED4") {
-        // Might be a bit harsh, but on the other claw
-        // we are talking folks who really wanted to
-        // transcend their humanity by this point.
-        int_max -= 3;
-
-    } else if (mut == "STR_UP") {
-        str_max ++;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_2") {
-        str_max += 2;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_3") {
-        str_max += 4;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_4") {
-        str_max += 7;
-        recalc_hp();
-
     } else if (mut == "STR_ALPHA") {
         if (str_max <= 6) {
             str_max = 8;
@@ -202,31 +174,6 @@ void Character::mutation_effect(std::string mut)
             str_max = 18;
         }
         recalc_hp();
-    } else if (mut == "DEX_UP") {
-        dex_max ++;
-
-    } else if (mut == "BENDY1") {
-        dex_max ++;
-
-    } else if (mut == "BENDY2") {
-        dex_max += 3;
-        str_max -= 2;
-        recalc_hp();
-
-    } else if (mut == "BENDY3") {
-        dex_max += 4;
-        str_max -= 4;
-        recalc_hp();
-
-    } else if (mut == "DEX_UP_2") {
-        dex_max += 2;
-
-    } else if (mut == "DEX_UP_3") {
-        dex_max += 4;
-
-    } else if (mut == "DEX_UP_4") {
-        dex_max += 7;
-
     } else if (mut == "DEX_ALPHA") {
         if (dex_max <= 6) {
             dex_max = 8;
@@ -237,18 +184,6 @@ void Character::mutation_effect(std::string mut)
         } else {
             dex_max = 18;
         }
-    } else if (mut == "INT_UP") {
-        int_max ++;
-
-    } else if (mut == "INT_UP_2") {
-        int_max += 2;
-
-    } else if (mut == "INT_UP_3") {
-        int_max += 4;
-
-    } else if (mut == "INT_UP_4") {
-        int_max += 7;
-
     } else if (mut == "INT_ALPHA") {
         if (int_max <= 6) {
             int_max = 8;
@@ -262,18 +197,6 @@ void Character::mutation_effect(std::string mut)
     } else if (mut == "INT_SLIME") {
         int_max *= 2; // Now, can you keep it? :-)
 
-    } else if (mut == "PER_UP") {
-        per_max ++;
-
-    } else if (mut == "PER_UP_2") {
-        per_max += 2;
-
-    } else if (mut == "PER_UP_3") {
-        per_max += 4;
-
-    } else if (mut == "PER_UP_4") {
-        per_max += 7;
-
     } else if (mut == "PER_ALPHA") {
         if (per_max <= 6) {
             per_max = 8;
@@ -284,14 +207,16 @@ void Character::mutation_effect(std::string mut)
         } else {
             per_max = 18;
         }
-    } else if (mut == "PER_SLIME") {
-        per_max -= 8;
-        if (per_max <= 0) {
-            per_max = 1;
+    } else {
+        int str_change = get_mod(mut, "STR");
+        str_max += str_change;
+        per_max += get_mod(mut, "PER");
+        dex_max += get_mod(mut, "DEX");
+        int_max += get_mod(mut, "INT");
+        
+        if (str_change != 0) {
+            recalc_hp();
         }
-
-    } else if (mut == "PER_SLIME_OK") {
-        per_max += 5;
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -328,49 +253,6 @@ void Character::mutation_loss_effect(std::string mut)
         mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         recalc_hp();
 
-    } else if (mut == "LARGE" || mut == "LARGE_OK") {
-        str_max -= 2;
-        recalc_hp();
-
-    } else if (mut == "HUGE") {
-        str_max -= 4;
-        recalc_hp();
-        // Losing Huge probably means either gaining Good-Huge or
-        // going back to Large.  In any case, recalc_hp ought to
-        // handle it.
-
-    } else if (mut == "HUGE_OK") {
-        str_max -= 4;
-        recalc_hp();
-
-    } else if (mut == "STOCKY_TROGLO") {
-        dex_max += 2;
-        str_max -= 2;
-        recalc_hp();
-
-    } else if (mut == "PRED3") {
-        // Mostly for the Debug.
-        int_max ++;
-
-    } else if (mut == "PRED4") {
-        int_max += 3;
-
-    } else if (mut == "STR_UP") {
-        str_max --;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_2") {
-        str_max -= 2;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_3") {
-        str_max -= 4;
-        recalc_hp();
-
-    } else if (mut == "STR_UP_4") {
-        str_max -= 7;
-        recalc_hp();
-
     } else if (mut == "STR_ALPHA") {
         if (str_max == 18) {
             str_max = 15;
@@ -382,31 +264,6 @@ void Character::mutation_loss_effect(std::string mut)
             str_max = 4;
         }
         recalc_hp();
-    } else if (mut == "DEX_UP") {
-        dex_max --;
-
-    } else if (mut == "BENDY1") {
-        dex_max --;
-
-    } else if (mut == "BENDY2") {
-        dex_max -= 3;
-        str_max += 2;
-        recalc_hp();
-
-    } else if (mut == "BENDY3") {
-        dex_max -= 4;
-        str_max += 4;
-        recalc_hp();
-
-    } else if (mut == "DEX_UP_2") {
-        dex_max -= 2;
-
-    } else if (mut == "DEX_UP_3") {
-        dex_max -= 4;
-
-    } else if (mut == "DEX_UP_4") {
-        dex_max -= 7;
-
     } else if (mut == "DEX_ALPHA") {
         if (dex_max == 18) {
             dex_max = 15;
@@ -417,18 +274,6 @@ void Character::mutation_loss_effect(std::string mut)
         } else {
             dex_max = 4;
         }
-    } else if (mut == "INT_UP") {
-        int_max --;
-
-    } else if (mut == "INT_UP_2") {
-        int_max -= 2;
-
-    } else if (mut == "INT_UP_3") {
-        int_max -= 4;
-
-    } else if (mut == "INT_UP_4") {
-        int_max -= 7;
-
     } else if (mut == "INT_ALPHA") {
         if (int_max == 18) {
             int_max = 15;
@@ -442,18 +287,6 @@ void Character::mutation_loss_effect(std::string mut)
     } else if (mut == "INT_SLIME") {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
-    } else if (mut == "PER_UP") {
-        per_max --;
-
-    } else if (mut == "PER_UP_2") {
-        per_max -= 2;
-
-    } else if (mut == "PER_UP_3") {
-        per_max -= 4;
-
-    } else if (mut == "PER_UP_4") {
-        per_max -= 7;
-
     } else if (mut == "PER_ALPHA") {
         if (per_max == 18) {
             per_max = 15;
@@ -464,12 +297,16 @@ void Character::mutation_loss_effect(std::string mut)
         } else {
             per_max = 4;
         }
-    } else if (mut == "PER_SLIME") {
-        per_max += 8;
-
-    } else if (mut == "PER_SLIME_OK") {
-        per_max -= 5;
-
+    } else {
+        int str_change = -1 * get_mod(mut, "STR");
+        str_max += str_change;
+        per_max += -1 * get_mod(mut, "PER");
+        dex_max += -1 * get_mod(mut, "DEX");
+        int_max += -1 * get_mod(mut, "INT");
+        
+        if (str_change != 0) {
+            recalc_hp();
+        }
     }
 }
 
@@ -511,6 +348,17 @@ void player::activate_mutation( std::string mut )
             fatigue += cost;
         }
         traits[mut].powered = true;
+        
+        // Handle stat changes from activation
+        int str_change = get_mod(mut, "STR");
+        str_max += str_change;
+        per_max += get_mod(mut, "PER");
+        dex_max += get_mod(mut, "DEX");
+        int_max += get_mod(mut, "INT");
+        
+        if (str_change != 0) {
+            recalc_hp();
+        }
     }
 
     if( traits[mut].id == "WEB_WEAVER" ) {
@@ -635,6 +483,17 @@ void player::activate_mutation( std::string mut )
 void player::deactivate_mutation(std::string mut)
 {
     traits[mut].powered = false;
+    
+    // Handle stat changes from deactivation
+    int str_change = -1 * get_mod(mut, "STR");
+    str_max += str_change;
+    per_max += -1 * get_mod(mut, "PER");
+    dex_max += -1 * get_mod(mut, "DEX");
+    int_max += -1 * get_mod(mut, "INT");
+    
+    if (str_change != 0) {
+        recalc_hp();
+    }
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)

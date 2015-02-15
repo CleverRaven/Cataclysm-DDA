@@ -671,7 +671,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     int testx, testy;
     calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
-    const float wdist = std::hypot(endx - testx, endy - testy);
+    const float wdist = hypot(endx - testx, endy - testy);
     if (wdist <= 0.5) {
         return;
     }

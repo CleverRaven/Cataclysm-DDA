@@ -1598,6 +1598,49 @@ bool map::is_outside(const int x, const int y) const
  return outside_cache[x][y];
 }
 
+bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
+                           const int xmax, const int ymax, const direction dir) const {
+    int xmov = 0;
+    int ymov = 0;
+    switch ( dir ) {
+        case NORTH:
+            ymov = -1;
+            break;
+        case SOUTH:
+            ymov = 1;
+            break;
+        case WEST:
+            xmov = -1;
+            break;
+        case EAST:
+            xmov = 1;
+            break;
+        default:
+            break;
+    }
+    int x2 = x;
+    int y2 = y;
+    bool result = true;
+    bool loop = true;
+    while ( (loop) && ((dir == NORTH && y2 >= 0) ||
+                       (dir == SOUTH && y2 < ymax) ||
+                       (dir == WEST  && x2 >= 0) ||
+                       (dir == EAST  && x2 < xmax)) ) {
+        if ( no_furn && has_furn(x2, y2) ) {
+            loop = false;
+            result = false;
+        } else if ( !has_flag_ter("FLAT", x2, y2) ) {
+            loop = false;
+            if ( !has_flag_ter("WALL", x2, y2) ) {
+                result = false;
+            }
+        }
+        x2 += xmov;
+        y2 += ymov;
+    }
+    return result;
+}
+
 bool map::flammable_items_at(const int x, const int y)
 {
     for( const auto &i : i_at(x, y) ) {
