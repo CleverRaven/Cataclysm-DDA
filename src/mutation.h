@@ -21,6 +21,16 @@ class mutation_type
         // --------------- Values ---------------
         /** Mutation id. */
         muttype_id id;
+        /** Mutation in-game name. */
+        std::string name;
+        /** Mutation in-game description. */
+        std::string description;
+        /** Point cost at character creation. */
+        int points;
+        /** How visible the mutation is. */
+        int visibility;
+        /** How ugly the mutation is compared to base human standards. */
+        int ugliness;
         /** False for mutations that can't be obtained through normal means. */
         bool valid;
         /** Can the mutation be purified? */
