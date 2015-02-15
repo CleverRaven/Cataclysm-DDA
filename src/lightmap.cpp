@@ -699,7 +699,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     }
 }
 
-void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
+void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy) const
 {
     double rad = (PI * angle) / 180;
     if (trigdist) {
