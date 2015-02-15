@@ -2286,7 +2286,7 @@ int item::get_storage() const
 
     if (item::item_tags.count("pocketed") > 0){
         pockets = volume() * (float(get_coverage()) / 100) / 1.333;
-        if (result > (volume() / 2)){
+        if (pockets > (volume() / 2)){
             pockets = (pockets / 2);
         }
         return result + pockets;
