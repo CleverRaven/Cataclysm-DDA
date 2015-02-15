@@ -191,5 +191,7 @@ void load_colors(JsonObject &jo);
 
 nc_color get_note_color(std::string const &note_id);
 std::list<std::pair<std::string, std::string>> get_note_color_names();
+std::string color_wrap(const nc_color &c, const std::string &s);
+std::string color_wrap(const nc_color &c, const char *s);
 
 #endif

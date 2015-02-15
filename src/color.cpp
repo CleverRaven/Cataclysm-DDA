@@ -1069,3 +1069,14 @@ std::list<std::pair<std::string, std::string>> get_note_color_names()
     }
     return color_list;
 }
+
+std::string color_wrap(const nc_color &c, const std::string &s)
+{
+    return color_wrap(c, s.c_str());
+}
+
+std::string color_wrap(const nc_color &c, const char *s)
+{
+    return string_format(_("<color_%s>%s</color>"), string_from_color(c).c_str(), s);
+}
+
