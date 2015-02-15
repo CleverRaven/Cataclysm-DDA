@@ -344,7 +344,6 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
                 trim_and_print(w_inv, cur_line, y + 4, w - 2, content_color, "\\_%s", content_name.c_str());
             }
         }
->>>>>>> added filter function, cleaned up comments, cleaned up a few code areas
     }
 }
 
