@@ -234,7 +234,7 @@ class map
  /**
   * Returns whether the tile at `(x, y)` is transparent(you can look past it).
   */
- bool trans(const int x, const int y); // Transparent?
+ bool trans(const int x, const int y) const; // Transparent?
 
  /**
   * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
@@ -243,8 +243,8 @@ class map
   *           subsequently be used to form a path between them
   */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &bresenham_slope);
- bool sees( point F, point T, int range, int &bresenham_slope );
+           const int range, int &bresenham_slope) const;
+ bool sees( point F, point T, int range, int &bresenham_slope ) const;
 
  /**
   * Check whether there's a direct line of sight between `(Fx, Fy)` and
@@ -279,7 +279,7 @@ class map
   * Points closer to the target come first.
   * This method leads to straighter lines and prevents weird looking movements away from the target.
   */
- std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty);
+ std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
 
  /**
   * Calculate a best path using A*
@@ -287,11 +287,9 @@ class map
   * @param Fx, Fy The source location from which to path.
   * @param Tx, Ty The destination to which to path.
   *
-  * @param bash Whether we should path through terrain that's impassable, but can
-  *             be destroyed(closed windows, doors, etc.)
+  * @param bash Bashing strength of pathing creature (0 means no bashing through terrain)
   */
- std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
-                          const bool bash = true);
+ std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
 
  int coord_to_angle (const int x, const int y, const int tgtx, const int tgty);
 // vehicles
@@ -305,11 +303,13 @@ class map
   * @return A pointer to the vehicle in this tile.
   */
  vehicle* veh_at(const int x, const int y, int &part_num);
+ const vehicle* veh_at(const int x, const int y, int &part_num) const;
 
  /**
   * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
   */
- vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
+ vehicle* veh_at(const int x, const int y);// checks if tile is occupied by vehicle
+ const vehicle* veh_at(const int x, const int y) const;
 
  /**
   * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
@@ -342,7 +342,7 @@ class map
  void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
 
  std::string name(const int x, const int y);
- bool has_furn(const int x, const int y);
+ bool has_furn(const int x, const int y) const;
 
  furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_furn(const int x, const int y) const;
@@ -384,7 +384,7 @@ class map
   * any items. This is similar to @ref sees_some_items, but it
   * does not check that there are actually any items.
   */
- bool could_see_items(int x, int y, const player &u);
+ bool could_see_items(int x, int y, const player &u) const;
 
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -402,28 +402,28 @@ class map
  bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 
  /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
- bool is_bashable(const int x, const int y);
+ bool is_bashable(const int x, const int y) const;
  /** Returns true if the terrain at x,y is bashable */
- bool is_bashable_ter(const int x, const int y);
+ bool is_bashable_ter(const int x, const int y) const;
  /** Returns true if the furniture at x,y is bashable */
- bool is_bashable_furn(const int x, const int y);
+ bool is_bashable_furn(const int x, const int y) const;
  /** Returns true if the furniture or terrain at x,y is bashable */
- bool is_bashable_ter_furn(const int x, const int y);
+ bool is_bashable_ter_furn(const int x, const int y) const;
  /** Returns max_str of the furniture or terrain at x,y */
- int bash_strength(const int x, const int y);
+ int bash_strength(const int x, const int y) const;
  /** Returns min_str of the furniture or terrain at x,y */
- int bash_resistance(const int x, const int y);
+ int bash_resistance(const int x, const int y) const;
  /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
   *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
- int bash_rating(const int str, const int x, const int y);
+ int bash_rating(const int str, const int x, const int y) const;
 
  /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
   *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
  void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
                     ter_id floor_type = t_dirt, bool overwrite = false);
 
- bool is_divable(const int x, const int y);
- bool is_outside(const int x, const int y);
+ bool is_divable(const int x, const int y) const;
+ bool is_outside(const int x, const int y) const;
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
