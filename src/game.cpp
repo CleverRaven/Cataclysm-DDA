@@ -11404,10 +11404,16 @@ bool game::check_save_mode_allowed()
     } else {
         spotted_creature_name = zombie( new_seen_mon.back() ).name();
     }
+
+    std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
+    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
+    if (!msg_ignore.empty()) {
+        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    }
+
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
-             spotted_creature_name.c_str(), press_x( ACTION_TOGGLE_SAFEMODE ).c_str(),
-             from_sentence_case( press_x( ACTION_IGNORE_ENEMY ) ).c_str() );
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
     return false;
 }
 

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <map>
 
 #include "output.h"
 
@@ -542,7 +543,7 @@ bool query_yn(const char *mes, ...)
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
-    bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
+    bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
 
     // localizes the selectors, requires translation to use lower case
     std::string selectors = _("yn");
@@ -563,12 +564,11 @@ bool query_yn(const char *mes, ...)
     int win_width = 0;
 
     WINDOW *w = NULL;
-    std::vector<std::string> textformatted;
 
     std::string color_on = "<color_white>";
     std::string color_off = "</color>";
 
-    char ch = '?';
+    int ch = '?';
     bool result = true;
     bool gotkey = false;
 
@@ -1265,10 +1265,9 @@ std::vector<size_t> get_tag_positions(const std::string &s)
 }
 
 // utf-8 version
-std::string word_rewrap (const std::string &ins, int width)
+std::string word_rewrap (const std::string &in, int width)
 {
     std::ostringstream o;
-    std::string in = ins;
 
     // find non-printing tags
     std::vector<size_t> tag_positions = get_tag_positions(in);
@@ -1465,23 +1464,9 @@ void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile)
     mvwprintz(w_hit, 0, 0, cColor, "%s", cTile.c_str());
     wrefresh(w_hit);
 
-    timeout(OPTIONS["ANIMATION_DELAY"]);
+    timeout(static_cast<int>(OPTIONS["ANIMATION_DELAY"]));
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
-}
-
-std::string from_sentence_case (const std::string &kingston)
-{
-    if (!kingston.empty()) {
-        std::string montreal = kingston;
-        if(montreal.empty()) {
-            return "";
-        } else {
-            montreal.replace(0, 1, 1, tolower(kingston.at(0)));
-            return montreal;
-        }
-    }
-    return "";
 }
 
 #if defined(_MSC_VER)
@@ -1534,21 +1519,21 @@ std::string string_format(const char *pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);
-    const std::string result = vstring_format(pattern, ap);
+    std::string result = vstring_format(pattern, ap);
     va_end(ap);
     return result;
 }
 
-std::string vstring_format(const std::string pattern, va_list argptr)
+std::string vstring_format(std::string const &pattern, va_list argptr)
 {
     return vstring_format(pattern.c_str(), argptr);
 }
 
-std::string string_format(const std::string pattern, ...)
+std::string string_format(std::string pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);
-    const std::string result = vstring_format(pattern.c_str(), ap);
+    std::string result = vstring_format(pattern.c_str(), ap);
     va_end(ap);
     return result;
 }
@@ -1728,7 +1713,7 @@ void display_table(WINDOW *w, const std::string &title, int columns,
     int offset = 0;
 
     const int title_length = utf8_width(title.c_str());
-    while(true) {
+    for (;;) {
         werase(w);
         draw_border(w);
         mvwprintz(w, 1, (width - title_length) / 2, c_white, "%s", title.c_str());
@@ -1819,42 +1804,39 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_
     }
 }
 
-std::string scrollingcombattext::cSCT::getText(std::string sType)
+std::string scrollingcombattext::cSCT::getText(std::string const &type) const
 {
-    std::string sReturn = sText;
-
-    if (sText2 != "") {
+    if (!sText2.empty()) {
         if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
-            if (sType == "first") {
+            if (type == "first") {
                 return sText2 + " ";
 
-            } else if (sType == "full") {
-                sReturn = sText2 + " " + sReturn;
+            } else if (type == "full") {
+                return sText2 + " " + sText;
             }
         } else {
-            if (sType == "second") {
+            if (type == "second") {
                 return " " + sText2;
-
-            } else if (sType == "full") {
-                sReturn += " " + sText2;
+            } else if (type == "full") {
+                return sText + " " + sText2;
             }
         }
-    } else if (sType == "second") {
-        return "";
+    } else if (type == "second") {
+        return {};
     }
 
-    return sReturn;
+    return sText;
 }
 
-game_message_type scrollingcombattext::cSCT::getMsgType(std::string sType)
+game_message_type scrollingcombattext::cSCT::getMsgType(std::string const &type) const
 {
-    if (sText2 != "") {
+    if (!sText2.empty()) {
         if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
-            if (sType == "first") {
+            if (type == "first") {
                 return gmt2;
             }
         } else {
-            if (sType == "second") {
+            if (type == "second") {
                 return gmt2;
             }
         }
@@ -1863,7 +1845,7 @@ game_message_type scrollingcombattext::cSCT::getMsgType(std::string sType)
     return gmt;
 }
 
-int scrollingcombattext::cSCT::getPosX()
+int scrollingcombattext::cSCT::getPosX() const
 {
     if (getStep() > 0) {
         int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
@@ -1884,7 +1866,7 @@ int scrollingcombattext::cSCT::getPosX()
     return 0;
 }
 
-int scrollingcombattext::cSCT::getPosY()
+int scrollingcombattext::cSCT::getPosY() const
 {
     if (getStep() > 0) {
         const int iDirOffset = (oDir == SOUTH) ? 1 : ((oDir == NORTH) ? -1 : 0);
@@ -1920,51 +1902,25 @@ void scrollingcombattext::removeCreatureHP()
 
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
 {
-    if (!bOldMsg) {
-        // color for new messages
-        switch(type) {
-        case m_good:
-            return c_ltgreen;
-        case m_bad:
-            return c_ltred;
-        case m_mixed:
-        case m_headshot:
-            return c_pink;
-        case m_neutral:
-            return c_white;
-        case m_warning:
-        case m_critical:
-            return c_yellow;
-        case m_info:
-        case m_grazing:
-            return c_ltblue;
-        default:
-            return c_white;
-        }
-    } else {
-        // color for slightly old messages
-        switch(type) {
-        case m_good:
-            return c_green;
-        case m_bad:
-            return c_red;
-        case m_mixed:
-        case m_headshot:
-            return c_magenta;
-        case m_neutral:
-            return c_ltgray;
-        case m_warning:
-        case m_critical:
-            return c_brown;
-        case m_info:
-        case m_grazing:
-            return c_blue;
-        default:
-            return c_ltgray;
-        }
+    static std::map<game_message_type, std::pair<nc_color, nc_color>> const colors {
+        {m_good,     {c_ltgreen, c_green}},
+        {m_bad,      {c_ltred,   c_red}},
+        {m_mixed,    {c_pink,    c_magenta}},
+        {m_warning,  {c_yellow,  c_brown}},
+        {m_info,     {c_ltblue,  c_blue}},
+        {m_neutral,  {c_white,   c_ltgray}},
+        {m_debug,    {c_white,   c_ltgray}},
+        {m_headshot, {c_pink,    c_magenta}},
+        {m_critical, {c_yellow,  c_brown}},
+        {m_grazing,  {c_ltblue,  c_blue}}
+    };
+
+    auto const it = colors.find(type);
+    if (it == std::end(colors)) {
+        return bOldMsg ? c_ltgray : c_white;
     }
 
-    return c_white;
+    return bOldMsg ? it->second.second : it->second.first;
 }
 
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
@@ -1988,7 +1944,7 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
     case m_grazing:
         return iBold + COLOR_BLUE;
     default:
-        return -1;
+        break;
     }
 
     return -1;
