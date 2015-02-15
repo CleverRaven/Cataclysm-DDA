@@ -291,6 +291,7 @@ int requirement_data::print_list_scrolled( WINDOW *w, int ypos, int xpos, int wi
     if(total_scroll_difference >= -1){
         scroll_offset *= -1;
     }
+    //handle the case for only one row of text being scrolled
     if( total_scroll_difference ==0 && buffer.str().length() > 0 ){
         mvwprintz( w, ypos, xpos, col, "> " );
         ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );

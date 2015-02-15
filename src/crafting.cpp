@@ -631,15 +631,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             }
         } else {
+            wmove(w_data, dataLines + 1, 5);
             if(display_mode == 2){
                 wprintz(w_data, c_white, _("[N]ext, ") );
             }
 
             if (filterstring != "") {
-                mvwprintz(w_data, dataLines + 1, 5, c_white,
+                wprintz(w_data, c_white,
                           _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings"));
             } else {
-                mvwprintz(w_data, dataLines + 1, 5, c_white,
+                wprintz(w_data, c_white,
                           _("[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings"));
             }
             mvwprintz(w_data, dataLines + 2, 5, c_white,
