@@ -11,6 +11,31 @@ std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
 std::map<std::string, mutation_branch> mutation_data;
 
+static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
+                        std::string mod_type, bool active, std::string type_key)
+{
+    int val = j.get_int(mod_type, 0);
+    if (val != 0) {
+        data[std::make_pair(active, type_key)] = val;
+    }
+}
+
+static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unordered_map<std::pair<bool, std::string>, int> &mods)
+{
+    if (jsobj.has_object(member)) {
+        JsonObject j = jsobj.get_object(member);
+        bool active = false;
+        if (member == "active_mods") {
+            active = true;
+        }
+        //                   json field             type key
+        extract_mod(j, mods, "str_mod",     active, "STR");
+        extract_mod(j, mods, "dex_mod",     active, "DEX");
+        extract_mod(j, mods, "per_mod",     active, "PER");
+        extract_mod(j, mods, "int_mod",     active, "INT");
+    }   
+}
+
 void load_mutation(JsonObject &jsobj)
 {
     trait new_trait;
@@ -40,6 +65,9 @@ void load_mutation(JsonObject &jsobj)
     mutation_data[id].initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
     mutation_data[id].threshold = jsobj.get_bool("threshold", false);
     mutation_data[id].profession = jsobj.get_bool("profession", false);
+    
+    load_mutation_mods(jsobj, "passive_mods", mutation_data[id].mods);
+    load_mutation_mods(jsobj, "active_mods", mutation_data[id].mods);
 
     jsarr = jsobj.get_array("prereqs");
     while (jsarr.has_more()) {

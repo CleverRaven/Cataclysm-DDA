@@ -73,6 +73,23 @@ void Character::toggle_str_set( std::unordered_set< std::string > &set, const st
     }
 }
 
+int Character::get_mod(std::string mut, std::string arg) const
+{
+    auto &mod_data = mutation_data[mut].mods;
+    int ret = 0;
+    auto found = mod_data.find(std::make_pair(false, arg));
+    if (found != mod_data.end()) {
+        ret += found->second;
+    }
+    if (has_active_mutation(mut)) {
+        found = mod_data.find(std::make_pair(true, arg));
+        if (found != mod_data.end()) {
+            ret += found->second;
+        }
+    }
+    return ret;
+}
+
 void Character::mutation_effect(std::string mut)
 {
     bool is_u = is_player();
@@ -174,10 +191,6 @@ void Character::mutation_effect(std::string mut)
         // we are talking folks who really wanted to
         // transcend their humanity by this point.
         int_max -= 3;
-
-    } else if (mut == "STR_UP") {
-        str_max ++;
-        recalc_hp();
 
     } else if (mut == "STR_UP_2") {
         str_max += 2;
@@ -292,6 +305,16 @@ void Character::mutation_effect(std::string mut)
 
     } else if (mut == "PER_SLIME_OK") {
         per_max += 5;
+    } else {
+        int str_change = get_mod(mut, "STR");
+        str_max += str_change;
+        per_max += get_mod(mut, "PER");
+        dex_max += get_mod(mut, "DEX");
+        int_max += get_mod(mut, "INT");
+        
+        if (str_change != 0) {
+            recalc_hp();
+        }
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -354,10 +377,6 @@ void Character::mutation_loss_effect(std::string mut)
 
     } else if (mut == "PRED4") {
         int_max += 3;
-
-    } else if (mut == "STR_UP") {
-        str_max --;
-        recalc_hp();
 
     } else if (mut == "STR_UP_2") {
         str_max -= 2;
@@ -470,6 +489,16 @@ void Character::mutation_loss_effect(std::string mut)
     } else if (mut == "PER_SLIME_OK") {
         per_max -= 5;
 
+    } else {
+        int str_change = -1 * get_mod(mut, "STR");
+        str_max += str_change;
+        per_max += -1 * get_mod(mut, "PER");
+        dex_max += -1 * get_mod(mut, "DEX");
+        int_max += -1 * get_mod(mut, "INT");
+        
+        if (str_change != 0) {
+            recalc_hp();
+        }
     }
 }
 
