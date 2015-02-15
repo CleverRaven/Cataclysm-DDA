@@ -553,7 +553,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 }
             } else if (datatype == 'N') { // Load notes
                 om_note tmp;
-                sfin >> tmp.x >> tmp.y >> tmp.num;
+                sfin >> tmp.x >> tmp.y;
                 getline(sfin, tmp.text); // Chomp endl
                 getline(sfin, tmp.text);
                 if (z >= 0 && z < OVERMAP_LAYERS) {
@@ -624,7 +624,7 @@ void overmap::save() const
         fout << std::endl;
 
         for (auto &i : layer[z].notes) {
-            fout << "N " << i.x << " " << i.y << " " << i.num << std::endl << i.text << std::endl;
+            fout << "N " << i.x << " " << i.y << " " << std::endl << i.text << std::endl;
         }
     }
     fout.close();
