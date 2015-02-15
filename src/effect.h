@@ -10,6 +10,7 @@
 
 class effect_type;
 class Creature;
+class player;
 
 extern std::map<std::string, effect_type> effect_types;
 
