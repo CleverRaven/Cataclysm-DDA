@@ -9,6 +9,57 @@
 #include <map>
 #include <unordered_map>
 
+class mutation_type
+{
+        friend void load_mutation_type(JsonObject &jo);
+        friend class mutation;
+    public:
+        // --------------- Constructors ---------------
+        mutation_type();
+        mutation_type(const mutation_type &rhs);
+    private:
+        // --------------- Values ---------------
+        /** Mutation id. */
+        muttype_id id;
+        /** False for mutations that can't be obtained through normal means. */
+        bool valid;
+        /** Can the mutation be purified? */
+        bool purifiable;
+        /** Is the mutation a threshold mutation? */
+        bool threshold;
+        /** Is the mutation a profession based mutation? */
+        bool profession;
+        /** Prerequisites, only 1 is needed. */
+        std::vector<std::string> prereqs;
+        /** Secondary prerequisites, only 1 is needed. */
+        std::vector<std::string> prereqs2;
+        /** Threshold prerequisite, only 1 is needed. */
+        std::vector<std::string> threshreq;
+        /** Mutations that this mutation removes. */
+        std::vector<std::string> cancels;
+        /** Mutations that this mutation can mutate into. */
+        std::vector<std::string> replacements;
+        /** Mutations that this mutation makes more likely to occur. */
+        std::vector<std::string> additions;
+        /** What categories does this mutation fall into? */
+        std::vector<std::string> category;
+        /** Mutation wet protection effect. */
+        std::map<std::string, mutation_wet> protection;
+        /** Mutation stat modifiers, key pair order is <active: bool, mod type: "STR"> */
+        std::unordered_map<std::pair<bool, std::string>, int> mods;
+        /** Martial art styles that can be chosen on character generation with this mutation.
+         *  Used mainly by profession mutations. */
+        std::vector<std::string> initial_ma_styles;
+}
+
+class mutation : public JsonSerializer, public JsonDeserializer
+{
+    public:
+    private:
+        // --------------- Values ---------------
+}
+
+
 struct dream;
 struct mutation_branch;
 

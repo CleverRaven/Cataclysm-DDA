@@ -14,6 +14,8 @@ typedef std::string matec_id;
 
 typedef std::string efftype_id;
 
+typedef std::string muttype_id;
+
 typedef std::string dis_type;
 
 enum character_type : int {
