@@ -1296,6 +1296,7 @@ int overmap::dist_from_city(point p)
     return distance;
 }
 
+// {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note)
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
@@ -1325,7 +1326,6 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
             std::get<1>(result) = get_note_color(note.substr(pos, end - pos));
             std::get<2>(result) = end + 1;
             set_color = true;
-        } else {
         }
 
         pos = end + 1;
@@ -1556,9 +1556,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     std::vector<std::string> corner_text;
 
-    auto const &note_text = overmap_buffer.note(cursx, cursy, z);
+    std::string const &note_text = overmap_buffer.note(cursx, cursy, z);
     if (!note_text.empty()) {
-        auto const pos = std::get<2>(get_note_display_info(note_text));
+        size_t const pos = std::get<2>(get_note_display_info(note_text));
         if (pos != std::string::npos) {
             corner_text.emplace_back(note_text.substr(pos));
         }
@@ -1575,7 +1575,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     if( !corner_text.empty() ) {
-        auto const maxlen = std::accumulate(begin(corner_text), end(corner_text), int {0},
+        int const maxlen = std::accumulate(begin(corner_text), end(corner_text), int {0},
             [](int const cur_max, std::string const &line) {
                 return std::max(cur_max, utf8_width(line.c_str())); });
 

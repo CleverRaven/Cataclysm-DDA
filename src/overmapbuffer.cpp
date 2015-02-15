@@ -230,7 +230,7 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
 
 bool overmapbuffer::has_npc(int x, int y, int const z)
 {
-    auto const om = get_existing_om_global(x, y);
+    overmap const *const om = get_existing_om_global(x, y);
     if (!om) {
         return false;
     }
@@ -255,7 +255,7 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
         return false;
     }
 
-    auto const om = get_existing_om_global(x, y);
+    overmap const *const om = get_existing_om_global(x, y);
     if (!om) {
         return false;
     }
@@ -522,8 +522,8 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
     const point upper_left = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
     const point lower_right = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
 
-    auto const dx = std::max(1, lower_right.x - upper_left.x);
-    auto const dy = std::max(1, lower_right.y - upper_left.y);
+    int const dx = std::max(1, lower_right.x - upper_left.x);
+    int const dy = std::max(1, lower_right.y - upper_left.y);
 
     // Grab references to the overmaps at those coordinates, but only if they exist.
     // Might use this to drive creation of these overmaps at some point if we want to
@@ -533,7 +533,7 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
 
     for (int x = upper_left.x; x <= lower_right.x; ++x) {
         for (int y = upper_left.y; y <= lower_right.y; ++y) {
-            auto const nearby_overmap = get_existing(x, y);
+            overmap const *const nearby_overmap = get_existing(x, y);
             if (nearby_overmap) {
                 nearby_overmaps.emplace_back(nearby_overmap);
             }
