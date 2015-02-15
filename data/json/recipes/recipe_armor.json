@@ -8339,10 +8339,6 @@
       [ "hat_hunting", 1 ]
     ],
     [
-      [ "mask_dust", 1 ],
-      [ "bandana", 2 ]
-    ],
-    [
       [ "glasses_safety", 1 ],
       [ "glasses_bal", 1 ]
     ],
@@ -8383,7 +8379,7 @@
       [ "hat_hunting", 1 ]
     ],
     [
-      [ "mask_filter", 1 ]
+      [ "mask_dust", 2 ],
     ],
     [
       [ "glasses_bal", 1 ],
@@ -8461,7 +8457,7 @@
   ],
   "components": [
     [
-      [ "sleeveless_duster", 1 ]
+      [ "duster", 1 ]
     ],
     [
       [ "vest", 1 ],
@@ -8511,7 +8507,6 @@
   ],
   "components": [
     [
-      [ "jacket_flannel", 1 ],
       [ "jacket_army", 1 ]
     ],
     [
@@ -8529,9 +8524,7 @@
       [ "legrig", 1 ]
     ],
     [
-      [ "pants_army", 1 ],
-      [ "pants_ski", 1 ],
-      [ "motorbike_pants", 1 ]
+      [ "pants_army", 1 ]
     ],
      [
       [ "kevlar", 1 ],
