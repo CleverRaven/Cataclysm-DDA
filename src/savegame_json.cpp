@@ -247,7 +247,7 @@ void player::load(JsonObject &data)
  * Variables common to player (and npc's, should eventually just be players)
  */
 void player::store(JsonOut &json) const
-{
+{   
     Character::store( json );
 
     // assumes already in player object

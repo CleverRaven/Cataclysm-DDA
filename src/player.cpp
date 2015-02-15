@@ -7145,6 +7145,19 @@ void player::suffer()
                     traits[mut].cooldown = traits[mut].cost;
                 }
             }
+            
+            if (traits[mut].powered == false) {
+                // Handle stat changes from deactivation
+                int str_change = -1 * get_mod(mut, "STR");
+                str_max += str_change;
+                per_max += -1 * get_mod(mut, "PER");
+                dex_max += -1 * get_mod(mut, "DEX");
+                int_max += -1 * get_mod(mut, "INT");
+                
+                if (str_change != 0) {
+                    recalc_hp();
+                }
+            }
         }
 
     }

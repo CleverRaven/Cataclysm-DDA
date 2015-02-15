@@ -67,7 +67,8 @@ void load_mutation(JsonObject &jsobj)
     mutation_data[id].profession = jsobj.get_bool("profession", false);
     
     load_mutation_mods(jsobj, "passive_mods", mutation_data[id].mods);
-    load_mutation_mods(jsobj, "active_mods", mutation_data[id].mods);
+    /* Not currently supported due to inability to save active mutation state
+    load_mutation_mods(jsobj, "active_mods", mutation_data[id].mods); */
 
     jsarr = jsobj.get_array("prereqs");
     while (jsarr.has_more()) {
