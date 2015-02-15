@@ -206,7 +206,7 @@ long special_symbol (long sym);
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
 std::string string_format(std::string pattern, ...);
-std::string vstring_format(std::string pattern, va_list argptr);
+std::string vstring_format(std::string const &pattern, va_list argptr);
 
 // TODO: move these elsewhere
 // string manipulations.
