@@ -102,9 +102,8 @@ class storage
         std::vector<item> items;
 
     public:
-        storage() {};
-        storage(std::vector<item> &&item_vec)
-            : items(std::move(item_vec)) {}
+        storage() {}
+        storage(std::vector<item> &&item_vec) : items(std::move(item_vec)) {}
         storage(item_iterator start, item_iterator stop);
 
         /*-----------------------------------------------------------------------------
@@ -144,10 +143,24 @@ class storage
         /*-----------------------------------------------------------------------------
          *                                STORAGE
          *-----------------------------------------------------------------------------*/
+        // return a boolean about content properties
+        template <typename T> bool              filter_by(T filter) const;
+        // return an item list based on filter
+        template <typename T> std::list<item>   filter_by(T filter);
+        // wrapper for contents[0].has_flag()
+        bool has_flag(const std::string &f) const;
+        // wrapper for contents[0].made_of()
+        bool made_of(const std::string &f) const;
         // returns true if this is storing a liquid
         bool has_liquid() const;
         // returns true if storing food
         bool has_food() const;
+        // returns true if this is storing heavenly nectar to imbibe
+        bool has_brew() const;
+        // returns true if there are active items in storage
+        bool has_active_items() const;
+        // return true if there is ammo in storage
+        bool has_ammo() const;
         /*-----------------------------------------------------------------------------
          *                                  JSON
          *-----------------------------------------------------------------------------*/
@@ -535,11 +548,9 @@ public:
 
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
- bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player const*u) const;// Some non-food items are food to certain players
- bool is_food_container(player const*u) const;  // Ditto
- bool is_food() const;                // Ignoring the ability to eat batteries, etc.
- bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_null() const;                                  // True if type is NULL, or points to the null item (id == 0)
+ bool is_food(const player *u=nullptr) const;           // Some non-food items are food to certain players
+ bool is_food_container(const player *u=nullptr) const; // Ditto
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -601,14 +612,14 @@ public:
 
         storage    contents;
 
-        int space_used() const;
-        int space_free() const;
+        int storage_used() const;
+        int storage_free() const;
         bool has_space_for(const item &thing) const;
-        bool is_full() const
+        bool is_storage_full() const
         {
-            return ((contents.empty()) ? false : space_free() == 0);
+            return ((contents.empty()) ? false : storage_free() == 0);
         }
-        bool is_empty() const
+        bool is_storage_empty() const
         {
             return contents.empty();
         }

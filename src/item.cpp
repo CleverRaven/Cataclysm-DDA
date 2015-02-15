@@ -251,7 +251,8 @@ void item::make_handed( const handedness handed )
 
 void item::clear()
 {
-    // should we be clearing contents, as well?
+    // should we be clearing contents, as well? [I'd say yes]
+    contents.clear();
     // Seems risky to - there aren't any reported content-clearing bugs
     // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
@@ -790,7 +791,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
                 temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &_mn : contents ) {
+                for( auto &_mn : contents.get() ) {
                     const auto mod = _mn.type->gunmod.get();
                     if( mod->location == ( elem ).first ) { // if mod for this location
                         if (first_mods) {
@@ -952,7 +953,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 		}
 
 		dump->push_back(iteminfo("ARMOR", temp1.str()));
-
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
@@ -963,11 +963,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                      get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
-        dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
-                                 get_env_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), 
-                    string_format(_("%d/"), space_used()), get_storage()));
+        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", space + _("Env: "), "", get_env_resist(), true, "", true));
+        if(is_storage()) {
+            std::string flags_in_storage = "[";
+            flags_in_storage += (contents.has_active_items()    ? color_wrap(c_yellow,  _("A")) : "");
+            flags_in_storage += (contents.has_food()            ? color_wrap(c_cyan,    _("F")) : "");
+            flags_in_storage += (contents.has_active_items()    ? color_wrap(c_yellow,  _("M")) : "");
+            if(contents.has_active_items()) {
+                flags_in_storage += color_wrap(c_yellow, _("A"));
+            }
+            flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
+            flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
+            dump->push_back(iteminfo("ARMOR", _("Storage: "), "", storage_used(), true,
+                string_format(_("/%d %s"), get_storage()), false));
+        }
     }
     if( is_book() ) {
 
@@ -1438,15 +1448,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         // describe contents
         if (!contents.empty()) {
+            // add a bit of a seperator to the info field
+            dump->push_back(iteminfo("DESCRIPTION", "\n"));
             if (is_gun()) {//Mods description
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
-                    dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
+                    dump->push_back(iteminfo("DESCRIPTION", elem.type->description));
                 }
-            } else {
+            // don't describe storage contents
+            } else if(!is_storage()) {
                 dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
             }
         }
@@ -1537,7 +1550,7 @@ int item::get_free_mod_locations(const std::string &location) const
         return 0;
     }
     int result = loc->second;
-    for( const auto &elem : contents ) {
+    for( const auto &elem : contents.get() ) {
         const auto mod = elem.type->gunmod.get();
         if(mod != NULL && mod->location == location) {
             result--;
@@ -1589,10 +1602,8 @@ nc_color item::color(player *u) const
         ammotype amtype = ammo_type();
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
             ret = c_green;
-        } else {
-            if (u->has_gun_for_ammo(amtype)) {
+        } else if (u->has_gun_for_ammo(amtype)) {
                 ret = c_green;
-            }
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
@@ -1746,7 +1757,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
-    } else if(!is_empty()) {
+    } else if(!is_storage_empty()) {
         if(contents.has_liquid()) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         } else if(contents.has_food()) {
@@ -1755,12 +1766,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                                  rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname( quantity, with_prefix ).c_str());
         } else if(is_storage()) {
-                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), space_used(), get_storage());
+                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), storage_used(), get_storage());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            if(contents.size() == 1) {
+                maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            } else if(contents.size() > 1) {
+                maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
+            }
         }
-    } else if (is_full()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
         maintext = type_name(quantity);
     }
@@ -2801,43 +2814,28 @@ bool item::is_ammo() const
     return type->ammo.get() != nullptr;
 }
 
-bool item::is_food(player const*u) const
+bool item::is_food(const player *u) const
 {
-    if (!u)
-        return is_food();
-
     if( is_null() )
         return false;
 
     if (type->is_food())
         return true;
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
-        return true;
+    if(u) {
+        if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
+            return true;
+        }
+        if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse") {
+            return true;
+        }
     }
-    if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
-        return true;
     return false;
 }
 
-bool item::is_food_container(player const*u) const
+bool item::is_food_container(const player *u) const
 {
     return (contents.size() >= 1 && contents[0].is_food(u));
-}
-
-bool item::is_food() const
-{
-    if( is_null() )
-        return false;
-
-    if (type->is_food())
-        return true;
-    return false;
-}
-
-bool item::is_food_container() const
-{
-    return (contents.size() >= 1 && contents[0].is_food());
 }
 
 bool item::is_corpse() const
@@ -5109,7 +5107,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 /*-----------------------------------------------------------------------------
- *  storage functions
+ *                                ** STORAGE **
  *-----------------------------------------------------------------------------*/
 typedef std::vector<item>::iterator                                item_iterator;
 typedef std::vector<item>::const_iterator                    item_const_iterator;
@@ -5119,6 +5117,9 @@ storage::storage(item_iterator start, item_iterator stop)
     items.insert(items.begin(), start, stop);
 }
 
+/*-----------------------------------------------------------------------------
+ *  addition/removal functions
+ *-----------------------------------------------------------------------------*/
 item *storage::add(const item &thing)
 {
     items.push_back(thing);
@@ -5163,17 +5164,10 @@ std::vector<item> storage::rem(item_iterator start, item_iterator stop)
     return things;
 }
 
-bool storage::has_liquid() const
-{
-    return items[0].made_of("LIQUID");
-}
-
-bool storage::has_food() const
-{
-    return items[0].is_food();
-}
-
-int item::space_used() const
+/*-----------------------------------------------------------------------------
+ *  storage/volume calculation
+ *-----------------------------------------------------------------------------*/
+int item::storage_used() const
 {
     int storage_used = 0;
     for(auto &elem : contents.get()) {
@@ -5182,13 +5176,83 @@ int item::space_used() const
     return storage_used;
 }
 
-int item::space_free() const
+int item::storage_free() const
 {
-    return (get_storage() - space_used());
+    return (get_storage() - storage_used());
 }
 
 bool item::has_space_for(const item &thing) const
 {
-    return (thing.volume() <= space_free());
+    return (thing.volume() <= storage_free());
+}
+
+/*-----------------------------------------------------------------------------
+ *  filter functions
+ *-----------------------------------------------------------------------------*/
+template <typename T> bool storage::filter_by(T filter) const
+{
+    for(const auto &elem : items) {
+        if(filter(elem)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <typename T> std::list<item> storage::filter_by(T filter)
+{
+    std::list<item> things;
+    for(auto &elem : items) {
+        if(filter(elem)) {
+            things.push_back(*(&elem));
+        }
+    }
+    return things;
+}
+
+/*-----------------------------------------------------------------------------
+ *  flag/traits checking
+ *-----------------------------------------------------------------------------*/
+bool storage::has_flag(const std::string &f) const
+{
+    return filter_by([&](const item &elem) {
+        return elem.has_flag(f);});
+}
+
+bool storage::made_of(const std::string &f) const
+{
+    return filter_by([&](const item &elem) {
+        return elem.has_flag(f);});
+}
+
+/*-----------------------------------------------------------------------------
+ *  
+ *-----------------------------------------------------------------------------*/
+bool storage::has_brew() const
+{
+    return has_flag("BREW");
+}
+
+bool storage::has_liquid() const
+{
+    return made_of("LIQUID");
+}
+
+bool storage::has_food() const
+{
+    return filter_by([&](const item &elem) {
+        return elem.is_food();});
+}
+
+bool storage::has_active_items() const
+{
+    return filter_by([&](const item &elem) {
+        return elem.active;});
+}
+
+bool storage::has_ammo() const
+{
+    return filter_by([&](const item &elem) {
+        return elem.is_ammo();});
 }
 

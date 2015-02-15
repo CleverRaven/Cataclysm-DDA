@@ -300,9 +300,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
     int cur_line = 2;
-    for (size_t a = 0;
-            (a + current_page_offset < items.size()) && (a < items_per_page);
-            a++, cur_line++) {
+    for (size_t a = 0; (a + current_page_offset < items.size()) && (a < items_per_page); a++, cur_line++) {
         const itemstack_or_category &cur_entry = items[a + current_page_offset];
         if (cur_entry.category == NULL) {
             continue;
@@ -334,6 +332,19 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
         trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
+        // don't list contents for: non-storage, empty, food, liquid
+        if(it.is_storage()
+                && !it.is_storage_empty() 
+                && !it.contents.has_food() 
+                && !it.contents.has_liquid()) {
+            for(size_t i = 0; i < it.contents.size(); ++i) {
+                cur_line++;
+                auto content_color  = it.contents[i].color_in_inventory();
+                auto content_name   = trim_to(it.contents[i].display_name(), w - 4);
+                trim_and_print(w_inv, cur_line, y + 4, w - 2, content_color, "\\_%s", content_name.c_str());
+            }
+        }
+>>>>>>> added filter function, cleaned up comments, cleaned up a few code areas
     }
 }
 
@@ -489,6 +500,7 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
     ctxt.register_action("PREV_TAB", _("Page up"));
+    ctxt.register_action("MOVE_ITEM", _("Move selected item"));
     ctxt.register_action("HELP_KEYBINDINGS");
     // For invlets
     ctxt.register_action("ANY_INPUT");
@@ -524,6 +536,7 @@ bool inventory_selector::handle_movement(const std::string &action)
 
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
+//    } else if (action == "MOVE_ITEM") {
     } else if (action == "LEFT") {
         if (this->items.size() > 0) {
             in_inventory = !in_inventory;
@@ -893,9 +906,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         } else if (action == "QUIT") {
             return NULL;
         } else if (action == "RIGHT" || action == "CONFIRM") {
-
             inv_s.set_selected_to_drop(0);
-
             for( size_t i = 0; i < grounditems_slice.size(); i++) {
                 if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
                     return ground_containers[i];
