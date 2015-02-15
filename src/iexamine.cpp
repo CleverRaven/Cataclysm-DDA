@@ -113,8 +113,8 @@ private:
 
     //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
     void reset(bool const clear = true) {
-        auto const card_count   = u.amount_of("cash_card");
-        auto const charge_count = card_count ? u.charges_of("cash_card") : 0;
+        const int card_count   = u.amount_of("cash_card");
+        const int charge_count = card_count ? u.charges_of("cash_card") : 0;
 
         if (clear) {
             amenu.reset();
@@ -173,7 +173,7 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        auto const index = g->inv_for_filter(msg, [](item const& itm) {
+        const int index = g->inv_for_filter(msg, [](item const& itm) {
             return itm.type->id == "cash_card";
         });
 
@@ -193,16 +193,15 @@ private:
 
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
-        auto const formatted = string_format(msg, max);
-        auto const amount = std::atol(string_input_popup(
+        const std::string formatted = string_format(msg, max);
+        const int amount = std::atol(string_input_popup(
             formatted, 20, to_string(max), "", "", -1, true).c_str());
 
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
     };
 
     bool do_purchase_card() {
-        auto const prompt =
-            _("This will automatically deduct $1.00 from your bank account. Continue?");
+        const char *prompt = _("This will automatically deduct $1.00 from your bank account. Continue?");
 
         if (!query_yn(prompt)) {
             return false;
@@ -218,7 +217,7 @@ private:
     }
 
     bool do_deposit_money() {
-        auto const src = choose_card(_("Insert card for deposit."));
+        item *src = choose_card(_("Insert card for deposit."));
         if (!src) {
             return false;
         }
@@ -228,7 +227,7 @@ private:
             return false;
         }
 
-        auto const amount = prompt_for_amount(ngettext(
+        const int amount = prompt_for_amount(ngettext(
             "Deposit how much? Max: %d cent. (0 to cancel) ",
             "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
 
@@ -244,12 +243,12 @@ private:
     }
 
     bool do_withdraw_money() {
-        auto const dst = choose_card(_("Insert card for withdrawal."));
+        item *dst = choose_card(_("Insert card for withdrawal."));
         if (!dst) {
             return false;
         }
 
-        auto const amount = prompt_for_amount(ngettext(
+        const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
             "Withdraw how much? Max: %d cents. (0 to cancel) ", u.cash), u.cash);
 
@@ -265,12 +264,12 @@ private:
     }
 
     bool do_transfer_money() {
-        auto const dst = choose_card(_("Insert card for deposit."));
+        item *dst = choose_card(_("Insert card for deposit."));
         if (!dst) {
             return false;
         }
 
-        auto const src = choose_card(_("Insert card for withdrawal."));
+        item *src = choose_card(_("Insert card for withdrawal."));
         if (!src) {
             return false;
         } else if (dst == src) {
@@ -281,7 +280,7 @@ private:
             return false;
         }
 
-        auto const amount = prompt_for_amount(ngettext(
+        const int amount = prompt_for_amount(ngettext(
             "Transfer how much? Max: %d cent. (0 to cancel) ",
             "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
 
@@ -297,7 +296,7 @@ private:
     }
 
     bool do_transfer_all_money() {
-        auto const dst = choose_card(_("Insert card for bulk deposit."));
+        item *dst = choose_card(_("Insert card for bulk deposit."));
         if (!dst) {
             return false;
         }
@@ -343,7 +342,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         return;
     }
 
-    auto const card = &p->i_at(g->inv_for_filter(_("Insert card for purchases."),
+    item *card = &p->i_at(g->inv_for_filter(_("Insert card for purchases."),
         [](item const &i) { return i.type->id == "cash_card"; }));
 
     if (card->is_null()) {
@@ -369,8 +368,8 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
     WINDOW_PTR const w_item_info_ptr {
         newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
 
-    auto const w           = w_ptr.get();
-    auto const w_item_info = w_item_info_ptr.get();
+    WINDOW *w           = w_ptr.get();
+    WINDOW *w_item_info = w_item_info_ptr.get();
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");
@@ -382,10 +381,8 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
     // Collate identical items.
     // First, build a map {item::tname} => {item_it, item_it, item_it...}
     using iterator_t = decltype(std::begin(vend_items)); // map_stack::iterator doesn't exist.
-    using map_t      = std::map<std::string, std::vector<iterator_t>>;
-    using vector_t   = std::vector<map_t::value_type*>;
 
-    map_t item_map;
+    std::map<std::string, std::vector<iterator_t>> item_map;
     for (auto it = std::begin(vend_items); it != std::end(vend_items); ++it) {
         // |# {name}|
         // 123      4
@@ -393,7 +390,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
-    vector_t item_list;
+    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type*> item_list;
     item_list.reserve(item_map.size());
     for (auto &pair : item_map) {
         item_list.emplace_back(&pair);
@@ -401,7 +398,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
 
     // | {title}|
     // 12       3
-    auto const title = utf8_truncate(string_format(
+    const std::string title = utf8_truncate(string_format(
         _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
 
     int const lines_above = list_lines / 2;                  // lines above the selector
@@ -409,7 +406,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
 
     int cur_pos = 0;
     for (;;) {
-        int const num_items = static_cast<int>(item_list.size());
+        int const num_items = item_list.size();
         int const page_size = std::min(num_items, list_lines);
 
         werase(w);
@@ -432,12 +429,12 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
             page_beg = std::max(0, page_end - list_lines);
         }
 
-        for (int line = 0; line < page_size; ++line) {
-            auto const i     = page_beg + line;
-            auto const color = (i == cur_pos ? h_ltgray : c_ltgray);
-            auto const &elem = item_list[static_cast<size_t>(i)];
-            auto const count = static_cast<int>(elem->second.size());
-            auto const c     = static_cast<char>(count < 10 ? '0' + count : '*');
+        for( int line = 0; line < page_size; ++line ) {
+            const int i = page_beg + line;
+            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const &elem = item_list[i];
+            const int count = elem->second.size();
+            const char c = (count < 10) ? ('0' + count) : '*';
             mvwprintz(w, first_item_offset + line, 1, color, "%c %s", c, elem->first.c_str());
         }
 
@@ -458,11 +455,11 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
 
         //+<{name}>+
         //12      34
-        auto const name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
+        const std::string name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
         mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
         
-        auto const &action = ctxt.handle_input();
+        const std::string &action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos = (cur_pos + 1) % num_items;
         } else if (action == "UP") {

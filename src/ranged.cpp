@@ -400,7 +400,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( tarx, tary );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            auto const near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
             auto new_targets = get_visible_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;

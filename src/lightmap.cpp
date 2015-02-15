@@ -43,33 +43,32 @@ void map::build_transparency_cache()
     std::uninitialized_fill_n(
         &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_CLEAR);
 
-    auto const stride = my_MAPSIZE;
+    const int stride = my_MAPSIZE;
 
     // Traverse the submaps in order
-    for (int smx = 0; smx < MAPSIZE; ++smx) {
-        for (int smy = 0; smy < MAPSIZE; ++smy) {
+    for( int smx = 0; smx < MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < MAPSIZE; ++smy ) {
             auto const cur_submap = grid[smx + smy * stride];
     
-            for (int sx = 0; sx < SEEX; ++sx) {
-                for (int sy = 0; sy < SEEY; ++sy) {
-                    auto const x = sx + smx * SEEX;
-                    auto const y = sy + smy * SEEY;
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    const int x = sx + smx * SEEX;
+                    const int y = sy + smy * SEEY;
                     
                     auto &value = transparency_cache[x][y];
 
-                    if (!(terlist [cur_submap->ter[sx][sy]].transparent &&
-                          furnlist[cur_submap->frn[sx][sy]].transparent))
-                    {
+                    if( !(terlist [cur_submap->ter[sx][sy]].transparent &&
+                          furnlist[cur_submap->frn[sx][sy]].transparent) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
                     }
 
-                    for (auto const &fld : cur_submap->fld[sx][sy]) {
-                        auto const &cur    = fld.second;
-                        auto const type    = cur.getFieldType();
-                        auto const density = cur.getFieldDensity();
+                    for( auto const &fld : cur_submap->fld[sx][sy] ) {
+                        const field_entry &cur = fld.second;
+                        const field_id type = cur.getFieldType();
+                        const int density = cur.getFieldDensity();
 
-                        if (fieldlist[type].transparent[density - 1]) {
+                        if( fieldlist[type].transparent[density - 1] ) {
                             continue;
                         }
 
@@ -157,15 +156,15 @@ void map::generate_lightmap()
     // LIGHTMAP_CACHE_X = MAPSIZE * SEEX
     // LIGHTMAP_CACHE_Y = MAPSIZE * SEEY
     // Traverse the submaps in order
-    auto const stride = my_MAPSIZE;
+    const int stride = my_MAPSIZE;
     for (int smx = 0; smx < MAPSIZE; ++smx) {
         for (int smy = 0; smy < MAPSIZE; ++smy) {
             auto const cur_submap = grid[smx + smy * stride];
     
             for (int sx = 0; sx < SEEX; ++sx) {
                 for (int sy = 0; sy < SEEY; ++sy) {
-                    auto const x = sx + smx * SEEX;
-                    auto const y = sy + smy * SEEY;
+                    const int x = sx + smx * SEEX;
+                    const int y = sy + smy * SEEY;
                     // When underground natural_light is 0, if this changes we need to revisit
                     // Only apply this whole thing if the player is inside,
                     // buildings will be shadowed when outside looking in.
@@ -672,13 +671,13 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     int testx, testy;
     calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
-    auto const wdist = std::hypot(endx - testx, endy - testy);
+    const float wdist = std::hypot(endx - testx, endy - testy);
     if (wdist <= 0.5) {
         return;
     }
 
     // attempt to determine beam density required to cover all squares
-    double const wstep = ( wangle / ( wdist * SQRT_2 ) );
+    const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
     for (double ao = wstep; ao <= wangle; ao += wstep) {
         if ( trigdist ) {

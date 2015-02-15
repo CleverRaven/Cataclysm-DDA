@@ -502,10 +502,10 @@ std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
 find_empty_neighbors(point const origin) {
     constexpr auto r = static_cast<int>(N);
 
-    auto const x_min = origin.x - r;
-    auto const x_max = origin.x + r;
-    auto const y_min = origin.y - r;
-    auto const y_max = origin.y + r;
+    const int x_min = origin.x - r;
+    const int x_max = origin.x + r;
+    const int y_min = origin.y - r;
+    const int y_max = origin.y + r;
 
     std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t> result;
 
@@ -599,7 +599,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     }
 
     // too far
-    auto const dist = rl_dist(z->pos(), target->pos());
+    const int dist = rl_dist(z->pos(), target->pos());
     if (dist > max_distance) {
         return;
     }
@@ -640,7 +640,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // choose and do a valid attack
-    auto const attack_index = get_random_index(valid_attack_count);
+    const int attack_index = get_random_index(valid_attack_count);
     switch (valid_attacks[attack_index]) {
     default :
         DebugLog(D_WARNING, D_GAME) << "Bad enum value in science.";
@@ -693,7 +693,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
                 z->name().c_str());
         }
         
-        auto const where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+        const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
         monster manhack {GetMType("mon_manhack")};
         manhack.spawn(where.x, where.y);
@@ -711,13 +711,13 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         
         // fill empty tiles with acid
         for (size_t i = 0; i < empty_neighbor_count; ++i) {
-            auto const& p = empty_neighbors.first[i];
+            const point &p = empty_neighbors.first[i];
             g->m.add_field(p.x, p.y, fd_acid, att_acid_density);
         }
 
         break;
     case att_flavor : {
-        auto const i = get_random_index(m_flavor);
+        const int i = get_random_index(m_flavor);
 
         // the special case; see above
         if (i == m_flavor.size() - 1) {

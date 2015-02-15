@@ -6870,7 +6870,7 @@ void player::hardcoded_effects(effect &it)
                 it.set_intensity(1);
             }
 
-            auto const recovery_chance = 24 - intense + 1;
+            const int recovery_chance = 24 - intense + 1;
 
             if (fatigue > 0) {
                 auto delta = 1.0 + (one_in(recovery_chance) ? 1.0 : 0.0);
@@ -6878,7 +6878,7 @@ void player::hardcoded_effects(effect &it)
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
                 if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
-                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (1.0 + roll) / 2.0;
                 }
 
@@ -6886,7 +6886,7 @@ void player::hardcoded_effects(effect &it)
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
                 if (has_trait("WAKEFUL3")) {
-                    auto const roll = (one_in(recovery_chance) ? 1.0 : 0.0);
+                    const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (2.0 + roll) / 2.0;
                 }
 
@@ -7656,8 +7656,8 @@ void player::suffer()
         }
 
         // Apply rads to any radiation badges.
-        auto const rad_delta_min = 0;
-        auto const rad_delta_max = localRadiation / 16;
+        const int rad_delta_min = 0;
+        const int rad_delta_max = localRadiation / 16;
 
         for (item *const it : inv_dump()) {
             if (it->type->id != "rad_badge") {
@@ -7668,7 +7668,7 @@ void player::suffer()
             // This is intentional.
             int const before = it->irridation;
 
-            auto const delta = rng(rad_delta_min, rad_delta_max);
+            const int delta = rng(rad_delta_min, rad_delta_max);
             if (delta == 0) {
                 continue;
             }
@@ -7681,8 +7681,8 @@ void player::suffer()
             }
 
             // If the color hasn't changed, don't print anything.
-            auto const &col_before = rad_badge_color(before);
-            auto const &col_after  = rad_badge_color(it->irridation);
+            const std::string &col_before = rad_badge_color(before);
+            const std::string &col_after  = rad_badge_color(it->irridation);
             if (col_before == col_after) {
                 continue;
             }
