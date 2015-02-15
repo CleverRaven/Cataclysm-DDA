@@ -535,6 +535,7 @@ void game::setup()
     last_target_was_npc = false;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
+    bVMonsterLookFire = true;
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
@@ -8601,6 +8602,8 @@ void game::zones_manager()
 
 point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 {
+    bVMonsterLookFire = false;
+
     temp_exit_fullscreen();
 
     bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
@@ -8772,6 +8775,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
             if (action == "LIST_ITEMS" && !bSelectZone) {
                 list_items_monsters();
+                draw_ter(lx, ly, true);
 
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
@@ -8818,6 +8822,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         delwin(w_info);
     }
     reenter_fullscreen();
+    bVMonsterLookFire = true;
 
     if (action == "CONFIRM") {
         if (bSelectZone) {
@@ -9711,8 +9716,10 @@ int game::list_monsters(const int iLastState)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("QUIT");
-    ctxt.register_action("look");
-    ctxt.register_action("fire");
+    if ( bVMonsterLookFire ) {
+        ctxt.register_action("look");
+        ctxt.register_action("fire");
+    }
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
@@ -9812,12 +9819,15 @@ int game::list_monsters(const int iLastState)
                 //print monster info
                 cCurMon->print_info(w_monster_info, 1, 11, 1);
 
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
-                if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                    wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                if (bVMonsterLookFire) {
+                    mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
+                    wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
+
+                    if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
+                        wprintz(w_monsters, c_ltgray, "%s", " ");
+                        wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
+                        wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                    }
                 }
 
                 //Only redraw trail/terrain if x/y position changed
