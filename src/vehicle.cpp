@@ -1996,7 +1996,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     }
 }
 
-const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
+const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache) const
 {
     if ( use_cache == false ) {
         std::vector<int> res;
@@ -2007,8 +2007,9 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
         }
         return res;
     } else {
-        if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
-            return relative_parts[ point(dx, dy) ];
+        const auto &iter = relative_parts.find( point( dx, dy ) );
+        if ( iter != relative_parts.end() ) {
+            return iter->second;
         } else {
             std::vector<int> res;
             return res;
@@ -2016,7 +2017,8 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
     }
 }
 
-int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) {
+int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) const
+{
     if (part_flag(part, flag)) {
         return part;
     }
@@ -2032,7 +2034,7 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     return -1;
 }
 
-int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[part].mount.x, parts[part].mount.y);
     for( auto &elem : parts_here ) {
@@ -5495,6 +5497,24 @@ bool vehicle::restore(const std::string &data)
     precalc_mounts(0, 0);
     precalc_mounts(1, 0);
     return true;
+}
+
+int vehicle::obstacle_at_part( int p ) const
+{
+    if( part_flag( p, VPFLAG_OBSTACLE ) && parts[p].hp > 0 ) {
+        return p;
+    }
+
+    int part = part_with_feature( p, VPFLAG_OBSTACLE );
+    if( part < 0 || parts[p].hp <= 0 ) {
+        return -1; // No obstacle here
+    }
+
+    if( part_flag( part, VPFLAG_OPENABLE ) && parts[part].open ) {
+        return -1; // Open door here
+    }
+
+    return part;
 }
 
 /*-----------------------------------------------------------------------------
