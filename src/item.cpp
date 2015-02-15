@@ -2285,7 +2285,7 @@ int item::get_storage() const
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
     if (item::item_tags.count("pocketed") > 0){
-        pockets = ((volume() * get_coverage()) / 100) / 1.333;
+        pockets = volume() * (float(get_coverage()) / 100) / 1.333;
         if (result > (volume() / 2)){
             pockets = (pockets / 2);
         }
@@ -2353,7 +2353,7 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
      if (item::item_tags.count("furred") > 0){
-        warmed = 2 * ((volume() * get_coverage()) / 100); // Doubles an item's warmth
+        warmed = 2 * volume() * (float(get_coverage()) / 100);
         return result + warmed;
         } else { return result;
     }
@@ -2509,13 +2509,13 @@ int item::bash_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
         if (l_padding > 5 ){
             l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
         }
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        k_padding = volume() * (float(get_coverage()) / 100) / 2.5;
         if (k_padding > 5 ){
             k_padding = k_padding / 2.5;
         }
@@ -2551,13 +2551,13 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = ((volume() * get_coverage()) / 100) / 2.5;
+        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
         if (l_padding > 5 ){
             l_padding = l_padding / 2.5;
         }
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = ((volume() * get_coverage()) / 100) / 2;
+        k_padding = volume() * (float(get_coverage()) / 100) / 2;
         if (k_padding > 5 ){
             k_padding = k_padding / 2;
         }
