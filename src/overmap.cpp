@@ -607,7 +607,6 @@ overmap::overmap(int const x, int const y)
     : loc(x, y)
     , nullret("")
     , nullbool(false)
-    , nullstr("")
 {
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
@@ -713,50 +712,50 @@ bool overmap::has_note(int const x, int const y, int const z) const
         return false;
     }
 
-    for (auto &i : layer[z + OVERMAP_DEPTH].notes) {
-        if (i.x == x && i.y == y) {
-            return true;
-        }
-    }
-    return false;
+    auto const &notes = layer[z + OVERMAP_DEPTH].notes;
+    return std::any_of(begin(notes), end(notes), [&](om_note const& n) {
+        return n.x == x && n.y == y;
+    });
 }
 
-std::string const &overmap::note(int const x, int const y, int const z) const
+std::string const& overmap::note(int const x, int const y, int const z) const
 {
+    static std::string const fallback {};
+
     if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-        return nullstr;
+        return fallback;
     }
 
-    for (auto &i : layer[z + OVERMAP_DEPTH].notes) {
-        if (i.x == x && i.y == y) {
-            return i.text;
-        }
-    }
+    auto const &notes = layer[z + OVERMAP_DEPTH].notes;
+    auto const it = std::find_if(begin(notes), end(notes), [&](om_note const& n) {
+        return n.x == x && n.y == y;
+    });
 
-    return nullstr;
+    return (it != std::end(notes)) ? it->text : fallback;
 }
 
-void overmap::add_note(int const x, int const y, int const z, std::string const &message)
+void overmap::add_note(int const x, int const y, int const z, std::string message)
 {
     if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
         debugmsg("Attempting to add not to overmap for blank layer %d", z);
         return;
     }
 
-    for (size_t i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
-        if (layer[z + OVERMAP_DEPTH].notes[i].x == x && layer[z + OVERMAP_DEPTH].notes[i].y == y) {
-            if (message.empty()) {
-                layer[z + OVERMAP_DEPTH].notes.erase(layer[z + OVERMAP_DEPTH].notes.begin() + i);
-            } else {
-                layer[z + OVERMAP_DEPTH].notes[i].text = message;
-            }
-            return;
-        }
+    auto &notes = layer[z + OVERMAP_DEPTH].notes;
+    auto const it = std::find_if(begin(notes), end(notes), [&](om_note const& n) {
+        return n.x == x && n.y == y;
+    });
+
+    if (message.empty() && it != notes.end()) {
+        notes.erase(it);
+    } else if(!message.empty()) {
+        notes.emplace_back(om_note {std::move(message), x, y});
     }
-    if (message.length() > 0) {
-        layer[z + OVERMAP_DEPTH].notes.push_back(om_note(x, y, layer[z + OVERMAP_DEPTH].notes.size(),
-                message));
-    }
+}
+
+void overmap::delete_note(int const x, int const y, int const z)
+{
+    add_note(x, y, z, std::string {});
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);
@@ -995,8 +994,8 @@ void overmap::generate(const overmap *north, const overmap *east,
         }
     } else if (!river_end.empty()) {
         if (river_start.size() != river_end.size())
-            river_start.push_back( point(rng(OMAPX * .25, OMAPX * .75),
-                                         rng(OMAPY * .25, OMAPY * .75)));
+            river_start.push_back( point(rng(OMAPX / 4, (OMAPX * 3) / 4),
+                                         rng(OMAPY / 4, (OMAPY * 3) / 4)));
         for (size_t i = 0; i < river_start.size(); i++) {
             place_river(river_start[i], river_end[i]);
         }
@@ -1133,7 +1132,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "anthill") {
                 int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
                 ant_points.push_back(city(i, j, size));
-                add_mon_group(mongroup("GROUP_ANT", i * 2, j * 2, z, size * 1.5, rng(6000, 8000)));
+                add_mon_group(mongroup("GROUP_ANT", i * 2, j * 2, z, (size * 3) / 2, rng(6000, 8000)));
             } else if (oter_above == "slimepit_down") {
                 int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
                 goo_points.push_back(city(i, j, size));
@@ -1211,7 +1210,7 @@ bool overmap::generate_sub(int const z)
             add_mon_group(mongroup("GROUP_CHUD", i.x * 2, i.y * 2, z, i.s, i.s * 20));
         }
         if (!one_in(8)) {
-            add_mon_group(mongroup("GROUP_SEWER", i.x * 2, i.y * 2, z, i.s * 3.5, i.s * 70));
+            add_mon_group(mongroup("GROUP_SEWER", i.x * 2, i.y * 2, z, (i.s * 7) / 2, i.s * 70));
         }
     }
 
@@ -1943,8 +1942,8 @@ void overmap::process_mongroups()
     for( auto it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
         if( mg.dying ) {
-            mg.population *= .8;
-            mg.radius *= .9;
+            mg.population = (mg.population * 4) / 5;
+            mg.radius = (mg.radius * 9) / 10;
         }
         if( mg.population <= 0 ) {
             zg.erase( it++ );
@@ -3943,12 +3942,12 @@ void overmap::add_mon_group(const mongroup &group)
             if( pop_here > pop || pop_here < 0 ) {
                 DebugLog( D_ERROR, D_GAME ) << group.type << ": invalid population here: " << pop_here;
             }
-            int p = std::max<int>( 0, std::floor( pop_here ) );
+            int p = std::max( 0, static_cast<int>(std::floor( pop_here )) );
             if( pop_here - p != 0 ) {
                 // in case the population is something like 0.2, randomly add a
                 // single population unit, this *should* on average give the correct
                 // total population.
-                const int mod = 10000 * ( pop_here - p );
+                const int mod = static_cast<int>(10000.0 * ( pop_here - p ));
                 if( x_in_y( mod, 10000 ) ) {
                     p++;
                 }
