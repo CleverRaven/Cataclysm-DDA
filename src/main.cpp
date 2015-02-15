@@ -37,7 +37,6 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
-    int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
 
@@ -68,7 +67,7 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if(argc) {
-                seed = djb2_hash((unsigned char *)argv[0]);
+                seed_random_number_generator(argv[0]);
                 argc--;
                 argv++;
             }
@@ -235,8 +234,6 @@ int main(int argc, char *argv[])
 #endif
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
-
-    std::srand(seed);
 
     g = new game;
     // First load and initialize everything that does not

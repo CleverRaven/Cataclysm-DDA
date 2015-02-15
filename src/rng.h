@@ -1,6 +1,8 @@
 #ifndef RNG_H
 #define RNG_H
 
+void seed_random_number_generator(char const* seed);
+
 long rng(long val1, long val2);
 double rng_float(double val1, double val2);
 bool one_in(int chance);
