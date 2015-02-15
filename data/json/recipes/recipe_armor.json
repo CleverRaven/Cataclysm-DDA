@@ -8466,7 +8466,8 @@
     [
       [ "ragpouch", 1 ],
       [ "leather_pouch", 1 ],
-      [ "dump_pouch", 1 ]
+      [ "dump_pouch", 1 ],
+      [ "legrig", 1 ]
     ],
     [
       [ "tool_belt", 1 ],
