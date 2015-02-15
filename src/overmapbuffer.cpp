@@ -533,7 +533,7 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
 
     for (int x = upper_left.x; x <= lower_right.x; ++x) {
         for (int y = upper_left.y; y <= lower_right.y; ++y) {
-            overmap const *const nearby_overmap = get_existing(x, y);
+            overmap *const nearby_overmap = get_existing(x, y);
             if (nearby_overmap) {
                 nearby_overmaps.emplace_back(nearby_overmap);
             }
