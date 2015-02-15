@@ -949,26 +949,33 @@ void init_colormap()
  * @param new_color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string(std::string new_color){
-    std::map<std::string,nc_color>::iterator iter = colormap.find(new_color);
-    if (iter == colormap.end()) {
-        debugmsg("couldn't parse color: %s", new_color.c_str());
-        return c_unset;
-    } else {
-        return iter->second;
+nc_color color_from_string(std::string const &new_color)
+{
+    auto const it = colormap.find(new_color);
+    if (it != std::end(colormap)) {
+        return it->second;
     }
+
+    debugmsg("couldn't parse color: %s", new_color.c_str());
+    return c_unset;
 }
 
 /**
  * The reverse of color_from_string.
  */
-std::string string_from_color(nc_color color){
-    for(std::map<std::string,nc_color>::const_iterator iter = colormap.begin(); iter != colormap.end(); ++iter) {
-        if (iter->second == color) {
-            return iter->first;
-        }
+std::string const& string_from_color(nc_color const color)
+{
+    using pair_t = decltype(colormap)::value_type;
+    auto const it = std::find_if(begin(colormap), end(colormap), [color](pair_t const &p) {
+        return p.second == color;
+    });
+    
+    if (it != std::end(colormap)) {
+        return it->first;
     }
-    return "white";
+
+    static std::string const fallback {"white"};
+    return fallback;
 }
 
 /**
@@ -978,7 +985,8 @@ std::string string_from_color(nc_color color){
  * @param new_color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color bgcolor_from_string(std::string new_color) {
+nc_color bgcolor_from_string(std::string const &new_color)
+{
   if("black" == new_color) {
     return i_black;
   } else if("white" == new_color) {
@@ -1046,9 +1054,9 @@ const std::map<std::string, note_color> color_shortcuts {
     {"P", {c_pink, _("pink")}}, {"m", {c_magenta, _("magenta")}}
 };
 
-nc_color get_note_color(std::string note_id)
+nc_color get_note_color(std::string const &note_id)
 {
-    auto candidate_color = color_shortcuts.find( note_id );
+    auto const candidate_color = color_shortcuts.find( note_id );
     if( candidate_color != std::end( color_shortcuts ) ) {
         return candidate_color->second.color;
     }
