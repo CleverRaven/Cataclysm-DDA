@@ -2938,12 +2938,12 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             return 0;
         };
 
-        if ((mod->made_of("iron")) ||
-           (mod->made_of("steel")) ||
-           (mod->made_of("superalloy")) ||
-           (mod->made_of("hardsteel"))){
-            p->add_msg_if_player(m_info, _("Your %s is made out of metals!."),
-                                 mod->tname().c_str());
+        if (mod->is_gun()){
+            p->add_msg_if_player(m_info, _("You can't use a tailor's kit on a firearm!"));
+            return 0;
+        };
+        if (mod->is_power_armor()){
+            p->add_msg_if_player(m_info, _("You can't modify your power armor!"));
             return 0;
         };
                 itype_id repair_item = "none";
