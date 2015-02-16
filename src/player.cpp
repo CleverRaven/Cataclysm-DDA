@@ -2891,18 +2891,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 if (line == 0) {
                     // Display player current strength effects
                     mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
-                    // xgettext:range: 1..21
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP:"));
                     mvwprintz(w_stats, 6, 22, c_magenta, "%3d", hp_max[1]);
                     if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
-                        // xgettext:range: 1..19
                         mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight(kg):"));
                     } else {
-                        // xgettext:range: 1..19
                         mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight(lbs):"));
                     }
                     mvwprintz(w_stats, 7, 21, c_magenta, "%4.1f", convert_weight(weight_capacity()));
-                    // xgettext:range: 1..21
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage:"));
                     mvwprintz(w_stats, 8, 22, c_magenta, "%3d", base_damage(false));
 
