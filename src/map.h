@@ -782,7 +782,9 @@ protected:
                 const int zlevel, const regional_settings * rsettings);
  void add_extra(map_extra type);
  void build_transparency_cache();
+public:
  void build_outside_cache();
+protected:
  void generate_lightmap();
  void build_seen_cache();
  void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
