@@ -261,7 +261,7 @@ class Item_factory
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
-        use_function use_from_object(JsonObject obj);
+        void set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods);
         phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);

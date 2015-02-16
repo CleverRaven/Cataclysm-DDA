@@ -817,11 +817,11 @@ int game::inv_for_liquid(const item &liquid, const std::string &title, bool cons
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_salvage(const std::string &title)
+int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
 {
     u.inv.restack(&u);
     u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability( actor );
     return display_slice(reduced_inv, title);
 }
 

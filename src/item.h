@@ -389,19 +389,19 @@ public:
   * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> &mat_idents) const;
+ bool made_of_any( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of only the materials (e.g. false if we have
   * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool only_made_of(std::vector<std::string> &mat_idents) const;
+ bool only_made_of( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
   * @param mat_idents Set of material ids.
   */
- bool made_of(std::string mat_ident) const;
+ bool made_of( const std::string &mat_ident ) const;
  /**
   * Are we solid, liquid, gas, plasma?
   * @param phase

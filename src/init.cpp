@@ -124,7 +124,6 @@ void DynamicDataLoader::initialize()
         &ammunition_type::load_ammunition_type);
     type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
-    type_function_map["item_action"] = new StaticFunctionAccessor(&item_action::load_item_action);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
@@ -132,6 +131,8 @@ void DynamicDataLoader::initialize()
             &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_group);
+    type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
+    ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);

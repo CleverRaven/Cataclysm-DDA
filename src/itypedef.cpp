@@ -41,14 +41,46 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return nullptr;
 }
 
-int itype::invoke( player *p, item *it, bool active, point pos )
+long itype::tick( player *p, item *it, point pos ) const
 {
+    // Note: can go higher than current charge count
+    // Maybe should move charge decrementing here?
     int charges_to_use = 0;
-    for( auto method = use_methods.begin();
-         charges_to_use >= 0 && method != use_methods.end(); ++method ) {
-        charges_to_use = method->call( p, it, active, pos );
+    for( auto &method : use_methods ) {
+        int val = method.call( p, it, true, pos );
+        if( charges_to_use < 0 || val < 0 ) {
+            charges_to_use = -1;
+        } else {
+            charges_to_use += val;
+        }
     }
+
     return charges_to_use;
+}
+
+long itype::invoke( player *p, item *it, point pos ) const
+{
+    if( use_methods.empty() ) {
+        return 0;
+    }
+
+    return use_methods.front().call( p, it, false, pos );
+}
+
+long itype::invoke( player *p, item *it, point pos, const std::string &iuse_name ) const
+{
+    if( !has_use() ) {
+        return 0;
+    }
+    
+    const use_function *use = get_use( iuse_name );
+    if( use == nullptr ) {
+        debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
+                  iuse_name.c_str(), nname(1).c_str() );
+        return 0;
+    }
+
+    return use->call( p, it, false, pos );
 }
 
 itype *newSoftwareIType( const itype_id &id, const std::string &name, const std::string &name_plural,

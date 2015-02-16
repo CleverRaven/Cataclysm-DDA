@@ -26,6 +26,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
+#include "item_action.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -8952,7 +8953,7 @@ bool player::consume(int target_position)
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke(this, to_eat, false, pos());
+                amount_used = comest->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -9246,7 +9247,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke(this, eaten, false, pos());
+        to_eat = comest->invoke( this, eaten, pos() );
         if( to_eat <= 0 ) {
             return false;
         }
@@ -10558,6 +10559,38 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
+bool player::consume_charges(item *used, long charges_used)
+{
+    it_tool *tool = dynamic_cast<it_tool*>(used->type);
+    if( tool == nullptr || charges_used <= 0 ) {
+        // Non-tools don't use charges
+        // Canceled or not used up or whatever
+        return false;
+    }
+
+    if( tool->charges_per_use <= 0 ) {
+        // An item that doesn't normally expend charges is destroyed instead.
+        /* We can't be certain the item is still in the same position,
+         * as other items may have been consumed as well, so remove
+         * the item directly instead of by its position. */
+        i_rem(used);
+        return true;
+    }
+    if( used->has_flag( "USE_UPS" ) ) {
+        use_charges( "UPS", charges_used );
+        //Replace 1 with charges it needs to use.
+        if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
+            add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+        }
+    } else {
+        used->charges -= std::min( used->charges, charges_used );
+    }
+    // We may have fiddled with the state of the item in the iuse method,
+    // so restack to sort things out.
+    inv.restack();
+    return false;
+}
+
 void player::use(int inventory_position)
 {
     item* used = &i_at(inventory_position);
@@ -10575,35 +10608,8 @@ void player::use(int inventory_position)
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
             return;
         }
-        it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        if (!has_enough_charges(*used, true)) {
-            return;
-        }
-        const long charges_used = tool->invoke( this, used, false, pos() );
-        if (charges_used <= 0) {
-            // Canceled or not used up or whatever
-            return;
-        }
-        if( tool->charges_per_use <= 0 ) {
-            // An item that doesn't normally expend charges is destroyed instead.
-            /* We can't be certain the item is still in the same position,
-             * as other items may have been consumed as well, so remove
-             * the item directly instead of by its position. */
-            i_rem(used);
-            return;
-        }
-        if( used->has_flag( "USE_UPS" ) ) {
-            use_charges( "UPS", charges_used );
-            //Replace 1 with charges it needs to use.
-            if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
-                add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
-            }
-        } else {
-            used->charges -= std::min( used->charges, charges_used );
-        }
-        // We may have fiddled with the state of the item in the iuse method,
-        // so restack to sort things out.
-        inv.restack();
+
+        invoke_item( used );
     } else if (used->is_gunmod()) {
         const auto mod = used->type->gunmod.get();
         if (!(skillLevel("gun") >= mod->req_skill)) {
@@ -10767,13 +10773,61 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         moves -= int(used->reload_time(*this) / 2);
         return;
     } else if ( used->type->has_use() ) {
-        used->type->invoke(this, used, false, pos());
+        invoke_item( used );
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
                 used->tname().c_str());
         return;
     }
+}
+
+bool player::invoke_item( item* used )
+{
+    if( !has_enough_charges( *used, true ) ) {
+        return false;
+    }
+        
+    if( used->type->use_methods.size() < 2 ) {
+        return used->type->invoke( this, used, pos() );
+    }
+
+    uimenu umenu;
+    umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
+    int num_total = 0;
+    for( const auto &um : used->type->use_methods ) {
+        if( um.get_actor_ptr() == nullptr ) {
+            debugmsg( "Multi-use items with cpp iuse_functions not supported." );
+            return false;
+        }
+
+        bool usable = um.get_actor_ptr()->can_use( this, used, false, pos() );
+        const std::string &aname = item_action_generator::generator().get_action_name( um );
+        umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname.c_str() );
+        num_total++;
+    }
+
+    umenu.addentry( num_total, true, 'q', _("Cancel") );
+    umenu.query();
+    int choice = umenu.ret;
+    if( choice < 0 || choice >= num_total ) {
+        return false;
+    }
+
+    const std::string &method = used->type->use_methods[choice].get_actor_ptr()->type;
+    long charges_used = used->type->invoke( this, used, pos(), method );
+    return consume_charges( used, charges_used );
+}
+
+bool player::invoke_item( item* used, const std::string &method )
+{
+    if( !has_enough_charges( *used, true ) ) {
+        debugmsg( "Invoked %s on %s, which doesn't have enough charges", method.c_str(), used->tname().c_str() );
+        return false;
+    }
+
+    long charges_used = used->type->invoke( this, used, pos(), method );
+    return consume_charges( used, charges_used );
 }
 
 void player::remove_gunmod(item *weapon, unsigned id)

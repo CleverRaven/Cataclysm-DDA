@@ -390,4 +390,134 @@ class extended_firestarter_actor : public firestarter_actor
         virtual iuse_actor *clone() const;
 };
 
+/**
+ * Cuts stuff up into components
+ */
+class salvage_actor : public iuse_actor
+{
+    public:
+        /**
+         * Moves used per unit of volume of cut item.
+         */
+        int moves_per_part;
+        /**
+         * Materials it can cut.
+         */
+        std::vector<std::string> material_whitelist;
+
+        bool try_to_cut_up( player *p, item *it ) const;
+        int cut_up( player *p, item *it, item *cut ) const;
+        bool valid_to_cut_up( const item *it ) const;
+
+        salvage_actor() : iuse_actor(), moves_per_part( 25 ) { }
+        virtual ~salvage_actor();
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Writes on stuff (ground or items)
+ */
+class inscribe_actor : public iuse_actor
+{
+    public:
+        // Can it write on items/terrain
+        bool on_items;
+        bool on_terrain;
+
+        // Does it require target material to be from the whitelist?
+        bool material_restricted;
+
+        // Materials it can write on
+        std::vector<std::string> material_whitelist;
+
+        // How will the inscription be described
+        std::string verb; // "Write", "Carve"
+        std::string gerund; // "Written", "Carved"
+
+        bool item_inscription( item *cut, std::string verb, std::string gerund ) const;
+
+        inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
+        virtual ~inscribe_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Cauterizes a wounded/masochistic survivor
+ */
+class cauterize_actor : public iuse_actor
+{
+    public:
+        // Use flame. If false, uses item charges instead.
+        bool flame;
+
+        bool cauterize_effect( player *p, item *it, bool force ) const;
+
+        cauterize_actor() : iuse_actor(), flame( true ) { }
+        virtual ~cauterize_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Makes a zombie corpse into a zombie slave
+ */
+class enzlave_actor : public iuse_actor
+{
+    public:
+        enzlave_actor() : iuse_actor() { }
+        virtual ~enzlave_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Try to turn on a burning melee weapon
+ * Not iuse_transform, because they don't have that much in common
+ */
+class fireweapon_off_actor : public iuse_actor
+{
+    public:
+        std::string target_id;
+        std::string success_message;
+        std::string lacks_fuel_message;
+        std::string failure_message; // Due to bad roll
+        int noise; // If > 0 success message is a success sound instead
+        int moves;
+        int success_chance; // Lower is better: rng(0, 10) - item.damage > this variable
+
+        fireweapon_off_actor() : iuse_actor() { }
+        virtual ~fireweapon_off_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Active burning melee weapon
+ */
+class fireweapon_on_actor : public iuse_actor
+{
+    public:
+        std::string noise_message; // If noise is 0, message content instead
+        std::string voluntary_extinguish_message;
+        std::string charges_extinguish_message;
+        std::string water_extinguish_message;
+        int noise; // If 0, it produces a message instead of noise
+        int noise_chance; // one_in(this variable)
+
+        fireweapon_on_actor() : iuse_actor() { }
+        virtual ~fireweapon_on_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
 #endif

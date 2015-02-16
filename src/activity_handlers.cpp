@@ -536,23 +536,34 @@ void activity_handlers::hotwire_finish( player_activity *act, player *)
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    bool has_salvage_tool = p->has_items_with_quality( "CUT", 1, 1 );
-    if( !has_salvage_tool ) {
-        add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
+    item &salvage_tool = p->i_at( act->values[2] );
+    auto items = g->m.i_at(p->posx(), p->posy());
+    const auto *use_fun = salvage_tool.type->get_use( "salvage" );
+    bool err = false;
+    if( use_fun == nullptr ) {
+        debugmsg( "Lost tool used for long salvage" );
+        err = true;
+    }
+    
+    auto *actor = dynamic_cast<salvage_actor*>( use_fun->get_actor_ptr() );
+    if( actor != nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        err = true;
     }
 
-    auto items = g->m.i_at(p->posx(), p->posy());
-    item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( iuse::valid_to_cut_up( &*it ) ) {
-            iuse::cut_up( p, &salvage_tool, &*it, false );
-            p->assign_activity( ACT_LONGSALVAGE, 0 );
-            return;
+    if( !err ) {
+        for( auto it = items.begin(); it != items.end(); ++it ) {
+            if( actor->valid_to_cut_up( &*it ) ) {
+                actor->cut_up( p, &salvage_tool, &*it );
+                p->assign_activity( ACT_LONGSALVAGE, 0, act->values[2] );
+                return;
+            }
         }
     }
 
-    add_msg(_("You finish salvaging."));
+    add_msg( _("You finish salvaging.") );
     act->type = ACT_NULL;
+    act->values.clear();
 }
 
 

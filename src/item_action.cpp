@@ -14,7 +14,7 @@
 #include <fstream>
 #include <iterator>
 
-std::unordered_map< item_action_id, item_action > item_actions;
+static item_action nullaction;
 
 int clamp(int value, int low, int high)
 {
@@ -30,11 +30,12 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
 class actmenu_cb : public uimenu_callback {
     private:
         input_context ctxt;
+        const action_map am;
     public:
-        actmenu_cb( ) : ctxt("ITEM_ACTIONS") {
+        actmenu_cb( const action_map &acm ) : ctxt("ITEM_ACTIONS"), am( acm ) {
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("QUIT");
-            for( auto id : item_actions ) {
+            for( auto id : am ) {
                 ctxt.register_action( id.first, id.second.name );
             }
         }
@@ -49,15 +50,23 @@ class actmenu_cb : public uimenu_callback {
             }
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
-            auto itemless_action = item_actions.find( action );
-            if( itemless_action != item_actions.end() ) {
+            auto itemless_action = am.find( action );
+            if( itemless_action != am.end() ) {
                 popup( _("You do not have an item that can perform this action.") );
             }
             return false;
         }
 };
 
-item_action_map map_actions_to_items( player &p )
+item_action_generator::item_action_generator()
+{
+}
+
+item_action_generator::~item_action_generator()
+{
+}
+
+item_action_map item_action_generator::map_actions_to_items( player &p ) const
 {
     std::set< item_action_id > unmapped_actions;
     for( auto &p : item_actions ) { // Get ids of wanted actions
@@ -120,9 +129,39 @@ item_action_map map_actions_to_items( player &p )
     return candidates;
 }
 
+const std::string &item_action_generator::get_action_name( const item_action_id &id ) const
+{
+    return get_action( id ).name;
+}
+
+const std::string &item_action_generator::get_action_name( const use_function &fun ) const
+{
+    static const std::string errstring("ERROR");
+    const auto *actor = fun.get_actor_ptr();
+    if( actor == nullptr ) {
+        debugmsg( "Multiple use_function can only have iuse_actor actions!" );
+        return errstring;
+    }
+
+    return get_action_name( actor->type );
+}
+
+const item_action &item_action_generator::get_action( const item_action_id &id ) const
+{
+    const auto &iter = item_actions.find( id );
+    if( iter != item_actions.end() ) {
+        return iter->second;
+    }
+
+    debugmsg( "Couldn't find item action named %s", id.c_str() );
+    return nullaction;
+}
+
 void game::item_action_menu()
 {
-    item_action_map iactions = map_actions_to_items( u );
+    const auto &gen = item_action_generator::generator();
+    const action_map &item_actions = gen.get_item_action_map();
+    item_action_map iactions = gen.map_actions_to_items( u );
     if( iactions.empty() ) {
         popup( _("You don't have any items with registered uses") );
     }
@@ -130,7 +169,7 @@ void game::item_action_menu()
     uimenu kmenu;
     kmenu.text = _( "Execute which action?" );
     input_context ctxt("ITEM_ACTIONS");
-    actmenu_cb callback;
+    actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
     int num = 0;
     for( auto &p : iactions ) {
@@ -138,7 +177,7 @@ void game::item_action_menu()
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
         
         std::stringstream ss;
-        ss << _( item_actions[p.first].name.c_str() ) << " [" << p.second->type_name( 1 );
+        ss << _( gen.get_action_name( p.first ).c_str() ) << " [" << p.second->type_name( 1 );
         if( would_use_charges > 0 ) {
             ss << " (" << would_use_charges << '/' << p.second->charges << ')';
         }
@@ -153,7 +192,7 @@ void game::item_action_menu()
     for( auto &p : item_actions ) {
         if( iactions.find( p.first ) == iactions.end() ) {
             char bind = key_bound_to( ctxt, p.first );
-            kmenu.addentry( num, false, bind, _( item_actions[p.first].name.c_str() ) );
+            kmenu.addentry( num, false, bind, _( gen.get_action_name( p.first ).c_str() ) );
             num++;
         }
     }
@@ -170,13 +209,16 @@ void game::item_action_menu()
         iter++;
     }
     int invpos = u.inv.position_by_item( iter->second );
-    draw_ter();
-    if( invpos != INT_MIN ) {
-        u.use( invpos );
+    if( invpos == INT_MIN  ) {
+        debugmsg( "Selected item outside inventory" );
+        return;
     }
+
+    draw_ter();
+    u.invoke_item( iter->second, iter->first );
 }
 
-void item_action::load_item_action(JsonObject &jo)
+void item_action_generator::load_item_action(JsonObject &jo)
 {
     item_action ia;
 

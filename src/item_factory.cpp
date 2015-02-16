@@ -229,16 +229,6 @@ void Item_factory::init()
     iuse_function_list["CIRCSAW_ON"] = &iuse::circsaw_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
-    iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
-    iuse_function_list["SHISHKEBAB_ON"] = &iuse::shishkebab_on;
-    iuse_function_list["FIREMACHETE_OFF"] = &iuse::firemachete_off;
-    iuse_function_list["FIREMACHETE_ON"] = &iuse::firemachete_on;
-    iuse_function_list["BROADFIRE_OFF"] = &iuse::broadfire_off;
-    iuse_function_list["BROADFIRE_ON"] = &iuse::broadfire_on;
-    iuse_function_list["FIREKATANA_OFF"] = &iuse::firekatana_off;
-    iuse_function_list["FIREKATANA_ON"] = &iuse::firekatana_on;
-    iuse_function_list["ZWEIFIRE_OFF"] = &iuse::zweifire_off;
-    iuse_function_list["ZWEIFIRE_ON"] = &iuse::zweifire_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
@@ -274,7 +264,6 @@ void Item_factory::init()
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
-    iuse_function_list["KNIFE"] = &iuse::knife;
     iuse_function_list["LUMBER"] = &iuse::lumber;
     iuse_function_list["OXYTORCH"] = &iuse::oxytorch;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
@@ -1294,26 +1283,24 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     if( jo.has_array( member ) ) {
         JsonArray jarr = jo.get_array( member );
         while( jarr.has_more() ) {
-            use_function new_function;
             if( jarr.test_string() ) {
-                new_function = use_from_string( jarr.next_string() );
+                use_methods.push_back( use_from_string( jarr.next_string() ) );
             } else if( jarr.test_object() ) {
-                new_function = use_from_object( jarr.next_object() );
+                set_uses_from_object( jarr.next_object(), use_methods );
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
-            use_methods.push_back( new_function );
+            
         }
     } else {
-        use_function new_function;
         if( jo.has_string( member ) ) {
-            new_function = use_from_string( jo.get_string( member ) );
+            use_methods.push_back( use_from_string( jo.get_string( member ) ) );
         } else if( jo.has_object( member ) ) {
-            new_function = use_from_object( jo.get_object( member ) );
+            set_uses_from_object( jo.get_object( member ), use_methods );
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        use_methods.push_back( new_function );
+        
     }
 }
 
@@ -1326,37 +1313,66 @@ use_function load_actor( JsonObject obj )
     return use_function( actor.release() );
 }
 
-use_function Item_factory::use_from_object(JsonObject obj)
+template<typename IuseActorType>
+use_function load_actor( JsonObject obj, const std::string &type )
+{
+    std::unique_ptr<IuseActorType> actor( new IuseActorType() );
+    actor->type = type;
+    actor->load( obj );
+    return use_function( actor.release() );
+}
+
+void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods)
 {
     const std::string type = obj.get_string("type");
+    use_function newfun;
     if (type == "transform") {
-        return load_actor<iuse_transform>( obj );
+        newfun = load_actor<iuse_transform>( obj );
     } else if (type == "auto_transform") {
-        return load_actor<auto_iuse_transform>( obj );
+        newfun = load_actor<auto_iuse_transform>( obj );
     } else if (type == "delayed_transform") {
-        return load_actor<delayed_transform_iuse>( obj );
+        newfun = load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {
-        return load_actor<explosion_iuse>( obj );
+        newfun = load_actor<explosion_iuse>( obj );
     } else if (type == "unfold_vehicle") {
-        return load_actor<unfold_vehicle_iuse>( obj );
+        newfun = load_actor<unfold_vehicle_iuse>( obj );
     } else if (type == "picklock") {
-        return load_actor<pick_lock_actor>( obj );
+        newfun = load_actor<pick_lock_actor>( obj );
     } else if (type == "consume_drug") {
-        return load_actor<consume_drug_iuse>( obj );
+        newfun = load_actor<consume_drug_iuse>( obj );
     } else if( type == "place_monster" ) {
-        return load_actor<place_monster_iuse>( obj );
+        newfun = load_actor<place_monster_iuse>( obj );
     } else if( type == "ups_based_armor" ) {
-        return load_actor<ups_based_armor_actor>( obj );
+        newfun = load_actor<ups_based_armor_actor>( obj );
     } else if( type == "reveal_map" ) {
-        return load_actor<reveal_map_actor>( obj );
+        newfun = load_actor<reveal_map_actor>( obj );
     } else if( type == "firestarter" ) {
-        return load_actor<firestarter_actor>( obj );
+        newfun = load_actor<firestarter_actor>( obj );
     } else if( type == "extended_firestarter" ) {
-        return load_actor<extended_firestarter_actor>( obj );
+        newfun = load_actor<extended_firestarter_actor>( obj );
+    } else if( type == "salvage" ) {
+        newfun = load_actor<salvage_actor>( obj );
+    } else if( type == "inscribe" ) {
+        newfun = load_actor<inscribe_actor>( obj );
+    } else if( type == "cauterize" ) {
+        newfun = load_actor<cauterize_actor>( obj );
+    } else if( type == "enzlave" ) {
+        newfun = load_actor<enzlave_actor>( obj );
+    } else if( type == "fireweapon_off" ) {
+        newfun = load_actor<fireweapon_off_actor>( obj );
+    } else if( type == "fireweapon_on" ) {
+        newfun = load_actor<fireweapon_on_actor>( obj );
+    } else if( type == "knife" ) {
+        use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
+        use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );
+        use_methods.push_back( load_actor<cauterize_actor>( obj, "cauterize" ) );
+        use_methods.push_back( load_actor<enzlave_actor>( obj, "enzlave" ) );
+        return;
     } else {
         obj.throw_error( "unknown use_action", "type" );
-        return use_function(); // line above throws, but the compiler does not know \-:
     }
+
+    use_methods.push_back( newfun );
 }
 
 use_function Item_factory::use_from_string(std::string function_name)

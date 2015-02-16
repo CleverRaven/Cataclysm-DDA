@@ -9,10 +9,6 @@
         "name" : "Modify Clothing"
     },{
         "type" : "item_action",
-        "id" : "KNIFE",
-        "name" : "Use as knife"
-    },{
-        "type" : "item_action",
         "id" : "firestarter",
         "name" : "Start a fire quickly"
     },{
@@ -81,7 +77,19 @@
         "name" : "Take anticonvulsant"
     },{
         "type" : "item_action",
-        "id" : "extended_firestarter",
-        "name" : "Start a fire slowly"
+        "id" : "salvage",
+        "name" : "Cut up an item"
+    },{
+        "type" : "item_action",
+        "id" : "inscribe",
+        "name" : "Write on an item"
+    },{
+        "type" : "item_action",
+        "id" : "cauterize",
+        "name" : "Cauterize a wound"
+    },{
+        "type" : "item_action",
+        "id" : "enzlave",
+        "name" : "Create a zombie slave"
     }
 ]

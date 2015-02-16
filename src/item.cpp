@@ -2642,7 +2642,7 @@ std::vector<material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any(std::vector<std::string> &mat_idents) const
+bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
 {
     for( auto candidate_material : mat_idents ) {
         for( auto target_material : made_of() ) {
@@ -2654,7 +2654,7 @@ bool item::made_of_any(std::vector<std::string> &mat_idents) const
     return false;
 }
 
-bool item::only_made_of(std::vector<std::string> &mat_idents) const
+bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 {
     for( auto target_material : made_of() ) {
         bool found = false;
@@ -2671,7 +2671,7 @@ bool item::only_made_of(std::vector<std::string> &mat_idents) const
     return true;
 }
 
-bool item::made_of(std::string mat_ident) const
+bool item::made_of( const std::string &mat_ident ) const
 {
     if (is_null()) {
         return false;
@@ -2967,7 +2967,7 @@ bool item::is_tool_reversible() const
     if( source != nullptr && source->revert_to != "null" ) {
         item revert( source->revert_to, 0 );
         npc n;
-        revert.type->invoke( &n, &revert, false, point(-999, -999) );
+        revert.type->invoke( &n, &revert, point(-999, -999) );
         const it_tool *target = dynamic_cast<const it_tool *>( revert.type );
         if ( target != nullptr ) {
             return ( source->id == target->id );
@@ -4768,7 +4768,7 @@ bool item::process_tool( player *carrier, point pos )
     if( charges_used == 0 ) {
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true, pos );
+        tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
         if( charges == -1 ) {
             // Signal that the item has destroyed itself.
             return true;
@@ -4779,7 +4779,7 @@ bool item::process_tool( player *carrier, point pos )
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
+        tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
@@ -4920,7 +4920,7 @@ bool item::process( player *carrier, point pos, bool activate )
     }
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
+        return tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
