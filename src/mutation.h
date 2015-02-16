@@ -9,6 +9,13 @@
 #include <map>
 #include <unordered_map>
 
+enum mut_rating {
+    m_good,     // A good mutation.
+    m_neutral,  // A neutral or little effect mutation.
+    m_bad,      // A bad mutation.
+    m_mixed     // A mutation with both good and bad effects.
+}
+
 class mutation_type
 {
         friend void load_mutation_type(JsonObject &jo);
@@ -17,10 +24,12 @@ class mutation_type
         // --------------- Constructors ---------------
         mutation_type();
         mutation_type(const mutation_type &rhs);
-    private:
+    protected:
         // --------------- Values ---------------
         /** Mutation id. */
         muttype_id id;
+        /** Is it good, bad, neutral, or mixed? */
+        mut_rating rating;
         /** Mutation in-game name. */
         std::string name;
         /** Mutation in-game description. */
@@ -39,6 +48,12 @@ class mutation_type
         bool threshold;
         /** Is the mutation a profession based mutation? */
         bool profession;
+        /** Can the mutation be selected as a starting trait? */
+        bool startingtrait;
+        /** Can the mutation be activated? */
+        bool activatable;
+        /** Automatically reactivates over time once turned on, paying the price over time. */
+        bool repeating;
         /** Prerequisites, only 1 is needed. */
         std::vector<std::string> prereqs;
         /** Secondary prerequisites, only 1 is needed. */
@@ -65,7 +80,7 @@ class mutation_type
 class mutation : public JsonSerializer, public JsonDeserializer
 {
     public:
-    private:
+    protected:
         // --------------- Values ---------------
 }
 
