@@ -3822,7 +3822,7 @@ oter_id::oter_id(const char *v)
 // wprint("%s",ter(...).c_str() );
 const char *oter_id::c_str() const
 {
-    return std::string(oterlist[_val].id).c_str();
+    return oterlist[_val].id.c_str();
 }
 
 
