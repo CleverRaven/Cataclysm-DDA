@@ -938,7 +938,7 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
 };
 

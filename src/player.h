@@ -1013,6 +1013,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
+        int add_ammo_to_worn_quiver(item &ammo);
+
     protected:
         std::list<disease> illness;
         // The player's position on the local map.

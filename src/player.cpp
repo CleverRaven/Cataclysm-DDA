@@ -13287,6 +13287,35 @@ void player::blossoms()
     }
 }
 
+int player::add_ammo_to_worn_quiver( item &ammo )
+{
+    std::vector<item *>quivers;
+    for( auto & worn_item : worn) {
+        if( worn_item.type->can_use( "QUIVER")) {
+            quivers.push_back( &worn_item);
+        }
+    }
+
+    // sort quivers by contents, such that empty quivers go last
+    std::sort( quivers.begin(), quivers.end());
+    std::reverse( std::begin( quivers), std::end( quivers));
+
+    int quivered_sum = 0;
+    for( std::vector<item *>::iterator it = quivers.begin(); it != quivers.end(); it++) {
+        item *quiver = *it;
+        int stored = quiver->quiver_store_arrow( ammo);
+        if( stored > 0) {
+            add_msg_if_player( ngettext( "You store %d %s in your %s.", "You store %d %s in your %s.", stored),
+                               stored, quiver->contents[0].type_name(stored).c_str(), quiver->type_name().c_str());
+        }
+        quivered_sum += stored;
+    }
+
+    int move_cost_per_arrow = 10;
+    moves -= quivered_sum * move_cost_per_arrow;
+    return quivered_sum;
+}
+
 float player::power_rating() const
 {
     int ret = 2;

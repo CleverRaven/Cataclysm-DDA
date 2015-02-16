@@ -833,7 +833,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
-    int quivered = here.add_ammo_to_quiver(&g->u, true);
+    int quivered = g->u.add_ammo_to_worn_quiver( here);
     if(quivered > 0) {
         moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
         picked_up = true;
