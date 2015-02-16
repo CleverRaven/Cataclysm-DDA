@@ -3253,12 +3253,12 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
   }
   if (!replaced) { // Special, dynamic tags go here
    if (tag == "<yrwp>")
-    phrase.replace(fa, l, u->weapon.tname());
+    phrase.replace( fa, l, remove_color_tags( u->weapon.tname() ) );
    else if (tag == "<mywp>") {
     if (me->weapon.type->id == "null")
      phrase.replace(fa, l, _("fists"));
     else
-     phrase.replace(fa, l, me->weapon.tname());
+     phrase.replace( fa, l, remove_color_tags( me->weapon.tname() ) );
    } else if (tag == "<ammo>") {
     if (!me->weapon.is_gun())
      phrase.replace(fa, l, _("BADAMMO"));

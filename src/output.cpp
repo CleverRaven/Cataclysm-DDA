@@ -657,7 +657,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
     if ( !desc.empty() ) {
-        int twidth = utf8_width(desc.c_str());
+        int twidth = utf8_width( remove_color_tags( desc) .c_str() );
         if ( twidth > iPopupWidth - 4 ) {
             twidth = iPopupWidth - 4;
         }
@@ -679,9 +679,9 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     int endx = iPopupWidth - 3;
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        mvwprintz(w, 1 + i, 1, desc_color, "%s", descformatted[i].c_str() );
+        trim_and_print(w, 1 + i, 1, iPopupWidth-2, desc_color, "%s", descformatted[i].c_str() );
     }
-    mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
+    trim_and_print(w, starty, 1, iPopupWidth-2, title_color, "%s", title.c_str() );
     long key = 0;
     int pos = -1;
     std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos,
