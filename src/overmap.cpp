@@ -746,10 +746,12 @@ void overmap::add_note(int const x, int const y, int const z, std::string messag
         return n.x == x && n.y == y;
     });
 
-    if (message.empty() && it != notes.end()) {
-        notes.erase(it);
-    } else if(!message.empty()) {
+    if (it == std::end(notes)) {
         notes.emplace_back(om_note {std::move(message), x, y});
+    } else if (!message.empty()) {
+        it->text = std::move(message);
+    } else {
+        notes.erase(it);
     }
 }
 
