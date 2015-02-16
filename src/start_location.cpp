@@ -183,7 +183,7 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
 void start_location::prepare_map( tinymap &m ) const
 {
     if( flags().count( "BOARDED" ) > 0 ) {
-        m.build_map_cache();
+        m.build_outside_cache();
         board_up( m, 0, 0, m.getmapsize() * SEEX, m.getmapsize() * SEEY );
     } else {
         m.translate( t_window_domestic, t_curtains );
