@@ -1,41 +1,44 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "json.h"
 #include "requirements.h"
-#include "skill.h"
-#include "enums.h"
+#include "cursesdef.h" // WINDOW
+#include "enums.h" // point
 
-#include <vector>
 #include <string>
+#include <set>
+#include <functional>
 
-struct construct;
+class JsonObject;
+enum nc_color : int;
 
 struct construction
 {
-    int id; // arbitrary internal identifier
-
     std::string category; //Construction type category
-
     std::string description; // how the action is displayed to the player
     std::string skill;
-    int time;
-    int difficulty;
+    std::string pre_terrain; // beginning terrain for construction
+    std::string post_terrain;// final terrain after construction
+
+    std::set<std::string> pre_flags; // flags beginning terrain must have
+
     requirement_data requirements;
 
-    std::string pre_terrain; // beginning terrain for construction
-    bool pre_is_furniture; // whether it's furniture or terrain
-    std::set<std::string> pre_flags; // flags beginning terrain must have
-    bool (construct::*pre_special)(point); // custom constructability check
+    int id; // arbitrary internal identifier
+    int time;
+    int difficulty;
 
-    void (construct::*post_special)(point); // custom after-effects
-    std::string post_terrain;// final terrain after construction
+    bool (*pre_special)(point); // custom constructability check
+    void (*post_special)(point); // custom after-effects
+
+    bool pre_is_furniture; // whether it's furniture or terrain
     bool post_is_furniture; // whether it's furniture or terrain
 
     int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
 };
 
-extern std::vector<construction*> constructions;
+void for_each_construction(std::function<void (construction&)> f);
+void remove_construction_if(std::function<bool (construction&)> pred);
 
 void load_construction(JsonObject &jsobj);
 void reset_constructions();
