@@ -925,8 +925,8 @@ void salvage_actor::load( JsonObject &obj )
     moves_per_part = obj.get_int( "moves_per_part", 25 );
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
-        for( int i = 0; i < (int)jarr.size(); ++i ) {
-            std::string material_id = jarr.get_string( i );
+        while( jarr.has_more() ) {
+            const auto material_id = jarr.next_string();
             material_whitelist.push_back( material_id );
         }
     } else {
@@ -1136,8 +1136,8 @@ void inscribe_actor::load( JsonObject &obj )
 
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
-        for( int i = 0; i < (int)jarr.size(); ++i ) {
-            std::string material_id = jarr.get_string( i );
+        while( jarr.has_more() ) {
+            const auto material_id = jarr.next_string();
             material_whitelist.push_back( material_id );
         }
     } else if( material_restricted ) {
@@ -1474,7 +1474,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, point ) const
 
         it->make( target_id );
         it->active = true;
-    } else {
+    } else if( !failure_message.empty() ) {
         p->add_msg_if_player( m_bad, _(failure_message.c_str()) );
     }
 
