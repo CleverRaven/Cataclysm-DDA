@@ -330,19 +330,30 @@ void mission_start::place_npc_software(mission *miss)
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
-    if (oter == "house_north" || oter == "house_east"
-            || oter == "house_south" || oter == "house_west") {
+    if( is_ot_type("house", oter) || is_ot_type("s_pharm", oter) || oter == "" ) {
         std::vector<point> valid;
         for (int x = 0; x < SEEX * 2; x++) {
             for (int y = 0; y < SEEY * 2; y++) {
                 if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
                     bool okay = false;
+                    int wall = 0;
                     for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
                         for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
                             if (compmap.furn(x2, y2) == f_bed || compmap.furn(x2, y2) == f_dresser) {
                                 okay = true;
                                 valid.push_back( point(x, y) );
                             }
+                            if ( compmap.has_flag_ter("WALL", x2, y2) ) {
+                                wall++;
+                            }
+                        }
+                    }
+                    if ( wall == 5 ) {
+                        if ( compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, NORTH ) &&
+                             compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
+                             compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
+                             compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
+                            valid.push_back( point(x, y) );
                         }
                     }
                 }
@@ -352,46 +363,6 @@ void mission_start::place_npc_software(mission *miss)
             comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
         } else {
             comppoint = valid[rng(0, valid.size() - 1)];
-        }
-    } else if (oter == "s_pharm_north") {
-        bool found = false;
-        for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
-            for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
-                    found = true;
-                    comppoint = point(x, y);
-                }
-            }
-        }
-    } else if (oter == "s_pharm_east") {
-        bool found = false;
-        for (int x = 0; x < SEEX * 2 && !found; x++) {
-            for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
-                    found = true;
-                    comppoint = point(x, y);
-                }
-            }
-        }
-    } else if (oter == "s_pharm_south") {
-        bool found = false;
-        for (int x = 0; x < SEEX * 2 && !found; x++) {
-            for (int y = 0; y < SEEY * 2 && !found; y++) {
-                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
-                    found = true;
-                    comppoint = point(x, y);
-                }
-            }
-        }
-    } else if (oter == "s_pharm_west") {
-        bool found = false;
-        for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
-            for (int y = 0; y < SEEY * 2 && !found; y++) {
-                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
-                    found = true;
-                    comppoint = point(x, y);
-                }
-            }
         }
     }
 

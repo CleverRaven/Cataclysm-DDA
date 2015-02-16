@@ -87,6 +87,20 @@ int Character::get_mod(std::string mut, std::string arg) const
     return ret;
 }
 
+void Character::apply_mods(const std::string &mut, bool add_remove)
+{
+    int sign = add_remove ? 1 : -1;
+    int str_change = get_mod(mut, "STR");
+    str_max += sign * str_change;
+    per_max += sign * get_mod(mut, "PER");
+    dex_max += sign * get_mod(mut, "DEX");
+    int_max += sign * get_mod(mut, "INT");
+
+    if( str_change != 0 ) {
+        recalc_hp();
+    }
+}
+
 void Character::mutation_effect(std::string mut)
 {
     bool is_u = is_player();
@@ -204,15 +218,7 @@ void Character::mutation_effect(std::string mut)
             per_max = 18;
         }
     } else {
-        int str_change = get_mod(mut, "STR");
-        str_max += str_change;
-        per_max += get_mod(mut, "PER");
-        dex_max += get_mod(mut, "DEX");
-        int_max += get_mod(mut, "INT");
-        
-        if (str_change != 0) {
-            recalc_hp();
-        }
+        apply_mods(mut, true);
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -294,15 +300,7 @@ void Character::mutation_loss_effect(std::string mut)
             per_max = 4;
         }
     } else {
-        int str_change = -1 * get_mod(mut, "STR");
-        str_max += str_change;
-        per_max += -1 * get_mod(mut, "PER");
-        dex_max += -1 * get_mod(mut, "DEX");
-        int_max += -1 * get_mod(mut, "INT");
-        
-        if (str_change != 0) {
-            recalc_hp();
-        }
+        apply_mods(mut, false);
     }
 }
 
@@ -346,15 +344,7 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = true;
         
         // Handle stat changes from activation
-        int str_change = get_mod(mut, "STR");
-        str_max += str_change;
-        per_max += get_mod(mut, "PER");
-        dex_max += get_mod(mut, "DEX");
-        int_max += get_mod(mut, "INT");
-        
-        if (str_change != 0) {
-            recalc_hp();
-        }
+	apply_mods(mut, true);
     }
 
     if( traits[mut].id == "WEB_WEAVER" ) {
@@ -481,15 +471,7 @@ void player::deactivate_mutation(std::string mut)
     traits[mut].powered = false;
     
     // Handle stat changes from deactivation
-    int str_change = -1 * get_mod(mut, "STR");
-    str_max += str_change;
-    per_max += -1 * get_mod(mut, "PER");
-    dex_max += -1 * get_mod(mut, "DEX");
-    int_max += -1 * get_mod(mut, "INT");
-    
-    if (str_change != 0) {
-        recalc_hp();
-    }
+    apply_mods(mut, false);
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)

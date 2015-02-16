@@ -56,8 +56,13 @@ class Character : public Creature
         void toggle_mutation(const std::string &flag);
         void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str );
         
+ private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
+ protected:
+	/** Applies stat mods to character. */
+	void apply_mods(const std::string &mut, bool add_remove);
+ public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
         /** Handles what happens when you lose a mutation. */

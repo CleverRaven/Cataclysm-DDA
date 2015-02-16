@@ -203,14 +203,13 @@ int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeigh
 char rand_char();
 long special_symbol (long sym);
 
-// TODO: move these elsewhere
-// string manipulations.
-std::string from_sentence_case (const std::string &kingston);
-
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
-std::string string_format(const std::string pattern, ...);
-std::string vstring_format(const std::string pattern, va_list argptr);
+std::string string_format(std::string pattern, ...);
+std::string vstring_format(std::string const &pattern, va_list argptr);
+
+// TODO: move these elsewhere
+// string manipulations.
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
@@ -236,13 +235,10 @@ void clear_window(WINDOW *w);
 
 class scrollingcombattext
 {
-    private:
-
     public:
-        const int iMaxSteps;
+        enum : int { iMaxSteps = 8 };
 
-        scrollingcombattext() : iMaxSteps(8) {};
-        ~scrollingcombattext() {};
+        scrollingcombattext() = default;
 
         class cSCT
         {
@@ -265,13 +261,12 @@ class scrollingcombattext
                      const std::string p_sText, const game_message_type p_gmt,
                      const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
                      const std::string p_sType = "");
-                ~cSCT() {};
 
-                int getStep()
+                int getStep() const
                 {
                     return iStep;
                 }
-                int getStepOffset()
+                int getStepOffset() const
                 {
                     return iStepOffset;
                 }
@@ -283,26 +278,26 @@ class scrollingcombattext
                 {
                     return ++iStepOffset;
                 }
-                int getPosX();
-                int getPosY();
-                direction getDirecton()
+                int getPosX() const;
+                int getPosY() const;
+                direction getDirecton() const
                 {
                     return oDir;
                 }
-                int getInitPosX()
+                int getInitPosX() const
                 {
                     return iPosX;
                 }
-                int getInitPosY()
+                int getInitPosY() const
                 {
                     return iPosY;
                 }
-                std::string getType()
+                std::string getType() const
                 {
                     return sType;
                 }
-                std::string getText(std::string sType = "full");
-                game_message_type getMsgType(std::string sType = "first");
+                std::string getText(std::string const &type = "full") const;
+                game_message_type getMsgType(std::string const &type = "first") const;
         };
 
         std::vector<cSCT> vSCT;

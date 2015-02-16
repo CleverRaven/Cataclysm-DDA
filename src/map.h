@@ -215,7 +215,7 @@ class map
   * 0         | Impassable
   * n > 0     | x*n turns to move past this
   */
- int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL) const;
+ int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
 
 
  /**
@@ -229,7 +229,7 @@ class map
   * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
   */
  int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                       const vehicle *ignored_vehicle = NULL, const int modifier = 0);
+                       const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
  /**
   * Returns whether the tile at `(x, y)` is transparent(you can look past it).
@@ -291,7 +291,7 @@ class map
   */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
 
- int coord_to_angle (const int x, const int y, const int tgtx, const int tgty);
+ int coord_to_angle (const int x, const int y, const int tgtx, const int tgty) const;
 // vehicles
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
@@ -304,6 +304,7 @@ class map
   */
  vehicle* veh_at(const int x, const int y, int &part_num);
  const vehicle* veh_at(const int x, const int y, int &part_num) const;
+ const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
 
  /**
   * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -424,6 +425,13 @@ class map
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
+ /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
+  *  @param no_furn if true, the function will stop and return false
+  *  if it encounters a furniture
+  *  @return true if from x to xmax or y to ymax depending on direction
+  *  all terrain is floor and the last terrain is a wall */
+ bool is_last_ter_wall(const bool no_furn, const int x, const int y,
+                       const int xmax, const int ymax, const direction dir) const;
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
@@ -847,7 +855,16 @@ private:
 
     void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 
- long determine_wall_corner(const int x, const int y, const long orig_sym);
+    /**
+     * Internal versions of public functions to avoid checking same variables multiple times.
+     * They lack safety checks, because their callers already do those.
+     */
+    int move_cost_internal(const furn_t &furniture, const ter_t &terrain, 
+                           const vehicle *veh, const int vpart) const;
+    int bash_rating_internal( const int str, const furn_t &furniture, 
+                              const ter_t &terrain, const vehicle *veh, const int part ) const;
+
+ long determine_wall_corner(const int x, const int y, const long orig_sym) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
@@ -859,7 +876,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
- void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
+ void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
