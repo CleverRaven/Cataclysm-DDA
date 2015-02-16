@@ -10803,7 +10803,7 @@ bool player::invoke_item( item* used )
 
         bool usable = um.get_actor_ptr()->can_use( this, used, false, pos() );
         const std::string &aname = item_action_generator::generator().get_action_name( um );
-        umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname.c_str() );
+        umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
         num_total++;
     }
 
