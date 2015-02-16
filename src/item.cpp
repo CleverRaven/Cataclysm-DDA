@@ -667,7 +667,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     }
 
     if( is_gun() ) {
-        auto *mod = active_gunmod();
+        auto mod = active_gunmod();
         if( mod == nullptr ) {
             mod = this;
         } else {

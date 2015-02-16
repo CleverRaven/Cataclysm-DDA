@@ -10776,7 +10776,7 @@ void game::butcher()
             continue;
         }
 
-        const auto *fun = it->type->get_use( "salvage" );
+        const auto fun = it->type->get_use( "salvage" );
         if( fun != nullptr ) {
             salvage_tool_index = u.inv.position_by_item( it );
             salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );

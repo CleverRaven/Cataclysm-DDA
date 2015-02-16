@@ -129,15 +129,15 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
     return candidates;
 }
 
-const std::string &item_action_generator::get_action_name( const item_action_id &id ) const
+std::string item_action_generator::get_action_name( const item_action_id &id ) const
 {
     return get_action( id ).name;
 }
 
-const std::string &item_action_generator::get_action_name( const use_function &fun ) const
+std::string item_action_generator::get_action_name( const use_function &fun ) const
 {
     static const std::string errstring("ERROR");
-    const auto *actor = fun.get_actor_ptr();
+    const auto actor = fun.get_actor_ptr();
     if( actor == nullptr ) {
         debugmsg( "Multiple use_function can only have iuse_actor actions!" );
         return errstring;

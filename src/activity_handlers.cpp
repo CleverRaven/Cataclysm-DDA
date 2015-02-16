@@ -538,14 +538,14 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     item &salvage_tool = p->i_at( act->values[2] );
     auto items = g->m.i_at(p->posx(), p->posy());
-    const auto *use_fun = salvage_tool.type->get_use( "salvage" );
+    const auto use_fun = salvage_tool.type->get_use( "salvage" );
     bool err = false;
     if( use_fun == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         err = true;
     }
     
-    auto *actor = dynamic_cast<salvage_actor*>( use_fun->get_actor_ptr() );
+    auto actor = dynamic_cast<salvage_actor*>( use_fun->get_actor_ptr() );
     if( actor != nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         err = true;
@@ -864,14 +864,14 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
         act->values.pop_back();
         act->values.push_back(natural_light_level);
         item &lens_item = p->i_at(act->position);
-        const auto *usef = lens_item.type->get_use( "extended_firestarter" );
+        const auto usef = lens_item.type->get_use( "extended_firestarter" );
         if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
             add_msg( m_bad, "You have lost the item you were using as a lens." );
             p->cancel_activity();
             return;
         }
 
-        const auto *actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
+        const auto actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
         float progress_left = float(act->moves_left) /
                               float(actor->calculate_time_for_lens_fire(p, previous_natural_light_level));
         act->moves_left = int(progress_left *
