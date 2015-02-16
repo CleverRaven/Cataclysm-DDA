@@ -163,8 +163,8 @@ struct requirement_data {
 
         int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                              const inventory &crafting_inv, int batch = 1) const;
-        int print_components_scrollable(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                             const inventory &crafting_inv, int batch, int &scroll_offset) const;
+        std::vector<std::string> get_folded_components_list( int width, nc_color col,
+                const inventory &crafting_inv, int batch) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
 
@@ -183,9 +183,6 @@ struct requirement_data {
         template<typename T>
         static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1);
-        template<typename T>
-        static int print_list_scrolled(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch, int &scroll_offset);
         template<typename T>
         static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
         template<typename T>

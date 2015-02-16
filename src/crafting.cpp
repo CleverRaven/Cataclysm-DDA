@@ -564,6 +564,13 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string subtab = first_craft_subcat( tab );
     std::vector<const recipe *> current;
     std::vector<bool> available;
+    std::vector<std::string> component_print_buffer;
+    const int componentPrintHeight = dataHeight - tailHeight - 1;
+    //preserves component color printout between mode rotations
+    nc_color rotated_color = c_white;
+    int previous_item_line = -1;
+    std::string previous_tab = "";
+    std::string previous_subtab = "";
     item tmp;
     int line = 0, ypos;
     bool redraw = true;
@@ -572,14 +579,12 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool batch = false;
     int batch_line = 0;
     int display_mode = 0;
-    int component_scrolling_offset = 0;
     const recipe *chosen = NULL;
     input_context ctxt("CRAFTING");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
     ctxt.register_action("CYCLE_MODE");
-    ctxt.register_action("CYCLE_NEXT_COMPONENT_LINE");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("FILTER");
@@ -598,6 +603,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                 line = 0;
             } else {
                 keepline = false;
+            }
+
+            if( display_mode > 2 ){
+                display_mode = 2;
             }
 
             TAB_MODE m = (batch) ? BATCH : (filterstring == "") ? NORMAL : FILTERED;
@@ -620,27 +629,17 @@ const recipe *select_crafting_recipe( int &batch_size )
             mvwprintz(w_data, dataLines + 1, 5, c_white,
                       _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
-
-            if(display_mode == 2){
-                wprintz(w_data, c_white, _("[N]ext line, ") );
-            }
-
             if (filterstring != "") {
                 wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             } else {
                 wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             }
         } else {
-            wmove(w_data, dataLines + 1, 5);
-            if(display_mode == 2){
-                wprintz(w_data, c_white, _("[N]ext, ") );
-            }
-
             if (filterstring != "") {
-                wprintz(w_data, c_white,
+                mvwprintz(w_data, dataLines + 1, 5, c_white,
                           _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings"));
             } else {
-                wprintz(w_data, c_white,
+                mvwprintz(w_data, dataLines + 1, 5, c_white,
                           _("[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings"));
             }
             mvwprintz(w_data, dataLines + 2, 5, c_white,
@@ -727,6 +726,32 @@ const recipe *select_crafting_recipe( int &batch_size )
         if (!current.empty()) {
             nc_color col = (available[line] ? c_white : c_ltgray);
             ypos = 0;
+
+            component_print_buffer = current[line]->requirements.get_folded_components_list( FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, (batch) ? line + 1 : 1);
+            if(!g->u.knows_recipe( current[line] )) {
+                component_print_buffer.push_back(_("Recipe not memorized yet"));
+            }
+
+            //handle positioning of component list if it needed to be scrolled
+            int componentPrintOffset = 0;
+            if(display_mode > 2){
+                componentPrintOffset = (display_mode - 2) * componentPrintHeight;
+            }
+            if(component_print_buffer.size() < static_cast<size_t>( componentPrintOffset )){
+                componentPrintOffset = 0;
+                if( previous_tab != tab || previous_subtab != subtab || previous_item_line != line ){
+                    display_mode = 2;
+                }else{
+                    display_mode = 0;
+                }
+            }
+
+            //only used to preserve mode position on components when
+            //moving to another item and the view is already scrolled
+            previous_tab = tab;
+            previous_subtab = subtab;
+            previous_item_line = line;
+
             if(display_mode == 0) {
                 mvwprintz(w_data, ypos++, 30, col, _("Skills used: %s"),
                           (current[line]->skill_used == NULL ? _("N/A") :
@@ -749,17 +774,27 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += current[line]->requirements.print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv,
                                                    (batch) ? line + 1 : 1);
             }
-            if(display_mode != 2){
-                component_scrolling_offset = 0;
+
+            //color needs to be preserved in case part of the previous page was cut off
+            nc_color stored_color = col;
+            if(display_mode > 2){
+                stored_color = rotated_color;
+            }else{
+                rotated_color = col;
             }
-            //preserve previous scrolling offset
-            if(component_scrolling_offset<0){
-                component_scrolling_offset *= -1;
+            int components_printed = 0;
+            for( size_t i = static_cast<size_t>( componentPrintOffset ); i < component_print_buffer.size(); i++ ){
+                if( ypos >= componentPrintHeight ){
+                    break;
+                }
+
+                components_printed++;
+                print_colored_text(w_data, ypos++, 30, stored_color, col, component_print_buffer[i]);
             }
-            ypos += current[line]->requirements.print_components_scrollable(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                                                    crafting_inv, (batch) ? line + 1 : 1, component_scrolling_offset);
-            if(!g->u.knows_recipe( current[line] )) {
-                mvwprintz(w_data, ypos++, 30, col, _("Recipe not memorized yet"));
+
+            if( ypos >= componentPrintHeight && component_print_buffer.size() > static_cast<size_t>( components_printed ) ){
+                mvwprintz(w_data, ypos++, 30, col, _("v (more)"));
+                rotated_color = stored_color;
             }
 
             if ( isWide ) {
@@ -783,39 +818,27 @@ const recipe *select_crafting_recipe( int &batch_size )
         const std::string action = ctxt.handle_input();
         if (action == "CYCLE_MODE") {
             display_mode = display_mode + 1;
-            if(display_mode >= 3 || display_mode <= 0) {
+            if(display_mode <= 0) {
                 display_mode = 0;
-            }
-        } else if (action == "CYCLE_NEXT_COMPONENT_LINE"){
-            if(component_scrolling_offset<0){
-                component_scrolling_offset = 0;
-            }else{
-                component_scrolling_offset = component_scrolling_offset + 1;
             }
         } else if (action == "LEFT") {
             subtab = prev_craft_subcat( tab, subtab );
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "PREV_TAB") {
             tab = prev_craft_cat(tab);
             subtab = first_craft_subcat( tab );//default ALL
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "RIGHT") {
             subtab = next_craft_subcat( tab, subtab );
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "NEXT_TAB") {
             tab = next_craft_cat(tab);
             subtab = first_craft_subcat( tab );//default ALL
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "DOWN") {
             line++;
-            component_scrolling_offset = 0;
         } else if (action == "UP") {
             line--;
-            component_scrolling_offset = 0;
         } else if (action == "CONFIRM") {
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
@@ -841,14 +864,12 @@ const recipe *select_crafting_recipe( int &batch_size )
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
                                               _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "QUIT") {
             chosen = nullptr;
             done = true;
         } else if (action == "RESET_FILTER") {
             filterstring = "";
             redraw = true;
-            component_scrolling_offset = 0;
         } else if (action == "CYCLE_BATCH") {
             if (current.empty()) {
                 popup(_("Nothing selected!"));
