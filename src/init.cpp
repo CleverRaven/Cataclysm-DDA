@@ -108,7 +108,7 @@ void DynamicDataLoader::initialize()
     type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
-    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
+    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation_type);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);

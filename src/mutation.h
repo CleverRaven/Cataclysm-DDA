@@ -28,14 +28,14 @@ class mutation_type
         // --------------- Values ---------------
         /** Mutation id. */
         muttype_id id;
-        /** Is it good, bad, neutral, or mixed? */
-        mut_rating rating;
         /** Mutation in-game name. */
         std::string name;
         /** Mutation in-game description. */
         std::string description;
         /** Point cost at character creation. */
         int points;
+        /** Is it good, bad, neutral, or mixed? */
+        mut_rating rating;
         /** How visible the mutation is. */
         int visibility;
         /** How ugly the mutation is compared to base human standards. */
@@ -70,18 +70,23 @@ class mutation_type
         std::vector<std::string> category;
         /** Mutation wet protection effect. */
         std::map<std::string, mutation_wet> protection;
-        /** Mutation stat modifiers, key pair order is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int> mods;
         /** Martial art styles that can be chosen on character generation with this mutation.
          *  Used mainly by profession mutations. */
         std::vector<std::string> initial_ma_styles;
+        /** Mutation stat modifiers, key pair order is <active: bool, mod type: "STR"> */
+        std::unordered_map<std::pair<bool, std::string>, int> mods;
+        /** Mutation activation costs. Key is the cost type, i.e. "fatigue" */
+        std::unordered_map<std::string, int> costs;
 }
 
 class mutation : public JsonSerializer, public JsonDeserializer
 {
-    public:
     protected:
         // --------------- Values ---------------
+        /** How many charges the mutation currently has. */
+        int charge;
+        /** What key is the mutation bound to. */
+        char key;
 }
 
 
@@ -128,8 +133,6 @@ struct mutation_branch {
     };
 };
 
-extern std::vector<std::string> faulty_traits;
-extern std::vector<std::string> unpowered_traits;
 void mut_draw_exam_window(WINDOW *win, int border_line, bool examination);
 void reset_mutations();
 
