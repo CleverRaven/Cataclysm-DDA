@@ -2285,12 +2285,17 @@ int item::get_storage() const
     int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
 
     if (item::item_tags.count("pocketed") > 0){
-        pockets = volume() * (float(get_coverage()) / 100) / 1.333;
-        if (pockets > (volume() / 2)){
-            pockets = (pockets / 2);
+        // Cache this so we don't have to keep recalculating it.
+        float vol = volume();
+        pockets = vol * (float(get_coverage()) / 100) / 1.333;
+        if (result > .3 * vol) {
+            // Scales from 1 to 3 as result goes from .3 * vol to .7 * vol
+            float mod = 1 + (result - .3 * vol) / (.7 * vol - .3 * vol) * 2;
+            pockets = pockets / mod;
         }
         return result + pockets;
-        } else { return result;
+    } else {
+        return result;
     }
 }
 int item::get_env_resist() const
