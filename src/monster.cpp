@@ -360,8 +360,9 @@ bool monster::digging() const
 
 bool monster::can_act() const
 {
-    return moves > 0 && !has_flag(MF_IMMOBILE) &&
-             !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed");
+    return moves > 0 && !has_flag(MF_IMMOBILE) && 
+             ( effects.empty() ||
+               ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
 
 int monster::sight_range( const int light_level ) const
