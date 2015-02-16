@@ -12292,17 +12292,17 @@
         "symbol" : "[",
         "description" : "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
         "price" : 55000,
-        "material" : ["kevlar", "plastic"],
+        "material" : ["kevlar", "cotton"],
         "volume" : 10,
         "cutting" : 0,
         "warmth" : 40,
         "phase" : "solid",
-        "environmental_protection" : 6,
+        "environmental_protection" : 7,
         "encumbrance" : 3,
         "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
@@ -12326,7 +12326,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
