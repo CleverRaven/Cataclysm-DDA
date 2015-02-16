@@ -12247,14 +12247,14 @@
         "material" : ["cotton", "leather"],
         "volume" : 10,
         "cutting" : 0,
-        "warmth" : 40,
+        "warmth" : 35,
         "phase" : "solid",
         "environmental_protection" : 4,
         "encumbrance" : 2,
         "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12278,7 +12278,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 5
+        "material_thickness" : 8
     },
     {
         "type" : "ARMOR",
