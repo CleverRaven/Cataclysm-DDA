@@ -2357,10 +2357,11 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-     if (item::item_tags.count("furred") > 0){
+    if (item::item_tags.count("furred") > 0){
         warmed = 2 * volume() * (float(get_coverage()) / 100);
         return result + warmed;
-        } else { return result;
+    } else {
+        return result;
     }
 }
 
