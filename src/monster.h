@@ -93,6 +93,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
         bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
         bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
+        bool can_act() const;
         int sight_range( int light_level ) const override;
         using Creature::sees;
         bool made_of(std::string m) const; // Returns true if it's made of m

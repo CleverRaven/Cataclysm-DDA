@@ -358,6 +358,12 @@ bool monster::digging() const
     return has_flag(MF_DIGS) || ( has_flag(MF_CAN_DIG) && underwater );
 }
 
+bool monster::can_act() const
+{
+    return moves > 0 && !has_flag(MF_IMMOBILE) &&
+             !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed");
+}
+
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged

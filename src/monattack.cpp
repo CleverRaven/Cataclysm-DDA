@@ -180,6 +180,10 @@ void mattack::rattle(monster *z, int index)
 
 void mattack::acid(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return;
@@ -218,6 +222,10 @@ void mattack::acid(monster *z, int index)
 
 void mattack::shockstorm(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return;
@@ -345,6 +353,10 @@ void mattack::smokecloud(monster *z, int index)
 
 void mattack::boomer(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -450,6 +462,10 @@ void mattack::resurrect(monster *z, int index)
 
 void mattack::smash(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return;
@@ -590,6 +606,10 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         _("The %s moans softly."),
         _("The %s's skin crackles with electricity."), //special case; leave this last
     }};
+
+    if( !z->can_act() ) {
+        return;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Look for a valid target...
@@ -997,6 +1017,10 @@ void mattack::vine(monster *z, int index)
 
 void mattack::spit_sap(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int t;
     int dist;
     Creature *target = z->attack_target();
@@ -1338,6 +1362,10 @@ void mattack::fungus_inject(monster *z, int index)
 }
 void mattack::fungus_bristle(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
     }
@@ -1563,6 +1591,10 @@ void mattack::fungus_fortify(monster *z, int index)
 
 void mattack::leap(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int linet = 0;
     std::vector<point> options;
     point target = z->move_target();
@@ -1625,6 +1657,10 @@ void mattack::leap(monster *z, int index)
 
 void mattack::dermatik(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
@@ -3485,6 +3521,10 @@ void mattack::breathe(monster *z, int index)
 
 void mattack::bite(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
@@ -3570,6 +3610,10 @@ void mattack::brandish(monster *z, int index)
 
 void mattack::flesh_golem(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -3627,6 +3671,10 @@ void mattack::flesh_golem(monster *z, int index)
 
 void mattack::lunge(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -4111,6 +4159,10 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ||
         rl_dist( z->pos(), target->pos() ) > 1 ||
