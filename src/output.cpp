@@ -470,7 +470,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     std::vector<std::string> labels;
     va_list ap;
     va_start(ap, active_tab);
-    while (char *const tmp = va_arg(ap, char *)) {
+    while (char const *const tmp = va_arg(ap, char *)) {
         labels.push_back(tmp);
     }
     va_end(ap);
@@ -930,7 +930,7 @@ int menu(bool const cancelable, const char *const mes, ...)
     va_list ap;
     va_start(ap, mes);
     std::vector<std::string> options;
-    while (char const *tmp = va_arg(ap, char *)) {
+    while (char const *const tmp = va_arg(ap, char *)) {
         options.push_back(tmp);
     }
     va_end(ap);
