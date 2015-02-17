@@ -27,7 +27,7 @@ class iuse_transform : public iuse_actor
         std::string target_id;
         /**
          * If >= -1: set the charges property of the target to this value. */
-        long target_charges;
+        long target_charges = -2;
         /** Id of the container (or empty if no container is needed).
          * If not empty, the item is transformed to the container, and a
          * new item (with type @ref target_id) is placed inside.
@@ -35,27 +35,19 @@ class iuse_transform : public iuse_actor
          */
         std::string container_id;
         /** Set the active property of the resulting item to this. */
-        bool active;
+        bool active = false;
         /** Need this many fire charges. Values <= 0 don't need fire.
          * The player must not be underwater if fire is used! */
-        long need_fire;
+        long need_fire = 0;
         std::string need_fire_msg;
         /** Need this many charges before processing the action. Values <= 0 are ignored. */
-        long need_charges;
+        long need_charges = 0;
         std::string need_charges_msg;
         /** Subtract this from @ref Creature::moves when actually transforming the item. */
-        int moves;
+        int moves = 0;
 
-        iuse_transform()
-            : iuse_actor()
-            , target_charges(-2)
-            , active(false)
-            , need_fire(0)
-            , need_charges(0)
-            , moves(0)
-        {
-        }
-        virtual ~iuse_transform();
+        iuse_transform() = default;
+        virtual ~iuse_transform() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -83,11 +75,8 @@ class auto_iuse_transform : public iuse_transform
          */
         std::string non_interactive_msg;
 
-        auto_iuse_transform()
-            : iuse_transform()
-        {
-        }
-        virtual ~auto_iuse_transform();
+        auto_iuse_transform() = default;
+        virtual ~auto_iuse_transform() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -103,53 +92,35 @@ class explosion_iuse : public iuse_actor
     public:
         // Those 4 values are forwarded to game::explosion.
         // No explosion is done if power < 0
-        int explosion_power;
-        int explosion_shrapnel;
-        bool explosion_fire;
-        bool explosion_blast;
+        int explosion_power = -1;
+        int explosion_shrapnel = -1;
+        bool explosion_fire = false;
+        bool explosion_blast = true; // true is the default in game.h
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
-        int draw_explosion_radius;
-        nc_color draw_explosion_color;
+        int draw_explosion_radius = -1;
+        nc_color draw_explosion_color = c_white;
         /** Call game::flashbang? */
-        bool do_flashbang;
-        bool flashbang_player_immune;
+        bool do_flashbang = false;
+        bool flashbang_player_immune = false; // false is the default in game.h
         /** Create fields of this type around the center of the explosion */
-        int fields_radius;
-        field_id fields_type;
-        int fields_min_density;
-        int fields_max_density;
+        int fields_radius = -1;
+        field_id fields_type = fd_null;
+        int fields_min_density = 1;
+        int fields_max_density = 3;
         /** Calls game::emp_blast if >= 0 */
-        int emp_blast_radius;
+        int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
-        int scrambler_blast_radius;
+        int scrambler_blast_radius = -1;
         /** Volume of sound each turn, -1 means no sound at all */
-        int sound_volume;
+        int sound_volume = -1;
         std::string sound_msg;
         /** Message shown when the player tries to deactivate the item,
          * which is not allowed. */
         std::string no_deactivate_msg;
 
-        explosion_iuse()
-            : iuse_actor()
-            , explosion_power(-1)
-            , explosion_shrapnel(-1)
-            , explosion_fire(false)
-            , explosion_blast(true) // true is the default in game.h
-            , draw_explosion_radius(-1)
-            , draw_explosion_color(c_white)
-            , do_flashbang(false)
-            , flashbang_player_immune(false) // false is the default in game.h
-            , fields_radius(-1)
-            , fields_type(fd_null)
-            , fields_min_density(1)
-            , fields_max_density(3)
-            , emp_blast_radius(-1)
-            , scrambler_blast_radius(-1)
-            , sound_volume(-1)
-        {
-        }
-        virtual ~explosion_iuse();
+        explosion_iuse() = default;
+        virtual ~explosion_iuse() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -166,14 +137,10 @@ class unfold_vehicle_iuse : public iuse_actor
         /** Message shown after successfully unfolding the item. */
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */
-        int moves;
+        int moves = 0;
         std::map<std::string, int> tools_needed;
-        unfold_vehicle_iuse()
-            : iuse_actor()
-            , moves(0)
-        {
-        }
-        virtual ~unfold_vehicle_iuse();
+        unfold_vehicle_iuse() = default;
+        virtual ~unfold_vehicle_iuse() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -210,8 +177,8 @@ class consume_drug_iuse : public iuse_actor
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
 
-        consume_drug_iuse() : iuse_actor() { }
-        virtual ~consume_drug_iuse();
+        consume_drug_iuse() = default;
+        virtual ~consume_drug_iuse() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -230,7 +197,7 @@ class delayed_transform_iuse : public iuse_transform
         /**
          * The minimal age of the item (in turns) to allow the transformation.
          */
-        int transform_age;
+        int transform_age = 0;
         /**
          * Message to display when the user activates the item before the
          * age has been reached.
@@ -240,8 +207,8 @@ class delayed_transform_iuse : public iuse_transform
         /** How much longer (in turns) until the transformation can be done, can be negative. */
         int time_to_do( const item &it ) const;
 
-        delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
-        virtual ~delayed_transform_iuse();
+        delayed_transform_iuse() = default;
+        virtual ~delayed_transform_iuse() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, point ) const;
         virtual iuse_actor *clone() const;
@@ -257,11 +224,11 @@ class place_monster_iuse : public iuse_actor
         std::string mtype_id;
         /** If true, place the monster at a random square around the player,
          * otherwise allow the player to select the target square. */
-        bool place_randomly;
+        bool place_randomly = false;
         /** How many move points this action takes. */
-        int moves;
+        int moves = 100;
         /** Difficulty of programming the monster (to be friendly). */
-        int difficulty;
+        int difficulty = 0;
         /** Shown when programming the monster succeeded and it's friendly. Can be empty. */
         std::string friendly_msg;
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
@@ -270,8 +237,8 @@ class place_monster_iuse : public iuse_actor
         std::string skill1;
         std::string skill2;
 
-        place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
-        virtual ~place_monster_iuse();
+        place_monster_iuse()  = default;
+        virtual ~place_monster_iuse() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -292,8 +259,8 @@ class ups_based_armor_actor : public iuse_actor
         /** Shown when it runs out of power. */
         std::string out_of_power_msg;
 
-        ups_based_armor_actor() : iuse_actor() { }
-        virtual ~ups_based_armor_actor();
+        ups_based_armor_actor() = default;
+        virtual ~ups_based_armor_actor()  = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -308,10 +275,10 @@ class pick_lock_actor : public iuse_actor
         /**
          * How good the used tool is at picking a lock.
          */
-        int pick_quality;
+        int pick_quality = 0;
 
-        pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
-        virtual ~pick_lock_actor();
+        pick_lock_actor() = default;
+        virtual ~pick_lock_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -328,7 +295,7 @@ class reveal_map_actor : public iuse_actor
          * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
          * the character are revealed.
          */
-        int radius;
+        int radius = 0;
         /**
          * Overmap terrain types that get revealed.
          */
@@ -340,8 +307,8 @@ class reveal_map_actor : public iuse_actor
 
         void reveal_targets( const std::string &target, int reveal_distance ) const;
 
-        reveal_map_actor() : iuse_actor(), radius( 0 ) { }
-        virtual ~reveal_map_actor();
+        reveal_map_actor() = default;
+        virtual ~reveal_map_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
@@ -356,13 +323,13 @@ class firestarter_actor : public iuse_actor
         /**
          * Moves used at start of the action.
          */
-        int moves_cost;
+        int moves_cost = 0;
 
         static bool prep_firestarter_use( const player *p, const item *it, point &pos );
         static void resolve_firestarter_use( const player *p, const item *, const point &pos );
 
-        firestarter_actor() : iuse_actor(), moves_cost( 0 ) { }
-        virtual ~firestarter_actor();
+        firestarter_actor() = default;
+        virtual ~firestarter_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
@@ -378,12 +345,12 @@ class extended_firestarter_actor : public firestarter_actor
         /**
          * Does it need sunlight to be used.
          */
-        bool need_sunlight;
+        bool need_sunlight = false;
 
         int calculate_time_for_lens_fire( const player *, float light_level ) const;
 
-        extended_firestarter_actor() : firestarter_actor(), need_sunlight( false ) { }
-        virtual ~extended_firestarter_actor();
+        extended_firestarter_actor() = default;
+        virtual ~extended_firestarter_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
