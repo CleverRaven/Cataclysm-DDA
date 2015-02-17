@@ -5884,19 +5884,32 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // monster::plan() needs to know about all monsters on the same team as the monster
-    mfactions monster_factions; // A map - looks much cleaner than vector here
-    auto playerfaction = GetMFact( "player" );
-    for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &critter = zombie( i );
-        if( critter.friendly == 0 ) {
-            monster_factions[ critter.faction ].insert( i ); // Only 1 faction per mon at the moment
-        } else {
-            monster_factions[ playerfaction ].insert( i );
-        }
-    }
+    // Make sure these don't match the first time around.
+    int cached_levx = levx + 1;
+    int cached_levy = levy + 1;
+
+    mfactions monster_factions;
 
     for (size_t i = 0; i < num_zombies(); i++) {
+        // The first time through, and any time the map has been shifted,
+        // recalculate monster factions.
+        if( cached_levx != levx || cached_levy != levy ) {
+            // monster::plan() needs to know about all monsters on the same team as the monster.
+            monster_factions.clear();
+            auto playerfaction = GetMFact( "player" );
+            for( int i = 0, numz = num_zombies(); i < numz; i++ ) {
+                monster &critter = zombie( i );
+                if( critter.friendly == 0 ) {
+                    // Only 1 faction per mon at the moment.
+                    monster_factions[ critter.faction ].insert( i );
+                } else {
+                    monster_factions[ playerfaction ].insert( i );
+                }
+            }
+            cached_levx = levx;
+            cached_levy = levy;
+        }
+
         monster &critter = critter_tracker.find(i);
         while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
             // If we can't move to our current position, assign us to a new one
