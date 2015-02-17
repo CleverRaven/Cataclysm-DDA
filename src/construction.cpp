@@ -47,11 +47,11 @@ static void place_construction(const std::string &desc);
 
 std::vector<construction> constructions;
 
-void for_each_construction(std::function<void(construction&)> f)
+void standardize_construction_times(int const time)
 {
-    std::for_each(begin(constructions), end(constructions), [&](construction &c) {
-        f(c);
-    });
+    for (auto &c : constructions) {
+        c.time = time;
+    }
 }
 
 void remove_construction_if(std::function<bool(construction&)> pred)

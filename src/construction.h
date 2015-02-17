@@ -37,7 +37,10 @@ struct construction
     int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
 };
 
-void for_each_construction(std::function<void (construction&)> f);
+//! Set all constructions to take the specified time.
+void standardize_construction_times(int time);
+
+//! Remove all constructions matching the predicate.
 void remove_construction_if(std::function<bool (construction&)> pred);
 
 void load_construction(JsonObject &jsobj);

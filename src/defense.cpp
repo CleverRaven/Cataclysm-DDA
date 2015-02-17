@@ -189,9 +189,7 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    for_each_construction([&](construction& c) {
-        c.time = 1; // Everything takes 1 minute
-    });
+    standardize_construction_times(1); // Everything takes 1 minute
 }
 
 void defense_game::init_recipes()
