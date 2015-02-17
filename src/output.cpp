@@ -470,9 +470,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     std::vector<std::string> labels;
     va_list ap;
     va_start(ap, active_tab);
-    char *tmp;
-    while ((tmp = va_arg(ap, char *))) {
-        labels.push_back((std::string)(tmp));
+    while (char const *const tmp = va_arg(ap, char *)) {
+        labels.push_back(tmp);
     }
     va_end(ap);
 
@@ -657,7 +656,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
     if ( !desc.empty() ) {
-        int twidth = utf8_width(desc.c_str());
+        int twidth = utf8_width( remove_color_tags( desc) .c_str() );
         if ( twidth > iPopupWidth - 4 ) {
             twidth = iPopupWidth - 4;
         }
@@ -679,9 +678,9 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     int endx = iPopupWidth - 3;
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        mvwprintz(w, 1 + i, 1, desc_color, "%s", descformatted[i].c_str() );
+        trim_and_print(w, 1 + i, 1, iPopupWidth-2, desc_color, "%s", descformatted[i].c_str() );
     }
-    mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
+    trim_and_print(w, starty, 1, iPopupWidth-2, title_color, "%s", title.c_str() );
     long key = 0;
     int pos = -1;
     std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos,
@@ -925,23 +924,16 @@ int menu_vec(bool cancelable, const char *mes,
     return (int)uimenu(cancelable, mes, options);
 }
 
-int menu(bool cancelable, const char *mes,
-         ...)   // compatibility stub for uimenu(cancelable, mes, ...)
+// compatibility stub for uimenu(cancelable, mes, ...)
+int menu(bool const cancelable, const char *const mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char *tmp;
     std::vector<std::string> options;
-    bool done = false;
-    while (!done) {
-        tmp = va_arg(ap, char *);
-        if (tmp != NULL) {
-            std::string strtmp = tmp;
-            options.push_back(strtmp);
-        } else {
-            done = true;
-        }
+    while (char const *const tmp = va_arg(ap, char *)) {
+        options.push_back(tmp);
     }
+    va_end(ap);
     return (uimenu(cancelable, mes, options));
 }
 

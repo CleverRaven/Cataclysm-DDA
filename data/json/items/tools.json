@@ -857,6 +857,7 @@
   {
     "id": "glowstick_dead",
     "type": "TOOL",
+    "category": "other",
     "symbol": ";",
     "color": "light_gray",
     "name": "dead glowstick",

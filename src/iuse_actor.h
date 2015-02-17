@@ -469,7 +469,7 @@ class cauterize_actor : public iuse_actor
 class enzlave_actor : public iuse_actor
 {
     public:
-        enzlave_actor() : iuse_actor() = default;
+        enzlave_actor() : iuse_actor() { }
         virtual ~enzlave_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
@@ -513,7 +513,7 @@ class fireweapon_on_actor : public iuse_actor
         int noise; // If 0, it produces a message instead of noise
         int noise_chance; // one_in(this variable)
 
-        fireweapon_on_actor() : iuse_actor(), noise(0), noice_chance(1) { }
+        fireweapon_on_actor() : iuse_actor(), noise(0), noise_chance(1) { }
         virtual ~fireweapon_on_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;

@@ -719,8 +719,6 @@ long reveal_map_actor::use( player *p, item *it, bool, point ) const
     return 0;
 }
 
-firestarter_actor::~firestarter_actor() {}
-
 void firestarter_actor::load( JsonObject &obj )
 {
     moves_cost = obj.get_int( "moves_cost", 0 );
@@ -826,8 +824,6 @@ bool firestarter_actor::can_use( const player* p, const item*, bool, const point
 
     return true;
 }
-
-extended_firestarter_actor::~extended_firestarter_actor() {}
 
 void extended_firestarter_actor::load( JsonObject &obj )
 {
