@@ -1267,8 +1267,8 @@ bool game::do_turn()
             }
         }
         // Sanity check for negative fatigue value.
-        if (u.fatigue <= -2000) {
-            u.fatigue = -2000;
+        if (u.fatigue <= -1000) {
+            u.fatigue = -1000;
             }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !u.in_sleep_state() && !u.has_trait("DEBUG_LS") ) {
