@@ -40,10 +40,10 @@ public:
     item_action_map map_actions_to_items( player &p ) const;
 
     // Returns (translated) name of action
-    std::string get_action_name( const item_action_id &id ) const;
+    const std::string &get_action_name( const item_action_id &id ) const;
     // As above, except for use_function. Currently supports only iuse_actor use_functions!
     // Will debugmsg if given a cpp iuse_function
-    std::string get_action_name( const use_function &fun ) const;
+    const std::string &get_action_name( const use_function &fun ) const;
 
     const item_action &get_action( const item_action_id &id ) const;
 

@@ -35,7 +35,7 @@ class actmenu_cb : public uimenu_callback {
         actmenu_cb( const action_map &acm ) : ctxt("ITEM_ACTIONS"), am( acm ) {
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("QUIT");
-            for( auto id : am ) {
+            for( const auto &id : am ) {
                 ctxt.register_action( id.first, id.second.name );
             }
         }
@@ -58,13 +58,9 @@ class actmenu_cb : public uimenu_callback {
         }
 };
 
-item_action_generator::item_action_generator()
-{
-}
+item_action_generator::item_action_generator() = default;
 
-item_action_generator::~item_action_generator()
-{
-}
+item_action_generator::~item_action_generator() = default;
 
 item_action_map item_action_generator::map_actions_to_items( player &p ) const
 {
@@ -129,12 +125,12 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
     return candidates;
 }
 
-std::string item_action_generator::get_action_name( const item_action_id &id ) const
+const std::string &item_action_generator::get_action_name( const item_action_id &id ) const
 {
     return get_action( id ).name;
 }
 
-std::string item_action_generator::get_action_name( const use_function &fun ) const
+const std::string &item_action_generator::get_action_name( const use_function &fun ) const
 {
     static const std::string errstring("ERROR");
     const auto actor = fun.get_actor_ptr();
