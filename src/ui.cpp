@@ -40,7 +40,7 @@ uimenu::uimenu()
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
-uimenu::uimenu(bool const cancancel, const char * const mes, ...)
+uimenu::uimenu(bool, const char * const mes, ...)
 {
     init();
     va_list ap;
