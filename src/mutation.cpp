@@ -12,8 +12,6 @@
 #include <algorithm> //std::min
 #include <sstream>
 
-std::vector<std::string> unpowered_traits;
-
 bool Character::has_trait(const std::string &b) const
 {
     // Look for active mutations and traits

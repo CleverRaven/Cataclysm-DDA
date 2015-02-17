@@ -54,12 +54,6 @@ struct mutation_branch {
     static void check_consistency();
 };
 
-extern std::vector<std::string> faulty_traits;
-extern std::vector<std::string> unpowered_traits;
-void mut_draw_exam_window(WINDOW *win, int border_line, bool examination);
-void reset_mutations();
-
-void init_mutation_parts();
 void load_mutation(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);
 

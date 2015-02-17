@@ -43,7 +43,6 @@
 
 std::map<std::string, trait> traits;
 extern std::map<std::string, martialart> ma_styles;
-std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
