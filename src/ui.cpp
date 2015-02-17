@@ -46,7 +46,7 @@ uimenu::uimenu(bool const cancancel, const char * const mes, ...)
     va_list ap;
     va_start(ap, mes);
     int i = 0;
-    while (char *const tmp = va_arg(ap, char *)) {
+    while (char const *const tmp = va_arg(ap, char *)) {
         entries.push_back(uimenu_entry(i++, true, MENU_AUTOASSIGN, tmp ));
     }
     va_end(ap);
