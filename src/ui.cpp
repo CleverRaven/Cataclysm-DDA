@@ -39,28 +39,17 @@ uimenu::uimenu()
     init();
 }
 
-uimenu::uimenu(bool cancancel, const char *mes,
-               ...)    // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
+// here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
+uimenu::uimenu(bool const cancancel, const char * const mes, ...)
 {
     init();
     va_list ap;
     va_start(ap, mes);
-    char *tmp;
-    bool done = false;
     int i = 0;
-    text = mes;
-    shift_retval = 1;
-    return_invalid = cancancel;
-    while (!done) {
-        tmp = va_arg(ap, char *);
-        if (tmp != NULL) {
-            std::string strtmp = tmp;
-            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, strtmp ));
-        } else {
-            done = true;
-        }
-        i++;
+    while (char *const tmp = va_arg(ap, char *)) {
+        entries.push_back(uimenu_entry(i++, true, MENU_AUTOASSIGN, tmp ));
     }
+    va_end(ap);
     query();
 }
 

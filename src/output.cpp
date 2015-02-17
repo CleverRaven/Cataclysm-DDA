@@ -470,9 +470,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     std::vector<std::string> labels;
     va_list ap;
     va_start(ap, active_tab);
-    char *tmp;
-    while ((tmp = va_arg(ap, char *))) {
-        labels.push_back((std::string)(tmp));
+    while (char *const tmp = va_arg(ap, char *)) {
+        labels.push_back(tmp);
     }
     va_end(ap);
 
@@ -925,23 +924,16 @@ int menu_vec(bool cancelable, const char *mes,
     return (int)uimenu(cancelable, mes, options);
 }
 
-int menu(bool cancelable, const char *mes,
-         ...)   // compatibility stub for uimenu(cancelable, mes, ...)
+// compatibility stub for uimenu(cancelable, mes, ...)
+int menu(bool const cancelable, const char *const mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char *tmp;
     std::vector<std::string> options;
-    bool done = false;
-    while (!done) {
-        tmp = va_arg(ap, char *);
-        if (tmp != NULL) {
-            std::string strtmp = tmp;
-            options.push_back(strtmp);
-        } else {
-            done = true;
-        }
+    while (char const *tmp = va_arg(ap, char *)) {
+        options.push_back(tmp);
     }
+    va_end(ap);
     return (uimenu(cancelable, mes, options));
 }
 
