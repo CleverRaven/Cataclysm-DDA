@@ -3334,7 +3334,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_name == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3348,7 +3348,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_name != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3371,7 +3371,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_name == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3385,7 +3385,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_name != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3412,7 +3412,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_name == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3426,7 +3426,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_name != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3454,7 +3454,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_name == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3468,7 +3468,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_name != "battery") {
         p->add_msg_if_player(_("That item does not use batteries!"));
         return 0;
     }
@@ -3515,7 +3515,7 @@ int iuse::remove_all_mods(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_name != "battery") {
         p->add_msg_if_player( m_info, _( "That item does not use batteries!" ) );
         return 0;
     }

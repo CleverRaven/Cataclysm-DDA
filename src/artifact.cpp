@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "json.h"
 #include "mapsharing.h"
+#include "rng.h"
 
 #include <sstream>
 #include <fstream>
@@ -238,7 +239,7 @@ std::string artifact_name(std::string type);
 it_artifact_tool::it_artifact_tool() : it_tool()
 {
     id = item_controller->create_artifact_id();
-    ammo = "NULL";
+    ammo_name = "NULL";
     price = 0;
     def_charges = 0;
     charges_per_use = 1;
@@ -1152,7 +1153,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     charges_per_use = jo.get_int("charges_per_use");
     turns_per_charge = jo.get_int("turns_per_charge");
-    ammo = jo.get_string("ammo");
+    ammo_name = jo.get_string("ammo");
     revert_to = jo.get_string("revert_to");
 
     charge_type = (art_charge)jo.get_int("charge_type");
@@ -1297,7 +1298,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // tool data
-    json.member("ammo", ammo);
+    json.member("ammo", ammo_name);
     json.member("max_charges", max_charges);
     json.member("def_charges", def_charges);
     json.member("charges_per_use", charges_per_use);

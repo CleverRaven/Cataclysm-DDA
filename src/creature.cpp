@@ -3,6 +3,8 @@
 #include "output.h"
 #include "game.h"
 #include "messages.h"
+#include "rng.h"
+
 #include <algorithm>
 #include <numeric>
 #include <cmath>

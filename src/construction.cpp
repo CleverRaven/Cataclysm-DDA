@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "veh_interact.h"
 #include "messages.h"
+#include "rng.h"
 
 #include <algorithm>
 

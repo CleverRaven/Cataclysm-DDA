@@ -473,7 +473,7 @@ void Item_factory::check_definitions() const
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
-            check_ammo_type(msg, tool->ammo);
+            check_ammo_type(msg, tool->ammo_name);
             if (tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
@@ -682,7 +682,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
 void Item_factory::load_tool(JsonObject &jo)
 {
     it_tool *tool_template = new it_tool();
-    tool_template->ammo = jo.get_string("ammo");
+    tool_template->ammo_name = jo.get_string("ammo");
     tool_template->max_charges = jo.get_long("max_charges");
     tool_template->def_charges = jo.get_long("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");
@@ -699,7 +699,7 @@ void Item_factory::load_tool_armor(JsonObject &jo)
 {
     it_tool *tool_template = new it_tool();
 
-    tool_template->ammo = jo.get_string("ammo");
+    tool_template->ammo_name = jo.get_string("ammo");
     tool_template->max_charges = jo.get_int("max_charges");
     tool_template->def_charges = jo.get_int("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");

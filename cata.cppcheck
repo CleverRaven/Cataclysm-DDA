@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="1">
+    <root name="D:/Users/Brandon/Documents/GitHub/Cataclysm-DDA/src"/>
+    <libraries>
+        <library>sdl</library>
+        <library>windows</library>
+    </libraries>
+</project>

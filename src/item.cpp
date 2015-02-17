@@ -98,8 +98,8 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             if( !has_random_charges ) {
                 charges = tool->def_charges;
             }
-            if (tool->ammo != "NULL") {
-                set_curammo( default_ammo( tool->ammo ) );
+            if (tool->ammo_name != "NULL") {
+                set_curammo( default_ammo( tool->ammo_name ) );
             }
         }
     }
@@ -1060,30 +1060,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
+                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_name == "NULL") ?
                     ngettext("Maximum <num> charge (doubled).", "Maximum <num> charges (doubled)", tool->max_charges * 2) :
                     string_format(ngettext("Maximum <num> charge (doubled) of %s.", "Maximum <num> charges (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo).c_str())), tool->max_charges * 2));
+                                  ammo_name(tool->ammo_name).c_str())), tool->max_charges * 2));
             } else if (has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
+                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_name == "NULL") ?
                     ngettext("Maximum <num> charge (rechargeable).", "Maximum <num> charges (rechargeable).", tool->max_charges) :
                     string_format(ngettext("Maximum <num> charge (rechargeable) of %s", "Maximum <num> charges (rechargeable) of %s.", tool->max_charges),
-                    ammo_name(tool->ammo).c_str())), tool->max_charges));
+                    ammo_name(tool->ammo_name).c_str())), tool->max_charges));
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
+                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_name == "NULL") ?
                     ngettext("Maximum <num> charge (rechargeable) (doubled).", "Maximum <num> charges (rechargeable) (doubled).", tool->max_charges * 2) :
                     string_format(ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.", "Maximum <num> charges (rechargeable) (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo).c_str())), tool->max_charges * 2));
+                                  ammo_name(tool->ammo_name).c_str())), tool->max_charges * 2));
             } else if (has_flag("ATOMIC_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "",
-                                         ((tool->ammo == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
+                                         ((tool->ammo_name == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
                                           string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges * 100),
                                           ammo_name("plutonium").c_str())), tool->max_charges * 100));
             } else {
                 dump->push_back(iteminfo("TOOL", "",
-                    ((tool->ammo == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
+                    ((tool->ammo_name == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
                      string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges),
-                                   ammo_name(tool->ammo).c_str())), tool->max_charges));
+                                   ammo_name(tool->ammo_name).c_str())), tool->max_charges));
             }
         }
     }
@@ -1888,13 +1888,13 @@ int item::price() const
         tmp.charges = charges;
         ret += tmp.price();
     } else if( ttype != nullptr && !has_curammo() ) {
-        if( charges > 0 && ttype->ammo != "NULL" ) {
+        if( charges > 0 && ttype->ammo_name != "NULL" ) {
             // Tools sometimes don't have a curammo, when they should, e.g. flashlight
             // that has been reloaded, apparently item::reload does not set curammo for tools.
-            item tmp( default_ammo( ttype->ammo ), 0 );
+            item tmp( default_ammo( ttype->ammo_name ), 0 );
             tmp.charges = charges;
             ret += tmp.price();
-        } else if( ttype->def_charges > 0 && ttype->ammo == "NULL" ) {
+        } else if( ttype->def_charges > 0 && ttype->ammo_name == "NULL" ) {
             // If the tool uses specific ammo (like gasoline) it is handled above.
             // This case is for tools that have no ammo, but charges (e.g. spray can)
             // Full value when charges == default charges, otherwise scaled down
@@ -3456,7 +3456,7 @@ ammotype item::ammo_type() const
         if (has_flag("ATOMIC_AMMO")) {
             return "plutonium";
         }
-        return tool->ammo;
+        return tool->ammo_name;
     } else if (is_ammo()) {
         return type->ammo->type;
     } else if (is_gunmod()) {
@@ -3967,7 +3967,7 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
 
         if (is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(type);
-            ammo = tool->ammo;
+            ammo = tool->ammo_name;
             max = tool->max_charges;
         } else {
             ammo = type->gun->ammo;

@@ -13,6 +13,8 @@
 #include "field.h"
 #include "translations.h"
 #include "item_stack.h"
+#include "rng.h"
+
 #include <iosfwd>
 #include <unordered_set>
 #include <vector>

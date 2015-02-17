@@ -10412,7 +10412,7 @@ hint_rating player::rate_action_reload(item *it) {
         return HINT_GOOD;
     } else if (it->is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(it->type);
-        if (tool->ammo == "NULL") {
+        if (tool->ammo_name == "NULL") {
             return HINT_CANT;
         }
         return HINT_GOOD;
