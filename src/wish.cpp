@@ -443,7 +443,7 @@ void game::wishitem( player *p, int x, int y)
         return;
     }
     const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
-    int amount = 1;
+    int prev_amount, amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
@@ -464,6 +464,7 @@ void game::wishitem( player *p, int x, int y)
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
+            prev_amount = amount;
             if (p != NULL) {
                 amount = std::atoi(
                              string_input_popup(_("How many?"), 20, to_string( amount ),
@@ -481,9 +482,14 @@ void game::wishitem( player *p, int x, int y)
                 m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';
             }
-            dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                _("Wish granted. Wish for more or hit 'q' to quit.");
+            if ( amount > 0 ) {
+                dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
+                    _("Wish granted. Wish for more or hit 'q' to quit.");
+            }
             uistate.wishitem_selected = wmenu.ret;
+            if ( !amount ) {
+                amount = prev_amount;
+            }
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
     delete wmenu.callback;
