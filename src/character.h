@@ -10,7 +10,7 @@
 class Character : public Creature
 {
     public:
-        virtual ~Character() override;
+        virtual ~Character() override = default;
 
         field_id bloodType() const;
         field_id gibType() const;
@@ -302,9 +302,7 @@ class Character : public Creature
         std::map<const Skill*, SkillLevel> _skills;
 
         std::map<std::string, char> trait_keys;
-        
-        bool underwater;
-        
+               
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
