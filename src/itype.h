@@ -507,13 +507,14 @@ public:
 
     itype() : id("null"), price(0), name("none"), name_plural("none") {}
 
-    itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+    itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,
           std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
-          phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
-          signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
-        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor),
-        materials(pmaterials), phase(pphase), volume(pvolume), weight(pweight),
-        melee_dam(pmelee_dam), melee_cut(pmelee_cut), m_to_hit(pm_to_hit) { }
+          phase_id pphase, unsigned pvolume, unsigned pweight, int pmelee_dam,
+          int pmelee_cut, int pm_to_hit) : id(std::move(pid)), name(std::move(pname)),
+          name_plural(std::move(pname_plural)), description(std::move(pdes)),
+          materials(std::move(pmaterials)), phase(pphase), price(pprice), volume(pvolume),
+          weight(pweight), melee_dam(pmelee_dam), melee_cut(pmelee_cut), m_to_hit(pm_to_hit),
+          color(pcolor), sym(psym) { }
 
     virtual ~itype() = default;
 };
