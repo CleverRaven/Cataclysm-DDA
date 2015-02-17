@@ -505,7 +505,7 @@ public:
     const use_function *get_use( const std::string &iuse_name ) const;
     int invoke( player *p, item *it, bool active, point pos );
 
-    itype() : id("null"), price(0), name("none"), name_plural("none") {}
+    itype() : id("null"), name("none"), name_plural("none") {}
 
     itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,
           std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
