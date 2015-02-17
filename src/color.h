@@ -181,16 +181,15 @@ nc_color magenta_background(nc_color c);
 nc_color cyan_background(nc_color c);
 nc_color rand_color();
 
-nc_color color_from_string(std::string color);
-std::string string_from_color(nc_color color);
-nc_color bgcolor_from_string(std::string color);
-nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
+nc_color color_from_string(std::string const &color);
+std::string const& string_from_color(nc_color color);
+nc_color bgcolor_from_string(std::string const &color);
+nc_color get_color_from_tag(const std::string &s, nc_color base_color);
 
 void setattr(nc_color &col, col_attribute attr);
 void load_colors(JsonObject &jo);
-void init_colormap();
 
-nc_color get_note_color(std::string note_id);
+nc_color get_note_color(std::string const &note_id);
 std::list<std::pair<std::string, std::string>> get_note_color_names();
 
 #endif

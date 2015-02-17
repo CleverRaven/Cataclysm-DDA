@@ -404,11 +404,11 @@ public:
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true) const;
 
 // returns index of part, inner to given, with certain flag, or -1
-    int part_with_feature (int p, const std::string &f, bool unbroken = true);
-    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
+    int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -442,6 +442,11 @@ public:
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, const vpart_bitflags &f) const;
+
+// Returns the obstacle that shares location with this part (useful in some map code)
+// Open doors don't count as obstacles, but closed do
+// Broken parts are also never obstacles
+    int obstacle_at_part( int p ) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);

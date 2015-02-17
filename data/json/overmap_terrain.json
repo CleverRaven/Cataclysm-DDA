@@ -4402,7 +4402,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_cabin",
-        "name" : "bandit cabin",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4410,7 +4410,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_1",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4418,7 +4418,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_2",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4426,7 +4426,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_3",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4434,7 +4434,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_4",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,

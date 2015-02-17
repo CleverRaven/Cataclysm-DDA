@@ -251,8 +251,8 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
     } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up);
-        if(!g->u.can_pickVolume( newit.volume())) {
-            if(newit.charges > 0) {
+        if( newit.charges > 0) {
+            if(!g->u.can_pickVolume( newit.volume())) {
                 if(quivered > 0) {
                     //update the charges for the item that gets re-added to the game map
                     quantity = quivered;
@@ -264,9 +264,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                                              "There's no room in your inventory for the %s.",
                                              newit.charges), newit.tname(newit.charges).c_str());
                 }
-            }
-        } else {
-            if (newit.charges > 0) {
+            } else {
                 //add to inventory instead
                 item &it = g->u.i_add(newit);
                 picked_up = true;
