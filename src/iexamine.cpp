@@ -2410,8 +2410,8 @@ itype *furn_t::crafting_pseudo_item_type() const
 itype *furn_t::crafting_ammo_item_type() const
 {
     const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
-    if (toolt != NULL && toolt->ammo_name != "NULL") {
-        const std::string ammoid = default_ammo(toolt->ammo_name);
+    if (toolt != NULL && toolt->ammo_id != "NULL") {
+        const std::string ammoid = default_ammo(toolt->ammo_id);
         return item::find_type( ammoid );
     }
     return NULL;

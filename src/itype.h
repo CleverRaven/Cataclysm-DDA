@@ -544,17 +544,17 @@ struct it_comest : itype {
 
     it_comest() = default;
 
-    virtual bool is_food() const override
+    bool is_food() const override
     {
         return true;
     }
 
-    virtual std::string get_item_type_string() const override
+    std::string get_item_type_string() const override
     {
         return "FOOD";
     }
 
-    virtual bool count_by_charges() const override
+    bool count_by_charges() const override
     {
         if (phase == LIQUID) {
             return true;
@@ -565,7 +565,7 @@ struct it_comest : itype {
 };
 
 struct it_tool : itype {
-    std::string ammo_name;
+    std::string ammo_id;
     std::string revert_to;
     std::string subtype;
 
@@ -576,17 +576,17 @@ struct it_tool : itype {
 
     it_tool() = default;
 
-    virtual bool is_tool() const override
+    bool is_tool() const override
     {
         return true;
     }
 
-    virtual bool is_artifact() const override
+    bool is_artifact() const override
     {
         return false;
     }
 
-    virtual std::string get_item_type_string() const override
+    std::string get_item_type_string() const override
     {
         return "TOOL";
     }

@@ -6715,7 +6715,7 @@ void game::emp_blast(int x, int y)
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_name == "battery" ) {
+        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
             it->charges = 0;
         }
     }
@@ -10015,7 +10015,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-            ammo = tool->ammo_name;
+            ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
             ammo = cont->type->gun->ammo;
@@ -10100,7 +10100,7 @@ int game::move_liquid(item &liquid)
 
             if (cont->is_tool()) {
                 it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-                ammo = tool->ammo_name;
+                ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
                 ammo = cont->type->gun->ammo;
@@ -11025,7 +11025,7 @@ void game::reload(int pos)
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
 
         // see if its actually reloadable.
-        if (tool->ammo_name == "NULL") {
+        if (tool->ammo_id == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11038,7 +11038,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_name).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
             return;
         }
 
