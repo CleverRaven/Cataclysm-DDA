@@ -836,8 +836,7 @@ void player::mutate()
         // ...that we have...
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
-            for (size_t i = 0; i < base_mdata.replacements.size(); i++) {
-                std::string mutation = base_mdata.replacements[i];
+            for( auto &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation_data[mutation].valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
@@ -847,8 +846,7 @@ void player::mutate()
             }
 
             // ...consider the mutations that add to it.
-            for (size_t i = 0; i < base_mdata.additions.size(); i++) {
-                std::string mutation = base_mdata.additions[i];
+            for( auto &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation_data[mutation].valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
