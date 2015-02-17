@@ -2489,14 +2489,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::string race;
         for( auto &mut : my_mutations ) {
-            traitslist.push_back( mut );
-            for( auto &elem : traitslist ) {
-                if( mutation_data[elem].threshold ) {
-                    race = mutation_data[elem].name;
-                    break;
-                }
-            }
-            if( !race.empty() ) {
+            auto &mdata = mutation_data[mut];
+            if( mdata.threshold ) {
+                race = mdata.name;
                 break;
             }
         }
