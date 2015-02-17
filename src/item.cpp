@@ -1078,7 +1078,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 dump->push_back(iteminfo("TOOL", "",
                                          ((tool->ammo_id == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
                                           string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges * 100),
-                                          ammo_name("plutonium").c_str())), tool->max_charges * 100));
+                                          ammo_id("plutonium").c_str())), tool->max_charges * 100));
             } else {
                 dump->push_back(iteminfo("TOOL", "",
                     ((tool->ammo_name == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
