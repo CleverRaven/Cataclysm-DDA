@@ -4237,6 +4237,17 @@ void item::detonate(point p) const
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
+bool item_compare_by_charges( const item *left, const item *right)
+{
+    if(left->contents.empty()) {
+        return false;
+    } else if( right->contents.empty()) {
+        return true;
+    } else {
+        return right->contents[0].charges < left->contents[0].charges;
+    }
+}
+
 //return value is number of arrows/bolts quivered
 int item::quiver_store_arrow( item &arrow)
 {
@@ -4253,7 +4264,7 @@ int item::quiver_store_arrow( item &arrow)
         return 0;
     }
 
-    int max_arrows = max_charges_from_flag( "QUIVER");
+    long max_arrows = (long)max_charges_from_flag( "QUIVER");
     if( !contents.empty() && contents[0].charges >= max_arrows) {
         return 0;
     }
@@ -4261,12 +4272,12 @@ int item::quiver_store_arrow( item &arrow)
     // check ends, now store.
     if( contents.empty()) {
         item quivered_arrow( arrow);
-        quivered_arrow.charges = std::min( max_arrows, (int)arrow.charges);
+        quivered_arrow.charges = std::min( max_arrows, arrow.charges);
         put_in( quivered_arrow);
         arrow.charges -= quivered_arrow.charges;
         return quivered_arrow.charges;
     } else {
-        int quivered = std::min( max_arrows - (int)contents[0].charges, (int)arrow.charges);
+        int quivered = std::min( max_arrows - contents[0].charges, arrow.charges);
         contents[0].charges += quivered;
         arrow.charges -= quivered;
         return quivered;
