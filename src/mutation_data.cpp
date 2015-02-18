@@ -40,9 +40,11 @@ static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unord
 
 void load_mutation(JsonObject &jsobj)
 {
-    trait new_trait;
+    const std::string id = jsobj.get_string( "id" );
+    mutation_branch &new_mut = mutation_data[id];
+    trait &new_trait = traits[id];
+
     JsonArray jsarr;
-    std::string id = jsobj.get_string("id");
     new_trait.id = id;
     new_trait.name = _(jsobj.get_string("name").c_str());
     new_trait.description = _(jsobj.get_string("description").c_str());
@@ -59,22 +61,19 @@ void load_mutation(JsonObject &jsobj)
     new_trait.fatigue = jsobj.get_bool("fatigue",false);
     new_trait.charge = 0;
 
-
-    traits[id] = new_trait;
-
-    mutation_data[id].valid = jsobj.get_bool("valid", true);
-    mutation_data[id].purifiable = jsobj.get_bool("purifiable", true);
-    mutation_data[id].initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
-    mutation_data[id].threshold = jsobj.get_bool("threshold", false);
-    mutation_data[id].profession = jsobj.get_bool("profession", false);
+    new_mut.valid = jsobj.get_bool("valid", true);
+    new_mut.purifiable = jsobj.get_bool("purifiable", true);
+    new_mut.initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
+    new_mut.threshold = jsobj.get_bool("threshold", false);
+    new_mut.profession = jsobj.get_bool("profession", false);
     
-    load_mutation_mods(jsobj, "passive_mods", mutation_data[id].mods);
+    load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
-    load_mutation_mods(jsobj, "active_mods", mutation_data[id].mods); */
+    load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
     jsarr = jsobj.get_array("prereqs");
     while (jsarr.has_more()) {
-        mutation_data[id].prereqs.push_back(jsarr.next_string());
+        new_mut.prereqs.push_back(jsarr.next_string());
     }
     // Helps to be able to have a trait require more than one other trait
     // (Individual prereq-lists are "OR", not "AND".)
@@ -83,30 +82,30 @@ void load_mutation(JsonObject &jsobj)
     // These are additional to the first list.
     jsarr = jsobj.get_array("prereqs2");
     while (jsarr.has_more()) {
-        mutation_data[id].prereqs2.push_back(jsarr.next_string());
+        new_mut.prereqs2.push_back(jsarr.next_string());
     }
     // Dedicated-purpose prereq slot for Threshold mutations
     jsarr = jsobj.get_array("threshreq");
     // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
     while (jsarr.has_more()) {
-        mutation_data[id].threshreq.push_back(jsarr.next_string());
+        new_mut.threshreq.push_back(jsarr.next_string());
     }
     jsarr = jsobj.get_array("cancels");
     while (jsarr.has_more()) {
-        mutation_data[id].cancels.push_back(jsarr.next_string());
+        new_mut.cancels.push_back(jsarr.next_string());
     }
     jsarr = jsobj.get_array("changes_to");
     while (jsarr.has_more()) {
-        mutation_data[id].replacements.push_back(jsarr.next_string());
+        new_mut.replacements.push_back(jsarr.next_string());
     }
     jsarr = jsobj.get_array("leads_to");
     while (jsarr.has_more()) {
-        mutation_data[id].additions.push_back(jsarr.next_string());
+        new_mut.additions.push_back(jsarr.next_string());
     }
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();
-        mutation_data[id].category.push_back(s);
+        new_mut.category.push_back(s);
         mutations_category[s].push_back(id);
     }
     jsarr = jsobj.get_array("wet_protection");
@@ -117,8 +116,7 @@ void load_mutation(JsonObject &jsobj)
         int neutral = jo.get_int("neutral", 0);
         int good = jo.get_int("good", 0);
         tripoint protect = tripoint(ignored, neutral, good);
-        mutation_data[id].protection[part_id] =
-            mutation_wet(body_parts[part_id], protect);
+        new_mut.protection[part_id] = mutation_wet(body_parts[part_id], protect);
     }
 }
 
