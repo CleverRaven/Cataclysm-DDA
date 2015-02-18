@@ -588,7 +588,7 @@ void initOptions()
     optionNames["cs"] = R"(Čeština)";
     optionNames["en"] = R"(English)";
     optionNames["fi"] = R"(Suomi)";
-    optionNames["fr_FR"] =  R"(Français (France))";
+    optionNames["fr"] =  R"(Français (France))";
     optionNames["de_DE"] = R"(Deutsch (Deutschland))";
     optionNames["it_IT"] = R"(Italiano)";
     optionNames["el"] = R"(Ελληνικά)";
@@ -605,7 +605,7 @@ void initOptions()
     optionNames["zh_CN"] = R"(中文(天朝))";
     optionNames["zh_TW"] = R"(中文(台灣))";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it_IT,el,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr,de_DE,it_IT,el,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
