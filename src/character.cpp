@@ -562,7 +562,9 @@ SkillLevel const& Character::get_skill_level(const Skill* _skill) const
             return elem.second;
         }
     }
-    return SkillLevel();
+
+    static SkillLevel const dummy_result;
+    return dummy_result;
 }
 
 SkillLevel const& Character::get_skill_level(const Skill &_skill) const
