@@ -296,8 +296,6 @@ class Character : public Creature
             char key = ' ';
             /** TODO: I don't know who I am - comment me. */
             int charge = 0;
-            /** TODO: I don't know who I am - comment me. */
-            int cooldown = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
             // -- serialization stuff, see savegame_json.cpp

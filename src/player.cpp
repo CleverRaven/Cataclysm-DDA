@@ -7060,7 +7060,6 @@ void player::suffer()
                 if (hunger >= 700) { // Well into Famished
                     add_msg(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = mdata.cost;
                 }
             }
             if (mdata.thirst){
@@ -7068,7 +7067,6 @@ void player::suffer()
                 if (thirst >= 260) { // Well into Dehydrated
                     add_msg(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = mdata.cost;
                 }
             }
             if (mdata.fatigue){
@@ -7076,7 +7074,6 @@ void player::suffer()
                 if (fatigue >= 575) { // Exhausted
                     add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
-                    tdata.cooldown = mdata.cost;
                 }
             }
             

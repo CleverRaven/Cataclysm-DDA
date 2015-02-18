@@ -107,7 +107,6 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "key", key );
     json.member( "charge", charge );
-    json.member( "cooldown", cooldown );
     json.member( "powered", powered );
     json.end_object();
 }
@@ -117,7 +116,6 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     data.read( "key", key );
     data.read( "charge", charge );
-    data.read( "cooldown", cooldown );
     data.read( "powered", powered );
 }
 
