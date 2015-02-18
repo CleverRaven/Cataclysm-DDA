@@ -4251,6 +4251,10 @@ bool item_compare_by_charges( const item *left, const item *right)
 //return value is number of arrows/bolts quivered
 int item::quiver_store_arrow( item &arrow)
 {
+    if( arrow.charges <= 0 ) {
+        return 0;
+    }
+
     //item is valid quiver to store items in if it satisfies these conditions:
     // a) is a quiver
     // b) has some arrow already, but same type is ok
