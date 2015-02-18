@@ -23,10 +23,16 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-#define num_fuel_types 7
-extern const ammotype fuel_types[num_fuel_types];
-extern const nc_color fuel_colors[num_fuel_types];
-extern const int fuel_coeff[num_fuel_types];
+struct fuel_type {
+    /** Id of the fuel type, which is also a valid ammo type id */
+    ammotype id;
+    /** Color when displaying information about. */
+    nc_color color;
+    /** See @ref vehicle::consume_fuel */
+    int coeff;
+};
+extern const std::array<fuel_type, 7> fuel_types;
+
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
