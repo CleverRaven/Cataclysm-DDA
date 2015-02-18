@@ -10796,13 +10796,8 @@ bool player::invoke_item( item* used )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
     for( const auto &um : used->type->use_methods ) {
-        if( um.get_actor_ptr() == nullptr ) {
-            debugmsg( "Multi-use items with cpp iuse_functions not supported." );
-            return false;
-        }
-
-        bool usable = um.get_actor_ptr()->can_use( this, used, false, pos() );
-        const std::string &aname = item_action_generator::generator().get_action_name( um );
+        bool usable = um.can_call( this, used, false, pos() );
+        const std::string &aname = um.get_name();
         umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
         num_total++;
     }
@@ -10814,7 +10809,7 @@ bool player::invoke_item( item* used )
         return false;
     }
 
-    const std::string &method = used->type->use_methods[choice].get_actor_ptr()->type;
+    const std::string &method = used->type->use_methods[choice].get_type_name();
     long charges_used = used->type->invoke( this, used, pos(), method );
     return consume_charges( used, charges_used );
 }

@@ -60,7 +60,7 @@ long itype::tick( player *p, item *it, point pos ) const
 
 long itype::invoke( player *p, item *it, point pos ) const
 {
-    if( use_methods.empty() ) {
+    if( !has_use() ) {
         return 0;
     }
 
@@ -69,10 +69,6 @@ long itype::invoke( player *p, item *it, point pos ) const
 
 long itype::invoke( player *p, item *it, point pos, const std::string &iuse_name ) const
 {
-    if( !has_use() ) {
-        return 0;
-    }
-    
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",

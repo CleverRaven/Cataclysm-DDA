@@ -146,7 +146,7 @@ namespace iuse {
     int vortex              (player *, item *, bool, point);
     int dog_whistle         (player *, item *, bool, point);
     int vacutainer          (player *, item *, bool, point);
-    static int cut_log_into_planks(player *p, item *it);
+    int cut_log_into_planks (player *p, item *it);
     int lumber              (player *, item *, bool, point);
     int oxytorch            (player *, item *, bool, point);
     int hacksaw             (player *, item *, bool, point);
@@ -282,6 +282,17 @@ public:
             return nullptr;
         }
         return actor_ptr;
+    }
+
+    // Gets actor->type or finds own type in item_factory::iuse_function_list
+    std::string get_type_name() const;
+    // Returns translated name of the action
+    std::string get_name() const;
+
+    bool can_call(const player *p, const item *it, bool t, const point &pos) const
+    {
+        auto actor = get_actor_ptr();
+        return actor == nullptr || actor->can_use( p, it, t, pos );
     }
 
     void operator=(use_function_pointer f);

@@ -771,48 +771,16 @@ void firestarter_actor::resolve_firestarter_use( const player *p, const item *, 
 // TODO: Move prep_firestarter_use here
 long firestarter_actor::use( player *p, item *it, bool t, point pos ) const
 {
-    if (it->has_flag("REFILLABLE_LIGHTER")) {
-        if( p->is_underwater() ) {
-            p->add_msg_if_player(_("The lighter is extinguished."));
-            it->make("ref_lighter");
-            it->active = false;
-            return 0;
-        }
-        if (t) {
-            if (it->charges < it->type->charges_to_use()) {
-                p->add_msg_if_player(_("The lighter burns out."));
-                it->make("ref_lighter");
-                it->active = false;
-            }
-        } else if (it->charges <= 0) {
-            p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
-        } else { // Turning it off
-            int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
-                              _("light something"), _("cancel"), NULL);
-            switch (choice) {
-                case 1: {
-                    p->add_msg_if_player(_("You extinguish the lighter."));
-                    it->make("ref_lighter");
-                    it->active = false;
-                    return 0;
-                }
-                break;
-                case 2:
-                    if( prep_firestarter_use(p, it, pos) ) {
-                        p->moves -= moves_cost;
-                        resolve_firestarter_use(p, it, pos);
-                        return it->type->charges_to_use();
-                    }
-            }
-        }
-        return it->type->charges_to_use();
-    } else { // common ligher or matches
-        if( prep_firestarter_use(p, it, pos) ) {
-            p->moves -= moves_cost;
-            resolve_firestarter_use( p, it, pos );
-            return it->type->charges_to_use();
-        }
+    if( t ) {
+        return 0;
     }
+
+    if( prep_firestarter_use(p, it, pos) ) {
+        p->moves -= moves_cost;
+        resolve_firestarter_use( p, it, pos );
+        return it->type->charges_to_use();
+    }
+
     return 0;
 }
 
@@ -913,8 +881,6 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     return true;
 }
-
-salvage_actor::~salvage_actor() {}
 
 void salvage_actor::load( JsonObject &obj )
 {

@@ -73,6 +73,10 @@
         "name" : "Smoke/snort meth"
     },{
         "type" : "item_action",
+        "id" : "TAZER",
+        "name" : "Taze something"
+    },{
+        "type" : "item_action",
         "id" : "ANTICONVULSANT",
         "name" : "Take anticonvulsant"
     },{

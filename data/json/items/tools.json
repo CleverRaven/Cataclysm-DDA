@@ -7445,14 +7445,20 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": {
-        "type": "transform",
-        "msg": "You flick the lighter.",
-        "target": "ref_lighter_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "Nothing happens."
-    }
+    "use_action": [
+        {
+            "type": "transform",
+            "msg": "You flick the lighter.",
+            "target": "ref_lighter_on",
+            "active": true,
+            "need_charges": 1,
+            "need_charges_msg": "Nothing happens."
+        },
+        {
+            "type": "firestarter",
+            "moves": 25
+        }
+    ]
   },
 
 {
@@ -7477,10 +7483,19 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": {
+    "use_action": [
+        {
             "type": "firestarter",
             "moves_cost": 15
-    }
+        },
+        {
+            "type": "auto_transform",
+            "msg": "You extinguish the lighter.",
+            "when_underwater": "The lighter is extinguished.",
+            "target": "ref_lighter_off",
+            "active": false
+        }
+    ]
   },
 
   {

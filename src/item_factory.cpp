@@ -1508,6 +1508,21 @@ const use_function *Item_factory::get_iuse(const std::string &id)
     return nullptr;
 }
 
+const std::string &Item_factory::inverse_get_iuse( const use_function *fun )
+{
+    // Ugly and slow - compares values to get the key
+    // Don't use when performance matters
+    for( const auto &pr : iuse_function_list ) {
+        if( pr.second == *fun ) {
+            return pr.first;
+        }
+    }
+
+    debugmsg( "Tried to get id of a function not in iuse_function_list" );
+    const static std::string errstr("ERROR");
+    return errstr;
+}
+
 const std::string &Item_factory::calc_category( const itype *it )
 {
     if( it->gun && !it->gunmod ) {

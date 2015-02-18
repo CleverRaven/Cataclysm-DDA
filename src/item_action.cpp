@@ -15,6 +15,7 @@
 #include <iterator>
 
 static item_action nullaction;
+static const std::string errstring("ERROR");
 
 int clamp(int value, int low, int high)
 {
@@ -125,17 +126,20 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
     return candidates;
 }
 
-const std::string &item_action_generator::get_action_name( const item_action_id &id ) const
+std::string item_action_generator::get_action_name( const item_action_id &id ) const
 {
-    return get_action( id ).name;
+    const auto &act = get_action( id );
+    if( !act.name.empty() ) {
+        return _(act.name.c_str());
+    }
+
+    return id;
 }
 
-const std::string &item_action_generator::get_action_name( const use_function &fun ) const
+std::string item_action_generator::get_action_name( const iuse_actor *actor ) const
 {
-    static const std::string errstring("ERROR");
-    const auto actor = fun.get_actor_ptr();
     if( actor == nullptr ) {
-        debugmsg( "Multiple use_function can only have iuse_actor actions!" );
+        debugmsg( "Tried to get name of a null iuse_actor" );
         return errstring;
     }
 
@@ -151,6 +155,21 @@ const item_action &item_action_generator::get_action( const item_action_id &id )
 
     debugmsg( "Couldn't find item action named %s", id.c_str() );
     return nullaction;
+}
+
+void item_action_generator::load_item_action(JsonObject &jo)
+{
+    item_action ia;
+
+    ia.id = jo.get_string( "id" );
+    ia.name = jo.get_string( "name", "" );
+    if( !ia.name.empty() ) {
+        ia.name = _( ia.name.c_str() );
+    } else {
+        ia.name = ia.id;
+    }
+
+    item_actions[ia.id] = ia;
 }
 
 void game::item_action_menu()
@@ -214,17 +233,37 @@ void game::item_action_menu()
     u.invoke_item( iter->second, iter->first );
 }
 
-void item_action_generator::load_item_action(JsonObject &jo)
+std::string use_function::get_type_name() const
 {
-    item_action ia;
-
-    ia.id = jo.get_string( "id" );
-    ia.name = jo.get_string( "name", "" );
-    if( !ia.name.empty() ) {
-        ia.name = _( ia.name.c_str() );
-    } else {
-        ia.name = ia.id;
+    switch( function_type ) {
+    case USE_FUNCTION_CPP:
+        return item_controller->inverse_get_iuse( this );
+    case USE_FUNCTION_ACTOR_PTR:
+        return get_actor_ptr()->type;
+    case USE_FUNCTION_LUA:
+        debugmsg( "Tried to get type name of a lua function (not implemented yet)" );
+        return errstring;
+    case USE_FUNCTION_NONE:
+        return errstring;
+    default:
+        debugmsg( "Tried to get type name of a badly typed iuse_function." );
+        return errstring;
     }
-
-    item_actions[ia.id] = ia;
 }
+
+std::string use_function::get_name() const
+{
+    switch( function_type ) {
+    case USE_FUNCTION_CPP:
+    case USE_FUNCTION_ACTOR_PTR:
+        return item_action_generator::generator().get_action_name( get_type_name() );
+    case USE_FUNCTION_LUA:
+        return "Lua";
+    case USE_FUNCTION_NONE:
+        return "None";
+    default:
+        debugmsg( "Tried to get type name of a badly typed iuse_function." );
+        return errstring;
+    }
+}
+

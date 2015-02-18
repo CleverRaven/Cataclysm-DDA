@@ -69,6 +69,10 @@ class Item_factory
          * Get the iuse function function of the given name.
          */
         const use_function *get_iuse( const std::string &id );
+        /**
+         * Gets function ID from its name.
+         */
+        const std::string &inverse_get_iuse( const use_function *fun );
 
 
         /**
