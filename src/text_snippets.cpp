@@ -43,9 +43,9 @@ void snippet_library::add_snippet_from_json( const std::string &category, JsonOb
 
 int snippet_library::add_snippet(const std::string &category, const std::string &text)
 {
-    int hash = djb2_hash( (const unsigned char *)text.c_str() );
-    snippets.insert( std::pair<int, std::string>(hash, text) );
-    categories.insert( std::pair<std::string, int>(category, hash) );
+    auto const hash = static_cast<int>(std::hash<std::string> {}(text));
+    snippets.insert( make_pair(hash, text) );
+    categories.insert( make_pair(category, hash) );
     return hash;
 }
 
