@@ -71,37 +71,19 @@ void load_mutation(JsonObject &jsobj)
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    jsarr = jsobj.get_array("prereqs");
-    while (jsarr.has_more()) {
-        new_mut.prereqs.push_back(jsarr.next_string());
-    }
+    new_mut.prereqs = jsobj.get_string_array( "prereqs" );
     // Helps to be able to have a trait require more than one other trait
     // (Individual prereq-lists are "OR", not "AND".)
     // Traits shoud NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
     // These are additional to the first list.
-    jsarr = jsobj.get_array("prereqs2");
-    while (jsarr.has_more()) {
-        new_mut.prereqs2.push_back(jsarr.next_string());
-    }
+    new_mut.prereqs2 = jsobj.get_string_array( "prereqs2" );
     // Dedicated-purpose prereq slot for Threshold mutations
-    jsarr = jsobj.get_array("threshreq");
     // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
-    while (jsarr.has_more()) {
-        new_mut.threshreq.push_back(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("cancels");
-    while (jsarr.has_more()) {
-        new_mut.cancels.push_back(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("changes_to");
-    while (jsarr.has_more()) {
-        new_mut.replacements.push_back(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("leads_to");
-    while (jsarr.has_more()) {
-        new_mut.additions.push_back(jsarr.next_string());
-    }
+    new_mut.threshreq = jsobj.get_string_array( "threshreq" );
+    new_mut.cancels = jsobj.get_string_array( "cancels" );
+    new_mut.replacements = jsobj.get_string_array( "changes_to" );
+    new_mut.additions = jsobj.get_string_array( "leads_to" );
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();
