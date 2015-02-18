@@ -803,7 +803,7 @@
     "color": "dark_gray",
     "name": "S&W 629",
     "name_plural": "S&W 629",
-    "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powwerful handgun in the world any more, it could still blow a zombie's head clean off.",
+    "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "price": 86100,
     "material": ["steel", "plastic"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
