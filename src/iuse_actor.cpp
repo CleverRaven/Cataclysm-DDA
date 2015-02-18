@@ -1105,13 +1105,13 @@ void inscribe_actor::load( JsonObject &obj )
     } else if( material_restricted ) {
         material_whitelist.reserve( 7 );
         // Default to old carveable materials
-        material_whitelist.emplace_back("wood");
-        material_whitelist.emplace_back("plastic");
-        material_whitelist.emplace_back("glass");
-        material_whitelist.emplace_back("chitin");
-        material_whitelist.emplace_back("iron");
-        material_whitelist.emplace_back("steel");
-        material_whitelist.emplace_back("silver");
+        material_whitelist.push_back("wood");
+        material_whitelist.push_back("plastic");
+        material_whitelist.push_back("glass");
+        material_whitelist.push_back("chitin");
+        material_whitelist.push_back("iron");
+        material_whitelist.push_back("steel");
+        material_whitelist.push_back("silver");
     }
 
     if( !on_items && on_terrain ) {
