@@ -1,38 +1,68 @@
 #include "live_view.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "options.h"
+#include "translations.h"
 
-#define START_LINE 1
-#define START_COLUMN 1
+#include <map>
+#include <string>
 
-live_view::live_view() : compact_view(false), w_live_view(NULL),
-    enabled(false), inuse(false), last_height(-1)
+namespace {
+constexpr int START_LINE = 1;
+constexpr int START_COLUMN = 1;
+
+void print_items(WINDOW *const w, const map_stack &items, int &line)
 {
-
-}
-
-live_view::~live_view()
-{
-    delwin(w_live_view);
-}
-
-void live_view::init(int start_x, int start_y, int width, int height)
-{
-    enabled = true;
-    if (w_live_view != NULL) {
-        delwin(w_live_view);
+    std::map<std::string, int> item_names;
+    for (auto &item : items) {
+        ++item_names[item.tname()];
     }
 
-    this->width = width;
-    this->height = height;
-    w_live_view = newwin(height, width, start_y, start_x);
+    int const last_line = getmaxy(w) - START_LINE - 1;
+    int const max_w = getmaxx(w) - START_COLUMN - 1; // border
+    
+    for (auto const &it : item_names) {
+        if (line == last_line) {
+            mvwprintz(w, line++, START_COLUMN, c_yellow, _("More items here..."));
+            break;
+        }
+
+        if (it.second > 1) {
+            //~ item name [quantity]
+            trim_and_print(w, line++, START_COLUMN, max_w, c_white, _("%s [%d]"),
+                it.first.c_str(), it.second);
+        } else {
+            trim_and_print(w, line++, START_COLUMN, max_w, c_white, "%s", it.first.c_str());
+        }
+    }
+}
+} //namespace
+
+bool live_view::is_compact() const
+{
+    return compact_view;
+}
+
+void live_view::set_compact(bool const value)
+{
+    compact_view = value;
+}
+
+void live_view::init(int const start_x, int const start_y, int const w, int const h)
+{
+    enabled = true;
+    width   = w;
+    height  = h;
+
+    w_live_view.reset(newwin(height, width, start_y, start_x));
+
     hide();
 }
 
 void live_view::show(const int x, const int y)
 {
-    if (!enabled || w_live_view == NULL) {
+    if (!enabled || !w_live_view) {
         return;
     }
 
@@ -40,25 +70,25 @@ void live_view::show(const int x, const int y)
 
     if (!g->u.sees(x, y)) {
         if (did_hide) {
-            wrefresh(w_live_view);
+            wrefresh(*this);
         }
         return;
     }
 
     map &m = g->m;
-    mvwprintz(w_live_view, 0, START_COLUMN, c_white, "< ");
-    wprintz(w_live_view, c_green, _("Mouse View"));
-    wprintz(w_live_view, c_white, " >");
+    mvwprintz(*this, 0, START_COLUMN, c_white, "< ");
+    wprintz(*this, c_green, _("Mouse View"));
+    wprintz(*this, c_white, " >");
     int line = START_LINE;
 
-    g->print_all_tile_info(x, y, w_live_view, START_COLUMN, line, true);
+    g->print_all_tile_info(x, y, *this, START_COLUMN, line, true);
 
     if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
         if(g->u.has_effect("blind")) {
-            mvwprintz(w_live_view, line++, START_COLUMN, c_yellow,
+            mvwprintz(*this, line++, START_COLUMN, c_yellow,
                       _("There's something here, but you can't see what it is."));
         } else {
-            print_items(m.i_at(x, y), line);
+            print_items(*this, m.i_at(x, y), line);
         }
     }
 
@@ -77,14 +107,14 @@ void live_view::show(const int x, const int y)
     last_height = w_live_view->height;
 #endif
 
-    draw_border(w_live_view);
+    draw_border(*this);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
 #endif
 
     inuse = true;
-    wrefresh(w_live_view);
+    wrefresh(*this);
 }
 
 bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
@@ -102,7 +132,7 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
     }
 #endif
 
-    werase(w_live_view);
+    werase(*this);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
@@ -111,35 +141,8 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
     inuse = false;
     last_height = -1;
     if (refresh) {
-        wrefresh(w_live_view);
+        wrefresh(*this);
     }
 
     return true;
-}
-
-void live_view::print_items(const map_stack &items, int &line) const
-{
-    std::map<std::string, int> item_names;
-    for( auto &item : items ) {
-        std::string name = item.tname();
-        if (item_names.find(name) == item_names.end()) {
-            item_names[name] = 0;
-        }
-        item_names[name] += 1;
-    }
-
-    int last_line = height - START_LINE - 1;
-    bool will_overflow = line - 1 + (int)item_names.size() > last_line;
-
-    for (std::map<std::string, int>::iterator it = item_names.begin();
-         it != item_names.end() && (!will_overflow || line < last_line); it++) {
-        mvwprintz(w_live_view, line++, START_COLUMN, c_white, it->first.c_str());
-        if (it->second > 1) {
-            wprintz(w_live_view, c_white, _(" [%d]"), it->second);
-        }
-    }
-
-    if (will_overflow) {
-        mvwprintz(w_live_view, line++, START_COLUMN, c_yellow, _("More items here..."));
-    }
 }

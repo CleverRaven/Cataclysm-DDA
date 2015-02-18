@@ -121,10 +121,15 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base
     wmove( w, x, y );
     const auto color_segments = split_by_color( text );
     for( auto seg : color_segments ) {
-        if( !seg.empty() && seg[0] == '<' ) {
+        if( seg.empty() ) {
+            continue;
+        }
+
+        if( seg[0] == '<' ) {
             color = get_color_from_tag( seg, base_color );
             seg = rm_prefix( seg );
         }
+
         wprintz( w, color, "%s", seg.c_str() );
     }
 }
@@ -134,19 +139,19 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    std::string text = vstring_format(mes, ap);
     va_end(ap);
 
-    std::string sText = "";
+    std::string sText;
     if ( utf8_width( remove_color_tags( text ).c_str() ) > width ) {
 
         int iLength = 0;
-        std::string sTempText = "";
-        std::string sColor = "";
+        std::string sTempText;
+        std::string sColor;
 
         const auto color_segments = split_by_color( text );
         for( auto seg : color_segments ) {
-            sColor = "";
+            sColor.clear();
 
             if( !seg.empty() && ( seg.substr(0, 7) == "<color_" || seg.substr(0, 7) == "</color" ) ) {
                 sTempText = rm_prefix( seg );
@@ -175,7 +180,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
             }
         }
     } else {
-        sText = text;
+        sText = std::move(text);
     }
 
     print_colored_text(w, begin_y, begin_x, base_color, base_color, sText);
