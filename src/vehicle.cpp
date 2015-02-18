@@ -33,14 +33,24 @@ static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
 const std::array<fuel_type, 7> fuel_types = {
-    fuel_type { fuel_type_gasoline, c_ltred, 100 },
-    fuel_type { fuel_type_diesel, c_brown, 100 },
-    fuel_type { fuel_type_battery, c_yellow, 1 },
-    fuel_type { fuel_type_plutonium, c_ltgreen, 1 },
-    fuel_type { fuel_type_plasma, c_ltblue, 100 },
-    fuel_type { fuel_type_water, c_ltcyan, 1 },
-    fuel_type { fuel_type_muscle, c_white, 0 }
+    fuel_type { fuel_type_gasoline, c_ltred, 100, 1 },
+    fuel_type { fuel_type_diesel, c_brown, 100, 1 },
+    fuel_type { fuel_type_battery, c_yellow, 1, 1 },
+    fuel_type { fuel_type_plutonium, c_ltgreen, 1, 1000 },
+    fuel_type { fuel_type_plasma, c_ltblue, 100, 100 },
+    fuel_type { fuel_type_water, c_ltcyan, 1, 1 },
+    fuel_type { fuel_type_muscle, c_white, 0, 1 }
 };
+
+int fuel_charges_to_amount_factor( const ammotype &ftype )
+{
+    for( auto & ft : fuel_types ) {
+        if( ft.id == ftype ) {
+            return ft.charges_to_amount_factor;
+        }
+    }
+    return 1;
+}
 
 enum vehicle_controls {
  toggle_cruise_control,
@@ -5539,12 +5549,13 @@ void vehicle_part::properties_from_item( const item &used_item )
     hp = std::max( 1, health );
     // Transfer fuel from item to tank
     const ammotype &desired_liquid = vpinfo.fuel_type;
+    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
-        amount = std::min<int>( used_item.charges, vpinfo.size );
+        amount = std::min<int>( used_item.charges * fuel_per_charge, vpinfo.size );
     } else if( !used_item.contents.empty() ) {
         const item &liquid = used_item.contents[0];
         if( liquid.type->id == default_ammo( desired_liquid ) ) {
-            amount = std::min<int>( liquid.charges, vpinfo.size );
+            amount = std::min<int>( liquid.charges * fuel_per_charge, vpinfo.size );
         }
     }
 }
@@ -5583,12 +5594,15 @@ item vehicle_part::properties_to_item() const
     // Transfer fuel back to tank, but not to gun or it'll crash
     if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
+        const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
         if( desired_liquid == fuel_type_battery ) {
-            tmp.charges = amount;
+            tmp.charges = amount / fuel_per_charge;
         } else {
             item liquid( default_ammo( desired_liquid ), calendar::turn );
-            liquid.charges = amount;
-            tmp.put_in( liquid );
+            liquid.charges = amount / fuel_per_charge;
+            if( liquid.charges > 0 ) {
+                tmp.put_in( liquid );
+            }
         }
     }
     return tmp;

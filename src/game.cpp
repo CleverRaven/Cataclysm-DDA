@@ -7239,12 +7239,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         return true;
     }
 
-    int fuel_per_charge = 1; //default for gasoline
-    if (ftype == "plutonium") {
-        fuel_per_charge = 1000;
-    } else if (ftype == "plasma") {
-        fuel_per_charge = 100;
-    }
+    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     int max_fuel = part_info.size;
     int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
     if (charge_difference < 1) {
