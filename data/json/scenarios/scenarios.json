@@ -136,5 +136,14 @@
     "start_name": "Forest",
     "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack"],
     "allowed_locs" : ["forest"]
+    },{
+    "type": "scenario",
+    "ident": "arrested",
+    "name": "Arrested",
+    "points" : 0,
+    "description": "A criminal during your whole life, now the cataclysm arrived and you are in the Police Station, finally the fresh start you were hoping for.",
+    "start_name": "Arrested",
+    "professions" : ["unemployed", "scoundrel", "gangster"],
+    "allowed_locs" : ["police"]
     }
 ]
