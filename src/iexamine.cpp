@@ -2164,6 +2164,16 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
+    // Ask if there's something possibly more interesting than this shrub here
+    if( ( !m->i_at( examx, examy ).empty() ||
+          m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Forage through %s?"), m->tername(examx, examy).c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
+    }
+
     add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
