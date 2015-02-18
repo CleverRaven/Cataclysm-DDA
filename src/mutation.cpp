@@ -701,6 +701,10 @@ void player::mutate_towards(std::string mut)
             remove_mutation(removed);
             cancel.erase(cancel.begin() + i);
             i--;
+            // This checks for cases where one trait knocks out several others
+            // Probably a better way, but gets it Fixed Now--KA101
+            mutate_towards(mut);
+            return;
         }
     }
 
