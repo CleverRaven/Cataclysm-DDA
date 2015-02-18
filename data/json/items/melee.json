@@ -4591,6 +4591,23 @@
 	"bashing": 1,
 	"cutting": 0,
 	"to_hit": -2
+    },
+    {
+        "type":"GENERIC",
+        "id" : "spear_fork",
+        "name" : "fork spear",
+        "description" : "A wooden spear with a tip made of forks. Quite crude and held together by duct tape or a rag but still better than a wooden spear",
+        "weight" : 1000,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 5,
+        "bashing" : 5,
+        "cutting" : 14,
+        "flags" : ["SPEAR"],
+        "price" : 4800,
+        "qualities": [["COOK", 1]]
     }
-
 ]
