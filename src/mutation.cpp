@@ -888,29 +888,6 @@ void player::mutate_towards(std::string mut)
 
 void player::remove_mutation(std::string mut)
 {
-    // Check for dependant mutations first
-    std::vector<std::string> dependant;
-
-    for( auto &traits_iter : traits ) {
-        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs.size(); i++ ) {
-            if( mutation_data[traits_iter.first].prereqs[i] == traits_iter.first ) {
-                dependant.push_back( traits_iter.first );
-                break;
-            }
-        }
-        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs2.size(); i++ ) {
-            if( mutation_data[traits_iter.first].prereqs2[i] == traits_iter.first ) {
-                dependant.push_back( traits_iter.first );
-                break;
-            }
-        }
-    }
-
-    if (!dependant.empty()) {
-        remove_mutation(dependant[rng(0, dependant.size() - 1)]);
-        return;
-    }
-
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
     std::vector<std::string> originals = mutation_data[mut].prereqs;
