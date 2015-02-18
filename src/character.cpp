@@ -550,7 +550,12 @@ SkillLevel& Character::skillLevel(const Skill* _skill)
     return _skills[_skill];
 }
 
-SkillLevel Character::get_skill_level(const Skill* _skill) const
+SkillLevel& Character::skillLevel(Skill const &_skill)
+{
+    return skillLevel(&_skill);
+}
+
+SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
     for( const auto &elem : _skills ) {
         if( elem.first == _skill ) {
@@ -560,7 +565,12 @@ SkillLevel Character::get_skill_level(const Skill* _skill) const
     return SkillLevel();
 }
 
-SkillLevel Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const Skill &_skill) const
+{
+    return get_skill_level(&_skill);
+}
+
+SkillLevel const& Character::get_skill_level(const std::string &ident) const
 {
     const Skill* sk = Skill::skill(ident);
     return get_skill_level(sk);

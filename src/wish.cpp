@@ -502,20 +502,22 @@ void game::wishitem( player *p, int x, int y)
  */
 void game::wishskill(player *p)
 {
-
     const int skoffset = 1;
     uimenu skmenu;
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
-    int *origskills = new int[Skill::skills.size()] ;
+ 
+    std::vector<int> origskills;
+    origskills.reserve(Skill::skills.size());
 
-    for( auto &skill : Skill::skills ) {
-        int skill_id = ( skill )->id();
-        skmenu.addentry( skill_id + skoffset, true, -2, _( "@ %d: %s  " ),
-                         (int)p->skillLevel( skill ), ( skill )->name().c_str() );
-        origskills[skill_id] = (int)p->skillLevel( skill );
+    for (auto const &s : Skill::skills) {
+        auto const id    = static_cast<int>(s.id());
+        auto const level = static_cast<int>(p->skillLevel(s));
+        skmenu.addentry( id + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
+        origskills.push_back(level);
     }
+
     do {
         skmenu.query();
         int skill_id = -1;
@@ -524,7 +526,7 @@ void game::wishskill(player *p)
         if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
             if ( sksel >= 0 && sksel < (int)Skill::skills.size() ) {
                 skill_id = sksel;
-                skset = (int)p->skillLevel( Skill::skills[skill_id]) +
+                skset = (int)p->skillLevel( Skill::skills[skill_id] ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
@@ -535,7 +537,7 @@ void game::wishskill(player *p)
             sksetmenu.w_y = skmenu.w_y + 2;
             sksetmenu.w_height = skmenu.w_height - 4;
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( _("Set '%s' to.."), Skill::skills[skill_id]->ident().c_str() );
+            sksetmenu.settext( _("Set '%s' to.."), Skill::skills[skill_id].ident().c_str() );
             int skcur = (int)p->skillLevel(Skill::skills[skill_id]);
             sksetmenu.selected = skcur;
             for ( int i = 0; i < 21; i++ ) {
@@ -548,10 +550,10 @@ void game::wishskill(player *p)
         if ( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
             p->skillLevel( Skill::skills[skill_id] ).level(skset);
             skmenu.textformatted[0] = string_format(_("%s set to %d             "),
-                                                    Skill::skills[skill_id]->ident().c_str(),
+                                                    Skill::skills[skill_id].ident().c_str(),
                                                     (int)p->skillLevel(Skill::skills[skill_id])).substr(0, skmenu.w_width - 4);
             skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
-                    (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id]->ident().c_str() );
+                    (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id].ident().c_str() );
             skmenu.entries[skill_id + skoffset].text_color =
                 ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
@@ -573,7 +575,7 @@ void game::wishskill(player *p)
                     p->skillLevel( Skill::skills[skill_id] ).level( changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
                             (int)p->skillLevel(Skill::skills[skill_id]),
-                            Skill::skills[skill_id]->ident().c_str() );
+                            Skill::skills[skill_id].ident().c_str() );
                     skmenu.entries[skill_id + skoffset].text_color =
                         ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
@@ -582,5 +584,4 @@ void game::wishskill(player *p)
         }
     } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
                                     skmenu.keypress != KEY_ESCAPE ) );
-    delete[] origskills;
 }

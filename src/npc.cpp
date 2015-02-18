@@ -681,9 +681,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for( auto &skill : Skill::skills ) {
+  for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( skill, rng( 2, 4 ) );
+       boost_skill_level( &skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -940,24 +940,29 @@ void npc::place_on_map()
     position.y += y;
 }
 
-const Skill* npc::best_skill()
+const Skill* npc::best_skill() const
 {
- std::vector<const Skill*> best_skills;
- int highest = 0;
- for( auto &skill : Skill::skills ) {
-  //Should check to see if the skill has a "combat_skill" tag
-     if( ( skill )->is_combat_skill() ) {
-         if( skillLevel( skill ) > highest ) {
-             highest = skillLevel( skill );
-    best_skills.clear();
-    best_skills.push_back( skill );
-         } else if( skillLevel( skill ) == highest ) {
-             best_skills.push_back( skill );
-   }
-  }
- }
- int index = rng(0, best_skills.size() - 1);
- return best_skills[index];
+    using pair_t = std::pair<Skill const*, int>;
+    std::vector<pair_t> skills;
+    
+    int highest = 0;
+    for (auto const &s : Skill::skills) {
+        if (!s.is_combat_skill()) {
+            continue; // just combat skills.
+        }
+
+        int const level = get_skill_level(s);
+        if (level < highest) {
+            continue; // no good.
+        }
+
+        highest = level;
+        skills.emplace_back(&s, highest);
+    }
+
+    auto const range = std::equal_range(begin(skills), end(skills), pair_t {nullptr, highest},
+        [&](pair_t const &lhs, pair_t const &rhs) { return lhs.second < rhs.second; });
+    return (range.first + rng(0, std::distance(range.first, range.second)))->first;
 }
 
 void npc::starting_weapon(npc_class type)
@@ -1352,15 +1357,18 @@ int npc::assigned_missions_value()
 
 std::vector<const Skill*> npc::skills_offered_to(player *p)
 {
- std::vector<const Skill*> ret;
- if (p == NULL)
-  return ret;
- for( auto &skill : Skill::skills ) {
-     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
-         ret.push_back( skill );
-  }
- }
- return ret;
+    if (!p) {
+        return {};
+    }
+
+    std::vector<const Skill*> ret;
+    for (auto const &skill : Skill::skills) {
+        if (p->skillLevel(skill) < skillLevel(skill)) {
+            ret.push_back(&skill);
+        }
+    }
+
+    return ret;
 }
 
 std::vector<itype_id> npc::styles_offered_to(player *p)

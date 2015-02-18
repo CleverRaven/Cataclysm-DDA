@@ -1969,7 +1969,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Skills:") << "\n";
     for( auto &skill : Skill::skills ) {
         SkillLevel next_skill_level = skillLevel( skill );
-        memorial_file << indent << ( skill )->name() << ": " << next_skill_level.level() << " ("
+        memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
                       << next_skill_level.exercise() << "%)\n";
     }
     memorial_file << "\n";
@@ -2210,13 +2210,6 @@ void player::mod_stat( std::string stat, int modifier )
         // Fall through to the creature method.
         Creature::mod_stat( stat, modifier );
     }
-}
-
-inline bool skill_display_sort(const std::pair<const Skill*, int> &a, const std::pair<const Skill*, int> &b)
-{
-    int levelA = a.second;
-    int levelB = b.second;
-    return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
 
 std::string swim_cost_text(int moves)
@@ -2671,21 +2664,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     // Next, draw skills.
     line = 1;
-    std::vector<const Skill*> skillslist;
+
     const char *title_SKILLS = _("SKILLS");
     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
-    std::vector<std::pair<const Skill*, int> > sorted;
-    int num_skills = Skill::skills.size();
-    for (int i = 0; i < num_skills; i++) {
-        const Skill* s = Skill::skills[i];
-        SkillLevel &sl = skillLevel(s);
-        sorted.push_back(std::pair<const Skill*, int>(s, sl.level() * 100 + sl.exercise()));
-    }
-    std::sort(sorted.begin(), sorted.end(), skill_display_sort);
-    for( auto &elem : sorted ) {
-        skillslist.push_back( ( elem ).first );
-    }
+    auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
+        int const level_a = skillLevel(a).exercised_level();
+        int const level_b = skillLevel(b).exercised_level();
+        return level_a > level_b || (level_a == level_b && a.name() < b.name());
+    });
 
     for( auto &elem : skillslist ) {
         SkillLevel level = skillLevel( elem );
@@ -12324,9 +12311,9 @@ void player::practice( const Skill* s, int amount, int cap )
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
-        for( auto &skill : Skill::skills ) {
+        for( auto const &skill : Skill::skills ) {
             if( skillLevel( skill ) > savantSkillLevel ) {
-                savantSkill = skill;
+                savantSkill = &skill;
                 savantSkillLevel = skillLevel( skill );
             }
         }
@@ -12623,6 +12610,11 @@ void player::copy_skill_levels(const player *rhs)
 void player::set_skill_level(const Skill* _skill, int level)
 {
     skillLevel(_skill).level(level);
+}
+
+void player::set_skill_level(Skill const &_skill, int level)
+{
+    set_skill_level(&_skill, level);
 }
 
 void player::set_skill_level(std::string ident, int level)

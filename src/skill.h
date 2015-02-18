@@ -1,13 +1,14 @@
 #ifndef SKILL_H
 #define SKILL_H
 
+#include "calendar.h"
+#include "json.h"
+
+#include <functional>
 #include <string>
 #include <vector>
 #include <set>
 #include <iosfwd>
-#include <stdint.h>
-#include "calendar.h"
-#include "json.h"
 
 class Skill
 {
@@ -19,7 +20,7 @@ class Skill
         std::set<std::string> _tags;
 
     public:
-        static std::vector<const Skill*> skills;
+        static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
         static const Skill* skill(const std::string& ident);
         static const Skill* skill(size_t id);
@@ -29,6 +30,9 @@ class Skill
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!
         static void reset();
+
+        static std::vector<Skill const*> get_skills_sorted_by(
+            std::function<bool (Skill const&, Skill const&)> pred);
 
         Skill();
         Skill(size_t id, std::string ident, std::string name, std::string description,
@@ -40,15 +44,15 @@ class Skill
             return _id;
         }
 
-        std::string ident() const
+        std::string const& ident() const
         {
             return _ident;
         }
-        std::string name() const
+        std::string const& name() const
         {
             return _name;
         }
-        std::string description() const
+        std::string const& description() const
         {
             return _description;
         }
@@ -74,8 +78,8 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
 {
         int _level;
         int _exercise;
-        bool _isTraining;
         calendar _lastPracticed;
+        bool _isTraining;
 
     public:
         SkillLevel(int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0);
@@ -107,6 +111,10 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return raw ? _exercise : _exercise / (_level + 1);
         }
 
+        int exercised_level() const {
+            return level() * 100 + exercise();
+        }
+
         int lastPracticed() const
         {
             return _lastPracticed;
@@ -117,7 +125,7 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         bool rust( bool charged_bio_mem );
         void practice();
 
-        void readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
+        void readBook(int minimumGain, int maximumGain, int maximumLevel = -1);
 
         bool operator==(const SkillLevel &b) const
         {
@@ -171,7 +179,7 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return !(*this <  b);
         }
 
-        SkillLevel &operator= (const SkillLevel &rhs);
+        SkillLevel &operator= (const SkillLevel &rhs) = default;
 
         using JsonSerializer::serialize;
         void serialize(JsonOut &jsout) const;

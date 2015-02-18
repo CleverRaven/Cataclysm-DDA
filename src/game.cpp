@@ -1525,13 +1525,12 @@ void game::set_driving_view_offset(const point &p)
 
 void game::rustCheck()
 {
-    for (std::vector<const Skill*>::iterator aSkill = ++Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
+    for (auto const &aSkill : Skill::skills) {
         if (u.rust_rate() <= rng(0, 1000)) {
             continue;
         }
 
-        if ((*aSkill)->is_combat_skill() &&
+        if (aSkill.is_combat_skill() &&
             ((u.has_trait("PRED2") && one_in(4)) ||
              (u.has_trait("PRED3") && one_in(2)) ||
              (u.has_trait("PRED4") && x_in_y(2, 3)))) {
@@ -1553,15 +1552,15 @@ void game::rustCheck()
         }
 
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
-        int oldSkillLevel = u.skillLevel(*aSkill);
+        int oldSkillLevel = u.skillLevel(aSkill);
 
-        if (u.skillLevel(*aSkill).rust(charged_bio_mem)) {
+        if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
             u.power_level -= 25;
         }
-        int newSkill = u.skillLevel(*aSkill);
+        int newSkill = u.skillLevel(aSkill);
         if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
-                    (*aSkill)->name().c_str(), newSkill);
+                    aSkill.name().c_str(), newSkill);
         }
     }
 }
