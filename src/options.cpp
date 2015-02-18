@@ -583,12 +583,15 @@ void initOptions()
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     // Note: language names are in their own language and are *not* translated at all.
+    // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+    // http://en.wikipedia.org/wiki/List_of_language_names
     optionNames["cs"] = R"(Čeština)";
     optionNames["en"] = R"(English)";
     optionNames["fi"] = R"(Suomi)";
-    optionNames["fr_FR"] =  R"(Français (France))";
-    optionNames["de_DE"] = R"(Deutsch (Deutschland))";
+    optionNames["fr"] =  R"(Français)";
+    optionNames["de"] = R"(Deutsch)";
     optionNames["it_IT"] = R"(Italiano)";
+    optionNames["el"] = R"(Ελληνικά)";
     optionNames["es_AR"] = R"(Español (Argentina))";
     optionNames["es_ES"] = R"(Español (España))";
     optionNames["ja"] = R"(日本語)";
@@ -602,7 +605,7 @@ void initOptions()
     optionNames["zh_CN"] = R"(中文(天朝))";
     optionNames["zh_TW"] = R"(中文(台灣))";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr,de,it_IT,el,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
