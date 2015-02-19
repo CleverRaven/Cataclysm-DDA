@@ -1583,10 +1583,10 @@ void veh_interact::display_stats()
 
     bool first = true;
     int fuel_name_length = 0;
-    for (int i = 0; i < num_fuel_types; ++i) {
-        int fuel_usage = veh->basic_consumption(fuel_types[i]);
+    for( auto & ft : fuel_types ) {
+        int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
-            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
+            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name( ft.id ).c_str()));
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1594,7 +1594,7 @@ void veh_interact::display_stats()
             if (!first) {
                 mvwprintz(w_stats, y[9], x[9]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, y[9], x[9]++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, y[9], x[9]++, ft.color, "%d", fuel_usage);
             if (fuel_usage > 9) {
                 x[9]++;
             }
