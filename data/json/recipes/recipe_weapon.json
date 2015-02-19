@@ -279,7 +279,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "spear_trident",
+  "result": "spear_forked",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
