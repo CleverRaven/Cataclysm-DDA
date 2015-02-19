@@ -16,6 +16,7 @@
     [
       [ "needle_bone", 2 ],
       [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -154,6 +155,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -181,6 +183,7 @@
     [
       [ "needle_bone", 4 ],
       [ "needle_wood", 4 ],
+      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -203,6 +206,7 @@
     [
       [ "needle_bone", 6 ],
       [ "needle_wood", 6 ],
+      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -226,6 +230,7 @@
     [
       [ "needle_bone", 24 ],
       [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -249,6 +254,7 @@
     [
       [ "needle_bone", 6 ],
       [ "needle_wood", 6 ],
+      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -275,6 +281,7 @@
     [
       [ "needle_bone", 32 ],
       [ "needle_wood", 32 ],
+      [ "tailors_kit", 32 ],
       [ "sewing_kit", 32 ]
     ]
   ],
@@ -298,6 +305,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -324,6 +332,7 @@
     [
       [ "needle_bone", 5 ],
       [ "needle_wood", 5 ],
+      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -346,6 +355,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -371,6 +381,7 @@
     [
       [ "needle_bone", 13 ],
       [ "needle_wood", 13 ],
+      [ "tailors_kit", 13 ],
       [ "sewing_kit", 13 ]
     ]
   ],
@@ -426,6 +437,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -458,6 +470,7 @@
     [
       [ "needle_bone", 24 ],
       [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -487,6 +500,7 @@
     [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -513,6 +527,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -538,6 +553,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -561,6 +577,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -584,6 +601,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -607,6 +625,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -629,6 +648,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -652,6 +672,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -674,6 +695,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -699,6 +721,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -722,6 +745,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -745,6 +769,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -770,6 +795,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -796,6 +822,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -828,6 +855,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -853,6 +881,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -875,6 +904,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -898,6 +928,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -921,6 +952,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -946,6 +978,7 @@
     [
       [ "needle_bone", 16 ],
       [ "needle_wood", 16 ],
+      [ "tailors_kit", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -968,6 +1001,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -991,6 +1025,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1015,6 +1050,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -1041,6 +1077,7 @@
     [
       [ "needle_bone", 4 ],
       [ "needle_wood", 4 ],
+      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1063,6 +1100,7 @@
     [
       [ "needle_bone", 4 ],
       [ "needle_wood", 4 ],
+      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1085,6 +1123,7 @@
     [
       [ "needle_bone", 4 ],
       [ "needle_wood", 4 ],
+      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1107,6 +1146,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1129,6 +1169,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1152,6 +1193,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1175,6 +1217,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1197,6 +1240,7 @@
     [
       [ "needle_bone", 14 ],
       [ "needle_wood", 14 ],
+      [ "tailors_kit", 14 ],
       [ "sewing_kit", 14 ]
     ]
   ],
@@ -1219,6 +1263,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1243,6 +1288,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1265,6 +1311,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1303,6 +1350,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1325,6 +1373,7 @@
     [
       [ "needle_bone", 24 ],
       [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -1349,6 +1398,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1437,6 +1487,7 @@
     [
       [ "needle_bone", 45 ],
       [ "needle_wood", 45 ],
+      [ "tailors_kit", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -1463,6 +1514,7 @@
     [
       [ "needle_bone", 38 ],
       [ "needle_wood", 38 ],
+      [ "tailors_kit", 38 ],
       [ "sewing_kit", 38 ]
     ]
   ],
@@ -1508,6 +1560,7 @@
     [
       [ "needle_bone", 45 ],
       [ "needle_wood", 45 ],
+      [ "tailors_kit", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -1534,6 +1587,7 @@
     [
       [ "needle_bone", 38 ],
       [ "needle_wood", 38 ],
+      [ "tailors_kit", 38 ],
       [ "sewing_kit", 38 ]
     ]
   ],
@@ -1580,6 +1634,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1604,6 +1659,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -1647,6 +1703,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1673,6 +1730,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -1697,6 +1755,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -1720,6 +1779,7 @@
     [
       [ "needle_bone", 2 ],
       [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -1742,6 +1802,7 @@
     [
       [ "needle_bone", 4 ],
       [ "needle_wood", 4 ],
+      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1765,6 +1826,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -1788,6 +1850,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1811,6 +1874,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1834,6 +1898,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1866,6 +1931,7 @@
      [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -1924,6 +1990,7 @@
     [
       [ "needle_bone", 5 ],
       [ "needle_wood", 5 ],
+      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -1949,6 +2016,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -1975,6 +2043,7 @@
     [
       [ "needle_bone", 6 ],
       [ "needle_wood", 6 ],
+      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -1999,6 +2068,7 @@
     [
       [ "needle_bone", 6 ],
       [ "needle_wood", 6 ],
+      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -2109,6 +2179,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -2143,6 +2214,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -2168,6 +2240,7 @@
     [
       [ "needle_bone", 2 ],
       [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -2191,6 +2264,7 @@
     [
       [ "needle_bone", 3 ],
       [ "needle_wood", 3 ],
+      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2258,6 +2332,7 @@
     [
       [ "needle_bone", 3 ],
       [ "needle_wood", 3 ],
+      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2283,6 +2358,7 @@
     [
       [ "needle_bone", 9 ],
       [ "needle_wood", 9 ],
+      [ "tailors_kit", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -2308,6 +2384,7 @@
     [
       [ "needle_bone", 3 ],
       [ "needle_wood", 3 ],
+      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2660,6 +2737,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -2709,6 +2787,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -2759,6 +2838,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2802,6 +2882,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2844,6 +2925,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2889,6 +2971,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -3161,6 +3244,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3183,6 +3267,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3205,6 +3290,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -3227,6 +3313,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3252,6 +3339,7 @@
     [
       [ "needle_bone", 16 ],
       [ "needle_wood", 16 ],
+      [ "tailors_kit", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -3275,6 +3363,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3305,6 +3394,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -3391,6 +3481,7 @@
     [
       [ "needle_bone", 54 ],
       [ "needle_wood", 54 ],
+      [ "tailors_kit", 54 ],
       [ "sewing_kit", 54 ]
     ]
   ],
@@ -3425,6 +3516,7 @@
     [
       [ "needle_bone", 68 ],
       [ "needle_wood", 68 ],
+      [ "tailors_kit", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -3453,6 +3545,7 @@
     [
       [ "needle_bone", 68 ],
       [ "needle_wood", 68 ],
+      [ "tailors_kit", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -3518,6 +3611,7 @@
     [
       [ "needle_bone", 22 ],
       [ "needle_wood", 22 ],
+      [ "tailors_kit", 22 ],
       [ "sewing_kit", 22 ]
     ]
   ],
@@ -3544,6 +3638,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3566,6 +3661,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3593,6 +3689,7 @@
     [
       [ "needle_bone", 25 ],
       [ "needle_wood", 25 ],
+      [ "tailors_kit", 25 ],
       [ "sewing_kit", 25 ]
     ],
     [
@@ -3631,6 +3728,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ],
     [
@@ -3664,6 +3762,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -3690,6 +3789,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3712,6 +3812,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3739,6 +3840,7 @@
     [
       [ "needle_bone", 24 ],
       [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -3765,6 +3867,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -3787,6 +3890,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -3811,6 +3915,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -3834,6 +3939,7 @@
     [
       [ "needle_bone", 18 ],
       [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -3858,6 +3964,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -3883,6 +3990,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -3909,6 +4017,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3939,6 +4048,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -4101,6 +4211,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -4128,6 +4239,7 @@
       [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4182,6 +4294,7 @@
       [
       [ "needle_bone", 85 ],
       [ "needle_wood", 85 ],
+      [ "tailors_kit", 85 ],
       [ "sewing_kit", 85 ]
     ]
   ],
@@ -4255,6 +4368,7 @@
       [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4335,6 +4449,7 @@
       [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4383,6 +4498,7 @@
       [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -4433,6 +4549,7 @@
       [
       [ "needle_bone", 120 ],
       [ "needle_wood", 120 ],
+      [ "tailors_kit", 120 ],
       [ "sewing_kit", 120 ]
     ]
   ],
@@ -4483,6 +4600,7 @@
       [
       [ "needle_bone", 160 ],
       [ "needle_wood", 160 ],
+      [ "tailors_kit", 160 ],
       [ "sewing_kit", 160 ]
     ]
   ],
@@ -4534,6 +4652,7 @@
       [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4588,6 +4707,7 @@
      [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4642,6 +4762,7 @@
      [
       [ "needle_bone", 150 ],
       [ "needle_wood", 150 ],
+      [ "tailors_kit", 150 ],
       [ "sewing_kit", 150 ]
      ]
   ],
@@ -4701,6 +4822,7 @@
     [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4763,6 +4885,7 @@
     [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4826,6 +4949,7 @@
      [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4885,6 +5009,7 @@
     [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4940,6 +5065,7 @@
      [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
+      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
      ]
   ],
@@ -5001,6 +5127,7 @@
     [
       [ "needle_bone", 160 ],
       [ "needle_wood", 160 ],
+      [ "tailors_kit", 160 ],
       [ "sewing_kit", 160 ]
     ]
   ],
@@ -5046,6 +5173,7 @@
     [
       [ "needle_bone", 100 ],
       [ "needle_wood", 100 ],
+      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -5091,6 +5219,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5139,6 +5268,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -5190,6 +5320,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5231,6 +5362,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5276,6 +5408,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -5338,6 +5471,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -5400,6 +5534,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5446,6 +5581,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5486,6 +5622,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5526,6 +5663,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5574,6 +5712,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5623,6 +5762,7 @@
     [
       [ "needle_bone", 40 ],
       [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5674,6 +5814,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5723,6 +5864,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5768,6 +5910,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5809,6 +5952,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5853,6 +5997,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5898,6 +6043,7 @@
     [
       [ "needle_bone", 60 ],
       [ "needle_wood", 60 ],
+      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -5949,6 +6095,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5994,6 +6141,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6039,6 +6187,7 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
+      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6207,6 +6356,7 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -6236,6 +6386,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6266,6 +6417,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6299,6 +6451,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6338,6 +6491,7 @@
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6377,6 +6531,7 @@
     [
       [ "needle_bone", 5 ],
       [ "needle_wood", 5 ],
+      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -6410,6 +6565,7 @@
     [
       [ "needle_bone", 5 ],
       [ "needle_wood", 5 ],
+      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -6458,6 +6614,7 @@
     [
       [ "needle_bone", 5 ],
       [ "needle_wood", 5 ],
+      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -6564,6 +6721,7 @@
     [
       [ "needle_bone", 30 ],
       [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ],
     [
@@ -6602,6 +6760,7 @@
     [
       [ "needle_bone", 6 ],
       [ "needle_wood", 6 ],
+      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ],
     [
@@ -6641,6 +6800,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ],
     [
@@ -6680,6 +6840,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ],
     [
@@ -6738,6 +6899,7 @@
       [
         [ "needle_bone", 20 ],
         [ "needle_wood", 20 ],
+        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -6767,6 +6929,7 @@
       [
         [ "needle_bone", 20 ],
         [ "needle_wood", 20 ],
+        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -6796,6 +6959,7 @@
       [
         [ "needle_bone", 30 ],
         [ "needle_wood", 30 ],
+        [ "tailors_kit", 30 ],
         [ "sewing_kit", 30 ]
       ]
     ],
@@ -6825,6 +6989,7 @@
       [
         [ "needle_bone", 10 ],
         [ "needle_wood", 10 ],
+        [ "tailors_kit", 10 ],
         [ "sewing_kit", 10 ]
       ]
     ],
@@ -6854,6 +7019,7 @@
       [
         [ "needle_bone", 20 ],
         [ "needle_wood", 20 ],
+        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -7262,6 +7428,7 @@
     [
         [ "needle_bone", 20 ],
         [ "needle_wood", 20 ],
+        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
     ]
   ],
@@ -7306,6 +7473,7 @@
     [
         [ "needle_bone", 20 ],
         [ "needle_wood", 20 ],
+        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
     ]
   ],
@@ -7371,6 +7539,7 @@
     [
         [ "needle_bone", 50 ],
         [ "needle_wood", 50 ],
+        [ "tailors_kit", 50 ],
         [ "sewing_kit", 50 ]
     ]
   ],
@@ -7415,6 +7584,7 @@
     [
         [ "needle_bone", 80 ],
         [ "needle_wood", 80 ],
+        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -7438,6 +7608,7 @@
     [
         [ "needle_bone", 120 ],
         [ "needle_wood", 120 ],
+        [ "tailors_kit", 120 ],
         [ "sewing_kit", 120 ]
     ]
   ],
@@ -7461,6 +7632,7 @@
     [
         [ "needle_bone", 100 ],
         [ "needle_wood", 100 ],
+        [ "tailors_kit", 100 ],
         [ "sewing_kit", 100 ]
     ]
   ],
@@ -7484,6 +7656,7 @@
     [
         [ "needle_bone", 80 ],
         [ "needle_wood", 80 ],
+        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -7520,6 +7693,7 @@
     [
       [ "needle_bone", 32 ],
       [ "needle_wood", 32 ],
+      [ "tailors_kit", 32 ],
       [ "sewing_kit", 32 ]
     ]
   ],
@@ -7544,6 +7718,7 @@
     [
       [ "needle_bone", 27 ],
       [ "needle_wood", 27 ],
+      [ "tailors_kit", 27 ],
       [ "sewing_kit", 27 ]
     ]
   ],
@@ -7588,6 +7763,7 @@
     [
       [ "needle_bone", 60 ],
       [ "needle_wood", 60 ],
+      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -7614,6 +7790,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -7659,6 +7836,7 @@
     [
       [ "needle_bone", 60 ],
       [ "needle_wood", 60 ],
+      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -7685,6 +7863,7 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
+      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -7733,6 +7912,7 @@
       [
       [ "needle_bone", 135 ],
       [ "needle_wood", 135 ],
+      [ "tailors_kit", 135 ],
       [ "sewing_kit", 135 ]
     ]
   ],
@@ -7788,6 +7968,7 @@
       [
       [ "needle_bone", 115 ],
       [ "needle_wood", 115 ],
+      [ "tailors_kit", 115 ],
       [ "sewing_kit", 115 ]
     ]
   ],
@@ -7903,6 +8084,7 @@
     [
       [ "needle_bone", 3 ],
       [ "needle_wood", 3 ],
+      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -7925,6 +8107,7 @@
     [
       [ "needle_bone", 9 ],
       [ "needle_wood", 9 ],
+      [ "tailors_kit", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -7950,6 +8133,7 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -7973,6 +8157,7 @@
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
+      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -8004,6 +8189,7 @@
     [
       [ "needle_bone", 140 ],
       [ "needle_wood", 140 ],
+      [ "tailors_kit", 140 ],
       [ "sewing_kit", 140 ]
     ]
   ],
@@ -8106,6 +8292,7 @@
     [
       [ "needle_bone", 52 ],
       [ "needle_wood", 52 ],
+      [ "tailors_kit", 52 ],
       [ "sewing_kit", 52 ]
     ],
     [
@@ -8144,6 +8331,7 @@
     [
       [ "needle_bone", 15 ],
       [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ],
     [
@@ -8330,6 +8518,7 @@
     [
       [ "needle_bone", 65 ],
       [ "needle_wood", 65 ],
+      [ "tailors_kit", 65 ],
       [ "sewing_kit", 65 ]
     ]
   ],
@@ -8370,6 +8559,7 @@
     [
       [ "needle_bone", 65 ],
       [ "needle_wood", 65 ],
+      [ "tailors_kit", 65 ],
       [ "sewing_kit", 65 ]
     ]
   ],
@@ -8451,6 +8641,7 @@
     [
       [ "needle_bone", 90 ],
       [ "needle_wood", 90 ],
+      [ "tailors_kit", 90 ],
       [ "sewing_kit", 90 ]
     ]
   ],
@@ -8503,6 +8694,7 @@
     [
       [ "needle_bone", 90 ],
       [ "needle_wood", 90 ],
+      [ "tailors_kit", 90 ],
       [ "sewing_kit", 90 ]
     ]
   ],
@@ -8549,6 +8741,7 @@
     [
         [ "needle_bone", 100 ],
         [ "needle_wood", 100 ],
+        [ "tailors_kit", 100 ],
         [ "sewing_kit", 100 ]
     ]
   ],
@@ -8572,6 +8765,7 @@
     [
         [ "needle_bone", 80 ],
         [ "needle_wood", 80 ],
+        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -8595,6 +8789,7 @@
     [
         [ "needle_bone", 200 ],
         [ "needle_wood", 200 ],
+        [ "tailors_kit", 200 ],
         [ "sewing_kit", 200 ]
     ]
   ],
@@ -8618,6 +8813,7 @@
     [
         [ "needle_bone", 80 ],
         [ "needle_wood", 80 ],
+        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
