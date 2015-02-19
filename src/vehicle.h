@@ -23,6 +23,14 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
+/* The size (width) of a single game tile in meters.
+   18 meters was chosen to make vehicle speed fit roughly with the current
+   walking speed, and makes vehicles roughly 50% faster than the old system
+   of 10 mph = 1 tile every turn. */
+#define TILE_SIZE_M 18.0d
+/* The length of a single game turn in second, 6 seconds is canon */
+#define TURN_TIME_S 6.0d
+
 #define num_fuel_types 7
 extern const ammotype fuel_types[num_fuel_types];
 extern const nc_color fuel_colors[num_fuel_types];
@@ -298,12 +306,6 @@ private:
     // get vpart epowerinfo for part number.
     int part_epower (int index);
 
-    // convert epower (watts) to power.
-    int epower_to_power (int epower);
-
-    // convert power to epower (watts).
-    int power_to_epower (int power);
-
     //Refresh all caches and re-locate all parts
     void refresh();
 
@@ -538,6 +540,15 @@ public:
 
 // get center of mass of vehicle; coordinates are precalc[0]
     void center_of_mass(int &x, int &y);
+
+    /* Calculates air_resistance and downforce */
+    void calculate_air_resistance();
+
+    // convert epower (watts) to power.
+    int epower_to_power (int epower);
+
+    // convert power to epower (watts).
+    int power_to_epower (int power);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -787,6 +798,11 @@ public:
      * the map is just shifted (in the later case simply set smx/smy directly).
      */
     void set_submap_moved(int x, int y);
+
+    /* cached values, should in theory be correct, only recalculated occasionally in refresh() */
+    float drag_coeff;               /* Cd * A, includes skin friction, form drag, and interference drag, dimensionless */
+    float downforce;                /* Cl * A, in m^2 */
+
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
     int init_veh_fuel;
     int init_veh_status;

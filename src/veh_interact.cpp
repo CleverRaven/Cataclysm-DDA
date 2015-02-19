@@ -1,5 +1,6 @@
 #include <string>
 #include "veh_interact.h"
+#include "veh_physics.h"
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
@@ -1505,22 +1506,63 @@ void veh_interact::display_stats()
     conf = veh->valid_wheel_config();
 
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
-    float speed_factor = 0.01f;
-    if (speed_units == "km/h") {
-        speed_factor *= 1.61f;
+    std::string accel_s = "0-60 mph:  ";
+    /* Convert target_speed (60mph or 100km/h) to meters/second */
+    double target_speed = 60.0 / 2.236;
+    double speed_factor = 2.236;
+    if( speed_units == "km/h" ) {
+        accel_s = "0-100 km/h:";
+        target_speed = 100.0 / 3.6;
+        speed_factor = 3.6;
     }
+
+    veh_physics vp(veh);
+    double acc_time_cur = vp.calculate_acceleration(target_speed);
+    double acc_time_max = vp.calculate_acceleration(target_speed, true);
+    int top_speed_cur = int(speed_factor * vp.calculate_top_speed());
+    int top_speed_max = int(speed_factor * vp.calculate_top_speed(true));
+    int eng_watt_max = veh->power_to_epower(vp.eng_pwr_max);
+    int eng_watt_cur = veh->power_to_epower(vp.eng_pwr_cur);
+
     std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor = 1.0f;
     if (weight_units == "lbs") {
         weight_factor *= 2.2f;
     }
-    fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-                   _("Safe/Top speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor),
-                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
-                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
-                   int(veh->acceleration(false) * speed_factor), speed_units.c_str());
+    if( top_speed_cur == top_speed_max ) {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Top speed:  <color_ltgreen>%4d</color> %s"),
+                       top_speed_max, speed_units.c_str());
+    } else {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Top speed:  <color_red>%4d</color> /<color_ltgreen>%4d</color> %s"),
+                       top_speed_cur, top_speed_max, speed_units.c_str());
+    }
+    /* This one is tricky. Print time taken to accelerate to either 60mph or 100km/h.
+       OR if acc_time is negative print the speed reached after 10 secs of acceleration. */
+    if( acc_time_cur < 0.0 ) {
+        acc_time_cur = -acc_time_cur * speed_factor;
+        acc_time_max = -acc_time_max * speed_factor;
+        if( acc_time_cur == acc_time_max ) {
+            fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                           _("10s accel:  <color_ltgreen>%2d</color> %s"),
+                           int(acc_time_cur), speed_units.c_str());
+        } else {
+            fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                           _("10s accel:  <color_red>%2d</color> %s"),
+                           int(acc_time_cur), speed_units.c_str());
+        }
+    } else {
+        if( acc_time_cur == acc_time_max ) {
+            fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                           _("%s  <color_ltgreen>%5d</color> ms"),
+                           accel_s.c_str(), int(1000*acc_time_max));
+        } else {
+            fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                           _("%s  <color_red>%5d</color> /<color_ltgreen>%5d</color> ms"),
+                           accel_s.c_str(), int(1000*acc_time_cur), int(1000*acc_time_max));
+        }
+    }
     fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
                    _("Mass: <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
@@ -1570,12 +1612,18 @@ void veh_interact::display_stats()
         }
     }
 
-    fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
-                   _("K dynamics:   <color_ltblue>%3d</color>%%"),
-                   int(veh->k_dynamics() * 100));
+    if( eng_watt_cur == eng_watt_max ) {
+        fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
+                       _("Engine:  <color_ltgreen>%5d</color> kW"),
+                       eng_watt_max/1000);
+    } else {
+        fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
+                       _("Engine:  <color_red>%5d</color> /<color_ltgreen>%5d</color> kW"),
+                       eng_watt_cur/1000, eng_watt_max/1000);
+    }
     fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
-                   _("K mass:       <color_ltblue>%3d</color>%%"),
-                   int(veh->k_mass() * 100));
+                   _("Air drag:  <color_yellow>%4d</color>"),
+                   int(veh->drag_coeff * 1000));
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));

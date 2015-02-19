@@ -4550,6 +4550,7 @@ void vehicle::refresh()
         vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), p, svpv );
         relative_parts[pt].insert( vii, p );
     }
+    calculate_air_resistance(); /* Updates air_resistance and downforce */
 
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
@@ -5467,6 +5468,45 @@ float get_collision_factor(float delta_v)
     } else {
         return 0.1;
     }
+}
+
+void vehicle::calculate_air_resistance()
+{
+    int t_form_drag = 0;
+    int t_downforce = 0;
+    const int max_obst = 19;
+    int obst[max_obst];
+    memset( obst, 0, sizeof(obst) );
+    std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
+    int t_area = structure_indices.size(); /* Total area of car ~= nr of structure parts */
+    int t_skin_friction = t_area; /* Assume 1 skin friction per square */
+    for( auto &structure_indice : structure_indices ) {
+        int p = structure_indice;
+        int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 10 : 5;
+        int pos = std::min( max_obst-1, std::max( 0, parts[p].mount_dy + max_obst / 2 ) );
+        obst[pos] = std::max( obst[pos], frame_size );
+    }
+    int last_obst = 0;
+    for( int o = 0; o < max_obst; o++ ) {
+        t_form_drag += abs(obst[o]-last_obst); /* Surface drag */
+        if( obst[o] > last_obst ) {
+            t_downforce += 5; /* Generate some downforce */
+        }
+        last_obst = obst[o];
+    }
+    t_form_drag += last_obst; /* Last tile -> empty space */
+    /* Some values with these calc. TODO: Add downforce settings to car parts, calc whole body
+       Car type        t_form_drag   t_downforce    t_skin_friction
+       Racecar body             10             5                  3
+       Sports car               20            10                 20
+       Flatbed truck            20            10                 30
+       apc                      20             5                 59
+       Aim for roughly these Cd * A values:
+       http://en.wikipedia.org/wiki/Automobile_drag_coefficient
+       http://www.rapid-racer.com/aerodynamics.php
+       http://www.engineeringtoolbox.com/drag-coefficient-d_627.html */
+    drag_coeff = (float(t_form_drag * t_area) + (t_skin_friction + 10) * (t_skin_friction + 10) + 500) / 3500;
+    downforce = float(t_downforce) / 10;
 }
 
 bool vehicle::is_foldable() const
