@@ -37,12 +37,12 @@ weather_animation_t get_weather_animation(weather_type const type)
 std::string const& season_name(int const season)
 {
     static std::string const invalid {"bad season!"};
-    static std::array<std::string, 4> const names {
-        std::string {pgettext( "season_name", "spring" )},
-        std::string {pgettext( "season_name", "summer" )},
-        std::string {pgettext( "season_name", "autumn" )},
-        std::string {pgettext( "season_name", "winter" )}
-    };
+    static std::array<std::string, 4> const names {{
+        pgettext( "season_name", "spring" ),
+        pgettext( "season_name", "summer" ),
+        pgettext( "season_name", "autumn" ),
+        pgettext( "season_name", "winter" )
+    }};
 
     if (!(season >= 0 && season < 4)) {
         return invalid;
@@ -59,10 +59,10 @@ std::string const& season_name_upper(int const season)
         return result;
     };
 
-    static std::array<std::string, 4> const names {
-        {as_upper(season_name(0))}, {as_upper(season_name(1))},
-        {as_upper(season_name(2))}, {as_upper(season_name(3))}
-    };
+    static std::array<std::string, 4> const names {{
+        as_upper(season_name(0)), as_upper(season_name(1)),
+        as_upper(season_name(2)), as_upper(season_name(3))
+    }};
 
     if (!(season >= 0 && season < 4)) {
         return season_name(season);
@@ -82,7 +82,7 @@ weather_datum const& weather_data(weather_type const type)
      * patterns have "stay the same" as a highly likely transition; see below
      * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
      */
-    static std::array<weather_datum, NUM_WEATHER_TYPES> const data {
+    static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
         weather_datum {
             "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
             {0, 0, 0, 0}, 0, 0, 0, 0, 0, false,
@@ -149,7 +149,7 @@ weather_datum const& weather_data(weather_type const type)
             {20, 20, 20,  5}, 6, 10, -55, 60, 180, true,
             &weather_effect::snowstorm
         }
-    };
+    }};
 
     auto const i = static_cast<size_t>(type);
     if (i < NUM_WEATHER_TYPES) {
