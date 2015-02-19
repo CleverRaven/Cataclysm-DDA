@@ -9,7 +9,7 @@
         "object": {
             "rows": [
                 "________________________",
-			"________________________",
+                "________________________",
                 "________________________",
                 "________________________",
                 "________________________",
@@ -87,39 +87,38 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 20, "y": 21 },
-			{ "type": "gaspump", "x": 16, "y": 5 },
-                { "type": "gaspump", "x": 7, "y": 5 }
-
+          "place_specials": [
+            { "type": "toilet", "x": 20, "y": 21 },
+            { "type": "gaspump", "x": 16, "y": 5 },
+            { "type": "gaspump", "x": 7, "y": 5 }
             ],
-		 "add": [
-                { "item": "shotgun_s", "x": 3, "y": 20 },
-			{ "item": "pot", "x": 18, "y": 21 },
-			{ "item": "shot_00", "x": 7, "y": 19, "chance": 2}
+        "add": [
+            { "item": "shotgun_s", "x": 3, "y": 20 },
+            { "item": "pot", "x": 18, "y": 21 },
+            { "item": "shot_00", "x": 7, "y": 19, "chance": 2}
             ],
-            		   "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
-            "set": [
+        "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
+        "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
-			{ "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0,2 ], "repeat": [ 8, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0,2 ], "repeat": [ 8, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0,4 ], "repeat": [ 8, 2] }
-                    ],
-                        "comment": "randomly picked from a group ---v",
-            "place_groups": [
-			{ "item": "bed", "chance": 80, "x": [ 2,3 ],    "y": [ 19, 20 ]},
-			{ "item": "dresser", "chance": 80, "x": 2,    "y": 21},
-                { "item": "fridgesnacks", "chance": 80, "x": [ 2,9 ],    "y": 17},
-                { "item": "fridge", "chance": 80, "x":  17,    "y": 19},				
-                { "item": "snacks",     "chance": 80, "x": [ 2,5 ],   "y": 15},
-			{ "item": "behindcounter",     "chance": 80, "x": [ 21,21 ],   "y": [13,14] },
-			{ "item": "road",     "chance": 20, "x": [ 20,20 ],   "y": [13,14] },
-			{ "item": "snacks",     "chance": 13, "x": [ 2,5 ],   "y": 13},
-                { "item": "camping",    "chance": 70, "x": [ 9,9 ], "y": [ 15,15 ] },
-                { "item": "homebooks",  "chance": 60, "x": [ 13,13 ], "y": [ 9,12 ] },
-                { "item": "magazines",  "chance": 90, "x": [ 9,9 ], "y": [ 13,15 ] },
-                { "item": "softdrugs",  "chance": 80, "x": [ 8,8 ], "y": [ 13,15 ] }
+                ],
+        "comment": "randomly picked from a group ---v",
+        "place_groups": [
+            { "item": "bed", "chance": 80, "x": [ 2,3 ],    "y": [ 19, 20 ]},
+            { "item": "dresser", "chance": 80, "x": 2,    "y": 21},
+            { "item": "fridgesnacks", "chance": 80, "x": [ 2,9 ],    "y": 17},
+            { "item": "fridge", "chance": 80, "x":  17,    "y": 19},				
+            { "item": "snacks",     "chance": 80, "x": [ 2,5 ],   "y": 15},
+            { "item": "behindcounter",     "chance": 80, "x": [ 21,21 ],   "y": [13,14] },
+            { "item": "road",     "chance": 20, "x": [ 20,20 ],   "y": [13,14] },
+            { "item": "snacks",     "chance": 13, "x": [ 2,5 ],   "y": 13},
+            { "item": "camping",    "chance": 70, "x": [ 9,9 ], "y": [ 15,15 ] },
+            { "item": "homebooks",  "chance": 60, "x": [ 13,13 ], "y": [ 9,12 ] },
+            { "item": "magazines",  "chance": 90, "x": [ 9,9 ], "y": [ 13,15 ] },
+            { "item": "softdrugs",  "chance": 80, "x": [ 8,8 ], "y": [ 13,15 ] }
             ],
             "comment": "end of mapgen json definition ---v"
         },
