@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <cmath>
 
 /**
  * @ingroup Weather
