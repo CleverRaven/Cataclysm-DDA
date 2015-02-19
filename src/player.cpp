@@ -1903,7 +1903,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << string_format("%s was %s when the apocalypse began.",
                                    pronoun.c_str(), profession_name.c_str()) << "\n";
     memorial_file << string_format("%s died on %s of year %d, day %d, at %s.",
-                     pronoun.c_str(), season_name_uc[calendar::turn.get_season()].c_str(), (calendar::turn.years() + 1),
+                     pronoun.c_str(), season_name_upper(calendar::turn.get_season()).c_str(), (calendar::turn.years() + 1),
                      (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
     memorial_file << kill_place << "\n";
     memorial_file << "\n";
@@ -2130,7 +2130,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     std::stringstream timestamp;
     //~ A timestamp. Parameters from left to right: Year, season, day, time
     timestamp << string_format(_("Year %1$d, %2$s %3$d, %4$s"), calendar::turn.years() + 1,
-                               season_name_uc[calendar::turn.get_season()].c_str(),
+                               season_name_upper(calendar::turn.get_season()).c_str(),
                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
                                );
 
