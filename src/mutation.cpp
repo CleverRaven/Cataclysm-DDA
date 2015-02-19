@@ -1011,10 +1011,17 @@ void player::mutate_towards(std::string mut)
         }
     }
 
-    if (!cancel.empty()) {
-        std::string removed = cancel[ rng(0, cancel.size() - 1) ];
-        remove_mutation(removed);
-        return;
+    for (size_t i = 0; i < cancel.size(); i++) {
+        if (!cancel.empty()) {
+            std::string removed = cancel[i];
+            remove_mutation(removed);
+            cancel.erase(cancel.begin() + i);
+            i--;
+            // This checks for cases where one trait knocks out several others
+            // Probably a better way, but gets it Fixed Now--KA101
+            mutate_towards(mut);
+            return;
+        }
     }
 
     for (size_t i = 0; (!prereq1) && i < prereq.size(); i++) {
@@ -1197,23 +1204,6 @@ void player::mutate_towards(std::string mut)
 
 void player::remove_mutation(std::string mut)
 {
-    // Check for dependant mutations first
-    std::vector<std::string> dependant;
-
-    for( auto &traits_iter : traits ) {
-        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs.size(); i++ ) {
-            if( mutation_data[traits_iter.first].prereqs[i] == traits_iter.first ) {
-                dependant.push_back( traits_iter.first );
-                break;
-            }
-        }
-    }
-
-    if (!dependant.empty()) {
-        remove_mutation(dependant[rng(0, dependant.size() - 1)]);
-        return;
-    }
-
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
     std::vector<std::string> originals = mutation_data[mut].prereqs;
