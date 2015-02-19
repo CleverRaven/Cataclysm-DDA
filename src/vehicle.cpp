@@ -32,7 +32,7 @@ static const std::string fuel_type_water("water");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
-const std::array<fuel_type, 7> fuel_types = {
+const std::array<fuel_type, 7> fuel_types = { {
     fuel_type { fuel_type_gasoline, c_ltred, 100, 1 },
     fuel_type { fuel_type_diesel, c_brown, 100, 1 },
     fuel_type { fuel_type_battery, c_yellow, 1, 1 },
@@ -40,7 +40,7 @@ const std::array<fuel_type, 7> fuel_types = {
     fuel_type { fuel_type_plasma, c_ltblue, 100, 100 },
     fuel_type { fuel_type_water, c_ltcyan, 1, 1 },
     fuel_type { fuel_type_muscle, c_white, 0, 1 }
-};
+} };
 
 int fuel_charges_to_amount_factor( const ammotype &ftype )
 {
