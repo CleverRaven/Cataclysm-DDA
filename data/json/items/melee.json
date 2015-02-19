@@ -4596,18 +4596,18 @@
         "type":"GENERIC",
         "id" : "spear_fork",
         "name" : "fork spear",
-        "description" : "A wooden spear with a tip made of forks. Quite crude and held together by duct tape or a rag but still better than a wooden spear",
-        "weight" : 1000,
+        "description" : "A wooden spear with a trident like tip. ",
+        "weight" : 1100,
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
-        "material" : ["wood", "null"],
-        "techniques" : ["WBLOCK_1", "RAPID"],
-        "volume" : 5,
+        "material" : ["wood", "null", "steel"],
+        "techniques" : ["WBLOCK_1", "RAPID", " DISARM"],
+        "volume" : 6,
         "bashing" : 5,
-        "cutting" : 14,
+        "cutting" : 15,
         "flags" : ["SPEAR"],
-        "price" : 4800,
-        "qualities": [["COOK", 1]]
+        "price" : 4900,
+        "qualities": [["COOK", 2]]
     }
 ]
