@@ -4594,8 +4594,8 @@
     },
     {
         "type":"GENERIC",
-        "id" : "spear_trident",
-        "name" : "trident spear",
+        "id" : "spear_forked",
+        "name" : "forked spear",
         "description" : "A wooden spear with a trident like tip. ",
         "weight" : 1100,
         "to_hit" : 1,
