@@ -14,8 +14,9 @@
 
 bool Character::has_trait(const std::string &b) const
 {
+    mutation mut = mutation(b);
     // Look for active mutations and traits
-    return my_mutations.find( b ) != my_mutations.end();
+    return my_mutations.find( mut ) != my_mutations.end();
 }
 
 bool Character::has_base_trait(const std::string &b) const

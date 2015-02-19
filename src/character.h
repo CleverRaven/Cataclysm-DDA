@@ -291,8 +291,7 @@ class Character : public Creature
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
         
-        std::unordered_set<std::string> my_traits;
-        std::unordered_set<std::string> my_mutations;
+        std::unordered_set<mutation> my_mutations;
         std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;

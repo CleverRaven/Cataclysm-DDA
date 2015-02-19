@@ -91,10 +91,25 @@ class mutation : public JsonSerializer, public JsonDeserializer
 {
     public:
         // --------------- Constructors ---------------
-        mutation();
+        mutation() :
+            mut_type(NULL),
+            charge(0),
+            key('')
+        {}
+        mutation(mut_type *type)
+            mut_type(type),
+            charge(0),
+            key('')
+        {}
         mutation(const mutation &rhs);
+        mutation &operator=(const mutation &rhs)
+        {
+            return *this.mut_type = rhs.mut_type;
+        }
     protected:
         // --------------- Values ---------------
+        /** What type of mutation this is. */
+        const mutation_type *mut_type;
         /** How many charges the mutation currently has. */
         int charge;
         /** What key is the mutation bound to. */
