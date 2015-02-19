@@ -355,12 +355,12 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         return;
     }
 
-    int const padding_x    = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int const padding_y    = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
-    int const window_h     = FULL_SCREEN_HEIGHT;
-    int const w_items_w    = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
-    int const w_info_w     = FULL_SCREEN_WIDTH / 2;
-    int const list_lines   = window_h - 4; // minus for header and footer
+    int const padding_x  = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const padding_y  = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
+    int const window_h   = FULL_SCREEN_HEIGHT;
+    int const w_items_w  = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
+    int const w_info_w   = FULL_SCREEN_WIDTH / 2;
+    int const list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
 
@@ -396,16 +396,16 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         item_list.emplace_back(&pair);
     }
 
-    // | {title}|
-    // 12       3
-    const std::string title = utf8_truncate(string_format(
-        _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
-
     int const lines_above = list_lines / 2;                  // lines above the selector
     int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
     int cur_pos = 0;
     for (;;) {
+        // | {title}|
+        // 12       3
+        const std::string title = utf8_truncate(string_format(
+            _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
+
         int const num_items = item_list.size();
         int const page_size = std::min(num_items, list_lines);
 
