@@ -142,7 +142,7 @@
         "ident": "tailor",
         "name": "Tailor",
         "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live long.  This is your opportunity to prove them wrong.",
-        "points": 1,
+        "points": 2, "//" : "Tailoring kit makes an already decent class for careful folks much more powerful.",
         "skills": [
             {
                 "level": 4,
