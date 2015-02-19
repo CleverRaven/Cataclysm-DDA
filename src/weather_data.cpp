@@ -38,10 +38,10 @@ std::string const& season_name(int const season)
 {
     static std::string const invalid {"bad season!"};
     static std::array<std::string, 4> const names {
-        pgettext( "season_name", "spring" ),
-        pgettext( "season_name", "summer" ),
-        pgettext( "season_name", "autumn" ),
-        pgettext( "season_name", "winter" )
+        std::string {pgettext( "season_name", "spring" )},
+        std::string {pgettext( "season_name", "summer" )},
+        std::string {pgettext( "season_name", "autumn" )},
+        std::string {pgettext( "season_name", "winter" )}
     };
 
     if (!(season >= 0 && season < 4)) {
@@ -60,8 +60,8 @@ std::string const& season_name_upper(int const season)
     };
 
     static std::array<std::string, 4> const names {
-        as_upper(season_name(0)), as_upper(season_name(1)),
-        as_upper(season_name(2)), as_upper(season_name(3))
+        {as_upper(season_name(0))}, {as_upper(season_name(1))},
+        {as_upper(season_name(2))}, {as_upper(season_name(3))}
     };
 
     if (!(season >= 0 && season < 4)) {
