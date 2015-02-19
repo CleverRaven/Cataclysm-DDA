@@ -50,7 +50,6 @@ void Character::toggle_mutation(const std::string &flag)
     } else {
         my_mutations.erase( iter );
     }
-    // TODO: why does this not call mutation_loss_effect / mutation_effect?
     recalc_sight_limits();
 }
 

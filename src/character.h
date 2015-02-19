@@ -54,7 +54,7 @@ class Character : public Creature
         
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
-        /** Toggles a mutation on the player */
+        /** Toggles a mutation on the player, but does not trigger mutation loss/gain effects. */
         void toggle_mutation(const std::string &flag);
         
  private:
@@ -294,7 +294,11 @@ class Character : public Creature
         struct trait_data : public JsonSerializer, public JsonDeserializer {
             /** Key to select the mutation in the UI. */
             char key = ' ';
-            /** TODO: I don't know who I am - comment me. */
+            /**
+             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+             * to its cost (@ref mutation_data::cost). When those costs have been paid, this
+             * is reset to @ref mutation_data::cooldown.
+             */
             int charge = 0;
             /** Whether the mutation is activated. */
             bool powered = false;

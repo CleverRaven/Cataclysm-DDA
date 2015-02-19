@@ -44,7 +44,7 @@ struct mutation_branch {
     int visibility = 0; // How visible it is
     int ugliness   = 0; // How ugly it is
     int cost       = 0;
-    int cooldown   = 0;
+    int cooldown   = 0; // costs are consumed consumed every N turns,
     std::vector<std::string> prereqs; // Prerequisites; Only one is required
     std::vector<std::string> prereqs2; // Prerequisites; need one from here too
     std::vector<std::string> threshreq; // Prerequisites; dedicated slot to needing thresholds
