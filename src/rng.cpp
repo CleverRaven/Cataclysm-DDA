@@ -1,6 +1,7 @@
 #include "rng.h"
 #include <random>
 #include <string> // hash
+#include <ctime>
 
 namespace {
 std::default_random_engine random_generator {std::random_device{}()};
