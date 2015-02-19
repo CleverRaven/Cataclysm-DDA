@@ -1242,7 +1242,7 @@
         "rotate" : true,
         "color" : "green",
         "see_cost" : 4
-		   },{
+    },{
         "type" : "overmap_terrain",
         "id" : "s_gas_rural",
         "name" : "gas station",
