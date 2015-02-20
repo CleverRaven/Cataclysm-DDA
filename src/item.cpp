@@ -407,9 +407,14 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in(item payload)
+void item::put_in(const item &payload)
 {
     contents.add(payload);
+}
+
+item item::take_out(size_t index)
+{
+    return contents.rem(index);
 }
 const char ivaresc=001;
 
@@ -791,7 +796,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
                 temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &_mn : contents.get() ) {
+                for( auto &_mn : contents) ) {
                     const auto mod = _mn.type->gunmod.get();
                     if( mod->location == ( elem ).first ) { // if mod for this location
                         if (first_mods) {
@@ -2931,14 +2936,12 @@ bool item::is_container() const
     return type->container.get() != nullptr;
 }
 
+//[davek]TODO: make sure this actually uses the `stores' var instead of cargo space.
 bool item::is_storage() const
 {
-    if(type->container) {
-        return type->container->stores;
-    } else if(type->armor) {
-        return type->armor->storage > 0;
-    }
-    return false;
+    bool can_store   = (type->container  ? type->container->stores       : false);
+    bool has_storage = (type->armor      ? (type->armor->storage > 0)    : false);
+    return (can_store || has_storage);
 }
 
 bool item::is_watertight_container() const
@@ -5109,12 +5112,115 @@ bool item_category::operator!=( const item_category &rhs ) const
 /*-----------------------------------------------------------------------------
  *                                ** STORAGE **
  *-----------------------------------------------------------------------------*/
-typedef std::vector<item>::iterator                                item_iterator;
-typedef std::vector<item>::const_iterator                    item_const_iterator;
+typedef std::list<item>::iterator                                  item_iterator;
+typedef std::list<item>::const_iterator                      item_const_iterator;
 
 storage::storage(item_iterator start, item_iterator stop)
 {
     items.insert(items.begin(), start, stop);
+}
+
+storage::storage(const std::list<item> &item_list)
+{
+}
+
+void storage::update_cache()
+{
+    if(cache_turn < mod_turn) {
+        cache.clear();
+        int cache_turn = calendar::turn();
+        for(auto &list : items) {
+            for(auto &elem : list) {
+                cache.push_back(elem);
+            }
+        }
+    }
+}
+
+/*-----------------------------------------------------------------------------
+ *                                  OVERLOADS
+ *-----------------------------------------------------------------------------*/
+item &storage::at(size_t index)
+{
+    auto pos = items.begin();
+    std::advance(pos, index);
+    return pos->front();
+}
+
+const item &storage::at(size_t index) const
+{
+    auto pos = items.cbegin();
+    std::advance(pos, index);
+    return pos->front();
+}
+
+item &storage::operator[](size_t index)
+{
+    return at(index);
+}
+
+const item &storage::operator[](size_t index) const
+{
+    return at(index);
+}
+
+item_iterator storage::begin()
+{
+    return cache.begin();
+}
+
+item_const_iterator storage::begin() const
+{
+    return cache.cbegin();
+}
+
+item_iterator storage::end()
+{
+    return cache.end();
+}
+
+item_const_iterator storage::end() const
+{
+    return cache.cend();
+}
+
+item_pointer_iterator storage::get() {}
+item_const_pointer_iterator storage::get() const {}
+
+item_iterator storage::find(item *thing)
+{
+    auto elem = items.begin();
+    for(size_t i = 0; i < items.size(); ++i) {
+//        if(item_matches(
+    }
+}
+
+item_const_iterator storage::find(item *thing) const
+{
+}
+
+bool storage::item_matches(item *thing, itype_id id, size_t index) const
+{
+    // match item based on the pointer in `elem'
+    for(const auto &elem : items) {
+        for(const auto &elem_elem : elem) {
+        }
+    }
+    if(!thing) {
+        for(const auto &elem : items) {
+            for(const auto &elem_elem : elem) {
+                if(thing == &elem_elem) {
+                    return true;
+                }
+            }
+        }
+    // match item based on itype_id
+    } else if(!id.empty()) {
+        for(const auto &elem
+    // match item based on index in `items'
+    } else if(index >= 0 || index < items.size()) {
+    }
+    return false;
 }
 
 /*-----------------------------------------------------------------------------
@@ -5122,29 +5228,44 @@ storage::storage(item_iterator start, item_iterator stop)
  *-----------------------------------------------------------------------------*/
 item *storage::add(const item &thing)
 {
-    items.push_back(thing);
-    return &items[items.size()-1];
+    std::list<item> things;
+    things.push_back(thing);
+    return add(things, -1)[0];
 }
 
-std::vector<item *> storage::add(std::vector<item> things, size_t index)
+std::vector<item *> storage::add(std::list<item> things, size_t index)
 {
     return add(things.begin(), things.end(), index);
 }
 
 std::vector<item *> storage::add(item_iterator start, item_iterator stop, size_t index)
 {
+    //[davek] TODO: update list of cached stuffs
     std::vector<item *> pointers;
-    auto pos = (items.begin() + index);
+    auto pos = items.begin();
+    std::advance(pos, index);
     items.insert(pos, start, stop);
     for(; pos != items.end(); ++pos) {
-        pointers.push_back(&(*pos));
+        pointers.push_back(&pos->front());
     }
     return pointers;
 }
 
 item storage::rem(size_t index)
 {
-    auto elem = items[index];
+
+    auto pos = items.begin();
+    std::advance(pos, index);
+    item elem = pos->front();
+    items.erase(pos);
+    return elem;
+}
+
+item storage::rem(item *thing)
+{
+    auto pos = items.begin();
+    std::advance(pos, index);
+    item elem = pos->front();
     items.erase(items.begin() + index);
     return elem;
 }
@@ -5162,6 +5283,45 @@ std::vector<item> storage::rem(item_iterator start, item_iterator stop)
     }
     items.erase(start, stop);
     return things;
+}
+
+size_t storage::index_of(const item *thing) const
+{
+    size_t i = 0;
+    for(; i < items.size(); ++i) {
+        if(thing == &items[i]) {
+            return i;
+        }
+    }
+    // make improper retval checking obvious
+    return items.size();
+}
+
+template <typename T>
+size_t storage::index_of_filter(T filter) const
+{
+    size_t i = 0;
+    for(; i < items.size(); ++i) {
+        if(filter(items[i])) {
+            return i;
+        }
+    }
+    return items.size();
+}
+
+void storage::push_back(const item &thing)
+{
+    add(thing);
+}
+
+void storage::erase(item_iterator pos)
+{
+    rem(pos);
+}
+
+void storage::erase(item_iterator start, item_iterator stop)
+{
+    rem(start, stop);
 }
 
 /*-----------------------------------------------------------------------------
@@ -5199,7 +5359,7 @@ template <typename T> bool storage::filter_by(T filter) const
     return false;
 }
 
-template <typename T> std::list<item> storage::filter_by(T filter)
+template <typename T> std::vector<item> storage::filter_by(T filter)
 {
     std::list<item> things;
     for(auto &elem : items) {
@@ -5208,6 +5368,38 @@ template <typename T> std::list<item> storage::filter_by(T filter)
         }
     }
     return things;
+}
+
+indexed_invslice storage::slice()
+{
+    return slice_filter_by([](const item &) {
+        return true;});
+}
+
+template <typename T> indexed_invslice storage::slice_filter_by(T filter)
+{
+    int i = 0;
+    indexed_invslice stacks;
+    for(auto &elem : items) {
+        if(filter(elem)) {
+            stacks.push_back(std::list<std::make_pair(&elem, i));
+        }
+        ++i;
+    }
+    return stacks;
+}
+
+template <typename T> invslice filter_recursive_by(T filter)
+{
+    std::vector<std::list<item> *> slice;
+    for(auto &elem : items) {
+        for(auto &elem_elem : elem) {
+            if(filter(elem_elem)) {
+                slice.push_back(&elem);
+            }
+        }
+    }
+    return slice;
 }
 
 /*-----------------------------------------------------------------------------
@@ -5226,7 +5418,7 @@ bool storage::made_of(const std::string &f) const
 }
 
 /*-----------------------------------------------------------------------------
- *  
+ *  boolean stuffs
  *-----------------------------------------------------------------------------*/
 bool storage::has_brew() const
 {

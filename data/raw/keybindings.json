@@ -1280,7 +1280,7 @@
         "id": "MOVE_ITEM",
         "category": "INVENTORY",
         "name": "Move item around inventory",
-        "bindings":[ { "input_method":"keyboard", "key":"SPACE" } ]
+        "bindings":[ { "input_method":"keyboard", "key":"s" } ]
     },
     {
         "type" : "keybinding",

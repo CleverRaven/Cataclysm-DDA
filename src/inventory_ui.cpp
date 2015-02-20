@@ -341,7 +341,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
                 cur_line++;
                 auto content_color  = it.contents[i].color_in_inventory();
                 auto content_name   = trim_to(it.contents[i].display_name(), w - 4);
-                trim_and_print(w_inv, cur_line, y + 4, w - 2, content_color, "\\_%s", content_name.c_str());
+                trim_and_print(w_inv, cur_line, y + 5, w - 2, content_color, "|- %s", content_name.c_str());
             }
         }
     }
@@ -535,7 +535,6 @@ bool inventory_selector::handle_movement(const std::string &action)
 
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
-//    } else if (action == "MOVE_ITEM") {
     } else if (action == "LEFT") {
         if (this->items.size() > 0) {
             in_inventory = !in_inventory;
@@ -785,6 +784,25 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
             return item_pos;
         } else if (inv_s.handle_movement(action)) {
             continue;
+        } else if (action == "MOVE_ITEM") {
+            int bag_pos = inv_for_filter(_("Move:"), [](const item &elem) {
+                return elem.is_storage();});
+            if(bag_pos != INT_MIN) { 
+                item *thing = &u.i_at(inv_s.get_selected_item_position());
+                item *bag   = &u.i_at(bag_pos);
+                if(bag == thing) {
+                    popup(_("You can't store an item in itself!"));
+                    continue;
+                }
+                // remove the item from storage if that's what we selected
+                if(thing->is_storage()) {
+                    int item_pos = inv_for_contents(_("Remove:"), [](const item &elem) {
+                        }, *thing);
+                } else {
+                    u.store(bag, thing, "survival", thing->volume());   //FIXME: skill?
+                }
+            }
+            return INT_MIN;
         } else if (action == "CONFIRM" || action == "RIGHT") {
             return inv_s.get_selected_item_position();
         } else if (action == "QUIT") {
@@ -936,6 +954,14 @@ int game::inv_for_filter(std::string const &title, const item_filter filter)
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
+    return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_contents(const std::string &title, const item &thing)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = thing.slice();
     return display_slice(reduced_inv, title);
 }
 

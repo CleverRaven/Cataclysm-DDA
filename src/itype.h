@@ -77,7 +77,6 @@ struct islot_container {
      * Can store other items in this container
      */
     bool stores = false;
-
 };
 
 struct islot_armor {

@@ -54,7 +54,8 @@ class inventory
         indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
+        indexed_invslice slice_filter_by_salvageability();
+        indexed_invslice slice_filter_by_contents();
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -78,7 +79,7 @@ class inventory
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.
-         * @param it A pointer to the item to be removed. The item *must* exists
+         * @param it A pointer to the item to be removed. The item *must* exist
          * in this inventory.
          * @return A copy of the removed item.
          */

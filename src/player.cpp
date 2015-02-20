@@ -12567,9 +12567,26 @@ void player::wield_contents(item *container, bool force_invlet,
 
 void player::store(item* container, item* put, std::string skill_used, int volume_factor)
 {
-    int lvl = skillLevel(skill_used);
-    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    // do not store item in itself
+    if(container ==  put) {
+        return;
+    }
+    int lvl = (!skill_used.empty() ? (int)skillLevel(skill_used) : 1);
+    moves  -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
     container->put_in(i_rem(put));
+}
+
+item player::unpack(item* container, item *get, std::string skill_used, int volume_factor)
+{
+    return unpack(container, container->contents.index_of(get), skill_used, volume_factor);
+}
+
+item player::unpack(item* container, size_t index, std::string skill_used, int volume_factor)
+{
+    int lvl = (!skill_used.empty() ? (int)skillLevel(skill_used) : 1);
+    item &p = container->contents[index];
+    moves  -= (lvl == 0) ? ((volume_factor + 1) * p.volume()) : (volume_factor * p.volume()) / lvl;
+    return i_add(container->take_out(index));
 }
 
 nc_color encumb_color(int level)
