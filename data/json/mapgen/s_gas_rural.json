@@ -116,7 +116,7 @@
             { "item": "road",     "chance": 20, "x": [ 20,20 ],   "y": [13,14] },
             { "item": "snacks",     "chance": 13, "x": [ 2,5 ],   "y": 13},
             { "item": "camping",    "chance": 70, "x": [ 9,9 ], "y": [ 15,15 ] },
-            { "item": "homebooks",  "chance": 60, "x": [ 13,13 ], "y": [ 9,12 ] },
+            { "item": "homebooks",  "chance": 60, "x": [ 7,7 ], "y": [ 19,20 ] },
             { "item": "magazines",  "chance": 90, "x": [ 9,9 ], "y": [ 13,15 ] },
             { "item": "softdrugs",  "chance": 80, "x": [ 8,8 ], "y": [ 13,15 ] }
             ],

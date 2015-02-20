@@ -22,16 +22,6 @@
 	},{
         "type" : "speech",
         "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"SAVE THEM.\"",
-        "volume" : 40
-	},{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"HELP THEM\"",
-        "volume" : 40
-	},{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
         "sound" : "\"SKREEEEEEEEEEEEEE!\"",
         "volume" : 75
 	},{
@@ -60,16 +50,6 @@
         "sound" : "\"It's me.\"",
         "volume" : 40
     },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"SAVE THEM\"",
-        "volume" : 40
-	},{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"HELP THEM\"",
-        "volume" : 40
-	},{
         "type" : "speech",
         "speaker" : "mon_animatronic_bear",
         "sound" : "\"Ha huhuhu huh huh.\"",
