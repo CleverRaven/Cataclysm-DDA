@@ -4601,7 +4601,7 @@
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
-        "material" : ["wood", "null", "steel"],
+        "material" : ["wood", "steel"],
         "techniques" : ["WBLOCK_1", "RAPID", " DISARM"],
         "volume" : 6,
         "bashing" : 5,
