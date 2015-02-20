@@ -177,7 +177,7 @@
         "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 200], "//":"how far from a city it should be",
         "city_sizes" : [1, 3], "//":"what city sizes should it spawn in",
-        "occurrences" : [2, 4], "//":"how many per overmap",
+        "occurrences" : [ 0,2 ], "//":"how many per overmap",
         "rotate" : true    , "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
