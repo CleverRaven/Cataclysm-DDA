@@ -480,6 +480,66 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "office_tower_2_a1",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_a2",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{       
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_a3",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{ 
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b1",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b2",
+        "name" : "office tower",
+        "rotate" : true,
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{ 
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b3",
+        "name" : "office tower",
+        "sym" : 84,
+        "rotate" : true,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
         "id" : "church",
         "name" : "church",
         "rotate" : true,
