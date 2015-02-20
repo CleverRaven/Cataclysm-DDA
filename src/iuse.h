@@ -240,7 +240,7 @@ protected:
     iuse_actor() = default;
 public:
     std::string type;
-    virtual ~iuse_actor() = default;
+    virtual ~iuse_actor() {}; // TODO: should be = default, but this is broken until GCC 4.8
     virtual long use(player*, item*, bool, point) const = 0;
     virtual bool can_use( const player*, const item*, bool, const point& ) const { return true; }
     virtual iuse_actor *clone() const = 0;

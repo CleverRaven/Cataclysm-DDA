@@ -265,7 +265,7 @@ class JsonIn
                 while (!end_array()) {
                     typename T::value_type element;
                     if (read(element)) {
-                        v.emplace(std::move(element));
+                        v.insert(std::move(element));
                     } else {
                         skip_value();
                     }
