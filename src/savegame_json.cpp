@@ -133,6 +133,15 @@ void Character::load(JsonObject &data)
     data.read("underwater", underwater);
 
     data.read("traits", my_traits);
+    for( auto it = my_traits.begin(); it != my_traits.end(); ) {
+        const auto &tid = *it;
+        if( mutation_branch::has( tid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
+            my_traits.erase( it++ );
+        }
+    }
 
     if( savegame_loading_version <= 23 ) {
         std::unordered_set<std::string> old_my_mutations;
@@ -152,6 +161,15 @@ void Character::load(JsonObject &data)
         }
     } else {
         data.read( "mutations", my_mutations );
+    }
+    for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
+        const auto &mid = it->first;
+        if( mutation_branch::has( mid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
+            my_mutations.erase( it++ );
+        }
     }
 
     data.read( "my_bionics", my_bionics );

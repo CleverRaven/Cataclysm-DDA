@@ -1562,6 +1562,8 @@ void player::load_legacy(std::stringstream & dump)
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }
@@ -1571,6 +1573,8 @@ void player::load_legacy(std::stringstream & dump)
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_mutations[sTemp]; // Creates a new entry with default values
     }
@@ -1740,6 +1744,8 @@ void npc::load_legacy(std::stringstream & dump) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }
