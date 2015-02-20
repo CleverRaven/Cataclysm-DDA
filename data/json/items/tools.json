@@ -7091,7 +7091,27 @@
     "ammo": "battery",
     "revert_to": "null"
   },
-
+{
+    "id": "polisher",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "electric polisher",
+    "description": "An electric polisher used to polish metal surfaces capable of making them reflect light as a mirror would",
+    "price": 35000,
+    "material": ["steel", "plastic"],
+    "weight": 1000,
+    "volume": 14,
+    "bashing": 6,
+    "cutting": 2,
+    "to_hit": -2,
+    "max_charges": 100,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null"
+  },
   {
     "id": "crucible",
     "type": "TOOL",
