@@ -532,7 +532,7 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
-	},{
+    },{
         "type" : "overmap_special",
         "id" : "Office Tower 2.0",
         "overmaps" :
@@ -574,7 +574,6 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
-		
     },{
         "type" : "overmap_special",
         "id" : "School",

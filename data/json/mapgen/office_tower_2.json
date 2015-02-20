@@ -1,61 +1,59 @@
 [
-  {
+    {
     "type":"monstergroup",
     "name" : "GROUP_OFFICE_TOWER_2",
     "default" : "mon_null",
     "monsters" : [
-		{"monster" : "mon_zombie", "freq" : 600, "cost_multiplier" : 1, "pack_size": [3,5] },
-		{"monster" : "mon_zombie", "freq" : 200, "cost_multiplier" : 1 },
-		{ "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier" : 3 },
-		{ "monster" : "mon_zombie_gasbag", "freq" : 30, "cost_multiplier": 10, "pack_size": [3,5]},
-		{ "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 6 }
-                 ]
-	},{
-
-    		"type" : "item_group",
-    		"id" : "file_room",
-    		"items" : [
-    		    ["file", 99],
-    		    ["file", 99],
-    		    ["record_accounting", 10],
-     		    ["paper", 80],
-    		    ["safe_box", 1]
-      	 ]
-   	},{
-   	 	"type" : "item_group",
-    		"id" : "office_mess",
-    		"items" : [
-    		["file", 99],
-     		["paper", 60],
-     		["laptop", 2],
-  		    ["inhaler", 5],
-		    ["mbag", 2],
-		    ["mop", 5],
-	  	    ["cell_phone", 10],
-  		    ["duct_tape", 5],
-		    ["battery", 5],
-		    ["flashlight", 10],
-		    ["umbrella", 5],
-		    ["teleumbrella", 10],
-		    ["clock", 10],
-		    ["survnote", 1],
-		    ["clock", 10],
-		    ["pda", 8],
-		    ["coffeemaker", 2],
-		    ["bubblewrap", 10],
-		    ["glowstick", 10],
-		    ["radio", 2],
-		    ["fan", 5],
-		    ["fan", 5],
-		    ["cola", 2],
-		    ["can_drink", 5],
-		    ["cig", 15],
-        	["purse", 2],
-        	["pipe_tobacco", 1],
-      	    ["permanent_marker", 5]
-     	    ]
-   	},
-    {
+        {"monster" : "mon_zombie", "freq" : 600, "cost_multiplier" : 1, "pack_size": [3,5] },
+        {"monster" : "mon_zombie", "freq" : 200, "cost_multiplier" : 1 },
+        { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier" : 3 },
+        { "monster" : "mon_zombie_gasbag", "freq" : 30, "cost_multiplier": 10, "pack_size": [3,5]},
+        { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 6 }
+    ]
+    },{
+    "type" : "item_group",
+    "id" : "file_room",
+    "items" : [
+        ["file", 99],
+        ["file", 99],
+        ["record_accounting", 10],
+        ["paper", 80],
+        ["safe_box", 1]
+    ]
+    },{
+    "type" : "item_group",
+    "id" : "office_mess",
+    "items" : [
+        ["file", 99],
+        ["paper", 60],
+        ["laptop", 2],
+        ["inhaler", 5],
+        ["mbag", 2],
+        ["mop", 5],
+        ["cell_phone", 10],
+        ["duct_tape", 5],
+        ["battery", 5],
+        ["flashlight", 10],
+        ["umbrella", 5],
+        ["teleumbrella", 10],
+        ["clock", 10],
+        ["survnote", 1],
+        ["clock", 10],
+        ["pda", 8],
+        ["coffeemaker", 2],
+        ["bubblewrap", 10],
+        ["glowstick", 10],
+        ["radio", 2],
+        ["fan", 5],
+        ["fan", 5],
+        ["cola", 2],
+        ["can_drink", 5],
+        ["cig", 15],
+        ["purse", 2],
+        ["pipe_tobacco", 1],
+        ["permanent_marker", 5]
+    ]
+    },{
         "type": "mapgen",
         "om_terrain": [
             "office_tower_2_a1"
@@ -167,11 +165,11 @@
                 { "type": "toilet", "x": 23, "y": 16 }
             ],
             "place_groups": [
-			{ "item": "office_mess", "chance": 98, "x": [ 8,23 ], "y": [ 4,10 ]},
-			{ "item": "office_mess", "chance": 50, "x": [ 11,23 ], "y": [ 19,19 ]},
-			{ "item": "cleaning", "chance": 60, "x": [ 11,11 ], "y": [ 21,22 ]},
-			{ "item": "cleaning", "chance": 60, "x": [ 15,15 ], "y": [ 21,22 ]},
-                { "monster": "GROUP_OFFICE_TOWER_2", "chance": 2, "x": [ 7, 21 ], "y": [ 4, 21 ], "density": 1.5}
+            { "item": "office_mess", "chance": 98, "x": [ 8,23 ], "y": [ 4,10 ]},
+            { "item": "office_mess", "chance": 50, "x": [ 11,23 ], "y": [ 19,19 ]},
+            { "item": "cleaning", "chance": 60, "x": [ 11,11 ], "y": [ 21,22 ]},
+            { "item": "cleaning", "chance": 60, "x": [ 15,15 ], "y": [ 21,22 ]},
+            { "monster": "GROUP_OFFICE_TOWER_2", "chance": 2, "x": [ 7, 21 ], "y": [ 4, 21 ], "density": 1.5}
             ]
         }
     },
@@ -179,7 +177,7 @@
         "type": "mapgen",
         "om_terrain": [
             "office_tower_2_a2"
-			],
+            ],
         "method": "json",
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
@@ -277,8 +275,8 @@
                 "G": "f_oven"
             },
             "place_groups": [
-			{ "item": "office_mess", "chance": 98, "x": [ 0,18 ], "y": [ 4,20 ]},
-			{ "item": "file_room", "chance": 95, "x": [ 8,18 ], "y": [ 21,23 ]},
+                { "item": "office_mess", "chance": 98, "x": [ 0,18 ], "y": [ 4,20 ]},
+                { "item": "file_room", "chance": 95, "x": [ 8,18 ], "y": [ 21,23 ]},
                 { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 19 ], "y": [ 4, 21 ], "density": 0.9}
             ]
         }
@@ -390,7 +388,7 @@
             ]
         }
     },
-	    {
+        {
         "type": "mapgen",
         "om_terrain": [
             "office_tower_2_b1"
@@ -492,8 +490,8 @@
                 "G": "f_oven"
             },
             "place_groups": [
-			{ "item": "vending_food", "chance": 80, "x": [ 8,23 ], "y": [ 0,8 ]},
-			{ "item": "office_mess", "chance": 98, "x": [ 7,23 ], "y": [ 9,19 ]},
+                { "item": "vending_food", "chance": 80, "x": [ 8,23 ], "y": [ 0,8 ]},
+                { "item": "office_mess", "chance": 98, "x": [ 7,23 ], "y": [ 9,19 ]},
                 { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 23 ], "y": [ 0, 19 ]}
             ]
         }
@@ -600,8 +598,8 @@
                 "G": "f_oven"
             },
             "place_groups": [
-			{ "item": "file_room", "chance": 98, "x": [ 7,18 ], "y": [ 1,3 ]},
-			{ "item": "office_mess", "chance": 98, "x": [ 0,18 ], "y": [ 10,19 ]},
+                { "item": "file_room", "chance": 98, "x": [ 7,18 ], "y": [ 1,3 ]},
+                { "item": "office_mess", "chance": 98, "x": [ 0,18 ], "y": [ 10,19 ]},
                 { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 23 ], "y": [ 0, 19 ]}
             ]
         }
@@ -714,7 +712,7 @@
                 "G": "f_oven"
             },
             "place_groups": [
-			{ "item": "office_mess", "chance": 50, "x": [ 15, 20], "y": [ 11, 19 ]},
+                { "item": "office_mess", "chance": 50, "x": [ 15, 20], "y": [ 11, 19 ]},
                 { "monster": "GROUP_OFFICE_TOWER_2", "chance": 2, "x": [ 0, 19 ], "y": [ 0, 19 ]}
             ]
         }
