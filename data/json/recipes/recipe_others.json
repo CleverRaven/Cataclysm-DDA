@@ -5047,7 +5047,7 @@
       [ "glass_sheet", 1 ]
      ],
      [
-      [ "silver_small", 50 ]
+      [ "silver_small", 50 ], ["chunk_steel", 2]
      ]
     ]
 },{
