@@ -50,6 +50,8 @@ struct mutation_branch {
     {
         valid = false;
     };
+    // For init.cpp: check internal consistency (valid ids etc.) of all mutations
+    static void check_consistency();
 };
 
 extern std::vector<std::string> faulty_traits;
