@@ -1304,6 +1304,17 @@
         "see_cost" : 4
     },{
         "type" : "overmap_terrain",
+        "id" : "s_gas_rural",
+        "name" : "gas station",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_blue",
+        "see_cost" : 0,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
         "id" : "mansion_entrance",
         "name" : "mansion",
         "sym" : 77,
