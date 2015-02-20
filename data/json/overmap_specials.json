@@ -534,7 +534,7 @@
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
-        "id" : "Office Tower 2.0",
+        "id" : "Office_Tower_2.0",
         "overmaps" :
         [
             { "point":[-2,0,0], "overmap": "office_tower_2_a1_north"},
@@ -547,7 +547,7 @@
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [6, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 5], "//":"how many per overmap",
+        "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
