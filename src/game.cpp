@@ -12724,6 +12724,11 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
+    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        movez = 0;
+    }
+
     levz += movez;
     u.moves -= 100;
     m.clear_vehicle_cache();

@@ -565,7 +565,7 @@ void add_corpse(int x, int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
- const std::set<point> &trap_locations(trap_id t) const;
+ const std::set<point> trap_locations(trap_id t) const;
 
 // Fields
         /**
@@ -727,6 +727,7 @@ void add_corpse(int x, int y);
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
+ bool inbounds(const int x, const int y, const int z) const;
 
  int getmapsize() { return my_MAPSIZE; };
 
@@ -736,13 +737,14 @@ void add_corpse(int x, int y);
  void add_road_vehicles(bool city, int facing);
 
 protected:
-        void saven( int gridx, int gridy );
+        void saven( int gridx, int gridy, int gridz );
         void loadn( int gridx, int gridy, bool update_vehicles );
+        void loadn( int gridx, int gridy, int gridz, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
-        void actualize( const int gridx, const int gridy );
+        void actualize( const int gridx, const int gridy, const int gridz );
         /**
          * Whether the item has to be removed as it has rotten away completely.
          * @param pnt The point on this map where the items are, used for rot calculation.
@@ -832,6 +834,7 @@ private:
          * (x,y) must be a valid coordinate, check with @ref inbounds.
          */
         submap *get_submap_at( int x, int y ) const;
+        submap *get_submap_at( int x, int y, int z ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
          * The same as other get_submap_at, (x,y) must be valid (@ref inbounds).
@@ -843,11 +846,14 @@ private:
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          */
         submap *get_submap_at_grid( int gridx, int gridy ) const;
+        submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
+         * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
         size_t get_nonant( int gridx, int gridy ) const;
+        size_t get_nonant( const int gridx, const int gridy, const int gridz ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
          * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
@@ -908,7 +914,7 @@ private:
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
         std::vector<submap*> grid;
- std::map<trap_id, std::set<point> > traplocs;
+ std::map<trap_id, std::set<tripoint> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

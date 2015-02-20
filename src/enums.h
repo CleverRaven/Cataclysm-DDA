@@ -243,11 +243,45 @@ inline bool operator!=(const point &a, const point &b)
     return !(a == b);
 }
 
-struct tripoint {
+struct tripoint : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     int z;
     tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
+    tripoint(const point &p, int Z = 0) : x (p.x), y (p.y), z (Z) {}
+    tripoint(tripoint &&) = default;
+    tripoint(const tripoint &) = default;
+    tripoint &operator=(tripoint &&) = default;
+    tripoint &operator=(const tripoint &) = default;
+    ~tripoint() {}
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const
+    {
+        jsout.start_array();
+        jsout.write(x);
+        jsout.write(y);
+        jsout.write(z);
+        jsout.end_array();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin)
+    {
+        JsonArray ja = jsin.get_array();
+        x = ja.get_int(0);
+        y = ja.get_int(1);
+        z = ja.get_int(2);
+    }
+    tripoint operator+(const tripoint &rhs) const
+    {
+        return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
+    }
+    tripoint &operator+=(const tripoint &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
+        return *this;
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
