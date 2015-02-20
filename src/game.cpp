@@ -7895,7 +7895,8 @@ bool pet_menu(monster *z)
             g->u.add_msg_if_player(_("You tear out the pheromone ball from the zombie slave."));
 
             item ball("pheromone", 0);
-            iuse::pheromone(&(g->u), &ball, true, g->u.pos());
+            iuse pheromone;
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
         }
 
     }

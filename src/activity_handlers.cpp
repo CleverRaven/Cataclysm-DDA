@@ -360,7 +360,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    iuse::completefirstaid(p, &it, false, p->pos());
+    iuse tmp;
+    tmp.completefirstaid(p, &it, false, p->pos());
     p->reduce_charges(act->position, 1);
     // Erase activity and values.
     act->type = ACT_NULL;

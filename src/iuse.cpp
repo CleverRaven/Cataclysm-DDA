@@ -34,12 +34,6 @@
 
 #include "iuse_software.h"
 
-namespace {
-    typedef std::pair<std::string, int> result_t;
-    typedef std::vector<result_t> result_list_t;
-    typedef std::map<std::string, result_list_t> bullet_pulling_t;
-}
-
 void remove_double_ammo_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "DOUBLE_AMMO" ) ) {
@@ -2334,7 +2328,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
         p->pkill += 30;
-        purifier(p, it, t, pos);
+        this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
         }
@@ -2459,7 +2453,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
         p->pkill += 30;
-        purifier(p, it, t, pos);
+        this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
         }
@@ -2580,7 +2574,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
         p->pkill += 30;
-        purifier(p, it, t, pos);
+        this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
         }
@@ -2640,7 +2634,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
         p->add_msg_if_player(m_neutral, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
         p->add_msg_if_player(m_good, _("You feel better all over."));
         p->pkill += 30;
-        purifier(p, it, t, pos); // Clear out some of that goo you may have floating around
+        this->purifier(p, it, t, pos); // Clear out some of that goo you may have floating around
         p->radiation = 0;
         p->healall(4); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player(m_good, _("As the apple settles in, you feel ecstasy radiating through every part of your body..."));
@@ -7335,7 +7329,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t, point pos)
     return it->type->charges_to_use();
 }
 
-bullet_pulling_t bullet_pulling_recipes;
+iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
 
 void iuse::reset_bullet_pulling()
 {
