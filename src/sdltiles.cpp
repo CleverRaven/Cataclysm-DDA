@@ -43,7 +43,7 @@
 #endif
 
 #ifdef SDL_SOUND
-#include "SDL_mixer.h"
+#include "SDL2/SDL_mixer.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
