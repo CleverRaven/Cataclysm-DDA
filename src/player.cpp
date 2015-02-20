@@ -3674,7 +3674,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     const char *morale_str;
     if      (morale_cur >= 200) morale_str = "8D";
     else if (morale_cur >= 100) morale_str = ":D";
-    else if (morale_cur >= 10)  morale_str = ":)";
+    else if (has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":3";
+    else if (!has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":)";
     else if (morale_cur > -10)  morale_str = ":|";
     else if (morale_cur > -100) morale_str = "):";
     else if (morale_cur > -200) morale_str = "D:";
