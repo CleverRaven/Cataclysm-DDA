@@ -289,14 +289,7 @@ void mattack::pull_metal_weapon(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
-            int wp_skill = 0;
-            if ( foe->weapon.is_gun() ) {
-                wp_skill = foe->skillLevel("gun");
-            } else if ( foe->weapon.is_cutting_weapon() ) {
-                wp_skill = foe->skillLevel("cutting");
-            } else if ( foe->weapon.is_bashing_weapon() ) {
-                wp_skill = foe->skillLevel("bashing");
-            }
+            int wp_skill = foe->skillLevel("melee");
             z->moves -= att_cost_pull;   // It takes a while
             z->reset_special(index); // Reset timer
             int success = 100;
