@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 #endif
     bool verifyexit = false;
     bool check_all_mods = false;
+    bool explicit_seed = false;
 
     // Set default file paths
 #ifdef PREFIX
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if(argc) {
+                explicit_seed = true;
                 seed_random_number_generator(argv[0]);
                 argc--;
                 argv++;
@@ -234,6 +236,10 @@ int main(int argc, char *argv[])
 #endif
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
+
+    if (!explicit_seed) {
+        seed_random_number_generator();
+    }
 
     g = new game;
     // First load and initialize everything that does not

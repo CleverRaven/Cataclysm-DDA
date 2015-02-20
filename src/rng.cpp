@@ -1,5 +1,7 @@
 #include "rng.h"
 #include <random>
+#include <string> // hash
+#include <ctime>
 
 namespace {
 std::default_random_engine random_generator {std::random_device{}()};
@@ -7,8 +9,12 @@ std::default_random_engine random_generator {std::random_device{}()};
 
 void seed_random_number_generator(char const* seed)
 {
-    random_generator.seed(
-        static_cast<unsigned>(djb2_hash(reinterpret_cast<unsigned char const*>(seed))));
+    if (!seed) {
+        // std::random_device returns the same sequence on older version of GCC on windows.
+        random_generator.seed(time(nullptr) ^ 0xDEADBEEF);
+    } else {
+        random_generator.seed(std::hash<std::string> {}(seed));
+    }
 }
 
 long rng(long const val1, long const val2)
@@ -64,17 +70,4 @@ int dice(int number, int sides)
         ret += rng(1, sides);
     }
     return ret;
-}
-
-// http://www.cse.yorku.ca/~oz/hash.html
-// for world seeding.
-int djb2_hash(const unsigned char *str)
-{
-    unsigned long hash = 5381;
-    unsigned char c = *str++;
-    while (c != '\0') {
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-        c = *str++;
-    }
-    return hash;
 }
