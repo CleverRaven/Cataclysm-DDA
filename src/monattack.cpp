@@ -737,7 +737,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         break;
     case att_flavor : {
-        const int i = get_random_index(m_flavor);
+        const size_t i = get_random_index(m_flavor);
 
         // the special case; see above
         if (i == m_flavor.size() - 1) {
