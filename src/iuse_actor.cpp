@@ -8,10 +8,6 @@
 #include <sstream>
 #include <algorithm>
 
-iuse_transform::~iuse_transform()
-{
-}
-
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform(*this);
@@ -89,12 +85,6 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     return 0;
 }
 
-
-
-auto_iuse_transform::~auto_iuse_transform()
-{
-}
-
 iuse_actor *auto_iuse_transform::clone() const
 {
     return new auto_iuse_transform(*this);
@@ -128,12 +118,6 @@ long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     return iuse_transform::use(p, it, t, pos);
-}
-
-
-
-explosion_iuse::~explosion_iuse()
-{
 }
 
 iuse_actor *explosion_iuse::clone() const
@@ -220,12 +204,6 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
     return 1;
 }
 
-
-
-unfold_vehicle_iuse::~unfold_vehicle_iuse()
-{
-}
-
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
     return new unfold_vehicle_iuse(*this);
@@ -307,8 +285,6 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     }
     return 1;
 }
-
-consume_drug_iuse::~consume_drug_iuse() {}
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -392,8 +368,6 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     return it->type->charges_to_use();
 }
 
-delayed_transform_iuse::~delayed_transform_iuse() {}
-
 iuse_actor *delayed_transform_iuse::clone() const
 {
     return new delayed_transform_iuse(*this);
@@ -419,8 +393,6 @@ long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
     }
     return iuse_transform::use( p, it, t, pos );
 }
-
-place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
@@ -516,8 +488,6 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {}
-
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
@@ -578,9 +548,6 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
     }
     return 0;
 }
-
-
-pick_lock_actor::~pick_lock_actor() {}
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -673,9 +640,6 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     return it->type->charges_to_use();
 }
 
-
-reveal_map_actor::~reveal_map_actor() {}
-
 iuse_actor *reveal_map_actor::clone() const
 {
     return new reveal_map_actor(*this);
@@ -718,8 +682,6 @@ long reveal_map_actor::use( player *p, item *it, bool, point ) const
     it->mark_as_used_by_player( *p );
     return 0;
 }
-
-firestarter_actor::~firestarter_actor() {}
 
 void firestarter_actor::load( JsonObject &obj )
 {
@@ -826,8 +788,6 @@ bool firestarter_actor::can_use( const player* p, const item*, bool, const point
 
     return true;
 }
-
-extended_firestarter_actor::~extended_firestarter_actor() {}
 
 void extended_firestarter_actor::load( JsonObject &obj )
 {
