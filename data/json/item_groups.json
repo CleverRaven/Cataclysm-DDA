@@ -701,6 +701,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      ["polisher", 10],
       ["jumper_cable", 3],
       ["superglue", 30],
       ["string_6", 2],
@@ -1794,6 +1795,7 @@
     "type" : "item_group",
     "id" : "hardware",
     "items":[
+      ["polisher", 15],
       ["jumper_cable", 10],
       ["jumper_cable_heavy", 2],
       ["concrete", 20],
@@ -1866,6 +1868,7 @@
     "type" : "item_group",
     "id" : "tools",
     "items":[
+      ["polisher", 20],
       ["screwdriver", 40],
       ["hammer", 35],
       ["wrench", 30],
@@ -2920,6 +2923,7 @@
     "type" : "item_group",
     "id" : "gunsmith_tools",
     "items":[
+      ["polisher", 40],
       ["glasses_safety", 60],
       ["screwdriver",70],
       ["hammer",70],
@@ -4816,6 +4820,7 @@
     "type" : "item_group",
     "id" : "pawn",
     "items":[
+      ["polisher", 6],
       ["trex_gun", 1],
       ["700nx", 1],
       ["700nx_casing", 1],
@@ -5353,6 +5358,7 @@
     "type" : "item_group",
     "id" : "mechanics",
     "items":[
+      ["polisher", 15],
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
       ["wrench", 30],
@@ -8231,6 +8237,7 @@
       ["corpse", 10],
       ["fire", 10],
       ["toolset", 10],
+      ["polisher", 5],
       ["meat", 50],
       ["veggy", 30],
       ["meat_tainted", 60],
@@ -8998,6 +9005,7 @@
 "type" : "item_group",
 "id" : "jewelry_back",
 "items":[
+      ["polisher", 10],
       ["ring", 15],
       ["gold_ear", 15],
       ["gold_bracelet", 15],
