@@ -45,6 +45,12 @@ class inventory
         inventory  operator+  (const item &rhs);
         inventory  operator+  (const std::list<item> &rhs);
 
+        // overloads for iterating inventory items
+        invstack::iterator          begin()         {}
+        invstack::iterator          end()           {}
+        invstack::const_iterator    begin() const   {}
+        invstack::const_iterator    end()   const   {}
+
         static bool has_activation(const item &it, const player &u);
         static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);

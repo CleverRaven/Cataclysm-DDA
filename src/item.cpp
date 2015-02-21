@@ -5204,21 +5204,16 @@ bool storage::item_matches(item *thing, itype_id id, size_t index) const
     // match item based on the pointer in `elem'
     for(const auto &elem : items) {
         for(const auto &elem_elem : elem) {
-        }
-    }
-    if(!thing) {
-        for(const auto &elem : items) {
-            for(const auto &elem_elem : elem) {
-                if(thing == &elem_elem) {
-                    return true;
-                }
+            // match based on pointer address
+            if(thing && thing == &elem_elem) {
+                return true;
+            // match item based on itype_id
+            } else if(!id.empty()) {
+//                for(const auto &elem
+            // match item based on index in `items'
+            } else if(index >= 0 || index < items.size()) {
             }
         }
-    // match item based on itype_id
-    } else if(!id.empty()) {
-        for(const auto &elem
-    // match item based on index in `items'
-    } else if(index >= 0 || index < items.size()) {
     }
     return false;
 }
