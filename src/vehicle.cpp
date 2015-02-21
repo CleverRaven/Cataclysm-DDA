@@ -1906,7 +1906,10 @@ bool vehicle::remove_part (int p)
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
-        // Also unboard entity if seat gets removed
+    }
+
+    // Unboard any entities standing on removed boardable parts
+    if(part_flag(p, "BOARDABLE")) {
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
