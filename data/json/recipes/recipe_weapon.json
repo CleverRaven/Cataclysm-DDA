@@ -5562,7 +5562,8 @@
 	"difficulty": 1,
 	"time": 500,
 	"reversible": true,
-	"autolearn": true,
+	"autolearn": false,
+        "book_learn": [[ "recipe_lab_cvd", 9 ]],
 	"components": [
 		[
 			[ "diamond_knife", 1 ]
@@ -5581,7 +5582,8 @@
 	"difficulty": 1,
 	"time": 500,
 	"reversible": true,
-	"autolearn": true,
+	"autolearn": false,
+        "book_learn": [[ "recipe_lab_cvd", 9 ]],
 	"components": [
 		[
 			[ "diamond_machete", 1 ]
@@ -5600,7 +5602,8 @@
 	"difficulty": 1,
 	"time": 500,
 	"reversible": true,
-	"autolearn": true,
+	"autolearn": false,
+        "book_learn": [[ "recipe_lab_cvd", 9 ]],
 	"components": [
 		[
 			[ "diamond_knife", 1 ]
