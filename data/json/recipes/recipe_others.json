@@ -652,7 +652,7 @@
   ],
   "components": [
     [
-      [ "bone", 1 ]
+      [ "bone", 1 ], ["bone_human", 1], ["bone_tainted", 1]
     ]
   ]
 },{
