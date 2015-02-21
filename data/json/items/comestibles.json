@@ -9781,7 +9781,7 @@
         "quench" : 10,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 200,
+        "nutrition" : 70,
         "description" : "A large white ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
         "price" : 80,
         "material" : "egg",
