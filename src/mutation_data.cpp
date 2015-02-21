@@ -170,7 +170,6 @@ void load_mutation_type(JsonObject &js)
 
 
 std::vector<dream> dreams;
-std::map<std::string, std::vector<std::string> > mutations_category;
 std::map<std::string, mutation_branch> mutation_data;
 
 void load_dream(JsonObject &jsobj)

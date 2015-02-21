@@ -919,6 +919,12 @@ void Creature::process_effects()
     }
 }
 
+bool Creature::has_mutation(const std::string &flag) const
+{
+    (void)flag;
+    return false;
+}
+
 bool Creature::has_trait(const std::string &flag) const
 {
     (void)flag;

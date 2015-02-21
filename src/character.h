@@ -6,6 +6,7 @@
 #include "inventory.h"
 
 #include <map>
+#include <unordered_map>
 
 class Character : public Creature
 {
@@ -45,16 +46,22 @@ class Character : public Creature
         std::string random_bad_trait();
         
         // In mutation.cpp
+        /** Returns true if the player has the entered mutation. */
+        bool has_mutation(const std::string &flag) const;
         /** Returns true if the player has the entered trait */
-        virtual bool has_trait(const std::string &flag) const;
-        /** Returns true if the player has the entered starting trait */
-        bool has_base_trait(const std::string &flag) const;
-        
-        /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait(const std::string &flag);
-        /** Toggles a mutation on the player */
-        void toggle_mutation(const std::string &flag);
-        void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str );
+        bool has_trait(const std::string &flag) const;
+        /** Returns true if the mutation is added to the character (they don't already have it). */
+        bool add_mutation(const std::string &flag) const;
+        /** Calls add_mutation() and if successful, makes the new mutation a trait. */
+        bool add_trait(const std::string &flag) const;
+        /** Removes the entered mutation. */
+        void remove_mutation(const std::string &flag) const;
+        /** Calls add_mutation() if the player doesn't already have the entered mutation or
+         *  remove_mutation() if they do. */
+        void toggle_mutation(const std::string &flag) const;
+        /** Calls add_trait() if the player doesn't already have the entered mutation or
+         *  remove_mutation() if they do. */
+        void toggle_trait(const std::string &flag) const;
         
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -291,7 +298,7 @@ class Character : public Creature
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
         
-        std::unordered_set<mutation> my_mutations;
+        std::unordered_map<muttype_id, mutation> my_mutations;
         std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;

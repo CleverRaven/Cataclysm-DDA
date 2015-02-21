@@ -263,7 +263,9 @@ class Creature
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
 
-        /** Returns true if the player has the entered trait, returns false for non-humans */
+        /** Returns true if the player has the entered mutation, returns false for non-humans. */
+        virtual bool has_mutation(const std::string &flag) const;
+        /** Returns true if the player has the entered mutation, returns false for non-humans. */
         virtual bool has_trait(const std::string &flag) const;
 
         /** Handles health fluctuations over time */

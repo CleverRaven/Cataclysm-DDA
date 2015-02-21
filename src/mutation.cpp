@@ -12,47 +12,27 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+bool Character::has_mutation(const std::string &b) const
+{
+    return my_mutations.find(b) != my_mutations.end();
+}
+
 bool Character::has_trait(const std::string &b) const
 {
-    mutation mut = mutation(b);
-    // Look for active mutations and traits
-    return my_mutations.find( mut ) != my_mutations.end();
+    auto found = my_mutations.find(b);
+    return (found != my_mutations.end()) && found->second.get_trait();
 }
 
-bool Character::has_base_trait(const std::string &b) const
+bool Character::add_mutation(const std::string &flag)
 {
-    // Look only at base traits
-    return my_traits.find( b ) != my_traits.end();
-}
-
-void Character::toggle_trait(const std::string &flag)
-{
-    toggle_str_set(my_traits, flag); //Toggles a base trait on the player
-    toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
-    if( has_trait( flag ) ) {
-        mutation_effect(flag);
-    } else {
-        mutation_loss_effect(flag);
-    }
-    recalc_sight_limits();
-}
-
-void Character::toggle_mutation(const std::string &flag)
-{
-    toggle_str_set(my_mutations, flag); //Toggles a mutation on the player
-    recalc_sight_limits();
-}
-
-void Character::toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
-{
-    auto toggled_element = std::find( set.begin(), set.end(), str );
-    if( toggled_element == set.end() ) {
+    // Only add the mutation if we don't already have it
+    if (my_mutations.find(b) == my_mutations.end()) {
         char new_key = ' ';
         // Find a letter in inv_chars that isn't in trait_keys.
         for( const auto &letter : inv_chars ) {
             bool found = false;
-            for( const auto &key : trait_keys ) {
-                if( letter == key.second ) {
+            for( auto &m : my_mutations ) {
+                if( letter == m->second.get_key() ) {
                     found = true;
                     break;
                 }
@@ -62,13 +42,53 @@ void Character::toggle_str_set( std::unordered_set< std::string > &set, const st
                 break;
             }
         }
-        set.insert( str );
-        trait_keys[str] = new_key;
-    } else {
-        set.erase( toggled_element );
-        trait_keys.erase(str);
+        // Add the new mutation and set its key
+        my_mutations[flag] = new mutation();
+        my_mutations[flag].set_key(new_key);
+        // Handle mutation gain effects
+        mutation_effect(flag);
+        recalc_sight_limits();
+        return true;
     }
+    return false;
 }
+
+void Character::add_trait(const std::string &flag)
+{
+    if (add_mutation(flag)) {
+        // If we successfully added the mutation make it a trait
+        my_mutations[flag].set_trait(true);
+    }
+    // Mutation add effects are handled in add_mutation().
+}
+
+void Character::remove_mutation(const std::string &flag)
+{
+    my_mutations.erase(flag);
+    // Handle mutation loss effects
+    mutation_loss_effect(flag);
+    recalc_sight_limits();
+}
+
+void Character::toggle_mutation(const std::string &flag)
+{
+    if (has_trait(flag)) {
+        remove_mutation(flag);
+    } else {
+        add_mutation(flag);
+    }
+    // Mutation loss/gain effects are handled in remove/add_mutation().
+}
+
+void Character::toggle_trait(const std::string &flag)
+{
+    if (has_trait(flag)) {
+        remove_mutation(flag);
+    } else {
+        // Add it as a trait, not a mutation
+        add_trait(flag);
+    }
+    // Mutation loss/gain effects are handled in remove/add_mutation().
 
 int Character::get_mod(std::string mut, std::string arg) const
 {
@@ -305,13 +325,12 @@ void Character::mutation_loss_effect(std::string mut)
     }
 }
 
-bool Character::has_active_mutation(const std::string & b) const
+bool Character::has_active_mutation(const std::string &flag) const
 {
-    const auto &mut_iter = my_mutations.find( b );
-    if( mut_iter == my_mutations.end() ) {
-        return false;
+    if (has_mutation(flag)) {
+        return my_mutations[flag].is_active();
     }
-    return traits[*mut_iter].powered;
+    return false;
 }
 
 void player::activate_mutation( std::string mut )
