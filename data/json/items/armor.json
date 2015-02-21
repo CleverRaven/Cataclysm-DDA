@@ -7251,7 +7251,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A leather quiver worn on the back that can hold 20 arrows.  Its small size won't encumber you.  Activate to store arrows.",
+        "description" : "A leather quiver worn on the back that can hold 20 arrows.  Activate to store arrows.",
         "price" : 6500,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
