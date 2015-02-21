@@ -283,33 +283,34 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [["survival", 2 ],["fabrication", 1]],
+  "skills_required": ["survival", 1 ],
   "difficulty": 2,
   "time": 2600,
   "reversible": false,
   "autolearn": true,
+  "//" : "Hammer to kinda shape the spikes for stable attachment--no forge used",
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
+  "//" : "Extra duct tape/string needed to attach the spikes; rag/leather for grip.",
   "components": [
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ],
       [ "2x4", 1 ],
-      [ "pool_cue", 1 ],
-      [ "pointy_stick", 1 ]
+      [ "pool_cue", 1 ]
     ],
     [
       [ "rag", 1 ],
       [ "leather", 1 ],
-[ "duct_tape", 20 ],
+      [ "duct_tape", 20 ],
       [ "fur", 1 ]
+    ],
+    [
+      [ "string_6", 9 ],
+      [ "string_36", 2 ],
+      [ "duct_tape", 75 ]
     ],
     [
       [ "spike", 3 ]

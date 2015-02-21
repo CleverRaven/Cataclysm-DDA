@@ -2387,6 +2387,25 @@
     },
     {
         "type":"GENERIC",
+        "id" : "spear_forked",
+        "name" : "forked spear",
+        "description" : "A wooden spear with a decent grip and a three-pronged trident-like tip.  Heavy, but good for catching weapons.",
+        "weight" : 1650,
+        "//" : "That's strictly the weight of three spikes.  Shaft is free, be happy.",
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["WBLOCK_1", "RAPID", "DISARM"],
+        "volume" : 6,
+        "bashing" : 5,
+        "cutting" : 16,
+        "flags" : ["SPEAR"],
+        "price" : 4900,
+        "qualities": [["COOK", 2]]
+    },
+    {
+        "type":"GENERIC",
         "id" : "spear_steel",
         "name" : "steel spear",
         "description" : "A stout metal pole with a sharp point.",
@@ -4591,23 +4610,5 @@
 	"bashing": 1,
 	"cutting": 0,
 	"to_hit": -2
-    },
-    {
-        "type":"GENERIC",
-        "id" : "spear_forked",
-        "name" : "forked spear",
-        "description" : "A wooden spear with a trident-like tip.",
-        "weight" : 1100,
-        "to_hit" : 1,
-        "color" : "brown",
-        "symbol" : "/",
-        "material" : ["wood", "steel"],
-        "techniques" : ["WBLOCK_1", "RAPID", "DISARM"],
-        "volume" : 6,
-        "bashing" : 5,
-        "cutting" : 15,
-        "flags" : ["SPEAR"],
-        "price" : 4900,
-        "qualities": [["COOK", 2]]
     }
 ]
