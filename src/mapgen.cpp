@@ -130,12 +130,10 @@ void map::generate(const int x, const int y, const int z, const int turn)
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-if( get_submap_at_grid( i, j, k )->ter[0][0] == t_null ) {
-    dbg(D_ERROR) << "uninitialized: (" << i << "," << j << "," << k << ")";
-}
                 dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
 
-                if (i <= 1 && j <= 1 && k == 0) {
+                if (i <= 1 && j <= 1 && k == z) {
+dbg(D_INFO) << "saving: (" << i << "," << j << "," << k << ")";
                     saven( i, j, k );
                 } else {
                     delete get_submap_at_grid( i, j, k );

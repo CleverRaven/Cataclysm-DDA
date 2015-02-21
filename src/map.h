@@ -914,7 +914,7 @@ private:
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
         std::vector<submap*> grid;
- std::map<trap_id, std::set<tripoint> > traplocs;
+ std::map<trap_id, std::set<point> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

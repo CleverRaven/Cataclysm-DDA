@@ -8657,6 +8657,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
     ctxt.register_action("LIST_ITEMS");
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+
+    const int old_levz = levz;
 
     do {
         if (bNewWindow) {
@@ -8790,7 +8794,22 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
+            } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+                if( !debug_mode ) {
+                    continue; // TODO: Make this work in z-level FOV update
+                }
 
+                levz += action == "LEVEL_UP" ? 1 : -1;
+                if( levz > OVERMAP_HEIGHT ) {
+                    levz = OVERMAP_HEIGHT;
+                } else if( levz < -OVERMAP_DEPTH ) {
+                    levz = -OVERMAP_DEPTH;
+                }
+
+                add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
+                m.load( levx, levy, levz, true, cur_om );
+                refresh_all();
+                draw_ter(lx, ly, true);
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8826,6 +8845,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
+    levz = old_levz;
     inp_mngr.set_timeout(-1);
 
     if (bNewWindow) {
