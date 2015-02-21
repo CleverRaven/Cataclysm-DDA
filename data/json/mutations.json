@@ -106,7 +106,7 @@
         "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
-        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
+        "cancels": ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
         "active" : true
     },{
@@ -1899,7 +1899,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot.  Slightly decreases wet penalties.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS", "ROOTS2", "ROOTS3"],
+        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
@@ -1914,7 +1914,7 @@
         "mixed_effect" : true,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
         "valid" : false,
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS", "ROOTS2", "ROOTS3"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -2376,7 +2376,7 @@
         "ugliness" : 2,
         "description" : "You've developed a serious appetite for pain, and take pride in your scars.",
         "valid" : false,
-        "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
+        "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICTIVE"],
         "prereqs2" : ["PAINREC2", "PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
         "leads_to" : ["MUT_TOUGH"],
@@ -2394,7 +2394,7 @@
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["MASOCHIST_MED"],
-        "prereqs2" : ["PAINREC3", "ADDICT"],
+        "prereqs2" : ["PAINREC3", "ADDICTIVE"],
         "threshreq" : ["THRESH_MEDICAL"],
         "note" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
         "category" : ["MUTCAT_MEDICAL"]
