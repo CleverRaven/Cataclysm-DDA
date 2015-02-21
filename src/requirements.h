@@ -163,6 +163,8 @@ struct requirement_data {
 
         int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                              const inventory &crafting_inv, int batch = 1) const;
+        std::vector<std::string> get_folded_components_list( int width, nc_color col,
+                const inventory &crafting_inv, int batch) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
 

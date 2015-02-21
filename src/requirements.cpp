@@ -221,6 +221,41 @@ int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width
     return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components, batch ) + 1;
 }
 
+std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col, const inventory &crafting_inv, int batch) const
+{
+    std::vector<std::string> out_buffer;
+    if( components.empty() ) {
+        return out_buffer;
+    }
+    std::ostringstream current_line;
+    current_line << "<color_" << string_from_color(col) << ">" << _( "Components required:" ) << "</color>";
+    out_buffer.push_back(current_line.str());
+    current_line.str("");
+
+    for( const auto &comp_list : components ) {
+        const bool has_one = any_marked_available( comp_list );
+        std::ostringstream buffer;
+        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
+            if( a != comp_list.begin() ) {
+                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+            }
+            const std::string col = a->get_color( has_one, crafting_inv, batch );
+            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
+        }
+        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+
+        for( size_t i = 0; i < folded.size(); i++){
+            if( i == 0 ){
+                out_buffer.push_back(std::string("> ").append(folded[i]));
+            }else{
+                out_buffer.push_back(std::string("  ").append(folded[i]));
+            }
+        }
+    }
+
+    return out_buffer;
+}
+
 template<typename T>
 int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
