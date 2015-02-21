@@ -4591,6 +4591,23 @@
 	"bashing": 1,
 	"cutting": 0,
 	"to_hit": -2
+    },
+    {
+        "type":"GENERIC",
+        "id" : "spear_forked",
+        "name" : "forked spear",
+        "description" : "A wooden spear with a trident like tip. ",
+        "weight" : 1100,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["WBLOCK_1", "RAPID", " DISARM"],
+        "volume" : 6,
+        "bashing" : 5,
+        "cutting" : 15,
+        "flags" : ["SPEAR"],
+        "price" : 4900,
+        "qualities": [["COOK", 2]]
     }
-
 ]
