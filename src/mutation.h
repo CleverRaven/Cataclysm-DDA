@@ -119,13 +119,21 @@ class mutation : public JsonSerializer, public JsonDeserializer
         void set_trait(bool b);
         void toggle_trait();
         
-        bool is_active();
-        
-        // --------------- Other Functions ---------------
         /** Returns the various costs of a mutation in the passed in map. */
         void get_costs(std::unordered_map<std::string, int> &cost);
-        /** Returns true if the mutation successfully activated.*/
+        /** Returns the named cost of a mutation. */
+        int get_cost(std::string arg);
+        /** Returns the activation duration of a mutation. */
+        int get_duration();
+        /** Returns true if a mutation automatically reactivates. */
+        bool get_repeating();
+        
+        
+        // --------------- Other Functions ---------------
+        /** Returns true if the mutation successfully activated. */
         bool activate(Character &ch);
+        /** Returns true if the mutation is currently active. */
+        bool is_active();
         
     protected:
         // --------------- Values ---------------

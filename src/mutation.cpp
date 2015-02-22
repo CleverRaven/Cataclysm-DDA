@@ -342,6 +342,7 @@ void Character::activate_mutation(const muttype_id &flag)
     if (!my_mutations[flag].is_activatable()) {
         // It's not an activatable mutation!
         debugmsg("Tried to activate a non-activatable mutation!");
+        return;
     }
     if (my_mutations[flag].is_active()) {
         // It's already active, abort
@@ -363,6 +364,9 @@ void Character::activate_mutation(const muttype_id &flag)
     // We've decided to activate here!
     // Activate the mutation
     if (my_mutations[flag].activate(*this)) {
+        if (is_player()) {
+            add_msg(m_neutral, _("You activate your %s."), my_mutations[flag].get_name().c_str());
+        }
         // We successfully activated, so pay the costs
         hunger += act_costs["hunger"];
         thirst += act_costs["thirst"];
@@ -375,6 +379,11 @@ void mutation::get_costs(std::unordered_map<std::string, int> &cost)
     cost["hunger"] = mut_type->costs["hunger"];
     cost["thirst"] = mut_type->costs["thirst"];
     cost["fatigue"] = mut_type->costs["fatigue"];
+}
+
+int mutation::get_cost(std::string arg)
+{
+    return mut_type->costs[arg];
 }
 
 bool mutation::activate(Character &ch)
@@ -537,12 +546,20 @@ void Character::deactivate_mutation(const muttype_id &flag)
 {
     if (!has_mutation(flag)) {
         // We don't have the desired mutation!
-        debugmsg("Tried to deactivate a nonexistant mutation!");
+        debugmsg("Tried to deactivate a nonexistent mutation!");
+        return;
+    }
+    if (!my_mutations[flag].is_activatable()) {
+        // It's not an activatable mutation!
+        debugmsg("Tried to deactivate a non-activatable mutation!");
         return;
     }
     if (!my_mutations[flag].is_active()) {
         // It's already deactivated, abort
         return;
+    }
+    if (is_player()) {
+        add_msg(m_neutral, _("You stop using your %s."), my_mutations[flag].get_name().c_str());
     }
     
     // We've decided to deactivate here!
@@ -583,7 +600,7 @@ void Character::process_mutations()
     }
     std::unordered_map<std::string, int> pro_costs;
     for (auto &mut : my_mutations) {
-        if (!mut.process(pro_costs, stops) && is_player()) {
+        if (!mut->second.process(pro_costs, stops) && is_player()) {
             add_msg(m_info, _("You can't keep your %s active anymore!"), mut.get_name().c_str());
         }
     }
@@ -654,18 +671,19 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 
     wrefresh(window);
 }
-void player::power_mutations()
+
+void player::mutations_window()
 {
     std::vector <std::string> passive;
     std::vector <std::string> active;
-    for( auto &mut : my_mutations ) {
-        if (!traits[mut].activated) {
-            passive.push_back(mut);
+    for ( auto &mut : my_mutations ) {
+        if (mut->second.is_activatable()) {
+            active.push_back(mut->first);
         } else {
-            active.push_back(mut);
+            passive.push_back(mut->first);
         }
     }
-
+    
     // maximal number of rows in both columns
     const int mutations_count = std::max(passive.size(), active.size());
 
@@ -743,14 +761,14 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
+                    mutation &mut = my_mutations[passive[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     type = c_cyan;
                     mvwprintz(wBio, list_start_y + i, 2, type, "%c %s",
-                              trait_keys[traits[passive[i]].id],
-                              traits[passive[i]].name.c_str());
+                              mut.key, mut.get_name().c_str());
                 }
             }
 
@@ -758,32 +776,62 @@ void player::power_mutations()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
+                    mutation &mut = my_mutations[active[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
-                    if (!traits[active[i]].powered) {
+                    if (!mut.is_active()) {
                         type = c_red;
-                    }else if (traits[active[i]].powered) {
+                    } else if (mut.is_active()) {
                         type = c_ltgreen;
                     } else {
                         type = c_ltred;
                     }
-                    // TODO: track resource(s) used and specify
-                    mvwputch( wBio, list_start_y + i, second_column, type,
-                              trait_keys[traits[active[i]].id] );
+                    mvwputch( wBio, list_start_y + i, second_column, type, mut.get_key() );
+                    
                     std::stringstream mut_desc;
-                    mut_desc << traits[active[i]].name;
-                    if ( traits[active[i]].cost > 0 && traits[active[i]].cooldown > 0 ) {
-                        mut_desc << string_format( _(" - %d RU / %d turns"),
-                                      traits[active[i]].cost, traits[active[i]].cooldown );
-                    } else if ( traits[active[i]].cost > 0 ) {
-                        mut_desc << string_format( _(" - %d RU"), traits[active[i]].cost );
-                    } else if ( traits[active[i]].cooldown > 0 ) {
-                        mut_desc << string_format( _(" - %d turns"), traits[active[i]].cooldown );
+                    mut_desc << mut.get_name() << string_format( _(" - "));
+                    bool has_cost = false;
+                    // Print resource cost or "Free "
+                    if (mut.get_cost("hunger") > 0) {
+                        mut_desc << string_format( _("%d Hu "), mut.get_cost("hunger"));
+                        has_cost = true;
                     }
-                    if ( traits[active[i]].powered ) {
-                        mut_desc << _(" - Active");
+                    if (mut.get_cost("thirst") > 0) {
+                        mut_desc << string_format( _("%d Th "), mut.get_cost("thirst"));
+                        has_cost = true;
+                    }
+                    if (mut.get_cost("fatigue") > 0) {
+                        mut_desc << string_format( _("%d Fa "), mut.get_cost("fatigue"));
+                        has_cost = true;
+                    }
+                    if (!has_cost) {
+                        mut_des << string_format( _("Free "));
+                    }
+                    
+                    if (!mut.get_repeating()) {
+                        if (mut.get_duration() <= 0) {
+                            // One shot activation (instant effects)
+                            mut_des << string_format( _("to activate"));
+                        } else {
+                            // One shot activation (effects for X turns)
+                            mut_des << string_format( _("for %d turns"), mut.get_duration());
+                        }
+                    } else {
+                        if (mut.get_duration() > 0 && has_cost) {
+                            // Cost X amount every Y turns
+                            mut_des << string_format( _("per %d turns"), mut.get_duration());
+                        } else {
+                            // Free ON/OFF toggling
+                            mut_des << string_format( _("to activate"));
+                        }
+                    }
+                    
+                    // Show if the mutation is active through text as well 
+                    // (at least until we get better colorblind option).
+                    if (mut.is_active()) {
+                        mut_desc << _(" - A");
                     }
                     mvwprintz( wBio, list_start_y + i, second_column + 2, type,
                                mut_desc.str().c_str() );
@@ -805,10 +853,11 @@ void player::power_mutations()
         const long ch = ctxt.get_raw_input().get_first_input();
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
-            std::string mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == ch ) {
-                    mut_id = key_pair.first;
+            muttype_id mut_id;
+            // Find the selected mutation by key
+            for( const auto &mut : my_mutations ) {
+                if (mut->second.get_key() == ch) {
+                    mut_id = mut->first;
                     break;
                 }
             }
@@ -818,15 +867,16 @@ void player::power_mutations()
             }
             redraw = true;
             const char newch = popup_getkey(_("%s; enter new letter."),
-                                            traits[mut_id].name.c_str());
+                                            my_mutations[mut_id].get_name().c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            std::string other_mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == newch ) {
-                    other_mut_id = key_pair.first;
+            muttype_id other_mut_id;
+            // Check for a second mutation with the new key
+            for( const auto &mut : my_mutations ) {
+                if (mut->second.get_key() == newch) {
+                    other_mut_id = mut->first;
                     break;
                 }
             }
@@ -838,9 +888,11 @@ void player::power_mutations()
                 continue;
             }
             if( !other_mut_id.empty() ) {
-                std::swap(trait_keys[mut_id], trait_keys[other_mut_id]);
+                muttype_id tmp = my_mutations[mut_id].get_key();
+                my_mutations[mut_id].set_key(my_mutations[other_mut_id].get_key());
+                my_mutations[other_mut_id].set_key(tmp);
             } else {
-                trait_keys[mut_id] = newch;
+                my_mutations[mut_id].set_key(newch);
             }
             // TODO: show a message like when reassigning a key to an item?
         } else if (action == "DOWN") {
@@ -864,9 +916,10 @@ void player::power_mutations()
             redraw = true;
         } else {
             std::string mut_id;
-            for( const auto &key_pair : trait_keys ) {
-                if( key_pair.second == ch ) {
-                    mut_id = key_pair.first;
+            // Find the mutation we're looking for
+            for( const auto &mut : my_mutations ) {
+                if (mut->second.get_key() == ch) {
+                    mut_id = mut->first;
                     break;
                 }
             }
@@ -875,22 +928,19 @@ void player::power_mutations()
                 // -> leave screen
                 break;
             }
-            const trait mut_data = traits[mut_id];
+            const auto mut = my_mutations[mut_id];
             if (menu_mode == "activating") {
-                if (mut_data.activated) {
-                    if (mut_data.powered) {
-                        add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
-
-                        deactivate_mutation( mut_id );
+                if (mut.is_activatable()) {
+                    if (mut.is_active()) {
+                        // Message is handled inside deactivate_mutation()
+                        deactivate_mutation(mut_id);
+                        
+                        // Action done, leave screen
                         delwin(w_title);
                         delwin(w_description);
                         delwin(wBio);
-                        // Action done, leave screen
                         break;
-                    } else if( (!mut_data.hunger || hunger <= 400) &&
-                               (!mut_data.thirst || thirst <= 400) &&
-                               (!mut_data.fatigue || fatigue <= 400) ) {
-
+                    } else {
                         // this will clear the mutations menu for targeting purposes
                         werase(wBio);
                         wrefresh(wBio);
@@ -898,20 +948,15 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
-                        add_msg( m_neutral, _("You activate your %s."), mut_data.name.c_str() );
+                        // Message is handled inside activate_mutation()
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
-                    } else {
-                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
-                        redraw = true;
-                        continue;
                     }
                 } else {
-                    popup(_("\
-You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(),
-                          trait_keys[mut_id] );
+                    popup(_("You cannot activate %s!  To read a description of \
+%s, press '!', then '%c'."), mut.get_name().c_str(), mut.get_name().c_str(),
+                          mut.get_key() );
                     redraw = true;
                 }
             }
@@ -919,7 +964,7 @@ You cannot activate %s!  To read a description of \
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
-                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, mut_data.description);
+                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, mut.get_desc());
                 wrefresh(w_description);
             }
         }
@@ -933,7 +978,7 @@ You cannot activate %s!  To read a description of \
         delwin(wBio);
     }
 }
-
+// DONE MARK
 bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
 {
     if (has_trait(mutation) || has_child_flag(mutation)) {
