@@ -12582,8 +12582,10 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    map tmpmap;
-    tmpmap.load(levx, levy, levz + movez, false, cur_om);
+    //m.load(levx, levy, levz + movez, false, cur_om);
+    // Shift the map up or down
+    m.shift( 0, 0, movez );
+    
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12595,6 +12597,12 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
+    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
+    bool actually_moved = true;
     if (force) {
         stairx = u.posx();
         stairy = u.posy();
@@ -12604,29 +12612,29 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
-                                     tmpmap.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && tmpmap.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && m.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (m.has_flag("GOES_DOWN", i, j) ||
+                                     m.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && m.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (m.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
         }
 
         if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            return;
+            actually_moved = false;
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (tmpmap.move_cost(u.posx(), u.posy()) == 0) {
+                if (m.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
-                    return;
+                    actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
@@ -12636,7 +12644,7 @@ void game::vertical_move(int movez, bool force)
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
                     if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
@@ -12658,35 +12666,41 @@ void game::vertical_move(int movez, bool force)
                             u.thirst += 10;
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("grapnel", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
                         rope_ladder = true;
                         u.use_amount("grapnel", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("rope_30", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
                         rope_ladder = true;
                         u.use_amount("rope_30", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
 
                 } else if (u.has_amount("bullwhip", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))) {}
                     else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?"))) {
-                    return;
+                    actually_moved = false;
                 }
             }
             stairx = u.posx();
             stairy = u.posy();
         }
+    }
+
+    if( !actually_moved ) {
+        // Have to undo the map shift
+        m.shift( 0, 0, -movez );
+        return;
     }
 
     if (!force) {
@@ -12749,16 +12763,13 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
-        movez = 0;
-    }
-
     levz += movez;
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
-    m.load( levx, levy, levz, true, cur_om );
+    m.set_transparency_cache_dirty();
+    m.set_outside_cache_dirty();
+    //m.load( levx, levy, levz, true, cur_om );
     u.setx( stairx );
     u.sety( stairy );
     if (rope_ladder) {
@@ -13382,20 +13393,20 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    tinymap tmpmap;
-    tmpmap.load_abs(x * 2, y * 2, 0, false);
+    tinymap m;
+    m.load_abs(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                tmpmap.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
+                m.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field(i, j, fd_nuke_gas, 3);
+                m.add_field(i, j, fd_nuke_gas, 3);
             }
-            tmpmap.adjust_radiation(i, j, rng(20, 80));
+            m.adjust_radiation(i, j, rng(20, 80));
         }
     }
-    tmpmap.save();
+    m.save();
     overmap_buffer.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);

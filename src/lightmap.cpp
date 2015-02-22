@@ -46,7 +46,7 @@ void map::build_transparency_cache()
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = grid[smx + smy * my_MAPSIZE];
+            auto const cur_submap = get_submap_at_grid( smx, smy );
     
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -156,7 +156,7 @@ void map::generate_lightmap()
     // Traverse the submaps in order
     for (int smx = 0; smx < my_MAPSIZE; ++smx) {
         for (int smy = 0; smy < my_MAPSIZE; ++smy) {
-            auto const cur_submap = grid[smx + smy * my_MAPSIZE];
+            auto const cur_submap = get_submap_at_grid( smx, smy );
     
             for (int sx = 0; sx < SEEX; ++sx) {
                 for (int sy = 0; sy < SEEY; ++sy) {

@@ -4806,7 +4806,9 @@ void map::saven( const int gridx, const int gridy, const int gridz )
 // in grid[0].
 void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) {
     for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-        loadn( gridx, gridy, gridz, update_vehicles );
+        // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
+        bool need_veh_update = update_vehicles && gridz == abs_sub.z;
+        loadn( gridx, gridy, gridz, need_veh_update );
     }
 }
 
