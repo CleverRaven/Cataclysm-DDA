@@ -1149,9 +1149,9 @@
           "You strike %s with the slow power of flowing water",
           "<npcname> strikes %s with the slow power of flowing water"
         ],
-      "cut_mult" : 2.5,
+      "cut_mult" : 2.0,
       "bash_mult" : 2.0,
-      "speed_mult" : 1.5
+      "speed_mult" : 1.75
     },{
        "type" : "technique",
       "id" : "niten_red_leaf",
@@ -1172,9 +1172,9 @@
           "You stun %s with the force of the blow!",
           "<npcname> stuns %s with the force of the blow!"
       ],
-      "cut_mult" : 1.8,
-      "bash_mult" : 1.8,
-      "stun_dir" : 3
+      "cut_mult" : 1.5,
+      "bash_mult" : 1.5,
+      "stun_dir" : 2
    },{
        "type" : "technique",
       "id" : "niten_timing_attack",
@@ -1187,8 +1187,8 @@
           "You strike at %s's weaknesses!",
           "<npcname> strikes %s's weaknesses!"
       ],
-      "cut_mult" : 1.2,
-      "bash_mult" : 1.2,
+      "cut_mult" : 1.1,
+      "bash_mult" : 1.1,
       "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
       "quick" : true,
       "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
