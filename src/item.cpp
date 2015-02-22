@@ -1238,11 +1238,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
-        if (is_armor() && item_tags.count("pocketed")) {
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has some pockets and straps sewn on to give you some more places to carry things.")));
-        }
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1781,9 +1776,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-    if (item_tags.count("pocketed") > 0 ){
-        ret << _(" (P)");
-    }
     if (item_tags.count("furred") > 0 ){
         ret << _(" (F)");
     }
@@ -2276,28 +2268,14 @@ bool item::is_auxiliary_gunmod() const
 
 int item::get_storage() const
 {
-    float pockets = 1;
     auto t = find_armor_data();
     if( t == nullptr )
         return 0;
 
     // it_armor::storage is unsigned char
-    int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
-
-    if (item::item_tags.count("pocketed") > 0){
-        // Cache this so we don't have to keep recalculating it.
-        float vol = volume();
-        pockets = vol * (float(get_coverage()) / 100) / 1.333;
-        if (result > .3 * vol) {
-            // Scales from 1 to 3 as result goes from .3 * vol to .7 * vol
-            float mod = 1 + (result - .3 * vol) / (.7 * vol - .3 * vol) * 2;
-            pockets = pockets / mod;
-        }
-        return result + pockets;
-    } else {
-        return result;
-    }
+    return static_cast<int> (static_cast<unsigned int>( t->storage ) );
 }
+
 int item::get_env_resist() const
 {
     const auto t = find_armor_data();
