@@ -9,7 +9,7 @@
 #include <map>
 #include <unordered_map>
 
-extern std::map<std::string, mutation_type> mutation_types;
+extern std::map<std::string, mutation_type> mut_types;
 extern std::vector<dream> dreams;
 typedef std::pair<body_part, tripoint> mutation_wet;
 
@@ -32,6 +32,10 @@ class mutation_type
         // --------------- Helpers ---------------
         bool load_mod_data(JsonObject &jsobj, std::string member);
         bool load_cost_data(JsonObject &jsobj, std::string member);
+        
+        // --------------- Other Functions ---------------
+        /** Retrieves a stat mod of a mutation. */
+        int get_mod(std::string mut, std::string arg) const;
     protected:
         // --------------- Values ---------------
         /** Mutation id. */
@@ -62,6 +66,8 @@ class mutation_type
         bool activatable;
         /** Automatically reactivates over time once turned on, paying the price over time. */
         bool repeating;
+        /** How long do we activate for? */
+        int duration;
         /** Prerequisites, only 1 is needed. */
         std::vector<std::string> prereqs;
         /** Secondary prerequisites, only 1 is needed. */
@@ -92,15 +98,20 @@ class mutation : public JsonSerializer, public JsonDeserializer
     public:
         // --------------- Constructors ---------------
         mutation() :
-            
+            mut_type(NULL),
+            charge(0),
+            key(''),
+            trait(false)
+        { }
+        mutation(mutation_type *pmut_type) :
+            mut_type(pmut_type),
+            charge(0),
+            key(''),
+            trait(false)
         { }
         mutation(const mutation &rhs);
         
         // --------------- Accessors ---------------
-        int get_charge() const;
-        void set_charge(int val);
-        void add_charge(int val);
-        
         char get_key() const;
         void set_key(char new_key);
         
@@ -111,10 +122,15 @@ class mutation : public JsonSerializer, public JsonDeserializer
         bool is_active();
         
         // --------------- Other Functions ---------------
-        
+        /** Returns the various costs of a mutation in the passed in map. */
+        void get_costs(std::unordered_map<std::string, int> &cost);
+        /** Returns true if the mutation successfully activated.*/
+        bool activate(Character &ch);
         
     protected:
         // --------------- Values ---------------
+        /** What mutation type is this?. */
+        mutation_type *mut_type const;
         /** How many charges the mutation currently has. */
         int charge;
         /** What key is the mutation bound to. */

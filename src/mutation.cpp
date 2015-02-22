@@ -12,18 +12,18 @@
 #include <algorithm> //std::min
 #include <sstream>
 
-bool Character::has_mutation(const std::string &b) const
+bool Character::has_mutation(const muttype_id &b) const
 {
     return my_mutations.find(b) != my_mutations.end();
 }
 
-bool Character::has_trait(const std::string &b) const
+bool Character::has_trait(const muttype_id &b) const
 {
     auto found = my_mutations.find(b);
     return (found != my_mutations.end()) && found->second.get_trait();
 }
 
-bool Character::add_mutation(const std::string &flag)
+bool Character::add_mutation(const muttype_id &flag)
 {
     // Only add the mutation if we don't already have it
     if (my_mutations.find(b) == my_mutations.end()) {
@@ -53,7 +53,7 @@ bool Character::add_mutation(const std::string &flag)
     return false;
 }
 
-void Character::add_trait(const std::string &flag)
+void Character::add_trait(const muttype_id &flag)
 {
     if (add_mutation(flag)) {
         // If we successfully added the mutation make it a trait
@@ -62,7 +62,7 @@ void Character::add_trait(const std::string &flag)
     // Mutation add effects are handled in add_mutation().
 }
 
-void Character::remove_mutation(const std::string &flag)
+void Character::remove_mutation(const muttype_id &flag)
 {
     my_mutations.erase(flag);
     // Handle mutation loss effects
@@ -70,7 +70,7 @@ void Character::remove_mutation(const std::string &flag)
     recalc_sight_limits();
 }
 
-void Character::toggle_mutation(const std::string &flag)
+void Character::toggle_mutation(const muttype_id &flag)
 {
     if (has_trait(flag)) {
         remove_mutation(flag);
@@ -80,7 +80,7 @@ void Character::toggle_mutation(const std::string &flag)
     // Mutation loss/gain effects are handled in remove/add_mutation().
 }
 
-void Character::toggle_trait(const std::string &flag)
+void Character::toggle_trait(const muttype_id &flag)
 {
     if (has_trait(flag)) {
         remove_mutation(flag);
@@ -90,39 +90,32 @@ void Character::toggle_trait(const std::string &flag)
     }
     // Mutation loss/gain effects are handled in remove/add_mutation().
 
-int Character::get_mod(std::string mut, std::string arg) const
+int mutation_type::get_mod(std::string arg, bool active) const
 {
-    auto &mod_data = mutation_data[mut].mods;
     int ret = 0;
-    auto found = mod_data.find(std::make_pair(false, arg));
-    if (found != mod_data.end()) {
+    auto found = mods.find(std::make_pair(active, arg));
+    if (found != mods.end()) {
         ret += found->second;
     }
-    /* Deactivated due to inability to store active mutation state
-    if (has_active_mutation(mut)) {
-        found = mod_data.find(std::make_pair(true, arg));
-        if (found != mod_data.end()) {
-            ret += found->second;
-        }
-    } */
     return ret;
 }
 
-void Character::apply_mods(const std::string &mut, bool add_remove)
+void Character::apply_mods(const muttype_id &mut_id, bool add_remove, bool active)
 {
+    auto mut = &mut_types[mut];
     int sign = add_remove ? 1 : -1;
-    int str_change = get_mod(mut, "STR");
+    int str_change = mut.get_mod("STR", active);
     str_max += sign * str_change;
-    per_max += sign * get_mod(mut, "PER");
-    dex_max += sign * get_mod(mut, "DEX");
-    int_max += sign * get_mod(mut, "INT");
+    per_max += sign * mut.get_mod("PER", active);
+    dex_max += sign * mut.get_mod("DEX", active);
+    int_max += sign * mut.get_mod("INT", active);
 
     if( str_change != 0 ) {
         recalc_hp();
     }
 }
 
-void Character::mutation_effect(std::string mut)
+void Character::mutation_effect(muttype_id mut)
 {
     bool is_u = is_player();
     bool destroy = false;
@@ -239,7 +232,7 @@ void Character::mutation_effect(std::string mut)
             per_max = 18;
         }
     } else {
-        apply_mods(mut, true);
+        apply_mods(mut, true, false);
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -269,7 +262,7 @@ void Character::mutation_effect(std::string mut)
     }
 }
 
-void Character::mutation_loss_effect(std::string mut)
+void Character::mutation_loss_effect(muttype_id mut)
 {
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
         mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
@@ -321,72 +314,130 @@ void Character::mutation_loss_effect(std::string mut)
             per_max = 4;
         }
     } else {
-        apply_mods(mut, false);
+        apply_mods(mut, false, false);
     }
 }
 
-bool Character::has_active_mutation(const std::string &flag) const
+bool Character::has_active_mutation(const muttype_id &flag) const
 {
+    // Constant-time check first
+    if (mut_types[flag].activatable == false) {
+        return false;
+    }
+    
+    // Then do the more expensive checks
     if (has_mutation(flag)) {
         return my_mutations[flag].is_active();
     }
     return false;
 }
 
-void player::activate_mutation( std::string mut )
+void Character::activate_mutation(const muttype_id &flag)
 {
-    int cost = traits[mut].cost;
-    // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
-    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) ||
-      (traits[mut].fatigue && fatigue >= 575)) {
-      // Insufficient Foo to *maintain* operation is handled in player::suffer
-        add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
+    if (!has_mutation(flag)) {
+        // We don't have the desired mutation!
+        debugmsg("Tried to activate a nonexistent mutation!");
         return;
     }
-    if (traits[mut].powered && traits[mut].charge > 0) {
-        // Already-on units just lose a bit of charge
-        traits[mut].charge--;
-    } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if (traits[mut].cooldown > 0) {
-            traits[mut].charge = traits[mut].cooldown - 1;
-        }
-        if (traits[mut].hunger){
-            hunger += cost;
-        }
-        if (traits[mut].thirst){
-            thirst += cost;
-        }
-        if (traits[mut].fatigue){
-            fatigue += cost;
-        }
-        traits[mut].powered = true;
-        
-        // Handle stat changes from activation
-	apply_mods(mut, true);
+    if (!my_mutations[flag].is_activatable()) {
+        // It's not an activatable mutation!
+        debugmsg("Tried to activate a non-activatable mutation!");
     }
-
-    if( traits[mut].id == "WEB_WEAVER" ) {
-        g->m.add_field(posx(), posy(), fd_web, 1);
-        add_msg(_("You start spinning web with your spinnerets!"));
-    } else if (traits[mut].id == "BURROW"){
-        if (g->u.is_underwater()) {
-            add_msg_if_player(m_info, _("You can't do that while underwater."));
-            traits[mut].powered = false;
+    if (my_mutations[flag].is_active()) {
+        // It's already active, abort
+        return;
+    }
+    
+    // Check cost limits
+    std::unordered_map<std::string, int> act_costs;
+    if ((act_costs["hunger"] > 0 && hunger >= 2800) ||
+          (act_costs["thirst"] > 0 && thirst >= 520) ||
+          (act_costs["fatigue"] > 0 && fatigue >= 575)) {
+        // Do we want to activate regardless of the danger?
+        if (!query_yn( _("You feel like you could hurt yourself using your %s! Activate anyways?",
+                my_mutations[flag].get_name().c_str()))) {
             return;
+        }
+    }
+    
+    // We've decided to activate here!
+    // Activate the mutation
+    if (my_mutations[flag].activate(*this)) {
+        // We successfully activated, so pay the costs
+        hunger += act_costs["hunger"];
+        thirst += act_costs["thirst"];
+        fatigue += act_costs["fatigue"];
+    }
+}
+
+void mutation::get_costs(std::unordered_map<std::string, int> &cost)
+{
+    cost["hunger"] = mut_type->costs["hunger"];
+    cost["thirst"] = mut_type->costs["thirst"];
+    cost["fatigue"] = mut_type->costs["fatigue"];
+}
+
+bool mutation::activate(Character &ch)
+{
+    bool activated = false;
+    muttype_id id = mut_type->id;
+    
+    // Handle legacy mutation effects
+    if (ch.is_player()) {
+        const auto *p = dynamic_cast< player* >( &ch );
+        if (p != nullptr) {
+            activated = p->legacy_mut_effects(id);
+        }
+    }
+    
+    // Iff activated == false it means we broke out in the legacy check.
+    if (activated) {
+        activated = activation_effects(id, ch);
+    }
+    
+    if (!activated) {
+        // We canceled activation, return false
+        return false;
+    }
+    
+    // We didn't stop the deactivation.
+    // Set charges to be equal to the duration of the activation.
+    // No "this turn already used" reduction on purpose.
+    charge = mut_types[id].duration;
+    return true;
+}
+
+bool mutation::activation_effects(muttype_id id, Character &ch)
+{
+    /* NEW ON-ACTIVATION MUTATION EFFECTS SHOULD GO HERE.
+     * Cast ch to player if you really need to access player class variables;
+     * DO NOT add new effects to player::legacy_mut_effects(). */
+    
+    // Mutation was not canceled in activation_effects(), return true.
+    return true;
+}
+    
+bool player::legacy_mut_effects(muttype_id id)
+{
+    /* DO NOT ADD NEW MUTATIONS EFFECTS HERE.
+     * New mutation activation effects should go in mutation::activation_effects().
+     * This is for old mutation effects which could not be easily converted over
+     * into the new system. As more things are moved from player to Character,
+     * these should be able to be moved. */
+    if (id == "BURROW"){
+        if (is_underwater()) {
+            add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return false;
         }
         int dirx, diry;
         if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
-            traits[mut].powered = false;
-            return;
+            return false;
         }
 
         if (dirx == g->u.posx() && diry == g->u.posy()) {
             add_msg_if_player(_("You've got places to go and critters to beat."));
             add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            traits[mut].powered = false;
-            return;
+            return false;
         }
         int turns;
         if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
@@ -399,16 +450,18 @@ void player::activate_mutation( std::string mut )
             turns = 18000;
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
-            traits[mut].powered = false;
-            return;
+            return false;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
         g->u.activity.placement = point(dirx, diry);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
-        traits[mut].powered = false;
-        return; // handled when the activity finishes
-    } else if (traits[mut].id == "SLIMESPAWNER") {
+        return true; // handled when the activity finishes
+    } else if( id == "WEB_WEAVER" ) {
+        g->m.add_field(posx(), posy(), fd_web, 1);
+        add_msg(_("You start spinning web with your spinnerets!"));
+        return true;
+    } else if (id == "SLIMESPAWNER") {
         std::vector<point> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
@@ -420,8 +473,7 @@ void player::activate_mutation( std::string mut )
         // Oops, no room to divide!
         if (valid.size() == 0) {
             add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
-            traits[mut].powered = false;
-            return;
+            return false;
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
@@ -442,33 +494,26 @@ void player::activate_mutation( std::string mut )
         } else {
             add_msg(m_good, _("we're a team, we've got this!"));
         }
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "SHOUT1") {
+        return true;
+    } else if (id == "SHOUT1") {
         sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "SHOUT2"){
+        return true;
+    } else if (id == "SHOUT2"){
         sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "SHOUT3"){
+        return true;;
+    } else if (id == "SHOUT3"){
         sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
-        traits[mut].powered = false;
-        return;
-    } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
+        return true;
+    } else if ((id == "NAUSEA") || (id == "VOMITOUS") ){
         vomit();
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "M_FERTILE"){
+        return true;
+    } else if (id == "M_FERTILE"){
         spores();
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "M_BLOOM"){
+        return true;
+    } else if (id == "M_BLOOM"){
         blossoms();
-        traits[mut].powered = false;
-        return;
-    } else if (traits[mut].id == "VINES3"){
+        return true;
+    } else if (id == "VINES3"){
         item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
@@ -481,17 +526,105 @@ void player::activate_mutation( std::string mut )
             newit = i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
-        traits[mut].powered = false;
+        return true;
+    }
+    
+    // Mutation activation was not canceled in legacy mutation effects, so return true.
+    return true;
+}
+
+void Character::deactivate_mutation(const muttype_id &flag)
+{
+    if (!has_mutation(flag)) {
+        // We don't have the desired mutation!
+        debugmsg("Tried to deactivate a nonexistant mutation!");
         return;
+    }
+    if (!my_mutations[flag].is_active()) {
+        // It's already deactivated, abort
+        return;
+    }
+    
+    // We've decided to deactivate here!
+    // Deactivate the mutation
+    my_mutations[flag].deactivate(*this)
+}
+
+void mutation::deactivate(Character &ch)
+{
+    muttype_id id = mut_type->id;
+    if (deactivation_effects(id, ch)) {
+        // We didn't stop the deactivation
+        charge = 0;
     }
 }
 
-void player::deactivate_mutation(std::string mut)
+bool mutation::deactivation_effects(muttype_id id, Character &ch)
 {
-    traits[mut].powered = false;
+    /* NEW ON-DEACTIVATION MUTATION EFFECTS SHOULD GO HERE.
+     * Cast ch to player if you really need to access player class variables. */
     
-    // Handle stat changes from deactivation
-    apply_mods(mut, false);
+    // Mutation deactivation was not canceled in deactivation_effects(), return true.
+    return true;
+}
+
+void Character::process_mutations()
+{
+    // Bitset is <hunger, thirst, fatigue>
+    std::bitset<3> stops;
+    if (hunger >= 2800) {
+        stops.set(1);
+    }
+    if (thirst >= 520) {
+        stops.set(2);
+    }
+    if (fatigue >= 575) {
+        stops.set(3);
+    }
+    std::unordered_map<std::string, int> pro_costs;
+    for (auto &mut : my_mutations) {
+        if (!mut.process(pro_costs, stops) && is_player()) {
+            add_msg(m_info, _("You can't keep your %s active anymore!"), mut.get_name().c_str());
+        }
+    }
+}
+
+bool mutation::process(std::unordered_map<std::string, int> &cost, std::bitset<3> stop)
+{
+    if (charge == 0) {
+        // It's either not on or only charges a cost for activation;
+        // do nothing.
+        return true;
+    }
+    
+    if (charge == 1 && mut_type->repeating) {
+        // Check each stop type to see if we can reactivate
+        bool stopped = false;
+        if (stops[1] && mut_type->costs["hunger"] > 0) {
+            stopped = true;
+        } else if (!stops[2] && mut_type->costs["thirst"] > 0) {
+            stopped = true;
+        } else if (!stops[3] && mut_type->costs["fatigue"] > 0) {
+            stopped = true;
+        }
+        
+        if (!stopped) {
+            // We reactivated our mutation, add the cost and set the charge
+            cost["hunger"] += mut_type->costs["hunger"];
+            cost["thirst"] += mut_type->costs["thirst"];
+            cost["fatigue"] += mut_type->costs["fatigue"];
+            charge = mut_type->duration;
+            return true;
+        } else {
+            // We failed our reactivation, reduce charge and return false
+            charge--;
+            return false;
+        }
+    }
+    
+    // We didn't need to reactivate, reduce charge by 1.
+    charge--;
+    return true;
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)

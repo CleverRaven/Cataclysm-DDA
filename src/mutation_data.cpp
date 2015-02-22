@@ -7,6 +7,8 @@
 #include <vector>
 #include <map>
 
+std::map<std::string, mutation_type> mut_types;
+
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
                         std::string mod_type, bool active, std::string type_key)
 {
@@ -114,6 +116,7 @@ void load_mutation_type(JsonObject &js)
         new_mut.activatable = false;
         new_mut.repeating = false;
     }
+    new_mut.duration = jo.get_int("duration", 0);
 
     jsarr = jo.get_array("prereqs");
     while (jsarr.has_more()) {
@@ -166,11 +169,12 @@ void load_mutation_type(JsonObject &js)
     new_mut.load_mod_data(jo, "passive_mods");
     new_mut.load_mod_data(jo, "active_mods");
     new_mut.load_cost_data(jo, "costs");
+    
+    mut_types[new_mut.id] = new_mut;
 }
 
 
 std::vector<dream> dreams;
-std::map<std::string, mutation_branch> mutation_data;
 
 void load_dream(JsonObject &jsobj)
 {
