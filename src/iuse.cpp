@@ -2990,102 +2990,18 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("This can be used to repair or modify other items, not itself."));
             return 0;
         };
-        int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
-            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Repair clothing"),_("Cancel"), NULL);
+        int choice = menu(true, _("How do you want to modify it?"), _("Line it with fur"),
+                          _("Pad with leather"), _("Line with kevlar"),_("Repair clothing"),
+                          _("Cancel"), NULL);
 
-        if(((mod->item_tags.count("furred")) + (mod->item_tags.count("pocketed")) +
-            (mod->item_tags.count("leather_padded")) + (mod->item_tags.count("kevlar_padded"))) >= 2){
+        if( mod->item_tags.count("furred") + mod->item_tags.count("leather_padded") +
+            mod->item_tags.count("kevlar_padded") >= 2 ){
             p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
             return 0;
         };
 
         switch (choice) {
         case 1: {
-            if(mod->item_tags.count("pocketed")) {
-                p->add_msg_if_player(m_info,_("You've already sewed on extra pockets."));
-                return 0;
-            }
-            if(mod->has_flag("FANCY") || (mod->has_flag("SUPER_FANCY"))){
-                p->add_msg_if_player(m_info,_("You can't bring yourself to cover your beautiful regalia with hideous pockets!"));
-                return 0;
-            }
-            itype_id repair_item = "none";
-            std::vector<std::string> plurals;
-            std::vector<itype_id> repair_items;
-            std::string plural = "";
-
-            repair_items.push_back("rag");
-            plurals.push_back(rm_prefix(_("<plural>rags")));
-
-
-            int items_needed = (((mod->volume()) / 3) +1 ); //Add 1 so it isn't zero
-
-            // this will cause issues if/when NPCs start being able to sew.
-            // but, then again, it'll cause issues when they start crafting, too.
-            const inventory &crafting_inv = p->crafting_inventory();
-            bool bFound = false;
-            //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items ) {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                    //we've found enough of a material, use this one
-                    repair_item = repair_items_i;
-                    bFound = true;
-                }
-            }
-            if (!bFound) {
-                for (unsigned int i = 0; i < repair_items.size(); i++) {
-                    p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-                }
-                return 0;
-            }
-            std::vector<item_comp> comps;
-            comps.push_back(item_comp(repair_item, items_needed));
-
-            p->moves -= 500 * p->fine_detail_vision_mod();
-            p->practice("tailor", 9);
-            int rn = dice(4, 2 + p->skillLevel("tailor"));
-
-            if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-                rn -= rng(2, 6);
-            }
-            if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-                rn += rng(2, 6);
-            }
-            if (p->dex_cur > 16) {
-                rn += rng(0, p->dex_cur - 16);
-            }
-
-            if (rn <= 8) {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew on pockets!"),
-                                     mod->tname().c_str());
-                mod->damage++;
-                if (mod->damage >= 5) {
-                    p->add_msg_if_player(m_bad, _("You destroy it!"));
-                    p->i_rem_keep_contents( pos );
-                }
-            } else
-                if (rn <= 10) {
-                    p->add_msg_if_player(m_bad,
-                                         _("You fail to sew on pockets, and you waste a lot of thread and rags."));
-                    thread_used = rng(5, 14);
-                    p->consume_items(comps);
-                } else
-                    if (rn <= 14) {
-                        p->add_msg_if_player(m_mixed, _("You sew pockets on your %s, but waste a lot of thread."),
-                                             mod->tname().c_str());
-                        p->consume_items(comps);
-                        mod->item_tags.insert("pocketed");
-                        thread_used = rng(5, 14);
-                    } else {
-                        p->add_msg_if_player(m_good, _("You sew extra pockets on your %s!"), mod->tname().c_str());
-                        mod->item_tags.insert("pocketed");
-                        p->consume_items(comps);
-                    }
-
-            return thread_used;
-        };
-
-        case 2: {
             if(mod->item_tags.count("furred")) {
                 p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
                 return 0;
@@ -3162,7 +3078,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                     }
             return thread_used;
         }
-        case 3: {
+        case 2: {
             if(mod->item_tags.count("leather_padded")) {
                 p->add_msg_if_player(m_info,_("You've already padded this with leather."));
                 return 0;
@@ -3240,7 +3156,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                     };
             return thread_used;
         }
-        case 4: {
+        case 3: {
             if(mod->item_tags.count("kevlar_padded")) {
                 p->add_msg_if_player(m_info,_("You've already lined this with kevlar."));
                 return 0;
@@ -3318,11 +3234,11 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                     };
             return thread_used;
         }
-        case 5: {
+        case 4: {
             int thread_used = iuse::sew(p, it, true, pos);
             return thread_used;
         }
-        case 6: {
+        case 5: {
             return 0;
         }
         default: {
