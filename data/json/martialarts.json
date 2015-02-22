@@ -503,8 +503,7 @@
                  "min_melee" : 2,
                  "cut_per" : 1.1,
                  "bash_per" : 1.1,
-                 "dodge_per" : 0.5,
-                 "bonus_dodges" : 3
+                 "dodge_per" : 0.5
             }
         ],
         "onmove_buffs" : [
@@ -515,7 +514,8 @@
             "min_melee" : 2,
             "max_stacks" : 1,
             "buff_duration" : 2,
-            "bonus_dodges" : -4,
+            "dodge" : -4,
+            "bonus_dodges" : -1,
             "bonus_blocks" : 2
          }
       ],
@@ -527,7 +527,8 @@
             "min_melee" : 2,
             "max_stacks" : 1,
             "buff_duration" : 2,
-            "bonus_dodges" : -4,
+            "dodge" : -4,
+            "bonus_dodges" : -1,
             "bonus_blocks" : 2
          }
       ],
