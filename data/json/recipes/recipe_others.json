@@ -342,11 +342,10 @@
       ["soldering_iron", 5]
      ]
     ],
+  "//" : "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
   "components": [
     [
-      [ "sewing_kit", 1 ],
-      [ "needle_bone", 1 ],
-      [ "needle_wood", 1 ]
+      [ "sewing_kit", 1 ]
     ],
     [
       [ "scissors", 1 ]
@@ -5067,6 +5066,7 @@
 {
   "type" : "recipe",
   "result": "mirror",
+  "id_suffix" : "from_steel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
@@ -5074,6 +5074,9 @@
   "time": 10000,
   "reversible": false,
   "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+    ],
   "tools": [
      [
       ["tongs", -1]
@@ -5091,7 +5094,7 @@
   "components":
     [
      [
-      ["chunk_steel", 3]
+      ["steel_chunk", 3]
      ]
     ]
 },
@@ -5746,8 +5749,7 @@
     ],
   "tools": [
     [
-      [ "soldering_iron", 25 ],
-      [ "toolset", 25 ]
+      [ "soldering_iron", 25 ]
     ]
   ],
   "components": [
