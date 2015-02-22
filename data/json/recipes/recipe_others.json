@@ -5050,7 +5050,39 @@
       [ "silver_small", 50 ]
      ]
     ]
-},{
+},
+{
+  "type" : "recipe",
+  "result": "mirror",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["polisher", 20]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+      ["chunk_steel", 3]
+     ]
+    ]
+},
+{
   "type" : "recipe",
   "result": "pipe_glass",
   "category": "CC_OTHER",
