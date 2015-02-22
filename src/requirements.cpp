@@ -232,7 +232,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back(current_line.str());
     current_line.str("");
 
-    std::vector<std::string> folded_buffer = get_folded_list(width, col, crafting_inv, components, batch);
+    std::vector<std::string> folded_buffer = get_folded_list(width, crafting_inv, components, batch);
     out_buffer.insert(out_buffer.end(), folded_buffer.begin(), folded_buffer.end());
 
     return out_buffer;
@@ -261,7 +261,7 @@ int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_c
 }
 
 template<typename T>
-std::vector<std::string> requirement_data::get_folded_list( int width, nc_color col,
+std::vector<std::string> requirement_data::get_folded_list( int width,
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
                               int batch )
 {
@@ -320,10 +320,10 @@ std::vector<std::string> requirement_data::get_folded_tools_list(int width, nc_c
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list(width, col, crafting_inv, qualities);
+    std::vector<std::string> folded_qualities = get_folded_list(width, crafting_inv, qualities);
     output_buffer.insert(output_buffer.end(), folded_qualities.begin(), folded_qualities.end());
 
-    std::vector<std::string> folded_tools = get_folded_list(width, col, crafting_inv, tools, batch);
+    std::vector<std::string> folded_tools = get_folded_list(width, crafting_inv, tools, batch);
     output_buffer.insert(output_buffer.end(), folded_tools.begin(), folded_tools.end());
     return output_buffer;
 }

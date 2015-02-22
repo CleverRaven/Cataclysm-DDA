@@ -185,7 +185,7 @@ struct requirement_data {
         static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1);
         template<typename T>
-        static std::vector<std::string> get_folded_list(int width, nc_color col, const inventory &crafting_inv,
+        static std::vector<std::string> get_folded_list(int width, const inventory &crafting_inv,
                                    const std::vector< std::vector<T> > &objs, int batch = 1);
         template<typename T>
         static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
