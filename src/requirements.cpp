@@ -232,26 +232,8 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back(current_line.str());
     current_line.str("");
 
-    for( const auto &comp_list : components ) {
-        const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
-        }
-        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
-
-        for( size_t i = 0; i < folded.size(); i++){
-            if( i == 0 ){
-                out_buffer.push_back(std::string("> ").append(folded[i]));
-            }else{
-                out_buffer.push_back(std::string("  ").append(folded[i]));
-            }
-        }
-    }
+    std::vector<std::string> folded_buffer = get_folded_list(width, crafting_inv, components, batch);
+    out_buffer.insert(out_buffer.end(), folded_buffer.begin(), folded_buffer.end());
 
     return out_buffer;
 }
@@ -278,6 +260,35 @@ int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_c
     return ypos - oldy;
 }
 
+template<typename T>
+std::vector<std::string> requirement_data::get_folded_list( int width,
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
+                              int batch )
+{
+    std::vector<std::string> out_buffer;
+    for( const auto &comp_list : objs ) {
+        const bool has_one = any_marked_available( comp_list );
+        std::ostringstream buffer;
+        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
+            if( a != comp_list.begin() ) {
+                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+            }
+            const std::string col = a->get_color( has_one, crafting_inv, batch );
+            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
+        }
+        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+
+        for( size_t i = 0; i < folded.size(); i++){
+            if( i == 0 ){
+                out_buffer.push_back(std::string("> ").append(folded[i]));
+            }else{
+                out_buffer.push_back(std::string("  ").append(folded[i]));
+            }
+        }
+    }
+    return out_buffer;
+}
+
 int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
                                const inventory &crafting_inv, int batch ) const
 {
@@ -293,6 +304,28 @@ int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_
     ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities);
     ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools, batch);
     return ypos - oldy;
+}
+
+std::vector<std::string> requirement_data::get_folded_tools_list(int width, nc_color col, const inventory &crafting_inv, int batch) const
+{
+    std::vector<std::string> output_buffer;
+    std::ostringstream current_line;
+    current_line << "<color_" << string_from_color(col) << ">" << _( "Tools required:" ) << "</color>";
+    output_buffer.push_back(current_line.str());
+    current_line.str("");
+    if( tools.empty() && qualities.empty() ) {
+        current_line << "<color_" << string_from_color(col) << ">" << "> " << "</color>";
+        current_line << "<color_" << string_from_color(c_green) << ">" << _( "NONE" ) << "</color>";
+        output_buffer.push_back(current_line.str());
+        return output_buffer;
+    }
+
+    std::vector<std::string> folded_qualities = get_folded_list(width, crafting_inv, qualities);
+    output_buffer.insert(output_buffer.end(), folded_qualities.begin(), folded_qualities.end());
+
+    std::vector<std::string> folded_tools = get_folded_list(width, crafting_inv, tools, batch);
+    output_buffer.insert(output_buffer.end(), folded_tools.begin(), folded_tools.end());
+    return output_buffer;
 }
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
