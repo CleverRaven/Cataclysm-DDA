@@ -4676,8 +4676,10 @@ void map::shift( const int sx, const int sy, const int sz )
     int newz = wz + sz;
     if( newz < -OVERMAP_DEPTH ) {
         newz = -OVERMAP_DEPTH;
+        debugmsg( "Tried to shift map below %d", -OVERMAP_DEPTH );
     } else if( newz > OVERMAP_HEIGHT ) {
         newz = OVERMAP_HEIGHT;
+        debugmsg( "Tried to shift map above %d", OVERMAP_HEIGHT );
     }
 
     set_abs_sub( absx + sx, absy + sy, newz );
