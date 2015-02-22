@@ -371,7 +371,7 @@ void construction_menu()
                     // Print previous stage indicator if breakpoint is past the beginning
                     mvwprintz(w_con, 2, 31, c_white, _("^ [P]revious stage(s)"));
                 }
-                if(construct_buffer_breakpoints[current_construct_breakpoint] + available_buffer_height < full_construct_buffer.size()){
+                if(static_cast<size_t>(construct_buffer_breakpoints[current_construct_breakpoint] + available_buffer_height) < full_construct_buffer.size()){
                     // Print next stage indicator if more breakpoints are remaining after screen height
                     mvwprintz(w_con, iMaxY - 4, 31, c_white, _("v [N]ext stage(s)"));
                 }
