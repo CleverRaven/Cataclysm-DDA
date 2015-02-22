@@ -2285,7 +2285,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -2307,7 +2308,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7384,7 +7386,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7405,7 +7408,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7450,7 +7454,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7495,7 +7500,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7516,7 +7522,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -7561,7 +7568,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [

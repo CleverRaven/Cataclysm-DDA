@@ -2307,7 +2307,8 @@
     [
       [ "needle_bone", 1 ],
       [ "needle_wood", 1 ],
-      [ "sewing_kit", 1 ]
+      [ "sewing_kit", 1 ],
+      [ "tailors_kit", 1 ]
     ]
   ],
   "components": [
