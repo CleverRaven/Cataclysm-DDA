@@ -8807,7 +8807,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
-                m.load( levx, levy, levz, true, cur_om );
+                m.shift( 0, 0, action == "LEVEL_UP" ? 1 : -1 );
                 refresh_all();
                 draw_ter(lx, ly, true);
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8845,7 +8845,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
-    levz = old_levz;
+
+    if( levz != old_levz ) {
+        m.shift( 0, 0, levz - old_levz );
+        levz = old_levz;
+    }
+
     inp_mngr.set_timeout(-1);
 
     if (bNewWindow) {
@@ -12824,7 +12829,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift(shiftx, shifty);
+    m.shift( shiftx, shifty, 0 );
     levx += shiftx;
     levy += shifty;
 

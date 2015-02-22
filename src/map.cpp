@@ -4664,16 +4664,26 @@ void map::forget_traps(int gridx, int gridy)
     }
 }
 
-void map::shift(const int sx, const int sy)
+void map::shift( const int sx, const int sy, const int sz )
 {
 // Special case of 0-shift; refresh the map
-    if (sx == 0 && sy == 0) {
+    if( sx == 0 && sy == 0 && sz == 0 ) {
         return; // Skip this?
     }
     const int absx = get_abs_sub().x;
     const int absy = get_abs_sub().y;
     const int wz = get_abs_sub().z;
-    set_abs_sub( absx + sx, absy + sy, wz );
+    int newz = wz + sz;
+    if( newz < -OVERMAP_DEPTH ) {
+        newz = -OVERMAP_DEPTH;
+    } else if( newz > OVERMAP_HEIGHT ) {
+        newz = OVERMAP_HEIGHT;
+    }
+
+    set_abs_sub( absx + sx, absy + sy, newz );
+    if( sx == 0 && sy == 0 ) {
+        return; // Z-level shift
+    }
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {

@@ -187,7 +187,7 @@ class map
      * position of the map (@ref abs_sub) plus the shift vector.
      * Note: the map must have been loaded before this can be called.
      */
-    void shift(const int sx, const int sy);
+    void shift(const int sx, const int sy, const int sz);
     /**
      * Spawn monsters from submap spawn points and from the overmap.
      * @param ignore_sight If true, monsters may spawn in the view of the player
