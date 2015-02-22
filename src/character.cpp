@@ -249,9 +249,8 @@ void Character::recalc_sight_limits()
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
             sight_boost = 13;
-        }
-        else {
-        sight_boost = sight_boost_cap;
+        } else {
+            sight_boost = sight_boost_cap;
         }
     } else if (has_active_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
@@ -259,15 +258,13 @@ void Character::recalc_sight_limits()
         has_active_mutation("URSINE_EYE")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 5;
-        }
-         else {
+        } else {
             sight_boost = 4;
          }
     } else if (has_active_mutation("NIGHTVISION")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 2;
-        }
-        else {
+        } else {
             sight_boost = 1;
         }
     }
