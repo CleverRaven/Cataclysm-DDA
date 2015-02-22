@@ -1120,6 +1120,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SCROLL_STAGE_UP",
+        "category": "CONSTRUCTION",
+        "name": "Scroll to previous stage",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"p"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_STAGE_DOWN",
+        "category": "CONSTRUCTION",
+        "name": "Scroll to next stage",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "EDITMAP_SHOW_ALL",
         "name": "Show all",
         "bindings":[ { "input_method":"keyboard", "key":"v" } ]
