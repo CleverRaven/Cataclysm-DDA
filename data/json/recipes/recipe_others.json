@@ -48,28 +48,28 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["con_mix", 50]
-	]
-	],
+    [
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "material_cement", 50]
-	 ],
-	 [
-	 [ "material_sand", 25]
-	 ],
-	 [
-	 [ "rock", 20]
-	 ],
-	 [
-	 [ "water", 5]
-	 ],
-	 [
-	 [ "bag_canvas", 1]
-	 ]
-	]
+    [
+     [
+     [ "material_cement", 50]
+     ],
+     [
+     [ "material_sand", 25]
+     ],
+     [
+     [ "rock", 20]
+     ],
+     [
+     [ "water", 5]
+     ],
+     [
+     [ "bag_canvas", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "wood_smoother",
@@ -82,16 +82,16 @@
   "reversible": false,
   "autolearn": true,
   "qualities": [
-	{"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components":
-	[
-	 [
-	 [ "nail", 8 ]
-	 ],
-	 [
-	 [ "2x4", 3 ]
-	 ]
-	]
+    [
+     [
+     [ "nail", 8 ]
+     ],
+     [
+     [ "2x4", 3 ]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "down_pillow",
@@ -6510,14 +6510,14 @@
   "reversible": false,
   "autolearn": true,
   "components":
-	[
-	 [
-	 [ "clay_lump", 1]
-	 ],
-	 [
-	 [ "water", 1]
-	 ]
-	]
+    [
+     [
+     [ "clay_lump", 1]
+     ],
+     [
+     [ "water", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "brick",
@@ -6530,16 +6530,16 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["brick_kiln", 20]
-	]
-	],
+    [
+    ["brick_kiln", 20]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "crude_brick", 1]
-	 ]
-	]
+    [
+     [
+     [ "crude_brick", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "mortar_build",
@@ -6553,21 +6553,21 @@
   "autolearn": true,
   "tools": [
 [
-	["con_mix", 50]
-	]
-	],
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
+    [
+     [
     [ "material_cement", 50]
-	 ],
-	 [
+     ],
+     [
     [ "pebble", 20]
-	 ],
-	 [
+     ],
+     [
     [ "bag_canvas", 1]
-	 ]
-	]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "survivor_mess_kit",
@@ -6624,6 +6624,78 @@
 [ "material_sand", 25]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "canteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 6]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2lcanteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 10]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
 }
 
 ]
