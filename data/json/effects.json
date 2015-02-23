@@ -642,9 +642,9 @@
             "Freezing"
         ],
         "desc": [
-            "is exposed to the cold.",
-            "is very exposed to the cold.",
-            "is dangerously cold!"
+            "Your %s is exposed to the cold.",
+            "Your %s is very exposed to the cold.",
+            "Your %s is dangerously cold!"
         ],
         "speed_name": "Cold",
         "max_intensity": 3,
@@ -665,9 +665,9 @@
             "Scorching"
         ],
         "desc": [
-            "feels warm.",
-            "is sweating from the heat.",
-            "is sweating profusely!"
+            "Your %s feels warm.",
+            "Your %s is sweating from the heat.",
+            "Your %s is sweating profusely!"
         ],
         "speed_name": "Hot",
         "max_intensity": 3,
@@ -695,8 +695,8 @@
             "Frostbite"
         ],
         "desc": [
-            "is frostnipped and has gone numb.",
-            "is frostbitten! Its tissues are frozen from the cold!"
+            "Your %s is frostnipped and has gone numb.",
+            "Your %s is frostbitten! Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
@@ -709,7 +709,7 @@
         "type": "effect_type",
         "id": "frostbite_recovery",
         "name": ["Defrosting"],
-        "desc": ["is starting to feel the damage cold has wrought."],
+        "desc": ["Your %s is starting to feel the damage cold has wrought."],
         "part_descs": true,
         "base_mods": {
             "pain_max_val": [40],
@@ -721,7 +721,7 @@
         "type": "effect_type",
         "id": "blisters",
         "name": ["Blisters"],
-        "desc": ["is blistering from the intense heat."],
+        "desc": ["Your %s is blistering from the intense heat."],
         "main_parts_only": true,
         "part_descs": true,
         "miss_messages": [["Your blisters distract you", 1]],
