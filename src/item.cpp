@@ -1246,7 +1246,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has a fur lining sewn into it to increase its overall warmth.")));
+                _("This piece of clothing has a thick lining sewn into it to increase its overall warmth.")));
         }
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1785,7 +1785,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (P)");
     }
     if (item_tags.count("furred") > 0 ){
-        ret << _(" (F)");
+        ret << _(" (W)");
     }
     if (item_tags.count("leather_padded") > 0 ){
         ret << _(" (L)");

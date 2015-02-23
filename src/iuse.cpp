@@ -2991,7 +2991,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             return 0;
         };
         int choice = menu(true, _("How do you want to modify it?"), _("Add extra straps and pockets"),
-            _("Line it with fur"),_("Pad with leather"),_("Line with kevlar"),_("Repair clothing"),_("Cancel"), NULL);
+            _("Line it with fur or wool"),_("Pad with leather"),_("Line with kevlar"),_("Repair clothing"),_("Cancel"), NULL);
 
         if(((mod->item_tags.count("furred")) + (mod->item_tags.count("pocketed")) +
             (mod->item_tags.count("leather_padded")) + (mod->item_tags.count("kevlar_padded"))) >= 2){
@@ -3087,7 +3087,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
 
         case 2: {
             if(mod->item_tags.count("furred")) {
-                p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
+                p->add_msg_if_player(m_info,_("You already sewed in a warm lining."));
                 return 0;
             }
             itype_id repair_item = "none";
@@ -3146,7 +3146,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             }
 
             if (rn <= 8) {
-                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"),
+                p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a warm lining!"),
                                      mod->tname().c_str());
                 mod->damage++;
                 if (mod->damage >= 5) {
@@ -3156,18 +3156,18 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             } else
                 if (rn <= 10) {
                     p->add_msg_if_player(m_bad,
-                                         _("You fail to sew in a fur lining, and you waste a lot of thread and fur."));
+                                         _("You fail to sew in a warm lining, and you waste a lot of thread and materials."));
                     thread_used = rng(5, 14);
                     p->consume_items(comps);
                 } else
                     if (rn <= 14) {
-                        p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
+                        p->add_msg_if_player(m_mixed, _("You sew in a warm lining on your %s, but waste a lot of thread."),
                                              mod->tname().c_str());
                         p->consume_items(comps);
                         mod->item_tags.insert("furred");
                         thread_used = rng(5, 14);
                     } else {
-                        p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
+                        p->add_msg_if_player(m_good, _("You sew in a warm lining on your %s!"), mod->tname().c_str());
                         mod->item_tags.insert("furred");
                         p->consume_items(comps);
                     }
