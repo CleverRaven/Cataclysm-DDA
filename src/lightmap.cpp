@@ -574,8 +574,9 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
     if (INBOUNDS(x, y)) {
-        lm[x][y] += std::max(luminance, static_cast<float>(LL_LOW));
-        sm[x][y] += luminance;
+        lm[x][y] = std::max(lm[x][y], static_cast<float>(LL_LOW));
+        lm[x][y] = std::max(lm[x][y], luminance);
+        sm[x][y] = std::max(sm[x][y], luminance);
     }
     if ( luminance <= 1 ) {
         return;
@@ -762,7 +763,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     } else {
                         light = luminance / ((sx - x) * (sx - x));
                     }
-                    lm[x][y] += light * transparency;
+                    lm[x][y] = std::max(lm[x][y], light * transparency);
                 }
                 transparency *= light_transparency(x, y);
             }
@@ -796,7 +797,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     } else {
                         light = luminance / ((sy - y) * (sy - y));
                     }
-                    lm[x][y] += light * transparency;
+                    lm[x][y] = std::max(lm[x][y], light * transparency);
                 }
                 transparency *= light_transparency(x, y);
             }
