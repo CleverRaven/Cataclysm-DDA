@@ -67,7 +67,6 @@
                 "#": "f_counter",
                 "F": "f_fridge",
                 "S": "f_sink",
-                "P": "f_toilet",
                 "d": "f_dumpster",
                 "{": "f_rack",
                 "O": "f_oven",
@@ -76,9 +75,9 @@
                 "^": "f_indoor_plant",
                 "A": "f_statue"
             },
-            "place_toilets": [
-                { "x": 2, "y": 18 }
-            ],
+            "toilets": {
+                "P": { }
+            },
             "place_items": [
                 {"item": "restaur_table",  "chance": 30, "x": 17,   "y": 10, "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 30, "x": 17,   "y": 15, "repeat": [1,2]},

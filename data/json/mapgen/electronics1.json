@@ -205,14 +205,12 @@
                 "c": "f_chair",
                 "F": "f_fridge",
                 "S": "f_sink",
-                "T": "f_toilet",
                 "d": "f_dumpster",
                 "z": "f_null"
             },
-            "place_toilets": [
-                { "x": 2, "y": 21 },
-                { "x": 6, "y": 21 }
-            ],
+            "toilets": {
+                "T": { }
+            },
             "add": [
                 { "item": "television", "x": 16, "y": 14, "chance": 30},
                 { "item": "laptop",     "x": 14, "y": 15, "chance": 70},

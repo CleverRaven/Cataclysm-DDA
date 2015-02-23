@@ -195,7 +195,6 @@
                 "L": "t_linoleum_white"
             },
             "furniture": {
-                "t": "f_toilet",
                 "s": "f_sink",
                 "B": "f_bench",
                 "T": "f_table",
@@ -209,9 +208,9 @@
                 "L": "f_locker",
                 "U": "f_chair"
             },
-            "place_toilets": [
-                { "x": 1, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "//": "Default terrain is floor but some things are outside (tables)",
             "set": [
                 { "line": "terrain", "x": 20, "y": 15, "x2": 20, "y2": 17, "id": "t_concrete" },

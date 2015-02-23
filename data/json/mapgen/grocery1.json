@@ -205,7 +205,6 @@
                 "f": "t_linoleum_white"
             },
             "furniture": {
-                "T": "f_toilet",
                 "S": "f_sink",
                 "C": "f_crate_c",
                 "]": "f_rack",
@@ -216,10 +215,9 @@
                 "7": "f_bookcase",
                 "f": "f_glass_fridge"
             },
-            "place_toilets": [
-                { "x": 1, "y": 15 },
-                { "x": 1, "y": 17 }
-            ],
+            "toilets": {
+                "T": { }
+            },
             "place_vehicles": [
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 2 },
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 4,       "y": 2 },
