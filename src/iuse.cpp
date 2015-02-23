@@ -3113,9 +3113,20 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                     bFound = true;
                 }
             }
+
+            if (!bFound) {
+                    repair_items.push_back("felt_patch");
+                    plurals.push_back(rm_prefix(_("<plural>wool")));
+                    for( auto &repair_items_i : repair_items ) {
+                    if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
+                    repair_item = repair_items_i;
+                    bFound = true;
+                    }
+                }
+            }
             if (!bFound) {
                 for (unsigned int i = 0; i < repair_items.size(); i++) {
-                    p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+                    p->add_msg_if_player(m_info, _("You don't have enough fur or wool to do that."), plurals[i].c_str());
                 }
                 return 0;
             }
