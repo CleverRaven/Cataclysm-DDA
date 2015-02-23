@@ -47,12 +47,12 @@ void map::build_transparency_cache()
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = grid[smx + smy * my_MAPSIZE];
-    
+
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
-                    
+
                     auto &value = transparency_cache[x][y];
 
                     if( !(terlist [cur_submap->ter[sx][sy]].transparent &&
@@ -102,7 +102,6 @@ void map::build_transparency_cache()
             }
         }
     }
-    
     transparency_cache_dirty = false;
 }
 
@@ -157,7 +156,7 @@ void map::generate_lightmap()
     for (int smx = 0; smx < my_MAPSIZE; ++smx) {
         for (int smy = 0; smy < my_MAPSIZE; ++smy) {
             auto const cur_submap = grid[smx + smy * my_MAPSIZE];
-    
+
             for (int sx = 0; sx < SEEX; ++sx) {
                 for (int sy = 0; sy < SEEY; ++sy) {
                     const int x = sx + smx * SEEX;
