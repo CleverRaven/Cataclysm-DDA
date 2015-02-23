@@ -311,7 +311,7 @@ struct islot_gunmod : public common_firing_data {
 
 struct islot_ammo : public common_ranged_data {
     /**
-     * Ammo type, basically the "form" of the the ammo that fits into the gun/tool.
+     * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      * This is an id, it can be looked up in the @ref ammunition_type class.
      */
     std::string type;

@@ -548,7 +548,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "Automated Machine Gun Turret",
-    "name_plural": "Machine Gun Turrets",
+    "name_plural": "Automated Machine Gun Turrets",
     "description": "An M249 mounted on a powered rotary platform. Sports an automated reload and target acquisition system to be able to function with little input.",
     "price": 2200000,
     "material": ["steel", "plastic"],

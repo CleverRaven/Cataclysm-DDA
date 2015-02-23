@@ -2114,7 +2114,7 @@ void act_vehicle_siphon(vehicle* veh) {
 
 /**
  * Called when the activity timer for installing parts, repairing, etc times
- * out and the the action is complete.
+ * out and the action is complete.
  */
 void complete_vehicle ()
 {

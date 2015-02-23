@@ -11530,7 +11530,7 @@ void map::rotate(int turns)
             // turn the steering wheel, vehicle::turn does not actually
             // move the vehicle.
             veh->turn(turns * 90);
-            // The the facing direction and recalculate the positions of the parts
+            // The facing direction and recalculate the positions of the parts
             veh->face = veh->turn_dir;
             veh->precalc_mounts(0, veh->turn_dir);
             // Update coordinates on a submap
