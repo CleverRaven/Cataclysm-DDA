@@ -248,10 +248,9 @@ void Character::recalc_sight_limits()
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
-            sight_boost = 13;
-        } else {
-            sight_boost = sight_boost_cap;
+            sight_boost_cap = 13;
         }
+        sight_boost = sight_boost_cap;
     } else if (has_active_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
     } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
