@@ -187,7 +187,14 @@ class map
      * position of the map (@ref abs_sub) plus the shift vector.
      * Note: the map must have been loaded before this can be called.
      */
-    void shift(const int sx, const int sy, const int sz);
+    void shift( const int sx, const int sy );
+    /**
+     * Moves the map vertically to (not by!) newz.
+     * Does not actually shift anything, only forces cache updates.
+     * In the future, it will either actually shift the map or it will get removed
+     *  after 3D migration is complete.
+     */
+    void vertical_shift( const int newz );
     /**
      * Spawn monsters from submap spawn points and from the overmap.
      * @param ignore_sight If true, monsters may spawn in the view of the player
@@ -445,6 +452,10 @@ void draw_fill_background(ter_id type);
 void draw_fill_background(std::string type);
 void draw_fill_background(ter_id (*f)());
 void draw_fill_background(const id_or_id & f);
+
+// Helper function for some of the above. Faster drawing of uniform terrain blocks
+void draw_uniform_background( const ter_id type );
+void draw_uniform_background( const ter_id type, const int gridx, const int gridy );
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
@@ -927,3 +938,4 @@ public:
 };
 
 #endif
+

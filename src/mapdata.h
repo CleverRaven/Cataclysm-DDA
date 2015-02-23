@@ -337,6 +337,7 @@ struct submap {
 
     inline void set_trap( const int x, const int y, trap_id trap ) {
         is_uniform = false;
+        is_uniform = false;
         trp[x][y] = trap;
     }
 
@@ -345,6 +346,7 @@ struct submap {
     }
 
     inline void set_furn( const int x, const int y, furn_id furn ) {
+        is_uniform = false;
         is_uniform = false;
         frn[x][y] = furn;
     }
@@ -355,6 +357,7 @@ struct submap {
 
     inline void set_ter( const int x, const int y, ter_id terr ) {
         is_uniform = false;
+        is_uniform = false;
         ter[x][y] = terr;
     }
 
@@ -364,10 +367,12 @@ struct submap {
 
     void set_radiation( const int x, const int y, const int radiation ) {
         is_uniform = false;
+        is_uniform = false;
         rad[x][y] = radiation;
     }
 
     void update_lum_add( item const &i, int const x, int const y ) {
+        is_uniform = false;
         is_uniform = false;
         if (i.is_emissive() && lum[x][y] < 255) {
             lum[x][y]++;
@@ -375,6 +380,7 @@ struct submap {
     }
 
     void update_lum_rem( item const &i, int const x, int const y ) {
+        is_uniform = false;
         if (!i.is_emissive()) {
             return;
         } else if (lum[x][y] && lum[x][y] < 255) {
@@ -427,10 +433,12 @@ struct submap {
     // Can be used anytime (prevents code from needing to place sign first.)
     inline void set_signage( const int x, const int y, std::string s) {
         is_uniform = false;
+        is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
     inline void delete_signage( const int x, const int y) {
+        is_uniform = false;
         is_uniform = false;
         cosmetics[x][y].erase("SIGNAGE");
     }

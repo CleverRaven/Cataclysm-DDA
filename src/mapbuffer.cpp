@@ -205,6 +205,26 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             continue;
         }
 
+        if( sm->is_uniform ) {
+            // Don't save uniform ones - regenerating them is cheaper than re-reading
+            if( delete_after_save ) {
+                submaps_to_delete.push_back( submap_addr );
+            }
+
+            continue;
+        }
+
+        // Open the file now - we have something to save
+        if( !initialized ) {
+            initialized = true;
+            fopen_exclusive(fout, filename.c_str());
+            if( !fout.is_open() ) {
+                return;
+            }
+
+            jsout.start_array();
+        }
+
         jsout.start_object();
 
         jsout.member( "version", savegame_version);

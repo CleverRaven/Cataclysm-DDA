@@ -129,14 +129,12 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // And finally save used submaps and delete the rest.
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
-            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
+            dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
 
-                if (i <= 1 && j <= 1 && k == z) {
-                    saven( i, j, k );
-                } else {
-                    delete get_submap_at_grid( i, j, k );
-                }
+            if( i <= 1 && j <= 1 ) {
+                saven( i, j, z );
+            } else {
+                delete get_submap_at_grid( i, j, z );
             }
         }
     }

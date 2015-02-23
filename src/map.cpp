@@ -3892,6 +3892,7 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
 
     int lx, ly;
     submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
+    current_submap->is_uniform = false;
 
     if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
         // TODO: Update overall field_count appropriately.
@@ -4664,28 +4665,17 @@ void map::forget_traps(int gridx, int gridy)
     }
 }
 
-void map::shift( const int sx, const int sy, const int sz )
+void map::shift( const int sx, const int sy )
 {
 // Special case of 0-shift; refresh the map
-    if( sx == 0 && sy == 0 && sz == 0 ) {
+    if( sx == 0 && sy == 0 ) {
         return; // Skip this?
     }
     const int absx = get_abs_sub().x;
     const int absy = get_abs_sub().y;
     const int wz = get_abs_sub().z;
-    int newz = wz + sz;
-    if( newz < -OVERMAP_DEPTH ) {
-        newz = -OVERMAP_DEPTH;
-        debugmsg( "Tried to shift map below %d", -OVERMAP_DEPTH );
-    } else if( newz > OVERMAP_HEIGHT ) {
-        newz = OVERMAP_HEIGHT;
-        debugmsg( "Tried to shift map above %d", OVERMAP_HEIGHT );
-    }
 
-    set_abs_sub( absx + sx, absy + sy, newz );
-    if( sx == 0 && sy == 0 ) {
-        return; // Z-level shift
-    }
+    set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {
@@ -4767,6 +4757,38 @@ void map::shift( const int sx, const int sy, const int sz )
             }
         }
     }
+    reset_vehicle_cache();
+}
+
+void map::vertical_shift( const int newz )
+{
+    if( newz < -OVERMAP_DEPTH || newz > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to get z-level %d outside allowed range of %d-%d", 
+                  newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        return;
+    }
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            forget_traps( gridx, gridy ) ;
+        }
+    }
+
+    clear_vehicle_cache();
+    vehicle_list.clear();
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    // Forgetting done, now get the new z-level
+    tripoint trp = get_abs_sub();
+    set_abs_sub( trp.x, trp.y, newz );
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            update_vehicle_list( get_submap_at_grid( gridx, gridy, newz ) );
+        }
+    }
+
     reset_vehicle_cache();
 }
 
@@ -5600,6 +5622,28 @@ void map::draw_fill_background(ter_id (*f)()) {
 }
 void map::draw_fill_background(const id_or_id & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+}
+
+void map::draw_uniform_background( const ter_id type )
+{
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            draw_uniform_background( type, gridx, gridy );
+        }
+    }
+}
+
+void map::draw_uniform_background( const ter_id type, const int gridx, const int gridy )
+{
+    // Faster drawing: don't re-get the map coords for every tile
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    constexpr size_t block_size = SEEX * SEEY;
+    submap *const cur = get_submap_at_grid( gridx, gridy );
+    std::uninitialized_fill_n( &cur->ter[0][0], block_size, type );
+    // Mark submap as uniform, so that it is not saved (regenerating it should be faster)
+    cur->is_uniform = true;
 }
 
 

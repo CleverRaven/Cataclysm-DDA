@@ -8807,7 +8807,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
-                m.shift( 0, 0, action == "LEVEL_UP" ? 1 : -1 );
+                m.vertical_shift( levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8847,7 +8847,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     } while (action != "QUIT" && action != "CONFIRM");
 
     if( levz != old_levz ) {
-        m.shift( 0, 0, levz - old_levz );
+        m.vertical_shift( old_levz );
         levz = old_levz;
     }
 
@@ -12584,7 +12584,7 @@ void game::vertical_move(int movez, bool force)
 
     //m.load(levx, levy, levz + movez, false, cur_om);
     // Shift the map up or down
-    m.shift( 0, 0, movez );
+    m.vertical_shift( levz + movez );
     
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
@@ -12699,7 +12699,7 @@ void game::vertical_move(int movez, bool force)
 
     if( !actually_moved ) {
         // Have to undo the map shift
-        m.shift( 0, 0, -movez );
+        m.vertical_shift( levz );
         return;
     }
 
@@ -12840,7 +12840,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift( shiftx, shifty, 0 );
+    m.shift( shiftx, shifty );
     levx += shiftx;
     levy += shifty;
 

@@ -6329,9 +6329,6 @@ void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
             }
         }
     }
-
-
-
 }
 
 
