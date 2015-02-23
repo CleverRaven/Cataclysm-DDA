@@ -157,7 +157,6 @@
                 },
                 "furniture": {
                     "A": "f_rack",
-                    "B": "f_toilet",
                     "C": "f_counter",
                     "D": "f_sink",
                     "E": "f_sink",
@@ -166,9 +165,9 @@
                     "H": "f_hay",
                     "I": "f_hay"
                 },
-                "place_toilets": [
-                    { "x": 16, "y": 8 }
-                ],
+                "toilets": {
+                    "B": { }
+                },
                 "comment": "randomly picked from a group ---v",
                 "place_items": [
                     { "item": "fieldoffice_weapons", "chance": 70, "x": [ 20,21 ], "y": 20 },
