@@ -6667,7 +6667,7 @@
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 35000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "tools": [
