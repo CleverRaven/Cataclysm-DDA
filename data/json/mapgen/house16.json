@@ -107,7 +107,7 @@
                 { "item": "cleaning", "chance": 85, "x": [ 10, 11 ],  "y": 16 },
                 { "item": "homebooks", "chance": 20, "x": 20,  "y": 12 },
                 { "item": "homebooks", "chance": 20, "x": 8,  "y": [ 8, 9 ] },
-                { "item": "allclothes", "chance": 753, "x": [ 12, 13 ],  "y": 16 },
+                { "item": "allclothes", "chance": 75, "x": [ 12, 13 ],  "y": 16 },
                 { "item": "dresser", "chance": 75, "x": 4,  "y": 18 },
                 { "item": "dresser", "chance": 75, "x": [ 7, 8 ],  "y": 12 },
                 { "item": "dresser", "chance": 75, "x": 5,  "y": 12 },
