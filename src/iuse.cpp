@@ -3126,7 +3126,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
             }
             if (!bFound) {
                 for (unsigned int i = 0; i < repair_items.size(); i++) {
-                    p->add_msg_if_player(m_info, _("You don't have enough fur or wool to do that."), plurals[i].c_str());
+                    p->add_msg_if_player(m_info, _("You don't have enough fur or wool to do that."));
                 }
                 return 0;
             }
