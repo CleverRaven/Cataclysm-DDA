@@ -13343,6 +13343,15 @@ void map::add_extra(map_extra type)
             }
             add_trap(x, y, tr_landmine_buried);
         }
+        int x1 = 0, y1 = 0, x2 = (SEEX * 2 - 1), y2 = (SEEY * 2 - 1);
+        furn_set(x1, y1, "f_sign");
+        set_signage(x1, y1, "DANGER! MINEFIELD!");
+        furn_set(x1, y2, "f_sign");
+        set_signage(x1, y2, "DANGER! MINEFIELD!");
+        furn_set(x2, y1, "f_sign");
+        set_signage(x2, y1, "DANGER! MINEFIELD!");
+        furn_set(x2, y2, "f_sign");
+        set_signage(x2, y2, "DANGER! MINEFIELD!");
     }
     break;
 
