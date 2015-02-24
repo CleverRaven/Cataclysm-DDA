@@ -445,13 +445,29 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * ignores null pointers passed to it.
      */
     void add_new_mission( mission *miss );
-
- std::vector<mission*> missions;
- std::vector<mission*> missions_assigned;
- mission *mission_selected;
+    /**
+     * Missions that the NPC can give out. All missions in this vector should be unassigned,
+     * when given out, they should be moved to @ref missions_assigned.
+     */
+    std::vector<mission*> missions;
+    /**
+     * Mission that have been assigned by this NPC to a player character.
+     */
+    std::vector<mission*> missions_assigned;
+    /**
+     * The mission (if any) that we talk about right now. Can be null. Should be one of the
+     * missions in @ref missions or @ref missions_assigned.
+     */
+    mission *mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
- const Skill* skill;
- matype_id style;
+    /**
+     * The skill this NPC offers to train.
+     */
+    const Skill* skill;
+    /**
+     * The martial art style this NPC offers to train.
+     */
+    matype_id style;
  talk_topic first_topic;
 
  npc_chatbin()

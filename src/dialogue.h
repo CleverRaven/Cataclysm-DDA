@@ -10,10 +10,27 @@
 
 struct talk_response;
 struct dialogue {
+    /**
+     * The player character that speaks (always g->u).
+     * TODO: make it a reference, not a pointer.
+     */
     player *alpha;
+    /**
+     * The NPC we talk to. Never null.
+     * TODO: make it a reference, not a pointer.
+     */
     npc *beta;
     WINDOW *win;
+    /**
+     * If true, we are done talking and the dialog ends.
+     */
     bool done;
+    /**
+     * This contains the exchanged words, it is basically like the global message log.
+     * Each responses of the player character and the NPC are added as are information about
+     * what each of them does (e.g. the npc drops their weapon).
+     * This will be displayed in the dialog window and should already be translated.
+     */
     std::vector<std::string> history;
     std::vector<talk_topic> topic_stack;
 
@@ -94,15 +111,39 @@ enum talk_trial {
     NUM_TALK_TRIALS
 };
 
+/**
+ * This defines possible responses from the player character.
+ */
 struct talk_response {
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed. The first character controls the color of it ('*'/'&'/'!').
+     */
     std::string text;
+    /**
+     * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
+     * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
+     * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
+     * the player character. See @ref trial_chance.
+     */
     talk_trial trial;
     int difficulty;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     * Except @ref miss, it is apparently not used but should be a mission type that can create
+     * new mission.
+     */
     mission *mission_selected;
     mission_type_id miss; // If it generates a new mission
     int tempvalue; // Used for various stuff
     const Skill* skill;
     matype_id style;
+    /**
+     * The following defines what happens when the trial succeeds or fails. If trial is
+     * TALK_TRIAL_NONE it always succeeds.
+     * talk_topic is the topic that will be handled next, opinion is added to the NPC's opinion
+     * of the player character (@ref npc::op_of_u) and the effect function is called.
+     */
     npc_opinion opinion_success;
     npc_opinion opinion_failure;
     void (talk_function::*effect_success)(npc *);
