@@ -2999,8 +2999,8 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
                       _("Pad with leather"), _("Line with kevlar"), _("Repair clothing"),
                       _("Cancel"), NULL);
 
-    if( (choice == 1 || choice == 2 || choice == 3) && mod->item_tags.count("furred") +
-        mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded") >= 2 ){
+    if( (choice == 1 || choice == 2 || choice == 3 || choice == 4) && mod->item_tags.count("wooled") +
+       mod->item_tags.count("furred") + mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded") >= 2 ){
         p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
         return 0;
     }
