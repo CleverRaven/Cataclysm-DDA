@@ -1,56 +1,110 @@
 0.C
 
-Unsorted (up to commit 32fd9a483):
+Features:
+Infighting! Monsters now have factions assigned and will attack other monsters from opposing factions.
+Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well as an all-inclusive weather station.
+ Now we can finally talk about the weather, as we've always wanted. (disclaimer, you can't chat about the weather with NPCs)
+You can warm yourself up from a nearby fire.
+Change car batteries without any tools, truck batteries with just a wrench, or install swappable storage battery cases and add/remove storage batteries to your heart's content. Electric cars come with cases for their storage batteries by default now.
+Many vehicle parts are now foldable, enabling you to have a more complete folding bicycle (or wheelchair).
+Aiming! You can now spend time when aiming a ranged weapon to improve your accuracy with it.
+The patented DeathCam™! You can now watch what happens after your epic death: is anything left of you after that massive fire burns itself out?
+Rifle straps! Mount one on your gun and just wear it when you're not using it.
+Some cars have alarms now, and you can try to bypass the alarm and unlock the controls.
+Better interactions with worn items, such as auto-retrieving stowed items from them.
+Toggle modes for each vehicle turret individually.
+Manual fire turrets.
+Cameras mountable on vehicles to extend view area.
+New drive-by-wireless system for cars, remote-control full-sized cars!
+Clothing modifications (pockets, padding, and reinforcing).
 
-- Overhaul of diseases:
-	- configurable from JSON
-	- now applied as relatively generic status effects
-- Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well
-as an all-inclusive weather station. Now we can finally talk about the
-weather, as we've always wanted.
-- An abandoned farmhouse may spawn in the forest from time to time, with a sad
-story behind it.
-- You can warm yourself up from a nearby fire.
-- Change car batteries without any tools, truck batteries with just a wrench,
-or install swappable storage battery cases and add/remove storage batteries to
-your heart's content. Electric cars come with cases for their storage
-batteries by default now.
-- Many vehicle parts are now foldable, enabling you to have a more complete
-folding bicycle (or wheelchair).
-- Butchering can now be used to cut up items, too. Also, you can now salvage
-_all_ the things (in a tile) in one keypress.
-- Tanning with trees! Blackjack oaks now spawn, and can provide tanbark.
-- Gun mods aren't just a free-for-all when reaching marksmanship level 1
-anymore -- instead, they each have different skill requirements to install.
-- Doors and windows no longer hold up the roof! Hopefully preventing collapses
-from zombies breaking into your shop.
-- Electric chainsaws and jackhammers now exist in the world.
-- Destructible bridges! They can be smashed, they have sidewalks, and are a
-source of rebar.
-- Straw! Get it from the hay in farm barns and make yourself a nice straw hat.
-- Aiming! You can now spend time when aiming a ranged weapon to improve your
-accuracy with it.
-- Item descriptions now tell you what you know you can craft with them. No
-more wondering what those stupid copper tubes are good for.
-- Canes, cudgels, and umbrellas now work as improvised fencing weapons.
-- Battery mods (extended battery, rechargeable battery, etc.) can now be
-removed by applying a screwdriver.
-- You can now choose to ensure that items you pick up never get wielded,
-keeping your hands free -- useful when you want to be using a martial arts
-style that's primarily unarmed.
-- The patented DeathCam™! You can now watch what happens after your epic
-death: is anything left of you after that massive fire burns itself out?
-- Foraging just... happens. Without prompting you (Y/N?) every (Y/N?) time.
-- Rifle straps! Mount one on your gun and just wear it when you're not using
-it.
-- You can now choose to re-roll a random scenario along with your other random
-character generation things.
-- Some cars have alarms now, and you can try to bypass the alarm and unlock
-the controls.
-- Wool and felt are now usable materials.
-- Solar panels now _just work_ (as long as they're above-ground and it's
-sunny). You don't need to be near them anymore.
+Content:
+An abandoned farmhouse may spawn in the forest from time to time, with a sad story behind it.
+Tanning with trees! Blackjack oaks now spawn, and can provide tanbark.
+Electric chainsaws and jackhammers now exist in the world.
+Destructible bridges! They can be smashed, they have sidewalks, and are a source of rebar.
+Straw! Get it from the hay in farm barns and make yourself a nice straw hat.
+Battery mods (extended battery, rechargeable battery, etc.) can now be removed by applying a screwdriver.
+Wool and felt are now usable materials.
+Lots of clay and pottery recipes/items.
+Diesel fuel/engines/pumps.
+Lots of comestibles and recipes for them.
+Buildable concrete and brick walls and roofs.
+Flu shot that actually innoculates against flu.
+Metal tank furniture similar to a keg, but easier to make.
+Lots of new clothes and recipes for them.
+Large amounts of chemical and metalurgy additions, lots of bombs and rockets.
+Interior lights for vehicles.
+Fire engine, with a water cannon!
+Occasional mineral drops when tunneling (limestone so far).
+Zombie technician gained a disarm attack.
+Student professions.
+Generic spiritualist content.
+Craftable canned food and recipes.
+More farming content and recipes to make use of them.
 
+Interface:
+Butchering can now be used to cut up items, too. Also, you can now salvage _all_ the things (in a tile) in one keypress.
+Item descriptions now tell you what you know you can craft with them. No more wondering what those stupid copper tubes are good for.
+You can now choose to ensure that items you pick up never get wielded, keeping your hands free -- useful when you want to be using a martial arts style that's primarily unarmed.
+Foraging just... happens. Without prompting you (Y/N?) every (Y/N?) time.
+You can now choose to re-roll a random scenario along with your other random character generation things.
+New item action menu, trigger items without rooting around in your inventory!
+Option to merge all cash card charges into one card at an ATM.
+Laser-dot targeting now triggers safe mode.
+Streamlined vehicle construction menu by adding a shape select menu to parts that have multiple symbols.
+Added tabs to vehicle construction menu to help manage all the parts.
+Sound symbols persist until the end of the player turn, and can be examined for a description.
+Warning prompt about activated items when sleeping or waiting.
+Item names now have HP bars displayed with them.
+Add V-menu (nearby items/monsters) to peek command.
+Add filters to advanced inventory.
+
+Balance:
+Gun mods aren't just a free-for-all when reaching marksmanship level 1 anymore -- instead, they each have different skill requirements to install.
+Canes, cudgels, and umbrellas now work as improvised fencing weapons.
+Gunstores are all locked up.
+Muscle-powered engines can run alternators now.
+Muscle-powered engines cause thirst, hunger and fatigue.
+Split out more layering locations and layers, but made layering penalties harsher.
+Nerfed shrapnel from bombs in general, they are MUCH less effective against armored enemies.
+Monsters with many weapons semi-intelligently choose which ones to use.
+Tuned skilling progression for making archery items to allow bootstrapping.
+Unfletched arrows no longer count as ammunition so they don't clutter your firing menu.
+Some monsters have a small amount of nightvision, Now you will learn why you fear the night.
+Enabled trading with starting NPC at game start.
+
+Bugfixes:
+Doors and windows no longer hold up the roof! Hopefully preventing collapses from zombies breaking into your shop.
+Solar panels now _just work_ (as long as they're above-ground and it's sunny).
+Fixed dark temple finale by enhancing the dark wyrms that it spawns.
+Fix slow vehicles getting stuck in reverse.
+Fixed free blocks when player had no block techniques.
+Make effects that damage all player bodyparts use the same armor code as other attacks.
+Scale damage to armor based on its coverage so e.g. power armor isn't ridiculously vulnerable to acid.
+Fatigue can no longer go so negative that you don't need to sleep for days.
+Unify vehicle fuel handling.
+
+Performance:
+MASSIVE improvement in performance when there are large numbers (thousands) of items nearby.
+Added a clustering algorithm for monster hearing that improves performance when there are many (thousands) of monsters on-map and making noises.
+Iterate across map structures in cache-friendly way.
+
+Infrastructure:
+Diseases are configurable from JSON and applied as relatively generic status effects.
+Pedal/wheelchairs/paddles united as a "fuel type".
+About half of the item types are now composable, for example you can easily make a "wearable gun", or "wearable tool" now.
+Overhaul and simplification of map data handling.
+Simplification of gun and gunmod handling.
+Restored building under MSVC.
+Build performance improvements via removing unecessary includes.
+Simplify handling of vehicle coordinates.
+Visibility clecking API cleanup.
+Unified filesystem API.
+Extracted activity handlers from game.cpp
+Sound processing moved to a dedicated module. (in-game hearing, not the game making sound)
+Moved some shared logic from player to character.
+Streamlined obsolete mod handling.
 
 0.B
 
