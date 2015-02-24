@@ -585,15 +585,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.skip_value();
             }
         }
-        if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
-                      submap_coordinates.z );
-        }
+
+        add_submap( submap_coordinates, sm );
     }
+
     if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
-                 p.z);
         return NULL;
     }
+
     return submaps[ p ];
 }
