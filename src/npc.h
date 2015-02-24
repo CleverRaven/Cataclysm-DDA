@@ -440,6 +440,12 @@ enum talk_topic {
 
 struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 {
+    /**
+     * Add a new mission to the available missions (@ref missions). For compatibility it silently
+     * ignores null pointers passed to it.
+     */
+    void add_new_mission( mission *miss );
+
  std::vector<mission*> missions;
  std::vector<mission*> missions_assigned;
  mission *mission_selected;
@@ -509,6 +515,11 @@ public:
      * a spiral search for an empty square around it is performed.
      */
     void place_on_map();
+    /**
+     * See @ref npc_chatbin::add_new_mission
+     */
+    void add_new_mission( mission *miss );
+
  const Skill* best_skill() const;
  void starting_weapon(npc_class type);
 

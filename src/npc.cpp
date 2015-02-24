@@ -130,10 +130,7 @@ void npc::load_npc_template(std::string ident)
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
         if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
-            const auto mission = mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID());
-            if( mission != nullptr ) {
-                chatbin.missions.push_back( mission );
-            }
+            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
         }
         return;
     } else {
@@ -2327,5 +2324,17 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
     va_end(ap);
 }
 
+void npc::add_new_mission( class mission *miss )
+{
+    chatbin.add_new_mission( miss );
+}
+
+void npc_chatbin::add_new_mission( mission *miss )
+{
+    if( miss == nullptr ) {
+        return;
+    }
+    missions.push_back( miss );
+}
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

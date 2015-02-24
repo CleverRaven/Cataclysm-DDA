@@ -3080,8 +3080,7 @@ void talk_function::clear_mission(npc *p)
     const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
     p->chatbin.missions_assigned.erase( it );
     if( miss->has_follow_up() ) {
-        const auto mission = mission::reserve_new( miss->get_follow_up(), p->getID() );
-        p->chatbin.missions.push_back( mission );
+        p->add_new_mission( mission::reserve_new( miss->get_follow_up(), p->getID() ) );
     }
 }
 

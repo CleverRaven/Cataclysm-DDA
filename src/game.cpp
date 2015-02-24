@@ -728,10 +728,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
-    const auto mission = mission::reserve_random( ORIGIN_OPENER_NPC, om_location(), tmp->getID() );
-    if( mission != nullptr ) {
-        tmp->chatbin.missions.push_back( mission );
-    }
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, om_location(), tmp->getID() ) );
 }
 
 bool game::cleanup_at_end()
@@ -3971,10 +3968,7 @@ void game::debug()
         temp->sety( u.posy() - 4 );
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
-        const auto mission = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), temp->getID());
-        if( mission != nullptr ) {
-            temp->chatbin.missions.push_back( mission );
-        }
+        temp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, om_location(), temp->getID()) );
         load_npcs();
     }
     break;
@@ -4148,10 +4142,7 @@ void game::debug()
                     types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
                     types.query();
                     if( types.ret != INT_MAX ) {
-                        const auto mission = mission::reserve_new( static_cast<mission_type_id>( types.ret ), p->getID() );
-                        if( mission != nullptr ) {
-                            p->chatbin.missions.push_back( mission );
-                        }
+                        p->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ), p->getID() ) );
                     }
                 }
                 break;
@@ -13081,10 +13072,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
-        const auto mission = mission::reserve_random(ORIGIN_ANY_NPC, om_location(), tmp->getID());
-        if( mission != nullptr ) {
-            tmp->chatbin.missions.push_back( mission );
-        }
+        tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, om_location(), tmp->getID()) );
         // This will make the new NPC active
         load_npcs();
     }

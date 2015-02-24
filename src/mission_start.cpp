@@ -544,10 +544,7 @@ void mission_start::recruit_tracker(mission *miss)
  temp->mission = NPC_MISSION_SHOPKEEP;
  temp->personality.aggression -= 1;
  temp->op_of_u.owed = 10;
-    const auto mission = mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() );
-    if( mission != nullptr ) {
-        temp->chatbin.missions.push_back( mission );
-    }
+    temp->add_new_mission( mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() ) );
 }
 
 void mission_start::radio_repeater(mission *miss)
