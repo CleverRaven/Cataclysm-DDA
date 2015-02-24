@@ -624,7 +624,9 @@ void npc_chatbin::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member( "first_topic", (int)first_topic );
-    json.member( "mission_selected", mission_selected );
+    if( mission_selected != nullptr ) {
+        json.member( "mission_selected", mission_selected->uid );
+    }
     json.member( "tempvalue",
                  tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
@@ -649,9 +651,15 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     data.read("tempvalue", tempvalue);
-    data.read("mission_selected", mission_selected);
     data.read( "missions", missions );
     data.read( "missions_assigned", missions_assigned );
+    int tmpmission_selected;
+    mission_selected = nullptr;
+    if( savegame_loading_version <= 23 ) {
+        mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
+    } else if( data.read( "mission_selected", tmpmission_selected ) ) {
+        mission_selected = mission::find( tmpmission_selected );
+    }
 }
 
 void npc_personality::deserialize(JsonIn &jsin)

@@ -98,7 +98,7 @@ struct talk_response {
     std::string text;
     talk_trial trial;
     int difficulty;
-    int mission_index;
+    mission *mission_selected;
     mission_type_id miss; // If it generates a new mission
     int tempvalue; // Used for various stuff
     const Skill* skill;
@@ -115,7 +115,7 @@ struct talk_response {
         text = "";
         trial = TALK_TRIAL_NONE;
         difficulty = 0;
-        mission_index = -1;
+        mission_selected = nullptr;
         miss = MISSION_NULL;
         tempvalue = -1;
         skill = NULL;

@@ -1845,10 +1845,11 @@ void npc::load_legacy(std::stringstream & dump) {
 
  void npc_chatbin::load_legacy(std::stringstream &info)
  {
-  int tmpsize_miss, tmpsize_assigned, tmptopic;
+  int tmpsize_miss, tmpsize_assigned, tmptopic, tmpmission_selected;
   std::string skill_ident;
-  info >> tmptopic >> mission_selected >> tempvalue >> skill_ident >>
+  info >> tmptopic >> tmpmission_selected >> tempvalue >> skill_ident >>
           tmpsize_miss >> tmpsize_assigned;
+    mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
   first_topic = talk_topic(tmptopic);
   skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
   for (int i = 0; i < tmpsize_miss; i++) {

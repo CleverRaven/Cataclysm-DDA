@@ -442,7 +442,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 {
  std::vector<int> missions;
  std::vector<int> missions_assigned;
- int mission_selected;
+ mission *mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  const Skill* skill;
  matype_id style;
@@ -450,7 +450,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 
  npc_chatbin()
  {
-  mission_selected = -1;
+  mission_selected = nullptr;
   tempvalue = -1;
   skill = NULL;
   style = "";
