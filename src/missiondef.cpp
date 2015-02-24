@@ -306,6 +306,11 @@ const mission_type *mission_type::get( const mission_type_id id )
     return nullptr;
 }
 
+const std::vector<mission_type> &mission_type::get_all()
+{
+    return types;
+}
+
 mission_type_id mission_type::get_random_id( const mission_origin origin, const point p )
 {
     std::vector<mission_type_id> valid;

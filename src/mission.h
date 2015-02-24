@@ -204,6 +204,10 @@ struct mission_type {
      * Returns @ref MISSION_NULL if no suitable type could be found.
      */
     static mission_type_id get_random_id( mission_origin origin, point p );
+    /**
+     * Get all mission types at once.
+     */
+    static const std::vector<mission_type> &get_all();
 
     static void reset();
     static void initialize();

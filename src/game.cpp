@@ -4118,7 +4118,8 @@ void game::debug()
             nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
             nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
             nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
-            nmenu.addentry(5, true, 'q', "%s", _("[q]uit"));
+            nmenu.addentry(5, true, 'm', "%s", _("Add mission"));
+            nmenu.addentry(999, true, 'q', "%s", _("[q]uit"));
             nmenu.selected = 0;
             nmenu.query();
             switch (nmenu.ret) {
@@ -4137,7 +4138,22 @@ void game::debug()
             case 4:
                 p->disp_info();
                 break;
-            default:
+            case 5:
+                {
+                    uimenu types;
+                    types.text = _( "Choose mission type" );
+                    for( auto &mt : mission_type::get_all() ) {
+                        types.addentry( mt.id, true, -1, mt.name );
+                    }
+                    types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+                    types.query();
+                    if( types.ret != INT_MAX ) {
+                        const auto mission = mission::reserve_new( static_cast<mission_type_id>( types.ret ), p->getID() );
+                        if( mission != nullptr ) {
+                            p->chatbin.missions.push_back( mission );
+                        }
+                    }
+                }
                 break;
             }
         }
