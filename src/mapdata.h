@@ -336,6 +336,7 @@ struct submap {
     }
 
     inline void set_trap(int x, int y, trap_id trap) {
+        is_uniform = false;
         trp[x][y] = trap;
     }
 
@@ -344,28 +345,33 @@ struct submap {
     }
 
     inline void set_furn(int x, int y, furn_id furn) {
+        is_uniform = false;
         frn[x][y] = furn;
     }
 
     inline void set_ter(int x, int y, ter_id terr) {
+        is_uniform = false;
         ter[x][y] = terr;
     }
 
-    int get_radiation(int x, int y) {
+    inline int get_radiation(int x, int y) const {
         return rad[x][y];
     }
 
     void set_radiation(int x, int y, int radiation) {
+        is_uniform = false;
         rad[x][y] = radiation;
     }
 
     void update_lum_add(item const &i, int const x, int const y) {
+        is_uniform = false;
         if (i.is_emissive() && lum[x][y] < 255) {
             lum[x][y]++;
         }
     }
 
     void update_lum_rem(item const &i, int const x, int const y) {
+        is_uniform = false;
         if (!i.is_emissive()) {
             return;
         } else if (lum[x][y] && lum[x][y] < 255) {
@@ -395,26 +401,31 @@ struct submap {
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage(int x, int y) {
+    inline bool has_signage(int x, int y) const {
         furn_id f = frn[x][y];
-        if (furnlist[f].id == "f_sign") {
+        if( furnlist[f].id == "f_sign" ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
+
         return false;
     }
     // Dependent on furniture + cosmetics.
-    inline const std::string get_signage(int x, int y) {
-        if (has_signage(x, y)) {
-            return cosmetics[x][y]["SIGNAGE"];
+    inline const std::string get_signage(int x, int y) const {
+        furn_id f = frn[x][y];
+        if( furnlist[f].id == "f_sign" ) {
+            return cosmetics[x][y].find("SIGNAGE")->second;
         }
+
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
     inline void set_signage(int x, int y, std::string s) {
+        is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
     inline void delete_signage(int x, int y) {
+        is_uniform = false;
         cosmetics[x][y].erase("SIGNAGE");
     }
 
@@ -426,6 +437,10 @@ struct submap {
     field           fld[SEEX][SEEY];  // Field on each square
     trap_id         trp[SEEX][SEEY];  // Trap on each square
     int             rad[SEEX][SEEY];  // Irradiation of each square
+
+    // If is_uniform is true, this submap is a solid block of terrain
+    // Uniform submaps aren't saved/loaded, because regenerating them is faster
+    bool is_uniform;
 
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 

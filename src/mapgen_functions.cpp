@@ -6311,7 +6311,7 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
 {
-
+    fill_background( m, t_rock );
     for (int i = 0; i < 4; i++) {
         if (dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
             dat.t_nesw[i] == "slimepit_down") {
@@ -6326,8 +6326,6 @@ void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
             if (rng(0, dat.n_fac) > j || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ||
                 rng(0, dat.w_fac) > i || rng(0, dat.s_fac) > SEEY * 2 - 1 - j   ) {
                 m->ter_set(i, j, t_rock_floor);
-            } else {
-                m->ter_set(i, j, t_rock);
             }
         }
     }

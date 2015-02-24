@@ -47,7 +47,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // 
 void map::generate(const int x, const int y, const int z, const int turn)
 {
     dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
-                << "y[" << y << "], turn[" << turn << "] )";
+                << "y[" << y << "], z[" << z <<"], turn[" << turn << "] )";
 
     set_abs_sub( x, y, z );
 
@@ -55,9 +55,13 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
-    for( size_t i = 0; i < grid.size(); i++ ) {
-        setsubmap( i, new submap() );
-        // TODO: memory leak if the code below throws before the submaps get stored/deleted!
+    // Mapgen is not z-level aware yet. Only actually initialize current z-level
+    //  because other submaps won't be touched.
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            setsubmap( get_nonant( gridx, gridy ), new submap() );
+            // TODO: memory leak if the code below throws before the submaps get stored/deleted!
+        }
     }
 
     unsigned zones = 0;
@@ -127,7 +131,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
         for (int j = 0; j < my_MAPSIZE; j++) {
             dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
 
-            if (i <= 1 && j <= 1) {
+            if( i <= 1 && j <= 1 ) {
                 saven( i, j );
             } else {
                 delete get_submap_at_grid( i, j );
@@ -11460,6 +11464,7 @@ void map::rotate(int turns)
             }
             int new_lx, new_ly;
             const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            new_sm->is_uniform = false;
             std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
             std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
             std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
@@ -11524,67 +11529,71 @@ void map::rotate(int turns)
     }
 
     // change vehicles' directions
-    for( size_t i = 0; i < grid.size(); i++ ) {
-        for (auto &v : vehrot[i]) {
-            vehicle *veh = v;
-            // turn the steering wheel, vehicle::turn does not actually
-            // move the vehicle.
-            veh->turn(turns * 90);
-            // The facing direction and recalculate the positions of the parts
-            veh->face = veh->turn_dir;
-            veh->precalc_mounts(0, veh->turn_dir);
-            // Update coordinates on a submap
-            int new_x = veh->posx;
-            int new_y = veh->posy;
-            switch(turns) {
-            case 1:
-                new_x = SEEY - 1 - veh->posy;
-                new_y = veh->posx;
-                break;
-            case 2:
-                new_x = SEEX - 1 - veh->posx;
-                new_y = SEEY - 1 - veh->posy;
-                break;
-            case 3:
-                new_x = veh->posy;
-                new_y = SEEX - 1 - veh->posx;
-                break;
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            const size_t i = get_nonant( gridx, gridy );
+            for (auto &v : vehrot[i]) {
+                vehicle *veh = v;
+                // turn the steering wheel, vehicle::turn does not actually
+                // move the vehicle.
+                veh->turn(turns * 90);
+                // The the facing direction and recalculate the positions of the parts
+                veh->face = veh->turn_dir;
+                veh->precalc_mounts(0, veh->turn_dir);
+                // Update coordinates on a submap
+                int new_x = veh->posx;
+                int new_y = veh->posy;
+                switch(turns) {
+                case 1:
+                    new_x = SEEY - 1 - veh->posy;
+                    new_y = veh->posx;
+                    break;
+                case 2:
+                    new_x = SEEX - 1 - veh->posx;
+                    new_y = SEEY - 1 - veh->posy;
+                    break;
+                case 3:
+                    new_x = veh->posy;
+                    new_y = SEEX - 1 - veh->posx;
+                    break;
+                }
+                veh->posx = new_x;
+                veh->posy = new_y;
+                // Update submap coordinates
+                new_x = veh->smx;
+                new_y = veh->smy;
+                switch(turns) {
+                case 1:
+                    new_x = 1 - veh->smy;
+                    new_y = veh->smx;
+                    break;
+                case 2:
+                    new_x = 1 - veh->smx;
+                    new_y = 1 - veh->smy;
+                    break;
+                case 3:
+                    new_x = veh->smy;
+                    new_y = 1 - veh->smx;
+                    break;
+                }
+                veh->smx = new_x;
+                veh->smy = new_y;
             }
-            veh->posx = new_x;
-            veh->posy = new_y;
-            // Update submap coordinates
-            new_x = veh->smx;
-            new_y = veh->smy;
-            switch(turns) {
-            case 1:
-                new_x = 1 - veh->smy;
-                new_y = veh->smx;
-                break;
-            case 2:
-                new_x = 1 - veh->smx;
-                new_y = 1 - veh->smy;
-                break;
-            case 3:
-                new_x = veh->smy;
-                new_y = 1 - veh->smx;
-                break;
-            }
-            veh->smx = new_x;
-            veh->smy = new_y;
+            const auto to = getsubmap( i );
+            // move back to the actuall submap object, vehrot is only temporary
+            vehrot[i].swap(to->vehicles);
+            sprot[i].swap(to->spawns);
+            to->comp = tmpcomp[i];
+            to->field_count = field_count[i];
+            to->temperature = temperature[i];
         }
-        const auto to = getsubmap( i );
-        // move back to the actuall submap object, vehrot is only temporary
-        vehrot[i].swap(to->vehicles);
-        sprot[i].swap(to->spawns);
-        to->comp = tmpcomp[i];
-        to->field_count = field_count[i];
-        to->temperature = temperature[i];
     }
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             int lx, ly;
             const auto sm = get_submap_at( i, j, lx, ly );
+            sm->is_uniform = false;
             std::swap( rotated[i][j], sm->ter[lx][ly] );
             std::swap( furnrot[i][j], sm->frn[lx][ly] );
             std::swap( traprot[i][j], sm->trp[lx][ly] );
@@ -13570,4 +13579,4 @@ void add_corpse(map *m, int x, int y) {
     m->add_corpse(x, y);
 }
 
-/////////
+/////////

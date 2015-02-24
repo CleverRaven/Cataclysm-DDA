@@ -143,7 +143,7 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
         save_quad( quad_path.str(), om_addr, submaps_to_delete,
-                   delete_after_save || om_addr.z != g->levz ||
+                   delete_after_save ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + (MAPSIZE / 2) ||
                    om_addr.y > map_origin.y + (MAPSIZE / 2) );
@@ -157,19 +157,18 @@ void mapbuffer::save( bool delete_after_save )
 void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                            std::list<tripoint> &submaps_to_delete, bool delete_after_save )
 {
+    // Don't open the stream yet - most quads won't need saving
     std::ofstream fout;
-    fopen_exclusive(fout, filename.c_str());
-    if(!fout.is_open()) {
-        return;
-    }
+    JsonOut jsout( fout );
 
     std::vector<point> offsets;
     offsets.push_back( point(0, 0) );
     offsets.push_back( point(0, 1) );
     offsets.push_back( point(1, 0) );
     offsets.push_back( point(1, 1) );
-    JsonOut jsout( fout );
-    jsout.start_array();
+
+    // Don't open the stream if file for saving if there is nothing to save
+    bool initialized = false;
     for( auto &offsets_offset : offsets ) {
         tripoint submap_addr = overmapbuffer::omt_to_sm_copy( om_addr );
         submap_addr.x += offsets_offset.x;
@@ -181,6 +180,26 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         submap *sm = submaps[submap_addr];
         if( sm == NULL ) {
             continue;
+        }
+
+        if( sm->is_uniform ) {
+            // Don't save uniform ones - regenerating them is cheaper than re-reading
+            if( delete_after_save ) {
+                submaps_to_delete.push_back( submap_addr );
+            }
+
+            continue;
+        }
+
+        // Open the file now - we have something to save
+        if( !initialized ) {
+            initialized = true;
+            fopen_exclusive(fout, filename.c_str());
+            if( !fout.is_open() ) {
+                return;
+            }
+
+            jsout.start_array();
         }
 
         jsout.start_object();
@@ -356,8 +375,11 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         }
         jsout.end_object();
     }
-    jsout.end_array();
-    fclose_exclusive(fout, filename.c_str());
+
+    if( initialized ) {
+        jsout.end_array();
+        fclose_exclusive(fout, filename.c_str());
+    }
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

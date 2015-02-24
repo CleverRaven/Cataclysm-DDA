@@ -5511,10 +5511,21 @@ void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2)
 }
 
 void map::draw_fill_background(ter_id type) {
-    draw_square_ter(type, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    // Fill each submap rather than each tile
+    constexpr size_t block_size = SEEX * SEEY;
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            auto sm = get_submap_at_grid( gridx, gridy );
+            sm->is_uniform = true;
+            std::uninitialized_fill_n( &sm->ter[0][0], block_size, type );
+        }
+    }
 }
 void map::draw_fill_background(std::string type) {
-    draw_square_ter(find_ter_id(type), 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+    draw_fill_background( find_ter_id(type) );
 }
 void map::draw_fill_background(ter_id (*f)()) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
