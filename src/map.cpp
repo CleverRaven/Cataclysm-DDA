@@ -1139,7 +1139,7 @@ ter_id map::ter(const int x, const int y) const
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return current_submap->ter[lx][ly];
+    return current_submap->get_ter( lx, ly );
 }
 
 /*
@@ -1206,7 +1206,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->ter[lx][ly] = new_terrain;
+    current_submap->set_ter( lx, ly, new_terrain );
 }
 
 std::string map::tername(const int x, const int y) const
@@ -1294,7 +1294,7 @@ int map::move_cost_ter_furn(const int x, const int y) const
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    const int tercost = terlist[ current_submap->ter[lx][ly] ].movecost;
+    const int tercost = terlist[ current_submap->get_ter( lx, ly ) ].movecost;
     if ( tercost == 0 ) {
         return 0;
     }
@@ -1364,7 +1364,7 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
@@ -1406,7 +1406,7 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
@@ -1418,7 +1418,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return terlist[ current_submap->ter[lx][ly] ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
+    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
 }
 
 /////
@@ -3112,6 +3112,7 @@ void map::add_item_at( const int x, const int y,
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
+    current_submap->is_uniform = false;
 
     current_submap->update_lum_add(new_item, lx, ly);
 
@@ -3677,8 +3678,8 @@ trap_id map::tr_at(const int x, const int y) const
  int lx, ly;
  submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- if (terlist[ current_submap->ter[lx][ly] ].trap != tr_null) {
-  return terlist[ current_submap->ter[lx][ly] ].trap;
+ if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
+  return terlist[ current_submap->get_ter( lx, ly ) ].trap;
  }
 
  return current_submap->get_trap(lx, ly);
@@ -4768,7 +4769,7 @@ void map::saven( const int gridx, const int gridy )
     dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx[" << abs_sub.z <<
                   "], gridy[" << gridy << "])";
     submap *submap_to_save = get_submap_at_grid( gridx, gridy );
-    if( submap_to_save == NULL || submap_to_save->ter[0][0] == t_null ) {
+    if( submap_to_save == NULL || submap_to_save->get_ter( 0, 0 ) == t_null ) {
         dbg( D_ERROR ) << "map::saven grid NULL!";
         return;
     }

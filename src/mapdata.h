@@ -331,46 +331,50 @@ struct spawn_point {
 };
 
 struct submap {
-    inline trap_id get_trap(int x, int y) const {
+    inline trap_id get_trap( const int x, const int y ) const {
         return trp[x][y];
     }
 
-    inline void set_trap(int x, int y, trap_id trap) {
+    inline void set_trap( const int x, const int y, trap_id trap ) {
         is_uniform = false;
         trp[x][y] = trap;
     }
 
-    inline furn_id get_furn(int x, int y) const {
+    inline furn_id get_furn( const int x, const int y ) const {
         return frn[x][y];
     }
 
-    inline void set_furn(int x, int y, furn_id furn) {
+    inline void set_furn( const int x, const int y, furn_id furn ) {
         is_uniform = false;
         frn[x][y] = furn;
     }
 
-    inline void set_ter(int x, int y, ter_id terr) {
+    inline ter_id get_ter( const int x, const int y ) const {
+        return ter[x][y];
+    }
+
+    inline void set_ter( const int x, const int y, ter_id terr ) {
         is_uniform = false;
         ter[x][y] = terr;
     }
 
-    inline int get_radiation(int x, int y) const {
+    inline int get_radiation( const int x, const int y ) const {
         return rad[x][y];
     }
 
-    void set_radiation(int x, int y, int radiation) {
+    void set_radiation( const int x, const int y, const int radiation ) {
         is_uniform = false;
         rad[x][y] = radiation;
     }
 
-    void update_lum_add(item const &i, int const x, int const y) {
+    void update_lum_add( item const &i, int const x, int const y ) {
         is_uniform = false;
         if (i.is_emissive() && lum[x][y] < 255) {
             lum[x][y]++;
         }
     }
 
-    void update_lum_rem(item const &i, int const x, int const y) {
+    void update_lum_rem( item const &i, int const x, int const y ) {
         if (!i.is_emissive()) {
             return;
         } else if (lum[x][y] && lum[x][y] < 255) {
@@ -400,7 +404,7 @@ struct submap {
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage(int x, int y) const {
+    inline bool has_signage( const int x, const int y) const {
         furn_id f = frn[x][y];
         if( furnlist[f].id == "f_sign" ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
@@ -409,7 +413,7 @@ struct submap {
         return false;
     }
     // Dependent on furniture + cosmetics.
-    inline const std::string get_signage(int x, int y) const {
+    inline const std::string get_signage( const int x, const int y ) const {
         furn_id f = frn[x][y];
         if( furnlist[f].id == "f_sign" ) {
             auto iter = cosmetics[x][y].find("SIGNAGE");
@@ -421,12 +425,12 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage(int x, int y, std::string s) {
+    inline void set_signage( const int x, const int y, std::string s) {
         is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void delete_signage(int x, int y) {
+    inline void delete_signage( const int x, const int y) {
         is_uniform = false;
         cosmetics[x][y].erase("SIGNAGE");
     }
