@@ -371,7 +371,6 @@ struct submap {
     }
 
     void update_lum_rem(item const &i, int const x, int const y) {
-        is_uniform = false;
         if (!i.is_emissive()) {
             return;
         } else if (lum[x][y] && lum[x][y] < 255) {
@@ -413,7 +412,10 @@ struct submap {
     inline const std::string get_signage(int x, int y) const {
         furn_id f = frn[x][y];
         if( furnlist[f].id == "f_sign" ) {
-            return cosmetics[x][y].find("SIGNAGE")->second;
+            auto iter = cosmetics[x][y].find("SIGNAGE");
+            if( iter != cosmetics[x][y].end() ) {
+                return iter->second;
+            }
         }
 
         return "";
