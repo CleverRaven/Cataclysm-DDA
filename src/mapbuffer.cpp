@@ -143,7 +143,7 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
         save_quad( quad_path.str(), om_addr, submaps_to_delete,
-                   delete_after_save ||
+                   delete_after_save || om_addr.z != g->levz ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + (MAPSIZE / 2) ||
                    om_addr.y > map_origin.y + (MAPSIZE / 2) );

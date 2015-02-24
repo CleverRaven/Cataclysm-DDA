@@ -13579,4 +13579,4 @@ void add_corpse(map *m, int x, int y) {
     m->add_corpse(x, y);
 }
 
-/////////
+/////////
