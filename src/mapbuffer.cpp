@@ -157,49 +157,52 @@ void mapbuffer::save( bool delete_after_save )
 void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                            std::list<tripoint> &submaps_to_delete, bool delete_after_save )
 {
-    // Don't open the stream yet - most quads won't need saving
-    std::ofstream fout;
-    JsonOut jsout( fout );
-
     std::vector<point> offsets;
+    std::vector<tripoint> submap_addrs;
     offsets.push_back( point(0, 0) );
     offsets.push_back( point(0, 1) );
     offsets.push_back( point(1, 0) );
     offsets.push_back( point(1, 1) );
 
-    // Don't open the stream if file for saving if there is nothing to save
-    bool initialized = false;
+    bool all_uniform = true;
     for( auto &offsets_offset : offsets ) {
         tripoint submap_addr = overmapbuffer::omt_to_sm_copy( om_addr );
         submap_addr.x += offsets_offset.x;
         submap_addr.y += offsets_offset.y;
+        submap_addrs.push_back( submap_addr );
+        submap *sm = submaps[submap_addr];
+        if( sm != nullptr && !sm->is_uniform ) {
+            all_uniform = false;
+        }
+    }
+    
+    if( all_uniform ) {
+        // Nothing to save - this quad will be regenerated faster than it would be re-read
+        if( delete_after_save ) {
+            for( auto &submap_addr : submap_addrs ) {
+                submaps_to_delete.push_back( submap_addr );
+            }
+        }
 
+        return;
+    }
+
+    std::ofstream fout;
+    fopen_exclusive( fout, filename.c_str() );
+    if( !fout.is_open() ) {
+        return;
+    }
+            
+    JsonOut jsout( fout );
+    jsout.start_array();
+    for( auto &submap_addr : submap_addrs ) {
         if (submaps.count(submap_addr) == 0) {
             continue;
         }
+
         submap *sm = submaps[submap_addr];
         if( sm == NULL ) {
             continue;
-        }
-
-        if( sm->is_uniform ) {
-            // Don't save uniform ones - regenerating them is cheaper than re-reading
-            if( delete_after_save ) {
-                submaps_to_delete.push_back( submap_addr );
-            }
-
-            continue;
-        }
-
-        // Open the file now - we have something to save
-        if( !initialized ) {
-            initialized = true;
-            fopen_exclusive(fout, filename.c_str());
-            if( !fout.is_open() ) {
-                return;
-            }
-
-            jsout.start_array();
         }
 
         jsout.start_object();
@@ -376,10 +379,8 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.end_object();
     }
 
-    if( initialized ) {
-        jsout.end_array();
-        fclose_exclusive(fout, filename.c_str());
-    }
+    jsout.end_array();
+    fclose_exclusive( fout, filename.c_str() );
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
@@ -585,13 +586,15 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.skip_value();
             }
         }
-
-        add_submap( submap_coordinates, sm );
+        if( !add_submap( submap_coordinates, sm ) ) {
+            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
+                      submap_coordinates.z );
+        }
     }
-
     if( submaps.count( p ) == 0 ) {
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
+                 p.z);
         return NULL;
     }
-
     return submaps[ p ];
 }
