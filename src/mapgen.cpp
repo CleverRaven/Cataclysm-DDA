@@ -13337,13 +13337,17 @@ void map::add_extra(map_extra type)
             }
         }
         for (int i = 0; i < num_mines; i++) {
-            int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+            // No mines at the extreme edges: safe to walk on a sign tile
+            int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
             if (!has_flag("DIGGABLE", x, y) || one_in(8)) {
                 ter_set(x, y, t_dirtmound);
             }
             add_trap(x, y, tr_landmine_buried);
         }
-        int x1 = 0, y1 = 0, x2 = (SEEX * 2 - 1), y2 = (SEEY * 2 - 1);
+        int x1 = 0;
+        int y1 = 0;
+        int x2 = (SEEX * 2 - 1);
+        int y2 = (SEEY * 2 - 1);
         furn_set(x1, y1, "f_sign");
         set_signage(x1, y1, "DANGER! MINEFIELD!");
         furn_set(x1, y2, "f_sign");
