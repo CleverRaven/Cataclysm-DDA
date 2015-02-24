@@ -1238,6 +1238,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
+        if (is_armor() && item_tags.count("wooled")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing has a wool lining sewn into it to increase its overall warmth.")));
+        }
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1775,6 +1780,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
+    }
+    if (item_tags.count("wooled") > 0 ){
+        ret << _(" (W)");
     }
     if (item_tags.count("furred") > 0 ){
         ret << _(" (F)");
@@ -2327,7 +2335,8 @@ int item::get_thickness() const
 
 int item::get_warmth() const
 {
-    int warmed = 1;
+    int fur_lined = 0;
+    int wool_lined = 0;
     const auto t = find_armor_data();
     if( t == nullptr ){
         return 0;
@@ -2336,12 +2345,14 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
     if (item::item_tags.count("furred") > 0){
-        warmed = 2 * volume() * (float(get_coverage()) / 100);
-        return result + warmed;
-    } else {
-        return result;
+        fur_lined = 2 * volume() * (float(get_coverage()) / 100);
     }
+    if (item::item_tags.count("wooled") > 0){
+        wool_lined = 1.5 * volume() * (float(get_coverage()) / 100);
+    }
+        return result + fur_lined + wool_lined;
 }
+
 
 int item::brewing_time() const
 {

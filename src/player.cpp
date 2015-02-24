@@ -7148,7 +7148,7 @@ void player::suffer()
                     traits[mut].cooldown = traits[mut].cost;
                 }
             }
-            
+
             if (traits[mut].powered == false) {
                 apply_mods(mut, false);
             }
@@ -9881,7 +9881,7 @@ hint_rating player::rate_action_wear(item *it)
     if (count == 2) {
         return HINT_IFFY;
     }
-    if (has_trait("WOOLALLERGY") && it->made_of("wool")) {
+    if (has_trait("WOOLALLERGY") && (it->made_of("wool") || it->item_tags.count("wooled") > 0)) {
         return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
     }
     if (it->covers(bp_head) && encumb(bp_head) != 0) {
@@ -10070,7 +10070,7 @@ bool player::wear_item(item *to_wear, bool interactive)
     }
 
     if (!to_wear->has_flag("OVERSIZE")) {
-        if (has_trait("WOOLALLERGY") && to_wear->made_of("wool")) {
+        if (has_trait("WOOLALLERGY") && (to_wear->made_of("wool") || to_wear->item_tags.count("wooled"))) {
             if(interactive) {
                 add_msg(m_info, _("You can't wear that, it's made of wool!"));
             }
