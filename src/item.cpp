@@ -2345,10 +2345,10 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
     if (item::item_tags.count("furred") > 0){
-        fur_lined = 2 * volume() * (float(get_coverage()) / 100);
+        fur_lined = 25 * (float(get_coverage()) / 100);
     }
     if (item::item_tags.count("wooled") > 0){
-        wool_lined = 1.5 * volume() * (float(get_coverage()) / 100);
+        wool_lined = 20 * (float(get_coverage()) / 100);
     }
         return result + fur_lined + wool_lined;
 }
