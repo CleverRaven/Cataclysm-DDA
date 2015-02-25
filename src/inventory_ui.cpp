@@ -16,7 +16,7 @@ std::string trim_to(const std::string &text, size_t length)
     if(width <= length) {
         return text;
     }
-    const size_t bytes_offset = cursorx_to_position(text.c_str(), length - 1, NULL, -1);
+    const size_t bytes_offset = cursorx_to_position(text.c_str(), std::max(2u, length) - 2, nullptr, -1);
     return text.substr(0, bytes_offset) + "…";
 }
 
