@@ -6269,11 +6269,11 @@
     "type" : "item_group",
     "id" : "mil_armor",
     "items":[
-      ["pants_army", 30],
-      ["jacket_army", 30],
-      ["winter_pants_army", 10],
-      ["winter_jacket_army", 10],
-      ["winter_gloves_army", 10],
+      ["pants_army", 10],
+      ["jacket_army", 10],
+      ["winter_pants_army", 30],
+      ["winter_jacket_army", 30],
+      ["winter_gloves_army", 30],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -6353,7 +6353,7 @@
       ["modularveststeel", 20],
       ["modularvestsuper", 2],
       ["modularvesthard", 1],
-      ["jacket_army", 30],
+      ["winter_jacket_army", 30],
       ["vest", 15],
       ["chestrig", 10],
       ["molle_pack", 8],
@@ -6377,8 +6377,8 @@
     "type" : "item_group",
     "id" : "mil_armor_pants",
     "items":[
-      ["pants_army", 30],
-      ["winter_pants_army", 10],
+      ["pants_army", 10],
+      ["winter_pants_army", 40],
       ["pants", 75],
       ["pants_cargo", 70],
       ["legrig", 10],
@@ -8789,7 +8789,7 @@
     "id" : "bio_op_torso",
     "items":[
       ["dragonskin", 50],
-      ["army_top", 10],
+      ["winter_jacket_army", 10],
       ["modularvestceramic", 40],
       ["modularvestkevlar", 20]
     ]
@@ -8804,7 +8804,8 @@
     "id" : "bio_op_gloves",
     "items":[
       ["gloves_tactical", 60],
-      ["gloves_fingerless", 40]
+      ["gloves_fingerless", 40],
+      ["winter_gloves_army", 40]
     ]
   },{
     "type" : "item_group",
