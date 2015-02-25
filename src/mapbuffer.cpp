@@ -192,7 +192,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
     if( !fout.is_open() ) {
         return;
     }
-            
+
     JsonOut jsout( fout );
     jsout.start_array();
     for( auto &submap_addr : submap_addrs ) {
@@ -212,17 +212,6 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             }
 
             continue;
-        }
-
-        // Open the file now - we have something to save
-        if( !initialized ) {
-            initialized = true;
-            fopen_exclusive(fout, filename.c_str());
-            if( !fout.is_open() ) {
-                return;
-            }
-
-            jsout.start_array();
         }
 
         jsout.start_object();

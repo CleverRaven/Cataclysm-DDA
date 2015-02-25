@@ -5601,6 +5601,7 @@ void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2)
 }
 
 void map::draw_fill_background(ter_id type) {
+    // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty();
     set_outside_cache_dirty();
 
@@ -5614,6 +5615,7 @@ void map::draw_fill_background(ter_id type) {
         }
     }
 }
+
 void map::draw_fill_background(std::string type) {
     draw_fill_background( find_ter_id(type) );
 }
@@ -5623,29 +5625,6 @@ void map::draw_fill_background(ter_id (*f)()) {
 void map::draw_fill_background(const id_or_id & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
-
-void map::draw_uniform_background( const ter_id type )
-{
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            draw_uniform_background( type, gridx, gridy );
-        }
-    }
-}
-
-void map::draw_uniform_background( const ter_id type, const int gridx, const int gridy )
-{
-    // Faster drawing: don't re-get the map coords for every tile
-    set_transparency_cache_dirty();
-    set_outside_cache_dirty();
-
-    constexpr size_t block_size = SEEX * SEEY;
-    submap *const cur = get_submap_at_grid( gridx, gridy );
-    std::uninitialized_fill_n( &cur->ter[0][0], block_size, type );
-    // Mark submap as uniform, so that it is not saved (regenerating it should be faster)
-    cur->is_uniform = true;
-}
-
 
 void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {

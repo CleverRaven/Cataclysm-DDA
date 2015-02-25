@@ -453,10 +453,6 @@ void draw_fill_background(std::string type);
 void draw_fill_background(ter_id (*f)());
 void draw_fill_background(const id_or_id & f);
 
-// Helper function for some of the above. Faster drawing of uniform terrain blocks
-void draw_uniform_background( const ter_id type );
-void draw_uniform_background( const ter_id type, const int gridx, const int gridy );
-
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
