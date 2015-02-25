@@ -346,6 +346,18 @@ void player::serialize(JsonOut &json) const
     if ( g->scen != NULL ) {
         json.member( "scenario", g->scen->ident() );
     }
+    // A hack for 0.C active mutations
+    // Remove it as soon as the proper rework is in
+    if( is_player() ) {
+        json.member( "active_mutations_hacky" );
+        json.start_array();
+        for( const auto &mut_id : my_mutations ) {
+            if( traits[mut_id].powered ) {
+                json.write( mut_id );
+            }
+        }
+        json.end_array();
+    }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
     json.member( "controlling_vehicle", controlling_vehicle );
@@ -532,6 +544,17 @@ void player::deserialize(JsonIn &jsin)
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
+    }
+
+    // A hack for 0.C active mutations
+    // Remove it as soon as the proper rework is in
+    if( is_player() ) {
+        std::set<std::string> active_muts;
+        if( data.read( "active_mutations_hacky", active_muts ) ) {
+            for( const std::string &mut : active_muts ) {
+                traits[mut].powered = true;
+            }
+        }
     }
 }
 
