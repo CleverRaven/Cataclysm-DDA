@@ -100,12 +100,12 @@
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 9, 15 ], "repeat": [ 1, 1 ] }
             ],
             "place_groups": [
-                { "item": "bedroom", "chance": 80, "x": [ 2, 5 ],  "y": [ 16, 19 ] },
+                { "item": "bedroom", "chance": 70, "x": [ 2, 5 ],  "y": [ 16, 19 ] },
                 { "item": "trash", "chance": 35, "x": 4,  "y": 16 },
                 { "item": "magazines", "chance": 15, "x": [ 5, 6 ],  "y": [ 11, 13 ] },
                 { "item": "fridge", "chance": 50, "x": 16,  "y": 12 },
                 { "item": "dresser", "chance": 70, "x": 16,  "y": 19 },
-                { "item": "kitchen", "chance": 75, "x": 16,  "y": 14 },
+                { "item": "kitchen", "chance": 65, "x": 16,  "y": 14 },
                 { "item": "trash", "chance": 35, "x": 15,  "y": 16 },
                 { "item": "oven", "chance": 50, "x": 15,  "y": 14 },
                 { "item": "trash", "chance": 35, "x": 12,  "y": 14 },
@@ -114,14 +114,14 @@
                 { "item": "dresser", "chance": 70, "x": 2,  "y": 19 },
                 { "item": "dresser", "chance": 70, "x": 5,  "y": 19 },
                 { "item": "kitchen", "chance": 75, "x": 15,  "y": [ 10, 13 ] },
-                { "item": "softdrugs", "chance": 75, "x": [ 7, 8 ],  "y": [ 16, 19 ] },
-                { "item": "softdrugs", "chance": 75, "x": [ 10, 11 ],  "y": [ 16, 19 ] },
+                { "item": "softdrugs", "chance": 55, "x": [ 7, 8 ],  "y": [ 16, 19 ] },
+                { "item": "softdrugs", "chance": 55, "x": [ 10, 11 ],  "y": [ 16, 19 ] },
                 { "item": "bed", "chance": 80, "x": [ 3, 4 ],  "y": [ 18, 19 ] },
                 { "item": "bed", "chance": 80, "x": [ 14, 15 ],  "y": [ 18, 19 ] },
                 { "item": "dining", "chance": 75, "x": [ 9, 14 ],  "y": [ 10, 14 ] },
-                { "item": "bedroom", "chance": 80, "x": [ 13, 16 ],  "y": [ 16, 19 ] },
-                { "item": "livingroom", "chance": 80, "x": [ 2, 8 ],  "y": [ 10, 14 ] },
-                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ],  "y": [ 2, 21 ] }
+                { "item": "bedroom", "chance": 60, "x": [ 13, 16 ],  "y": [ 16, 19 ] },
+                { "item": "livingroom", "chance": 60, "x": [ 2, 8 ],  "y": [ 10, 14 ] },
+                { "monster": "GROUP_ZOMBIE", "chance": 5, "x": [ 2, 21 ],  "y": [ 2, 21 ] }
             ]
         }
     }

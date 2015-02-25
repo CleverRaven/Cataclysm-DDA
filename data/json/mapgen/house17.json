@@ -100,28 +100,28 @@
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 18, 22 ], "repeat": [ 0, 1 ] }
             ],
             "place_groups": [
-                { "item": "livingroom", "chance": 80, "x": [ 10, 17 ],  "y": [ 15, 19 ] },
-                { "item": "kitchen", "chance": 75, "x": [ 4, 7 ],  "y": [ 16, 19 ] },
+                { "item": "livingroom", "chance": 70, "x": [ 10, 17 ],  "y": [ 15, 19 ] },
+                { "item": "kitchen", "chance": 85, "x": [ 4, 7 ],  "y": [ 16, 19 ] },
                 { "item": "fridge", "chance": 50, "x": 5,  "y": 19 },
                 { "item": "oven", "chance": 50, "x": 4,  "y": 17 },
                 { "item": "trash", "chance": 70, "x": 4,  "y": 15 },
-                { "item": "dining", "chance": 75, "x": [ 8, 9 ],  "y": [ 17, 19 ] },
+                { "item": "dining", "chance": 65, "x": [ 8, 9 ],  "y": [ 17, 19 ] },
                 { "item": "homebooks", "chance": 35, "x": 13,  "y": 14 },
                 { "item": "homebooks", "chance": 70, "x": 8,  "y": 14 },
-                { "item": "allclothes", "chance": 80, "x": [ 12, 13 ],  "y": 21 },
-                { "item": "home_hw", "chance": 80, "x": 11,  "y": 21 },
-                { "item": "softdrugs", "chance": 70, "x": [ 19, 21 ],  "y": [ 19, 21 ] },
+                { "item": "allclothes", "chance": 70, "x": [ 12, 13 ],  "y": 21 },
+                { "item": "home_hw", "chance": 70, "x": 11,  "y": 21 },
+                { "item": "softdrugs", "chance": 50, "x": [ 19, 21 ],  "y": [ 19, 21 ] },
                 { "item": "cleaning", "chance": 50, "x": [ 19, 21 ],  "y": [ 19, 21 ] },
-                { "item": "bedroom", "chance": 80, "x": [ 15, 19 ],  "y": [ 7, 11 ] },
-                { "item": "bedroom", "chance": 80, "x": [ 2, 6 ],  "y": [ 7, 11 ] },
+                { "item": "bedroom", "chance": 70, "x": [ 15, 19 ],  "y": [ 7, 11 ] },
+                { "item": "bedroom", "chance": 70, "x": [ 2, 6 ],  "y": [ 7, 11 ] },
                 { "item": "bed", "chance": 80, "x": [ 17, 18 ],  "y": [ 7, 8 ] },
                 { "item": "bed", "chance": 80, "x": [ 3, 4 ],  "y": [ 7, 8 ] },
-                { "item": "dresser", "chance": 80, "x": 19,  "y": 13 },
-                { "item": "dresser", "chance": 80, "x": 16,  "y": 7 },
-                { "item": "dresser", "chance": 80, "x": 2,  "y": 13 },
-                { "item": "dresser", "chance": 80, "x": 5,  "y": 7 },
+                { "item": "dresser", "chance": 70, "x": 19,  "y": 13 },
+                { "item": "dresser", "chance": 70, "x": 16,  "y": 7 },
+                { "item": "dresser", "chance": 70, "x": 2,  "y": 13 },
+                { "item": "dresser", "chance": 70, "x": 5,  "y": 7 },
                 { "item": "magazines", "chance": 35, "x": 14,  "y": 18 },
-                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ],  "y": [ 2, 21 ] }
+                { "monster": "GROUP_ZOMBIE", "chance": 6, "x": [ 2, 21 ],  "y": [ 2, 21 ] }
             ]
         }
     }
