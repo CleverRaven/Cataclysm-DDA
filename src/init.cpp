@@ -325,7 +325,6 @@ void DynamicDataLoader::unload_data()
     item_controller->reset();
     mutations_category.clear();
     mutation_data.clear();
-    traits.clear();
     reset_bionics();
     clear_tutorial_messages();
     furnlist.clear();

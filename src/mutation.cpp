@@ -14,8 +14,7 @@
 
 bool Character::has_trait(const std::string &b) const
 {
-    // Look for active mutations and traits
-    return my_mutations.find( b ) != my_mutations.end();
+    return my_mutations.count( b ) > 0;
 }
 
 bool Character::has_base_trait(const std::string &b) const
@@ -26,11 +25,18 @@ bool Character::has_base_trait(const std::string &b) const
 
 void Character::toggle_trait(const std::string &flag)
 {
-    toggle_str_set(my_traits, flag); //Toggles a base trait on the player
-    toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
-    if( has_trait( flag ) ) {
+    const auto titer = my_traits.find( flag );
+    if( titer == my_traits.end() ) {
+        my_traits.insert( flag );
+    } else {
+        my_traits.erase( titer );
+    }
+    const auto miter = my_mutations.find( flag );
+    if( miter == my_mutations.end() ) {
+        my_mutations[flag]; // Creates a new entry with default values
         mutation_effect(flag);
     } else {
+        my_mutations.erase( miter );
         mutation_loss_effect(flag);
     }
     recalc_sight_limits();
@@ -38,28 +44,14 @@ void Character::toggle_trait(const std::string &flag)
 
 void Character::toggle_mutation(const std::string &flag)
 {
-    toggle_str_set(my_mutations, flag); //Toggles a mutation on the player
-    recalc_sight_limits();
-}
-
-void Character::toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
-{
-    auto toggled_element = std::find( set.begin(), set.end(), str );
-    if( toggled_element == set.end() ) {
-        char new_key = ' ';
-        // Find a letter in inv_chars that isn't in trait_keys.
-        for( const auto &letter : inv_chars ) {
-            if( trait_by_invlet( letter ).empty() ) {
-                new_key = letter;
-                break;
-            }
-        }
-        set.insert( str );
-        trait_keys[str] = new_key;
+    const auto iter = my_mutations.find( flag );
+    if( iter == my_mutations.end() ) {
+        my_mutations[flag]; // Creates a new entry with default values
     } else {
-        set.erase( toggled_element );
-        trait_keys.erase(str);
+        my_mutations.erase( iter );
     }
+    // TODO: why does this not call mutation_loss_effect / mutation_effect?
+    recalc_sight_limits();
 }
 
 int Character::get_mod(std::string mut, std::string arg) const
@@ -299,17 +291,14 @@ void Character::mutation_loss_effect(std::string mut)
 
 bool Character::has_active_mutation(const std::string & b) const
 {
-    const auto &mut_iter = my_mutations.find( b );
-    if( mut_iter == my_mutations.end() ) {
-        return false;
-    }
-    return traits[*mut_iter].powered;
+    const auto iter = my_mutations.find( b );
+    return iter != my_mutations.end() && iter->second.powered;
 }
 
 void player::activate_mutation( const std::string &mut )
 {
     const auto &mdata = mutation_data[mut];
-    auto &tdata = traits[mut];
+    auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
@@ -463,7 +452,7 @@ void player::activate_mutation( const std::string &mut )
 
 void player::deactivate_mutation( const std::string &mut )
 {
-    traits[mut].powered = false;
+    my_mutations[mut].powered = false;
     
     // Handle stat changes from deactivation
     apply_mods(mut, false);
@@ -499,9 +488,9 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 
 std::string Character::trait_by_invlet( const char ch ) const
 {
-    for( auto &tk : trait_keys ) {
-        if( tk.second == ch ) {
-            return tk.first;
+    for( auto &mut : my_mutations ) {
+        if( mut.second.key == ch ) {
+            return mut.first;
         }
     }
     return std::string();
@@ -512,10 +501,19 @@ void player::power_mutations()
     std::vector <std::string> passive;
     std::vector <std::string> active;
     for( auto &mut : my_mutations ) {
-        if (!mutation_data[mut].activated) {
-            passive.push_back(mut);
+        if (!mutation_data[mut.first].activated) {
+            passive.push_back(mut.first);
         } else {
-            active.push_back(mut);
+            active.push_back(mut.first);
+        }
+        // New mutations are initialized with no key at all, so we have to do this here.
+        if( mut.second.key == ' ' ) {
+            for( const auto &letter : inv_chars ) {
+                if( trait_by_invlet( letter ).empty() ) {
+                    mut.second.key = letter;
+                    break;
+                }
+            }
         }
     }
 
@@ -597,13 +595,13 @@ void player::power_mutations()
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
                     const auto &md = mutation_data[passive[i]];
-                    const auto &tk = trait_keys[passive[i]];
+                    const auto &td = my_mutations[passive[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     type = c_cyan;
-                    mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", tk, md.name.c_str());
+                    mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name.c_str());
                 }
             }
 
@@ -612,8 +610,7 @@ void player::power_mutations()
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
                     const auto &md = mutation_data[active[i]];
-                    const auto &td = traits[active[i]];
-                    const auto &tk = trait_keys[active[i]];
+                    const auto &td = my_mutations[active[i]];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
@@ -626,7 +623,7 @@ void player::power_mutations()
                         type = c_ltred;
                     }
                     // TODO: track resource(s) used and specify
-                    mvwputch( wBio, list_start_y + i, second_column, type, tk );
+                    mvwputch( wBio, list_start_y + i, second_column, type, td.key );
                     std::stringstream mut_desc;
                     mut_desc << md.name;
                     if ( md.cost > 0 && md.cooldown > 0 ) {
@@ -681,9 +678,9 @@ void player::power_mutations()
                 continue;
             }
             if( !other_mut_id.empty() ) {
-                std::swap(trait_keys[mut_id], trait_keys[other_mut_id]);
+                std::swap(my_mutations[mut_id].key, my_mutations[other_mut_id].key);
             } else {
-                trait_keys[mut_id] = newch;
+                my_mutations[mut_id].key = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
         } else if (action == "DOWN") {
@@ -715,7 +712,7 @@ void player::power_mutations()
             const auto &mut_data = mutation_data[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    if (traits[mut_id].powered) {
+                    if (my_mutations[mut_id].powered) {
                         add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation( mut_id );
@@ -748,7 +745,7 @@ void player::power_mutations()
                     popup(_("\
 You cannot activate %s!  To read a description of \
 %s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(),
-                          trait_keys[mut_id] );
+                          my_mutations[mut_id].key );
                     redraw = true;
                 }
             }

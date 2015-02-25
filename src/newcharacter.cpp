@@ -466,6 +466,14 @@ int player::create(character_type type, std::string tempname)
             style_selected = ma_type;
         }
     }
+    // For compatibility with old versions and for better user experience:
+    // activate some mutations right from the start.
+    // TODO: (maybe) move this to json?
+    if( has_trait( "NIGHTVISION" ) ) {
+        my_mutations["NIGHTVISION"].powered = true;
+    } else if( has_trait( "URSINE_EYE" ) ) {
+        my_mutations["URSINE_EYE"].powered = true;
+    }
     
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
@@ -1872,16 +1880,17 @@ std::vector<std::string> Character::get_base_traits() const
 
 std::vector<std::string> Character::get_mutations() const
 {
-    return std::vector<std::string>( my_mutations.begin(), my_mutations.end() );
+    std::vector<std::string> result;
+    for( auto &t : my_mutations ) {
+        result.push_back( t.first );
+    }
+    return result;
 }
 
 void Character::empty_traits()
 {
-    for( auto &traits_iter : traits ) {
-        if( has_trait( traits_iter.first ) ) {
-            toggle_trait( traits_iter.first );
-        }
-    }
+    my_traits.clear();
+    my_mutations.clear();
 }
 void Character::empty_skills()
 {

@@ -41,7 +41,6 @@
 
 #include <fstream>
 
-std::map<std::string, trait> traits;
 extern std::map<std::string, martialart> ma_styles;
 
 std::string morale_data[NUM_MORALE_TYPES];
@@ -1975,14 +1974,10 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Traits
     memorial_file << _("Traits:") << "\n";
-    bool had_trait = false;
-    for( auto &iter : mutation_data ) {
-        if( has_trait( iter.first ) ) {
-            had_trait = true;
-            memorial_file << indent << iter.second.name << "\n";
-        }
+    for( auto &iter : my_mutations ) {
+        memorial_file << indent << mutation_data[iter.first].name << "\n";
     }
-    if(!had_trait) {
+    if( !my_mutations.empty() ) {
       memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
@@ -2489,7 +2484,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::string race;
         for( auto &mut : my_mutations ) {
-            auto &mdata = mutation_data[mut];
+            auto &mdata = mutation_data[mut.first];
             if( mdata.threshold ) {
                 race = mdata.name;
                 break;
@@ -3781,7 +3776,7 @@ bool player::has_higher_trait(const std::string &flag) const
 bool player::crossed_threshold()
 {
     for( auto &mut : my_mutations ) {
-        if( mutation_data[mut].threshold ) {
+        if( mutation_data[mut.first].threshold ) {
             return true;
         }
     }
@@ -3820,7 +3815,7 @@ void player::set_highest_cat_level()
 
     // Loop through our mutations
     for( auto &mut : my_mutations ) {
-        set_cat_level_rec( mut );
+        set_cat_level_rec( mut.first );
     }
 }
 
@@ -7046,7 +7041,7 @@ void player::suffer()
     }
 
     for( auto &mut : my_mutations ) {
-        auto &tdata = traits[mut];
+        auto &tdata = mut.second;
         if (!tdata.powered ) {
             continue;
         }
@@ -7086,7 +7081,7 @@ void player::suffer()
             }
             
             if (tdata.powered == false) {
-                apply_mods(mut, false);
+                apply_mods(mut.first, false);
             }
         }
     }
@@ -7984,7 +7979,8 @@ void player::drench_mut_calc()
         good = 0;
 
         for( const auto &_iter : my_mutations ) {
-            for( auto &_wp_iter : mutation_data[_iter].protection ) {
+            const auto &mdata = mutation_data[_iter.first];
+            for( auto &_wp_iter : mdata.protection ) {
                 if( body_parts[_wp_iter.first] == elem.first ) {
                     ignored += _wp_iter.second.second.x;
                     neutral += _wp_iter.second.second.y;

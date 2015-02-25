@@ -627,14 +627,6 @@ void game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    // A quick hack because the proper rework didn't get into 0.C
-    // Remove it as soon as the rework is in
-    if( u.has_trait( "NIGHTVISION" ) ) {
-        traits["NIGHTVISION"].powered = true;
-    } else if( u.has_trait( "URSINE_EYE" ) ) {
-        traits["URSINE_EYE"].powered = true;
-    }
-
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
     //Put some NPCs in there!

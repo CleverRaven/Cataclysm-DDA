@@ -102,6 +102,25 @@ void SkillLevel::deserialize(JsonIn &jsin)
     }
 }
 
+void Character::trait_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "key", key );
+    json.member( "charge", charge );
+    json.member( "cooldown", cooldown );
+    json.member( "powered", powered );
+    json.end_object();
+}
+
+void Character::trait_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "key", key );
+    data.read( "charge", charge );
+    data.read( "cooldown", cooldown );
+    data.read( "powered", powered );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, player + npc
 /*
@@ -117,8 +136,25 @@ void Character::load(JsonObject &data)
 
     data.read("traits", my_traits);
 
-    data.read( "mutations", my_mutations );
-    data.read( "mutation_keys", trait_keys );
+    if( savegame_loading_version <= 23 ) {
+        std::unordered_set<std::string> old_my_mutations;
+        data.read( "mutations", old_my_mutations );
+        for( const auto & mut : old_my_mutations ) {
+            my_mutations[mut]; // Creates a new entry with default values
+        }
+        std::map<std::string, char> trait_keys;
+        data.read( "mutation_keys", trait_keys );
+        for( const auto & k : trait_keys ) {
+            my_mutations[k.first].key = k.second;
+        }
+        std::set<std::string> active_muts;
+        data.read( "active_mutations_hacky", active_muts );
+        for( const auto & mut : active_muts ) {
+            my_mutations[mut].powered = true;
+        }
+    } else {
+        data.read( "mutations", my_mutations );
+    }
 
     data.read( "my_bionics", my_bionics );
 
@@ -165,10 +201,7 @@ void Character::store(JsonOut &json) const
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
-
-    // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
-    json.member( "mutation_keys", trait_keys );
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
@@ -345,18 +378,6 @@ void player::serialize(JsonOut &json) const
     }
     if ( g->scen != NULL ) {
         json.member( "scenario", g->scen->ident() );
-    }
-    // A hack for 0.C active mutations
-    // Remove it as soon as the proper rework is in
-    if( is_player() ) {
-        json.member( "active_mutations_hacky" );
-        json.start_array();
-        for( const auto &mut_id : my_mutations ) {
-            if( traits[mut_id].powered ) {
-                json.write( mut_id );
-            }
-        }
-        json.end_array();
     }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
@@ -544,17 +565,6 @@ void player::deserialize(JsonIn &jsin)
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
-    }
-
-    // A hack for 0.C active mutations
-    // Remove it as soon as the proper rework is in
-    if( is_player() ) {
-        std::set<std::string> active_muts;
-        if( data.read( "active_mutations_hacky", active_muts ) ) {
-            for( const std::string &mut : active_muts ) {
-                traits[mut].powered = true;
-            }
-        }
     }
 }
 

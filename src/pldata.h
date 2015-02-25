@@ -169,14 +169,6 @@ public:
     }
 };
 
-struct trait {
-    int charge     = 0;
-    int cooldown   = 0;
-    bool powered       = false;
-};
-
-extern std::map<std::string, trait> traits;
-
 bool trait_display_sort(const std::string &a, const std::string &b) noexcept;
 
 #endif

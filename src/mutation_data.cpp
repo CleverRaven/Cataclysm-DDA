@@ -42,7 +42,6 @@ void load_mutation(JsonObject &jsobj)
 {
     const std::string id = jsobj.get_string( "id" );
     mutation_branch &new_mut = mutation_data[id];
-    trait &new_trait = traits[id];
 
     JsonArray jsarr;
     new_mut.name = _(jsobj.get_string("name").c_str());
@@ -58,8 +57,6 @@ void load_mutation(JsonObject &jsobj)
     new_mut.hunger = jsobj.get_bool("hunger",false);
     new_mut.thirst = jsobj.get_bool("thirst",false);
     new_mut.fatigue = jsobj.get_bool("fatigue",false);
-    new_trait.charge = 0;
-
     new_mut.valid = jsobj.get_bool("valid", true);
     new_mut.purifiable = jsobj.get_bool("purifiable", true);
     new_mut.initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );

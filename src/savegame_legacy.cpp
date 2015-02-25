@@ -1571,7 +1571,7 @@ void player::load_legacy(std::stringstream & dump)
     if (sTemp == "MUTATIONS_END") {
         break;
     } else {
-        my_mutations.insert(sTemp);
+        my_mutations[sTemp]; // Creates a new entry with default values
     }
  }
 

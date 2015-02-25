@@ -56,7 +56,6 @@ class Character : public Creature
         void toggle_trait(const std::string &flag);
         /** Toggles a mutation on the player */
         void toggle_mutation(const std::string &flag);
-        void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str );
         
  private:
         /** Retrieves a stat mod of a mutation. */
@@ -292,9 +291,32 @@ class Character : public Creature
         Character(Character &&) = default;
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
-        
+        struct trait_data : public JsonSerializer, public JsonDeserializer {
+            /** Key to select the mutation in the UI. */
+            char key = ' ';
+            /** TODO: I don't know who I am - comment me. */
+            int charge = 0;
+            /** TODO: I don't know who I am - comment me. */
+            int cooldown = 0;
+            /** Whether the mutation is activated. */
+            bool powered = false;
+            // -- serialization stuff, see savegame_json.cpp
+            using JsonSerializer::serialize;
+            void serialize( JsonOut &json ) const;
+            using JsonDeserializer::deserialize;
+            void deserialize( JsonIn &jsin );
+        };
+        /**
+         * Traits / mutations of the character. Key is the mutation id (it's also a valid
+         * key into @ref mutation_data), the value describes the status of the mutation.
+         * If there is not entry for a mutation, the character does not have it. If the map
+         * contains the entry, the character has the mutation.
+         */
+        std::unordered_map<std::string, trait_data> my_mutations;
+        /**
+         * Contains mutation ids of the base traits.
+         */
         std::unordered_set<std::string> my_traits;
-        std::unordered_set<std::string> my_mutations;
         std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;
@@ -303,8 +325,6 @@ class Character : public Creature
         // --------------- Values ---------------
         std::map<const Skill*, SkillLevel> _skills;
 
-        std::map<std::string, char> trait_keys;
-               
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
