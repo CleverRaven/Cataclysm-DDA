@@ -209,15 +209,6 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             continue;
         }
 
-        if( sm->is_uniform ) {
-            // Don't save uniform ones - regenerating them is cheaper than re-reading
-            if( delete_after_save ) {
-                submaps_to_delete.push_back( submap_addr );
-            }
-
-            continue;
-        }
-
         jsout.start_object();
 
         jsout.member( "version", savegame_version);
