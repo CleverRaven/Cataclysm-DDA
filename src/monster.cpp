@@ -444,8 +444,8 @@ Creature *monster::attack_target()
 
     point target_point = move_target();
     Creature *target = g->critter_at( target_point.x, target_point.y );
-
-    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ||
+        !sees(*target) ) {
         return nullptr;
     }
     return target;
