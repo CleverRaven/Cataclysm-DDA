@@ -5,6 +5,7 @@
 #include "color.h"
 #include "field.h"
 #include "bodypart.h"
+#include <limits.h>
 
 class JsonObject;
 
