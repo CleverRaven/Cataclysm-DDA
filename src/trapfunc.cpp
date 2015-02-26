@@ -89,6 +89,8 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             }
         }
         c->check_dead_state();
+    } else {
+        g->m.spawn_item( x, y, "beartrap" );
     }
 }
 
