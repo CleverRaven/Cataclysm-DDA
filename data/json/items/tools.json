@@ -4196,8 +4196,10 @@
             "voluntary_extinguish_message": "Your No. 9 goes dark.",
             "charges_extinguish_message": "Out of ammo!",
             "water_extinguish_message": "Your No. 9 hisses in the water and goes out.",
+            "auto_extinguish_message": "Your No. 9 cuts out!",
             "noise": 5,
-            "noise_chance": 25
+            "noise_chance": 25,
+            "auto_extinguish_chance": 100
         },
         {
             "type": "knife"
@@ -4856,8 +4858,10 @@
             "voluntary_extinguish_message": "Peace out. Your shishkebab's flame dies.",
             "charges_extinguish_message": "Uncool, outta gas! Your shishkebab's flame goes out.",
             "water_extinguish_message": "Your shishkebab hisses in the water and goes out.",
+            "auto_extinguish_message": "Bummer, man! Your shishkebab's flame flickers and dies out.",
             "noise": 10,
-            "noise_chance": 25
+            "noise_chance": 25,
+            "auto_extinguish_chance": 75
         },
         {
             "type": "knife"

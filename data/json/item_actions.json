@@ -95,5 +95,13 @@
         "type" : "item_action",
         "id" : "enzlave",
         "name" : "Create a zombie slave"
+    },{
+        "type" : "item_action",
+        "id" : "fireweapon_off",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "fireweapon_on",
+        "name" : "Turn off"
     }
 ]

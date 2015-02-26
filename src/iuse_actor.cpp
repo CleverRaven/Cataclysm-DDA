@@ -1407,6 +1407,7 @@ bool enzlave_actor::can_use( const player *p, const item*, bool, const point& ) 
 
 void fireweapon_off_actor::load( JsonObject &obj )
 {
+    target_id           = obj.get_string( "target_id" );
     success_message     = obj.get_string( "success_message" );
     lacks_fuel_message  = obj.get_string( "lacks_fuel_message" );
     failure_message     = obj.get_string( "failure_message", "" );
@@ -1451,12 +1452,15 @@ bool fireweapon_off_actor::can_use( const player *p, const item *it, bool, const
 
 void fireweapon_on_actor::load( JsonObject &obj )
 {
-    noise_message                   = obj.get_string( "noise_message" );
-    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message" );
-    charges_extinguish_message      = obj.get_string( "charges_extinguish_message" );
-    water_extinguish_message        = obj.get_string( "water_extinguish_message" );
+    static const std::string bugmsg = "Your weapon bugs itself!";
+    noise_message                   = obj.get_string( "noise_message", bugmsg );
+    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message", bugmsg );
+    charges_extinguish_message      = obj.get_string( "charges_extinguish_message", bugmsg );
+    water_extinguish_message        = obj.get_string( "water_extinguish_message", bugmsg );
+    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );    
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
+    auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
 }
 
 iuse_actor *fireweapon_on_actor::clone() const
@@ -1470,9 +1474,11 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
     if( !t ) {
         p->add_msg_if_player( _(voluntary_extinguish_message.c_str()) );
     } else if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player(m_bad, _(charges_extinguish_message.c_str()) );
-    } else if (p->is_underwater()) {
-        p->add_msg_if_player( _(water_extinguish_message.c_str()) );
+        p->add_msg_if_player( m_bad, _(charges_extinguish_message.c_str()) );
+    } else if( p->is_underwater() ) {
+        p->add_msg_if_player( m_bad, _(water_extinguish_message.c_str()) );
+    } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
+        p->add_msg_if_player( m_bad, _(auto_extinguish_message.c_str()) );
     } else {
         extinguish = false;
     }

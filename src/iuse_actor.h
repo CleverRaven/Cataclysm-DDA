@@ -511,8 +511,10 @@ class fireweapon_on_actor : public iuse_actor
         std::string voluntary_extinguish_message;
         std::string charges_extinguish_message;
         std::string water_extinguish_message;
+        std::string auto_extinguish_message;
         int noise; // If 0, it produces a message instead of noise
         int noise_chance; // one_in(this variable)
+        int auto_extinguish_chance; // one_in(this) per turn to fail
 
         fireweapon_on_actor() : iuse_actor(), noise(0), noise_chance(1) { }
         virtual ~fireweapon_on_actor() = default;
