@@ -226,10 +226,10 @@ bool Creature::sees( const point t, int &bresenham_slope ) const
     const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
-          g->m.light_at( t.x, t.y ) >= LL_LOW ) ) {
+          g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) ) {
         if( is_player() ) {
             return g->m.pl_sees( t.x, t.y, wanted_range );
-        } else if( g->m.light_at( t.x, t.y ) >= LL_LOW ) {
+        } else if( g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) {
             return g->m.sees( pos(), t, wanted_range, bresenham_slope );
         } else {
             return g->m.sees( pos(), t, range_min, bresenham_slope );
