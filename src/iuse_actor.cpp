@@ -480,7 +480,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
                                   ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
             continue;
         }
-        // Don't load more than the default from the the monster definition.
+        // Don't load more than the default from the monster definition.
         ammo_item.charges = std::min( available, amdef.second );
         p->use_charges( amdef.first, ammo_item.charges );
         //~ First %s is the ammo item (with plural form and count included), second is the monster name

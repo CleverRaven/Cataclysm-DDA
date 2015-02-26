@@ -385,5 +385,6 @@ void DynamicDataLoader::check_consistency()
     profession::check_definitions();
     scenario::check_definitions();
     check_martialarts();
+    mutation_branch::check_consistency();
     ammunition_type::check_consistency();
 }

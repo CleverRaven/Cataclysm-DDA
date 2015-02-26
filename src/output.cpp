@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <errno.h>
 
 #include "output.h"
 
@@ -1495,7 +1496,8 @@ std::string vstring_format(char const *const format, va_list args)
 
         // Standards conformant versions return -1 on error only.
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
-        if (result < 0 && errno) {
+        // Some of the latter set errno to ERANGE at the same time.
+        if (result < 0 && errno && errno != ERANGE) {
             return std::string("Bad format string for printf.");
         }
 

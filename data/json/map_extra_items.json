@@ -24,7 +24,7 @@
             { "group": "mil_armor_torso", "damage-min": 1, "damage-max": 4, "prob": 40 },
             { "group": "mil_armor_helmet", "damage-min": 1, "damage-max": 4, "prob": 30 },
             { "group": "military", "damage-min": 1, "damage-max": 4, "prob": 86 },
-            { "item": "pants_army", "damage-min": 1, "damage-max": 4 },
+            { "item": "winter_pants_army", "damage-min": 1, "damage-max": 4 },
             { "item": "boots_combat", "damage-min": 1, "damage-max": 4 },
             { "item": "id_military", "prob": 12 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 }

@@ -701,6 +701,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      ["polisher", 10],
       ["jumper_cable", 3],
       ["superglue", 30],
       ["string_6", 2],
@@ -1794,6 +1795,7 @@
     "type" : "item_group",
     "id" : "hardware",
     "items":[
+      ["polisher", 15],
       ["jumper_cable", 10],
       ["jumper_cable_heavy", 2],
       ["concrete", 20],
@@ -1866,6 +1868,7 @@
     "type" : "item_group",
     "id" : "tools",
     "items":[
+      ["polisher", 20],
       ["screwdriver", 40],
       ["hammer", 35],
       ["wrench", 30],
@@ -2920,6 +2923,7 @@
     "type" : "item_group",
     "id" : "gunsmith_tools",
     "items":[
+      ["polisher", 40],
       ["glasses_safety", 60],
       ["screwdriver",70],
       ["hammer",70],
@@ -4816,6 +4820,7 @@
     "type" : "item_group",
     "id" : "pawn",
     "items":[
+      ["polisher", 6],
       ["trex_gun", 1],
       ["700nx", 1],
       ["700nx_casing", 1],
@@ -5353,6 +5358,7 @@
     "type" : "item_group",
     "id" : "mechanics",
     "items":[
+      ["polisher", 15],
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
       ["wrench", 30],
@@ -6263,11 +6269,11 @@
     "type" : "item_group",
     "id" : "mil_armor",
     "items":[
-      ["pants_army", 30],
-      ["jacket_army", 30],
-      ["winter_pants_army", 10],
-      ["winter_jacket_army", 10],
-      ["winter_gloves_army", 10],
+      ["pants_army", 10],
+      ["jacket_army", 10],
+      ["winter_pants_army", 30],
+      ["winter_jacket_army", 30],
+      ["winter_gloves_army", 30],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -6347,7 +6353,7 @@
       ["modularveststeel", 20],
       ["modularvestsuper", 2],
       ["modularvesthard", 1],
-      ["jacket_army", 30],
+      ["winter_jacket_army", 30],
       ["vest", 15],
       ["chestrig", 10],
       ["molle_pack", 8],
@@ -6371,8 +6377,8 @@
     "type" : "item_group",
     "id" : "mil_armor_pants",
     "items":[
-      ["pants_army", 30],
-      ["winter_pants_army", 10],
+      ["pants_army", 10],
+      ["winter_pants_army", 40],
       ["pants", 75],
       ["pants_cargo", 70],
       ["legrig", 10],
@@ -8231,6 +8237,7 @@
       ["corpse", 10],
       ["fire", 10],
       ["toolset", 10],
+      ["polisher", 5],
       ["meat", 50],
       ["veggy", 30],
       ["meat_tainted", 60],
@@ -8781,7 +8788,7 @@
     "id" : "bio_op_torso",
     "items":[
       ["dragonskin", 50],
-      ["army_top", 10],
+      ["winter_jacket_army", 10],
       ["modularvestceramic", 40],
       ["modularvestkevlar", 20]
     ]
@@ -8796,7 +8803,8 @@
     "id" : "bio_op_gloves",
     "items":[
       ["gloves_tactical", 60],
-      ["gloves_fingerless", 40]
+      ["gloves_fingerless", 40],
+      ["winter_gloves_army", 40]
     ]
   },{
     "type" : "item_group",
@@ -8998,6 +9006,7 @@
 "type" : "item_group",
 "id" : "jewelry_back",
 "items":[
+      ["polisher", 10],
       ["ring", 15],
       ["gold_ear", 15],
       ["gold_bracelet", 15],

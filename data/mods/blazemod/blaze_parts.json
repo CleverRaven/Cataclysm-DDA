@@ -2,7 +2,7 @@
     {
         "type" : "vehicle_part",
         "id" : "laser_gunp",
-        "name" : "Mounted Pulse Turret",
+        "name" : "mounted pulse turret",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -31,7 +31,7 @@
     {
         "type" : "vehicle_part",
         "id" : "teslagun",
-        "name" : "Mounted Tesla Turret",
+        "name" : "mounted Tesla turret",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -61,7 +61,7 @@
     {
         "type" : "vehicle_part",
         "id" : "laser_guns",
-        "name" : "Mounted Energy Turret",
+        "name" : "mounted energy turret",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -89,7 +89,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "2xnailer",
-        "name" : "Dual Nail Turret",
+        "name" : "dual nail turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -121,7 +121,7 @@
     {
         "type" : "vehicle_part",
         "id" : "4xnailer",
-        "name" : "Quad Nail Turret",
+        "name" : "quad nail turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -153,7 +153,7 @@
     {
         "type" : "vehicle_part",
         "id" : "2x9mm",
-        "name" : "Mounted 9mm Dual Turret",
+        "name" : "mounted 9mm dual turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -184,7 +184,7 @@
     {
         "type" : "vehicle_part",
         "id" : "4x9mm",
-        "name" : "Mounted 9mm Quad Cannon",
+        "name" : "mounted 9mm quad cannon",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -215,7 +215,7 @@
     {
         "type" : "vehicle_part",
         "id" : "2x45",
-        "name" : "Mounted .45 Dual Turret",
+        "name" : "mounted .45 dual turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -246,7 +246,7 @@
     {
         "type" : "vehicle_part",
         "id" : "4x45",
-        "name" : "Mounted .45 Quad Cannon",
+        "name" : "mounted .45 quad cannon",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -277,7 +277,7 @@
     {
         "type" : "vehicle_part",
         "id" : "2x22",
-        "name" : "Mounted .22 Dual Turret",
+        "name" : "mounted .22 dual turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -308,7 +308,7 @@
     {
         "type" : "vehicle_part",
         "id" : "4x22",
-        "name" : "Mounted .22 Quad Cannon",
+        "name" : "mounted .22 quad cannon",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -339,7 +339,7 @@
     {
         "type" : "vehicle_part",
         "id" : "scorpion",
-        "name" : "Mounted Scorpion",
+        "name" : "mounted scorpion",
         "symbol" : "t",
         "color" : "brown",
         "broken_symbol" : "#",
@@ -367,7 +367,7 @@
     {
         "type" : "vehicle_part",
         "id" : "slauncher",
-        "name" : "Mounted Spear Launcher",
+        "name" : "mounted spear launcher",
         "symbol" : "t",
         "color" : "brown",
         "broken_symbol" : "#",
@@ -395,7 +395,7 @@
     {
         "type" : "vehicle_part",
         "id" : "cangun",
-        "name" : "Slingshot Cannon",
+        "name" : "slingshot cannon",
         "symbol" : "t",
         "color" : "brown",
         "broken_symbol" : "#",
@@ -423,7 +423,7 @@
     {
         "type" : "vehicle_part",
         "id" : "tiharturret",
-        "name" : "Mounted Avalanche Turret",
+        "name" : "mounted avalanche turret",
         "symbol" : "t",
         "color" : "ltgray",
         "broken_symbol" : "#",
@@ -454,7 +454,7 @@
     {
         "type" : "vehicle_part",
         "id" : "40mmturret",
-        "name" : "Mounted Grenade Launcher",
+        "name" : "mounted grenade launcher",
         "symbol" : "t",
         "color" : "red",
         "broken_symbol" : "#",
@@ -479,7 +479,7 @@
     {
         "type" : "vehicle_part",
         "id" : "HMG",
-        "name" : "Mounted MG",
+        "name" : "mounted MG",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -504,7 +504,7 @@
     {
         "type" : "vehicle_part",
         "id" : "AUTOHMG",
-        "name" : "Mounted MG Turret",
+        "name" : "mounted MG turret",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -534,7 +534,7 @@
     {
         "type" : "vehicle_part",
         "id" : "rslauncher",
-        "name" : "Mounted Rotary Speargun",
+        "name" : "mounted rotary speargun",
         "symbol" : "t",
         "color" : "ltgray",
         "broken_symbol" : "#",
@@ -565,7 +565,7 @@
     {
         "type" : "vehicle_part",
         "id" : "bolter",
-        "name" : "Mounted Storm Bolter",
+        "name" : "mounted storm bolter",
         "symbol" : "t",
         "color" : "ltgray",
         "broken_symbol" : "#",
@@ -595,7 +595,7 @@
     },    {
         "type" : "vehicle_part",
         "id" : "lasgun",
-        "name" : "Mounted Laser Cannon",
+        "name" : "mounted laser cannon",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -623,7 +623,7 @@
     },    {
         "type" : "vehicle_part",
         "id" : "lasguns",
-        "name" : "Mounted Laser",
+        "name" : "mounted laser",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -651,7 +651,7 @@
     },    {
         "type" : "vehicle_part",
         "id" : "lasgunp",
-        "name" : "Mounted Pulse Laser",
+        "name" : "mounted pulse laser",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -680,7 +680,7 @@
     {
         "type" : "vehicle_part",
         "id" : "lasgunx",
-        "name" : "Mounted Turbolaser Cannon",
+        "name" : "mounted turbolaser cannon",
         "symbol" : "t",
         "color" : "magenta",
         "broken_symbol" : "#",
@@ -726,7 +726,7 @@
     {
         "type" : "vehicle_part",
         "id" : "gattler",
-        "name" : "Gatling Cannon",
+        "name" : "Gatling cannon",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
@@ -756,7 +756,7 @@
     {
         "type" : "vehicle_part",
         "id" : "shardgun",
-        "name" : "Mounted Splintergun",
+        "name" : "mounted splintergun",
         "symbol" : "t",
         "color" : "blue",
         "broken_symbol" : "#",
@@ -827,7 +827,7 @@
     {
         "type" : "vehicle_part",
         "id" : "flamethrower1",
-        "name" : "Mounted Flamethrower",
+        "name" : "mounted flamethrower",
         "symbol" : "t",
         "color" : "red",
         "broken_symbol" : "#",
@@ -858,7 +858,7 @@
     {
         "type" : "vehicle_part",
         "id" : "flamethrower2",
-        "name" : "Mounted Flamecaster",
+        "name" : "mounted flamecaster",
         "symbol" : "t",
         "color" : "red",
         "broken_symbol" : "#",
@@ -889,7 +889,7 @@
     {
         "type" : "vehicle_part",
         "id" : "flamethrower3",
-        "name" : "Mounted Dragon Turret",
+        "name" : "mounted dragon turret",
         "symbol" : "t",
         "color" : "red",
         "broken_symbol" : "#",
@@ -1100,7 +1100,7 @@
     {
         "type" : "vehicle_part",
         "id" : "ripper",
-        "name" : "Mounted Ripper",
+        "name" : "mounted ripper",
         "symbol" : "*",
         "color" : "dark_gray",
         "broken_symbol" : "x",
@@ -1119,7 +1119,7 @@
     {
         "type" : "vehicle_part",
         "id" : "tearer",
-        "name" : "Mounted Shredder",
+        "name" : "mounted shredder",
         "symbol" : "*",
         "color" : "dark_gray",
         "broken_symbol" : "x",

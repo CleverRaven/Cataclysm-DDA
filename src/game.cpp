@@ -610,7 +610,7 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    start_loc.setup( cur_om, levx, levy, levz );
+    tripoint omtstart = start_loc.setup( cur_om, levx, levy, levz );
 
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
@@ -628,6 +628,14 @@ void game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
+    // A quick hack because the proper rework didn't get into 0.C
+    // Remove it as soon as the rework is in
+    if( u.has_trait( "NIGHTVISION" ) ) {
+        traits["NIGHTVISION"].powered = true;
+    } else if( u.has_trait( "URSINE_EYE" ) ) {
+        traits["URSINE_EYE"].powered = true;
+    }
+
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
     //Put some NPCs in there!
@@ -641,10 +649,8 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-    if (scen->has_flag("FIRE_START")){
-            m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    if ( scen->has_flag("FIRE_START") ){
+        start_loc.burn( cur_om, omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
         u.add_effect("infected", 1, random_body_part(), true);
@@ -5884,19 +5890,32 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // monster::plan() needs to know about all monsters on the same team as the monster
-    mfactions monster_factions; // A map - looks much cleaner than vector here
-    auto playerfaction = GetMFact( "player" );
-    for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &critter = zombie( i );
-        if( critter.friendly == 0 ) {
-            monster_factions[ critter.faction ].insert( i ); // Only 1 faction per mon at the moment
-        } else {
-            monster_factions[ playerfaction ].insert( i );
-        }
-    }
+    // Make sure these don't match the first time around.
+    int cached_levx = levx + 1;
+    int cached_levy = levy + 1;
+
+    mfactions monster_factions;
 
     for (size_t i = 0; i < num_zombies(); i++) {
+        // The first time through, and any time the map has been shifted,
+        // recalculate monster factions.
+        if( cached_levx != levx || cached_levy != levy ) {
+            // monster::plan() needs to know about all monsters on the same team as the monster.
+            monster_factions.clear();
+            auto playerfaction = GetMFact( "player" );
+            for( int i = 0, numz = num_zombies(); i < numz; i++ ) {
+                monster &critter = zombie( i );
+                if( critter.friendly == 0 ) {
+                    // Only 1 faction per mon at the moment.
+                    monster_factions[ critter.faction ].insert( i );
+                } else {
+                    monster_factions[ playerfaction ].insert( i );
+                }
+            }
+            cached_levx = levx;
+            cached_levy = levy;
+        }
+
         monster &critter = critter_tracker.find(i);
         while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
             // If we can't move to our current position, assign us to a new one
@@ -7226,12 +7245,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         return true;
     }
 
-    int fuel_per_charge = 1; //default for gasoline
-    if (ftype == "plutonium") {
-        fuel_per_charge = 1000;
-    } else if (ftype == "plasma") {
-        fuel_per_charge = 100;
-    }
+    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     int max_fuel = part_info.size;
     int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
     if (charge_difference < 1) {
@@ -7887,7 +7901,8 @@ bool pet_menu(monster *z)
             g->u.add_msg_if_player(_("You tear out the pheromone ball from the zombie slave."));
 
             item ball("pheromone", 0);
-            iuse::pheromone(&(g->u), &ball, true, g->u.pos());
+            iuse pheromone;
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
         }
 
     }

@@ -3,6 +3,8 @@
 #include "pldata.h" // traits
 #include "enums.h" // tripoint
 #include "bodypart.h"
+#include "debug.h"
+#include "martialarts.h"
 
 #include <vector>
 #include <map>
@@ -117,6 +119,34 @@ void load_mutation(JsonObject &jsobj)
         tripoint protect = tripoint(ignored, neutral, good);
         mutation_data[id].protection[part_id] =
             mutation_wet(body_parts[part_id], protect);
+    }
+}
+
+static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )
+{
+    for( const auto &m : mvec ) {
+        if( mutation_data.count( m ) == 0 ) {
+            debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
+        }
+    }
+}
+
+void mutation_branch::check_consistency()
+{
+    for( const auto & m : mutation_data ) {
+        const auto &mid = m.first;
+        const auto &mdata = m.second;
+        for( const auto & style : mdata.initial_ma_styles ) {
+            if( martialarts.count( style ) == 0 ) {
+                debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
+            }
+        }
+        ::check_consistency( mdata.prereqs, mid, "prereq" );
+        ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
+        ::check_consistency( mdata.threshreq, mid, "threshreq" );
+        ::check_consistency( mdata.cancels, mid, "cancels" );
+        ::check_consistency( mdata.replacements, mid, "replacements" );
+        ::check_consistency( mdata.additions, mid, "additions" );
     }
 }
 
