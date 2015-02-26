@@ -130,19 +130,18 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        std::stringstream segment_path;
+        std::stringstream dirname;
         tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
-        segment_path << map_directory.str() << "/" << segment_addr.x << "." <<
+        dirname << map_directory.str() << "/" << segment_addr.x << "." <<
                      segment_addr.y << "." << segment_addr.z;
-        assure_dir_exist( segment_path.str().c_str() );
 
         std::stringstream quad_path;
-        quad_path << segment_path.str() << "/" << om_addr.x << "." <<
+        quad_path << dirname.str() << "/" << om_addr.x << "." <<
                   om_addr.y << "." << om_addr.z << ".map";
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        save_quad( quad_path.str(), om_addr, submaps_to_delete,
+        save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + (MAPSIZE / 2) ||
@@ -154,8 +153,9 @@ void mapbuffer::save( bool delete_after_save )
     }
 }
 
-void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
-                           std::list<tripoint> &submaps_to_delete, bool delete_after_save )
+void mapbuffer::save_quad( const std::string &dirname, const std::string &filename, 
+                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+                           bool delete_after_save )
 {
     std::vector<point> offsets;
     std::vector<tripoint> submap_addrs;
@@ -180,13 +180,17 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         // Nothing to save - this quad will be regenerated faster than it would be re-read
         if( delete_after_save ) {
             for( auto &submap_addr : submap_addrs ) {
-                submaps_to_delete.push_back( submap_addr );
+                if( submaps.count( submap_addr ) > 0 && submaps[submap_addr] != nullptr ) {
+                    submaps_to_delete.push_back( submap_addr );
+                }
             }
         }
 
         return;
     }
 
+    // Don't create the directory if it would be empty
+    assure_dir_exist( dirname.c_str() );
     std::ofstream fout;
     fopen_exclusive( fout, filename.c_str() );
     if( !fout.is_open() ) {
@@ -196,21 +200,12 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
     JsonOut jsout( fout );
     jsout.start_array();
     for( auto &submap_addr : submap_addrs ) {
-        if (submaps.count(submap_addr) == 0) {
+        if( submaps.count( submap_addr ) == 0 ) {
             continue;
         }
 
         submap *sm = submaps[submap_addr];
-        if( sm == NULL ) {
-            continue;
-        }
-
-        if( sm->is_uniform ) {
-            // Don't save uniform ones - regenerating them is cheaper than re-reading
-            if( delete_after_save ) {
-                submaps_to_delete.push_back( submap_addr );
-            }
-
+        if( sm == nullptr ) {
             continue;
         }
 
