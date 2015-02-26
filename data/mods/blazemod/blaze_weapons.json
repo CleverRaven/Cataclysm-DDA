@@ -251,7 +251,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "Dual Nail Turret",
-    "name_plural": "Nail Turrets",
+    "name_plural": "Dual Nail Turrets",
     "description": "A rotating frame fully outfitted with targeting and movement systems. The two mounted nailguns will drop the hammer on their unfortunate targets.",
     "price": 110000,
     "material": ["steel", "plastic"],
