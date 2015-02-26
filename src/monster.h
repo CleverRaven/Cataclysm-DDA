@@ -44,7 +44,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
-        void spawn(int x, int y); // All this does is moves the monster to x,y
+        void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
+        void spawn( const int x, const int y, const int z ); // As above, except with any z
         m_size get_size() const;
         int get_hp( hp_part ) const
         {
@@ -303,8 +304,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string unique_name; // If we're unique
         bool hallucination;
 
-        bool setpos(const int x, const int y, const bool level_change = false);
-        bool setpos(const point &p, const bool level_change = false);
+        // level_change == true means "monster isn't spawned yet, don't update position in tracker"
+        bool setpos( const int x, const int y );
+        bool setpos( const int x, const int y, const int z, const bool level_change = false );
+        bool setpos( const point &p, const bool level_change = false );
+        bool setpos( const tripoint &p, const bool level_change = false );
         const point &pos() const;
         inline int posx() const
         {
@@ -313,6 +317,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         inline int posy() const
         {
             return position.y;
+        }
+        inline int posz() const
+        {
+            return zpos;
         }
 
         short ignoring;
@@ -341,6 +349,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<int> sp_timeout;
         std::vector <point> plans;
         point position;
+        // Temporary z-level coord, should later be merged with position
+        int zpos;
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

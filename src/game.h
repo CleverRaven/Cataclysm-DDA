@@ -185,6 +185,8 @@ class game
         monster &zombie(const int idx);
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos(const monster &critter, const int newx, const int newy);
+        /** Redirects to the creature_tracker update_pos() function. */
+        bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie(const int idx);
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
@@ -392,7 +394,7 @@ class game
         player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
-        int monstairx, monstairy, monstairz;
+        int monstairz;
         std::vector<npc *> active_npc;
         std::vector<faction> factions;
         std::vector<mission> active_missions; // Missions which may be assigned
