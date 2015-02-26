@@ -609,7 +609,7 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    start_loc.setup( cur_om, levx, levy, levz );
+    tripoint omtstart = start_loc.setup( cur_om, levx, levy, levz );
 
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
@@ -627,6 +627,14 @@ void game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
+    // A quick hack because the proper rework didn't get into 0.C
+    // Remove it as soon as the rework is in
+    if( u.has_trait( "NIGHTVISION" ) ) {
+        traits["NIGHTVISION"].powered = true;
+    } else if( u.has_trait( "URSINE_EYE" ) ) {
+        traits["URSINE_EYE"].powered = true;
+    }
+
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
     //Put some NPCs in there!
@@ -640,10 +648,8 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-    if (scen->has_flag("FIRE_START")){
-            m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    if ( scen->has_flag("FIRE_START") ){
+        start_loc.burn( cur_om, omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
         u.add_effect("infected", 1, random_body_part(), true);
