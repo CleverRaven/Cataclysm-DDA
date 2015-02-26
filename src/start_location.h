@@ -1,6 +1,7 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
+#include "enums.h"
 #include "json.h"
 
 #include <string>
@@ -34,11 +35,19 @@ class start_location
          * This sets cur_om, levc, levy, levz (members of the game class, see there).
          * It also initializes the map at that points using @ref prepare_map.
          */
-        void setup( overmap *&cur_om, int &levx, int &levy, int &levz) const;
+        tripoint setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const;
         /**
          * Place the player somewher ein th reality bubble (g->m).
          */
         void place_player( player &u ) const;
+        /**
+         * Burn random terrain / furniture with FLAMMABLE or FLAMMABLE_ASH tag.
+         * Doors and windows are excluded.
+         * @param rad safe radius area to prevent player spawn next to burning wall.
+         * @param count number of fire on the map.
+         */
+        void burn( overmap *&cur_om, tripoint &omtstart,
+                   const size_t count, const int rad ) const;
 
     private:
         std::string _ident;

@@ -7806,7 +7806,7 @@ int iuse::heatpack(player *p, item *it, bool, point)
 
 int iuse::hotplate(player *p, item *it, bool, point)
 {
-    if (it->charges < it->type->charges_to_use()) {
+    if ( it->type->id != "atomic_coffeepot" && (it->charges < it->type->charges_to_use()) ) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     }
