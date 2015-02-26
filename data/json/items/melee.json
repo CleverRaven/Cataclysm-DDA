@@ -3199,6 +3199,7 @@
         "bashing": 5,
         "cutting": 0,
         "to_hit": -2,
+        "use_action": "HOTPLATE",
         "qualities": [["BOIL", 1]]
     },
     {
