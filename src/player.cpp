@@ -4248,22 +4248,25 @@ bool player::has_two_arms() const
  return true;
 }
 
-bool player::avoid_trap(trap* tr, int x, int y)
+bool player::avoid_trap( const tripoint &pos, trap* tr )
 {
-  int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
- int traproll;
-    if (tr->can_see(*this, x, y)) {
-        traproll = dice(3, tr->get_avoidance());
+    int myroll = dice( 3, int(dex_cur + skillLevel( "dodge" ) * 1.5) );
+    int traproll;
+    if( tr->can_see( pos, *this ) ) {
+        traproll = dice( 3, tr->get_avoidance() );
     } else {
-        traproll = dice(6, tr->get_avoidance());
+        traproll = dice( 6, tr->get_avoidance() );
     }
- if (has_trait("LIGHTSTEP"))
-  myroll += dice(2, 6);
- if (has_trait("CLUMSY"))
-  myroll -= dice(2, 6);
- if (myroll >= traproll)
-  return true;
- return false;
+
+    if( has_trait( "LIGHTSTEP" ) ) {
+        myroll += dice( 2, 6 );
+    }
+
+    if( has_trait( "CLUMSY" ) ) {
+        myroll -= dice( 2, 6 );
+    }
+
+    return myroll >= traproll;
 }
 
 bool player::has_pda()
@@ -4320,23 +4323,24 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
+    const int z = posz();
     for (size_t i = 0; i < 121; i++) {
         const int x = posx() + i / 11 - 5;
         const int y = posy() + i % 11 - 5;
-        const trap_id trid = g->m.tr_at(x, y);
-        if (trid == tr_null || (x == posx() && y == posy())) {
+        const trap_id trid = g->m.tr_at( x, y, z );
+        if( trid == tr_null || (x == posx() && y == posy() ) ) {
             continue;
         }
         if( !sees( x, y ) ) {
             continue;
         }
         const trap *tr = traplist[trid];
-        if (tr->name.empty() || tr->can_see(*this, x, y)) {
+        if( tr->name.empty() || tr->can_see( tripoint( x, y, z ), *this ) ) {
             // Already seen, or has no name -> can never be seen
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if (tr->detect_trap(*this, x, y)) {
+        if (tr->detect_trap( tripoint( x, y, z ), *this )) {
             if( tr->get_visibility() > 0 ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
@@ -4344,7 +4348,7 @@ void player::search_surroundings()
                 add_msg_if_player(_("You've spotted a %s to the %s!"),
                                   tr->name.c_str(), direction.c_str());
             }
-            add_known_trap(x, y, tr->id);
+            add_known_trap( tripoint( x, y, z ), tr->id);
         }
     }
 }
@@ -13086,19 +13090,17 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     va_end(ap);
 }
 
-bool player::knows_trap(int x, int y) const
+bool player::knows_trap( const tripoint &pos ) const
 {
-    const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
-    return known_traps.count(p) > 0;
+    const tripoint p = g->m.getabs( pos );
+    return known_traps.count( p ) > 0;
 }
 
-void player::add_known_trap(int x, int y, const std::string &t)
+void player::add_known_trap( const tripoint &pos, const std::string &t)
 {
-    const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
-    if (t == "tr_null") {
-        known_traps.erase(p);
+    const tripoint p = g->m.getabs( pos );
+    if( t == "tr_null" ) {
+        known_traps.erase( p );
     } else {
         known_traps[p] = t;
     }

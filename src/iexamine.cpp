@@ -2333,24 +2333,23 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
 void iexamine::trap(player *p, map *m, int examx, int examy)
 {
     const trap_id tid = m->tr_at(examx, examy);
-    if (p == NULL || !p->is_player() || tid == tr_null) {
+    if( p == nullptr || !p->is_player() || tid == tr_null ) {
         return;
     }
     const struct trap &t = *traplist[tid];
     const int possible = t.get_difficulty();
-    if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
+    bool seen = t.can_see( tripoint( examx, examy, g->levz), *p );
+    if( seen && possible == 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
             t.name.c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
-    if (t.can_see(*p, examx, examy) && possible == 0 &&
-        t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
-        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+    if( seen && possible == 0 && t.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
+        if( query_yn(_("There is a %s there. Take down?"), t.name.c_str()) ) {
             m->disarm_trap(examx, examy);
         }
-    } else if (t.can_see(*p, examx, examy) &&
-               query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), t.name.c_str() ) ) {
         m->disarm_trap(examx, examy);
     }
 }

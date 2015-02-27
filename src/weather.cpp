@@ -227,12 +227,10 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
     const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
-    const std::set<point> &funnel_locs = g->m.trap_locations(t);
-    std::set<point>::const_iterator i;
-    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
+    const std::set<tripoint> &funnel_locs = g->m.trap_locations( t );
+    for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        point loc = *i;
-        auto items = g->m.i_at(loc.x, loc.y);
+        auto items = g->m.i_at( loc.x, loc.y );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
