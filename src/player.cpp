@@ -12509,14 +12509,6 @@ std::vector<const item *> player::get_ammo( const ammotype &at ) const
     } );
 }
 
-bool player::has_gun_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [at]( const item & it ) {
-        // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_type() == at;
-    } );
-}
-
 std::string player::weapname(bool charges)
 {
     if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&

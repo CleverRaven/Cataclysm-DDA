@@ -46,10 +46,10 @@ class inventory
         inventory  operator+  (const std::list<item> &rhs);
 
         // overloads for iterating inventory items
-        invstack::iterator          begin()         {}
-        invstack::iterator          end()           {}
-        invstack::const_iterator    begin() const   {}
-        invstack::const_iterator    end()   const   {}
+        invslice::iterator              begin();
+        invslice::iterator              end();
+        const_invslice::const_iterator  begin() const;
+        const_invslice::const_iterator  end()   const;
 
         static bool has_activation(const item &it, const player &u);
         static bool has_category(const item &it, item_cat cat, const player &u);
@@ -78,7 +78,7 @@ class inventory
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack(player *p = NULL);
+        void restack(const player *p=nullptr);
 
         void form_from_map(point origin, int distance, bool assign_invlet = true);
 
@@ -145,7 +145,7 @@ class inventory
         int butcher_factor() const;
 
         // NPC/AI functions
-        int worst_item_value(npc *p) const;
+        int worst_item_value(const player *p) const;
         bool has_enough_painkiller(int pain) const;
         item *most_appropriate_painkiller(int pain);
         item *best_for_melee(player *p);

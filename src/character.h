@@ -36,7 +36,18 @@ class Character : public Creature
          * - clothes
          */
         void recalc_sight_limits();
+
+        // --------------- Thriving Stuff ---------------
+        int hunger, thirst, fatigue;
+
         
+        // --------------- Weapon   Stuff ---------------
+        /**
+         * Check whether the player has a gun that uses the given type of ammo.
+         */
+        bool has_gun_for_ammo( const ammotype &at ) const;
+
+
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -79,6 +90,8 @@ class Character : public Creature
         
         // --------------- Generic Item Stuff ---------------
 
+        /** Item's 'value' is returned **/
+        virtual int value(const item &it) const;
         struct has_mission_item_filter {
             int mission_id;
             bool operator()(const item &it) {
@@ -243,9 +256,9 @@ class Character : public Creature
         SkillLevel &skillLevel(std::string ident);
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const Skill* _skill) const;
-        SkillLevel const& get_skill_level(const Skill &_skill) const;
-        SkillLevel const& get_skill_level(const std::string &ident) const;
+        SkillLevel get_skill_level(const Skill* _skill) const;
+        SkillLevel get_skill_level(const std::string &ident) const;
+        const Skill* best_skill() const;
         
         // --------------- Other Stuff ---------------
         

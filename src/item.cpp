@@ -796,7 +796,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
                 temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &_mn : contents) ) {
+                for( auto &_mn : contents) {
                     const auto mod = _mn.type->gunmod.get();
                     if( mod->location == ( elem ).first ) { // if mod for this location
                         if (first_mods) {
@@ -1555,7 +1555,7 @@ int item::get_free_mod_locations(const std::string &location) const
         return 0;
     }
     int result = loc->second;
-    for( const auto &elem : contents.get() ) {
+    for( const auto &elem : contents ) {
         const auto mod = elem.type->gunmod.get();
         if(mod != NULL && mod->location == location) {
             result--;
@@ -2504,7 +2504,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::weapon_value(player *p) const
+int item::weapon_value(const Character *p) const
 {
     if( is_null() ) {
         return 0;
@@ -2518,18 +2518,18 @@ int item::weapon_value(player *p) const
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        gun_value *= (.5 + (.3 * p->get_skill_level("gun")));
+        gun_value *= (.3 + (.7 * p->get_skill_level(gun->skill_used)));
         my_value += gun_value;
     }
 
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p->get_skill_level("bashing") +
+                                       .1 * p->get_skill_level("melee")    ));
 
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->get_skill_level("cutting") +
+                                       .1 * p->get_skill_level("melee")    ));
 
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->get_skill_level("melee")));
 
     return my_value;
 }
@@ -4136,7 +4136,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     bool used_item_contents = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, use_container, used)) {
-            a = contents.rem(a);
+            contents.rem(a++);
             used_item_contents = true;
         } else {
             ++a;
@@ -4219,7 +4219,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_charges(it, quantity, used)) {
-            a = contents.rem(a);
+            contents.rem(a++);
         } else {
             ++a;
         }
@@ -4920,7 +4920,7 @@ bool item::process( player *carrier, point pos, bool activate )
             it->last_rot_check = calendar::turn;
         }
         if( it->process( carrier, pos, activate ) ) {
-            it = contents.rem( it );
+            contents.rem(it++);
         } else {
             ++it;
         }
@@ -5110,29 +5110,49 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 /*-----------------------------------------------------------------------------
- *                                ** STORAGE **
+ *                             *******************
+ *                            ****** STORAGE ******
+ *                             *******************
  *-----------------------------------------------------------------------------*/
-typedef std::list<item>::iterator                                  item_iterator;
-typedef std::list<item>::const_iterator                      item_const_iterator;
+typedef std::list<item>::iterator                       item_iterator;
+typedef std::list<item>::const_iterator                 item_const_iterator;
+typedef std::list<item *>::iterator                     item_pointer_iterator;
+typedef std::list<item *>::const_iterator               item_const_pointer_iterator;
+
+typedef std::list<std::list<item>>                      invstack;
+typedef std::vector<std::list<item>*>                   invslice;
+typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
+
+storage::storage()
+{
+    init();
+}
 
 storage::storage(item_iterator start, item_iterator stop)
 {
-    items.insert(items.begin(), start, stop);
+    init(true);
+    add(start, stop);
 }
 
 storage::storage(const std::list<item> &item_list)
 {
+    init(true);
+    add(item_list);
+}
+
+void storage::init(bool init_buffer)
+{
+    items = (init_buffer ? new inventory : nullptr);
 }
 
 void storage::update_cache()
 {
     if(cache_turn < mod_turn) {
         cache.clear();
-        int cache_turn = calendar::turn();
-        for(auto &list : items) {
-            for(auto &elem : list) {
-                cache.push_back(elem);
-            }
+        int cache_turn = calendar::turn;
+        for(auto &list : *items) {
+            item &elem = list->front();
+            cache.push_back(elem);
         }
     }
 }
@@ -5142,16 +5162,15 @@ void storage::update_cache()
  *-----------------------------------------------------------------------------*/
 item &storage::at(size_t index)
 {
-    auto pos = items.begin();
-    std::advance(pos, index);
-    return pos->front();
+    const item &elem = at(index);
+    return const_cast<item &>(elem);
 }
 
 const item &storage::at(size_t index) const
 {
-    auto pos = items.cbegin();
+    auto pos = cache.begin();
     std::advance(pos, index);
-    return pos->front();
+    return *pos;
 }
 
 item &storage::operator[](size_t index)
@@ -5184,13 +5203,18 @@ item_const_iterator storage::end() const
     return cache.cend();
 }
 
-item_pointer_iterator storage::get() {}
-item_const_pointer_iterator storage::get() const {}
+item_pointer_iterator storage::get()
+{
+}
+
+item_const_pointer_iterator storage::get() const
+{
+}
 
 item_iterator storage::find(item *thing)
 {
-    auto elem = items.begin();
-    for(size_t i = 0; i < items.size(); ++i) {
+    auto elem = items->begin();
+    for(size_t i = 0; i < items->size(); ++i) {
 //        if(item_matches(
     }
 }
@@ -5199,24 +5223,39 @@ item_const_iterator storage::find(item *thing) const
 {
 }
 
-bool storage::item_matches(item *thing, itype_id id, size_t index) const
+size_t storage::size() const
 {
-    // match item based on the pointer in `elem'
-    for(const auto &elem : items) {
-        for(const auto &elem_elem : elem) {
-            // match based on pointer address
-            if(thing && thing == &elem_elem) {
-                return true;
-            // match item based on itype_id
-            } else if(!id.empty()) {
-//                for(const auto &elem
-            // match item based on index in `items'
-            } else if(index >= 0 || index < items.size()) {
-            }
-        }
-    }
-    return false;
+    return items->size();
 }
+
+bool storage::empty() const
+{
+    return items->num_items() == 0;
+}
+
+void storage::clear()
+{
+    return items->clear();
+}
+
+//bool storage::item_matches(item *thing, itype_id id, size_t index) const
+//{
+//    // match item based on the pointer in `elem'
+//    for(const auto &elem : *items) {
+//        for(const auto &elem_elem : elem) {
+//            // match based on pointer address
+//            if(thing && thing == &elem_elem) {
+//                return true;
+//            // match item based on itype_id
+//            } else if(!id.empty()) {
+//                for(const auto &elem
+//            // match item based on index in `items'
+//            } else if(index < items->size()) {
+//            }
+//        }
+//    }
+//    return false;
+//}
 
 /*-----------------------------------------------------------------------------
  *  addition/removal functions
@@ -5225,84 +5264,63 @@ item *storage::add(const item &thing)
 {
     std::list<item> things;
     things.push_back(thing);
-    return add(things, -1)[0];
+    return add(things)[0];
 }
 
-std::vector<item *> storage::add(std::list<item> things, size_t index)
+std::vector<item *> storage::add(item_iterator start, item_iterator stop)
 {
-    return add(things.begin(), things.end(), index);
+    std::list<item> things;
+    std::copy(start, stop, things.begin());
+    return add(things);
 }
 
-std::vector<item *> storage::add(item_iterator start, item_iterator stop, size_t index)
+std::vector<item *> storage::add(std::list<item> things)
 {
-    //[davek] TODO: update list of cached stuffs
-    std::vector<item *> pointers;
-    auto pos = items.begin();
-    std::advance(pos, index);
-    items.insert(pos, start, stop);
-    for(; pos != items.end(); ++pos) {
-        pointers.push_back(&pos->front());
-    }
-    return pointers;
 }
 
 item storage::rem(size_t index)
 {
-
-    auto pos = items.begin();
-    std::advance(pos, index);
-    item elem = pos->front();
-    items.erase(pos);
-    return elem;
 }
 
 item storage::rem(item *thing)
 {
-    auto pos = items.begin();
-    std::advance(pos, index);
-    item elem = pos->front();
-    items.erase(items.begin() + index);
-    return elem;
 }
 
 item_iterator storage::rem(item_iterator iter)
 {
-    return items.erase(iter);
 }
 
-std::vector<item> storage::rem(item_iterator start, item_iterator stop)
+item_pointer_iterator storage::rem(item_pointer_iterator iter)
 {
-    std::vector<item> things;
-    for(auto pos = start; ((pos != stop) && (pos != items.end())); ++pos) {
-        things.push_back(*pos);
-    }
-    items.erase(start, stop);
-    return things;
 }
 
-size_t storage::index_of(const item *thing) const
+std::list<item> storage::rem(item_iterator start, item_iterator stop)
 {
-    size_t i = 0;
-    for(; i < items.size(); ++i) {
-        if(thing == &items[i]) {
-            return i;
-        }
-    }
-    // make improper retval checking obvious
-    return items.size();
 }
 
-template <typename T>
-size_t storage::index_of_filter(T filter) const
-{
-    size_t i = 0;
-    for(; i < items.size(); ++i) {
-        if(filter(items[i])) {
-            return i;
-        }
-    }
-    return items.size();
-}
+//size_t storage::index_of(const item *thing) const
+//{
+//    size_t i = 0;
+//    for(; i < items.size(); ++i) {
+//        if(thing == &items[i]) {
+//            return i;
+//        }
+//    }
+//    // make improper retval checking obvious
+//    return items.size();
+//}
+//
+//template <typename T>
+//size_t storage::index_of_filter(T filter) const
+//{
+//    size_t i = 0;
+//    for(; i < items.size(); ++i) {
+//        if(filter(items[i])) {
+//            return i;
+//        }
+//    }
+//    return items.size();
+//}
 
 void storage::push_back(const item &thing)
 {
@@ -5325,7 +5343,7 @@ void storage::erase(item_iterator start, item_iterator stop)
 int item::storage_used() const
 {
     int storage_used = 0;
-    for(auto &elem : contents.get()) {
+    for(auto &elem : contents) {
         storage_used += elem.volume();
     }
     return storage_used;
@@ -5346,20 +5364,24 @@ bool item::has_space_for(const item &thing) const
  *-----------------------------------------------------------------------------*/
 template <typename T> bool storage::filter_by(T filter) const
 {
-    for(const auto &elem : items) {
-        if(filter(elem)) {
-            return true;
+    for(const auto &iter : *items) {
+        for(const auto &elem : *iter) {
+            if(filter(elem)) {
+                return true;
+            }
         }
     }
     return false;
 }
 
-template <typename T> std::vector<item> storage::filter_by(T filter)
+template <typename T> std::list<item> storage::filter_by(T filter)
 {
     std::list<item> things;
-    for(auto &elem : items) {
-        if(filter(elem)) {
-            things.push_back(*(&elem));
+    for(const auto &iter : *items) {
+        for(const auto &elem : *iter) {
+            if(filter(elem)) {
+                things.push_back(*(&elem));
+            }
         }
     }
     return things;
@@ -5375,22 +5397,24 @@ template <typename T> indexed_invslice storage::slice_filter_by(T filter)
 {
     int i = 0;
     indexed_invslice stacks;
-    for(auto &elem : items) {
-        if(filter(elem)) {
-            stacks.push_back(std::list<std::make_pair(&elem, i));
+    for(const auto &iter : *items) {
+        for(const auto &elem : *iter) {
+            if(filter(elem)) {
+//                stacks.push_back(std::list<std::make_pair(&elem, i)>);
+            }
+            ++i;
         }
-        ++i;
     }
     return stacks;
 }
 
-template <typename T> invslice filter_recursive_by(T filter)
+template <typename T> invslice storage::filter_recursive_by(T filter)
 {
-    std::vector<std::list<item> *> slice;
-    for(auto &elem : items) {
-        for(auto &elem_elem : elem) {
-            if(filter(elem_elem)) {
-                slice.push_back(&elem);
+    invslice slice;
+    for(const auto &iter : *items) {
+        for(const auto &elem : *iter) {
+            if(filter(elem)) {
+//                slice.push_back(&elem);
             }
         }
     }

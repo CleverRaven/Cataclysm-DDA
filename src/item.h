@@ -24,6 +24,7 @@ struct islot_armor;
 class material_type;
 class item_category;
 class item;
+class inventory;
 
 
 std::string const& rad_badge_color(int rad);
@@ -95,8 +96,8 @@ class item_category
 class storage
 {
         // save on the clickity clacks
-        typedef std::list<item &>::iterator                     item_iterator;
-        typedef std::list<item &>::const_iterator               item_const_iterator;
+        typedef std::list<item>::iterator                       item_iterator;
+        typedef std::list<item>::const_iterator                 item_const_iterator;
         typedef std::list<item *>::iterator                     item_pointer_iterator;
         typedef std::list<item *>::const_iterator               item_const_pointer_iterator;
         // setup is like inventory in a way
@@ -107,30 +108,38 @@ class storage
     private:
         // *** TODO: should this just inherit inventory like characteristics? ***
         // invstack, so items that can be stacked are (and can respond to splice requests)
-        invstack items;
-        // pointers to all items in storage, but one dimensional
-        std::list<item *> cache;
+        inventory *items;
+
+        // references to all items in storage, but 1-D and only references top of each stack
+        std::list<item> cache;
         // last turn cache was updated / modifications occurred
         int cache_turn, mod_turn;
 
-        bool item_matches(item *thing=nullptr, itype_id id="", size_t index=0) const;
+        // update the cache listing
         void update_cache();
 
+        bool item_matches(item *thing=nullptr, itype_id id="", size_t index=0) const;
+        bool valid_storage() const
+        {
+            return items != nullptr;
+        }
+
     public:
-        storage() = default;
+        storage();
         storage(const std::list<item> &item_list);
         storage(item_iterator start, item_iterator stop);
 
+        void init(bool init_buffer=false);
         /*-----------------------------------------------------------------------------
          *                                  OVERLOADS
          *-----------------------------------------------------------------------------*/
-        size_t size() const                                 { return items.size();      }
-        bool empty() const                                  { return items.empty();     }
-        void clear()                                        {        items.clear();     }
-        item_iterator          begin();
-        item_const_iterator    begin() const;
-        item_iterator          end();
-        item_const_iterator    end() const;
+        size_t size() const;
+        bool empty() const;
+        void clear();
+        item_iterator       begin();
+        item_const_iterator begin() const;
+        item_iterator       end();
+        item_const_iterator end() const;
         item &at(size_t index);
         const item &at(size_t index) const;
         void push_back(const item &thing);
@@ -142,11 +151,11 @@ class storage
          *                                  ACCESS
          *-----------------------------------------------------------------------------*/
         // get a splice of iterable items in a single list
-        item_pointer_iterator       get();
+        item_pointer_iterator get();
         item_const_pointer_iterator get() const;
         // find the item in items invstack
-        item_iterator               find(item *thing);
-        item_const_iterator         find(item *thing) const;
+        item_iterator find(item *thing);
+        item_const_iterator find(item *thing) const;
         // returns the index of the given item, based on pointer comparison
         // ** returns items.size() if unable to find **
         size_t index_of(const item *thing) const;
@@ -154,15 +163,20 @@ class storage
         indexed_invslice slice();
         // returns the index of a filter function match
         // ** returns items.size() if unable to find **
-        template <typename T> size_t                index_of_filter(T filter) const;
+        template <typename T> 
+        size_t index_of_filter(T filter) const;
         // returns a filtered indexed_invslice
-        template <typename T> indexed_invslice      slice_filter_by(T filter);
+        template <typename T>
+        indexed_invslice slice_filter_by(T filter);
         // return a boolean about content properties
-        template <typename T> bool                  filter_by(T filter) const;
+        template <typename T>
+        bool filter_by(T filter) const;
         // return an item list based on filter
-        template <typename T> std::vector<item *>   filter_by(T filter);
+        template <typename T>
+        std::list<item> filter_by(T filter);
         // return an item 
-        template <typename T> invslice              filter_recursive_by(T filter);
+        template <typename T>
+        invslice filter_recursive_by(T filter);
         /*-----------------------------------------------------------------------------
          *                                MANIPULATION
          *-----------------------------------------------------------------------------*/
@@ -170,14 +184,15 @@ class storage
         // (use the new pointer to operate on object)
         item *add(const item &thing);
         // insert a set of items
-        std::vector<item *> add(std::list<item> items, size_t index=0);
+        std::vector<item *> add(std::list<item> items);
         // insert a range of items
-        std::vector<item *> add(item_iterator start, item_iterator stop, size_t index=0);
+        std::vector<item *> add(item_iterator start, item_iterator stop);
         // removes the item from storage, returning the item itself
         item rem(size_t index);                                             // index
         item rem(item *thing);                                              // pointer
-        item_iterator rem(item_iterator iter);                              // iterator
-        std::vector<item> rem(item_iterator start, item_iterator stop);     // range
+        item_iterator rem(item_iterator iter);                              // iterator (&)
+        item_pointer_iterator rem(item_pointer_iterator iter);              // iterator (*)
+        std::list<item> rem(item_iterator start, item_iterator stop);     // range
         /*-----------------------------------------------------------------------------
          *                                STORAGE
          *-----------------------------------------------------------------------------*/
@@ -482,7 +497,7 @@ public:
 // for quick iterative loops
  int getlight_emit(bool calculate_dimming = true) const;
 // Our value as a weapon, given particular skills
- int  weapon_value(player *p) const;
+ int  weapon_value(const Character *p) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (player *p);
 // how resistant item is to bashing and cutting damage
@@ -1020,9 +1035,9 @@ public:
         {
             std::list<item> result;
             for(auto it = contents.begin(); it != contents.end();) {
-                if(filter(it)) {
-                    result.push_back(std::move(it));
-                    it = contents.rem(it);
+                if(filter(*it)) {
+                    result.push_back(contents.rem(&(*it)));
+                    ++it;
                 } else {
                     result.splice(result.begin(), it->remove_items_with(filter));
                     ++it;

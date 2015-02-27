@@ -921,7 +921,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int next_climate_control_check;
         bool last_climate_control_ret;
         int power_level, max_power_level;
-        int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int oxygen;
         int recoil;
