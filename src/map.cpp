@@ -3832,53 +3832,57 @@ void map::remove_trap(const int x, const int y, const int z)
     }
 }
 /*
- * Get wrapper for all fields at xy
+ * Get wrapper for all fields at xyz
  */
-const field &map::field_at( const int x, const int y ) const
+const field &map::field_at( const tripoint &p ) const
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         nulfield = field();
         return nulfield;
     }
 
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
 
     return current_submap->fld[lx][ly];
 }
 
-field &map::get_field( const int x, const int y )
+/*
+ * As above, except not const
+ */
+field &map::field_at( const tripoint &p )
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         nulfield = field();
         return nulfield;
     }
 
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->fld[lx][ly];
 }
 
-int map::adjust_field_age(const point p, const field_id t, const int offset) {
+int map::adjust_field_age( const tripoint &p, const field_id t, const int offset ) {
     return set_field_age( p, t, offset, true);
 }
 
-int map::adjust_field_strength(const point p, const field_id t, const int offset) {
-    return set_field_strength(p, t, offset, true);
+int map::adjust_field_strength( const tripoint &p, const field_id t, const int offset ) {
+    return set_field_strength( p, t, offset, true );
 }
 
 /*
  * Set age of field type at point, or increment/decrement if offset=true
  * returns resulting age or -1 if not present.
  */
-int map::set_field_age(const point p, const field_id t, const int age, bool isoffset) {
-    field_entry * field_ptr = get_field( p, t );
-    if ( field_ptr != NULL ) {
+int map::set_field_age( const tripoint &p, const field_id t, const int age, bool isoffset ) {
+    field_entry *field_ptr = get_field( p, t );
+    if( field_ptr != nullptr ) {
         int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
         field_ptr->setFieldAge( adj );
         return adj;
     }
+
     return -1;
 }
 
@@ -3886,54 +3890,63 @@ int map::set_field_age(const point p, const field_id t, const int age, bool isof
  * set strength of field type at point, creating if not present, removing if strength is 0
  * returns resulting strength, or 0 for not present
  */
-int map::set_field_strength(const point p, const field_id t, const int str, bool isoffset) {
+int map::set_field_strength( const tripoint &p, const field_id t, const int str, bool isoffset ) {
     field_entry * field_ptr = get_field( p, t );
-    if ( field_ptr != NULL ) {
+    if( field_ptr != nullptr ) {
         int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
-        if ( adj > 0 ) {
+        if( adj > 0 ) {
             field_ptr->setFieldDensity( adj );
             return adj;
         } else {
-            remove_field( p.x, p.y, t );
+            remove_field( p, t );
             return 0;
         }
-    } else if ( 0 + str > 0 ) {
+    } else if( 0 + str > 0 ) {
         return ( add_field( p, t, str, 0 ) ? str : 0 );
     }
+
     return 0;
 }
 
-int map::get_field_age( const point p, const field_id t ) {
-    field_entry * field_ptr = get_field( p, t );
-    return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
-}
-
-int map::get_field_strength( const point p, const field_id t ) {
-    field_entry * field_ptr = get_field( p, t );
-    return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
-}
-
-field_entry * map::get_field( const point p, const field_id t ) {
-    if (!INBOUNDS(p.x, p.y))
-        return NULL;
-    return get_field( p.x, p.y ).findField(t);
-}
-
-bool map::add_field(const point p, const field_id t, int density, const int age)
+int map::get_field_age( const tripoint &p, const field_id t ) const
 {
-    if (!INBOUNDS(p.x, p.y)) {
+    auto field_ptr = field_at( p ).findField( t );
+    return ( field_ptr == nullptr ? -1 : field_ptr->getFieldAge() );
+}
+
+int map::get_field_strength( const tripoint &p, const field_id t ) const
+{
+    auto field_ptr = field_at( p ).findField( t );
+    return ( field_ptr == nullptr ? 0 : field_ptr->getFieldDensity() );
+}
+
+field_entry *map::get_field( const tripoint &p, const field_id t ) {
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return current_submap->fld[lx][ly].findField( t );
+}
+
+bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
+{
+    if( !inbounds( p ) ) {
         return false;
     }
 
-    if (density > 3) {
+    if( density > 3) {
         density = 3;
     }
-    if (density <= 0) {
+
+    if( density <= 0) {
         return false;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
+    submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
 
     if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
@@ -3941,30 +3954,28 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
         // This is the spirit of "fd_null" that it used to be.
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
-    if(g != NULL && this == &g->m && p.x == g->u.posx() && p.y == g->u.posy()) {
+
+    if( g != nullptr && this == &g->m && p == g->u.pos3() ) {
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
+
     return true;
 }
 
-bool map::add_field(const int x, const int y, const field_id t, const int new_density)
+void map::remove_field( const tripoint &p, const field_id field_to_remove )
 {
-    return this->add_field(point(x,y), t, new_density, 0);
-}
+    if( !inbounds( p ) ) {
+        return;
+    }
 
-void map::remove_field(const int x, const int y, const field_id field_to_remove)
-{
- if (!INBOUNDS(x, y)) {
-  return;
- }
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    if( current_submap->fld[lx][ly].findField( field_to_remove ) ) { //same as checking for fd_null in the old system
+        current_submap->field_count--;
+    }
 
- if (current_submap->fld[lx][ly].findField(field_to_remove)) { //same as checking for fd_null in the old system
-  current_submap->field_count--;
- }
- current_submap->fld[lx][ly].removeField(field_to_remove);
+    current_submap->fld[lx][ly].removeField(field_to_remove);
 }
 
 computer* map::computer_at(const int x, const int y)
@@ -5291,6 +5302,13 @@ bool map::inbounds(const int x, const int y, const int z) const
          z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT);
 }
 
+bool map::inbounds( const tripoint &p ) const
+{
+ return (p.x >= 0 && p.x < SEEX * my_MAPSIZE && 
+         p.y >= 0 && p.y < SEEY * my_MAPSIZE && 
+         p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT);
+}
+
 void map::set_graffiti( int x, int y, const std::string &contents )
 {
     if( !inbounds( x, y ) ) {
@@ -5563,6 +5581,15 @@ submap *map::get_submap_at( const int x, const int y, const int z ) const
     return get_submap_at_grid( x / SEEX, y / SEEY, z );
 }
 
+submap *map::get_submap_at( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        debugmsg( "Tried to access invalid map position (%d,%d, %d)", p.x, p.y, p.z );
+        return nullptr;
+    }
+    return get_submap_at_grid( p.x / SEEX, p.y / SEEY, p.z );
+}
+
 submap *map::get_submap_at( const int x, const int y ) const
 {
     return get_submap_at( x, y, abs_sub.z );
@@ -5578,6 +5605,13 @@ submap *map::get_submap_at( const int x, const int y, const int z, int &offset_x
     offset_x = x % SEEX;
     offset_y = y % SEEY;
     return get_submap_at( x, y, z );
+}
+
+submap *map::get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const
+{
+    offset_x = p.x % SEEX;
+    offset_y = p.y % SEEY;
+    return get_submap_at( p );
 }
 
 submap *map::get_submap_at_grid( const int gridx, const int gridy ) const
@@ -5952,4 +5986,65 @@ void map::add_road_vehicles(bool city, int facing)
             }
         }
     }
+}
+
+// 2D overloads for fields
+const field &map::field_at( const int x, const int y ) const
+{
+    return field_at( tripoint( x, y, abs_sub.z ) );
+}
+
+int map::get_field_age( const point p, const field_id t ) const
+{
+    return get_field_age( tripoint( p, abs_sub.z ), t );
+}
+
+int map::get_field_strength( const point p, const field_id t ) const
+{
+    return get_field_strength( tripoint( p, abs_sub.z ), t );
+}
+
+int map::adjust_field_age( const point p, const field_id t, const int offset )
+{
+    return adjust_field_age( tripoint( p, abs_sub.z ), t, offset );
+}
+
+int map::adjust_field_strength( const point p, const field_id t, const int offset )
+{
+    return adjust_field_strength( tripoint( p, abs_sub.z ), t, offset );
+}
+
+int map::set_field_age( const point p, const field_id t, const int age, bool isoffset )
+{
+    return set_field_age( tripoint( p, abs_sub.z ), t, age, isoffset );
+}
+
+int map::set_field_strength( const point p, const field_id t, const int str, bool isoffset )
+{
+    return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
+}
+
+field_entry *map::get_field( const point p, const field_id t )
+{
+    return get_field( tripoint( p, abs_sub.z ), t );
+}
+
+bool map::add_field(const point p, const field_id t, const int density, const int age)
+{
+    return add_field( tripoint( p, abs_sub.z ), t, density, age );
+}
+
+bool map::add_field(const int x, const int y, const field_id t, const int density)
+{
+    return add_field( tripoint( x, y, abs_sub.z ), t, density, 0 );
+}
+
+void map::remove_field( const int x, const int y, const field_id field_to_remove )
+{
+    remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
+}
+
+field &map::get_field( const int x, const int y )
+{
+    return field_at( tripoint( x, y, abs_sub.z ) );
 }

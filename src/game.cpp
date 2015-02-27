@@ -3610,7 +3610,7 @@ void game::update_scent()
                     ) / (1000 * 10);
 
 
-                const int fslime = m.get_field_strength(point(x, y), fd_slime) * 10;
+                const int fslime = m.get_field_strength( tripoint(x, y, levz), fd_slime) * 10;
                 if (fslime > 0 && grscent[x][y] < fslime) {
                     grscent[x][y] = fslime;
                 }
@@ -13568,7 +13568,7 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("YOUNG", i, j)) {
                         if (one_in(5)) {
-                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                            if (m.get_field_strength( tripoint(x, y, levz), fd_fungal_haze) != 0) {
                                 if (one_in(3)) { // young trees are Vulnerable
                                     m.ter_set(i, j, t_fungus);
                                     m.add_spawn("mon_fungal_blossom", 1, x, y);
@@ -13585,7 +13585,7 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("TREE", i, j)) {
                         if (one_in(10)) {
-                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                            if (m.get_field_strength( tripoint(x, y, levz), fd_fungal_haze) != 0) {
                                 if (one_in(4)) {
                                     m.ter_set(i, j, t_fungus);
                                     m.add_spawn("mon_fungal_blossom", 1, x, y);
