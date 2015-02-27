@@ -3060,8 +3060,8 @@ int item::reload_time(player &u) const
     if (ret < 25) {
         ret = 25;
     }
-    ret += u.encumb(bp_hand_l) * 15;
-    ret += u.encumb(bp_hand_r) * 15;
+    ret += u.encumb(bp_hand_l) * 1.5;
+    ret += u.encumb(bp_hand_r) * 1.5;
     return ret;
 }
 

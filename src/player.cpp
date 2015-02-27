@@ -371,7 +371,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -394,7 +394,7 @@ void player::reset_stats()
     }
 
     // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - (encumb(bp_torso) / 10) );
 
     // Apply static martial arts buffs
     ma_static_effects();
@@ -1676,7 +1676,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 2.5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 1.5;
+    movecost += (encumb(bp_mouth) / 10) * 5 + ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 + ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1729,8 +1729,8 @@ int player::swim_speed()
     if (has_trait("FAT")) {
         ret -= 30;
     }
-    ret += (50 - skillLevel("swimming") * 2) * (encumb(bp_leg_l) + encumb(bp_leg_r));
-    ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
+    ret += (50 - skillLevel("swimming") * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
+    ret += (80 - skillLevel("swimming") * 3) * (encumb(bp_torso) / 10);
     if (skillLevel("swimming") < 10) {
         for (auto &i : worn) {
             ret += (i.volume() * (10 - skillLevel("swimming"))) / 2;
@@ -3015,10 +3015,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                s += string_format( _("Melee skill %+d; "), -encumb( bp_torso ) );
-                s += dodge_skill_text( -encumb( bp_torso ) );
-                s += swim_cost_text( encumb( bp_torso ) * ( 80 - skillLevel( "swimming" ) * 3 ) );
-                s += melee_cost_text( encumb( bp_torso ) * 20 );
+                s += string_format( _("Melee skill %+d; "), - (encumb( bp_torso ) / 10));
+                s += dodge_skill_text( - (encumb( bp_torso ) / 10));
+                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
+                s += melee_cost_text( (encumb( bp_torso ) / 10) * 20 );
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
@@ -3027,29 +3027,29 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                                    -encumb(bp_eyes),
                                    double(double(-encumb(bp_eyes)) / 2));
             } else if (line == 3) { //Eyes
-                s += run_cost_text( encumb( bp_mouth ) * 5 );
+                s += run_cost_text( (encumb( bp_mouth ) / 10) * 5 );
             } else if (line == 4) { //Left Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
-                s += reload_cost_text( encumb( bp_hand_l ) * 15 );
+                s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_l ) );
             } else if (line == 7) { //Right Hand
-                s += reload_cost_text( encumb( bp_hand_r ) * 15 );
+                s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_r ) );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( encumb( bp_leg_l ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_l ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_l ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( encumb( bp_leg_r ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_r ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_r ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( encumb( bp_foot_l ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( encumb( bp_foot_r ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -7148,7 +7148,7 @@ void player::suffer()
                     traits[mut].cooldown = traits[mut].cost;
                 }
             }
-            
+
             if (traits[mut].powered == false) {
                 apply_mods(mut, false);
             }
@@ -11632,12 +11632,12 @@ int player::bonus_warmth(body_part bp) const
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bp_head && encumb( bp_head ) < 1 ) {
+    if( bp == bp_head && encumb( bp_head ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
+    if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 

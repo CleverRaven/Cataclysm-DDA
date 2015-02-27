@@ -923,7 +923,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     /*
     List of current flags
-    FIT - Reduces encumbrance by one
+    FIT - Reduces encumbrance by ten
     SKINTIGHT - Reduces layer penalty
     VARSIZE - Can be made to fit via tailoring
     OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
