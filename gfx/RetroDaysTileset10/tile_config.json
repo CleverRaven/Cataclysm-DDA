@@ -8870,6 +8870,19 @@
 			]
 		},
 		{
+            "id":"vp_water_tank_barrel",
+			"fg":1921,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":442
+				}
+			]
+		},
+		{
             "id":"controls",
 			"fg":413,
             "rotates":true,
@@ -12105,7 +12118,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "armor_scavenger", 
+         "fg" : 697, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "pants_ski", 
          "fg" : 698, 
@@ -12199,6 +12219,34 @@
       },
 	  { 
          "id" : "keikogi", 
+         "fg" : 758, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "kariginu", 
+         "fg" : 758, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "kimono", 
+         "fg" : 758, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "kittel", 
+         "fg" : 758, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "thawb", 
          "fg" : 758, 
          "bg" : -1, 
          "rotates" : false, 
@@ -12491,6 +12539,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "shark_suit_faraday", 
+         "fg" : 719, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "tshirt", 
          "fg" : 720, 
@@ -12707,7 +12762,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "cassock", 
+         "fg" : 738, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jacket_jean", 
          "fg" : 739, 
@@ -13015,7 +13077,7 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
       { 
          "id" : "armguard_soft", 
          "fg" : 759, 
@@ -13430,6 +13492,20 @@
          "multitile" : false
       },
 	  { 
+         "id" : "mask_hsurvivor", 
+         "fg" : 782, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "mask_lsurvivor", 
+         "fg" : 782, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "mask_bunker", 
          "fg" : 782, 
          "bg" : -1, 
@@ -13547,7 +13623,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "fitover_sunglasses", 
+         "fg" : 783, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "glasses_reading", 
          "fg" : 784, 
@@ -13674,6 +13757,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "eboshi", 
+         "fg" : 796, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "hat_knit", 
          "fg" : 797, 
@@ -13778,14 +13868,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
 	  { 
          "id" : "maid_hat", 
          "fg" : 804, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "kufi", 
+         "fg" : 804, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "helmet_skid", 
          "fg" : 805, 
@@ -14520,7 +14617,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "robe", 
+         "fg" : 844, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jedi_cloak", 
          "fg" : 845, 
@@ -14852,6 +14956,13 @@
       },
 	  { 
          "id" : "beekeeping_hood", 
+         "fg" : 860, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "helmet_scavenger", 
          "fg" : 860, 
          "bg" : -1, 
          "rotates" : false, 
@@ -16621,6 +16732,27 @@
          "multitile" : false
       },
 	  { 
+         "id" : "atomic_lamp", 
+         "fg" : 1918, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tool_black_powder_bomb", 
+         "fg" : 1919, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tool_black_powder_bomb_act", 
+         "fg" : 1920, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "handflare", 
          "fg" : 942, 
          "bg" : -1, 
@@ -17238,6 +17370,13 @@
       },
 	  { 
          "id" : "helmet_xlsurvivor", 
+         "fg" : 913, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "kippah", 
          "fg" : 913, 
          "bg" : -1, 
          "rotates" : false, 
@@ -18644,6 +18783,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "veggy_aspic", 
+         "fg" : 1008, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "veggy_cooked", 
          "fg" : 1009, 
@@ -18681,6 +18827,27 @@
       },
 	  { 
          "id" : "datura_seed", 
+         "fg" : 1009, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "coffee_bean", 
+         "fg" : 1009, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "roasted_coffee_bean", 
+         "fg" : 1009, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_broccoli", 
          "fg" : 1009, 
          "bg" : -1, 
          "rotates" : false, 
@@ -19617,6 +19784,48 @@
       },
 	  { 
          "id" : "seed_lettuce", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "oats", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_celery", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_oats", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_cucumber", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_zucchini", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_potato_raw", 
          "fg" : 1036, 
          "bg" : -1, 
          "rotates" : false, 
@@ -21665,6 +21874,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "hflesh_aspic", 
+         "fg" : 1030, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "sashimi", 
          "fg" : 1030, 
          "bg" : -1, 
@@ -22055,6 +22271,11 @@
         },
 		{
             "id":"30gal_drum",
+			"fg":982,
+            "rotates":false
+        },
+		{
+            "id":"30gal_barrel",
 			"fg":983,
             "rotates":false
         },
@@ -22779,7 +23000,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "polisher", 
+         "fg" : 1244, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "ceramic_plate", 
          "fg" : 1245, 
@@ -22908,6 +23136,20 @@
       },
 	  { 
          "id" : "honey_glassed", 
+         "fg" : 1254, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_broth", 
+         "fg" : 1254, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_broth_bone", 
          "fg" : 1254, 
          "bg" : -1, 
          "rotates" : false, 
@@ -24420,6 +24662,34 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "mn_classic_kit", 
+         "fg" : 671, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "mn_ebr_kit", 
+         "fg" : 671, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "arrowrest", 
+         "fg" : 671, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bow_stabilizer", 
+         "fg" : 671, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "nailgun", 
          "fg" : 1376, 
@@ -24548,6 +24818,20 @@
       },
 	  { 
          "id" : "rm11b_sniper_rifle", 
+         "fg" : 1383, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "mosin44_ebr", 
+         "fg" : 1383, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "mosin91_30_ebr", 
          "fg" : 1383, 
          "bg" : -1, 
          "rotates" : false, 
@@ -25649,7 +25933,21 @@
          "multitile" : false
       },
 	  { 
+         "id" : "clay_hydria", 
+         "fg" : 1917, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "pitchfork", 
+         "fg" : 1887, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "spear_forked", 
          "fg" : 1887, 
          "bg" : -1, 
          "rotates" : false, 
@@ -25682,7 +25980,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "tailors_kit", 
+         "fg" : 1477, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "scissors", 
          "fg" : 1478, 
@@ -25738,14 +26043,28 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "electric_lantern", 
+         "fg" : 940, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "gasoline_lantern_on", 
          "fg" : 941, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "electric_lantern_on", 
+         "fg" : 941, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "flashlight", 
          "fg" : 1484, 
@@ -27496,6 +27815,27 @@
          "multitile" : false
       },
 	  { 
+         "id" : "jar_soup_veggy", 
+         "fg" : 1642, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_soup_woods", 
+         "fg" : 1642, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_V8", 
+         "fg" : 1642, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "g_paint", 
          "fg" : 1642, 
          "bg" : -1, 
@@ -27508,7 +27848,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "jar_soup_human", 
+         "fg" : 1643, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_soup_meat", 
+         "fg" : 1643, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jar_veggy_pickled", 
          "fg" : 1644, 
@@ -27544,6 +27898,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "jar_soup_fish", 
+         "fg" : 1645, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "cordless_drill", 
          "fg" : 1649, 
@@ -27553,6 +27914,13 @@
       }, 
       { 
          "id" : "vac_sealer", 
+         "fg" : 1650, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "makeshift_sealer", 
          "fg" : 1650, 
          "bg" : -1, 
          "rotates" : false, 
@@ -27781,6 +28149,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "f_kiln_metal_empty", 
+         "fg" : 1365, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "brick_kiln", 
          "fg" : 1365, 
          "bg" : -1, 
@@ -27796,6 +28171,13 @@
       },
 	  { 
          "id" : "f_kiln_full", 
+         "fg" : 1713, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "f_kiln_metal_full", 
          "fg" : 1713, 
          "bg" : -1, 
          "rotates" : false, 
