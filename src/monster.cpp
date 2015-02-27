@@ -419,11 +419,18 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int xshift = sx * SEEX;
+    const int yshift = sy * SEEY;
+    position.x -= xshift;
+    position.y -= yshift;
     for (auto &i : plans) {
-        i.x -= sx * SEEX;
-        i.y -= sy * SEEY;
+        i.x -= xshift;
+        i.y -= yshift;
+    }
+
+    if( wandf > 0 ) {
+        wandx -= xshift;
+        wandy -= yshift;
     }
 }
 
