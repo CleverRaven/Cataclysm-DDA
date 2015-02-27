@@ -1323,7 +1323,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     // electric and plasma engines don't require anything special
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if(parts[engines[e]].hp > 0) {
+        if( is_engine_on( e ) ) {
             if( is_engine_type_on(e, fuel_type_gasoline)  ||
                 is_engine_type_on(e, fuel_type_diesel) ) {
                 // Big engines can't be pull-started
@@ -1337,6 +1337,8 @@ void vehicle::start_engine()
             } else if (is_engine_type_on(e, fuel_type_muscle)) {
                 muscle_powered = true;
             }
+        } else if( is_part_on( engines[e] ) ) {
+            failed_start = true;
         }
     }
 
