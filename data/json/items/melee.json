@@ -1350,7 +1350,7 @@
         "name": "television",
         "description": "A large cathode ray tube television, full of delicious electronics.",
         "price": 0,
-        "material": ["plastic", "glass"],
+        "material": "plastic",
         "weight": 22600,
         "volume": 12,
         "bashing": 5,
