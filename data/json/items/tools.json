@@ -4202,6 +4202,10 @@
             "auto_extinguish_chance": 100
         },
         {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
             "type": "knife"
         }
     ]
@@ -4465,6 +4469,10 @@
             "noise_chance": 35
         },
         {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
             "type": "knife"
         }
     ]
@@ -4679,6 +4687,10 @@
             "noise_chance": 35
         },
         {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
             "type": "knife"
         }
     ]
@@ -4755,6 +4767,10 @@
             "charges_extinguish_message": "Thy strength fades!",
             "water_extinguish_message": "Your sword hisses in the water and goes out.",
             "noise_chance": 35
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
         },
         {
             "type": "knife"
@@ -4862,6 +4878,10 @@
             "noise": 10,
             "noise_chance": 25,
             "auto_extinguish_chance": 75
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
         },
         {
             "type": "knife"

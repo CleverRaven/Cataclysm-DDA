@@ -1471,14 +1471,14 @@ iuse_actor *fireweapon_on_actor::clone() const
 long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
 {
     bool extinguish = true;
-    if( !t ) {
-        p->add_msg_if_player( _(voluntary_extinguish_message.c_str()) );
-    } else if( it->charges < it->type->charges_to_use() ) {
+    if( it->charges == 0 ) {
         p->add_msg_if_player( m_bad, _(charges_extinguish_message.c_str()) );
     } else if( p->is_underwater() ) {
         p->add_msg_if_player( m_bad, _(water_extinguish_message.c_str()) );
     } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
         p->add_msg_if_player( m_bad, _(auto_extinguish_message.c_str()) );
+    } else if( !t ) {
+        p->add_msg_if_player( _(voluntary_extinguish_message.c_str()) );
     } else {
         extinguish = false;
     }
