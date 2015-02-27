@@ -73,10 +73,11 @@ monster::monster(mtype *t)
  ammo = t->starting_ammo;
 }
 
-monster::monster(mtype *t, int x, int y)
+monster::monster(mtype *t, const tripoint &p )
 {
- position.x = x;
- position.y = y;
+ position.x = p.x;
+ position.y = p.y;
+ zpos = p.z;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -111,6 +112,7 @@ bool monster::setpos(const int x, const int y)
     bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->levz ) );
     position.x = x;
     position.y = y;
+    zpos = g->levz;
     return ret;
 }
 

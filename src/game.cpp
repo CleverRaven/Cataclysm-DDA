@@ -6627,7 +6627,7 @@ void game::resonance_cascade(int x, int y)
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster(GetMType(spawn_details.name), i, j);
+                invader = monster( GetMType(spawn_details.name), tripoint( i, j, levz ) );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6935,7 +6935,7 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-    monster critter(it->get_mtype(), x, y);
+    monster critter(it->get_mtype(), tripoint( x, y, levz ) );
     critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
