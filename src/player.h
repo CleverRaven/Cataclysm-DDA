@@ -208,33 +208,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness();
 
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait(const std::string &flag) const;
-        /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait(const std::string &flag) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait(const std::string &flag) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait(const std::string &flag) const;
-        /** Returns true if the player has crossed a mutation threshold
-         *  Player can only cross one mutation threshold.
-         */
-        bool crossed_threshold();
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable(const std::string &flag) const;
-        /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec(const std::string &sMut);
-        /** Recalculates mutation_category_level[] values for the player */
-        void set_highest_cat_level();
-        /** Returns the highest mutation category */
-        std::string get_highest_category() const;
-        /** Returns a dream's description selected randomly from the player's highest mutation category */
-        std::string get_category_dream(const std::string &cat, int strength) const;
-
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 

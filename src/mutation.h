@@ -13,9 +13,6 @@ extern std::map<std::string, mutation_type> mut_types;
 extern std::vector<dream> dreams;
 typedef std::pair<body_part, tripoint> mutation_wet;
 
-/** Handles the "replaces" field for mutation_type. */
-void finalize_mut_types();
-
 enum mut_rating {
     mut_good,     // A good mutation.
     mut_bad,      // A bad mutation.
@@ -25,19 +22,21 @@ enum mut_rating {
 
 class mutation_type
 {
-        friend void load_mutation_type(JsonObject &jo);
-        friend void finalize_mut_types();
         friend class mutation;
     public:
-        // --------------- Helpers ---------------
+        // --------------- Loaders ---------------
+        static void load_mutation_type(JsonObject &js);
+        /** Handles the "replaces" field for mutation_type. */
+        static void finalize_mut_types();
         bool load_mod_data(JsonObject &jsobj, std::string member);
         bool load_cost_data(JsonObject &jsobj, std::string member);
         
         // --------------- Other Functions ---------------
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
-    protected:
+
         // --------------- Values ---------------
+    protected:
         /** Mutation id. */
         muttype_id id;
         /** Mutation in-game name. */

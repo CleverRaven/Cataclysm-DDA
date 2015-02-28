@@ -64,7 +64,7 @@ bool mutation_type::load_cost_data(JsonObject &jsobj, std::string member)
     }
 }
 
-void load_mutation_type(JsonObject &js)
+static void muation_type::load_mutation_type(JsonObject &js)
 {
     mutation_type new_mut;
     new_mut.id = jo.get_string("id");
@@ -174,7 +174,7 @@ void load_mutation_type(JsonObject &js)
     mut_types[new_mut.id] = new_mut;
 }
 
-void finalize_mut_types()
+static void mutation_types::finalize_mut_types()
 {
     for (auto &i : mut_types) {
         for (auto &j : i.second.replacements) {
