@@ -757,7 +757,7 @@ bool game::cleanup_at_end()
 
         if (u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1) ||
             u.has_amount("holybook_bible3", 1)) {
-            if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
+            if (!(u.has_mut("CANNIBAL") || u.has_mut("PSYCHOPATH"))) {
                 vRip.push_back("               _______  ___");
                 vRip.push_back("              <       `/   |");
                 vRip.push_back("               >  _     _ (");
@@ -1136,7 +1136,7 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_effect("jetinjector")) {
             if (u.get_effect_dur("jetinjector") > 400) {
-                if (!(u.has_trait("NOPAIN"))) {
+                if (!(u.has_mut("NOPAIN"))) {
                     add_msg(m_bad, _("Your heart spasms painfully and stops."));
                 } else {
                     add_msg(_("Your heart spasms and stops."));
@@ -1146,7 +1146,7 @@ bool game::do_turn()
                 u.hp_cur[hp_torso] = 0;
             }
     } else if (u.has_effect("datura") && u.get_effect_dur("datura") > 14000 && one_in(512)) {
-        if (!(u.has_trait("NOPAIN"))) {
+        if (!(u.has_mut("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
         } else {
             add_msg(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
@@ -1229,75 +1229,75 @@ bool game::do_turn()
     }
 
     if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-        if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
+        if ((!u.has_mut("LIGHTEATER") || !one_in(3)) &&
             (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
-            !(u.has_trait("DEBUG_LS"))) {
+            !(u.has_mut("DEBUG_LS"))) {
             u.hunger++;
-            if (u.has_trait("HUNGER")) {
+            if (u.has_mut("HUNGER")) {
                 if (one_in(2)) {
                     u.hunger++;
                 }
             }
-            if (u.has_trait("MET_RAT")) {
+            if (u.has_mut("MET_RAT")) {
                 if (!one_in(3)) {
                     u.hunger++;
                 }
             }
-            if (u.has_trait("HUNGER2")) {
+            if (u.has_mut("HUNGER2")) {
                 u.hunger++;
             }
-            if (u.has_trait("HUNGER3")) {
+            if (u.has_mut("HUNGER3")) {
                 u.hunger += 2;
             }
         }
         if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
-            (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
-            (!u.has_trait("DEBUG_LS")) ) {
+            (!u.has_mut("PLANTSKIN") || !one_in(5)) &&
+            (!u.has_mut("DEBUG_LS")) ) {
             u.thirst++;
-            if (u.has_trait("THIRST")) {
+            if (u.has_mut("THIRST")) {
                 if (one_in(2)) {
                     u.thirst++;
                 }
             }
-            if (u.has_trait("THIRST2")) {
+            if (u.has_mut("THIRST2")) {
                 u.thirst++;
             }
-            if (u.has_trait("THIRST3")) {
+            if (u.has_mut("THIRST3")) {
                 u.thirst += 2;
             }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !u.in_sleep_state() && !u.has_trait("DEBUG_LS") ) {
+        if (u.fatigue < 1050 && !u.in_sleep_state() && !u.has_mut("DEBUG_LS") ) {
             u.fatigue++;
             // Wakeful folks don't always gain fatigue!
-            if (u.has_trait("WAKEFUL")) {
+            if (u.has_mut("WAKEFUL")) {
                 if (one_in(6)) {
                     u.fatigue--;
                 }
             }
-            if (u.has_trait("WAKEFUL2")) {
+            if (u.has_mut("WAKEFUL2")) {
                 if (one_in(4)) {
                     u.fatigue--;
                 }
             }
             // You're looking at over 24 hours to hit Tired here
-            if (u.has_trait("WAKEFUL3")) {
+            if (u.has_mut("WAKEFUL3")) {
                 if (one_in(2)) {
                     u.fatigue--;
                 }
             }
             // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
-            if (u.has_trait("SLEEPY")) {
+            if (u.has_mut("SLEEPY")) {
                 if (one_in(3)) {
                     u.fatigue++;
                 }
             }
-            if (u.has_trait("MET_RAT")) {
+            if (u.has_mut("MET_RAT")) {
                 if (one_in(2)) {
                     u.fatigue++;
                 }
             }
-            if (u.has_trait("SLEEPY2")) {
+            if (u.has_mut("SLEEPY2")) {
                 u.fatigue++;
             }
         }
@@ -1325,7 +1325,7 @@ bool game::do_turn()
             u.charge_power(25);
         }
         // Huge folks take penalties for cramming themselves in vehicles
-        if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
+        if ((u.has_mut("HUGE") || u.has_mut("HUGE_OK")) && u.in_vehicle) {
             add_msg(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
             u.pain += 2 * rng(2, 3);
             u.focus_pool -= 1;
@@ -1348,16 +1348,16 @@ bool game::do_turn()
             u.pain = 0;
         }
         // Mutation healing effects
-        if (u.has_trait("FASTHEALER2") && one_in(5)) {
+        if (u.has_mut("FASTHEALER2") && one_in(5)) {
             u.healall(1);
         }
-        if (u.has_trait("REGEN") && one_in(2)) {
+        if (u.has_mut("REGEN") && one_in(2)) {
             u.healall(1);
         }
-        if (u.has_trait("ROT2") && one_in(5)) {
+        if (u.has_mut("ROT2") && one_in(5)) {
             u.hurtall(1, nullptr);
         }
-        if (u.has_trait("ROT3") && one_in(2)) {
+        if (u.has_mut("ROT3") && one_in(2)) {
             u.hurtall(1, nullptr);
         }
 
@@ -1366,7 +1366,7 @@ bool game::do_turn()
         }
         u.get_sick();
         // Freakishly Huge folks tire quicker
-        if (u.has_trait("HUGE") && !u.in_sleep_state()) {
+        if (u.has_mut("HUGE") && !u.in_sleep_state()) {
             add_msg(m_info, _("<whew> You catch your breath."));
             u.fatigue++;
         }
@@ -1396,8 +1396,8 @@ bool game::do_turn()
     update_weather();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 100) ||
-        (u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 400)) {
+    if ((!u.has_mut("INCONSPICUOUS") && calendar::turn > nextspawn + 100) ||
+        (u.has_mut("INCONSPICUOUS") && calendar::turn > nextspawn + 400)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -1528,9 +1528,9 @@ void game::rustCheck()
         }
 
         if ((*aSkill)->is_combat_skill() &&
-            ((u.has_trait("PRED2") && one_in(4)) ||
-             (u.has_trait("PRED3") && one_in(2)) ||
-             (u.has_trait("PRED4") && x_in_y(2, 3)))) {
+            ((u.has_mut("PRED2") && one_in(4)) ||
+             (u.has_mut("PRED3") && one_in(2)) ||
+             (u.has_mut("PRED4") && x_in_y(2, 3)))) {
             // Their brain is optimized to remember this
             if (one_in(15600)) {
                 // They've already passed the roll to avoid rust at
@@ -5143,7 +5143,7 @@ void game::draw_HP()
         get_HP_Bar(u.hp_cur[i], u.hp_max[i], color, health_bar);
 
         wmove(w_HP, i * dy + hpy, hpx);
-        if (u.has_trait("SELFAWARE")) {
+        if (u.has_mut("SELFAWARE")) {
             wprintz(w_HP, color, "%3d  ", u.hp_cur[i]);
         } else {
             wprintz(w_HP, color, "%s", health_bar.c_str());
@@ -5682,7 +5682,7 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker.find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
-                if (u.has_trait("M_DEFENDER")) {
+                if (u.has_mut("M_DEFENDER")) {
                     if (critter.type->in_species("PLANT")) {
                         add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                         if (!u.has_effect("adrenaline_mycus")){
@@ -6130,11 +6130,11 @@ void game::flashbang(int x, int y, bool player_immune)
         }
         if (m.sees(u.posx(), u.posy(), x, y, 8, t)) {
             int flash_mod = 0;
-            if (u.has_trait("PER_SLIME")) {
+            if (u.has_mut("PER_SLIME")) {
                 if (one_in(2)) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if (u.has_trait("PER_SLIME_OK")) {
+            } else if (u.has_mut("PER_SLIME_OK")) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
@@ -6181,7 +6181,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx(), u.posy(), x, y) <= radius && !ignore_player &&
-          (!u.has_trait("LEG_TENT_BRACE") || u.footwear_factor() == 1 ||
+          (!u.has_mut("LEG_TENT_BRACE") || u.footwear_factor() == 1 ||
           (u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx(), u.posy(), force, stun, dam_mult);
@@ -6398,7 +6398,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                                 targ->name.c_str());
                     }
                 } else if (u.posx() == traj.front().x && u.posy() == traj.front().y &&
-                           (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
+                           (u.has_mut("LEG_TENT_BRACE") && (!u.footwear_factor() ||
                             (u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
@@ -6509,12 +6509,12 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
 
 void game::use_computer(int x, int y)
 {
-    if (u.has_trait("ILLITERATE")) {
+    if (u.has_mut("ILLITERATE")) {
         add_msg(m_info, _("You can not read a computer screen!"));
         return;
     }
 
-    if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
+    if (u.has_mut("HYPEROPIC") && !u.is_wearing("glasses_reading")
         && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
@@ -10426,10 +10426,10 @@ void game::plthrow(int pos)
     move_cost += 20 * u.encumb(bp_torso);
     move_cost -= dexbonus;
 
-    if (u.has_trait("LIGHT_BONES")) {
+    if (u.has_mut("LIGHT_BONES")) {
         move_cost *= .9;
     }
-    if (u.has_trait("HOLLOW_BONES")) {
+    if (u.has_mut("HOLLOW_BONES")) {
         move_cost *= .8;
     }
 
@@ -11668,7 +11668,7 @@ bool game::plmove(int dx, int dy)
             case fd_fungal_haze:
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
                               (u.get_env_resist(bp_eyes) >= 15) ) &&
-                              !u.has_trait("M_IMMUNE"));
+                              !u.has_mut("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur.is_dangerous();
@@ -11941,8 +11941,8 @@ bool game::plmove(int dx, int dy)
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
         u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
         u.recoil = int(u.recoil / 2);
-        if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
-            ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    )) {
+        if ((!u.has_mut("PARKOUR") && m.move_cost(x, y) > 2) ||
+            ( u.has_mut("PARKOUR") && m.move_cost(x, y) > 4    )) {
             if (veh1 && m.move_cost(x, y) != 2) {
                 add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
             } else {
@@ -11978,7 +11978,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
-            (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
+            (!u.in_vehicle) && (!u.has_mut("PARKOUR") || one_in(4)) ) {
             bool ter_or_furn = m.has_flag_ter( "SHARP", x, y );
             body_part bp = random_body_part();
             if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
@@ -11986,9 +11986,9 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                         body_part_name_accusative(bp).c_str(),
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
-                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                if ((u.has_mut("INFRESIST")) && (one_in(1024))) {
                 u.add_effect("tetanus", 1, num_bp, true);
-                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                } else if ((!u.has_mut("INFIMMUNE") || !u.has_mut("INFRESIST")) && (one_in(256))) {
                   u.add_effect("tetanus", 1, num_bp, true);
                  }
             }
@@ -11998,7 +11998,7 @@ bool game::plmove(int dx, int dy)
         } else if (u.has_effect("bouldering")) {
             u.remove_effect("bouldering");
         }
-        if (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
+        if (u.has_mut("LEG_TENT_BRACE") && (!u.footwear_factor() ||
                                                  (u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
@@ -12009,11 +12009,11 @@ bool game::plmove(int dx, int dy)
                 u.fatigue++;
             }
         }
-        if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
-            !u.has_trait("DEBUG_SILENT")) {
-            if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
+        if (!u.has_artifact_with(AEP_STEALTH) && !u.has_mut("LEG_TENTACLES") &&
+            !u.has_mut("DEBUG_SILENT")) {
+            if (u.has_mut("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
                 sounds::sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
-            } else if (u.has_trait("CLUMSY")) {
+            } else if (u.has_mut("CLUMSY")) {
                 sounds::sound(x, y, 10, "");
             } else if (u.has_bionic("bio_ankles")) {
                 sounds::sound(x, y, 12, "");
@@ -12433,7 +12433,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         if( p != nullptr ) {
             int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
-            if (p->has_trait("PARKOUR")) {
+            if (p->has_mut("PARKOUR")) {
                 dam1 /= 2;
             }
             if (dam1 > 0) {
@@ -12590,7 +12590,7 @@ void game::vertical_move(int movez, bool force)
                 if (tmpmap.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
                     return;
-                } else if (u.has_trait("WEB_RAPPEL")) {
+                } else if (u.has_mut("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
                         if ((rng(4, 8)) < (u.skillLevel("dodge"))) {
@@ -12601,9 +12601,9 @@ void game::vertical_move(int movez, bool force)
                     } else {
                         return;
                     }
-                } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+                } else if (u.has_mut("VINES2") || u.has_mut("VINES3")) {
                     if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
-                        if (u.has_trait("VINES2")) {
+                        if (u.has_mut("VINES2")) {
                             if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))) {
                                 rope_ladder = true;
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
@@ -12730,7 +12730,7 @@ void game::vertical_move(int movez, bool force)
     m.spawn_monsters( true );
 
     if (force) { // Basically, we fell.
-        if ((u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY")))) {
+        if ((u.has_mut("WINGS_BIRD")) || ((one_in(2)) && (u.has_mut("WINGS_BUTTERFLY")))) {
             add_msg(_("You flap your wings and flutter down gracefully."));
         } else {
             int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
@@ -13017,7 +13017,7 @@ void game::update_stair_monsters()
                         if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) &&
                             critter.can_move_to(iposx, iposy)) {
                             bool resiststhrow = (u.is_throw_immune()) ||
-                                                (u.has_trait("LEG_TENT_BRACE"));
+                                                (u.has_mut("LEG_TENT_BRACE"));
                             if (resiststhrow && one_in(player_throw_resist_chance)) {
                                 u.moves -= 25; // small charge for avoiding the push altogether
                                 add_msg(_("The %s fails to push you back!"),

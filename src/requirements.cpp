@@ -351,7 +351,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
     if( type == "rope_30" || type == "rope_6" ) {
         // NPC don't craft?
         // TODO: what about the amount of ropes vs the hunger?
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_mut( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
             return true;
         }
     }
@@ -366,7 +366,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( type == "rope_30" || type == "rope_6" ) {
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_mut( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
             return "ltgreen"; // Show that WEB_ROPE is on the job!
         }
     }

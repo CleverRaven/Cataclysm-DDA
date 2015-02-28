@@ -806,7 +806,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_OLD_GUARD_REP:
             // The rep should know whether you're a sworn officer.
             // TODO: wearing the badge w/o the trait => Bad Idea
-            if (g->u.has_trait("PROF_FED")) {
+            if (g->u.has_mut("PROF_FED")) {
                 return _("Marshal...");
             }
             return _("Citizen...");
@@ -2691,19 +2691,19 @@ int trial_chance(talk_response response, player *u, npc *p)
    break;
   case TALK_TRIAL_LIE:
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
-   if (u->has_trait("TRUTHTELLER")) {
+   if (u->has_mut("TRUTHTELLER")) {
       chance -= 40;
    }
-   if (u->has_trait("TAIL_FLUFFY")) {
+   if (u->has_mut("TAIL_FLUFFY")) {
       chance -= 20;
    }
-   else if (u->has_trait("LIAR")) {
+   else if (u->has_mut("LIAR")) {
       chance += 40;
    }
-   if (u->has_trait("ELFAEYES")) {
+   if (u->has_mut("ELFAEYES")) {
       chance += 10;
    }
-   if ((u->has_trait("WINGS_BUTTERFLY")) || (u->has_trait("FLOWERS"))) {
+   if ((u->has_mut("WINGS_BUTTERFLY")) || (u->has_mut("FLOWERS"))) {
       chance += 10;
    }
    if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
@@ -2717,25 +2717,25 @@ int trial_chance(talk_response response, player *u, npc *p)
   case TALK_TRIAL_PERSUADE:
    chance += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
-   if (u->has_trait("ELFAEYES")) {
+   if (u->has_mut("ELFAEYES")) {
       chance += 20;
    }
-   if (u->has_trait("TAIL_FLUFFY")) {
+   if (u->has_mut("TAIL_FLUFFY")) {
       chance += 10;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if (u->has_mut("WINGS_BUTTERFLY")) {
       chance += 15; // Flutter your wings at 'em
    }
    if (u->has_bionic("bio_face_mask")) {
       chance += 10;
    }
-   if (u->has_trait("GROWL")) {
+   if (u->has_mut("GROWL")) {
       chance -= 25;
    }
-   if (u->has_trait("HISS")) {
+   if (u->has_mut("HISS")) {
       chance -= 25;
    }
-   if (u->has_trait("SNARL")) {
+   if (u->has_mut("SNARL")) {
       chance -= 60;
    }
    if (u->has_bionic("bio_deformity")) {
@@ -2749,36 +2749,36 @@ int trial_chance(talk_response response, player *u, npc *p)
   case TALK_TRIAL_INTIMIDATE:
    chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
-   if (u->has_trait("MINOTAUR")) {
+   if (u->has_mut("MINOTAUR")) {
       chance += 15;
    }
-   if (u->has_trait("MUZZLE")) {
+   if (u->has_mut("MUZZLE")) {
       chance += 6;
    }
-   if (u->has_trait("MUZZLE_LONG")) {
+   if (u->has_mut("MUZZLE_LONG")) {
       chance += 20;
    }
-   if (u->has_trait("SABER_TEETH")) {
+   if (u->has_mut("SABER_TEETH")) {
       chance += 15;
    }
-   if (u->has_trait("TERRIFYING")) {
+   if (u->has_mut("TERRIFYING")) {
       chance += 15;
    }
-   if (u->has_trait("ELFAEYES")) {
+   if (u->has_mut("ELFAEYES")) {
       chance += 10;
    }
- //if (p->has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
+ //if (p->has_mut("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
  // chance -= 15;
-   if (u->has_trait("GROWL")) {
+   if (u->has_mut("GROWL")) {
       chance += 15;
    }
-   if (u->has_trait("HISS")) {
+   if (u->has_mut("HISS")) {
       chance += 15;
    }
-   if (u->has_trait("SNARL")) {
+   if (u->has_mut("SNARL")) {
       chance += 30;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if (u->has_mut("WINGS_BUTTERFLY")) {
       chance -= 20; // Butterflies are not terribly threatening.  :-(
    }
    if (u->has_bionic("bio_face_mask")) {

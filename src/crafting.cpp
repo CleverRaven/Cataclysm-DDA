@@ -1413,7 +1413,7 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
+    if( has_mut("HYPEROPIC") && !is_wearing("glasses_reading") &&
         !is_wearing("glasses_bifocal") && !has_effect("contacts") ) {
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
@@ -1426,9 +1426,9 @@ void player::complete_craft()
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if (has_trait("PAWS") || has_trait("PAWS_LARGE")) {
+    if (has_mut("PAWS") || has_mut("PAWS_LARGE")) {
         int paws_rank_penalty = 0;
-        if (has_trait("PAWS_LARGE")) {
+        if (has_mut("PAWS_LARGE")) {
             paws_rank_penalty += 1;
         }
         if (making->skill_used == Skill::skill("electronics")) {
@@ -1677,7 +1677,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
         // unlike with tools, it's a bad thing if there aren't any components available
         if (options.empty()) {
-            if (!(has_trait("WEB_ROPE"))) {
+            if (!(has_mut("WEB_ROPE"))) {
                 debugmsg("Attempted a recipe with no available components!");
             }
             return ret;

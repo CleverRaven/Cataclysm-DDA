@@ -78,8 +78,8 @@ bool trap::detect_trap(const player &p, int x, int y) const
            // ...malus farther we are from trap...
            rl_dist(p.pos(), point(x, y)) +
            // Police are trained to notice Something Wrong.
-           (p.has_trait("PROF_POLICE") ? 1 : 0) +
-           (p.has_trait("PROF_PD_DET") ? 2 : 0) >
+           (p.has_mut("PROF_POLICE") ? 1 : 0) +
+           (p.has_mut("PROF_PD_DET") ? 2 : 0) >
            // ...must all be greater than the trap visibility.
            visibility;
 }

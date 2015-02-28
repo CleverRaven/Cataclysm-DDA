@@ -640,7 +640,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
         if (food_item->corpse != NULL && ( debug == true || ( g != NULL &&
-             ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
+             ( g->u.has_bionic("bio_scent_vision") || g->u.has_mut("CARNIVORE") ||
                g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) ) ) {
             dump->push_back(iteminfo("FOOD", _("Smells like: ") + food_item->corpse->nname()));
         }
@@ -1388,7 +1388,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 if(g->u.has_bionic("bio_digestion")) {
                     dump->push_back(iteminfo("DESCRIPTION",
                         _("This food has started to rot, but your bionic digestion can tolerate it.")));
-                } else if(g->u.has_trait("SAPROVORE")) {
+                } else if(g->u.has_mut("SAPROVORE")) {
                     dump->push_back(iteminfo("DESCRIPTION",
                         _("This food has started to rot, but you can tolerate it.")));
                 } else {
@@ -4610,9 +4610,9 @@ bool item::process_litcig( player *carrier, point pos )
         // only puff every other turn
         if( item_counter % 2 == 0 ) {
             int duration = 10;
-            if( carrier->has_trait( "TOLERANCE" ) ) {
+            if( carrier->has_mut( "TOLERANCE" ) ) {
                 duration = 5;
-            } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
+            } else if( carrier->has_mut( "LIGHTWEIGHT" ) ) {
                 duration = 20;
             }
             carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
@@ -4626,7 +4626,7 @@ bool item::process_litcig( player *carrier, point pos )
         }
 
         if( ( carrier->has_effect( "shakes" ) && one_in( 10 ) ) ||
-            ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
+            ( carrier->has_mut( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
             g->m.add_item_or_charges( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), *this, 2 );

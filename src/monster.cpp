@@ -521,21 +521,21 @@ monster_attitude monster::attitude(player *u) const
     int effective_morale = morale;
 
     if (u != NULL) {
-        if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
-             (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
+        if (((type->in_species("MAMMAL") && u->has_mut("PHEROMONE_MAMMAL")) ||
+             (type->in_species("INSECT") && u->has_mut("PHEROMONE_INSECT"))) &&
             effective_anger >= 10) {
             effective_anger -= 20;
         }
 
-        if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+        if ( (type->id == "mon_bee") && (u->has_mut("FLOWERS"))) {
             effective_anger -= 10;
         }
 
-        if (u->has_trait("TERRIFYING")) {
+        if (u->has_mut("TERRIFYING")) {
             effective_morale -= 10;
         }
 
-        if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
+        if (u->has_mut("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
             if (effective_anger >= 10) {
                 effective_anger -= 10;
             }
@@ -543,7 +543,7 @@ monster_attitude monster::attitude(player *u) const
                 effective_morale += 5;
             }
         }
-        if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
+        if (u->has_mut("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
             if (effective_anger >= 10) {
                 effective_anger += 10;
             }
@@ -1278,7 +1278,7 @@ void monster::die(Creature* nkiller) {
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+        if( has_flag( MF_GUILT ) || ( ch->has_mut( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt(this);
         }

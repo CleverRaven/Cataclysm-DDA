@@ -173,7 +173,7 @@ int player::create(character_type type, std::string tempname)
                     do {
                         rn = random_bad_trait();
                         tries++;
-                    } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) &&
+                    } while ((has_mut(rn) || num_btraits - traits[rn].points > max_trait_points) &&
                              tries < 5);
 
                     if (tries < 5 && !has_conflicting_trait(rn)) {
@@ -220,7 +220,7 @@ int player::create(character_type type, std::string tempname)
                 case 3:
                 case 4:
                     rn = random_good_trait();
-                    if (!has_trait(rn) && points >= traits[rn].points &&
+                    if (!has_mut(rn) && points >= traits[rn].points &&
                         num_gtraits + traits[rn].points <= max_trait_points &&
                         !has_conflicting_trait(rn)) {
                         toggle_trait(rn);
@@ -349,10 +349,10 @@ int player::create(character_type type, std::string tempname)
         hp_cur[i] = hp_max[i];
     }
 
-    if (has_trait("SMELLY")) {
+    if (has_mut("SMELLY")) {
         scent = 800;
     }
-    if (has_trait("WEAKSCENT")) {
+    if (has_mut("WEAKSCENT")) {
         scent = 300;
     }
 
@@ -366,15 +366,15 @@ int player::create(character_type type, std::string tempname)
     auto prof_items = g->u.prof->items( g->u.male );
 
     // Those who are both near-sighted and far-sighted start with bifocal glasses.
-    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
+    if (has_mut("HYPEROPIC") && has_mut("MYOPIC")) {
         prof_items.push_back("glasses_bifocal");
     }
     // The near-sighted start with eyeglasses.
-    else if (has_trait("MYOPIC")) {
+    else if (has_mut("MYOPIC")) {
         prof_items.push_back("glasses_eye");
     }
     // The far-sighted start with reading glasses.
-    else if (has_trait("HYPEROPIC")) {
+    else if (has_mut("HYPEROPIC")) {
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
@@ -465,13 +465,13 @@ int player::create(character_type type, std::string tempname)
     }
     
     // Likewise, the asthmatic start with their medication.
-    if (has_trait("ASTHMA")) {
+    if (has_mut("ASTHMA")) {
         tmp = item("inhaler", 0, false);
         inv.push_back(tmp);
     }
 
     // And cannibals start with a special cookbook.
-    if (has_trait("CANNIBAL")) {
+    if (has_mut("CANNIBAL")) {
         tmp = item("cookbook_human", 0);
         inv.push_back(tmp);
     }
@@ -479,7 +479,7 @@ int player::create(character_type type, std::string tempname)
     // Albinoes have their umbrella handy.
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
-    if (has_trait("ALBINO")) {
+    if (has_mut("ALBINO")) {
         tmp = item("teleumbrella", 0);
         inv.push_back(tmp);
     }
@@ -767,13 +767,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             if( traits_iter.second.points >= 0 ) {
                 vStartingTraits[0].push_back( traits_iter.first );
 
-                if( u->has_trait( traits_iter.first ) ) {
+                if( u->has_mut( traits_iter.first ) ) {
                     num_good += traits_iter.second.points;
                 }
             } else {
                 vStartingTraits[1].push_back( traits_iter.first );
 
-                if( u->has_trait( traits_iter.first ) ) {
+                if( u->has_mut( traits_iter.first ) ) {
                     num_bad += traits_iter.second.points;
                 }
             }
@@ -867,18 +867,18 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                             cLine = hi_off;
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hilite(c_dkgray);
-                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                            } else if (u->has_mut(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hi_on;
                             }
                         } else {
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = c_dkgray;
 
-                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                            } else if (u->has_mut(vStartingTraits[iCurrentPage][i])) {
                                 cLine = col_on_act;
                             }
                         }
-                    } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                    } else if (u->has_mut(vStartingTraits[iCurrentPage][i])) {
                         cLine = col_on_pas;
 
                     } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
@@ -927,7 +927,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "CONFIRM") {
             int inc_type = 0;
             std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
-            if (u->has_trait(cur_trait)) {
+            if (u->has_mut(cur_trait)) {
 
                 inc_type = -1;
                 // If turning off the trait violates a profession condition,
@@ -1873,7 +1873,7 @@ std::vector<std::string> Character::get_mutations() const
 void Character::empty_traits()
 {
     for( auto &traits_iter : traits ) {
-        if( has_trait( traits_iter.first ) ) {
+        if( has_mut( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }
     }

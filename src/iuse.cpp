@@ -354,7 +354,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
             int current_hp = p->hp_cur[i];
             if (current_hp != 0) {
                 get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
-                if (p->has_trait("SELFAWARE")) {
+                if (p->has_mut("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
                 } else {
                     mvwprintz(hp_window, i + 2, 15, color, health_bar.c_str());
@@ -382,7 +382,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                     current_hp = 0;
                 }
                 get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
-                if (p->has_trait("SELFAWARE")) {
+                if (p->has_mut("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
                 } else {
                     mvwprintz(hp_window, i + 2, 24, color, health_bar.c_str());
@@ -650,21 +650,21 @@ int iuse::atomic_caff(player *p, item *it, bool, point)
 int iuse::raw_meat(player *p, item *it, bool, point)
 {
     if ((one_in(32)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
+                          p->has_mut("PARAIMMUNE") ||
                           // Hyper-Metabolism digests the thing before it can set up shop.
-                          p->has_trait("EATHEALTH"))) {
+                          p->has_mut("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(64)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE"))) {
+                          p->has_mut("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("brainworm", 1, num_bp, true);
     }
     if ((one_in(64)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE"))) {
+                          p->has_mut("PARAIMMUNE"))) {
         p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -673,16 +673,16 @@ int iuse::raw_meat(player *p, item *it, bool, point)
 int iuse::raw_fat(player *p, item *it, bool, point)
 {
     if ((one_in(64)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
-                          p->has_trait("EATHEALTH"))) {
+                          p->has_mut("PARAIMMUNE") ||
+                          p->has_mut("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("brainworm", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -691,7 +691,7 @@ int iuse::raw_fat(player *p, item *it, bool, point)
 int iuse::raw_bone(player *p, item *it, bool, point)
 {
     if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -700,20 +700,20 @@ int iuse::raw_bone(player *p, item *it, bool, point)
 int iuse::raw_fish(player *p, item *it, bool, point)
 {
     if ((one_in(256)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
+                           p->has_mut("PARAIMMUNE") ||
+                           p->has_mut("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("brainworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -722,20 +722,20 @@ int iuse::raw_fish(player *p, item *it, bool, point)
 int iuse::raw_wildveg(player *p, item *it, bool, point)
 {
     if ((one_in(512)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
+                           p->has_mut("PARAIMMUNE") ||
+                           p->has_mut("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(512)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("brainworm", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_mut("PARAIMMUNE"))) {
         p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -745,7 +745,7 @@ int iuse::alcohol(player *p, item *it, bool, point)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
     it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
+    if (p->has_mut("ALCMET")) {
         duration = 180 - (10 * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
@@ -755,12 +755,12 @@ int iuse::alcohol(player *p, item *it, bool, point)
         if ((food->stim) < 0) {
             p->stim += (abs(food->stim));
         }
-    } else if (p->has_trait("TOLERANCE")) {
+    } else if (p->has_mut("TOLERANCE")) {
         duration -= 300;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
+    } else if (p->has_mut("LIGHTWEIGHT")) {
         duration += 300;
     }
-    if (!(p->has_trait("ALCMET"))) {
+    if (!(p->has_mut("ALCMET"))) {
         p->pkill += 8;
     }
     p->add_effect("drunk", duration);
@@ -771,19 +771,19 @@ int iuse::alcohol_weak(player *p, item *it, bool, point)
 {
     int duration = 340 - (6 * p->str_max);
     it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
+    if (p->has_mut("ALCMET")) {
         duration = 90 - (6 * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
         p->stim += (abs(food->stim));
-    } else if (p->has_trait("TOLERANCE")) {
+    } else if (p->has_mut("TOLERANCE")) {
         duration -= 120;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
+    } else if (p->has_mut("LIGHTWEIGHT")) {
         duration += 120;
     }
-    if (!(p->has_trait("ALCMET"))) {
+    if (!(p->has_mut("ALCMET"))) {
         p->pkill += 4;
     }
     p->add_effect("drunk", duration);
@@ -794,7 +794,7 @@ int iuse::alcohol_strong(player *p, item *it, bool, point)
 {
     int duration = 900 - (12 * p->str_max);
     it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
+    if (p->has_mut("ALCMET")) {
         duration = 250 - (10 * p->str_max);
         // Metabolizing the booze improves the nutritional
         // value; might not be healthy, and still
@@ -806,12 +806,12 @@ int iuse::alcohol_strong(player *p, item *it, bool, point)
         if ((food->stim) < 0) {
             p->stim += (abs(food->stim));
         }
-    } else if (p->has_trait("TOLERANCE")) {
+    } else if (p->has_mut("TOLERANCE")) {
         duration -= 450;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
+    } else if (p->has_mut("LIGHTWEIGHT")) {
         duration += 450;
     }
-    if (!(p->has_trait("ALCMET"))) {
+    if (!(p->has_mut("ALCMET"))) {
         p->pkill += 12;
     }
     p->add_effect("drunk", duration);
@@ -895,9 +895,9 @@ int iuse::smoking_pipe(player *p, item *it, bool, point)
             p->pkill *= 2;
         }
         int duration = 90;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_mut("TOLERANCE")) {
             duration = 60;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_mut("LIGHTWEIGHT")) {
             duration = 120;
         }
         p->add_effect("weed_high", duration);
@@ -1152,7 +1152,7 @@ int iuse::antiparasitic(player *p, item *it, bool, point)
     if (p->has_effect("tapeworm")) {
         p->remove_effect("tapeworm");
         p->hunger--;  // You just digested the tapeworm.
-        if (p->has_trait("NOPAIN")) {
+        if (p->has_mut("NOPAIN")) {
             p->add_msg_if_player(m_good, _("Your bowels clench as something inside them dies."));
         } else {
             p->add_msg_if_player(m_mixed, _("Your bowels spasm painfully as something inside them dies."));
@@ -1165,7 +1165,7 @@ int iuse::antiparasitic(player *p, item *it, bool, point)
     }
     if (p->has_effect("brainworm")) {
         p->remove_effect("brainworm");
-        if (p->has_trait("NOPAIN")) {
+        if (p->has_mut("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The pressure inside your head feels better already."));
         } else {
             p->add_msg_if_player(m_mixed,
@@ -1175,7 +1175,7 @@ int iuse::antiparasitic(player *p, item *it, bool, point)
     }
     if (p->has_effect("paincysts")) {
         p->remove_effect("paincysts");
-        if (p->has_trait("NOPAIN")) {
+        if (p->has_mut("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The stiffness in your joints goes away."));
         } else {
             p->add_msg_if_player(m_good, _("The pain in your joints goes away."));
@@ -1188,10 +1188,10 @@ int iuse::anticonvulsant(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
     int duration = 4800 - p->str_cur * rng(0, 100);
-    if (p->has_trait("TOLERANCE")) {
+    if (p->has_mut("TOLERANCE")) {
         duration -= 600;
     }
-    if (p->has_trait("LIGHTWEIGHT")) {
+    if (p->has_mut("LIGHTWEIGHT")) {
         duration += 1200;
     }
     p->add_effect("valium", duration);
@@ -1207,10 +1207,10 @@ int iuse::weed_brownie(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You scarf down the delicious brownie. It tastes a little funny though..."));
     int duration = 120;
-    if (p->has_trait("TOLERANCE")) {
+    if (p->has_mut("TOLERANCE")) {
         duration = 90;
     }
-    if (p->has_trait("LIGHTWEIGHT")) {
+    if (p->has_mut("LIGHTWEIGHT")) {
         duration = 150;
     }
     p->hunger += 2;
@@ -1231,10 +1231,10 @@ int iuse::coke(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You snort a bump of coke."));
     int duration = 21 - p->str_cur + rng(0, 10);
-    if (p->has_trait("TOLERANCE")) {
+    if (p->has_mut("TOLERANCE")) {
         duration -= 10; // Symmetry would cause problems :-/
     }
-    if (p->has_trait("LIGHTWEIGHT")) {
+    if (p->has_mut("LIGHTWEIGHT")) {
         duration += 20;
     }
     p->hunger -= 8;
@@ -1249,9 +1249,9 @@ int iuse::grack(player *p, item *it, bool, point)
         p->add_msg_if_player(m_neutral, _("You smoke some Grack Cocaine."));
         p->add_msg_if_player(m_good, _("Time seems to stop."));
         int duration = 1000;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_mut("TOLERANCE")) {
             duration -= 10;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_mut("LIGHTWEIGHT")) {
             duration += 10;
         }
         p->hunger -= 10;
@@ -1268,10 +1268,10 @@ int iuse::meth(player *p, item *it, bool, point)
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
         p->add_msg_if_player(m_good, _("The world seems to sharpen."));
         p->fatigue -= 375;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_mut("TOLERANCE")) {
             duration *= 1.2;
         } else {
-            duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+            duration *= (p->has_mut("LIGHTWEIGHT") ? 1.8 : 1.5);
         }
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
@@ -1323,9 +1323,9 @@ int iuse::flu_vaccine(player *p, item *it, bool, point)
 
 int iuse::poison(player *p, item *it, bool, point)
 {
-    if ((p->has_trait("EATDEAD"))) {
+    if ((p->has_mut("EATDEAD"))) {
         return it->type->charges_to_use();
-    } else if ((p->has_trait("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
+    } else if ((p->has_mut("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
         return it->type->charges_to_use();
     }
     p->add_effect("poison", 600);
@@ -1343,7 +1343,7 @@ int iuse::fun_hallu(player *p, item *it, bool, point)
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
 
    //Fake a normal food morale effect
-    if (p->has_trait("SPIRITUAL")) {
+    if (p->has_mut("SPIRITUAL")) {
         p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
     } else {
             p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
@@ -1356,7 +1356,7 @@ int iuse::fun_hallu(player *p, item *it, bool, point)
 
 int iuse::meditate(player *p, item *it, bool, point)
 {
-    if (p->has_trait("SPIRITUAL")) {
+    if (p->has_mut("SPIRITUAL")) {
         p->moves -= 2000;
         p->add_msg_if_player(m_good, _("You pause to engage in spiritual contemplation."));
         p->add_morale(MORALE_FEELING_GOOD, 5, 10);
@@ -1418,7 +1418,7 @@ int iuse::datura(player *p, item *it, bool, point)
 {
     p->add_effect("datura", rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
-    if (p->has_trait("SPIRITUAL")) {
+    if (p->has_mut("SPIRITUAL")) {
         p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
     }
     return it->type->charges_to_use();
@@ -1489,9 +1489,9 @@ int iuse::blech(player *p, item *it, bool, point)
 
 int iuse::plantblech(player *p, item *it, bool, point pos)
 {
-    if (p->has_trait("THRESH_PLANT")) {
+    if (p->has_mut("THRESH_PLANT")) {
         double multiplier = -1;
-        if (p->has_trait("CHLOROMORPH")) {
+        if (p->has_mut("CHLOROMORPH")) {
             multiplier = -3;
             p->add_msg_if_player(m_good, _("The meal is revitalizing."));
         } else{
@@ -1524,7 +1524,7 @@ static int marloss_reject_mutagen( player *p, item *it )
       (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
         return 0;
     }
-    if (p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s burns white-hot inside you, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
         p->mod_pain(35);
@@ -1540,10 +1540,10 @@ static int marloss_reject_mutagen( player *p, item *it )
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") ||
-            p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM") ) {
+        if( p->has_mut("M_SPORES") || p->has_mut("M_FERTILE") ||
+            p->has_mut("M_BLOSSOMS") || p->has_mut("M_BLOOM") ) {
             p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
             g->m.ter_set(p->posx(), p->posy(), t_fungus);
             p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
@@ -1563,7 +1563,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
     if( it->type->can_use( "MYCUS" ) ) {
         return 0;
     }
-    if (p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s sears your insides white-hot, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
         p->mod_pain(55);
@@ -1588,10 +1588,10 @@ static int marloss_reject_mut_iv( player *p, item *it )
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") ||
-            p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM") ) {
+        if( p->has_mut("M_SPORES") || p->has_mut("M_FERTILE") ||
+            p->has_mut("M_BLOSSOMS") || p->has_mut("M_BLOOM") ) {
             p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
             g->m.ter_set(p->posx(), p->posy(), t_fungus);
             p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
@@ -1607,13 +1607,13 @@ static int marloss_reject_mut_iv( player *p, item *it )
 
 int iuse::mutagen(player *p, item *it, bool, point)
 {
-    if (p->has_trait("MUTAGEN_AVOID")) {
+    if (p->has_mut("MUTAGEN_AVOID")) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not drinking that chemical stuff."));
         return 0;
     }
 
-    if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
+    if (!p->is_npc() && !(p->has_mut("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Consumed mutagen."),
                             pgettext("memorial_female", "Consumed mutagen."));
     }
@@ -1622,7 +1622,7 @@ int iuse::mutagen(player *p, item *it, bool, point)
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait("MUT_JUNKIE")) {
+    if (p->has_mut("MUT_JUNKIE")) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
@@ -1751,13 +1751,13 @@ int iuse::mutagen(player *p, item *it, bool, point)
 
 int iuse::mut_iv(player *p, item *it, bool, point)
 {
-    if (p->has_trait("MUTAGEN_AVOID")) {
+    if (p->has_mut("MUTAGEN_AVOID")) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not injecting that chemical stuff."));
         return 0;
     }
 
-    if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
+    if (!p->is_npc() && !(p->has_mut("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
                             pgettext("memorial_female", "Injected mutagen."));
     }
@@ -1766,7 +1766,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait("MUT_JUNKIE")) {
+    if (p->has_mut("MUT_JUNKIE")) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 10, 100);
     }
@@ -1775,10 +1775,10 @@ int iuse::mut_iv(player *p, item *it, bool, point)
         // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
         // 6-16 Pain per shot and potential knockdown/KO.
         mutation_category = "";
-        if (p->has_trait("MUT_JUNKIE")) {
+        if (p->has_mut("MUT_JUNKIE")) {
             p->add_msg_if_player(m_good, _("Oh, yeah! That's the stuff!"));
             sounds::sound(p->posx(), p->posy(), 15 + 3 * p->str_cur, _("YES! YES! YESSS!!!"));
-        } else if (p->has_trait("NOPAIN")) {
+        } else if (p->has_mut("NOPAIN")) {
             p->add_msg_if_player(_("You inject yourself."));
         } else {
             p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
@@ -1850,9 +1850,9 @@ int iuse::mut_iv(player *p, item *it, bool, point)
     } else if (it->has_flag("MUTAGEN_MEDICAL")) {
         // 2-6 pain, same as Alpha--since specifically intended for medical applications.
         mutation_category = "MUTCAT_MEDICAL";
-        if (p->has_trait("MUT_JUNKIE")) {
+        if (p->has_mut("MUT_JUNKIE")) {
             p->add_msg_if_player(_("Ahh, there it is. You can feel the mutagen again."));
-        } else if (!(p->has_trait("MUT_JUNKIE"))) {
+        } else if (!(p->has_mut("MUT_JUNKIE"))) {
             p->add_msg_if_player(
                 _("You can feel the blood in your medication stream. It's a strange feeling."));
         }
@@ -1886,7 +1886,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
         p->fatigue += 20;
         p->thirst += 20;
         p->mutate_category("MUTCAT_CHIMERA");
-        if (!(p->has_trait("NOPAIN"))) {
+        if (!(p->has_mut("NOPAIN"))) {
             p->mod_pain(20);
             sounds::sound(p->posx(), p->posy(), 25 + 3 * p->str_cur, _("You roar in agony!!"));
             p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
@@ -1924,9 +1924,9 @@ int iuse::mut_iv(player *p, item *it, bool, point)
             p->add_msg_if_player(_("Mmm...the *special* venom."));
             mutation_category = "MUTCAT_SPIDER";
         } else if (it->has_flag("MUTAGEN_SLIME")) {
-            if (p->has_trait("MUT_JUNKIE")) {
+            if (p->has_mut("MUT_JUNKIE")) {
                 p->add_msg_if_player(_("Maybe if you drank enough, you'd become mutagen..."));
-            } else if (!(p->has_trait("MUT_JUNKIE"))) {
+            } else if (!(p->has_mut("MUT_JUNKIE"))) {
                 p->add_msg_if_player(_("This stuff takes you back. Downright primordial!"));
             }
             mutation_category = "MUTCAT_SLIME";
@@ -2069,7 +2069,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                 } else if (mutation_category == "MUTCAT_URSINE") {
                     p->toggle_mutation("THRESH_URSINE");
                     // Manually removing Carnivore, since it tends to creep in
-                    if (p->has_trait("CARNIVORE")) {
+                    if (p->has_mut("CARNIVORE")) {
                         p->toggle_mutation("CARNIVORE");
                         p->add_msg_if_player(_("Your appetite for blood fades."));
                     }
@@ -2131,7 +2131,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
             } else if (p->mutation_category_level[primary] > 100) {
                 //~NOPAIN is a post-Threshold trait, so you shouldn't
                 //~legitimately have it and get here!
-                if (p->has_trait("NOPAIN")) {
+                if (p->has_mut("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
@@ -2139,7 +2139,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                     p->add_effect("stunned", rng(3, 5));
                 }
             } else if (p->mutation_category_level[primary] > 80) {
-                if (p->has_trait("NOPAIN")) {
+                if (p->has_mut("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel very Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
@@ -2147,7 +2147,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                     p->add_effect("stunned", rng(2, 4));
                 }
             } else if (p->mutation_category_level[primary] > 60) {
-                if (p->has_trait("NOPAIN")) {
+                if (p->has_mut("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
@@ -2161,13 +2161,13 @@ int iuse::mut_iv(player *p, item *it, bool, point)
 
 int iuse::purifier(player *p, item *it, bool, point)
 {
-    if (p->has_trait("MUTAGEN_AVOID")) {
+    if (p->has_mut("MUTAGEN_AVOID")) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not drinking that chemical stuff."));
         return 0;
     }
 
-    if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
+    if (!p->is_npc() && !(p->has_mut("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Consumed purifier."),
                             pgettext("memorial_female", "Consumed purifier."));
     }
@@ -2178,7 +2178,7 @@ int iuse::purifier(player *p, item *it, bool, point)
 
     std::vector<std::string> valid; // Which flags the player has
     for( auto &traits_iter : traits ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+        if( p->has_mut( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
         }
@@ -2205,13 +2205,13 @@ int iuse::purifier(player *p, item *it, bool, point)
 
 int iuse::purify_iv(player *p, item *it, bool, point)
 {
-    if (p->has_trait("MUTAGEN_AVOID")) {
+    if (p->has_mut("MUTAGEN_AVOID")) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not injecting that chemical stuff."));
         return 0;
     }
 
-    if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
+    if (!p->is_npc() && !(p->has_mut("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected purifier."),
                             pgettext("memorial_female", "Injected purifier."));
     }
@@ -2222,7 +2222,7 @@ int iuse::purify_iv(player *p, item *it, bool, point)
 
     std::vector<std::string> valid; // Which flags the player has
     for( auto &traits_iter : traits ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+        if( p->has_mut( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
         }
@@ -2244,7 +2244,7 @@ int iuse::purify_iv(player *p, item *it, bool, point)
             p->add_msg_if_player(m_warning, _("You feel a distinct burning inside, but it passes."));
         }
         valid.erase(valid.begin() + index);
-        if (!(p->has_trait("NOPAIN"))) {
+        if (!(p->has_mut("NOPAIN"))) {
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
         }
@@ -2260,12 +2260,12 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
-    if (p->has_trait("MARLOSS_AVOID")) {
+    if (p->has_mut("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien poison sac."));
         return 0;
     }
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
@@ -2274,7 +2274,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
                         pgettext("memorial_female", "Ate a marloss berry."));
 
-    if (p->has_trait("MARLOSS") || p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("MARLOSS") || p->has_mut("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2353,7 +2353,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS")) ) {
+    } else if ( (p->has_mut("MARLOSS_BLUE") && p->has_mut("MARLOSS_YELLOW")) && (!p->has_mut("MARLOSS")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
@@ -2366,7 +2366,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
         p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
         //~ Beginning to hear the Mycus while conscious: that's it speaking
         p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
-    } else if (!p->has_trait("MARLOSS")) {
+    } else if (!p->has_mut("MARLOSS")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS");
         p->add_addiction(ADD_MARLOSS_B, 60);
@@ -2381,12 +2381,12 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
-    if (p->has_trait("MARLOSS_AVOID")) {
+    if (p->has_mut("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien drek."));
         return 0;
     }
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
@@ -2399,7 +2399,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
                         pgettext("memorial_female", "Ate a marloss seed."));
 
-    if (p->has_trait("MARLOSS_BLUE") || p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("MARLOSS_BLUE") || p->has_mut("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2478,7 +2478,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
+    } else if ( (p->has_mut("MARLOSS") && p->has_mut("MARLOSS_YELLOW")) && (!p->has_mut("MARLOSS_BLUE")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS");
@@ -2491,7 +2491,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
         p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
         //~ Beginning to hear the Mycus while conscious: that's it speaking
         p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
-    } else if (!p->has_trait("MARLOSS_BLUE")) {
+    } else if (!p->has_mut("MARLOSS_BLUE")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_BLUE");
         p->add_addiction(ADD_MARLOSS_R, 60);
@@ -2506,12 +2506,12 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
-    if (p->has_trait("MARLOSS_AVOID")) {
+    if (p->has_mut("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien slime."));
         return 0;
     }
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
@@ -2520,7 +2520,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
     p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
                         pgettext("memorial_female", "Ate some marloss jelly."));
 
-    if (p->has_trait("MARLOSS_YELLOW") || p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("MARLOSS_YELLOW") || p->has_mut("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2599,7 +2599,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
+    } else if ( (p->has_mut("MARLOSS_BLUE") && p->has_mut("MARLOSS")) && (!p->has_mut("MARLOSS_YELLOW")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
@@ -2612,7 +2612,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
         p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
         //~ Beginning to hear the Mycus while conscious: that's it speaking
         p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
-    } else if (!p->has_trait("MARLOSS_YELLOW")) {
+    } else if (!p->has_mut("MARLOSS_YELLOW")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_YELLOW");
         p->add_addiction(ADD_MARLOSS_R, 60);
@@ -2628,7 +2628,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
         return it->type->charges_to_use();
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
-    if (p->has_trait("THRESH_MARLOSS")) {
+    if (p->has_mut("THRESH_MARLOSS")) {
         p->add_memorial_log(pgettext("memorial_male", "Became one with the Mycus."),
                         pgettext("memorial_female", "Became one with the Mycus."));
         p->add_msg_if_player(m_neutral, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
@@ -2660,7 +2660,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
     }
-    else if (p->has_trait("THRESH_MYCUS") && !p->has_trait("M_DEPENDENT")) { // OK, now set the hook.
+    else if (p->has_mut("THRESH_MYCUS") && !p->has_mut("M_DEPENDENT")) { // OK, now set the hook.
         if (!one_in(3)) {
             p->mutate_category("MUTCAT_MYCUS");
             p->hunger += 10;
@@ -2668,7 +2668,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
-    } else if (p->has_trait("THRESH_MYCUS")) {
+    } else if (p->has_mut("THRESH_MYCUS")) {
         p->pkill += 5;
         p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
@@ -3819,7 +3819,7 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
     hp_part hpart = use_healing_item(p, it, -2, -2, -2, 100, 50, 0, force);
     if (hpart != num_hp_parts) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
-        if (!(p->has_trait("NOPAIN"))) {
+        if (!(p->has_mut("NOPAIN"))) {
             p->mod_pain(15);
             p->add_msg_if_player(m_bad, _("It hurts like hell!"));
         } else {
@@ -3840,7 +3840,7 @@ static int cauterize_elec(player *p, item *it)
         p->add_msg_if_player(m_info, _("You need batteries to cauterize wounds."));
         return 0;
     } else if (!p->has_effect("bite") && !p->has_effect("bleed") && !p->is_underwater()) {
-        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
+        if ((p->has_mut("MASOCHIST") || p->has_mut("MASOCHIST_MED") || p->has_mut("CENOBITE")) &&
             query_yn(_("Cauterize yourself for fun?"))) {
             return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
         } else {
@@ -3868,8 +3868,8 @@ int iuse::solder_weld(player *p, item *it, bool, point)
     if ((p->has_effect("bite") || p->has_effect("bleed")) && !p->is_underwater()) {
         choice = menu(true, _("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
-    } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
-               p->has_trait("CENOBITE")) {
+    } else if (p->has_mut("MASOCHIST") || p->has_mut("MASOCHIST_MED") ||
+               p->has_mut("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, _("Using soldering item:"), _("Cauterize yourself for fun"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
@@ -6444,7 +6444,7 @@ int iuse::portable_game(player *p, item *it, bool, point)
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    if (p->has_trait("ILLITERATE")) {
+    if (p->has_mut("ILLITERATE")) {
         add_msg(_("You're illiterate!"));
         return 0;
     } else if (it->charges < 15) {
@@ -6511,7 +6511,7 @@ int iuse::portable_game(player *p, item *it, bool, point)
 
 int iuse::vibe(player *p, item *it, bool, point)
 {
-    if ((p->is_underwater()) && (!((p->has_trait("GILLS")) || (p->is_wearing("rebreather_on")) ||
+    if ((p->is_underwater()) && (!((p->has_mut("GILLS")) || (p->is_wearing("rebreather_on")) ||
                                    (p->is_wearing("rebreather_xl_on")) || (p->is_wearing("mask_h20survivor_on"))))) {
         p->add_msg_if_player(m_info, _("It's waterproof, but oxygen maybe?"));
         return 0;
@@ -6645,11 +6645,11 @@ void make_zlave(player *p)
     }
 
     int tolerance_level = 9;
-    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
+    if( p->has_mut("PSYCHOPATH") || p->has_mut("SAPIOVORE") ) {
         tolerance_level = 0;
-    } else if( p->has_trait("PRED4") ) {
+    } else if( p->has_mut("PRED4") ) {
         tolerance_level = 5;
-    } else if( p->has_trait("PRED3") ) {
+    } else if( p->has_mut("PRED3") ) {
         tolerance_level = 7;
     }
 
@@ -6688,12 +6688,12 @@ void make_zlave(player *p)
         int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
         int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
 
-        if (p->has_trait("PACIFIST")) {
+        if (p->has_mut("PACIFIST")) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if (p->has_trait("PRED1")) {
+        } else if (p->has_mut("PRED1")) {
             moraleMalus /= 4;
-        } else if (p->has_trait("PRED2")) {
+        } else if (p->has_mut("PRED2")) {
             moraleMalus /= 5;
         }
 
@@ -6947,7 +6947,7 @@ static int cauterize_flame(player *p, item *it)
     } else if (has_disease && !p->is_underwater()) {
         did_cauterize = cauterize_effect(p, it, !has_disease);
     } else if (!has_disease && !p->is_underwater()) {
-        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
+        if ((p->has_mut("MASOCHIST") || p->has_mut("MASOCHIST_MED") || p->has_mut("CENOBITE")) &&
             query_yn(_("Cauterize yourself for fun?"))) {
             did_cauterize = cauterize_effect(p, it, true);
         } else {
@@ -7904,8 +7904,8 @@ int iuse::hotplate(player *p, item *it, bool, point)
     }
 
     int choice = 1;
-    if ((p->has_effect("bite") || p->has_effect("bleed") || p->has_trait("MASOCHIST") ||
-         p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
+    if ((p->has_effect("bite") || p->has_effect("bleed") || p->has_mut("MASOCHIST") ||
+         p->has_mut("MASOCHIST_MED") || p->has_mut("CENOBITE")) && !p->is_underwater()) {
         //Might want to cauterize
         choice = menu(true, _("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
     }
@@ -8543,7 +8543,7 @@ int iuse::contacts(player *p, item *it, bool, point)
             p->add_msg_if_player(_("You don't do anything with your %s."), it->tname().c_str());
             return 0;
         }
-    } else if (p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC") || p->has_trait("URSINE_EYE")) {
+    } else if (p->has_mut("HYPEROPIC") || p->has_mut("MYOPIC") || p->has_mut("URSINE_EYE")) {
         p->moves -= 200;
         p->add_msg_if_player(_("You put the %s in your eyes."), it->tname().c_str());
         p->add_effect("contacts", duration);
@@ -8723,7 +8723,7 @@ int iuse::robotcontrol(player *p, item *it, bool, point)
         return 0;
 
     }
-    if( p->has_trait("ILLITERATE") ) {
+    if( p->has_mut("ILLITERATE") ) {
         p->add_msg_if_player(_("You cannot read a computer screen."));
         return 0;
     }
@@ -9103,11 +9103,11 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
             p->add_msg_if_player(m_info, _("You can't do that while underwater."));
             return 0;
         }
-        if (p->has_trait("ILLITERATE")) {
+        if (p->has_mut("ILLITERATE")) {
             add_msg(m_info, _("You cannot read a computer screen."));
             return 0;
         }
-        if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+        if (p->has_mut("HYPEROPIC") && !p->is_wearing("glasses_reading")
             && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;
@@ -9181,7 +9181,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
             p->moves -= rng(3, 7) * 100;
 
-            if (p->has_trait("PSYCHOPATH")) {
+            if (p->has_mut("PSYCHOPATH")) {
                 p->add_msg_if_player(m_info, _("Wasted time, these pictures do not provoke your senses."));
             } else {
                 p->add_morale(MORALE_PHOTOS, rng(15, 30), 100);
@@ -10248,7 +10248,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             return false;
         }
 
-        if (p->has_trait("ILLITERATE")) {
+        if (p->has_mut("ILLITERATE")) {
             add_msg(m_info, _("You cannot read, and don't understand the screen or the buttons!"));
             return 0;
         }
@@ -10259,7 +10259,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             }
         }
 
-        if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+        if (p->has_mut("HYPEROPIC") && !p->is_wearing("glasses_reading")
             && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;

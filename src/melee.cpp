@@ -194,7 +194,7 @@ int player::hit_roll() const
     numdice += best_bonus; // Use whichever bonus is best.
 
     // Drunken master makes us hit better
-    if (has_trait("DRUNKEN")) {
+    if (has_mut("DRUNKEN")) {
         if (unarmed_attack()) {
             numdice += int(get_effect_dur("drunk") / 300);
         } else {
@@ -203,7 +203,7 @@ int player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
+    if (has_mut("HYPEROPIC") && !is_wearing("glasses_reading")
           && !is_wearing("glasses_bifocal")) {
         numdice -= 2;
     }
@@ -277,7 +277,7 @@ const char *player::get_miss_reason()
     add_miss_reason(
         _("Your torso encumbrance throws you off-balance."),
         encumb(bp_torso));
-    int farsightedness = 2 * (has_trait("HYPEROPIC")
+    int farsightedness = 2 * (has_mut("HYPEROPIC")
                               && !is_wearing("glasses_reading")
                               && !is_wearing("glasses_bifocal"));
     add_miss_reason(
@@ -442,7 +442,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
 int stumble(player &u)
 {
  int stumble_pen = 2 * u.weapon.volume() + (u.weapon.weight() / 113);
- if (u.has_trait("DEFT"))
+ if (u.has_mut("DEFT"))
   stumble_pen = int(stumble_pen * .3) - 10;
  if (stumble_pen < 0)
   stumble_pen = 0;
@@ -570,7 +570,7 @@ int player::dodge_roll()
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
         if (!has_effect("downed")) {
             // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
-            if (has_trait("PROF_SKATER")) {
+            if (has_mut("PROF_SKATER")) {
                 if (one_in(3)) {
                     if (!has_effect("downed")) {
                         add_msg_if_player(m_bad, _("You overbalance and stumble!"));
@@ -590,7 +590,7 @@ int player::dodge_roll()
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
-        if (has_trait("PROF_SKATER")) {
+        if (has_mut("PROF_SKATER")) {
             if (one_in(3)) {
                 if (!has_effect("downed")) {
                     add_msg_if_player(m_bad, _("You overbalance and stumble!"));
@@ -665,7 +665,7 @@ int player::roll_bash_damage(bool crit)
     ret = base_damage(true, stat);
 
     // Drunken Master damage bonuses
-    if (has_trait("DRUNKEN") && has_effect("drunk")) {
+    if (has_mut("DRUNKEN") && has_effect("drunk")) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk, maxdrunk;
         int drunk_dur = get_effect_dur("drunk");
@@ -744,39 +744,39 @@ int player::roll_cut_damage(bool crit)
 
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
+            if (has_mut("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
             if (has_bionic("bio_razors")) {
                 ret += 2;
             }
-            if (has_trait("TALONS")) {
+            if (has_mut("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             // Stainless Steel Claws do stabbing damage, too.
-            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+            if (has_mut("CLAWS_RAT") || has_mut("CLAWS_ST")) {
                 ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS")) {
+            if (has_mut("SLIME_HANDS")) {
                 ret += rng(2, 3);
             }
         }
         if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
-            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
+            if (has_mut("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
             if (has_bionic("bio_razors")) {
                 ret += 2;
             }
-            if (has_trait("TALONS")) {
+            if (has_mut("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
-            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+            if (has_mut("CLAWS_RAT") || has_mut("CLAWS_ST")) {
                 ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS")) {
+            if (has_mut("SLIME_HANDS")) {
                 ret += rng(2, 3);
             }
         }
@@ -816,28 +816,28 @@ int player::roll_stab_damage(bool crit)
     
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
+            if (has_mut("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
                 ret += 3;
-            } if (has_trait("NAILS")) {
+            } if (has_mut("NAILS")) {
                 ret += .5;
             } if (has_bionic("bio_razors")) {
                 ret += 2;
-            } if (has_trait("THORNS")) {
+            } if (has_mut("THORNS")) {
                 ret += 2;
-            } if (has_trait("CLAWS_ST")) {
+            } if (has_mut("CLAWS_ST")) {
                 ret += 3 + (unarmed_skill / 2);
             }
         }
         if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
-            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
+            if (has_mut("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
                 ret += 3;
-            } if (has_trait("NAILS")) {
+            } if (has_mut("NAILS")) {
                 ret += .5;
             } if (has_bionic("bio_razors")) {
                 ret += 2;
-            } if (has_trait("THORNS")) {
+            } if (has_mut("THORNS")) {
                 ret += 2;
-            } if (has_trait("CLAWS_ST")) {
+            } if (has_mut("CLAWS_ST")) {
                 ret += 3 + (unarmed_skill / 2);
             }
         }
@@ -1484,12 +1484,12 @@ void player::perform_special_attacks(Creature &t)
    can_poison = true;
  }
 
- if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
-    if (has_trait("POISONOUS")) {
+ if (can_poison && ((has_mut("POISONOUS")) || (has_mut("POISONOUS2")))) {
+    if (has_mut("POISONOUS")) {
         t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
         t.add_effect("poison", 6);
     }
-    else if (has_trait("POISONOUS2")) {
+    else if (has_mut("POISONOUS2")) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
         t.add_effect("nasty_poison", 6);
     }
@@ -1685,7 +1685,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
     std::string target = t.disp_name();
 
-    if ( (has_trait("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
+    if ( (has_mut("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
          one_in(20 - dex_cur - get_skill_level("unarmed")) ) {
         special_attack tmp;
         tmp.stab = (25 + str_cur);
@@ -1704,12 +1704,12 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
     // Ursine/Feline, not so much.  Rat is marginally better.
-    if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
-        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
+    if (has_mut("FANGS") && (!wearing_something_on(bp_mouth)) &&
+        ((!has_mut("MUZZLE") && !has_mut("MUZZLE_LONG") && !has_mut("MUZZLE_RAT") &&
           one_in(20 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
+         (has_mut("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level("unarmed"))) ||
+         (has_mut("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
+         (has_mut("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1725,7 +1725,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_mut("INCISORS") && one_in(18 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 3;
@@ -1743,7 +1743,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE") &&
+    if (!has_mut("FANGS") && has_mut("MUZZLE") &&
         one_in(18 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1761,7 +1761,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
+    if (!has_mut("FANGS") && has_mut("MUZZLE_BEAR") &&
         one_in(20 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1779,7 +1779,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
+    if (!has_mut("FANGS") && has_mut("MUZZLE_LONG") &&
         one_in(18 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1797,7 +1797,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if ((has_trait("MANDIBLES") || (has_trait("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
+    if ((has_mut("MANDIBLES") || (has_mut("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
         one_in(22 - dex_cur - get_skill_level("unarmed")) && (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 12;
@@ -1831,7 +1831,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("BEAK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_mut("BEAK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 15;
@@ -1845,7 +1845,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_mut("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
@@ -1887,7 +1887,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * get_skill_level("unarmed"))) {
+    if (has_mut("HOOVES") && one_in(25 - dex_cur - 2 * get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.bash = str_cur * 3;
         if (tmp.bash > 40) {
@@ -1906,7 +1906,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * get_skill_level("unarmed"))) {
+    if (has_mut("RAP_TALONS") && one_in(30 - dex_cur - 2 * get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.cut = str_cur * 4;
         if (tmp.cut > 60) {
@@ -1925,7 +1925,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_mut("HORNS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.bash = 3;
         tmp.stab = 3;
@@ -1942,7 +1942,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS_CURLED") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_mut("HORNS_CURLED") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.bash = 14;
         if (is_player()) {
@@ -1958,7 +1958,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS_POINTED") && one_in(22 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_mut("HORNS_POINTED") && one_in(22 - dex_cur - get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.stab = 24;
         if (is_player()) {
@@ -1971,7 +1971,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("ANTLERS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_mut("ANTLERS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
         special_attack tmp;
         tmp.bash = 4;
         if (is_player()) {
@@ -1987,7 +1987,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if ( ((has_trait("TAIL_STING") && one_in(3)) || has_active_mutation("TAIL_STING")) &&
+    if ( ((has_mut("TAIL_STING") && one_in(3)) || has_active_mutation("TAIL_STING")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.stab = 20;
@@ -2004,7 +2004,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if ( ((has_trait("TAIL_CLUB") && one_in(3)) || has_active_mutation("TAIL_CLUB")) &&
+    if ( ((has_mut("TAIL_CLUB") && one_in(3)) || has_active_mutation("TAIL_CLUB")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 18;
@@ -2021,7 +2021,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (((has_trait("TAIL_THICK") && one_in(3)) || has_active_mutation("TAIL_THICK")) &&
+    if (((has_mut("TAIL_THICK") && one_in(3)) || has_active_mutation("TAIL_THICK")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
@@ -2038,13 +2038,13 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-        has_trait("ARM_TENTACLES_8")) {
+    if (has_mut("ARM_TENTACLES") || has_mut("ARM_TENTACLES_4") ||
+        has_mut("ARM_TENTACLES_8")) {
         int num_attacks = 1;
-        if (has_trait("ARM_TENTACLES_4")) {
+        if (has_mut("ARM_TENTACLES_4")) {
             num_attacks = 3;
         }
-        if (has_trait("ARM_TENTACLES_8")) {
+        if (has_mut("ARM_TENTACLES_8")) {
             num_attacks = 7;
         }
         if (weapon.is_two_handed(this)) {
@@ -2055,25 +2055,25 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
             special_attack tmp;
             // Tentacle Rakes add additional cutting damage
             if (is_player()) {
-                if (has_trait("CLAWS_TENTACLE")) {
+                if (has_mut("CLAWS_TENTACLE")) {
                     tmp.text = string_format(_("You rake %s with your tentacle!"),
                                              target.c_str());
                 } else tmp.text = string_format(_("You slap %s with your tentacle!"),
                                                     target.c_str());
             } else if (male) {
-                if (has_trait("CLAWS_TENTACLE")) {
+                if (has_mut("CLAWS_TENTACLE")) {
                     tmp.text = string_format(_("%s rakes %s with his tentacle!"),
                                              name.c_str(), target.c_str());
                 } else tmp.text = string_format(_("%s slaps %s with his tentacle!"),
                                                     name.c_str(), target.c_str());
             } else {
-                if (has_trait("CLAWS_TENTACLE")) {
+                if (has_mut("CLAWS_TENTACLE")) {
                     tmp.text = string_format(_("%s rakes %s with her tentacle!"),
                                              name.c_str(), target.c_str());
                 } else tmp.text = string_format(_("%s slaps %s with her tentacle!"),
                                                     name.c_str(), target.c_str());
             }
-            if (has_trait("CLAWS_TENTACLE")) {
+            if (has_mut("CLAWS_TENTACLE")) {
                 tmp.cut = str_cur / 2 + 1;
             } else {
                 tmp.bash = str_cur / 3 + 1;
@@ -2082,9 +2082,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
     }
 
-    if (has_trait("VINES2") || has_trait("VINES3")) {
+    if (has_mut("VINES2") || has_mut("VINES3")) {
         int num_attacks = 2;
-        if (has_trait("VINES3")) {
+        if (has_mut("VINES3")) {
             num_attacks = 3;
         }
         for (int i = 0; i < num_attacks; i++) {
@@ -2311,9 +2311,9 @@ int attack_speed(player &u)
  move_cost += 20 * u.encumb(bp_torso);
  move_cost -= dexbonus;
 
- if (u.has_trait("LIGHT_BONES"))
+ if (u.has_mut("LIGHT_BONES"))
   move_cost *= .9;
- if (u.has_trait("HOLLOW_BONES"))
+ if (u.has_mut("HOLLOW_BONES"))
   move_cost *= .8;
 
  if (move_cost < 25)

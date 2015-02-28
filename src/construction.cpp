@@ -738,7 +738,7 @@ void construct::done_dig_stair(point p)
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
               // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
+              if (!(g->u.has_mut("WEB_ROPE"))) {
                   item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
@@ -750,7 +750,7 @@ void construct::done_dig_stair(point p)
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
+              if (!(g->u.has_mut("WEB_ROPE"))) {
                   item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
@@ -761,7 +761,7 @@ void construct::done_dig_stair(point p)
       }
   }
   if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth."));
           g->u.hunger += 15;
           g->u.fatigue += 20;
@@ -773,7 +773,7 @@ void construct::done_dig_stair(point p)
           g->u.hunger += 25;
           g->u.fatigue += 30;
           g->u.thirst += 25;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work, though."));
               g->u.mod_pain(8); // Backbreaking work, mining!
           }
@@ -784,7 +784,7 @@ void construct::done_dig_stair(point p)
       tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You strike deeply--above a magma flow!"));
           g->u.hunger += 15;
           g->u.fatigue += 20;
@@ -796,7 +796,7 @@ void construct::done_dig_stair(point p)
           g->u.hunger += 25;
           g->u.fatigue += 30;
           g->u.thirst += 25;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               g->u.mod_pain(4); // Backbreaking work, mining!
           }
       }
@@ -857,7 +857,7 @@ void construct::done_dig_stair(point p)
                   }
                 g->vertical_move(-1, true);
               }
-          } else if (g->u.has_trait("WEB_ROPE")) {
+          } else if (g->u.has_mut("WEB_ROPE")) {
               // There are downsides to using one's own product...
               int webroll = rng(g->u.skillLevel("carpentry"),
                       g->u.skillLevel("carpentry") + g->u.per_cur + g->u.int_cur);
@@ -947,7 +947,7 @@ void construct::done_dig_stair(point p)
       }
    }
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth, and break into open space."));
           g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
           g->u.fatigue += 20;
@@ -959,7 +959,7 @@ void construct::done_dig_stair(point p)
           g->u.hunger += 20;
           g->u.fatigue += 30;
           g->u.thirst += 20;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work, though."));
               g->u.mod_pain(4); // Backbreaking work, mining!
           }
@@ -1008,7 +1008,7 @@ void construct::done_mine_downstair(point p)
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
               // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
+              if (!(g->u.has_mut("WEB_ROPE"))) {
                   item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
@@ -1020,7 +1020,7 @@ void construct::done_mine_downstair(point p)
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
+              if (!(g->u.has_mut("WEB_ROPE"))) {
                   item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
@@ -1031,7 +1031,7 @@ void construct::done_mine_downstair(point p)
       }
   }
   if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth."));
           g->u.hunger += 25;
           g->u.fatigue += 30;
@@ -1043,7 +1043,7 @@ void construct::done_mine_downstair(point p)
           g->u.hunger += 35;
           g->u.fatigue += 40;
           g->u.thirst += 35;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(10); // Backbreaking work, mining!
           }
@@ -1054,7 +1054,7 @@ void construct::done_mine_downstair(point p)
       tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You delve down directly above a magma flow!"));
           g->u.hunger += 25;
           g->u.fatigue += 30;
@@ -1066,7 +1066,7 @@ void construct::done_mine_downstair(point p)
           g->u.hunger += 35;
           g->u.fatigue += 40;
           g->u.thirst += 35;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               g->u.mod_pain(4);
           }
       }
@@ -1127,7 +1127,7 @@ void construct::done_mine_downstair(point p)
                   }
                 g->vertical_move(-1, true);
               }
-          } else if (g->u.has_trait("WEB_ROPE")) {
+          } else if (g->u.has_mut("WEB_ROPE")) {
               // There are downsides to using one's own product...
               int webroll = rng(g->u.skillLevel("carpentry"),
                       g->u.skillLevel("carpentry") + g->u.per_cur + g->u.int_cur);
@@ -1217,7 +1217,7 @@ void construct::done_mine_downstair(point p)
       }
    }
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth, and break into open space."));
           g->u.hunger += 20; // Less heavy work, but making the ladder's still fatiguing
           g->u.fatigue += 30;
@@ -1229,7 +1229,7 @@ void construct::done_mine_downstair(point p)
           g->u.hunger += 30;
           g->u.fatigue += 40;
           g->u.thirst += 30;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(4);
           }
@@ -1285,7 +1285,7 @@ void construct::done_mine_upstair(point p)
       if (danger_lava) {
           add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
           // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
+          if (!(g->u.has_mut("WEB_ROPE"))) {
               item rope("rope_30", 0);
               g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
           }
@@ -1296,7 +1296,7 @@ void construct::done_mine_upstair(point p)
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
+              if (!(g->u.has_mut("WEB_ROPE"))) {
                   item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
               }
@@ -1308,7 +1308,7 @@ void construct::done_mine_upstair(point p)
       if (danger_liquid) {
           add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
           // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
+          if (!(g->u.has_mut("WEB_ROPE"))) {
               item rope("rope_30", 0);
               g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
           }
@@ -1318,7 +1318,7 @@ void construct::done_mine_upstair(point p)
       }
   }
   if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You carve upward and breach open a space."));
           g->u.hunger += 35;
           g->u.fatigue += 40;
@@ -1330,7 +1330,7 @@ void construct::done_mine_upstair(point p)
           g->u.hunger += 45;
           g->u.fatigue += 50;
           g->u.thirst += 45;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(15); // Backbreaking work, mining!
           }
@@ -1341,7 +1341,7 @@ void construct::done_mine_upstair(point p)
       tmpmap.save();
    }
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+      if (g->u.has_mut("PAINRESIST_TROGLO") || g->u.has_mut("STOCKY_TROGLO")) {
           add_msg(_("You carve upward, and break into open space."));
           g->u.hunger += 30; // Tougher to go up than down.
           g->u.fatigue += 40;
@@ -1353,7 +1353,7 @@ void construct::done_mine_upstair(point p)
           g->u.hunger += 40;
           g->u.fatigue += 50;
           g->u.thirst += 40;
-          if (!(g->u.has_trait("NOPAIN"))) {
+          if (!(g->u.has_mut("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(5);
           }

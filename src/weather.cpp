@@ -31,13 +31,13 @@ void weather_effect::glare()
     if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx(), g->u.posy()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
-            if (g->u.has_trait("CEPH_VISION")) {
+            if (g->u.has_mut("CEPH_VISION")) {
                 g->u.add_env_effect("glare", bp_eyes, 2, 4);
             } else {
                 g->u.add_env_effect("glare", bp_eyes, 2, 2);
             }
         } else {
-            if (g->u.has_trait("CEPH_VISION")) {
+            if (g->u.has_mut("CEPH_VISION")) {
                 g->u.add_env_effect("glare", bp_eyes, 2, 2);
             } else {
                 g->u.add_env_effect("glare", bp_eyes, 2, 1);
@@ -296,7 +296,7 @@ void decay_fire_and_scent(int fire_amount)
 void generic_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
-        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_mut("FEATHERS") &&
         (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
         one_in(2)) {
         if (g->u.weapon.has_flag("RAIN_PROTECT")) {
@@ -324,7 +324,7 @@ void generic_wet(bool acid)
 void generic_very_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
-        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_mut("FEATHERS") &&
         (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT")) {
             // Umbrellas tend to protect one's head and torso pretty well
@@ -369,9 +369,9 @@ void weather_effect::thunder()
     if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
+        } else if (g->u.has_mut("GOODHEARING") && one_in(1 - 2 * g->levz)) {
             add_msg(_("You hear a rumble of thunder from above."));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
+        } else if (!g->u.has_mut("BADHEARING") && one_in(1 - 3 * g->levz)) {
             add_msg(_("You hear a rumble of thunder from above."));
         }
     }

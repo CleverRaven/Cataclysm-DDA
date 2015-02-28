@@ -195,7 +195,7 @@ void mdeath::fungus(monster *z)
                     }
                 } else if (g->u.posx() == sporex && g->u.posy() == sporey) {
                     // Spores hit the player
-                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
+                    if (g->u.has_mut("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
                         add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         return;
                     }
@@ -218,7 +218,7 @@ void mdeath::fungus(monster *z)
                     if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
-                    if (hit && (g->u.has_trait("TAIL_CATTLE") &&
+                    if (hit && (g->u.has_mut("TAIL_CATTLE") &&
                                 one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
                         add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         hit = false;
@@ -299,7 +299,7 @@ void mdeath::guilt(monster *z)
     guilt_tresholds[50] = _("You regret killing %s.");
     guilt_tresholds[25] = _("You feel remorse for killing %s.");
 
-    if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
+    if (g->u.has_mut("PSYCHOPATH") || g->u.has_mut("PRED3") || g->u.has_mut("PRED4") ) {
         return;
     }
     if (rl_dist( z->pos(), g->u.pos() ) > MAX_GUILT_DISTANCE) {
@@ -318,7 +318,7 @@ void mdeath::guilt(monster *z)
                               "about their deaths anymore."), z->name(maxKills).c_str());
         }
         return;
-    } else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
+    } else if ((g->u.has_mut("PRED1")) || (g->u.has_mut("PRED2"))) {
         msg = (_("Culling the weak is distasteful, but necessary."));
         msgtype = m_neutral;
     } else {
@@ -339,11 +339,11 @@ void mdeath::guilt(monster *z)
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
-        if (g->u.has_trait("PACIFIST")) {
+        if (g->u.has_mut("PACIFIST")) {
             moraleMalus *= 5;
-        } else if (g->u.has_trait("PRED1")) {
+        } else if (g->u.has_mut("PRED1")) {
             moraleMalus /= 4;
-        } else if (g->u.has_trait("PRED2")) {
+        } else if (g->u.has_mut("PRED2")) {
             moraleMalus /= 5;
         }
     }

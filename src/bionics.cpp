@@ -955,7 +955,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_mechanics   * 1;
 
     // Medical residents have some idea what they're doing
-    if (g->u.has_trait("PROF_MED")) {
+    if (g->u.has_mut("PROF_MED")) {
         pl_skill += 3;
         add_msg(m_neutral, _("You prep yourself to begin surgery."));
     }
@@ -1115,7 +1115,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
     // Medical residents get a substantial assist here
-    if (u->has_trait("PROF_MED")) {
+    if (u->has_mut("PROF_MED")) {
         pl_skill += 6;
     }
 
@@ -1153,7 +1153,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
         break;
     }
 
-    if (u->has_trait("PROF_MED")) {
+    if (u->has_mut("PROF_MED")) {
     //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg(m_neutral, _("Your training helps you minimize the complications."));
     // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
@@ -1170,7 +1170,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
     switch (fail_type) {
 
     case 1:
-        if (!(u->has_trait("NOPAIN"))) {
+        if (!(u->has_mut("NOPAIN"))) {
             add_msg(m_bad, _("It really hurts!"));
             u->mod_pain( rng(failure_level * 3, failure_level * 6) );
         }

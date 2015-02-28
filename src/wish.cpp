@@ -38,7 +38,7 @@ class wish_mutate_callback: public uimenu_callback
         }
         virtual bool key(int key, int entnum, uimenu *menu)
         {
-            if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
+            if ( key == 't' && p->has_mut( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
                     p->toggle_mutation( vTraits[ entnum ] );
@@ -46,7 +46,7 @@ class wish_mutate_callback: public uimenu_callback
                     p->toggle_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green :
+                menu->entries[ entnum ].text_color = ( p->has_mut( vTraits[ entnum ] ) ? c_green :
                                                        menu->text_color );
                 menu->entries[ entnum ].extratxt.txt = ( p->has_base_trait( vTraits[ entnum ] ) ? "T" : "" );
                 return true;
@@ -61,7 +61,7 @@ class wish_mutate_callback: public uimenu_callback
                 padding = std::string(menu->pad_right - 1, ' ');
                 for( auto &traits_iter : traits ) {
                     vTraits.push_back( traits_iter.first );
-                    pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
+                    pTraits[traits_iter.first] = ( p->has_mut( traits_iter.first ) );
                 }
             }
 
@@ -173,7 +173,7 @@ void game::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
         wmenu.entries[ c ].extratxt.color = c_ltgreen;
-        if( p->has_trait( traits_iter.first ) ) {
+        if( p->has_mut( traits_iter.first ) ) {
             wmenu.entries[ c ].text_color = c_green;
             if( p->has_base_trait( traits_iter.first ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
@@ -199,34 +199,34 @@ void game::wishmutate( player *p )
             bool profession = mutation_data[mstr].profession;
             //Manual override for the threshold-gaining
             if (threshold || profession) {
-                if ( p->has_trait( mstr ) ) {
+                if ( p->has_mut( mstr ) ) {
                     do {
                         p->remove_mutation(mstr );
                         rc++;
-                    } while (p->has_trait( mstr ) && rc < 10);
+                    } while (p->has_mut( mstr ) && rc < 10);
                 } else {
                     do {
                         p->toggle_mutation(mstr );
                         rc++;
-                    } while (!p->has_trait( mstr ) && rc < 10);
+                    } while (!p->has_mut( mstr ) && rc < 10);
                 }
-            } else if ( p->has_trait( mstr ) ) {
+            } else if ( p->has_mut( mstr ) ) {
                 do {
                     p->remove_mutation(mstr );
                     rc++;
-                } while (p->has_trait( mstr ) && rc < 10);
+                } while (p->has_mut( mstr ) && rc < 10);
             } else {
                 do {
                     p->mutate_towards(mstr );
                     rc++;
-                } while (!p->has_trait( mstr ) && rc < 10);
+                } while (!p->has_mut( mstr ) && rc < 10);
             }
             cb->msg = string_format(_("%s Mutation changes: %d"), mstr.c_str(), rc);
             uistate.wishmutate_selected = wmenu.ret;
             if ( rc != 0 ) {
                 for ( size_t i = 0; i < cb->vTraits.size(); i++ ) {
                     wmenu.entries[ i ].extratxt.txt = "";
-                    if ( p->has_trait( cb->vTraits[ i ] ) ) {
+                    if ( p->has_mut( cb->vTraits[ i ] ) ) {
                         wmenu.entries[ i ].text_color = c_green;
                         cb->pTraits[ cb->vTraits[ i ] ] = true;
                         if ( p->has_base_trait( cb->vTraits[ i ] ) ) {

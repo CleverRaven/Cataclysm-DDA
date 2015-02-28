@@ -1135,7 +1135,7 @@ void mattack::fungus(monster *z, int index)
     // TODO: Infect NPCs?
     z->moves -= 200;   // It takes a while
     z->reset_special(index); // Reset timer
-    if (g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_mut("THRESH_MYCUS")) {
         z->friendly = 1;
     }
     monster spore(GetMType("mon_spore"));
@@ -1167,7 +1167,7 @@ void mattack::fungus(monster *z, int index)
                     }
                 } else if (g->u.posx() == sporex && g->u.posy() == sporey) {
                     // Spores hit the player--is there any hope?
-                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
+                    if (g->u.has_mut("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
                         add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         return;
                     }
@@ -1190,7 +1190,7 @@ void mattack::fungus(monster *z, int index)
                     if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
-                    if ((hit) && (g->u.has_trait("TAIL_CATTLE") &&
+                    if ((hit) && (g->u.has_mut("TAIL_CATTLE") &&
                                   one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
                         add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         hit = false;
@@ -1283,11 +1283,11 @@ void mattack::fungus_inject(monster *z, int index)
     }
 
     z->reset_special(index); // Reset timer
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_mut("THRESH_MARLOSS") || g->u.has_mut("THRESH_MYCUS")) {
         z->friendly = 1;
         return;
     }
-    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) && !g->u.crossed_threshold()) {
+    if ( (g->u.has_mut("MARLOSS")) && (g->u.has_mut("MARLOSS_BLUE")) && !g->u.crossed_threshold()) {
         add_msg(m_info, _("The %s seems to wave you toward the tower..."), z->name().c_str());
         z->anger = 0;
         return;
@@ -1338,7 +1338,7 @@ void mattack::fungus_inject(monster *z, int index)
 }
 void mattack::fungus_bristle(monster *z, int index)
 {
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_mut("THRESH_MARLOSS") || g->u.has_mut("THRESH_MYCUS")) {
         z->friendly = 1;
     }
     Creature *target = z->attack_target();
@@ -1433,10 +1433,10 @@ void mattack::fungus_fortify(monster *z, int index)
     Creature *target = &g->u;
     bool mycus = false;
     bool peaceful = true;
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_mut("THRESH_MARLOSS") || g->u.has_mut("THRESH_MYCUS")) {
         mycus = true; //No nifty support effects.  Yet.  This lets it rebuild hedges.
     }
-    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) &&
+    if ( (g->u.has_mut("MARLOSS")) && (g->u.has_mut("MARLOSS_BLUE")) &&
          !g->u.crossed_threshold() && !mycus) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg(m_info, _("The %s spreads its tendrils.  It seems as though it's expecting you..."), z->name().c_str());
@@ -1658,7 +1658,7 @@ void mattack::dermatik(monster *z, int index)
     int dodge_roll = z->dodge_roll();
     int swat_skill = ( foe->skillLevel("melee") + foe->skillLevel("unarmed") * 2) / 3;
     int player_swat = dice(swat_skill, 10);
-    if( foe->has_trait("TAIL_CATTLE") ) {
+    if( foe->has_mut("TAIL_CATTLE") ) {
         foe->add_msg_if_player(_("You swat at the %s with your tail!"), z->name().c_str());
         player_swat += ( ( foe->dex_cur + foe->skillLevel("unarmed") ) / 2 );
     }
@@ -1689,7 +1689,7 @@ void mattack::dermatik(monster *z, int index)
     //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
     foe->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
-    if( !foe->has_trait("PARAIMMUNE")) {
+    if( !foe->has_mut("PARAIMMUNE")) {
         foe->add_effect("dermatik", 1, targeted, true);
         foe->add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
@@ -2137,7 +2137,7 @@ void mattack::vortex(monster *z, int index)
 
             if (g->u.posx() == x && g->u.posy() == y) { // Throw... the player?! D:
                 bool immune = false;
-                if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+                if (g->u.has_mut("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
                         (g->u.footwear_factor() == .5 && one_in(2)))) {
                     add_msg(_("You secure yourself using your tentacles!"));
                     immune = true;
@@ -2291,7 +2291,7 @@ void mattack::photograph(monster *z, int index)
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
-    if (g->u.has_trait("PROF_POLICE")) {
+    if (g->u.has_mut("PROF_POLICE")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_deputy")) {
             if (one_in(3)) {
@@ -2309,7 +2309,7 @@ void mattack::photograph(monster *z, int index)
         }
     }
 
-    if (g->u.has_trait("PROF_PD_DET")) {
+    if (g->u.has_mut("PROF_PD_DET")) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -2325,7 +2325,7 @@ void mattack::photograph(monster *z, int index)
                 return;
             }
         }
-    } else if (g->u.has_trait("PROF_SWAT")) {
+    } else if (g->u.has_mut("PROF_SWAT")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_swat")) {
             if (one_in(3)) {
@@ -2341,7 +2341,7 @@ void mattack::photograph(monster *z, int index)
                 return;
             }
         }
-    } else if (g->u.has_trait("PROF_CYBERCOP")) {
+    } else if (g->u.has_mut("PROF_CYBERCOP")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_cybercop")) {
             if (one_in(3)) {
@@ -2359,7 +2359,7 @@ void mattack::photograph(monster *z, int index)
         }
     }
 
-    if (g->u.has_trait("PROF_FED")) {
+    if (g->u.has_mut("PROF_FED")) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_marshal")) {
             add_msg(m_info, _("The %s flashes a LED and departs.  The Feds have this."), z->name().c_str());
@@ -3129,7 +3129,7 @@ void mattack::flame( monster *z, Creature *target )
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if( !target->uncanny_dodge() && !target->has_trait("M_SKIN2")) {
+    if( !target->uncanny_dodge() && !target->has_mut("M_SKIN2")) {
         target->add_effect("onfire", 8);
     }
 }
@@ -3614,7 +3614,7 @@ void mattack::flesh_golem(monster *z, int index)
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     if( one_in( 6 ) &&
         ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
+          ( !foe->has_mut("LEG_TENT_BRACE") ||
             foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
         target->add_effect("downed", 30);
     }
@@ -3677,7 +3677,7 @@ void mattack::lunge(monster *z, int index)
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     if( one_in( 6 ) &&
         ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
+          ( !foe->has_mut("LEG_TENT_BRACE") ||
             foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
         target->add_effect("downed", 3);
     }
@@ -4170,7 +4170,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if ( !foe->is_throw_immune()) {
-        if( !foe->has_trait("LEG_TENT_BRACE") && (foe->footwear_factor() == 1 ||
+        if( !foe->has_mut("LEG_TENT_BRACE") && (foe->footwear_factor() == 1 ||
                 (foe->footwear_factor() == .5 && one_in(2))) ) {
             if (one_in(4)) {
                 hit = bp_head;

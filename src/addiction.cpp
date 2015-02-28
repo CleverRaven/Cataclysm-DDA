@@ -161,7 +161,7 @@ void addict_effect(player &u, addiction &add,
         break;
 
     case ADD_MUTAGEN:
-        if (u.has_trait("MUT_JUNKIE")) {
+        if (u.has_mut("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {
                 u.add_msg_if_player(m_warning, rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
                         _("Your body is SOO booorrrring.  Just a little sip to liven things up?"));
@@ -393,7 +393,7 @@ std::string addiction_text(player const& u, addiction const &cur)
         return _("You may find it difficult to sleep without medication.");
 
     case ADD_PKILLER: {
-        if (u.has_trait("NOPAIN")) {
+        if (u.has_mut("NOPAIN")) {
             return string_format(_( "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
                                     "Depression.  Frequent cravings.  Vomiting."), strpen);
         } else {

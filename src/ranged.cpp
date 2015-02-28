@@ -324,7 +324,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                   proj.proj_effects.count("RECOVER_25") );
 
     //int x = posx(), y = posy();
-    if (has_trait("TRIGGERHAPPY") && one_in(30)) {
+    if (has_mut("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
     }
     if (burst && used_weapon->burst_size() < 2) {
@@ -395,7 +395,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
     }
 
-    const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
+    const bool trigger_happy = has_mut( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( tarx, tary );

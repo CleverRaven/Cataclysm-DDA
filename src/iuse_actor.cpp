@@ -364,9 +364,9 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         }
 
         int dur = eff.duration;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_mut("TOLERANCE")) {
             dur *= .8;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_mut("LIGHTWEIGHT")) {
             dur *= 1.2;
         }
         p->add_effect( eff.id, dur, eff.bp, eff.permanent );

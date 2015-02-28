@@ -665,7 +665,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
-        if( p->has_trait("STOCKY_TROGLO") ) {
+        if( p->has_mut("STOCKY_TROGLO") ) {
             p->fatigue += 20; // Yep, dwarves can dig longer before tiring
         } else {
             p->fatigue += 30;

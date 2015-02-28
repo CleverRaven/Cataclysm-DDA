@@ -49,7 +49,7 @@ class Character : public Creature
         /** Returns true if the player has the entered mutation. */
         bool has_mut(const std::string &flag) const;
         /** Returns true if the player has the entered trait */
-        bool has_trait(const std::string &flag) const;
+        bool has_mut(const std::string &flag) const;
         /** Returns true if the mutation is added to the character (they don't already have it). */
         bool add_mutation(const std::string &flag) const;
         /** Calls add_mutation() and if successful, makes the new mutation a trait. */

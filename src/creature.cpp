@@ -384,7 +384,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+        if (is_player() && (!g->u.has_mut("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
                             (g->u.footwear_factor() == .5 && one_in(2))) ) {
             // can the player force their self to the ground? probably not.
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
@@ -393,7 +393,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                            _("<npcname> forces %s to the ground!"),
                                            disp_name().c_str() );
         }
-        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+        if (!g->u.has_mut("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
             (g->u.footwear_factor() == .5 && one_in(2))) {
             add_effect("downed", 1);
             mod_moves(-stab_moves / 2);
@@ -799,7 +799,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
         // Perform any effect addition effects.
-        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
+        bool reduced = has_effect(e.get_resist_effect()) || has_mut(e.get_resist_trait());
         add_eff_effects(e, reduced);
     }
 }
@@ -925,7 +925,7 @@ bool Creature::has_mut(const std::string &flag) const
     return false;
 }
 
-bool Creature::has_trait(const std::string &flag) const
+bool Creature::has_mut(const std::string &flag) const
 {
     (void)flag;
     return false;

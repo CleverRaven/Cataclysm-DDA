@@ -1453,7 +1453,7 @@ void map::player_in_field( player &u )
         case fd_web: {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
-            if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
+            if (!u.has_mut("WEB_WALKER") && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
                 u.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
@@ -1518,7 +1518,7 @@ void map::player_in_field( player &u )
 
         case fd_fire:
             if( u.has_active_bionic("bio_heatsink") || u.is_wearing("rm13_armor_on") ||
-                u.has_trait("M_SKIN2") ) {
+                u.has_mut("M_SKIN2") ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
                 break;
             }
@@ -1631,7 +1631,7 @@ void map::player_in_field( player &u )
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_mut("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
                 u.add_env_effect("fungus", bp_mouth, 4, 100, num_bp, true);
                 u.add_env_effect("fungus", bp_eyes, 4, 100, num_bp, true);
             }
@@ -1680,7 +1680,7 @@ void map::player_in_field( player &u )
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
             if (!u.has_active_bionic("bio_heatsink") && !u.is_wearing("rm13_armor_on") &&
-                !u.has_trait("M_SKIN2")) { //heatsink, suit, or Mycus fireproofing stops fire.
+                !u.has_mut("M_SKIN2")) { //heatsink, suit, or Mycus fireproofing stops fire.
                 u.add_msg_player_or_npc(m_bad, _("You're torched by flames!"), _("<npcname> is torched by flames!"));
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -1778,7 +1778,7 @@ void map::player_in_field( player &u )
 
         case fd_incendiary:
         // Mysterious incendiary substance melts you horribly.
-            if (u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
+            if (u.has_mut("M_SKIN2") || cur->getFieldDensity() == 1) {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary burns you!"), _("The incendiary burns <npcname>!"));
                 u.hurtall(rng(1, 3), nullptr);
             } else {

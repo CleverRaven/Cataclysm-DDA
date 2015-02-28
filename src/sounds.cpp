@@ -203,10 +203,10 @@ void sounds::process_sound_markers( player *p )
 
         // See if we need to wake someone up
         if( p->has_effect("sleep")) {
-            if( (!(p->has_trait("HEAVYSLEEPER") ||
-                   p->has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume - dist) ||
-                (p->has_trait("HEAVYSLEEPER") && dice(3, 15) < volume - dist) ||
-                (p->has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume - dist) ) {
+            if( (!(p->has_mut("HEAVYSLEEPER") ||
+                   p->has_mut("HEAVYSLEEPER2")) && dice(2, 15) < volume - dist) ||
+                (p->has_mut("HEAVYSLEEPER") && dice(3, 15) < volume - dist) ||
+                (p->has_mut("HEAVYSLEEPER2") && dice(6, 15) < volume - dist) ) {
                 //Not kidding about sleep-thru-firefight
                 p->wake_up();
                 add_msg(m_warning, _("Something is making noise."));

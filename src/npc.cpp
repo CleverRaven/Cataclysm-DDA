@@ -1118,26 +1118,26 @@ void npc::form_opinion(player *u)
    op_of_u.fear++;
  }
 
- if (has_trait("SAPIOVORE")) {
+ if (has_mut("SAPIOVORE")) {
     op_of_u.fear += 10; // Sapiovores = Scary
  }
- if (u->has_trait("PRETTY"))
+ if (u->has_mut("PRETTY"))
   op_of_u.fear += 1;
- else if (u->has_trait("BEAUTIFUL"))
+ else if (u->has_mut("BEAUTIFUL"))
   op_of_u.fear += 2;
- else if (u->has_trait("BEAUTIFUL2"))
+ else if (u->has_mut("BEAUTIFUL2"))
   op_of_u.fear += 3;
- else if (u->has_trait("BEAUTIFUL3"))
+ else if (u->has_mut("BEAUTIFUL3"))
   op_of_u.fear += 4;
- else if (u->has_trait("UGLY"))
+ else if (u->has_mut("UGLY"))
   op_of_u.fear -= 1;
- else if (u->has_trait("DEFORMED"))
+ else if (u->has_mut("DEFORMED"))
   op_of_u.fear += 3;
- else if (u->has_trait("DEFORMED2"))
+ else if (u->has_mut("DEFORMED2"))
   op_of_u.fear += 6;
- else if (u->has_trait("DEFORMED3"))
+ else if (u->has_mut("DEFORMED3"))
   op_of_u.fear += 9;
- if (u->has_trait("TERRIFYING"))
+ if (u->has_mut("TERRIFYING"))
   op_of_u.fear += 6;
 
  if (u->stim > 20)
@@ -1166,21 +1166,21 @@ void npc::form_opinion(player *u)
  if (u->pkill > 30)
   op_of_u.trust -= 1;
 
- if (u->has_trait("PRETTY"))
+ if (u->has_mut("PRETTY"))
   op_of_u.trust += 1;
- else if (u->has_trait("BEAUTIFUL"))
+ else if (u->has_mut("BEAUTIFUL"))
   op_of_u.trust += 3;
- else if (u->has_trait("BEAUTIFUL2"))
+ else if (u->has_mut("BEAUTIFUL2"))
   op_of_u.trust += 5;
- else if (u->has_trait("BEAUTIFUL3"))
+ else if (u->has_mut("BEAUTIFUL3"))
   op_of_u.trust += 7;
- else if (u->has_trait("UGLY"))
+ else if (u->has_mut("UGLY"))
   op_of_u.trust -= 1;
- else if (u->has_trait("DEFORMED"))
+ else if (u->has_mut("DEFORMED"))
   op_of_u.trust -= 3;
- else if (u->has_trait("DEFORMED2"))
+ else if (u->has_mut("DEFORMED2"))
   op_of_u.trust -= 6;
- else if (u->has_trait("DEFORMED3"))
+ else if (u->has_mut("DEFORMED3"))
   op_of_u.trust -= 9;
 
     // VALUE
@@ -1260,7 +1260,7 @@ int npc::player_danger(player *u) const
    ret++;
  }
 
- if (u->has_trait("TERRIFYING"))
+ if (u->has_mut("TERRIFYING"))
   ret += 2;
 
  if (u->stim > 20)
@@ -2054,18 +2054,18 @@ void npc::die(Creature* nkiller) {
     }
     if( killer == &g->u ){
         if (is_friend()) {
-            if (g->u.has_trait("SAPIOVORE")) {
+            if (g->u.has_mut("SAPIOVORE")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed a friendly ape, %s.  Better eaten than eating."),
                                       pgettext("memorial_female", "Killed a friendly ape, %s.  Better eaten than eating."),
                                       name.c_str());
             }
-            else if(!g->u.has_trait("PSYCHOPATH")) {
+            else if(!g->u.has_mut("PSYCHOPATH")) {
                 // Very long duration, about 7d, decay starts after 10h.
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed a friend, %s."),
                                       pgettext("memorial_female", "Killed a friend, %s."),
                                       name.c_str());
                 g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
-            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
+            } else if(!g->u.has_mut("CANNIBAL") && g->u.has_mut("PSYCHOPATH")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed someone foolish enough to call you friend, %s. Didn't care."),
                                       pgettext("memorial_female", "Killed someone foolish enough to call you friend, %s. Didn't care."),
                                       name.c_str());
@@ -2075,21 +2075,21 @@ void npc::die(Creature* nkiller) {
                                       name.c_str());
             }
         } else if (!is_enemy() || this->hit_by_player) {
-            if (g->u.has_trait("SAPIOVORE")) {
+            if (g->u.has_mut("SAPIOVORE")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
                                       pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
             }
-            else if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
+            else if(!g->u.has_mut("CANNIBAL") && !g->u.has_mut("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
                 g->u.add_memorial_log(pgettext("memorial_male","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
                                       pgettext("memorial_female","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
                                       name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
-            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
+            } else if(!g->u.has_mut("CANNIBAL") && g->u.has_mut("PSYCHOPATH")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s, in cold blood. They were weak."),
                                       pgettext("memorial_female", "Killed an innocent, %s, in cold blood. They were weak."),
                                       name.c_str());
-            } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
+            } else if(g->u.has_mut("CANNIBAL") && !g->u.has_mut("PSYCHOPATH")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s."),
                                       pgettext("memorial_female", "Killed an innocent, %s."),
                                       name.c_str());

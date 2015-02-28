@@ -156,43 +156,43 @@ void Character::recalc_hp()
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
         elem = 60 + str_max * 3;
-        if (has_trait("HUGE")) {
+        if (has_mut("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
             // so no HP bonus from the ST above/beyond that from Large
             elem -= 6;
         }
         // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
         // structure can help with that, a bit.
-        if (has_trait("BENDY2")) {
+        if (has_mut("BENDY2")) {
             elem += 3;
         }
-        if (has_trait("BENDY3")) {
+        if (has_mut("BENDY3")) {
             elem += 6;
         }
         // Only the most extreme applies.
-        if (has_trait("TOUGH")) {
+        if (has_mut("TOUGH")) {
             elem *= 1.2;
-        } else if (has_trait("TOUGH2")) {
+        } else if (has_mut("TOUGH2")) {
             elem *= 1.3;
-        } else if (has_trait("TOUGH3")) {
+        } else if (has_mut("TOUGH3")) {
             elem *= 1.4;
-        } else if (has_trait("FLIMSY")) {
+        } else if (has_mut("FLIMSY")) {
             elem *= .75;
-        } else if (has_trait("FLIMSY2")) {
+        } else if (has_mut("FLIMSY2")) {
             elem *= .5;
-        } else if (has_trait("FLIMSY3")) {
+        } else if (has_mut("FLIMSY3")) {
             elem *= .25;
         }
         // Mutated toughness stacks with starting, by design.
-        if (has_trait("MUT_TOUGH")) {
+        if (has_mut("MUT_TOUGH")) {
             elem *= 1.2;
-        } else if (has_trait("MUT_TOUGH2")) {
+        } else if (has_mut("MUT_TOUGH2")) {
             elem *= 1.3;
-        } else if (has_trait("MUT_TOUGH3")) {
+        } else if (has_mut("MUT_TOUGH3")) {
             elem *= 1.4;
         }
     }
-    if (has_trait("GLASSJAW"))
+    if (has_mut("GLASSJAW"))
     {
         new_max_hp[hp_head] *= 0.8;
     }
@@ -224,19 +224,19 @@ void Character::recalc_sight_limits()
     if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_effect("in_pit") ||
-            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+            (has_effect("boomered") && (!(has_mut("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
-                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
-                !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
+                !has_mut("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
+                !has_mut("CEPH_EYES") && !has_mut("PER_SLIME_OK") ) ) {
         sight_max = 1;
     } else if (has_active_mutation("SHELL2")) {
         // You can kinda see out a bit.
         sight_max = 2;
-    } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
+    } else if ( (has_mut("MYOPIC") || has_mut("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
             !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         sight_max = 4;
-    } else if (has_trait("PER_SLIME")) {
+    } else if (has_mut("PER_SLIME")) {
         sight_max = 6;
     }
 
@@ -244,14 +244,14 @@ void Character::recalc_sight_limits()
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
     // Debug-only NV, by vache's request
-    if (has_trait("DEBUG_NIGHTVISION")) {
+    if (has_mut("DEBUG_NIGHTVISION")) {
         sight_boost = 59;
         sight_boost_cap = 59;
     } else if (has_nv() || is_wearing("rm13_armor_on") || has_active_mutation("NIGHTVISION3") ||
         has_active_mutation("ELFA_FNV") || (has_active_mutation("CEPH_VISION")) ) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
-        if (has_trait("BIRD_EYE")) {
+        if (has_mut("BIRD_EYE")) {
             sight_boost = 13;
         }
         else {
@@ -261,14 +261,14 @@ void Character::recalc_sight_limits()
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
     } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
         has_active_mutation("URSINE_EYE")) {
-        if (has_trait("BIRD_EYE")) {
+        if (has_mut("BIRD_EYE")) {
             sight_boost = 5;
         }
          else {
             sight_boost = 4;
          }
     } else if (has_active_mutation("NIGHTVISION")) {
-        if (has_trait("BIRD_EYE")) {
+        if (has_mut("BIRD_EYE")) {
             sight_boost = 2;
         }
         else {
@@ -434,16 +434,16 @@ int Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
-    if (has_trait("BADBACK")) {
+    if (has_mut("BADBACK")) {
         ret = int(ret * .65);
     }
-    if (has_trait("STRONGBACK")) {
+    if (has_mut("STRONGBACK")) {
         ret = int(ret * 1.35);
     }
-    if (has_trait("LIGHT_BONES")) {
+    if (has_mut("LIGHT_BONES")) {
         ret = int(ret * .80);
     }
-    if (has_trait("HOLLOW_BONES")) {
+    if (has_mut("HOLLOW_BONES")) {
         ret = int(ret * .60);
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
@@ -464,16 +464,16 @@ int Character::volume_capacity() const
     if (has_bionic("bio_storage")) {
         ret += 8;
     }
-    if (has_trait("SHELL")) {
+    if (has_mut("SHELL")) {
         ret += 16;
     }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
+    if (has_mut("SHELL2") && !has_active_mutation("SHELL2")) {
         ret += 24;
     }
-    if (has_trait("PACKMULE")) {
+    if (has_mut("PACKMULE")) {
         ret = int(ret * 1.4);
     }
-    if (has_trait("DISORGANIZED")) {
+    if (has_mut("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
     if (ret < 2) {
@@ -604,52 +604,52 @@ void Character::reset_stats()
         mod_dex_bonus(2);
 
     // Trait / mutation buffs
-    if (has_trait("THICK_SCALES")) {
+    if (has_mut("THICK_SCALES")) {
         mod_dex_bonus(-2);
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+    if (has_mut("CHITIN2") || has_mut("CHITIN3") || has_mut("CHITIN_FUR3")) {
         mod_dex_bonus(-1);
     }
-    if (has_trait("BIRD_EYE")) {
+    if (has_mut("BIRD_EYE")) {
         mod_per_bonus(4);
     }
-    if (has_trait("INSECT_ARMS")) {
+    if (has_mut("INSECT_ARMS")) {
         mod_dex_bonus(-2);
     }
-    if (has_trait("WEBBED")) {
+    if (has_mut("WEBBED")) {
         mod_dex_bonus(-1);
     }
-    if (has_trait("ARACHNID_ARMS")) {
+    if (has_mut("ARACHNID_ARMS")) {
         mod_dex_bonus(-4);
     }
-    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
+    if (has_mut("ARM_TENTACLES") || has_mut("ARM_TENTACLES_4") ||
+            has_mut("ARM_TENTACLES_8")) {
         mod_dex_bonus(1);
     }
 
     // Dodge-related effects
-    if (has_trait("TAIL_LONG")) {
+    if (has_mut("TAIL_LONG")) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_CATTLE")) {
+    if (has_mut("TAIL_CATTLE")) {
         mod_dodge_bonus(1);
     }
-    if (has_trait("TAIL_RAT")) {
+    if (has_mut("TAIL_RAT")) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
+    if (has_mut("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
         mod_dodge_bonus(1);
     }
-    if (has_trait("TAIL_RAPTOR")) {
+    if (has_mut("TAIL_RAPTOR")) {
         mod_dodge_bonus(3);
     }
-    if (has_trait("TAIL_FLUFFY")) {
+    if (has_mut("TAIL_FLUFFY")) {
         mod_dodge_bonus(4);
     }
-    if (has_trait("WINGS_BAT")) {
+    if (has_mut("WINGS_BAT")) {
         mod_dodge_bonus(-3);
     }
-    if (has_trait("WINGS_BUTTERFLY")) {
+    if (has_mut("WINGS_BUTTERFLY")) {
         mod_dodge_bonus(-4);
     }
 

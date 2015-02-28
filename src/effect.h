@@ -180,7 +180,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Mods an effect's intensity, capping at max_intensity. */
         void mod_intensity(int nintensity);
         
-        /** Returns the string id of the resist trait to be used in has_trait("id"). */
+        /** Returns the string id of the resist trait to be used in has_mut("id"). */
         std::string get_resist_trait() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
         std::string get_resist_effect() const;

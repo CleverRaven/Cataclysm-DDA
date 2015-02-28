@@ -652,19 +652,19 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
         none( p, m, examx, examy );
         return;
     }
-    if( p->has_trait( "ARACHNID_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+    if( p->has_mut( "ARACHNID_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
         add_msg( _( "Climbing the fence is trivial for one such as you." ) );
         p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+    } else if( p->has_mut( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p->moves -= 90;
-    } else if( p->has_trait( "PARKOUR" ) ) {
+    } else if( p->has_mut( "PARKOUR" ) ) {
         add_msg( _( "The fence is no match for your freerunning abilities." ) );
         p->moves -= 100;
     } else {
         p->moves -= 400;
         int climb = p->dex_cur;
-        if (p->has_trait( "BADKNEES" )) {
+        if (p->has_mut( "BADKNEES" )) {
             climb = climb / 2;
         }
         if( one_in( climb ) ) {
@@ -688,7 +688,7 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
 
 void iexamine::bars(player *p, map *m, int examx, int examy)
 {
-    if(!(p->has_trait("AMORPHOUS"))) {
+    if(!(p->has_mut("AMORPHOUS"))) {
         none(p, m, examx, examy);
         return;
     }
@@ -967,7 +967,7 @@ void iexamine::gunsafe_ml(player *p, map *m, int examx, int examy)
 void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
 {
     std::string furn_name = m->tername(examx, examy).c_str();
-    bool can_hack = ( !p->has_trait("ILLITERATE") &&
+    bool can_hack = ( !p->has_mut("ILLITERATE") &&
                       ( (p->has_amount("electrohack", 1)) ||
                         (p->has_bionic("bio_fingerhack") && p->power_level > 0) ) );
     if (!can_hack) {
@@ -1202,7 +1202,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) && ((p->hunger) > 0) &&
          (!(p->wearing_something_on(bp_mouth))) ) {
         if (!query_yn(_("You feel woozy as you explore the %s. Drink?"), m->furnname(examx,
                       examy).c_str())) {
@@ -1253,7 +1253,7 @@ void iexamine::flower_bluebell(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
@@ -1275,7 +1275,7 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
@@ -1302,7 +1302,7 @@ void iexamine::flower_datura(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
@@ -1323,7 +1323,7 @@ void iexamine::flower_dandelion(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
@@ -1342,7 +1342,7 @@ void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
     if (calendar::turn.get_season() == WINTER) {
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) ) {
             if (!(p->wearing_something_on(bp_mouth))) {
                 if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examx,
@@ -1487,14 +1487,14 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
         } else if (seedType == "marloss_seed") {
             fungus(p, m, examx, examy);
             m->i_clear(examx, examy);
-            if (p->has_trait("M_DEPENDENT") && ((p->hunger > 500) || p->thirst > 300 )) {
+            if (p->has_mut("M_DEPENDENT") && ((p->hunger > 500) || p->thirst > 300 )) {
                 m->ter_set(examx, examy, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
+            } else if ( (p->has_mut("M_DEFENDER")) || ( (p->has_mut("M_SPORES") || p->has_mut("M_FERTILE")) &&
               one_in(2)) ) {
                 m->add_spawn("mon_fungal_blossom", 1, examx, examy);
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
-            } else if ( (p->has_trait("THRESH_MYCUS")) || one_in(4)) {
+            } else if ( (p->has_mut("THRESH_MYCUS")) || one_in(4)) {
                 m->furn_set(examx, examy, f_flower_marloss);
                 add_msg(m_info, _("The seed blossoms rather rapidly..."));
             } else {
@@ -2081,7 +2081,7 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
 
 void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
 {
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+    if ( ((p->has_mut("PROBOSCIS")) || (p->has_mut("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
          (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
         p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
@@ -2132,9 +2132,9 @@ void iexamine::tree_blackjack(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
 {
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         pick_plant(p, m, examx, examy, "mycus_fruit", t_shrub_fungal);
-    } else if (p->has_trait("THRESH_MARLOSS")) {
+    } else if (p->has_mut("THRESH_MARLOSS")) {
         m->spawn_item( examx, examy, "mycus_fruit" );
         m->ter_set(examx, examy, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
@@ -2145,15 +2145,15 @@ void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 {
-    if (p->has_trait("THRESH_MYCUS")) {
+    if (p->has_mut("THRESH_MYCUS")) {
         pick_plant(p, m, examx, examy, "mycus_fruit", t_tree_fungal);
-        if (p->has_trait("M_DEPENDENT") && one_in(3)) {
+        if (p->has_mut("M_DEPENDENT") && one_in(3)) {
             // Folks have a better shot at keeping fed.
             add_msg(m_info, _("We have located a particularly vital nutrient deposit underneath this location."));
             add_msg(m_good, _("Additional nourishment is available."));
             m->ter_set(examx, examy, t_marloss_tree);
         }
-    } else if (p->has_trait("THRESH_MARLOSS")) {
+    } else if (p->has_mut("THRESH_MARLOSS")) {
         m->spawn_item( p->posx(), p->posy(), "mycus_fruit" );
         m->ter_set(examx, examy, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
@@ -2633,7 +2633,7 @@ static int findBestGasDiscount(player *p)
 
 static std::string str_to_illiterate_str(std::string s)
 {
-    if (!g->u.has_trait("ILLITERATE")) {
+    if (!g->u.has_mut("ILLITERATE")) {
         return s;
     } else {
         for (auto &i : s) {
@@ -2792,7 +2792,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     const int refund = 4;
     const int cancel = 5;
 
-    if (p->has_trait("ILLITERATE")) {
+    if (p->has_mut("ILLITERATE")) {
         popup(_("You're illiterate, and can't read the screen."));
     }
 
@@ -2825,7 +2825,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     int pricePerUnit = getPricePerGasUnit(discount);
     std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
-    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
+    bool can_hack = (!p->has_mut("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
                      (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
 
     uimenu amenu;

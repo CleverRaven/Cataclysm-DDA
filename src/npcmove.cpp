@@ -54,7 +54,7 @@ bool npc::is_dangerous_field( const field_entry &fld ) const
         case fd_relax_gas:
             return get_env_resist( bp_mouth ) < 15;
         case fd_fungal_haze:
-            if( has_trait( "M_IMMUNE" ) ) {
+            if( has_mut( "M_IMMUNE" ) ) {
                 return false;
             }
             return get_env_resist( bp_mouth ) < 15 || get_env_resist( bp_eyes ) < 15;
