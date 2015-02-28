@@ -4777,18 +4777,27 @@ void vehicle::shift_parts( const point delta )
  * @return bool true if the shift was needed.
  */
 bool vehicle::shift_if_needed() {
-    if (parts_at_relative(0, 0).empty()) {
-        //Find a frame, any frame, to shift to
-        for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
-            if ( part_info(next_part).location == "structure"
-                    && !part_info(next_part).has_flag("PROTRUSION")
-                    && !parts[next_part].removed) {
-                shift_parts( parts[next_part].mount );
-                break;
-            }
+    if( !parts_at_relative(0, 0).empty() ) {
+        // Shifting is not needed.
+        return false;
+    }
+    //Find a frame, any frame, to shift to
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( part_info(next_part).location == "structure"
+                && !part_info(next_part).has_flag("PROTRUSION")
+                && !parts[next_part].removed) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
         }
-        refresh();
-        return true;
+    }
+    // There are only parts with PROTRUSION left, choose one of them.
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( !parts[next_part].removed ) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
+        }
     }
     return false;
 }
