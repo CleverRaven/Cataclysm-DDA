@@ -28,70 +28,70 @@ bool Character::has_mut(const muttype_id &flag) const
 
 bool Character::is_trait(const muttype_id &flag) const
 {
-    // Returns 1 or 0 depending on the existence of the trait
     return my_traits.count(flag);
 }
 
 bool Character::add_mutation(const muttype_id &flag, bool message)
 {
     // Only add the mutation if we don't already have it
-    if (!has_mut(flag)) {
-        char new_key = ' ';
-        // Find a free letter
-        for( const auto &letter : inv_chars ) {
-            bool found = false;
-            for( auto &m : my_mutations ) {
-                if( letter == m.second.get_key() ) {
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                new_key = letter;
+    if (has_mut(flag)) {
+        return false;
+    }
+
+    char new_key = ' ';
+    // Find a free letter
+    for( const auto &letter : inv_chars ) {
+        bool found = false;
+        for( auto &m : my_mutations ) {
+            if( letter == m.second.get_key() ) {
+                found = true;
                 break;
             }
         }
-        
-        // Add the new mutation and set its key
-        my_mutations[flag] = new mutation();
-        my_mutations[flag].set_key(new_key);
-        
-        // Handle mutation gain effects
-        mutation_effect(flag);
-        recalc_sight_limits();
-        
-        // Print message if needed
-        if (message && is_player()) {
-            game_message_type rating;
-            // Rating = rating for mutation addition
-            mut_rating rate = mut_types[flag].get_rating();
-            if (rate == mut_good) {
-                rating = m_good;
-            } else if (rate == mut_bad) {
-                rating = m_bad;
-            } else if (rate == mut_mixed) {
-                rating = m_mixed;
-            } else {
-                rating = m_neutral;
-            }
-            if (is_trait(flag)) {
-                add_msg(rating, _("Your innate trait %s returns!"),
-                                mut_types[flag].get_name().c_str());
-            } else {
-                add_msg(rating, _("You gain a mutation called %s!"),
-                                mut_types[flag].get_name().c_str());
-            }
+        if( !found ) {
+            new_key = letter;
+            break;
         }
-
-        set_cat_levels();
-        // Once drench is moved to Character we can remove the cast.
-        player p = dynamic_cast<player> this;
-        if (p != NULL) {
-            drench_mut_calc();
-        }
-        return true;
     }
-    return false;
+    
+    // Add the new mutation and set its key
+    my_mutations[flag] = new mutation();
+    my_mutations[flag].set_key(new_key);
+    
+    // Handle mutation gain effects
+    mutation_effect(flag);
+    recalc_sight_limits();
+    
+    // Print message if needed
+    if (message && is_player()) {
+        game_message_type rating;
+        // Rating = rating for mutation addition
+        mut_rating rate = mut_types[flag].get_rating();
+        if (rate == mut_good) {
+            rating = m_good;
+        } else if (rate == mut_bad) {
+            rating = m_bad;
+        } else if (rate == mut_mixed) {
+            rating = m_mixed;
+        } else {
+            rating = m_neutral;
+        }
+        if (is_trait(flag)) {
+            add_msg(rating, _("Your innate trait %s returns!"),
+                            mut_types[flag].get_name().c_str());
+        } else {
+            add_msg(rating, _("You gain a mutation called %s!"),
+                            mut_types[flag].get_name().c_str());
+        }
+    }
+
+    set_cat_levels();
+    // Once drench is moved to Character we can remove the cast.
+    player p = dynamic_cast<player> this;
+    if (p != NULL) {
+        drench_mut_calc();
+    }
+    return true;
 }
 
 void Character::add_trait(const muttype_id &flag, bool message)
@@ -309,7 +309,7 @@ int mutation_type::get_mod(std::string arg, bool active) const
 
 void Character::apply_mods(const muttype_id &mut_id, bool add_remove, bool active)
 {
-    auto mut = &mut_types[mut];
+    const auto mut = &mut_types[mut];
     int sign = add_remove ? 1 : -1;
     int str_change = mut.get_mod("STR", active);
     str_max += sign * str_change;
@@ -528,7 +528,7 @@ void Character::mutation_loss_effect(const muttype_id mut)
 bool Character::has_active_mutation(const muttype_id &flag) const
 {
     // Constant-time check first
-    if (mut_types[flag].activatable == false) {
+    if (!my_mutations[flag].is_activatable()) {
         return false;
     }
     
