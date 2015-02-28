@@ -5530,8 +5530,8 @@ int vehicle::obstacle_at_part( int p ) const
         return p;
     }
 
-    int part = part_with_feature( p, VPFLAG_OBSTACLE );
-    if( part < 0 || parts[p].hp <= 0 ) {
+    int part = part_with_feature( p, VPFLAG_OBSTACLE, true );
+    if( part < 0 ) {
         return -1; // No obstacle here
     }
 
