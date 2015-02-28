@@ -4752,11 +4752,10 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
  * @param dx How much to shift on the x-axis.
  * @param dy How much to shift on the y-axis.
  */
-void vehicle::shift_parts(const int dx, const int dy)
+void vehicle::shift_parts( const point delta )
 {
     for( auto &elem : parts ) {
-        elem.mount.x -= dx;
-        elem.mount.y -= dy;
+        elem.mount -= delta;
     }
 
     //Don't use the cache as it hasn't been updated yet
@@ -4784,7 +4783,7 @@ bool vehicle::shift_if_needed() {
             if ( part_info(next_part).location == "structure"
                     && !part_info(next_part).has_flag("PROTRUSION")
                     && !parts[next_part].removed) {
-                shift_parts(parts[next_part].mount.x, parts[next_part].mount.y);
+                shift_parts( parts[next_part].mount );
                 break;
             }
         }
