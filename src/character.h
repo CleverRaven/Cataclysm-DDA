@@ -106,6 +106,8 @@ class Character : public Creature
         void mutate_category(const std::string &cat);
         
     private:
+        /** Returns the bionic with the given invlet, or NULL if no mutation has that invlet */
+        mutation* mutation_by_invlet(char ch);
         /** Returns a vector of all mutations that either replace the given mutation
          *  or have it as a prerequisite. */
         std::vector<muttype_id> get_dependant_muts(const muttype_id &flag) const;

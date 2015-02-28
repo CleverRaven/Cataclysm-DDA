@@ -12,6 +12,15 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+mutation* Character::mutation_by_invlet(char ch) {
+    for( auto &elem : my_mutations ) {
+        if( elem.get_key() == ch ) {
+            return &elem;
+        }
+    }
+    return nullptr;
+}
+
 bool Character::has_mut(const muttype_id &flag) const
 {
     return my_mutations.find(flag) != my_mutations.end();
@@ -785,13 +794,13 @@ void Character::process_mutations()
     // Bitset is <hunger, thirst, fatigue>
     std::bitset<3> stops;
     if (hunger >= 2800) {
-        stops.set(1);
+        stops.set(0);
     }
     if (thirst >= 520) {
-        stops.set(2);
+        stops.set(1);
     }
     if (fatigue >= 575) {
-        stops.set(3);
+        stops.set(2);
     }
     std::unordered_map<std::string, int> pro_costs;
     for (auto &mut : my_mutations) {
@@ -816,11 +825,11 @@ bool mutation::process(std::unordered_map<std::string, int> &cost, std::bitset<3
     if (charge == 1 && mut_type->repeating) {
         // Check each stop type to see if we can reactivate
         bool stopped = false;
-        if (stops[1] && mut_type->costs["hunger"] > 0) {
+        if (stops[0] && mut_type->costs["hunger"] > 0) {
             stopped = true;
-        } else if (!stops[2] && mut_type->costs["thirst"] > 0) {
+        } else if (!stops[1] && mut_type->costs["thirst"] > 0) {
             stopped = true;
-        } else if (!stops[3] && mut_type->costs["fatigue"] > 0) {
+        } else if (!stops[2] && mut_type->costs["fatigue"] > 0) {
             stopped = true;
         }
         
@@ -1052,15 +1061,8 @@ void player::mutations_window()
         const long ch = ctxt.get_raw_input().get_first_input();
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
-            muttype_id mut_id;
-            // Find the selected mutation by key
-            for( const auto &mut : my_mutations ) {
-                if (mut.second.get_key() == ch) {
-                    mut_id = mut.first;
-                    break;
-                }
-            }
-            if( mut_id.empty() ) {
+            mutation *tmp = mutation_by_invlet(ch);
+            if(tmp == nullptr)
                 // Selected an non-existing mutation (or escape, or ...)
                 continue;
             }
@@ -1071,27 +1073,18 @@ void player::mutations_window()
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            muttype_id other_mut_id;
-            // Check for a second mutation with the new key
-            for( const auto &mut : my_mutations ) {
-                if (mut.second.get_key() == newch) {
-                    other_mut_id = mut.first;
-                    break;
-                }
-            }
-            // if there is already a mutation with the new key, the key
-            // is considered valid.
-            if( other_mut_id.empty() && inv_chars.find(newch) == std::string::npos ) {
+            mutation *otmp = mutation_by_invlet(newch)
+            if (otmp == nullptr && inv_chars.find(newch) == std::string::npos ) {
                 // TODO separate list of letters for mutations
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
             }
-            if( !other_mut_id.empty() ) {
-                muttype_id tmp = my_mutations[mut_id].get_key();
-                my_mutations[mut_id].set_key(my_mutations[other_mut_id].get_key());
-                my_mutations[other_mut_id].set_key(tmp);
+            if( otmp != 0 ) {
+                muttype_id tmp_key = tmp.get_key();
+                tmp.set_key(otmp.get_key());
+                otmp.set_key(tmp_key);
             } else {
-                my_mutations[mut_id].set_key(newch);
+                tmp.set_key(newch);
             }
             // TODO: show a message like when reassigning a key to an item?
         } else if (action == "DOWN") {
@@ -1114,23 +1107,15 @@ void player::mutations_window()
         }else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
-            std::string mut_id;
-            // Find the mutation we're looking for
-            for( const auto &mut : my_mutations ) {
-                if (mut.second.get_key() == ch) {
-                    mut_id = mut.first;
-                    break;
-                }
-            }
-            if( mut_id.empty() ) {
+            mutation *tmp = mutation_by_invlet(ch);
+            if (tmp == nullptr) {
                 // entered a key that is not mapped to any mutation,
                 // -> leave screen
                 break;
             }
-            const auto mut = my_mutations[mut_id];
             if (menu_mode == "activating") {
-                if (mut.is_activatable()) {
-                    if (mut.is_active()) {
+                if (tmp.is_activatable()) {
+                    if (tmp.is_active()) {
                         // Message is handled inside deactivate_mutation()
                         deactivate_mutation(mut_id);
                         
@@ -1148,14 +1133,14 @@ void player::mutations_window()
                         delwin(wBio);
                         g->draw();
                         // Message is handled inside activate_mutation()
-                        activate_mutation( mut_id );
+                        activate_mutation( tmp.get_id() );
                         // Action done, leave screen
                         break;
                     }
                 } else {
                     popup(_("You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'."), mut.get_name().c_str(), mut.get_name().c_str(),
-                          mut.get_key() );
+%s, press '!', then '%c'."), tmp.get_name().c_str(), tmp.get_name().c_str(),
+                          tmp.get_key() );
                     redraw = true;
                 }
             }
@@ -1163,7 +1148,7 @@ void player::mutations_window()
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
-                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, mut.get_desc());
+                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, tmp.get_desc());
                 wrefresh(w_description);
             }
         }

@@ -177,10 +177,8 @@ void load_mutation_type(JsonObject &js)
 void finalize_mut_types()
 {
     for (auto &i : mut_types) {
-        if (!i.second.replacements.empty()) {
-            for (auto &j : i.second.replacements) {
-                mut_types[j].replaces.push_back(i.first);
-            }
+        for (auto &j : i.second.replacements) {
+            mut_types[j].replaces.push_back(i.first);
         }
     }
 }

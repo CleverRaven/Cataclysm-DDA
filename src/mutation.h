@@ -29,10 +29,6 @@ class mutation_type
         friend void finalize_mut_types();
         friend class mutation;
     public:
-        // --------------- Constructors ---------------
-        mutation_type();
-        mutation_type(const mutation_type &rhs);
-        
         // --------------- Helpers ---------------
         bool load_mod_data(JsonObject &jsobj, std::string member);
         bool load_cost_data(JsonObject &jsobj, std::string member);
