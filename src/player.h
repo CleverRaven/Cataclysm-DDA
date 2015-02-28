@@ -250,7 +250,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
-        void power_mutations();
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic(int b, bool eff_only = false);
         /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
@@ -267,21 +266,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bionic *bionic_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
-
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok(std::string mutation, bool force_good, bool force_bad);
-        /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
-        void mutate();
-        /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category(std::string);
-        /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards(std::string mut);
-        /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation(std::string mut);
-        /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag(std::string mut);
-        /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag(std::string mut);
 
         const point &pos() const;
         /** Returns the player's sight range */
@@ -1035,9 +1019,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( std::string mutation );
-        void deactivate_mutation( std::string mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
         /**
