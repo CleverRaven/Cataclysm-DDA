@@ -2493,16 +2493,11 @@ int item::bash_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
-        }
+               //Max value           Steepness of graph         Center of 'S'
+        l_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2.5;
-        }
+        k_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2535,16 +2530,10 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;
-        }
+        l_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2;
-        }
+        k_padding = 8 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
