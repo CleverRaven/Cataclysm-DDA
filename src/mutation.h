@@ -13,16 +13,20 @@ extern std::map<std::string, mutation_type> mut_types;
 extern std::vector<dream> dreams;
 typedef std::pair<body_part, tripoint> mutation_wet;
 
+/** Handles the "replaces" field for mutation_type. */
+void finalize_mut_types();
+
 enum mut_rating {
-    m_good,     // A good mutation.
-    m_neutral,  // A neutral or little effect mutation.
-    m_bad,      // A bad mutation.
-    m_mixed     // A mutation with both good and bad effects.
+    mut_good,     // A good mutation.
+    mut_bad,      // A bad mutation.
+    mut_mixed     // A mutation with both good and bad effects.
+    mut_neutral,  // A neutral or little effect mutation.
 }
 
 class mutation_type
 {
         friend void load_mutation_type(JsonObject &jo);
+        friend void finalize_mut_types();
         friend class mutation;
     public:
         // --------------- Constructors ---------------
@@ -69,21 +73,23 @@ class mutation_type
         /** How long do we activate for? */
         int duration;
         /** Prerequisites, only 1 is needed. */
-        std::vector<std::string> prereqs;
+        std::vector<muttype_id> prereqs;
         /** Secondary prerequisites, only 1 is needed. */
-        std::vector<std::string> prereqs2;
+        std::vector<muttype_id> prereqs2;
         /** Threshold prerequisite, only 1 is needed. */
-        std::vector<std::string> threshreq;
+        std::vector<muttype_id> threshreq;
         /** Mutations that this mutation removes. */
-        std::vector<std::string> cancels;
+        std::vector<muttype_id> cancels;
         /** Mutations that this mutation can mutate into. */
-        std::vector<std::string> replacements;
+        std::vector<muttype_id> replacements;
+        /** Mutations that this mutation mutates from. */
+        std::vector<muttype_id> replaces;
         /** Mutations that this mutation makes more likely to occur. */
-        std::vector<std::string> additions;
+        std::vector<muttype_id> additions;
         /** What categories does this mutation fall into? */
-        std::vector<std::string> category;
+        std::vector<muttype_id> category;
         /** Mutation wet protection effect. */
-        std::map<std::string, mutation_wet> protection;
+        std::map<muttype_id, mutation_wet> protection;
         /** Martial art styles that can be chosen on character generation with this mutation.
          *  Used mainly by profession mutations. */
         std::vector<std::string> initial_ma_styles;
@@ -100,24 +106,18 @@ class mutation : public JsonSerializer, public JsonDeserializer
         mutation() :
             mut_type(NULL),
             charge(0),
-            key(''),
-            trait(false)
+            key('')
         { }
         mutation(mutation_type *pmut_type) :
             mut_type(pmut_type),
             charge(0),
-            key(''),
-            trait(false)
+            key('')
         { }
         mutation(const mutation &rhs);
         
         // --------------- Accessors ---------------
         char get_key() const;
         void set_key(char new_key);
-        
-        bool get_trait() const;
-        void set_trait(bool b);
-        void toggle_trait();
         
         /** Returns the various costs of a mutation in the passed in map. */
         void get_costs(std::unordered_map<std::string, int> &cost);
@@ -143,8 +143,6 @@ class mutation : public JsonSerializer, public JsonDeserializer
         int charge;
         /** What key is the mutation bound to. */
         char key;
-        /** Is this mutation a starting trait? */
-        bool trait;
 }
 
 struct dream {

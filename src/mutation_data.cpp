@@ -8,6 +8,7 @@
 #include <map>
 
 std::map<std::string, mutation_type> mut_types;
+std::vector<dream> dreams;
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
                         std::string mod_type, bool active, std::string type_key)
@@ -75,23 +76,23 @@ void load_mutation_type(JsonObject &js)
     if(jo.has_member("rating")) {
         std::string r = jo.get_string("rating");
         if(r == "good") {
-            new_mut.rating = m_good;
+            new_mut.rating = mut_good;
         } else if(r == "neutral" ) {
-            new_mut.rating = m_neutral;
+            new_mut.rating = mut_neutral;
         } else if(r == "bad" ) {
-            new_mut.rating = m_bad;
+            new_mut.rating = mut_bad;
         } else if(r == "mixed" ) {
-            new_mut.rating = m_mixed;
+            new_mut.rating = mut_mixed;
         } else {
-            new_mut.rating = m_neutral;
+            new_mut.rating = mut_neutral;
         }
     } else {
         if (new_mut.points > 0) {
-            new_mut.rating = m_good;
+            new_mut.rating = mut_good;
         } else if (new_mut.points < 0) {
-            new_mut.rating = m_bad;
+            new_mut.rating = mut_bad;
         } else {
-            new_mut.rating = m_neutral;
+            new_mut.rating = mut_neutral;
         }
     }
     
@@ -173,8 +174,16 @@ void load_mutation_type(JsonObject &js)
     mut_types[new_mut.id] = new_mut;
 }
 
-
-std::vector<dream> dreams;
+void finalize_mut_types()
+{
+    for (auto &i : mut_types) {
+        if (!i.second.replacements.empty()) {
+            for (auto &j : i.second.replacements) {
+                mut_types[j].replaces.push_back(i.first);
+            }
+        }
+    }
+}
 
 void load_dream(JsonObject &jsobj)
 {

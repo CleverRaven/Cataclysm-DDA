@@ -12,27 +12,27 @@
 #include <algorithm> //std::min
 #include <sstream>
 
-bool Character::has_mutation(const muttype_id &b) const
+bool Character::has_mut(const muttype_id &b) const
 {
     return my_mutations.find(b) != my_mutations.end();
 }
 
-bool Character::has_trait(const muttype_id &b) const
+bool Character::is_trait(const muttype_id &b) const
 {
-    auto found = my_mutations.find(b);
-    return (found != my_mutations.end()) && found->second.get_trait();
+    // Returns 1 or 0 depending on the existence of the trait
+    return my_traits.count(b);
 }
 
-bool Character::add_mutation(const muttype_id &flag)
+bool Character::add_mutation(const muttype_id &flag, bool message)
 {
     // Only add the mutation if we don't already have it
-    if (my_mutations.find(b) == my_mutations.end()) {
+    if (!has_mut(flag)) {
         char new_key = ' ';
-        // Find a letter in inv_chars that isn't in trait_keys.
+        // Find a free letter
         for( const auto &letter : inv_chars ) {
             bool found = false;
             for( auto &m : my_mutations ) {
-                if( letter == m->second.get_key() ) {
+                if( letter == m.second.get_key() ) {
                     found = true;
                     break;
                 }
@@ -42,53 +42,249 @@ bool Character::add_mutation(const muttype_id &flag)
                 break;
             }
         }
+        
         // Add the new mutation and set its key
         my_mutations[flag] = new mutation();
         my_mutations[flag].set_key(new_key);
+        
         // Handle mutation gain effects
         mutation_effect(flag);
         recalc_sight_limits();
+        
+        // Print message if needed
+        if (message && is_player()) {
+            game_message_type rating;
+            // Rating = rating for mutation addition
+            mut_rating rate = mut_types[flag].get_rating();
+            if (rate == mut_good) {
+                rating = m_good;
+            } else if (rate == mut_bad) {
+                rating = m_bad;
+            } else if (rate == mut_mixed) {
+                rating = m_mixed;
+            } else {
+                rating = m_neutral;
+            }
+            if (is_trait(flag)) {
+                add_msg(rating, _("Your innate trait %s returns!"),
+                                mut_types[flag].get_name().c_str());
+            } else {
+                add_msg(rating, _("You gain a mutation called %s!"),
+                                mut_types[flag].get_name().c_str());
+            }
+        }
+
+        set_cat_levels();
+        // Once drench is moved to Character we can remove the cast.
+        player p = dynamic_cast<player> this;
+        if (p != NULL) {
+            drench_mut_calc();
+        }
         return true;
     }
     return false;
 }
 
-void Character::add_trait(const muttype_id &flag)
+void Character::add_trait(const muttype_id &flag, bool message)
 {
-    if (add_mutation(flag)) {
+    if (add_mutation(flag), message) {
         // If we successfully added the mutation make it a trait
-        my_mutations[flag].set_trait(true);
+        my_traits.insert(flag);
     }
     // Mutation add effects are handled in add_mutation().
 }
 
-void Character::remove_mutation(const muttype_id &flag)
+void Character::remove_mutation(const muttype_id &flag, bool message)
 {
     my_mutations.erase(flag);
     // Handle mutation loss effects
     mutation_loss_effect(flag);
     recalc_sight_limits();
+        
+    // Print message if needed
+    if (message && is_player()) {
+        game_message_type rating;
+        // Rating = !rating for mutation addition
+        mut_rating rate = mut_types[flag].get_rating();
+        if (rate == mut_good) {
+            rating = m_bad;
+        } else if (rate == mut_bad) {
+            rating = m_good;
+        } else if (rate == mut_mixed) {
+            rating = m_mixed;
+        } else {
+            rating = m_neutral;
+        }
+        if (is_trait(flag)) {
+            add_msg(rating, _("You lose your innate %s trait."),
+                        mut_types[flag].get_name().c_str());
+        } else {
+            add_msg(rating, _("You lose your %s mutation."),
+                        mut_types[flag].get_name().c_str());
+        }
+    }
+    
+    // Check to see if any traits are no longer suppressed
+    for (auto &i : mut_types[flag].get_cancels()) {
+        if (!has_conflicting_mut(flag)) {
+            add_mutation(i);
+        }
+    }
+
+    set_cat_levels();
+    // Once drench is moved to Character we can remove the cast.
+    player p = dynamic_cast<player> this;
+    if (p != NULL) {
+        drench_mut_calc();
+    }
 }
 
-void Character::toggle_mutation(const muttype_id &flag)
+void Character::replace_mutation(const muttype_id &flag1, const muttype_id &flag2)
 {
-    if (has_trait(flag)) {
-        remove_mutation(flag);
-    } else {
-        add_mutation(flag);
+    add_mutation(flag1, false);
+    remove_mutation(falg2, false);
+    if (is_player()) {
+        game_message_type rating;
+        // Rating = !rating for mutation addition
+        mut_rating rate = mut_types[flag].get_rating();
+        if (rate == mut_good) {
+            rating = m_bad;
+        } else if (rate == mut_bad) {
+            rating = m_good;
+        } else if (rate == mut_mixed) {
+            rating = m_mixed;
+        } else {
+            rating = m_neutral;
+        }
+        if (is_trait(flag1)) {
+            add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
+                    mut_types[flag1].get_name().c_str(),
+                    mut_types[flag2].get_name().c_str());
+        } else {
+            add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
+                    mut_types[flag1].get_name().c_str(),
+                    mut_types[flag2].get_name().c_str());
+        }
     }
-    // Mutation loss/gain effects are handled in remove/add_mutation().
 }
 
-void Character::toggle_trait(const muttype_id &flag)
+std::vector<muttype_id> Character::get_dependant_muts(const muttype_id &flag)
 {
-    if (has_trait(flag)) {
+    std::vector<muttype_id> dependants;
+    // Go through all of our mutations
+    for (auto &mut : my_mutations) {
+        bool pushed = false;
+        // Push back those who replace the given mutation.
+        for (auto &i : mut.second.get_replaces()) {
+            if (i == flag) {
+                dependants.push_back(mut.first);
+                pushed = true;
+                break;
+            }
+        }
+        if (pushed) {
+            // Short circuit if needed.
+            continue;
+        }
+        // Push back those who require the given mutation.
+        for (auto &i : mut.second.get_prereqs()) {
+            if (i == flag) {
+                dependants.push_back(mut.first);
+                pushed = true;
+                break;
+            }
+        }
+        if (pushed) {
+            // Short circuit if needed.
+            continue;
+        }
+        // Push back those who secondary require the given mutation.
+        for (auto &i : mut.second.get_prereqs2()) {
+            if (i == flag) {
+                dependants.push_back(mut.first);
+                pushed = true;
+                break;
+            }
+        }
+    }
+    return dependants;
+}
+
+void Character::downgrade_mutation(const muttype_id &flag, bool trait_force)
+{
+    if (!has_mut(flag)) {
+        // We don't have the mutation, abort!
+        return;
+    }
+    
+    if (!trait_force && is_trait(flag)) {
+        // You can't downgrade traits unless you are forced to!
+        return;
+    }
+    
+    // Check if we have mutations that depend on this one that would need to be
+    // removed first.
+    std::vector<muttype_id> deps = get_dependant_muts(flag);
+    if (!deps.empty()) {
+        downgrade_mutation(deps[rng(0, deps.size() - 1)], trait_force);
+        return;
+    }
+    
+    // First check to see if we can downgrade to anything.
+    if (mut_types[flag].get_replaces().empty()) {
+        // If we can't find anything to downgrade to just remove the mutation.
         remove_mutation(flag);
     } else {
-        // Add it as a trait, not a mutation
-        add_trait(flag);
+        // We found something to downgrade to, figure out which of the downgrades
+        // are valid things to downgrade to.
+        std::vector<muttype_id> valid_downgrades;
+        for (auto &i : mut_types[flag].get_replaces()) {
+            // First check if we have an opposite mutation
+            if (has_conflicting_mut(i)) {
+                // Not a valid thing to downgrade to, continue
+                continue;
+            }
+            
+            // Then check if we have all the prereqs for a downgrade
+            bool valid = true;
+            for (auto &check : i.get_prereqs()) {
+                if (!has_mut(check)) {
+                    // Missing a prereq!
+                    valid = false;
+                    break;
+                }
+            }
+            // Check again for prereqs2 if needed
+            if (valid) {
+                for (auto &check : i.get_prereqs2()) {
+                    if (!has_mut(check)) {
+                        // Missing a prereq2!
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+            
+            // If it's still valid, add it to the list
+            if (valid) {
+                valid_downgrades.push_back(i);
+            }
+        }
+        
+        // Hopefully at this point we have a valid downgrade
+        muttype_id replacement;
+        if (!valid_downgrades.epmty()) {
+            // Pick a random valid downgrade
+            replacement = valid_downgrades[rng(0, valid_downgrades.size() - 1)]
+        } else {
+            // If we don't have any valid downgrades, force a random downgrade
+            std::vector<muttype_id> choices = mut_types[flag].get_replaces();
+            replacement = choices[rng(0, choices.size() - 1);
+        }
+        // Replace our old mutation with the new one.
+        replace_mutation(flag, replacement);
     }
-    // Mutation loss/gain effects are handled in remove/add_mutation().
+}
 
 int mutation_type::get_mod(std::string arg, bool active) const
 {
@@ -115,7 +311,7 @@ void Character::apply_mods(const muttype_id &mut_id, bool add_remove, bool activ
     }
 }
 
-void Character::mutation_effect(muttype_id mut)
+void Character::mutation_effect(const muttype_id mut)
 {
     bool is_u = is_player();
     bool destroy = false;
@@ -262,7 +458,7 @@ void Character::mutation_effect(muttype_id mut)
     }
 }
 
-void Character::mutation_loss_effect(muttype_id mut)
+void Character::mutation_loss_effect(const muttype_id mut)
 {
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
         mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
@@ -326,7 +522,7 @@ bool Character::has_active_mutation(const muttype_id &flag) const
     }
     
     // Then do the more expensive checks
-    if (has_mutation(flag)) {
+    if (has_mut(flag)) {
         return my_mutations[flag].is_active();
     }
     return false;
@@ -334,7 +530,7 @@ bool Character::has_active_mutation(const muttype_id &flag) const
 
 void Character::activate_mutation(const muttype_id &flag)
 {
-    if (!has_mutation(flag)) {
+    if (!has_mut(flag)) {
         // We don't have the desired mutation!
         debugmsg("Tried to activate a nonexistent mutation!");
         return;
@@ -416,7 +612,7 @@ bool mutation::activate(Character &ch)
     return true;
 }
 
-bool mutation::activation_effects(muttype_id id, Character &ch)
+bool mutation::activation_effects(const muttype_id id, Character &ch)
 {
     /* NEW ON-ACTIVATION MUTATION EFFECTS SHOULD GO HERE.
      * Cast ch to player if you really need to access player class variables;
@@ -426,7 +622,7 @@ bool mutation::activation_effects(muttype_id id, Character &ch)
     return true;
 }
     
-bool player::legacy_mut_effects(muttype_id id)
+bool player::legacy_mut_effects(const muttype_id id)
 {
     /* DO NOT ADD NEW MUTATIONS EFFECTS HERE.
      * New mutation activation effects should go in mutation::activation_effects().
@@ -544,7 +740,7 @@ bool player::legacy_mut_effects(muttype_id id)
 
 void Character::deactivate_mutation(const muttype_id &flag)
 {
-    if (!has_mutation(flag)) {
+    if (!has_mut(flag)) {
         // We don't have the desired mutation!
         debugmsg("Tried to deactivate a nonexistent mutation!");
         return;
@@ -576,13 +772,10 @@ void mutation::deactivate(Character &ch)
     }
 }
 
-bool mutation::deactivation_effects(muttype_id id, Character &ch)
+void mutation::deactivation_effects(const muttype_id id, Character &ch)
 {
     /* NEW ON-DEACTIVATION MUTATION EFFECTS SHOULD GO HERE.
      * Cast ch to player if you really need to access player class variables. */
-    
-    // Mutation deactivation was not canceled in deactivation_effects(), return true.
-    return true;
 }
 
 void Character::process_mutations()
@@ -600,7 +793,7 @@ void Character::process_mutations()
     }
     std::unordered_map<std::string, int> pro_costs;
     for (auto &mut : my_mutations) {
-        if (!mut->second.process(pro_costs, stops) && is_player()) {
+        if (!mut.second.process(pro_costs, stops) && is_player()) {
             add_msg(m_info, _("You can't keep your %s active anymore!"), mut.get_name().c_str());
         }
     }
@@ -674,13 +867,13 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 
 void player::mutations_window()
 {
-    std::vector <std::string> passive;
-    std::vector <std::string> active;
+    std::vector <muttype_id> passive;
+    std::vector <muttype_id> active;
     for ( auto &mut : my_mutations ) {
-        if (mut->second.is_activatable()) {
-            active.push_back(mut->first);
+        if (mut.second.is_activatable()) {
+            active.push_back(mut.first);
         } else {
-            passive.push_back(mut->first);
+            passive.push_back(mut.first);
         }
     }
     
@@ -856,8 +1049,8 @@ void player::mutations_window()
             muttype_id mut_id;
             // Find the selected mutation by key
             for( const auto &mut : my_mutations ) {
-                if (mut->second.get_key() == ch) {
-                    mut_id = mut->first;
+                if (mut.second.get_key() == ch) {
+                    mut_id = mut.first;
                     break;
                 }
             }
@@ -875,8 +1068,8 @@ void player::mutations_window()
             muttype_id other_mut_id;
             // Check for a second mutation with the new key
             for( const auto &mut : my_mutations ) {
-                if (mut->second.get_key() == newch) {
-                    other_mut_id = mut->first;
+                if (mut.second.get_key() == newch) {
+                    other_mut_id = mut.first;
                     break;
                 }
             }
@@ -918,8 +1111,8 @@ void player::mutations_window()
             std::string mut_id;
             // Find the mutation we're looking for
             for( const auto &mut : my_mutations ) {
-                if (mut->second.get_key() == ch) {
-                    mut_id = mut->first;
+                if (mut.second.get_key() == ch) {
+                    mut_id = mut.first;
                     break;
                 }
             }
@@ -978,20 +1171,20 @@ void player::mutations_window()
         delwin(wBio);
     }
 }
-// DONE MARK
-bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
+
+bool Character::mutation_ok(muttype_id mutation, bool force_good, bool force_bad) const
 {
-    if (has_trait(mutation) || has_child_flag(mutation)) {
+    if (has_mut(mutation) || has_higher_mut(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;
     }
 
-    if (force_bad && traits[mutation].points > 0) {
+    if (force_bad && mut_types[mutation].get_rating() == m_good) {
         // This is a good mutation, and we're due for a bad one.
         return false;
     }
 
-    if (force_good && traits[mutation].points < 0) {
+    if (force_good && mut_types[mutation].get_rating() == m_bad) {
         // This is a bad mutation, and we're due for a good one.
         return false;
     }
@@ -999,13 +1192,143 @@ bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
     return true;
 }
 
-void player::mutate()
+mut_rating mutation_type::get_rating()
 {
+    return rating;
+}
+
+bool Character::has_conflicting_mut(const muttype_id &flag) const
+{
+    // First check all of the mutations our goal cancels
+    for (auto &mut : mut_types[flag].get_cancels()) {
+        if (has_mut(mut)) {
+            return true;
+        }
+    }
+    
+    // Then check what each of our mutations cancel
+    for (auto &mut : my_mutations) {
+        for (auto &cans : i.second.get_cancels()) {
+            // And see if any of those are our search flag.
+            if (j == flag) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Character::has_lower_mut(const muttype_id &flag) const
+{
+    std::vector<muttype_id> replace = mut_types[flag].get_replaces();
+    for (auto &i : replace) {
+        if (has_mut(i) || has_lower_mut(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_higher_mut(const muttype_id &flag) const
+{
+    std::vector<muttype_id> replaced = mut_types[flag].get_replacements();
+    for (auto &i : replaced) {
+        if (has_mut(i) || has_higher_mut(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::crossed_threshold() const
+{
+    // Check if any of our mutations are thresholds
+    for (auto &mut : my_mutations) {
+        if (mut.second.get_threshold()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Character::set_cat_level_rec(const muttype_id &sMut)
+{
+    // Base traits don't count
+    if (!is_trait(sMut)) {
+        // Each mutation counts for 8 points in its categories
+        for (auto &cat : mut_types[sMut].get_category()) {
+            mutation_category_level[cat] += 8;
+        }
+        // as well as triggering points for each prereq recursively
+        for (auto &i : mut_types[sMut].get_replaces()) {
+            set_cat_level_rec(i);
+        }
+        for (auto &i : mut_types[sMut].get_prereqs()) {
+            set_cat_level_rec(i);
+        }
+        for (auto &i : mut_types[sMut].get_prereqs2()) {
+            set_cat_level_rec(i);
+        }
+    }
+}
+
+void Character::set_cat_levels()
+{
+    mutation_category_level.clear();
+
+    // Loop through our mutations
+    for( auto &mut : my_mutations ) {
+        set_cat_level_rec( mut.first );
+    }
+}
+
+std::string Character::get_highest_category() const // Returns the mutation category with the highest strength
+{
+    int iLevel = 0;
+    std::string sMaxCat = "";
+
+    for( const auto &elem : mutation_category_level ) {
+        if( elem.second > iLevel ) {
+            sMaxCat = elem.first;
+            iLevel = elem.second;
+        } else if( elem.second == iLevel ) {
+            sMaxCat = "";  // no category on ties
+        }
+    }
+    return sMaxCat;
+}
+
+std::string Character::get_category_dream(const std::string &cat, int strength) const // Returns a randomly selected dream
+{
+    std::string message;
+    std::vector<dream> valid_dreams;
+    dream selected_dream;
+    //Pull the list of dreams
+    for (auto &i : dreams) {
+        //Pick only the ones matching our desired category and strength
+        if ((i.category == cat) && (i.strength == strength)) {
+            // Put the valid ones into our list
+            valid_dreams.push_back(i);
+        }
+    }
+    if( valid_dreams.empty() ) {
+        return "";
+    }
+    int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
+    selected_dream = valid_dreams[index];
+    index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
+    message = selected_dream.messages[index];
+    return message;
+}
+
+void Character::mutate()
+{
+    // 1 in 3 chance of forcing a bad mutation
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
-        // Robust Genetics gives you a 33% chance for a good mutation,
-        // instead of the 33% chance of a bad one.
+    // Unless you have Robust Genetics, which turns it into a 1 in 3 chance
+    // of getting a good mutation instead.
+    if (force_bad && has_mut("ROBUST")) {
         force_bad = false;
         force_good = true;
     }
@@ -1013,73 +1336,61 @@ void player::mutate()
     // Determine the highest mutation category
     std::string cat = get_highest_category();
 
-    // See if we should upgrade/extend an existing mutation...
+    // Store valid upgrades and downgrades for our existing mutations.
     std::vector<std::string> upgrades;
-
-    // ... or remove one that is not in our highest category
     std::vector<std::string> downgrades;
 
-    // For each mutation...
-    for( auto &traits_iter : traits ) {
-        std::string base_mutation = traits_iter.first;
-        bool thresh_save = mutation_data[base_mutation].threshold;
-        bool prof_save = mutation_data[base_mutation].profession;
-        bool purify_save = mutation_data[base_mutation].purifiable;
-
-        // ...that we have...
-        if (has_trait(base_mutation)) {
-            // ...consider the mutations that replace it.
-            for (size_t i = 0; i < mutation_data[base_mutation].replacements.size(); i++) {
-                std::string mutation = mutation_data[base_mutation].replacements[i];
-                bool valid_ok = mutation_data[mutation].valid;
-
-                if ( (mutation_ok(mutation, force_good, force_bad)) &&
-                     (valid_ok) ) {
-                    upgrades.push_back(mutation);
+    // For each mutation that we have...
+    for (auto &mut : my_mutations) {
+        muttype_id base_mut = mut.first;
+        mut_type &mut_dat = mut_types[base_mut];
+        
+        // Store the mutations that replace it.
+        for (auto i : mut_dat.get_replacements()) {
+            // Check for validity
+            if (mut_dat.get_valid() && mutation_ok(i, force_good, force_bad)) {
+                upgrades.push_back(i);
+            }
+        }
+        
+        // Store the valid mutations that it adds to.
+        for (auto i : mut_dat.get_additions()) {
+            // Check for validity
+            if (mut_dat.get_valid() && mutation_ok(i, force_good, force_bad)) {
+                upgrades.push_back(i);
+            }
+        }
+        
+        // Traits can't be downgraded
+        if (!is_trait(mut.first)) {
+            // Check if it's in our current highest category
+            bool in_cat = false;
+            for(auto &cats : mut_dat.get_category()) {
+                if (cats = cat) {
+                    // It's in our desired category, break out
+                    in_cat = true;
+                    break;
                 }
             }
-
-            // ...consider the mutations that add to it.
-            for (size_t i = 0; i < mutation_data[base_mutation].additions.size(); i++) {
-                std::string mutation = mutation_data[base_mutation].additions[i];
-                bool valid_ok = mutation_data[mutation].valid;
-
-                if ( (mutation_ok(mutation, force_good, force_bad)) &&
-                     (valid_ok) ) {
-                    upgrades.push_back(mutation);
-                }
-            }
-
-            // ...consider whether its in our highest category
-            if( has_trait(base_mutation) && !has_base_trait(base_mutation) ) {
-                // Starting traits don't count toward categories
-                std::vector<std::string> group = mutations_category[cat];
-                bool in_cat = false;
-                for( auto &elem : group ) {
-                    if( elem == base_mutation ) {
-                        in_cat = true;
-                        break;
-                    }
-                }
-
-                // mark for removal
-                // no removing Thresholds/Professions this way!
-                if(!in_cat && !thresh_save && !prof_save) {
-                    // non-purifiable stuff should be pretty tenacious
-                    // category-enforcement only targets it 25% of the time
-                    // (purify_save defaults true, = false for non-purifiable)
-                    if((purify_save) || ((one_in(4)) && (!(purify_save))) ) {
-                        downgrades.push_back(base_mutation);
-                    }
+            
+            // Mark for removal if the mutation is not in the highest category,
+            // not a profession trait, and not a threshold mutation.
+            if (!in_cat && !mut_dat.get_profession() && !mut_dat.get_threshold()) {
+                // Non-purifiable stuff is pretty tenacious, only being successfully
+                // targeted by category enforced downgrades 25% of the time.
+                if (mut_dat.get_purifiable() || one_in(4)) {
+                    downgrades.push_back(base_mut);
                 }
             }
         }
     }
 
-    // Preliminary round to either upgrade or remove existing mutations
+    // Try to upgrade or remove an existing mutation first(50/50 each).
+    // Return if the upgrade/remove was successful.
     if(one_in(2)) {
         if (!upgrades.empty()) {
-            // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
+            // (upgrades count) chances to upgrade, 5 chances to not.
+            // +4 here because size() returns max index + 1
             size_t roll = rng(0, upgrades.size() + 4);
             if (roll < upgrades.size()) {
                 // We got a valid upgrade index, so use it and return.
@@ -1090,48 +1401,61 @@ void player::mutate()
     } else {
         // Remove existing mutations that don't fit into our category
         if (!downgrades.empty() && cat != "") {
+            // (downgrades count) chances to downgrade, 5 chances to not.
+            // +4 here because size() returns max index + 1
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
-                remove_mutation(downgrades[roll]);
+                // We got a valid downgrade index, so use it and return.
+                downgrade_mutation(downgrades[roll]);
                 return;
             }
         }
     }
 
-    std::vector<std::string> valid; // Valid mutations
-    bool first_pass = true;
 
+    // We didn't upgrade or downgrade an existing mutation. Therefore we get
+    // to choose a new random valid mutation.
+    bool first_pass = true;
+    std::vector<std::string> valid;
     do {
-        // If we tried once with a non-NULL category, and couldn't find anything valid
-        // there, try again with MUTCAT_NULL
+        // First try with the current highest category if cat != "".
+        // If we've already tried that then try again with a null category (cat = "")
         if (!first_pass) {
             cat = "";
         }
 
-        if (cat == "") {
-            // Pull the full list
-            for( auto &traits_iter : traits ) {
-                if( mutation_data[traits_iter.first].valid ) {
-                    valid.push_back( traits_iter.first );
+        // Go through all the mutations, pushing back the valid ones.
+        for (auto &i : mut_types) {
+            if (!i.second.get_valid()) {
+                // Not a valid mutation, go to the next one.
+                continue;
+            }
+            
+            // If category is not null only check those with a matching category.
+            if (cat != "") {
+                bool valid_cat = false;
+                for (auto &check : i.second.get_category()) {
+                    if (check == cat) {
+                        valid_cat = true;
+                        break;
+                    }
+                }
+                if (!valid_cat) {
+                    // Our category wasn't valid, go to the next mutation.
+                    continue;
                 }
             }
-        } else {
-            // Pull the category's list
-            valid = mutations_category[cat];
-        }
-
-        // Remove anything we already have, that we have a child of, or that
-        // goes against our intention of a good/bad mutation
-        for (size_t i = 0; i < valid.size(); i++) {
-            if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
-                 (!(mutation_data[valid[i]].valid)) ) {
-                valid.erase(valid.begin() + i);
-                i--;
+            
+            // Our mutation is valid and either our category is null or we had
+            // the proper category to get here.
+            if (mutation_ok(i.first, force_good, force_bad)) {
+                // If it's passed all the checks and is ok, push it back.
+                valid.push_back(i.first);
             }
         }
 
         if (valid.empty()) {
-            // So we won't repeat endlessly
+            // Change first_pass so we won't repeat endlessly.
             first_pass = false;
         }
     } while (valid.empty() && cat != "");
@@ -1141,419 +1465,203 @@ void player::mutate()
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    // Pick a random valid mutation and mutate towards it.
+    std::string selection = valid[ rng(0, valid.size() - 1) ];
     mutate_towards(selection);
 }
 
-void player::mutate_category(std::string cat)
+void Character::purify()
 {
+    // First try to add a trait back in.
+    std::vector<muttype_id> un_traits;
+    for (auto &trait : my_traits) {
+        // If it's valid, purifiable, we don't have it, and we don't have any
+        // conflicting mutations, then push it back.
+        if(mut_types[trait].get_valid() && mut_types[trait].get_purifiable() &&
+              !has_mut(trait) && !has_conflicting_mut(trait)) {
+            un_traits.push_back(trait);
+        }
+    }
+    if (!un_traits.empty()) {
+        // Pick a random trait to move towards.
+        mutate_towards(un_traits[rng(0, un_traits.size() - 1)]);
+        return;
+    }
+    
+    // If we didn't bring a trait back then try to downgrade another mutation.
+    std::vector<muttype_id> un_muts;
+    for (auto &mut : my_mutations) {
+        // If it's not a trait and it's purifiable it's fair game for downgrading.
+        if (mut_types[mut.first].get_purifiable() && !is_trait(mut.first)) {
+            un_muts.push_back(mut.first);
+        }
+    }
+    if (!un_muts.empty()) {
+        // Pick a random mutation to downgrade.
+        downgrade_mutation(un_muts[rng(0, un_muts.size() - 1)]);
+        return;
+    }
+}
+
+void Character::mutate_category(const std::string cat)
+{
+    // 1 in 3 chance of forcing a bad mutation
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
-        // Robust Genetics gives you a 33% chance for a good mutation,
-        // instead of the 33% chance of a bad one.
+    // Unless you have Robust Genetics, which turns it into a 1 in 3 chance
+    // of getting a good mutation instead.
+    if (force_bad && has_mut("ROBUST")) {
         force_bad = false;
         force_good = true;
     }
-
-    // Pull the category's list for valid mutations
+    
+    // Go through all the mutations, pushing back the valid ones.
     std::vector<std::string> valid;
-    valid = mutations_category[cat];
-
-    // Remove anything we already have, that we have a child of, or that
-    // goes against our intention of a good/bad mutation
-    for (size_t i = 0; i < valid.size(); i++) {
-        if (!mutation_ok(valid[i], force_good, force_bad)) {
-            valid.erase(valid.begin() + i);
-            i--;
+    for (auto &i : mut_types) {
+        if (!i.second.get_valid()) {
+            // Not a valid mutation, go to the next one.
+            continue;
+        }
+        
+        // If category is not null only check those with a matching category.
+        if (cat != "") {
+            bool valid_cat = false;
+            for (auto &check : i.second.get_category()) {
+                if (check == cat) {
+                    valid_cat = true;
+                    break;
+                }
+            }
+            if (!valid_cat) {
+                // Our category wasn't valid, go to the next mutation.
+                continue;
+            }
+        }
+        
+        // Our mutation is valid and either our category is null or we had
+        // the proper category to get here.
+        if (mutation_ok(i.first, force_good, force_bad)) {
+            // If it's passed all the checks and is ok, push it back.
+            valid.push_back(i.first);
         }
     }
 
-    // if we can't mutate in the category do nothing
+    // If we can't mutate in the category do nothing
     if (valid.empty()) {
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    // Else pick a random valid mutation and mutate.
+    std::string selection = valid[ rng(0, valid.size() - 1) ];
     mutate_towards(selection);
-
-    return;
 }
 
-void player::mutate_towards(std::string mut)
+bool Character::mut_vect_check(std::vector<muttype_id> current_vector) const
 {
-    if (has_child_flag(mut)) {
-        remove_child_flag(mut);
-        return;
-    }
-
-    bool has_prereqs = false;
-    bool prereq1 = false;
-    bool prereq2 = false;
-    std::vector<std::string> canceltrait;
-    std::vector<std::string> prereq = mutation_data[mut].prereqs;
-    std::vector<std::string> prereqs2 = mutation_data[mut].prereqs2;
-    std::vector<std::string> cancel = mutation_data[mut].cancels;
-
-    for (size_t i = 0; i < cancel.size(); i++) {
-        if (!has_trait( cancel[i] )) {
-            cancel.erase(cancel.begin() + i);
-            i--;
-        } else if (has_base_trait( cancel[i] )) {
-            //If we have the trait, but it's a base trait, don't allow it to be removed normally
-            canceltrait.push_back( cancel[i]);
-            cancel.erase(cancel.begin() + i);
-            i--;
-        }
-    }
-
-    if (!cancel.empty()) {
-        std::string removed = cancel[ rng(0, cancel.size() - 1) ];
-        remove_mutation(removed);
-        return;
-    }
-
-    for (size_t i = 0; (!prereq1) && i < prereq.size(); i++) {
-        if (has_trait(prereq[i])) {
-            prereq1 = true;
-        }
-    }
-
-    for (size_t i = 0; (!prereq2) && i < prereqs2.size(); i++) {
-        if (has_trait(prereqs2[i])) {
-            prereq2 = true;
-        }
-    }
-
-    if (prereq1 && prereq2) {
-        has_prereqs = true;
-    }
-
-    if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
-        if (!prereq1 && !prereq.empty()) {
-            std::string devel = prereq[ rng(0, prereq.size() - 1) ];
-            mutate_towards(devel);
-            return;
-        } else if (!prereq2 && !prereqs2.empty()) {
-            std::string devel = prereqs2[ rng(0, prereqs2.size() - 1) ];
-            mutate_towards(devel);
-            return;
-        }
-    }
-
-    // Check for threshhold mutation, if needed
-    bool threshold = mutation_data[mut].threshold;
-    bool profession = mutation_data[mut].profession;
-    bool has_threshreq = false;
-    std::vector<std::string> threshreq = mutation_data[mut].threshreq;
-
-    // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized--but if it does, just reroll
-    if (threshold) {
-        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        mutate();
-        return;
-    }
-    if (profession) {
-        // Profession picks fail silently
-        mutate();
-        return;
-    }
-
-    for (size_t i = 0; !has_threshreq && i < threshreq.size(); i++) {
-        if (has_trait(threshreq[i])) {
-            has_threshreq = true;
-        }
-    }
-
-    // No crossing The Threshold by simply not having it
-    // Rerolling proved more trouble than it was worth, so deleted
-    if (!has_threshreq && !threshreq.empty()) {
-        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        return;
-    }
-
-    // Check if one of the prereqs that we have TURNS INTO this one
-    std::string replacing = "";
-    prereq = mutation_data[mut].prereqs; // Reset it
-    for( auto &elem : prereq ) {
-        if( has_trait( elem ) ) {
-            std::string pre = elem;
-            for (size_t j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
-                if (mutation_data[pre].replacements[j] == mut) {
-                    replacing = pre;
-                }
-            }
-        }
-    }
-
-    // Loop through again for prereqs2
-    std::string replacing2 = "";
-    prereq = mutation_data[mut].prereqs2; // Reset it
-    for( auto &elem : prereq ) {
-        if( has_trait( elem ) ) {
-            std::string pre2 = elem;
-            for (size_t j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
-                if (mutation_data[pre2].replacements[j] == mut) {
-                    replacing2 = pre2;
-                }
-            }
-        }
-    }
-
-    toggle_mutation(mut);
-
-    bool mutation_replaced = false;
-
-    game_message_type rating;
-
-    if (replacing != "") {
-        if(traits[mut].mixed_effect || traits[replacing].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[replacing].points - traits[mut].points < 0) {
-            rating = m_good;
-        } else if(traits[mut].points - traits[replacing].points < 0) {
-            rating = m_bad;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
-                traits[replacing].name.c_str(), traits[mut].name.c_str());
-        add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
-                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                         traits[replacing].name.c_str(), traits[mut].name.c_str());
-        toggle_mutation(replacing);
-        mutation_loss_effect(replacing);
-        mutation_effect(mut);
-        mutation_replaced = true;
-    }
-    if (replacing2 != "") {
-        if(traits[mut].mixed_effect || traits[replacing2].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[replacing2].points - traits[mut].points < 0) {
-            rating = m_good;
-        } else if(traits[mut].points - traits[replacing2].points < 0) {
-            rating = m_bad;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
-                traits[replacing2].name.c_str(), traits[mut].name.c_str());
-        add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
-                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                         traits[replacing2].name.c_str(), traits[mut].name.c_str());
-        toggle_mutation(replacing2);
-        mutation_loss_effect(replacing2);
-        mutation_effect(mut);
-        mutation_replaced = true;
-    }
-    for (size_t i = 0; i < canceltrait.size(); i++) {
-        if(traits[mut].mixed_effect || traits[canceltrait[i]].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[mut].points < traits[canceltrait[i]].points) {
-            rating = m_bad;
-        } else if(traits[mut].points > traits[canceltrait[i]].points) {
-            rating = m_good;
-        } else if(traits[mut].points == traits[canceltrait[i]].points) {
-            rating = m_neutral;
-        } else {
-            rating = m_mixed;
-        }
-        // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
-                traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
-        add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
-                        pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                        traits[canceltrait[i]].name.c_str(), traits[mut].name.c_str());
-        toggle_mutation(canceltrait[i]);
-        mutation_loss_effect(canceltrait[i]);
-        mutation_effect(mut);
-        mutation_replaced = true;
-    }
-    if (!mutation_replaced) {
-        if(traits[mut].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[mut].points > 0) {
-            rating = m_good;
-        } else if(traits[mut].points < 0) {
-            rating = m_bad;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("You gain a mutation called %s!"), traits[mut].name.c_str());
-        add_memorial_log(pgettext("memorial_male", "Gained the mutation '%s'."),
-                         pgettext("memorial_female", "Gained the mutation '%s'."),
-                         traits[mut].name.c_str());
-        mutation_effect(mut);
-    }
-
-    set_highest_cat_level();
-    drench_mut_calc();
-}
-
-void player::remove_mutation(std::string mut)
-{
-    // Check for dependant mutations first
-    std::vector<std::string> dependant;
-
-    for( auto &traits_iter : traits ) {
-        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs.size(); i++ ) {
-            if( mutation_data[traits_iter.first].prereqs[i] == traits_iter.first ) {
-                dependant.push_back( traits_iter.first );
+    // First check if the vector is empty
+    if (!current_vector.empty()) {
+        // Then check if we have a matching mutation
+        bool current_check = false;
+        for (auto &check : current_vector) {
+            if (has_mut(check)) {
+                // We found a matching mutation, break
+                current_check = true;
                 break;
             }
         }
-    }
-
-    if (!dependant.empty()) {
-        remove_mutation(dependant[rng(0, dependant.size() - 1)]);
-        return;
-    }
-
-    // Check if there's a prereq we should shrink back into
-    std::string replacing = "";
-    std::vector<std::string> originals = mutation_data[mut].prereqs;
-    for (size_t i = 0; replacing == "" && i < originals.size(); i++) {
-        std::string pre = originals[i];
-        for (size_t j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
-            if (mutation_data[pre].replacements[j] == mut) {
-                replacing = pre;
-            }
-        }
-    }
-
-    std::string replacing2 = "";
-    std::vector<std::string> originals2 = mutation_data[mut].prereqs2;
-    for (size_t i = 0; replacing2 == "" && i < originals2.size(); i++) {
-        std::string pre2 = originals2[i];
-        for (size_t j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
-            if (mutation_data[pre2].replacements[j] == mut) {
-                replacing2 = pre2;
-            }
-        }
-    }
-
-    // See if this mutation is cancelled by a base trait
-    //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
-    if (replacing == "") {
-        //Check each mutation until we reach the end or find a trait to revert to
-        for (std::map<std::string, trait>::iterator iter = traits.begin();
-             replacing == "" && iter != traits.end(); ++iter) {
-            //See if it's in our list of base traits but not active
-            if (has_base_trait(iter->first) && !has_trait(iter->first)) {
-                //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
-                if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing == "" && j < traitcheck.size(); j++) {
-                        if (traitcheck[j] == mut) {
-                            replacing = (iter->first);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Duplicated for prereq2
-    if (replacing2 == "") {
-        //Check each mutation until we reach the end or find a trait to revert to
-        for( std::map<std::string, trait>::iterator iter = traits.begin();
-             replacing2 == "" && iter != traits.end(); ++iter ) {
-            //See if it's in our list of base traits but not active
-            if (has_base_trait(iter->first) && !has_trait(iter->first)) {
-                //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
-                if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
-                        if (traitcheck[j] == mut) {
-                            replacing2 = (iter->first);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // This should revert back to a removed base trait rather than simply removing the mutation
-    toggle_mutation(mut);
-
-    bool mutation_replaced = false;
-
-    game_message_type rating;
-
-    if (replacing != "") {
-        if(traits[mut].mixed_effect || traits[replacing].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[replacing].points - traits[mut].points > 0) {
-            rating = m_good;
-        } else if(traits[mut].points - traits[replacing].points > 0) {
-            rating = m_bad;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
-                traits[replacing].name.c_str());
-        toggle_mutation(replacing);
-        mutation_loss_effect(mut);
-        mutation_effect(replacing);
-        mutation_replaced = true;
-    }
-    if (replacing2 != "") {
-        if(traits[mut].mixed_effect || traits[replacing2].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[replacing2].points - traits[mut].points > 0) {
-            rating = m_good;
-        } else if(traits[mut].points - traits[replacing2].points > 0) {
-            rating = m_bad;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
-                traits[replacing2].name.c_str());
-        toggle_mutation(replacing2);
-        mutation_loss_effect(mut);
-        mutation_effect(replacing2);
-        mutation_replaced = true;
-    }
-    if(!mutation_replaced) {
-        if(traits[mut].mixed_effect) {
-            rating = m_mixed;
-        } else if(traits[mut].points > 0) {
-            rating = m_bad;
-        } else if(traits[mut].points < 0) {
-            rating = m_good;
-        } else {
-            rating = m_neutral;
-        }
-        add_msg(rating, _("You lose your %s mutation."), traits[mut].name.c_str());
-        mutation_loss_effect(mut);
-    }
-
-    set_highest_cat_level();
-    drench_mut_calc();
-}
-
-bool player::has_child_flag(std::string flag)
-{
-    for( auto &elem : mutation_data[flag].replacements ) {
-        std::string tmp = elem;
-        if (has_trait(tmp) || has_child_flag(tmp)) {
+        
+        // If we didn't find a matching mutation return true
+        if (!current_check) {
             return true;
         }
     }
+    // Either the vector was empty or we found a matching mutation, return false.
     return false;
 }
 
-void player::remove_child_flag(std::string flag)
+void Character::mutate_towards(muttype_id &flag)
 {
-    for( auto &elem : mutation_data[flag].replacements ) {
-        std::string tmp = elem;
-        if (has_trait(tmp)) {
-            remove_mutation(tmp);
+    mutation_type &goal = mut_types[flag];
+    
+    // Profession mutations just fail silently
+    if (goal.get_profession()) {
+        return;
+    }
+    
+    // Build lists of all mutations the new one will cancel
+    std::vector<std::string> valid_cancels;
+    std::vector<std::string> trait_cancels;
+    for (auto &i : goal.get_cancels()) {
+        if (has_mut(i)) {
+            if (is_trait(i)) {
+                // Store canceled traits separately since they can't
+                // be canceled, only replaced
+                trait_cancels.push_back(i);
+            } else {
+                valid_cancels.push_back(i);
+            }
+        }
+    }
+    
+    // First try to downgrade a canceled mutation.
+    if (!valid_cancels.empty()) {
+        downgrade_mutation(valid_cancels[rng(0, valid_cancels.size() - 1)]);
+        return;
+    }
+    
+    // Then try to add a mutation that the goal replaces
+    std::vector<muttype_id> v_check = goal.get_replaces();
+    if (mut_vect_check(v_check) {
+        mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+    }
+    
+    // Then try to add a mutation that the goal requires
+    v_check = goal.get_prereqs();
+    if (mut_vect_check(v_check) {
+        mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+    }
+    
+    // Then try to add a secondary mutation that the goal requires
+    v_check = goal.get_prereqs2();
+    if (mut_vect_check(v_check) {
+        mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+    }
+    
+    // Check if we need a threshold. Thresholds require special mutagen to
+    // breach, so just print a message here without actually adding any mutation.
+    v_check = goal.get_threshreq();
+    if (mut_vect_check(v_check) {
+        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        return;
+    }
+    
+    // Finally try to remove canceled traits
+    if (!trait_cancels.empty()) {
+        downgrade_mutation(valid_cancels[rng(0, trait_cancels.size() - 1)], true);
+        return;
+    }
+    
+    // At this point we are actually adding the new mutation.
+    // Check if we are going to be replacing something
+    if (!goal.get_replaces().empty()) {
+        // Get a list of all of our current mutations we could replace
+        std::vector<std::string> reps;
+        for (auto &i : goal.get_replaces()) {
+            if (has_mut(i)) {
+                reps.push_back(i);
+            }
+        }
+        if (!reps.is_empty()) {
+            // Pick a mutation to replace and replace it.
+            replace_mutation(flag, reps[rng(0, reps.size() - 1)]);
             return;
-        } else if (has_child_flag(tmp)) {
-            remove_child_flag(tmp);
+        } else {
+            // This should never happen, but just in case.
+            debugmsg("Attempted to replace a nonexistent mutation!");
             return;
         }
+    } else {
+        // Add our new mutation.
+        add_mutation(flag);
     }
 }

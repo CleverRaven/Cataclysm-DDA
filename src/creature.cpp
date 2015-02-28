@@ -919,7 +919,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::has_mutation(const std::string &flag) const
+bool Creature::has_mut(const std::string &flag) const
 {
     (void)flag;
     return false;

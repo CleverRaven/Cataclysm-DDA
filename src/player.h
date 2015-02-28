@@ -894,8 +894,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::string start_location;
 
-        std::map<std::string, int> mutation_category_level;
-
         int next_climate_control_check;
         bool last_climate_control_ret;
         int power_level, max_power_level;

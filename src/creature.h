@@ -264,7 +264,7 @@ class Creature
         virtual void process_effects();
 
         /** Returns true if the player has the entered mutation, returns false for non-humans. */
-        virtual bool has_mutation(const std::string &flag) const;
+        virtual bool has_mut(const std::string &flag) const;
         /** Returns true if the player has the entered mutation, returns false for non-humans. */
         virtual bool has_trait(const std::string &flag) const;
 

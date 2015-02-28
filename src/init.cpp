@@ -369,6 +369,7 @@ void DynamicDataLoader::finalize_loaded_data()
     g->finalize_vehicles();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
+    finalize_mut_types();
     check_consistency();
 }
 

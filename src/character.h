@@ -47,7 +47,7 @@ class Character : public Creature
         
         // In mutation.cpp
         /** Returns true if the player has the entered mutation. */
-        bool has_mutation(const std::string &flag) const;
+        bool has_mut(const std::string &flag) const;
         /** Returns true if the player has the entered trait */
         bool has_trait(const std::string &flag) const;
         /** Returns true if the mutation is added to the character (they don't already have it). */
@@ -295,9 +295,6 @@ class Character : public Creature
         Character(Character &&) = default;
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
-        
-        std::unordered_map<muttype_id, mutation> my_mutations;
-        std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
@@ -305,7 +302,11 @@ class Character : public Creature
         // --------------- Values ---------------
         std::map<const Skill*, SkillLevel> _skills;
 
-        std::map<std::string, char> trait_keys;
+        std::unordered_map<muttype_id, mutation> my_mutations;
+        std::unordered_set<muttype_id> my_traits;
+        std::map<std::string, int> mutation_category_level;
+        
+        std::vector<bionic> my_bionics;
         
         bool underwater;
         
