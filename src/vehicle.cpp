@@ -2003,10 +2003,13 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     std::vector<break_entry> break_info = part_info(p).breaks_into;
     for( auto &elem : break_info ) {
         int quantity = rng( elem.min, elem.max );
+        item piece( elem.item_id, calendar::turn );
+        if( piece.count_by_charges() ) {
+            piece.charges = 1;
+        }
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece( elem.item_id, calendar::turn );
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
