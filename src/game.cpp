@@ -3160,7 +3160,7 @@ bool game::handle_action()
             refresh_all();
             break;
         case ACTION_MUTATIONS:
-            u.power_mutations();
+            u.mutations_window();
             refresh_all();
             break;
 

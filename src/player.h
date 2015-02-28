@@ -553,6 +553,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void drench(int saturation, int flags);
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
+        /** Handles legacy mutation activation effects. Returns true if the mutation activation was
+         *  successful. Else returns false. */
+        bool legacy_mut_effects(const muttype_id id);
+        /** Handles the player user interface for mutations. */
+        void mutations_window();
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
