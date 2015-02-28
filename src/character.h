@@ -32,7 +32,7 @@ class Character : public Creature
          *  This must be called when any of the following change:
          * - effects
          * - bionics
-         * - traits
+         * - mutations
          * - underwater
          * - clothes
          */
@@ -56,12 +56,6 @@ class Character : public Creature
         bool add_trait(const std::string &flag) const;
         /** Removes the entered mutation. */
         void remove_mutation(const std::string &flag) const;
-        /** Calls add_mutation() if the player doesn't already have the entered mutation or
-         *  remove_mutation() if they do. */
-        void toggle_mutation(const std::string &flag) const;
-        /** Calls add_trait() if the player doesn't already have the entered mutation or
-         *  remove_mutation() if they do. */
-        void toggle_trait(const std::string &flag) const;
         
     protected:
         /** Applies stat mods to character. active = true when mods are caused by activating or
