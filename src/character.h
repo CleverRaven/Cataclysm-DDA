@@ -46,30 +46,102 @@ class Character : public Creature
         std::string random_bad_trait();
         
         // In mutation.cpp
+    public:
         /** Returns true if the player has the entered mutation. */
-        bool has_mut(const std::string &flag) const;
-        /** Returns true if the player has the entered trait */
-        bool has_mut(const std::string &flag) const;
-        /** Returns true if the mutation is added to the character (they don't already have it). */
-        bool add_mutation(const std::string &flag) const;
-        /** Calls add_mutation() and if successful, makes the new mutation a trait. */
-        bool add_trait(const std::string &flag) const;
-        /** Removes the entered mutation. */
-        void remove_mutation(const std::string &flag) const;
+        bool has_mut(const muttype_id &flag) const;
+        /** Returns true if the Character has the given mutation and it is active. */
+        bool has_active_mutation(const muttype_id &flag) const;
+        /** Returns true if the player has the entered mutation as a trait. */
+        bool is_trait(const muttype_id &flag) const;
+        /** Adds a new mutation if the player doesn't already have it. Performs no other
+         *  checks on mutation validity. If message == true and Character is the player,
+         *  displays a message about gaining the mutation. Calls mutation_effect().
+         *  Returns true if the mutation was added successfully. */
+        bool add_mutation(const muttype_id &flag, bool message = true);
+        /** Calls add mutation with the given arguments. If the new mutation is
+         *  successfully added, adds the mutation id to my_traits as well. */
+        void add_trait(const muttype_id &flag, bool message = false);
+        /** Removes the entered mutation if the player has it, calling mutation_loss_effect().
+         *  Performs no other checks on mutation removal validity. Calls add_mutation() on any
+         *  traits that are no longer suppressed by conflicting mutations after mutation removal.
+         *  Displays a mutation loss message if message == true. */
+        void remove_mutation(const muttype_id &flag, bool message = true);
+        /** Calls add_mutation() on the first flag and remove_mutation() on the second.
+         *  Performs no checks on mutation addition/removal validity. Prints a message
+         *  about the first mutation turning into the second. */
+        void replace_mutation(const muttype_id &flag1, const muttype_id &flag2);
         
     protected:
         /** Applies stat mods to character. active = true when mods are caused by activating or
          *  deactivating a mutation, false when mods are caused by adding or removing the mutation. */
         void apply_mods(const std::string &mut_id, bool add_remove, bool active);
-    public:
-        /** Handles things like destruction of armor, etc. */
-        void mutation_effect(std::string mut);
-        /** Handles what happens when you lose a mutation. */
-        void mutation_loss_effect(std::string mut);
+        /** Handles mutation gain effects. (Destruction of armor, etc.) */
+        void mutation_effect(const muttype_id &flag);
+        /** Handles mutation loss effects. */
+        void mutation_loss_effect(const muttype_id &flag);
+        /** Activates a mutation if possible. Calls mutation.activate() to determine activation
+         *  effects and costs before applying mutation activation costs. */
+        void activate_mutation(const muttype_id &flag);
+        /** Deactivates a mutation if possible. Calls mutation.deactivate(). */
+        void deactivate_mutation(const muttype_id &flag);
+        /** Calls mutation.process() on all mutations in my_mutations. Determines if any
+         *  any stats are low enough to cause forceful deactivation of active mutations
+         *  and applies any active mutation automatic reactivation costs. */
+        void process_mutations()
+        /** Returns true if the player currently has a threshold mutation. */
+        bool crossed_threshold() const;
+        /** Returns the id of the current highest strength mutation category. */
+        std::string get_highest_category() const;
+        /** Returns a random dream message of the given category and strength. */
+        std::string get_category_dream(const std::string &cat, int strength) const;
+        /** The basic mutation function. This determines a mutation to upgrade or downgrade
+         *  and calls either mutate_towards() or downgrade_mutation() as needed. */
+        void mutate();
+        /** The basic purification function. This attempts to add a missing unsuppressed trait
+         *  back to the player's mutation list. If there are no valid traits, it will attempt
+         *  to call downgrade_mutation() on a random mutation. */
+        void purify();
+        /** This attempts to logically pick a mutation within the given category and calls
+         *  mutate_towards() on the chosen mutation. */
+        void mutate_category(const std::string &cat);
         
-        bool has_active_mutation(const std::string &b) const;
-        
+    private:
+        /** Returns a vector of all mutations that either replace the given mutation
+         *  or have it as a prerequisite. */
+        std::vector<muttype_id> get_dependant_muts(const muttype_id &flag) const;
+        /** Attempts to perform a logical downgrade on the entered mutation, either removing
+         *  or replacing the mutation with a lower level replacement. Will only downgrade traits
+         *  if trait_force == true. */
+        void downgrade_mutation(const muttype_id &flag, bool trait_force);
+        /** Reevaluates the current mutation category levels. Should be called any time
+         *  that mutations are added or removed. Calls set_cat_level_rec(). */
+        void set_cat_levels();
+        /** A recursive function called by set_cat_levels() to apply the current
+         *  category strength effects of the entered mutation. */
+        void set_cat_level_rec(const muttype_id &flag);
+        /** Returns true if the player has a mutation which is eventually replaced by the
+         *  entered one. Else returns false. Recursively calls itself. */
+        bool has_lower_mut(const muttype_id &flag) const;
+        /** Returns true if the player has a mutation which eventually replaces the
+         *  entered one. Else returns false. Recursively calls itself. */
+        bool has_higher_mut(const muttype_id &flag) const;
+        /** Returns true if the player has a mutation which the entered mutation cancels, or
+         *  if the player has any mutation which cancels the entered mutation.
+         *  Else returns false. */
+        bool has_conflicting_mut(const muttype_id &flag) const;
+        /** Returns false if the Character already has the mutation, has a higher mutation,
+         *  or if the mutation doesn't match the current force_good & force_bad setting.
+         *  Else will return true. */
+        bool mutation_ok(const muttype_id &flag, bool force_good, bool force_bad) const;
+        /** A helper function used by mutate_towards(). Returns false if the entered vector
+         *  is empty or if the player has one of the listed mutation ids. Else returns true. */
+        bool mut_vect_check(std::vector<muttype_id> &current_vector) const;
+        /** Logically attempts to mutate towards a given mutation. Recursively calls itself
+         *  before calling add_mutation(), downgrade_mutation(), or replace_mutation() as needed. */
+        void mutate_towards(muttype_id &flag);
+
         // --------------- Bionic Stuff ---------------
+    public:
         /** Returns true if the player has the entered bionic id */
         bool has_bionic(const bionic_id &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */

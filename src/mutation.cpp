@@ -12,15 +12,15 @@
 #include <algorithm> //std::min
 #include <sstream>
 
-bool Character::has_mut(const muttype_id &b) const
+bool Character::has_mut(const muttype_id &flag) const
 {
-    return my_mutations.find(b) != my_mutations.end();
+    return my_mutations.find(flag) != my_mutations.end();
 }
 
-bool Character::is_trait(const muttype_id &b) const
+bool Character::is_trait(const muttype_id &flag) const
 {
     // Returns 1 or 0 depending on the existence of the trait
-    return my_traits.count(b);
+    return my_traits.count(flag);
 }
 
 bool Character::add_mutation(const muttype_id &flag, bool message)
@@ -96,46 +96,48 @@ void Character::add_trait(const muttype_id &flag, bool message)
 
 void Character::remove_mutation(const muttype_id &flag, bool message)
 {
-    my_mutations.erase(flag);
-    // Handle mutation loss effects
-    mutation_loss_effect(flag);
-    recalc_sight_limits();
+    if (!has_mut(flag)) {
+        my_mutations.erase(flag);
+        // Handle mutation loss effects
+        mutation_loss_effect(flag);
+        recalc_sight_limits();
+            
+        // Print message if needed
+        if (message && is_player()) {
+            game_message_type rating;
+            // Rating = !rating for mutation addition
+            mut_rating rate = mut_types[flag].get_rating();
+            if (rate == mut_good) {
+                rating = m_bad;
+            } else if (rate == mut_bad) {
+                rating = m_good;
+            } else if (rate == mut_mixed) {
+                rating = m_mixed;
+            } else {
+                rating = m_neutral;
+            }
+            if (is_trait(flag)) {
+                add_msg(rating, _("You lose your innate %s trait."),
+                            mut_types[flag].get_name().c_str());
+            } else {
+                add_msg(rating, _("You lose your %s mutation."),
+                            mut_types[flag].get_name().c_str());
+            }
+        }
         
-    // Print message if needed
-    if (message && is_player()) {
-        game_message_type rating;
-        // Rating = !rating for mutation addition
-        mut_rating rate = mut_types[flag].get_rating();
-        if (rate == mut_good) {
-            rating = m_bad;
-        } else if (rate == mut_bad) {
-            rating = m_good;
-        } else if (rate == mut_mixed) {
-            rating = m_mixed;
-        } else {
-            rating = m_neutral;
+        // Check to see if any traits are no longer suppressed
+        for (auto &i : mut_types[flag].get_cancels()) {
+            if (!has_conflicting_mut(flag)) {
+                add_mutation(i);
+            }
         }
-        if (is_trait(flag)) {
-            add_msg(rating, _("You lose your innate %s trait."),
-                        mut_types[flag].get_name().c_str());
-        } else {
-            add_msg(rating, _("You lose your %s mutation."),
-                        mut_types[flag].get_name().c_str());
-        }
-    }
-    
-    // Check to see if any traits are no longer suppressed
-    for (auto &i : mut_types[flag].get_cancels()) {
-        if (!has_conflicting_mut(flag)) {
-            add_mutation(i);
-        }
-    }
 
-    set_cat_levels();
-    // Once drench is moved to Character we can remove the cast.
-    player p = dynamic_cast<player> this;
-    if (p != NULL) {
-        drench_mut_calc();
+        set_cat_levels();
+        // Once drench is moved to Character we can remove the cast.
+        player p = dynamic_cast<player> this;
+        if (p != NULL) {
+            drench_mut_calc();
+        }
     }
 }
 
@@ -168,7 +170,7 @@ void Character::replace_mutation(const muttype_id &flag1, const muttype_id &flag
     }
 }
 
-std::vector<muttype_id> Character::get_dependant_muts(const muttype_id &flag)
+std::vector<muttype_id> Character::get_dependant_muts(const muttype_id &flag) const
 {
     std::vector<muttype_id> dependants;
     // Go through all of our mutations
@@ -797,6 +799,10 @@ void Character::process_mutations()
             add_msg(m_info, _("You can't keep your %s active anymore!"), mut.get_name().c_str());
         }
     }
+    // Pay any reactivation costs
+    hunger += pro_costs["hunger"];
+    thirst += pro_costs["thirst"];
+    fatigue += pro_costs["fatigue"];
 }
 
 bool mutation::process(std::unordered_map<std::string, int> &cost, std::bitset<3> stop)
@@ -1172,19 +1178,19 @@ void player::mutations_window()
     }
 }
 
-bool Character::mutation_ok(muttype_id mutation, bool force_good, bool force_bad) const
+bool Character::mutation_ok(const muttype_id &flag, bool force_good, bool force_bad) const
 {
-    if (has_mut(mutation) || has_higher_mut(mutation)) {
+    if (has_mut(flag) || has_higher_mut(flag)) {
         // We already have this mutation or something that replaces it.
         return false;
     }
 
-    if (force_bad && mut_types[mutation].get_rating() == m_good) {
+    if (force_bad && mut_types[flag].get_rating() == m_good) {
         // This is a good mutation, and we're due for a bad one.
         return false;
     }
 
-    if (force_good && mut_types[mutation].get_rating() == m_bad) {
+    if (force_good && mut_types[flag].get_rating() == m_bad) {
         // This is a bad mutation, and we're due for a good one.
         return false;
     }
@@ -1251,27 +1257,6 @@ bool Character::crossed_threshold() const
     return false;
 }
 
-void Character::set_cat_level_rec(const muttype_id &sMut)
-{
-    // Base traits don't count
-    if (!is_trait(sMut)) {
-        // Each mutation counts for 8 points in its categories
-        for (auto &cat : mut_types[sMut].get_category()) {
-            mutation_category_level[cat] += 8;
-        }
-        // as well as triggering points for each prereq recursively
-        for (auto &i : mut_types[sMut].get_replaces()) {
-            set_cat_level_rec(i);
-        }
-        for (auto &i : mut_types[sMut].get_prereqs()) {
-            set_cat_level_rec(i);
-        }
-        for (auto &i : mut_types[sMut].get_prereqs2()) {
-            set_cat_level_rec(i);
-        }
-    }
-}
-
 void Character::set_cat_levels()
 {
     mutation_category_level.clear();
@@ -1279,6 +1264,27 @@ void Character::set_cat_levels()
     // Loop through our mutations
     for( auto &mut : my_mutations ) {
         set_cat_level_rec( mut.first );
+    }
+}
+
+void Character::set_cat_level_rec(const muttype_id &flag)
+{
+    // Base traits don't count
+    if (!is_trait(flag)) {
+        // Each mutation counts for 8 points in its categories
+        for (auto &cat : mut_types[flag].get_category()) {
+            mutation_category_level[cat] += 8;
+        }
+        // as well as triggering points for each prereq recursively
+        for (auto &i : mut_types[flag].get_replaces()) {
+            set_cat_level_rec(i);
+        }
+        for (auto &i : mut_types[flag].get_prereqs()) {
+            set_cat_level_rec(i);
+        }
+        for (auto &i : mut_types[flag].get_prereqs2()) {
+            set_cat_level_rec(i);
+        }
     }
 }
 
@@ -1298,7 +1304,7 @@ std::string Character::get_highest_category() const // Returns the mutation cate
     return sMaxCat;
 }
 
-std::string Character::get_category_dream(const std::string &cat, int strength) const // Returns a randomly selected dream
+std::string Character::get_category_dream(const std::string &cat, int strength) const
 {
     std::string message;
     std::vector<dream> valid_dreams;
@@ -1503,7 +1509,7 @@ void Character::purify()
     }
 }
 
-void Character::mutate_category(const std::string cat)
+void Character::mutate_category(const std::string &cat)
 {
     // 1 in 3 chance of forcing a bad mutation
     bool force_bad = one_in(3);
@@ -1556,7 +1562,7 @@ void Character::mutate_category(const std::string cat)
     mutate_towards(selection);
 }
 
-bool Character::mut_vect_check(std::vector<muttype_id> current_vector) const
+bool Character::mut_vect_check(std::vector<muttype_id> &current_vector) const
 {
     // First check if the vector is empty
     if (!current_vector.empty()) {
@@ -1613,18 +1619,21 @@ void Character::mutate_towards(muttype_id &flag)
     std::vector<muttype_id> v_check = goal.get_replaces();
     if (mut_vect_check(v_check) {
         mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+        return;
     }
     
     // Then try to add a mutation that the goal requires
     v_check = goal.get_prereqs();
     if (mut_vect_check(v_check) {
         mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+        return;
     }
     
     // Then try to add a secondary mutation that the goal requires
     v_check = goal.get_prereqs2();
     if (mut_vect_check(v_check) {
         mutate_towards(v_check[rng(0, v_check.size() - 1)]);
+        return;
     }
     
     // Check if we need a threshold. Thresholds require special mutagen to
