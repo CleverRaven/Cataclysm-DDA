@@ -8801,6 +8801,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+#ifdef ZLEVELS
                 if( !debug_mode ) {
                     continue; // TODO: Make this work in z-level FOV update
                 }
@@ -8816,6 +8817,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 m.vertical_shift( levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
+#else
+                (void)old_levz;
+#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8852,10 +8856,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
+#ifdef ZLEVELS
     if( levz != old_levz ) {
         m.vertical_shift( old_levz );
         levz = old_levz;
     }
+#endif
 
     inp_mngr.set_timeout(-1);
 
@@ -12588,10 +12594,15 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    //m.load(levx, levy, levz + movez, false, cur_om);
     // Shift the map up or down
-    m.vertical_shift( levz + movez );
-    
+#ifdef ZLEVELS
+    map &maybetmp = m;
+    maybetmp.vertical_shift( levz + movez );
+#else
+    map maybetmp;
+    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+#endif
+
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12618,16 +12629,16 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && m.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (m.has_flag("GOES_DOWN", i, j) ||
-                                     m.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && m.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && maybetmp.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", i, j) ||
+                                     maybetmp.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && maybetmp.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (m.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (maybetmp.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
@@ -12638,7 +12649,7 @@ void game::vertical_move(int movez, bool force)
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (m.move_cost(u.posx(), u.posy()) == 0) {
+                if (maybetmp.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
                     actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
@@ -12704,10 +12715,12 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !actually_moved ) {
+#ifdef ZLEVELS
         // Have to undo the map shift
         m.vertical_shift( levz );
+#endif
         return;
-    }
+    } 
 
     if (!force) {
         monstairx = levx;
@@ -12775,7 +12788,10 @@ void game::vertical_move(int movez, bool force)
     m.vehicle_list.clear();
     m.set_transparency_cache_dirty();
     m.set_outside_cache_dirty();
-    //m.load( levx, levy, levz, true, cur_om );
+#ifndef ZLEVELS
+    (void)actually_moved;
+    m.load( levx, levy, levz, true, cur_om );
+#endif
     u.setx( stairx );
     u.sety( stairy );
     if (rope_ladder) {
@@ -13399,20 +13415,20 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    tinymap m;
-    m.load_abs(x * 2, y * 2, 0, false);
+    tinymap tmpmap;
+    tmpmap.load_abs(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                m.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
+                tmpmap.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                m.add_field(i, j, fd_nuke_gas, 3);
+                tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            m.adjust_radiation(i, j, rng(20, 80));
+            tmpmap.adjust_radiation(i, j, rng(20, 80));
         }
     }
-    m.save();
+    tmpmap.save();
     overmap_buffer.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
