@@ -2494,10 +2494,10 @@ int item::bash_resist() const
     }
     if (item::item_tags.count("leather_padded") > 0){
                //Max value           Steepness of graph         Center of 'S'
-        l_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
+        l_padding = 4 / (1 + exp(-.8 * ( get_thickness() - 2.5)));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
+        k_padding = 4 / (1 + exp(-.8 * ( get_thickness() - 2.5)));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2530,10 +2530,10 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = 4 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
+        l_padding = 4 / (1 + exp(-.8 * ( get_thickness() - 2.5)));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = 8 / (1 + pow(2.7813, (-.8 * ( get_thickness() - 2.5))) );
+        k_padding = 8 / (1 + exp(-.8 * ( get_thickness() - 2.5)));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
