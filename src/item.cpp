@@ -1569,6 +1569,10 @@ nc_color item::color(player *u) const
                 ret = c_green;
             }
         }
+    } else if ( is_bionic() ) {
+        if ( !u->has_bionic( type->id ) ) {
+            ret = c_red;
+        }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
