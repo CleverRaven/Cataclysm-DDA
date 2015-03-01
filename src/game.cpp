@@ -3365,7 +3365,7 @@ bool game::handle_action()
                 }
                 safe_mode = SAFE_MODE_ON;
             } else if( u.has_effect("laserlocked") ) {
-                add_msg(m_info, _("Ignoring enemy!"));
+                add_msg(m_info, _("Ignoring laser targeting!"));
                 u.remove_effect("laserlocked");
             }
             break;
@@ -11439,7 +11439,7 @@ bool game::check_save_mode_allowed()
 
     if (u.has_effect("laserlocked")) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        add_msg(m_warning, _("You are being laser-targeted--safe mode is on! (%s to turn it off.)"),
+        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
                 msg_ignore.c_str());
         return false;
     }
