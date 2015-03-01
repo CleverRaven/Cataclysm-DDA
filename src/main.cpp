@@ -1,3 +1,9 @@
+/* Main Loop for cataclysm
+ * Linux only I guess
+ * But maybe not
+ * Who knows
+ */
+
 #include "cursesdef.h"
 #include "game.h"
 #include "color.h"
