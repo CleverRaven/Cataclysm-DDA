@@ -1024,7 +1024,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     (void)md;
     (void)t;
 #endif
-    if ( terrain_type.t().rotates == true ) {
+    if ( terrain_type.t().has_flag(rotates) == true ) {
         mapgen_rotate(m, terrain_type, false );
     }
 }
