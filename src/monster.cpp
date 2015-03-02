@@ -128,7 +128,7 @@ bool monster::setpos( const point &p, const bool level_change )
 
 bool monster::setpos( const tripoint &p, const bool level_change )
 {
-    if( p.x == posx() && p.y == posy() && p.z == posz() ) {
+    if( p == pos3() ) {
         return true;
     }
     bool ret = level_change ? true : g->update_zombie_pos( *this, p );
