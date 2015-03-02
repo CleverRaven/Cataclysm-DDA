@@ -4966,7 +4966,11 @@ void map::actualize( const int gridx, const int gridy )
         for( int y = 0; y < SEEY; y++ ) {
             const point pnt( gridx * SEEX + x, gridy * SEEY + y );
 
-            remove_rotten_items( tmpsub->itm[x][y], pnt );
+            const auto &furn = furn_at( pnt.x, pnt.y );
+            // plants contain a seed item which must not be removed under any circumstances
+            if( !furn.has_flag( "PLANT" ) ) {
+                remove_rotten_items( tmpsub->itm[x][y], pnt );
+            }
 
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
