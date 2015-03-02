@@ -950,7 +950,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 1), true, "", true, true));
+                                     std::max(0, get_encumber() - 10), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));

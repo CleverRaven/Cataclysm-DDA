@@ -10289,7 +10289,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers(i) && encumb(i) >= 4)
+            if (to_wear->covers(i) && encumb(i) >= 40)
             {
                 add_msg(m_warning,
                     i == bp_eyes ?
@@ -11704,7 +11704,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
-                        armorenc--;
+                        armorenc = armorenc - 10;
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
                     }
@@ -11731,59 +11731,59 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
     // Bionics and mutation
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
-        ret += 1;
+        ret += 10;
     }
     if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
       bp != bp_eyes && bp != bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("ARM_FEATHERS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("INSECT_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 3;
+        ret += 30;
     }
     if ( has_trait("ARACHNID_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 4;
+        ret += 40;
     }
     if ( has_trait("PAWS") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("PAWS_LARGE") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("LARGE") && (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SHELL2") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
-        ret += 3;
+        ret += 30;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("CLAWS_TENTACLE") )) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         ( has_bionic("bio_thumbs") ) ) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_eyes &&
         ( has_bionic("bio_pokedeye") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( ret < 0 ) {
         ret = 0;
@@ -12615,9 +12615,9 @@ nc_color encumb_color(int level)
   return c_green;
  if (level == 0)
   return c_ltgray;
- if (level < 4)
+ if (level < 40)
   return c_yellow;
- if (level < 7)
+ if (level < 70)
   return c_ltred;
  return c_red;
 }
