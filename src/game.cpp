@@ -4195,6 +4195,7 @@ void game::debug()
             levx = nlevx - cur_om->pos().x * OMAPX * 2;
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
+            u.setz( tmp.z );
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
@@ -8034,7 +8035,7 @@ void game::examine(int examx, int examy)
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
-        if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).empty() &&
+        if (m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null && m.i_at(examx, examy).empty() &&
             m.has_flag("CONTAINER", examx, examy) && none) {
             add_msg(_("It is empty."));
         } else if (!veh) {
@@ -8043,9 +8044,9 @@ void game::examine(int examx, int examy)
     }
 
     //check for disarming traps last to avoid disarming query black box issue.
-    if(m.tr_at(examx, examy) != tr_null) {
+    if(m.tr_at( tripoint( examx, examy, u.posz() ) ) != tr_null) {
         iexamine::trap(&u, &m, examx, examy);
-        if(m.tr_at(examx, examy) == tr_null) {
+        if(m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
@@ -11560,6 +11561,8 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
+    tripoint dest_loc( x, y, u.posz() );
+
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
 
@@ -11744,10 +11747,10 @@ bool game::plmove(int dx, int dy)
             }
         }
 
-        const trap_id tid = m.tr_at(x, y);
+        const trap_id tid = m.tr_at( dest_loc );
         if (tid != tr_null) {
             const struct trap &t = *traplist[tid];
-            if ((t.can_see( tripoint( x, y, levz ), u )) && !t.is_benign() &&
+            if ((t.can_see( dest_loc, u )) && !t.is_benign() &&
                 !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
                 return false;
             }
@@ -12121,6 +12124,9 @@ bool game::plmove(int dx, int dy)
             u.lifetime_stats()->squares_walked++;
         }
 
+        // Recalc dest_loc after possible shift
+        dest_loc = tripoint( x, y, u.posz() );
+
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
             ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
@@ -12136,10 +12142,10 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if( m.tr_at( x, y, levz ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( x, y, levz )];
-            if( !u.avoid_trap( tripoint( x, y, levz ), tr ) ) {
-                tr->trigger( tripoint( x, y, levz ), &u );
+        if( m.tr_at( dest_loc ) != tr_null ) {
+            trap *tr = traplist[m.tr_at( dest_loc )];
+            if( !u.avoid_trap( dest_loc, tr ) ) {
+                tr->trigger( dest_loc, &u );
             }
         }
 
@@ -12736,7 +12742,7 @@ void game::vertical_move(int movez, bool force)
         m.vertical_shift( levz );
 #endif
         return;
-    } 
+    }
 
     if( !force ) {
         monstairz = levz;
@@ -12808,6 +12814,7 @@ void game::vertical_move(int movez, bool force)
 #endif
     u.setx( stairx );
     u.sety( stairy );
+    u.setz( levz );
     if (rope_ladder) {
         m.ter_set(u.posx(), u.posy(), t_rope_up);
     }
@@ -12833,8 +12840,8 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    if (m.tr_at(u.posx(), u.posy()) != tr_null) { // We stepped on a trap!
-        trap *tr = traplist[m.tr_at(u.posx(), u.posy())];
+    if( m.tr_at( u.pos3() ) != tr_null ) { // We stepped on a trap!
+        trap *tr = traplist[m.tr_at( u.pos3() )];
         if( force || !u.avoid_trap( u.pos3(), tr ) ) {
             tr->trigger( u.pos3(), &u );
         }

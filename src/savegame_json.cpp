@@ -200,6 +200,9 @@ void player::load(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", position.y);
+    if( !data.read("posz", zpos) && g != nullptr ) {
+        zpos = g->levz;
+    }
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
@@ -254,6 +257,7 @@ void player::store(JsonOut &json) const
     // positional data
     json.member( "posx", position.x );
     json.member( "posy", position.y );
+    json.member( "posz", zpos );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
