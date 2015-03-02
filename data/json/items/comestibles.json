@@ -3968,7 +3968,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 12,
+        "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
