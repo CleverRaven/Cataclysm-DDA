@@ -2,8 +2,6 @@
 #include "mongroup.h"
 #include "output.h"
 #include "debug.h"
-// game.h is needed for g->levz and should be removed once all coordinates are in 3D
-#include "game.h"
 
 Creature_tracker::Creature_tracker()
 {
@@ -24,11 +22,6 @@ monster &Creature_tracker::find(int index)
     }
 
     return *(monsters_list[index]);
-}
-
-int Creature_tracker::mon_at( const point &coords ) const
-{
-    return mon_at( tripoint( coords, g->levz ) );
 }
 
 int Creature_tracker::mon_at( const tripoint &coords ) const
