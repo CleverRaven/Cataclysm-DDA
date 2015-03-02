@@ -245,7 +245,7 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     // Print weight
     mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
               OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg");
-    if (weight_carried >= g->u.weight_capacity()) {
+    if (weight_carried > g->u.weight_capacity()) {
         wprintz(w_inv, c_red, "%6.1f", g->u.convert_weight(weight_carried));
     } else {
         wprintz(w_inv, c_ltgray, "%6.1f", g->u.convert_weight(weight_carried));
