@@ -288,6 +288,8 @@ void construction_menu()
                         if( hide_unconstructable && !can_construct(current_con) ) {
                             continue;
                         }
+                        // Update the cached availability of components and tools in the requirement object
+                        current_con->requirements.can_make_with_inventory( total_inv );
 
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;

@@ -6467,7 +6467,7 @@ int iuse::vortex(player *p, item *it, bool, point)
     int index = rng(0, spawn.size() - 1);
     p->moves -= 100;
     it->make("spiral_stone");
-    monster mvortex(GetMType("mon_vortex"), spawn[index].x, spawn[index].y);
+    monster mvortex(GetMType("mon_vortex"), tripoint( spawn[index].x, spawn[index].y, p->posz() ) );
     mvortex.friendly = -1;
     g->add_zombie(mvortex);
     return it->type->charges_to_use();
@@ -7603,7 +7603,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid(GetMType("mon_null"), p->posx(), p->posy());
+                monster tmptriffid(GetMType("mon_null"), p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;
