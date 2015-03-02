@@ -3362,7 +3362,7 @@ int item::gun_recoil( bool with_ammo ) const
             ret += elem.type->gunmod->recoil;
         }
     }
-    ret += damage;
+    ret += 15 * damage;
     return ret;
 }
 
