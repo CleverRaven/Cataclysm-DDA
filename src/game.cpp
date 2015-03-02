@@ -8664,6 +8664,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
     ctxt.register_action("LIST_ITEMS");
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+
+    const int old_levz = levz;
 
     do {
         if (bNewWindow) {
@@ -8797,7 +8801,26 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
+            } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+#ifdef ZLEVELS
+                if( !debug_mode ) {
+                    continue; // TODO: Make this work in z-level FOV update
+                }
 
+                levz += action == "LEVEL_UP" ? 1 : -1;
+                if( levz > OVERMAP_HEIGHT ) {
+                    levz = OVERMAP_HEIGHT;
+                } else if( levz < -OVERMAP_DEPTH ) {
+                    levz = -OVERMAP_DEPTH;
+                }
+
+                add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
+                m.vertical_shift( levz );
+                refresh_all();
+                draw_ter(lx, ly, true);
+#else
+                (void)old_levz;
+#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8833,6 +8856,14 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
+
+#ifdef ZLEVELS
+    if( levz != old_levz ) {
+        m.vertical_shift( old_levz );
+        levz = old_levz;
+    }
+#endif
+
     inp_mngr.set_timeout(-1);
 
     if (bNewWindow) {
@@ -12564,8 +12595,15 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    map tmpmap;
-    tmpmap.load(levx, levy, levz + movez, false, cur_om);
+    // Shift the map up or down
+#ifdef ZLEVELS
+    map &maybetmp = m;
+    maybetmp.vertical_shift( levz + movez );
+#else
+    map maybetmp;
+    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+#endif
+
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12577,6 +12615,12 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
+    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
+    bool actually_moved = true;
     if (force) {
         stairx = u.posx();
         stairy = u.posy();
@@ -12586,29 +12630,29 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
-                                     tmpmap.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && tmpmap.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && maybetmp.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", i, j) ||
+                                     maybetmp.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && maybetmp.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (maybetmp.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
         }
 
         if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            return;
+            actually_moved = false;
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (tmpmap.move_cost(u.posx(), u.posy()) == 0) {
+                if (maybetmp.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
-                    return;
+                    actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
@@ -12618,7 +12662,7 @@ void game::vertical_move(int movez, bool force)
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
                     if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
@@ -12640,36 +12684,44 @@ void game::vertical_move(int movez, bool force)
                             u.thirst += 10;
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("grapnel", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
                         rope_ladder = true;
                         u.use_amount("grapnel", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("rope_30", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
                         rope_ladder = true;
                         u.use_amount("rope_30", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
 
                 } else if (u.has_amount("bullwhip", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))) {}
                     else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?"))) {
-                    return;
+                    actually_moved = false;
                 }
             }
             stairx = u.posx();
             stairy = u.posy();
         }
     }
+
+    if( !actually_moved ) {
+#ifdef ZLEVELS
+        // Have to undo the map shift
+        m.vertical_shift( levz );
+#endif
+        return;
+    } 
 
     if (!force) {
         monstairx = levx;
@@ -12735,7 +12787,12 @@ void game::vertical_move(int movez, bool force)
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
+    m.set_transparency_cache_dirty();
+    m.set_outside_cache_dirty();
+#ifndef ZLEVELS
+    (void)actually_moved;
     m.load( levx, levy, levz, true, cur_om );
+#endif
     u.setx( stairx );
     u.sety( stairy );
     if (rope_ladder) {
@@ -12806,7 +12863,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift(shiftx, shifty);
+    m.shift( shiftx, shifty );
     levx += shiftx;
     levy += shifty;
 

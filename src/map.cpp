@@ -116,7 +116,11 @@ map::map(int mapsize)
 {
     nulter = t_null;
     my_MAPSIZE = mapsize;
+#ifdef ZLEVELS
+    grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
+#else
     grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
+#endif
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
     transparency_cache_dirty = true;
@@ -1132,14 +1136,14 @@ std::string map::furnname(const int x, const int y) {
  */
 ter_id map::ter(const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if( !INBOUNDS(x, y) ) {
         return t_null;
     }
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return current_submap->ter[lx][ly];
+    return current_submap->get_ter( lx, ly );
 }
 
 /*
@@ -1206,7 +1210,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-    current_submap->ter[lx][ly] = new_terrain;
+    current_submap->set_ter( lx, ly, new_terrain );
 }
 
 std::string map::tername(const int x, const int y) const
@@ -1294,7 +1298,7 @@ int map::move_cost_ter_furn(const int x, const int y) const
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    const int tercost = terlist[ current_submap->ter[lx][ly] ].movecost;
+    const int tercost = terlist[ current_submap->get_ter( lx, ly ) ].movecost;
     if ( tercost == 0 ) {
         return 0;
     }
@@ -1364,7 +1368,7 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
@@ -1406,7 +1410,7 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
@@ -1418,7 +1422,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return terlist[ current_submap->ter[lx][ly] ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
+    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
 }
 
 /////
@@ -3112,6 +3116,7 @@ void map::add_item_at( const int x, const int y,
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
+    current_submap->is_uniform = false;
 
     current_submap->update_lum_add(new_item, lx, ly);
 
@@ -3677,8 +3682,8 @@ trap_id map::tr_at(const int x, const int y) const
  int lx, ly;
  submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- if (terlist[ current_submap->ter[lx][ly] ].trap != tr_null) {
-  return terlist[ current_submap->ter[lx][ly] ].trap;
+ if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
+  return terlist[ current_submap->get_ter( lx, ly ) ].trap;
  }
 
  return current_submap->get_trap(lx, ly);
@@ -3698,7 +3703,7 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
     current_submap->set_trap(lx, ly, t);
     if (t != tr_null) {
-        traplocs[t].insert(point(x, y));
+        traplocs[t].insert( point( x, y ) );
     }
 }
 
@@ -3785,7 +3790,7 @@ void map::remove_trap(const int x, const int y)
             g->u.add_known_trap(x, y, "tr_null");
         }
         current_submap->set_trap(lx, ly, tr_null);
-        traplocs[t].erase(point(x, y));
+        traplocs[t].erase( point( x, y ) );
     }
 }
 /*
@@ -3891,6 +3896,7 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
 
     int lx, ly;
     submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
+    current_submap->is_uniform = false;
 
     if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
         // TODO: Update overall field_count appropriately.
@@ -4622,7 +4628,13 @@ void map::save()
 {
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            saven( gridx, gridy );
+#ifdef ZLEVELS
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                saven( gridx, gridy, gridz );
+            }
+#else
+            saven( gridx, gridy, abs_sub.z );
+#endif
         }
     }
 }
@@ -4655,21 +4667,22 @@ void map::forget_traps(int gridx, int gridy)
             if (t != tr_null) {
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
-                traplocs[t].erase(point(fx, fy));
+                traplocs[t].erase( point(fx, fy ) );
             }
         }
     }
 }
 
-void map::shift(const int sx, const int sy)
+void map::shift( const int sx, const int sy )
 {
 // Special case of 0-shift; refresh the map
-    if (sx == 0 && sy == 0) {
+    if( sx == 0 && sy == 0 ) {
         return; // Skip this?
     }
     const int absx = get_abs_sub().x;
     const int absy = get_abs_sub().y;
     const int wz = get_abs_sub().z;
+
     set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
@@ -4755,6 +4768,44 @@ void map::shift(const int sx, const int sy)
     reset_vehicle_cache();
 }
 
+void map::vertical_shift( const int newz )
+{
+#ifndef ZLEVELS
+    (void)newz;
+    debugmsg( "Called map::vertical_shift outside z-level build (this shouldn't happen)" );
+    return;
+#else
+    if( newz < -OVERMAP_DEPTH || newz > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to get z-level %d outside allowed range of %d-%d", 
+                  newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        return;
+    }
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            forget_traps( gridx, gridy ) ;
+        }
+    }
+
+    clear_vehicle_cache();
+    vehicle_list.clear();
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    // Forgetting done, now get the new z-level
+    tripoint trp = get_abs_sub();
+    set_abs_sub( trp.x, trp.y, newz );
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            update_vehicle_list( get_submap_at_grid( gridx, gridy, newz ) );
+        }
+    }
+
+    reset_vehicle_cache();
+#endif
+}
+
 // saven saves a single nonant.  worldx and worldy are used for the file
 // name and specifies where in the world this nonant is.  gridx and gridy are
 // the offset from the top left nonant:
@@ -4763,20 +4814,32 @@ void map::shift(const int sx, const int sy)
 // 0,2 1,2 2,2
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-void map::saven( const int gridx, const int gridy )
+void map::saven( const int gridx, const int gridy, const int gridz )
 {
-    dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx[" << abs_sub.z <<
-                  "], gridy[" << gridy << "])";
-    submap *submap_to_save = get_submap_at_grid( gridx, gridy );
-    if( submap_to_save == NULL || submap_to_save->ter[0][0] == t_null ) {
-        dbg( D_ERROR ) << "map::saven grid NULL!";
+    dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], worldz[" << abs_sub.z
+                  << "], gridx[" << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
+    const int gridn = get_nonant( gridx, gridy, gridz );
+    submap *submap_to_save = getsubmap( gridn );
+    if( submap_to_save == nullptr || submap_to_save->get_ter( 0, 0 ) == t_null ) {
+        // This is a serious error and should be signaled as soon as possible
+        debugmsg( "map::saven grid (%d,%d,%d) %s!", gridx, gridy, gridz,
+                  submap_to_save == nullptr ? "null" : "uninitialized" );
         return;
     }
+
     const int abs_x = abs_sub.x + gridx;
     const int abs_y = abs_sub.y + gridy;
-    dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    const int abs_z = gridz;
+#ifndef ZLEVELS
+    if( gridz != abs_sub.z ) {
+        debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds", 
+                  abs_x, abs_y, abs_sub.z, abs_x, abs_y, gridz );
+    }
+#endif
+    dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
+                  << "  gridn: " << gridn;
     submap_to_save->turn_last_touched = int(calendar::turn);
-    MAPBUFFER.add_submap( abs_x, abs_y, abs_sub.z, submap_to_save );
+    MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;
@@ -4787,17 +4850,36 @@ void map::saven( const int gridx, const int gridy )
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
 void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) {
+#ifdef ZLEVELS
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+        bool need_veh_update = update_vehicles && gridz == abs_sub.z;
+#else
+    int gridz = abs_sub.z;
+    bool need_veh_update = update_vehicles;
+    {
+#endif
+        // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
+        
+        loadn( gridx, gridy, gridz, need_veh_update );
+    }
+}
 
- dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<abs_sub.x<<"], worldy["<<abs_sub.y<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
+void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles ) {
+
+ dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx["
+             << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
  const int absx = abs_sub.x + gridx,
            absy = abs_sub.y + gridy;
-    const size_t gridn = get_nonant( gridx, gridy );
+    const size_t gridn = get_nonant( gridx, gridy, gridz );
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
             << "  gridn: " << gridn;
 
-    submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, abs_sub.z);
+    const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
+    abs_sub.z = gridz;
+
+    submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, gridz);
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
         dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
@@ -4806,9 +4888,9 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
         //  squares divisible by 2.
         const int newmapx = absx - ( abs( absx ) % 2 );
         const int newmapy = absy - ( abs( absy ) % 2 );
-        tmp_map.generate( newmapx, newmapy, abs_sub.z, calendar::turn );
+        tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
         // This is the same call to MAPBUFFER as above!
-        tmpsub = MAPBUFFER.lookup_submap( absx, absy, abs_sub.z );
+        tmpsub = MAPBUFFER.lookup_submap( absx, absy, gridz );
         if( tmpsub == nullptr ) {
             dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << abs_sub.z;
             debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, abs_sub.z );
@@ -4821,21 +4903,23 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
     set_outside_cache_dirty();
     setsubmap( gridn, tmpsub );
 
-  // Update vehicle data
-  for( std::vector<vehicle*>::iterator it = tmpsub->vehicles.begin(),
-        end = tmpsub->vehicles.end(); update_vehicles && it != end; ++it ) {
+    // Update vehicle data
+    if( update_vehicles ) {
+        for( auto it : tmpsub->vehicles ) {
+            // Only add if not tracking already.
+            if( vehicle_list.find( it ) == vehicle_list.end() ) {
+                // gridx/y not correct. TODO: Fix
+                it->smx = gridx;
+                it->smy = gridy;
+                vehicle_list.insert( it );
+                update_vehicle_cache( it );
+            }
+        }
+    }
 
-   // Only add if not tracking already.
-   if( vehicle_list.find( *it ) == vehicle_list.end() ) {
-    // gridx/y not correct. TODO: Fix
-    (*it)->smx = gridx;
-    (*it)->smy = gridy;
-    vehicle_list.insert(*it);
-    update_vehicle_cache(*it);
-   }
-  }
+    actualize( gridx, gridy, gridz );
 
-    actualize( gridx, gridy );
+    abs_sub.z = old_abs_z;
 }
 
 bool map::has_rotten_away( item &itm, const point &pnt ) const
@@ -4955,11 +5039,16 @@ void map::restock_fruits( const point pnt, int time_since_last_actualize )
     }
 }
 
-void map::actualize( const int gridx, const int gridy )
+void map::actualize( const int gridx, const int gridy, const int gridz )
 {
-    submap *const tmpsub = get_submap_at_grid( gridx, gridy );
+    submap *const tmpsub = get_submap_at_grid( gridx, gridy, gridz );
+    if( tmpsub == nullptr ) {
+        debugmsg( "Actualize called on null submap (%d,%d,%d)", gridx, gridy, gridz );
+        return;
+    }
+
     const auto time_since_last_actualize = calendar::turn - tmpsub->turn_last_touched;
-    const bool do_funnels = ( abs_sub.z >= 0 );
+    const bool do_funnels = ( gridz >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
     for( int x = 0; x < SEEX; x++ ) {
@@ -5001,26 +5090,33 @@ void map::actualize( const int gridx, const int gridy )
     tmpsub->turn_last_touched = calendar::turn;
 }
 
-void map::copy_grid( const point to, const point from)
+void map::copy_grid( const point to, const point from )
 {
-    const auto smap = get_submap_at_grid( from.x, from.y );
-    setsubmap( get_nonant( to.x, to.y ), smap );
- for( std::vector<vehicle*>::iterator it = smap->vehicles.begin(),
-       end = smap->vehicles.end(); it != end; ++it ) {
-  (*it)->smx = to.x;
-  (*it)->smy = to.y;
- }
-
     const int oldx = from.x * SEEX;
     const int oldy = from.y * SEEY;
     const int newx = to.x * SEEX;
     const int newy = to.y * SEEY;
-    for (int x = 0; x < SEEX; x++) {
-        for (int y = 0; y < SEEY; y++) {
-            trap_id t = smap->get_trap(x, y);
-            if (t != tr_null) {
-                traplocs[t].erase(point(oldx + x, oldy + y));
-                traplocs[t].insert(point(newx + x, newy + y));
+
+#ifdef ZLEVELS
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+#else
+    int z = abs_sub.z;
+    {
+#endif
+        const auto smap = get_submap_at_grid( from.x, from.y, z );
+        setsubmap( get_nonant( to.x, to.y, z ), smap );
+        for( auto &it : smap->vehicles ) {
+            it->smx = to.x;
+            it->smy = to.y;
+        }
+
+        for (int x = 0; x < SEEX; x++) {
+            for (int y = 0; y < SEEY; y++) {
+                trap_id t = smap->get_trap(x, y);
+                if (t != tr_null) {
+                    traplocs[t].erase( point( oldx + x, oldy + y ) );
+                    traplocs[t].insert( point( newx + x, newy + y ) );
+                }
             }
         }
     }
@@ -5159,17 +5255,21 @@ void map::clear_traps()
     }
 
     // Forget about all trap locations.
-    std::map<trap_id, std::set<point> >::iterator i;
-    for(i = traplocs.begin(); i != traplocs.end(); ++i) {
-        i->second.clear();
+    for( auto &i : traplocs ) {
+        i.second.clear();
     }
 }
 
-const std::set<point> &map::trap_locations(trap_id t) const
+const std::set<point> map::trap_locations(trap_id t) const
 {
+    std::set<point> tmp;
     const auto it = traplocs.find(t);
     if(it != traplocs.end()) {
-        return it->second;
+        for( const auto &p : it->second ) {
+            tmp.insert( point( p.x, p.y ) );
+        }
+
+        return tmp;
     }
     static std::set<point> empty_set;
     return empty_set;
@@ -5177,7 +5277,19 @@ const std::set<point> &map::trap_locations(trap_id t) const
 
 bool map::inbounds(const int x, const int y) const
 {
- return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
+    return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
+}
+
+bool map::inbounds(const int x, const int y, const int z) const
+{
+#ifdef ZLEVELS
+    return (x >= 0 && x < SEEX * my_MAPSIZE && 
+            y >= 0 && y < SEEY * my_MAPSIZE && 
+            z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT);
+#else
+    (void)z;
+    return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
+#endif
 }
 
 void map::set_graffiti( int x, int y, const std::string &contents )
@@ -5420,7 +5532,7 @@ tripoint map::get_abs_sub() const
 submap *map::getsubmap( const size_t grididx ) const
 {
     if( grididx >= grid.size() ) {
-        debugmsg( "Tried to access invalid grid index %d", grididx );
+        debugmsg( "Tried to access invalid grid index %d. Grid size: %d", grididx, grid.size() );
         return nullptr;
     }
     return grid[grididx];
@@ -5438,13 +5550,18 @@ void map::setsubmap( const size_t grididx, submap * const smap )
     grid[grididx] = smap;
 }
 
-submap *map::get_submap_at( const int x, const int y ) const
+submap *map::get_submap_at( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y ) ) {
-        debugmsg( "Tried to access invalid map position (%d,%d)", x, y );
+    if( !inbounds( x, y, z ) ) {
+        debugmsg( "Tried to access invalid map position (%d,%d, %d)", x, y, z );
         return nullptr;
     }
-    return get_submap_at_grid( x / SEEX, y / SEEY );
+    return get_submap_at_grid( x / SEEX, y / SEEY, z );
+}
+
+submap *map::get_submap_at( const int x, const int y ) const
+{
+    return get_submap_at( x, y, abs_sub.z );
 }
 
 submap *map::get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const
@@ -5459,13 +5576,37 @@ submap *map::get_submap_at_grid( const int gridx, const int gridy ) const
     return getsubmap( get_nonant( gridx, gridy ) );
 }
 
+submap *map::get_submap_at_grid( const int gridx, const int gridy, const int gridz ) const
+{
+    return getsubmap( get_nonant( gridx, gridy, gridz ) );
+}
+
 size_t map::get_nonant( const int gridx, const int gridy ) const
 {
-    if( gridx < 0 || gridx >= my_MAPSIZE || gridy < 0 || gridy >= my_MAPSIZE ) {
-        debugmsg( "Tried to access invalid map position at grid (%d,%d)", gridx, gridy );
+    return get_nonant( gridx, gridy, abs_sub.z );
+}
+
+size_t map::get_nonant( const int gridx, const int gridy, const int gridz ) const
+{
+#ifdef ZLEVELS
+    if( gridx < 0 || gridx >= my_MAPSIZE ||
+        gridy < 0 || gridy >= my_MAPSIZE ||
+        gridz < -OVERMAP_DEPTH || gridz > OVERMAP_HEIGHT) {
+        debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridx, gridy, gridz );
         return 0;
     }
+
+    const int indexz = gridz + OVERMAP_HEIGHT; // Can't be lower than 0
+    return indexz + ( gridx + gridy * my_MAPSIZE ) * OVERMAP_LAYERS;
+#else
+    if( gridx < 0 || gridx >= my_MAPSIZE ||
+        gridy < 0 || gridy >= my_MAPSIZE ) {
+        debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridx, gridy, gridz );
+        return 0;
+    }
+
     return gridx + gridy * my_MAPSIZE;
+#endif
 }
 
 tinymap::tinymap(int mapsize)
@@ -5515,10 +5656,23 @@ void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2)
 }
 
 void map::draw_fill_background(ter_id type) {
-    draw_square_ter(type, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+    // Need to explicitly set caches dirty - set_ter would do it before
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    // Fill each submap rather than each tile
+    constexpr size_t block_size = SEEX * SEEY;
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            auto sm = get_submap_at_grid( gridx, gridy );
+            sm->is_uniform = true;
+            std::uninitialized_fill_n( &sm->ter[0][0], block_size, type );
+        }
+    }
 }
+
 void map::draw_fill_background(std::string type) {
-    draw_square_ter(find_ter_id(type), 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+    draw_fill_background( find_ter_id(type) );
 }
 void map::draw_fill_background(ter_id (*f)()) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
@@ -5526,7 +5680,6 @@ void map::draw_fill_background(ter_id (*f)()) {
 void map::draw_fill_background(const id_or_id & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
-
 
 void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
