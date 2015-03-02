@@ -357,7 +357,13 @@ bool item::stacks_with( const item &rhs ) const
         if( bday != rhs.bday ) {
             return false;
         }
-        if( rot != rhs.rot ) {
+        // Because spoiling items are only processed every processing_speed()-th turn
+        // the rotting value becomes slightly different for items that have
+        // been created at the same time and place and with the same initial rot.
+        if( std::abs( rot - rhs.rot ) > processing_speed() ) {
+            return false;
+        } else if( rotten() != rhs.rotten() ) {
+            // just to be save that rotten and unrotten food is *never* stacked.
             return false;
         }
     }
