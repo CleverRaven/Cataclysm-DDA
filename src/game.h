@@ -194,9 +194,11 @@ class game
         bool spawn_hallucination();
 
         /** Returns the monster index of the monster at (x, y). Returns -1 if no monster is present. */
-        int  mon_at(const int x, const int y) const;
+        int mon_at(const int x, const int y) const;
         /** Returns the monster index of the monster at the given point. Returns -1 if no monster is present. */
-        int  mon_at(point p) const;
+        int mon_at(point p) const;
+        /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
+        int mon_at( const tripoint &p ) const;
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty(const int x, const int y);
         /** Returns true if the value of test is between down and up. */
