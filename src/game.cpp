@@ -3341,6 +3341,9 @@ bool game::handle_action()
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
             }
+            if( u.has_effect("laserlocked") ) {
+                u.remove_effect("laserlocked");
+            }
             break;
 
         case ACTION_TOGGLE_AUTOSAFE:
