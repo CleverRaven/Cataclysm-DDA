@@ -64,6 +64,7 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["DESTROY_ITEM"]            = TFLAG_DESTROY_ITEM;   // add/spawn_item*()
     ter_bitflags_map["ROUGH"]                   = TFLAG_ROUGH;          // monmove
     ter_bitflags_map["UNSTABLE"]                = TFLAG_UNSTABLE;       // monmove
+    ter_bitflags_map["ELECTRIFIED"]             = TFLAG_ELECTRIFIED;       // monmove
     ter_bitflags_map["LIQUID"]                  = TFLAG_LIQUID;         // *move(), add/spawn_item*()
     ter_bitflags_map["FIRE_CONTAINER"]          = TFLAG_FIRE_CONTAINER; // fire
     ter_bitflags_map["DIGGABLE"]                = TFLAG_DIGGABLE;       // monmove
@@ -84,6 +85,7 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
     ter_bitflags_map["HARVESTED"]               = TFLAG_HARVESTED;      // harvested.  will not bear fruit.
     ter_bitflags_map["PERMEABLE"]               = TFLAG_PERMEABLE;      // gases can flow through.
+    ter_bitflags_map["CLIMBABLE"]               = TFLAG_CLIMBABLE;      // gases can flow through.
 }
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
@@ -900,7 +902,7 @@ submap::submap()
     std::uninitialized_fill_n(&lum[0][0], elements, 0);
     std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
     std::uninitialized_fill_n(&rad[0][0], elements, 0);
-    
+
 }
 
 submap::~submap()

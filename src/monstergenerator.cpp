@@ -400,6 +400,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
     flag_map["SWARMS"] = MF_SWARMS;
+    flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
 }
 

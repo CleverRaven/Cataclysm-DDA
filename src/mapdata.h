@@ -145,6 +145,7 @@ enum ter_bitflags {
     TFLAG_NOITEM,
     TFLAG_SEALED,
     TFLAG_LIQUID,
+    TFLAG_ELECTRIFIED,
     TFLAG_COLLAPSES,
     TFLAG_FLAMMABLE_ASH,
     TFLAG_DESTROY_ITEM,
@@ -161,7 +162,8 @@ enum ter_bitflags {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
-    TFLAG_PERMEABLE
+    TFLAG_PERMEABLE,
+    TFLAG_CLIMBABLE
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();

@@ -383,7 +383,7 @@
             "items": [
                 { "item": "rock", "amount": 10, "minamount": 2 },
                 { "item": "rebar", "amount": 4, "minamount": 0 }
-            ]            
+            ]
         }
     },{
         "type" : "terrain",
@@ -1038,7 +1038,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", 
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT",
             "BARRICADABLE_DOOR_DAMAGED", "PERMEABLE"
         ],
         "bash": {
@@ -1175,7 +1175,7 @@
         "color": "red",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", 
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT",
             "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
             "PERMEABLE"
         ],
@@ -2801,7 +2801,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -2821,7 +2821,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMABLE"
         ],
         "examine_action": "chainfence",
         "bash": {

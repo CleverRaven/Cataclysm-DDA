@@ -72,6 +72,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```ELECTRIFIED``` Shocks anyone moving across or trying to bash.
+- ```CLIMBABLE``` Allows climbing for creatures with MF_CLIMBS.
 
 ### Examine actions
 
