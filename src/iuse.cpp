@@ -5201,20 +5201,21 @@ int iuse::set_trap(player *p, item *it, bool, point)
     }
     int posx = dirx;
     int posy = diry;
+    const tripoint tr_loc( posx, posy, p->posz() );
     if (g->m.move_cost(posx, posy) != 2) {
         p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
         return 0;
     }
 
-    const trap_id existing_trap = g->m.tr_at( posx, posy, g->levz );
+    const trap_id existing_trap = g->m.tr_at( tr_loc );
     if (existing_trap != tr_null) {
         const struct trap &t = *traplist[existing_trap];
-        if( t.can_see( tripoint( posx, posy, g->levz ), *p )) {
+        if( t.can_see( tr_loc, *p )) {
             p->add_msg_if_player(m_info, _("You can't place a %s there. It contains a trap already."),
                                  it->tname().c_str());
         } else {
             p->add_msg_if_player(m_bad, _("You trigger a %s!"), t.name.c_str());
-            t.trigger( tripoint( posx, posy, g->levz ), p );
+            t.trigger( tr_loc, p );
         }
         return 0;
     }
@@ -5379,9 +5380,9 @@ int iuse::set_trap(player *p, item *it, bool, point)
     p->add_msg_if_player(message.str().c_str());
     p->practice("traps", practice);
     trap *tr = traplist[type];
-    g->m.add_trap(posx, posy, type);
-    if (!tr->can_see( tripoint( posx, posy, g->levz ), *p )) {
-        p->add_known_trap( tripoint( posx, posy, g->levz ), tr->id );
+    g->m.add_trap( tr_loc, type );
+    if( !tr->can_see( tr_loc, *p ) ) {
+        p->add_known_trap( tr_loc, tr->id );
     }
     p->moves -= 100 + practice * 25;
     if (type == tr_engine) {
@@ -6467,7 +6468,7 @@ int iuse::vortex(player *p, item *it, bool, point)
     int index = rng(0, spawn.size() - 1);
     p->moves -= 100;
     it->make("spiral_stone");
-    monster mvortex(GetMType("mon_vortex"), spawn[index].x, spawn[index].y);
+    monster mvortex(GetMType("mon_vortex"), tripoint( spawn[index].x, spawn[index].y, p->posz() ) );
     mvortex.friendly = -1;
     g->add_zombie(mvortex);
     return it->type->charges_to_use();
@@ -7603,7 +7604,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid(GetMType("mon_null"), p->posx(), p->posy());
+                monster tmptriffid(GetMType("mon_null"), p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;

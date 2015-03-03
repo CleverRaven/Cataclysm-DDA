@@ -1317,6 +1317,9 @@
       [ "pipe", 1 ]
     ],
     [
+      [ "scrap", 2 ]
+    ],
+    [
       [ "2x4", 1 ]
     ]
   ]
@@ -1337,6 +1340,9 @@
   ], "components": [
     [
       [ "pipe", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
     ],
     [
       [ "2x4", 1 ]
@@ -1379,6 +1385,9 @@
       [ "pipe", 1 ]
     ],
     [
+      [ "scrap", 2 ]
+    ],
+    [
       [ "2x4", 1 ]
     ]
   ]
@@ -1404,7 +1413,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "scrap", 1 ]
+      [ "scrap", 3 ]
     ]
   ]
 },{
@@ -1960,8 +1969,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
-      [ "tallow", 2 ],
-      [ "tallow_tainted", 2 ]
+      [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ]
     ],
     [
       [ "rag", 1 ]
@@ -1994,7 +2003,9 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "moonshine", 7 ],
-      [ "brandy", 7 ]
+      [ "brandy", 7 ],
+      [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ]
     ],
     [
       [ "rag", 1 ]

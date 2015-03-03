@@ -2152,6 +2152,7 @@
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 3,
+  "result_mult": 12,
   "time": 30000,
   "reversible": false,
   "autolearn": true,

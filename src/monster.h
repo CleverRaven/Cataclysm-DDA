@@ -31,7 +31,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     public:
         monster();
         monster(mtype *t);
-        monster(mtype *t, int x, int y);
+        monster( mtype *t, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;

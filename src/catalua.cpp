@@ -197,7 +197,7 @@ overmap *get_current_overmap()
 /** Create a new monster of the given type. */
 monster *create_monster(std::string mon_type, int x, int y)
 {
-    monster new_monster(GetMType(mon_type), x, y);
+    monster new_monster(GetMType(mon_type), tripoint( x, y, g->levz ) );
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {

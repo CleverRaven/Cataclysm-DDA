@@ -73,10 +73,11 @@ monster::monster(mtype *t)
  ammo = t->starting_ammo;
 }
 
-monster::monster(mtype *t, int x, int y)
+monster::monster(mtype *t, const tripoint &p )
 {
- position.x = x;
- position.y = y;
+ position.x = p.x;
+ position.y = p.y;
+ zpos = p.z;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -111,6 +112,7 @@ bool monster::setpos(const int x, const int y)
     bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->levz ) );
     position.x = x;
     position.y = y;
+    zpos = g->levz;
     return ret;
 }
 
@@ -126,7 +128,7 @@ bool monster::setpos( const point &p, const bool level_change )
 
 bool monster::setpos( const tripoint &p, const bool level_change )
 {
-    if( p.x == posx() && p.y == posy() && p.z == posz() ) {
+    if( p == pos3() ) {
         return true;
     }
     bool ret = level_change ? true : g->update_zombie_pos( *this, p );
@@ -440,11 +442,18 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int xshift = sx * SEEX;
+    const int yshift = sy * SEEY;
+    position.x -= xshift;
+    position.y -= yshift;
     for (auto &i : plans) {
-        i.x -= sx * SEEX;
-        i.y -= sy * SEEY;
+        i.x -= xshift;
+        i.y -= yshift;
+    }
+
+    if( wandf > 0 ) {
+        wandx -= xshift;
+        wandy -= yshift;
     }
 }
 

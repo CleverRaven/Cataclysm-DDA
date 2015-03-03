@@ -573,14 +573,14 @@ void add_corpse(int x, int y);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- std::string trap_get(const int x, const int y, const int z) const;
- void trap_set(const int x, const int y, const int z, const std::string & sid);
- void trap_set(const int x, const int y, const int z, const trap_id id);
+ std::string trap_get( const tripoint &p ) const;
+ void trap_set( const tripoint &p, const std::string & sid);
+ void trap_set( const tripoint &p, const trap_id id);
 
- trap_id tr_at(const int x, const int y, const int z) const;
- void add_trap(const int x, const int y, const int z, const trap_id t);
- void disarm_trap( const int x, const int y, const int z);
- void remove_trap(const int x, const int y, const int z);
+ trap_id tr_at( const tripoint &p ) const;
+ void add_trap( const tripoint &p, const trap_id t);
+ void disarm_trap( const tripoint &p );
+ void remove_trap( const tripoint &p );
  const std::set<tripoint> trap_locations(trap_id t) const;
 
 // Fields: 2D overloads that will later be slowly phased out

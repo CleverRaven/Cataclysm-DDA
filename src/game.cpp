@@ -373,7 +373,7 @@ void game::init_ui()
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
-    int mouseview_y, mouseview_h;
+    int mouseview_y, mouseview_h, mouseview_w;
 
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
@@ -404,6 +404,7 @@ void game::init_ui()
 
         mouseview_y = messY + 7;
         mouseview_h = TERMY - mouseview_y - 5;
+        mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
         minimapX = 0;
@@ -435,6 +436,7 @@ void game::init_ui()
 
         mouseview_y = stat2Y + stat2H;
         mouseview_h = TERMY - mouseview_y;
+        mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -455,20 +457,19 @@ void game::init_ui()
     w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
-    int mouse_view_x = _x + minimapX;
-    int mouse_view_width = sidebarWidth;
+    int mouseview_x = _x + minimapX;
     if (mouseview_h < lookHeight) {
         // Not enough room below the status bar, just use the regular lookaround area
-        get_lookaround_dimensions(mouse_view_width, mouseview_y, mouse_view_x);
+        get_lookaround_dimensions(mouseview_w, mouseview_y, mouseview_x);
         mouseview_h = lookHeight;
-        liveview.compact_view = true;
+        liveview.set_compact(true);
         if (!use_narrow_sidebar()) {
             // Second status window must now take care of clearing the area to the
             // bottom of the screen.
             stat2H = std::max( 1, TERMY - stat2Y );
         }
     }
-    liveview.init(mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
+    liveview.init(mouseview_x, mouseview_y, mouseview_w, mouseview_h);
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
@@ -4194,6 +4195,7 @@ void game::debug()
             levx = nlevx - cur_om->pos().x * OMAPX * 2;
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
+            u.setz( tmp.z );
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
@@ -4905,7 +4907,7 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase(w_status2);
     }
-    if (!liveview.compact_view) {
+    if (!liveview.is_compact()) {
         liveview.hide(true, false);
     }
     u.disp_status(w_status, w_status2);
@@ -6627,7 +6629,7 @@ void game::resonance_cascade(int x, int y)
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster(GetMType(spawn_details.name), i, j);
+                invader = monster( GetMType(spawn_details.name), tripoint( i, j, levz ) );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6859,6 +6861,11 @@ int game::mon_at(point p) const
     return critter_tracker.mon_at( tripoint( p, levz ) );
 }
 
+int game::mon_at( const tripoint &p ) const
+{
+    return critter_tracker.mon_at( p );
+}
+
 void game::rebuild_mon_at_cache()
 {
     critter_tracker.rebuild_cache();
@@ -6935,7 +6942,7 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-    monster critter(it->get_mtype(), x, y);
+    monster critter(it->get_mtype(), tripoint( x, y, levz ) );
     critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
@@ -8028,7 +8035,7 @@ void game::examine(int examx, int examy)
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
-        if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).empty() &&
+        if (m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null && m.i_at(examx, examy).empty() &&
             m.has_flag("CONTAINER", examx, examy) && none) {
             add_msg(_("It is empty."));
         } else if (!veh) {
@@ -8037,9 +8044,9 @@ void game::examine(int examx, int examy)
     }
 
     //check for disarming traps last to avoid disarming query black box issue.
-    if(m.tr_at(examx, examy) != tr_null) {
+    if(m.tr_at( tripoint( examx, examy, u.posz() ) ) != tr_null) {
         iexamine::trap(&u, &m, examx, examy);
-        if(m.tr_at(examx, examy) == tr_null) {
+        if(m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
@@ -8811,6 +8818,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+#ifdef ZLEVELS
                 if( !debug_mode ) {
                     continue; // TODO: Make this work in z-level FOV update
                 }
@@ -8826,6 +8834,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 m.vertical_shift( levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
+#else
+                (void)old_levz;
+#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8862,10 +8873,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
+#ifdef ZLEVELS
     if( levz != old_levz ) {
         m.vertical_shift( old_levz );
         levz = old_levz;
     }
+#endif
 
     inp_mngr.set_timeout(-1);
 
@@ -11548,6 +11561,8 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
+    tripoint dest_loc( x, y, u.posz() );
+
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
 
@@ -11732,10 +11747,10 @@ bool game::plmove(int dx, int dy)
             }
         }
 
-        const trap_id tid = m.tr_at(x, y);
+        const trap_id tid = m.tr_at( dest_loc );
         if (tid != tr_null) {
             const struct trap &t = *traplist[tid];
-            if ((t.can_see( tripoint( x, y, levz ), u )) && !t.is_benign() &&
+            if ((t.can_see( dest_loc, u )) && !t.is_benign() &&
                 !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
                 return false;
             }
@@ -12109,6 +12124,9 @@ bool game::plmove(int dx, int dy)
             u.lifetime_stats()->squares_walked++;
         }
 
+        // Recalc dest_loc after possible shift
+        dest_loc = tripoint( x, y, u.posz() );
+
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
             ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
@@ -12124,10 +12142,10 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if( m.tr_at( x, y, levz ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( x, y, levz )];
-            if( !u.avoid_trap( tripoint( x, y, levz ), tr ) ) {
-                tr->trigger( tripoint( x, y, levz ), &u );
+        if( m.tr_at( dest_loc ) != tr_null ) {
+            trap *tr = traplist[m.tr_at( dest_loc )];
+            if( !u.avoid_trap( dest_loc, tr ) ) {
+                tr->trigger( dest_loc, &u );
             }
         }
 
@@ -12598,10 +12616,15 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    //m.load(levx, levy, levz + movez, false, cur_om);
     // Shift the map up or down
-    m.vertical_shift( levz + movez );
-    
+#ifdef ZLEVELS
+    map &maybetmp = m;
+    maybetmp.vertical_shift( levz + movez );
+#else
+    map maybetmp;
+    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+#endif
+
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12628,16 +12651,16 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && m.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (m.has_flag("GOES_DOWN", i, j) ||
-                                     m.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && m.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && maybetmp.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", i, j) ||
+                                     maybetmp.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && maybetmp.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (m.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (maybetmp.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
@@ -12648,7 +12671,7 @@ void game::vertical_move(int movez, bool force)
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (m.move_cost(u.posx(), u.posy()) == 0) {
+                if (maybetmp.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
                     actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
@@ -12714,8 +12737,10 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !actually_moved ) {
+#ifdef ZLEVELS
         // Have to undo the map shift
         m.vertical_shift( levz );
+#endif
         return;
     }
 
@@ -12783,9 +12808,13 @@ void game::vertical_move(int movez, bool force)
     m.vehicle_list.clear();
     m.set_transparency_cache_dirty();
     m.set_outside_cache_dirty();
-    //m.load( levx, levy, levz, true, cur_om );
+#ifndef ZLEVELS
+    (void)actually_moved;
+    m.load( levx, levy, levz, true, cur_om );
+#endif
     u.setx( stairx );
     u.sety( stairy );
+    u.setz( levz );
     if (rope_ladder) {
         m.ter_set(u.posx(), u.posy(), t_rope_up);
     }
@@ -12811,8 +12840,8 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    if (m.tr_at(u.posx(), u.posy()) != tr_null) { // We stepped on a trap!
-        trap *tr = traplist[m.tr_at(u.posx(), u.posy())];
+    if( m.tr_at( u.pos3() ) != tr_null ) { // We stepped on a trap!
+        trap *tr = traplist[m.tr_at( u.pos3() )];
         if( force || !u.avoid_trap( u.pos3(), tr ) ) {
             tr->trigger( u.pos3(), &u );
         }
@@ -13413,20 +13442,20 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    tinymap m;
-    m.load_abs(x * 2, y * 2, 0, false);
+    tinymap tmpmap;
+    tmpmap.load_abs(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                m.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
+                tmpmap.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                m.add_field(i, j, fd_nuke_gas, 3);
+                tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            m.adjust_radiation(i, j, rng(20, 80));
+            tmpmap.adjust_radiation(i, j, rng(20, 80));
         }
     }
-    m.save();
+    tmpmap.save();
     overmap_buffer.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);

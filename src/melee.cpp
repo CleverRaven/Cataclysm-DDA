@@ -1392,7 +1392,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     // weapon blocks are preferred to arm blocks
     std::string thing_blocked_with;
-    if (player::is_armed()) {
+    if (player::is_armed() && !weapon.has_flag("UNARMED_WEAPON")) {
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
     } else {

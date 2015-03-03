@@ -308,7 +308,7 @@ void exit_handler(int s)
 {
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
-        endwin(); // End ncurses
+
         int ret;
 #if (defined _WIN32 || defined WINDOWS)
         ret = system("cls"); // Tell the terminal to clear itself
@@ -321,15 +321,16 @@ void exit_handler(int s)
         }
         deinitDebug();
 
-        if(g != NULL) {
-            if(g->game_error()) {
-                delete g;
-                exit(1);
-            } else {
-                delete g;
-                exit(0);
+        int exit_status = 0;
+        if( g != NULL ) {
+            if( g->game_error() ) {
+                exit_status = 1;
             }
+            delete g;
         }
-        exit(0);
+
+        endwin();
+
+        exit( exit_status );
     }
 }
