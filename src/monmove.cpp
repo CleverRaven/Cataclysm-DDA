@@ -26,6 +26,10 @@ bool monster::wander()
 
 bool monster::can_move_to(int x, int y) const
 {
+
+    if (has_flag(MF_CLIMBS) && g->m.has_flag("CLIMBABLE", x, y)) {
+        return true;
+    }
     if (g->m.move_cost(x, y) == 0) {
         return false;
     }
@@ -209,7 +213,7 @@ void monster::plan(const mfactions &factions)
     const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
     auto const &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
-        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " << 
+        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " <<
             ( friendly == 0 ? faction->name : "player" ) << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
@@ -651,7 +655,9 @@ int monster::calc_movecost(int x1, int y1, int x2, int y2) const
         }
         movecost *= diag_mult / 2;
     // All others use the same calculation as the player
-    } else {
+    } else if (has_flag(MF_CLIMBS) && g->m.has_flag("CLIMBABLE", x1, y1)) {
+        movecost += 150;
+    }   else {
         movecost = (g->m.combined_movecost(x1, y1, x2, y2));
     }
 
@@ -693,11 +699,22 @@ int monster::bash_at(int x, int y) {
     if(is_hallucination()) {
        return 0;
     }
+
     bool try_bash = !can_move_to(x, y) || one_in(3);
     bool can_bash = g->m.is_bashable(x, y) && (has_flag(MF_BASHES) || has_flag(MF_BORES));
+
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( point(x, y) );
-
+        bool ter_or_furn = g->m.has_flag_ter_or_furn("ELECTRIFIED", x, y);
+        if (ter_or_furn && not has_flag(MF_ELECTRIC)) {
+            if(deal_damage( nullptr, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 15 ) ) ).total_damage() > 0) {
+                sounds::sound(x, y, 30, _("You hear a crackle of electricity."));
+                if (g->u.sees( *this )){
+                    add_msg(_("The %s is shocked by the %1$s."), name().c_str(),
+                            ter_or_furn ? g->m.tername(x, y).c_str() : g->m.furnname(x, y).c_str());
+                }
+            }
+        }
         g->m.bash( x, y, bashskill );
         moves -= 100;
         return 1;
@@ -824,6 +841,15 @@ int monster::attack_at(int x, int y) {
 
 int monster::move_to(int x, int y, bool force)
 {
+    //Allows climbing monsters to move on terrain with movecost <= 0
+    if (g->m.has_flag_ter_or_furn("CLIMBABLE", x, y) && has_flag(MF_CLIMBS) && g->npc_at(x, y) == -1 && g->mon_at(x, y) == -1) {
+            if (g->u.sees( *this )){
+                    add_msg(_("The %s climbs over the %1$s."), name().c_str(),
+                            g->m.has_flag_ter_or_furn("CLIMBABLE", x, y) ? g->m.tername(x, y).c_str() : g->m.furnname(x, y).c_str());
+            }
+    moves -= 150;
+    force = true;
+    }
     // Make sure that we can move there, unless force is true.
     if(!force) if(!g->is_empty(x, y) || !can_move_to(x, y)) {
         return 0;
