@@ -2720,7 +2720,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->u.add_effect("laserlocked", 3); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 4);
+            z->add_effect("targeted", 5);
             z->moves -= 150;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
@@ -2852,7 +2852,7 @@ void mattack::tankgun( monster *z, Creature *target )
         //~ Sound of a tank turret swiveling into place
         sounds::sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
         z->add_effect("targeted", 5);
-        target->add_effect( "laserlocked", 3 );
+        target->add_effect( "laserlocked", 5 );
         z->moves -= 200;
         // Should give some ability to get behind cover,
         // even though it's patently unrealistic.
