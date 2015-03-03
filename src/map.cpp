@@ -3098,6 +3098,12 @@ void map::add_item(const int x, const int y, item new_item)
     }
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    // Process foods when they are added to the map, here instead of add_item_at()
+    // to avoid double processing food during active item processing.
+    if( new_item.needs_processing() && new_item.is_food() ) {
+        new_item.process( nullptr, point(x, y), false );
+    }
     add_item_at(x, y, current_submap->itm[lx][ly].end(), new_item);
 }
 
