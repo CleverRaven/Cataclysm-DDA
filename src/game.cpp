@@ -11561,7 +11561,7 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
-    tripoint dest_loc( x, y, u.posz() );
+    const tripoint dest_loc( x, y, u.posz() );
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
@@ -12124,9 +12124,6 @@ bool game::plmove(int dx, int dy)
             u.lifetime_stats()->squares_walked++;
         }
 
-        // Recalc dest_loc after possible shift
-        dest_loc = tripoint( x, y, u.posz() );
-
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
             ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
@@ -12142,10 +12139,11 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if( m.tr_at( dest_loc ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( dest_loc )];
-            if( !u.avoid_trap( dest_loc, tr ) ) {
-                tr->trigger( dest_loc, &u );
+        // Can't use dest_loc here - we may have shifted the map
+        if( m.tr_at( u.pos3() ) != tr_null ) {
+            trap *tr = traplist[m.tr_at( u.pos3() )];
+            if( !u.avoid_trap( u.pos3(), tr ) ) {
+                tr->trigger( u.pos3(), &u );
             }
         }
 
