@@ -11705,6 +11705,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
                         armorenc = armorenc - 10;
+                        if (armorenc < 0 ){
+                            armorenc = 0;
+                        }
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
                     }
@@ -12613,7 +12616,7 @@ nc_color encumb_color(int level)
 {
  if (level < 0)
   return c_green;
- if (level == 0)
+ if (level < 10)
   return c_ltgray;
  if (level < 40)
   return c_yellow;

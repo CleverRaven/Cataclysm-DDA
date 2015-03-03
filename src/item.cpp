@@ -2302,7 +2302,21 @@ int item::get_encumber() const
         return 0;
     }
     // it_armor::encumber is signed char
-    return static_cast<int>( t->encumber );
+    int encumber = static_cast<int>( t->encumber );
+
+    if (item::item_tags.count("wooled")){
+        encumber += 2;
+        }
+    if (item::item_tags.count("furred")){
+        encumber += 5;
+        }
+    if (item::item_tags.count("leather_padded")){
+        encumber += 4;
+        }
+    if (item::item_tags.count("kevlar_padded")){
+        encumber += 6;
+        }
+    return encumber;
 }
 
 int item::get_coverage() const
