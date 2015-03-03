@@ -1415,8 +1415,8 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)) );
-    dispersion += rand_or_max( random, 6 * encumb(bp_eyes) );
+    dispersion += rand_or_max( random, 3 * ((encumb(bp_arm_l) + encumb(bp_arm_r)) / 10 ));
+    dispersion += rand_or_max( random, 6 * (encumb(bp_eyes) / 10));
 
     if( weapon->has_curammo() ) {
         dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
