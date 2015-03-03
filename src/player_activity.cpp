@@ -141,6 +141,7 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_AIM:
             if( index == 0 ) {
+                g->m.build_map_cache();
                 g->plfire(false);
             }
             break;
